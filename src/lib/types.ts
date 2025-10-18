@@ -1,3 +1,5 @@
+import type { FieldValue } from 'firebase/firestore';
+
 export type UserRole =
   | 'User'
   | 'Therapist'
@@ -44,6 +46,7 @@ export type Report = {
   date: string;
   type: 'Therapist Report' | 'User Report' | 'AI Summary';
   summary: string;
+  createdAt?: FieldValue;
 };
 
 export type Message = {
@@ -127,4 +130,39 @@ export type TriageResult = {
         serviceId: string;
         locationId: string;
     };
+}
+
+
+export type VipBenefit = {
+  id: string;
+  name: string;
+  limit: string | number;
+  used: number;
+  status: 'available' | 'used' | 'expires';
+}
+
+export type VipHistoryItem = {
+    benefitId: string;
+    at: string;
+    value: string;
+}
+
+export type VipData = {
+    active: boolean;
+    tier: string;
+    renewal: string;
+    since: string;
+    benefits: VipBenefit[];
+    history: VipHistoryItem[];
+    insights: {
+        savingsUSD: number;
+        monthUses: number;
+    }
+}
+
+export type VipPlan = {
+    id: string;
+    name: string;
+    priceUSD: number;
+    benefits: string[];
 }

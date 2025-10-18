@@ -10,39 +10,47 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuPortal,
-  DropdownMenuSubContent
 } from '@/components/ui/dropdown-menu';
-import { allUsers } from '@/lib/data';
 import Link from 'next/link';
-import { useUser } from '@/context/user-context';
-import { Check } from 'lucide-react';
+import { useAuth, useUser, useFirestore, useDoc, doc } from '@/firebase';
+import { useRouter } from 'next/navigation';
 
 export function UserNav() {
-  const { currentUser, setCurrentUser } = useUser();
+  const { user } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
+  const firestore = useFirestore();
 
-  if (!currentUser) {
+  const userDocRef = user ? doc(firestore, 'users', user.uid) : null;
+  const { data: userProfile } = useDoc(userDocRef);
+
+  const handleLogout = async () => {
+    await auth.signOut();
+    router.push('/login');
+  };
+
+  if (!user) {
     return null;
   }
+  
+  const initials = userProfile?.name?.split(' ').map((n: string) => n[0]).join('') || user.email?.charAt(0).toUpperCase() || '?';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
-            <AvatarFallback>{currentUser.initials}</AvatarFallback>
+            {user.photoURL && <AvatarImage src={user.photoURL} alt={userProfile?.name || user.email!} />}
+            <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+            <p className="text-sm font-medium leading-none">{userProfile?.name || 'User'}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {currentUser.email}
+              {user.email || 'Anonymous'}
             </p>
           </div>
         </DropdownMenuLabel>
@@ -53,7 +61,7 @@ export function UserNav() {
               Profile
             </DropdownMenuItem>
           </Link>
-          <Link href="/account">
+           <Link href="/account/vip">
             <DropdownMenuItem>
               Billing
             </DropdownMenuItem>
@@ -65,25 +73,7 @@ export function UserNav() {
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuSub>
-            <DropdownMenuSubTrigger>
-                Switch User
-            </DropdownMenuSubTrigger>
-            <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                {allUsers.map((user) => (
-                    <DropdownMenuItem key={user.id} onClick={() => setCurrentUser(user)}>
-                        <div className="flex items-center justify-between w-full">
-                            <span>{user.name} ({user.role})</span>
-                            {currentUser.id === user.id && <Check className="h-4 w-4" />}
-                        </div>
-                    </DropdownMenuItem>
-                ))}
-                </DropdownMenuSubContent>
-            </DropdownMenuPortal>
-        </DropdownMenuSub>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           Log out
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -30,6 +30,10 @@ export default function ChooseTherapyPage() {
 
     const handleSubmit = async () => {
         setIsLoading(true);
+        toast({
+            title: "Finding your match...",
+            description: "Our AI is analyzing your problem to find the best therapy for you.",
+        });
 
         const input: TriageInput = {
             mode: 'freeText',
@@ -38,25 +42,10 @@ export default function ChooseTherapyPage() {
         };
 
         try {
-            // This is where we'll store the result to pass to the next page
-            // For now, we just navigate. In the future we will pass the result.
-            // const result = await triageTherapy(input);
-            // router.push(`/therapies/recommendation?result=${encodeURIComponent(JSON.stringify(result))}`);
-            
-            // Placeholder navigation
-            toast({
-                title: "Finding your match...",
-                description: "Our AI is analyzing your problem to find the best therapy for you.",
-            });
-            setTimeout(() => {
-                router.push('/therapies');
-                 toast({
-                    title: "Recommendation Ready!",
-                    description: "We've found some therapies that could help.",
-                });
-            }, 2000);
-
-
+            const result = await triageTherapy(input);
+            const params = new URLSearchParams();
+            params.set('result', JSON.stringify(result));
+            router.push(`/therapies/recommendation?${params.toString()}`);
         } catch (error) {
             console.error("Triage failed", error);
             toast({

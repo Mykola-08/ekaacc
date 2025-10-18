@@ -3,7 +3,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Bell,
   Home,
   Package2,
   Users,
@@ -16,15 +15,17 @@ import {
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
-import { useUser } from '@/context/user-context';
-import { SidebarContent, SidebarHeader, SidebarTrigger } from '../ui/sidebar';
+import { useUserContext } from '@/context/user-context';
+import { SidebarContent, SidebarHeader } from '../ui/sidebar';
+import { useUser } from '@/firebase';
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { currentUser } = useUser();
+  const { user: firebaseUser } = useUser();
+  const { currentUser } = useUserContext();
+
 
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
@@ -42,7 +43,7 @@ export function AppSidebar() {
     { href: '/account', icon: Settings, label: 'Account' },
   ]
 
-  if (!currentUser) return null;
+  if (!currentUser || !firebaseUser) return null;
 
   const showTherapistLinks = currentUser.role === 'Therapist' || currentUser.role === 'Admin';
   const showUserLinks = currentUser.role !== 'Therapist';

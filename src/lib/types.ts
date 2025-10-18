@@ -63,3 +63,30 @@ export type StatCard = {
   changeType?: 'increase' | 'decrease';
   icon: React.ElementType;
 };
+
+export type TherapyCategory = 'Service' | 'Complex Therapy';
+export type Availability = 'Online' | 'In-Person' | 'Both';
+
+export type Therapy = {
+  id: string;
+  name: string;
+  category: TherapyCategory;
+  shortDescription: string;
+  longDescription: string;
+  duration: number;
+  priceUSD: number;
+  benefits: string[];
+  recommendedFor: string[];
+  aiSummary: string;
+  availability: Availability;
+  complexityLevel: 1 | 2 | 3 | 4 | 5;
+};
+
+export type TherapyPackage = {
+  id: string;
+  name: string;
+  includedTherapies: string[];
+  duration: string; // e.g., "4 weeks", "8 sessions"
+  priceUSD: number;
+  aiSummary: string;
+};

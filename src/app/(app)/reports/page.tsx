@@ -23,6 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { generateMonthlyReport } from '@/ai/flows/generate-monthly-report';
 import { useToast } from '@/hooks/use-toast';
 import { Report } from '@/lib/types';
+import { useMemo } from 'react';
 
 const chartData = [
     { metric: "Pain", score: 4, fullMark: 10 },
@@ -42,7 +43,7 @@ const chartConfig = {
 export default function ReportsPage() {
   const { user } = useUser();
   const firestore = useFirestore();
-  const reportsRef = user ? collection(firestore, 'users', user.uid, 'reports') : null;
+  const reportsRef = useMemo(() => user ? collection(firestore, 'users', user.uid, 'reports') : null, [user, firestore]);
   const { data: reports, isLoading: isLoadingReports } = useCollection<Report>(reportsRef);
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
@@ -66,10 +67,9 @@ export default function ReportsPage() {
           };
           const result = await generateMonthlyReport(input);
 
-          const newReport: Omit<Report, 'id'> = {
+          const newReport: Omit<Report, 'id' | 'date'> = {
               title: "Monthly AI Progress Summary",
               author: "AI Assistant",
-              date: new Date().toISOString(),
               type: 'AI Summary',
               summary: result.report,
               createdAt: serverTimestamp(),

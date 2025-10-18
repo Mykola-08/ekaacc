@@ -9,11 +9,12 @@ import { format } from "date-fns";
 import { useCollection, useUser, useFirestore, collection } from '@/firebase';
 import type { Session } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMemo } from "react";
 
 export default function SessionsPage() {
   const { user } = useUser();
   const firestore = useFirestore();
-  const sessionsRef = user ? collection(firestore, 'users', user.uid, 'sessions') : null;
+  const sessionsRef = useMemo(() => user ? collection(firestore, 'users', user.uid, 'sessions') : null, [user, firestore]);
   const { data: sessions, isLoading } = useCollection<Session>(sessionsRef);
 
   return (

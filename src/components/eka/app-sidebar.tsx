@@ -43,7 +43,7 @@ export function AppSidebar() {
     { href: '/account', icon: Settings, label: 'Account' },
   ]
 
-  if (!currentUser || !firebaseUser) return null;
+  if (!currentUser) return null;
 
   const showTherapistLinks = currentUser.role === 'Therapist' || currentUser.role === 'Admin';
   const showUserLinks = currentUser.role !== 'Therapist';

@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { sessions } from '@/lib/data';
-import { Clock, Video, MapPin } from 'lucide-react';
+import { Clock, Video } from 'lucide-react';
 import { format } from 'date-fns';
 
 export function NextSession() {
@@ -25,7 +25,7 @@ export function NextSession() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Next Session</CardTitle>
+        <CardTitle>Your Next Session</CardTitle>
         <CardDescription>
             {format(new Date(nextSession.date), "EEEE, MMMM d, yyyy")} at {nextSession.time}
         </CardDescription>
@@ -37,7 +37,7 @@ export function NextSession() {
                 <AvatarFallback>{nextSession.therapist.charAt(0)}</AvatarFallback>
             </Avatar>
             <div>
-                <p className="font-semibold">{nextSession.therapist}</p>
+                <p className="font-semibold">with {nextSession.therapist}</p>
                 <p className="text-sm text-muted-foreground">{nextSession.type}</p>
             </div>
         </div>

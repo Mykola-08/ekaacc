@@ -2,6 +2,7 @@ import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
 import { UserProvider } from '@/context/user-context';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
+import { MessagingPanel } from '@/components/eka/messaging/messaging-panel';
 
 export default function DashboardLayout({
   children,
@@ -20,6 +21,7 @@ export default function DashboardLayout({
               {children}
             </main>
         </SidebarInset>
+        <MessagingPanel />
       </SidebarProvider>
     </UserProvider>
   );

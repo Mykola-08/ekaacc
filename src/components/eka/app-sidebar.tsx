@@ -9,7 +9,7 @@ import {
   Users,
   Heart,
   CalendarDays,
-  MessageSquare,
+  FileText,
   Settings,
   Briefcase,
 } from 'lucide-react';
@@ -29,7 +29,7 @@ export function AppSidebar() {
     { href: '/home', icon: Home, label: 'Home' },
     { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
     { href: '/donations', icon: Heart, label: 'Donations' },
-    { href: '/reports', icon: MessageSquare, label: 'Reports & Messages' },
+    { href: '/reports', icon: FileText, label: 'Reports' },
   ];
 
   const therapistLinks = [
@@ -48,14 +48,11 @@ export function AppSidebar() {
 
   return (
     <>
-      <SidebarHeader>
-        <div className="flex h-14 items-center border-b px-4 lg:h-[64px] lg:px-6">
-          <Link href="/" className="flex items-center gap-2 font-semibold">
-            <Package2 className="h-6 w-6 text-primary" />
-            <span className="">EKA Account</span>
-          </Link>
-          <SidebarTrigger className="ml-auto" />
-        </div>
+      <SidebarHeader className="flex h-14 items-center border-b px-4 lg:h-[64px] lg:px-6">
+        <Link href="/" className="flex items-center gap-2 font-semibold">
+          <Package2 className="h-6 w-6 text-primary" />
+          <span className="">EKA Account</span>
+        </Link>
       </SidebarHeader>
       <SidebarContent className="flex-1 overflow-auto py-2">
         {showUserLinks && (

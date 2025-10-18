@@ -1,8 +1,10 @@
+'use client';
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { reports } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Bot } from "lucide-react";
+import { FileText, Bot, ArrowUp } from "lucide-react";
 import {
   ChartContainer,
   ChartTooltip,
@@ -14,8 +16,8 @@ import {
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
-  ResponsiveContainer,
 } from "recharts";
+import { AiAssistant } from "@/components/eka/dashboard/ai-assistant";
 
 const chartData = [
     { metric: "Pain", score: 4, fullMark: 10 },
@@ -36,7 +38,7 @@ export default function ReportsPage() {
   return (
     <div className="grid gap-6 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
-            <Card>
+             <Card>
                 <CardHeader>
                     <CardTitle>My Reports</CardTitle>
                     <CardDescription>View all your session summaries and progress reports.</CardDescription>
@@ -44,8 +46,8 @@ export default function ReportsPage() {
                 <CardContent>
                     <ul className="space-y-4">
                         {reports.map((report) => (
-                             <li key={report.id} className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50">
-                                <div className="p-2 bg-muted rounded-full">
+                             <li key={report.id} className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+                                <div className="p-3 bg-muted rounded-full flex items-center justify-center">
                                     {report.type === 'AI Summary' ? <Bot className="h-6 w-6 text-primary" /> : <FileText className="h-6 w-6 text-primary" />}
                                 </div>
                                 <div className="flex-1">
@@ -56,6 +58,9 @@ export default function ReportsPage() {
                                     <p className="text-sm text-muted-foreground">{report.author} - {report.date}</p>
                                     <p className="text-sm mt-1">{report.summary}</p>
                                 </div>
+                                <Button variant="ghost" size="icon">
+                                    <ArrowUp className="h-4 w-4 transform -rotate-45" />
+                                </Button>
                             </li>
                         ))}
                     </ul>
@@ -63,6 +68,7 @@ export default function ReportsPage() {
             </Card>
         </div>
         <div className="space-y-6">
+            <AiAssistant />
             <Card>
                 <CardHeader>
                     <CardTitle>Wellness Snapshot</CardTitle>

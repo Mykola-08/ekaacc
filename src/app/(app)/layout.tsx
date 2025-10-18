@@ -38,17 +38,17 @@ export default function DashboardLayout({
             <Sidebar collapsible="icon">
               <AppSidebar />
             </Sidebar>
-            <SidebarInset>
+            <div className="flex flex-col w-full">
                 <AppHeader onChatToggle={() => setChatOpen(!isChatOpen)} />
                 <main className="flex flex-1 flex-col gap-8 p-4 md:p-8 lg:p-12 lg:max-w-7xl mx-auto w-full">
                   {children}
                 </main>
-            </SidebarInset>
-        </SidebarProvider>
-         <SidebarProvider open={isChatOpen} onOpenChange={setChatOpen}>
-            <Sidebar side="right" collapsible="offcanvas" className="w-96">
-                <MessagingPanel />
-            </Sidebar>
+            </div>
+             <SidebarProvider open={isChatOpen} onOpenChange={setChatOpen}>
+                <Sidebar side="right" collapsible="offcanvas" className="w-96">
+                    <MessagingPanel />
+                </Sidebar>
+            </SidebarProvider>
         </SidebarProvider>
       </div>
   );

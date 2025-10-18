@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Paperclip, Send } from "lucide-react";
-import { useUser } from "@/context/user-context";
+import { useUserContext } from "@/context/user-context";
 import { allUsers } from "@/lib/data";
 
 const messages = [
@@ -19,7 +19,7 @@ const messages = [
 ];
 
 export function MessagingPanel() {
-    const { currentUser } = useUser();
+    const { currentUser } = useUserContext();
     const therapist = allUsers.find(u => u.role === 'Therapist');
 
     if (!currentUser || !therapist) return null;

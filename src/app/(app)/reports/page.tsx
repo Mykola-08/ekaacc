@@ -67,7 +67,7 @@ export default function ReportsPage() {
           };
           const result = await generateMonthlyReport(input);
 
-          const newReport: Omit<Report, 'id' | 'date'> = {
+          const newReport: Omit<Report, 'id'| 'date'> = {
               title: "Monthly AI Progress Summary",
               author: "AI Assistant",
               type: 'AI Summary',
@@ -96,8 +96,8 @@ export default function ReportsPage() {
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+    <div className="grid gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-8">
              <Card>
                 <CardHeader>
                     <CardTitle>My Reports</CardTitle>
@@ -150,7 +150,7 @@ export default function ReportsPage() {
                 </CardContent>
             </Card>
         </div>
-        <div className="space-y-6">
+        <div className="space-y-8">
             <AiAssistant />
             <Card>
                 <CardHeader>

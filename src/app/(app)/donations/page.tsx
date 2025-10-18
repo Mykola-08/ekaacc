@@ -7,7 +7,7 @@ import { Heart } from "lucide-react";
 
 export default function DonationsPage() {
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
+    <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
@@ -41,7 +41,7 @@ export default function DonationsPage() {
                 </CardContent>
             </Card>
         </div>
-        <div>
+        <div className="space-y-8">
             <Card>
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2"><Heart className="h-5 w-5 text-primary" /> Your Impact</CardTitle>

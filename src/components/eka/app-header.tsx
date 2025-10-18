@@ -27,6 +27,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { UserNav } from './user-nav';
+import { SidebarTrigger } from '../ui/sidebar';
 
 export function AppHeader() {
   const navLinks = [
@@ -40,36 +41,7 @@ export function AppHeader() {
 
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-transparent px-4 lg:h-[64px] lg:px-6 sticky top-0 z-30 glass">
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button variant="outline" size="icon" className="shrink-0 md:hidden">
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="flex flex-col">
-          <nav className="grid gap-2 text-lg font-medium">
-            <Link
-              href="#"
-              className="flex items-center gap-2 text-lg font-semibold"
-            >
-              <Package2 className="h-6 w-6" />
-              <span className="sr-only">EKA Account</span>
-            </Link>
-            {navLinks.map(({ href, icon: Icon, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-              >
-                <Icon className="h-5 w-5" />
-                {label}
-              </Link>
-            ))}
-          </nav>
-        </SheetContent>
-      </Sheet>
-
+       <SidebarTrigger className="md:hidden" />
       <div className="w-full flex-1">
         <form>
           <div className="relative">

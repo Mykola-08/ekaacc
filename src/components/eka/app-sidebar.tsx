@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -51,16 +52,16 @@ export function AppSidebar() {
 
   return (
     <>
-      <SidebarHeader className="flex h-14 items-center border-b px-4 lg:h-[64px] lg:px-6">
+      <SidebarHeader className="flex h-16 items-center border-b px-4 lg:h-[64px] lg:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <Package2 className="h-6 w-6 text-primary" />
-          <span className="">EKA Account</span>
+          <span className="group-data-[state=collapsed]:hidden">EKA Account</span>
         </Link>
       </SidebarHeader>
       <SidebarContent className="flex-1 overflow-auto py-2">
         {showUserLinks && (
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            <p className="px-3 py-2 text-xs font-semibold text-muted-foreground">CLIENT</p>
+            <p className="px-3 py-2 text-xs font-semibold text-muted-foreground group-data-[state=collapsed]:hidden">CLIENT</p>
             {userLinks.map(({ href, icon: Icon, label }) => (
               <Link
                 key={href}
@@ -71,7 +72,7 @@ export function AppSidebar() {
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {label}
+                <span className="group-data-[state=collapsed]:hidden">{label}</span>
               </Link>
             ))}
           </nav>
@@ -79,7 +80,7 @@ export function AppSidebar() {
         {showUserLinks && showTherapistLinks && <Separator className="my-2" />}
         {showTherapistLinks && (
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-          <p className="px-3 py-2 text-xs font-semibold text-muted-foreground">THERAPIST</p>
+          <p className="px-3 py-2 text-xs font-semibold text-muted-foreground group-data-[state=collapsed]:hidden">THERAPIST</p>
           {therapistLinks.map(({ href, icon: Icon, label }) => (
             <Link
               key={href}
@@ -90,7 +91,7 @@ export function AppSidebar() {
               )}
             >
               <Icon className="h-4 w-4" />
-              {label}
+              <span className="group-data-[state=collapsed]:hidden">{label}</span>
             </Link>
           ))}
         </nav>
@@ -108,15 +109,15 @@ export function AppSidebar() {
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {label}
+                <span className="group-data-[state=collapsed]:hidden">{label}</span>
               </Link>
             ))}
         </nav>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 group-data-[state=collapsed]:justify-center">
               <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
                   <span className="flex h-full w-full items-center justify-center rounded-full bg-primary text-primary-foreground font-bold text-lg">{currentUser.initials}</span>
               </span>
-              <div>
+              <div className="group-data-[state=collapsed]:hidden">
                   <p className="text-sm font-semibold">{currentUser.name}</p>
                   <Badge variant="secondary" className="text-xs">{currentUser.role}</Badge>
               </div>

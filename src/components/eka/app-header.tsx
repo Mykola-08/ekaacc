@@ -9,16 +9,18 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
-import { SidebarTrigger, useSidebar } from '../ui/sidebar';
+import { useSidebar } from '@/components/ui/sidebar';
 
 export function AppHeader() {
-  const { setOpenMobile } = useSidebar();
+  const { setOpen: setOpenLeft, setOpenMobile, open: openLeft } = useSidebar();
+  const { setOpen: setOpenRight, open: openRight } = useSidebar();
+
 
   return (
     <header className="flex h-16 items-center gap-4 border-b bg-transparent px-4 lg:h-[64px] lg:px-6 sticky top-0 z-30 glass">
-       <SidebarTrigger className="md:hidden">
+       <Button variant="ghost" size="icon" className="rounded-full md:hidden" onClick={() => setOpenMobile(true)}>
           <Menu className="h-6 w-6" />
-      </SidebarTrigger>
+      </Button>
       <div className="w-full flex-1">
         <form>
           <div className="relative">
@@ -36,16 +38,16 @@ export function AppHeader() {
             <span className="sr-only">Toggle notifications</span>
        </Button>
        
-       <SidebarTrigger>
+       <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setOpenRight(!openRight)}>
           <MessageSquare className="h-5 w-5" />
           <span className="sr-only">Toggle messages</span>
-        </SidebarTrigger>
+        </Button>
 
 
       <UserNav />
-       <SidebarTrigger>
+       <Button variant="ghost" size="icon" className="rounded-full hidden md:flex" onClick={() => setOpenLeft(!openLeft)}>
             <Menu className="h-6 w-6" />
-       </SidebarTrigger>
+       </Button>
     </header>
   );
 }

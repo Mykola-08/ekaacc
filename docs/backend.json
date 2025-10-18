@@ -1,0 +1,474 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user in the EKA Account system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the user.",
+          "format": "email"
+        },
+        "role": {
+          "type": "string",
+          "description": "The role of the user (e.g., User, Therapist, Donor, Admin)."
+        },
+        "accountId": {
+          "type": "string",
+          "description": "Reference to Account. (Relationship: Account 1:1 User)"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "role",
+        "accountId"
+      ]
+    },
+    "Account": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Account",
+      "type": "object",
+      "description": "Represents a user's account within the EKA system, linking to various services.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the account."
+        },
+        "planId": {
+          "type": "string",
+          "description": "Reference to Plan. (Relationship: Plan 1:N Account)"
+        },
+        "preferences": {
+          "type": "string",
+          "description": "JSON string with user preferences, such as dashboard layout and notification style."
+        },
+        "consents": {
+          "type": "string",
+          "description": "JSON string with user consents related to data sharing and AI usage."
+        }
+      },
+      "required": [
+        "id",
+        "planId",
+        "preferences",
+        "consents"
+      ]
+    },
+    "Session": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Session",
+      "type": "object",
+      "description": "Represents a therapy session.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the session."
+        },
+        "therapistId": {
+          "type": "string",
+          "description": "Reference to Therapist. (Relationship: Therapist 1:N Session)"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Session)"
+        },
+        "startTime": {
+          "type": "string",
+          "description": "The date and time the session started.",
+          "format": "date-time"
+        },
+        "endTime": {
+          "type": "string",
+          "description": "The date and time the session ended.",
+          "format": "date-time"
+        },
+        "outcome": {
+          "type": "string",
+          "description": "The outcome of the session."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes taken during the session."
+        }
+      },
+      "required": [
+        "id",
+        "therapistId",
+        "userId",
+        "startTime",
+        "endTime",
+        "outcome",
+        "notes"
+      ]
+    },
+    "Therapist": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Therapist",
+      "type": "object",
+      "description": "Represents a therapist in the EKA Account system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the therapist entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the therapist."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the therapist."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the therapist.",
+          "format": "email"
+        },
+        "specialization": {
+          "type": "string",
+          "description": "The area of specialization of the therapist."
+        },
+        "accountId": {
+          "type": "string",
+          "description": "Reference to Account. (Relationship: Account 1:1 Therapist)"
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "specialization",
+        "accountId"
+      ]
+    },
+    "Donation": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Donation",
+      "type": "object",
+      "description": "Represents a donation made within the EKA Account system.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the donation."
+        },
+        "donorId": {
+          "type": "string",
+          "description": "Reference to User (Donor). (Relationship: User 1:N Donation)"
+        },
+        "receiverId": {
+          "type": "string",
+          "description": "Reference to User (Receiver). (Relationship: User 1:N Donation)"
+        },
+        "amount": {
+          "type": "number",
+          "description": "The amount of the donation."
+        },
+        "date": {
+          "type": "string",
+          "description": "The date the donation was made.",
+          "format": "date-time"
+        },
+        "isAnonymous": {
+          "type": "boolean",
+          "description": "Indicates if the donation was made anonymously."
+        }
+      },
+      "required": [
+        "id",
+        "donorId",
+        "receiverId",
+        "amount",
+        "date",
+        "isAnonymous"
+      ]
+    },
+    "Report": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Report",
+      "type": "object",
+      "description": "Represents a report generated by a therapist or user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the report."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Report)"
+        },
+        "therapistId": {
+          "type": "string",
+          "description": "Reference to Therapist. (Relationship: Therapist 1:N Report)"
+        },
+        "date": {
+          "type": "string",
+          "description": "The date the report was created.",
+          "format": "date-time"
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the report (e.g., SOAP summary)."
+        },
+        "aiSummary": {
+          "type": "string",
+          "description": "An AI-generated summary of the report."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "therapistId",
+        "date",
+        "content",
+        "aiSummary"
+      ]
+    },
+    "Plan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Plan",
+      "type": "object",
+      "description": "Represents a subscription plan.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the plan."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the plan (e.g., Free, Diamond)."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the plan."
+        },
+        "price": {
+          "type": "number",
+          "description": "The price of the plan."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "price"
+      ]
+    },
+    "Message": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Message",
+      "type": "object",
+      "description": "Represents a message exchanged between users.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the message."
+        },
+        "senderId": {
+          "type": "string",
+          "description": "Reference to User (Sender). (Relationship: User 1:N Message)"
+        },
+        "receiverId": {
+          "type": "string",
+          "description": "Reference to User (Receiver). (Relationship: User 1:N Message)"
+        },
+        "sentDate": {
+          "type": "string",
+          "description": "The date and time the message was sent.",
+          "format": "date-time"
+        },
+        "content": {
+          "type": "string",
+          "description": "The content of the message."
+        }
+      },
+      "required": [
+        "id",
+        "senderId",
+        "receiverId",
+        "sentDate",
+        "content"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profiles.  Path-based ownership enforced via security rules.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/accounts/{accountId}",
+        "definition": {
+          "entityName": "Account",
+          "schema": {
+            "$ref": "#/backend/entities/Account"
+          },
+          "description": "Stores account information. Every user and therapist is associated with an account. There will be a 1:1 relationship with user and therapist.",
+          "params": [
+            {
+              "name": "accountId",
+              "description": "The unique identifier for the account."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/sessions/{sessionId}",
+        "definition": {
+          "entityName": "Session",
+          "schema": {
+            "$ref": "#/backend/entities/Session"
+          },
+          "description": "Stores therapy session data.  Path-based ownership under the user. The `therapistId` is denormalized for authorization independence, eliminating the need to fetch therapist details in security rules.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "sessionId",
+              "description": "The unique identifier for the session."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/therapists/{therapistId}",
+        "definition": {
+          "entityName": "Therapist",
+          "schema": {
+            "$ref": "#/backend/entities/Therapist"
+          },
+          "description": "Stores therapist profiles. Path-based ownership enforced via security rules.",
+          "params": [
+            {
+              "name": "therapistId",
+              "description": "The unique identifier for the therapist."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/donations/{donationId}",
+        "definition": {
+          "entityName": "Donation",
+          "schema": {
+            "$ref": "#/backend/entities/Donation"
+          },
+          "description": "Stores donation records.  This collection is root-level since donations involve two users (donor and receiver). Security rules will ensure that only authorized users can read/write donations where they are either the donor or receiver.",
+          "params": [
+            {
+              "name": "donationId",
+              "description": "The unique identifier for the donation."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/reports/{reportId}",
+        "definition": {
+          "entityName": "Report",
+          "schema": {
+            "$ref": "#/backend/entities/Report"
+          },
+          "description": "Stores reports generated by users or therapists. Path-based ownership under the user. The `therapistId` is denormalized here to avoid `get()` calls in the security rules.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            },
+            {
+              "name": "reportId",
+              "description": "The unique identifier for the report."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/plans/{planId}",
+        "definition": {
+          "entityName": "Plan",
+          "schema": {
+            "$ref": "#/backend/entities/Plan"
+          },
+          "description": "Stores subscription plan details.",
+          "params": [
+            {
+              "name": "planId",
+              "description": "The unique identifier for the plan."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/messages/{messageId}",
+        "definition": {
+          "entityName": "Message",
+          "schema": {
+            "$ref": "#/backend/entities/Message"
+          },
+          "description": "Stores messages exchanged between users. Security rules will ensure that only the sender or receiver can access the message.",
+          "params": [
+            {
+              "name": "messageId",
+              "description": "The unique identifier for the message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{userId}",
+        "definition": {
+          "entityName": "roles_admin",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Collection to store admin roles. Existence of a document indicates admin privileges.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to support the EKA Account system, emphasizing security, scalability, and ease of debugging. It leverages denormalization to ensure authorization independence, avoiding complex `get()` calls in security rules and enabling atomic operations. The structure is segregated to maintain a homogeneous security posture within collections and employs consistent access modeling patterns. \n\nAuthorization Independence is achieved by denormalizing authorization data. For instance, the `sessions` collection under `/users/{userId}` contains `therapistId`. Security rules can directly validate if the `therapistId` matches the user attempting to access the document without needing to retrieve the therapist's document.\n\nThe structure supports QAPs (Rules are not Filters) by segregating data based on access needs. User-specific data resides under `/users/{userId}`, ensuring that listing documents in this collection only returns data accessible to the user. Similarly, public or shared data (if any) would be in a separate collection with appropriate security rules. The Membership Map pattern is implemented through collections like `/roles_admin/{uid}`, allowing for secure `list` operations based on role existence rather than content filtering."
+  }
+}

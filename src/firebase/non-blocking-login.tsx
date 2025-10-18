@@ -35,4 +35,3 @@ export function initiateGoogleSignIn(authInstance: Auth): void {
     // CRITICAL: Call signInWithRedirect directly. Do NOT use 'await signInWithRedirect(...)'.
     signInWithRedirect(authInstance, provider);
 }
-

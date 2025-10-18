@@ -4,38 +4,11 @@ import { QuickActions } from '@/components/eka/dashboard/quick-actions';
 import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
 import { NextSession } from '@/components/eka/dashboard/next-session';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
-import { currentUser, reports } from '@/lib/data';
-import { Activity, TrendingUp } from 'lucide-react';
-import {
-  Bar,
-  BarChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-  Tooltip,
-} from 'recharts';
-import {
-    ChartContainer,
-    ChartTooltipContent,
-  } from "@/components/ui/chart"
+import { reports } from '@/lib/data';
+import { Activity } from 'lucide-react';
+import { MoodChart } from '@/components/eka/dashboard/mood-chart';
 
 export default function HomePage() {
-  const chartData = [
-    { month: 'Jan', mood: 7 },
-    { month: 'Feb', mood: 6 },
-    { month: 'Mar', mood: 8 },
-    { month: 'Apr', mood: 7 },
-    { month: 'May', mood: 9 },
-    { month: 'Jun', mood: 8 },
-  ];
-
-  const chartConfig = {
-    mood: {
-      label: "Mood",
-      color: "hsl(var(--primary))",
-    },
-  }
-
   return (
     <div className="flex flex-col gap-4 lg:gap-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -45,27 +18,7 @@ export default function HomePage() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <div className="lg:col-span-5 grid gap-4">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Mood Over Time</CardTitle>
-                    <CardDescription>Your average mood rating over the last 6 months.</CardDescription>
-                </CardHeader>
-                <CardContent className="pl-2">
-                    <ChartContainer config={chartConfig} className="h-[250px] w-full">
-                        <BarChart accessibilityLayer data={chartData}>
-                            <XAxis
-                            dataKey="month"
-                            tickLine={false}
-                            tickMargin={10}
-                            axisLine={false}
-                            />
-                            <YAxis tickLine={false} axisLine={false} />
-                            <ChartTooltip content={<ChartTooltipContent />} />
-                            <Bar dataKey="mood" fill="var(--color-mood)" radius={8} />
-                        </BarChart>
-                    </ChartContainer>
-                </CardContent>
-            </Card>
+            <MoodChart />
             <div className="grid gap-4 md:grid-cols-2">
                 <QuickActions />
                 <AiAssistant />

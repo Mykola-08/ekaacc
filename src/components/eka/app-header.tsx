@@ -17,7 +17,7 @@ export function AppHeader() {
 
 
   return (
-    <header className="flex h-16 items-center gap-4 border-b bg-transparent px-4 lg:h-[64px] lg:px-6 sticky top-0 z-30 glass">
+    <header className="flex h-16 items-center gap-4 border-b bg-background/95 backdrop-blur px-4 lg:h-[64px] lg:px-6 sticky top-0 z-30">
        <Button variant="ghost" size="icon" className="rounded-full md:hidden" onClick={() => setOpenMobile(true)}>
           <Menu className="h-6 w-6" />
       </Button>
@@ -28,7 +28,7 @@ export function AppHeader() {
             <Input
               type="search"
               placeholder="Search EKA..."
-              className="w-full appearance-none bg-background/80 pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              className="w-full appearance-none bg-muted pl-8 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
         </form>

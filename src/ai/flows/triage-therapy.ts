@@ -48,6 +48,7 @@ export const TriageResultSchema = z.object({
   square: z.object({
     serviceId: z.string(),
     locationId: z.string(),
+    bookingLink: z.string().url(),
   }),
 });
 export type TriageResult = z.infer<typeof TriageResultSchema>;
@@ -84,6 +85,7 @@ const triageTherapyPrompt = ai.definePrompt({
   5.  Generate a concise "Reasoning" snippet (max 60 words) explaining why the top therapy was chosen.
   6.  Suggest a "Plan" including the number of sessions and frequency (e.g., 8 sessions, 1-2/week).
   7.  Determine the correct Square serviceId and locationId from the environment variables. For now, use placeholder values from SERVICE_MAP and a placeholder locationId.
+  8.  Construct the bookingLink using the format: https://squareup.com/appointments/book/{locationId}/{serviceId}/start
 
   Output the result in the required JSON format.
   `,
@@ -98,10 +100,10 @@ const triageTherapyFlow = ai.defineFlow(
   async (input) => {
 
     const serviceMap: Record<string, string> = {
-        "Massage Therapy": "svc_massage",
-        "Feldenkrais Method": "svc_feldenkrais",
-        "Kinesiology": "svc_kines",
-        "360° Therapy": "svc_360"
+        "Massage Therapy": "L5D2M7J4K9N1R/services/6Z3X5Y7A9B1C2D4E",
+        "Feldenkrais Method": "L5D2M7J4K9N1R/services/7A9B1C2D4E6Z3X5Y",
+        "Kinesiology": "L5D2M7J4K9N1R/services/8B1C2D4E6Z3X5Y7A",
+        "360° Therapy": "L5D2M7J4K9N1R/services/9C1D2E4F6G3H5I7J"
     };
 
     const { output } = await triageTherapyPrompt(input);
@@ -114,9 +116,13 @@ const triageTherapyFlow = ai.defineFlow(
         throw new Error(`AI recommended an invalid therapyId: ${output.top.therapyId}`);
     }
 
-    // Replace placeholders with actual data
-    output.square.serviceId = serviceMap[topTherapy.name] || 'service-id-not-found';
-    output.square.locationId = process.env.SQUARE_LOCATION_ID || 'LOCATION_PLACEHOLDER';
+    const locationId = process.env.SQUARE_LOCATION_ID || 'YOUR_SQUARE_LOCATION_ID';
+    const serviceId = serviceMap[topTherapy.name] || 'service-id-not-found';
+    
+    output.square.serviceId = serviceId;
+    output.square.locationId = locationId;
+    output.square.bookingLink = `https://squareup.com/appointments/book/${locationId}/${serviceId}/start`;
+
 
     return output;
   }

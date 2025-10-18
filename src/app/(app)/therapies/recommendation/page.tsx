@@ -84,7 +84,9 @@ function RecommendationContent() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-2">
-            <Button className="w-full">Book with Square</Button>
+            <Button className="w-full" asChild>
+                <a href={result.square.bookingLink} target="_blank" rel="noopener noreferrer">Book with Square</a>
+            </Button>
             <Button variant="outline" className="w-full" asChild>
                 <Link href={`/therapies`}>View Details</Link>
             </Button>

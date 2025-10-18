@@ -132,6 +132,7 @@ export type TriageResult = {
     square: {
         serviceId: string;
         locationId: string;
+        bookingLink: string;
     };
 }
 

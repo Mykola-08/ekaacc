@@ -19,38 +19,42 @@ export default function HomePage() {
           <StatCard key={stat.title} {...stat} />
         ))}
       </div>
-      <div className="grid gap-6 lg:grid-cols-7">
-        <div className="lg:col-span-5 grid gap-6">
-            <GoalProgress />
-            <div className="grid gap-6 md:grid-cols-2">
-                <QuickActions />
-                <AiAssistant />
-            </div>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-7">
+        <div className="lg:col-span-5 flex flex-col gap-6">
+          <GoalProgress />
+          <div className="grid flex-1 gap-6 md:grid-cols-2">
+            <QuickActions />
+            <AiAssistant />
+          </div>
         </div>
         <div className="lg:col-span-2 flex flex-col gap-6">
-            <NextSession />
-            <Card>
-                <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                        <Activity className="h-5 w-5" />
-                        Recent Activity
-                    </CardTitle>
-                </CardHeader>
-                <CardContent>
-                    {reports.length > 0 ? (
-                         <ul className="space-y-4">
-                            {reports.slice(0, 3).map((report) => (
-                                <li key={report.id} className="text-sm">
-                                    <p className="font-medium">{report.title}</p>
-                                    <p className="text-muted-foreground">{report.author} - {report.date}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p className="text-sm text-muted-foreground">No recent activity.</p>
-                    )}
-                </CardContent>
-            </Card>
+          <NextSession />
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                Recent Activity
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {reports.length > 0 ? (
+                <ul className="space-y-4">
+                  {reports.slice(0, 3).map((report) => (
+                    <li key={report.id} className="text-sm">
+                      <p className="font-medium">{report.title}</p>
+                      <p className="text-muted-foreground">
+                        {report.author} - {report.date}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  No recent activity.
+                </p>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

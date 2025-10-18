@@ -12,35 +12,35 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { useAuth, useUser, useFirestore, useDoc, doc } from '@/firebase';
+import { useAuth } from '@/firebase';
 import { useRouter } from 'next/navigation';
+import { useUserContext } from '@/context/user-context';
 
 export function UserNav() {
-  const { user } = useUser();
+  const { currentUser } = useUserContext();
   const auth = useAuth();
   const router = useRouter();
-  const firestore = useFirestore();
 
-  const userDocRef = user ? doc(firestore, 'users', user.uid) : null;
-  const { data: userProfile } = useDoc(userDocRef);
 
   const handleLogout = async () => {
-    await auth.signOut();
+    if (auth) {
+      await auth.signOut();
+    }
     router.push('/login');
   };
 
-  if (!user) {
+  if (!currentUser) {
     return null;
   }
   
-  const initials = userProfile?.name?.split(' ').map((n: string) => n[0]).join('') || user.email?.charAt(0).toUpperCase() || '?';
+  const initials = currentUser.initials;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            {user.photoURL && <AvatarImage src={user.photoURL} alt={userProfile?.name || user.email!} />}
+            {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
         </Button>
@@ -48,9 +48,9 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{userProfile?.name || 'User'}</p>
+            <p className="text-sm font-medium leading-none">{currentUser.name}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              {user.email || 'Anonymous'}
+              {currentUser.email}
             </p>
           </div>
         </DropdownMenuLabel>

@@ -12,6 +12,7 @@ import {
   FileText,
   Settings,
   Briefcase,
+  Sparkles,
 } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
@@ -28,6 +29,7 @@ export function AppSidebar() {
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
     { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
+    { href: '/therapies', icon: Sparkles, label: 'Therapies'},
     { href: '/donations', icon: Heart, label: 'Donations' },
     { href: '/reports', icon: FileText, label: 'Reports' },
   ];
@@ -64,7 +66,7 @@ export function AppSidebar() {
                 href={href}
                 className={cn(
                   'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted',
-                  pathname === href && 'bg-muted text-primary'
+                  pathname.startsWith(href) && 'bg-muted text-primary'
                 )}
               >
                 <Icon className="h-4 w-4" />

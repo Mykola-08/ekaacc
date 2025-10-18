@@ -77,7 +77,7 @@ export type Therapy = {
   priceUSD: number;
   benefits: string[];
   recommendedFor: string[];
-  aiSummary: string;
+aiSummary: string;
   availability: Availability;
   complexityLevel: 1 | 2 | 3 | 4 | 5;
 };
@@ -90,3 +90,41 @@ export type TherapyPackage = {
   priceUSD: number;
   aiSummary: string;
 };
+
+
+export type TriageInput = {
+    mode: 'freeText' | 'form';
+    text?: string;
+    tags?: string[];
+    intensity?: {
+        pain?: number;
+        mobility?: number;
+        energy?: number;
+        stress?: number;
+    };
+    duration?: 'days' | 'weeks' | 'months';
+    context?: string[];
+    preferences?: {
+        length?: 30 | 60 | 90;
+        therapistGender?: 'male' | 'female' | 'any';
+        time?: 'weekday' | 'evening' | 'weekend';
+    };
+}
+
+export type TriageResult = {
+    top: {
+        therapyId: string;
+        reason: string;
+        plan: {
+            sessions: number;
+            freq: string;
+        };
+    };
+    alts: {
+        therapyId: string;
+    }[];
+    square: {
+        serviceId: string;
+        locationId: string;
+    };
+}

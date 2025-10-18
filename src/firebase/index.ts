@@ -3,7 +3,7 @@
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, collection, serverTimestamp } from 'firebase/firestore'
+import { getFirestore, doc, collection, serverTimestamp, query, where, or, orderBy } from 'firebase/firestore'
 
 // IMPORTANT: DO NOT MODIFY THIS FUNCTION
 export function initializeFirebase() {
@@ -35,4 +35,4 @@ export * from './non-blocking-updates';
 export * from './non-blocking-login';
 export * from './errors';
 export * from './error-emitter';
-export { doc, collection, serverTimestamp };
+export { doc, collection, serverTimestamp, query, where, or, orderBy };

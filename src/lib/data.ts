@@ -1,9 +1,11 @@
-import type { User, Session, StatCard, Report, Therapy } from '@/lib/types';
+import type { User, Session, StatCard, Report, Therapy, VipData, VipPlan } from '@/lib/types';
 import {
   CalendarDays,
   Heart,
   TrendingUp,
-  Wallet,
+  TrendingDown,
+  Activity,
+  Award
 } from 'lucide-react';
 
 export const allUsers: User[] = [
@@ -89,32 +91,32 @@ export const reports: Report[] = [
 
 export const userStats: StatCard[] = [
   {
-    title: 'Total Sessions',
-    value: '28',
-    change: '+2 this month',
+    title: 'Pain Reduction',
+    value: '20%',
+    change: '5%',
+    changeType: 'increase',
+    icon: TrendingDown,
+  },
+  {
+    title: 'Mobility',
+    value: '15%',
+    change: '3%',
+    changeType: 'increase',
+    icon: Activity,
+  },
+  {
+    title: 'Sessions',
+    value: '8/10',
+    change: '+2',
     changeType: 'increase',
     icon: CalendarDays,
   },
   {
-    title: 'Wellness Score',
-    value: '82/100',
-    change: '+5',
+    title: 'Milestones',
+    value: '3/5',
+    change: '+1',
     changeType: 'increase',
-    icon: TrendingUp,
-  },
-  {
-    title: 'Donations Made',
-    value: '$150',
-    change: '-$25',
-    changeType: 'decrease',
-    icon: Heart,
-  },
-  {
-    title: 'Account Balance',
-    value: '$50',
-    change: '+$50',
-    changeType: 'increase',
-    icon: Wallet,
+    icon: Award,
   },
 ];
 
@@ -176,3 +178,32 @@ export const therapies: Therapy[] = [
     complexityLevel: 5,
   }
 ];
+
+
+export const vipData: VipData = {
+    active: true,
+    tier: "Diamond",
+    renewal: "2024-09-15",
+    since: "2023-09-15",
+    benefits: [
+        { id: "b1", name: "Free Monthly Massages", limit: 1, used: 1, status: 'used' },
+        { id: "b2", name: "AI Wellness Reports", limit: 2, used: 1, status: 'available' },
+        { id: "b3", name: "Priority Booking", limit: 10, used: 4, status: 'available' },
+        { id: "b4", name: "Guest Session Passes", limit: 2, used: 0, status: 'expires' }
+    ],
+    history: [
+        { benefitId: "b1", at: "2024-08-05", value: "Redeemed: 60-min Massage" },
+        { benefitId: "b2", at: "2024-08-01", value: "Generated: Monthly AI Report" },
+        { benefitId: "b3", at: "2024-07-28", value: "Used: Priority Booking for PT" }
+    ],
+    insights: {
+        savingsUSD: 250,
+        monthUses: 3
+    }
+};
+
+export const vipPlans: VipPlan[] = [
+    { id: "free", name: "Free", priceUSD: 0, benefits: ["Standard booking", "Basic reports", "Community access"] },
+    { id: "gold", name: "Gold", priceUSD: 49, benefits: ["1 Free Monthly Service", "Advanced AI Reports", "Priority Support", "5% off all therapies"] },
+    { id: "diamond", name: "Diamond", priceUSD: 99, benefits: ["2 Free Monthly Services", "Unlimited AI Reports", "24/7 Priority Support", "15% off all therapies", "2 Guest Passes"] }
+]

@@ -1,3 +1,4 @@
+'use client';
 import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { userStats } from '@/lib/data';
 import { QuickActions } from '@/components/eka/dashboard/quick-actions';
@@ -6,25 +7,27 @@ import { NextSession } from '@/components/eka/dashboard/next-session';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
 import { reports } from '@/lib/data';
 import { Activity } from 'lucide-react';
-import { MoodChart } from '@/components/eka/dashboard/mood-chart';
+import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
+import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-4 lg:gap-6">
+    <div className="flex flex-col gap-8">
+      <DashboardHero />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {userStats.map((stat) => (
           <StatCard key={stat.title} {...stat} />
         ))}
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <div className="lg:col-span-5 grid gap-4">
-            <MoodChart />
-            <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+        <div className="lg:col-span-5 grid gap-6">
+            <GoalProgress />
+            <div className="grid gap-6 md:grid-cols-2">
                 <QuickActions />
                 <AiAssistant />
             </div>
         </div>
-        <div className="lg:col-span-2 flex flex-col gap-4">
+        <div className="lg:col-span-2 flex flex-col gap-6">
             <NextSession />
             <Card>
                 <CardHeader>
@@ -34,14 +37,18 @@ export default function HomePage() {
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <ul className="space-y-4">
-                        {reports.slice(0, 3).map((report) => (
-                            <li key={report.id} className="text-sm">
-                                <p className="font-medium">{report.title}</p>
-                                <p className="text-muted-foreground">{report.author} - {report.date}</p>
-                            </li>
-                        ))}
-                    </ul>
+                    {reports.length > 0 ? (
+                         <ul className="space-y-4">
+                            {reports.slice(0, 3).map((report) => (
+                                <li key={report.id} className="text-sm">
+                                    <p className="font-medium">{report.title}</p>
+                                    <p className="text-muted-foreground">{report.author} - {report.date}</p>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-sm text-muted-foreground">No recent activity.</p>
+                    )}
                 </CardContent>
             </Card>
         </div>

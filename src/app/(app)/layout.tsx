@@ -3,12 +3,40 @@ import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import { MessagingPanel } from '@/components/eka/messaging/messaging-panel';
+import { useUserContext } from '@/context/user-context';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { currentUser } = useUserContext();
+  const router = useRouter();
+
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     router.push('/login');
+  //   }
+  // }, [currentUser, router]);
+
+  if (!currentUser) {
+    return (
+      <div className="flex h-screen w-full items-center justify-center bg-background">
+          <div className="text-center">
+              <h1 className="text-2xl font-semibold">Authentication Error</h1>
+              <p className="text-muted-foreground mt-2">Could not find user data. Please log in again.</p>
+              <Button asChild className="mt-4">
+                  <Link href="/">Return to Home</Link>
+              </Button>
+          </div>
+      </div>
+    )
+  }
+
 
   return (
       <SidebarProvider>

@@ -7,12 +7,15 @@ import { z } from 'zod';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useUser, useFirestore, useDoc, doc, setDocumentNonBlocking } from '@/firebase';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useUserContext } from '@/context/user-context';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Table, TableBody, TableCell, TableHeader, TableRow, TableHead } from '@/components/ui/table';
+import { allUsers } from '@/lib/data';
+import { MoreHorizontal } from 'lucide-react';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 const profileFormSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -20,12 +23,8 @@ const profileFormSchema = z.object({
 });
 
 export default function AccountPage() {
-  const { user, isUserLoading } = useUser();
-  const firestore = useFirestore();
+  const { currentUser } = useUserContext();
   const { toast } = useToast();
-
-  const userDocRef = user ? doc(firestore, 'users', user.uid) : null;
-  const { data: userProfile, isLoading: isProfileLoading } = useDoc(userDocRef);
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -36,55 +35,22 @@ export default function AccountPage() {
   });
 
   useEffect(() => {
-    if (userProfile) {
+    if (currentUser) {
       form.reset({
-        name: userProfile.name || '',
-        email: userProfile.email || '',
+        name: currentUser.name || '',
+        email: currentUser.email || '',
       });
     }
-  }, [userProfile, form]);
+  }, [currentUser, form]);
 
   const onSubmit = (values: z.infer<typeof profileFormSchema>) => {
-    if (!userDocRef) return;
-    
-    setDocumentNonBlocking(userDocRef, {
-        name: values.name,
-    }, { merge: true });
-
     toast({
         title: "Profile Updated",
         description: "Your changes have been saved.",
     });
   };
-
-  if (isUserLoading || (user && isProfileLoading)) {
-    return (
-      <div className="mx-auto max-w-3xl space-y-6">
-        <Skeleton className="h-8 w-1/2" />
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-1/4" />
-            <Skeleton className="h-4 w-3/4" />
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <Skeleton className="h-10 w-full" />
-            <Skeleton className="h-10 w-full" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-1/4" />
-            <Skeleton className="h-4 w-3/4" />
-          </CardHeader>
-          <CardContent>
-             <Skeleton className="h-16 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
   
-  if (!user || !userProfile) {
+  if (!currentUser) {
     return (
       <div className="mx-auto max-w-3xl text-center">
         <h1 className="text-2xl font-semibold">Please log in</h1>
@@ -96,17 +62,21 @@ export default function AccountPage() {
     )
   }
 
+  const linkedAccounts = allUsers.filter(u => u.id !== currentUser.id).slice(0,2);
+
+
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
-        <h1 className="text-3xl font-semibold">Account Settings</h1>
+    <div className="mx-auto max-w-4xl space-y-8">
+        <h1 className="text-3xl font-bold">Account Settings</h1>
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <Card>
                     <CardHeader>
                         <CardTitle>Profile</CardTitle>
                         <CardDescription>This is how others will see you on the site.</CardDescription>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="grid gap-6 md:grid-cols-3">
+                        <div className="md:col-span-2 grid gap-4">
                          <FormField
                             control={form.control}
                             name="name"
@@ -133,6 +103,62 @@ export default function AccountPage() {
                                 </FormItem>
                             )}
                             />
+                        </div>
+                        <div className="flex flex-col items-center justify-center space-y-2">
+                            <Avatar className="w-24 h-24 text-4xl">
+                                <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
+                                <AvatarFallback>{currentUser.initials}</AvatarFallback>
+                            </Avatar>
+                            <Button variant="outline" size="sm">Change Avatar</Button>
+                        </div>
+                    </CardContent>
+                </Card>
+
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Linked Accounts</CardTitle>
+                        <CardDescription>Manage parent/child or caregiver profiles connected to your account.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>User</TableHead>
+                                    <TableHead>Role</TableHead>
+                                    <TableHead className='text-right'>Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {linkedAccounts.map(account => (
+                                    <TableRow key={account.id}>
+                                        <TableCell>
+                                            <div className="flex items-center gap-3">
+                                                <Avatar className="h-8 w-8">
+                                                    <AvatarImage src={account.avatarUrl} alt={account.name} />
+                                                    <AvatarFallback>{account.initials}</AvatarFallback>
+                                                </Avatar>
+                                                <span className="font-medium">{account.name}</span>
+                                            </div>
+                                        </TableCell>
+                                        <TableCell>
+                                            <span className='text-muted-foreground'>{account.role}</span>
+                                        </TableCell>
+                                        <TableCell className='text-right'>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <Button variant="ghost" size="icon"><MoreHorizontal /></Button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent>
+                                                    <DropdownMenuItem>View Profile</DropdownMenuItem>
+                                                    <DropdownMenuItem>Remove Link</DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                         <Button variant="outline" className="mt-4">Add Linked Account</Button>
                     </CardContent>
                 </Card>
 
@@ -144,7 +170,7 @@ export default function AccountPage() {
                     <CardContent className="space-y-4">
                         <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
                             <div>
-                                <p className="font-semibold">EKA {userProfile.role || 'User'} Plan</p>
+                                <p className="font-semibold">EKA {currentUser.role} Plan</p>
                                 <p className="text-sm text-muted-foreground">Billed monthly. Next payment on Sep 1, 2024.</p>
                             </div>
                              <Button variant="outline" asChild>
@@ -153,6 +179,18 @@ export default function AccountPage() {
                         </div>
                     </CardContent>
                 </Card>
+
+                 <Card>
+                    <CardHeader>
+                        <CardTitle>Data Export</CardTitle>
+                        <CardDescription>Download all your data as a PDF or CSV file.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex gap-4">
+                       <Button variant="secondary">Export as PDF</Button>
+                       <Button variant="secondary">Export as CSV</Button>
+                    </CardContent>
+                </Card>
+
                 <Button type="submit">Update Profile</Button>
             </form>
         </Form>

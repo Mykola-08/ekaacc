@@ -9,7 +9,10 @@ export type UserRole =
   | 'Admin'
   | 'Student'
   | 'Corporate'
-  | 'Affiliate';
+  | 'Affiliate'
+  | 'Free'
+  | 'Gold'
+  | 'Diamond';
 
 export type User = {
   id: string;

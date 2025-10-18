@@ -1,5 +1,6 @@
 
 'use client';
+import { useState } from 'react';
 import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
@@ -14,6 +15,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const { currentUser } = useUserContext();
+  const [isChatOpen, setChatOpen] = useState(false);
   
   if (!currentUser) {
     return (
@@ -22,7 +24,7 @@ export default function DashboardLayout({
               <h1 className="text-2xl font-semibold">Authentication Error</h1>
               <p className="text-muted-foreground mt-2">Could not find user data. Please log in again.</p>
               <Button asChild className="mt-4">
-                  <Link href="/login">Return to Home</Link>
+                  <Link href="/login">Return to Login</Link>
               </Button>
           </div>
       </div>
@@ -37,14 +39,14 @@ export default function DashboardLayout({
               <AppSidebar />
             </Sidebar>
             <SidebarInset>
-                <AppHeader />
+                <AppHeader onChatToggle={() => setChatOpen(!isChatOpen)} />
                 <main className="flex flex-1 flex-col gap-8 p-4 md:p-8 lg:p-12 lg:max-w-7xl mx-auto w-full">
                   {children}
                 </main>
             </SidebarInset>
         </SidebarProvider>
-         <SidebarProvider>
-            <Sidebar side="right" collapsible="offcanvas">
+         <SidebarProvider open={isChatOpen} onOpenChange={setChatOpen}>
+            <Sidebar side="right" collapsible="offcanvas" className="w-96">
                 <MessagingPanel />
             </Sidebar>
         </SidebarProvider>

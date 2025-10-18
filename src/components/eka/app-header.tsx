@@ -13,6 +13,7 @@ import {
   MessageSquare,
   Settings,
   Menu,
+  Briefcase,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -33,6 +34,7 @@ export function AppHeader() {
     { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
     { href: '/donations', icon: Heart, label: 'Donations' },
     { href: '/reports', icon: MessageSquare, label: 'Reports & Messages' },
+    { href: '/therapist/dashboard', icon: Briefcase, label: "Therapist"},
     { href: '/account', icon: Settings, label: 'Account' },
   ];
 

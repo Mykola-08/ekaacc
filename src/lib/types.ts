@@ -51,13 +51,13 @@ export type Report = {
 
 export type Message = {
   id: string;
-  sender: string;
-  senderAvatarUrl: string;
-  recipient: string;
-  text: string;
-  timestamp: string;
-  isRead: boolean;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  createdAt: FieldValue;
+  sentDate?: string; // This can be deprecated in favor of createdAt
 };
+
 
 export type StatCard = {
   title: string;

@@ -289,10 +289,9 @@
           "type": "string",
           "description": "Reference to User (Receiver). (Relationship: User 1:N Message)"
         },
-        "sentDate": {
-          "type": "string",
-          "description": "The date and time the message was sent.",
-          "format": "date-time"
+        "createdAt": {
+            "type": "object",
+            "description": "The server timestamp when the message was created."
         },
         "content": {
           "type": "string",
@@ -303,7 +302,7 @@
         "id",
         "senderId",
         "receiverId",
-        "sentDate",
+        "createdAt",
         "content"
       ]
     }

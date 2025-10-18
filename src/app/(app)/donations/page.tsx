@@ -15,7 +15,7 @@ export default function DonationsPage() {
                     <CardDescription>Support someone's journey to wellness. Your contribution makes a real difference.</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-6">
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         {[25, 50, 100, 250].map(amount => (
                             <Button key={amount} variant="outline" className="h-16 text-lg">${amount}</Button>
                         ))}

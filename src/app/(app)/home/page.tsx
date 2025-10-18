@@ -19,7 +19,7 @@ export default function HomePage() {
           <StatCard key={stat.title} {...stat} />
         ))}
       </div>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-6 lg:grid-cols-7">
         <div className="lg:col-span-5 grid gap-6">
             <GoalProgress />
             <div className="grid gap-6 md:grid-cols-2">

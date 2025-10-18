@@ -57,8 +57,8 @@ export default {
       },
       borderRadius: {
         lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 6px)', // 14px
-        sm: 'calc(var(--radius) - 10px)', // 10px
+        md: 'calc(var(--radius) - 6px)',
+        sm: 'calc(var(--radius) - 10px)',
       },
       boxShadow: {
         'subtle': '0 8px 30px rgba(0,0,0,0.05)',

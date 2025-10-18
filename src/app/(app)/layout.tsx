@@ -32,7 +32,7 @@ export default function DashboardLayout({
 
   return (
       <SidebarProvider>
-        <Sidebar>
+        <Sidebar collapsible="icon">
           <AppSidebar />
         </Sidebar>
         <SidebarProvider>

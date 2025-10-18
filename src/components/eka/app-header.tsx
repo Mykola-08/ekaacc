@@ -10,11 +10,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
-import { useSidebar } from '@/components/ui/sidebar';
+import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 
 export function AppHeader() {
   const { setOpen: setOpenRight, open: openRight } = useSidebar();
-  const { setOpen: setOpenLeft, open: openLeft, setOpenMobile } = useSidebar();
+  const { setOpenMobile } = useSidebar();
 
 
   return (
@@ -22,6 +22,7 @@ export function AppHeader() {
        <Button variant="ghost" size="icon" className="rounded-full md:hidden" onClick={() => setOpenMobile(true)}>
           <Menu className="h-6 w-6" />
       </Button>
+      <SidebarTrigger className="hidden md:flex" />
       <div className="w-full flex-1">
         <form>
           <div className="relative">
@@ -46,9 +47,6 @@ export function AppHeader() {
 
 
       <UserNav />
-       <Button variant="ghost" size="icon" className="rounded-full hidden md:flex" onClick={() => setOpenLeft(!openLeft)}>
-            <Menu className="h-6 w-6" />
-       </Button>
     </header>
   );
 }

@@ -10,8 +10,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
 import { SidebarTrigger, useSidebar } from '../ui/sidebar';
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '../ui/sheet';
-import { MessagingPanel } from './messaging/messaging-panel';
 
 export function AppHeader() {
   const { setOpenMobile } = useSidebar();
@@ -37,21 +35,17 @@ export function AppHeader() {
             <Bell className="h-5 w-5" />
             <span className="sr-only">Toggle notifications</span>
        </Button>
-        <Sheet>
-            <SheetTrigger asChild>
-                 <Button variant="ghost" size="icon" className="rounded-full">
-                    <MessageSquare className="h-5 w-5" />
-                    <span className="sr-only">Toggle messages</span>
-                </Button>
-            </SheetTrigger>
-            <SheetContent className="w-[400px] sm:w-[540px] p-0">
-                <MessagingPanel />
-            </SheetContent>
-        </Sheet>
+       
+       <SidebarTrigger>
+          <MessageSquare className="h-5 w-5" />
+          <span className="sr-only">Toggle messages</span>
+        </SidebarTrigger>
 
 
       <UserNav />
-       <SidebarTrigger className="ml-auto" />
+       <SidebarTrigger>
+            <Menu className="h-6 w-6" />
+       </SidebarTrigger>
     </header>
   );
 }

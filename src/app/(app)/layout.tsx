@@ -21,7 +21,9 @@ export default function DashboardLayout({
               {children}
             </main>
         </SidebarInset>
-        <MessagingPanel />
+        <Sidebar side="right" collapsible="offcanvas">
+            <MessagingPanel />
+        </Sidebar>
       </SidebarProvider>
     </UserProvider>
   );

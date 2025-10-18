@@ -32,12 +32,12 @@ export function AppHeader() {
     { href: '/home', icon: Home, label: 'Home' },
     { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
     { href: '/donations', icon: Heart, label: 'Donations' },
-    { href: '/reports', icon: MessageSquare, label: 'Reports &amp; Messages' },
+    { href: '/reports', icon: MessageSquare, label: 'Reports & Messages' },
     { href: '/account', icon: Settings, label: 'Account' },
   ];
 
   return (
-    <header className="flex h-14 items-center gap-4 border-b bg-card px-4 lg:h-[60px] lg:px-6 sticky top-0 z-30">
+    <header className="flex h-16 items-center gap-4 border-b bg-transparent px-4 lg:h-[64px] lg:px-6 sticky top-0 z-30 glass">
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
@@ -75,7 +75,7 @@ export function AppHeader() {
             <Input
               type="search"
               placeholder="Search EKA..."
-              className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              className="w-full appearance-none bg-background/80 pl-8 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
         </form>

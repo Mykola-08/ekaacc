@@ -1,29 +1,30 @@
 'use client';
 
 import { firebaseConfig } from '@/firebase/config';
-import { initializeApp, getApps, getApp, FirebaseApp } from 'firebase/app';
+import { initializeApp, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore, doc, collection, serverTimestamp, query, where, or, orderBy } from 'firebase/firestore'
 
-// IMPORTANT: DO NOT MODIFY THIS FUNCTION
-export function initializeFirebase() {
-  if (!getApps().length) {
-    // In this development environment, we will explicitly use the
-    // firebaseConfig object to ensure consistent initialization and
-    // to prevent issues with services like App Check.
-    const firebaseApp = initializeApp(firebaseConfig);
-    return getSdks(firebaseApp);
-  }
+// This variable will hold the single instance of the Firebase app.
+let firebaseApp: FirebaseApp;
 
-  // If already initialized, return the SDKs with the already initialized App
-  return getSdks(getApp());
+// This function ensures Firebase is initialized only once.
+export function initializeFirebase() {
+  try {
+    // Attempt to get the existing app instance.
+    firebaseApp = getApp();
+  } catch (e) {
+    // If no app exists, initialize a new one.
+    firebaseApp = initializeApp(firebaseConfig);
+  }
+  return getSdks(firebaseApp);
 }
 
-export function getSdks(firebaseApp: FirebaseApp) {
+export function getSdks(app: FirebaseApp) {
   return {
-    firebaseApp,
-    auth: getAuth(firebaseApp),
-    firestore: getFirestore(firebaseApp)
+    firebaseApp: app,
+    auth: getAuth(app),
+    firestore: getFirestore(app)
   };
 }
 

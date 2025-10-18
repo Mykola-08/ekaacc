@@ -6,14 +6,35 @@ import {
   Wallet,
 } from 'lucide-react';
 
-export const currentUser: User = {
-  id: 'user-1',
-  name: 'Alex Doe',
-  email: 'alex.doe@example.com',
-  avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-  role: 'VIP',
-  initials: 'AD',
-};
+export const allUsers: User[] = [
+  {
+    id: 'user-1',
+    name: 'Alex Doe',
+    email: 'alex.doe@example.com',
+    avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
+    role: 'VIP',
+    initials: 'AD',
+  },
+  {
+    id: 'user-2',
+    name: 'Dr. Emily Carter',
+    email: 'emily.carter@example.com',
+    avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
+    role: 'Therapist',
+    initials: 'EC',
+  },
+  {
+    id: 'user-3',
+    name: 'Jane Donor',
+    email: 'jane.donor@example.com',
+    avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704f',
+    role: 'Donor',
+    initials: 'JD',
+  }
+]
+
+
+export let currentUser: User = allUsers[0];
 
 export const sessions: Session[] = [
   {

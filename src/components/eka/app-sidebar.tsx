@@ -17,11 +17,12 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { currentUser } from '@/lib/data';
 import { Separator } from '../ui/separator';
+import { useUser } from '@/context/user-context';
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { currentUser } = useUser();
 
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
@@ -38,6 +39,12 @@ export function AppSidebar() {
     { href: '/account', icon: Settings, label: 'Account' },
   ]
 
+  if (!currentUser) return null;
+
+  const showTherapistLinks = currentUser.role === 'Therapist' || currentUser.role === 'Admin';
+  const showUserLinks = currentUser.role !== 'Therapist';
+
+
   return (
     <div className="hidden border-r bg-card md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -48,23 +55,26 @@ export function AppSidebar() {
           </Link>
         </div>
         <div className="flex-1 overflow-auto py-2">
-          <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-            <p className="px-3 py-2 text-xs font-semibold text-muted-foreground">CLIENT</p>
-            {userLinks.map(({ href, icon: Icon, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={cn(
-                  'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted',
-                  pathname === href && 'bg-muted text-primary'
-                )}
-              >
-                <Icon className="h-4 w-4" />
-                {label}
-              </Link>
-            ))}
-          </nav>
-          <Separator className="my-2" />
+          {showUserLinks && (
+            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+              <p className="px-3 py-2 text-xs font-semibold text-muted-foreground">CLIENT</p>
+              {userLinks.map(({ href, icon: Icon, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={cn(
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted',
+                    pathname === href && 'bg-muted text-primary'
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {label}
+                </Link>
+              ))}
+            </nav>
+          )}
+          {showUserLinks && showTherapistLinks && <Separator className="my-2" />}
+          {showTherapistLinks && (
            <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
             <p className="px-3 py-2 text-xs font-semibold text-muted-foreground">THERAPIST</p>
             {therapistLinks.map(({ href, icon: Icon, label }) => (
@@ -81,6 +91,7 @@ export function AppSidebar() {
               </Link>
             ))}
           </nav>
+          )}
         </div>
         <div className="mt-auto p-4 border-t">
           <nav className="grid items-start px-2 text-sm font-medium lg:px-4 mb-4">

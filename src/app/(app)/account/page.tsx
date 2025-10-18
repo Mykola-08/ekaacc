@@ -1,11 +1,16 @@
+'use client';
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { currentUser } from "@/lib/data";
+import { useUser } from "@/context/user-context";
 
 export default function AccountPage() {
+  const { currentUser } = useUser();
+
+  if (!currentUser) return null;
+
   return (
     <div className="mx-auto max-w-3xl space-y-6">
         <h1 className="text-3xl font-semibold">Account Settings</h1>

@@ -1,3 +1,4 @@
+
 'use client';
 
 import {
@@ -12,8 +13,8 @@ import { UserNav } from './user-nav';
 import { useSidebar } from '@/components/ui/sidebar';
 
 export function AppHeader() {
-  const { setOpen: setOpenLeft, setOpenMobile, open: openLeft } = useSidebar();
   const { setOpen: setOpenRight, open: openRight } = useSidebar();
+  const { setOpen: setOpenLeft, open: openLeft, setOpenMobile } = useSidebar();
 
 
   return (

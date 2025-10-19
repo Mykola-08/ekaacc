@@ -42,15 +42,10 @@ function useSidebar() {
 
 const SidebarProvider = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> & {
-    defaultOpen?: boolean
-    open?: boolean
-    onOpenChange?: (open: boolean) => void
-  }
+  React.ComponentProps<"div">
 >(
   (
     {
-      defaultOpen = true,
       className,
       style,
       children,
@@ -58,13 +53,11 @@ const SidebarProvider = React.forwardRef<
     },
     ref
   ) => {
-    const isMobile = useIsMobile()
-    const [openMobile, setOpenMobile] = React.useState(false)
-    
-    // Server-side, always use defaultOpen to prevent hydration mismatch
-    const [open, setOpen] = React.useState(defaultOpen);
+    const isMobile = useIsMobile();
+    const [openMobile, setOpenMobile] = React.useState(false);
+    const [open, setOpen] = React.useState(true); // Default to open
 
-    // On the client, read the cookie to set the initial state after mount
+    // On client mount, read the cookie to set the initial state
     React.useEffect(() => {
       const cookieValue = document.cookie
         .split('; ')

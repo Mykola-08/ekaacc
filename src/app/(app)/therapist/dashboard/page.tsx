@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +18,8 @@ import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -38,6 +40,17 @@ const mapBookingToSession = (booking: any): AppSession => {
 
 const reportTags = ["on time", "late", "cooperative", "resistant", "new issue", "follow-up"];
 
+const initialServiceFormState: Omit<Service, 'id'> = {
+    name: '',
+    category: 'Core',
+    descriptionShort: '',
+    descriptionLong: '',
+    durationMinutes: 60,
+    priceEUR: 0,
+    benefits: [],
+    tags: [],
+    active: true,
+};
 
 export default function TherapistDashboardPage() {
     const { user } = useUser();
@@ -70,12 +83,13 @@ export default function TherapistDashboardPage() {
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
     const [isServiceDialogOpen, setIsServiceDialogOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
-    const [selectedService, setSelectedService] = useState<Service | null>(null);
+    
+    const [serviceForm, setServiceForm] = useState<Partial<Service>>(initialServiceFormState);
+
     const [goalDescription, setGoalDescription] = useState('');
     const [targetSessions, setTargetSessions] = useState('');
     const [isGeneratingReport, setIsGeneratingReport] = useState(false);
     
-    // Report Dialog State
     const [reportState, setReportState] = useState({
         pain: 5,
         mood: 5,
@@ -101,11 +115,53 @@ export default function TherapistDashboardPage() {
     };
 
     const handleOpenServiceDialog = (service: Service | null) => {
-        setSelectedService(service);
-        // Prefill form if editing, clear if adding
-        // For now, just opens the dialog
+        if (service) {
+            setServiceForm(service);
+        } else {
+            setServiceForm(initialServiceFormState);
+        }
         setIsServiceDialogOpen(true);
     }
+    
+    const handleServiceFormChange = (field: keyof Service, value: any) => {
+        setServiceForm(prev => ({ ...prev, [field]: value }));
+    };
+    
+    const handleSaveService = async () => {
+        if (!firestore || !servicesRef) {
+            toast({ variant: 'destructive', title: "Database error." });
+            return;
+        }
+        if (!serviceForm.name || !serviceForm.durationMinutes || serviceForm.priceEUR === undefined) {
+             toast({ variant: 'destructive', title: "Please fill all required fields." });
+            return;
+        }
+
+        const dataToSave = {
+            ...serviceForm,
+            // Ensure benefits and tags are arrays of strings
+            benefits: typeof serviceForm.benefits === 'string' ? serviceForm.benefits.split(',').map(s => s.trim()) : serviceForm.benefits || [],
+            tags: typeof serviceForm.tags === 'string' ? serviceForm.tags.split(',').map(s => s.trim()) : serviceForm.tags || [],
+        };
+        
+        try {
+            if (serviceForm.id) {
+                // Editing existing service
+                const serviceDocRef = doc(firestore, 'services', serviceForm.id);
+                await updateDocumentNonBlocking(serviceDocRef, dataToSave);
+                toast({ title: "Service Updated", description: `${serviceForm.name} has been updated.` });
+            } else {
+                // Adding new service
+                await addDocumentNonBlocking(servicesRef, dataToSave);
+                toast({ title: "Service Added", description: `${serviceForm.name} has been added to the catalog.` });
+            }
+            setIsServiceDialogOpen(false);
+        } catch (error) {
+            console.error("Failed to save service:", error);
+            toast({ variant: 'destructive', title: "Save Failed", description: "Could not save the service." });
+        }
+    };
+
 
     const handleSetGoal = () => {
         if (!selectedPatient || !goalDescription || !targetSessions) {
@@ -136,7 +192,6 @@ export default function TherapistDashboardPage() {
             description: `A goal of ${targetSessions} sessions has been set for ${selectedPatient.name}.`,
         });
 
-        // Reset and close dialog
         setIsGoalDialogOpen(false);
         setGoalDescription('');
         setTargetSessions('');
@@ -290,7 +345,6 @@ export default function TherapistDashboardPage() {
                                 <div key={session.id} className="space-y-3">
                                     <div className="flex items-start gap-4">
                                         <Avatar className="h-10 w-10 border">
-                                            {/* You'd fetch the customer's avatar based on session.userId */}
                                             <AvatarFallback>{'P'}</AvatarFallback>
                                         </Avatar>
                                         <div>
@@ -477,17 +531,65 @@ export default function TherapistDashboardPage() {
             </Dialog>
 
             <Dialog open={isServiceDialogOpen} onOpenChange={setIsServiceDialogOpen}>
-                <DialogContent>
+                <DialogContent className="sm:max-w-lg">
                     <DialogHeader>
-                        <DialogTitle>{selectedService ? 'Edit Service' : 'Add New Service'}</DialogTitle>
+                        <DialogTitle>{serviceForm.id ? 'Edit Service' : 'Add New Service'}</DialogTitle>
+                        <DialogDescription>
+                            {serviceForm.id ? `Editing "${serviceForm.name}"` : 'Enter the details for the new service.'}
+                        </DialogDescription>
                     </DialogHeader>
-                    <div className="py-4">
-                        {/* Service editing form will go here */}
-                        <p className="text-sm text-muted-foreground">Service creation and editing form is under construction.</p>
+                    <div className="grid gap-4 py-4 max-h-[70vh] overflow-y-auto pr-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="service-name">Service Name</Label>
+                            <Input id="service-name" value={serviceForm.name || ''} onChange={e => handleServiceFormChange('name', e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="service-category">Category</Label>
+                            <Select value={serviceForm.category} onValueChange={value => handleServiceFormChange('category', value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select a category" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="Core">Core</SelectItem>
+                                    <SelectItem value="Personalized">Personalized</SelectItem>
+                                    <SelectItem value="360° Component">360° Component</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="service-duration">Duration (minutes)</Label>
+                                <Input id="service-duration" type="number" value={serviceForm.durationMinutes || 0} onChange={e => handleServiceFormChange('durationMinutes', parseInt(e.target.value, 10))} />
+                            </div>
+                             <div className="grid gap-2">
+                                <Label htmlFor="service-price">Price (€)</Label>
+                                <Input id="service-price" type="number" value={serviceForm.priceEUR || 0} onChange={e => handleServiceFormChange('priceEUR', parseFloat(e.target.value))} />
+                            </div>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="service-desc-short">Short Description</Label>
+                            <Textarea id="service-desc-short" placeholder="A brief one-liner for the service." value={serviceForm.descriptionShort || ''} onChange={e => handleServiceFormChange('descriptionShort', e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="service-desc-long">Long Description</Label>
+                            <Textarea id="service-desc-long" className="min-h-[100px]" placeholder="A detailed description of the service." value={serviceForm.descriptionLong || ''} onChange={e => handleServiceFormChange('descriptionLong', e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="service-benefits">Benefits (comma-separated)</Label>
+                            <Input id="service-benefits" placeholder="Benefit 1, Benefit 2" value={Array.isArray(serviceForm.benefits) ? serviceForm.benefits.join(', ') : ''} onChange={e => handleServiceFormChange('benefits', e.target.value)} />
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="service-tags">Tags (comma-separated)</Label>
+                            <Input id="service-tags" placeholder="tag1, tag2" value={Array.isArray(serviceForm.tags) ? serviceForm.tags.join(', ') : ''} onChange={e => handleServiceFormChange('tags', e.target.value)} />
+                        </div>
+                        <div className="flex items-center space-x-2 pt-2">
+                            <Switch id="service-active" checked={serviceForm.active} onCheckedChange={value => handleServiceFormChange('active', value)} />
+                            <Label htmlFor="service-active">Service is Active</Label>
+                        </div>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
-                        <Button disabled>Save Changes</Button>
+                        <Button onClick={handleSaveService}>Save Changes</Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>

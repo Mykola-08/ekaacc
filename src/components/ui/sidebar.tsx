@@ -55,25 +55,22 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
-    const [open, setOpen] = React.useState(true); // Default to open
-    const [isMounted, setIsMounted] = React.useState(false);
+    const [open, setOpen] = React.useState(false); // Start collapsed by default
 
+    // On mount, read the cookie to set the initial state for desktop
     React.useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    // On client mount, read the cookie to set the initial state
-    React.useEffect(() => {
-        if (!isMounted) return;
         const cookieValue = document.cookie
             .split('; ')
             .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
             ?.split('=')[1];
 
+        // If cookie exists, set state, otherwise default to true (expanded) for first-time users
         if (cookieValue !== undefined) {
             setOpen(cookieValue === 'true');
+        } else {
+            setOpen(true);
         }
-    }, [isMounted]);
+    }, []);
 
     const toggleSidebar = React.useCallback(() => {
         if (isMobile) {
@@ -114,7 +111,7 @@ const SidebarProvider = React.forwardRef<
               className
             )}
             ref={ref}
-            data-state={isMounted ? state : "collapsed"}
+            data-state={state}
             {...props}
           >
             {children}

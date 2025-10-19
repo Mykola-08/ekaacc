@@ -270,41 +270,6 @@
         "description",
         "price"
       ]
-    },
-    "Message": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Message",
-      "type": "object",
-      "description": "Represents a message exchanged between users.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the message."
-        },
-        "senderId": {
-          "type": "string",
-          "description": "Reference to User (Sender). (Relationship: User 1:N Message)"
-        },
-        "receiverId": {
-          "type": "string",
-          "description": "Reference to User (Receiver). (Relationship: User 1:N Message)"
-        },
-        "createdAt": {
-            "type": "object",
-            "description": "The server timestamp when the message was created."
-        },
-        "content": {
-          "type": "string",
-          "description": "The content of the message."
-        }
-      },
-      "required": [
-        "id",
-        "senderId",
-        "receiverId",
-        "createdAt",
-        "content"
-      ]
     }
   },
   "auth": {
@@ -432,22 +397,6 @@
             {
               "name": "planId",
               "description": "The unique identifier for the plan."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/messages/{messageId}",
-        "definition": {
-          "entityName": "Message",
-          "schema": {
-            "$ref": "#/backend/entities/Message"
-          },
-          "description": "Stores messages exchanged between users. Security rules will ensure that only the sender or receiver can access the message.",
-          "params": [
-            {
-              "name": "messageId",
-              "description": "The unique identifier for the message."
             }
           ]
         }

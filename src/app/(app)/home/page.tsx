@@ -23,19 +23,16 @@ export default function HomePage() {
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-7 lg:gap-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         
         {/* Left Column */}
-        <div className="lg:col-span-5 flex flex-col gap-6 lg:gap-8">
+        <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
           <GoalProgress />
-          <div className="grid flex-1 gap-6 md:grid-cols-2 md:gap-8">
-            <QuickActions />
-            <AiAssistant />
-          </div>
+          <QuickActions />
         </div>
         
         {/* Right Column */}
-        <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
+        <div className="lg:col-span-1 flex flex-col gap-6 lg:gap-8">
           <NextSession />
           <Card>
             <CardHeader>

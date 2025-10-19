@@ -1,7 +1,7 @@
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { CalendarPlus, Gift, MessageSquarePlus, Star } from 'lucide-react';
+import { CalendarPlus, Gift, FilePlus, Star } from 'lucide-react';
 import Link from 'next/link';
 
 export function QuickActions() {
@@ -12,7 +12,7 @@ export function QuickActions() {
             href: "/therapies"
         },
         {
-            icon: MessageSquarePlus,
+            icon: FilePlus,
             label: "Start Report",
             href: "/reports"
         },
@@ -35,10 +35,10 @@ export function QuickActions() {
       </CardHeader>
       <CardContent className="grid grid-cols-2 gap-4">
         {actions.map((action) => (
-            <Button key={action.label} variant="outline" className="h-20 flex flex-col gap-2 text-center" asChild>
+            <Button key={action.label} variant="outline" className="h-24 flex flex-col gap-2 text-center" asChild>
                 <Link href={action.href}>
                     <action.icon className="h-6 w-6 text-primary" />
-                    <span>{action.label}</span>
+                    <span className="text-sm font-medium">{action.label}</span>
                 </Link>
             </Button>
         ))}

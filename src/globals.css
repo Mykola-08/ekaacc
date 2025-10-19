@@ -10,13 +10,13 @@
     --card-foreground: 220 13% 8%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 210 100% 70%; /* Soft Blue: #74b9ff */
-    --primary-foreground: 220 13% 8%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 220 13% 91%;
     --secondary-foreground: 220 13% 8%;
     --muted: 220 13% 96%;
     --muted-foreground: 215 14% 43%;
-    --accent: 221 83% 60%; /* Darker Blue: #4a90e2 */
+    --accent: 221 83% 60%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -24,7 +24,6 @@
     --input: 220 13% 91%;
     --ring: 221 83% 60%;
     --radius: 1rem;
-    --elev-1: 0 8px 30px rgba(0,0,0,0.06);
 
     /* Layout & Non-color Tokens */
     --layout-max: 1320px;
@@ -44,8 +43,8 @@
     --card-foreground: 0 0% 100%;
     --popover: 220 10% 12%;
     --popover-foreground: 0 0% 100%;
-    --primary: 210 100% 70%;
-    --primary-foreground: 220 13% 8%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
     --secondary: 220 10% 20%;
     --secondary-foreground: 0 0% 100%;
     --muted: 220 10% 15%;
@@ -57,7 +56,6 @@
     --border: 220 10% 20%;
     --input: 220 10% 20%;
     --ring: 221 83% 60%;
-    --elev-1: 0 8px 30px rgba(0,0,0,0.2);
   }
 }
 
@@ -66,37 +64,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-body;
-    line-height: 1.6;
-    font-size: clamp(15px, 1.4vw, 17px);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline font-semibold;
-    text-wrap: balance;
-  }
-
-  h1 { font-size: clamp(28px, 3.2vw, 36px); }
-  h2 { font-size: clamp(22px, 2.2vw, 28px); }
-  h3 { @apply text-xl; }
-
-  p, li, span, div {
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-}
-
-@layer components {
-  .glass {
-    background-color: var(--panel-glass, rgba(255, 255, 255, 0.6));
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    border: 1px solid var(--panel-stroke, rgba(0,0,0,0.06));
-  }
-  .dark .glass {
-    --panel-glass: rgba(20, 20, 20, 0.6);
-    --panel-stroke: rgba(255,255,255,0.06);
+    @apply bg-background text-foreground;
   }
 }

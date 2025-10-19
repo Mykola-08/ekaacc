@@ -52,16 +52,6 @@ export type Report = {
   createdAt?: FieldValue;
 };
 
-export type Message = {
-  id: string;
-  senderId: string;
-  receiverId: string;
-  content: string;
-  createdAt: FieldValue;
-  sentDate?: string; // This can be deprecated in favor of createdAt
-};
-
-
 export type StatCard = {
   title: string;
   value: string;

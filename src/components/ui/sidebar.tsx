@@ -56,18 +56,24 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile();
     const [openMobile, setOpenMobile] = React.useState(false);
     const [open, setOpen] = React.useState(true); // Default to open
+    const [isMounted, setIsMounted] = React.useState(false);
+
+    React.useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     // On client mount, read the cookie to set the initial state
     React.useEffect(() => {
-      const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
-        ?.split('=')[1];
+        if (!isMounted) return;
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
+            ?.split('=')[1];
 
-      if (cookieValue !== undefined) {
-        setOpen(cookieValue === 'true');
-      }
-    }, []);
+        if (cookieValue !== undefined) {
+            setOpen(cookieValue === 'true');
+        }
+    }, [isMounted]);
 
     const toggleSidebar = React.useCallback(() => {
         if (isMobile) {
@@ -108,7 +114,7 @@ const SidebarProvider = React.forwardRef<
               className
             )}
             ref={ref}
-            data-state={state}
+            data-state={isMounted ? state : "collapsed"}
             {...props}
           >
             {children}
@@ -153,11 +159,11 @@ const Sidebar = React.forwardRef<
 
     // Desktop: Docked sidebar
     return (
-      <div
+      <aside
         ref={ref}
         className={cn(
-            "group fixed top-0 h-full flex-col z-40 transition-all duration-300 ease-in-out hidden md:flex", 
-            "bg-background border-r",
+            "group fixed top-0 h-full flex-col z-50 transition-all duration-300 ease-in-out hidden md:flex", 
+            "bg-background/95 glass border-r",
             "w-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:w-[var(--sidebar-w)]",
             side === 'left' ? 'left-0' : 'right-0 border-l',
             className
@@ -166,7 +172,7 @@ const Sidebar = React.forwardRef<
         {...props}
       >
         {children}
-      </div>
+      </aside>
     )
   }
 )
@@ -286,3 +292,4 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+    

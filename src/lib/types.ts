@@ -1,3 +1,4 @@
+
 import type { FieldValue, Timestamp } from 'firebase/firestore';
 
 export type UserRole =
@@ -178,3 +179,6 @@ export type VipPlan = {
   perks: string[];
   active: boolean;
 };
+
+export type Therapy = Service;
+    

@@ -1,3 +1,4 @@
+
 'use client';
 import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
@@ -12,13 +13,12 @@ export default function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-muted/40">
+      <div className="flex min-h-screen w-full bg-background">
         <AppSidebar />
-        
-        <div className="flex flex-1 flex-col transition-all duration-300 ease-in-out md:ml-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:md:ml-[var(--sidebar-w)]">
+        <div className="flex flex-1 flex-col">
           <AppHeader />
-          <main className="flex-1 overflow-y-auto">
-            <div className="mx-auto w-full max-w-7xl p-4 md:p-6 lg:p-8 pt-[calc(var(--header-h)_+_1rem)] md:pt-[calc(var(--header-h)_+_1.5rem)] lg:pt-[calc(var(--header-h)_+_2rem)]">
+          <main className="flex-1 overflow-y-auto pt-[var(--header-h)]">
+            <div className="mx-auto w-full max-w-7xl p-4 md:p-6 lg:p-8">
               {children}
             </div>
           </main>
@@ -28,3 +28,4 @@ export default function DashboardLayout({
     </SidebarProvider>
   );
 }
+    

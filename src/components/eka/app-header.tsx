@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Bell, Search, Menu } from 'lucide-react';
@@ -5,12 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
 import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 
 export function AppHeader() {
   const { isMobile, setOpenMobile } = useSidebar();
 
   return (
-    <header className="flex h-[var(--header-h)] items-center gap-4 border-b bg-background/95 backdrop-blur px-4 md:px-6 fixed top-0 w-full z-50">
+    <header className={cn(
+        "flex h-[var(--header-h)] items-center gap-4 px-4 md:px-6 fixed top-0 w-full z-40 transition-all duration-300 ease-in-out",
+        "glass"
+        )}>
       {isMobile ? (
         <Button
           variant="ghost"
@@ -22,7 +27,9 @@ export function AppHeader() {
           <span className="sr-only">Open Sidebar</span>
         </Button>
       ) : (
-        <SidebarTrigger />
+        <div className="md:w-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:md:w-[var(--sidebar-w)] transition-all duration-300 ease-in-out">
+            <SidebarTrigger />
+        </div>
       )}
 
       <div className="w-full flex-1">
@@ -32,7 +39,7 @@ export function AppHeader() {
             <Input
               type="search"
               placeholder="Search EKA..."
-              className="w-full appearance-none bg-muted pl-8 shadow-none md:w-2/3 lg:w-1/3"
+              className="w-full appearance-none bg-background/50 pl-8 shadow-none md:w-2/3 lg:w-1/3"
             />
           </div>
         </form>
@@ -47,3 +54,4 @@ export function AppHeader() {
     </header>
   );
 }
+    

@@ -58,6 +58,15 @@ export default function HomePage() {
   const completedSessions = useMemo(() => sessions?.filter(s => new Date(s.date) < new Date()) || [], [sessions]);
 
   const targetSessions = userData?.goal?.targetSessions ?? 10;
+  
+  const dashboardWidgets = useMemo(() => {
+    return userData?.dashboardWidgets || {
+        goalProgress: true,
+        quickActions: true,
+        nextSession: true,
+        recentActivity: true,
+    }
+  }, [userData]);
 
   const userStats = [
       {
@@ -109,56 +118,56 @@ export default function HomePage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         
         <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
-           {isLoadingUser || isLoadingSessions ? (
-            <Skeleton className="w-full h-[400px]" />
-           ) : (
-            <GoalProgress 
-                sessionsCompleted={completedSessions.length} 
-                goal={userData?.goal?.description}
-                targetSessions={targetSessions}
-            />
-           )}
-          <QuickActions />
+           {(isLoadingUser || isLoadingSessions) && !dashboardWidgets.goalProgress ? null :
+             (isLoadingUser || isLoadingSessions) ? <Skeleton className="w-full h-[400px]" /> :
+             dashboardWidgets.goalProgress && (
+                <GoalProgress 
+                    sessionsCompleted={completedSessions.length} 
+                    goal={userData?.goal?.description}
+                    targetSessions={targetSessions}
+                />
+            )}
+           {dashboardWidgets.quickActions && <QuickActions />}
         </div>
         
         <div className="lg:col-span-1 flex flex-col gap-6 lg:gap-8">
-          <NextSession sessions={upcomingSessions} isLoading={isLoadingSessions} />
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Activity className="h-5 w-5" />
-                Recent Activity
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {isLoadingReports ? (
-                <div className="space-y-4">
-                  <Skeleton className="h-10 w-full" />
-                  <Skeleton className="h-10 w-full" />
-                  <Skeleton className="h-10 w-full" />
-                </div>
-              ) : reports && reports.length > 0 ? (
-                <ul className="space-y-4">
-                  {reports.slice(0, 3).map((report) => (
-                    <li key={report.id} className="text-sm">
-                      <p className="font-medium">{report.title}</p>
-                      <p className="text-muted-foreground">
-                        {report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="text-center text-muted-foreground py-8">
-                  No recent activity.
-                </div>
-              )}
-            </CardContent>
-          </Card>
+          {dashboardWidgets.nextSession && <NextSession sessions={upcomingSessions} isLoading={isLoadingSessions} />}
+          {dashboardWidgets.recentActivity && (
+             <Card>
+                <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <Activity className="h-5 w-5" />
+                    Recent Activity
+                </CardTitle>
+                </CardHeader>
+                <CardContent>
+                {isLoadingReports ? (
+                    <div className="space-y-4">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
+                    </div>
+                ) : reports && reports.length > 0 ? (
+                    <ul className="space-y-4">
+                    {reports.slice(0, 3).map((report) => (
+                        <li key={report.id} className="text-sm">
+                        <p className="font-medium">{report.title}</p>
+                        <p className="text-muted-foreground">
+                            {report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}
+                        </p>
+                        </li>
+                    ))}
+                    </ul>
+                ) : (
+                    <div className="text-center text-muted-foreground py-8">
+                    No recent activity.
+                    </div>
+                )}
+                </CardContent>
+            </Card>
+          )}
         </div>
       </div>
     </div>
   );
 }
-
-    

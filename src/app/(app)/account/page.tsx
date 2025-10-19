@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useUserContext } from '@/context/user-context';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
@@ -17,6 +16,9 @@ import { allUsers } from '@/lib/data';
 import { MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
+import { useUser, useFirestore, useDoc, doc, updateDocumentNonBlocking, useMemoFirebase } from '@/firebase';
+import type { User } from '@/lib/types';
+
 
 const profileFormSchema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -31,8 +33,12 @@ type DashboardWidgets = {
 }
 
 export default function AccountPage() {
-  const { currentUser } = useUserContext();
+  const { user } = useUser();
+  const firestore = useFirestore();
   const { toast } = useToast();
+  
+  const userRef = useMemoFirebase(() => user ? doc(firestore, 'users', user.uid) : null, [user, firestore]);
+  const { data: currentUserData } = useDoc<User>(userRef);
 
   const [widgetConfig, setWidgetConfig] = useState<DashboardWidgets>({
       goalProgress: true,
@@ -41,8 +47,24 @@ export default function AccountPage() {
       recentActivity: true
   });
 
+  useEffect(() => {
+    if (currentUserData?.dashboardWidgets) {
+        setWidgetConfig(currentUserData.dashboardWidgets);
+    }
+  }, [currentUserData]);
+
+
   const handleWidgetToggle = (widget: keyof DashboardWidgets) => {
-      setWidgetConfig(prev => ({...prev, [widget]: !prev[widget]}));
+      if (!userRef) return;
+      const newConfig = {...widgetConfig, [widget]: !widgetConfig[widget]};
+      setWidgetConfig(newConfig);
+      updateDocumentNonBlocking(userRef, {
+          dashboardWidgets: newConfig
+      });
+      toast({
+          title: "Dashboard Updated",
+          description: "Your preferences have been saved.",
+      });
   };
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
@@ -54,22 +76,25 @@ export default function AccountPage() {
   });
 
   useEffect(() => {
-    if (currentUser) {
+    if (currentUserData) {
       form.reset({
-        name: currentUser.name || '',
-        email: currentUser.email || '',
+        name: currentUserData.name || '',
+        email: currentUserData.email || '',
       });
     }
-  }, [currentUser, form]);
+  }, [currentUserData, form]);
 
   const onSubmit = (values: z.infer<typeof profileFormSchema>) => {
+    if (userRef) {
+        updateDocumentNonBlocking(userRef, { name: values.name });
+    }
     toast({
         title: "Profile Updated",
         description: "Your changes have been saved.",
     });
   };
   
-  if (!currentUser) {
+  if (!currentUserData) {
     return (
       <div className="text-center">
         <h1 className="text-2xl font-semibold">Please log in</h1>
@@ -81,7 +106,7 @@ export default function AccountPage() {
     )
   }
 
-  const linkedAccounts = allUsers.filter(u => u.id !== currentUser.id).slice(0,2);
+  const linkedAccounts = allUsers.filter(u => u.id !== currentUserData.id).slice(0,2);
 
 
   return (
@@ -125,8 +150,8 @@ export default function AccountPage() {
                         </div>
                         <div className="flex flex-col items-center justify-center space-y-2">
                             <Avatar className="w-24 h-24 text-4xl">
-                                <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
-                                <AvatarFallback>{currentUser.initials}</AvatarFallback>
+                                <AvatarImage src={currentUserData.avatarUrl} alt={currentUserData.name} />
+                                <AvatarFallback>{currentUserData.initials}</AvatarFallback>
                             </Avatar>
                             <Button variant="outline" size="sm">Change Avatar</Button>
                         </div>
@@ -216,7 +241,7 @@ export default function AccountPage() {
                     <CardContent className="space-y-4">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-muted rounded-lg">
                             <div>
-                                <p className="font-semibold">EKA {currentUser.role} Plan</p>
+                                <p className="font-semibold">EKA {currentUserData.role} Plan</p>
                                 <p className="text-sm text-muted-foreground">Billed monthly. Next payment on Sep 1, 2024.</p>
                             </div>
                              <Button variant="outline" asChild className='w-full sm:w-auto'>

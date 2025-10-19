@@ -32,6 +32,12 @@ export type User = {
     interests: string;
   };
   squareCustomerId?: string;
+  dashboardWidgets?: {
+    goalProgress: boolean;
+    quickActions: boolean;
+    nextSession: boolean;
+    recentActivity: boolean;
+  };
 };
 
 export type Session = {

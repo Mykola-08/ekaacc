@@ -10,7 +10,6 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { therapies } from '@/lib/data';
 import { Therapy } from '@/lib/types';
 
 export const TriageInputSchema = z.object({
@@ -53,8 +52,6 @@ export const TriageResultSchema = z.object({
 });
 export type TriageResult = z.infer<typeof TriageResultSchema>;
 
-const therapyOptions = therapies.map(t => ({id: t.id, name: t.name, description: t.shortDescription, category: t.category, complexity: t.complexityLevel}));
-
 export async function triageTherapy(input: TriageInput): Promise<TriageResult> {
   return triageTherapyFlow(input);
 }
@@ -66,13 +63,16 @@ const triageTherapyPrompt = ai.definePrompt({
   prompt: `You are an expert clinical assistant. Your task is to triage a user's problem and recommend the best therapy from a predefined list.
 
   Available therapies:
-  ${JSON.stringify(therapyOptions, null, 2)}
+  - id: 'massage-therapy', name: 'Massage Therapy'
+  - id: 'feldenkrais-method', name: 'Feldenkrais Method'
+  - id: 'kinesiology', name: 'Kinesiology'
+  - id: '360-therapy', name: '360° Therapy'
 
   User Input:
   {{{json input}}}
 
   Recommendation Rules:
-  - If acute muscular tension + low contraindications -> Massage
+  - If acute muscular tension + low contraindications -> Massage Therapy
   - If movement patterns / posture / chronic -> Feldenkrais Method
   - If multi-factor, complex symptoms, unknown cause -> Kinesiology
   - If multi-area + long history -> 360° Therapy
@@ -80,8 +80,8 @@ const triageTherapyPrompt = ai.definePrompt({
   Your Task:
   1.  Analyze the user's input (either free text or form data).
   2.  Apply the recommendation rules. You can use your judgment to override if the user's text provides strong evidence for another option.
-  3.  Select the best "Top 1" therapy.
-  4.  Provide two "alternatives" from the list.
+  3.  Select the best "Top 1" therapy and use its 'id'.
+  4.  Provide two "alternatives" from the list using their 'id'.
   5.  Generate a concise "Reasoning" snippet (max 60 words) explaining why the top therapy was chosen.
   6.  Suggest a "Plan" including the number of sessions and frequency (e.g., 8 sessions, 1-2/week).
   7.  Determine the correct Square serviceId and locationId from the environment variables. For now, use placeholder values from SERVICE_MAP and a placeholder locationId.
@@ -100,10 +100,10 @@ const triageTherapyFlow = ai.defineFlow(
   async (input) => {
 
     const serviceMap: Record<string, string> = {
-        "Massage Therapy": "L5D2M7J4K9N1R/services/6Z3X5Y7A9B1C2D4E",
-        "Feldenkrais Method": "L5D2M7J4K9N1R/services/7A9B1C2D4E6Z3X5Y",
-        "Kinesiology": "L5D2M7J4K9N1R/services/8B1C2D4E6Z3X5Y7A",
-        "360° Therapy": "L5D2M7J4K9N1R/services/9C1D2E4F6G3H5I7J"
+        "massage-therapy": "L5D2M7J4K9N1R/services/6Z3X5Y7A9B1C2D4E",
+        "feldenkrais-method": "L5D2M7J4K9N1R/services/7A9B1C2D4E6Z3X5Y",
+        "kinesiology": "L5D2M7J4K9N1R/services/8B1C2D4E6Z3X5Y7A",
+        "360-therapy": "L5D2M7J4K9N1R/services/9C1D2E4F6G3H5I7J"
     };
 
     const { output } = await triageTherapyPrompt(input);
@@ -111,18 +111,12 @@ const triageTherapyFlow = ai.defineFlow(
       throw new Error('AI failed to generate a recommendation.');
     }
 
-    const topTherapy = therapies.find(t => t.id === output.top.therapyId);
-    if (!topTherapy) {
-        throw new Error(`AI recommended an invalid therapyId: ${output.top.therapyId}`);
-    }
-
     const locationId = process.env.SQUARE_LOCATION_ID || 'YOUR_SQUARE_LOCATION_ID';
-    const serviceId = serviceMap[topTherapy.name] || 'service-id-not-found';
+    const serviceId = serviceMap[output.top.therapyId] || 'service-id-not-found';
     
     output.square.serviceId = serviceId;
     output.square.locationId = locationId;
     output.square.bookingLink = `https://squareup.com/appointments/book/${locationId}/${serviceId}/start`;
-
 
     return output;
   }

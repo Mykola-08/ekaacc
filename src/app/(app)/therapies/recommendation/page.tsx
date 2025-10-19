@@ -1,37 +1,51 @@
 'use client';
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { TriageResult, Therapy } from '@/lib/types';
-import { therapies } from '@/lib/data';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Lightbulb, Star } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
+import { useCollection, useFirestore, collection, useMemoFirebase } from '@/firebase';
 
 function RecommendationContent() {
   const searchParams = useSearchParams();
   const resultString = searchParams.get('result');
+  const firestore = useFirestore();
 
-  if (!resultString) {
-    return <RecommendationSkeleton message="No recommendation data found. Please go back and describe your problem." />;
+  const therapiesRef = useMemoFirebase(() => firestore ? collection(firestore, 'therapies') : null, [firestore]);
+  const { data: therapies, isLoading: isLoadingTherapies } = useCollection<Therapy>(therapiesRef);
+
+  const result: TriageResult | null = useMemo(() => {
+    if (!resultString) return null;
+    try {
+      return JSON.parse(resultString);
+    } catch (error) {
+      console.error("Failed to parse recommendation result:", error);
+      return null;
+    }
+  }, [resultString]);
+
+  const topTherapy = useMemo(() => {
+    if (!result || !therapies) return null;
+    return therapies.find(t => t.id === result.top.therapyId);
+  }, [result, therapies]);
+
+  const altTherapies = useMemo(() => {
+    if (!result || !therapies) return [];
+    return result.alts
+      .map(alt => therapies.find(t => t.id === alt.therapyId))
+      .filter((t): t is Therapy => !!t);
+  }, [result, therapies]);
+
+  if (isLoadingTherapies) {
+      return <RecommendationSkeleton message="Loading therapy details..." />;
   }
 
-  let result: TriageResult;
-  try {
-    result = JSON.parse(resultString);
-  } catch (error) {
-    console.error("Failed to parse recommendation result:", error);
-    return <RecommendationSkeleton message="Could not read the recommendation. Please try again." />;
-  }
-
-  const topTherapy = therapies.find(t => t.id === result.top.therapyId);
-  const altTherapies = result.alts
-    .map(alt => therapies.find(t => t.id === alt.therapyId))
-    .filter((t): t is Therapy => !!t);
-
-  if (!topTherapy) {
-    return <RecommendationSkeleton message="Sorry, we couldn't find a suitable therapy match. Please try refining your description." />;
+  if (!result || !topTherapy) {
+    const message = result ? "Sorry, we couldn't find a suitable therapy match. Please try refining your description." : "No recommendation data found. Please go back and describe your problem.";
+    return <RecommendationSkeleton message={message} />;
   }
 
   return (

@@ -42,11 +42,15 @@ export default function HomePage() {
     setShowPersonalizationDialog(false);
   }
 
-  const handleFormSubmit = (data: { goals: string, interests: string }) => {
+  const handleFormSubmit = (data: { goals: string; interests: string; squareCustomerId: string }) => {
     if (userRef) {
         updateDocumentNonBlocking(userRef, {
             personalizationCompleted: true,
-            personalization: data
+            personalization: {
+              goals: data.goals,
+              interests: data.interests
+            },
+            squareCustomerId: data.squareCustomerId,
         });
     }
     setShowPersonalizationDialog(false);
@@ -170,3 +174,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

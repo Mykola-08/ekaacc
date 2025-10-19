@@ -7,15 +7,17 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from '../ui/input';
 
 interface PersonalizationDialogProps {
   onClose: () => void;
-  onSubmit: (data: { goals: string; interests: string }) => void;
+  onSubmit: (data: { goals: string; interests: string; squareCustomerId: string }) => void;
 }
 
 export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDialogProps) {
   const [goals, setGoals] = useState('');
   const [interests, setInterests] = useState('');
+  const [squareCustomerId, setSquareCustomerId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -24,7 +26,7 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
     if (!goals || !interests) {
       toast({
         variant: 'destructive',
-        title: 'Please fill out both fields.',
+        title: 'Please fill out goals and interests.',
         description: 'Your answers will help us personalize your experience.',
       });
       return;
@@ -39,13 +41,13 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
     // Simulate AI processing
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    onSubmit({ goals, interests });
+    onSubmit({ goals, interests, squareCustomerId });
     setIsLoading(false);
   };
 
   return (
     <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-[425px]" onInteractOutside={(e) => e.preventDefault()}>
+      <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -53,7 +55,7 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
               Personalize Your Experience
             </DialogTitle>
             <DialogDescription>
-              Answer two quick questions to help us tailor the EKA platform to you. This will help train your personal AI and customize your dashboard.
+              Answer these questions to help us tailor the EKA platform to you and sync with your Square profile.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -77,6 +79,15 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
                 className="min-h-[100px]"
               />
             </div>
+             <div className="grid gap-2">
+              <Label htmlFor="square-id">Square Customer ID (Optional)</Label>
+               <Input
+                id="square-id"
+                value={squareCustomerId}
+                onChange={(e) => setSquareCustomerId(e.target.value)}
+                placeholder="Enter your Square ID to sync bookings"
+              />
+            </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
@@ -94,5 +105,4 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
     </Dialog>
   );
 }
-
     

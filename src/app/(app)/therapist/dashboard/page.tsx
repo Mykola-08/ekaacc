@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowUpRight, Calendar, CheckCircle, Clock, Users, Loader2 } from "lucide-react";
+import { ArrowUpRight, Calendar, CheckCircle, Clock, Users, Loader2, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -13,7 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser, useFirestore, doc, updateDocumentNonBlocking, addDocumentNonBlocking, collection, query, where, serverTimestamp, useMemoFirebase } from '@/firebase';
-import type { Session as AppSession, User, Report } from '@/lib/types';
+import type { Session as AppSession, User, Report, Service } from '@/lib/types';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Slider } from '@/components/ui/slider';
@@ -46,6 +46,9 @@ export default function TherapistDashboardPage() {
     const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
     const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
     
+    const servicesRef = useMemoFirebase(() => firestore ? collection(firestore, 'services') : null, [firestore]);
+    const { data: services, isLoading: isLoadingServices } = useCollection<Service>(servicesRef);
+    
     // Fetch upcoming bookings from Firestore
     const upcomingBookingsQuery = useMemoFirebase(() => {
         if (!firestore) return null;
@@ -65,7 +68,9 @@ export default function TherapistDashboardPage() {
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
+    const [isServiceDialogOpen, setIsServiceDialogOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
+    const [selectedService, setSelectedService] = useState<Service | null>(null);
     const [goalDescription, setGoalDescription] = useState('');
     const [targetSessions, setTargetSessions] = useState('');
     const [isGeneratingReport, setIsGeneratingReport] = useState(false);
@@ -94,6 +99,13 @@ export default function TherapistDashboardPage() {
         setSelectedPatient(patient);
         setIsReportDialogOpen(true);
     };
+
+    const handleOpenServiceDialog = (service: Service | null) => {
+        setSelectedService(service);
+        // Prefill form if editing, clear if adding
+        // For now, just opens the dialog
+        setIsServiceDialogOpen(true);
+    }
 
     const handleSetGoal = () => {
         if (!selectedPatient || !goalDescription || !targetSessions) {
@@ -307,6 +319,66 @@ export default function TherapistDashboardPage() {
                         </CardContent>
                     </Card>
                 </div>
+
+                <Card>
+                     <CardHeader className="flex flex-row items-center justify-between">
+                        <div>
+                            <CardTitle>Service Management</CardTitle>
+                            <CardDescription>Add, edit, or deactivate services and VIP plans offered.</CardDescription>
+                        </div>
+                        <Button onClick={() => handleOpenServiceDialog(null)}>
+                            <PlusCircle className="mr-2 h-4 w-4"/>
+                            Add Service
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Service Name</TableHead>
+                                    <TableHead>Category</TableHead>
+                                    <TableHead>Duration</TableHead>
+                                    <TableHead>Price</TableHead>
+                                    <TableHead>Status</TableHead>
+                                    <TableHead className="text-right">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                 {isLoadingServices && (
+                                    [...Array(4)].map((_, i) => (
+                                        <TableRow key={i}>
+                                            <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                            <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                                            <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                            <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                            <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
+                                            <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                                {services?.map((service) => (
+                                    <TableRow key={service.id}>
+                                        <TableCell className="font-medium">{service.name}</TableCell>
+                                        <TableCell>{service.category}</TableCell>
+                                        <TableCell>{service.durationMinutes} min</TableCell>
+                                        <TableCell>€{service.priceEUR}</TableCell>
+                                        <TableCell>
+                                            <Badge variant={service.active ? 'secondary' : 'outline'}>
+                                                {service.active ? 'Active' : 'Inactive'}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <Button variant="outline" size="sm" onClick={() => handleOpenServiceDialog(service)}>
+                                                Edit
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </CardContent>
+                </Card>
+
             </div>
             
             <Dialog open={isGoalDialogOpen} onOpenChange={setIsGoalDialogOpen}>
@@ -403,6 +475,23 @@ export default function TherapistDashboardPage() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={isServiceDialogOpen} onOpenChange={setIsServiceDialogOpen}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>{selectedService ? 'Edit Service' : 'Add New Service'}</DialogTitle>
+                    </DialogHeader>
+                    <div className="py-4">
+                        {/* Service editing form will go here */}
+                        <p className="text-sm text-muted-foreground">Service creation and editing form is under construction.</p>
+                    </div>
+                    <DialogFooter>
+                        <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+                        <Button disabled>Save Changes</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
+    

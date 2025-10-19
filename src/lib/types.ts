@@ -80,7 +80,7 @@ export type Therapy = {
   shortDescription: string;
   longDescription: string;
   duration: number;
-  priceUSD: number;
+  priceEUR: number;
   benefits: string[];
   recommendedFor: string[];
 aiSummary: string;
@@ -93,7 +93,7 @@ export type TherapyPackage = {
   name: string;
   includedTherapies: string[];
   duration: string; // e.g., "4 weeks", "8 sessions"
-  priceUSD: number;
+  priceEUR: number;
   aiSummary: string;
 };
 
@@ -159,7 +159,7 @@ export type VipData = {
     benefits: VipBenefit[];
     history: VipHistoryItem[];
     insights: {
-        savingsUSD: number;
+        savingsEUR: number;
         monthUses: number;
     }
 }
@@ -167,8 +167,6 @@ export type VipData = {
 export type VipPlan = {
     id: string;
     name: string;
-    priceUSD: number;
+    priceEUR: number;
     benefits: string[];
 }
-
-    

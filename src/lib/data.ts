@@ -128,7 +128,7 @@ export const therapies: Therapy[] = [
     shortDescription: 'A hands-on treatment that involves manipulating soft tissues to release tension and improve circulation.',
     longDescription: 'Massage Therapy is a proven method for reducing muscle soreness, improving circulation, and promoting overall relaxation. It is ideal for individuals with chronic tension, sports injuries, or those seeking stress relief.',
     duration: 60,
-    priceUSD: 120,
+    priceEUR: 120,
     benefits: ['Reduces muscle pain', 'Improves circulation', 'Lowers stress levels', 'Increases relaxation'],
     recommendedFor: ['Chronic back pain', 'Sports injuries', 'Stress relief'],
     aiSummary: 'A manual therapy focused on soft tissue manipulation to alleviate pain and stress.',
@@ -142,7 +142,7 @@ export const therapies: Therapy[] = [
     shortDescription: 'A somatic educational system that helps people reconnect with their bodies and learn new ways of moving.',
     longDescription: 'The Feldenkrais Method uses gentle movement and directed attention to help you improve your movement, reduce pain, and enhance overall functioning. It is excellent for those with chronic pain or neurological issues.',
     duration: 90,
-    priceUSD: 180,
+    priceEUR: 180,
     benefits: ['Improves posture', 'Increases flexibility', 'Reduces chronic pain', 'Enhances body awareness'],
     recommendedFor: ['Posture correction', 'Chronic pain', 'Neurological conditions'],
     aiSummary: 'A movement-based learning system to improve posture, flexibility, and body awareness.',
@@ -156,7 +156,7 @@ export const therapies: Therapy[] = [
     shortDescription: 'A holistic approach that uses muscle monitoring to identify imbalances in the body\'s structural, chemical, and emotional energy.',
     longDescription: 'Kinesiology combines principles of traditional Chinese medicine with modern Western techniques to promote physical, emotional, and mental well-being. It is highly effective for a wide range of conditions, from allergies to learning difficulties.',
     duration: 75,
-    priceUSD: 150,
+    priceEUR: 150,
     benefits: ['Identifies nutritional deficiencies', 'Reduces emotional stress', 'Improves learning ability', 'Boosts energy levels'],
     recommendedFor: ['Allergies', 'Emotional stress', 'Learning disabilities'],
     aiSummary: 'A holistic therapy using muscle feedback to address structural, chemical, and emotional imbalances.',
@@ -170,7 +170,7 @@ export const therapies: Therapy[] = [
     shortDescription: 'A comprehensive, multi-disciplinary approach combining physical, mental, and emotional therapies.',
     longDescription: '360° Therapy is our most advanced offering, creating a personalized plan that integrates multiple modalities to address complex health issues from every angle. It includes a dedicated team of therapists to guide your journey.',
     duration: 120,
-    priceUSD: 300,
+    priceEUR: 300,
     benefits: ['Holistic issue resolution', 'Personalized treatment plan', 'Access to multiple specialists', 'Addresses root causes'],
     recommendedFor: ['Complex chronic conditions', 'Holistic wellness goals', 'Performance optimization'],
     aiSummary: 'An integrated, multi-modal approach for complex conditions, providing a complete, personalized care plan.',
@@ -197,13 +197,13 @@ export const vipData: VipData = {
         { benefitId: "b3", at: "2024-07-28", value: "Used: Priority Booking for PT" }
     ],
     insights: {
-        savingsUSD: 250,
+        savingsEUR: 250,
         monthUses: 3
     }
 };
 
 export const vipPlans: VipPlan[] = [
-    { id: "free", name: "Free", priceUSD: 0, benefits: ["Standard booking", "Basic reports", "Community access"] },
-    { id: "gold", name: "Gold", priceUSD: 49, benefits: ["1 Free Monthly Service", "Advanced AI Reports", "Priority Support", "5% off all therapies"] },
-    { id: "diamond", name: "Diamond", priceUSD: 99, benefits: ["2 Free Monthly Services", "Unlimited AI Reports", "24/7 Priority Support", "15% off all therapies", "2 Guest Passes"] }
+    { id: "free", name: "Free", priceEUR: 0, benefits: ["Standard booking", "Basic reports", "Community access"] },
+    { id: "gold", name: "Gold", priceEUR: 49, benefits: ["1 Free Monthly Service", "Advanced AI Reports", "Priority Support", "5% off all therapies"] },
+    { id: "diamond", name: "Diamond", priceEUR: 99, benefits: ["2 Free Monthly Services", "Unlimited AI Reports", "24/7 Priority Support", "15% off all therapies", "2 Guest Passes"] }
 ]

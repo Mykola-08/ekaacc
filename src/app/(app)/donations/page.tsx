@@ -17,12 +17,12 @@ export default function DonationsPage() {
                 <CardContent className="grid gap-6">
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                         {[25, 50, 100, 250].map(amount => (
-                            <Button key={amount} variant="outline" className="h-16 text-lg">${amount}</Button>
+                            <Button key={amount} variant="outline" className="h-16 text-lg">€{amount}</Button>
                         ))}
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="amount">Or enter a custom amount</Label>
-                        <Input id="amount" type="number" placeholder="$50.00" />
+                        <Input id="amount" type="number" placeholder="€50.00" />
                     </div>
                     <div className="grid gap-2">
                         <Label htmlFor="recipient">Recipient</Label>
@@ -49,7 +49,7 @@ export default function DonationsPage() {
                 <CardContent className="space-y-6">
                     <div className="text-center">
                         <p className="text-sm text-muted-foreground">Total Donated</p>
-                        <p className="text-4xl font-bold">$150.00</p>
+                        <p className="text-4xl font-bold">€150.00</p>
                     </div>
                     <div className="text-center">
                         <p className="text-sm text-muted-foreground">Sessions Funded</p>

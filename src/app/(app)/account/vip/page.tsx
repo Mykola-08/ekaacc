@@ -43,7 +43,7 @@ export default function VipPage() {
                                     {plan.id === currentPlanId && <CheckCircle className="text-primary"/>}
                                 </CardTitle>
                                 <CardDescription>
-                                    <span className="text-2xl font-bold">${plan.priceUSD}</span>
+                                    <span className="text-2xl font-bold">€{plan.priceEUR}</span>
                                     <span className="text-muted-foreground">/month</span>
                                 </CardDescription>
                             </CardHeader>
@@ -146,7 +146,7 @@ export default function VipPage() {
                             <CardDescription>Total value saved through your VIP membership.</CardDescription>
                         </CardHeader>
                         <CardContent className="text-center">
-                            <p className="text-5xl font-bold text-green-600">${vipData.insights.savingsUSD}</p>
+                            <p className="text-5xl font-bold text-green-600">€{vipData.insights.savingsEUR}</p>
                             <p className="text-sm text-muted-foreground mt-2">with {vipData.insights.monthUses} benefits used this month.</p>
                         </CardContent>
                     </Card>

@@ -40,7 +40,7 @@ export default function TherapiesPage() {
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex justify-between items-center">
-                                <span className="text-lg font-semibold">${therapy.priceUSD}</span>
+                                <span className="text-lg font-semibold">€{therapy.priceEUR}</span>
                                 <span className="text-sm text-muted-foreground">{therapy.duration} mins</span>
                             </div>
                             <Button variant="outline" className="w-full">View Details</Button>

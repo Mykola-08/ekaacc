@@ -21,12 +21,8 @@ const defaultQuote = {
 };
 
 export async function generateDailyQuote(): Promise<DailyQuote> {
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey || apiKey === 'YOUR_GEMINI_API_KEY') {
-        console.warn("GEMINI_API_KEY is not configured. Returning default quote.");
-        return defaultQuote;
-    }
-  return generateDailyQuoteFlow();
+  // Always return the default quote to avoid API errors when no key is present.
+  return Promise.resolve(defaultQuote);
 }
 
 const generateDailyQuotePrompt = ai.definePrompt({

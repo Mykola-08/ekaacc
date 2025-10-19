@@ -5,17 +5,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ArrowUpRight, Calendar, CheckCircle, Clock, Users } from "lucide-react";
+import { ArrowUpRight, Calendar, CheckCircle, Clock, Users, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, doc, updateDocumentNonBlocking, useCollection, collection, query, where, useMemoFirebase } from '@/firebase';
-import type { Session as AppSession, User } from '@/lib/types';
+import { useUser, useFirestore, doc, updateDocumentNonBlocking, addDocumentNonBlocking, collection, query, where, serverTimestamp, useMemoFirebase } from '@/firebase';
+import type { Session as AppSession, User, Report } from '@/lib/types';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Slider } from '@/components/ui/slider';
+import { Badge } from '@/components/ui/badge';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -33,6 +35,8 @@ const mapBookingToSession = (booking: any): AppSession => {
         userId: booking.customer_id
     };
 };
+
+const reportTags = ["on time", "late", "cooperative", "resistant", "new issue", "follow-up"];
 
 
 export default function TherapistDashboardPage() {
@@ -60,14 +64,35 @@ export default function TherapistDashboardPage() {
     [upcomingBookings]);
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
+    const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
     const [goalDescription, setGoalDescription] = useState('');
     const [targetSessions, setTargetSessions] = useState('');
+    const [isGeneratingReport, setIsGeneratingReport] = useState(false);
+    
+    // Report Dialog State
+    const [reportState, setReportState] = useState({
+        pain: 5,
+        mood: 5,
+        energy: 5,
+        objective: '',
+        issues: '',
+        nextSteps: '',
+        tags: [] as string[]
+    });
+
     const { toast } = useToast();
 
     const handleOpenGoalDialog = (patient: User) => {
         setSelectedPatient(patient);
+        setGoalDescription(patient.goal?.description || '');
+        setTargetSessions(patient.goal?.targetSessions?.toString() || '');
         setIsGoalDialogOpen(true);
+    };
+    
+    const handleOpenReportDialog = (patient: User) => {
+        setSelectedPatient(patient);
+        setIsReportDialogOpen(true);
     };
 
     const handleSetGoal = () => {
@@ -104,6 +129,52 @@ export default function TherapistDashboardPage() {
         setGoalDescription('');
         setTargetSessions('');
         setSelectedPatient(null);
+    };
+
+    const handleGenerateReport = async () => {
+        if (!selectedPatient || !firestore) return;
+        setIsGeneratingReport(true);
+        toast({ title: 'Generating AI Report...', description: 'Please wait a moment.' });
+        try {
+            const { autoGenerateReport } = await import('@/ai/flows/auto-generate-report');
+            const input = {
+                sessionTags: reportState.tags.join(', '),
+                painRating: reportState.pain,
+                moodRating: reportState.mood,
+                energyRating: reportState.energy,
+                objectiveNotes: reportState.objective,
+                issuesNotes: reportState.issues,
+                nextStepsNotes: reportState.nextSteps
+            };
+            const result = await autoGenerateReport(input);
+
+            const reportsRef = collection(firestore, `users/${selectedPatient.id}/reports`);
+            const newReport: Omit<Report, 'id'> = {
+                title: `Session Report - ${format(new Date(), 'PPP')}`,
+                author: user?.displayName || 'Therapist',
+                date: new Date().toISOString(),
+                type: 'Therapist Report',
+                summary: result.report,
+                createdAt: serverTimestamp()
+            };
+
+            await addDocumentNonBlocking(reportsRef, newReport);
+
+            toast({ title: 'Report Generated & Saved', description: `A new session report for ${selectedPatient.name} has been created.` });
+            setIsReportDialogOpen(false);
+        } catch (e) {
+            console.error(e);
+            toast({ variant: 'destructive', title: 'Report Generation Failed', description: 'There was an error communicating with the AI.' });
+        } finally {
+            setIsGeneratingReport(false);
+        }
+    };
+    
+    const handleReportTagClick = (tag: string) => {
+        setReportState(prev => ({
+            ...prev,
+            tags: prev.tags.includes(tag) ? prev.tags.filter(t => t !== tag) : [...prev.tags, tag]
+        }));
     };
     
     const patients = useMemo(() => allUsers?.filter(u => u.role !== 'Therapist'), [allUsers]);
@@ -167,7 +238,7 @@ export default function TherapistDashboardPage() {
                                                  <TableCell><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-5 w-24" /></div></TableCell>
                                                  <TableCell><Skeleton className="h-5 w-32" /></TableCell>
                                                  <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                                 <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
+                                                 <TableCell className="text-right"><Skeleton className="h-8 w-32" /></TableCell>
                                             </TableRow>
                                         ))
                                     )}
@@ -184,9 +255,10 @@ export default function TherapistDashboardPage() {
                                             </TableCell>
                                             <TableCell className="whitespace-nowrap text-muted-foreground">{patient.email}</TableCell>
                                             <TableCell>{patient.role}</TableCell>
-                                            <TableCell className="text-right space-x-2">
+                                            <TableCell className="text-right space-x-2 whitespace-nowrap">
+                                                <Button variant="outline" size="sm" onClick={() => handleOpenReportDialog(patient)}>Write Report</Button>
                                                 <Button variant="outline" size="sm" onClick={() => handleOpenGoalDialog(patient)}>Set Goal</Button>
-                                                <Button variant="ghost" size="sm">View Profile</Button>
+                                                <Button variant="ghost" size="sm">Profile</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -272,8 +344,65 @@ export default function TherapistDashboardPage() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={isReportDialogOpen} onOpenChange={setIsReportDialogOpen}>
+                <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle>New Session Report for {selectedPatient?.name}</DialogTitle>
+                        <DialogDescription>Fill in the patient's ratings and your notes, then let AI generate the full report.</DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-6 py-4">
+                        <div>
+                             <Label className="mb-3 block">Session Tags</Label>
+                             <div className="flex flex-wrap gap-2">
+                                {reportTags.map(tag => (
+                                    <Badge 
+                                        key={tag}
+                                        variant={reportState.tags.includes(tag) ? 'default' : 'secondary'}
+                                        onClick={() => handleReportTagClick(tag)}
+                                        className="cursor-pointer"
+                                    >
+                                        {tag}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="grid gap-4 sm:grid-cols-3">
+                            <div className="grid gap-2">
+                                <Label htmlFor="pain-rating">Pain Rating: {reportState.pain}</Label>
+                                <Slider id="pain-rating" min={0} max={10} step={1} value={[reportState.pain]} onValueChange={([val]) => setReportState(s => ({...s, pain: val}))} />
+                            </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="mood-rating">Mood Rating: {reportState.mood}</Label>
+                                <Slider id="mood-rating" min={0} max={10} step={1} value={[reportState.mood]} onValueChange={([val]) => setReportState(s => ({...s, mood: val}))} />
+                            </div>
+                             <div className="grid gap-2">
+                                <Label htmlFor="energy-rating">Energy Rating: {reportState.energy}</Label>
+                                <Slider id="energy-rating" min={0} max={10} step={1} value={[reportState.energy]} onValueChange={([val]) => setReportState(s => ({...s, energy: val}))} />
+                            </div>
+                        </div>
+                        <div className="grid gap-2">
+                            <Label htmlFor="objective-notes">Objective (O)</Label>
+                            <Textarea id="objective-notes" placeholder="Objective observations and measurements..." value={reportState.objective} onChange={e => setReportState(s => ({...s, objective: e.target.value}))} />
+                        </div>
+                         <div className="grid gap-2">
+                            <Label htmlFor="issues-notes">Assessment / Issues (A)</Label>
+                            <Textarea id="issues-notes" placeholder="Your professional assessment of the key issues..." value={reportState.issues} onChange={e => setReportState(s => ({...s, issues: e.target.value}))} />
+                        </div>
+                         <div className="grid gap-2">
+                            <Label htmlFor="next-steps-notes">Plan / Next Steps (P)</Label>
+                            <Textarea id="next-steps-notes" placeholder="Plan for the next session, homework for the client..." value={reportState.nextSteps} onChange={e => setReportState(s => ({...s, nextSteps: e.target.value}))} />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+                        <Button onClick={handleGenerateReport} disabled={isGeneratingReport}>
+                            {isGeneratingReport && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            Generate & Save Report
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
-
-    

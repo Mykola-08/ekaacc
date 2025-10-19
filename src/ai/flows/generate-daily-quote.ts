@@ -17,6 +17,12 @@ const GenerateDailyQuoteOutputSchema = z.object({
 export type GenerateDailyQuoteOutput = z.infer<typeof GenerateDailyQuoteOutputSchema>;
 
 export async function generateDailyQuote(): Promise<GenerateDailyQuoteOutput> {
+  // Safety Check: If the API key is still the placeholder, return a default quote
+  // to prevent the application from crashing.
+  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY') {
+    console.warn("GEMINI_API_KEY is not configured. Returning default quote.");
+    return { quote: "The journey to wellness begins with a single step. Configure your API key to get personalized quotes." };
+  }
   return generateDailyQuoteFlow();
 }
 

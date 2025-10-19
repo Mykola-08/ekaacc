@@ -20,6 +20,7 @@ export function DashboardHero() {
                 setQuote(result.quote);
             } catch (error) {
                 console.error("Failed to fetch daily quote:", error);
+                // Set a graceful fallback quote in case of an error
                 setQuote("The journey of a thousand miles begins with a single step.");
             } finally {
                 setIsLoading(false);

@@ -62,21 +62,20 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile()
     const [openMobile, setOpenMobile] = React.useState(false)
 
-    // Initialize state to defaultOpen for server-side rendering consistency.
+    // Initialize state to a consistent value on the server.
     const [_open, _setOpen] = React.useState(defaultOpen);
 
     // After the component mounts on the client, check for the cookie.
     React.useEffect(() => {
-      if (typeof window !== 'undefined') {
-        const cookieValue = document.cookie
-          .split('; ')
-          .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
-        if (cookieValue) {
-          _setOpen(cookieValue.split('=')[1] === 'true');
-        }
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
+      
+      if (cookieValue) {
+        _setOpen(cookieValue.split('=')[1] === 'true');
       }
     }, []);
-
+    
     const open = openProp ?? _open
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {
@@ -86,9 +85,7 @@ const SidebarProvider = React.forwardRef<
         } else {
           _setOpen(openState)
         }
-        if (typeof window !== "undefined") {
-          document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
-        }
+        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
       },
       [setOpenProp, open]
     )

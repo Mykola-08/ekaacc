@@ -3,7 +3,7 @@
 import { firebaseConfig } from '@/firebase/config';
 import { initializeApp, getApp, FirebaseApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, collection, serverTimestamp, query, where } from 'firebase/firestore'
+import { getFirestore, doc, collection, serverTimestamp, query, where, or } from 'firebase/firestore'
 import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 // This function ensures Firebase is initialized only once.
@@ -42,4 +42,4 @@ export * from './non-blocking-updates';
 export * from './non-blocking-login';
 export * from './errors';
 export * from './error-emitter';
-export { doc, collection, serverTimestamp, query, where };
+export { doc, collection, serverTimestamp, query, where, or };

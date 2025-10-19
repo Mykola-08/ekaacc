@@ -17,6 +17,7 @@ import { Separator } from '../ui/separator';
 import { useUserContext } from '@/context/user-context';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, useSidebar } from '../ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '../ui/tooltip';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -27,7 +28,14 @@ export function AppSidebar() {
     { href: '/home', icon: Home, label: 'Home' },
     { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
     { href: '/therapies', icon: Sparkles, label: 'Therapies'},
-    { href: '/donations', icon: Heart, label: 'Donations' },
+    { 
+      href: '/donations', 
+      icon: Heart, 
+      label: 'Donations',
+      subLinks: [
+        { href: '/donations/reports', label: 'Donation Reports' }
+      ] 
+    },
     { href: '/reports', icon: FileText, label: 'Reports' },
   ];
 
@@ -46,18 +54,20 @@ export function AppSidebar() {
   const showTherapistLinks = currentUser.role === 'Therapist' || currentUser.role === 'Admin';
   const showUserLinks = currentUser.role !== 'Therapist';
 
-  const NavLink = ({ href, icon: Icon, label }: { href: string; icon: React.ElementType; label: string; }) => {
-    const isActive = pathname.startsWith(href);
+  const NavLink = ({ href, icon: Icon, label, subLinks }: { href: string; icon?: React.ElementType; label: string; subLinks?: {href: string, label: string}[] }) => {
+    const isActive = pathname === href;
+    const isSubActive = subLinks?.some(sub => pathname === sub.href);
+
     const linkContent = (
       <Link
         href={href}
         className={cn(
           'flex items-center gap-4 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted',
           isCollapsed && 'justify-center',
-          isActive && 'bg-primary/10 text-primary font-semibold'
+          (isActive || isSubActive) && 'bg-primary/10 text-primary font-semibold'
         )}
       >
-        <Icon className="h-5 w-5 shrink-0" />
+        {Icon && <Icon className="h-5 w-5 shrink-0" />}
         <span className={cn('truncate', isCollapsed && 'sr-only')}>{label}</span>
       </Link>
     );
@@ -72,6 +82,37 @@ export function AppSidebar() {
         </Tooltip>
       );
     }
+
+    if (subLinks) {
+        return (
+            <Accordion type="single" collapsible defaultValue={isSubActive ? 'item-1' : undefined}>
+                <AccordionItem value="item-1" className="border-b-0">
+                    <AccordionTrigger className={cn(
+                        "hover:no-underline p-0 [&>svg]:hidden",
+                        (isActive || isSubActive) && '[&>a]:bg-primary/10 [&>a]:text-primary [&>a]:font-semibold'
+                    )}>
+                       <Link
+                            href={href}
+                            className='flex flex-1 items-center gap-4 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted'
+                        >
+                            {Icon && <Icon className="h-5 w-5 shrink-0" />}
+                            <span className={cn('truncate', isCollapsed && 'sr-only')}>{label}</span>
+                        </Link>
+                    </AccordionTrigger>
+                    <AccordionContent className="pl-8 pt-1 pb-0">
+                       <SidebarMenu className="px-0">
+                         {subLinks.map(subLink => (
+                            <SidebarMenuItem key={subLink.href}>
+                                <NavLink {...subLink} />
+                            </SidebarMenuItem>
+                         ))}
+                       </SidebarMenu>
+                    </AccordionContent>
+                </AccordionItem>
+            </Accordion>
+        )
+    }
+
     return linkContent;
   };
   

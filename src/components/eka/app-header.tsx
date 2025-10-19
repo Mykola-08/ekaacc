@@ -10,7 +10,7 @@ export function AppHeader() {
   const { isMobile, setOpenMobile } = useSidebar();
 
   return (
-    <header className="flex h-[var(--header-h)] items-center gap-4 border-b bg-background/95 backdrop-blur px-4 md:px-6 fixed top-0 w-full z-30">
+    <header className="flex h-[var(--header-h)] items-center gap-4 border-b bg-background/95 backdrop-blur px-4 md:px-6 fixed top-0 w-full z-50">
       {isMobile ? (
         <Button
           variant="ghost"

@@ -17,8 +17,8 @@ export default function DashboardLayout({
         
         <div className="flex flex-1 flex-col transition-all duration-300 ease-in-out md:ml-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:md:ml-[var(--sidebar-w)]">
           <AppHeader />
-          <main className="flex-1 overflow-y-auto pt-[var(--header-h)]">
-            <div className="mx-auto w-full max-w-7xl p-4 md:p-6 lg:p-8">
+          <main className="flex-1 overflow-y-auto">
+            <div className="mx-auto w-full max-w-7xl p-4 md:p-6 lg:p-8 pt-[calc(var(--header-h)_+_1rem)] md:pt-[calc(var(--header-h)_+_1.5rem)] lg:pt-[calc(var(--header-h)_+_2rem)]">
               {children}
             </div>
           </main>

@@ -32,10 +32,10 @@ const prompt = ai.definePrompt({
 
   Please provide a concise summary of the following session reports, highlighting key trends and insights:
 
-  {% each reports %}
+  {{#each reports}}
   Report:
-  {{this}}
-  {% endeach %}
+  {{{this}}}
+  {{/each}}
   `,
 });
 

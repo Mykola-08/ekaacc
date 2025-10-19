@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Bot, FileText, Gift } from "lucide-react";
+import { Loader2, Bot, Gift } from "lucide-react";
 import { useUser, useFirestore, useCollection, collection, query, where, or, useMemoFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { allUsers } from '@/lib/data';
@@ -11,10 +11,19 @@ import type { Donation } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import type { Timestamp } from 'firebase/firestore';
 
 interface GeneratedReport {
     summary: string;
     progress: string;
+}
+
+// Helper to safely convert Firestore Timestamp to Date
+const toDate = (timestamp: Timestamp | Date): Date => {
+    if (timestamp instanceof Date) {
+        return timestamp;
+    }
+    return timestamp.toDate();
 }
 
 export default function DonationReportsPage() {
@@ -61,7 +70,7 @@ export default function DonationReportsPage() {
             return donor ? donor.name : 'Anonymous';
           })));
 
-          const supportDetails = userDonations.map(d => `€${d.amount} on ${format(new Date(d.date.toDate()), 'PPP')}`).join(', ');
+          const supportDetails = userDonations.map(d => `€${d.amount} on ${format(toDate(d.date), 'PPP')}`).join(', ');
 
           const input = {
               receiverName: user.displayName || 'the recipient',
@@ -90,7 +99,8 @@ export default function DonationReportsPage() {
   };
   
   const sortedDonations = useMemo(() => {
-    return userDonations?.sort((a, b) => new Date(b.date.toDate()).getTime() - new Date(a.date.toDate()).getTime());
+    if (!userDonations) return [];
+    return [...userDonations].sort((a, b) => toDate(b.date).getTime() - toDate(a.date).getTime());
   }, [userDonations]);
 
 
@@ -148,7 +158,7 @@ export default function DonationReportsPage() {
                                 const receiver = allUsers.find(u => u.id === donation.receiverId);
                                 return (
                                     <TableRow key={donation.id}>
-                                        <TableCell>{format(donation.date.toDate(), 'PP')}</TableCell>
+                                        <TableCell>{format(toDate(donation.date), 'PP')}</TableCell>
                                         <TableCell>{donor?.name ?? 'Anonymous'}</TableCell>
                                         <TableCell>{receiver?.name ?? 'A good cause'}</TableCell>
                                         <TableCell className="text-right font-medium">€{donation.amount.toFixed(2)}</TableCell>
@@ -158,11 +168,13 @@ export default function DonationReportsPage() {
                         </TableBody>
                     </Table>
                  ) : (
+                    !isLoadingDonations && (
                     <div className="text-center py-12">
                         <Gift className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">No Donations Yet</h3>
                         <p className="mt-1 text-sm text-muted-foreground">Your donation history will appear here.</p>
                     </div>
+                    )
                  )}
             </CardContent>
         </Card>

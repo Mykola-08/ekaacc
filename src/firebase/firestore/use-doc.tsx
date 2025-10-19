@@ -24,14 +24,18 @@ export interface UseDocResult<T> {
   error: FirestoreError | Error | null; // Error object, or null.
 }
 
+// Type guard to check if an object is properly memoized by our hook
+function isMemoized(obj: any): obj is { __memo: true } {
+    return obj && obj.__memo === true;
+}
+
+
 /**
  * React hook to subscribe to a single Firestore document in real-time.
  * Handles nullable references.
  * 
- * IMPORTANT! YOU MUST MEMOIZE the inputted memoizedTargetRefOrQuery or BAD THINGS WILL HAPPEN
- * use useMemo to memoize it per React guidence.  Also make sure that it's dependencies are stable
- * references
- *
+ * IMPORTANT! YOU MUST MEMOIZE the inputted docRef or BAD THINGS WILL HAPPEN.
+ * Use `useMemoFirebase` to memoize it. Also ensure its dependencies are stable references.
  *
  * @template T Optional type for document data. Defaults to any.
  * @param {DocumentReference<DocumentData> | null | undefined} docRef -
@@ -47,6 +51,11 @@ export function useDoc<T = any>(
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<FirestoreError | Error | null>(null);
 
+  // This check will throw an error during development if the ref is not memoized.
+  if (memoizedDocRef && !isMemoized(memoizedDocRef)) {
+      throw new Error('The document reference passed to useDoc must be memoized with useMemoFirebase to prevent infinite re-renders.');
+  }
+
   useEffect(() => {
     if (!memoizedDocRef) {
       setData(null);
@@ -57,7 +66,6 @@ export function useDoc<T = any>(
 
     setIsLoading(true);
     setError(null);
-    // Optional: setData(null); // Clear previous data instantly
 
     const unsubscribe = onSnapshot(
       memoizedDocRef,

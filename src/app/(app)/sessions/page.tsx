@@ -6,9 +6,10 @@ import { MoreHorizontal, CalendarOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
-import type { Session as AppSession } from '@/lib/types';
+import type { Session as AppSession, User } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUser, useFirestore, useCollection, collection, query, where, useMemoFirebase } from "@/firebase";
+import { useUserContext } from "@/context/user-context";
 
 // Helper function to map Firestore booking data to the app's Session type
 const mapBookingToSession = (booking: any): AppSession => {
@@ -26,9 +27,8 @@ const mapBookingToSession = (booking: any): AppSession => {
         }
     };
     
-    // Assuming the structure from the Square SDK v2 booking object
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
-    const duration = booking.appointment_segments?.[0]?.service_variation_data?.service_variation_data?.duration_minutes || 0;
+    const duration = booking.appointment_segments?.[0]?.duration_minutes || 0;
     
     // In a real app with a `teams` collection, you'd fetch the team member name here
     const therapistName = 'EKA Therapist'; 
@@ -47,22 +47,21 @@ const mapBookingToSession = (booking: any): AppSession => {
 };
 
 export default function SessionsPage() {
-  const { user, isUserLoading } = useUser();
+  const { currentUser, isLoading: isUserLoading } = useUserContext();
   const firestore = useFirestore();
 
   // Query the 'bookings' collection based on the logged-in user's Square customer ID.
-  // In your new architecture, the user's Square customer ID should be synced to their Firestore user profile.
   const bookingsQuery = useMemoFirebase(() => {
-    if (!firestore || !user?.squareCustomerId) return null;
-    return query(collection(firestore, 'bookings'), where('customer_id', '==', user.squareCustomerId));
-  }, [firestore, user]);
+    if (!firestore || !currentUser?.squareCustomerId) return null;
+    return query(collection(firestore, 'bookings'), where('customer_id', '==', currentUser.squareCustomerId));
+  }, [firestore, currentUser]);
 
   const { data: bookings, isLoading: isLoadingBookings, error } = useCollection(bookingsQuery);
   
   const sessions = bookings?.map(mapBookingToSession)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   
-  const isLoading = isUserLoading || (user && isLoadingBookings);
+  const isLoading = isUserLoading || (currentUser && isLoadingBookings);
 
   return (
     <Card>

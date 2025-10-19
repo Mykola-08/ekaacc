@@ -57,7 +57,7 @@ export type Donation = {
   donorId: string;
   receiverId: string;
   amount: number;
-  date: FieldValue | Timestamp;
+  date: Timestamp;
   isAnonymous: boolean;
 };
 
@@ -68,7 +68,7 @@ export type Report = {
   date: string; // ISO string
   type: 'Therapist Report' | 'User Report' | 'AI Summary';
   summary: string;
-  createdAt?: FieldValue | Timestamp;
+  createdAt?: Timestamp;
 };
 
 export type StatCard = {

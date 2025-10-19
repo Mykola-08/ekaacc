@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -17,6 +17,7 @@ import { MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
 import { useUser, useFirestore, useDoc, doc, updateDocumentNonBlocking, useMemoFirebase } from '@/firebase';
+import { useUserContext } from '@/context/user-context';
 import type { User } from '@/lib/types';
 
 
@@ -34,10 +35,12 @@ type DashboardWidgets = {
 
 export default function AccountPage() {
   const { user } = useUser();
+  const { currentUser } = useUserContext();
   const firestore = useFirestore();
   const { toast } = useToast();
   
   const userRef = useMemoFirebase(() => user ? doc(firestore, 'users', user.uid) : null, [user, firestore]);
+  // We use the context for the most up-to-date data, but useDoc is fine for listening to direct changes
   const { data: currentUserData } = useDoc<User>(userRef);
 
   const [widgetConfig, setWidgetConfig] = useState<DashboardWidgets>({
@@ -48,10 +51,10 @@ export default function AccountPage() {
   });
 
   useEffect(() => {
-    if (currentUserData?.dashboardWidgets) {
-        setWidgetConfig(currentUserData.dashboardWidgets);
+    if (currentUser?.dashboardWidgets) {
+        setWidgetConfig(currentUser.dashboardWidgets);
     }
-  }, [currentUserData]);
+  }, [currentUser]);
 
 
   const handleWidgetToggle = (widget: keyof DashboardWidgets) => {
@@ -76,13 +79,13 @@ export default function AccountPage() {
   });
 
   useEffect(() => {
-    if (currentUserData) {
+    if (currentUser) {
       form.reset({
-        name: currentUserData.name || '',
-        email: currentUserData.email || '',
+        name: currentUser.name || '',
+        email: currentUser.email || '',
       });
     }
-  }, [currentUserData, form]);
+  }, [currentUser, form]);
 
   const onSubmit = (values: z.infer<typeof profileFormSchema>) => {
     if (userRef) {
@@ -94,7 +97,7 @@ export default function AccountPage() {
     });
   };
   
-  if (!currentUserData) {
+  if (!currentUser) {
     return (
       <div className="text-center">
         <h1 className="text-2xl font-semibold">Please log in</h1>
@@ -106,7 +109,7 @@ export default function AccountPage() {
     )
   }
 
-  const linkedAccounts = allUsers.filter(u => u.id !== currentUserData.id).slice(0,2);
+  const linkedAccounts = allUsers.filter(u => u.id !== currentUser.id).slice(0,2);
 
 
   return (
@@ -150,8 +153,8 @@ export default function AccountPage() {
                         </div>
                         <div className="flex flex-col items-center justify-center space-y-2">
                             <Avatar className="w-24 h-24 text-4xl">
-                                <AvatarImage src={currentUserData.avatarUrl} alt={currentUserData.name} />
-                                <AvatarFallback>{currentUserData.initials}</AvatarFallback>
+                                <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
+                                <AvatarFallback>{currentUser.initials}</AvatarFallback>
                             </Avatar>
                             <Button variant="outline" size="sm">Change Avatar</Button>
                         </div>
@@ -241,7 +244,7 @@ export default function AccountPage() {
                     <CardContent className="space-y-4">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-muted rounded-lg">
                             <div>
-                                <p className="font-semibold">EKA {currentUserData.role} Plan</p>
+                                <p className="font-semibold">EKA {currentUser.role} Plan</p>
                                 <p className="text-sm text-muted-foreground">Billed monthly. Next payment on Sep 1, 2024.</p>
                             </div>
                              <Button variant="outline" asChild className='w-full sm:w-auto'>

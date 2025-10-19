@@ -13,6 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
+import { Timestamp } from 'firebase/firestore';
 
 const chartData = [
     { metric: "Pain", score: 4, fullMark: 10 },
@@ -27,6 +28,13 @@ const chartConfig = {
       label: "Score",
       color: "hsl(var(--primary))",
     },
+}
+
+// Helper to safely convert Firestore Timestamp to Date
+const toDate = (timestamp: Timestamp | Date | string): Date => {
+    if (timestamp instanceof Date) return timestamp;
+    if (typeof timestamp === 'string') return new Date(timestamp);
+    return timestamp.toDate();
 }
 
 export default function ReportsPage() {
@@ -58,7 +66,7 @@ export default function ReportsPage() {
           };
           const result = await generateMonthlyReport(input);
 
-          const newReport: Omit<Report, 'id' | 'date'> = {
+          const newReport: Omit<Report, 'id'> = {
               title: "Monthly AI Progress Summary",
               author: "AI Assistant",
               type: 'AI Summary',
@@ -88,7 +96,8 @@ export default function ReportsPage() {
   };
 
   const sortedReports = useMemo(() => {
-    return reports?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    if (!reports) return [];
+    return [...reports].sort((a, b) => toDate(b.date).getTime() - toDate(a.date).getTime());
   }, [reports]);
 
   return (
@@ -126,7 +135,7 @@ export default function ReportsPage() {
                                             <p className="font-semibold truncate">{report.title}</p>
                                             <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
                                         </div>
-                                        <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}</p>
+                                        <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                                         <p className="text-sm mt-1 break-words">{report.summary}</p>
                                     </div>
                                     <Button variant="ghost" size="icon" className="shrink-0">

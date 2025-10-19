@@ -1,8 +1,6 @@
-
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -53,8 +51,10 @@ export default function TherapistDashboardPage() {
     
     const { data: upcomingBookings, isLoading } = useCollection(upcomingBookingsQuery);
 
-    const upcomingSessions = (upcomingBookings?.map(mapBookingToSession) || [])
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const upcomingSessions = useMemo(() => 
+        (upcomingBookings?.map(mapBookingToSession) || [])
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()), 
+    [upcomingBookings]);
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<(typeof patientsData[0]) | null>(null);

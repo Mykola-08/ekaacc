@@ -61,7 +61,7 @@ export default {
         sm: 'calc(var(--radius) - 10px)',
       },
       boxShadow: {
-        'subtle': '0 8px 30px rgba(0,0,0,0.05)',
+        'subtle': 'var(--elev-1)',
       },
       keyframes: {
         'accordion-down': {
@@ -85,6 +85,11 @@ export default {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      spacing: {
+        'sidebar-w': 'var(--sidebar-w)',
+        'sidebar-w-collapsed': 'var(--sidebar-w-collapsed)',
+        'chat-w': 'var(--chat-w)',
+      }
     },
   },
   plugins: [require('tailwindcss-animate')],

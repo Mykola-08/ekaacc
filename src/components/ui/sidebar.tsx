@@ -21,10 +21,9 @@ import {
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
-const SIDEBAR_WIDTH = "16rem"
-const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "3.5rem"
-const SIDEBAR_KEYBOARD_SHORTCUT = "b"
+const SIDEBAR_WIDTH = "var(--sidebar-w)"
+const SIDEBAR_WIDTH_MOBILE = "80%"
+const SIDEBAR_WIDTH_ICON = "var(--sidebar-w-collapsed)"
 
 type SidebarContext = {
   state: "expanded" | "collapsed"
@@ -99,18 +98,19 @@ const SidebarProvider = React.forwardRef<
     // Adds a keyboard shortcut to toggle the sidebar.
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (
-          event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-          (event.metaKey || event.ctrlKey)
-        ) {
-          event.preventDefault()
-          toggleSidebar()
+        if (event.key === '[' && (event.metaKey || event.ctrlKey)) {
+            event.preventDefault()
+            setOpen(false)
+        }
+         if (event.key === ']' && (event.metaKey || event.ctrlKey)) {
+            event.preventDefault()
+            setOpen(true)
         }
       }
 
       window.addEventListener("keydown", handleKeyDown)
       return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [toggleSidebar])
+    }, [setOpen])
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
@@ -135,8 +135,6 @@ const SidebarProvider = React.forwardRef<
           <div
             style={
               {
-                "--sidebar-width": SIDEBAR_WIDTH,
-                "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
                 ...style,
               } as React.CSSProperties
             }
@@ -145,6 +143,7 @@ const SidebarProvider = React.forwardRef<
               className
             )}
             ref={ref}
+            data-state={state}
             {...props}
           >
             {children}
@@ -185,7 +184,7 @@ const Sidebar = React.forwardRef<
       return (
         <div
           className={cn(
-            "flex h-full w-[--sidebar-width] flex-col bg-card text-card-foreground",
+            "flex h-full w-[var(--sidebar-w)] flex-col bg-card text-card-foreground",
             className
           )}
           ref={ref}
@@ -195,17 +194,18 @@ const Sidebar = React.forwardRef<
         </div>
       )
     }
-
+    
+    // Mobile: Off-canvas overlay
     if (isMobile) {
       return (
         <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
           <SheetContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-card p-0 text-card-foreground [&>button]:hidden"
+            className="w-[var(--sidebar-w-mobile)] bg-card p-0 text-card-foreground [&>button]:hidden"
             style={
               {
-                "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
+                "--sidebar-w-mobile": SIDEBAR_WIDTH_MOBILE,
               } as React.CSSProperties
             }
             side={side}
@@ -216,17 +216,24 @@ const Sidebar = React.forwardRef<
       )
     }
 
+    // Desktop: Docked sidebar
     return (
       <div
         ref={ref}
-        className={cn("group hidden md:block text-card-foreground", "group-data-[collapsible=icon]:w-[--sidebar-width-icon]")}
+        className={cn(
+            "group fixed top-0 h-full hidden md:flex flex-col z-40 transition-all duration-300 ease-in-out", 
+            "group-data-[state=expanded]:w-[var(--sidebar-w)]",
+            "group-data-[state=collapsed]:w-[var(--sidebar-w-collapsed)]",
+            side === 'left' ? 'left-0' : 'right-0',
+            className
+        )}
+        data-sidebar="sidebar"
         data-state={state}
         data-collapsible={state === "collapsed" ? collapsible : ""}
         data-variant={variant}
         data-side={side}
       >
         <div
-          data-sidebar="sidebar"
           className={cn("flex h-full w-full flex-col bg-card border-r", className)}
         >
           {children}
@@ -382,7 +389,7 @@ const SidebarContent = React.forwardRef<
       ref={ref}
       data-sidebar="content"
       className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
+        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto",
         className
       )}
       {...props}

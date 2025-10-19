@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useUserContext } from "@/context/user-context";
 import { vipData, vipPlans } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { Check, CheckCircle, Sparkles, Star } from "lucide-react";
+import { Check, CheckCircle, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 export default function VipPage() {
@@ -14,13 +14,12 @@ export default function VipPage() {
     const [currentPlanId, setCurrentPlanId] = useState('diamond');
 
     if (!currentUser) return null;
-    const currentPlan = vipPlans.find(p => p.id === currentPlanId);
 
     return (
-        <div className="space-y-8">
+        <div className="space-y-8 lg:space-y-12">
              <div className="text-center">
                 <h1 className="text-3xl font-bold">EKA VIP</h1>
-                <p className="text-muted-foreground mt-2">Unlock exclusive benefits and accelerate your wellness journey.</p>
+                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Unlock exclusive benefits and accelerate your wellness journey.</p>
             </div>
 
             {/* Plan Selector */}
@@ -33,8 +32,8 @@ export default function VipPage() {
                         <Card 
                             key={plan.id} 
                             className={cn(
-                                "flex flex-col cursor-pointer",
-                                plan.id === currentPlanId && "border-2 border-primary"
+                                "flex flex-col cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1",
+                                plan.id === currentPlanId && "border-2 border-primary shadow-lg"
                             )}
                             onClick={() => setCurrentPlanId(plan.id)}
                         >
@@ -51,14 +50,14 @@ export default function VipPage() {
                             <CardContent className="flex-1 flex flex-col justify-between">
                                 <ul className="space-y-2 text-sm text-muted-foreground mb-6">
                                     {plan.benefits.map(benefit => (
-                                        <li key={benefit} className="flex items-center gap-2">
-                                            <Check className="h-4 w-4 text-green-500" />
+                                        <li key={benefit} className="flex items-start gap-2">
+                                            <Check className="h-4 w-4 text-green-500 mt-1 shrink-0" />
                                             <span>{benefit}</span>
                                         </li>
                                     ))}
                                 </ul>
                                 <Button 
-                                    className="w-full"
+                                    className="w-full mt-4"
                                     variant={plan.id === currentPlanId ? 'default' : 'outline'}
                                 >
                                     {plan.id === currentPlanId ? 'Current Plan' : 'Select Plan'}
@@ -103,7 +102,7 @@ export default function VipPage() {
                             <CardTitle>Benefit Usage History</CardTitle>
                             <CardDescription>A log of your redeemed VIP benefits.</CardDescription>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="overflow-x-auto">
                             <Table>
                                 <TableHeader>
                                     <TableRow>

@@ -16,8 +16,8 @@ export default function TherapistDashboardPage() {
     const upcomingSessions = sessions.filter(s => s.status === 'Upcoming');
 
     return (
-        <div className="flex flex-col gap-8">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex flex-col gap-8 md:gap-12">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                         <CardTitle className="text-sm font-medium">Upcoming Sessions</CardTitle>
@@ -56,11 +56,11 @@ export default function TherapistDashboardPage() {
                         <CardTitle>My Patients</CardTitle>
                         <CardDescription>An overview of your currently managed patients.</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Patient</TableHead>
+                                    <TableHead className="min-w-[180px]">Patient</TableHead>
                                     <TableHead>Last Session</TableHead>
                                     <TableHead>Progress</TableHead>
                                     <TableHead className="text-right">Actions</TableHead>
@@ -75,10 +75,10 @@ export default function TherapistDashboardPage() {
                                                     <AvatarImage src={patient.avatarUrl} alt={patient.name} />
                                                     <AvatarFallback>{patient.name.charAt(0)}</AvatarFallback>
                                                 </Avatar>
-                                                <span className="font-medium">{patient.name}</span>
+                                                <span className="font-medium whitespace-nowrap">{patient.name}</span>
                                             </div>
                                         </TableCell>
-                                        <TableCell>{patient.lastSession}</TableCell>
+                                        <TableCell className="whitespace-nowrap">{patient.lastSession}</TableCell>
                                         <TableCell>{patient.progress}</TableCell>
                                         <TableCell className="text-right">
                                             <Button variant="ghost" size="sm">View Profile</Button>

@@ -23,14 +23,14 @@ export default function SessionsPage() {
         <CardTitle>Sessions</CardTitle>
         <CardDescription>Manage your past and upcoming sessions.</CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Therapist</TableHead>
-              <TableHead>Type</TableHead>
+              <TableHead className="min-w-[180px]">Therapist</TableHead>
+              <TableHead className="min-w-[150px]">Type</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Date</TableHead>
+              <TableHead className="min-w-[150px]">Date</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -42,18 +42,18 @@ export default function SessionsPage() {
                   <TableCell><Skeleton className="h-5 w-24" /></TableCell>
                   <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
                   <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                  <TableCell className="text-right"><Skeleton className="h-8 w-8" /></TableCell>
+                  <TableCell className="text-right"><Skeleton className="h-8 w-8 rounded-full" /></TableCell>
                 </TableRow>
               ))
             )}
             {!isLoading && sessions && sessions.length > 0 && sessions.map((session) => (
               <TableRow key={session.id}>
-                <TableCell className="font-medium">{session.therapist}</TableCell>
-                <TableCell>{session.type}</TableCell>
+                <TableCell className="font-medium whitespace-nowrap">{session.therapist}</TableCell>
+                <TableCell className="whitespace-nowrap">{session.type}</TableCell>
                 <TableCell>
                   <Badge variant={session.status === 'Upcoming' ? 'default' : 'secondary'}>{session.status}</Badge>
                 </TableCell>
-                <TableCell>{format(new Date(session.date), "MMMM d, yyyy")}</TableCell>
+                <TableCell className="whitespace-nowrap">{format(new Date(session.date), "MMMM d, yyyy")}</TableCell>
                 <TableCell className="text-right">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>

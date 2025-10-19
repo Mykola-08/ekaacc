@@ -4,7 +4,7 @@ import { userStats } from '@/lib/data';
 import { QuickActions } from '@/components/eka/dashboard/quick-actions';
 import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
 import { NextSession } from '@/components/eka/dashboard/next-session';
-import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { reports } from '@/lib/data';
 import { Activity } from 'lucide-react';
 import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
@@ -12,22 +12,30 @@ import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 md:gap-12">
       <DashboardHero />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      
+      {/* Stat Cards */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {userStats.map((stat) => (
           <StatCard key={stat.title} {...stat} />
         ))}
       </div>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-7">
-        <div className="lg:col-span-5 flex flex-col gap-6">
+
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-7 lg:gap-8">
+        
+        {/* Left Column */}
+        <div className="lg:col-span-5 flex flex-col gap-6 lg:gap-8">
           <GoalProgress />
-          <div className="grid flex-1 gap-6 md:grid-cols-2">
+          <div className="grid flex-1 gap-6 md:grid-cols-2 md:gap-8">
             <QuickActions />
             <AiAssistant />
           </div>
         </div>
-        <div className="lg:col-span-2 flex flex-col gap-6">
+        
+        {/* Right Column */}
+        <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
           <NextSession />
           <Card>
             <CardHeader>
@@ -49,9 +57,9 @@ export default function HomePage() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-muted-foreground">
+                <div className="text-center text-muted-foreground py-8">
                   No recent activity.
-                </p>
+                </div>
               )}
             </CardContent>
           </Card>

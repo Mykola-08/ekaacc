@@ -67,7 +67,7 @@ export default function ReportsPage() {
           };
           const result = await generateMonthlyReport(input);
 
-          const newReport: Omit<Report, 'id'| 'date'> = {
+          const newReport: Omit<Report, 'id' | 'date'> = {
               title: "Monthly AI Progress Summary",
               author: "AI Assistant",
               type: 'AI Summary',
@@ -119,21 +119,21 @@ export default function ReportsPage() {
                         </ul>
                     )}
                     {!isLoadingReports && reports && reports.length > 0 && (
-                        <ul className="space-y-4">
+                        <ul className="space-y-1">
                             {reports.map((report) => (
                                 <li key={report.id} className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-                                    <div className="p-3 bg-muted rounded-full flex items-center justify-center">
+                                    <div className="p-3 bg-muted rounded-full flex items-center justify-center shrink-0">
                                         {report.type === 'AI Summary' ? <Bot className="h-6 w-6 text-primary" /> : <FileText className="h-6 w-6 text-primary" />}
                                     </div>
-                                    <div className="flex-1">
+                                    <div className="flex-1 overflow-hidden">
                                         <div className="flex justify-between items-center">
-                                            <p className="font-semibold">{report.title}</p>
-                                            <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'}>{report.type}</Badge>
+                                            <p className="font-semibold truncate">{report.title}</p>
+                                            <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
                                         </div>
                                         <p className="text-sm text-muted-foreground">{report.author} - {new Date(report.date).toLocaleDateString()}</p>
-                                        <p className="text-sm mt-1">{report.summary}</p>
+                                        <p className="text-sm mt-1 break-words">{report.summary}</p>
                                     </div>
-                                    <Button variant="ghost" size="icon">
+                                    <Button variant="ghost" size="icon" className="shrink-0">
                                         <ArrowUp className="h-4 w-4 transform -rotate-45" />
                                     </Button>
                                 </li>

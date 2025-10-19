@@ -52,7 +52,7 @@ export default function AccountPage() {
   
   if (!currentUser) {
     return (
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="text-center">
         <h1 className="text-2xl font-semibold">Please log in</h1>
         <p className="text-muted-foreground mt-2">You need to be logged in to view your account details.</p>
         <Button asChild className="mt-4">
@@ -66,7 +66,7 @@ export default function AccountPage() {
 
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8">
+    <div className="space-y-8">
         <h1 className="text-3xl font-bold">Account Settings</h1>
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -119,11 +119,11 @@ export default function AccountPage() {
                         <CardTitle>Linked Accounts</CardTitle>
                         <CardDescription>Manage parent/child or caregiver profiles connected to your account.</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>User</TableHead>
+                                    <TableHead className="min-w-[150px]">User</TableHead>
                                     <TableHead>Role</TableHead>
                                     <TableHead className='text-right'>Actions</TableHead>
                                 </TableRow>
@@ -137,7 +137,7 @@ export default function AccountPage() {
                                                     <AvatarImage src={account.avatarUrl} alt={account.name} />
                                                     <AvatarFallback>{account.initials}</AvatarFallback>
                                                 </Avatar>
-                                                <span className="font-medium">{account.name}</span>
+                                                <span className="font-medium whitespace-nowrap">{account.name}</span>
                                             </div>
                                         </TableCell>
                                         <TableCell>
@@ -158,7 +158,7 @@ export default function AccountPage() {
                                 ))}
                             </TableBody>
                         </Table>
-                         <Button variant="outline" className="mt-4">Add Linked Account</Button>
+                         <Button variant="outline" className="mt-4 w-full sm:w-auto">Add Linked Account</Button>
                     </CardContent>
                 </Card>
 
@@ -168,12 +168,12 @@ export default function AccountPage() {
                         <CardDescription>Manage your billing information and subscription plan.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-4 bg-muted rounded-lg">
                             <div>
                                 <p className="font-semibold">EKA {currentUser.role} Plan</p>
                                 <p className="text-sm text-muted-foreground">Billed monthly. Next payment on Sep 1, 2024.</p>
                             </div>
-                             <Button variant="outline" asChild>
+                             <Button variant="outline" asChild className='w-full sm:w-auto'>
                                 <Link href="/account/vip">Manage Plan</Link>
                             </Button>
                         </div>
@@ -185,13 +185,15 @@ export default function AccountPage() {
                         <CardTitle>Data Export</CardTitle>
                         <CardDescription>Download all your data as a PDF or CSV file.</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex gap-4">
-                       <Button variant="secondary">Export as PDF</Button>
-                       <Button variant="secondary">Export as CSV</Button>
+                    <CardContent className="flex flex-col sm:flex-row gap-4">
+                       <Button variant="secondary" className='w-full sm:w-auto'>Export as PDF</Button>
+                       <Button variant="secondary" className='w-full sm:w-auto'>Export as CSV</Button>
                     </CardContent>
                 </Card>
 
-                <Button type="submit">Update Profile</Button>
+                <div className='flex justify-end'>
+                    <Button type="submit" className='w-full sm:w-auto'>Update Profile</Button>
+                </div>
             </form>
         </Form>
     </div>

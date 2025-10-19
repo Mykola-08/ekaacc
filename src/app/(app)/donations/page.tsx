@@ -37,7 +37,7 @@ export default function DonationsPage() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button>Donate Now</Button>
+                    <Button className="w-full sm:w-auto sm:justify-self-end">Donate Now</Button>
                 </CardContent>
             </Card>
         </div>

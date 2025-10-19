@@ -1,6 +1,6 @@
 
 'use server';
-import { Client, Environment, Booking } from 'square';
+import { Client, Environment, Booking, TeamMember } from 'square';
 import { Session } from './types';
 
 // Initialize the Square client
@@ -12,40 +12,69 @@ const squareClient = new Client({
 /**
  * Maps a Square Booking object to our internal Session type.
  * @param booking - The booking object from the Square API.
+ * @param teamMembers - A map of team member IDs to TeamMember objects.
  * @returns A Session object.
  */
-function mapBookingToSession(booking: Booking): Session {
+function mapBookingToSession(booking: Booking, teamMembers: Map<string, TeamMember>): Session {
   // Helper to determine status
   const getStatus = (status: string | undefined): 'Upcoming' | 'Completed' | 'Canceled' => {
+    const startTime = new Date(booking.startAt || 0);
+    const isPast = startTime < new Date();
+
     switch (status) {
       case 'ACCEPTED':
-        return 'Upcoming';
+        return isPast ? 'Completed' : 'Upcoming';
       case 'DECLINED_BY_SELLER':
       case 'CANCELLED_BY_CUSTOMER':
       case 'CANCELLED_BY_SELLER':
         return 'Canceled';
+      case 'NO_SHOW':
+          return 'Completed'; // Or a new 'No Show' status if you add it to the type
       default:
-        // Assuming if it's in the past and not cancelled, it's completed.
-        const startTime = new Date(booking.startAt || 0);
-        return startTime < new Date() ? 'Completed' : 'Upcoming';
+        // If status is something else (like PENDING), we still check the date.
+        return isPast ? 'Completed' : 'Upcoming';
     }
   };
 
   const serviceVariation = booking.appointmentSegments?.[0]?.serviceVariation;
+  const teamMemberId = booking.appointmentSegments?.[0]?.teamMemberId;
+  const teamMember = teamMemberId ? teamMembers.get(teamMemberId) : undefined;
+  const therapistName = teamMember ? `${teamMember.givenName} ${teamMember.familyName}`.trim() : 'Unknown Staff';
 
   return {
     id: booking.id || 'unknown-id',
-    therapist: serviceVariation?.teamMemberId || 'Unknown Staff', // Placeholder, you might need another API call to get staff name
-    therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square',
+    therapist: therapistName,
+    therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square', // Placeholder avatar
     date: booking.startAt || new Date().toISOString(),
     time: new Date(booking.startAt || 0).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     duration: Number(serviceVariation?.serviceVariationData?.serviceItemData?.durationMinutes) || 0,
     status: getStatus(booking.status),
     type: serviceVariation?.serviceVariationData?.name || 'Unknown Service',
-    // You might need to fetch customer details separately if not available here
   };
 }
 
+/**
+ * Fetches all active team members for the configured location.
+ * @returns A promise that resolves to a Map of team member IDs to TeamMember objects.
+ */
+async function getTeamMembers(): Promise<Map<string, TeamMember>> {
+    const teamMembersMap = new Map<string, TeamMember>();
+    if (!squareClient) return teamMembersMap;
+    
+    try {
+        const { result } = await squareClient.teamApi.searchTeamMembers({});
+        if (result.teamMembers) {
+            for (const member of result.teamMembers) {
+                if (member.id) {
+                    teamMembersMap.set(member.id, member);
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Failed to fetch Square team members:", error);
+    }
+    return teamMembersMap;
+}
 
 /**
  * Fetches bookings from the Square API for the configured location.
@@ -54,26 +83,28 @@ function mapBookingToSession(booking: Booking): Session {
 export async function getSquareBookings(): Promise<Session[]> {
   const locationId = process.env.SQUARE_LOCATION_ID;
 
-  if (!process.env.SQUARE_ACCESS_TOKEN || !locationId) {
-    console.error("Square access token or location ID is not configured.");
-    return [];
+  if (!process.env.SQUARE_ACCESS_TOKEN || !locationId || locationId === 'YOUR_SQUARE_LOCATION_ID') {
+    console.error("Square access token or location ID is not configured properly.");
+    throw new Error("Square integration is not configured. Please check environment variables.");
   }
 
   try {
-    const { result } = await squareClient.bookingsApi.listBookings(undefined, undefined, undefined, undefined, locationId);
+    // Fetch bookings and team members in parallel for efficiency
+    const [bookingsResult, teamMembersMap] = await Promise.all([
+      squareClient.bookingsApi.listBookings(undefined, undefined, undefined, undefined, locationId),
+      getTeamMembers()
+    ]);
     
-    if (!result.bookings) {
+    const { bookings } = bookingsResult.result;
+    if (!bookings) {
         return [];
     }
 
-    // You might want to fetch customer and staff details here to enrich the data
-    // For now, we'll just map what we have.
-    const sessions = result.bookings.map(mapBookingToSession);
+    const sessions = bookings.map(booking => mapBookingToSession(booking, teamMembersMap));
     
     return sessions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   } catch (error) {
     console.error("Failed to fetch Square bookings:", error);
-    // In a real app, you'd want more robust error handling
-    return [];
+    throw new Error("Could not retrieve booking data from Square. Please try again later.");
   }
 }

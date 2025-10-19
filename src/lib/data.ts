@@ -1,4 +1,4 @@
-import type { User, Session, StatCard, Report, Therapy, VipData, VipPlan } from '@/lib/types';
+import type { User, StatCard, Report, Therapy, VipData, VipPlan } from '@/lib/types';
 import {
   CalendarDays,
   Heart,
@@ -37,29 +37,6 @@ export const allUsers: User[] = [
 
 
 export let currentUser: User = allUsers[0];
-
-export const sessions: Session[] = [
-  {
-    id: 'session-1',
-    therapist: 'Dr. Emily Carter',
-    therapistAvatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
-    date: '2024-08-15',
-    time: '10:00 AM',
-    duration: 50,
-    status: 'Upcoming',
-    type: 'Physical Therapy',
-  },
-  {
-    id: 'session-2',
-    therapist: 'Dr. John Smith',
-    therapistAvatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704f',
-    date: '2024-07-28',
-    time: '2:00 PM',
-    duration: 50,
-    status: 'Completed',
-    type: 'Mental Wellness',
-  },
-];
 
 export const reports: Report[] = [
     {

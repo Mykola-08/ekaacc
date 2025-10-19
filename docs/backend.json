@@ -285,39 +285,40 @@
         "status"
       ]
     },
-    "Therapy": {
+    "Service": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Therapy",
-      "type": "object",
+      "title": "Service",
       "description": "Represents a therapy service offered.",
+      "type": "object",
       "properties": {
         "id": { "type": "string" },
         "name": { "type": "string" },
-        "category": { "type": "string" },
-        "shortDescription": { "type": "string" },
-        "longDescription": { "type": "string" },
-        "duration": { "type": "number" },
+        "category": { "type": "string", "enum": ["Core", "Personalized", "360° Component"] },
+        "descriptionShort": { "type": "string" },
+        "descriptionLong": { "type": "string" },
+        "durationMinutes": { "type": "number" },
         "priceEUR": { "type": "number" },
         "benefits": { "type": "array", "items": { "type": "string" } },
-        "recommendedFor": { "type": "array", "items": { "type": "string" } },
-        "aiSummary": { "type": "string" },
-        "availability": { "type": "string" },
-        "complexityLevel": { "type": "number" }
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "active": { "type": "boolean" }
       },
-      "required": ["id", "name", "shortDescription", "duration", "priceEUR"]
+      "required": ["id", "name", "category", "descriptionShort", "durationMinutes", "priceEUR", "active"]
     },
-    "Plan": {
+    "VipPlan": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Plan",
+      "title": "VipPlan",
+      "description": "Represents a VIP subscription plan.",
       "type": "object",
-      "description": "Represents a subscription plan.",
       "properties": {
         "id": { "type": "string" },
-        "name": { "type": "string" },
-        "priceEUR": { "type": "number" },
-        "benefits": { "type": "array", "items": { "type": "string" } }
+        "tier": { "type": "string", "enum": ["Bronze Elite", "Silver Elite", "Gold Elite"] },
+        "pricePerMonthEUR": { "type": "number" },
+        "sessionsPerMonth": { "type": "number" },
+        "sessionDurationMinutes": { "type": "number" },
+        "perks": { "type": "array", "items": { "type": "string" } },
+        "active": { "type": "boolean" }
       },
-      "required": ["id", "name", "priceEUR"]
+      "required": ["id", "tier", "pricePerMonthEUR", "sessionsPerMonth", "active"]
     }
   },
   "auth": {
@@ -437,26 +438,24 @@
         }
       },
       {
-        "path": "/therapies/{therapyId}",
+        "path": "/services/{serviceId}",
         "definition": {
-          "entityName": "Therapy",
-          "schema": { "$ref": "#/backend/entities/Therapy" },
+          "entityName": "Service",
+          "schema": { "$ref": "#/backend/entities/Service" },
           "description": "Stores all available therapies and services.",
-          "params": [{ "name": "therapyId", "description": "The unique identifier for the therapy." }]
+          "params": [{ "name": "serviceId", "description": "The unique identifier for the service." }]
         }
       },
       {
-        "path": "/plans/{planId}",
+        "path": "/vipPlans/{planId}",
         "definition": {
-          "entityName": "Plan",
-          "schema": { "$ref": "#/backend/entities/Plan" },
-          "description": "Stores all available subscription plans (e.g., Free, Gold, Diamond).",
+          "entityName": "VipPlan",
+          "schema": { "$ref": "#/backend/entities/VipPlan" },
+          "description": "Stores all available VIP subscription plans.",
           "params": [{ "name": "planId", "description": "The unique identifier for the plan." }]
         }
       }
     ],
-    "reasoning": "The Firestore structure is designed to align with the core principles of Authorization Independence, Clarity of Intent, and Rules Are Not Filters (QAPs). It leverages Structural Segregation to ensure each collection has a homogeneous security posture and employs Access Modeling to standardize authorization patterns. Denormalization is used extensively to avoid `get()` calls in security rules, enabling atomic operations.  User data and user-owned data is segregated into `/users/{userId}`. Collaborative scenarios, like therapists and clients, use explicit membership maps.  Here's the breakdown by entity:\n\n*   **Users:** User profiles are stored in `/users/{userId}`. This allows path-based ownership, ensuring only the user or admins can access/modify their profile.\n*   **Sessions:** Sessions are stored in `/users/{userId}/sessions/{sessionId}`. This ensures that only the user or their therapist can access their session data.\n*   **Donations:** Donations are stored in `/donations/{donationId}`. The `donorId` and `receiverId` are denormalized to the `members` map for ease of authorization rule writing. This allows listing donations where the user is a donor or a receiver, enforcing QAPs.\n*   **Reports:** Reports are stored in `/users/{userId}/reports/{reportId}`. The `therapistId` is included in each document to enable therapists to access reports created for their patients.\n*   **Messages:** Messages are stored in `/messages/{messageId}`.  The `senderId` and `receiverId` are denormalized to the `members` map to allow easy authorization rule writing. This is a top-level collection enabling `list` operations (QAPs) based on membership without the need to get() other documents.\n*   **Subscriptions:** Subscriptions are stored in `/users/{userId}/subscriptions/{subscriptionId}`, as subscriptions are specific to each user.\n*   **Therapies:** A top-level `/therapies` collection is added to store all available therapy services. This is public or semi-public data, easily queryable by all users.\n*   **Plans:** A top-level `/plans` collection stores subscription plan details. This is also public data for users to view."
+    "reasoning": "The Firestore structure is designed to align with the core principles of Authorization Independence, Clarity of Intent, and Rules Are Not Filters (QAPs). It leverages Structural Segregation to ensure each collection has a homogeneous security posture and employs Access Modeling to standardize authorization patterns. Denormalization is used extensively to avoid `get()` calls in security rules, enabling atomic operations.  User data and user-owned data is segregated into `/users/{userId}`. Collaborative scenarios, like therapists and clients, use explicit membership maps.  Here's the breakdown by entity:\n\n*   **Users:** User profiles are stored in `/users/{userId}`. This allows path-based ownership, ensuring only the user or admins can access/modify their profile.\n*   **Sessions:** Sessions are stored in `/users/{userId}/sessions/{sessionId}`. This ensures that only the user or their therapist can access their session data.\n*   **Donations:** Donations are stored in `/donations/{donationId}`. The `donorId` and `receiverId` are denormalized to the `members` map for ease of authorization rule writing. This allows listing donations where the user is a donor or a receiver, enforcing QAPs.\n*   **Reports:** Reports are stored in `/users/{userId}/reports/{reportId}`. The `therapistId` is included in each document to enable therapists to access reports created for their patients.\n*   **Messages:** Messages are stored in `/messages/{messageId}`.  The `senderId` and `receiverId` are denormalized to the `members` map to allow easy authorization rule writing. This is a top-level collection enabling `list` operations (QAPs) based on membership without the need to get() other documents.\n*   **Subscriptions:** Subscriptions are stored in `/users/{userId}/subscriptions/{subscriptionId}`, as subscriptions are specific to each user.\n*   **Services:** A top-level `/services` collection is added to store all available therapy services. This is public or semi-public data, easily queryable by all users.\n*   **VipPlans:** A top-level `/vipPlans` collection stores VIP subscription plan details. This is also public data for users to view."
   }
 }
-
-    

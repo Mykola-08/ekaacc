@@ -1,12 +1,4 @@
-import type { User, VipData, VipPlan, Therapy } from '@/lib/types';
-import {
-  CalendarDays,
-  Heart,
-  TrendingUp,
-  TrendingDown,
-  Activity,
-  Award
-} from 'lucide-react';
+import type { User, VipData, Service, VipPlan } from '@/lib/types';
 
 export const allUsers: User[] = [
   {
@@ -15,7 +7,7 @@ export const allUsers: User[] = [
     email: 'alex.doe@example.com',
     phoneNumber: process.env.NEXT_PUBLIC_DEMO_PHONE_NUMBER, // Added for Square integration demo
     avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-    role: 'VIP',
+    role: 'Gold Elite',
     initials: 'AD',
   },
   {
@@ -36,91 +28,146 @@ export const allUsers: User[] = [
   }
 ]
 
-export const therapies: Omit<Therapy, 'id'>[] = [
+export const services: Omit<Service, 'id'>[] = [
+    // Core Services
     {
-        name: "Massage Therapy",
-        category: "Service",
-        shortDescription: "Relieve muscle tension and improve circulation with a classic massage.",
-        longDescription: "A comprehensive massage therapy session aimed at relieving deep-seated muscle tension, improving blood flow, and promoting overall relaxation. Ideal for stress relief and muscle recovery.",
-        duration: 60,
-        priceEUR: 80,
-        benefits: ["Reduces muscle soreness", "Improves circulation", "Lowers stress levels"],
-        recommendedFor: ["Stress relief", "Athletic recovery", "General wellness"],
-        aiSummary: "A classic massage therapy that focuses on relieving muscle tension, enhancing circulation, and promoting relaxation. Best for stress and recovery.",
-        availability: "Both",
-        complexityLevel: 2
+        name: "Therapeutic Massage",
+        category: "Core",
+        descriptionShort: "Massages to reduce pain, stress and stiffness.",
+        descriptionLong: "A decontracting massage designed to alleviate chronic pain, reduce accumulated stress, and release muscle stiffness for improved well-being.",
+        durationMinutes: 90,
+        priceEUR: 95,
+        benefits: ["Contracture relief", "Improved circulation", "Deep relaxation"],
+        tags: ["massage", "pain relief", "stress reduction", "holistic"],
+        active: true,
     },
     {
-        name: "Feldenkrais Method",
-        category: "Complex Therapy",
-        shortDescription: "Improve movement patterns and body awareness through gentle guided exercises.",
-        longDescription: "The Feldenkrais Method® is a unique approach to improving human movement and overall well-being. Through gentle, mindful movements, you can learn to move more easily, efficiently, and with less pain.",
-        duration: 90,
-        priceEUR: 120,
-        benefits: ["Increases range of motion", "Improves posture and coordination", "Reduces chronic pain"],
-        recommendedFor: ["Chronic pain", "Movement difficulties", "Postural issues"],
-        aiSummary: "A gentle, movement-based therapy that improves body awareness, coordination, and reduces chronic pain through guided exercises.",
-        availability: "In-Person",
-        complexityLevel: 4
+        name: "Holistic Kinesiology",
+        category: "Core",
+        descriptionShort: "Neuromuscular assessment and corrections to improve posture and energy.",
+        descriptionLong: "Utilizes neuromuscular testing to identify and correct imbalances in the body, enhancing posture, energy flow, and overall vitality.",
+        durationMinutes: 60,
+        priceEUR: 75,
+        benefits: ["Unblock energy", "Improve posture", "Reduce stress", "Boost energy"],
+        tags: ["kinesiology", "holistic", "energy work", "posture"],
+        active: true,
     },
     {
-        name: "Kinesiology",
-        category: "Complex Therapy",
-        shortDescription: "A holistic approach to balance your body's energy systems.",
-        longDescription: "Kinesiology uses muscle monitoring (biofeedback) to identify imbalances in the body's structural, chemical, emotional or other energy systems. By correcting these imbalances, it helps the body to heal itself.",
-        duration: 75,
-        priceEUR: 100,
-        benefits: ["Identifies and clears energy blockages", "Addresses emotional stress", "Boosts vitality and wellness"],
-        recommendedFor: ["Unexplained symptoms", "Emotional balancing", "Holistic wellness goals"],
-        aiSummary: "A holistic therapy using muscle biofeedback to identify and correct imbalances in the body's energy systems for overall healing.",
-        availability: "In-Person",
-        complexityLevel: 5
+        name: "Conscious Nutrition",
+        category: "Core",
+        descriptionShort: "Personalised nutritional counselling for energy and long-term health.",
+        descriptionLong: "Receive personalized nutritional guidance to cultivate healthy eating habits, manage weight effectively, boost your energy levels, and ensure long-term health.",
+        durationMinutes: 60,
+        priceEUR: 85,
+        benefits: ["Healthy habits", "Weight management", "More energy", "Long-term health"],
+        tags: ["nutrition", "health", "wellness", "coaching"],
+        active: true,
     },
     {
-        name: "360° Therapy",
-        category: "Complex Therapy",
-        shortDescription: "An integrated therapy program combining multiple techniques for comprehensive care.",
-        longDescription: "Our signature 360° Therapy is a fully integrated and personalized program. It combines elements of physical therapy, mindfulness, and AI-driven progress tracking to provide a holistic and effective treatment plan.",
-        duration: 120,
-        priceEUR: 180,
-        benefits: ["Personalized treatment plan", "Addresses multiple issues simultaneously", "AI-powered progress tracking"],
-        recommendedFor: ["Complex or multiple issues", "Long-term wellness plans", "Performance optimization"],
-        aiSummary: "A comprehensive, personalized therapy program integrating physical, mental, and AI-driven techniques for holistic treatment.",
-        availability: "Both",
-        complexityLevel: 5
-    }
+        name: "360° Review",
+        category: "Core",
+        descriptionShort: "A comprehensive assessment to provide a personalised action plan.",
+        descriptionLong: "A complete and holistic journey through your body—physical, emotional, structural, and energetic—to create a fully personalized action plan.",
+        durationMinutes: 60,
+        priceEUR: 150,
+        benefits: ["Holistic assessment", "Personalized plan", "Identify root causes"],
+        tags: ["360-review", "assessment", "holistic", "personalized"],
+        active: true,
+    },
+    // 360° Components
+    {
+        name: "Consulta Profunda (Deep Consultation)",
+        category: "360° Component",
+        descriptionShort: "45 minutes of listening to the body’s story.",
+        descriptionLong: "The first step in the 360° journey, this session is dedicated to deeply listening to and understanding your body's history and current state.",
+        durationMinutes: 45,
+        priceEUR: 60,
+        benefits: ["In-depth analysis", "Understand body's history", "Foundation for plan"],
+        tags: ["360-component", "consultation", "assessment"],
+        active: true,
+    },
+    {
+        name: "Mapeig Corporal 360° (Body Mapping)",
+        category: "360° Component",
+        descriptionShort: "60 minutes of full physical/emotional/structural/energetic assessment.",
+        descriptionLong: "A comprehensive mapping of your physical, emotional, structural, and energetic systems to get a complete picture of your health.",
+        durationMinutes: 60,
+        priceEUR: 90,
+        benefits: ["Full-body assessment", "Identify imbalances", "Holistic overview"],
+        tags: ["360-component", "body-mapping", "assessment"],
+        active: true,
+    },
+    {
+        name: "Sessió Integrada (Integrated Session)",
+        category: "360° Component",
+        descriptionShort: "90 minutes of manual therapy addressing all dimensions simultaneously.",
+        descriptionLong: "A powerful manual therapy session that works on the physical, emotional, structural, and energetic dimensions at the same time for integrated healing.",
+        durationMinutes: 90,
+        priceEUR: 135,
+        benefits: ["Simultaneous multi-level healing", "Deep manual therapy", "Integrative treatment"],
+        tags: ["360-component", "manual-therapy", "integrative"],
+        active: true,
+    },
+    {
+        name: "Pla d’Integració (Integration Plan)",
+        category: "360° Component",
+        descriptionShort: "30 minutes designing a take-home roadmap.",
+        descriptionLong: "A concluding session to design a practical, personalized roadmap for you to continue your integration and progress at home.",
+        durationMinutes: 30,
+        priceEUR: 50,
+        benefits: ["Personalized roadmap", "Actionable steps", "Long-term integration"],
+        tags: ["360-component", "planning", "roadmap"],
+        active: true,
+    },
 ];
 
 export const vipPlans: Omit<VipPlan, 'id'>[] = [
   {
-    name: "Free",
-    priceEUR: 0,
-    benefits: [
-      "Basic access to content",
-      "Community forum access",
-      "Standard email support"
-    ]
+    tier: "Bronze Elite",
+    pricePerMonthEUR: 390,
+    sessionsPerMonth: 2,
+    sessionDurationMinutes: 90,
+    perks: [
+      "Two 90-min sessions per month",
+      "Integral health checks",
+      "Included transport",
+      "Personalised follow-up",
+      "Priority access",
+      "Premium materials"
+    ],
+    active: true
   },
   {
-    name: "Gold",
-    priceEUR: 49,
-    benefits: [
-      "All Free benefits",
-      "Access to premium articles",
-      "1 monthly wellness report",
-      "Priority email support"
-    ]
+    tier: "Silver Elite",
+    pricePerMonthEUR: 690,
+    sessionsPerMonth: 3,
+    sessionDurationMinutes: 90,
+    perks: [
+      "Three 90-min sessions per month",
+      "Advanced health control",
+      "Premium transport",
+      "Family discounts",
+      "Transferable sessions",
+      "Nutritional consulting",
+      "VIP hotline"
+    ],
+    active: true
   },
   {
-    name: "Diamond",
-    priceEUR: 99,
-    benefits: [
-      "All Gold benefits",
-      "Unlimited AI wellness reports",
-      "1 free monthly massage",
-      "Priority booking",
-      "2 guest session passes"
-    ]
+    tier: "Gold Elite",
+    pricePerMonthEUR: 990,
+    sessionsPerMonth: 4,
+    sessionDurationMinutes: 90,
+    perks: [
+      "Four 90-min sessions per month",
+      "Premium health control",
+      "24/7 transport",
+      "Unlimited transferable sessions",
+      "Free family access",
+      "Personal health concierge",
+      "Access to exclusive events"
+    ],
+    active: true
   }
 ];
 
@@ -129,7 +176,7 @@ export let currentUser: User = allUsers[0];
 
 export const vipData: VipData = {
     active: true,
-    tier: "Diamond",
+    tier: "Gold Elite",
     renewal: "2024-09-15",
     since: "2023-09-15",
     benefits: [

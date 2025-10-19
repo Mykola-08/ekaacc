@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useCollection, useFirestore, collection, useMemoFirebase } from "@/firebase";
-import type { Therapy } from "@/lib/types";
+import type { Service } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TherapiesPage() {
     const firestore = useFirestore();
-    const therapiesRef = useMemoFirebase(() => firestore ? collection(firestore, 'therapies') : null, [firestore]);
-    const { data: therapies, isLoading: isLoadingTherapies } = useCollection<Therapy>(therapiesRef);
+    const servicesRef = useMemoFirebase(() => firestore ? collection(firestore, 'services') : null, [firestore]);
+    const { data: services, isLoading: isLoadingServices } = useCollection<Service>(servicesRef);
 
     return (
         <div className="space-y-8">
@@ -38,7 +38,7 @@ export default function TherapiesPage() {
             </Card>
 
             <div className="grid gap-6 lg:grid-cols-2">
-                {isLoadingTherapies && (
+                {isLoadingServices && (
                     [...Array(4)].map((_, i) => (
                         <Card key={i}>
                             <CardHeader>
@@ -55,16 +55,16 @@ export default function TherapiesPage() {
                         </Card>
                     ))
                 )}
-                {therapies?.map((therapy) => (
-                    <Card key={therapy.id}>
+                {services?.map((service) => (
+                    <Card key={service.id}>
                         <CardHeader>
-                            <CardTitle>{therapy.name}</CardTitle>
-                            <CardDescription>{therapy.shortDescription}</CardDescription>
+                            <CardTitle>{service.name}</CardTitle>
+                            <CardDescription>{service.descriptionShort}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="flex justify-between items-center">
-                                <span className="text-lg font-semibold">€{therapy.priceEUR}</span>
-                                <span className="text-sm text-muted-foreground">{therapy.duration} mins</span>
+                                <span className="text-lg font-semibold">€{service.priceEUR}</span>
+                                <span className="text-sm text-muted-foreground">{service.durationMinutes} mins</span>
                             </div>
                             <Button variant="outline" className="w-full">View Details</Button>
                         </CardContent>
@@ -74,5 +74,3 @@ export default function TherapiesPage() {
         </div>
     )
 }
-
-    

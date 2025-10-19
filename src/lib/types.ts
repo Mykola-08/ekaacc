@@ -5,14 +5,15 @@ export type UserRole =
   | 'Therapist'
   | 'Donor'
   | 'Donation Receiver'
-  | 'VIP'
   | 'Admin'
   | 'Student'
-  | 'Corporate'
-  | 'Affiliate'
-  | 'Free'
-  | 'Gold'
-  | 'Diamond';
+  | 'Office Workers'
+  | 'Athletes'
+  | 'Artists'
+  | 'Musicians'
+  | 'Bronze Elite'
+  | 'Silver Elite'
+  | 'Gold Elite';
 
 export type User = {
   id: string;
@@ -79,22 +80,17 @@ export type StatCard = {
   icon: React.ElementType;
 };
 
-export type TherapyCategory = 'Service' | 'Complex Therapy';
-export type Availability = 'Online' | 'In-Person' | 'Both';
-
-export type Therapy = {
+export type Service = {
   id: string;
   name: string;
-  category: TherapyCategory;
-  shortDescription: string;
-  longDescription: string;
-  duration: number;
+  category: "Core" | "Personalized" | "360° Component";
+  descriptionShort: string;
+  descriptionLong: string;
+  durationMinutes: number;
   priceEUR: number;
   benefits: string[];
-  recommendedFor: string[];
-aiSummary: string;
-  availability: Availability;
-  complexityLevel: 1 | 2 | 3 | 4 | 5;
+  tags: string[];
+  active: boolean;
 };
 
 export type TherapyPackage = {
@@ -174,10 +170,11 @@ export type VipData = {
 }
 
 export type VipPlan = {
-    id: string;
-    name: string;
-    priceEUR: number;
-    benefits: string[];
-}
-
-    
+  id: string;
+  tier: "Bronze Elite" | "Silver Elite" | "Gold Elite";
+  pricePerMonthEUR: number;
+  sessionsPerMonth: number;
+  sessionDurationMinutes: number;
+  perks: string[];
+  active: boolean;
+};

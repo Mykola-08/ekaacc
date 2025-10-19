@@ -14,10 +14,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VipPage() {
     const { currentUser } = useUserContext();
-    const [currentPlanId, setCurrentPlanId] = useState('diamond');
+    const [currentPlanId, setCurrentPlanId] = useState('gold-elite');
     const firestore = useFirestore();
 
-    const plansRef = useMemoFirebase(() => firestore ? collection(firestore, 'plans') : null, [firestore]);
+    const plansRef = useMemoFirebase(() => firestore ? collection(firestore, 'vipPlans') : null, [firestore]);
     const { data: vipPlans, isLoading: isLoadingPlans } = useCollection<VipPlan>(plansRef);
 
     if (!currentUser) return null;
@@ -25,14 +25,14 @@ export default function VipPage() {
     return (
         <div className="space-y-8 lg:space-y-12">
              <div className="text-center">
-                <h1 className="text-3xl font-bold">EKA VIP</h1>
-                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Unlock exclusive benefits and accelerate your wellness journey.</p>
+                <h1 className="text-3xl font-bold">EKA Inner Circle</h1>
+                <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">Unlock exclusive benefits and accelerate your wellness journey with our Elite memberships.</p>
             </div>
 
             {/* Plan Selector */}
             <Card>
                 <CardHeader>
-                    <CardTitle>Choose Your Plan</CardTitle>
+                    <CardTitle>Choose Your Elite Plan</CardTitle>
                 </CardHeader>
                 <CardContent className="grid md:grid-cols-3 gap-6">
                     {isLoadingPlans && (
@@ -64,20 +64,20 @@ export default function VipPage() {
                         >
                             <CardHeader>
                                 <CardTitle className="flex justify-between items-center">
-                                    <span>{plan.name}</span>
+                                    <span>{plan.tier}</span>
                                     {plan.id === currentPlanId && <CheckCircle className="text-primary"/>}
                                 </CardTitle>
                                 <CardDescription>
-                                    <span className="text-2xl font-bold">€{plan.priceEUR}</span>
+                                    <span className="text-2xl font-bold">€{plan.pricePerMonthEUR}</span>
                                     <span className="text-muted-foreground">/month</span>
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex-1 flex flex-col justify-between">
                                 <ul className="space-y-2 text-sm text-muted-foreground mb-6">
-                                    {plan.benefits.map((benefit: string) => (
-                                        <li key={benefit} className="flex items-start gap-2">
+                                    {plan.perks.map((perk: string) => (
+                                        <li key={perk} className="flex items-start gap-2">
                                             <Check className="h-4 w-4 text-green-500 mt-1 shrink-0" />
-                                            <span>{benefit}</span>
+                                            <span>{perk}</span>
                                         </li>
                                     ))}
                                 </ul>
@@ -98,7 +98,7 @@ export default function VipPage() {
                 <div className="lg:col-span-2 space-y-8">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Your Diamond Benefits</CardTitle>
+                            <CardTitle>Your Gold Elite Benefits</CardTitle>
                             <CardDescription>
                                 Active since {vipData.since}. Renews on {vipData.renewal}.
                             </CardDescription>
@@ -180,5 +180,3 @@ export default function VipPage() {
         </div>
     )
 }
-
-    

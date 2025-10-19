@@ -1,7 +1,7 @@
 'use client';
 import { Suspense, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { TriageResult, Therapy } from '@/lib/types';
+import { TriageResult, Service } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Lightbulb, Star } from 'lucide-react';
@@ -14,8 +14,8 @@ function RecommendationContent() {
   const resultString = searchParams.get('result');
   const firestore = useFirestore();
 
-  const therapiesRef = useMemoFirebase(() => firestore ? collection(firestore, 'therapies') : null, [firestore]);
-  const { data: therapies, isLoading: isLoadingTherapies } = useCollection<Therapy>(therapiesRef);
+  const servicesRef = useMemoFirebase(() => firestore ? collection(firestore, 'services') : null, [firestore]);
+  const { data: services, isLoading: isLoadingServices } = useCollection<Service>(servicesRef);
 
   const result: TriageResult | null = useMemo(() => {
     if (!resultString) return null;
@@ -28,18 +28,18 @@ function RecommendationContent() {
   }, [resultString]);
 
   const topTherapy = useMemo(() => {
-    if (!result || !therapies) return null;
-    return therapies.find(t => t.id === result.top.therapyId);
-  }, [result, therapies]);
+    if (!result || !services) return null;
+    return services.find(t => t.id === result.top.therapyId);
+  }, [result, services]);
 
   const altTherapies = useMemo(() => {
-    if (!result || !therapies) return [];
+    if (!result || !services) return [];
     return result.alts
-      .map(alt => therapies.find(t => t.id === alt.therapyId))
-      .filter((t): t is Therapy => !!t);
-  }, [result, therapies]);
+      .map(alt => services.find(t => t.id === alt.therapyId))
+      .filter((t): t is Service => !!t);
+  }, [result, services]);
 
-  if (isLoadingTherapies) {
+  if (isLoadingServices) {
       return <RecommendationSkeleton message="Loading therapy details..." />;
   }
 
@@ -65,7 +65,7 @@ function RecommendationContent() {
               <span>Top Match</span>
             </div>
           </div>
-          <CardDescription>{topTherapy.shortDescription}</CardDescription>
+          <CardDescription>{topTherapy.descriptionShort}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <Card className="bg-muted/50 p-4">
@@ -119,7 +119,7 @@ function RecommendationContent() {
                   <CardTitle className="text-lg">{therapy.name}</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col justify-between">
-                  <p className="text-sm text-muted-foreground mb-4">{therapy.shortDescription}</p>
+                  <p className="text-sm text-muted-foreground mb-4">{therapy.descriptionShort}</p>
                   <Button variant="secondary" className="w-full" asChild>
                      <Link href={`/therapies`}>View Details</Link>
                   </Button>

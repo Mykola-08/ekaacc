@@ -62,21 +62,20 @@ const SidebarProvider = React.forwardRef<
   ) => {
     const isMobile = useIsMobile()
     const [openMobile, setOpenMobile] = React.useState(false)
-    const [isMounted, setIsMounted] = React.useState(false);
-
-    // Initialize state to a consistent value on the server.
-    const [_open, _setOpen] = React.useState(defaultOpen);
     
-    // After the component mounts on the client, check for the cookie.
+    // Start with default and let the client-side effect update from cookie.
+    const [_open, _setOpen] = React.useState(defaultOpen)
+    
+    // On the client, read the cookie to set the initial state.
     React.useEffect(() => {
-        setIsMounted(true);
-        const cookieValue = document.cookie
+      const cookieValue = document.cookie
         .split('; ')
-        .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
-      
-        if (cookieValue) {
-            _setOpen(cookieValue.split('=')[1] === 'true');
-        }
+        .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`))
+        ?.split('=')[1];
+
+      if (cookieValue !== undefined) {
+        _setOpen(cookieValue === 'true');
+      }
     }, []);
     
     const open = openProp ?? _open
@@ -94,10 +93,12 @@ const SidebarProvider = React.forwardRef<
     )
 
     const toggleSidebar = React.useCallback(() => {
-      return isMobile
-        ? setOpenMobile((open) => !open)
-        : setOpen((open) => !open)
-    }, [isMobile, setOpen, setOpenMobile])
+      if (isMobile) {
+        setOpenMobile((current) => !current);
+      } else {
+        setOpen((current) => !current);
+      }
+    }, [isMobile, setOpen, setOpenMobile]);
 
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -116,14 +117,10 @@ const SidebarProvider = React.forwardRef<
     }, [setOpen])
 
     const state = open ? "expanded" : "collapsed"
-    
-    // On the server, and on the initial client render, we render the default state.
-    // After mounting, we can safely render the client-side state.
-    const clientState = isMounted ? state : (defaultOpen ? 'expanded' : 'collapsed');
 
     const contextValue = React.useMemo<SidebarContext>(
       () => ({
-        state: clientState,
+        state,
         open,
         setOpen,
         isMobile,
@@ -131,7 +128,7 @@ const SidebarProvider = React.forwardRef<
         setOpenMobile,
         toggleSidebar,
       }),
-      [clientState, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
+      [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar]
     )
 
     return (
@@ -146,7 +143,7 @@ const SidebarProvider = React.forwardRef<
               className
             )}
             ref={ref}
-            data-state={clientState}
+            data-state={state}
             {...props}
           >
             {children}
@@ -324,5 +321,3 @@ export {
   SidebarTrigger,
   useSidebar,
 }
-
-    

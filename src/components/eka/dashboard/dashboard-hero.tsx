@@ -2,7 +2,7 @@
 
 import { useUserContext } from "@/context/user-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { generateDailyQuote } from "@/ai/flows/generate-daily-quote";
+import { generateDailyQuote } from "@/app/(app)/home/actions";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Sparkles } from "lucide-react";

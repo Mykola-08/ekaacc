@@ -18,6 +18,7 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  phoneNumber?: string;
   avatarUrl: string;
   role: UserRole;
   initials: string;
@@ -30,6 +31,7 @@ export type User = {
     goals: string;
     interests: string;
   };
+  squareCustomerId?: string;
 };
 
 export type Session = {
@@ -45,11 +47,12 @@ export type Session = {
 };
 
 export type Donation = {
-  id:string;
-  donorName: string;
+  id: string;
+  donorId: string;
+  receiverId: string;
   amount: number;
-  date: string;
-  receiverName: string;
+  date: FieldValue | Timestamp;
+  isAnonymous: boolean;
 };
 
 export type Report = {

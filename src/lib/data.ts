@@ -13,6 +13,7 @@ export const allUsers: User[] = [
     id: 'user-1',
     name: 'Alex Doe',
     email: 'alex.doe@example.com',
+    phoneNumber: process.env.NEXT_PUBLIC_DEMO_PHONE_NUMBER, // Added for Square integration demo
     avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
     role: 'VIP',
     initials: 'AD',
@@ -37,65 +38,6 @@ export const allUsers: User[] = [
 
 
 export let currentUser: User = allUsers[0];
-
-export const reports: Report[] = [
-    {
-        id: 'report-1',
-        title: 'Monthly Progress Summary',
-        author: 'AI Assistant',
-        date: '2024-08-01',
-        type: 'AI Summary',
-        summary: 'Significant improvement in mobility and mood noted over the past month. Pain levels have decreased by 20%.'
-    },
-    {
-        id: 'report-2',
-        title: 'Session Notes: July 28',
-        author: 'Dr. John Smith',
-        date: '2024-07-28',
-        type: 'Therapist Report',
-        summary: 'Patient reported feeling less anxious. Discussed coping strategies for stress management.'
-    },
-    {
-        id: 'report-3',
-        title: 'My Weekly Reflection',
-        author: 'Alex Doe',
-        date: '2024-07-25',
-        type: 'User Report',
-        summary: 'Felt energetic this week. I was able to complete all my exercises without much difficulty.'
-    }
-];
-
-
-export const userStats: StatCard[] = [
-  {
-    title: 'Pain Reduction',
-    value: '20%',
-    change: '5%',
-    changeType: 'increase',
-    icon: TrendingDown,
-  },
-  {
-    title: 'Mobility',
-    value: '15%',
-    change: '3%',
-    changeType: 'increase',
-    icon: Activity,
-  },
-  {
-    title: 'Sessions',
-    value: '8/10',
-    change: '+2',
-    changeType: 'increase',
-    icon: CalendarDays,
-  },
-  {
-    title: 'Milestones',
-    value: '3/5',
-    change: '+1',
-    changeType: 'increase',
-    icon: Award,
-  },
-];
 
 export const therapies: Therapy[] = [
   {

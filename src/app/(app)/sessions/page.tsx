@@ -10,8 +10,10 @@ import type { Session } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import { getSquareBookings } from "@/lib/square";
+import { useUser } from "@/firebase";
 
 export default function SessionsPage() {
+  const { user: firebaseUser, isUserLoading: isAuthLoading } = useUser();
   const [sessions, setSessions] = useState<Session[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,12 +21,30 @@ export default function SessionsPage() {
 
   useEffect(() => {
     async function fetchBookings() {
+      if (isAuthLoading) return; // Wait for user auth state
+      if (!firebaseUser) {
+        setError("You must be logged in to view your sessions.");
+        setIsLoading(false);
+        return;
+      }
+      
+      // For this demo, we'll assume the user's phone number is stored on the auth object.
+      // In a real app, this would come from the user's profile in your database.
+      const userPhoneNumber = firebaseUser.phoneNumber || process.env.NEXT_PUBLIC_DEMO_PHONE_NUMBER;
+
+      if (!userPhoneNumber) {
+          setError("Your user profile does not have a phone number linked, which is required to find your Square bookings.");
+          setIsLoading(false);
+          return;
+      }
+
+
       setIsLoading(true);
       try {
-        const squareBookings = await getSquareBookings();
+        const squareBookings = await getSquareBookings(userPhoneNumber);
         setSessions(squareBookings);
-      } catch (err) {
-        setError("Failed to load bookings. Please check your connection or Square configuration.");
+      } catch (err: any) {
+        setError(err.message || "Failed to load bookings. Please check your connection or Square configuration.");
         console.error(err);
       } finally {
         setIsLoading(false);
@@ -32,7 +52,7 @@ export default function SessionsPage() {
     }
 
     fetchBookings();
-  }, []);
+  }, [firebaseUser, isAuthLoading]);
 
   return (
     <Card>
@@ -52,7 +72,7 @@ export default function SessionsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && (
+            {(isLoading || isAuthLoading) && (
               [...Array(3)].map((_, i) => (
                 <TableRow key={i}>
                   <TableCell><Skeleton className="h-5 w-32" /></TableCell>
@@ -63,7 +83,7 @@ export default function SessionsPage() {
                 </TableRow>
               ))
             )}
-            {!isLoading && sessions && sessions.length > 0 && sessions.map((session) => (
+            {!isLoading && !isAuthLoading && sessions && sessions.length > 0 && sessions.map((session) => (
               <TableRow key={session.id}>
                 <TableCell className="font-medium whitespace-nowrap">{session.therapist}</TableCell>
                 <TableCell className="whitespace-nowrap">{session.type}</TableCell>
@@ -89,13 +109,13 @@ export default function SessionsPage() {
                 </TableCell>
               </TableRow>
             ))}
-             {!isLoading && (!sessions || sessions.length === 0) && (
+             {!isLoading && !isAuthLoading && (!sessions || sessions.length === 0) && (
                 <TableRow>
                     <TableCell colSpan={5} className="h-48 text-center">
                         <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">{error ? "An Error Occurred" : "No Sessions Found"}</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            {error || "You haven't booked any sessions through Square yet."}
+                        <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
+                            {error || "We couldn't find any Square bookings linked to your phone number. Make sure you use the same phone number for both your EKA account and your Square bookings."}
                         </p>
                         <Button variant="outline" size="sm" className="mt-4">Book a Session</Button>
                     </TableCell>

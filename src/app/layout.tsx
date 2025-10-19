@@ -5,7 +5,6 @@ import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { FirebaseClientProvider } from '@/firebase';
 import { UserProvider } from '@/context/user-context';
-import { SeedTrigger } from '@/firebase/seed-trigger';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -24,7 +23,6 @@ export default function RootLayout({
       <body className={cn('antialiased font-body', inter.variable)}>
         <FirebaseClientProvider>
           <UserProvider>
-            <SeedTrigger />
             {children}
           </UserProvider>
         </FirebaseClientProvider>

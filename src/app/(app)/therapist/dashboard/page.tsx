@@ -127,7 +127,7 @@ export default function TherapistDashboardPage() {
         setServiceForm(prev => ({ ...prev, [field]: value }));
     };
     
-    const handleSaveService = async () => {
+    const handleSaveService = () => {
         if (!firestore || !servicesRef) {
             toast({ variant: 'destructive', title: "Database error." });
             return;
@@ -144,22 +144,17 @@ export default function TherapistDashboardPage() {
             tags: typeof serviceForm.tags === 'string' ? serviceForm.tags.split(',').map(s => s.trim()) : serviceForm.tags || [],
         };
         
-        try {
-            if (serviceForm.id) {
-                // Editing existing service
-                const serviceDocRef = doc(firestore, 'services', serviceForm.id);
-                await updateDocumentNonBlocking(serviceDocRef, dataToSave);
-                toast({ title: "Service Updated", description: `${serviceForm.name} has been updated.` });
-            } else {
-                // Adding new service
-                await addDocumentNonBlocking(servicesRef, dataToSave);
-                toast({ title: "Service Added", description: `${serviceForm.name} has been added to the catalog.` });
-            }
-            setIsServiceDialogOpen(false);
-        } catch (error) {
-            console.error("Failed to save service:", error);
-            toast({ variant: 'destructive', title: "Save Failed", description: "Could not save the service." });
+        if (serviceForm.id) {
+            // Editing existing service
+            const serviceDocRef = doc(firestore, 'services', serviceForm.id);
+            updateDocumentNonBlocking(serviceDocRef, dataToSave);
+            toast({ title: "Service Updated", description: `${serviceForm.name} has been updated.` });
+        } else {
+            // Adding new service
+            addDocumentNonBlocking(servicesRef, dataToSave);
+            toast({ title: "Service Added", description: `${serviceForm.name} has been added to the catalog.` });
         }
+        setIsServiceDialogOpen(false);
     };
 
 

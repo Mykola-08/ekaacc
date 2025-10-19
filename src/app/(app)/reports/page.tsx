@@ -20,7 +20,6 @@ import {
 import { AiAssistant } from "@/components/eka/dashboard/ai-assistant";
 import { useCollection, useUser, useFirestore, addDocumentNonBlocking, collection, serverTimestamp } from '@/firebase';
 import { Skeleton } from '@/components/ui/skeleton';
-import { generateMonthlyReport } from '@/ai/flows/generate-monthly-report';
 import { useToast } from '@/hooks/use-toast';
 import { Report } from '@/lib/types';
 import { useMemo } from 'react';
@@ -56,6 +55,9 @@ export default function ReportsPage() {
           description: "The AI is analyzing your data to create a monthly summary.",
       });
       try {
+          // Dynamically import the flow only when needed
+          const { generateMonthlyReport } = await import('@/ai/flows/generate-monthly-report');
+          
           // In a real app, you would fetch real data. Here we use mock data for the AI flow.
           const input = {
               userId: user.uid,

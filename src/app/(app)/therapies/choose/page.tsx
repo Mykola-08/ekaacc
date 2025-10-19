@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { TriageInput, triageTherapy } from "@/ai/flows/triage-therapy";
+import { type TriageInput } from "@/ai/flows/triage-therapy";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
@@ -42,6 +42,8 @@ export default function ChooseTherapyPage() {
         };
 
         try {
+            // Dynamically import the flow only when needed
+            const { triageTherapy } = await import('@/ai/flows/triage-therapy');
             const result = await triageTherapy(input);
             const params = new URLSearchParams();
             params.set('result', JSON.stringify(result));

@@ -10,7 +10,6 @@ import { useUser, useFirestore, useCollection, collection, addDocumentNonBlockin
 import { allUsers } from "@/lib/data";
 import type { Message } from '@/lib/types';
 import { useMemo, useRef, useEffect, useState } from "react";
-import { suggestChatReply } from "@/ai/flows/suggest-chat-reply";
 import { useToast } from "@/hooks/use-toast";
 
 export function MessagingPanel() {
@@ -77,6 +76,8 @@ export function MessagingPanel() {
         if (!messages || messages.length === 0) return;
         setIsSuggesting(true);
         try {
+            // Dynamically import the flow only when needed
+            const { suggestChatReply } = await import('@/ai/flows/suggest-chat-reply');
             const conversationHistory = messages.map(m => `${m.senderId === user?.uid ? 'User' : 'Therapist'}: ${m.content}`).join('\n');
             const result = await suggestChatReply({ conversation: conversationHistory });
             setSuggestions(result.suggestions);

@@ -33,9 +33,9 @@ export function QuickActions() {
         <CardTitle>Quick Actions</CardTitle>
         <CardDescription>Your most common tasks, one click away.</CardDescription>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4">
+      <CardContent className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {actions.map((action) => (
-            <Button key={action.label} variant="outline" className="h-24 flex flex-col gap-2 text-center" asChild>
+            <Button key={action.label} variant="outline" className="h-24 flex-col gap-2 text-center" asChild>
                 <Link href={action.href}>
                     <action.icon className="h-6 w-6 text-primary" />
                     <span className="text-sm font-medium">{action.label}</span>

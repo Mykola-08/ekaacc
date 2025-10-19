@@ -6,20 +6,21 @@ import { Check, Target } from "lucide-react";
 
 interface GoalProgressProps {
     sessionsCompleted: number;
+    goal?: string;
+    targetSessions?: number;
 }
 
-export function GoalProgress({ sessionsCompleted }: GoalProgressProps) {
-    const totalSessions = 10;
-    const progress = Math.min((sessionsCompleted / totalSessions) * 100, 100);
-    const goal = `Complete ${totalSessions} sessions`;
+export function GoalProgress({ sessionsCompleted, goal = "Complete initial therapy plan", targetSessions = 10 }: GoalProgressProps) {
+    const progress = Math.min((sessionsCompleted / targetSessions) * 100, 100);
     
-    const milestones = [
-        { name: "First Session", completed: sessionsCompleted >= 1 },
-        { name: "3 Sessions", completed: sessionsCompleted >= 3 },
-        { name: "5 Sessions", completed: sessionsCompleted >= 5 },
-        { name: "8 Sessions", completed: sessionsCompleted >= 8 },
-        { name: "10 Sessions", completed: sessionsCompleted >= 10 },
-    ]
+    const milestones = Array.from({ length: 5 }, (_, i) => {
+        const sessionMark = Math.ceil(targetSessions * ((i + 1) / 5));
+        return {
+            name: `${sessionMark} Session${sessionMark > 1 ? 's' : ''}`,
+            completed: sessionsCompleted >= sessionMark,
+            milestoneNumber: i + 1,
+        };
+    });
 
     return (
         <Card>
@@ -43,10 +44,10 @@ export function GoalProgress({ sessionsCompleted }: GoalProgressProps) {
                 <div className="relative">
                     <div className="absolute left-3.5 top-0 bottom-0 w-0.5 bg-border -z-10" />
                      <div className="space-y-4">
-                        {milestones.map((milestone, index) => (
-                             <div key={index} className="flex items-center gap-4">
+                        {milestones.map((milestone) => (
+                             <div key={milestone.milestoneNumber} className="flex items-center gap-4">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${milestone.completed ? 'bg-primary text-primary-foreground' : 'bg-muted border'}`}>
-                                    {milestone.completed ? <Check className="w-5 h-5" /> : <span className="text-sm font-bold">{index + 1}</span>}
+                                    {milestone.completed ? <Check className="w-5 h-5" /> : <span className="text-sm font-bold">{milestone.milestoneNumber}</span>}
                                 </div>
                                 <span className={`text-sm font-medium transition-colors ${milestone.completed ? 'text-foreground' : 'text-muted-foreground'}`}>{milestone.name}</span>
                             </div>

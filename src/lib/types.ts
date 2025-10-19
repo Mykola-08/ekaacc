@@ -21,6 +21,10 @@ export type User = {
   avatarUrl: string;
   role: UserRole;
   initials: string;
+  goal?: {
+    description: string;
+    targetSessions: number;
+  };
 };
 
 export type Session = {

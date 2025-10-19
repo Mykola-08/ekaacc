@@ -51,8 +51,6 @@ const SidebarProvider = React.forwardRef<
   (
     {
       defaultOpen = true,
-      open: openProp,
-      onOpenChange: setOpenProp,
       className,
       style,
       children,
@@ -63,10 +61,10 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile()
     const [openMobile, setOpenMobile] = React.useState(false)
     
-    // Start with default and let the client-side effect update from cookie.
-    const [_open, _setOpen] = React.useState(defaultOpen)
-    
-    // On the client, read the cookie to set the initial state.
+    // Server-side, always use defaultOpen to prevent hydration mismatch
+    const [open, setOpen] = React.useState(defaultOpen);
+
+    // On the client, read the cookie to set the initial state after mount
     React.useEffect(() => {
       const cookieValue = document.cookie
         .split('; ')
@@ -74,48 +72,22 @@ const SidebarProvider = React.forwardRef<
         ?.split('=')[1];
 
       if (cookieValue !== undefined) {
-        _setOpen(cookieValue === 'true');
+        setOpen(cookieValue === 'true');
       }
     }, []);
-    
-    const open = openProp ?? _open
-    const setOpen = React.useCallback(
-      (value: boolean | ((value: boolean) => boolean)) => {
-        const openState = typeof value === "function" ? value(open) : value
-        if (setOpenProp) {
-          setOpenProp(openState)
-        } else {
-          _setOpen(openState)
-        }
-        document.cookie = `${SIDEBAR_COOKIE_NAME}=${openState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
-      },
-      [setOpenProp, open]
-    )
 
     const toggleSidebar = React.useCallback(() => {
-      if (isMobile) {
-        setOpenMobile((current) => !current);
-      } else {
-        setOpen((current) => !current);
-      }
-    }, [isMobile, setOpen, setOpenMobile]);
-
-    React.useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === '[' && (event.metaKey || event.ctrlKey)) {
-            event.preventDefault()
-            setOpen(false)
+        if (isMobile) {
+            setOpenMobile((current) => !current);
+        } else {
+            setOpen((current) => {
+                const newState = !current;
+                document.cookie = `${SIDEBAR_COOKIE_NAME}=${newState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
+                return newState;
+            });
         }
-         if (event.key === ']' && (event.metaKey || event.ctrlKey)) {
-            event.preventDefault()
-            setOpen(true)
-        }
-      }
-
-      window.addEventListener("keydown", handleKeyDown)
-      return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [setOpen])
-
+    }, [isMobile]);
+    
     const state = open ? "expanded" : "collapsed"
 
     const contextValue = React.useMemo<SidebarContext>(

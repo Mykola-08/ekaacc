@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { useState } from 'react';
@@ -13,46 +14,53 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, doc, updateDocumentNonBlocking } from '@/firebase';
+import { useUser, useFirestore, doc, updateDocumentNonBlocking, useCollection, collection, query, where, useMemoFirebase } from '@/firebase';
 import { allUsers as patientsData } from '@/lib/data';
-import { useEffect } from 'react';
-import { getSquareBookings } from '@/lib/square';
-import type { Session } from '@/lib/types';
+import type { Session as AppSession } from '@/lib/types';
+import { format } from 'date-fns';
+
+const mapBookingToSession = (booking: any): AppSession => {
+    const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
+    const therapistName = 'EKA Therapist'; // Placeholder
+
+    return {
+        id: booking.id,
+        therapist: therapistName,
+        therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square', // Placeholder
+        date: booking.start_at,
+        time: new Date(booking.start_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        duration: 0, // Not easily available in this context without more data
+        status: 'Upcoming', // Assuming we only query for upcoming
+        type: serviceName,
+        userId: booking.customer_id
+    };
+};
 
 
 export default function TherapistDashboardPage() {
     const { user } = useUser();
     const firestore = useFirestore();
-    const [upcomingSessions, setUpcomingSessions] = useState<Session[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    
+    // Fetch upcoming bookings from Firestore
+    const upcomingBookingsQuery = useMemoFirebase(() => {
+        if (!firestore) return null;
+        const now = new Date().toISOString();
+        return query(
+            collection(firestore, 'bookings'), 
+            where('start_at', '>=', now)
+        );
+    }, [firestore]);
+    
+    const { data: upcomingBookings, isLoading } = useCollection(upcomingBookingsQuery);
+
+    const upcomingSessions = (upcomingBookings?.map(mapBookingToSession) || [])
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<(typeof patientsData[0]) | null>(null);
     const [goalDescription, setGoalDescription] = useState('');
     const [targetSessions, setTargetSessions] = useState('');
     const { toast } = useToast();
-
-    useEffect(() => {
-        async function fetchSessions() {
-            setIsLoading(true);
-            try {
-                const allSessions = await getSquareBookings();
-                const upcoming = allSessions.filter(s => s.status === 'Upcoming');
-                setUpcomingSessions(upcoming);
-            } catch (error) {
-                console.error("Failed to fetch sessions", error);
-                toast({
-                    variant: 'destructive',
-                    title: 'Failed to load sessions',
-                    description: 'Could not retrieve booking data from Square.'
-                });
-            } finally {
-                setIsLoading(false);
-            }
-        }
-        fetchSessions();
-    }, [toast]);
-
 
     const handleOpenGoalDialog = (patient: typeof patientsData[0]) => {
         setSelectedPatient(patient);
@@ -186,11 +194,10 @@ export default function TherapistDashboardPage() {
                                 <div key={session.id} className="space-y-3">
                                     <div className="flex items-start gap-4">
                                         <Avatar className="h-10 w-10 border">
-                                            <AvatarImage src={session.therapistAvatarUrl} />
-                                            <AvatarFallback>{session.therapist.charAt(0)}</AvatarFallback>
+                                            {/* You'd fetch the customer's avatar based on session.userId */}
+                                            <AvatarFallback>{'P'}</AvatarFallback>
                                         </Avatar>
                                         <div>
-                                            {/* In a real app, you would fetch patient name from session.userId */}
                                             <p className="font-semibold">Session with a client</p> 
                                             <p className="text-sm text-muted-foreground">{session.type}</p>
                                         </div>
@@ -198,7 +205,7 @@ export default function TherapistDashboardPage() {
                                     <div className="flex items-center justify-between text-sm bg-muted p-3 rounded-lg">
                                         <div className="flex items-center gap-2 text-muted-foreground">
                                             <Clock className="h-4 w-4" />
-                                            <span>{session.time}</span>
+                                            <span>{format(new Date(session.date), "p, MMM d")}</span>
                                         </div>
                                         <Button variant="secondary" size="sm">
                                             Start Session

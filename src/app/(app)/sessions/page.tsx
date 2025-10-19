@@ -6,53 +6,63 @@ import { MoreHorizontal, CalendarOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
-import type { Session } from '@/lib/types';
+import type { Session as AppSession } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
-import { useEffect, useState } from "react";
-import { getSquareBookings } from "@/lib/square";
-import { useUser } from "@/firebase";
+import { useUser, useFirestore, useCollection, collection, query, where, useMemoFirebase } from "@/firebase";
+
+// Helper function to map Firestore booking data to the app's Session type
+const mapBookingToSession = (booking: any): AppSession => {
+    const getStatus = (status: string): 'Upcoming' | 'Completed' | 'Canceled' => {
+        const startTime = new Date(booking.start_at || 0);
+        const isPast = startTime < new Date();
+
+        switch (status) {
+            case 'ACCEPTED': return isPast ? 'Completed' : 'Upcoming';
+            case 'DECLINED_BY_SELLER':
+            case 'CANCELLED_BY_CUSTOMER':
+            case 'CANCELLED_BY_SELLER': return 'Canceled';
+            case 'NO_SHOW': return 'Completed';
+            default: return isPast ? 'Completed' : 'Upcoming';
+        }
+    };
+    
+    // Assuming the structure from the Square SDK v2 booking object
+    const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
+    const duration = booking.appointment_segments?.[0]?.service_variation_data?.service_variation_data?.duration_minutes || 0;
+    
+    // In a real app with a `teams` collection, you'd fetch the team member name here
+    const therapistName = 'EKA Therapist'; 
+
+    return {
+        id: booking.id,
+        therapist: therapistName,
+        therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square', // Placeholder
+        date: booking.start_at,
+        time: new Date(booking.start_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        duration: Number(duration),
+        status: getStatus(booking.status),
+        type: serviceName,
+        userId: booking.customer_id
+    };
+};
 
 export default function SessionsPage() {
-  const { user: firebaseUser, isUserLoading: isAuthLoading } = useUser();
-  const [sessions, setSessions] = useState<Session[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
 
+  // Query the 'bookings' collection based on the logged-in user's Square customer ID.
+  // In your new architecture, the user's Square customer ID should be synced to their Firestore user profile.
+  const bookingsQuery = useMemoFirebase(() => {
+    if (!firestore || !user?.squareCustomerId) return null;
+    return query(collection(firestore, 'bookings'), where('customer_id', '==', user.squareCustomerId));
+  }, [firestore, user]);
 
-  useEffect(() => {
-    async function fetchBookings() {
-      if (isAuthLoading) return; // Wait for user auth state
-      if (!firebaseUser) {
-        setError("You must be logged in to view your sessions.");
-        setIsLoading(false);
-        return;
-      }
-      
-      // For this demo, we'll assume the user's phone number is stored on the auth object.
-      // In a real app, this would come from the user's profile in your database.
-      const userPhoneNumber = firebaseUser.phoneNumber || process.env.NEXT_PUBLIC_DEMO_PHONE_NUMBER;
-
-      if (!userPhoneNumber) {
-          setError("Your user profile does not have a phone number linked, which is required to find your Square bookings.");
-          setIsLoading(false);
-          return;
-      }
-
-
-      setIsLoading(true);
-      try {
-        const squareBookings = await getSquareBookings(userPhoneNumber);
-        setSessions(squareBookings);
-      } catch (err: any) {
-        setError(err.message || "Failed to load bookings. Please check your connection or Square configuration.");
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchBookings();
-  }, [firebaseUser, isAuthLoading]);
+  const { data: bookings, isLoading: isLoadingBookings, error } = useCollection(bookingsQuery);
+  
+  const sessions = bookings?.map(mapBookingToSession)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  
+  const isLoading = isUserLoading || (user && isLoadingBookings);
 
   return (
     <Card>
@@ -72,7 +82,7 @@ export default function SessionsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {(isLoading || isAuthLoading) && (
+            {isLoading && (
               [...Array(3)].map((_, i) => (
                 <TableRow key={i}>
                   <TableCell><Skeleton className="h-5 w-32" /></TableCell>
@@ -83,7 +93,7 @@ export default function SessionsPage() {
                 </TableRow>
               ))
             )}
-            {!isLoading && !isAuthLoading && sessions && sessions.length > 0 && sessions.map((session) => (
+            {!isLoading && sessions && sessions.length > 0 && sessions.map((session) => (
               <TableRow key={session.id}>
                 <TableCell className="font-medium whitespace-nowrap">{session.therapist}</TableCell>
                 <TableCell className="whitespace-nowrap">{session.type}</TableCell>
@@ -109,13 +119,13 @@ export default function SessionsPage() {
                 </TableCell>
               </TableRow>
             ))}
-             {!isLoading && !isAuthLoading && (!sessions || sessions.length === 0) && (
+             {!isLoading && (!sessions || sessions.length === 0) && (
                 <TableRow>
                     <TableCell colSpan={5} className="h-48 text-center">
                         <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">{error ? "An Error Occurred" : "No Sessions Found"}</h3>
                         <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-                            {error || "We couldn't find any Square bookings linked to your phone number. Make sure you use the same phone number for both your EKA account and your Square bookings."}
+                            {error ? error.message : "We couldn't find any sessions in your account. Ready to book your first one?"}
                         </p>
                         <Button variant="outline" size="sm" className="mt-4">Book a Session</Button>
                     </TableCell>

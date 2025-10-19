@@ -62,21 +62,21 @@ const SidebarProvider = React.forwardRef<
     const isMobile = useIsMobile()
     const [openMobile, setOpenMobile] = React.useState(false)
 
-    // Attempt to read the persisted state from cookies
-    const getInitialOpenState = () => {
+    // Initialize state to defaultOpen for server-side rendering consistency.
+    const [_open, _setOpen] = React.useState(defaultOpen);
+
+    // After the component mounts on the client, check for the cookie.
+    React.useEffect(() => {
       if (typeof window !== 'undefined') {
         const cookieValue = document.cookie
           .split('; ')
           .find(row => row.startsWith(`${SIDEBAR_COOKIE_NAME}=`));
         if (cookieValue) {
-          return cookieValue.split('=')[1] === 'true';
+          _setOpen(cookieValue.split('=')[1] === 'true');
         }
       }
-      return defaultOpen;
-    };
+    }, []);
 
-
-    const [_open, _setOpen] = React.useState(getInitialOpenState);
     const open = openProp ?? _open
     const setOpen = React.useCallback(
       (value: boolean | ((value: boolean) => boolean)) => {

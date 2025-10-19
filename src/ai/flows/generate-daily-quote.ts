@@ -8,6 +8,7 @@
  */
 
 import {ai} from '@/ai/genkit';
+import { googleAI } from '@genkit-ai/google-genai';
 import {z} from 'genkit';
 
 const GenerateDailyQuoteOutputSchema = z.object({
@@ -22,6 +23,7 @@ export async function generateDailyQuote(): Promise<GenerateDailyQuoteOutput> {
 const generateDailyQuotePrompt = ai.definePrompt({
   name: 'generateDailyQuotePrompt',
   output: {schema: GenerateDailyQuoteOutputSchema},
+  model: googleAI.model('gemini-2.5-flash'),
   prompt: `You are an AI assistant that provides a daily dose of motivation. 
   
   Generate a short, powerful, and inspiring quote related to wellness, progress, and recovery. 

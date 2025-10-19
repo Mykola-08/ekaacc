@@ -6,8 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Loader2, Bot, Gift } from "lucide-react";
 import { useUser, useFirestore, useCollection, collection, query, where, or, useMemoFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
-import { allUsers } from '@/lib/data';
-import type { Donation } from '@/lib/types';
+import type { Donation, User } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -33,6 +32,9 @@ export default function DonationReportsPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<GeneratedReport | null>(null);
 
+  const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
+  const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
+
   const donationsRef = useMemoFirebase(() => firestore ? collection(firestore, 'donations') : null, [firestore]);
   
   const userDonationsQuery = useMemoFirebase(() => {
@@ -49,7 +51,7 @@ export default function DonationReportsPage() {
   const { data: userDonations, isLoading: isLoadingDonations } = useCollection<Donation>(userDonationsQuery);
 
   const handleGenerateReport = async () => {
-    if (!user || !userDonations || userDonations.length === 0) {
+    if (!user || !userDonations || userDonations.length === 0 || !allUsers) {
         toast({
             variant: "destructive",
             title: "Not enough data",
@@ -112,7 +114,7 @@ export default function DonationReportsPage() {
                 <CardDescription>Generate AI-powered summaries of donation activity or review your history.</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button onClick={handleGenerateReport} disabled={isGenerating || isLoadingDonations}>
+                <Button onClick={handleGenerateReport} disabled={isGenerating || isLoadingDonations || isLoadingUsers}>
                     {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {isGenerating ? 'Generating...' : 'Generate Support Summary'}
                 </Button>
@@ -137,12 +139,12 @@ export default function DonationReportsPage() {
                 <CardDescription>A complete log of all donations you've made or received.</CardDescription>
             </CardHeader>
             <CardContent>
-                 {isLoadingDonations && (
+                 {(isLoadingDonations || isLoadingUsers) && (
                     <div className="space-y-4">
                         {[1, 2, 3].map(i => <Skeleton key={i} className="h-12 w-full" />)}
                     </div>
                  )}
-                 {!isLoadingDonations && sortedDonations && sortedDonations.length > 0 ? (
+                 {!isLoadingDonations && !isLoadingUsers && sortedDonations && sortedDonations.length > 0 ? (
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -168,7 +170,7 @@ export default function DonationReportsPage() {
                         </TableBody>
                     </Table>
                  ) : (
-                    !isLoadingDonations && (
+                    !isLoadingDonations && !isLoadingUsers && (
                     <div className="text-center py-12">
                         <Gift className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">No Donations Yet</h3>
@@ -182,3 +184,5 @@ export default function DonationReportsPage() {
     </div>
   );
 }
+
+    

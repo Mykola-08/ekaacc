@@ -40,6 +40,19 @@
         "preferences": {
           "type": "string",
           "description": "JSON blob containing user preferences such as dashboard layout and notification style."
+        },
+        "dashboardWidgets": {
+          "type": "object",
+          "properties": {
+            "goalProgress": { "type": "boolean" },
+            "quickActions": { "type": "boolean" },
+            "nextSession": { "type": "boolean" },
+            "recentActivity": { "type": "boolean" }
+          }
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's phone number for Square customer matching."
         }
       },
       "required": [
@@ -271,6 +284,40 @@
         "endDate",
         "status"
       ]
+    },
+    "Therapy": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Therapy",
+      "type": "object",
+      "description": "Represents a therapy service offered.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "duration": { "type": "number" },
+        "priceEUR": { "type": "number" },
+        "benefits": { "type": "array", "items": { "type": "string" } },
+        "recommendedFor": { "type": "array", "items": { "type": "string" } },
+        "aiSummary": { "type": "string" },
+        "availability": { "type": "string" },
+        "complexityLevel": { "type": "number" }
+      },
+      "required": ["id", "name", "shortDescription", "duration", "priceEUR"]
+    },
+    "Plan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Plan",
+      "type": "object",
+      "description": "Represents a subscription plan.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "priceEUR": { "type": "number" },
+        "benefits": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["id", "name", "priceEUR"]
     }
   },
   "auth": {
@@ -388,8 +435,28 @@
             }
           ]
         }
+      },
+      {
+        "path": "/therapies/{therapyId}",
+        "definition": {
+          "entityName": "Therapy",
+          "schema": { "$ref": "#/backend/entities/Therapy" },
+          "description": "Stores all available therapies and services.",
+          "params": [{ "name": "therapyId", "description": "The unique identifier for the therapy." }]
+        }
+      },
+      {
+        "path": "/plans/{planId}",
+        "definition": {
+          "entityName": "Plan",
+          "schema": { "$ref": "#/backend/entities/Plan" },
+          "description": "Stores all available subscription plans (e.g., Free, Gold, Diamond).",
+          "params": [{ "name": "planId", "description": "The unique identifier for the plan." }]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to align with the core principles of Authorization Independence, Clarity of Intent, and Rules Are Not Filters (QAPs). It leverages Structural Segregation to ensure each collection has a homogeneous security posture and employs Access Modeling to standardize authorization patterns. Denormalization is used extensively to avoid `get()` calls in security rules, enabling atomic operations.  User data and user-owned data is segregated into `/users/{userId}`. Collaborative scenarios, like therapists and clients, use explicit membership maps.  Here's the breakdown by entity:\n\n*   **Users:** User profiles are stored in `/users/{userId}`. This allows path-based ownership, ensuring only the user or admins can access/modify their profile.\n*   **Sessions:** Sessions are stored in `/users/{userId}/sessions/{sessionId}`. This ensures that only the user or their therapist can access their session data.\n*   **Donations:** Donations are stored in `/donations/{donationId}`. The `donorId` and `receiverId` are denormalized to the `members` map for ease of authorization rule writing. This allows listing donations where the user is a donor or a receiver, enforcing QAPs.\n*   **Reports:** Reports are stored in `/users/{userId}/reports/{reportId}`. The `therapistId` is included in each document to enable therapists to access reports created for their patients.\n*   **Messages:** Messages are stored in `/messages/{messageId}`.  The `senderId` and `receiverId` are denormalized to the `members` map to allow easy authorization rule writing. This is a top-level collection enabling `list` operations (QAPs) based on membership without the need to get() other documents.\n*   **Subscriptions:** Subscriptions are stored in `/users/{userId}/subscriptions/{subscriptionId}`, as subscriptions are specific to each user."
+    "reasoning": "The Firestore structure is designed to align with the core principles of Authorization Independence, Clarity of Intent, and Rules Are Not Filters (QAPs). It leverages Structural Segregation to ensure each collection has a homogeneous security posture and employs Access Modeling to standardize authorization patterns. Denormalization is used extensively to avoid `get()` calls in security rules, enabling atomic operations.  User data and user-owned data is segregated into `/users/{userId}`. Collaborative scenarios, like therapists and clients, use explicit membership maps.  Here's the breakdown by entity:\n\n*   **Users:** User profiles are stored in `/users/{userId}`. This allows path-based ownership, ensuring only the user or admins can access/modify their profile.\n*   **Sessions:** Sessions are stored in `/users/{userId}/sessions/{sessionId}`. This ensures that only the user or their therapist can access their session data.\n*   **Donations:** Donations are stored in `/donations/{donationId}`. The `donorId` and `receiverId` are denormalized to the `members` map for ease of authorization rule writing. This allows listing donations where the user is a donor or a receiver, enforcing QAPs.\n*   **Reports:** Reports are stored in `/users/{userId}/reports/{reportId}`. The `therapistId` is included in each document to enable therapists to access reports created for their patients.\n*   **Messages:** Messages are stored in `/messages/{messageId}`.  The `senderId` and `receiverId` are denormalized to the `members` map to allow easy authorization rule writing. This is a top-level collection enabling `list` operations (QAPs) based on membership without the need to get() other documents.\n*   **Subscriptions:** Subscriptions are stored in `/users/{userId}/subscriptions/{subscriptionId}`, as subscriptions are specific to each user.\n*   **Therapies:** A top-level `/therapies` collection is added to store all available therapy services. This is public or semi-public data, easily queryable by all users.\n*   **Plans:** A top-level `/plans` collection stores subscription plan details. This is also public data for users to view."
   }
 }
+
+    

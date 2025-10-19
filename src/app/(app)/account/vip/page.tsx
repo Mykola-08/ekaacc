@@ -4,14 +4,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useUserContext } from "@/context/user-context";
-import { vipData, vipPlans } from "@/lib/data";
+import { vipData } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Check, CheckCircle, Sparkles } from "lucide-react";
 import { useState } from "react";
+import { useCollection, useFirestore, collection, useMemoFirebase } from "@/firebase";
+import type { VipPlan } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VipPage() {
     const { currentUser } = useUserContext();
     const [currentPlanId, setCurrentPlanId] = useState('diamond');
+    const firestore = useFirestore();
+
+    const plansRef = useMemoFirebase(() => firestore ? collection(firestore, 'plans') : null, [firestore]);
+    const { data: vipPlans, isLoading: isLoadingPlans } = useCollection<VipPlan>(plansRef);
 
     if (!currentUser) return null;
 
@@ -28,7 +35,25 @@ export default function VipPage() {
                     <CardTitle>Choose Your Plan</CardTitle>
                 </CardHeader>
                 <CardContent className="grid md:grid-cols-3 gap-6">
-                    {vipPlans.map(plan => (
+                    {isLoadingPlans && (
+                        [...Array(3)].map((_, i) => (
+                            <Card key={i}>
+                                <CardHeader>
+                                    <Skeleton className="h-6 w-1/2" />
+                                    <Skeleton className="h-8 w-1/3 mt-2" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-2">
+                                        <Skeleton className="h-4 w-full" />
+                                        <Skeleton className="h-4 w-full" />
+                                        <Skeleton className="h-4 w-2/3" />
+                                    </div>
+                                    <Skeleton className="h-10 w-full mt-6" />
+                                </CardContent>
+                            </Card>
+                        ))
+                    )}
+                    {vipPlans && vipPlans.map(plan => (
                         <Card 
                             key={plan.id} 
                             className={cn(
@@ -49,7 +74,7 @@ export default function VipPage() {
                             </CardHeader>
                             <CardContent className="flex-1 flex flex-col justify-between">
                                 <ul className="space-y-2 text-sm text-muted-foreground mb-6">
-                                    {plan.benefits.map(benefit => (
+                                    {plan.benefits.map((benefit: string) => (
                                         <li key={benefit} className="flex items-start gap-2">
                                             <Check className="h-4 w-4 text-green-500 mt-1 shrink-0" />
                                             <span>{benefit}</span>
@@ -155,3 +180,5 @@ export default function VipPage() {
         </div>
     )
 }
+
+    

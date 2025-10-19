@@ -179,3 +179,5 @@ export type VipPlan = {
     priceEUR: number;
     benefits: string[];
 }
+
+    

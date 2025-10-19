@@ -1,12 +1,18 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { therapies } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
+import { useCollection, useFirestore, collection, useMemoFirebase } from "@/firebase";
+import type { Therapy } from "@/lib/types";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function TherapiesPage() {
+    const firestore = useFirestore();
+    const therapiesRef = useMemoFirebase(() => firestore ? collection(firestore, 'therapies') : null, [firestore]);
+    const { data: therapies, isLoading: isLoadingTherapies } = useCollection<Therapy>(therapiesRef);
+
     return (
         <div className="space-y-8">
             <div>
@@ -32,7 +38,24 @@ export default function TherapiesPage() {
             </Card>
 
             <div className="grid gap-6 lg:grid-cols-2">
-                {therapies.map((therapy) => (
+                {isLoadingTherapies && (
+                    [...Array(4)].map((_, i) => (
+                        <Card key={i}>
+                            <CardHeader>
+                                <Skeleton className="h-6 w-1/2" />
+                                <Skeleton className="h-4 w-full mt-2" />
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex justify-between items-center">
+                                    <Skeleton className="h-7 w-1/4" />
+                                    <Skeleton className="h-5 w-1/4" />
+                                </div>
+                                <Skeleton className="h-10 w-full" />
+                            </CardContent>
+                        </Card>
+                    ))
+                )}
+                {therapies?.map((therapy) => (
                     <Card key={therapy.id}>
                         <CardHeader>
                             <CardTitle>{therapy.name}</CardTitle>
@@ -51,3 +74,5 @@ export default function TherapiesPage() {
         </div>
     )
 }
+
+    

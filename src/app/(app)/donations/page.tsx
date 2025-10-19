@@ -9,8 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Heart } from "lucide-react";
 import { useUser, useFirestore, useCollection, addDocumentNonBlocking, collection, query, where, serverTimestamp, useMemoFirebase } from '@/firebase';
 import { useToast } from '@/hooks/use-toast';
-import { allUsers } from '@/lib/data';
-import type { Donation } from '@/lib/types';
+import type { Donation, User } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DonationsPage() {
@@ -20,6 +19,9 @@ export default function DonationsPage() {
 
   const [amount, setAmount] = useState<number | ''>('');
   const [recipient, setRecipient] = useState<string>('any');
+  
+  const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
+  const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
 
   const donationsRef = useMemoFirebase(() => firestore ? collection(firestore, 'donations') : null, [firestore]);
   const userDonationsQuery = useMemoFirebase(() => {
@@ -82,7 +84,7 @@ export default function DonationsPage() {
     }
   };
   
-  const potentialRecipients = allUsers.filter(u => u.role !== 'Donor' && u.role !== 'Admin');
+  const potentialRecipients = useMemo(() => allUsers?.filter(u => u.role !== 'Donor' && u.role !== 'Admin'), [allUsers]);
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
@@ -123,7 +125,7 @@ export default function DonationsPage() {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="any">Help anyone in need</SelectItem>
-                                {potentialRecipients.map(user => (
+                                {isLoadingUsers ? <SelectItem value="loading" disabled>Loading...</SelectItem> : potentialRecipients?.map(user => (
                                   <SelectItem key={user.id} value={user.id}>{user.name}</SelectItem>
                                 ))}
                             </SelectContent>
@@ -172,3 +174,5 @@ export default function DonationsPage() {
     </div>
   );
 }
+
+    

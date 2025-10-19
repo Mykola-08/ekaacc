@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser, useFirestore, doc, updateDocumentNonBlocking, useCollection, collection, query, where, useMemoFirebase } from '@/firebase';
-import { allUsers as patientsData } from '@/lib/data';
-import type { Session as AppSession } from '@/lib/types';
+import type { Session as AppSession, User } from '@/lib/types';
 import { format } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -38,6 +38,9 @@ const mapBookingToSession = (booking: any): AppSession => {
 export default function TherapistDashboardPage() {
     const { user } = useUser();
     const firestore = useFirestore();
+
+    const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
+    const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
     
     // Fetch upcoming bookings from Firestore
     const upcomingBookingsQuery = useMemoFirebase(() => {
@@ -49,7 +52,7 @@ export default function TherapistDashboardPage() {
         );
     }, [firestore]);
     
-    const { data: upcomingBookings, isLoading } = useCollection(upcomingBookingsQuery);
+    const { data: upcomingBookings, isLoading: isLoadingBookings } = useCollection(upcomingBookingsQuery);
 
     const upcomingSessions = useMemo(() => 
         (upcomingBookings?.map(mapBookingToSession) || [])
@@ -57,12 +60,12 @@ export default function TherapistDashboardPage() {
     [upcomingBookings]);
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
-    const [selectedPatient, setSelectedPatient] = useState<(typeof patientsData[0]) | null>(null);
+    const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
     const [goalDescription, setGoalDescription] = useState('');
     const [targetSessions, setTargetSessions] = useState('');
     const { toast } = useToast();
 
-    const handleOpenGoalDialog = (patient: typeof patientsData[0]) => {
+    const handleOpenGoalDialog = (patient: User) => {
         setSelectedPatient(patient);
         setIsGoalDialogOpen(true);
     };
@@ -103,8 +106,7 @@ export default function TherapistDashboardPage() {
         setSelectedPatient(null);
     };
     
-    // For simplicity, we use allUsers as patients. In a real app, this would be a filtered list.
-    const patients = patientsData.filter(u => u.role !== 'Therapist');
+    const patients = useMemo(() => allUsers?.filter(u => u.role !== 'Therapist'), [allUsers]);
 
     return (
         <>
@@ -116,7 +118,7 @@ export default function TherapistDashboardPage() {
                             <Calendar className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{isLoading ? '...' : upcomingSessions.length}</div>
+                            <div className="text-2xl font-bold">{isLoadingBookings ? '...' : upcomingSessions.length}</div>
                             <p className="text-xs text-muted-foreground">in the next 7 days</p>
                         </CardContent>
                     </Card>
@@ -126,7 +128,7 @@ export default function TherapistDashboardPage() {
                             <Users className="h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">{patients.length}</div>
+                            <div className="text-2xl font-bold">{isLoadingUsers ? '...' : patients?.length}</div>
                             <p className="text-xs text-muted-foreground">+2 from last month</p>
                         </CardContent>
                     </Card>
@@ -159,7 +161,17 @@ export default function TherapistDashboardPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {patients.map((patient) => (
+                                    {isLoadingUsers && (
+                                        [...Array(3)].map((_, i) => (
+                                            <TableRow key={i}>
+                                                 <TableCell><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-5 w-24" /></div></TableCell>
+                                                 <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                                 <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                 <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
+                                            </TableRow>
+                                        ))
+                                    )}
+                                    {patients?.map((patient) => (
                                         <TableRow key={patient.id}>
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
@@ -189,8 +201,8 @@ export default function TherapistDashboardPage() {
                             <CardDescription>Your next two scheduled appointments.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
-                            {isLoading && <p>Loading sessions...</p>}
-                            {!isLoading && upcomingSessions.slice(0, 2).map(session => (
+                            {isLoadingBookings && <p>Loading sessions...</p>}
+                            {!isLoadingBookings && upcomingSessions.slice(0, 2).map(session => (
                                 <div key={session.id} className="space-y-3">
                                     <div className="flex items-start gap-4">
                                         <Avatar className="h-10 w-10 border">
@@ -214,7 +226,7 @@ export default function TherapistDashboardPage() {
                                     </div>
                                 </div>
                             ))}
-                             {!isLoading && upcomingSessions.length === 0 && (
+                             {!isLoadingBookings && upcomingSessions.length === 0 && (
                                 <p className="text-sm text-muted-foreground text-center py-4">No upcoming sessions.</p>
                             )}
                             <Button variant="outline" className="w-full" asChild>
@@ -263,3 +275,5 @@ export default function TherapistDashboardPage() {
         </>
     );
 }
+
+    

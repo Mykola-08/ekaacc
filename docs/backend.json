@@ -30,6 +30,33 @@
         "accountId": {
           "type": "string",
           "description": "Reference to Account. (Relationship: Account 1:1 User)"
+        },
+        "personalizationCompleted": {
+          "type": "boolean",
+          "description": "Indicates if the user has completed the initial personalization form."
+        },
+        "personalization": {
+          "type": "object",
+          "properties": {
+            "goals": {
+              "type": "string"
+            },
+            "interests": {
+              "type": "string"
+            }
+          }
+        },
+        "goal": {
+            "type": "object",
+            "description": "The user's active therapy goal set by a therapist.",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "targetSessions": {
+                    "type": "number"
+                }
+            }
         }
       },
       "required": [
@@ -421,3 +448,5 @@
     "reasoning": "The Firestore structure is designed to support the EKA Account system, emphasizing security, scalability, and ease of debugging. It leverages denormalization to ensure authorization independence, avoiding complex `get()` calls in security rules and enabling atomic operations. The structure is segregated to maintain a homogeneous security posture within collections and employs consistent access modeling patterns. \n\nAuthorization Independence is achieved by denormalizing authorization data. For instance, the `sessions` collection under `/users/{userId}` contains `therapistId`. Security rules can directly validate if the `therapistId` matches the user attempting to access the document without needing to retrieve the therapist's document.\n\nThe structure supports QAPs (Rules are not Filters) by segregating data based on access needs. User-specific data resides under `/users/{userId}`, ensuring that listing documents in this collection only returns data accessible to the user. Similarly, public or shared data (if any) would be in a separate collection with appropriate security rules. The Membership Map pattern is implemented through collections like `/roles_admin/{uid}`, allowing for secure `list` operations based on role existence rather than content filtering."
   }
 }
+
+    

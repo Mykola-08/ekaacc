@@ -6,15 +6,18 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Activity, Award, CalendarDays, TrendingDown } from 'lucide-react';
 import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
 import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
-import { useCollection, useUser, useFirestore, collection, useDoc, doc, useMemoFirebase } from '@/firebase';
+import { useCollection, useUser, useFirestore, collection, useDoc, doc, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
 import type { Report, Session, User } from '@/lib/types';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
+import { PersonalizationDialog } from '@/components/eka/personalization-dialog';
+import { PersonalizationReminder } from '@/components/eka/personalization-reminder';
 
 export default function HomePage() {
   const { user } = useUser();
   const firestore = useFirestore();
+  const [showPersonalizationDialog, setShowPersonalizationDialog] = useState(false);
 
   const userRef = useMemoFirebase(() => user ? doc(firestore, 'users', user.uid) : null, [user, firestore]);
   const { data: userData, isLoading: isLoadingUser } = useDoc<User>(userRef);
@@ -24,6 +27,32 @@ export default function HomePage() {
 
   const reportsRef = useMemoFirebase(() => user ? collection(firestore, 'users', user.uid, 'reports') : null, [user, firestore]);
   const { data: reports, isLoading: isLoadingReports } = useCollection<Report>(reportsRef);
+
+  // Show personalization dialog if the user exists and hasn't completed it
+  // and the dialog hasn't been closed in the current session.
+  useMemo(() => {
+    if (userData && !userData.personalizationCompleted) {
+        setShowPersonalizationDialog(true);
+    } else {
+        setShowPersonalizationDialog(false);
+    }
+  }, [userData]);
+
+
+  const handleDialogClose = () => {
+    setShowPersonalizationDialog(false);
+  }
+
+  const handleFormSubmit = (data: { goals: string, interests: string }) => {
+    if (userRef) {
+        updateDocumentNonBlocking(userRef, {
+            personalizationCompleted: true,
+            personalization: data
+        });
+    }
+    setShowPersonalizationDialog(false);
+  };
+
 
   const upcomingSessions = useMemo(() => sessions?.filter(s => new Date(s.date) >= new Date()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) || [], [sessions]);
   const completedSessions = useMemo(() => sessions?.filter(s => new Date(s.date) < new Date()) || [], [sessions]);
@@ -63,6 +92,12 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col gap-8 md:gap-12">
+        {showPersonalizationDialog && <PersonalizationDialog onClose={handleDialogClose} onSubmit={handleFormSubmit} />}
+        
+        {userData && !userData.personalizationCompleted && !showPersonalizationDialog && (
+            <PersonalizationReminder onOpen={() => setShowPersonalizationDialog(true)} />
+        )}
+
       <DashboardHero />
       
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -125,3 +160,5 @@ export default function HomePage() {
     </div>
   );
 }
+
+    

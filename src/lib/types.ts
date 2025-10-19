@@ -25,6 +25,11 @@ export type User = {
     description: string;
     targetSessions: number;
   };
+  personalizationCompleted?: boolean;
+  personalization?: {
+    goals: string;
+    interests: string;
+  };
 };
 
 export type Session = {
@@ -40,7 +45,7 @@ export type Session = {
 };
 
 export type Donation = {
-  id: string;
+  id:string;
   donorName: string;
   amount: number;
   date: string;
@@ -165,3 +170,5 @@ export type VipPlan = {
     priceUSD: number;
     benefits: string[];
 }
+
+    

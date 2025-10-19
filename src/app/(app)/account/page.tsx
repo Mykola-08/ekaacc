@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -16,15 +16,34 @@ import { Table, TableBody, TableCell, TableHeader, TableRow, TableHead } from '@
 import { allUsers } from '@/lib/data';
 import { MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Switch } from '@/components/ui/switch';
 
 const profileFormSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   email: z.string().email(),
 });
 
+type DashboardWidgets = {
+    goalProgress: boolean;
+    quickActions: boolean;
+    nextSession: boolean;
+    recentActivity: boolean;
+}
+
 export default function AccountPage() {
   const { currentUser } = useUserContext();
   const { toast } = useToast();
+
+  const [widgetConfig, setWidgetConfig] = useState<DashboardWidgets>({
+      goalProgress: true,
+      quickActions: true,
+      nextSession: true,
+      recentActivity: true
+  });
+
+  const handleWidgetToggle = (widget: keyof DashboardWidgets) => {
+      setWidgetConfig(prev => ({...prev, [widget]: !prev[widget]}));
+  };
 
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
@@ -116,10 +135,36 @@ export default function AccountPage() {
 
                  <Card>
                     <CardHeader>
+                        <CardTitle>Dashboard Preferences</CardTitle>
+                        <CardDescription>Customize which widgets are visible on your home dashboard.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid gap-4 sm:grid-cols-2">
+                        <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                           <FormLabel htmlFor="goal-progress">Goal Roadmap</FormLabel>
+                           <Switch id="goal-progress" checked={widgetConfig.goalProgress} onCheckedChange={() => handleWidgetToggle('goalProgress')} />
+                        </div>
+                         <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                           <FormLabel htmlFor="quick-actions">Quick Actions</FormLabel>
+                           <Switch id="quick-actions" checked={widgetConfig.quickActions} onCheckedChange={() => handleWidgetToggle('quickActions')} />
+                        </div>
+                         <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                           <FormLabel htmlFor="next-session">Next Session</FormLabel>
+                           <Switch id="next-session" checked={widgetConfig.nextSession} onCheckedChange={() => handleWidgetToggle('nextSession')} />
+                        </div>
+                         <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                           <FormLabel htmlFor="recent-activity">Recent Activity</FormLabel>
+                           <Switch id="recent-activity" checked={widgetConfig.recentActivity} onCheckedChange={() => handleWidgetToggle('recentActivity')} />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                 <Card>
+                    <CardHeader>
                         <CardTitle>Linked Accounts</CardTitle>
                         <CardDescription>Manage parent/child or caregiver profiles connected to your account.</CardDescription>
                     </CardHeader>
                     <CardContent className="overflow-x-auto">
+                        <div className="border rounded-lg">
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -158,6 +203,7 @@ export default function AccountPage() {
                                 ))}
                             </TableBody>
                         </Table>
+                        </div>
                          <Button variant="outline" className="mt-4 w-full sm:w-auto">Add Linked Account</Button>
                     </CardContent>
                 </Card>

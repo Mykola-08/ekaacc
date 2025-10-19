@@ -15,7 +15,8 @@ export function initializeFirebase() {
     firebaseApp = initializeApp(firebaseConfig);
     if (typeof window !== 'undefined') {
         // Self-host the reCAPTCHA script
-        (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+        // Note: Replace with your site key in production
+        (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = process.env.NODE_ENV !== 'production';
         initializeAppCheck(firebaseApp, {
             provider: new ReCaptchaV3Provider('6Ld-iYspAAAAABOCsW328I0j5L26iP7rJb5FN3aN'), 
             isTokenAutoRefreshEnabled: true

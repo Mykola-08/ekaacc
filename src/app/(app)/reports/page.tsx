@@ -1,28 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import {
-  Radar,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-} from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { AiAssistant } from "@/components/eka/dashboard/ai-assistant";
-import { useCollection, useUser, useFirestore, addDocumentNonBlocking, collection, serverTimestamp } from '@/firebase';
+import { useCollection, useUser, useFirestore, addDocumentNonBlocking, collection, serverTimestamp, useMemoFirebase } from '@/firebase';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Report } from '@/lib/types';
-import { useMemo } from 'react';
+import type { Report } from '@/lib/types';
+import { format } from 'date-fns';
 
 const chartData = [
     { metric: "Pain", score: 4, fullMark: 10 },
@@ -42,30 +32,29 @@ const chartConfig = {
 export default function ReportsPage() {
   const { user } = useUser();
   const firestore = useFirestore();
-  const reportsRef = useMemo(() => user ? collection(firestore, 'users', user.uid, 'reports') : null, [user, firestore]);
-  const { data: reports, isLoading: isLoadingReports } = useCollection<Report>(reportsRef);
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  const reportsRef = useMemoFirebase(() => user ? collection(firestore, 'users', user.uid, 'reports') : null, [user, firestore]);
+  const { data: reports, isLoading: isLoadingReports } = useCollection<Report>(reportsRef);
 
   const handleGenerateReport = async () => {
-      if (!user) return;
+      if (!user || !reports) return;
       setIsGenerating(true);
       toast({
           title: "Generating Report...",
           description: "The AI is analyzing your data to create a monthly summary.",
       });
       try {
-          // Dynamically import the flow only when needed
           const { generateMonthlyReport } = await import('@/ai/flows/generate-monthly-report');
           
-          // In a real app, you would fetch real data. Here we use mock data for the AI flow.
           const input = {
               userId: user.uid,
               startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
               endDate: new Date().toISOString(),
-              healthHistory: "User has a history of chronic lower back pain.",
-              reports: JSON.stringify(reports?.slice(0, 5) || []),
-              messages: "User has been feeling more positive about their progress.",
+              healthHistory: "User has a history of chronic lower back pain and is currently focusing on improving mobility.",
+              reports: JSON.stringify(reports.slice(0, 5).map(r => ({title: r.title, summary: r.summary, date: r.date}))),
+              messages: "User has been feeling more positive about their progress and is motivated to continue with the therapy plan.",
           };
           const result = await generateMonthlyReport(input);
 
@@ -75,10 +64,11 @@ export default function ReportsPage() {
               type: 'AI Summary',
               summary: result.report,
               createdAt: serverTimestamp(),
+              date: new Date().toISOString()
           };
 
           if (reportsRef) {
-              addDocumentNonBlocking(reportsRef, newReport);
+              await addDocumentNonBlocking(reportsRef, newReport);
           }
 
           toast({
@@ -96,6 +86,10 @@ export default function ReportsPage() {
           setIsGenerating(false);
       }
   };
+
+  const sortedReports = useMemo(() => {
+    return reports?.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [reports]);
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
@@ -120,9 +114,9 @@ export default function ReportsPage() {
                             ))}
                         </ul>
                     )}
-                    {!isLoadingReports && reports && reports.length > 0 && (
+                    {!isLoadingReports && sortedReports && sortedReports.length > 0 && (
                         <ul className="space-y-1">
-                            {reports.map((report) => (
+                            {sortedReports.map((report) => (
                                 <li key={report.id} className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
                                     <div className="p-3 bg-muted rounded-full flex items-center justify-center shrink-0">
                                         {report.type === 'AI Summary' ? <Bot className="h-6 w-6 text-primary" /> : <FileText className="h-6 w-6 text-primary" />}
@@ -132,7 +126,7 @@ export default function ReportsPage() {
                                             <p className="font-semibold truncate">{report.title}</p>
                                             <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
                                         </div>
-                                        <p className="text-sm text-muted-foreground">{report.author} - {new Date(report.date).toLocaleDateString()}</p>
+                                        <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                                         <p className="text-sm mt-1 break-words">{report.summary}</p>
                                     </div>
                                     <Button variant="ghost" size="icon" className="shrink-0">
@@ -142,7 +136,7 @@ export default function ReportsPage() {
                             ))}
                         </ul>
                     )}
-                    {!isLoadingReports && (!reports || reports.length === 0) && (
+                    {!isLoadingReports && (!sortedReports || sortedReports.length === 0) && (
                         <div className="text-center py-12">
                             <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
                             <h3 className="mt-4 text-lg font-semibold">No Reports Yet</h3>
@@ -171,7 +165,7 @@ export default function ReportsPage() {
                     </ChartContainer>
                 </CardContent>
             </Card>
-            <Button onClick={handleGenerateReport} disabled={isGenerating} className="w-full">
+            <Button onClick={handleGenerateReport} disabled={isGenerating || isLoadingReports} className="w-full">
                 {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {isGenerating ? 'Generating...' : 'Generate Monthly Report'}
             </Button>

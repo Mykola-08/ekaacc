@@ -1,4 +1,4 @@
-import type { FieldValue } from 'firebase/firestore';
+import type { FieldValue, Timestamp } from 'firebase/firestore';
 
 export type UserRole =
   | 'User'
@@ -27,11 +27,12 @@ export type Session = {
   id: string;
   therapist: string;
   therapistAvatarUrl: string;
-  date: string;
+  date: string; // ISO String
   time: string;
   duration: number; // in minutes
   status: 'Upcoming' | 'Completed' | 'Canceled';
   type: string;
+  userId?: string;
 };
 
 export type Donation = {
@@ -46,10 +47,10 @@ export type Report = {
   id: string;
   title: string;
   author: string;
-  date: string;
+  date: string; // ISO string
   type: 'Therapist Report' | 'User Report' | 'AI Summary';
   summary: string;
-  createdAt?: FieldValue;
+  createdAt?: FieldValue | Timestamp;
 };
 
 export type StatCard = {

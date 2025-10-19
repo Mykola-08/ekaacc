@@ -1,12 +1,42 @@
+'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { sessions } from '@/lib/data';
-import { Clock, Video } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Clock, Video, CalendarOff } from 'lucide-react';
 import { format } from 'date-fns';
+import type { Session } from '@/lib/types';
+import Link from 'next/link';
 
-export function NextSession() {
-  const nextSession = sessions.find(s => s.status === 'Upcoming');
+interface NextSessionProps {
+    sessions: Session[] | null;
+    isLoading: boolean;
+}
+
+export function NextSession({ sessions, isLoading }: NextSessionProps) {
+  const nextSession = sessions?.[0];
+
+  if (isLoading) {
+      return (
+          <Card>
+              <CardHeader>
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+              </CardHeader>
+              <CardContent className="space-y-4">
+                  <div className="flex items-center gap-4">
+                      <Skeleton className="h-12 w-12 rounded-full" />
+                      <div className="space-y-2">
+                          <Skeleton className="h-4 w-[150px]" />
+                          <Skeleton className="h-4 w-[100px]" />
+                      </div>
+                  </div>
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+              </CardContent>
+          </Card>
+      )
+  }
 
   if (!nextSession) {
     return (
@@ -14,9 +44,13 @@ export function NextSession() {
             <CardHeader>
                 <CardTitle>Next Session</CardTitle>
             </CardHeader>
-            <CardContent>
-                <p>You have no upcoming sessions.</p>
-                <Button className="mt-4">Book a new session</Button>
+            <CardContent className="text-center">
+                <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
+                <p className="mt-4 font-semibold">No upcoming sessions</p>
+                <p className="text-sm text-muted-foreground mt-1">Ready to book your next appointment?</p>
+                <Button className="mt-4" asChild>
+                    <Link href="/therapies">Book a Session</Link>
+                </Button>
             </CardContent>
         </Card>
     )

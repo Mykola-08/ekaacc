@@ -1,39 +1,80 @@
 'use client';
 import { StatCard } from '@/components/eka/dashboard/stat-card';
-import { userStats } from '@/lib/data';
 import { QuickActions } from '@/components/eka/dashboard/quick-actions';
-import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
 import { NextSession } from '@/components/eka/dashboard/next-session';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { reports } from '@/lib/data';
-import { Activity } from 'lucide-react';
+import { Activity, Award, CalendarDays, TrendingDown } from 'lucide-react';
 import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
 import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
+import { useCollection, useUser, useFirestore, collection } from '@/firebase';
+import type { Report, Session } from '@/lib/types';
+import { useMemo } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { format } from 'date-fns';
 
 export default function HomePage() {
+  const { user } = useUser();
+  const firestore = useFirestore();
+
+  const sessionsRef = useMemo(() => user ? collection(firestore, 'users', user.uid, 'sessions') : null, [user, firestore]);
+  const { data: sessions, isLoading: isLoadingSessions } = useCollection<Session>(sessionsRef);
+
+  const reportsRef = useMemo(() => user ? collection(firestore, 'users', user.uid, 'reports') : null, [user, firestore]);
+  const { data: reports, isLoading: isLoadingReports } = useCollection<Report>(reportsRef);
+
+  const upcomingSessions = useMemo(() => sessions?.filter(s => new Date(s.date) >= new Date()) || [], [sessions]);
+  const completedSessions = useMemo(() => sessions?.filter(s => new Date(s.date) < new Date()) || [], [sessions]);
+
+  const userStats = [
+      {
+        title: 'Pain Reduction',
+        value: '20%',
+        change: '5%',
+        changeType: 'increase' as const,
+        icon: TrendingDown,
+      },
+      {
+        title: 'Mobility',
+        value: '15%',
+        change: '3%',
+        changeType: 'increase' as const,
+        icon: Activity,
+      },
+      {
+        title: 'Sessions',
+        value: `${completedSessions.length}/10`,
+        change: `+${completedSessions.length}`,
+        changeType: 'increase' as const,
+        icon: CalendarDays,
+      },
+      {
+        title: 'Milestones',
+        value: '3/5',
+        change: '+1',
+        changeType: 'increase' as const,
+        icon: Award,
+      },
+    ];
+
   return (
     <div className="flex flex-col gap-8 md:gap-12">
       <DashboardHero />
       
-      {/* Stat Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {userStats.map((stat) => (
           <StatCard key={stat.title} {...stat} />
         ))}
       </div>
 
-      {/* Main Content Grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         
-        {/* Left Column */}
         <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
-          <GoalProgress />
+          <GoalProgress sessionsCompleted={completedSessions.length} />
           <QuickActions />
         </div>
         
-        {/* Right Column */}
         <div className="lg:col-span-1 flex flex-col gap-6 lg:gap-8">
-          <NextSession />
+          <NextSession sessions={upcomingSessions} isLoading={isLoadingSessions} />
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -42,13 +83,19 @@ export default function HomePage() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {reports.length > 0 ? (
+              {isLoadingReports ? (
+                <div className="space-y-4">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ) : reports && reports.length > 0 ? (
                 <ul className="space-y-4">
                   {reports.slice(0, 3).map((report) => (
                     <li key={report.id} className="text-sm">
                       <p className="font-medium">{report.title}</p>
                       <p className="text-muted-foreground">
-                        {report.author} - {report.date}
+                        {report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}
                       </p>
                     </li>
                   ))}

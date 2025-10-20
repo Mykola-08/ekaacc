@@ -2,9 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft, PanelLeftClose } from "lucide-react"
-
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -38,19 +36,13 @@ export function useSidebar() {
   return context
 }
 
-
-// --- Provider Component ---
-export const SidebarProvider = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<"div">
->(({ className, style, children, ...props }, ref) => {
+// --- Client-Side State Wrapper ---
+function SidebarWrapper({ children }: { children: React.ReactNode }) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
-
-  // Default to expanded on server and initial client render to prevent hydration mismatch.
   const [isExpanded, setIsExpanded] = React.useState(true)
 
-  // After mount, safely read the cookie and update the state.
+  // On mount, safely read the cookie and update the state on the client.
   React.useEffect(() => {
     const cookieValue = document.cookie
       .split('; ')
@@ -68,7 +60,6 @@ export const SidebarProvider = React.forwardRef<
     } else {
       setIsExpanded(current => {
         const newState = !current
-        // Set cookie to remember the user's preference
         document.cookie = `${SIDEBAR_COOKIE_NAME}=${newState}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
         return newState
       })
@@ -90,18 +81,31 @@ export const SidebarProvider = React.forwardRef<
 
   return (
     <SidebarContext.Provider value={contextValue}>
-      <TooltipProvider delayDuration={0}>
-        <div
-          ref={ref}
-          style={{ ...style } as React.CSSProperties}
-          className={cn("group/sidebar-wrapper", className)}
-          data-state={dataState}
-          {...props}
-        >
-          {children}
-        </div>
-      </TooltipProvider>
+      <div
+        style={{}}
+        className="group/sidebar-wrapper"
+        data-state={dataState}
+      >
+        {children}
+      </div>
     </SidebarContext.Provider>
+  )
+}
+
+
+// --- Provider Component ---
+export const SidebarProvider = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ children, ...props }, ref) => {
+  return (
+    <TooltipProvider delayDuration={0}>
+        <div ref={ref} {...props}>
+            <SidebarWrapper>
+                {children}
+            </SidebarWrapper>
+        </div>
+    </TooltipProvider>
   )
 })
 SidebarProvider.displayName = "SidebarProvider"

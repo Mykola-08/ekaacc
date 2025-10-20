@@ -10,19 +10,23 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth, initiateAnonymousSignIn, initiateGoogleSignIn, signInWithEmailAndPassword } from '@/firebase';
+import { useAuth, signInWithPopup, GoogleAuthProvider } from '@/firebase';
 import { useUserContext } from '@/context/user-context';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Package2, VenetianMask } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { signInWithEmailAndPassword, signInAnonymously } from 'firebase/auth';
+import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
   const auth = useAuth();
   const { currentUser } = useUserContext();
   const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -30,19 +34,40 @@ export default function LoginPage() {
     }
   }, [currentUser, router]);
 
+  const handleLogin = async (loginFn: () => Promise<any>) => {
+    setIsLoading(true);
+    try {
+      await loginFn();
+      // onAuthStateChanged in UserProvider will handle the redirect
+    } catch (error: any) {
+      console.error("Login failed:", error);
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: error.message || 'An unknown error occurred.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleEmailLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (auth) {
-        signInWithEmailAndPassword(auth, email, password);
+      handleLogin(() => signInWithEmailAndPassword(auth, email, password));
     }
   };
   
   const handleAnonymousLogin = () => {
-    initiateAnonymousSignIn(auth);
+    if (auth) {
+      handleLogin(() => signInAnonymously(auth));
+    }
   };
 
   const handleGoogleLogin = () => {
-    initiateGoogleSignIn(auth);
+    if (auth) {
+      handleLogin(() => signInWithPopup(auth, new GoogleAuthProvider()));
+    }
   }
 
   return (
@@ -66,6 +91,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                disabled={isLoading}
               />
             </div>
             <div className="grid gap-2">
@@ -84,19 +110,20 @@ export default function LoginPage() {
                 required 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={isLoading}
                 />
             </div>
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? 'Logging in...' : 'Login'}
             </Button>
-            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleLogin}>
+            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleLogin} disabled={isLoading}>
               Login with Google
             </Button>
           </form>
            <Separator className="my-6" />
            <div className="text-center">
                 <p className="text-sm text-muted-foreground mb-4">Or sign in directly for testing</p>
-                <Button variant="secondary" className="w-full" onClick={handleAnonymousLogin}>
+                <Button variant="secondary" className="w-full" onClick={handleAnonymousLogin} disabled={isLoading}>
                     <VenetianMask className="mr-2 h-4 w-4"/>
                     Sign in Anonymously
                 </Button>

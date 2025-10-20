@@ -23,6 +23,9 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { TestTools } from '@/components/eka/test-tools';
+import { USE_MOCK_DATA } from '@/services/data-service';
+import { useIsAdmin } from '@/components/eka/role-guard';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -58,6 +61,7 @@ const initialServiceFormState: Omit<Service, 'id'> = {
 export default function TherapistDashboardPage() {
     // Use mock therapist user and mock data
     const { currentUser } = useData();
+    const isAdmin = useIsAdmin();
     const allUsers = [mockCurrentUser, mockTherapistUser];
     const isLoadingUsers = false;
     const services: Service[] = []; // Mock services - to be implemented
@@ -76,7 +80,7 @@ export default function TherapistDashboardPage() {
         userId: b.userId,
     })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-    const [activeTab, setActiveTab] = useState<'appointments' | 'clients' | 'sessions' | 'billing' | 'settings'>('appointments');
+    const [activeTab, setActiveTab] = useState<'appointments' | 'clients' | 'sessions' | 'billing' | 'settings' | 'test-tools'>('appointments');
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
@@ -288,13 +292,24 @@ export default function TherapistDashboardPage() {
 
     return (
         <>
+            {/* Role Indicator */}
+            {isAdmin && (
+                <div className="mb-4 p-3 bg-primary/10 border border-primary/20 rounded-lg">
+                    <p className="text-sm font-medium text-primary flex items-center gap-2">
+                        <Badge variant="default">Admin Access</Badge>
+                        You have full administrative access to all clients, sessions, and forms.
+                    </p>
+                </div>
+            )}
+            
             <Tabs value={activeTab} onValueChange={(value: any) => setActiveTab(value)} className="space-y-6">
-                <TabsList className="grid w-full grid-cols-5">
+                <TabsList className="grid w-full grid-cols-6">
                     <TabsTrigger value="appointments">Appointments</TabsTrigger>
                     <TabsTrigger value="clients">Clients</TabsTrigger>
                     <TabsTrigger value="sessions">Sessions</TabsTrigger>
                     <TabsTrigger value="billing">Billing</TabsTrigger>
                     <TabsTrigger value="settings">Settings</TabsTrigger>
+                    {USE_MOCK_DATA && <TabsTrigger value="test-tools">Test Tools</TabsTrigger>}
                 </TabsList>
 
                 <TabsContent value="appointments" className="space-y-6">
@@ -587,65 +602,109 @@ export default function TherapistDashboardPage() {
                 </TabsContent>
 
                 <TabsContent value="settings" className="space-y-6">
-                    <Card>
-                         <CardHeader className="flex flex-row items-center justify-between">
-                            <div>
-                                <CardTitle>Service Management</CardTitle>
-                                <CardDescription>Add, edit, or deactivate services and VIP plans offered.</CardDescription>
-                            </div>
-                            <Button onClick={() => handleOpenServiceDialog(null)}>
-                                <PlusCircle className="mr-2 h-4 w-4"/>
-                                Add Service
-                            </Button>
-                        </CardHeader>
-                        <CardContent>
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Service Name</TableHead>
-                                        <TableHead>Category</TableHead>
-                                        <TableHead>Duration</TableHead>
-                                        <TableHead>Price</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead className="text-right">Actions</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                     {isLoadingServices && (
-                                        [...Array(4)].map((_, i) => (
-                                            <TableRow key={i}>
-                                                <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                                                <TableCell><Skeleton className="h-5 w-24" /></TableCell>
-                                                <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                                <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                                <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
-                                                <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
-                                            </TableRow>
-                                        ))
-                                    )}
-                                    {services?.map((service: Service) => (
-                                        <TableRow key={service.id}>
-                                            <TableCell className="font-medium">{service.name}</TableCell>
-                                            <TableCell>{service.category}</TableCell>
-                                            <TableCell>{service.durationMinutes} min</TableCell>
-                                            <TableCell>€{service.priceEUR}</TableCell>
-                                            <TableCell>
-                                                <Badge variant={service.active ? 'secondary' : 'outline'}>
-                                                    {service.active ? 'Active' : 'Inactive'}
-                                                </Badge>
-                                            </TableCell>
-                                            <TableCell className="text-right">
-                                                <Button variant="outline" size="sm" onClick={() => handleOpenServiceDialog(service)}>
-                                                    Edit
-                                                </Button>
-                                            </TableCell>
+                    {isAdmin ? (
+                        <Card>
+                             <CardHeader className="flex flex-row items-center justify-between">
+                                <div>
+                                    <CardTitle>Service Management</CardTitle>
+                                    <CardDescription>Add, edit, or deactivate services and VIP plans offered.</CardDescription>
+                                </div>
+                                <Button onClick={() => handleOpenServiceDialog(null)}>
+                                    <PlusCircle className="mr-2 h-4 w-4"/>
+                                    Add Service
+                                </Button>
+                            </CardHeader>
+                            <CardContent>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Service Name</TableHead>
+                                            <TableHead>Category</TableHead>
+                                            <TableHead>Duration</TableHead>
+                                            <TableHead>Price</TableHead>
+                                            <TableHead>Status</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
                                         </TableRow>
-                                    ))}
-                                </TableBody>
-                            </Table>
-                        </CardContent>
-                    </Card>
+                                    </TableHeader>
+                                    <TableBody>
+                                         {isLoadingServices && (
+                                            [...Array(4)].map((_, i) => (
+                                                <TableRow key={i}>
+                                                    <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                                    <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                                                    <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                    <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                    <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
+                                                    <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
+                                                </TableRow>
+                                            ))
+                                        )}
+                                        {services?.map((service: Service) => (
+                                            <TableRow key={service.id}>
+                                                <TableCell className="font-medium">{service.name}</TableCell>
+                                                <TableCell>{service.category}</TableCell>
+                                                <TableCell>{service.durationMinutes} min</TableCell>
+                                                <TableCell>€{service.priceEUR}</TableCell>
+                                                <TableCell>
+                                                    <Badge variant={service.active ? 'secondary' : 'outline'}>
+                                                        {service.active ? 'Active' : 'Inactive'}
+                                                    </Badge>
+                                                </TableCell>
+                                                <TableCell className="text-right">
+                                                    <Button variant="outline" size="sm" onClick={() => handleOpenServiceDialog(service)}>
+                                                        Edit
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
+                    ) : (
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Settings</CardTitle>
+                                <CardDescription>Your personal preferences and settings.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground">Standard therapist settings coming soon. Service management is available for administrators only.</p>
+                            </CardContent>
+                        </Card>
+                    )}
                 </TabsContent>
+
+                {USE_MOCK_DATA && (
+                    <TabsContent value="test-tools" className="space-y-6">
+                        <TestTools isTestMode={USE_MOCK_DATA} />
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Test Mode Information</CardTitle>
+                                <CardDescription>
+                                    You are currently in test mode using mock data. This tab is only visible when USE_MOCK_DATA is enabled.
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="p-4 border rounded-lg bg-muted">
+                                    <p className="font-semibold mb-2">Features Available in Test Mode:</p>
+                                    <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                                        <li>Change user roles dynamically without authentication</li>
+                                        <li>Simulate VIP and Loyal subscription states</li>
+                                        <li>Add virtual balance to internal accounts</li>
+                                        <li>Test donation seeker functionality</li>
+                                        <li>View pages and features even with no data</li>
+                                    </ul>
+                                </div>
+                                <div className="p-4 border border-yellow-500 rounded-lg bg-yellow-50 dark:bg-yellow-950/20">
+                                    <p className="font-semibold text-yellow-700 dark:text-yellow-500 mb-2">⚠️ Production Mode</p>
+                                    <p className="text-sm text-yellow-600 dark:text-yellow-400">
+                                        In production mode (USE_MOCK_DATA = false), this tab will be hidden and all features will work with real Firebase data. Pages with no data will not be displayed.
+                                    </p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </TabsContent>
+                )}
             </Tabs>
             
             {/* Session Notes Dialog */}

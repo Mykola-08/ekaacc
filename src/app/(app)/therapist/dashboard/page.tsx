@@ -27,6 +27,7 @@ import { TestTools } from '@/components/eka/test-tools';
 import { USE_MOCK_DATA } from '@/services/data-service';
 import { useIsAdmin } from '@/components/eka/role-guard';
 import { ClientBilling } from '@/components/eka/client-billing';
+import { ClientActivityTimeline } from '@/components/eka/client-activity-timeline';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -596,7 +597,14 @@ export default function TherapistDashboardPage() {
                             <Button variant="outline" size="sm" onClick={() => setSelectedPatient(null)}>
                                 ← Back to Client List
                             </Button>
-                            <ClientBilling client={selectedPatient} isAdmin={isAdmin} />
+                            <div className="grid gap-6 lg:grid-cols-2">
+                                <div className="space-y-6">
+                                    <ClientBilling client={selectedPatient} isAdmin={isAdmin} />
+                                </div>
+                                <div>
+                                    <ClientActivityTimeline client={selectedPatient} />
+                                </div>
+                            </div>
                         </div>
                     ) : (
                         <Card>

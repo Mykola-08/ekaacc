@@ -6,6 +6,8 @@ import { cn } from '@/lib/utils';
 import { FirebaseClientProvider } from '@/firebase';
 import { UserProvider } from '@/context/user-context';
 import { SeedTrigger } from '@/firebase/seed-trigger';
+import { ThemeProvider } from '@/components/theme-provider';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
@@ -22,13 +24,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn('antialiased font-body', inter.variable)}>
-        <FirebaseClientProvider>
-          <UserProvider>
-            {children}
-            <SeedTrigger />
-          </UserProvider>
-        </FirebaseClientProvider>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TooltipProvider>
+            <FirebaseClientProvider>
+              <UserProvider>
+                {children}
+                <SeedTrigger />
+              </UserProvider>
+            </FirebaseClientProvider>
+            <Toaster />
+          </TooltipProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

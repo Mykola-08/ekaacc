@@ -12,6 +12,10 @@ import {
   FileText,
   Briefcase,
   Sparkles,
+  TrendingUp,
+  BookOpen,
+  Dumbbell,
+  Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
@@ -27,8 +31,13 @@ export function AppSidebar() {
 
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
+    { href: '/ai-insights', icon: Sparkles, label: 'AI Insights' },
     { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
     { href: '/therapies', icon: Sparkles, label: 'Therapies'},
+    { href: '/progress', icon: TrendingUp, label: 'Progress' },
+    { href: '/journal', icon: BookOpen, label: 'Journal' },
+    { href: '/exercises', icon: Dumbbell, label: 'Exercises' },
+    { href: '/community', icon: Users, label: 'Community' },
     { 
       href: '/donations', 
       icon: Heart, 

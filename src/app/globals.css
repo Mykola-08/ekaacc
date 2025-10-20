@@ -5,53 +5,54 @@
 
 @layer base {
   :root {
-    --background: 225 25% 98%; /* Light Gray */
-    --foreground: 220 13% 8%;
-    --card: 0 0% 100%;
-    --card-foreground: 220 13% 8%;
+    /* Apple/Notion-inspired minimalist palette */
+    --background: 0 0% 98%; /* Light warm gray */
+    --foreground: 0 0% 9%; /* Almost black */
+    --card: 0 0% 100%; /* Pure white */
+    --card-foreground: 0 0% 9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 13% 91%;
-    --secondary-foreground: 220 13% 8%;
-    --muted: 220 13% 96%;
-    --muted-foreground: 215 14% 43%;
-    --accent: 221 83% 60%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 0 0% 9%; /* Black for primary actions */
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96%; /* Light gray */
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%; /* Medium gray */
+    --accent: 0 0% 20%; /* Dark gray accent */
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 221 83% 60%;
-    --radius: 1rem;
+    --border: 0 0% 90%; /* Subtle borders */
+    --input: 0 0% 90%;
+    --ring: 0 0% 9%;
+    --radius: 0.75rem; /* Slightly rounded */
 
     /* Layout & Non-color Tokens */
-    --header-h: 64px;
-    --sidebar-w: 260px;
-    --sidebar-w-collapsed: 72px;
+    --header-h: 56px; /* Smaller, cleaner header */
+    --sidebar-w: 240px;
+    --sidebar-w-collapsed: 60px;
   }
 
   .dark {
-    --background: 220 13% 8%;
-    --foreground: 0 0% 100%;
-    --card: 220 10% 12%;
-    --card-foreground: 0 0% 100%;
-    --popover: 220 10% 12%;
-    --popover-foreground: 0 0% 100%;
-    --primary: 221 83% 53%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 220 10% 20%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 220 10% 15%;
-    --muted-foreground: 215 14% 70%;
-    --accent: 221 83% 60%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 0 0% 9%; /* Almost black background */
+    --foreground: 0 0% 98%;
+    --card: 0 0% 12%; /* Dark card */
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%; /* White for primary in dark mode */
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 15%; /* Darker gray */
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 0 0% 60%; /* Lighter gray text */
+    --accent: 0 0% 80%; /* Light gray accent */
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 220 10% 20%;
-    --input: 220 10% 20%;
-    --ring: 221 83% 60%;
+    --border: 0 0% 18%; /* Subtle dark borders */
+    --input: 0 0% 18%;
+    --ring: 0 0% 83%;
   }
 }
 
@@ -61,19 +62,39 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variation-settings: 'opsz' auto;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer components {
   .glass {
-    background-color: rgba(255, 255, 255, 0.6);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    border: 1px solid rgba(0,0,0,0.06);
+    background-color: rgba(255, 255, 255, 0.8);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,0,0,0.04);
   }
   .dark .glass {
-    background-color: rgba(20, 20, 20, 0.6);
-    border: 1px solid rgba(255,255,255,0.06);
+    background-color: rgba(18, 18, 18, 0.8);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  
+  /* Apple-style subtle shadows */
+  .shadow-subtle {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+  .dark .shadow-subtle {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* Notion-style hover effects */
+  .notion-hover {
+    @apply transition-all duration-150;
+  }
+  .notion-hover:hover {
+    @apply bg-muted/50;
   }
 }
     

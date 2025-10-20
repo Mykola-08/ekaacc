@@ -1,10 +1,12 @@
 
 'use client';
 
-import { Bell, Search, Menu } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
+import { ThemeToggle } from './theme-toggle';
+import { NotificationCenter } from './notification-center';
 import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
@@ -45,11 +47,8 @@ export function AppHeader() {
         </form>
       </div>
 
-      <Button variant="ghost" size="icon" className="rounded-full">
-        <Bell className="h-5 w-5" />
-        <span className="sr-only">Toggle notifications</span>
-      </Button>
-
+      <NotificationCenter />
+      <ThemeToggle />
       <UserNav />
     </header>
   );

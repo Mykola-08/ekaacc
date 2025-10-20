@@ -4,6 +4,7 @@ import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
 import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
+import { AIAssistant } from '@/components/eka/ai-assistant';
 import { cn } from '@/lib/utils';
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
         </main>
       </div>
       <AiAssistant />
+      <AIAssistant />
     </div>
   );
 }

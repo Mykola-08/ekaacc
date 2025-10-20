@@ -3,7 +3,7 @@ import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { QuickActions } from '@/components/eka/dashboard/quick-actions';
 import { NextSession } from '@/components/eka/dashboard/next-session';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Activity, Award, CalendarDays, TrendingDown } from 'lucide-react';
+import { Activity, Award, CalendarDays, TrendingDown, Sparkles } from 'lucide-react';
 import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
 import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
 import { useCollection, useUser, useFirestore, collection, doc, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
@@ -14,6 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
 import { PersonalizationDialog } from '@/components/eka/personalization-dialog';
 import { PersonalizationReminder } from '@/components/eka/personalization-reminder';
+import { AnimatedCard, GlowCard } from '@/components/eka/animated-card';
 
 export default function HomePage() {
   const { user } = useUser();
@@ -110,11 +111,19 @@ export default function HomePage() {
             <PersonalizationReminder onOpen={() => setShowPersonalizationDialog(true)} />
         )}
 
-      <DashboardHero />
+      <div className="animate-in fade-in slide-in-from-top-4 duration-700">
+        <DashboardHero />
+      </div>
       
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {userStats.map((stat) => (
-          <StatCard key={stat.title} {...stat} />
+        {userStats.map((stat, index) => (
+          <div 
+            key={stat.title}
+            className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <StatCard {...stat} />
+          </div>
         ))}
       </div>
 
@@ -124,19 +133,29 @@ export default function HomePage() {
            {(isUserContextLoading || isLoadingSessions) && !dashboardWidgets.goalProgress ? null :
              (isUserContextLoading || isLoadingSessions) ? <Skeleton className="w-full h-[400px]" /> :
              dashboardWidgets.goalProgress && (
-                <GoalProgress 
-                    sessionsCompleted={completedSessions.length} 
-                    goal={currentUser?.goal?.description}
-                    targetSessions={targetSessions}
-                />
+                <AnimatedCard delay={400}>
+                  <GoalProgress 
+                      sessionsCompleted={completedSessions.length} 
+                      goal={currentUser?.goal?.description}
+                      targetSessions={targetSessions}
+                  />
+                </AnimatedCard>
             )}
-           {dashboardWidgets.quickActions && <QuickActions />}
+           {dashboardWidgets.quickActions && (
+             <AnimatedCard delay={500}>
+               <QuickActions />
+             </AnimatedCard>
+           )}
         </div>
         
         <div className="lg:col-span-1 flex flex-col gap-6 lg:gap-8">
-          {dashboardWidgets.nextSession && <NextSession sessions={upcomingSessions} isLoading={isLoadingSessions} />}
+          {dashboardWidgets.nextSession && (
+            <AnimatedCard delay={600}>
+              <NextSession sessions={upcomingSessions} isLoading={isLoadingSessions} />
+            </AnimatedCard>
+          )}
           {dashboardWidgets.recentActivity && (
-             <Card>
+             <AnimatedCard delay={700}>
                 <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Activity className="h-5 w-5" />
@@ -153,7 +172,7 @@ export default function HomePage() {
                 ) : reports && reports.length > 0 ? (
                     <ul className="space-y-4">
                     {reports.slice(0, 3).map((report) => (
-                        <li key={report.id} className="text-sm">
+                        <li key={report.id} className="text-sm p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
                         <p className="font-medium">{report.title}</p>
                         <p className="text-muted-foreground">
                             {report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}
@@ -163,11 +182,12 @@ export default function HomePage() {
                     </ul>
                 ) : (
                     <div className="text-center text-muted-foreground py-8">
-                    No recent activity.
+                    <Sparkles className="h-12 w-12 mx-auto mb-2 opacity-20" />
+                    <p>No recent activity.</p>
                     </div>
                 )}
                 </CardContent>
-            </Card>
+            </AnimatedCard>
           )}
         </div>
       </div>

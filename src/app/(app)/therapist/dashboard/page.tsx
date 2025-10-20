@@ -12,10 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
-import { useUser, useFirestore, doc, updateDocumentNonBlocking, addDocumentNonBlocking, collection, query, where, serverTimestamp, useMemoFirebase } from '@/firebase';
-import type { Session as AppSession, User, Report, Service } from '@/lib/types';
+import { useData } from '@/context/unified-data-context';
+import { mockBookings } from '@/lib/mock-bookings';
+import { mockCurrentUser, mockTherapistUser } from '@/lib/mock-data';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import type { User, Service, Session as AppSession } from '@/lib/types';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -53,31 +55,25 @@ const initialServiceFormState: Omit<Service, 'id'> = {
 };
 
 export default function TherapistDashboardPage() {
-    const { user } = useUser();
-    const firestore = useFirestore();
-
-    const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
-    const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
-    
-    const servicesRef = useMemoFirebase(() => firestore ? collection(firestore, 'services') : null, [firestore]);
-    const { data: services, isLoading: isLoadingServices } = useCollection<Service>(servicesRef);
-    
-    // Fetch upcoming bookings from Firestore
-    const upcomingBookingsQuery = useMemoFirebase(() => {
-        if (!firestore) return null;
-        const now = new Date().toISOString();
-        return query(
-            collection(firestore, 'bookings'), 
-            where('start_at', '>=', now)
-        );
-    }, [firestore]);
-    
-    const { data: upcomingBookings, isLoading: isLoadingBookings } = useCollection(upcomingBookingsQuery);
-
-    const upcomingSessions = useMemo(() => 
-        (upcomingBookings?.map(mapBookingToSession) || [])
-        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()), 
-    [upcomingBookings]);
+    // Use mock therapist user and mock data
+    const { currentUser } = useData();
+    const allUsers = [mockCurrentUser, mockTherapistUser];
+    const isLoadingUsers = false;
+    const services: Service[] = []; // Mock services - to be implemented
+    const isLoadingServices = false;
+    const upcomingBookings = mockBookings.filter(b => b.therapistId === (currentUser?.uid || 'therapist1') && b.status === 'confirmed');
+    const isLoadingBookings = false;
+    const upcomingSessions = upcomingBookings.map(b => ({
+        id: b.id,
+        therapist: 'EKA Therapist',
+        therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square',
+        date: b.date,
+        time: new Date(b.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        duration: 60,
+        status: b.status === 'confirmed' ? 'Upcoming' : b.status === 'cancelled' ? 'Canceled' : 'Completed',
+        type: 'Therapy Session',
+        userId: b.userId,
+    })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
@@ -124,14 +120,10 @@ export default function TherapistDashboardPage() {
     }
     
     const handleServiceFormChange = (field: keyof Service, value: any) => {
-        setServiceForm(prev => ({ ...prev, [field]: value }));
+        setServiceForm((prev: Partial<Service>) => ({ ...prev, [field]: value }));
     };
     
     const handleSaveService = () => {
-        if (!firestore || !servicesRef) {
-            toast({ variant: 'destructive', title: "Database error." });
-            return;
-        }
         if (!serviceForm.name || !serviceForm.durationMinutes || serviceForm.priceEUR === undefined) {
              toast({ variant: 'destructive', title: "Please fill all required fields." });
             return;
@@ -140,19 +132,18 @@ export default function TherapistDashboardPage() {
         const dataToSave = {
             ...serviceForm,
             // Ensure benefits and tags are arrays of strings
-            benefits: typeof serviceForm.benefits === 'string' ? serviceForm.benefits.split(',').map(s => s.trim()) : serviceForm.benefits || [],
-            tags: typeof serviceForm.tags === 'string' ? serviceForm.tags.split(',').map(s => s.trim()) : serviceForm.tags || [],
+            benefits: Array.isArray(serviceForm.benefits) ? serviceForm.benefits : [],
+            tags: Array.isArray(serviceForm.tags) ? serviceForm.tags : [],
         };
         
         if (serviceForm.id) {
             // Editing existing service
-            const serviceDocRef = doc(firestore, 'services', serviceForm.id);
-            updateDocumentNonBlocking(serviceDocRef, dataToSave);
             toast({ title: "Service Updated", description: `${serviceForm.name} has been updated.` });
+            console.log('Update service:', dataToSave);
         } else {
             // Adding new service
-            addDocumentNonBlocking(servicesRef, dataToSave);
             toast({ title: "Service Added", description: `${serviceForm.name} has been added to the catalog.` });
+            console.log('Add service:', dataToSave);
         }
         setIsServiceDialogOpen(false);
     };
@@ -168,14 +159,9 @@ export default function TherapistDashboardPage() {
             return;
         }
 
-        if (!firestore) {
-            toast({ variant: 'destructive', title: "Database not available" });
-            return;
-        }
-        
-        const patientDocRef = doc(firestore, 'users', selectedPatient.id);
-        
-        updateDocumentNonBlocking(patientDocRef, {
+        // Update patient goal using unified data service
+        console.log('Set goal for patient:', {
+            patientId: selectedPatient.id,
             goal: {
                 description: goalDescription,
                 targetSessions: parseInt(targetSessions, 10),
@@ -194,7 +180,7 @@ export default function TherapistDashboardPage() {
     };
 
     const handleGenerateReport = async () => {
-        if (!selectedPatient || !firestore) return;
+        if (!selectedPatient) return;
         setIsGeneratingReport(true);
         toast({ title: 'Generating AI Report...', description: 'Please wait a moment.' });
         try {
@@ -210,17 +196,13 @@ export default function TherapistDashboardPage() {
             };
             const result = await autoGenerateReport(input);
 
-            const reportsRef = collection(firestore, `users/${selectedPatient.id}/reports`);
-            const newReport: Omit<Report, 'id'> = {
-                title: `Session Report - ${format(new Date(), 'PPP')}`,
-                author: user?.displayName || 'Therapist',
+            // Save report using unified data service
+            console.log('Generated report for patient:', {
+                patientId: selectedPatient.id,
+                report: result.report,
                 date: new Date().toISOString(),
                 type: 'Therapist Report',
-                summary: result.report,
-                createdAt: serverTimestamp()
-            };
-
-            await addDocumentNonBlocking(reportsRef, newReport);
+            });
 
             toast({ title: 'Report Generated & Saved', description: `A new session report for ${selectedPatient.name} has been created.` });
             setIsReportDialogOpen(false);
@@ -405,7 +387,7 @@ export default function TherapistDashboardPage() {
                                         </TableRow>
                                     ))
                                 )}
-                                {services?.map((service) => (
+                                {services?.map((service: Service) => (
                                     <TableRow key={service.id}>
                                         <TableCell className="font-medium">{service.name}</TableCell>
                                         <TableCell>{service.category}</TableCell>

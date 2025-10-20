@@ -7,15 +7,13 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, Lightbulb, Star } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
-import { useCollection, useFirestore, collection, useMemoFirebase } from '@/firebase';
+import { mockTherapies } from '@/lib/mock-data';
 
 function RecommendationContent() {
   const searchParams = useSearchParams();
   const resultString = searchParams.get('result');
-  const firestore = useFirestore();
-
-  const servicesRef = useMemoFirebase(() => firestore ? collection(firestore, 'services') : null, [firestore]);
-  const { data: services, isLoading: isLoadingServices } = useCollection<Service>(servicesRef);
+  const services = mockTherapies;
+  const isLoadingServices = false;
 
   const result: TriageResult | null = useMemo(() => {
     if (!resultString) return null;

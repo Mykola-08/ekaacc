@@ -6,8 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Activity, Award, CalendarDays, TrendingDown, Sparkles } from 'lucide-react';
 import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
 import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
-import { useCollection, useUser, useFirestore, collection, doc, useMemoFirebase, updateDocumentNonBlocking } from '@/firebase';
-import { useUserContext } from '@/context/user-context';
+import { useData } from '@/context/unified-data-context';
 import type { Report, Session, User } from '@/lib/types';
 import { useMemo, useState, useEffect } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -15,48 +14,40 @@ import { format } from 'date-fns';
 import { PersonalizationDialog } from '@/components/eka/personalization-dialog';
 import { PersonalizationReminder } from '@/components/eka/personalization-reminder';
 import { AnimatedCard, GlowCard } from '@/components/eka/animated-card';
+import { VipBenefitsCard } from '@/components/eka/vip-benefits-card';
+import { UserStatusBadges } from '@/components/eka/user-status-badges';
 
 export default function HomePage() {
-  const { user } = useUser();
-  const { currentUser, isLoading: isUserContextLoading } = useUserContext();
-  const firestore = useFirestore();
+  const { currentUser, isLoading, sessions, reports, updateUser } = useData();
   const [showPersonalizationDialog, setShowPersonalizationDialog] = useState(false);
 
-  const userRef = useMemoFirebase(() => user ? doc(firestore, 'users', user.uid) : null, [user, firestore]);
-  
-  const sessionsRef = useMemoFirebase(() => user ? collection(firestore, 'users', user.uid, 'sessions') : null, [user, firestore]);
-  const { data: sessions, isLoading: isLoadingSessions } = useCollection<Session>(sessionsRef);
-
-  const reportsRef = useMemoFirebase(() => user ? collection(firestore, 'users', user.uid, 'reports') : null, [user, firestore]);
-  const { data: reports, isLoading: isLoadingReports } = useCollection<Report>(reportsRef);
-  
   // Decides whether to show the dialog based on the user's status
   useEffect(() => {
-    if (!isUserContextLoading && currentUser && !currentUser.personalizationCompleted) {
+    if (!isLoading && currentUser && !currentUser.personalizationCompleted) {
       setShowPersonalizationDialog(true);
     } else {
       setShowPersonalizationDialog(false);
     }
-  }, [currentUser, isUserContextLoading]);
+  }, [currentUser, isLoading]);
 
   const handleDialogClose = () => {
     setShowPersonalizationDialog(false);
   }
 
   const handleFormSubmit = (data: { goals: string; interests: string; squareCustomerId: string }) => {
-    if (userRef) {
-        updateDocumentNonBlocking(userRef, {
-            personalizationCompleted: true,
-            personalization: {
-              goals: data.goals,
-              interests: data.interests
-            },
-            squareCustomerId: data.squareCustomerId,
-        });
-    }
+    updateUser({
+      personalizationCompleted: true,
+      personalization: {
+        goals: data.goals,
+        interests: data.interests,
+        values: '',
+        preferences: ''
+      },
+    });
+    // Note: squareCustomerId would be handled separately in a real app
+    console.log('Square Customer ID:', data.squareCustomerId);
     setShowPersonalizationDialog(false);
   };
-
 
   const upcomingSessions = useMemo(() => sessions?.filter(s => new Date(s.date) >= new Date()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) || [], [sessions]);
   const completedSessions = useMemo(() => sessions?.filter(s => new Date(s.date) < new Date()) || [], [sessions]);
@@ -114,6 +105,13 @@ export default function HomePage() {
       <div className="animate-in fade-in slide-in-from-top-4 duration-700">
         <DashboardHero />
       </div>
+
+      {/* VIP Benefits Card - Only show for VIP users */}
+      {currentUser?.isVip && currentUser.vipTier && (
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <VipBenefitsCard user={currentUser} />
+        </div>
+      )}
       
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {userStats.map((stat, index) => (
@@ -130,8 +128,8 @@ export default function HomePage() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         
         <div className="lg:col-span-2 flex flex-col gap-6 lg:gap-8">
-           {(isUserContextLoading || isLoadingSessions) && !dashboardWidgets.goalProgress ? null :
-             (isUserContextLoading || isLoadingSessions) ? <Skeleton className="w-full h-[400px]" /> :
+           {isLoading && !dashboardWidgets.goalProgress ? null :
+             isLoading ? <Skeleton className="w-full h-[400px]" /> :
              dashboardWidgets.goalProgress && (
                 <AnimatedCard delay={400}>
                   <GoalProgress 
@@ -151,7 +149,7 @@ export default function HomePage() {
         <div className="lg:col-span-1 flex flex-col gap-6 lg:gap-8">
           {dashboardWidgets.nextSession && (
             <AnimatedCard delay={600}>
-              <NextSession sessions={upcomingSessions} isLoading={isLoadingSessions} />
+              <NextSession sessions={upcomingSessions} isLoading={isLoading} />
             </AnimatedCard>
           )}
           {dashboardWidgets.recentActivity && (
@@ -163,7 +161,7 @@ export default function HomePage() {
                 </CardTitle>
                 </CardHeader>
                 <CardContent>
-                {isLoadingReports ? (
+                {isLoading ? (
                     <div className="space-y-4">
                     <Skeleton className="h-10 w-full" />
                     <Skeleton className="h-10 w-full" />
@@ -175,7 +173,7 @@ export default function HomePage() {
                         <li key={report.id} className="text-sm p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
                         <p className="font-medium">{report.title}</p>
                         <p className="text-muted-foreground">
-                            {report.author} - {report.date ? format(new Date(report.date), 'MMMM d, yyyy') : 'No date'}
+                            {report.author} - {report.date ? format(new Date(report.date), 'yyyy-MM-dd') : 'No date'}
                         </p>
                         </li>
                     ))}

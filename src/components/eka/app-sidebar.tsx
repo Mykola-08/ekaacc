@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { memo } from 'react';
 import {
   Home,
   Package2,
@@ -16,17 +17,71 @@ import {
   BookOpen,
   Dumbbell,
   Users,
+  Crown,
+  Zap,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Separator } from '../ui/separator';
-import { useUserContext } from '@/context/user-context';
+import { useData } from '@/context/unified-data-context';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, useSidebar } from '../ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
+
+// Memoized link component for better performance
+const SidebarLink = memo(({ 
+  href, 
+  icon: Icon, 
+  label, 
+  isActive, 
+  isCollapsed 
+}: { 
+  href: string; 
+  icon: React.ElementType; 
+  label: string;
+  isActive: boolean;
+  isCollapsed: boolean;
+}) => {
+  if (isCollapsed) {
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Link
+            href={href}
+            className={cn(
+              'flex items-center justify-center rounded-lg p-3 transition-all duration-200',
+              isActive 
+                ? 'bg-primary text-primary-foreground' 
+                : 'text-muted-foreground hover:bg-muted hover:text-primary'
+            )}
+          >
+            <Icon className="h-5 w-5 shrink-0" />
+          </Link>
+        </TooltipTrigger>
+        <TooltipContent side="right">
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    );
+  }
+
+  return (
+    <Link
+      href={href}
+      className={cn(
+        'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200',
+        isActive 
+          ? 'bg-primary text-primary-foreground font-medium' 
+          : 'text-muted-foreground hover:bg-muted hover:text-primary'
+      )}
+    >
+      <Icon className="h-5 w-5 shrink-0" />
+      <span className="truncate">{label}</span>
+    </Link>
+  );
+});
+SidebarLink.displayName = 'SidebarLink';
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { currentUser } = useUserContext();
+  const { currentUser } = useData();
   const { isExpanded } = useSidebar();
 
   const userLinks = [
@@ -38,131 +93,103 @@ export function AppSidebar() {
     { href: '/journal', icon: BookOpen, label: 'Journal' },
     { href: '/exercises', icon: Dumbbell, label: 'Exercises' },
     { href: '/community', icon: Users, label: 'Community' },
-    { 
-      href: '/donations', 
-      icon: Heart, 
-      label: 'Donations',
-      subLinks: [
-        { href: '/donations/reports', label: 'Donation Reports' }
-      ] 
-    },
+    { href: '/donations', icon: Heart, label: 'Donations' },
+    { href: '/forms', icon: FileText, label: 'Forms' },
     { href: '/reports', icon: FileText, label: 'Reports' },
   ];
-
+  
+  // Conditional subscription links
+  const subscriptionLinks = [];
+  if (currentUser?.isLoyal) {
+    subscriptionLinks.push({ href: '/loyal', icon: Zap, label: 'Loyal Benefits' });
+  }
+  if (currentUser?.isVip) {
+    subscriptionLinks.push({ href: '/vip', icon: Crown, label: 'VIP Lounge' });
+  }
+  
   const therapistLinks = [
     { href: '/therapist/dashboard', icon: Briefcase, label: "Therapist"}
   ];
-
   const bottomLinks = [
     { href: '/account', icon: Settings, label: 'Account' },
   ];
-
   const isCollapsed = !isExpanded;
-
-  if (!currentUser) return null; // Or a loading skeleton
-
+  if (!currentUser) return null;
   const showTherapistLinks = currentUser.role === 'Therapist' || currentUser.role === 'Admin';
   const showUserLinks = currentUser.role !== 'Therapist';
 
-  const NavLink = ({ href, icon: Icon, label, subLinks }: { href: string; icon?: React.ElementType; label: string; subLinks?: {href: string, label: string}[] }) => {
-    const isActive = pathname === href;
-    const isSubActive = subLinks?.some(sub => pathname === sub.href);
-
-    const linkContent = (
-      <Link
-        href={href}
-        className={cn(
-          'flex items-center gap-4 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted',
-          isCollapsed && 'justify-center',
-          (isActive || isSubActive) && 'bg-primary/10 text-primary font-semibold'
-        )}
-      >
-        {Icon && <Icon className="h-5 w-5 shrink-0" />}
-        <span className={cn('truncate', isCollapsed && 'sr-only')}>{label}</span>
-      </Link>
-    );
-
-    if (isCollapsed) {
-      return (
-        <Tooltip>
-          <TooltipTrigger asChild>{linkContent}</TooltipTrigger>
-          <TooltipContent side="right" align="center">
-            {label}
-          </TooltipContent>
-        </Tooltip>
-      );
-    }
-
-    if (subLinks) {
-        return (
-            <Accordion type="single" collapsible defaultValue={isSubActive ? 'item-1' : undefined}>
-                <AccordionItem value="item-1" className="border-b-0">
-                    <div className={cn(
-                        'flex items-center justify-between rounded-lg text-muted-foreground transition-all hover:text-primary hover:bg-muted',
-                        (isActive || isSubActive) && 'bg-primary/10 text-primary font-semibold'
-                    )}>
-                        <Link
-                            href={href}
-                            className='flex flex-1 items-center gap-4 rounded-lg px-3 py-2'
-                        >
-                            {Icon && <Icon className="h-5 w-5 shrink-0" />}
-                            <span className={cn('truncate', isCollapsed && 'sr-only')}>{label}</span>
-                        </Link>
-                        <AccordionTrigger className="p-2 [&>svg]:h-5 [&>svg]:w-5" />
-                    </div>
-                    <AccordionContent className="pl-8 pt-1 pb-0">
-                       <SidebarMenu className="px-0">
-                         {subLinks.map(subLink => (
-                            <SidebarMenuItem key={subLink.href}>
-                                <NavLink {...subLink} />
-                            </SidebarMenuItem>
-                         ))}
-                       </SidebarMenu>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        )
-    }
-
-    return linkContent;
-  };
-  
   return (
-    <Sidebar side="left">
-        <SidebarHeader className="flex h-[var(--header-h)] items-center border-b px-4">
-          <Link href="/" className={cn("flex items-center gap-2 font-semibold", isCollapsed && "justify-center")}>
-            <Package2 className="h-6 w-6 text-primary" />
-            <span className={cn(isCollapsed && 'hidden')}>EKA</span>
-          </Link>
-        </SidebarHeader>
+    <Sidebar side="left" className="bg-background">
+      <SidebarHeader className={cn(
+        "flex h-16 items-center border-b px-4 transition-all duration-300 bg-background",
+        isCollapsed ? 'justify-center px-2' : 'gap-2'
+      )}>
+        <Link href="/" className={cn("flex items-center font-semibold text-xl", isCollapsed ? "justify-center" : "gap-2")}> 
+          <Package2 className="h-7 w-7 text-primary shrink-0" />
+          {!isCollapsed && <span>EKA</span>}
+        </Link>
+      </SidebarHeader>
 
-        <SidebarContent className="flex-1 overflow-auto py-4">
-          <SidebarMenu>
-            {showUserLinks && userLinks.map(link => (
-              <SidebarMenuItem key={link.href}>
-                <NavLink {...link} />
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
+      <SidebarContent className="flex-1 overflow-auto py-4 px-2 bg-background">
+        <SidebarMenu>
+          {showUserLinks && userLinks.map(link => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarLink 
+                href={link.href}
+                icon={link.icon}
+                label={link.label}
+                isActive={pathname === link.href}
+                isCollapsed={isCollapsed}
+              />
+            </SidebarMenuItem>
+          ))}
+          
+          {/* Subscription Links */}
+          {subscriptionLinks.length > 0 && (
+            <>
+              {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">MEMBERSHIP</div>}
+              {subscriptionLinks.map(link => (
+                <SidebarMenuItem key={link.href}>
+                  <SidebarLink 
+                    href={link.href}
+                    icon={link.icon}
+                    label={link.label}
+                    isActive={pathname === link.href}
+                    isCollapsed={isCollapsed}
+                  />
+                </SidebarMenuItem>
+              ))}
+            </>
+          )}
+        </SidebarMenu>
+      </SidebarContent>
 
-        <div className="mt-auto p-2">
-            <nav className="grid items-start text-sm font-medium">
-                <SidebarMenu>
-                 {showTherapistLinks && (
-                    <SidebarMenuItem>
-                        <NavLink {...therapistLinks[0]} />
-                    </SidebarMenuItem>
-                  )}
-                    <Separator className="my-2" />
-                    {bottomLinks.map(link => (
-                        <SidebarMenuItem key={link.href}>
-                        <NavLink {...link} />
-                        </SidebarMenuItem>
-                    ))}
-                </SidebarMenu>
-          </nav>
-        </div>
+      <div className="mt-auto border-t p-4 bg-background">
+        <SidebarMenu>
+          {showTherapistLinks && (
+            <SidebarMenuItem>
+              <SidebarLink 
+                href={therapistLinks[0].href}
+                icon={therapistLinks[0].icon}
+                label={therapistLinks[0].label}
+                isActive={pathname === therapistLinks[0].href}
+                isCollapsed={isCollapsed}
+              />
+            </SidebarMenuItem>
+          )}
+          {bottomLinks.map(link => (
+            <SidebarMenuItem key={link.href}>
+              <SidebarLink 
+                href={link.href}
+                icon={link.icon}
+                label={link.label}
+                isActive={pathname === link.href}
+                isCollapsed={isCollapsed}
+              />
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </div>
     </Sidebar>
   );
 }

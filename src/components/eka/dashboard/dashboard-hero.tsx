@@ -1,13 +1,13 @@
 'use client';
 
-import { useUserContext } from "@/context/user-context";
+import { useData } from "@/context/unified-data-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
 import { generateDailyQuote } from "@/ai/flows/generate-daily-quote";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardHero() {
-    const { currentUser } = useUserContext();
+    const { currentUser } = useData();
     const [quote, setQuote] = useState({ quote: '', author: '' });
     const [isLoading, setIsLoading] = useState(true);
 
@@ -43,7 +43,7 @@ export function DashboardHero() {
                     <AvatarFallback>{currentUser.initials}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Welcome back, {currentUser.name.split(' ')[0]}!</h1>
+                    <h1 className="text-2xl font-bold tracking-tight">Welcome back, {currentUser.name ? currentUser.name.split(' ')[0] : 'User'}!</h1>
                     <p className="text-muted-foreground">Here's your wellness snapshot for today.</p>
                 </div>
             </div>

@@ -12,20 +12,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { useAuth } from '@/firebase';
+import { useData } from '@/context/unified-data-context';
 import { useRouter } from 'next/navigation';
-import { useUserContext } from '@/context/user-context';
+import { RoleChanger } from '@/components/ui/role-changer';
+import { DataSourceIndicator } from '@/components/eka/data-source-indicator';
+import { VipBadge } from '@/components/eka/vip-badge';
+import { Crown } from 'lucide-react';
 
 export function UserNav() {
-  const { currentUser } = useUserContext();
-  const auth = useAuth();
+  const { currentUser, logout } = useData();
   const router = useRouter();
 
-
   const handleLogout = async () => {
-    if (auth) {
-      await auth.signOut();
-    }
+    await logout();
     router.push('/login');
   };
 
@@ -43,12 +42,25 @@ export function UserNav() {
             {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
+          {currentUser.isVip && currentUser.vipTier && (
+            <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
+              <Crown className="h-3.5 w-3.5 text-yellow-500" />
+            </div>
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
+        <div className="mb-2">
+          <RoleChanger />
+        </div>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+              {currentUser.isVip && currentUser.vipTier && (
+                <VipBadge tier={currentUser.vipTier} variant="compact" />
+              )}
+            </div>
             <p className="text-xs leading-none text-muted-foreground">
               {currentUser.email}
             </p>
@@ -72,6 +84,10 @@ export function UserNav() {
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <div className="px-2 py-1.5">
+          <DataSourceIndicator />
+        </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
           Log out

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo } from 'react';
@@ -7,39 +8,29 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart } from "lucide-react";
-import { useUser, useFirestore, useCollection, addDocumentNonBlocking, collection, query, where, serverTimestamp, useMemoFirebase } from '@/firebase';
+import { useData } from '@/context/unified-data-context';
+import { mockCurrentUser, mockTherapistUser } from '@/lib/mock-data';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DonationsPage() {
-  const { user } = useUser();
-  const firestore = useFirestore();
+  const { currentUser } = useData();
   const { toast } = useToast();
-
   const [amount, setAmount] = useState<number | ''>('');
   const [recipient, setRecipient] = useState<string>('any');
-  
-  const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
-  const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
-
-  const donationsRef = useMemoFirebase(() => firestore ? collection(firestore, 'donations') : null, [firestore]);
-  const userDonationsQuery = useMemoFirebase(() => {
-    if (!donationsRef || !user) return null;
-    return query(donationsRef, where('donorId', '==', user.uid));
-  }, [donationsRef, user]);
-
-  const { data: userDonations, isLoading: isLoadingDonations } = useCollection<Donation>(userDonationsQuery);
+  const allUsers = [mockCurrentUser, mockTherapistUser];
+  const isLoadingUsers = false;
+  const [userDonations, setUserDonations] = useState<any[]>([]);
+  const isLoadingDonations = false;
 
   const donationStats = useMemo(() => {
     if (!userDonations) {
       return { totalDonated: 0, sessionsFunded: 0, livesTouched: 0 };
     }
     const totalDonated = userDonations.reduce((acc, d) => acc + d.amount, 0);
-    // Assuming an average session cost of €50 for this calculation
-    const sessionsFunded = Math.floor(totalDonated / 50); 
+    const sessionsFunded = Math.floor(totalDonated / 50);
     const uniqueReceivers = new Set(userDonations.map(d => d.receiverId));
-    
     return {
       totalDonated,
       sessionsFunded,
@@ -49,42 +40,29 @@ export default function DonationsPage() {
 
   const handleAmountClick = (val: number) => {
     setAmount(val);
-  }
+  };
 
-  const handleDonate = async () => {
-    if (!user || !donationsRef) {
-      toast({ variant: 'destructive', title: 'You must be logged in to donate.' });
-      return;
-    }
-    if (!amount || amount <= 0) {
-      toast({ variant: 'destructive', title: 'Please enter a valid amount.' });
-      return;
-    }
+  const potentialRecipients = useMemo(() => allUsers?.filter(u => u.role !== 'Admin'), [allUsers]);
 
+  const handleDonate = () => {
+    if (!currentUser) return;
     toast({ title: 'Processing your donation...' });
-
     const newDonation = {
-      donorId: user.uid,
+      donorId: currentUser.uid,
       receiverId: recipient,
       amount: amount,
-      date: serverTimestamp(),
-      isAnonymous: false, // This could be a future feature
+      date: new Date().toISOString(),
+      isAnonymous: false,
     };
-
-    try {
-      await addDocumentNonBlocking(donationsRef, newDonation);
+    setTimeout(() => {
+      setUserDonations(prev => [...prev, newDonation]);
       toast({
         title: 'Thank you for your donation!',
         description: `You successfully donated €${amount}.`,
       });
-      setAmount(''); // Reset amount after donation
-    } catch (error) {
-      console.error("Donation failed:", error);
-      toast({ variant: 'destructive', title: 'Donation failed', description: 'There was an error processing your donation.' });
-    }
+      setAmount('');
+    }, 700);
   };
-  
-  const potentialRecipients = useMemo(() => allUsers?.filter(u => u.role !== 'Donor' && u.role !== 'Admin'), [allUsers]);
 
   return (
     <div className="grid gap-8 lg:grid-cols-3">
@@ -172,7 +150,10 @@ export default function DonationsPage() {
             </Card>
         </div>
     </div>
-  );
-}
+  	);
+  }
+
+
+
 
     

@@ -3,22 +3,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { useUserContext } from "@/context/user-context";
-import { vipData } from "@/lib/data";
+import { useData } from "@/context/unified-data-context";
+import { vipPlans, vipData } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Check, CheckCircle, Sparkles } from "lucide-react";
 import { useState } from "react";
-import { useCollection, useFirestore, collection, useMemoFirebase } from "@/firebase";
-import type { VipPlan } from "@/lib/types";
+// Removed all Firebase imports
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function VipPage() {
-    const { currentUser } = useUserContext();
+    const { currentUser } = useData();
     const [currentPlanId, setCurrentPlanId] = useState('gold-elite');
-    const firestore = useFirestore();
-
-    const plansRef = useMemoFirebase(() => firestore ? collection(firestore, 'vipPlans') : null, [firestore]);
-    const { data: vipPlans, isLoading: isLoadingPlans } = useCollection<VipPlan>(plansRef);
+    // Add mock IDs to vipPlans for rendering
+    const plansWithIds = vipPlans.map((plan, idx) => ({ ...plan, id: `plan-${idx}` }));
+    // Use vipPlans directly from mock data
+    const isLoadingPlans = false;
 
     if (!currentUser) return null;
 
@@ -53,7 +52,7 @@ export default function VipPage() {
                             </Card>
                         ))
                     )}
-                    {vipPlans && vipPlans.map(plan => (
+                    {plansWithIds.map((plan) => (
                         <Card 
                             key={plan.id} 
                             className={cn(
@@ -104,7 +103,7 @@ export default function VipPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="grid md:grid-cols-2 gap-6">
-                            {vipData.benefits.map(benefit => (
+                            {vipData.benefits.map((benefit: import("@/lib/types").VipBenefit) => (
                                 <Card key={benefit.id} className="flex flex-col">
                                     <CardHeader className="pb-2">
                                         <CardTitle className="text-base">{benefit.name}</CardTitle>
@@ -136,8 +135,8 @@ export default function VipPage() {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    {vipData.history.map((item, index) => {
-                                        const benefit = vipData.benefits.find(b => b.id === item.benefitId);
+                                    {vipData.history.map((item: import("@/lib/types").VipHistoryItem, index: number) => {
+                                        const benefit = vipData.benefits.find((b: import("@/lib/types").VipBenefit) => b.id === item.benefitId);
                                         return (
                                             <TableRow key={index}>
                                                 <TableCell className="font-medium">{benefit?.name}</TableCell>

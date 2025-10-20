@@ -16,8 +16,9 @@ import { allUsers } from '@/lib/data';
 import { MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
-import { useUser, useFirestore, useDoc, doc, updateDocumentNonBlocking, useMemoFirebase } from '@/firebase';
-import { useUserContext } from '@/context/user-context';
+import { SubscriptionTestSwitcher } from '@/components/eka/subscription-test-switcher';
+// Removed all Firebase imports
+import { useData } from '@/context/unified-data-context';
 import type { User } from '@/lib/types';
 
 
@@ -34,34 +35,27 @@ type DashboardWidgets = {
 }
 
 export default function AccountPage() {
-  const { user } = useUser();
-  const { currentUser } = useUserContext();
-  const firestore = useFirestore();
-  const { toast } = useToast();
-  
-  const userRef = useMemoFirebase(() => user ? doc(firestore, 'users', user.uid) : null, [user, firestore]);
-  // We use the context for the most up-to-date data, but useDoc is fine for listening to direct changes
-  const { data: currentUserData } = useDoc<User>(userRef);
+    const { currentUser, updateUser } = useData();
+    const { toast } = useToast();
 
-  const [widgetConfig, setWidgetConfig] = useState<DashboardWidgets>({
-      goalProgress: true,
-      quickActions: true,
-      nextSession: true,
-      recentActivity: true
-  });
+    const [widgetConfig, setWidgetConfig] = useState<DashboardWidgets>({
+        goalProgress: true,
+        quickActions: true,
+        nextSession: true,
+        recentActivity: true
+    });
 
-  useEffect(() => {
-    if (currentUser?.dashboardWidgets) {
-        setWidgetConfig(currentUser.dashboardWidgets);
-    }
-  }, [currentUser]);
+    useEffect(() => {
+        if (currentUser?.dashboardWidgets) {
+            setWidgetConfig(currentUser.dashboardWidgets);
+        }
+    }, [currentUser]);
 
 
   const handleWidgetToggle = (widget: keyof DashboardWidgets) => {
-      if (!userRef) return;
       const newConfig = {...widgetConfig, [widget]: !widgetConfig[widget]};
       setWidgetConfig(newConfig);
-      updateDocumentNonBlocking(userRef, {
+      updateUser({
           dashboardWidgets: newConfig
       });
       toast({
@@ -88,9 +82,7 @@ export default function AccountPage() {
   }, [currentUser, form]);
 
   const onSubmit = (values: z.infer<typeof profileFormSchema>) => {
-    if (userRef) {
-        updateDocumentNonBlocking(userRef, { name: values.name });
-    }
+    updateUser({ name: values.name });
     toast({
         title: "Profile Updated",
         description: "Your changes have been saved.",
@@ -115,6 +107,10 @@ export default function AccountPage() {
   return (
     <div className="space-y-8">
         <h1 className="text-3xl font-bold">Account Settings</h1>
+        
+        {/* Test Mode: Subscription Switcher */}
+        <SubscriptionTestSwitcher />
+        
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <Card>

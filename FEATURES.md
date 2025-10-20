@@ -181,14 +181,14 @@ All new features are fully responsive and work seamlessly on:
 
 ## 🎯 User Benefits
 
-### For Patients:
+\n### For Patients
 1. **Better Progress Tracking** - Visual analytics and journal entries
 2. **Community Support** - Connect with others on similar journeys
 3. **Exercise Guidance** - Clear instructions for at-home therapy
 4. **Mood Monitoring** - Track emotional wellbeing alongside physical health
 5. **Personalized Experience** - Dark mode and customizable dashboard
 
-### For Therapists:
+\n### For Therapists
 1. **Patient Engagement** - More tools for patient participation
 2. **Progress Monitoring** - Easy-to-read analytics
 3. **Community Building** - Foster supportive environment

@@ -5,6 +5,8 @@ import {
   getDocs,
   writeBatch,
   doc,
+  query,
+  where,
 } from 'firebase/firestore';
 import { services, vipPlans, allUsers } from '@/lib/data';
 

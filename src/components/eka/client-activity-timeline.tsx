@@ -22,7 +22,12 @@ interface TimelineEvent {
   title: string;
   description?: string;
   status?: 'completed' | 'pending' | 'cancelled';
-  metadata?: Record<string, any>;
+  metadata?: {
+    duration?: number;
+    therapist?: string;
+    amount?: number;
+    [key: string]: any;
+  };
 }
 
 interface ClientActivityTimelineProps {
@@ -139,16 +144,20 @@ export function ClientActivityTimeline({ client }: ClientActivityTimelineProps) 
     const diffTime = now.getTime() - date.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
+    // Future dates
+    if (diffDays < 0) {
+      const futureDays = Math.abs(diffDays);
+      if (futureDays === 1) return 'Tomorrow';
+      return `In ${futureDays} days`;
+    }
+    
+    // Past and present dates
     if (diffDays === 0) {
       return 'Today';
     } else if (diffDays === 1) {
       return 'Yesterday';
     } else if (diffDays < 7) {
       return `${diffDays} days ago`;
-    } else if (diffDays < 0) {
-      const futureDays = Math.abs(diffDays);
-      if (futureDays === 1) return 'Tomorrow';
-      return `In ${futureDays} days`;
     } else {
       return date.toLocaleDateString('en-US', { 
         month: 'short', 

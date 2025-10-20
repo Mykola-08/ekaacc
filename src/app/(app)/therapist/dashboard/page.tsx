@@ -22,6 +22,7 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -75,10 +76,18 @@ export default function TherapistDashboardPage() {
         userId: b.userId,
     })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
+    const [activeTab, setActiveTab] = useState<'appointments' | 'clients' | 'sessions' | 'billing' | 'settings'>('appointments');
+
     const [isGoalDialogOpen, setIsGoalDialogOpen] = useState(false);
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
     const [isServiceDialogOpen, setIsServiceDialogOpen] = useState(false);
+    const [isSessionNotesDialogOpen, setIsSessionNotesDialogOpen] = useState(false);
     const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
+    const [selectedSession, setSelectedSession] = useState<typeof upcomingSessions[0] | null>(null);
+    const [sessionNotes, setSessionNotes] = useState('');
+    const [clientTags, setClientTags] = useState<Record<string, string[]>>({});
+    const [clientSearch, setClientSearch] = useState('');
+    const [selectedTagFilter, setSelectedTagFilter] = useState<string>('all');
     
     const [serviceForm, setServiceForm] = useState<Partial<Service>>(initialServiceFormState);
 
@@ -221,57 +230,198 @@ export default function TherapistDashboardPage() {
         }));
     };
     
+    const handleOpenSessionNotes = (session: typeof upcomingSessions[0]) => {
+        setSelectedSession(session);
+        setSessionNotes(''); // Notes would be loaded from database in real implementation
+        setIsSessionNotesDialogOpen(true);
+    };
+
+    const handleSaveSessionNotes = () => {
+        if (!selectedSession) return;
+        // In real implementation, this would update the session in the database
+        console.log('Saving session notes:', {
+            sessionId: selectedSession.id,
+            notes: sessionNotes,
+        });
+        toast({ title: 'Session Notes Saved', description: 'Notes have been saved successfully.' });
+        setIsSessionNotesDialogOpen(false);
+    };
+
+    const handleAddClientTag = (clientId: string, tag: string) => {
+        setClientTags(prev => ({
+            ...prev,
+            [clientId]: [...(prev[clientId] || []), tag]
+        }));
+        toast({ title: 'Tag Added', description: `Tag "${tag}" added to client.` });
+    };
+
+    const handleRemoveClientTag = (clientId: string, tag: string) => {
+        setClientTags(prev => ({
+            ...prev,
+            [clientId]: (prev[clientId] || []).filter(t => t !== tag)
+        }));
+        toast({ title: 'Tag Removed', description: `Tag "${tag}" removed from client.` });
+    };
+    
     const patients = useMemo(() => allUsers?.filter(u => u.role !== 'Therapist'), [allUsers]);
+
+    const filteredPatients = useMemo(() => {
+        let filtered = patients || [];
+        
+        // Filter by search
+        if (clientSearch) {
+            filtered = filtered.filter(p => 
+                p.name?.toLowerCase().includes(clientSearch.toLowerCase()) ||
+                p.email?.toLowerCase().includes(clientSearch.toLowerCase())
+            );
+        }
+        
+        // Filter by tag
+        if (selectedTagFilter !== 'all') {
+            filtered = filtered.filter(p => 
+                clientTags[p.id]?.includes(selectedTagFilter)
+            );
+        }
+        
+        return filtered;
+    }, [patients, clientSearch, selectedTagFilter, clientTags]);
 
     return (
         <>
-            <div className="flex flex-col gap-8 md:gap-12">
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Upcoming Sessions</CardTitle>
-                            <Calendar className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">{isLoadingBookings ? '...' : upcomingSessions.length}</div>
-                            <p className="text-xs text-muted-foreground">in the next 7 days</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Active Patients</CardTitle>
-                            <Users className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">{isLoadingUsers ? '...' : patients?.length}</div>
-                            <p className="text-xs text-muted-foreground">+2 from last month</p>
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                            <CardTitle className="text-sm font-medium">Reports to Review</CardTitle>
-                            <CheckCircle className="h-4 w-4 text-muted-foreground" />
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-2xl font-bold">3</div>
-                            <p className="text-xs text-muted-foreground">due this week</p>
-                        </CardContent>
-                    </Card>
-                </div>
+            <Tabs value={activeTab} onValueChange={(value: any) => setActiveTab(value)} className="space-y-6">
+                <TabsList className="grid w-full grid-cols-5">
+                    <TabsTrigger value="appointments">Appointments</TabsTrigger>
+                    <TabsTrigger value="clients">Clients</TabsTrigger>
+                    <TabsTrigger value="sessions">Sessions</TabsTrigger>
+                    <TabsTrigger value="billing">Billing</TabsTrigger>
+                    <TabsTrigger value="settings">Settings</TabsTrigger>
+                </TabsList>
 
-                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    <Card className="lg:col-span-2">
+                <TabsContent value="appointments" className="space-y-6">
+                    <div className="flex flex-col gap-8 md:gap-12">
+                        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Upcoming Sessions</CardTitle>
+                                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{isLoadingBookings ? '...' : upcomingSessions.length}</div>
+                                    <p className="text-xs text-muted-foreground">in the next 7 days</p>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Active Patients</CardTitle>
+                                    <Users className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">{isLoadingUsers ? '...' : patients?.length}</div>
+                                    <p className="text-xs text-muted-foreground">+2 from last month</p>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Reports to Review</CardTitle>
+                                    <CheckCircle className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-2xl font-bold">3</div>
+                                    <p className="text-xs text-muted-foreground">due this week</p>
+                                </CardContent>
+                            </Card>
+                        </div>
+
+                        {/* Next Appointments Section - Enhanced */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Next Appointments</CardTitle>
+                                <CardDescription>Your upcoming scheduled sessions with detailed information.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                {isLoadingBookings && <p>Loading sessions...</p>}
+                                {!isLoadingBookings && upcomingSessions.slice(0, 5).map(session => (
+                                    <div key={session.id} className="flex items-center justify-between p-4 border rounded-lg">
+                                        <div className="flex items-start gap-4">
+                                            <Avatar className="h-12 w-12 border">
+                                                <AvatarFallback>{'C'}</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <p className="font-semibold">Session with Client</p>
+                                                <p className="text-sm text-muted-foreground">{session.type}</p>
+                                                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
+                                                    <Clock className="h-3 w-3" />
+                                                    <span>{format(new Date(session.date), "PPp")}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <Button variant="outline" size="sm" onClick={() => handleOpenSessionNotes(session)}>
+                                                Add Notes
+                                            </Button>
+                                            <Button variant="secondary" size="sm">
+                                                Start Session
+                                                <ArrowUpRight className="h-4 w-4 ml-1" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                                {!isLoadingBookings && upcomingSessions.length === 0 && (
+                                    <div className="text-center py-8">
+                                        <p className="text-muted-foreground mb-4">No upcoming sessions.</p>
+                                        <Button asChild>
+                                            <Link href="/sessions/booking">Book a New Session</Link>
+                                        </Button>
+                                    </div>
+                                )}
+                                {upcomingSessions.length > 5 && (
+                                    <Button variant="outline" className="w-full" asChild>
+                                        <Link href="/sessions">View All Sessions</Link>
+                                    </Button>
+                                )}
+                            </CardContent>
+                        </Card>
+                    </div>
+                </TabsContent>
+
+                <TabsContent value="clients" className="space-y-6">
+                    <Card>
                         <CardHeader>
-                            <CardTitle>My Patients</CardTitle>
-                            <CardDescription>An overview of your currently managed patients.</CardDescription>
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <CardTitle>My Clients</CardTitle>
+                                    <CardDescription>Manage all your assigned clients and their data.</CardDescription>
+                                </div>
+                                <div className="flex gap-2">
+                                    <Input 
+                                        placeholder="Search clients..." 
+                                        value={clientSearch}
+                                        onChange={(e) => setClientSearch(e.target.value)}
+                                        className="w-64"
+                                    />
+                                    <Select value={selectedTagFilter} onValueChange={setSelectedTagFilter}>
+                                        <SelectTrigger className="w-40">
+                                            <SelectValue placeholder="Filter by tag" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">All Tags</SelectItem>
+                                            <SelectItem value="VIP">VIP</SelectItem>
+                                            <SelectItem value="chronic pain">Chronic Pain</SelectItem>
+                                            <SelectItem value="emotional focus">Emotional Focus</SelectItem>
+                                            <SelectItem value="new client">New Client</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
                         </CardHeader>
-                        <CardContent className="overflow-x-auto">
+                        <CardContent>
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="min-w-[180px]">Patient</TableHead>
+                                        <TableHead className="min-w-[180px]">Client</TableHead>
                                         <TableHead>Email</TableHead>
-                                        <TableHead>Role</TableHead>
+                                        <TableHead>Tags</TableHead>
+                                        <TableHead>Sessions</TableHead>
                                         <TableHead className="text-right">Actions</TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -279,14 +429,15 @@ export default function TherapistDashboardPage() {
                                     {isLoadingUsers && (
                                         [...Array(3)].map((_, i) => (
                                             <TableRow key={i}>
-                                                 <TableCell><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-5 w-24" /></div></TableCell>
-                                                 <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                                                 <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                                 <TableCell className="text-right"><Skeleton className="h-8 w-32" /></TableCell>
+                                                <TableCell><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-5 w-24" /></div></TableCell>
+                                                <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                                <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                                                <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                <TableCell className="text-right"><Skeleton className="h-8 w-32" /></TableCell>
                                             </TableRow>
                                         ))
                                     )}
-                                    {patients?.map((patient) => (
+                                    {filteredPatients?.map((patient) => (
                                         <TableRow key={patient.id}>
                                             <TableCell>
                                                 <div className="flex items-center gap-3">
@@ -298,7 +449,24 @@ export default function TherapistDashboardPage() {
                                                 </div>
                                             </TableCell>
                                             <TableCell className="whitespace-nowrap text-muted-foreground">{patient.email}</TableCell>
-                                            <TableCell>{patient.role}</TableCell>
+                                            <TableCell>
+                                                <div className="flex gap-1 flex-wrap">
+                                                    {clientTags[patient.id]?.map(tag => (
+                                                        <Badge key={tag} variant="secondary" className="cursor-pointer" onClick={() => handleRemoveClientTag(patient.id, tag)}>
+                                                            {tag} ×
+                                                        </Badge>
+                                                    ))}
+                                                    <Button 
+                                                        variant="ghost" 
+                                                        size="sm" 
+                                                        className="h-6 px-2"
+                                                        onClick={() => handleAddClientTag(patient.id, 'VIP')}
+                                                    >
+                                                        + Tag
+                                                    </Button>
+                                                </div>
+                                            </TableCell>
+                                            <TableCell>{patient.goal?.currentSessions || 0}</TableCell>
                                             <TableCell className="text-right space-x-2 whitespace-nowrap">
                                                 <Button variant="outline" size="sm" onClick={() => handleOpenReportDialog(patient)}>Write Report</Button>
                                                 <Button variant="outline" size="sm" onClick={() => handleOpenGoalDialog(patient)}>Set Goal</Button>
@@ -310,108 +478,204 @@ export default function TherapistDashboardPage() {
                             </Table>
                         </CardContent>
                     </Card>
+                </TabsContent>
 
+                <TabsContent value="sessions" className="space-y-6">
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        <Card className="lg:col-span-2">
+                            <CardHeader>
+                                <CardTitle>My Patients</CardTitle>
+                                <CardDescription>An overview of your currently managed patients.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="overflow-x-auto">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead className="min-w-[180px]">Patient</TableHead>
+                                            <TableHead>Email</TableHead>
+                                            <TableHead>Role</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {isLoadingUsers && (
+                                            [...Array(3)].map((_, i) => (
+                                                <TableRow key={i}>
+                                                     <TableCell><div className="flex items-center gap-3"><Skeleton className="h-8 w-8 rounded-full" /><Skeleton className="h-5 w-24" /></div></TableCell>
+                                                     <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                                     <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                     <TableCell className="text-right"><Skeleton className="h-8 w-32" /></TableCell>
+                                                </TableRow>
+                                            ))
+                                        )}
+                                        {patients?.map((patient) => (
+                                            <TableRow key={patient.id}>
+                                                <TableCell>
+                                                    <div className="flex items-center gap-3">
+                                                        <Avatar className="h-8 w-8">
+                                                            <AvatarImage src={patient.avatarUrl} alt={patient.name} />
+                                                            <AvatarFallback>{patient.initials}</AvatarFallback>
+                                                        </Avatar>
+                                                        <span className="font-medium whitespace-nowrap">{patient.name}</span>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell className="whitespace-nowrap text-muted-foreground">{patient.email}</TableCell>
+                                                <TableCell>{patient.role}</TableCell>
+                                                <TableCell className="text-right space-x-2 whitespace-nowrap">
+                                                    <Button variant="outline" size="sm" onClick={() => handleOpenReportDialog(patient)}>Write Report</Button>
+                                                    <Button variant="outline" size="sm" onClick={() => handleOpenGoalDialog(patient)}>Set Goal</Button>
+                                                    <Button variant="ghost" size="sm">Profile</Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
+
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Upcoming Sessions</CardTitle>
+                                <CardDescription>Your next two scheduled appointments.</CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-6">
+                                {isLoadingBookings && <p>Loading sessions...</p>}
+                                {!isLoadingBookings && upcomingSessions.slice(0, 2).map(session => (
+                                    <div key={session.id} className="space-y-3">
+                                        <div className="flex items-start gap-4">
+                                            <Avatar className="h-10 w-10 border">
+                                                <AvatarFallback>{'P'}</AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <p className="font-semibold">Session with a client</p> 
+                                                <p className="text-sm text-muted-foreground">{session.type}</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center justify-between text-sm bg-muted p-3 rounded-lg">
+                                            <div className="flex items-center gap-2 text-muted-foreground">
+                                                <Clock className="h-4 w-4" />
+                                                <span>{format(new Date(session.date), "p, MMM d")}</span>
+                                            </div>
+                                            <Button variant="secondary" size="sm">
+                                                Start Session
+                                                <ArrowUpRight className="h-4 w-4 ml-2" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                ))}
+                                 {!isLoadingBookings && upcomingSessions.length === 0 && (
+                                    <p className="text-sm text-muted-foreground text-center py-4">No upcoming sessions.</p>
+                                )}
+                                <Button variant="outline" className="w-full" asChild>
+                                    <Link href="/sessions">View All Sessions</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </TabsContent>
+
+                <TabsContent value="billing" className="space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>Upcoming Sessions</CardTitle>
-                            <CardDescription>Your next two scheduled appointments.</CardDescription>
+                            <CardTitle>Billing & Internal Accounts</CardTitle>
+                            <CardDescription>Manage client accounts, balances, and payments.</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-6">
-                            {isLoadingBookings && <p>Loading sessions...</p>}
-                            {!isLoadingBookings && upcomingSessions.slice(0, 2).map(session => (
-                                <div key={session.id} className="space-y-3">
-                                    <div className="flex items-start gap-4">
-                                        <Avatar className="h-10 w-10 border">
-                                            <AvatarFallback>{'P'}</AvatarFallback>
-                                        </Avatar>
-                                        <div>
-                                            <p className="font-semibold">Session with a client</p> 
-                                            <p className="text-sm text-muted-foreground">{session.type}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center justify-between text-sm bg-muted p-3 rounded-lg">
-                                        <div className="flex items-center gap-2 text-muted-foreground">
-                                            <Clock className="h-4 w-4" />
-                                            <span>{format(new Date(session.date), "p, MMM d")}</span>
-                                        </div>
-                                        <Button variant="secondary" size="sm">
-                                            Start Session
-                                            <ArrowUpRight className="h-4 w-4 ml-2" />
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
-                             {!isLoadingBookings && upcomingSessions.length === 0 && (
-                                <p className="text-sm text-muted-foreground text-center py-4">No upcoming sessions.</p>
-                            )}
-                            <Button variant="outline" className="w-full" asChild>
-                                <Link href="/sessions">View All Sessions</Link>
-                            </Button>
+                        <CardContent>
+                            <p className="text-muted-foreground">Internal account management features coming soon...</p>
                         </CardContent>
                     </Card>
-                </div>
+                </TabsContent>
 
-                <Card>
-                     <CardHeader className="flex flex-row items-center justify-between">
-                        <div>
-                            <CardTitle>Service Management</CardTitle>
-                            <CardDescription>Add, edit, or deactivate services and VIP plans offered.</CardDescription>
-                        </div>
-                        <Button onClick={() => handleOpenServiceDialog(null)}>
-                            <PlusCircle className="mr-2 h-4 w-4"/>
-                            Add Service
-                        </Button>
-                    </CardHeader>
-                    <CardContent>
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>Service Name</TableHead>
-                                    <TableHead>Category</TableHead>
-                                    <TableHead>Duration</TableHead>
-                                    <TableHead>Price</TableHead>
-                                    <TableHead>Status</TableHead>
-                                    <TableHead className="text-right">Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                 {isLoadingServices && (
-                                    [...Array(4)].map((_, i) => (
-                                        <TableRow key={i}>
-                                            <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                                            <TableCell><Skeleton className="h-5 w-24" /></TableCell>
-                                            <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                            <TableCell><Skeleton className="h-5 w-16" /></TableCell>
-                                            <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
-                                            <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
-                                        </TableRow>
-                                    ))
-                                )}
-                                {services?.map((service: Service) => (
-                                    <TableRow key={service.id}>
-                                        <TableCell className="font-medium">{service.name}</TableCell>
-                                        <TableCell>{service.category}</TableCell>
-                                        <TableCell>{service.durationMinutes} min</TableCell>
-                                        <TableCell>€{service.priceEUR}</TableCell>
-                                        <TableCell>
-                                            <Badge variant={service.active ? 'secondary' : 'outline'}>
-                                                {service.active ? 'Active' : 'Inactive'}
-                                            </Badge>
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <Button variant="outline" size="sm" onClick={() => handleOpenServiceDialog(service)}>
-                                                Edit
-                                            </Button>
-                                        </TableCell>
+                <TabsContent value="settings" className="space-y-6">
+                    <Card>
+                         <CardHeader className="flex flex-row items-center justify-between">
+                            <div>
+                                <CardTitle>Service Management</CardTitle>
+                                <CardDescription>Add, edit, or deactivate services and VIP plans offered.</CardDescription>
+                            </div>
+                            <Button onClick={() => handleOpenServiceDialog(null)}>
+                                <PlusCircle className="mr-2 h-4 w-4"/>
+                                Add Service
+                            </Button>
+                        </CardHeader>
+                        <CardContent>
+                            <Table>
+                                <TableHeader>
+                                    <TableRow>
+                                        <TableHead>Service Name</TableHead>
+                                        <TableHead>Category</TableHead>
+                                        <TableHead>Duration</TableHead>
+                                        <TableHead>Price</TableHead>
+                                        <TableHead>Status</TableHead>
+                                        <TableHead className="text-right">Actions</TableHead>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </CardContent>
-                </Card>
-
-            </div>
+                                </TableHeader>
+                                <TableBody>
+                                     {isLoadingServices && (
+                                        [...Array(4)].map((_, i) => (
+                                            <TableRow key={i}>
+                                                <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+                                                <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+                                                <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                <TableCell><Skeleton className="h-5 w-16" /></TableCell>
+                                                <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
+                                                <TableCell className="text-right"><Skeleton className="h-8 w-20" /></TableCell>
+                                            </TableRow>
+                                        ))
+                                    )}
+                                    {services?.map((service: Service) => (
+                                        <TableRow key={service.id}>
+                                            <TableCell className="font-medium">{service.name}</TableCell>
+                                            <TableCell>{service.category}</TableCell>
+                                            <TableCell>{service.durationMinutes} min</TableCell>
+                                            <TableCell>€{service.priceEUR}</TableCell>
+                                            <TableCell>
+                                                <Badge variant={service.active ? 'secondary' : 'outline'}>
+                                                    {service.active ? 'Active' : 'Inactive'}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <Button variant="outline" size="sm" onClick={() => handleOpenServiceDialog(service)}>
+                                                    Edit
+                                                </Button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </CardContent>
+                    </Card>
+                </TabsContent>
+            </Tabs>
             
+            {/* Session Notes Dialog */}
+            <Dialog open={isSessionNotesDialogOpen} onOpenChange={setIsSessionNotesDialogOpen}>
+                <DialogContent className="sm:max-w-2xl">
+                    <DialogHeader>
+                        <DialogTitle>Session Notes</DialogTitle>
+                        <DialogDescription>
+                            {selectedSession && `Add or edit notes for session on ${format(new Date(selectedSession.date), "PPp")}`}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="session-notes">Notes</Label>
+                            <Textarea 
+                                id="session-notes"
+                                placeholder="Enter session notes, observations, and action items..."
+                                value={sessionNotes}
+                                onChange={(e) => setSessionNotes(e.target.value)}
+                                className="min-h-[200px]"
+                            />
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+                        <Button onClick={handleSaveSessionNotes}>Save Notes</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+
             <Dialog open={isGoalDialogOpen} onOpenChange={setIsGoalDialogOpen}>
                 <DialogContent>
                     <DialogHeader>

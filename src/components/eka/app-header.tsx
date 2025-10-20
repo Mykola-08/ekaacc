@@ -27,7 +27,7 @@ export function AppHeader() {
           <span className="sr-only">Open Sidebar</span>
         </Button>
       ) : (
-        <div className="md:w-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:md:w-[var(--sidebar-w)] transition-all duration-300 ease-in-out">
+        <div className="md:w-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:md:w-[var(--sidebar-w)] transition-all duration-300 ease-in-out flex justify-center">
             <SidebarTrigger />
         </div>
       )}
@@ -54,4 +54,3 @@ export function AppHeader() {
     </header>
   );
 }
-    

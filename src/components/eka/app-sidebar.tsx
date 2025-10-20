@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -16,13 +17,13 @@ import { cn } from '@/lib/utils';
 import { Separator } from '../ui/separator';
 import { useUserContext } from '@/context/user-context';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, useSidebar } from '../ui/sidebar';
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '../ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 
 export function AppSidebar() {
   const pathname = usePathname();
   const { currentUser } = useUserContext();
-  const { state: sidebarState } = useSidebar();
+  const { isExpanded } = useSidebar();
 
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
@@ -47,7 +48,7 @@ export function AppSidebar() {
     { href: '/account', icon: Settings, label: 'Account' },
   ];
 
-  const isCollapsed = sidebarState === 'collapsed';
+  const isCollapsed = !isExpanded;
 
   if (!currentUser) return null; // Or a loading skeleton
 

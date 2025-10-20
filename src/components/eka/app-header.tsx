@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Search, Menu } from 'lucide-react';
+import { Search, Menu, FileText, Calendar, ClipboardCheck } from 'lucide-react';
 // ...existing code...
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
@@ -14,18 +14,31 @@ import { useData } from '@/context/unified-data-context';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { WelcomePersonalizationForm, DailyMoodLogForm } from '@/components/eka/forms';
+import { WelcomePersonalizationForm, DailyMoodLogForm, SessionAssessmentForm } from '@/components/eka/forms';
+import { useRouter } from 'next/navigation';
 
 export function AppHeader() {
   const { isMobile, setOpenMobile } = useSidebar();
-  const { currentUser } = useData();
+  const { currentUser, sessions } = useData();
+  const router = useRouter();
   const [showWelcomeForm, setShowWelcomeForm] = useState(false);
   const [showDailyForm, setShowDailyForm] = useState(false);
+  const [showPreSessionForm, setShowPreSessionForm] = useState(false);
 
   // Check if forms are completed (assume personalizationCompleted and a dailyLogCompleted flag)
   const needsPersonalization = currentUser && !currentUser.personalizationCompleted;
   // For demo: check if user has a property 'dailyLogCompleted' (customize as needed)
   const needsDailyLog = currentUser && !(currentUser as any).dailyLogCompleted;
+
+  // Therapist-specific checks
+  const isTherapist = currentUser?.role === 'Therapist';
+  const todaySessions = sessions.filter(s => {
+    const sessionDate = new Date(s.date);
+    const today = new Date();
+    return sessionDate.toDateString() === today.toDateString();
+  });
+  const hasUpcomingSessionToday = todaySessions.length > 0;
+  const pendingReports = 3; // This would come from the database in a real implementation
 
   return (
     <>
@@ -39,6 +52,15 @@ export function AppHeader() {
         onClose={() => setShowDailyForm(false)}
         onSubmit={() => setShowDailyForm(false)}
       />
+      {isTherapist && (
+        <SessionAssessmentForm
+          open={showPreSessionForm}
+          onClose={() => setShowPreSessionForm(false)}
+          onSubmit={() => setShowPreSessionForm(false)}
+          patientName="Client"
+          sessionType="pre"
+        />
+      )}
       <motion.header
         initial={{ opacity: 0, y: -24 }}
         animate={{ opacity: 1, y: 0 }}
@@ -50,7 +72,7 @@ export function AppHeader() {
       >
         {/* Attention CTAs as subtle accent pills to the right of NotificationCenter */}
         <NotificationCenter />
-        {(needsPersonalization || needsDailyLog) && (
+        {(needsPersonalization || needsDailyLog || (isTherapist && (hasUpcomingSessionToday || pendingReports > 0))) && (
           <div className="flex gap-2 items-center ml-2">
             {needsPersonalization && (
               <button
@@ -68,6 +90,26 @@ export function AppHeader() {
                 style={{ minWidth: 160 }}
               >
                 <span className="mr-2">📝</span> Log Daily Mood
+              </button>
+            )}
+            {isTherapist && hasUpcomingSessionToday && (
+              <button
+                onClick={() => setShowPreSessionForm(true)}
+                className="rounded-full px-4 py-1.5 font-medium text-blue-700 bg-blue-100 border border-blue-200 shadow-sm hover:bg-blue-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-300"
+                style={{ minWidth: 200 }}
+              >
+                <ClipboardCheck className="mr-2 h-4 w-4 inline" />
+                Complete Pre-Session Form
+              </button>
+            )}
+            {isTherapist && pendingReports > 0 && (
+              <button
+                onClick={() => router.push('/therapist/dashboard')}
+                className="rounded-full px-4 py-1.5 font-medium text-orange-700 bg-orange-100 border border-orange-200 shadow-sm hover:bg-orange-200 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-300"
+                style={{ minWidth: 180 }}
+              >
+                <FileText className="mr-2 h-4 w-4 inline" />
+                {pendingReports} Reports Pending
               </button>
             )}
           </div>

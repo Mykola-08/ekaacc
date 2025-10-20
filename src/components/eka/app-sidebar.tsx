@@ -24,6 +24,7 @@ import { cn } from '@/lib/utils';
 import { useData } from '@/context/unified-data-context';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, useSidebar } from '../ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { motion } from 'framer-motion';
 
 // Memoized link component for better performance
 const SidebarLink = memo(({ 
@@ -95,7 +96,6 @@ export function AppSidebar() {
     { href: '/community', icon: Users, label: 'Community' },
     { href: '/donations', icon: Heart, label: 'Donations' },
     { href: '/forms', icon: FileText, label: 'Forms' },
-    { href: '/reports', icon: FileText, label: 'Reports' },
   ];
   
   // Conditional subscription links
@@ -119,77 +119,82 @@ export function AppSidebar() {
   const showUserLinks = currentUser.role !== 'Therapist';
 
   return (
-    <Sidebar side="left" className="bg-background">
-      <SidebarHeader className={cn(
-        "flex h-16 items-center border-b px-4 transition-all duration-300 bg-background",
-        isCollapsed ? 'justify-center px-2' : 'gap-2'
-      )}>
-        <Link href="/" className={cn("flex items-center font-semibold text-xl", isCollapsed ? "justify-center" : "gap-2")}> 
-          <Package2 className="h-7 w-7 text-primary shrink-0" />
-          {!isCollapsed && <span>EKA</span>}
-        </Link>
-      </SidebarHeader>
+    <motion.div
+      initial={{ opacity: 0, x: -32 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <Sidebar side="left" className="bg-background">
+        <SidebarHeader className={cn(
+          "flex h-16 items-center border-b px-4 transition-all duration-300 bg-background",
+          isCollapsed ? 'justify-center px-2' : 'gap-2'
+        )}>
+          <Link href="/" className={cn("flex items-center font-semibold text-xl", isCollapsed ? "justify-center" : "gap-2")}> 
+            <Package2 className="h-7 w-7 text-primary shrink-0" />
+            {!isCollapsed && <span>EKA</span>}
+          </Link>
+        </SidebarHeader>
 
-      <SidebarContent className="flex-1 overflow-auto py-4 px-2 bg-background">
-        <SidebarMenu>
-          {showUserLinks && userLinks.map(link => (
-            <SidebarMenuItem key={link.href}>
-              <SidebarLink 
-                href={link.href}
-                icon={link.icon}
-                label={link.label}
-                isActive={pathname === link.href}
-                isCollapsed={isCollapsed}
-              />
-            </SidebarMenuItem>
-          ))}
-          
-          {/* Subscription Links */}
-          {subscriptionLinks.length > 0 && (
-            <>
-              {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">MEMBERSHIP</div>}
-              {subscriptionLinks.map(link => (
-                <SidebarMenuItem key={link.href}>
-                  <SidebarLink 
-                    href={link.href}
-                    icon={link.icon}
-                    label={link.label}
-                    isActive={pathname === link.href}
-                    isCollapsed={isCollapsed}
-                  />
-                </SidebarMenuItem>
-              ))}
-            </>
-          )}
-        </SidebarMenu>
-      </SidebarContent>
+        <SidebarContent className="flex-1 overflow-auto py-4 px-2 bg-background">
+          <SidebarMenu>
+            {showUserLinks && userLinks.map(link => (
+              <SidebarMenuItem key={link.href}>
+                <SidebarLink 
+                  href={link.href}
+                  icon={link.icon}
+                  label={link.label}
+                  isActive={pathname === link.href}
+                  isCollapsed={isCollapsed}
+                />
+              </SidebarMenuItem>
+            ))}
+            {/* Subscription Links */}
+            {subscriptionLinks.length > 0 && (
+              <>
+                {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">MEMBERSHIP</div>}
+                {subscriptionLinks.map(link => (
+                  <SidebarMenuItem key={link.href}>
+                    <SidebarLink 
+                      href={link.href}
+                      icon={link.icon}
+                      label={link.label}
+                      isActive={pathname === link.href}
+                      isCollapsed={isCollapsed}
+                    />
+                  </SidebarMenuItem>
+                ))}
+              </>
+            )}
+          </SidebarMenu>
+        </SidebarContent>
 
-      <div className="mt-auto border-t p-4 bg-background">
-        <SidebarMenu>
-          {showTherapistLinks && (
-            <SidebarMenuItem>
-              <SidebarLink 
-                href={therapistLinks[0].href}
-                icon={therapistLinks[0].icon}
-                label={therapistLinks[0].label}
-                isActive={pathname === therapistLinks[0].href}
-                isCollapsed={isCollapsed}
-              />
-            </SidebarMenuItem>
-          )}
-          {bottomLinks.map(link => (
-            <SidebarMenuItem key={link.href}>
-              <SidebarLink 
-                href={link.href}
-                icon={link.icon}
-                label={link.label}
-                isActive={pathname === link.href}
-                isCollapsed={isCollapsed}
-              />
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </div>
-    </Sidebar>
+        <div className="mt-auto border-t p-4 bg-background">
+          <SidebarMenu>
+            {showTherapistLinks && (
+              <SidebarMenuItem>
+                <SidebarLink 
+                  href={therapistLinks[0].href}
+                  icon={therapistLinks[0].icon}
+                  label={therapistLinks[0].label}
+                  isActive={pathname === therapistLinks[0].href}
+                  isCollapsed={isCollapsed}
+                />
+              </SidebarMenuItem>
+            )}
+            {bottomLinks.map(link => (
+              <SidebarMenuItem key={link.href}>
+                <SidebarLink 
+                  href={link.href}
+                  icon={link.icon}
+                  label={link.label}
+                  isActive={pathname === link.href}
+                  isCollapsed={isCollapsed}
+                />
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </div>
+      </Sidebar>
+    </motion.div>
   );
 }

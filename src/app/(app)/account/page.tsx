@@ -16,10 +16,16 @@ import { allUsers } from '@/lib/data';
 import { MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
+
 import { SubscriptionTestSwitcher } from '@/components/eka/subscription-test-switcher';
-// Removed all Firebase imports
+import { WelcomePersonalizationForm, DailyMoodLogForm } from '@/components/eka/forms';
 import { useData } from '@/context/unified-data-context';
 import type { User } from '@/lib/types';
+
+// Temporary RoleChanger stub (replace with real import if available)
+function RoleChanger() {
+    return <div className="text-xs text-muted-foreground">[RoleChanger Component]</div>;
+}
 
 
 const profileFormSchema = z.object({
@@ -104,20 +110,35 @@ export default function AccountPage() {
   const linkedAccounts = allUsers.filter(u => u.id !== currentUser.id).slice(0,2);
 
 
-  return (
-    <div className="space-y-8">
-        <h1 className="text-3xl font-bold">Account Settings</h1>
-        
-        {/* Test Mode: Subscription Switcher */}
-        <SubscriptionTestSwitcher />
-        
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Profile</CardTitle>
-                        <CardDescription>This is how others will see you on the site.</CardDescription>
-                    </CardHeader>
+    // Determine dataSource for test mode (mock if test user)
+    const dataSource = currentUser?.email === 'test@ekaacc.com' ? 'mock' : 'live';
+
+    return (
+        <div className="space-y-8">
+            <h1 className="text-3xl font-bold">Account Settings</h1>
+            {(dataSource === 'mock' || currentUser?.email === 'test@ekaacc.com') && (
+                <Card className="p-4 mb-6">
+                    <h2 className="text-lg font-semibold mb-2">Test Mode: Role & Variables Switcher</h2>
+                    <div className="flex flex-col gap-4">
+                        <RoleChanger />
+                        <SubscriptionTestSwitcher />
+                    </div>
+                </Card>
+            )}
+            {/* Client forms only for role Patient */}
+            {currentUser.role === 'Patient' && (
+                <div className="space-y-6">
+                    <WelcomePersonalizationForm open={false} onClose={() => {}} onSubmit={() => {}} />
+                    <DailyMoodLogForm open={false} onClose={() => {}} onSubmit={() => {}} />
+                </div>
+            )}
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Profile</CardTitle>
+                            <CardDescription>This is how others will see you on the site.</CardDescription>
+                        </CardHeader>
                     <CardContent className="grid gap-6 md:grid-cols-3">
                         <div className="md:col-span-2 grid gap-4">
                          <FormField

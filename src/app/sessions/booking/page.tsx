@@ -4,8 +4,10 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { useData } from "@/context/unified-data-context";
 import { mockBookings } from "@/lib/mock-bookings";
+import { SessionAssessmentForm } from '@/components/eka/forms';
 
 export default function SessionBookingPage() {
   const { currentUser } = useData();
@@ -32,6 +34,19 @@ export default function SessionBookingPage() {
       </Button>
       {isBooked && (
         <div className="mt-4 text-green-600">Your session is booked for {selectedDate?.toLocaleDateString()}.</div>
+      )}
+
+      {/* Therapist forms only for therapists */}
+      {currentUser?.role === 'Therapist' && (
+        <div className="mt-8">
+          <SessionAssessmentForm
+            open={true}
+            onClose={() => {}}
+            onSubmit={() => {}}
+            patientName={"Client"}
+            sessionType="pre"
+          />
+        </div>
       )}
     </div>
   );

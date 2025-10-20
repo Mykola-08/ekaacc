@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 export function AnimatedCard({ 
   children, 
@@ -11,15 +12,16 @@ export function AnimatedCard({
   delay?: number;
 }) {
   return (
-    <Card 
-      className={cn(
-        "animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both",
-        className
-      )}
-      style={{ animationDelay: `${delay}ms` }}
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: delay / 1000 }}
+      className={className}
     >
-      {children}
-    </Card>
+      <Card>
+        {children}
+      </Card>
+    </motion.div>
   );
 }
 

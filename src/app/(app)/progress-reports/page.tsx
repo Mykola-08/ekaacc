@@ -1,17 +1,19 @@
 "use client";
-"use client";
 
 import { useState, useMemo } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp } from 'lucide-react';
+import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp, Loader2 } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
 import { useData } from '@/context/unified-data-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
+import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
 
 // Mock progress data (replace with real data)
@@ -52,13 +54,29 @@ const progressData = {
   ],
 };
 
-function toDate(timestamp: any) {
+const chartData = [
+  { metric: "Pain", score: 4, fullMark: 10 },
+  { metric: "Mood", score: 8, fullMark: 10 },
+  { metric: "Energy", score: 7, fullMark: 10 },
+  { metric: "Sleep", score: 6, fullMark: 10 },
+  { metric: "Mobility", score: 9, fullMark: 10 },
+];
+
+const chartConfig = {
+  score: {
+    label: "Score",
+    color: "hsl(var(--primary))",
+  }
+};
+
+function toDate(timestamp: string | number | Date | { toDate?: () => Date }) {
   if (timestamp instanceof Date) return timestamp;
-  if (typeof timestamp === 'string') return new Date(timestamp);
-  return timestamp && typeof timestamp.toDate === 'function' ? timestamp.toDate() : new Date(timestamp);
+  if (typeof timestamp === 'string' || typeof timestamp === 'number') return new Date(timestamp);
+  if (timestamp && typeof (timestamp as any).toDate === 'function') return (timestamp as any).toDate();
+  return new Date();
 }
 
-export default function ProgressPage() {
+export default function ProgressReportsPage() {
   const { currentUser, reports: mockReports } = useData();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);

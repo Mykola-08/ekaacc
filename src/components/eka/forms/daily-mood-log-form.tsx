@@ -56,11 +56,17 @@ const activities = [
   'Time in Nature',
 ];
 
+
+
 export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [formType, setFormType] = useState<'basic' | 'full'>('basic');
 
-  // Form state
+  // Shared state
+  const [notes, setNotes] = useState('');
+
+  // Full form state
   const [overallMood, setOverallMood] = useState([5]);
   const [energy, setEnergy] = useState([5]);
   const [stress, setStress] = useState([5]);
@@ -70,7 +76,11 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
   const [selectedActivities, setSelectedActivities] = useState<string[]>([]);
   const [triggers, setTriggers] = useState('');
   const [gratitude, setGratitude] = useState('');
-  const [notes, setNotes] = useState('');
+
+  // Basic form state
+  const [basicMood, setBasicMood] = useState<string>('Neutral');
+  const [basicEnergy, setBasicEnergy] = useState<string>('Normal');
+  const [basicStress, setBasicStress] = useState<string>('Normal');
 
   const toggleEmotion = (emotion: string) => {
     setSelectedEmotions(prev =>
@@ -96,39 +106,55 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (selectedEmotions.length === 0) {
-      toast({
-        variant: 'destructive',
-        title: 'Please select at least one emotion',
-        description: 'This helps track your emotional patterns over time.',
-      });
-      return;
-    }
-
     setIsLoading(true);
-
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    onSubmit({
-      date: new Date(),
-      overallMood: overallMood[0],
-      energy: energy[0],
-      stress: stress[0],
-      sleep: sleep[0],
-      physicalHealth: physicalHealth[0],
-      emotions: selectedEmotions,
-      triggers,
-      gratitude,
-      notes,
-      activities: selectedActivities,
-    });
-
-    toast({
-      title: 'Mood log saved!',
-      description: 'Your daily check-in has been recorded. Keep up the great work! 🌟',
-    });
-
+    if (formType === 'basic') {
+      onSubmit({
+        date: new Date(),
+        overallMood: 0,
+        energy: 0,
+        stress: 0,
+        sleep: 0,
+        physicalHealth: 0,
+        emotions: [basicMood],
+        notes,
+        activities: [],
+        triggers: '',
+        gratitude: '',
+      });
+      toast({
+        title: 'Basic mood log saved!',
+        description: 'Your quick check-in has been recorded.',
+      });
+    } else {
+      if (selectedEmotions.length === 0) {
+        toast({
+          variant: 'destructive',
+          title: 'Please select at least one emotion',
+          description: 'This helps track your emotional patterns over time.',
+        });
+        setIsLoading(false);
+        return;
+      }
+      onSubmit({
+        date: new Date(),
+        overallMood: overallMood[0],
+        energy: energy[0],
+        stress: stress[0],
+        sleep: sleep[0],
+        physicalHealth: physicalHealth[0],
+        emotions: selectedEmotions,
+        triggers,
+        gratitude,
+        notes,
+        activities: selectedActivities,
+      });
+      toast({
+        title: 'Mood log saved!',
+        description: 'Your daily check-in has been recorded. Keep up the great work! 🌟',
+      });
+    }
     setIsLoading(false);
   };
 
@@ -145,216 +171,298 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
           </DialogDescription>
         </DialogHeader>
 
+        {/* Form type selector */}
+        <div className="flex gap-2 mb-4">
+          <Button
+            type="button"
+            variant={formType === 'basic' ? 'default' : 'outline'}
+            onClick={() => setFormType('basic')}
+          >
+            Quick Check-in
+          </Button>
+          <Button
+            type="button"
+            variant={formType === 'full' ? 'default' : 'outline'}
+            onClick={() => setFormType('full')}
+          >
+            Full Form
+          </Button>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Mood Scales */}
-          <Card>
-            <CardContent className="pt-6 space-y-6">
-              {/* Overall Mood */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="flex items-center gap-2">
-                    <Brain className="h-4 w-4" />
-                    Overall Mood
-                  </Label>
-                  <div className="flex items-center gap-2">
-                    {getMoodEmoji(overallMood[0])}
-                    <Badge variant="secondary">{overallMood[0]}/10</Badge>
+          {formType === 'basic' ? (
+            <>
+              <Card>
+                <CardContent className="pt-6 space-y-4">
+                  <div>
+                    <Label className="mb-2 block">How do you feel overall?</Label>
+                    <div className="flex gap-2 flex-wrap">
+                      {['Great', 'Good', 'Neutral', 'Bad', 'Awful'].map((mood) => (
+                        <Button
+                          key={mood}
+                          type="button"
+                          variant={basicMood === mood ? 'default' : 'outline'}
+                          onClick={() => setBasicMood(mood)}
+                        >
+                          {mood}
+                        </Button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <Slider
-                  value={overallMood}
-                  onValueChange={setOverallMood}
-                  max={10}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>Very Low</span>
-                  <span>Excellent</span>
-                </div>
-              </div>
+                  <div>
+                    <Label className="mb-2 block">Energy</Label>
+                    <div className="flex gap-2 flex-wrap">
+                      {['High', 'Normal', 'Low'].map((energy) => (
+                        <Button
+                          key={energy}
+                          type="button"
+                          variant={basicEnergy === energy ? 'default' : 'outline'}
+                          onClick={() => setBasicEnergy(energy)}
+                        >
+                          {energy}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="mb-2 block">Stress</Label>
+                    <div className="flex gap-2 flex-wrap">
+                      {['High', 'Normal', 'Low'].map((stress) => (
+                        <Button
+                          key={stress}
+                          type="button"
+                          variant={basicStress === stress ? 'default' : 'outline'}
+                          onClick={() => setBasicStress(stress)}
+                        >
+                          {stress}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="mb-2 block">Anything else you'd like to share?</Label>
+                    <Textarea
+                      placeholder="Other thoughts, feelings, or notes..."
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      rows={3}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </>
+          ) : (
+            <>
+              {/* ...existing full form code... */}
+              <Card>
+                <CardContent className="pt-6 space-y-6">
+                  {/* Overall Mood */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label className="flex items-center gap-2">
+                        <Brain className="h-4 w-4" />
+                        Overall Mood
+                      </Label>
+                      <div className="flex items-center gap-2">
+                        {getMoodEmoji(overallMood[0])}
+                        <Badge variant="secondary">{overallMood[0]}/10</Badge>
+                      </div>
+                    </div>
+                    <Slider
+                      value={overallMood}
+                      onValueChange={setOverallMood}
+                      max={10}
+                      min={1}
+                      step={1}
+                      className="mt-2"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>Very Low</span>
+                      <span>Excellent</span>
+                    </div>
+                  </div>
 
-              {/* Energy Level */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="flex items-center gap-2">
-                    <Battery className="h-4 w-4" />
-                    Energy Level
-                  </Label>
-                  <Badge variant="secondary">{energy[0]}/10</Badge>
-                </div>
-                <Slider
-                  value={energy}
-                  onValueChange={setEnergy}
-                  max={10}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>Exhausted</span>
-                  <span>Energized</span>
-                </div>
-              </div>
+                  {/* Energy Level */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label className="flex items-center gap-2">
+                        <Battery className="h-4 w-4" />
+                        Energy Level
+                      </Label>
+                      <Badge variant="secondary">{energy[0]}/10</Badge>
+                    </div>
+                    <Slider
+                      value={energy}
+                      onValueChange={setEnergy}
+                      max={10}
+                      min={1}
+                      step={1}
+                      className="mt-2"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>Exhausted</span>
+                      <span>Energized</span>
+                    </div>
+                  </div>
 
-              {/* Stress Level */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="flex items-center gap-2">
-                    <Activity className="h-4 w-4" />
-                    Stress Level
-                  </Label>
-                  <Badge variant="secondary">{stress[0]}/10</Badge>
-                </div>
-                <Slider
-                  value={stress}
-                  onValueChange={setStress}
-                  max={10}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>Very Calm</span>
-                  <span>Very Stressed</span>
-                </div>
-              </div>
+                  {/* Stress Level */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label className="flex items-center gap-2">
+                        <Activity className="h-4 w-4" />
+                        Stress Level
+                      </Label>
+                      <Badge variant="secondary">{stress[0]}/10</Badge>
+                    </div>
+                    <Slider
+                      value={stress}
+                      onValueChange={setStress}
+                      max={10}
+                      min={1}
+                      step={1}
+                      className="mt-2"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>Very Calm</span>
+                      <span>Very Stressed</span>
+                    </div>
+                  </div>
 
-              {/* Sleep Quality */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="flex items-center gap-2">
-                    <Moon className="h-4 w-4" />
-                    Sleep Quality
-                  </Label>
-                  <Badge variant="secondary">{sleep[0]}/10</Badge>
-                </div>
-                <Slider
-                  value={sleep}
-                  onValueChange={setSleep}
-                  max={10}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>Very Poor</span>
-                  <span>Excellent</span>
-                </div>
-              </div>
+                  {/* Sleep Quality */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label className="flex items-center gap-2">
+                        <Moon className="h-4 w-4" />
+                        Sleep Quality
+                      </Label>
+                      <Badge variant="secondary">{sleep[0]}/10</Badge>
+                    </div>
+                    <Slider
+                      value={sleep}
+                      onValueChange={setSleep}
+                      max={10}
+                      min={1}
+                      step={1}
+                      className="mt-2"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>Very Poor</span>
+                      <span>Excellent</span>
+                    </div>
+                  </div>
 
-              {/* Physical Health */}
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <Label className="flex items-center gap-2">
-                    <Heart className="h-4 w-4" />
-                    Physical Health
-                  </Label>
-                  <Badge variant="secondary">{physicalHealth[0]}/10</Badge>
-                </div>
-                <Slider
-                  value={physicalHealth}
-                  onValueChange={setPhysicalHealth}
-                  max={10}
-                  min={1}
-                  step={1}
-                  className="mt-2"
-                />
-                <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                  <span>Unwell</span>
-                  <span>Healthy</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                  {/* Physical Health */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <Label className="flex items-center gap-2">
+                        <Heart className="h-4 w-4" />
+                        Physical Health
+                      </Label>
+                      <Badge variant="secondary">{physicalHealth[0]}/10</Badge>
+                    </div>
+                    <Slider
+                      value={physicalHealth}
+                      onValueChange={setPhysicalHealth}
+                      max={10}
+                      min={1}
+                      step={1}
+                      className="mt-2"
+                    />
+                    <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                      <span>Unwell</span>
+                      <span>Healthy</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Emotions */}
-          <Card>
-            <CardContent className="pt-6">
-              <Label className="mb-3 block">How are you feeling today? (Select all that apply) *</Label>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                {emotions.map((emotion) => (
-                  <Button
-                    key={emotion.label}
-                    type="button"
-                    variant={selectedEmotions.includes(emotion.label) ? 'default' : 'outline'}
-                    onClick={() => toggleEmotion(emotion.label)}
-                    className="justify-start h-auto py-3"
-                  >
-                    <span className="text-2xl mr-2">{emotion.icon}</span>
-                    {emotion.label}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+              {/* Emotions */}
+              <Card>
+                <CardContent className="pt-6">
+                  <Label className="mb-3 block">How are you feeling today? (Select all that apply) *</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {emotions.map((emotion) => (
+                      <Button
+                        key={emotion.label}
+                        type="button"
+                        variant={selectedEmotions.includes(emotion.label) ? 'default' : 'outline'}
+                        onClick={() => toggleEmotion(emotion.label)}
+                        className="justify-start h-auto py-3"
+                      >
+                        <span className="text-2xl mr-2">{emotion.icon}</span>
+                        {emotion.label}
+                      </Button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Activities */}
-          <Card>
-            <CardContent className="pt-6">
-              <Label className="mb-3 block">Today's Activities</Label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {activities.map((activity) => (
-                  <Button
-                    key={activity}
-                    type="button"
-                    variant={selectedActivities.includes(activity) ? 'default' : 'outline'}
-                    onClick={() => toggleActivity(activity)}
-                    className="text-sm"
-                  >
-                    {activity}
-                  </Button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+              {/* Activities */}
+              <Card>
+                <CardContent className="pt-6">
+                  <Label className="mb-3 block">Today's Activities</Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {activities.map((activity) => (
+                      <Button
+                        key={activity}
+                        type="button"
+                        variant={selectedActivities.includes(activity) ? 'default' : 'outline'}
+                        onClick={() => toggleActivity(activity)}
+                        className="text-sm"
+                      >
+                        {activity}
+                      </Button>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Triggers */}
-          <Card>
-            <CardContent className="pt-6">
-              <Label htmlFor="triggers">Any triggers or challenges today?</Label>
-              <Textarea
-                id="triggers"
-                placeholder="What made you feel anxious, sad, or stressed?"
-                value={triggers}
-                onChange={(e) => setTriggers(e.target.value)}
-                rows={3}
-                className="mt-2"
-              />
-            </CardContent>
-          </Card>
+              {/* Triggers */}
+              <Card>
+                <CardContent className="pt-6">
+                  <Label htmlFor="triggers">Any triggers or challenges today?</Label>
+                  <Textarea
+                    id="triggers"
+                    placeholder="What made you feel anxious, sad, or stressed?"
+                    value={triggers}
+                    onChange={(e) => setTriggers(e.target.value)}
+                    rows={3}
+                    className="mt-2"
+                  />
+                </CardContent>
+              </Card>
 
-          {/* Gratitude */}
-          <Card>
-            <CardContent className="pt-6">
-              <Label htmlFor="gratitude">What are you grateful for today?</Label>
-              <Textarea
-                id="gratitude"
-                placeholder="List 1-3 things you're thankful for..."
-                value={gratitude}
-                onChange={(e) => setGratitude(e.target.value)}
-                rows={2}
-                className="mt-2"
-              />
-            </CardContent>
-          </Card>
+              {/* Gratitude */}
+              <Card>
+                <CardContent className="pt-6">
+                  <Label htmlFor="gratitude">What are you grateful for today?</Label>
+                  <Textarea
+                    id="gratitude"
+                    placeholder="List 1-3 things you're thankful for..."
+                    value={gratitude}
+                    onChange={(e) => setGratitude(e.target.value)}
+                    rows={2}
+                    className="mt-2"
+                  />
+                </CardContent>
+              </Card>
 
-          {/* Additional Notes */}
-          <Card>
-            <CardContent className="pt-6">
-              <Label htmlFor="notes">Additional thoughts or notes</Label>
-              <Textarea
-                id="notes"
-                placeholder="Anything else you want to remember about today?"
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                rows={3}
-                className="mt-2"
-              />
-            </CardContent>
-          </Card>
-
+              {/* Additional Notes */}
+              <Card>
+                <CardContent className="pt-6">
+                  <Label htmlFor="notes">Additional thoughts or notes</Label>
+                  <Textarea
+                    id="notes"
+                    placeholder="Anything else you want to remember about today?"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    rows={3}
+                    className="mt-2"
+                  />
+                </CardContent>
+              </Card>
+            </>
+          )}
           <DialogFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"

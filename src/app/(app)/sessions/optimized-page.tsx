@@ -126,16 +126,18 @@ export default function OptimizedSessionsPage() {
       {/* Sessions Tabs */}
       <Tabs defaultValue="upcoming" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="upcoming" className="gap-2">
-            <Calendar className="h-4 w-4" />
-            Upcoming ({upcoming.length})
-          </TabsTrigger>
-          <TabsTrigger value="past">
-            Past ({past.length})
-          </TabsTrigger>
-          <TabsTrigger value="cancelled">
-            Cancelled ({cancelled.length})
-          </TabsTrigger>
+            <TabsTrigger value="upcoming" className="gap-2">
+              <Calendar className="h-4 w-4" />
+              Upcoming ({upcoming.length})
+            </TabsTrigger>
+            <TabsTrigger value="past" className="gap-2">
+              <Loader2 className="h-4 w-4" />
+              Past ({past.length})
+            </TabsTrigger>
+            <TabsTrigger value="cancelled" className="gap-2">
+              <Plus className="h-4 w-4 rotate-45" />
+              Cancelled ({cancelled.length})
+            </TabsTrigger>
         </TabsList>
 
         <TabsContent value="upcoming" className="space-y-4">

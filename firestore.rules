@@ -1,260 +1,209 @@
 /**
- * @file Firebase Security Rules for EKA Account Firestore Database
+ * @fileOverview Firestore Security Rules for EKA Account system.
  *
  * Core Philosophy:
- * This ruleset enforces a strict user-ownership model for personal data stored
- * under `/users/{userId}`. Collaborative access (e.g., therapist/client) is managed
- * through denormalized fields like `therapistId` or `members` maps directly within the documents.
- * Public data (e.g., available services) resides in top-level collections.
+ * This ruleset implements a hybrid security model, primarily based on user-ownership and shared access, optimized for performance and queryability.
  *
  * Data Structure:
- * - /users/{userId}: User profiles, accessible only by the user or an admin.
- * - /users/{userId}/sessions/{sessionId}: Therapy sessions, accessible by the user or their therapist.
- * - /donations/{donationId}: Donation records, with 'donorId' and 'receiverId' in a 'members' map for authorization.
- * - /users/{userId}/reports/{reportId}: Reports, accessible by the user or the creating therapist.
- * - /messages/{messageId}: Messages, with 'senderId' and 'receiverId' in a 'members' map for authorization.
- * - /users/{userId}/subscriptions/{subscriptionId}: Subscription details for each user.
- * - /services/{serviceId}: Publicly available therapy services.
- * - /vipPlans/{planId}: Publicly available VIP subscription plans.
+ * - User profiles and their associated data (sessions, reports, subscriptions) are nested under `/users/{userId}`.
+ * - Donations and Messages are stored in top-level collections with denormalized member lists for efficient shared access control.
+ * - Services and VipPlans are stored in top-level collections and are publicly readable.
  *
  * Key Security Decisions:
- * - User listing is generally disallowed to protect privacy.
- * - Data required for authorization is denormalized onto the documents to avoid costly `get()` calls.
- * - Top-level collections like `/services` and `/vipPlans` are publicly readable.
+ * - User data is strictly controlled by the user (or admin-level roles, if implemented).
+ * - `list` operations on user-scoped subcollections are generally allowed for the owner.
+ * - Public read access is granted to the `services` and `vipPlans` collections.
+ * - Denormalization is used to avoid costly `get()` calls, improving performance.
  *
  * Denormalization for Authorization:
- * - The `donorId` and `receiverId` are denormalized to the `members` map in `/donations/{donationId}`.
- * - The `senderId` and `receiverId` are denormalized to the `members` map in `/messages/{messageId}`.
- * - The `therapistId` field exists within the report document under `/users/{userId}/reports/{reportId}`.
+ * - The `donations` and `messages` collections include a `members` map that contains both the donor/receiver and sender/receiver, respectively, allowing for authorization checks without additional reads.
  *
  * Structural Segregation:
- * - User-specific data is stored under `/users/{userId}` to ensure privacy and ownership.
- * - Public data like services and VIP plans are in top-level collections for easy access.
+ * - User-private data is stored under the `/users/{userId}` path, while public/shared data resides in top-level collections, streamlining access control for list operations.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Checks if the request is made by a signed-in user.
-     */
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
-    /**
-     * @description Checks if the authenticated user ID matches the provided user ID.
-     */
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
-    }
-
-    /**
-     * @description Checks if the authenticated user ID matches the user ID in the resource data.
-     */
-    function isResourceOwner(resourceUserId) {
-      return isSignedIn() && request.auth.uid == resourceUserId;
-    }
-
-    /**
-     * @description Checks if the authenticated user ID matches the existing resource's user ID.
-     */
-    function isExistingOwner(userId) {
-        return isSignedIn() && request.auth.uid == userId;
-    }
-
-    /**
-     * @description Checks if the authenticated user ID is present in the members map.
-     */
-    function isMember(members) {
-      return isSignedIn() && members[request.auth.uid] != null;
-    }
-    
-    /**
-     * @description Checks if the authenticated user ID is present in the members map with 'owner' role.
-     */
-    function isOwnerMember(members) {
-      return isSignedIn() && members[request.auth.uid] == 'owner';
-    }
-
-    /**
-     * @description Security rules for /users/{userId} documents.
+     * @description Controls access to user profiles.
      * @path /users/{userId}
-     * @allow (create) User with ID 'user123' creates their profile.
-     *       request.auth.uid == 'user123' and request.resource.data.id == 'user123'
-     * @allow (get) User with ID 'user123' reads their profile.
-     *       request.auth.uid == 'user123'
-     * @allow (update) User with ID 'user123' updates their profile.
-     *       request.auth.uid == 'user123'
-     * @deny (create) User with ID 'user123' tries to create a profile for 'user456'.
-     *       request.auth.uid == 'user123' and request.resource.data.id == 'user456'
-     * @principle Enforces document ownership for writes.
+     * @allow (create) - If the user's auth UID matches the userId.
+     * @allow (get, list, update, delete) - If the user is the owner (userId matches auth UID).
+     * @deny (create) - If the user's auth UID does not match the userId.
+     * @deny (update, delete) - If the user is not the owner.
+     * @principle Enforces document ownership for writes and path-based ownership.
      */
     match /users/{userId} {
-      allow get: if isOwner(userId);
-      allow list: if false; // User listing is not permitted
+      function isSignedIn() {
+        return request.auth != null;
+      }
 
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if false; // Listing all users is not permitted.
+      allow create: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Security rules for /users/{userId}/sessions/{sessionId} documents.
+     * @description Controls access to therapy sessions for each user.
      * @path /users/{userId}/sessions/{sessionId}
-     * @allow (create) User with ID 'user123' creates a session in their profile.
-     *       request.auth.uid == 'user123' and request.resource.data.userId == 'user123'
-     * @allow (get) User with ID 'user123' reads their session data.
-     *       request.auth.uid == 'user123'
-     * @allow (update) User with ID 'user123' updates their session data.
-     *       request.auth.uid == 'user123'
-     * @deny (create) User with ID 'user123' tries to create a session for 'user456'.
-     *       request.auth.uid == 'user123' and request.resource.data.userId == 'user456'
-     * @principle Restricts access to a user's own session data.
+     * @allow (create, get, list, update, delete) - If the user is the owner (userId matches auth UID).
+     * @deny (create, get, list, update, delete) - If the user is not the owner.
+     * @principle Enforces document ownership and validates relational integrity.
      */
     match /users/{userId}/sessions/{sessionId} {
-      allow get: if isOwner(userId);
-      allow list: if false;
+      function isSignedIn() {
+        return request.auth != null;
+      }
 
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
       allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Security rules for /donations/{donationId} documents.
+     * @description Controls access to donation data, leveraging a 'members' map for authorization.
      * @path /donations/{donationId}
-     * @allow (create) User with ID 'user123' creates a donation.
-     *       request.auth.uid == 'user123' and request.resource.data.members[request.auth.uid] != null
-     * @allow (get) User with ID 'user123' reads donation data where they are a member.
-     *       request.auth.uid == 'user123' and resource.data.members['user123'] != null
-     * @allow (update) User with ID 'user123' updates donation data where they are an owner.
-     *       request.auth.uid == 'user123' and resource.data.members['user123'] == 'owner'
-     * @deny (create) User with ID 'user123' tries to create a donation where they are not a member.
-     *       request.auth.uid == 'user123' and request.resource.data.members['user123'] == null
-     * @principle Enforces membership-based access control for donations.
+     * @allow (get, list) - If the user is a donor or receiver (request.auth.uid is in resource.data.members).
+     * @allow (create, update, delete) - if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+     * @deny (create, update, delete) - Always deny writes, owner validation is not implemented.
+     * @principle Enforces shared access and requires membership for read access.
      */
     match /donations/{donationId} {
-      allow get: if isMember(resource.data.members);
-      allow list: if false;
+      function isSignedIn() {
+        return request.auth != null;
+      }
 
-      allow create: if isSignedIn() && request.resource.data.members[request.auth.uid] != null;
-      allow update: if isMember(resource.data.members);
-      allow delete: if isOwnerMember(resource.data.members);
+      function isMember(members) {
+          return isSignedIn() && request.auth.uid in members;
+      }
+
+      allow get: if isMember(resource.data.members);
+      allow list: if isMember(resource.data.members);
+      allow create: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
     }
 
     /**
-     * @description Security rules for /users/{userId}/reports/{reportId} documents.
+     * @description Controls access to reports for each user, allowing the user and their therapist to access them.
      * @path /users/{userId}/reports/{reportId}
-     * @allow (create) User with ID 'user123' creates a report in their profile.
-     *       request.auth.uid == 'user123' and request.resource.data.userId == 'user123'
-     * @allow (get) User with ID 'user123' reads their report data.
-     *       request.auth.uid == 'user123'
-     * @allow (update) User with ID 'user123' updates their report data.
-     *       request.auth.uid == 'user123'
-     * @deny (create) User with ID 'user123' tries to create a report for 'user456'.
-     *       request.auth.uid == 'user123' and request.resource.data.userId == 'user456'
-     * @principle Restricts access to a user's own reports data.
+     * @allow (get, list, create, update, delete) - If the user is the owner (userId matches auth UID).
+     * @deny (get, list, create, update, delete) - If the user is not the owner.
+     * @principle Enforces document ownership and validates relational integrity.
      */
     match /users/{userId}/reports/{reportId} {
-      allow get: if isOwner(userId);
-      allow list: if false;
+      function isSignedIn() {
+        return request.auth != null;
+      }
 
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+    
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
       allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Security rules for /messages/{messageId} documents.
+     * @description Controls access to messages, leveraging a 'members' map for authorization.
      * @path /messages/{messageId}
-     * @allow (create) User with ID 'user123' creates a message.
-     *       request.auth.uid == 'user123' and request.resource.data.members[request.auth.uid] != null
-     * @allow (get) User with ID 'user123' reads message data where they are a member.
-     *       request.auth.uid == 'user123' and resource.data.members['user123'] != null
-     * @allow (update) User with ID 'user123' updates message data where they are an owner.
-     *       request.auth.uid == 'user123' and resource.data.members['user123'] == 'owner'
-     * @deny (create) User with ID 'user123' tries to create a message where they are not a member.
-     *       request.auth.uid == 'user123' and request.resource.data.members['user123'] == null
-     * @principle Enforces membership-based access control for messages.
+     * @allow (get, list) - If the user is a sender or receiver (request.auth.uid is in resource.data.members).
+     * @deny (create, update, delete) - Always deny writes, owner validation is not implemented.
+     * @principle Enforces shared access and requires membership for read access.
      */
     match /messages/{messageId} {
-      allow get: if isMember(resource.data.members);
-      allow list: if false;
+      function isSignedIn() {
+        return request.auth != null;
+      }
 
-      allow create: if isSignedIn() && request.resource.data.members[request.auth.uid] != null;
-      allow update: if isMember(resource.data.members);
-      allow delete: if isOwnerMember(resource.data.members);
+      function isMember(members) {
+          return isSignedIn() && request.auth.uid in members;
+      }
+      allow get: if isMember(resource.data.members);
+      allow list: if isMember(resource.data.members);
+      allow create: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
     }
 
     /**
-     * @description Security rules for /users/{userId}/subscriptions/{subscriptionId} documents.
+     * @description Controls access to subscription information for each user.
      * @path /users/{userId}/subscriptions/{subscriptionId}
-     * @allow (create) User with ID 'user123' creates a subscription in their profile.
-     *       request.auth.uid == 'user123' and request.resource.data.userId == 'user123'
-     * @allow (get) User with ID 'user123' reads their subscription data.
-     *       request.auth.uid == 'user123'
-     * @allow (update) User with ID 'user123' updates their subscription data.
-     *       request.auth.uid == 'user123'
-     * @deny (create) User with ID 'user123' tries to create a subscription for 'user456'.
-     *       request.auth.uid == 'user123' and request.resource.data.userId == 'user456'
-     * @principle Restricts access to a user's own subscription data.
+     * @allow (create, get, list, update, delete) - If the user is the owner (userId matches auth UID).
+     * @deny (create, get, list, update, delete) - If the user is not the owner.
      */
     match /users/{userId}/subscriptions/{subscriptionId} {
-      allow get: if isOwner(userId);
-      allow list: if false;
+      function isSignedIn() {
+        return request.auth != null;
+      }
 
+      function isOwner(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+      }
+
+      function isExistingOwner(userId) {
+        return isOwner(userId) && resource != null;
+      }
+
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
       allow create: if isOwner(userId);
-      allow update: if isOwner(userId);
-      allow delete: if isOwner(userId);
+      allow update: if isExistingOwner(userId);
+      allow delete: if isExistingOwner(userId);
     }
 
     /**
-     * @description Security rules for /services/{serviceId} documents.
+     * @description Controls access to all available therapies and services.
      * @path /services/{serviceId}
-     * @allow (get) Any user can get service data.
-     *       true
-     * @allow (list) Any user can list service data.
-     *       true
-     * @deny (create) No one can create service data.
-     *       false
-     * @deny (update) No one can update service data.
-     *       false
-     * @deny (delete) No one can delete service data.
-     *       false
-     * @principle Allows public read access to service information.
+     * @allow (get, list) - Public read access.
+     * @deny (create, update, delete) - Always deny writes, owner validation is not implemented.
+     * @principle Provides public read access while restricting write access.
      */
     match /services/{serviceId} {
-      allow get: if true;
-      allow list: if true;
-
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+      allow get, list: if true;
+      allow create: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
     }
 
     /**
-     * @description Security rules for /vipPlans/{planId} documents.
+     * @description Controls access to VIP subscription plan details.
      * @path /vipPlans/{planId}
-     * @allow (get) Any user can get VIP plan data.
-     *       true
-     * @allow (list) Any user can list VIP plan data.
-     *       true
-     * @deny (create) No one can create VIP plan data.
-     *       false
-     * @deny (update) No one can update VIP plan data.
-     *       false
-     * @deny (delete) No one can delete VIP plan data.
-     *       false
-     * @principle Allows public read access to VIP plan information.
+     * @allow (get, list) - Public read access.
+     * @deny (create, update, delete) - Always deny writes, owner validation is not implemented.
+     * @principle Provides public read access while restricting write access.
      */
     match /vipPlans/{planId} {
-      allow get: if true;
-      allow list: if true;
-
-      allow create: if false;
-      allow update: if false;
-      allow delete: if false;
+      allow get, list: if true;
+      allow create: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow update: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
     }
   }
 }

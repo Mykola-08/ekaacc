@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth, initiateEmailSignIn, initiateAnonymousSignIn, initiateGoogleSignIn } from '@/firebase';
+import { useAuth, initiateAnonymousSignIn, initiateGoogleSignIn, signInWithEmailAndPassword } from '@/firebase';
 import { useUserContext } from '@/context/user-context';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -32,7 +32,9 @@ export default function LoginPage() {
 
   const handleEmailLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    initiateEmailSignIn(auth, email, password);
+    if (auth) {
+        signInWithEmailAndPassword(auth, email, password);
+    }
   };
   
   const handleAnonymousLogin = () => {

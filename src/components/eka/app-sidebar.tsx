@@ -88,18 +88,19 @@ export function AppSidebar() {
         return (
             <Accordion type="single" collapsible defaultValue={isSubActive ? 'item-1' : undefined}>
                 <AccordionItem value="item-1" className="border-b-0">
-                    <AccordionTrigger className={cn(
-                        "hover:no-underline p-0 [&>svg]:hidden",
-                        (isActive || isSubActive) && '[&>a]:bg-primary/10 [&>a]:text-primary [&>a]:font-semibold'
+                    <div className={cn(
+                        'flex items-center justify-between rounded-lg text-muted-foreground transition-all hover:text-primary hover:bg-muted',
+                        (isActive || isSubActive) && 'bg-primary/10 text-primary font-semibold'
                     )}>
-                       <Link
+                        <Link
                             href={href}
-                            className='flex flex-1 items-center gap-4 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted'
+                            className='flex flex-1 items-center gap-4 rounded-lg px-3 py-2'
                         >
                             {Icon && <Icon className="h-5 w-5 shrink-0" />}
                             <span className={cn('truncate', isCollapsed && 'sr-only')}>{label}</span>
                         </Link>
-                    </AccordionTrigger>
+                        <AccordionTrigger className="p-2 [&>svg]:h-5 [&>svg]:w-5" />
+                    </div>
                     <AccordionContent className="pl-8 pt-1 pb-0">
                        <SidebarMenu className="px-0">
                          {subLinks.map(subLink => (

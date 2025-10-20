@@ -40,6 +40,7 @@ export type User = {
     nextSession: boolean;
     recentActivity: boolean;
   };
+  status?: "Active" | "Inactive" | "Suspended";
 };
 
 export type Session = {

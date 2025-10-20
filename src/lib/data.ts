@@ -9,6 +9,13 @@ export const allUsers: User[] = [
     avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
     role: 'Gold Elite',
     initials: 'AD',
+    personalizationCompleted: true,
+    dashboardWidgets: {
+        goalProgress: true,
+        quickActions: true,
+        nextSession: true,
+        recentActivity: true,
+    }
   },
   {
     id: 'user-2',
@@ -64,7 +71,7 @@ export const services: Omit<Service, 'id'>[] = [
         active: true,
     },
     {
-        name: "360° Review",
+        name: "360 Review",
         category: "Core",
         descriptionShort: "A comprehensive assessment to provide a personalised action plan.",
         descriptionLong: "A complete and holistic journey through your body—physical, emotional, structural, and energetic—to create a fully personalized action plan.",
@@ -87,7 +94,7 @@ export const services: Omit<Service, 'id'>[] = [
         active: true,
     },
     {
-        name: "Mapeig Corporal 360° (Body Mapping)",
+        name: "Mapeig Corporal 360 (Body Mapping)",
         category: "360° Component",
         descriptionShort: "60 minutes of full physical/emotional/structural/energetic assessment.",
         descriptionLong: "A comprehensive mapping of your physical, emotional, structural, and energetic systems to get a complete picture of your health.",

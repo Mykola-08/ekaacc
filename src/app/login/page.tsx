@@ -10,18 +10,15 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth, signInWithPopup, GoogleAuthProvider } from '@/firebase';
-import { useUserContext } from '@/context/user-context';
+import { useData } from '@/context/unified-data-context';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Package2, VenetianMask } from 'lucide-react';
+import { Package2, UserCircle, Stethoscope } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
-import { signInWithEmailAndPassword, signInAnonymously } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
-  const auth = useAuth();
-  const { currentUser } = useUserContext();
+  const { currentUser, login, dataSource } = useData();
   const router = useRouter();
   const { toast } = useToast();
   const [email, setEmail] = useState('');
@@ -38,7 +35,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await loginFn();
-      // onAuthStateChanged in UserProvider will handle the redirect
+      router.push('/home');
     } catch (error: any) {
       console.error("Login failed:", error);
       toast({
@@ -53,31 +50,25 @@ export default function LoginPage() {
 
   const handleEmailLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (auth) {
-      handleLogin(() => signInWithEmailAndPassword(auth, email, password));
-    }
+    handleLogin(() => login(email, password));
   };
   
-  const handleAnonymousLogin = () => {
-    if (auth) {
-      handleLogin(() => signInAnonymously(auth));
-    }
+  const handlePatientLogin = () => {
+    handleLogin(() => login('demo@eka.com', 'password'));
   };
 
-  const handleGoogleLogin = () => {
-    if (auth) {
-      handleLogin(() => signInWithPopup(auth, new GoogleAuthProvider()));
-    }
-  }
+  const handleTherapistLogin = () => {
+    handleLogin(() => login('therapist@eka.com', 'password'));
+  };
 
   return (
     <div className="flex h-screen w-full items-center justify-center bg-muted/40">
       <Card className="mx-auto max-w-sm">
         <CardHeader className="text-center">
-            <Package2 className="mx-auto h-8 w-8 text-primary" />
+          <Package2 className="mx-auto h-8 w-8 text-primary" />
           <CardTitle className="text-2xl">Welcome to EKA</CardTitle>
           <CardDescription>
-            Enter your credentials to access your account
+            Enter your credentials or use quick login
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -111,23 +102,39 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
-                />
+              />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
-            <Button variant="outline" className="w-full" type="button" onClick={handleGoogleLogin} disabled={isLoading}>
-              Login with Google
-            </Button>
           </form>
-           <Separator className="my-6" />
-           <div className="text-center">
-                <p className="text-sm text-muted-foreground mb-4">Or sign in directly for testing</p>
-                <Button variant="secondary" className="w-full" onClick={handleAnonymousLogin} disabled={isLoading}>
-                    <VenetianMask className="mr-2 h-4 w-4"/>
-                    Sign in Anonymously
-                </Button>
-           </div>
+          <Separator className="my-6" />
+          <div className="text-center">
+            <p className="text-sm text-muted-foreground mb-4">Quick Demo Login</p>
+            <div className="grid gap-2">
+              <Button 
+                variant="secondary" 
+                className="w-full" 
+                onClick={handlePatientLogin} 
+                disabled={isLoading}
+              >
+                <UserCircle className="mr-2 h-4 w-4"/>
+                Login as Patient
+              </Button>
+              <Button 
+                variant="outline" 
+                className="w-full" 
+                onClick={handleTherapistLogin} 
+                disabled={isLoading}
+              >
+                <Stethoscope className="mr-2 h-4 w-4"/>
+                Login as Therapist
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              Mock data - no server required
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>

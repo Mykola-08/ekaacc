@@ -3,13 +3,16 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Inter } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { FirebaseClientProvider } from '@/firebase';
-import { UserProvider } from '@/context/user-context';
-import { SeedTrigger } from '@/firebase/seed-trigger';
+import { UnifiedDataProvider } from '@/context/unified-data-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const inter = Inter({ 
+  subsets: ['latin'], 
+  variable: '--font-inter',
+  display: 'swap', // Faster font loading
+  preload: true,
+});
 
 export const metadata: Metadata = {
   title: 'EKA Account',
@@ -23,6 +26,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* Preconnect to external resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body className={cn('antialiased font-body', inter.variable)}>
         <ThemeProvider
           attribute="class"
@@ -31,12 +39,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
-            <FirebaseClientProvider>
-              <UserProvider>
-                {children}
-                <SeedTrigger />
-              </UserProvider>
-            </FirebaseClientProvider>
+            <UnifiedDataProvider>
+              {children}
+            </UnifiedDataProvider>
             <Toaster />
           </TooltipProvider>
         </ThemeProvider>

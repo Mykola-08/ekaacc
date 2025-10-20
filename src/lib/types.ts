@@ -1,59 +1,35 @@
+export type Session = {
+  id: string;
+  date: string;
+  time: string;
+  type: string;
+  therapist: string;
+  therapistAvatarUrl?: string;
+  location?: string;
+  status: 'Upcoming' | 'Completed' | 'Canceled';
+  notes?: string;
+  duration: number;
+  userId?: string;
+  squareAppointmentId?: string;
+};
+export type Service = {
+  id?: string;
+  name: string;
+  category: 'Core' | 'Personalized' | '360° Component';
+  descriptionShort: string;
+  descriptionLong: string;
+  durationMinutes: number;
+  priceEUR: number;
+  benefits: string[];
+  tags: string[];
+  active: boolean;
+};
 
 import type { FieldValue, Timestamp } from 'firebase/firestore';
 
-export type UserRole =
-  | 'User'
-  | 'Therapist'
-  | 'Donor'
-  | 'Donation Receiver'
-  | 'Admin'
-  | 'Student'
-  | 'Office Workers'
-  | 'Athletes'
-  | 'Artists'
-  | 'Musicians'
-  | 'Bronze Elite'
-  | 'Silver Elite'
-  | 'Gold Elite';
+// Duplicate removed. See below for unified User type.
 
-export type User = {
-  id: string;
-  name: string;
-  email: string;
-  phoneNumber?: string;
-  avatarUrl: string;
-  role: UserRole;
-  initials: string;
-  goal?: {
-    description: string;
-    targetSessions: number;
-  };
-  personalizationCompleted?: boolean;
-  personalization?: {
-    goals: string;
-    interests: string;
-  };
-  squareCustomerId?: string;
-  dashboardWidgets?: {
-    goalProgress: boolean;
-    quickActions: boolean;
-    nextSession: boolean;
-    recentActivity: boolean;
-  };
-  status?: "Active" | "Inactive" | "Suspended";
-};
-
-export type Session = {
-  id: string;
-  therapist: string;
-  therapistAvatarUrl: string;
-  date: string; // ISO String
-  time: string;
-  duration: number; // in minutes
-  status: 'Upcoming' | 'Completed' | 'Canceled';
-  type: string;
-  userId?: string;
-};
+// Duplicate removed. Use the definition below.
 
 export type Donation = {
   id: string;
@@ -66,12 +42,17 @@ export type Donation = {
 
 export type Report = {
   id: string;
-  title: string;
-  author: string;
-  date: string; // ISO string
-  type: 'Therapist Report' | 'User Report' | 'AI Summary';
-  summary: string;
-  createdAt?: Timestamp;
+  sessionId?: string;
+  title?: string;
+  author?: string;
+  date?: string; // ISO string
+  type?: 'Therapist Report' | 'User Report' | 'AI Summary';
+  summary?: string;
+  painLevel?: number;
+  mobility?: number;
+  notes?: string;
+  exercises?: string[];
+  createdAt?: Timestamp | string;
 };
 
 export type StatCard = {
@@ -82,47 +63,92 @@ export type StatCard = {
   icon: React.ElementType;
 };
 
-export type Service = {
+export type UserRole = "Patient" | "Therapist" | "Admin";
+
+export type VipTier = "Bronze" | "Silver" | "Gold" | "Platinum" | "Diamond";
+export type LoyalTier = "Normal" | "Plus" | "Pro" | "ProMax";
+export type SubscriptionType = "Free" | "Loyal" | "VIP";
+
+export type User = {
   id: string;
-  name: string;
-  category: "Core" | "Personalized" | "360° Component";
-  descriptionShort: string;
-  descriptionLong: string;
-  durationMinutes: number;
-  priceEUR: number;
-  benefits: string[];
-  tags: string[];
-  active: boolean;
+  uid?: string;
+  name?: string;
+  displayName?: string;
+  email: string;
+  phoneNumber?: string;
+  avatarUrl?: string;
+  role: UserRole;
+  initials: string;
+  createdAt?: string;
+  goal?: {
+    description?: string;
+    targetSessions: number;
+    currentSessions?: number;
+  };
+  personalizationCompleted?: boolean;
+  personalization?: {
+    goals: string;
+    interests: string;
+    values: string;
+    preferences: string;
+    // AI Learning Fields
+    communicationStyle?: 'formal' | 'casual' | 'empathetic' | 'direct';
+    motivationFactors?: string[];
+    stressors?: string[];
+    copingMechanisms?: string[];
+    preferredTherapyApproach?: string;
+    languagePreference?: string;
+    culturalBackground?: string;
+    lifeStage?: string;
+    supportSystem?: string;
+  };
+  dashboardWidgets?: {
+    goalProgress: boolean;
+    quickActions: boolean;
+    nextSession: boolean;
+    recentActivity: boolean;
+  };
+  // Subscription Status
+  subscriptionType?: SubscriptionType;
+  // Loyal Subscription
+  isLoyal?: boolean;
+  loyalTier?: LoyalTier;
+  loyalSince?: string; // ISO date string
+  loyalExpiresAt?: string; // ISO date string
+  loyalBenefits?: {
+    discountPercentage?: number;
+    sessionCreditsPerMonth?: number;
+    prioritySupport?: boolean;
+    groupSessionAccess?: boolean;
+    advancedAIFeatures?: boolean;
+  };
+  // VIP Status
+  isVip?: boolean;
+  vipTier?: VipTier;
+  vipSince?: string; // ISO date string
+  vipExpiresAt?: string; // ISO date string
+  vipBenefits?: {
+    priorityBooking?: boolean;
+    discountPercentage?: number;
+    freeSessionsPerMonth?: number;
+    dedicatedTherapist?: boolean;
+  };
+  // Donation Related
+  isDonor?: boolean;
+  isDonationSeeker?: boolean;
+  totalDonated?: number; // in EUR
+  totalReceived?: number; // in EUR
+  donationSeekerApproved?: boolean;
+  donationSeekerReason?: string;
+  // Relationships
+  linkedChildren?: string[]; // Array of user IDs
+  linkedParent?: string; // User ID of parent
+  linkedTherapist?: string; // User ID of assigned therapist
+  // Additional metadata
+  squareCustomerId?: string;
+  preferredLanguage?: string;
+  timezone?: string;
 };
-
-export type TherapyPackage = {
-  id: string;
-  name: string;
-  includedTherapies: string[];
-  duration: string; // e.g., "4 weeks", "8 sessions"
-  priceEUR: number;
-  aiSummary: string;
-};
-
-
-export type TriageInput = {
-    mode: 'freeText' | 'form';
-    text?: string;
-    tags?: string[];
-    intensity?: {
-        pain?: number;
-        mobility?: number;
-        energy?: number;
-        stress?: number;
-    };
-    duration?: 'days' | 'weeks' | 'months';
-    context?: string[];
-    preferences?: {
-        length?: 30 | 60 | 90;
-        therapistGender?: 'male' | 'female' | 'any';
-        time?: 'weekday' | 'evening' | 'weekend';
-    };
-}
 
 export type TriageResult = {
     top: {
@@ -181,5 +207,54 @@ export type VipPlan = {
   active: boolean;
 };
 
+export type LoyalPlan = {
+  id: string;
+  tier: LoyalTier;
+  name: string;
+  pricePerMonthEUR: number;
+  sessionCreditsPerMonth: number;
+  discountPercentage: number;
+  features: string[];
+  aiFeatures?: string[];
+  active: boolean;
+  popular?: boolean;
+};
+
 export type Therapy = Service;
+
+export type JournalEntry = {
+  id: string;
+  date: string;
+  mood: 'Great' | 'Good' | 'Okay' | 'Bad' | 'Terrible';
+  painLevel: number;
+  energy: number;
+  notes?: string;
+  activities?: string[];
+};
+
+export type Exercise = {
+  id: string;
+  name: string;
+  category: 'Strength' | 'Stretching' | 'Balance' | 'Cardio';
+  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
+  duration: number;
+  description: string;
+  benefits: string[];
+  instructions: string[];
+  videoUrl?: string;
+  completed?: boolean;
+};
+
+export type CommunityPost = {
+  id: string;
+  author: string;
+  authorAvatar: string;
+  title: string;
+  content: string;
+  category: string;
+  likes: number;
+  replies: number;
+  createdAt: string;
+  tags?: string[];
+};
     

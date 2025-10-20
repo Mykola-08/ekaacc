@@ -4,16 +4,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useCollection, useFirestore, collection, useMemoFirebase } from "@/firebase";
-import type { Service } from "@/lib/types";
+import { mockTherapies } from "@/lib/mock-data";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TherapiesPage() {
-    const firestore = useFirestore();
-    const servicesRef = useMemoFirebase(() => firestore ? collection(firestore, 'services') : null, [firestore]);
-    const { data: services, isLoading: isLoadingServices } = useCollection<Service>(servicesRef);
+    const services = mockTherapies;
+    const isLoadingServices = false;
 
     return (
         <div className="space-y-8">

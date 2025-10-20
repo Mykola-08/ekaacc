@@ -1,4 +1,4 @@
-import type { User, VipData, Service, VipPlan } from '@/lib/types';
+import type { User, VipData, Service, VipPlan, LoyalPlan } from '@/lib/types';
 
 export const allUsers: User[] = [
   {
@@ -7,7 +7,7 @@ export const allUsers: User[] = [
     email: 'alex.doe@example.com',
     phoneNumber: process.env.NEXT_PUBLIC_DEMO_PHONE_NUMBER, // Added for Square integration demo
     avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704d',
-    role: 'Gold Elite',
+    role: 'Patient',
     initials: 'AD',
     personalizationCompleted: true,
     dashboardWidgets: {
@@ -15,7 +15,29 @@ export const allUsers: User[] = [
         quickActions: true,
         nextSession: true,
         recentActivity: true,
-    }
+    },
+    // Subscription - Change these for testing
+    subscriptionType: 'Loyal', // 'Free' | 'Loyal' | 'VIP'
+    isLoyal: true,
+    loyalTier: 'Plus', // 'Normal' | 'Plus' | 'Pro' | 'ProMax'
+    loyalSince: '2024-06-01',
+    loyalExpiresAt: '2025-06-01',
+    loyalBenefits: {
+      discountPercentage: 10,
+      sessionCreditsPerMonth: 2,
+      prioritySupport: true,
+      groupSessionAccess: true,
+      advancedAIFeatures: true,
+    },
+    isVip: false, // Set to true for VIP testing
+    vipTier: undefined,
+    isDonor: false,
+    isDonationSeeker: false,
+    totalDonated: 0,
+    totalReceived: 0,
+    linkedTherapist: 'user-2',
+    preferredLanguage: 'en',
+    timezone: 'Europe/Dublin',
   },
   {
     id: 'user-2',
@@ -24,14 +46,27 @@ export const allUsers: User[] = [
     avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704e',
     role: 'Therapist',
     initials: 'EC',
+    isVip: false,
+    isDonor: false,
+    isDonationSeeker: false,
+    preferredLanguage: 'en',
+    timezone: 'Europe/Dublin',
   },
   {
     id: 'user-3',
     name: 'Jane Donor',
     email: 'jane.donor@example.com',
     avatarUrl: 'https://i.pravatar.cc/150?u=a042581f4e29026704f',
-    role: 'Donor',
+    role: 'Patient',
     initials: 'JD',
+    isVip: false,
+    vipTier: undefined,
+    isDonor: true,
+    isDonationSeeker: false,
+    totalDonated: 2500,
+    totalReceived: 0,
+    preferredLanguage: 'en',
+    timezone: 'Europe/Dublin',
   }
 ]
 
@@ -178,6 +213,95 @@ export const vipPlans: Omit<VipPlan, 'id'>[] = [
   }
 ];
 
+export const loyalPlans: Omit<LoyalPlan, 'id'>[] = [
+  {
+    tier: "Normal",
+    name: "Loyal Normal",
+    pricePerMonthEUR: 49,
+    sessionCreditsPerMonth: 1,
+    discountPercentage: 5,
+    features: [
+      "1 session credit per month",
+      "5% discount on all services",
+      "Email support",
+      "Access to wellness library",
+      "Monthly wellness newsletter"
+    ],
+    active: true
+  },
+  {
+    tier: "Plus",
+    name: "Loyal Plus",
+    pricePerMonthEUR: 89,
+    sessionCreditsPerMonth: 2,
+    discountPercentage: 10,
+    features: [
+      "2 session credits per month",
+      "10% discount on all services",
+      "Priority email support",
+      "Access to group sessions",
+      "Personalized wellness tips",
+      "AI mood tracking",
+      "Progress reports"
+    ],
+    aiFeatures: [
+      "AI mood tracking",
+      "Weekly AI wellness insights"
+    ],
+    active: true,
+    popular: true
+  },
+  {
+    tier: "Pro",
+    name: "Loyal Pro",
+    pricePerMonthEUR: 139,
+    sessionCreditsPerMonth: 3,
+    discountPercentage: 15,
+    features: [
+      "3 session credits per month",
+      "15% discount on all services",
+      "Priority booking access",
+      "Advanced group sessions",
+      "AI-powered personalization",
+      "Bi-weekly AI check-ins",
+      "Custom therapy recommendations",
+      "Family account sharing (up to 2 members)"
+    ],
+    aiFeatures: [
+      "AI-powered personalization",
+      "Bi-weekly AI wellness check-ins",
+      "Smart therapy recommendations"
+    ],
+    active: true
+  },
+  {
+    tier: "ProMax",
+    name: "Loyal Pro Max",
+    pricePerMonthEUR: 199,
+    sessionCreditsPerMonth: 4,
+    discountPercentage: 20,
+    features: [
+      "4 session credits per month",
+      "20% discount on all services",
+      "Highest priority booking",
+      "Unlimited group sessions",
+      "Advanced AI therapy assistant",
+      "Daily AI mood & wellness tracking",
+      "Personalized AI therapy plans",
+      "24/7 AI chat support",
+      "Family account sharing (up to 4 members)",
+      "Rollover unused credits (1 month)"
+    ],
+    aiFeatures: [
+      "Advanced AI therapy assistant",
+      "Daily AI wellness monitoring",
+      "Personalized AI therapy plans",
+      "24/7 AI chat support",
+      "Predictive wellness insights"
+    ],
+    active: true
+  }
+];
 
 export let currentUser: User = allUsers[0];
 

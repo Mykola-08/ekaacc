@@ -6,7 +6,7 @@
 
 The entire app has been redesigned with a clean, minimalist approach inspired by Apple and Notion design principles.
 
-#### Color Palette
+\n#### Color Palette
 **Light Mode:**
 - Background: Warm gray (#FAFAFA)
 - Primary Actions: Black buttons (#171717)
@@ -19,14 +19,14 @@ The entire app has been redesigned with a clean, minimalist approach inspired by
 - Cards: Dark gray (#1F1F1F)
 - Text: Off-white with softer grays
 
-#### Typography & Spacing
+\n#### Typography & Spacing
 - Refined font rendering with optical sizing
 - Tighter tracking for cleaner appearance
 - Generous whitespace for better readability
 - Reduced header height (56px) for more content space
 - Smaller, more refined border radius (12px)
 
-#### Component Updates
+\n#### Component Updates
 **Buttons:**
 - Black primary buttons in light mode
 - White primary buttons in dark mode
@@ -50,7 +50,7 @@ The entire app has been redesigned with a clean, minimalist approach inspired by
 
 ## 🤖 New AI Features
 
-### 1. AI Insights Dashboard
+\n### 1. AI Insights Dashboard
 **Location:** `/ai-insights`
 
 A dedicated page showing personalized AI-generated insights based on your health data.

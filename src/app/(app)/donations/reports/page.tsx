@@ -68,9 +68,9 @@ export default function DonationReportsPage() {
           const { generateSupportSummary } = await import('@/ai/flows/generate-support-summary');
           
           const donorNames = Array.from(new Set(userDonations.map(d => {
-            const donor = allUsers.find(u => u.id === d.donorId);
-            return donor ? donor.name : 'Anonymous';
-          })));
+            const donor = allUsers?.find(u => u.id === d.donorId);
+            return donor?.name || 'Anonymous';
+          }))).filter((name): name is string => name !== undefined);
 
           const supportDetails = userDonations.map(d => `€${d.amount} on ${format(toDate(d.date), 'PPP')}`).join(', ');
 
@@ -156,8 +156,8 @@ export default function DonationReportsPage() {
                         </TableHeader>
                         <TableBody>
                             {sortedDonations.map(donation => {
-                                const donor = allUsers.find(u => u.id === donation.donorId);
-                                const receiver = allUsers.find(u => u.id === donation.receiverId);
+                                const donor = allUsers?.find(u => u.id === donation.donorId);
+                                const receiver = allUsers?.find(u => u.id === donation.receiverId);
                                 return (
                                     <TableRow key={donation.id}>
                                         <TableCell>{format(toDate(donation.date), 'PP')}</TableCell>

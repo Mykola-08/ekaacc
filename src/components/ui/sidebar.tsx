@@ -137,9 +137,9 @@ export const Sidebar = React.forwardRef<
     <aside
       ref={ref}
       className={cn(
-        "group fixed top-0 z-50 hidden h-full flex-col border-r bg-background/95 glass transition-all duration-300 ease-in-out md:flex",
-        "w-[var(--sidebar-w-collapsed)] group-data-[state=expanded]:w-[var(--sidebar-w)]",
-        side === 'left' ? 'left-0' : 'right-0 border-l',
+        "fixed top-0 h-screen flex flex-col bg-background border-r transition-all duration-300 ease-in-out shadow-sm",
+        isExpanded ? "w-[var(--sidebar-w)]" : "w-[var(--sidebar-w-collapsed)]",
+        side === 'left' ? 'left-0 z-30' : 'right-0 border-l z-30',
         className
       )}
       data-state={dataState}
@@ -230,7 +230,7 @@ export const SidebarMenu = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn("flex w-full min-w-0 flex-col gap-1 px-2", className)}
+    className={cn("flex w-full min-w-0 flex-col gap-1", className)}
     {...props}
   />
 ))
@@ -242,7 +242,7 @@ export const SidebarMenuItem = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <li
     ref={ref}
-    className={cn("group/menu-item relative", className)}
+    className={cn("group/menu-item relative list-none", className)}
     {...props}
   />
 ))

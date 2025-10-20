@@ -8,60 +8,42 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { format } from "date-fns";
 import type { Session as AppSession, User } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
-import { useUser, useFirestore, useCollection, collection, query, where, useMemoFirebase } from "@/firebase";
-import { useUserContext } from "@/context/user-context";
+import { useEffect, useState } from "react";
+import { mockBookingAPI } from "@/lib/mock-bookings";
+import { useData } from "@/context/unified-data-context";
 
-// Helper function to map Firestore booking data to the app's Session type
+// Helper to map mock booking to session type
 const mapBookingToSession = (booking: any): AppSession => {
-    const getStatus = (status: string): 'Upcoming' | 'Completed' | 'Canceled' => {
-        const startTime = new Date(booking.start_at || 0);
-        const isPast = startTime < new Date();
-
-        switch (status) {
-            case 'ACCEPTED': return isPast ? 'Completed' : 'Upcoming';
-            case 'DECLINED_BY_SELLER':
-            case 'CANCELLED_BY_CUSTOMER':
-            case 'CANCELLED_BY_SELLER': return 'Canceled';
-            case 'NO_SHOW': return 'Completed';
-            default: return isPast ? 'Completed' : 'Upcoming';
-        }
-    };
-    
-    const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
-    const duration = booking.appointment_segments?.[0]?.duration_minutes || 0;
-    
-    // In a real app with a `teams` collection, you'd fetch the team member name here
-    const therapistName = 'EKA Therapist'; 
-
-    return {
-        id: booking.id,
-        therapist: therapistName,
-        therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square', // Placeholder
-        date: booking.start_at,
-        time: new Date(booking.start_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        duration: Number(duration),
-        status: getStatus(booking.status),
-        type: serviceName,
-        userId: booking.customer_id
-    };
+  return {
+    id: booking.id,
+    therapist: 'EKA Therapist',
+    therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square',
+    date: booking.date,
+    time: new Date(booking.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    duration: 60,
+    status: booking.status === 'confirmed' ? 'Upcoming' : booking.status === 'cancelled' ? 'Canceled' : 'Completed',
+    type: 'Therapy Session',
+    userId: booking.userId,
+  };
 };
 
 export default function SessionsPage() {
-  const { currentUser, isLoading: isUserLoading } = useUserContext();
-  const firestore = useFirestore();
+  const { currentUser, isLoading: isUserLoading } = useData();
+  const [sessions, setSessions] = useState<AppSession[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
 
-  // Query the 'bookings' collection based on the logged-in user's Square customer ID.
-  const bookingsQuery = useMemoFirebase(() => {
-    if (!firestore || !currentUser?.squareCustomerId) return null;
-    return query(collection(firestore, 'bookings'), where('customer_id', '==', currentUser.squareCustomerId));
-  }, [firestore, currentUser]);
-
-  const { data: bookings, isLoading: isLoadingBookings, error } = useCollection(bookingsQuery);
-  
-  const sessions = bookings?.map(mapBookingToSession)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-  
-  const isLoading = isUserLoading || (currentUser && isLoadingBookings);
+  useEffect(() => {
+    if (!currentUser) return;
+    setIsLoading(true);
+    mockBookingAPI.getBookingsForUser(currentUser.uid || 'user1')
+      .then(bookings => {
+        setSessions(bookings.map(mapBookingToSession).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        setError(null);
+      })
+      .catch(e => setError(e))
+      .finally(() => setIsLoading(false));
+  }, [currentUser]);
 
   return (
     <Card>

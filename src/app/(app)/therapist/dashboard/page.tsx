@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TestTools } from '@/components/eka/test-tools';
 import { USE_MOCK_DATA } from '@/services/data-service';
 import { useIsAdmin } from '@/components/eka/role-guard';
+import { ClientBilling } from '@/components/eka/client-billing';
 
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || 'Unknown Service';
@@ -590,15 +591,63 @@ export default function TherapistDashboardPage() {
                 </TabsContent>
 
                 <TabsContent value="billing" className="space-y-6">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Billing & Internal Accounts</CardTitle>
-                            <CardDescription>Manage client accounts, balances, and payments.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <p className="text-muted-foreground">Internal account management features coming soon...</p>
-                        </CardContent>
-                    </Card>
+                    {selectedPatient ? (
+                        <div className="space-y-4">
+                            <Button variant="outline" size="sm" onClick={() => setSelectedPatient(null)}>
+                                ← Back to Client List
+                            </Button>
+                            <ClientBilling client={selectedPatient} isAdmin={isAdmin} />
+                        </div>
+                    ) : (
+                        <Card>
+                            <CardHeader>
+                                <CardTitle>Client Billing & Accounts</CardTitle>
+                                <CardDescription>Manage client balances, transactions, and payment packages.</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Client</TableHead>
+                                            <TableHead>Account Balance</TableHead>
+                                            <TableHead>Active Packages</TableHead>
+                                            <TableHead>Last Transaction</TableHead>
+                                            <TableHead className="text-right">Actions</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {patients?.map((patient) => (
+                                            <TableRow key={patient.id}>
+                                                <TableCell>
+                                                    <div className="flex items-center gap-3">
+                                                        <Avatar className="h-8 w-8">
+                                                            <AvatarImage src={patient.avatarUrl} alt={patient.name} />
+                                                            <AvatarFallback>{patient.initials}</AvatarFallback>
+                                                        </Avatar>
+                                                        <span className="font-medium">{patient.name}</span>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell className="font-semibold text-primary">€150.00</TableCell>
+                                                <TableCell>
+                                                    <Badge variant="secondary">1 Active</Badge>
+                                                </TableCell>
+                                                <TableCell className="text-muted-foreground">2 days ago</TableCell>
+                                                <TableCell className="text-right">
+                                                    <Button 
+                                                        variant="outline" 
+                                                        size="sm"
+                                                        onClick={() => setSelectedPatient(patient)}
+                                                    >
+                                                        View Details
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </CardContent>
+                        </Card>
+                    )}
                 </TabsContent>
 
                 <TabsContent value="settings" className="space-y-6">

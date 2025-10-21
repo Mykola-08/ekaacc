@@ -15,9 +15,15 @@ export function middleware(req: NextRequest) {
 
   // Protect therapist and admin areas (app-router paths)
   if (pathname.startsWith('/therapist') || pathname.startsWith('/admin')) {
-    // Look for common session cookie names. Adjust to your auth implementation.
-    const token = req.cookies.get('session')?.value || req.cookies.get('__session')?.value || req.cookies.get('token')?.value;
+    // If running in mock/demo mode, skip server-side redirects and allow client-side guards to handle UX.
+    // By default NEXT_PUBLIC_USE_MOCK_DATA is not 'false' in dev, so the middleware will allow paths.
+    const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
+    if (useMock) {
+      return NextResponse.next();
+    }
 
+    // Production: require a session token cookie. Adjust cookie names to match your auth implementation.
+    const token = req.cookies.get('session')?.value || req.cookies.get('__session')?.value || req.cookies.get('token')?.value;
     if (!token) {
       const loginUrl = new URL('/', req.url);
       loginUrl.searchParams.set('redirect', pathname);

@@ -120,6 +120,29 @@ export const fxService = {
     if (useMock) return { id: userId, role };
     return fxUsers.updateUserRole(userId, role);
   },
+  async getSettings(userId: string) {
+    if (useMock) {
+      try {
+        const raw = localStorage.getItem(`eka_settings_${userId}`);
+        if (raw) return JSON.parse(raw);
+      } catch (e) { /* ignore */ }
+      // default settings shape
+      return { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
+    }
+    // TODO: implement real settings retrieval via firestore
+    return {};
+  },
+  async updateSettings(userId: string, settings: Record<string, any>) {
+    if (useMock) {
+      try {
+        const next = { ...(JSON.parse(localStorage.getItem(`eka_settings_${userId}`) || '{}')), ...settings };
+        localStorage.setItem(`eka_settings_${userId}`, JSON.stringify(next));
+        return next;
+      } catch (e) { return settings; }
+    }
+    // TODO: implement real settings update via firestore
+    return settings;
+  },
   auth: fxAuth,
 };
 

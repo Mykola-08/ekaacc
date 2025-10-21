@@ -1,8 +1,15 @@
-
 'use client';
 
-import { Search, Menu, FileText, Calendar, ClipboardCheck } from 'lucide-react';
-// ...existing code...
+import { Search, Menu, Plus, UserPlus, CalendarPlus, FileClock, BookPlus, SmilePlus, AreaChart, ShieldCheck } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
 import { ThemeToggle } from './theme-toggle';
@@ -24,7 +31,18 @@ export function AppHeader() {
   const [showWelcomeForm, setShowWelcomeForm] = useState(false);
   const [showDailyForm, setShowDailyForm] = useState(false);
   const [showPreSessionForm, setShowPreSessionForm] = useState(false);
-  const [persona, setPersona] = useState<string>('Patient');
+  const [persona, setPersona] = useState<string | null>(null);
+
+  useEffect(() => {
+    const p = localStorage.getItem('eka_persona');
+    setPersona(p);
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent).detail as string;
+      setPersona(detail);
+    };
+    window.addEventListener('eka_persona_change', handler as EventListener);
+    return () => window.removeEventListener('eka_persona_change', handler as EventListener);
+  }, []);
 
   // Check if forms are completed (assume personalizationCompleted and a dailyLogCompleted flag)
   const needsPersonalization = currentUser && !currentUser.personalizationCompleted;
@@ -40,6 +58,76 @@ export function AppHeader() {
   });
   const hasUpcomingSessionToday = todaySessions.length > 0;
   const pendingReports = 3; // This would come from the database in a real implementation
+
+  const effectiveRole = persona || currentUser?.role;
+  const isAdminRole = effectiveRole === 'Admin';
+  const isTherapistRole = effectiveRole === 'Therapist';
+  const isClientRole = !isAdminRole && !isTherapistRole;
+
+  const QuickActions = () => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="rounded-full">
+          <Plus className="h-5 w-5" />
+          <span className="sr-only">Quick Actions</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-56" align="end">
+        <DropdownMenuLabel>Quick Actions</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          {isTherapistRole && (
+            <>
+              <DropdownMenuItem onSelect={() => router.push('/therapist/clients')}>
+                <UserPlus className="mr-2 h-4 w-4" />
+                <span>New Client</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => router.push('/therapist/bookings')}>
+                <CalendarPlus className="mr-2 h-4 w-4" />
+                <span>Schedule Appointment</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <FileClock className="mr-2 h-4 w-4" />
+                <span>Review Reports</span>
+              </DropdownMenuItem>
+            </>
+          )}
+          {isClientRole && (
+            <>
+              <DropdownMenuItem onSelect={() => router.push('/journal')}>
+                <BookPlus className="mr-2 h-4 w-4" />
+                <span>New Journal Entry</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <SmilePlus className="mr-2 h-4 w-4" />
+                <span>Log Mood</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => router.push('/sessions/booking')}>
+                <CalendarPlus className="mr-2 h-4 w-4" />
+                <span>Book a Session</span>
+              </DropdownMenuItem>
+            </>
+          )}
+          {isAdminRole && (
+            <>
+              <DropdownMenuItem onSelect={() => router.push('/admin/users')}>
+                <UserPlus className="mr-2 h-4 w-4" />
+                <span>Create User</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <AreaChart className="mr-2 h-4 w-4" />
+                <span>Generate Report</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                <span>View Audit Logs</span>
+              </DropdownMenuItem>
+            </>
+          )}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 
   return (
     <>
@@ -71,6 +159,7 @@ export function AppHeader() {
           "top-0"
         )}
       >
+        <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
         {/* Left: collapse trigger (desktop) and mobile trigger */}
         <div className="flex items-center">
           {/* Desktop: left-aligned collapse button */}
@@ -110,7 +199,8 @@ export function AppHeader() {
         </div>
 
         {/* Right aligned group: Profile / Theme / Notifications */}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-1 md:gap-3">
+          <QuickActions />
           <UserNav />
           <ThemeToggle />
           <NotificationCenter />

@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -17,8 +16,10 @@ import {
   BookOpen,
   Dumbbell,
   Users,
+  User,
   Crown,
   Zap,
+  Shield,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useData } from '@/context/unified-data-context';
@@ -27,6 +28,18 @@ import React, { useEffect, useState } from 'react';
 import PersonaSwitcher from './persona-switcher';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { motion } from 'framer-motion';
+
+const SectionHeader = ({ label, icon: Icon, color, isCollapsed }: { label: string, icon: React.ElementType, color: string, isCollapsed: boolean }) => {
+  if (isCollapsed) return <div className="my-3 border-t border-border/50"></div>;
+  return (
+    <div className="px-3 py-2 mb-1">
+      <div className={cn("flex items-center gap-2 text-xs font-bold px-2 py-1 rounded-md border", color)}>
+        <Icon className="w-3.5 h-3.5" />
+        {label}
+      </div>
+    </div>
+  );
+};
 
 // Memoized link component for better performance
 const SidebarLink = memo(({ 
@@ -156,22 +169,35 @@ export function AppSidebar() {
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Sidebar side="left" className="bg-background">
+      <Sidebar side="left" className="bg-background border-r border-border/50 flex flex-col">
         <SidebarHeader className={cn(
-          "flex h-16 items-center px-4 transition-all duration-300 bg-background",
+          "flex h-[var(--header-h)] items-center px-4 transition-all duration-300 border-b border-border/50",
           isCollapsed ? 'justify-center px-2' : 'gap-2'
         )}>
-          <Link href="/" className={cn("flex items-center font-semibold text-xl justify-center")}> 
-            <span className="tracking-tight">EKA</span>
+          <Link href="/" className={cn("flex items-center font-semibold text-xl justify-center group")}> 
+            <div className="relative">
+              <motion.span 
+                className="tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent"
+                whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+              >
+                EKA
+              </motion.span>
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-primary/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10 rounded-lg"></div>
+            </div>
           </Link>
         </SidebarHeader>
 
-        <SidebarContent className="flex-1 overflow-auto py-4 px-2 bg-background">
+        <SidebarContent className="flex-1 overflow-auto py-4 px-2">
           <SidebarMenu>
             {/* ADMIN section (Admins see admin tools) */}
             {isAdminRole && (
               <>
-                {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">ADMIN</div>}
+                <SectionHeader 
+                  label="ADMIN" 
+                  icon={Shield} 
+                  color="text-red-600 dark:text-red-400 bg-red-500/10 border-red-500/20" 
+                  isCollapsed={isCollapsed} 
+                />
                 {adminLinks.map(link => (
                   <SidebarMenuItem key={link.href}>
                     <SidebarLink 
@@ -185,11 +211,15 @@ export function AppSidebar() {
                 ))}
               </>
             )}
-
-            {/* THERAPIST section (Therapists and Admins see therapist tools) */}
-            {(isTherapistRole || isAdminRole) && (
+            {/* THERAPIST section (Therapists see their tools) */}
+            {isTherapistRole && (
               <>
-                {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">THERAPIST</div>}
+                <SectionHeader 
+                  label="THERAPIST" 
+                  icon={Briefcase} 
+                  color="text-blue-600 dark:text-blue-400 bg-blue-500/10 border-blue-500/20" 
+                  isCollapsed={isCollapsed} 
+                />
                 {therapistLinks.map(link => (
                   <SidebarMenuItem key={link.href}>
                     <SidebarLink 
@@ -203,11 +233,15 @@ export function AppSidebar() {
                 ))}
               </>
             )}
-
-            {/* CLIENT section (Patients / general users) */}
-            {(isClientRole || isAdminRole) && (
+            {/* CLIENT section (Everyone sees client tools) */}
+            {isClientRole && (
               <>
-                {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">CLIENT</div>}
+                <SectionHeader 
+                  label="CLIENT" 
+                  icon={User} 
+                  color="text-green-600 dark:text-green-400 bg-green-500/10 border-green-500/20" 
+                  isCollapsed={isCollapsed} 
+                />
                 {clientLinks.map(link => (
                   <SidebarMenuItem key={link.href}>
                     <SidebarLink 
@@ -219,29 +253,7 @@ export function AppSidebar() {
                     />
                   </SidebarMenuItem>
                 ))}
-              </>
-            )}
-            {/* Subscription Links */}
-            {subscriptionLinks.length > 0 && (
-              <>
-                {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">MEMBERSHIP</div>}
                 {subscriptionLinks.map(link => (
-                  <SidebarMenuItem key={link.href}>
-                    <SidebarLink 
-                      href={link.href}
-                      icon={link.icon}
-                      label={link.label}
-                      isActive={pathname === link.href}
-                      isCollapsed={isCollapsed}
-                    />
-                  </SidebarMenuItem>
-                ))}
-              </>
-            )}
-            {(isTherapistRole || isAdminRole) && (
-              <>
-                {!isCollapsed && <div className="px-3 py-2 text-xs font-semibold text-muted-foreground">THERAPIST</div>}
-                {therapistLinks.map(link => (
                   <SidebarMenuItem key={link.href}>
                     <SidebarLink 
                       href={link.href}
@@ -257,12 +269,8 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarContent>
 
-        <div className="mt-auto border-t p-4 bg-background">
+        <div className="mt-auto p-2 border-t border-border/50">
           <SidebarMenu>
-            <div className="mb-3">
-              <PersonaSwitcher />
-            </div>
-            {/* Therapist link intentionally removed from global nav */}
             {bottomLinks.map(link => (
               <SidebarMenuItem key={link.href}>
                 <SidebarLink 
@@ -275,6 +283,11 @@ export function AppSidebar() {
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
+          {!isCollapsed && (
+            <div className="p-2 mt-2">
+              <PersonaSwitcher />
+            </div>
+          )}
         </div>
       </Sidebar>
     </motion.div>

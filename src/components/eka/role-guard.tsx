@@ -10,26 +10,49 @@ interface RoleGuardProps {
   fallback?: ReactNode;
 }
 
+function parseRolesFromUser(currentUser: any): string[] {
+  if (!currentUser) return [];
+  // If user has an explicit roles array
+  if (Array.isArray(currentUser.roles) && currentUser.roles.length) return currentUser.roles.map(String);
+  // If role is string, allow comma/pipe/semicolon-separated values
+  if (typeof currentUser.role === 'string') return currentUser.role.split(/[,|;]+/).map((s: string) => s.trim()).filter(Boolean);
+  return [String(currentUser.role)];
+}
+
 /**
  * Role-based access control component
- * Redirects to home if current user is not authorized
+ * Waits until unified data is loaded, then checks persona override (localStorage)
+ * and compares against allowedRoles. Will only redirect after loading finishes.
  */
 export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuardProps) {
-  const { currentUser } = useData();
+  const { currentUser, isLoading } = useData();
   const router = useRouter();
 
+  const effectiveRoles = useMemo(() => {
+    // persona override from localStorage (dev/demo)
+    if (typeof window !== 'undefined') {
+      try {
+        const p = localStorage.getItem('eka_persona');
+        if (p) return [p];
+      } catch (e) { /* ignore */ }
+    }
+    return parseRolesFromUser(currentUser);
+  }, [currentUser]);
+
   const allowed = useMemo(() => {
-    const effective = currentUser?.role;
-    return !!effective && allowedRoles.includes(effective as any);
-  }, [currentUser, allowedRoles]);
+    if (!effectiveRoles || effectiveRoles.length === 0) return false;
+    return effectiveRoles.some(r => allowedRoles.includes(r as any));
+  }, [effectiveRoles, allowedRoles]);
 
   useEffect(() => {
+    // Don't redirect while data is loading (prevents flash/incorrect redirect)
+    if (isLoading) return;
     if (!allowed) {
-      // automatic redirect for unauthorized users
       try { router.replace('/'); } catch (e) { /* ignore in non-router contexts */ }
     }
-  }, [allowed, router]);
+  }, [allowed, isLoading, router]);
 
+  if (isLoading) return <>{fallback}</>;
   if (!allowed) return <>{fallback}</>;
 
   return <>{children}</>;
@@ -40,7 +63,8 @@ export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuard
  */
 export function useHasRole(role: 'Patient' | 'Therapist' | 'Admin'): boolean {
   const { currentUser } = useData();
-  return currentUser?.role === role;
+  const roles = parseRolesFromUser(currentUser);
+  return roles.includes(role);
 }
 
 /**
@@ -62,5 +86,6 @@ export function useIsTherapist(): boolean {
  */
 export function useIsStaff(): boolean {
   const { currentUser } = useData();
-  return currentUser?.role === 'Admin' || currentUser?.role === 'Therapist';
+  const roles = parseRolesFromUser(currentUser);
+  return roles.includes('Admin') || roles.includes('Therapist');
 }

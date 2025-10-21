@@ -113,9 +113,16 @@ export default function AccountPage() {
     // Determine dataSource for test mode (mock if test user)
     const dataSource = currentUser?.email === 'test@ekaacc.com' ? 'mock' : 'live';
 
-    return (
-        <div className="space-y-8">
-            <h1 className="text-3xl font-bold">Account Settings</h1>
+        return (
+                <div className="space-y-8">
+                        <div className="flex items-center justify-between">
+                            <h1 className="text-3xl font-bold">Account</h1>
+                            <div className="flex gap-2">
+                                <Link href="/account">Profile</Link>
+                                <Link href="/account/settings">Settings</Link>
+                                <Link href="/account/billing">Billing</Link>
+                            </div>
+                        </div>
             {(dataSource === 'mock' || currentUser?.email === 'test@ekaacc.com') && (
                 <Card className="p-4 mb-6">
                     <h2 className="text-lg font-semibold mb-2">Test Mode: Role & Variables Switcher</h2>

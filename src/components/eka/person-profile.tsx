@@ -24,6 +24,15 @@ export default function PersonProfile({ userId }: { userId: string }) {
     loadPerson();
   }, [userId]);
 
+  // Precompute timeline items with useMemo so the hook order is stable across renders
+  const timelineItems = useMemo(() => {
+    const items: any[] = [];
+    bookings.forEach(b => items.push({ kind: 'booking', ts: new Date(b.date).getTime(), payload: b }));
+    reports.forEach(r => items.push({ kind: 'report', ts: new Date(r.createdAt || r.created_at || Date.now()).getTime(), payload: r }));
+    items.sort((a, b) => b.ts - a.ts);
+    return items;
+  }, [bookings, reports]);
+
   const loadPerson = async () => {
     setLoading(true);
     try {
@@ -165,13 +174,7 @@ export default function PersonProfile({ userId }: { userId: string }) {
           <h3 className="font-medium mb-2">Timeline</h3>
           {bookings.length === 0 && reports.length === 0 && <p className="text-sm text-muted-foreground">No recent activity</p>}
           <ul className="space-y-2">
-            {useMemo(() => {
-              const items: any[] = [];
-              bookings.forEach(b => items.push({ kind: 'booking', ts: new Date(b.date).getTime(), payload: b }));
-              reports.forEach(r => items.push({ kind: 'report', ts: new Date(r.createdAt || r.created_at || Date.now()).getTime(), payload: r }));
-              items.sort((a,b) => b.ts - a.ts);
-              return items;
-            }, [bookings, reports]).map(item => {
+            {timelineItems.map(item => {
               if (item.kind === 'booking') {
                 const b = item.payload;
                 const text = b.notes || '';

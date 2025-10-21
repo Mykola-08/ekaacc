@@ -51,6 +51,7 @@ export function UnifiedDataProvider({ children }: { children: ReactNode }) {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [communityPosts, setCommunityPosts] = useState<CommunityPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [dataLoaded, setDataLoaded] = useState<Set<string>>(new Set());
 
   // Initialize data service
   useEffect(() => {
@@ -61,40 +62,62 @@ export function UnifiedDataProvider({ children }: { children: ReactNode }) {
     init();
   }, []);
 
-  // Load initial data
+  // Load critical data first (user + all users), defer secondary data
   useEffect(() => {
     if (!dataService) return;
 
-    const loadData = async () => {
+    const loadCriticalData = async () => {
       setIsLoading(true);
       try {
-        const [user, users, sess, reps, serv, journal, exer, community] = await Promise.all([
+        // Load only critical data first: currentUser and allUsers
+        const [user, users] = await Promise.all([
           dataService.getCurrentUser(),
           dataService.getAllUsers(),
-          dataService.getSessions(),
-          dataService.getReports(),
-          dataService.getServices(),
-          dataService.getJournalEntries(),
-          dataService.getExercises(),
-          dataService.getCommunityPosts(),
         ]);
 
         setCurrentUser(user);
         setAllUsers(users);
+        setDataLoaded(prev => new Set([...prev, 'user', 'allUsers']));
+      } catch (error) {
+        console.error('Error loading critical data:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadCriticalData();
+
+    // Defer secondary data loading to next tick (non-blocking)
+    const timer = setTimeout(() => {
+      loadSecondaryData();
+    }, 100);
+
+    return () => clearTimeout(timer);
+
+    async function loadSecondaryData() {
+      if (!dataService) return; // Guard against null dataService
+      try {
+        // Load remaining data in background without blocking UI
+        const [sess, reps, serv, journal, exer, community] = await Promise.all([
+          dataService.getSessions().catch(() => []),
+          dataService.getReports().catch(() => []),
+          dataService.getServices().catch(() => []),
+          dataService.getJournalEntries().catch(() => []),
+          dataService.getExercises().catch(() => []),
+          dataService.getCommunityPosts().catch(() => []),
+        ]);
+
         setSessions(sess);
         setReports(reps);
         setServices(serv);
         setJournalEntries(journal);
         setExercises(exer);
         setCommunityPosts(community);
+        setDataLoaded(prev => new Set([...prev, 'sessions', 'reports', 'services', 'journal', 'exercises', 'community']));
       } catch (error) {
-        console.error('Error loading data:', error);
-      } finally {
-        setIsLoading(false);
+        console.error('Error loading secondary data:', error);
       }
-    };
-
-    loadData();
+    }
   }, [dataService]);
 
   const login = async (email: string, password: string) => {

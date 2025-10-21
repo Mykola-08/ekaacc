@@ -10,18 +10,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+  DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { useData } from '@/context/unified-data-context';
 import { useRouter } from 'next/navigation';
-import { RoleChanger } from '@/components/ui/role-changer';
 import { DataSourceIndicator } from '@/components/eka/data-source-indicator';
 import { VipBadge } from '@/components/eka/vip-badge';
-import { Crown } from 'lucide-react';
+import { Crown, LogOut, Settings, User, CreditCard, Shield, Sun, Moon, Laptop } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 export function UserNav() {
   const { currentUser, logout } = useData();
   const router = useRouter();
+  const { setTheme } = useTheme();
 
   const handleLogout = async () => {
     await logout();
@@ -49,68 +54,81 @@ export function UserNav() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <div className="mb-2 px-2">
-          <label className="text-xs text-muted-foreground">View</label>
-          <select
-            className="w-full mt-1 p-1 rounded bg-background/50 text-sm"
-            defaultValue={currentUser.role}
-            onChange={(e) => {
-              const v = e.target.value;
-              try { localStorage.setItem('eka_persona', v); } catch {}
-              try { window.dispatchEvent(new CustomEvent('eka_persona_change', { detail: v })); } catch {}
-              // update server-side role if available
-              try { (useData() as any).updateUser?.({ role: v }); } catch {}
-            }}
-          >
-            <option>Patient</option>
-            <option>Therapist</option>
-            <option>Admin</option>
-          </select>
-        </div>
+      <DropdownMenuContent className="w-64" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <div className="flex items-center gap-2">
-              <p className="text-sm font-medium leading-none">{currentUser.name}</p>
-              {currentUser.isVip && currentUser.vipTier && (
-                <VipBadge tier={currentUser.vipTier} variant="compact" />
-              )}
+          <div className="flex items-center gap-3">
+            <Avatar className="h-10 w-10">
+              {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />}
+              <AvatarFallback>{initials}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col space-y-1">
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+                {currentUser.isVip && currentUser.vipTier && (
+                  <VipBadge tier={currentUser.vipTier} variant="compact" />
+                )}
+              </div>
+              <p className="text-xs leading-none text-muted-foreground">
+                {currentUser.email}
+              </p>
             </div>
-            <p className="text-xs leading-none text-muted-foreground">
-              {currentUser.email}
-            </p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <Link href="/account">
-            <DropdownMenuItem>
-              Profile
-            </DropdownMenuItem>
-          </Link>
-           <Link href="/account/vip">
-            <DropdownMenuItem>
-              Billing
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/account">
-            <DropdownMenuItem>
-              Settings
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/tools">
-            <DropdownMenuItem>
-              Test Tools
-            </DropdownMenuItem>
-          </Link>
-        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <div className="px-2 py-1.5">
           <DataSourceIndicator />
         </div>
         <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <Link href="/account">
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+            </DropdownMenuItem>
+          </Link>
+           <Link href="/account/vip">
+            <DropdownMenuItem>
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Billing</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/account">
+            <DropdownMenuItem>
+              <Settings className="mr-2 h-4 w-4" />
+              <span>Settings</span>
+            </DropdownMenuItem>
+          </Link>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 mr-2" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 mr-2" />
+              <span>Theme</span>
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem onClick={() => setTheme('light')}>
+                  <Sun className="mr-2 h-4 w-4" />
+                  <span>Light</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme('dark')}>
+                  <Moon className="mr-2 h-4 w-4" />
+                  <span>Dark</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setTheme('system')}>
+                  <Laptop className="mr-2 h-4 w-4" />
+                  <span>System</span>
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleLogout}>
-          Log out
+          <LogOut className="mr-2 h-4 w-4" />
+          <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

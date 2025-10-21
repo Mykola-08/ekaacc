@@ -1,3 +1,21 @@
+"use client";
+
+import { useData } from "@/context/unified-data-context";
+import { RoleChanger } from "@/components/ui/role-changer";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { useToast } from '@/hooks/use-toast';
+import fxService from '@/lib/fx-service';
+import type { User, Session } from "@/lib/types";
+
+// Square API integration
+const SQUARE_APP_ID = "sandbox-sq0idb-S5dB2M3UZBbtySrULtdMMQ"; // Your sandbox app ID
+const SQUARE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_SQUARE_ACCESS_TOKEN || ""; // Set in .env.local
+const SQUARE_API_BASE = process.env.NODE_ENV === "production"
+  ? "https://connect.squareup.com/v2"
+  : "https://connect.squareupsandbox.com/v2";
+
 // Test Square API connectivity
 async function testSquareAPI() {
   try {
@@ -14,6 +32,7 @@ async function testSquareAPI() {
     return "Square API test failed: " + e.message;
   }
 }
+
 // List all Square appointments
 async function listSquareAppointments() {
   const res = await fetch(`${SQUARE_API_BASE}/appointments`, {
@@ -26,23 +45,6 @@ async function listSquareAppointments() {
   if (!res.ok) throw new Error("Failed to list Square appointments");
   return await res.json();
 }
-"use client";
-
-import { useData } from "@/context/unified-data-context";
-import { RoleChanger } from "@/components/ui/role-changer";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { useToast } from '@/hooks/use-toast';
-import fxService from '@/lib/fx-service';
-import type { User, Session } from "@/lib/types";
-
-// Square API integration
-const SQUARE_APP_ID = "sandbox-sq0idb-S5dB2M3UZBbtySrULtdMMQ"; // Your sandbox app ID
-const SQUARE_ACCESS_TOKEN = process.env.NEXT_PUBLIC_SQUARE_ACCESS_TOKEN || ""; // Set in .env.local
-const SQUARE_API_BASE = process.env.NODE_ENV === "production"
-  ? "https://connect.squareup.com/v2"
-  : "https://connect.squareupsandbox.com/v2";
 
 async function fetchSquareAppointment(squareAppointmentId: string) {
   if (!squareAppointmentId) return null;
@@ -118,10 +120,8 @@ async function cancelSquareAppointment(session: Session, reason: string) {
 }
 
 export default function AdminDashboard() {
-  const { sessions: initialSessions, currentUser, allUsers } = useData();
-  // Use allUsers from unified data context
-
-  const [sessions, setSessions] = useState<Session[]>(initialSessions);
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [loading, setLoading] = useState(true);
   const [viewSession, setViewSession] = useState<Session | null>(null);
   const [squareDetails, setSquareDetails] = useState<any>(null);
   const [squareError, setSquareError] = useState<string>("");
@@ -143,7 +143,29 @@ export default function AdminDashboard() {
   const [editUserRole, setEditUserRole] = useState<User | null>(null);
   const [newUserRole, setNewUserRole] = useState("");
   const [recentlyCanceled, setRecentlyCanceled] = useState<Session | null>(null);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
   const { toast } = useToast();
+
+  // Load sessions and users on mount (non-blocking)
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [sess, users] = await Promise.all([
+          fxService.getAllBookings().catch(() => []),
+          fxService.getUsers().catch(() => []),
+        ]);
+        setSessions(sess);
+        setAllUsers(users);
+      } catch (error) {
+        console.error('Failed to load admin data:', error);
+        toast({ title: 'Error', description: 'Failed to load admin data', variant: 'destructive' });
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadData();
+  }, [toast]);
 
   return (
     <div className="max-w-4xl mx-auto py-8">
@@ -256,7 +278,7 @@ export default function AdminDashboard() {
               status: "Upcoming",
               notes: "",
               duration: 60,
-              userId: currentUser?.id
+              userId: "current-user"
             };
               try {
               const result = await createSquareAppointment(newSession);

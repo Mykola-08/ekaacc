@@ -9,7 +9,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
+import fxService from '@/lib/fx-service';
 import { CreditCard, Plus, Minus, TrendingUp, Wallet, Package } from "lucide-react";
+import { BillingPackages } from './billing-packages';
 import type { User } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -34,26 +37,12 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
   const [amount, setAmount] = useState<number>(0);
   const [description, setDescription] = useState('');
 
-  // Mock data - in real implementation, this would come from the database
-  const [currentBalance, setCurrentBalance] = useState(150.00);
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    {
-      id: '1',
-      date: '2025-10-15',
-      type: 'credit',
-      amount: 200.00,
-      description: 'Initial balance',
-      balance: 200.00,
-    },
-    {
-      id: '2',
-      date: '2025-10-18',
-      type: 'debit',
-      amount: 50.00,
-      description: 'Physical Therapy Session',
-      balance: 150.00,
-    },
-  ]);
+  const [currentBalance, setCurrentBalance] = useState(0);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [invoices, setInvoices] = useState<any[]>([]);
+  const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false);
+  const [invoiceAmount, setInvoiceAmount] = useState<number>(0);
+  const [invoiceDesc, setInvoiceDesc] = useState<string>('');
 
   const packageUsage = {
     packageName: 'Wellness Package - 10 Sessions',
@@ -83,16 +72,21 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
       balance: newBalance,
     };
 
-    setTransactions([newTransaction, ...transactions]);
-    setCurrentBalance(newBalance);
-    setIsAddBalanceOpen(false);
-    setAmount(0);
-    setDescription('');
-
-    toast({
-      title: "Balance Added",
-      description: `€${amount.toFixed(2)} has been added to ${client.name}'s account.`,
-    });
+    // Persist via fxService
+    (async () => {
+      try {
+        const tx = await fxService.applyAdjustment(client.id, amount, description || 'Manual balance addition');
+        const res = await fxService.getBalanceForClient(client.id);
+        setCurrentBalance(res.balance || 0);
+        setTransactions((res.transactions || []).map((t:any)=>({ id: t.id, date: t.createdAt.split('T')[0], type: t.amountEUR >=0 ? 'credit' : 'debit', amount: Math.abs(t.amountEUR), description: t.note || '', balance: 0 })));
+        toast({ title: "Balance Added", description: `€${amount.toFixed(2)} has been added to ${client.name}'s account.` });
+      } catch (e) {
+        toast({ variant: 'destructive', title: 'Add failed', description: (e as any)?.message || 'Could not add funds' });
+      }
+      setIsAddBalanceOpen(false);
+      setAmount(0);
+      setDescription('');
+    })();
   };
 
   const handleSubtractBalance = () => {
@@ -124,17 +118,48 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
       balance: newBalance,
     };
 
-    setTransactions([newTransaction, ...transactions]);
-    setCurrentBalance(newBalance);
-    setIsSubtractBalanceOpen(false);
-    setAmount(0);
-    setDescription('');
-
-    toast({
-      title: "Balance Deducted",
-      description: `€${amount.toFixed(2)} has been deducted from ${client.name}'s account.`,
-    });
+    (async () => {
+      try {
+        const tx = await fxService.applyAdjustment(client.id, -Math.abs(amount), description || 'Manual balance deduction');
+        const res = await fxService.getBalanceForClient(client.id);
+        setCurrentBalance(res.balance || 0);
+        setTransactions((res.transactions || []).map((t:any)=>({ id: t.id, date: t.createdAt.split('T')[0], type: t.amountEUR >=0 ? 'credit' : 'debit', amount: Math.abs(t.amountEUR), description: t.note || '', balance: 0 })));
+        toast({ title: "Balance Deducted", description: `€${amount.toFixed(2)} has been deducted from ${client.name}'s account.` });
+      } catch (e) {
+        toast({ variant: 'destructive', title: 'Deduct failed', description: (e as any)?.message || 'Could not deduct funds' });
+      }
+      setIsSubtractBalanceOpen(false);
+      setAmount(0);
+      setDescription('');
+    })();
   };
+
+  useEffect(() => {
+    let mounted = true;
+    const load = async () => {
+      if (!client) return;
+    const res = await (fxService.getBalanceForClient ? fxService.getBalanceForClient(client.id) : { balance: 0, transactions: [] });
+      if (!mounted) return;
+      setCurrentBalance(res.balance);
+      setTransactions(res.transactions.map((t: any) => ({
+        id: t.id,
+        date: t.createdAt.split('T')[0],
+        type: t.amountEUR >= 0 ? 'credit' : 'debit',
+        amount: Math.abs(t.amountEUR),
+        description: t.note || '',
+        balance: 0,
+      })));
+      // load invoices
+      try {
+        const invs = await fxService.getInvoicesForClient(client.id);
+        if (mounted) setInvoices(invs || []);
+      } catch (e) {
+        // ignore
+      }
+    };
+    load();
+    return () => { mounted = false; };
+  }, [client]);
 
   return (
     <div className="space-y-6">
@@ -219,6 +244,17 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
         </CardContent>
       </Card>
 
+      {/* Purchase Packages */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Purchase Packages</CardTitle>
+          <CardDescription>Sell session packages to this client.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <BillingPackages clientId={client.id} />
+        </CardContent>
+      </Card>
+
       {/* Transaction History */}
       <Card>
         <CardHeader>
@@ -259,6 +295,46 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
                     {transaction.type === 'credit' ? '+' : '-'}€{transaction.amount.toFixed(2)}
                   </TableCell>
                   <TableCell className="text-right">€{transaction.balance.toFixed(2)}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+
+      {/* Invoices */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Invoices</CardTitle>
+          <CardDescription>Outstanding invoices and history.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between mb-4">
+            <div />
+            <div>
+              <Button onClick={() => setIsCreateInvoiceOpen(true)}>Create Invoice</Button>
+            </div>
+          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>ID</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {invoices.map(inv => (
+                <TableRow key={inv.id}>
+                  <TableCell>{inv.id}</TableCell>
+                  <TableCell>€{inv.amountEUR.toFixed(2)}</TableCell>
+                  <TableCell>{inv.description}</TableCell>
+                  <TableCell>{inv.status}</TableCell>
+                  <TableCell className="text-right">
+                    {inv.status === 'open' && <Button size="sm" onClick={async ()=>{ try{ await fxService.markInvoicePaid(inv.id); const res = await fxService.getBalanceForClient(client.id); setCurrentBalance(res.balance || 0); setTransactions((res.transactions||[]).map((t:any)=>({ id: t.id, date: t.createdAt.split('T')[0], type: t.amountEUR>=0?'credit':'debit', amount: Math.abs(t.amountEUR), description: t.note||'', balance:0 }))); setInvoices(await fxService.getInvoicesForClient(client.id)); toast({ title: 'Invoice paid' }); } catch(e){ toast({ variant:'destructive', title:'Mark paid failed' }); } }}>Mark Paid</Button>}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -348,6 +424,32 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               <Button variant="outline">Cancel</Button>
             </DialogClose>
             <Button variant="destructive" onClick={handleSubtractBalance}>Deduct Funds</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create Invoice Dialog */}
+      <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Create Invoice</DialogTitle>
+            <DialogDescription>Create an invoice for this client.</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div>
+              <Label>Amount (€)</Label>
+              <Input type="number" value={invoiceAmount || ''} onChange={(e:any)=>setInvoiceAmount(parseFloat(e.target.value||'0'))} />
+            </div>
+            <div>
+              <Label>Description</Label>
+              <Input value={invoiceDesc} onChange={(e:any)=>setInvoiceDesc(e.target.value)} />
+            </div>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="outline">Cancel</Button>
+            </DialogClose>
+            <Button onClick={async ()=>{ try{ const inv = await fxService.createInvoice(client.id, invoiceAmount, invoiceDesc); setInvoices(prev=>[inv, ...prev]); toast({ title: 'Invoice created' }); setIsCreateInvoiceOpen(false); setInvoiceAmount(0); setInvoiceDesc(''); }catch(e){ toast({ variant:'destructive', title:'Create invoice failed' }); } }}>Create</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

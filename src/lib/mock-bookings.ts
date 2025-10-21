@@ -60,6 +60,13 @@ export const mockBookingAPI = {
   },
   createBooking: async (userId: string, therapistId: string, date: string, notes?: string) => {
     await new Promise(res => setTimeout(res, 500));
+    // availability check: therapist cannot have two bookings at same hour
+    const requestedHour = new Date(date).getTime();
+    const conflict = mockBookings.find(b => b.therapistId === therapistId && Math.abs(new Date(b.date).getTime() - requestedHour) < (1000 * 60 * 60));
+    if (conflict) {
+      throw new Error('Therapist not available at selected time');
+    }
+
     const newBooking: Booking = {
       id: 'booking' + (mockBookings.length + 1),
       userId,
@@ -77,6 +84,17 @@ export const mockBookingAPI = {
     const idx = mockBookings.findIndex(b => b.id === bookingId);
     if (idx !== -1) mockBookings[idx].status = 'cancelled';
     return mockBookings[idx];
+  },
+  updateBooking: async (bookingId: string, updates: Record<string, any>) => {
+    await new Promise(res => setTimeout(res, 200));
+    const idx = mockBookings.findIndex(b => b.id === bookingId);
+    if (idx === -1) throw new Error('Booking not found');
+    mockBookings[idx] = { ...mockBookings[idx], ...updates };
+    return mockBookings[idx];
+  },
+  getAllBookings: async () => {
+    await new Promise(res => setTimeout(res, 200));
+    return mockBookings.slice();
   },
 };
 

@@ -22,6 +22,7 @@ interface SessionAssessmentFormProps {
   onSubmit: (data: SessionAssessmentData) => void;
   patientName: string;
   sessionType: 'pre' | 'post';
+  readOnly?: boolean;
 }
 
 export interface SessionAssessmentData {
@@ -79,6 +80,7 @@ export function SessionAssessmentForm({
   onSubmit, 
   patientName,
   sessionType 
+  , readOnly = false
 }: SessionAssessmentFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -123,6 +125,11 @@ export function SessionAssessmentForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (readOnly) {
+      toast({ variant: 'destructive', title: 'Read-only', description: 'You do not have permission to edit this form.' });
+      return;
+    }
 
     if (sessionType === 'pre' && !preSessionGoals) {
       toast({

@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useData } from "@/context/unified-data-context";
-import { mockBookings } from "@/lib/mock-bookings";
+import fxService from '@/lib/fx-service';
 import { SessionAssessmentForm } from '@/components/eka/forms';
 import { useToast } from "@/hooks/use-toast";
 import { Clock, User, Briefcase } from "lucide-react";
@@ -27,14 +27,10 @@ export default function SessionBookingPage() {
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [isBooked, setIsBooked] = useState(false);
 
-  // Mock data - in real implementation, this would come from the database
-  const therapists = [
-    { id: 'therapist1', name: 'Dr. Sarah Johnson', specialization: 'Physical Therapy' },
-    { id: 'therapist2', name: 'Dr. Michael Chen', specialization: 'Pain Management' },
-    { id: 'therapist3', name: 'Dr. Emily Rodriguez', specialization: 'Sports Therapy' },
-  ];
-
-  const services = [
+  // Use unified data when available
+  const { allUsers, services: dataServices } = useData();
+  const therapists = (allUsers || []).filter((u:any) => u.role === 'Therapist').map(t => ({ id: t.id, name: t.displayName || t.email, specialization: (t as any).specialization || 'Therapy' }));
+  const services = (dataServices || []).length > 0 ? (dataServices || []).map((s:any) => ({ id: s.id, name: s.name, duration: s.durationMinutes || s.duration || 60, price: s.priceEUR || s.price || 80 })) : [
     { id: 'service1', name: 'Initial Consultation', duration: 60, price: 80 },
     { id: 'service2', name: 'Physical Therapy Session', duration: 45, price: 65 },
     { id: 'service3', name: 'Pain Management Session', duration: 60, price: 75 },

@@ -33,6 +33,8 @@ import { RoleChanger } from "@/components/ui/role-changer";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useToast } from '@/hooks/use-toast';
+import fxService from '@/lib/fx-service';
 import type { User, Session } from "@/lib/types";
 
 // Square API integration
@@ -141,6 +143,7 @@ export default function AdminDashboard() {
   const [editUserRole, setEditUserRole] = useState<User | null>(null);
   const [newUserRole, setNewUserRole] = useState("");
   const [recentlyCanceled, setRecentlyCanceled] = useState<Session | null>(null);
+  const { toast } = useToast();
 
   return (
     <div className="max-w-4xl mx-auto py-8">
@@ -255,14 +258,22 @@ export default function AdminDashboard() {
               duration: 60,
               userId: currentUser?.id
             };
-            try {
+              try {
               const result = await createSquareAppointment(newSession);
               // Store Square appointment ID
               const squareAppointmentId = result?.appointment?.id || result?.id;
-              setSessions([...sessions, { ...newSession, squareAppointmentId }]);
-              alert("Booking created and synced with Square!");
-            } catch (err) {
-              alert("Failed to create Square appointment: " + err);
+              const persisted = { ...newSession, squareAppointmentId };
+              setSessions([...sessions, persisted]);
+              // Persist in app via fxService (mock-first)
+              try {
+                await fxService.createBooking(String(newSession.userId || 'unknown'), String(newSession.therapist || 'therapist1'), `${newSession.date}T${newSession.time}`, newSession.notes || '');
+              } catch (e) {
+                // Non-fatal: show toast but keep UI state
+                toast({ title: 'Persist error', description: 'Failed to persist booking to app backend: ' + String(e) });
+              }
+              toast({ title: 'Booking created', description: 'Booking created and synced with Square.' });
+            } catch (err: any) {
+              toast({ title: 'Square error', description: 'Failed to create Square appointment: ' + (err?.message || String(err)) });
             }
           }}>Add Booking (Demo)</Button>
         </div>
@@ -351,7 +362,7 @@ export default function AdminDashboard() {
               <Button onClick={async () => {
                 setSquareError("");
                 let squareStatus = "";
-                setSessions(sessions.map(s => {
+                const updatedSessions = sessions.map(s => {
                   if (s.id !== editSession.id) return s;
                   const allowedStatus = ["Upcoming", "Completed", "Canceled"];
                   const safeStatus = allowedStatus.includes(editStatus) ? editStatus : "Upcoming";
@@ -370,9 +381,16 @@ export default function AdminDashboard() {
                     .then(() => { squareStatus = "Square updated successfully."; setSquareError(""); })
                     .catch(e => { squareStatus = "Square update failed."; setSquareError(squareStatus); });
                   return updated;
-                }));
+                });
+                setSessions(updatedSessions);
+                // Persist update via fxService
+                try {
+                  await fxService.updateBooking(editSession.id, { date: editDate, time: editTime, type: editType, therapist: editTherapist, location: editLocation, status: editStatus, notes: editNotes });
+                } catch (e) {
+                  toast({ title: 'Persist error', description: 'Failed to persist booking update: ' + String(e) });
+                }
                 setEditSession(null);
-                if (squareStatus) alert(squareStatus);
+                if (squareStatus) toast({ title: 'Square', description: squareStatus });
               }}>Save</Button>
               <Button variant="outline" onClick={() => setEditSession(null)}>Cancel</Button>
             </div>
@@ -400,10 +418,16 @@ export default function AdminDashboard() {
                   await cancelSquareAppointment(cancelSession, cancelReason)
                     .then(() => { squareStatus = "Square canceled successfully."; setSquareError(""); })
                     .catch(e => { squareStatus = "Square cancel failed."; setSquareError(squareStatus); });
+                  // Persist cancellation in app backend
+                  try {
+                    await fxService.cancelBooking(cancelSession.id);
+                  } catch (e) {
+                    toast({ title: 'Persist error', description: 'Failed to persist booking cancellation: ' + String(e) });
+                  }
                 }
                 setCancelSession(null);
                 setCancelReason("");
-                if (squareStatus) alert(squareStatus);
+                if (squareStatus) toast({ title: 'Square', description: squareStatus });
               }}>Confirm Cancel</Button>
               <Button variant="outline" onClick={() => setCancelSession(null)}>Back</Button>
             </div>

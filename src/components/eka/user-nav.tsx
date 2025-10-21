@@ -50,8 +50,23 @@ export function UserNav() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <div className="mb-2">
-          <RoleChanger />
+        <div className="mb-2 px-2">
+          <label className="text-xs text-muted-foreground">View</label>
+          <select
+            className="w-full mt-1 p-1 rounded bg-background/50 text-sm"
+            defaultValue={currentUser.role}
+            onChange={(e) => {
+              const v = e.target.value;
+              try { localStorage.setItem('eka_persona', v); } catch {}
+              try { window.dispatchEvent(new CustomEvent('eka_persona_change', { detail: v })); } catch {}
+              // update server-side role if available
+              try { (useData() as any).updateUser?.({ role: v }); } catch {}
+            }}
+          >
+            <option>Patient</option>
+            <option>Therapist</option>
+            <option>Admin</option>
+          </select>
         </div>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
@@ -81,6 +96,11 @@ export function UserNav() {
           <Link href="/account">
             <DropdownMenuItem>
               Settings
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/tools">
+            <DropdownMenuItem>
+              Test Tools
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>

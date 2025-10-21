@@ -1,6 +1,6 @@
 # **App Name**: EKA Account
 
-## Core Features:
+## Core Features
 
 - Personalized Dashboard: Dynamic dashboard with key metrics, AI insights, and quick actions tailored to the user's role (User, Therapist, Donor, etc.).
 - AI Assistant: Context-aware AI tool to answer questions, perform actions (book session, summarize reports), and suggest exercises.
@@ -10,7 +10,7 @@
 - Billing and Account Management: Subscription management, linked accounts, profile preferences, consents, and data export.
 - Dynamic Personalization: Adaptive quick actions, AI tone adjustment, and service suggestions based on user type and linked accounts.
 
-## Style Guidelines:
+## Style Guidelines
 
 - Primary color: Soft blue (#74b9ff) to evoke a sense of trust, professionalism, and calm.
 - Background color: Light gray (#f5f5f5), near white, creating a clean, minimalist base.

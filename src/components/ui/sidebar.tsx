@@ -4,6 +4,7 @@
 import * as React from "react"
 import { PanelLeft, PanelLeftClose } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
+import { motion } from 'framer-motion'
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent } from "@/components/ui/sheet"
@@ -132,21 +133,23 @@ export const Sidebar = React.forwardRef<
     )
   }
 
-  // Desktop: Docked sidebar
+  // Desktop: Docked sidebar with smooth width animation
   return (
-    <aside
-      ref={ref}
+    <motion.div
+      ref={ref as any}
+      initial={false}
+      animate={{ width: isExpanded ? 'var(--sidebar-w)' : 'var(--sidebar-w-collapsed)' }}
+      transition={{ type: 'spring', stiffness: 260, damping: 28 }}
       className={cn(
-        "fixed top-0 h-screen flex flex-col bg-background border-r transition-all duration-300 ease-in-out shadow-sm",
-        isExpanded ? "w-[var(--sidebar-w)]" : "w-[var(--sidebar-w-collapsed)]",
+        "fixed top-0 h-screen flex flex-col bg-background border-r overflow-hidden ease-in-out shadow-sm",
         side === 'left' ? 'left-0 z-30' : 'right-0 border-l z-30',
         className
       )}
       data-state={dataState}
-      {...props}
+      {...(props as any)}
     >
       {children}
-    </aside>
+    </motion.div>
   )
 })
 Sidebar.displayName = "Sidebar"

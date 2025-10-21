@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useData } from "@/context/unified-data-context";
+import fxService from '@/lib/fx-service';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -59,22 +60,22 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
     });
   };
 
-  const handleAddBalance = () => {
+  const handleAddBalance = async () => {
     if (accountBalance <= 0) {
-      toast({
-        variant: "destructive",
-        title: "Invalid Amount",
-        description: "Please enter a positive amount.",
-      });
+      toast({ variant: "destructive", title: "Invalid Amount", description: "Please enter a positive amount." });
       return;
     }
-    
-    // In real implementation, this would update the user's internal account
-    toast({
-      title: "Balance Added",
-      description: `€${accountBalance} has been added to your internal account.`,
-    });
-    setAccountBalance(0);
+    try {
+      if (!currentUser) throw new Error('No user');
+      const tx = await fxService.applyAdjustment(currentUser.id, accountBalance, 'TestTools add balance');
+      toast({ title: "Balance Added", description: `€${accountBalance} has been added to ${currentUser.displayName || currentUser.email}.` });
+      // try to refresh unified data if available
+      try { (useData() as any).refreshData && (await (useData() as any).refreshData()); } catch (_) { /* ignore */ }
+    } catch (e) {
+      toast({ variant: 'destructive', title: 'Add balance failed', description: (e as any)?.message || 'Could not add balance' });
+    } finally {
+      setAccountBalance(0);
+    }
   };
 
   const handleVipToggle = (checked: boolean) => {

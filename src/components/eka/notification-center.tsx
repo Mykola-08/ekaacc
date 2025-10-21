@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Bell, Check, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -21,33 +21,53 @@ type Notification = {
   timestamp: Date;
 };
 
+import fxService from '@/lib/fx-service';
+
 export function NotificationCenter() {
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: '1',
-      title: 'Upcoming Session',
-      message: 'Your massage therapy session is tomorrow at 2:00 PM',
-      type: 'session',
-      read: false,
-      timestamp: new Date(Date.now() - 3600000),
-    },
-    {
-      id: '2',
-      title: 'New Report Available',
-      message: 'Your therapist has added a new progress report',
-      type: 'report',
-      read: false,
-      timestamp: new Date(Date.now() - 7200000),
-    },
-    {
-      id: '3',
-      title: 'Donation Received',
-      message: 'Thank you! A donation of €50 was received',
-      type: 'donation',
-      read: true,
-      timestamp: new Date(Date.now() - 86400000),
-    },
-  ]);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const list:any = await fxService.listNotifications();
+        if (mounted && list && list.length) {
+          setNotifications(list.map((n:any) => ({ id: n.id, title: n.title, message: n.body || '', type: n.type || 'system', read: !!n.seen, timestamp: new Date(n.createdAt) })));
+          return;
+        }
+      } catch (e) {
+        // fallback to demo list
+      }
+      // fallback demo items
+      if (mounted) setNotifications([
+        {
+          id: '1',
+          title: 'Upcoming Session',
+          message: 'Your massage therapy session is tomorrow at 2:00 PM',
+          type: 'session',
+          read: false,
+          timestamp: new Date(Date.now() - 3600000),
+        },
+        {
+          id: '2',
+          title: 'New Report Available',
+          message: 'Your therapist has added a new progress report',
+          type: 'report',
+          read: false,
+          timestamp: new Date(Date.now() - 7200000),
+        },
+        {
+          id: '3',
+          title: 'Donation Received',
+          message: 'Thank you! A donation of €50 was received',
+          type: 'donation',
+          read: true,
+          timestamp: new Date(Date.now() - 86400000),
+        },
+      ]);
+    })();
+    return () => { mounted = false; };
+  }, []);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -55,10 +75,19 @@ export function NotificationCenter() {
     setNotifications((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
+    // persist seen state where available
+    try { fxService.markSeen && fxService.markSeen(id).catch(() => {}); } catch (e) { /* ignore */ }
   };
 
   const markAllAsRead = () => {
+    const unread = notifications.filter((n) => !n.read).map((n) => n.id);
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    // persist seen state for all
+    try {
+      if (fxService.markSeen) {
+        unread.forEach((id) => { fxService.markSeen(id).catch(() => {}); });
+      }
+    } catch (e) { /* ignore */ }
   };
 
   const deleteNotification = (id: string) => {

@@ -1,7 +1,8 @@
 "use client";
 
 import { useData } from "@/context/unified-data-context";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useMemo } from "react";
+import { useRouter } from 'next/navigation';
 
 interface RoleGuardProps {
   children: ReactNode;
@@ -11,15 +12,26 @@ interface RoleGuardProps {
 
 /**
  * Role-based access control component
- * Only renders children if current user has one of the allowed roles
+ * Redirects to home if current user is not authorized
  */
 export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuardProps) {
   const { currentUser } = useData();
-  
-  if (!currentUser || !allowedRoles.includes(currentUser.role as any)) {
-    return <>{fallback}</>;
-  }
-  
+  const router = useRouter();
+
+  const allowed = useMemo(() => {
+    const effective = currentUser?.role;
+    return !!effective && allowedRoles.includes(effective as any);
+  }, [currentUser, allowedRoles]);
+
+  useEffect(() => {
+    if (!allowed) {
+      // automatic redirect for unauthorized users
+      try { router.replace('/'); } catch (e) { /* ignore in non-router contexts */ }
+    }
+  }, [allowed, router]);
+
+  if (!allowed) return <>{fallback}</>;
+
   return <>{children}</>;
 }
 

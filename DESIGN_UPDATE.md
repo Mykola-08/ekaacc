@@ -8,18 +8,21 @@ The entire app has been redesigned with a clean, minimalist approach inspired by
 
 \n#### Color Palette
 **Light Mode:**
+
 - Background: Warm gray (#FAFAFA)
 - Primary Actions: Black buttons (#171717)
 - Cards: Pure white with subtle shadows
 - Text: Near-black (#171717) with medium gray for secondary text
 
 **Dark Mode:**
+
 - Background: Deep black (#171717)
 - Primary Actions: White buttons on dark
 - Cards: Dark gray (#1F1F1F)
 - Text: Off-white with softer grays
 
 \n#### Typography & Spacing
+
 - Refined font rendering with optical sizing
 - Tighter tracking for cleaner appearance
 - Generous whitespace for better readability
@@ -28,6 +31,7 @@ The entire app has been redesigned with a clean, minimalist approach inspired by
 
 \n#### Component Updates
 **Buttons:**
+
 - Black primary buttons in light mode
 - White primary buttons in dark mode
 - Subtle scale animation on click (0.98)
@@ -35,12 +39,14 @@ The entire app has been redesigned with a clean, minimalist approach inspired by
 - More refined padding and sizing
 
 **Cards:**
+
 - Rounded corners (12px)
 - Subtle shadows that lift on hover
 - Minimal borders with soft colors
 - Better padding and spacing hierarchy
 
 **Interactions:**
+
 - Smooth 150ms transitions
 - Subtle scale effects
 - Notion-style hover states on interactive elements
@@ -56,6 +62,7 @@ The entire app has been redesigned with a clean, minimalist approach inspired by
 A dedicated page showing personalized AI-generated insights based on your health data.
 
 **Features:**
+
 - **Pattern Recognition** - AI identifies trends in pain, mood, and energy
 - **Predictive Analytics** - Forecasts recovery trajectories
 - **Personalized Recommendations** - Tailored suggestions for optimal progress
@@ -63,23 +70,27 @@ A dedicated page showing personalized AI-generated insights based on your health
 - **Actionable Insights** - Direct links to take recommended actions
 
 **Insight Types:**
+
 - ✅ **Success** - Positive progress milestones detected
 - ⚠️ **Warning** - Potential issues or burnout risks
 - 💡 **Suggestion** - Optimization recommendations
 - ⭐ **Milestone** - Upcoming achievements
 
 **Example Insights:**
+
 - "Excellent Progress Detected - 25% pain reduction over 2 weeks"
 - "Potential Burnout Risk - Consider more recovery days"
 - "Recommended: Morning Stretching - Could reduce stiffness by 40%"
 - "Milestone Approaching - 2 more sessions to reach your goal"
 
 ### 2. AI Therapy Recommendations
+
 **Location:** `/therapies` → AI Recommended tab
 
 Intelligent therapy matching system that analyzes your profile to suggest optimal treatments.
 
 **How It Works:**
+
 1. Analyzes your pain patterns and history
 2. Reviews your progress data and journal entries
 3. Considers your goals and activity level
@@ -87,6 +98,7 @@ Intelligent therapy matching system that analyzes your profile to suggest optima
 5. Provides match scores (80-95%) with detailed reasoning
 
 **Recommendation Details:**
+
 - **Match Score** - Percentage indicating suitability
 - **Duration & Price** - Clear service information
 - **Key Benefits** - What you can expect to gain
@@ -94,14 +106,17 @@ Intelligent therapy matching system that analyzes your profile to suggest optima
 - **One-Click Booking** - Direct path to schedule
 
 **Sample Recommendations:**
+
 - Deep Tissue Massage (95% match) - "Best for chronic lower back pain"
 - Myofascial Release (88% match) - "Addresses fascial restrictions"
 - Sports Recovery (82% match) - "Optimal for active lifestyle"
 
 ### 3. Enhanced AI Chat Assistant
+
 **Location:** Floating button (all pages)
 
 The AI assistant now provides:
+
 - Context-aware responses about all features
 - Integration with AI Insights
 - Therapy recommendation guidance
@@ -111,16 +126,19 @@ The AI assistant now provides:
 ### 4. AI-Powered Features Throughout
 
 **Progress Tracker:**
+
 - AI analyzes trends and predicts outcomes
 - Identifies optimal recovery patterns
 - Suggests when to increase/decrease intensity
 
 **Journal:**
+
 - AI correlates mood, pain, and energy patterns
 - Identifies triggers for pain flare-ups
 - Suggests lifestyle modifications
 
 **Exercise Library:**
+
 - AI recommends exercises based on your condition
 - Adjusts difficulty based on progress
 - Predicts impact of exercise routines
@@ -129,7 +147,6 @@ The AI assistant now provides:
 
 ## 📊 Updated Navigation
 
-```
 Home → Enhanced dashboard
 AI Insights → NEW - Personalized AI analysis
 Sessions → Booking and management
@@ -140,6 +157,7 @@ Exercises → Library with AI suggestions
 Community → Social support features
 Donations → Support system
 Reports → Therapist reports
+
 ```
 
 ---
@@ -147,6 +165,7 @@ Reports → Therapist reports
 ## 🎯 Key Improvements Summary
 
 ### Design Enhancements
+
 1. ✅ Minimalist color scheme (grays and blacks)
 2. ✅ Apple-inspired button styles
 3. ✅ Notion-like hover effects
@@ -159,6 +178,7 @@ Reports → Therapist reports
 10. ✅ Enhanced glass morphism effects
 
 ### AI Features Added
+
 1. ✅ AI Insights Dashboard
 2. ✅ AI Therapy Recommendations
 3. ✅ Pattern Recognition Engine
@@ -175,12 +195,14 @@ Reports → Therapist reports
 ## 🎨 Design Principles Applied
 
 ### Minimalism
+
 - Remove unnecessary elements
 - Focus on essential information
 - Generous use of whitespace
 - Clean, uncluttered layouts
 
 ### Apple Aesthetic
+
 - Black and white as primary colors
 - Subtle shadows and elevations
 - Precise typography
@@ -188,6 +210,7 @@ Reports → Therapist reports
 - High contrast for readability
 
 ### Notion Influence
+
 - Card-based layouts
 - Hover states that feel responsive
 - Clean hierarchies
@@ -199,19 +222,23 @@ Reports → Therapist reports
 ## 🚀 Technical Implementation
 
 ### CSS Variables
+
 All colors now use neutral grayscale values:
+
 - `--primary: 0 0% 9%` (black)
 - `--background: 0 0% 98%` (light gray)
 - `--muted: 0 0% 96%` (subtle gray)
 - `--border: 0 0% 90%` (soft borders)
 
 ### Component Refinements
+
 - Button scale animations: `active:scale-[0.98]`
 - Card shadows: `shadow-subtle` utility class
 - Transition duration: Consistent 150-200ms
 - Border radius: Unified 12px (0.75rem)
 
 ### Font Rendering
+
 ```css
 font-feature-settings: 'cv11', 'ss01';
 font-variation-settings: 'opsz' auto;
@@ -224,6 +251,7 @@ text-rendering: optimizeLegibility;
 ## 📱 Responsive Behavior
 
 All new features are fully responsive:
+
 - AI Insights adapts to mobile layouts
 - Recommendations stack vertically on small screens
 - Cards maintain readability at all sizes
@@ -235,6 +263,7 @@ All new features are fully responsive:
 ## 🔮 Future AI Enhancements
 
 Planned improvements:
+
 1. **AI Voice Input** - Voice-to-text for journal entries
 2. **Exercise Form Checker** - Camera-based form analysis
 3. **Real-time Pain Prediction** - Forecast pain levels based on activities
@@ -249,12 +278,14 @@ Planned improvements:
 ## 💡 Using the New Features
 
 ### Getting AI Insights
+
 1. Navigate to "AI Insights" from the sidebar
 2. View personalized recommendations
 3. Check confidence scores
 4. Click action buttons to implement suggestions
 
 ### Finding Your Perfect Therapy
+
 1. Go to "Therapies" page
 2. Click "AI Recommended" tab
 3. Click "Generate Recommendations"
@@ -262,6 +293,7 @@ Planned improvements:
 5. Book directly from recommendations
 
 ### Exploring the New Design
+
 1. Toggle dark mode to see the refined palette
 2. Notice black buttons in light mode
 3. Hover over cards to see subtle lift effects
@@ -273,6 +305,7 @@ Planned improvements:
 ## 🎊 Summary
 
 Your EKA platform now features:
+
 - **Minimalist Apple/Notion-inspired design** with gray colors and black buttons
 - **5 new AI-powered features** providing intelligent insights and recommendations
 - **Refined component library** with better animations and interactions

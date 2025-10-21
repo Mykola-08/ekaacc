@@ -4,14 +4,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { mockTherapies } from "@/lib/mock-data";
+import { useData } from '@/context/unified-data-context';
 import { Skeleton } from "@/components/ui/skeleton";
 import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TherapiesPage() {
-    const services = mockTherapies;
-    const isLoadingServices = false;
+    const { services: dataServices } = useData();
+    const services = dataServices || [];
+    const isLoadingServices = !dataServices;
 
     return (
         <div className="space-y-8">

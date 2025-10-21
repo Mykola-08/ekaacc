@@ -206,6 +206,45 @@ export const mockTherapies: Therapy[] = [
   },
 ];
 
+// Sample patients and therapists lists for testing
+export const mockPatients: User[] = [
+  mockCurrentUser,
+  {
+    id: 'user-456',
+    uid: 'user-456',
+    email: 'jane.smith@example.com',
+    displayName: 'Jane Smith',
+    initials: 'JS',
+    role: 'Patient',
+    createdAt: new Date('2025-08-15').toISOString(),
+    personalizationCompleted: false,
+  } as any,
+  {
+    id: 'user-789',
+    uid: 'user-789',
+    email: 'mark.wilson@example.com',
+    displayName: 'Mark Wilson',
+    initials: 'MW',
+    role: 'Patient',
+    createdAt: new Date('2025-07-01').toISOString(),
+    personalizationCompleted: true,
+  } as any,
+];
+
+export const mockTherapists: User[] = [
+  mockTherapistUser,
+  {
+    id: 'therapist-456',
+    uid: 'therapist-456',
+    email: 'therapist2@ekaacc.com',
+    displayName: 'Dr. Alex Reed',
+    initials: 'AR',
+    role: 'Therapist',
+    createdAt: new Date('2023-05-01').toISOString(),
+    personalizationCompleted: true,
+  } as any,
+];
+
 // Mock journal entries
 export const mockJournalEntries: JournalEntry[] = [
   {

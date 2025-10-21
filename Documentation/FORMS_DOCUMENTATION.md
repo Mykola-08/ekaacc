@@ -5,11 +5,13 @@ A comprehensive form system for the EKA mental health platform with integrated A
 ## 📋 Forms Overview
 
 ### 1. Welcome Personalization Form
+
 **Location:** `src/components/eka/forms/welcome-personalization-form.tsx`
 
 A 3-step onboarding form for new patients with AI-powered personalization.
 
 **Features:**
+
 - ✅ Multi-step wizard (3 steps)
 - ✅ Personal goals & interests collection
 - ✅ Mental health concerns assessment
@@ -20,6 +22,7 @@ A 3-step onboarding form for new patients with AI-powered personalization.
 - ✅ Auto-appears for users who haven't completed it
 
 **Data Collected:**
+
 ```typescript
 {
   goals: string;
@@ -38,6 +41,7 @@ A 3-step onboarding form for new patients with AI-powered personalization.
 ```
 
 **Integration:**
+
 - Appears in header banner when `!currentUser.personalizationCompleted`
 - Can be dismissed temporarily
 - Updates user profile on completion
@@ -46,11 +50,13 @@ A 3-step onboarding form for new patients with AI-powered personalization.
 ---
 
 ### 2. Donation Seeker Application Form
+
 **Location:** `src/components/eka/forms/donation-seeker-application-form.tsx`
 
 A 4-step application for patients seeking financial support with AI-enhanced history revision.
 
 **Features:**
+
 - ✅ Personal & contact information
 - ✅ Financial situation assessment
 - ✅ Mental health history with AI assistance
@@ -60,12 +66,14 @@ A 4-step application for patients seeking financial support with AI-enhanced his
 - ✅ 48-hour review promise
 
 **AI Features:**
+
 - **AI History Revision:** Analyzes and enhances mental health history
 - **AI Suggestions:** Provides 4+ personalized suggestions to improve application
 - **Compare Versions:** Side-by-side view of original vs AI-revised version
 - **One-click Apply:** Use AI version or keep original
 
 **Data Collected:**
+
 ```typescript
 {
   personalInfo: {
@@ -91,11 +99,13 @@ A 4-step application for patients seeking financial support with AI-enhanced his
 ---
 
 ### 3. Daily Mood Log Form
+
 **Location:** `src/components/eka/forms/daily-mood-log-form.tsx`
 
 A comprehensive daily check-in form for tracking mental health and wellbeing.
 
 **Features:**
+
 - ✅ 5 mood scales (0-10 sliders)
   - Overall Mood
   - Energy Level
@@ -111,6 +121,7 @@ A comprehensive daily check-in form for tracking mental health and wellbeing.
 - ✅ Date stamped automatically
 
 **Data Collected:**
+
 ```typescript
 {
   date: Date;
@@ -128,6 +139,7 @@ A comprehensive daily check-in form for tracking mental health and wellbeing.
 ```
 
 **Use Cases:**
+
 - Daily mental health tracking
 - Pattern identification over time
 - Session preparation
@@ -136,6 +148,7 @@ A comprehensive daily check-in form for tracking mental health and wellbeing.
 ---
 
 ### 4. Session Assessment Form (Therapist)
+
 **Location:** `src/components/eka/forms/session-assessment-form.tsx`
 
 A dual-purpose form for therapists to complete before and after each session.
@@ -143,9 +156,11 @@ A dual-purpose form for therapists to complete before and after each session.
 **Two Modes:**
 
 #### Pre-Session Assessment
+
 Complete **before** the session begins to establish baseline.
 
 **Features:**
+
 - ✅ Client current mood assessment
 - ✅ Anxiety level tracking
 - ✅ Crisis risk evaluation (4 levels)
@@ -154,9 +169,11 @@ Complete **before** the session begins to establish baseline.
 - ✅ Medication changes tracking
 
 #### Post-Session Assessment
+
 Complete **after** the session to document outcomes.
 
 **Features:**
+
 - ✅ Session summary documentation
 - ✅ 10+ intervention types tracking (CBT, DBT, ACT, etc.)
 - ✅ Homework assignment
@@ -172,6 +189,7 @@ Complete **after** the session to document outcomes.
 - ✅ Private therapist notes
 
 **Data Collected:**
+
 ```typescript
 {
   sessionType: 'pre' | 'post';
@@ -206,6 +224,7 @@ Complete **after** the session to document outcomes.
 ## 🎨 UI/UX Features
 
 ### Design Elements
+
 - **Multi-step wizards** with progress indicators
 - **Smooth animations** (fade-in transitions)
 - **Responsive design** (mobile-first)
@@ -216,6 +235,7 @@ Complete **after** the session to document outcomes.
 - **Badge indicators** for special features
 
 ### Form Components Used
+
 - Dialog/Modal containers
 - Sliders for numeric scales
 - Textareas for long-form text
@@ -231,11 +251,13 @@ Complete **after** the session to document outcomes.
 ## 🚀 Usage
 
 ### Access Forms Page
+
 Navigate to `/forms` to see all available forms with descriptions.
 
 ### Individual Form Usage
 
 #### Welcome Form
+
 ```tsx
 import { WelcomePersonalizationForm } from '@/components/eka/forms';
 
@@ -248,6 +270,7 @@ import { WelcomePersonalizationForm } from '@/components/eka/forms';
 ```
 
 #### Donation Application
+
 ```tsx
 import { DonationSeekerApplicationForm } from '@/components/eka/forms';
 
@@ -259,6 +282,7 @@ import { DonationSeekerApplicationForm } from '@/components/eka/forms';
 ```
 
 #### Daily Mood Log
+
 ```tsx
 import { DailyMoodLogForm } from '@/components/eka/forms';
 
@@ -270,6 +294,7 @@ import { DailyMoodLogForm } from '@/components/eka/forms';
 ```
 
 #### Session Assessment
+
 ```tsx
 import { SessionAssessmentForm } from '@/components/eka/forms';
 
@@ -297,6 +322,7 @@ import { SessionAssessmentForm } from '@/components/eka/forms';
 ## 🤖 AI Integration
 
 ### Current AI Features
+
 1. **Donation Application AI Revision**
    - Analyzes mental health history (min 50 characters)
    - Provides contextual enhancements
@@ -304,12 +330,15 @@ import { SessionAssessmentForm } from '@/components/eka/forms';
    - Shows before/after comparison
 
 ### Simulated AI Behavior
+
 Currently uses simulated AI with realistic delays:
+
 - 3 seconds for analysis
 - Contextual enhancements added
 - Structured suggestions provided
 
 ### Future AI Enhancements (To Implement)
+
 - Connect to real AI service (OpenAI, Anthropic, etc.)
 - Sentiment analysis for mood logs
 - Pattern detection across multiple logs
@@ -323,6 +352,7 @@ Currently uses simulated AI with realistic delays:
 ## 📊 Data Flow
 
 ### Welcome Form
+
 1. User completes 3-step form
 2. Data saved to `user.personalization`
 3. `personalizationCompleted` flag set to `true`
@@ -330,6 +360,7 @@ Currently uses simulated AI with realistic delays:
 5. Banner dismissed from header
 
 ### Donation Application
+
 1. User completes 4-step form
 2. Optional AI enhancement of history
 3. Application submitted for review
@@ -337,6 +368,7 @@ Currently uses simulated AI with realistic delays:
 5. 48-hour review timer started
 
 ### Daily Mood Log
+
 1. User logs daily metrics
 2. Data timestamped automatically
 3. Saved to user's mood history
@@ -344,6 +376,7 @@ Currently uses simulated AI with realistic delays:
 5. Therapist can view patterns
 
 ### Session Assessment
+
 1. Therapist completes pre-session form
 2. Session conducted
 3. Therapist completes post-session form
@@ -367,24 +400,28 @@ Currently uses simulated AI with realistic delays:
 ## 🎯 Business Logic
 
 ### €10 Discount System
+
 - Awarded only once on welcome form completion
 - Applied automatically to first session
 - Tracked via `personalizationCompleted` flag
 - Banner persists until completed or dismissed
 
 ### Donation Application Review
+
 - 48-hour review commitment
 - Manual review by EKA team
 - Verification may be required
 - Approval/denial notification sent
 
 ### Mood Tracking
+
 - Daily logs encouraged but not required
 - Historical data used for insights
 - Trends shared with therapist (if consented)
 - Can export data for external use
 
 ### Session Documentation
+
 - Pre-session required before session start
 - Post-session required within 24 hours
 - Both linked to billing record
@@ -396,6 +433,7 @@ Currently uses simulated AI with realistic delays:
 ## 🛠️ Technical Details
 
 ### Dependencies
+
 - React 18+
 - Next.js 14+
 - shadcn/ui components
@@ -404,6 +442,7 @@ Currently uses simulated AI with realistic delays:
 - TypeScript
 
 ### File Structure
+
 ```
 src/components/eka/forms/
 ├── index.ts                              # Exports
@@ -414,6 +453,7 @@ src/components/eka/forms/
 ```
 
 ### Supporting Components
+
 - `PersonalizationBanner` - Header banner for incomplete personalization
 - Forms demo page at `/forms`
 - Integration in `AppHeader` component
@@ -425,6 +465,7 @@ src/components/eka/forms/
 Visit `/forms` to test all forms with sample data.
 
 **Test Scenarios:**
+
 1. Complete welcome form and verify discount
 2. Skip welcome form and check banner persistence
 3. Submit donation application with AI enhancement
@@ -451,6 +492,7 @@ Visit `/forms` to test all forms with sample data.
 ## 📞 Support
 
 For questions or issues with forms:
+
 - Check `/forms` demo page
 - Review this documentation
 - Contact development team

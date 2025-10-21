@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import type { Session as AppSession, User } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
-import { mockBookingAPI } from "@/lib/mock-bookings";
+import fxService from '@/lib/fx-service';
 import { useData } from "@/context/unified-data-context";
 
 // Helper to map mock booking to session type
@@ -36,7 +36,7 @@ export default function SessionsPage() {
   useEffect(() => {
     if (!currentUser) return;
     setIsLoading(true);
-    mockBookingAPI.getBookingsForUser(currentUser.uid || 'user1')
+    fxService.getBookingsForUser(currentUser.uid || 'user1')
       .then(bookings => {
         setSessions(bookings.map(mapBookingToSession).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         setError(null);

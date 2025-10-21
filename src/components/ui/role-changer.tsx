@@ -20,6 +20,9 @@ export function RoleChanger() {
   const handleChange = (role: Role) => {
     setSelectedRole(role);
     updateUser({ role });
+    try { localStorage.setItem('eka_persona', role); } catch {}
+    // notify other components (sidebar) to update
+    try { window.dispatchEvent(new CustomEvent('eka_persona_change', { detail: role })); } catch {}
   };
   const handleDonationSeeker = (checked: boolean) => {
     setIsDonationSeeker(checked);

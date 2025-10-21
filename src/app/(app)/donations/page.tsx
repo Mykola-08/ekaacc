@@ -9,18 +9,16 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Heart } from "lucide-react";
 import { useData } from '@/context/unified-data-context';
-import { mockCurrentUser, mockTherapistUser } from '@/lib/mock-data';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function DonationsPage() {
-  const { currentUser } = useData();
+  const { currentUser, allUsers } = useData();
   const { toast } = useToast();
   const [amount, setAmount] = useState<number | ''>('');
   const [recipient, setRecipient] = useState<string>('any');
-  const allUsers = [mockCurrentUser, mockTherapistUser];
-  const isLoadingUsers = false;
+  const isLoadingUsers = !allUsers;
   const [userDonations, setUserDonations] = useState<any[]>([]);
   const isLoadingDonations = false;
 
@@ -42,7 +40,7 @@ export default function DonationsPage() {
     setAmount(val);
   };
 
-  const potentialRecipients = useMemo(() => allUsers?.filter(u => u.role !== 'Admin'), [allUsers]);
+  const potentialRecipients = useMemo(() => (allUsers || []).filter(u => u.role !== 'Admin'), [allUsers]);
 
   const handleDonate = () => {
     if (!currentUser) return;

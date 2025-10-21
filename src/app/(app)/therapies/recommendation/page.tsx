@@ -7,13 +7,14 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, Lightbulb, Star } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
-import { mockTherapies } from '@/lib/mock-data';
+import { useData } from '@/context/unified-data-context';
 
 function RecommendationContent() {
   const searchParams = useSearchParams();
   const resultString = searchParams.get('result');
-  const services = mockTherapies;
-  const isLoadingServices = false;
+  const { services: dataServices } = useData();
+  const services = dataServices || [];
+  const isLoadingServices = !dataServices;
 
   const result: TriageResult | null = useMemo(() => {
     if (!resultString) return null;

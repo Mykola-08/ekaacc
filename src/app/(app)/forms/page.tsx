@@ -18,6 +18,11 @@ import { useToast } from '@/hooks/use-toast';
 import { useData } from '@/context/unified-data-context';
 
 export default function FormsPage() {
+  const router = require('next/navigation').useRouter?.() || (function(){return { push: (p:string)=>{ window.location.href = p } }})();
+  // Redirect to account since forms are contextual now
+  if (typeof window !== 'undefined') {
+    setTimeout(()=> router.push('/account'), 50);
+  }
   const [showWelcomeForm, setShowWelcomeForm] = useState(false);
   const [showDonationForm, setShowDonationForm] = useState(false);
   const [showMoodForm, setShowMoodForm] = useState(false);

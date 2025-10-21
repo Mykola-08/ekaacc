@@ -126,8 +126,10 @@ export const fxService = {
         const raw = localStorage.getItem(`eka_settings_${userId}`);
         if (raw) return JSON.parse(raw);
       } catch (e) { /* ignore */ }
-      // default settings shape
-      return { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
+      // default settings shape - persist defaults so subsequent updates/read round-trip predictably
+      const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
+      try { localStorage.setItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
+      return defaults;
     }
     // TODO: implement real settings retrieval via firestore
     return {};

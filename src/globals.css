@@ -67,3 +67,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Font family helper used in layout */
+.font-body {
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}

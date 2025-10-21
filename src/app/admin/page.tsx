@@ -237,11 +237,13 @@ export default function AdminDashboard() {
         />
         <ul>
           {sessions
-            .filter(session =>
-              session.therapist.toLowerCase().includes(search.toLowerCase()) ||
-              session.type.toLowerCase().includes(search.toLowerCase()) ||
-              (session.location ? session.location.toLowerCase().includes(search.toLowerCase()) : false)
-            )
+            .filter(session => {
+                  const q = (search || '').toLowerCase();
+                  const therapist = (session.therapist || '').toLowerCase();
+                  const type = (session.type || '').toLowerCase();
+                  const location = (session.location || '').toLowerCase();
+                  return therapist.includes(q) || type.includes(q) || location.includes(q);
+                })
             .map(session => (
               <li key={session.id} className="flex justify-between items-center py-2 border-b">
                 <span>{session.date} - {session.therapist} - {session.type} - {session.location}</span>

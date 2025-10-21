@@ -15,6 +15,14 @@ export default function AccountSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [settings, setSettings] = useState<any>({});
 
+  const roleDefaults = (role: string) => {
+    const base = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
+    if (role === 'Admin') return { ...base, admin: { auditLogs: true, impersonation: false, ssoEnabled: false, auditRetentionDays: 365 } };
+    if (role === 'Therapist') return { ...base, therapist: { allowSelfBooking: true, publicAvailability: false, defaultSessionLength: 50, bufferMinutes: 10, cancellationPolicyHours: 24 } };
+    // Patient
+    return { ...base, patient: { shareProgress: false, reminders: true, reminderMinutesBefore: 60, shareAnonymizedData: false } };
+  };
+
   useEffect(() => {
     let mounted = true;
     const load = async () => {
@@ -22,7 +30,15 @@ export default function AccountSettingsPage() {
       try {
         const s = await fxService.getSettings(currentUser?.id || currentUser?.uid || 'guest');
         if (!mounted) return;
-        setSettings(s || {});
+        // Merge sensible role-specific defaults so first-time users see reasonable values
+        const merged = { ...(roleDefaults(currentUser?.role || 'Patient')), ...(s || {}) };
+        // Deep-merge nested sections conservatively
+        merged.notifications = { ...(roleDefaults(currentUser?.role || 'Patient')).notifications, ...(s?.notifications || {}) };
+        merged.preferences = { ...(roleDefaults(currentUser?.role || 'Patient')).preferences, ...(s?.preferences || {}) };
+  if (currentUser?.role === 'Admin') (merged as any).admin = { ...(roleDefaults('Admin') as any).admin, ...(s?.admin || {}) };
+  if (currentUser?.role === 'Therapist') (merged as any).therapist = { ...(roleDefaults('Therapist') as any).therapist, ...(s?.therapist || {}) };
+  if (currentUser?.role === 'Patient') (merged as any).patient = { ...(roleDefaults('Patient') as any).patient, ...(s?.patient || {}) };
+        setSettings(merged || {});
       } catch (e) { console.error(e); }
       finally { if (mounted) setLoading(false); }
     };
@@ -36,6 +52,16 @@ export default function AccountSettingsPage() {
       setSettings(res);
       toast({ title: 'Saved', description: 'Settings updated' });
     } catch (e) { console.error(e); toast({ title: 'Error', description: 'Failed to save settings', variant: 'destructive' }); }
+  };
+
+  const resetDefaults = async () => {
+    const defaults = roleDefaults(currentUser?.role || 'Patient');
+    setSettings(defaults);
+    try {
+      const res = await fxService.updateSettings(currentUser?.id || currentUser?.uid || 'guest', defaults);
+      setSettings(res);
+      toast({ title: 'Defaults Restored', description: 'Role defaults applied' });
+    } catch (e) { console.error(e); toast({ title: 'Error', description: 'Failed to apply defaults', variant: 'destructive' }); }
   };
 
   if (!currentUser) return <div className="p-4">Please log in</div>;
@@ -133,7 +159,10 @@ export default function AccountSettingsPage() {
       </div>
 
       <div className="flex justify-end">
-        <Button onClick={save}>Save Settings</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={resetDefaults}>Reset to defaults</Button>
+          <Button onClick={save}>Save Settings</Button>
+        </div>
       </div>
     </div>
   );

@@ -62,7 +62,6 @@ import fxAuth from '@/lib/fx-auth';
 import { SessionAssessmentForm, SessionAssessmentData } from '@/components/eka/forms/session-assessment-form';
 import { useToast } from '@/hooks/use-toast';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { AITherapyRecommendations } from '@/components/eka/ai-therapy-recommendations';
 import BookingCalendar from '@/components/eka/booking-calendar';
 
 const TestTools = dynamic(
@@ -623,16 +622,7 @@ function TherapistDashboardInner() {
                         </ul>
                     </CardContent>
                 </Card>
-                {/* AI Recommendations */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>AI Recommendations</CardTitle>
-                        <CardDescription>Personalized suggestions for clients and bookings</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <AITherapyRecommendations />
-                    </CardContent>
-                </Card>
+                {/* AI Recommendations removed per configuration */}
 
                 {isAdmin && (
                     <div className="p-3 bg-primary/10 border border-primary/20 rounded-lg">

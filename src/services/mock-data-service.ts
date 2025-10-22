@@ -5,19 +5,22 @@
  * All data is stored in localStorage for persistence across page reloads.
  */
 
-import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost } from '@/lib/types';
-import { IDataService } from './data-service';
 import {
-  mockCurrentUser,
-  mockSessions,
-  mockReports,
-  mockTherapies,
-  mockJournalEntries,
-  mockExercises,
-  mockCommunityPosts,
-  mockAuth,
-} from '@/lib/mock-data';
-import { allUsers } from '@/lib/data';
+  User,
+  Session,
+  Report,
+  Service,
+  JournalEntry,
+  Exercise,
+  CommunityPost,
+  TherapyRecommendation,
+  Message,
+} from '@/lib/types';
+import { IDataService } from './data-service';
+import { mockSessions, mockReports, mockExercises, mockCommunityPosts, mockTherapies, mockJournalEntries, mockAuth } from '@/lib/mock-data';
+import { allUsers, services } from '@/lib/data';
+import { MOCK_AI_RECOMMENDATIONS } from '@/lib/mock-ai-recommendations';
+
 
 const STORAGE_KEYS = {
   CURRENT_USER: 'mock_current_user',
@@ -54,7 +57,7 @@ export class MockDataService implements IDataService {
 
     // Load from localStorage or use defaults
     const savedUser = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
-    this.currentUser = savedUser ? JSON.parse(savedUser) : mockCurrentUser;
+    this.currentUser = savedUser ? JSON.parse(savedUser) : null;
 
     const savedSessions = localStorage.getItem(STORAGE_KEYS.SESSIONS);
     this.sessions = savedSessions ? JSON.parse(savedSessions) : mockSessions;
@@ -63,7 +66,7 @@ export class MockDataService implements IDataService {
     this.reports = savedReports ? JSON.parse(savedReports) : mockReports;
 
     const savedServices = localStorage.getItem(STORAGE_KEYS.SERVICES);
-    this.services = savedServices ? JSON.parse(savedServices) : mockTherapies;
+    this.services = savedServices ? JSON.parse(savedServices) : services.map((s, i) => ({ ...s, id: `service-${i+1}` }));
 
     const savedJournal = localStorage.getItem(STORAGE_KEYS.JOURNAL);
     this.journalEntries = savedJournal ? JSON.parse(savedJournal) : mockJournalEntries;
@@ -217,13 +220,38 @@ export class MockDataService implements IDataService {
   }
 
   async createCommunityPost(post: Omit<CommunityPost, 'id'>): Promise<CommunityPost> {
-    const newPost: CommunityPost = {
-      ...post,
-      id: `post-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-    };
-    this.communityPosts.push(newPost);
+    const newPost: CommunityPost = { ...post, id: `post-${Date.now()}` };
+    this.communityPosts.unshift(newPost);
     this.saveToStorage();
     return newPost;
+  }
+
+  // AI Features
+  async getAIChatResponse(prompt: string, history: Message[]): Promise<string> {
+    console.log('AI Chat Request:', { prompt, history });
+    const responses = [
+      "That's a very insightful question. Let's explore that a bit more.",
+      "Thank you for sharing. It takes courage to open up about these things.",
+      "Based on what you've told me, have you considered trying a mindfulness exercise?",
+      "It sounds like you're making some real progress. How does that feel?",
+      "I understand. Remember that healing is a journey, not a destination. Be kind to yourself.",
+      "Could you tell me more about why you feel that way?",
+    ];
+    const response = responses[Math.floor(Math.random() * responses.length)];
+    return new Promise(resolve => setTimeout(() => resolve(response), 1500));
+  }
+
+  async getAIRecommendations(): Promise<TherapyRecommendation[]> {
+    return new Promise(resolve => setTimeout(() => resolve(MOCK_AI_RECOMMENDATIONS), 1000));
+  }
+
+  async getAIReportSummary(reportId: string): Promise<string> {
+    const report = this.reports.find(r => r.id === reportId);
+    if (!report) {
+      return new Promise(resolve => setTimeout(() => resolve("Could not find the specified report to summarize."), 500));
+    }
+    const summary = `This report for ${report.patientName} on ${report.date} shows a positive trend in mood and anxiety levels. Key insights include consistent engagement with mindfulness exercises and improved sleep patterns. The patient noted feeling more 'in control' this week. Areas to focus on next include social interactions and applying coping strategies in real-world scenarios.`;
+    return new Promise(resolve => setTimeout(() => resolve(summary), 1200));
   }
 }
 

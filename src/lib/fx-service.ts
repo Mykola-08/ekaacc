@@ -15,6 +15,21 @@ import { fxUsers } from './fx-users';
 
 const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
 
+// Safe storage helpers: use localStorage when available (browser), otherwise fall back to an in-memory Map
+const _inMemoryStore = new Map<string, string>();
+function safeGetItem(key: string) {
+  try {
+    if (typeof localStorage !== 'undefined' && localStorage) return localStorage.getItem(key);
+  } catch (e) { /* ignore */ }
+  return _inMemoryStore.has(key) ? _inMemoryStore.get(key)! : null;
+}
+function safeSetItem(key: string, value: string) {
+  try {
+    if (typeof localStorage !== 'undefined' && localStorage) return localStorage.setItem(key, value);
+  } catch (e) { /* ignore */ }
+  _inMemoryStore.set(key, value);
+}
+
 export const fxService = {
   async createBooking(userId: string, therapistId: string, date: string, notes?: string) {
     if (useMock) return mockBookingAPI.createBooking(userId, therapistId, date, notes);
@@ -112,6 +127,18 @@ export const fxService = {
     // Production AI integration is not implemented yet
     throw new Error('AI service not configured');
   },
+  async getAIChatResponse(prompt: string, history: any[]) {
+    if (useMock) return mockAIAPI.getAIChatResponse(prompt, history);
+    throw new Error('AI service not configured');
+  },
+  async getAIRecommendations() {
+    if (useMock) return mockAIAPI.getAIRecommendations();
+    throw new Error('AI service not configured');
+  },
+  async getAIReportSummary(reportId: string) {
+    if (useMock) return mockAIAPI.getAIReportSummary(reportId);
+    throw new Error('AI service not configured');
+  },
   async updateUser(userId: string, data: Record<string, any>) {
     if (useMock) return { id: userId, ...data };
     return fxUsers.updateUser(userId, data);
@@ -123,12 +150,12 @@ export const fxService = {
   async getSettings(userId: string) {
     if (useMock) {
       try {
-        const raw = localStorage.getItem(`eka_settings_${userId}`);
+        const raw = safeGetItem(`eka_settings_${userId}`);
         if (raw) return JSON.parse(raw);
       } catch (e) { /* ignore */ }
       // default settings shape - persist defaults so subsequent updates/read round-trip predictably
       const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
-      try { localStorage.setItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
+      try { safeSetItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
       return defaults;
     }
     // TODO: implement real settings retrieval via firestore
@@ -137,8 +164,9 @@ export const fxService = {
   async updateSettings(userId: string, settings: Record<string, any>) {
     if (useMock) {
       try {
-        const next = { ...(JSON.parse(localStorage.getItem(`eka_settings_${userId}`) || '{}')), ...settings };
-        localStorage.setItem(`eka_settings_${userId}`, JSON.stringify(next));
+        const currentRaw = safeGetItem(`eka_settings_${userId}`) || '{}';
+        const next = { ...(JSON.parse(currentRaw || '{}')), ...settings };
+        safeSetItem(`eka_settings_${userId}`, JSON.stringify(next));
         return next;
       } catch (e) { return settings; }
     }

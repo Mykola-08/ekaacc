@@ -266,11 +266,37 @@ export class FirebaseDataService implements IDataService {
   }
 
   async createCommunityPost(post: Omit<CommunityPost, 'id'>): Promise<CommunityPost> {
-    const docRef = await addDoc(collection(this.firestore, 'community'), post);
-    return {
-      id: docRef.id,
+    const docRef = await addDoc(collection(this.firestore, 'communityPosts'), {
       ...post,
-    } as CommunityPost;
+      createdAt: Timestamp.now(),
+    });
+    return { id: docRef.id, ...post } as CommunityPost;
+  }
+
+  // AI Features - Placeholder implementations
+  async getAIChatResponse(prompt: string, history: any[]): Promise<string> {
+    // In a real implementation, this would call a Cloud Function or a third-party AI service.
+    console.warn('FirebaseDataService.getAIChatResponse is a placeholder.');
+    const responses = [
+      "This is a placeholder response from the Firebase service. In a real app, I would provide a thoughtful answer.",
+      "To enable real AI responses, you would need to integrate with an AI backend like a Cloud Function calling the Gemini API.",
+    ];
+    return Promise.resolve(responses[Math.floor(Math.random() * responses.length)]);
+  }
+
+  async getAIRecommendations(): Promise<any[]> {
+    console.warn('FirebaseDataService.getAIRecommendations is a placeholder.');
+    // This would fetch recommendations, possibly pre-generated and stored in Firestore.
+    return Promise.resolve([]);
+  }
+
+  async getAIReportSummary(reportId: string): Promise<string> {
+    console.warn('FirebaseDataService.getAIReportSummary is a placeholder.');
+    const report = await this.getReports().then(reports => reports.find(r => r.id === reportId));
+    if (!report) {
+      return Promise.resolve("Report not found.");
+    }
+    return Promise.resolve(`This is a placeholder summary for report ${reportId}. A real implementation would generate a dynamic summary.`);
   }
 }
 

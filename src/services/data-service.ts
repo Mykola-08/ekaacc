@@ -60,6 +60,11 @@ export interface IDataService {
   getCommunityPosts(): Promise<CommunityPost[]>;
   createCommunityPost(post: Omit<CommunityPost, 'id'>): Promise<CommunityPost>;
   
+  // AI Features
+  getAIChatResponse(prompt: string, history: any[]): Promise<string>;
+  getAIRecommendations(): Promise<any[]>;
+  getAIReportSummary(reportId: string): Promise<string>;
+
   // Initialization
   isReady(): Promise<boolean>;
 }

@@ -2,11 +2,8 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Link from "next/link";
 import { useData } from '@/context/unified-data-context';
 import { Skeleton } from "@/components/ui/skeleton";
-import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function TherapiesPage() {
@@ -22,12 +19,8 @@ export default function TherapiesPage() {
             </div>
 
             <Tabs defaultValue="all" className="w-full">
-                <TabsList className="grid w-full grid-cols-2 max-w-md">
+                <TabsList className="grid w-full grid-cols-1 max-w-md">
                     <TabsTrigger value="all">All Services</TabsTrigger>
-                    <TabsTrigger value="ai">
-                        <Sparkles className="h-4 w-4 mr-2" />
-                        AI Recommended
-                    </TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="all" className="space-y-6 mt-6">
@@ -67,9 +60,7 @@ export default function TherapiesPage() {
                     </div>
                 </TabsContent>
 
-                <TabsContent value="ai" className="mt-6">
-                    <AITherapyRecommendations />
-                </TabsContent>
+                {/* AI recommendations tab removed */}
             </Tabs>
         </div>
     )

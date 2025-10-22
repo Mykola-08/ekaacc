@@ -1,6 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -9,11 +12,29 @@ import { useData } from '@/context/unified-data-context';
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
 
+// Zod schema for settings
+export const SettingsSchema = z.object({
+  notifications: z.object({ email: z.boolean().optional(), sms: z.boolean().optional() }).optional(),
+  preferences: z.record(z.any()).optional(),
+  billing: z.record(z.any()).optional(),
+  admin: z.object({ auditLogs: z.boolean().optional(), impersonation: z.boolean().optional(), ssoEnabled: z.boolean().optional(), auditRetentionDays: z.number().optional() }).optional(),
+  therapist: z.object({ allowSelfBooking: z.boolean().optional(), publicAvailability: z.boolean().optional(), defaultSessionLength: z.number().optional(), bufferMinutes: z.number().optional(), cancellationPolicyHours: z.number().optional() }).optional(),
+  patient: z.object({ shareProgress: z.boolean().optional(), reminders: z.boolean().optional(), reminderMinutesBefore: z.number().optional(), shareAnonymizedData: z.boolean().optional() }).optional(),
+});
+
+type SettingsForm = z.infer<typeof SettingsSchema>;
+
 export default function AccountSettingsPage() {
   const { currentUser } = useData();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
-  const [settings, setSettings] = useState<any>({});
+  const [settings, setSettings] = useState<SettingsForm>({} as SettingsForm);
+  const [errors, setErrors] = useState<Record<string,string>>({});
+
+  const form = useForm<SettingsForm>({
+    resolver: zodResolver(SettingsSchema),
+    defaultValues: {} as SettingsForm,
+  });
 
   const roleDefaults = (role: string) => {
     const base = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
@@ -31,14 +52,15 @@ export default function AccountSettingsPage() {
         const s = await fxService.getSettings(currentUser?.id || currentUser?.uid || 'guest');
         if (!mounted) return;
         // Merge sensible role-specific defaults so first-time users see reasonable values
-        const merged = { ...(roleDefaults(currentUser?.role || 'Patient')), ...(s || {}) };
+  const merged = { ...(roleDefaults(currentUser?.role || 'Patient')), ...(s || {}) } as SettingsForm;
         // Deep-merge nested sections conservatively
         merged.notifications = { ...(roleDefaults(currentUser?.role || 'Patient')).notifications, ...(s?.notifications || {}) };
         merged.preferences = { ...(roleDefaults(currentUser?.role || 'Patient')).preferences, ...(s?.preferences || {}) };
   if (currentUser?.role === 'Admin') (merged as any).admin = { ...(roleDefaults('Admin') as any).admin, ...(s?.admin || {}) };
   if (currentUser?.role === 'Therapist') (merged as any).therapist = { ...(roleDefaults('Therapist') as any).therapist, ...(s?.therapist || {}) };
   if (currentUser?.role === 'Patient') (merged as any).patient = { ...(roleDefaults('Patient') as any).patient, ...(s?.patient || {}) };
-        setSettings(merged || {});
+        setSettings(merged || ({} as SettingsForm));
+        form.reset(merged as SettingsForm);
       } catch (e) { console.error(e); }
       finally { if (mounted) setLoading(false); }
     };
@@ -48,10 +70,27 @@ export default function AccountSettingsPage() {
 
   const save = async () => {
     try {
-      const res = await fxService.updateSettings(currentUser?.id || currentUser?.uid || 'guest', settings || {});
+      // Validate before saving
+      const validated = SettingsSchema.parse(settings || {});
+      setErrors({});
+      const res = await fxService.updateSettings(currentUser?.id || currentUser?.uid || 'guest', validated as any);
       setSettings(res);
+      form.reset(res as SettingsForm);
       toast({ title: 'Saved', description: 'Settings updated' });
-    } catch (e) { console.error(e); toast({ title: 'Error', description: 'Failed to save settings', variant: 'destructive' }); }
+    } catch (e: any) {
+      console.error(e);
+      if (e?.issues) {
+        const map: Record<string,string> = {};
+        for (const issue of e.issues) {
+          const path = issue.path.join('.') || 'settings';
+          map[path] = issue.message;
+        }
+        setErrors(map);
+        toast({ title: 'Validation error', description: 'Please fix highlighted fields', variant: 'destructive' });
+        return;
+      }
+      toast({ title: 'Error', description: 'Failed to save settings', variant: 'destructive' });
+    }
   };
 
   const resetDefaults = async () => {
@@ -80,7 +119,10 @@ export default function AccountSettingsPage() {
                 <div className="font-medium">Email notifications</div>
                 <div className="text-sm text-muted-foreground">Receive updates by email</div>
               </div>
-              <Switch checked={!!settings?.notifications?.email} onCheckedChange={(v) => setSettings((s:any)=>({ ...s, notifications: { ...(s.notifications||{}), email: v } }))} />
+              <div>
+                <Switch checked={!!settings?.notifications?.email} onCheckedChange={(v) => setSettings((s:any)=>({ ...s, notifications: { ...(s.notifications||{}), email: v } }))} />
+                {errors['notifications.email'] && <div className="text-xs text-red-600 mt-1">{errors['notifications.email']}</div>}
+              </div>
             </div>
             <div className="flex items-center justify-between p-3 bg-muted rounded">
               <div>
@@ -149,7 +191,10 @@ export default function AccountSettingsPage() {
                 <div className="p-3 bg-muted rounded">
                   <div className="font-medium">Enable session reminders</div>
                   <div className="text-sm text-muted-foreground">Receive reminders before appointments</div>
-                  <div className="mt-2"><Switch checked={!!settings?.patient?.reminders} onCheckedChange={(v)=> setSettings((s:any)=>({ ...s, patient: { ...(s.patient||{}), reminders: v } }))} /></div>
+                  <div className="mt-2">
+                    <Switch checked={!!settings?.patient?.reminders} onCheckedChange={(v)=> setSettings((s:any)=>({ ...s, patient: { ...(s.patient||{}), reminders: v } }))} />
+                    {errors['patient.reminders'] && <div className="text-xs text-red-600 mt-1">{errors['patient.reminders']}</div>}
+                  </div>
                 </div>
               </>
             )}

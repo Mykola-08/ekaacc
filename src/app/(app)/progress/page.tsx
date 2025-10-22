@@ -8,7 +8,7 @@ import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, Arr
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
+// AI assistant removed from progress page
 import { useData } from '@/context/unified-data-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
@@ -266,7 +266,7 @@ export default function ProgressPage() {
               </Card>
             </div>
             <div className="space-y-8">
-              <AiAssistant />
+              {/* AI assistant removed */}
               <Card>
                 <CardHeader>
                   <CardTitle>Wellness Snapshot</CardTitle>

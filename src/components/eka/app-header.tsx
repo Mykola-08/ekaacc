@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
-import { ThemeToggle } from './theme-toggle';
 import { NotificationCenter } from './notification-center';
 import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 import React, { useState, useEffect } from 'react';
@@ -198,12 +197,16 @@ export function AppHeader() {
           </form>
         </div>
 
-        {/* Right aligned group: Profile / Theme / Notifications */}
-        <div className="ml-auto flex items-center gap-1 md:gap-3">
-          <QuickActions />
-          <UserNav />
-          <ThemeToggle />
-          <NotificationCenter />
+        {/* Right aligned group: Quick actions and notifications on the left, profile dropdown pinned to the far right */}
+        <div className="ml-auto flex items-center gap-1 md:gap-3 w-full">
+          <div className="flex items-center gap-2">
+            <QuickActions />
+            <NotificationCenter />
+          </div>
+          {/* Push profile to the maximum right edge */}
+          <div className="ml-auto">
+            <UserNav />
+          </div>
         </div>
       </motion.header>
     </>

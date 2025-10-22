@@ -45,6 +45,7 @@ export type Report = {
   sessionId?: string;
   title?: string;
   author?: string;
+  patientName?: string;
   date?: string; // ISO string
   type?: 'Therapist Report' | 'User Report' | 'AI Summary';
   summary?: string;
@@ -257,4 +258,27 @@ export type CommunityPost = {
   createdAt: string;
   tags?: string[];
 };
-    
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  bio?: string;
+  lastLogin: string;
+  subscriptionTier: 'free' | 'loyal' | 'vip';
+}
+
+export type Message = {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+};
+
+export type TherapyRecommendation = {
+  id: string;
+  title: string;
+  reasoning: string;
+  type: 'exercise' | 'article' | 'meditation';
+};
+

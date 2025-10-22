@@ -98,56 +98,53 @@ export const mockBookingAPI = {
   },
 };
 
-// --- AI Interactions Mock ---
+// --- AI Mock ---
 export type AIMessage = {
-  id: string;
-  userId: string;
   role: 'user' | 'assistant';
   content: string;
-  createdAt: string;
 };
 
-export const mockAIChatHistory: AIMessage[] = [
-  {
-    id: 'msg1',
-    userId: 'user1',
-    role: 'user',
-    content: 'How can I improve my mobility?',
-    createdAt: new Date(Date.now() - 600000).toISOString(),
-  },
-  {
-    id: 'msg2',
-    userId: 'user1',
-    role: 'assistant',
-    content: 'Try daily stretching and track your progress in the app!',
-    createdAt: new Date(Date.now() - 599000).toISOString(),
-  },
-];
+const mockChatHistory: Record<string, AIMessage[]> = {
+  user1: [
+    { role: 'assistant', content: 'Hello! How can I help you with your wellness journey today?' },
+  ],
+};
 
 export const mockAIAPI = {
   getChatHistory: async (userId: string) => {
-    await new Promise(res => setTimeout(res, 200));
-    return mockAIChatHistory.filter(m => m.userId === userId);
+    await new Promise(res => setTimeout(res, 100));
+    return mockChatHistory[userId] || [];
   },
   sendMessage: async (userId: string, content: string) => {
-    await new Promise(res => setTimeout(res, 700));
-    const userMsg: AIMessage = {
-      id: 'msg' + (mockAIChatHistory.length + 1),
-      userId,
-      role: 'user',
-      content,
-      createdAt: new Date().toISOString(),
-    };
-    mockAIChatHistory.push(userMsg);
-    // Simulate AI reply
-    const aiMsg: AIMessage = {
-      id: 'msg' + (mockAIChatHistory.length + 1),
-      userId,
+    await new Promise(res => setTimeout(res, 800));
+    if (!mockChatHistory[userId]) mockChatHistory[userId] = [];
+    mockChatHistory[userId].push({ role: 'user', content });
+    const response: AIMessage = {
       role: 'assistant',
-      content: 'This is a helpful AI reply to: ' + content,
-      createdAt: new Date(Date.now() + 1000).toISOString(),
+      content: `This is a mock AI response to: "${content}". In a real app, this would be a helpful, contextual reply.`,
     };
-    mockAIChatHistory.push(aiMsg);
-    return [userMsg, aiMsg];
+    mockChatHistory[userId].push(response);
+    return mockChatHistory[userId];
+  },
+  getAIChatResponse: async (prompt: string, history: any[]) => {
+    await new Promise(res => setTimeout(res, 800));
+    const responses = [
+      "That's a very insightful question. Let's explore that a bit more.",
+      "Thank you for sharing. It takes courage to open up about these things.",
+      "Based on what you've told me, have you considered trying a mindfulness exercise?",
+      "It sounds like you're making some real progress. How does that feel?",
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
+  },
+  getAIRecommendations: async () => {
+    await new Promise(res => setTimeout(res, 1200));
+    return [
+      { id: 'rec-1', title: 'Practice Mindfulness Meditation', reasoning: 'Based on your recent journal entries about feeling stressed, a 5-minute daily mindfulness practice could help calm your nervous system.', type: 'meditation' },
+      { id: 'rec-2', title: 'Read About Cognitive Restructuring', reasoning: 'You mentioned struggling with negative thought patterns. This article explains a technique to challenge and change them.', type: 'article' },
+    ];
+  },
+  getAIReportSummary: async (reportId: string) => {
+    await new Promise(res => setTimeout(res, 1500));
+    return `This is a mock AI summary for report ${reportId}. It highlights a positive trend in mood and suggests focusing on social interactions next.`;
   },
 };

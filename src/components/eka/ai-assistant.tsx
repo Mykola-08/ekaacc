@@ -6,35 +6,41 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, X, Send, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, Bot, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import fxService from '@/lib/fx-service';
+import { useToast } from '@/hooks/use-toast';
 
 type Message = {
   id: string;
   role: 'user' | 'assistant';
   content: string;
-  timestamp: Date;
 };
 
 export function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Hello! I\'m your EKA wellness assistant. How can I help you today?',
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>(
+    [
+      {
+        id: '1',
+        role: 'assistant',
+        content: 'Hello! I\'m your EKA wellness assistant. How can I help you today?',
+      },
+    ]
+  );
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (isOpen && scrollRef.current) {
+      setTimeout(() => {
+        scrollRef.current!.scrollTop = scrollRef.current!.scrollHeight;
+      }, 100);
     }
-  }, [messages]);
+  }, [messages, isOpen]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -43,38 +49,29 @@ export function AIAssistant() {
       id: Date.now().toString(),
       role: 'user',
       content: input,
-      timestamp: new Date(),
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const currentInput = input;
     setInput('');
     setIsLoading(true);
 
-    // Simulate AI response (replace with actual AI API call)
-    setTimeout(() => {
+    try {
+      const reply = await fxService.getAIChatResponse(currentInput, messages);
       const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: Date.now().toString() + 'ai',
         role: 'assistant',
-        content: getAIResponse(input),
-        timestamp: new Date(),
+        content: reply,
       };
       setMessages((prev) => [...prev, aiMessage]);
+    } catch (error) {
+       toast({
+            variant: 'destructive',
+            title: 'AI Assistant Error',
+            description: 'Could not get a response. Please try again.'
+        });
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  };
-
-  const getAIResponse = (question: string): string => {
-    const q = question.toLowerCase();
-    if (q.includes('session') || q.includes('book')) {
-      return 'To book a session, navigate to the Sessions page or click the "Book Session" quick action on your dashboard. Would you like me to guide you through the process?';
-    } else if (q.includes('donation') || q.includes('donate')) {
-      return 'You can make a donation on the Donations page. Your contribution helps support others on their wellness journey. Would you like to know more about how donations work?';
-    } else if (q.includes('therapy') || q.includes('service')) {
-      return 'We offer various therapies including massage, physiotherapy, and personalized wellness programs. Visit the Therapies page to explore all our services. Need help choosing the right therapy?';
-    } else if (q.includes('progress') || q.includes('report')) {
-      return 'You can view your progress reports on the Reports page. I can also help analyze your progress and suggest next steps. What specific area would you like to focus on?';
-    } else {
-      return 'I can help you with booking sessions, understanding our therapies, making donations, viewing reports, and more. What would you like to know about?';
     }
   };
 
@@ -95,7 +92,7 @@ export function AIAssistant() {
               size="lg"
               className="h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90"
             >
-              <MessageCircle className="h-6 w-6" />
+              <Sparkles className="h-6 w-6" />
             </Button>
           </motion.div>
         )}
@@ -132,15 +129,21 @@ export function AIAssistant() {
                       {messages.map((message) => (
                         <motion.div
                           key={message.id}
+                          layout
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: 10 }}
                           transition={{ duration: 0.25 }}
                           className={cn(
-                            'flex',
+                            'flex items-start gap-3',
                             message.role === 'user' ? 'justify-end' : 'justify-start'
                           )}
                         >
+                           {message.role === 'assistant' && (
+                            <Avatar className='h-8 w-8'>
+                                <AvatarFallback className='bg-primary text-primary-foreground'><Bot className='h-5 w-5'/></AvatarFallback>
+                            </Avatar>
+                        )}
                           <div
                             className={cn(
                               'max-w-[80%] rounded-lg px-4 py-2',
@@ -150,13 +153,12 @@ export function AIAssistant() {
                             )}
                           >
                             <p className="text-sm">{message.content}</p>
-                            <p className="text-xs opacity-70 mt-1">
-                              {message.timestamp.toLocaleTimeString([], {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                              })}
-                            </p>
                           </div>
+                           {message.role === 'user' && (
+                            <Avatar className='h-8 w-8'>
+                                <AvatarFallback><User className='h-5 w-5'/></AvatarFallback>
+                            </Avatar>
+                        )}
                         </motion.div>
                       ))}
                     </AnimatePresence>
@@ -164,30 +166,29 @@ export function AIAssistant() {
                       <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        transition={{ duration: 0.3 }}
-                        className="flex justify-start"
+                        className="flex justify-start items-start gap-3"
                       >
+                        <Avatar className='h-8 w-8'>
+                            <AvatarFallback className='bg-primary text-primary-foreground'><Bot className='h-5 w-5'/></AvatarFallback>
+                        </Avatar>
                         <div className="bg-muted rounded-lg px-4 py-2">
                           <motion.div
-                            className="flex space-x-2"
-                            initial="start"
-                            animate="end"
+                            className="flex space-x-1"
                           >
                             <motion.div
-                              className="w-2 h-2 bg-primary rounded-full"
-                              animate={{ y: [0, -6, 0] }}
-                              transition={{ repeat: Infinity, duration: 0.6, delay: 0 }}
+                              className="w-1.5 h-1.5 bg-primary rounded-full"
+                              animate={{ y: [0, -4, 0] }}
+                              transition={{ repeat: Infinity, duration: 0.8, delay: 0 }}
                             />
                             <motion.div
-                              className="w-2 h-2 bg-primary rounded-full"
-                              animate={{ y: [0, -6, 0] }}
-                              transition={{ repeat: Infinity, duration: 0.6, delay: 0.15 }}
+                              className="w-1.5 h-1.5 bg-primary rounded-full"
+                              animate={{ y: [0, -4, 0] }}
+                              transition={{ repeat: Infinity, duration: 0.8, delay: 0.2 }}
                             />
                             <motion.div
-                              className="w-2 h-2 bg-primary rounded-full"
-                              animate={{ y: [0, -6, 0] }}
-                              transition={{ repeat: Infinity, duration: 0.6, delay: 0.3 }}
+                              className="w-1.5 h-1.5 bg-primary rounded-full"
+                              animate={{ y: [0, -4, 0] }}
+                              transition={{ repeat: Infinity, duration: 0.8, delay: 0.4 }}
                             />
                           </motion.div>
                         </div>

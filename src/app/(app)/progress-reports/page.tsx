@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
-import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
+// AI assistant removed from progress reports page
 import { useData } from '@/context/unified-data-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
@@ -284,7 +284,7 @@ export default function ProgressReportsPage() {
               </Card>
             </div>
             <div className="space-y-8">
-              <AiAssistant />
+              {/* AI assistant removed */}
               <Card>
                 <CardHeader>
                   <CardTitle>Wellness Snapshot</CardTitle>

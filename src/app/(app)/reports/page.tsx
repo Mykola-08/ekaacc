@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
-import { AiAssistant } from "@/components/eka/dashboard/ai-assistant";
+// AI assistant removed from reports page
 import { useData } from '@/context/unified-data-context';
 import { collection, Timestamp, getFirestore } from 'firebase/firestore';
 import { initializeFirebase } from '@/firebase/index';
@@ -159,7 +159,7 @@ export default function ReportsPage() {
                 </Card>
             </div>
             <div className="space-y-8">
-                <AiAssistant />
+                {/* AI assistant removed */}
                 <Card>
                     <CardHeader>
                         <CardTitle>Wellness Snapshot</CardTitle>

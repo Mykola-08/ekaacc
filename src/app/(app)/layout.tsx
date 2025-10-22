@@ -1,46 +1,32 @@
-
 'use client';
 import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
-import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
-import { AiAssistant } from '@/components/eka/dashboard/ai-assistant';
+import { SidebarProvider } from '@/context/sidebar-context';
+import { UnifiedDataProvider } from '@/context/unified-data-context';
+import { NonBlockingUpdatesProvider } from '@/firebase/non-blocking-updates';
 import { AIAssistant } from '@/components/eka/ai-assistant';
-import { cn } from '@/lib/utils';
 
-function AppLayoutContent({ children }: { children: React.ReactNode }) {
-  const { isExpanded } = useSidebar();
-
-  return (
-    <div className="flex min-h-screen w-full bg-background">
-      <AppSidebar />
-      <div 
-        className="flex flex-1 flex-col transition-all duration-300 ease-in-out"
-        style={{
-          marginLeft: isExpanded ? 'var(--sidebar-w)' : 'var(--sidebar-w-collapsed)'
-        }}
-      >
-        <AppHeader />
-        <main className="flex-1 overflow-y-auto pt-[var(--header-h)]">
-          <div className="mx-auto w-full max-w-7xl p-4 md:p-6 lg:p-8">
-            {children}
-          </div>
-        </main>
-      </div>
-      <AiAssistant />
-      <AIAssistant />
-    </div>
-  );
-}
-
-
-export default function DashboardLayout({
+export default function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <SidebarProvider>
-      <AppLayoutContent>{children}</AppLayoutContent>
+      <UnifiedDataProvider>
+        <NonBlockingUpdatesProvider>
+          <div className="relative flex min-h-screen w-full bg-background">
+            <AppSidebar />
+            <div className="flex flex-1 flex-col">
+              <AppHeader />
+              <main className="flex-1 p-4 lg:p-6">
+                {children}
+              </main>
+            </div>
+          </div>
+          <AIAssistant />
+        </NonBlockingUpdatesProvider>
+      </UnifiedDataProvider>
     </SidebarProvider>
   );
 }

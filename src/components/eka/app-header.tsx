@@ -154,8 +154,7 @@ export function AppHeader() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className={cn(
-          "flex h-[var(--header-h)] items-center px-4 md:px-6 fixed left-0 w-full z-50 transition-all duration-300 ease-in-out glass border-b bg-background/90 backdrop-blur",
-          "top-0"
+          "flex h-[var(--header-h)] items-center px-4 md:px-6 sticky top-0 w-full z-50 transition-all duration-300 ease-in-out glass border-b bg-background/90 backdrop-blur"
         )}
       >
         <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>

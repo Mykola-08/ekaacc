@@ -331,7 +331,7 @@ docker run -p 3000:3000 \
 
 #### A. Smoke Tests
 
-```
+```text
 1. ✅ Homepage loads
 2. ✅ User can login
 3. ✅ Subscription page displays tiers
@@ -344,7 +344,7 @@ docker run -p 3000:3000 \
 
 #### B. Monitor Stripe Events
 
-```
+```text
 1. Check Stripe Dashboard → Events
 2. Verify webhooks delivering successfully
 3. Monitor payment success rate
@@ -354,7 +354,7 @@ docker run -p 3000:3000 \
 
 #### C. Database Monitoring
 
-```
+```text
 1. Check Firestore usage
 2. Verify indexes are active
 3. Monitor read/write operations
@@ -482,28 +482,28 @@ firebase deploy --only firestore:rules
 
 ### Common Issues
 
-**1. Webhook Not Receiving Events**
+#### 1. Webhook Not Receiving Events
 
 - Check webhook URL is correct
 - Verify webhook secret matches
 - Ensure endpoint is publicly accessible
 - Check Stripe logs for delivery attempts
 
-**2. Subscription Not Creating**
+#### 2. Subscription Not Creating
 
 - Verify Firestore rules allow writes
 - Check admin permissions
 - Review API error logs
 - Ensure tier IDs are correct
 
-**3. Theme Access Not Working**
+#### 3. Theme Access Not Working
 
 - Verify subscription is active
 - Check theme requirements match subscription type
 - Clear user session and re-login
 - Review theme service logic
 
-**4. Badge Not Showing**
+#### 4. Badge Not Showing
 
 - Check subscription status in database
 - Verify badge component loaded

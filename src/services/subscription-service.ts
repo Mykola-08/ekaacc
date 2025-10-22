@@ -14,6 +14,7 @@ import {
   UserThemePreference,
   DEFAULT_THEMES,
 } from '@/lib/subscription-types';
+import { FirebaseSubscriptionService } from './firebase-subscription-service';
 
 // ============================================================================
 // Service Interface
@@ -446,7 +447,7 @@ export async function getSubscriptionService(): Promise<ISubscriptionService> {
     const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
     subscriptionServiceInstance = useMock
       ? new MockSubscriptionService()
-      : new FirestoreSubscriptionService();
+      : new FirebaseSubscriptionService();
   }
   return subscriptionServiceInstance;
 }

@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { UnifiedDataProvider } from '@/context/unified-data-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { ProgressProvider } from '@/context/progress-context';
 
 
 export const metadata: Metadata = {
@@ -20,11 +21,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external resources */}
+        {/* DNS Prefetch & Preconnect for faster external resource loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Load Inter via stylesheet to avoid Turbopack next/font issues */}
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+        <link rel="dns-prefetch" href="https://placehold.co" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://picsum.photos" />
+        <link rel="dns-prefetch" href="https://i.pravatar.cc" />
+        
+        {/* Load Inter font with optimal display strategy */}
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" 
+          rel="stylesheet"
+        />
+        
+        {/* Optimize font loading */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" as="style" />
       </head>
       <body className={cn('antialiased font-body')}>
         <ThemeProvider
@@ -33,12 +45,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TooltipProvider>
-            <UnifiedDataProvider>
-              {children}
-            </UnifiedDataProvider>
-            <Toaster />
-          </TooltipProvider>
+          <ProgressProvider>
+            <TooltipProvider>
+              <UnifiedDataProvider>
+                {children}
+              </UnifiedDataProvider>
+              <Toaster />
+            </TooltipProvider>
+          </ProgressProvider>
         </ThemeProvider>
       </body>
     </html>

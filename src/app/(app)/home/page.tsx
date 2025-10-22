@@ -9,7 +9,7 @@ import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
 import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
 import { useData } from '@/context/unified-data-context';
 import type { Report, Session, User } from '@/lib/types';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, memo, useCallback } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
 import { PersonalizationDialog } from '@/components/eka/personalization-dialog';
@@ -22,6 +22,9 @@ import { VipBenefitsCard } from '@/components/eka/vip-benefits-card';
 import { UserStatusBadges } from '@/components/eka/user-status-badges';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { useGoalMilestones } from '@/hooks/use-goal-milestones';
+import { useJournalStats } from '@/hooks/use-journal-stats';
+import { useProgress } from '@/context/progress-context';
 
 export default function HomePage() {
   const { currentUser, isLoading, sessions, reports, updateUser } = useData();
@@ -205,13 +208,18 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
   const [loadingRoadmap, setLoadingRoadmap] = useState(false);
   const [loadingJournal, setLoadingJournal] = useState(false);
   const toast = useToast()?.toast;
+  const { updateProgress } = useProgress();
 
   const generateRoadmap = async () => {
     setLoadingRoadmap(true);
+    updateProgress(10, 'Analyzing your goals...');
     try {
+      updateProgress(40, 'Generating personalized roadmap...');
       const res = await fxService.generateAIReport(userId || 'user-unknown', 'Summarize goals and propose roadmap');
+      updateProgress(80, 'Finalizing recommendations...');
       const ai = Array.isArray(res) ? (res[1]?.content || res[1]) : (res as any)?.content || res;
       setRoadmapText(typeof ai === 'string' ? ai : JSON.stringify(ai));
+      updateProgress(100, 'Roadmap ready!');
       toast?.({ title: 'Roadmap generated' });
     } catch (e) {
       toast?.({ variant: 'destructive', title: 'AI unavailable' });
@@ -220,31 +228,23 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
 
   const generateJournal = async () => {
     setLoadingJournal(true);
+    updateProgress(10, 'Reading your journal entries...');
     try {
+      updateProgress(40, 'Analyzing patterns and themes...');
       const res = await fxService.generateAIReport(userId || 'user-unknown', 'Summarize recent journal entries');
+      updateProgress(80, 'Generating insights...');
       const ai = Array.isArray(res) ? (res[1]?.content || res[1]) : (res as any)?.content || res;
       setJournalText(typeof ai === 'string' ? ai : JSON.stringify(ai));
+      updateProgress(100, 'Insights ready!');
       toast?.({ title: 'Journal summary generated' });
     } catch (e) {
       toast?.({ variant: 'destructive', title: 'AI unavailable' });
     } finally { setLoadingJournal(false); }
   };
 
-  // Mock data for visual design
-  const mockMilestones = [
-    { id: 1, title: 'Complete initial assessment', completed: true, dueDate: '2025-01-15' },
-    { id: 2, title: 'Attend 5 therapy sessions', completed: true, dueDate: '2025-02-28' },
-    { id: 3, title: 'Practice mindfulness daily', completed: false, dueDate: '2025-03-15' },
-    { id: 4, title: 'Reduce stress by 20%', completed: false, dueDate: '2025-04-01' },
-  ];
-
-  const mockJournalStats = {
-    totalEntries: 24,
-    avgMood: 3.8,
-    moodTrend: 'up' as const,
-    topThemes: ['Work Stress', 'Sleep Quality', 'Exercise'],
-    weeklyStreak: 7,
-  };
+  // Use real data hooks
+  const { milestones, completedCount, totalCount, progressPercentage, isLoading: loadingMilestones } = useGoalMilestones();
+  const { stats: journalStats, loading: loadingJournalStats } = useJournalStats();
 
   return (
     <div className="grid gap-6 md:grid-cols-2">
@@ -274,7 +274,7 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
               <span className="text-sm font-medium">Overall Progress</span>
             </div>
             <Badge variant="secondary" className="bg-primary/10 text-primary">
-              50% Complete
+              {loadingMilestones ? '...' : `${Math.round(progressPercentage)}% Complete`}
             </Badge>
           </div>
           
@@ -283,29 +283,39 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
             <h4 className="text-sm font-semibold flex items-center gap-2">
               <Lightbulb className="h-4 w-4" />
               Milestones
+              <Badge variant="outline" className="text-xs">
+                {loadingMilestones ? '...' : `${completedCount}/${totalCount}`}
+              </Badge>
             </h4>
-            {mockMilestones.map((milestone) => (
-              <div
-                key={milestone.id}
-                className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer group"
-              >
-                <div className="mt-0.5">
-                  {milestone.completed ? (
-                    <CheckCircle2 className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <Circle className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-                  )}
+            {loadingMilestones ? (
+              // Loading state
+              Array.from({ length: 4 }).map((_, idx) => (
+                <Skeleton key={idx} className="h-16 w-full" />
+              ))
+            ) : (
+              milestones.map((milestone) => (
+                <div
+                  key={milestone.id}
+                  className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer group"
+                >
+                  <div className="mt-0.5">
+                    {milestone.completed ? (
+                      <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    ) : (
+                      <Circle className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-sm font-medium ${milestone.completed ? 'line-through text-muted-foreground' : ''}`}>
+                      {milestone.title}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Due: {format(new Date(milestone.dueDate), 'MMM dd, yyyy')}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${milestone.completed ? 'line-through text-muted-foreground' : ''}`}>
-                    {milestone.title}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Due: {format(new Date(milestone.dueDate), 'MMM dd, yyyy')}
-                  </p>
-                </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
 
           {/* AI Generated Roadmap */}
@@ -360,67 +370,98 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          {/* Quick Stats Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500/5 to-transparent border border-purple-500/20">
-              <div className="flex items-center gap-2 mb-1">
-                <BookOpen className="h-4 w-4 text-purple-500" />
-                <span className="text-xs text-muted-foreground">Entries</span>
+          {loadingJournalStats ? (
+            // Loading state
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <Skeleton className="h-20 w-full" />
+                <Skeleton className="h-20 w-full" />
               </div>
-              <p className="text-2xl font-bold">{mockJournalStats.totalEntries}</p>
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
+              <Skeleton className="h-16 w-full" />
             </div>
-            <div className="p-3 rounded-lg bg-gradient-to-br from-green-500/5 to-transparent border border-green-500/20">
-              <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="h-4 w-4 text-green-500" />
-                <span className="text-xs text-muted-foreground">Avg. Mood</span>
+          ) : journalStats ? (
+            <>
+              {/* Quick Stats Grid */}
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500/5 to-transparent border border-purple-500/20">
+                  <div className="flex items-center gap-2 mb-1">
+                    <BookOpen className="h-4 w-4 text-purple-500" />
+                    <span className="text-xs text-muted-foreground">Entries</span>
+                  </div>
+                  <p className="text-2xl font-bold">{journalStats.totalEntries}</p>
+                </div>
+                <div className="p-3 rounded-lg bg-gradient-to-br from-green-500/5 to-transparent border border-green-500/20">
+                  <div className="flex items-center gap-2 mb-1">
+                    <TrendingUp className="h-4 w-4 text-green-500" />
+                    <span className="text-xs text-muted-foreground">Avg. Mood</span>
+                  </div>
+                  <div className="flex items-baseline gap-2">
+                    <p className="text-2xl font-bold">{journalStats.avgMood}</p>
+                    <span className={`text-xs ${journalStats.moodTrend === 'up' ? 'text-green-500' : journalStats.moodTrend === 'down' ? 'text-red-500' : 'text-muted-foreground'}`}>
+                      {journalStats.moodTrend === 'up' ? '↑' : journalStats.moodTrend === 'down' ? '↓' : '→'}
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-baseline gap-2">
-                <p className="text-2xl font-bold">{mockJournalStats.avgMood}</p>
-                <span className="text-xs text-green-500">↑ 0.3</span>
-              </div>
-            </div>
-          </div>
 
-          {/* Mood Trend */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">Mood Trend</span>
-              <Badge variant="secondary" className="bg-green-500/10 text-green-500">
-                {mockJournalStats.moodTrend === 'up' ? '↗ Improving' : '→ Stable'}
-              </Badge>
-            </div>
-            <Progress value={76} className="h-2" />
-          </div>
-
-          {/* Top Themes */}
-          <div className="space-y-2">
-            <h4 className="text-sm font-semibold flex items-center gap-2">
-              <Sparkles className="h-4 w-4" />
-              Top Themes
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {mockJournalStats.topThemes.map((theme, idx) => (
-                <Badge 
-                  key={idx} 
-                  variant="outline" 
-                  className="bg-purple-500/5 border-purple-500/20 text-purple-700 dark:text-purple-300"
-                >
-                  {theme}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {/* Weekly Streak */}
-          <div className="p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/20">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Activity className="h-4 w-4 text-orange-500" />
-                <span className="text-sm font-medium">Writing Streak</span>
+              {/* Mood Trend */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Mood Trend</span>
+                  <Badge 
+                    variant="secondary" 
+                    className={
+                      journalStats.moodTrend === 'up' 
+                        ? 'bg-green-500/10 text-green-500' 
+                        : journalStats.moodTrend === 'down'
+                        ? 'bg-red-500/10 text-red-500'
+                        : 'bg-muted-foreground/10 text-muted-foreground'
+                    }
+                  >
+                    {journalStats.moodTrend === 'up' ? '↗ Improving' : journalStats.moodTrend === 'down' ? '↘ Declining' : '→ Stable'}
+                  </Badge>
+                </div>
+                <Progress value={journalStats.avgMood * 20} className="h-2" />
               </div>
-              <span className="text-xl font-bold text-orange-500">{mockJournalStats.weeklyStreak} days 🔥</span>
+
+              {/* Top Themes */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold flex items-center gap-2">
+                  <Sparkles className="h-4 w-4" />
+                  Top Themes
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {journalStats.topThemes.map((theme, idx) => (
+                    <Badge 
+                      key={idx} 
+                      variant="outline" 
+                      className="bg-purple-500/5 border-purple-500/20 text-purple-700 dark:text-purple-300"
+                    >
+                      {theme}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* Weekly Streak */}
+              <div className="p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/20">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Activity className="h-4 w-4 text-orange-500" />
+                    <span className="text-sm font-medium">Writing Streak</span>
+                  </div>
+                  <span className="text-xl font-bold text-orange-500">{journalStats.weeklyStreak} days 🔥</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="text-center py-8 text-muted-foreground">
+              <BookOpen className="h-12 w-12 mx-auto mb-2 opacity-50" />
+              <p className="text-sm">No journal data available yet</p>
             </div>
-          </div>
+          )}
 
           {/* AI Generated Summary */}
           {journalText && (

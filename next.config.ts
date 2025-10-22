@@ -46,11 +46,20 @@ const nextConfig: NextConfig = {
       '@radix-ui/react-dropdown-menu',
       '@radix-ui/react-select',
       '@radix-ui/react-tabs',
+      '@radix-ui/react-tooltip',
+      '@radix-ui/react-avatar',
+      '@radix-ui/react-badge',
+      '@radix-ui/react-button',
+      '@radix-ui/react-card',
+      '@radix-ui/react-progress',
       'date-fns',
+      'framer-motion',
     ],
   },
   poweredByHeader: false,
   compress: true,
+  // Production optimizations
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;

@@ -132,7 +132,7 @@ npx vitest run src/__tests__/layout.test.tsx
 
 ### Test Results
 
-```
+```text
 ✓ src/__tests__/ai-insights.test.tsx (1 test)
 ✓ src/__tests__/layout.test.tsx (1 test)
 

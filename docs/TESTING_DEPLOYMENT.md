@@ -9,6 +9,7 @@ This guide covers testing procedures and deployment steps for the Ekaacc subscri
 ### 1. Unit Testing
 
 #### Subscription Service Tests
+
 ```bash
 # Run subscription service tests
 npm test -- subscription-service
@@ -23,6 +24,7 @@ npm test -- subscription-service
 ```
 
 #### Theme Service Tests
+
 ```bash
 # Run theme service tests
 npm test -- theme-service
@@ -37,6 +39,7 @@ npm test -- theme-service
 ### 2. Integration Testing
 
 #### Stripe Integration
+
 ```bash
 # Test with Stripe CLI
 stripe listen --forward-to localhost:3000/api/webhooks/stripe
@@ -51,14 +54,16 @@ stripe listen --forward-to localhost:3000/api/webhooks/stripe
 ```
 
 **Test Cards**:
+
 - Success: `4242 4242 4242 4242`
 - Decline: `4000 0000 0000 0002`
 - 3D Secure: `4000 0025 0000 3155`
 
 #### Subscription Flows
 
-**1. Subscribe to Loyal**
-```
+#### 1. Subscribe to Loyal
+
+```text
 Steps:
 1. Navigate to /account/subscriptions
 2. Click "Subscribe" on Loyal tier
@@ -69,8 +74,9 @@ Steps:
 7. Check theme access updated
 ```
 
-**2. Subscribe to VIP**
-```
+#### 2. Subscribe to VIP
+
+```text
 Steps:
 1. Navigate to /account/subscriptions
 2. Click "Subscribe" on VIP tier
@@ -80,8 +86,9 @@ Steps:
 6. Verify all VIP themes unlocked
 ```
 
-**3. Cancel Subscription**
-```
+#### 3. Cancel Subscription
+
+```text
 Steps:
 1. Navigate to subscription page
 2. Click "Manage Subscription"
@@ -91,8 +98,9 @@ Steps:
 6. Verify access continues until period end
 ```
 
-**4. Admin Grant Subscription**
-```
+#### 4. Admin Grant Subscription
+
+```text
 Steps:
 1. Login as admin
 2. Navigate to /admin/subscriptions
@@ -106,6 +114,7 @@ Steps:
 ### 3. UI/UX Testing
 
 #### Badge System
+
 - ✅ Loyal badge shows in header for loyal members
 - ✅ VIP badge shows in header for VIP members
 - ✅ Both badges show if user has both subscriptions
@@ -113,6 +122,7 @@ Steps:
 - ✅ Badges visible on user profile
 
 #### Theme Selector
+
 - ✅ Public theme accessible to all users
 - ✅ Loyal themes locked for non-loyal users
 - ✅ VIP themes locked for non-VIP users
@@ -122,6 +132,7 @@ Steps:
 - ✅ Selected theme persists across sessions
 
 #### Dashboard Pages
+
 - ✅ Loyal dashboard shows correct tier info
 - ✅ VIP dashboard displays all features
 - ✅ Usage stats display correctly
@@ -130,6 +141,7 @@ Steps:
 - ✅ Renewal date displays properly
 
 #### Admin Interface
+
 - ✅ User table loads with subscriptions
 - ✅ Search filters users correctly
 - ✅ Type filter works (All/Loyal/VIP)
@@ -140,6 +152,7 @@ Steps:
 ### 4. Security Testing
 
 #### Firestore Rules
+
 ```bash
 # Test Firestore security rules
 npm run test:rules
@@ -155,7 +168,8 @@ npm run test:rules
 ```
 
 #### API Route Protection
-```
+
+```text
 Test scenarios:
 1. ✅ Unauthenticated requests rejected
 2. ✅ Users cannot access admin endpoints
@@ -167,6 +181,7 @@ Test scenarios:
 ### 5. Performance Testing
 
 #### Load Testing
+
 ```bash
 # Test concurrent subscriptions
 # Simulate 100 concurrent checkouts
@@ -180,7 +195,8 @@ artillery run subscription-load-test.yml
 ```
 
 #### Database Queries
-```
+
+```text
 Optimize:
 - ✅ Index on userId + status + createdAt
 - ✅ Index on type + status + createdAt
@@ -202,6 +218,7 @@ Optimize:
 ### 2. Environment Configuration
 
 #### Production Environment Variables
+
 ```bash
 # Required in production
 STRIPE_SECRET_KEY=sk_live_...
@@ -216,6 +233,7 @@ NEXT_PUBLIC_APP_URL=https://ekaacc.com
 ### 3. Stripe Configuration
 
 #### A. Switch to Live Mode
+
 1. Go to Stripe Dashboard
 2. Toggle to **Live mode**
 3. Create products and prices in live mode
@@ -223,6 +241,7 @@ NEXT_PUBLIC_APP_URL=https://ekaacc.com
 5. Update environment variables
 
 #### B. Configure Webhook
+
 1. Go to Developers → Webhooks
 2. Add endpoint: `https://ekaacc.com/api/webhooks/stripe`
 3. Select events:
@@ -235,6 +254,7 @@ NEXT_PUBLIC_APP_URL=https://ekaacc.com
 5. Add to production environment
 
 #### C. Customer Portal Settings
+
 1. Go to Settings → Customer portal
 2. Enable features:
    - Update payment methods
@@ -246,6 +266,7 @@ NEXT_PUBLIC_APP_URL=https://ekaacc.com
 ### 4. Firebase Deployment
 
 #### A. Deploy Firestore Rules
+
 ```bash
 # Deploy security rules
 firebase deploy --only firestore:rules
@@ -255,6 +276,7 @@ firebase firestore:rules:get
 ```
 
 #### B. Deploy Firestore Indexes
+
 ```bash
 # Deploy indexes
 firebase deploy --only firestore:indexes
@@ -264,6 +286,7 @@ firebase deploy --only firestore:indexes
 ```
 
 #### C. Deploy Cloud Functions (if any)
+
 ```bash
 # Deploy functions
 firebase deploy --only functions
@@ -274,6 +297,7 @@ firebase deploy --only functions
 ### 5. Application Deployment
 
 #### Vercel Deployment (Recommended)
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -291,6 +315,7 @@ vercel --prod
 ```
 
 #### Alternative: Docker Deployment
+
 ```bash
 # Build Docker image
 docker build -t ekaacc:latest .
@@ -305,6 +330,7 @@ docker run -p 3000:3000 \
 ### 6. Post-Deployment Verification
 
 #### A. Smoke Tests
+
 ```
 1. ✅ Homepage loads
 2. ✅ User can login
@@ -317,6 +343,7 @@ docker run -p 3000:3000 \
 ```
 
 #### B. Monitor Stripe Events
+
 ```
 1. Check Stripe Dashboard → Events
 2. Verify webhooks delivering successfully
@@ -326,6 +353,7 @@ docker run -p 3000:3000 \
 ```
 
 #### C. Database Monitoring
+
 ```
 1. Check Firestore usage
 2. Verify indexes are active
@@ -337,6 +365,7 @@ docker run -p 3000:3000 \
 ### 7. Monitoring & Alerts
 
 #### Setup Monitoring
+
 ```bash
 # Set up error tracking (e.g., Sentry)
 npm install @sentry/nextjs
@@ -345,6 +374,7 @@ npm install @sentry/nextjs
 ```
 
 #### Key Metrics to Monitor
+
 - Subscription creation rate
 - Payment success/failure rate
 - Webhook delivery success rate
@@ -353,6 +383,7 @@ npm install @sentry/nextjs
 - Error rates per endpoint
 
 #### Alert Thresholds
+
 - Payment failure rate > 5%
 - Webhook delivery failure > 2%
 - API response time > 3s
@@ -361,6 +392,7 @@ npm install @sentry/nextjs
 ### 8. Rollback Plan
 
 If issues arise:
+
 ```bash
 # 1. Revert to previous deployment
 vercel rollback
@@ -377,6 +409,7 @@ firebase deploy --only firestore:rules
 ## Testing Scenarios
 
 ### Scenario 1: New User Subscribes to Loyal
+
 1. User visits /account/subscriptions
 2. Clicks "Subscribe" on Loyal tier
 3. Redirected to Stripe checkout
@@ -391,6 +424,7 @@ firebase deploy --only firestore:rules
 **Expected**: Full access to Loyal features within 30 seconds
 
 ### Scenario 2: Existing Loyal Member Upgrades to VIP
+
 1. User with Loyal subscription
 2. Navigates to /account/subscriptions
 3. Clicks "Subscribe" on VIP tier
@@ -403,6 +437,7 @@ firebase deploy --only firestore:rules
 **Expected**: Immediate access to VIP features, Loyal subscription unaffected
 
 ### Scenario 3: Admin Grants Free Subscription
+
 1. Admin logs in
 2. Goes to /admin/subscriptions
 3. Finds user in table
@@ -415,6 +450,7 @@ firebase deploy --only firestore:rules
 **Expected**: User has VIP access without payment
 
 ### Scenario 4: User Cancels Subscription
+
 1. User navigates to subscription page
 2. Clicks "Manage Subscription"
 3. Redirected to Stripe customer portal
@@ -429,12 +465,14 @@ firebase deploy --only firestore:rules
 ## Maintenance
 
 ### Regular Tasks
+
 - **Daily**: Monitor Stripe dashboard for failed payments
 - **Weekly**: Review subscription metrics and revenue
 - **Monthly**: Analyze churn rate and popular tiers
 - **Quarterly**: Review and update pricing if needed
 
 ### Updates
+
 - Keep Stripe SDK updated
 - Monitor Stripe API changelog
 - Test webhook changes in staging
@@ -445,24 +483,28 @@ firebase deploy --only firestore:rules
 ### Common Issues
 
 **1. Webhook Not Receiving Events**
+
 - Check webhook URL is correct
 - Verify webhook secret matches
 - Ensure endpoint is publicly accessible
 - Check Stripe logs for delivery attempts
 
 **2. Subscription Not Creating**
+
 - Verify Firestore rules allow writes
 - Check admin permissions
 - Review API error logs
 - Ensure tier IDs are correct
 
 **3. Theme Access Not Working**
+
 - Verify subscription is active
 - Check theme requirements match subscription type
 - Clear user session and re-login
 - Review theme service logic
 
 **4. Badge Not Showing**
+
 - Check subscription status in database
 - Verify badge component loaded
 - Clear browser cache
@@ -471,6 +513,7 @@ firebase deploy --only firestore:rules
 ## Success Metrics
 
 ### KPIs to Track
+
 - Monthly Recurring Revenue (MRR)
 - Churn Rate
 - Customer Lifetime Value (CLV)
@@ -479,6 +522,7 @@ firebase deploy --only firestore:rules
 - Subscription Growth Rate
 
 ### Target Benchmarks
+
 - Churn Rate: < 5% monthly
 - Conversion Rate: > 2%
 - Payment Success Rate: > 95%

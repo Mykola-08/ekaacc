@@ -9,6 +9,7 @@ This document outlines all the new features and improvements added to the EKA we
 ## ✨ New Features
 
 ### 1. 🌓 Dark Mode Support
+
 **Location:** Global (all pages)
 
 - **Full dark/light theme toggle** with system preference detection
@@ -21,6 +22,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 2. 🤖 AI Chat Assistant
+
 **Location:** Floating button on all pages
 
 - **Context-aware AI helper** that understands EKA services
@@ -31,6 +33,7 @@ This document outlines all the new features and improvements added to the EKA we
 **Usage:** Click the message icon in the bottom-right corner to open the AI assistant.
 
 **Example Questions:**
+
 - "How do I book a session?"
 - "What therapies do you offer?"
 - "How can I view my progress?"
@@ -38,6 +41,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 3. 🔔 Notification Center
+
 **Location:** Header (bell icon)
 
 - **Real-time notifications** for:
@@ -54,6 +58,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 4. 📊 Progress Tracker & Analytics
+
 **Location:** `/progress` page
 
 - **Visual progress tracking** with charts and graphs
@@ -64,6 +69,7 @@ This document outlines all the new features and improvements added to the EKA we
 - **Historical data** visualization
 
 **Key Metrics:**
+
 - Pain Reduction percentage
 - Mobility Score improvement
 - Sessions completed vs. goal
@@ -72,6 +78,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 5. 📔 Wellness Journal
+
 **Location:** `/journal` page
 
 - **Daily journal entries** with calendar view
@@ -87,6 +94,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 6. 💪 Exercise Library
+
 **Location:** `/exercises` page
 
 - **Comprehensive exercise database** with:
@@ -102,6 +110,7 @@ This document outlines all the new features and improvements added to the EKA we
 - **Completion tracking** with statistics
 
 **Categories:**
+
 - Stretching
 - Strength
 - Mobility
@@ -111,6 +120,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 7. 👥 Community Features
+
 **Location:** `/community` page
 
 - **Community feed** for sharing progress and asking questions
@@ -122,6 +132,7 @@ This document outlines all the new features and improvements added to the EKA we
 - **Category badges** for posts
 
 **Support Groups Available:**
+
 - Back Pain Support
 - Post-Surgery Recovery
 - Athletes Corner
@@ -130,6 +141,7 @@ This document outlines all the new features and improvements added to the EKA we
 ---
 
 ### 8. 🎨 Enhanced Home Dashboard
+
 **Location:** `/home` page
 
 - **Smooth animations** on page load
@@ -140,6 +152,7 @@ This document outlines all the new features and improvements added to the EKA we
 - **Responsive stat cards** with trend indicators
 
 **Improvements:**
+
 - Fade-in animations for all sections
 - Better spacing and layout
 - More engaging visual feedback
@@ -150,18 +163,21 @@ This document outlines all the new features and improvements added to the EKA we
 ## 🔧 Technical Improvements
 
 ### Theme System
+
 - Integrated `next-themes` for theme management
 - CSS variable-based theming for easy customization
 - Automatic system preference detection
 - No flash on page load
 
 ### Animation System
+
 - Custom animation utilities using Tailwind CSS
 - Smooth transitions throughout the app
 - Performance-optimized animations
 - Accessible motion preferences
 
 ### Component Architecture
+
 - Reusable animated card components
 - Consistent design patterns
 - Modular feature organization
@@ -172,6 +188,7 @@ This document outlines all the new features and improvements added to the EKA we
 ## 📱 Responsive Design
 
 All new features are fully responsive and work seamlessly on:
+
 - 📱 Mobile devices (320px+)
 - 📱 Tablets (768px+)
 - 💻 Laptops (1024px+)
@@ -182,6 +199,7 @@ All new features are fully responsive and work seamlessly on:
 ## 🎯 User Benefits
 
 \n### For Patients
+
 1. **Better Progress Tracking** - Visual analytics and journal entries
 2. **Community Support** - Connect with others on similar journeys
 3. **Exercise Guidance** - Clear instructions for at-home therapy
@@ -189,6 +207,7 @@ All new features are fully responsive and work seamlessly on:
 5. **Personalized Experience** - Dark mode and customizable dashboard
 
 \n### For Therapists
+
 1. **Patient Engagement** - More tools for patient participation
 2. **Progress Monitoring** - Easy-to-read analytics
 3. **Community Building** - Foster supportive environment
@@ -198,14 +217,16 @@ All new features are fully responsive and work seamlessly on:
 
 ## 🚀 Getting Started
 
-### For New Users:
+### For New Users
+
 1. **Complete personalization** - Set your goals and preferences
 2. **Explore the dashboard** - Familiarize yourself with key metrics
 3. **Start a journal** - Log your first wellness entry
 4. **Join a community group** - Connect with others
 5. **Try the AI assistant** - Ask questions about the platform
 
-### Navigation Guide:
+### Navigation Guide
+
 - **Home** - Dashboard with overview and quick actions
 - **Sessions** - View and manage therapy appointments
 - **Therapies** - Browse available services
@@ -221,6 +242,7 @@ All new features are fully responsive and work seamlessly on:
 ## 🎨 Design Philosophy
 
 The new features follow EKA's design principles:
+
 - **Clean & Minimalist** - Apple-inspired aesthetics
 - **Soft & Calming** - Trust-building color palette
 - **User-Centric** - Intuitive navigation and interactions
@@ -243,6 +265,7 @@ The new features follow EKA's design principles:
 ## 🔮 Future Enhancements
 
 Planned improvements include:
+
 - Calendar view for sessions
 - Advanced achievement/milestone system
 - Real-time chat in community
@@ -273,6 +296,7 @@ Planned improvements include:
 ## 📝 Version History
 
 **Version 2.0** (October 2025)
+
 - Added 7 major new features
 - Implemented dark mode
 - Enhanced dashboard with animations
@@ -283,6 +307,7 @@ Planned improvements include:
 ## 🤝 Support
 
 For questions or issues:
+
 - Use the AI Chat Assistant for quick help
 - Contact your therapist through the platform
 - Join the community for peer support
@@ -290,4 +315,4 @@ For questions or issues:
 
 ---
 
-**Made with ❤️ for the EKA Community**
+Made with ❤️ for the EKA Community

@@ -136,6 +136,7 @@ For development and testing:
 ## Error Handling
 
 All wrapper functions throw errors if:
+
 - `SQUARE_ACCESS_TOKEN` is not configured
 - The API request fails
 

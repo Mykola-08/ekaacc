@@ -158,8 +158,6 @@ Community → Social support features
 Donations → Support system
 Reports → Therapist reports
 
-```
-
 ---
 
 ## 🎯 Key Improvements Summary

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, Lightbulb, RefreshCw } from 'lucide-react';
@@ -21,7 +21,14 @@ export function AITherapyRecommendations() {
     setError(null);
     try {
       const data = await fxService.getAIRecommendations();
-      setRecommendations(data);
+      // normalize incoming mock data to match TherapyRecommendation types when possible
+      const normalized = (data as any[]).map((d) => ({
+        id: d.id,
+        title: d.title,
+        reasoning: d.reasoning,
+        type: (['exercise', 'article', 'meditation'].includes(d.type) ? d.type : 'article') as TherapyRecommendation['type'],
+      })) as TherapyRecommendation[];
+      setRecommendations(normalized);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
       setError(errorMessage);
@@ -39,7 +46,7 @@ export function AITherapyRecommendations() {
     fetchRecommendations();
   }, []);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -49,15 +56,16 @@ export function AITherapyRecommendations() {
     },
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
       opacity: 1,
       transition: {
-        type: 'spring',
+        type: 'spring' as any,
         stiffness: 100,
-      },
+        damping: 16,
+      } as any,
     },
   };
 

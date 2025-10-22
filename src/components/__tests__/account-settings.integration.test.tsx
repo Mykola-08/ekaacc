@@ -86,7 +86,7 @@ describe('Account Settings integration', () => {
 
     // Minimal component that mirrors a subset of the real page
     function TestSettings() {
-      const { currentUser } = require('../../context/unified-data-context').useData();
+      const currentUser = { id: 'test-user', name: 'Test User', email: 'test@example.com', role: 'Patient', initials: 'TU' };
       const [settings, setSettings] = React.useState<any>({ notifications: { email: false, sms: false } });
 
       React.useEffect(() => {

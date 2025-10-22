@@ -20,6 +20,11 @@ Then restart: `npm run dev`
 
 ## 📚 Documentation
 
+- **[Square Integration Guide](./SQUARE_INTEGRATION.md)** - Payment processing and booking management setup
+- [Quick Start - Data Switching](./QUICK_START_DATA_SWITCHING.md)
+- [Features Documentation](./FEATURES.md)
+- [Performance Optimization](./PERFORMANCE_OPTIMIZATION.md)
+
 ## 🚀 Getting Started
 
 1. Clone the repository

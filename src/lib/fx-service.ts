@@ -139,6 +139,37 @@ export const fxService = {
     if (useMock) return mockAIAPI.getAIReportSummary(reportId);
     throw new Error('AI service not configured');
   },
+  async getAIAnalysis() {
+    if (useMock) {
+        // In a real scenario, this would involve complex logic.
+        // Here, we just simulate a delay and return a mock object.
+        await new Promise(res => setTimeout(res, 1500));
+        
+        const mockAnalysis = {
+            keyTrends: [
+                { title: 'Avg. Mood', value: '😊 (4.1)', change: 10.5, type: 'improvement' },
+                { title: 'Avg. Pain Level', value: '3.2 / 10', change: -15.2, type: 'improvement' },
+                { title: 'Session Consistency', value: '92%', change: 5, type: 'improvement' },
+                { title: 'Journal Entries', value: '5 this week', change: 25, type: 'improvement' },
+            ],
+            moodChart: [
+                { name: '4w ago', value: 3.5 },
+                { name: '3w ago', value: 3.8 },
+                { name: '2w ago', value: 3.7 },
+                { name: 'Last week', value: 4.1 },
+            ],
+            painChart: [
+                { name: '4w ago', value: 5.5 },
+                { name: '3w ago', value: 4.2 },
+                { name: '2w ago', value: 3.8 },
+                { name: 'Last week', value: 3.2 },
+            ],
+            recommendations: [] // This would be populated by the AI logic
+        };
+        return mockAnalysis;
+    }
+    throw new Error('AI analysis service not configured');
+  },
   async updateUser(userId: string, data: Record<string, any>) {
     if (useMock) return { id: userId, ...data };
     return fxUsers.updateUser(userId, data);

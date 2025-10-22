@@ -1,9 +1,8 @@
 'use client';
 import { AppSidebar } from '@/components/eka/app-sidebar';
 import { AppHeader } from '@/components/eka/app-header';
-import { SidebarProvider } from '@/context/sidebar-context';
+import { SidebarProvider } from '@/components/ui/sidebar';
 import { UnifiedDataProvider } from '@/context/unified-data-context';
-import { NonBlockingUpdatesProvider } from '@/firebase/non-blocking-updates';
 import { AIAssistant } from '@/components/eka/ai-assistant';
 
 export default function AppLayout({
@@ -14,7 +13,6 @@ export default function AppLayout({
   return (
     <SidebarProvider>
       <UnifiedDataProvider>
-        <NonBlockingUpdatesProvider>
           <div className="relative flex min-h-screen w-full bg-background">
             <AppSidebar />
             <div className="flex flex-1 flex-col">
@@ -25,7 +23,7 @@ export default function AppLayout({
             </div>
           </div>
           <AIAssistant />
-        </NonBlockingUpdatesProvider>
+      
       </UnifiedDataProvider>
     </SidebarProvider>
   );

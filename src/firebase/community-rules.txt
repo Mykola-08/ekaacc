@@ -1,0 +1,262 @@
+/**
+ * Firestore Security Rules for Community Features
+ * Add these rules to your firestore.rules file
+ */
+
+/*
+// ============================================
+// COMMUNITY POSTS RULES
+// ============================================
+
+match /community_posts/{postId} {
+  // Anyone can read public posts
+  allow read: if resource.data.visibility == 'public' 
+    || (request.auth != null && (
+      // Own posts
+      resource.data.authorId == request.auth.uid
+      // Group posts where user is member
+      || (resource.data.visibility == 'group' 
+          && exists(/databases/$(database)/documents/community_group_members/$(resource.data.groupId)_$(request.auth.uid)))
+    ));
+  
+  // Authenticated users can create posts
+  allow create: if request.auth != null
+    && request.resource.data.authorId == request.auth.uid
+    && !request.resource.data.isArchived
+    && !request.resource.data.isHidden;
+  
+  // Authors can update their own posts
+  allow update: if request.auth != null
+    && (resource.data.authorId == request.auth.uid
+        // Admins can moderate
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+  
+  // Authors and admins can delete
+  allow delete: if request.auth != null
+    && (resource.data.authorId == request.auth.uid
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+}
+
+// ============================================
+// COMMUNITY COMMENTS RULES
+// ============================================
+
+match /community_comments/{commentId} {
+  // Anyone can read comments on posts they can see
+  allow read: if request.auth != null;
+  
+  // Authenticated users can create comments
+  allow create: if request.auth != null
+    && request.resource.data.userId == request.auth.uid;
+  
+  // Authors can update/delete their comments
+  allow update, delete: if request.auth != null
+    && (resource.data.userId == request.auth.uid
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+}
+
+// ============================================
+// POST REACTIONS RULES
+// ============================================
+
+match /community_reactions/{reactionId} {
+  allow read: if request.auth != null;
+  
+  // Users can create/update/delete their own reactions
+  allow create, update, delete: if request.auth != null
+    && request.resource.data.userId == request.auth.uid;
+}
+
+// ============================================
+// COMMUNITY GROUPS RULES
+// ============================================
+
+match /community_groups/{groupId} {
+  // Public groups are readable by all
+  allow read: if resource.data.privacy == 'public'
+    || (request.auth != null && (
+      // Private groups readable by members
+      resource.data.privacy == 'private' 
+      && exists(/databases/$(database)/documents/community_group_members/$(groupId)_$(request.auth.uid))
+    ));
+  
+  // Authenticated users can create groups
+  allow create: if request.auth != null
+    && request.resource.data.ownerId == request.auth.uid;
+  
+  // Owners and admins can update
+  allow update: if request.auth != null
+    && (resource.data.ownerId == request.auth.uid
+        || request.auth.uid in resource.data.adminIds
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+  
+  // Only owners and platform admins can delete
+  allow delete: if request.auth != null
+    && (resource.data.ownerId == request.auth.uid
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+}
+
+// ============================================
+// GROUP MEMBERS RULES
+// ============================================
+
+match /community_group_members/{memberId} {
+  // Members can read member lists of groups they're in
+  allow read: if request.auth != null
+    && exists(/databases/$(database)/documents/community_group_members/$(resource.data.groupId)_$(request.auth.uid));
+  
+  // Group admins and moderators can add members
+  allow create: if request.auth != null
+    && (
+      get(/databases/$(database)/documents/community_groups/$(request.resource.data.groupId)).data.ownerId == request.auth.uid
+      || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(request.resource.data.groupId)).data.adminIds
+    );
+  
+  // Members can leave (delete their membership)
+  allow delete: if request.auth != null
+    && (resource.data.userId == request.auth.uid
+        || get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+        || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
+}
+
+// ============================================
+// GROUP INVITATIONS RULES
+// ============================================
+
+match /community_group_invitations/{invitationId} {
+  // Inviter and invitee can read
+  allow read: if request.auth != null
+    && (resource.data.inviterId == request.auth.uid
+        || resource.data.inviteeId == request.auth.uid);
+  
+  // Group members can create invitations
+  allow create: if request.auth != null
+    && request.resource.data.inviterId == request.auth.uid
+    && exists(/databases/$(database)/documents/community_group_members/$(request.resource.data.groupId)_$(request.auth.uid));
+  
+  // Invitee can update (accept/decline)
+  allow update: if request.auth != null
+    && resource.data.inviteeId == request.auth.uid;
+  
+  // Inviter or invitee can delete
+  allow delete: if request.auth != null
+    && (resource.data.inviterId == request.auth.uid
+        || resource.data.inviteeId == request.auth.uid);
+}
+
+// ============================================
+// GROUP JOIN REQUESTS RULES
+// ============================================
+
+match /community_group_join_requests/{requestId} {
+  // Requester and group admins can read
+  allow read: if request.auth != null
+    && (resource.data.userId == request.auth.uid
+        || get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+        || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
+  
+  // Authenticated users can create join requests
+  allow create: if request.auth != null
+    && request.resource.data.userId == request.auth.uid;
+  
+  // Group admins can update (approve/reject)
+  allow update: if request.auth != null
+    && (get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+        || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
+  
+  // Requester can delete their own request
+  allow delete: if request.auth != null
+    && resource.data.userId == request.auth.uid;
+}
+
+// ============================================
+// USER FOLLOWS RULES
+// ============================================
+
+match /community_follows/{followId} {
+  allow read: if request.auth != null;
+  
+  // Users can follow others
+  allow create: if request.auth != null
+    && request.resource.data.followerId == request.auth.uid;
+  
+  // Users can unfollow
+  allow delete: if request.auth != null
+    && resource.data.followerId == request.auth.uid;
+}
+
+// ============================================
+// COMMUNITY NOTIFICATIONS RULES
+// ============================================
+
+match /community_notifications/{notificationId} {
+  // Users can read their own notifications
+  allow read: if request.auth != null
+    && resource.data.userId == request.auth.uid;
+  
+  // System can create notifications
+  allow create: if request.auth != null;
+  
+  // Users can update their own notifications (mark as read)
+  allow update: if request.auth != null
+    && resource.data.userId == request.auth.uid;
+  
+  // Users can delete their own notifications
+  allow delete: if request.auth != null
+    && resource.data.userId == request.auth.uid;
+}
+
+// ============================================
+// CONTENT REPORTS RULES
+// ============================================
+
+match /community_reports/{reportId} {
+  // Reporters and admins can read
+  allow read: if request.auth != null
+    && (resource.data.reporterId == request.auth.uid
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+  
+  // Authenticated users can create reports
+  allow create: if request.auth != null
+    && request.resource.data.reporterId == request.auth.uid;
+  
+  // Only admins can update/resolve reports
+  allow update: if request.auth != null
+    && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+}
+
+// ============================================
+// USER COMMUNITY PROFILES RULES
+// ============================================
+
+match /community_user_profiles/{userId} {
+  // Users can read profiles based on privacy settings
+  allow read: if request.auth != null
+    && (userId == request.auth.uid
+        || resource.data.privacySettings.profileVisibility == 'public'
+        || (resource.data.privacySettings.profileVisibility == 'friends' 
+            && exists(/databases/$(database)/documents/community_follows/$(userId)_$(request.auth.uid))));
+  
+  // Users can create/update their own profile
+  allow create, update: if request.auth != null
+    && userId == request.auth.uid;
+}
+
+// ============================================
+// ANALYTICS RULES
+// ============================================
+
+match /community_group_analytics/{analyticsId} {
+  // Group owners and admins can read analytics
+  allow read: if request.auth != null
+    && (get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+        || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds
+        || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin');
+}
+
+match /community_analytics/{analyticsId} {
+  // Only platform admins can read community-wide analytics
+  allow read: if request.auth != null
+    && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+}
+*/

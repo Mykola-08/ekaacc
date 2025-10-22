@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { UserNav } from './user-nav';
 import { NotificationCenter } from './notification-center';
+import { WalletWidget } from './wallet-widget';
 import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
@@ -202,8 +203,19 @@ export function AppHeader() {
                     </div>
                   </form>
                 </div>
-            {/* Right aligned group: Quick actions, notifications, and account button */}
+            {/* Right aligned group: Book Session pill, Wallet, Quick actions, notifications, and account button */}
             <div className="ml-auto flex items-center gap-2">
+              {/* Book Session Pill - Only for clients */}
+              {isClientRole && (
+                <Button 
+                  onClick={() => router.push('/sessions/booking')}
+                  className="hidden md:flex gap-2 rounded-full px-4 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 shadow-md"
+                >
+                  <CalendarPlus className="h-4 w-4" />
+                  <span className="font-medium">Book Session</span>
+                </Button>
+              )}
+              <WalletWidget />
               <QuickActions />
               <NotificationCenter />
               <div className="group relative">
@@ -213,10 +225,10 @@ export function AppHeader() {
                   <div className="flex flex-col py-2">
                     <Button variant="ghost" className="justify-start" onClick={() => router.push('/account')}>Account Overview</Button>
                     <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/settings')}>Settings</Button>
-                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/wallet')}>Wallet</Button>
-                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/loyalty')}>Loyalty</Button>
-                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/referrals')}>Referrals</Button>
-                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/insights')}>Insights</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/wallet')}>Wallet</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/loyalty')}>Loyalty</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/settings')}>Referrals</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/ai-insights')}>Insights</Button>
                   </div>
                 </div>
               </div>

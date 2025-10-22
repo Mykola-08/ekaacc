@@ -443,5 +443,274 @@ service cloud.firestore {
       // Only admins can delete rewards
       allow delete: if isAdmin();
     }
+
+    // ============================================
+    // COMMUNITY & GROUPS RULES
+    // ============================================
+
+    /**
+     * @collection community_posts
+     * @description Community posts with engagement tracking
+     * @path /community_posts/{postId}
+     */
+    match /community_posts/{postId} {
+      // Anyone can read public posts
+      allow read: if resource.data.visibility == 'public' 
+        || (isSignedIn() && (
+          // Own posts
+          resource.data.authorId == request.auth.uid
+          // Group posts where user is member
+          || (resource.data.visibility == 'group' 
+              && exists(/databases/$(database)/documents/community_group_members/$(resource.data.groupId)_$(request.auth.uid)))
+        ));
+      
+      // Authenticated users can create posts
+      allow create: if isSignedIn()
+        && request.resource.data.authorId == request.auth.uid
+        && !request.resource.data.isArchived
+        && !request.resource.data.isHidden;
+      
+      // Authors can update their own posts, admins can moderate
+      allow update: if isSignedIn()
+        && (resource.data.authorId == request.auth.uid || isAdmin());
+      
+      // Authors and admins can delete
+      allow delete: if isSignedIn()
+        && (resource.data.authorId == request.auth.uid || isAdmin());
+    }
+
+    /**
+     * @collection community_comments
+     * @description Comments and replies on community posts
+     * @path /community_comments/{commentId}
+     */
+    match /community_comments/{commentId} {
+      // Anyone authenticated can read comments
+      allow read: if isSignedIn();
+      
+      // Authenticated users can create comments
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid;
+      
+      // Authors can update/delete their comments, admins can moderate
+      allow update, delete: if isSignedIn()
+        && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    /**
+     * @collection community_reactions
+     * @description User reactions to posts (like, heart, support, etc.)
+     * @path /community_reactions/{reactionId}
+     */
+    match /community_reactions/{reactionId} {
+      allow read: if isSignedIn();
+      
+      // Users can create/update/delete their own reactions
+      allow create, update, delete: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid;
+    }
+
+    /**
+     * @collection community_groups
+     * @description Community groups with membership management
+     * @path /community_groups/{groupId}
+     */
+    match /community_groups/{groupId} {
+      // Public groups are readable by all
+      allow read: if resource.data.privacy == 'public'
+        || (isSignedIn() && (
+          // Private groups readable by members
+          resource.data.privacy == 'private' 
+          && exists(/databases/$(database)/documents/community_group_members/$(groupId)_$(request.auth.uid))
+        ));
+      
+      // Authenticated users can create groups
+      allow create: if isSignedIn()
+        && request.resource.data.ownerId == request.auth.uid;
+      
+      // Owners and admins can update
+      allow update: if isSignedIn()
+        && (resource.data.ownerId == request.auth.uid
+            || request.auth.uid in resource.data.adminIds
+            || isAdmin());
+      
+      // Only owners and platform admins can delete
+      allow delete: if isSignedIn()
+        && (resource.data.ownerId == request.auth.uid || isAdmin());
+    }
+
+    /**
+     * @collection community_group_members
+     * @description Group membership tracking
+     * @path /community_group_members/{memberId}
+     */
+    match /community_group_members/{memberId} {
+      // Members can read member lists of groups they're in
+      allow read: if isSignedIn()
+        && exists(/databases/$(database)/documents/community_group_members/$(resource.data.groupId)_$(request.auth.uid));
+      
+      // Group admins and moderators can add members
+      allow create: if isSignedIn()
+        && (
+          get(/databases/$(database)/documents/community_groups/$(request.resource.data.groupId)).data.ownerId == request.auth.uid
+          || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(request.resource.data.groupId)).data.adminIds
+        );
+      
+      // Members can leave (delete their membership), admins can remove
+      allow delete: if isSignedIn()
+        && (resource.data.userId == request.auth.uid
+            || get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
+    }
+
+    /**
+     * @collection community_group_invitations
+     * @description Group invitation management
+     * @path /community_group_invitations/{invitationId}
+     */
+    match /community_group_invitations/{invitationId} {
+      // Inviter and invitee can read
+      allow read: if isSignedIn()
+        && (resource.data.inviterId == request.auth.uid
+            || resource.data.inviteeId == request.auth.uid);
+      
+      // Group members can create invitations
+      allow create: if isSignedIn()
+        && request.resource.data.inviterId == request.auth.uid
+        && exists(/databases/$(database)/documents/community_group_members/$(request.resource.data.groupId)_$(request.auth.uid));
+      
+      // Invitee can update (accept/decline)
+      allow update: if isSignedIn()
+        && resource.data.inviteeId == request.auth.uid;
+      
+      // Inviter or invitee can delete
+      allow delete: if isSignedIn()
+        && (resource.data.inviterId == request.auth.uid
+            || resource.data.inviteeId == request.auth.uid);
+    }
+
+    /**
+     * @collection community_group_join_requests
+     * @description Join requests for private groups
+     * @path /community_group_join_requests/{requestId}
+     */
+    match /community_group_join_requests/{requestId} {
+      // Requester and group admins can read
+      allow read: if isSignedIn()
+        && (resource.data.userId == request.auth.uid
+            || get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
+      
+      // Authenticated users can create join requests
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid;
+      
+      // Group admins can update (approve/reject)
+      allow update: if isSignedIn()
+        && (get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
+      
+      // Requester can delete their own request
+      allow delete: if isSignedIn()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    /**
+     * @collection community_follows
+     * @description User follow relationships
+     * @path /community_follows/{followId}
+     */
+    match /community_follows/{followId} {
+      allow read: if isSignedIn();
+      
+      // Users can follow others
+      allow create: if isSignedIn()
+        && request.resource.data.followerId == request.auth.uid;
+      
+      // Users can unfollow
+      allow delete: if isSignedIn()
+        && resource.data.followerId == request.auth.uid;
+    }
+
+    /**
+     * @collection community_notifications
+     * @description User notifications for community events
+     * @path /community_notifications/{notificationId}
+     */
+    match /community_notifications/{notificationId} {
+      // Users can read their own notifications
+      allow read: if isSignedIn()
+        && resource.data.userId == request.auth.uid;
+      
+      // System can create notifications
+      allow create: if isSignedIn();
+      
+      // Users can update their own notifications (mark as read)
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own notifications
+      allow delete: if isSignedIn()
+        && resource.data.userId == request.auth.uid;
+    }
+
+    /**
+     * @collection community_reports
+     * @description Content moderation reports
+     * @path /community_reports/{reportId}
+     */
+    match /community_reports/{reportId} {
+      // Reporters and admins can read
+      allow read: if isSignedIn()
+        && (resource.data.reporterId == request.auth.uid || isAdmin());
+      
+      // Authenticated users can create reports
+      allow create: if isSignedIn()
+        && request.resource.data.reporterId == request.auth.uid;
+      
+      // Only admins can update/resolve reports
+      allow update: if isAdmin();
+    }
+
+    /**
+     * @collection community_user_profiles
+     * @description Extended user profiles for community features
+     * @path /community_user_profiles/{userId}
+     */
+    match /community_user_profiles/{userId} {
+      // Users can read profiles based on privacy settings
+      allow read: if isSignedIn()
+        && (userId == request.auth.uid
+            || resource.data.privacySettings.profileVisibility == 'public'
+            || (resource.data.privacySettings.profileVisibility == 'friends' 
+                && exists(/databases/$(database)/documents/community_follows/$(userId)_$(request.auth.uid))));
+      
+      // Users can create/update their own profile
+      allow create, update: if isSignedIn()
+        && userId == request.auth.uid;
+    }
+
+    /**
+     * @collection community_group_analytics
+     * @description Analytics data for groups
+     * @path /community_group_analytics/{analyticsId}
+     */
+    match /community_group_analytics/{analyticsId} {
+      // Group owners and admins can read analytics
+      allow read: if isSignedIn()
+        && (get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
+            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds
+            || isAdmin());
+    }
+
+    /**
+     * @collection community_analytics
+     * @description Platform-wide community analytics
+     * @path /community_analytics/{analyticsId}
+     */
+    match /community_analytics/{analyticsId} {
+      // Only platform admins can read community-wide analytics
+      allow read: if isAdmin();
+    }
   }
 }

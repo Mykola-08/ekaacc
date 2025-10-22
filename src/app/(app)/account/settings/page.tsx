@@ -30,7 +30,11 @@ import {
   Phone,
   Globe,
   Clock,
-  Lock
+  Lock,
+  Gift,
+  Copy,
+  Share2,
+  Users2
 } from 'lucide-react';
 
 // Zod schema for settings
@@ -305,7 +309,7 @@ export default function AccountSettingsPage() {
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-6">
           <TabsTrigger value="profile">
             <User className="h-4 w-4 mr-2" />
             Profile
@@ -321,6 +325,10 @@ export default function AccountSettingsPage() {
           <TabsTrigger value="accessibility">
             <Palette className="h-4 w-4 mr-2" />
             Accessibility
+          </TabsTrigger>
+          <TabsTrigger value="referrals">
+            <Gift className="h-4 w-4 mr-2" />
+            Referrals
           </TabsTrigger>
           <TabsTrigger value="role">
             <Briefcase className="h-4 w-4 mr-2" />
@@ -1000,6 +1008,143 @@ export default function AccountSettingsPage() {
               </CardContent>
             </Card>
           )}
+        </TabsContent>
+
+        {/* Referrals Tab */}
+        <TabsContent value="referrals" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Referral Program</CardTitle>
+              <CardDescription>Share EKA with friends and earn rewards</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Referral Stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="p-4 rounded-lg bg-gradient-to-br from-primary/10 to-primary/5 border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Users2 className="h-5 w-5 text-primary" />
+                    <span className="text-sm font-medium text-muted-foreground">Total Referrals</span>
+                  </div>
+                  <p className="text-3xl font-bold">12</p>
+                </div>
+                <div className="p-4 rounded-lg bg-gradient-to-br from-green-500/10 to-green-500/5 border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Gift className="h-5 w-5 text-green-600" />
+                    <span className="text-sm font-medium text-muted-foreground">Rewards Earned</span>
+                  </div>
+                  <p className="text-3xl font-bold">€45.00</p>
+                </div>
+                <div className="p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-blue-500/5 border">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Share2 className="h-5 w-5 text-blue-600" />
+                    <span className="text-sm font-medium text-muted-foreground">Pending</span>
+                  </div>
+                  <p className="text-3xl font-bold">3</p>
+                </div>
+              </div>
+
+              {/* Referral Code */}
+              <div className="space-y-2">
+                <Label>Your Referral Code</Label>
+                <div className="flex gap-2">
+                  <Input 
+                    value={`EKA-${currentUser?.id?.substring(0, 8).toUpperCase() || 'XXXXXXXX'}`}
+                    readOnly
+                    className="font-mono font-bold text-lg"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`EKA-${currentUser?.id?.substring(0, 8).toUpperCase()}`);
+                      toast({ title: 'Copied!', description: 'Referral code copied to clipboard' });
+                    }}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Share this code with friends. They get 10% off their first month, and you earn €5 for each successful referral.
+                </p>
+              </div>
+
+              {/* Referral Link */}
+              <div className="space-y-2">
+                <Label>Referral Link</Label>
+                <div className="flex gap-2">
+                  <Input 
+                    value={`https://eka.health/join/${currentUser?.id?.substring(0, 8).toLowerCase() || 'xxxxxxxx'}`}
+                    readOnly
+                    className="text-sm"
+                  />
+                  <Button 
+                    variant="outline" 
+                    size="icon"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`https://eka.health/join/${currentUser?.id?.substring(0, 8).toLowerCase()}`);
+                      toast({ title: 'Copied!', description: 'Referral link copied to clipboard' });
+                    }}
+                  >
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                  <Button 
+                    variant="default"
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: 'Join EKA',
+                          text: 'Start your mental wellness journey with EKA',
+                          url: `https://eka.health/join/${currentUser?.id?.substring(0, 8).toLowerCase()}`
+                        });
+                      }
+                    }}
+                  >
+                    <Share2 className="h-4 w-4 mr-2" />
+                    Share
+                  </Button>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Referral History */}
+              <div className="space-y-3">
+                <h3 className="font-semibold">Recent Referrals</h3>
+                <div className="space-y-2">
+                  {[
+                    { name: 'Sarah M.', status: 'Active', reward: '€5.00', date: '2024-01-15' },
+                    { name: 'John D.', status: 'Active', reward: '€5.00', date: '2024-01-10' },
+                    { name: 'Emma T.', status: 'Pending', reward: '€0.00', date: '2024-01-20' },
+                  ].map((referral, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 rounded-lg border bg-card">
+                      <div>
+                        <p className="font-medium">{referral.name}</p>
+                        <p className="text-sm text-muted-foreground">{referral.date}</p>
+                      </div>
+                      <div className="text-right">
+                        <Badge variant={referral.status === 'Active' ? 'default' : 'secondary'}>
+                          {referral.status}
+                        </Badge>
+                        <p className="text-sm font-semibold mt-1">{referral.reward}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Program Details */}
+              <div className="p-4 rounded-lg bg-muted/50 space-y-2">
+                <h4 className="font-semibold text-sm">How it works</h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Share your referral code or link with friends</li>
+                  <li>• They sign up and complete their first session</li>
+                  <li>• You both receive rewards (€5 for you, 10% off for them)</li>
+                  <li>• Rewards are added to your wallet automatically</li>
+                  <li>• No limit on how many friends you can refer!</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
 

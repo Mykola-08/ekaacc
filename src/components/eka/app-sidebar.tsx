@@ -122,14 +122,12 @@ export function AppSidebar() {
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
     { href: '/ai-insights', icon: Sparkles, label: 'AI Insights' },
-  { href: '/sessions/booking', icon: CalendarDays, label: 'Book Session' },
     { href: '/progress', icon: TrendingUp, label: 'Progress' },
     { href: '/journal', icon: BookOpen, label: 'Journal' },
     { href: '/exercises', icon: Dumbbell, label: 'Exercises' },
-    { href: '/community', icon: Users, label: 'Community' },
-    { href: '/wallet', icon: Wallet, label: 'Wallet' },
-    { href: '/loyalty', icon: Trophy, label: 'Loyalty' },
-    { href: '/referrals', icon: Gift, label: 'Referrals' },
+    // { href: '/community', icon: Users, label: 'Community' }, // Hidden - Backend in development
+  // { href: '/wallet', icon: Wallet, label: 'Wallet' },
+  // { href: '/loyalty', icon: Trophy, label: 'Loyalty' },
     { href: '/donations', icon: Heart, label: 'Donations' },
   ];
 

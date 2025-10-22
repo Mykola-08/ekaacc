@@ -12,6 +12,7 @@ import { SessionAssessmentForm } from '@/components/eka/forms';
 import { useToast } from "@/hooks/use-toast";
 import { Clock, User, Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from 'react';
 import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
 import { Sparkles } from "lucide-react";
 
@@ -32,7 +33,20 @@ export default function SessionBookingPage() {
 
   // Use unified data when available
   const { allUsers, services: dataServices } = useData();
-  const therapists = (allUsers || []).filter((u:any) => u.role === 'Therapist').map(t => ({ id: t.id, name: t.displayName || t.email, specialization: (t as any).specialization || 'Therapy' }));
+  const therapists = (allUsers || []).filter((u:any) => u.role === 'Therapist').map(t => ({
+    id: t.id,
+    name: t.displayName || t.email,
+    specialization: (t as any).specialization || 'Therapy',
+    rating: (t as any).rating || 4.8,
+    reviews: (t as any).reviews || 32
+  }));
+  // If only one therapist, select implicitly
+  const singleTherapist = therapists.length === 1 ? therapists[0] : null;
+  useEffect(() => {
+    if (singleTherapist) {
+      setSelectedTherapist(singleTherapist.id);
+    }
+  }, [singleTherapist]);
   const services = (dataServices || []).length > 0 ? (dataServices || []).map((s:any) => ({ id: s.id, name: s.name, duration: s.durationMinutes || s.duration || 60, price: s.priceEUR || s.price || 80 })) : [
     { id: 'service1', name: 'Initial Consultation', duration: 60, price: 80 },
     { id: 'service2', name: 'Physical Therapy Session', duration: 45, price: 65 },
@@ -78,8 +92,14 @@ export default function SessionBookingPage() {
   };
 
   const handleNext = () => {
-  if (step === 'therapy') setStep(currentUser?.role === 'Therapist' ? 'service' : 'therapist');
-  else if (step === 'therapist') setStep('service');
+    if (step === 'therapy') {
+      if (singleTherapist) {
+        setStep('service');
+      } else {
+        setStep(currentUser?.role === 'Therapist' ? 'service' : 'therapist');
+      }
+    }
+    else if (step === 'therapist') setStep('service');
     else if (step === 'service') setStep('datetime');
     else if (step === 'datetime') setStep('confirm');
   };
@@ -169,29 +189,31 @@ export default function SessionBookingPage() {
                   </p>
                 </div>
               ) : (
-                <div className="grid gap-4 lg:grid-cols-2">
-                  {services.map((service) => (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[...services,
+                    { id: 'couples', name: "Couple's Therapy", duration: 60, price: 120 },
+                    { id: 'group', name: "Group Session", duration: 90, price: 180 },
+                    { id: 'cbt', name: "CBT (Cognitive Behavioral Therapy)", duration: 60, price: 100 },
+                    { id: 'family', name: "Family Therapy", duration: 75, price: 140 }
+                  ].map((service) => (
                     <Card 
                       key={service.id}
-                      className="cursor-pointer transition-all hover:shadow-md"
+                      className={`cursor-pointer transition-all ${
+                        selectedService === service.id ? 'border-primary ring-2 ring-primary scale-105 shadow-lg' : 'hover:scale-102 hover:shadow-md'
+                      }`}
+                      onClick={() => setSelectedService(service.id)}
                     >
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between mb-2">
-                          <Briefcase className="h-8 w-8 text-primary" />
-                          <p className="font-semibold text-lg">€{service.price}</p>
+                      <CardContent className="flex items-center justify-between p-4">
+                        <div className="flex items-center gap-4">
+                          <Briefcase className="h-10 w-10 text-muted-foreground" />
+                          <div>
+                            <p className="font-semibold">{service.name}</p>
+                            <p className="text-sm text-muted-foreground">{service.duration} minutes</p>
+                          </div>
                         </div>
-                        <h3 className="font-semibold mb-1">{service.name}</h3>
-                        <p className="text-sm text-muted-foreground mb-3">{service.duration} minutes</p>
-                        <Button 
-                          variant="outline" 
-                          className="w-full"
-                          onClick={() => {
-                            setSelectedService(service.id);
-                            handleNext();
-                          }}
-                        >
-                          Select Therapy
-                        </Button>
+                        <div className="text-right">
+                          <p className="font-bold text-primary">€{service.price}</p>
+                        </div>
                       </CardContent>
                     </Card>
                   ))}
@@ -201,12 +223,12 @@ export default function SessionBookingPage() {
           )}
 
           {step === 'therapist' && (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {therapists.map((therapist) => (
                 <Card 
                   key={therapist.id}
                   className={`cursor-pointer transition-all ${
-                    selectedTherapist === therapist.id ? 'border-primary ring-2 ring-primary' : ''
+                    selectedTherapist === therapist.id ? 'border-primary ring-2 ring-primary scale-105 shadow-lg' : 'hover:scale-102 hover:shadow-md'
                   }`}
                   onClick={() => setSelectedTherapist(therapist.id)}
                 >
@@ -215,6 +237,11 @@ export default function SessionBookingPage() {
                     <div>
                       <p className="font-semibold">{therapist.name}</p>
                       <p className="text-sm text-muted-foreground">{therapist.specialization}</p>
+                      <div className="flex items-center gap-1 mt-1">
+                        <span className="text-yellow-500">★</span>
+                        <span className="text-xs">{(therapist.rating || 4.8).toFixed(1)}</span>
+                        <span className="text-muted-foreground">({therapist.reviews || 32} reviews)</span>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

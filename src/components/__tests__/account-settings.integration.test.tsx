@@ -36,17 +36,28 @@ vi.mock('@/components/ui/form', () => ({
 }));
 vi.mock('@/hooks/use-toast', () => ({ useToast: () => ({ toast: () => {} }) }));
 
+// Mock next/navigation
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: vi.fn(),
+    replace: vi.fn(),
+    prefetch: vi.fn(),
+  }),
+  usePathname: () => '/account/settings',
+}));
+
 // Mock useData to provide currentUser without initializing the real provider
-vi.mock('@/context/unified-data-context', async () => ({
+const unifiedDataMock = {
   useData: () => ({
     currentUser: { id: 'test-user', name: 'Test User', email: 'test@example.com', role: 'Patient', initials: 'TU' },
     updateUser: async () => {},
     isLoading: false,
   })
-}));
+};
+// Mock the module using the path alias
+vi.mock('@/context/unified-data-context', () => unifiedDataMock);
 
-import AccountSettingsPage from '../../app/(app)/account/settings/page';
-import * as fxService from '../../lib/fx-service';
+import * as fxService from '@/lib/fx-service';
 
 // Mock fxService to observe calls
 vi.mock('@/lib/fx-service', async () => ({

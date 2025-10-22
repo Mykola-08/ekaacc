@@ -178,5 +178,192 @@ service cloud.firestore {
         allow update: if false;
         allow delete: if false;
     }
+
+    /**
+     * @description Manages user wallets with strict security.
+     * @path /wallets/{walletId}
+     * @allow (get) - User can read their own wallet. Admins can read any wallet.
+     * @deny (create, update, delete) - Direct writes prevented. Use Cloud Functions.
+     * @principle Wallet balance can only be modified through Cloud Functions to prevent fraud.
+     */
+    match /wallets/{walletId} {
+        allow get: if isOwner(walletId) || isAdmin();
+        allow list: if isAdmin();
+        allow create, update, delete: if false; // Only Cloud Functions can modify
+    }
+
+    /**
+     * @description Manages wallet transactions (subcollection of wallets).
+     * @path /wallets/{walletId}/transactions/{transactionId}
+     * @allow (get, list) - User can read their own transactions. Admins can read any.
+     * @deny (create, update, delete) - Only Cloud Functions can create transactions.
+     * @principle Transaction history is immutable and created only by Cloud Functions.
+     */
+    match /wallets/{walletId}/transactions/{transactionId} {
+        allow get, list: if isOwner(walletId) || isAdmin();
+        allow create, update, delete: if false; // Only Cloud Functions
+    }
+
+    /**
+     * @description Manages payment requests (Bizum/Cash).
+     * @path /paymentRequests/{requestId}
+     * @allow (create) - Any user can create payment requests.
+     * @allow (get) - User can read their own requests. Admins/Therapists can read all.
+     * @allow (update) - Only Admins/Therapists can update (confirm/reject).
+     * @principle Users submit requests, staff confirms them.
+     */
+    match /paymentRequests/{requestId} {
+        allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+        allow get: if isSignedIn() && (
+          request.auth.uid == resource.data.userId ||
+          isAdmin() ||
+          isTherapist()
+        );
+        allow list: if isAdmin() || isTherapist();
+        allow update: if (isAdmin() || isTherapist()) && 
+                       resource.data.status == 'pending' &&
+                       request.resource.data.confirmedBy == request.auth.uid;
+        allow delete: if false;
+    }
+
+    /**
+     * @description Manages loyalty program enrollment.
+     * @path /loyaltyPrograms/{userId}
+     * @allow (get) - User can read their own loyalty data. Admins can read any.
+     * @allow (update) - User can enroll/unenroll. Cloud Functions update points/tier.
+     * @principle Users control enrollment, system manages points.
+     */
+    match /loyaltyPrograms/{userId} {
+        allow get: if isOwner(userId) || isAdmin();
+        allow list: if isAdmin();
+        allow create: if false; // Created by Cloud Function on user creation
+        allow update: if (isOwner(userId) && 
+                         request.resource.data.keys().hasOnly(['isEnrolled', 'enrolledAt'])) ||
+                        false; // Cloud Functions update tier/points
+        allow delete: if false;
+    }
+
+    /**
+     * @description Manages loyalty points transactions (subcollection).
+     * @path /loyaltyPrograms/{userId}/pointsTransactions/{transactionId}
+     * @allow (get, list) - User can read their own points history. Admins can read any.
+     * @deny (create, update, delete) - Only Cloud Functions can create transactions.
+     * @principle Points history is immutable and managed by Cloud Functions.
+     */
+    match /loyaltyPrograms/{userId}/pointsTransactions/{transactionId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        allow create, update, delete: if false; // Only Cloud Functions
+    }
+
+    /**
+     * @description Manages loyalty rewards catalog.
+     * @path /loyaltyRewards/{rewardId}
+     * @allow (get, list) - All authenticated users can view active rewards.
+     * @allow (create, update, delete) - Only admins can manage rewards.
+     * @principle Public catalog, admin-managed.
+     */
+    match /loyaltyRewards/{rewardId} {
+        allow get, list: if isSignedIn() && resource.data.isActive == true;
+        allow create, update, delete: if isAdmin();
+    }
+
+    /**
+     * @description Manages referral codes.
+     * @path /referralCodes/{codeId}
+     * @allow (get) - Anyone can read to validate codes during registration.
+     * @allow (create) - Users can create their own referral code.
+     * @allow (update) - System updates usage count via Cloud Functions.
+     * @principle Codes are user-created but system-managed.
+     */
+    match /referralCodes/{codeId} {
+        allow get: if isSignedIn();
+        allow list: if isAdmin();
+        allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+        allow update: if false; // Only Cloud Functions update usage
+        allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    /**
+     * @description Manages referral tracking.
+     * @path /referrals/{referralId}
+     * @allow (get) - Referrer, referee, or admins can read.
+     * @allow (create) - System creates during registration via Cloud Function.
+     * @allow (update) - System updates status and rewards via Cloud Functions.
+     * @principle Referral system is fully automated.
+     */
+    match /referrals/{referralId} {
+        allow get: if isSignedIn() && (
+          request.auth.uid == resource.data.referrerId ||
+          request.auth.uid == resource.data.refereeId ||
+          isAdmin()
+        );
+        allow list: if isAdmin();
+        allow create, update, delete: if false; // Only Cloud Functions
+    }
+
+    /**
+     * @description Manages purchases.
+     * @path /purchases/{purchaseId}
+     * @allow (get, list) - User can read their purchases. Admins can read all.
+     * @allow (create) - Created via Cloud Functions during checkout.
+     * @allow (update) - Admins/Therapists can fulfill purchases.
+     * @principle Purchase records are system-created and staff-fulfilled.
+     */
+    match /purchases/{purchaseId} {
+        allow get: if isSignedIn() && (
+          request.auth.uid == resource.data.userId ||
+          isAdmin()
+        );
+        allow list: if isAdmin();
+        allow create: if false; // Cloud Functions only
+        allow update: if (isAdmin() || isTherapist()) && 
+                       request.resource.data.keys().hasOnly(['isFulfilled', 'fulfilledAt', 'fulfilledBy']);
+        allow delete: if false;
+    }
+
+    /**
+     * @description Manages purchasable items catalog.
+     * @path /purchasableItems/{itemId}
+     * @allow (get, list) - All authenticated users can view active items.
+     * @allow (create, update, delete) - Only admins can manage catalog.
+     * @principle Public catalog, admin-managed.
+     */
+    match /purchasableItems/{itemId} {
+        allow get, list: if isSignedIn() && resource.data.isActive == true;
+        allow create, update, delete: if isAdmin();
+    }
+
+    /**
+     * @description Global referral settings (singleton document).
+     * @path /settings/referralSettings
+     * @allow (get) - All authenticated users can read settings.
+     * @allow (update) - Only admins can modify settings.
+     * @principle System-wide configuration managed by admins.
+     */
+    match /settings/referralSettings {
+        allow get: if isSignedIn();
+        allow create, update: if isAdmin();
+        allow delete: if false;
+    }
+
+    /**
+     * @description Helper function to check if user is an admin.
+     * @returns {boolean} True if user has admin role.
+     */
+    function isAdmin() {
+        return isSignedIn() && 
+               exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
+    }
+
+    /**
+     * @description Helper function to check if user is a therapist.
+     * @returns {boolean} True if user has therapist role.
+     */
+    function isTherapist() {
+        return isSignedIn() && 
+               exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Therapist';
+    }
   }
 }

@@ -1,55 +1,96 @@
 'use client';
 
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Sparkles, Check, Zap, TrendingUp, Star } from 'lucide-react';
-import { loyalPlans } from '@/lib/data';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useData } from '@/context/unified-data-context';
-import { cn } from '@/lib/utils';
+import { getSubscriptionService } from '@/services/subscription-service';
+import { getThemeService } from '@/services/theme-service';
+import { getLoyaltyService } from '@/services/loyalty-service';
+import { Subscription, SubscriptionUsage, Theme } from '@/lib/subscription-types';
+import { Star, Zap, Gift, Palette, TrendingUp, Calendar, Award, Sparkles } from 'lucide-react';
 
-export default function LoyalSubscriptionsPage() {
+export default function LoyalMemberPage() {
+  const router = useRouter();
   const { currentUser } = useData();
-  const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
+  const [subscription, setSubscription] = useState<Subscription | null>(null);
+  const [usage, setUsage] = useState<SubscriptionUsage | null>(null);
+  const [themes, setThemes] = useState<Theme[]>([]);
+  const [loyaltyProgram, setLoyaltyProgram] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  const getDiscountedPrice = (monthlyPrice: number) => {
-    return billingCycle === 'yearly' ? monthlyPrice * 10 : monthlyPrice; // 2 months free on yearly
+  useEffect(() => {
+    if (!currentUser) return;
+    loadLoyalData();
+  }, [currentUser]);
+
+  const loadLoyalData = async () => {
+    if (!currentUser) return;
+
+    try {
+      const subService = await getSubscriptionService();
+      const themeService = await getThemeService();
+      const loyaltyService = await getLoyaltyService();
+
+      const [sub, loyaltyThemes, program] = await Promise.all([
+        subService.getActiveSubscription(currentUser.id, 'loyalty'),
+        themeService.getSubscriptionThemes('loyalty'),
+        loyaltyService.getLoyaltyProgram(currentUser.id),
+      ]);
+
+      if (!sub) {
+        // User doesn't have loyalty subscription, redirect
+        router.push('/account/subscriptions');
+        return;
+      }
+
+      setSubscription(sub);
+      setThemes(loyaltyThemes);
+      setLoyaltyProgram(program);
+
+      // Get usage data
+      const usageData = await subService.getSubscriptionUsage(sub.id);
+      setUsage(usageData);
+    } catch (error) {
+      console.error('Failed to load loyal member data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  return (
-    <div className="space-y-8">
-      <div className="text-center space-y-4">
-        <div className="flex items-center justify-center gap-2">
-          <Sparkles className="h-8 w-8 text-blue-500" />
-          <h1 className="text-4xl font-bold tracking-tight">Loyal Membership</h1>
-        </div>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Choose the plan that fits your wellness journey. All plans include AI-powered personalization to support you better.
-        </p>
-        
-        {/* Billing Toggle */}
-        <div className="flex items-center justify-center gap-4 pt-4">
-          <Button
-            variant={billingCycle === 'monthly' ? 'default' : 'outline'}
-            onClick={() => setBillingCycle('monthly')}
-          >
-            Monthly
-          </Button>
-          <Button
-            variant={billingCycle === 'yearly' ? 'default' : 'outline'}
-            onClick={() => setBillingCycle('yearly')}
-            className="relative"
-          >
-            Yearly
-            <Badge className="absolute -top-2 -right-2 bg-green-500">Save 17%</Badge>
-          </Button>
-        </div>
+  if (!currentUser) {
+    return (
+      <div className="container max-w-6xl py-8">
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-center text-muted-foreground">Please log in to view this page.</p>
+          </CardContent>
+        </Card>
       </div>
+    );
+  }
 
-      {/* Current Subscription Banner */}
-      {currentUser?.isLoyal && (
-        <Card className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border-blue-500">
+  if (loading) {
+    return (
+      <div className="container max-w-6xl py-8">
+        <p className="text-center">Loading your Loyal Member dashboard...</p>
+      </div>
+    );
+  }
+
+  if (!subscription) {
+    return null; // Will redirect
+  }
+
+  const daysUntilRenewal = Math.ceil(
+    (new Date(subscription.endDate as string).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  return (
+    <div className="container max-w-6xl py-8 space-y-6">
           <CardContent className="pt-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

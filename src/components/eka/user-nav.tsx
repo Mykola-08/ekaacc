@@ -23,6 +23,7 @@ import { VipBadge } from '@/components/eka/vip-badge';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
 import { Crown, LogOut, Settings, User, CreditCard, Shield, Sun, Moon, Laptop } from 'lucide-react';
+import { AreaChart } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 export function UserNav() {
@@ -93,16 +94,34 @@ export function UserNav() {
               <span>Profile</span>
             </DropdownMenuItem>
           </Link>
-           <Link href="/account/vip">
-            <DropdownMenuItem>
-              <CreditCard className="mr-2 h-4 w-4" />
-              <span>Billing</span>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/account">
+          <Link href="/account/settings">
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/account/wallet">
+            <DropdownMenuItem>
+              <CreditCard className="mr-2 h-4 w-4" />
+              <span>Wallet</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/account/loyalty">
+            <DropdownMenuItem>
+              <Shield className="mr-2 h-4 w-4" />
+              <span>Loyalty</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/account/referrals">
+            <DropdownMenuItem>
+              <User className="mr-2 h-4 w-4" />
+              <span>Referrals</span>
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/account/insights">
+            <DropdownMenuItem>
+              <AreaChart className="mr-2 h-4 w-4" />
+              <span>Insights</span>
             </DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>

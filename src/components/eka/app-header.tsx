@@ -24,13 +24,20 @@ import { WelcomePersonalizationForm, DailyMoodLogForm, SessionAssessmentForm } f
 import { useRouter } from 'next/navigation';
 
 export function AppHeader() {
-  const { isMobile, setOpenMobile } = useSidebar();
+  const { isMobile, setOpenMobile, isExpanded } = useSidebar();
   const { currentUser, sessions } = useData();
   const router = useRouter();
   const [showWelcomeForm, setShowWelcomeForm] = useState(false);
   const [showDailyForm, setShowDailyForm] = useState(false);
   const [showPreSessionForm, setShowPreSessionForm] = useState(false);
   const [persona, setPersona] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Simulate loading for demonstration, replace with real loading logic as needed
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const p = localStorage.getItem('eka_persona');
@@ -130,84 +137,93 @@ export function AppHeader() {
 
   return (
     <>
-      <WelcomePersonalizationForm
-        open={showWelcomeForm}
-        onClose={() => setShowWelcomeForm(false)}
-        onSubmit={() => setShowWelcomeForm(false)}
-      />
-      <DailyMoodLogForm
-        open={showDailyForm}
-        onClose={() => setShowDailyForm(false)}
-        onSubmit={() => setShowDailyForm(false)}
-      />
-      {isTherapist && (
-        <SessionAssessmentForm
-          open={showPreSessionForm}
-          onClose={() => setShowPreSessionForm(false)}
-          onSubmit={() => setShowPreSessionForm(false)}
-          patientName="Client"
-          sessionType="pre"
-        />
-      )}
-      <motion.header
-        initial={{ opacity: 0, y: -24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className={cn(
-          "flex h-[var(--header-h)] items-center px-4 md:px-6 sticky top-0 w-full z-50 transition-all duration-300 ease-in-out glass border-b bg-background/90 backdrop-blur"
-        )}
-      >
-        <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-        {/* Left: collapse trigger (desktop) and mobile trigger */}
-        <div className="flex items-center">
-          {/* Desktop: left-aligned collapse button */}
-          <div className="hidden md:flex mr-3">
-            <SidebarTrigger />
-          </div>
-          {/* Mobile: keep sidebar trigger visible on small screens */}
-          <div className="flex md:hidden">
-            {isMobile ? (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full"
-                onClick={() => setOpenMobile(true)}
-              >
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open Sidebar</span>
-              </Button>
-            ) : (
-              <SidebarTrigger />
-            )}
-          </div>
-        </div>
-
-        {/* Centered group: search (desktop) */}
-        <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-3">
-          <form>
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                placeholder="Search EKA..."
-                className="w-80 appearance-none bg-background/50 pl-8 shadow-none"
-              />
+          {loading && (
+            <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background/80 backdrop-blur">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary"></div>
             </div>
-          </form>
-        </div>
-
-        {/* Right aligned group: Quick actions and notifications on the left, profile dropdown pinned to the far right */}
-        <div className="ml-auto flex items-center gap-1 md:gap-3 w-full">
-          <div className="flex items-center gap-2">
-            <QuickActions />
-            <NotificationCenter />
-          </div>
-          {/* Push profile to the maximum right edge */}
-          <div className="ml-auto">
-            <UserNav />
-          </div>
-        </div>
-      </motion.header>
+          )}
+          {!loading && (
+            <>
+              <WelcomePersonalizationForm
+                open={showWelcomeForm}
+                onClose={() => setShowWelcomeForm(false)}
+                onSubmit={() => setShowWelcomeForm(false)}
+              />
+              <DailyMoodLogForm
+                open={showDailyForm}
+                onClose={() => setShowDailyForm(false)}
+                onSubmit={() => setShowDailyForm(false)}
+              />
+              {isTherapist && (
+                <SessionAssessmentForm
+                  open={showPreSessionForm}
+                  onClose={() => setShowPreSessionForm(false)}
+                  onSubmit={() => setShowPreSessionForm(false)}
+                  patientName="Client"
+                  sessionType="pre"
+                />
+              )}
+              <motion.header
+                initial={{ opacity: 0, y: -24 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="flex h-[var(--header-h)] items-center px-4 md:px-6 fixed top-0 left-0 right-0 z-40 transition-all duration-300 ease-in-out glass border-b bg-background/90 backdrop-blur"
+              >
+                <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]" />
+                <div className="flex items-center">
+                  <div className="hidden md:flex mr-3">
+                    <SidebarTrigger />
+                  </div>
+                  <div className="flex md:hidden">
+                    {isMobile ? (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-full"
+                        onClick={() => setOpenMobile(true)}
+                      >
+                        <Menu className="h-6 w-6" />
+                        <span className="sr-only">Open Sidebar</span>
+                      </Button>
+                    ) : (
+                      <SidebarTrigger />
+                    )}
+                  </div>
+                </div>
+                <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2 items-center gap-3">
+                  <form>
+                    <div className="relative">
+                      <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        type="search"
+                        placeholder="Search EKA..."
+                        className="w-80 appearance-none bg-background/50 pl-8 shadow-none"
+                      />
+                    </div>
+                  </form>
+                </div>
+            {/* Right aligned group: Quick actions, notifications, and account button */}
+            <div className="ml-auto flex items-center gap-2">
+              <QuickActions />
+              <NotificationCenter />
+              <div className="group relative">
+                <UserNav />
+                {/* Subnavigation for account pages on hover/select */}
+                <div className="absolute right-0 mt-2 w-64 bg-background rounded-lg shadow-lg border z-50 hidden group-hover:block">
+                  <div className="flex flex-col py-2">
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account')}>Account Overview</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/settings')}>Settings</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/wallet')}>Wallet</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/loyalty')}>Loyalty</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/referrals')}>Referrals</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/insights')}>Insights</Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.header>
+        </>
+      )}
     </>
   );
 }

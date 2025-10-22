@@ -20,6 +20,9 @@ import {
   Crown,
   Zap,
   Shield,
+  Wallet,
+  Gift,
+  Trophy,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useData } from '@/context/unified-data-context';
@@ -119,13 +122,15 @@ export function AppSidebar() {
   const userLinks = [
     { href: '/home', icon: Home, label: 'Home' },
     { href: '/ai-insights', icon: Sparkles, label: 'AI Insights' },
-    { href: '/sessions', icon: CalendarDays, label: 'Sessions' },
-    { href: '/therapies', icon: Sparkles, label: 'Therapies'},
+  { href: '/sessions/booking', icon: CalendarDays, label: 'Book Session' },
     { href: '/progress', icon: TrendingUp, label: 'Progress' },
     { href: '/journal', icon: BookOpen, label: 'Journal' },
-  // Exercises and Community links removed from global nav — shown contextually within client/session views
+    { href: '/exercises', icon: Dumbbell, label: 'Exercises' },
+    { href: '/community', icon: Users, label: 'Community' },
+    { href: '/wallet', icon: Wallet, label: 'Wallet' },
+    { href: '/loyalty', icon: Trophy, label: 'Loyalty' },
+    { href: '/referrals', icon: Gift, label: 'Referrals' },
     { href: '/donations', icon: Heart, label: 'Donations' },
-  // Forms page removed from main nav — forms now live in account and session contexts
   ];
 
   // Donation Seeker link - only show if user is a donation seeker
@@ -144,16 +149,20 @@ export function AppSidebar() {
   
   // Explicit therapist menu items
   const therapistLinks = [
+    { href: '/therapist', icon: Home, label: 'Dashboard' },
     { href: '/therapist/clients', icon: Users, label: 'Clients' },
     { href: '/therapist/bookings', icon: CalendarDays, label: 'Bookings' },
     { href: '/therapist/billing', icon: Briefcase, label: 'Billing' },
     { href: '/therapist/templates', icon: FileText, label: 'Templates' },
+    { href: '/reports', icon: FileText, label: 'Reports' },
   ];
+  
   // Admin-specific links
   const adminLinks = [
-    { href: '/admin', icon: Users, label: 'Admin Dashboard' },
+    { href: '/admin', icon: Shield, label: 'Admin Dashboard' },
     { href: '/admin/users', icon: Users, label: 'Manage Users' },
     { href: '/admin/settings', icon: Settings, label: 'Admin Settings' },
+    { href: '/reports', icon: FileText, label: 'System Reports' },
   ];
   // Client / patient links (explicit section)
   const clientLinks = userLinks; // reuse existing userLinks for client section

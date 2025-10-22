@@ -286,6 +286,24 @@ export default function AccountSettingsPage() {
         <Badge variant="secondary">{role}</Badge>
       </div>
 
+      {/* Insights Blocks */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Goal Insights */}
+        <React.Suspense fallback={<div>Loading...</div>}>
+          {/* @ts-ignore */}
+          {typeof window !== 'undefined' && require('@/components/eka/insights/goal-insights').GoalInsights ? (
+            require('@/components/eka/insights/goal-insights').GoalInsights({ source: 'mock' })
+          ) : null}
+        </React.Suspense>
+        {/* Journal Insights */}
+        <React.Suspense fallback={<div>Loading...</div>}>
+          {/* @ts-ignore */}
+          {typeof window !== 'undefined' && require('@/components/eka/insights/journal-insights').JournalInsights ? (
+            require('@/components/eka/insights/journal-insights').JournalInsights({ source: 'mock' })
+          ) : null}
+        </React.Suspense>
+      </div>
+
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="profile">

@@ -4,7 +4,7 @@ import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { NextSession } from '@/components/eka/dashboard/next-session';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Activity, Award, CalendarDays, TrendingDown, Sparkles } from 'lucide-react';
+import { Activity, Award, CalendarDays, TrendingDown, Sparkles, Target, MapPin, BookOpen, Brain, Lightbulb, TrendingUp, CheckCircle2, Circle } from 'lucide-react';
 import { DashboardHero } from '@/components/eka/dashboard/dashboard-hero';
 import { GoalProgress } from '@/components/eka/dashboard/goal-progress';
 import { useData } from '@/context/unified-data-context';
@@ -20,6 +20,8 @@ import { useToast } from '@/hooks/use-toast';
 // (react hooks already imported above)
 import { VipBenefitsCard } from '@/components/eka/vip-benefits-card';
 import { UserStatusBadges } from '@/components/eka/user-status-badges';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 
 export default function HomePage() {
   const { currentUser, isLoading, sessions, reports, updateUser } = useData();
@@ -208,7 +210,6 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
     setLoadingRoadmap(true);
     try {
       const res = await fxService.generateAIReport(userId || 'user-unknown', 'Summarize goals and propose roadmap');
-      // fxService.generateAIReport may return [userMsg, aiMsg] or a string; normalize
       const ai = Array.isArray(res) ? (res[1]?.content || res[1]) : (res as any)?.content || res;
       setRoadmapText(typeof ai === 'string' ? ai : JSON.stringify(ai));
       toast?.({ title: 'Roadmap generated' });
@@ -229,36 +230,230 @@ function GoalJournalPanel({ userId }: { userId?: string | null }) {
     } finally { setLoadingJournal(false); }
   };
 
+  // Mock data for visual design
+  const mockMilestones = [
+    { id: 1, title: 'Complete initial assessment', completed: true, dueDate: '2025-01-15' },
+    { id: 2, title: 'Attend 5 therapy sessions', completed: true, dueDate: '2025-02-28' },
+    { id: 3, title: 'Practice mindfulness daily', completed: false, dueDate: '2025-03-15' },
+    { id: 4, title: 'Reduce stress by 20%', completed: false, dueDate: '2025-04-01' },
+  ];
+
+  const mockJournalStats = {
+    totalEntries: 24,
+    avgMood: 3.8,
+    moodTrend: 'up' as const,
+    topThemes: ['Work Stress', 'Sleep Quality', 'Exercise'],
+    weeklyStreak: 7,
+  };
+
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-medium">Goal Roadmap</h3>
-            <p className="text-sm text-muted-foreground">AI-driven goals and milestones based on your sessions.</p>
+    <div className="grid gap-6 md:grid-cols-2">
+      {/* Goal Roadmap Card */}
+      <Card className="relative overflow-hidden border-2 hover:border-primary/50 transition-all duration-300">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/10 to-transparent rounded-bl-full" />
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-primary/10">
+                <Target className="h-6 w-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">Goal Roadmap</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Your personalized journey to wellness
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <Button size="sm" onClick={generateRoadmap} disabled={loadingRoadmap}>{loadingRoadmap ? 'Generating…' : 'Generate'}</Button>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Progress Overview */}
+          <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+            <div className="flex items-center gap-2">
+              <MapPin className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium">Overall Progress</span>
+            </div>
+            <Badge variant="secondary" className="bg-primary/10 text-primary">
+              50% Complete
+            </Badge>
           </div>
-        </div>
-        <div className="text-sm text-muted-foreground">
-          {roadmapText ? <pre className="whitespace-pre-wrap text-sm bg-muted/20 p-3 rounded">{roadmapText}</pre> : 'No roadmap yet. Click Generate to analyze your recent sessions and propose milestones.'}
-        </div>
-      </div>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-lg font-medium">Journal Insights</h3>
-            <p className="text-sm text-muted-foreground">Summarize recent journal entries and surface trends.</p>
+          
+          {/* Milestones */}
+          <div className="space-y-3">
+            <h4 className="text-sm font-semibold flex items-center gap-2">
+              <Lightbulb className="h-4 w-4" />
+              Milestones
+            </h4>
+            {mockMilestones.map((milestone) => (
+              <div
+                key={milestone.id}
+                className="flex items-start gap-3 p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors cursor-pointer group"
+              >
+                <div className="mt-0.5">
+                  {milestone.completed ? (
+                    <CheckCircle2 className="h-5 w-5 text-green-500" />
+                  ) : (
+                    <Circle className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-medium ${milestone.completed ? 'line-through text-muted-foreground' : ''}`}>
+                    {milestone.title}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Due: {format(new Date(milestone.dueDate), 'MMM dd, yyyy')}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-          <div>
-            <Button size="sm" onClick={generateJournal} disabled={loadingJournal}>{loadingJournal ? 'Summarizing…' : 'Summarize'}</Button>
+
+          {/* AI Generated Roadmap */}
+          {roadmapText && (
+            <div className="mt-4 p-4 rounded-lg bg-gradient-to-br from-primary/5 to-transparent border border-primary/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="h-4 w-4 text-primary" />
+                <span className="text-sm font-semibold">AI Insights</span>
+              </div>
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap">{roadmapText}</p>
+            </div>
+          )}
+
+          {/* Generate Button */}
+          <Button 
+            onClick={generateRoadmap} 
+            disabled={loadingRoadmap}
+            className="w-full"
+            variant={roadmapText ? "outline" : "default"}
+          >
+            {loadingRoadmap ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-4 w-4 mr-2" />
+                {roadmapText ? 'Regenerate Roadmap' : 'Generate AI Roadmap'}
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Journal Insights Card */}
+      <Card className="relative overflow-hidden border-2 hover:border-purple-500/50 transition-all duration-300">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-500/10 to-transparent rounded-bl-full" />
+        <CardHeader>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-purple-500/10">
+                <BookOpen className="h-6 w-6 text-purple-500" />
+              </div>
+              <div>
+                <CardTitle className="text-xl">Journal Insights</CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Discover patterns in your wellness journey
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="text-sm text-muted-foreground">
-          {journalText ? <pre className="whitespace-pre-wrap text-sm bg-muted/20 p-3 rounded">{journalText}</pre> : 'No insights yet. Click Summarize to generate an AI summary of your journal activity.'}
-        </div>
-      </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Quick Stats Grid */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 rounded-lg bg-gradient-to-br from-purple-500/5 to-transparent border border-purple-500/20">
+              <div className="flex items-center gap-2 mb-1">
+                <BookOpen className="h-4 w-4 text-purple-500" />
+                <span className="text-xs text-muted-foreground">Entries</span>
+              </div>
+              <p className="text-2xl font-bold">{mockJournalStats.totalEntries}</p>
+            </div>
+            <div className="p-3 rounded-lg bg-gradient-to-br from-green-500/5 to-transparent border border-green-500/20">
+              <div className="flex items-center gap-2 mb-1">
+                <TrendingUp className="h-4 w-4 text-green-500" />
+                <span className="text-xs text-muted-foreground">Avg. Mood</span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <p className="text-2xl font-bold">{mockJournalStats.avgMood}</p>
+                <span className="text-xs text-green-500">↑ 0.3</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Mood Trend */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">Mood Trend</span>
+              <Badge variant="secondary" className="bg-green-500/10 text-green-500">
+                {mockJournalStats.moodTrend === 'up' ? '↗ Improving' : '→ Stable'}
+              </Badge>
+            </div>
+            <Progress value={76} className="h-2" />
+          </div>
+
+          {/* Top Themes */}
+          <div className="space-y-2">
+            <h4 className="text-sm font-semibold flex items-center gap-2">
+              <Sparkles className="h-4 w-4" />
+              Top Themes
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {mockJournalStats.topThemes.map((theme, idx) => (
+                <Badge 
+                  key={idx} 
+                  variant="outline" 
+                  className="bg-purple-500/5 border-purple-500/20 text-purple-700 dark:text-purple-300"
+                >
+                  {theme}
+                </Badge>
+              ))}
+            </div>
+          </div>
+
+          {/* Weekly Streak */}
+          <div className="p-3 rounded-lg bg-gradient-to-r from-orange-500/10 to-yellow-500/10 border border-orange-500/20">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Activity className="h-4 w-4 text-orange-500" />
+                <span className="text-sm font-medium">Writing Streak</span>
+              </div>
+              <span className="text-xl font-bold text-orange-500">{mockJournalStats.weeklyStreak} days 🔥</span>
+            </div>
+          </div>
+
+          {/* AI Generated Summary */}
+          {journalText && (
+            <div className="mt-4 p-4 rounded-lg bg-gradient-to-br from-purple-500/5 to-transparent border border-purple-500/20">
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="h-4 w-4 text-purple-500" />
+                <span className="text-sm font-semibold">AI Summary</span>
+              </div>
+              <p className="text-sm text-muted-foreground whitespace-pre-wrap">{journalText}</p>
+            </div>
+          )}
+
+          {/* Generate Button */}
+          <Button 
+            onClick={generateJournal} 
+            disabled={loadingJournal}
+            className="w-full bg-purple-500 hover:bg-purple-600"
+            variant={journalText ? "outline" : "default"}
+          >
+            {loadingJournal ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current mr-2" />
+                Analyzing...
+              </>
+            ) : (
+              <>
+                <Brain className="h-4 w-4 mr-2" />
+                {journalText ? 'Refresh Insights' : 'Generate AI Insights'}
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -12,15 +12,18 @@ import { SessionAssessmentForm } from '@/components/eka/forms';
 import { useToast } from "@/hooks/use-toast";
 import { Clock, User, Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
+import { Sparkles } from "lucide-react";
 
 export default function SessionBookingPage() {
   const { currentUser } = useData();
   const { toast } = useToast();
   const router = useRouter();
   
-  const [step, setStep] = useState<'therapist' | 'service' | 'datetime' | 'confirm'>(
-    currentUser?.role === 'Therapist' ? 'service' : 'therapist'
+  const [step, setStep] = useState<'therapy' | 'therapist' | 'service' | 'datetime' | 'confirm'>(
+    currentUser?.role === 'Therapist' ? 'therapy' : 'therapy'
   );
+  const [showAIRecommendations, setShowAIRecommendations] = useState(false);
   const [selectedTherapist, setSelectedTherapist] = useState<string>('');
   const [selectedService, setSelectedService] = useState<string>('');
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
@@ -75,7 +78,8 @@ export default function SessionBookingPage() {
   };
 
   const handleNext = () => {
-    if (step === 'therapist') setStep('service');
+  if (step === 'therapy') setStep(currentUser?.role === 'Therapist' ? 'service' : 'therapist');
+  else if (step === 'therapist') setStep('service');
     else if (step === 'service') setStep('datetime');
     else if (step === 'datetime') setStep('confirm');
   };
@@ -84,13 +88,10 @@ export default function SessionBookingPage() {
     if (step === 'confirm') setStep('datetime');
     else if (step === 'datetime') setStep('service');
     else if (step === 'service') {
-      if (currentUser?.role === 'Therapist') {
-        router.back();
-      } else {
-        setStep('therapist');
-      }
+      setStep(currentUser?.role === 'Therapist' ? 'therapy' : 'therapist');
     }
-    else if (step === 'therapist') router.back();
+    else if (step === 'therapist') setStep('therapy');
+    else if (step === 'therapy') router.back();
   };
 
   return (
@@ -102,18 +103,18 @@ export default function SessionBookingPage() {
 
       {/* Progress indicator */}
       <div className="flex items-center justify-between mb-8">
-        {(currentUser?.role !== 'Therapist' ? ['therapist', 'service', 'datetime', 'confirm'] : ['service', 'datetime', 'confirm']).map((s, idx) => (
+        {(currentUser?.role !== 'Therapist' ? ['therapy', 'therapist', 'service', 'datetime', 'confirm'] : ['therapy', 'service', 'datetime', 'confirm']).map((s, idx) => (
           <div key={s} className="flex items-center flex-1">
             <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 ${
               step === s ? 'border-primary bg-primary text-primary-foreground' : 
-              ['therapist', 'service', 'datetime', 'confirm'].indexOf(step) > ['therapist', 'service', 'datetime', 'confirm'].indexOf(s) ?
+              ['therapy', 'therapist', 'service', 'datetime', 'confirm'].indexOf(step) > ['therapy', 'therapist', 'service', 'datetime', 'confirm'].indexOf(s) ?
               'border-primary bg-primary text-primary-foreground' : 'border-muted bg-background'
             }`}>
               {idx + 1}
             </div>
-            {idx < (currentUser?.role === 'Therapist' ? 2 : 3) && (
+            {idx < (currentUser?.role === 'Therapist' ? 3 : 4) && (
               <div className={`flex-1 h-0.5 mx-2 ${
-                ['therapist', 'service', 'datetime', 'confirm'].indexOf(step) > ['therapist', 'service', 'datetime', 'confirm'].indexOf(s) ?
+                ['therapy', 'therapist', 'service', 'datetime', 'confirm'].indexOf(step) > ['therapy', 'therapist', 'service', 'datetime', 'confirm'].indexOf(s) ?
                 'bg-primary' : 'bg-muted'
               }`} />
             )}
@@ -124,12 +125,14 @@ export default function SessionBookingPage() {
       <Card>
         <CardHeader>
           <CardTitle>
+            {step === 'therapy' && 'Choose Your Therapy'}
             {step === 'therapist' && 'Select a Therapist'}
             {step === 'service' && 'Choose a Service'}
             {step === 'datetime' && 'Pick Date & Time'}
             {step === 'confirm' && 'Confirm Booking'}
           </CardTitle>
           <CardDescription>
+            {step === 'therapy' && 'Browse recommended therapies or explore all available services.'}
             {step === 'therapist' && 'Choose the therapist you would like to see.'}
             {step === 'service' && 'Select the type of session you need.'}
             {step === 'datetime' && 'Choose your preferred date and time.'}
@@ -137,6 +140,66 @@ export default function SessionBookingPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {step === 'therapy' && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <Button
+                  variant={!showAIRecommendations ? 'default' : 'outline'}
+                  onClick={() => setShowAIRecommendations(false)}
+                  className="flex-1 mr-2"
+                >
+                  <Briefcase className="h-4 w-4 mr-2" />
+                  All Therapies
+                </Button>
+                <Button
+                  variant={showAIRecommendations ? 'default' : 'outline'}
+                  onClick={() => setShowAIRecommendations(true)}
+                  className="flex-1 ml-2"
+                >
+                  <Sparkles className="h-4 w-4 mr-2" />
+                  AI Recommended
+                </Button>
+              </div>
+
+              {showAIRecommendations ? (
+                <div className="space-y-4">
+                  <AITherapyRecommendations />
+                  <p className="text-sm text-muted-foreground text-center">
+                    These recommendations are based on your profile and recent activity
+                  </p>
+                </div>
+              ) : (
+                <div className="grid gap-4 lg:grid-cols-2">
+                  {services.map((service) => (
+                    <Card 
+                      key={service.id}
+                      className="cursor-pointer transition-all hover:shadow-md"
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <Briefcase className="h-8 w-8 text-primary" />
+                          <p className="font-semibold text-lg">€{service.price}</p>
+                        </div>
+                        <h3 className="font-semibold mb-1">{service.name}</h3>
+                        <p className="text-sm text-muted-foreground mb-3">{service.duration} minutes</p>
+                        <Button 
+                          variant="outline" 
+                          className="w-full"
+                          onClick={() => {
+                            setSelectedService(service.id);
+                            handleNext();
+                          }}
+                        >
+                          Select Therapy
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
           {step === 'therapist' && (
             <div className="space-y-4">
               {therapists.map((therapist) => (
@@ -260,7 +323,7 @@ export default function SessionBookingPage() {
           )}
 
           <div className="flex gap-4 pt-4">
-            {!isBooked && step !== (currentUser?.role === 'Therapist' ? 'service' : 'therapist') && (
+            {!isBooked && step !== 'therapy' && (
               <Button variant="outline" onClick={handleBack} className="flex-1">
                 Back
               </Button>

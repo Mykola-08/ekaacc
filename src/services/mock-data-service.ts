@@ -18,7 +18,7 @@ import {
 } from '@/lib/types';
 import { IDataService } from './data-service';
 import { mockSessions, mockReports, mockExercises, mockCommunityPosts, mockTherapies, mockJournalEntries, mockAuth } from '@/lib/mock-data';
-import { allUsers, services } from '@/lib/data';
+import { services } from '@/lib/data';
 import { MOCK_AI_RECOMMENDATIONS } from '@/lib/mock-ai-recommendations';
 
 
@@ -96,9 +96,11 @@ export class MockDataService implements IDataService {
   async getCurrentUser(): Promise<User | null> {
     return this.currentUser;
   }
-
+  
   async getAllUsers(): Promise<User[]> {
-    return allUsers;
+    // Return the comprehensive mock users array
+    const { mockUsers } = await import('@/lib/mock-data');
+    return mockUsers;
   }
 
   async updateUser(userId: string, updates: Partial<User>): Promise<void> {

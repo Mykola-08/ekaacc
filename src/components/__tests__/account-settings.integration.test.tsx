@@ -37,14 +37,6 @@ vi.mock('@/components/ui/form', () => ({
 vi.mock('@/hooks/use-toast', () => ({ useToast: () => ({ toast: () => {} }) }));
 
 // Mock useData to provide currentUser without initializing the real provider
-vi.mock('../../context/unified-data-context', async () => ({
-  useData: () => ({
-    currentUser: { id: 'test-user', name: 'Test User', email: 'test@example.com', role: 'Patient', initials: 'TU' },
-    updateUser: async () => {},
-    isLoading: false,
-  })
-}));
-// Also mock the aliased path used by the app imports
 vi.mock('@/context/unified-data-context', async () => ({
   useData: () => ({
     currentUser: { id: 'test-user', name: 'Test User', email: 'test@example.com', role: 'Patient', initials: 'TU' },

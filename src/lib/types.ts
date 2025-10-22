@@ -81,6 +81,104 @@ export type User = {
   role: UserRole;
   initials: string;
   createdAt?: string;
+  
+  // Profile Information
+  bio?: string;
+  location?: string;
+  dateOfBirth?: string;
+  gender?: 'male' | 'female' | 'non-binary' | 'prefer-not-to-say' | 'other';
+  emergencyContact?: {
+    name: string;
+    phone: string;
+    relationship: string;
+  };
+  
+  
+    // Additional Profile Info
+    birthday?: string; // ISO date string
+    preferences?: {
+      likesTea?: boolean;
+      likesCoffee?: boolean;
+      favoriteDrink?: string;
+      hobbies?: string[];
+      favoriteActivities?: string[];
+      dietaryRestrictions?: string;
+      sleepPattern?: string;
+      exerciseFrequency?: string;
+      notes?: string;
+    };
+  
+    // Therapist-only visible fields
+    therapistVisible?: {
+      birthday?: string;
+      preferences?: {
+        likesTea?: boolean;
+        likesCoffee?: boolean;
+        favoriteDrink?: string;
+        hobbies?: string[];
+        favoriteActivities?: string[];
+        dietaryRestrictions?: string;
+        sleepPattern?: string;
+        exerciseFrequency?: string;
+        notes?: string;
+      };
+      additionalNotes?: string;
+    };
+  
+    // Therapist notes and reminders
+    therapistNotes?: Array<{
+      therapistId: string;
+      note: string;
+      createdAt: string;
+      updatedAt?: string;
+    }>;
+  
+    followUpReminders?: Array<{
+      therapistId: string;
+      reminder: string;
+      dueDate: string;
+      completed?: boolean;
+      completedAt?: string;
+    }>;
+  // Therapist-specific fields
+  therapistProfile?: {
+    specializations?: string[]; // e.g., ['anxiety', 'depression', 'trauma']
+    certifications?: string[]; // e.g., ['Licensed Clinical Social Worker', 'CBT Certified']
+    licenseNumber?: string;
+    yearsOfExperience?: number;
+    education?: string;
+    languages?: string[];
+    availability?: {
+      monday?: { start: string; end: string }[];
+      tuesday?: { start: string; end: string }[];
+      wednesday?: { start: string; end: string }[];
+      thursday?: { start: string; end: string }[];
+      friday?: { start: string; end: string }[];
+      saturday?: { start: string; end: string }[];
+      sunday?: { start: string; end: string }[];
+    };
+    hourlyRate?: number;
+    acceptingNewClients?: boolean;
+  };
+  
+  // Privacy & Visibility Settings
+  profileVisibility?: {
+    showEmail?: boolean;
+    showPhone?: boolean;
+    showLocation?: boolean;
+    showBio?: boolean;
+    showToTherapists?: boolean;
+    showToAdmins?: boolean;
+    publicProfile?: boolean;
+  };
+  
+  // Account Status
+  accountStatus?: 'active' | 'suspended' | 'pending' | 'deactivated';
+  suspendedReason?: string;
+  suspendedUntil?: string;
+  lastLoginAt?: string;
+  profileCompleteness?: number; // 0-100
+  
   goal?: {
     description?: string;
     targetSessions: number;
@@ -155,6 +253,20 @@ export type TriageResult = {
     top: {
         therapyId: string;
         reason: string;
+    therapistNotes?: Array<{
+      therapistId: string;
+      note: string;
+      createdAt: string;
+      updatedAt?: string;
+    }>;
+
+    followUpReminders?: Array<{
+      therapistId: string;
+      reminder: string;
+      dueDate: string;
+      completed?: boolean;
+      completedAt?: string;
+    }>;
         plan: {
             sessions: number;
             freq: string;

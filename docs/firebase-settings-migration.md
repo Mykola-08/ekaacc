@@ -7,6 +7,7 @@ Goal: Replace the mock/localStorage settings persistence with a Firebase Firesto
 Collection: `users` (existing) — extend with subcollection `settings` or a top-level `settings` collection.
 
 Option A (recommended): store settings as a subcollection or document under each user: `users/{userId}/settings/profile` (document)
+
 - Path: `users/{userId}/settings` (document)
 - Fields (example):
   - `notifications.email`: boolean
@@ -75,17 +76,18 @@ return (await getDoc(docRef)).data();
 ```
 
 ## 5) Backwards compatibility
+
 - Keep `fxService` function signatures identical.
 - Keep `NEXT_PUBLIC_USE_MOCK_DATA` for dev.
 - For safety, if Firestore is unavailable, fall back to previous behavior for a short period while monitoring.
 
 ## 6) Rollout checklist
+
 - [ ] Implement Firestore read/write helpers
 - [ ] Add Firestore rules & test with emulator
 - [ ] Add unit/integration tests
 - [ ] Run migration for existing saved settings (if needed)
 - [ ] Deploy and monitor
-
 
 ---
 If you want, I can implement the Firestore-backed `getSettings`/`updateSettings` now behind the feature flag and add tests against the Firestore emulator (requires additional setup).

@@ -25,7 +25,7 @@ Pros: simple, security rules are intuitive (user can only read/write own documen
 
 Rules should allow a user to read/write only their own settings unless they have elevated roles (Admin). For example:
 
-```
+```javascript
 match /users/{userId}/settings {
   allow read: if request.auth != null && request.auth.uid == userId;
   allow write: if request.auth != null && request.auth.uid == userId;

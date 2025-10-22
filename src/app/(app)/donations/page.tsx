@@ -7,11 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart } from "lucide-react";
+import { Heart, HandHeart } from "lucide-react";
 import { useData } from '@/context/unified-data-context';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { DonationSeekerApplicationForm } from '@/components/eka/forms/donation-seeker-application-form';
+import type { DonationSeekerData } from '@/components/eka/forms/donation-seeker-application-form';
 
 export default function DonationsPage() {
   const { currentUser, allUsers } = useData();
@@ -21,6 +23,7 @@ export default function DonationsPage() {
   const isLoadingUsers = !allUsers;
   const [userDonations, setUserDonations] = useState<any[]>([]);
   const isLoadingDonations = false;
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   const donationStats = useMemo(() => {
     if (!userDonations) {
@@ -62,8 +65,20 @@ export default function DonationsPage() {
     }, 700);
   };
 
+  const handleApplicationSubmit = (data: DonationSeekerData) => {
+    console.log('Application submitted:', data);
+    toast({
+      title: 'Application submitted!',
+      description: 'Your donation seeker application has been submitted for review.',
+    });
+    setShowApplicationForm(false);
+  };
+
+  const isDonationSeeker = currentUser?.isDonationSeeker;
+
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
+    <div className="space-y-8">
+      <div className="grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
@@ -147,6 +162,38 @@ export default function DonationsPage() {
                 </CardContent>
             </Card>
         </div>
+      </div>
+
+      {/* Donation Seeker Application Section */}
+      {!isDonationSeeker && (
+        <Card className="border-dashed">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <HandHeart className="h-5 w-5 text-primary" />
+              Need Support?
+            </CardTitle>
+            <CardDescription>
+              Apply to become a donation seeker and receive support from the community
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground mb-4">
+              If you're facing financial challenges accessing mental health care, our community is here to help. 
+              Submit an application to be considered for donation support.
+            </p>
+            <Button onClick={() => setShowApplicationForm(true)} variant="outline">
+              Apply to Receive Donations
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Application Form Dialog */}
+      <DonationSeekerApplicationForm 
+        open={showApplicationForm}
+        onClose={() => setShowApplicationForm(false)}
+        onSubmit={handleApplicationSubmit}
+      />
     </div>
   	);
   }

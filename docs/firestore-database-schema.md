@@ -1,11 +1,13 @@
 # Firestore Database Schema
 
 ## Overview
+
 This document defines the complete Firestore database structure for the Eka mental health platform, including wallet management, payments, loyalty programs, and referral systems.
 
 ## Collections Structure
 
 ### 1. `/users/{userId}` - User Profiles
+
 **Purpose:** Core user information and profile data
 
 ```typescript
@@ -44,6 +46,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Security Rules:**
+
 - User can read/write their own document
 - Admins can read/write all user documents
 - Therapists can read patient documents assigned to them
@@ -51,6 +54,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 2. `/wallets/{walletId}` - User Wallets
+
 **Purpose:** Internal wallet for each user (walletId === userId)
 
 ```typescript
@@ -74,6 +78,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Security Rules:**
+
 - User can read their own wallet
 - Only system/admins can write to wallet (through Cloud Functions)
 - Prevent direct balance manipulation
@@ -81,6 +86,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 3. `/wallets/{walletId}/transactions/{transactionId}` - Wallet Transactions
+
 **Purpose:** Transaction history for wallet (subcollection of wallets)
 
 ```typescript
@@ -111,6 +117,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Indexes Required:**
+
 - `userId` ASC, `createdAt` DESC
 - `status` ASC, `createdAt` DESC
 - `type` ASC, `createdAt` DESC
@@ -118,6 +125,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 4. `/paymentRequests/{requestId}` - Payment Requests
+
 **Purpose:** Track Bizum and cash payment requests
 
 ```typescript
@@ -156,11 +164,13 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Indexes Required:**
+
 - `status` ASC, `createdAt` DESC
 - `userId` ASC, `createdAt` DESC
 - `confirmedBy` ASC, `confirmedAt` DESC
 
 **Security Rules:**
+
 - User can create payment requests
 - User can read their own requests
 - Admins/Therapists can read all requests
@@ -169,6 +179,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 5. `/loyaltyPrograms/{userId}` - Loyalty Program Enrollment
+
 **Purpose:** Track user loyalty program enrollment and tier
 
 ```typescript
@@ -191,6 +202,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 6. `/loyaltyPrograms/{userId}/pointsTransactions/{transactionId}` - Loyalty Points History
+
 **Purpose:** Track earning and spending of loyalty points (subcollection)
 
 ```typescript
@@ -215,12 +227,14 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Indexes Required:**
+
 - `userId` ASC, `createdAt` DESC
 - `action` ASC, `createdAt` DESC
 
 ---
 
 ### 7. `/loyaltyRewards/{rewardId}` - Loyalty Rewards Catalog
+
 **Purpose:** Available rewards users can redeem with points
 
 ```typescript
@@ -244,12 +258,14 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Security Rules:**
+
 - All authenticated users can read active rewards
 - Only admins can create/update rewards
 
 ---
 
 ### 8. `/referralCodes/{codeId}` - Referral Codes
+
 **Purpose:** Unique referral codes for each user
 
 ```typescript
@@ -269,12 +285,14 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Indexes Required:**
+
 - `code` ASC (unique)
 - `userId` ASC, `isActive` ASC
 
 ---
 
 ### 9. `/referrals/{referralId}` - Referral Tracking
+
 **Purpose:** Track referrals and reward distribution
 
 ```typescript
@@ -310,6 +328,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Indexes Required:**
+
 - `referrerId` ASC, `createdAt` DESC
 - `refereeId` ASC
 - `status` ASC, `createdAt` DESC
@@ -317,6 +336,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 10. `/settings/referralSettings` - Referral Program Configuration
+
 **Purpose:** Global referral program settings (singleton document)
 
 ```typescript
@@ -340,6 +360,7 @@ This document defines the complete Firestore database structure for the Eka ment
 ---
 
 ### 11. `/purchases/{purchaseId}` - Service/Feature Purchases
+
 **Purpose:** Track all purchases made with wallet
 
 ```typescript
@@ -376,12 +397,14 @@ This document defines the complete Firestore database structure for the Eka ment
 ```
 
 **Indexes Required:**
+
 - `userId` ASC, `createdAt` DESC
 - `status` ASC, `createdAt` DESC
 
 ---
 
 ### 12. `/purchasableItems/{itemId}` - Catalog of Purchasable Items
+
 **Purpose:** Services, packages, features available for purchase
 
 ```typescript

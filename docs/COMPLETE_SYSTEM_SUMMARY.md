@@ -314,7 +314,7 @@ sendWelcomeEmail(userId, email, tempPassword?): Promise<void>
 
 ### Self-Registration
 
-```
+```text
 User → Registration Form → Enter Email/Password/Name → 
 Optional Referral Code → Submit → Email Verification → 
 Wallet Created → Loyalty Enrolled → Complete
@@ -322,7 +322,7 @@ Wallet Created → Loyalty Enrolled → Complete
 
 ### Admin-Created
 
-```
+```text
 Admin → /admin/create-user → Fill Form → Select Role → 
 Set Initial Balance → Optional Referral → Submit → 
 Temp Password Generated → Email Sent (optional) → 
@@ -331,7 +331,7 @@ Share Credentials → User First Login → Password Change Required
 
 ### Therapist-Created
 
-```
+```text
 Therapist → Create Patient Form → Fill Details → 
 Temp Password Generated → Share with Patient → 
 Patient First Login → Password Change
@@ -589,7 +589,7 @@ describe('Wallet Service', () => {
 
 ### ⏳ Pending (1/12 - 8%)
 
-12. ⏳ Comprehensive testing and validation
+1. ⏳ Comprehensive testing and validation
 
 ---
 

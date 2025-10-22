@@ -225,7 +225,7 @@ Features needed:
 
 ## 🗂️ File Structure Created
 
-```
+```text
 src/
 ├── lib/
 │   └── wallet-types.ts ✅ (Complete type system)
@@ -378,7 +378,7 @@ firestore.rules ✅ (Security rules updated)
 | Referral UI | Medium | 3-4 hours |
 | Cloud Functions | Critical | 8-10 hours |
 
-**Total Remaining: ~30-40 hours**
+Total Remaining: ~30-40 hours
 
 ---
 

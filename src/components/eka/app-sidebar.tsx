@@ -127,6 +127,11 @@ export function AppSidebar() {
     { href: '/donations', icon: Heart, label: 'Donations' },
   // Forms page removed from main nav — forms now live in account and session contexts
   ];
+
+  // Donation Seeker link - only show if user is a donation seeker
+  const donationSeekerLink = currentUser?.isDonationSeeker 
+    ? [{ href: '/donation-seeker', icon: Heart, label: 'Donation Seeker' }]
+    : [];
   
   // Conditional subscription links
   const subscriptionLinks = [];
@@ -243,6 +248,17 @@ export function AppSidebar() {
                   isCollapsed={isCollapsed} 
                 />
                 {clientLinks.map(link => (
+                  <SidebarMenuItem key={link.href}>
+                    <SidebarLink 
+                      href={link.href}
+                      icon={link.icon}
+                      label={link.label}
+                      isActive={pathname === link.href}
+                      isCollapsed={isCollapsed}
+                    />
+                  </SidebarMenuItem>
+                ))}
+                {donationSeekerLink.map(link => (
                   <SidebarMenuItem key={link.href}>
                     <SidebarLink 
                       href={link.href}

@@ -338,7 +338,7 @@
 
 **Rules**:
 
-```
+```javascript
 // Subscriptions - users read own, admins manage
 match /subscriptions/{subId} {
   allow read: if request.auth.uid == resource.data.userId || isAdmin();
@@ -463,7 +463,7 @@ match /userThemePreferences/{userId} {
 - [ ] Can manage tiers
 - [ ] Can manage themes
 
-### **Badges**
+### **Badge Components**
 
 - [ ] Badge shows on profile
 - [ ] Badge shows in sidebar

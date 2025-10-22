@@ -20,6 +20,8 @@ import { useData } from '@/context/unified-data-context';
 import { useRouter } from 'next/navigation';
 import { DataSourceIndicator } from '@/components/eka/data-source-indicator';
 import { VipBadge } from '@/components/eka/vip-badge';
+import { SubscriptionBadge } from '@/components/eka/subscription-badge';
+import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
 import { Crown, LogOut, Settings, User, CreditCard, Shield, Sun, Moon, Laptop } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
@@ -27,6 +29,7 @@ export function UserNav() {
   const { currentUser, logout } = useData();
   const router = useRouter();
   const { setTheme } = useTheme();
+  const { hasLoyalty, hasVip } = useActiveSubscriptions(currentUser?.id);
 
   const handleLogout = async () => {
     await logout();
@@ -64,6 +67,10 @@ export function UserNav() {
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+                {/* Subscription badges */}
+                {hasLoyalty && <SubscriptionBadge type="loyalty" size="sm" showLabel={false} />}
+                {hasVip && <SubscriptionBadge type="vip" size="sm" showLabel={false} />}
+                {/* Old wallet VIP badge */}
                 {currentUser.isVip && currentUser.vipTier && (
                   <VipBadge tier={currentUser.vipTier} variant="compact" />
                 )}

@@ -365,5 +365,83 @@ service cloud.firestore {
                exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
                get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Therapist';
     }
+
+    // ========================================================================
+    // SUBSCRIPTION SYSTEM RULES
+    // ========================================================================
+
+    /**
+     * @collection subscriptions
+     * @description User subscription records (Loyal, VIP memberships)
+     * @path /subscriptions/{subscriptionId}
+     */
+    match /subscriptions/{subscriptionId} {
+      // Users can read their own subscriptions
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      // Admins can read all subscriptions
+      allow read: if isAdmin();
+      
+      // Only admins can create/update/delete subscriptions
+      allow create, update, delete: if isAdmin();
+    }
+
+    /**
+     * @collection subscriptionUsage
+     * @description Usage tracking for subscriptions (points, discounts, themes used)
+     * @path /subscriptionUsage/{subscriptionId}
+     */
+    match /subscriptionUsage/{subscriptionId} {
+      // Users can read usage for their own subscriptions
+      allow read: if isSignedIn() && 
+                     exists(/databases/$(database)/documents/subscriptions/$(subscriptionId)) &&
+                     get(/databases/$(database)/documents/subscriptions/$(subscriptionId)).data.userId == request.auth.uid;
+      
+      // Admins can read all usage data
+      allow read: if isAdmin();
+      
+      // System can create/update usage (via Cloud Functions or admin)
+      allow create, update: if isAdmin();
+      
+      // No direct deletion - should cascade from subscription deletion
+      allow delete: if isAdmin();
+    }
+
+    /**
+     * @collection userThemePreferences
+     * @description User theme preferences and customizations
+     * @path /userThemePreferences/{userId}
+     */
+    match /userThemePreferences/{userId} {
+      // Users can read/write their own theme preferences
+      allow read, write: if isOwner(userId);
+      
+      // Admins can read all preferences
+      allow read: if isAdmin();
+    }
+
+    /**
+     * @collection subscriptionRewards
+     * @description Loyalty rewards earned by users
+     * @path /subscriptionRewards/{rewardId}
+     */
+    match /subscriptionRewards/{rewardId} {
+      // Users can read their own rewards
+      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      // Admins can read all rewards
+      allow read: if isAdmin();
+      
+      // Only system/admin can create rewards
+      allow create: if isAdmin();
+      
+      // Users can update redemption status of their own rewards
+      allow update: if isSignedIn() && 
+                       resource.data.userId == request.auth.uid &&
+                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['redeemedAt', 'updatedAt']);
+      
+      // Only admins can delete rewards
+      allow delete: if isAdmin();
+    }
   }
 }

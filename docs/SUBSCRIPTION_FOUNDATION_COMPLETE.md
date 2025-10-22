@@ -151,7 +151,7 @@ VIP Benefits:
 
 ### **Subscription Types**
 
-```
+```text
 User can have:
 ✅ Loyalty only
 ✅ VIP only
@@ -166,7 +166,7 @@ Benefits stack:
 
 ### **Theme Access Control**
 
-```
+```text
 Theme Visibility Logic:
 1. Public themes → Everyone
 2. Loyalty themes → Loyalty OR VIP subscribers
@@ -185,7 +185,7 @@ Subscription cancels:
 
 ### **Stripe Integration (Pending)**
 
-```
+```text
 Subscription Purchase Flow:
 1. User clicks "Subscribe Monthly/Yearly"
 2. Create Stripe Checkout Session (Cloud Function)
@@ -215,40 +215,40 @@ Subscription Purchase Flow:
 
 ### **Short-term (Priority 3-4)**
 
-3. **Badge System** (5+ files)
+1. **Badge System** (5+ files)
    - Badge component
    - Integrate into profile, header, sidebar, community
    - Show Loyal/VIP status throughout app
 
-4. **Theme Selector UI** (2 files)
+2. **Theme Selector UI** (2 files)
    - Theme selector component
    - Settings integration
    - Theme preview, apply, lock premium themes
 
 ### **Medium-term (Priority 5-6)**
 
-5. **Admin Management** (3 files)
+1. **Admin Management** (3 files)
    - View all subscriptions
    - Grant/revoke subscriptions
    - Manage tiers and themes
 
-6. **Sidebar Updates** (1 file)
+2. **Sidebar Updates** (1 file)
    - Conditionally show Loyal/VIP pages
    - Add subscription badges
    - Show upgrade CTA
 
 ### **Long-term (Priority 7-9)**
 
-7. **Stripe Integration** (3 files)
+1. **Stripe Integration** (3 files)
    - Stripe service
    - Webhook handling
    - Checkout flow
 
-8. **Database & Security** (2 files)
+2. **Database & Security** (2 files)
    - Firestore collections
    - Security rules
 
-9. **Cloud Functions** (6 functions)
+3. **Cloud Functions** (6 functions)
    - Stripe webhook handler
    - Subscription CRUD
    - Usage tracking

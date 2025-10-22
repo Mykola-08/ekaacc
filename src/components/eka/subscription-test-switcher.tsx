@@ -5,9 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Settings, Crown, Sparkles, User } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Settings, Crown, Sparkles, User, Heart } from 'lucide-react';
 import { useData } from '@/context/unified-data-context';
 import type { SubscriptionType, LoyalTier, VipTier } from '@/lib/types';
+import { Separator } from '@/components/ui/separator';
 
 export function SubscriptionTestSwitcher() {
   const { currentUser, updateUser } = useData();
@@ -19,6 +22,12 @@ export function SubscriptionTestSwitcher() {
   );
   const [vipTier, setVipTier] = useState<VipTier>(
     currentUser?.vipTier || 'Bronze'
+  );
+  const [isDonationSeeker, setIsDonationSeeker] = useState(
+    currentUser?.isDonationSeeker || false
+  );
+  const [donationSeekerApproved, setDonationSeekerApproved] = useState(
+    currentUser?.donationSeekerApproved || false
   );
 
   const handleApplySubscription = () => {
@@ -111,6 +120,13 @@ export function SubscriptionTestSwitcher() {
       updates.vipTier = undefined;
     }
 
+    // Add donation seeker status
+    updates.isDonationSeeker = isDonationSeeker;
+    updates.donationSeekerApproved = isDonationSeeker ? donationSeekerApproved : false;
+    updates.donationSeekerReason = isDonationSeeker 
+      ? "Test donation seeker account - seeking support for therapy costs" 
+      : undefined;
+
     updateUser(updates);
   };
 
@@ -190,14 +206,49 @@ export function SubscriptionTestSwitcher() {
           </div>
         )}
 
+        <Separator className="my-4" />
+
+        {/* Donation Seeker Status */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-2 text-sm font-medium">
+            <Heart className="h-4 w-4 text-pink-500" />
+            <span>Donation Seeker Status</span>
+          </div>
+          
+          <div className="flex items-center justify-between space-x-2">
+            <Label htmlFor="donation-seeker" className="text-sm">
+              Enable Donation Seeker
+            </Label>
+            <Switch
+              id="donation-seeker"
+              checked={isDonationSeeker}
+              onCheckedChange={setIsDonationSeeker}
+            />
+          </div>
+
+          {isDonationSeeker && (
+            <div className="flex items-center justify-between space-x-2 pl-4">
+              <Label htmlFor="donation-approved" className="text-sm">
+                Application Approved
+              </Label>
+              <Switch
+                id="donation-approved"
+                checked={donationSeekerApproved}
+                onCheckedChange={setDonationSeekerApproved}
+              />
+            </div>
+          )}
+        </div>
+
         <div className="flex items-center gap-2">
           <Button onClick={handleApplySubscription} className="flex-1">
-            Apply Subscription
+            Apply All Changes
           </Button>
           <Badge variant={subscriptionType === 'Free' ? 'secondary' : subscriptionType === 'Loyal' ? 'default' : 'destructive'}>
             Current: {currentUser?.subscriptionType || 'Free'}
             {currentUser?.isLoyal && ` - ${currentUser.loyalTier}`}
             {currentUser?.isVip && ` - ${currentUser.vipTier}`}
+            {currentUser?.isDonationSeeker && ' 💖'}
           </Badge>
         </div>
       </CardContent>

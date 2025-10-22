@@ -13,12 +13,13 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Table, TableBody, TableCell, TableHeader, TableRow, TableHead } from '@/components/ui/table';
 import { allUsers } from '@/lib/data';
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, HandHeart } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
 
 import { SubscriptionTestSwitcher } from '@/components/eka/subscription-test-switcher';
-import { WelcomePersonalizationForm, DailyMoodLogForm } from '@/components/eka/forms';
+import { WelcomePersonalizationForm, DailyMoodLogForm, DonationSeekerApplicationForm } from '@/components/eka/forms';
+import type { DonationSeekerData } from '@/components/eka/forms/donation-seeker-application-form';
 import { useData } from '@/context/unified-data-context';
 import type { User } from '@/lib/types';
 
@@ -43,6 +44,7 @@ type DashboardWidgets = {
 export default function AccountPage() {
     const { currentUser, updateUser } = useData();
     const { toast } = useToast();
+    const [showDonationSeekerForm, setShowDonationSeekerForm] = useState(false);
 
     const [widgetConfig, setWidgetConfig] = useState<DashboardWidgets>({
         goalProgress: true,
@@ -93,6 +95,15 @@ export default function AccountPage() {
         title: "Profile Updated",
         description: "Your changes have been saved.",
     });
+  };
+
+  const handleDonationSeekerSubmit = (data: DonationSeekerData) => {
+    console.log('Donation seeker application:', data);
+    toast({
+      title: 'Application submitted',
+      description: 'Your donation seeker application has been submitted for review.',
+    });
+    setShowDonationSeekerForm(false);
   };
   
   if (!currentUser) {
@@ -289,11 +300,46 @@ export default function AccountPage() {
                     </CardContent>
                 </Card>
 
+                {/* Donation Seeker Application - Only show if NOT already a donation seeker */}
+                {!currentUser.isDonationSeeker && (
+                  <Card className="border-dashed">
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <HandHeart className="h-5 w-5 text-primary" />
+                        Need Financial Support?
+                      </CardTitle>
+                      <CardDescription>
+                        Apply to receive donations from the community to help with therapy costs
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        If you're facing financial challenges accessing mental health care, our community is here to help. 
+                        Submit an application to be considered for donation support.
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => setShowDonationSeekerForm(true)}
+                        className="w-full sm:w-auto"
+                      >
+                        Apply to Receive Donations
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+
                 <div className='flex justify-end'>
                     <Button type="submit" className='w-full sm:w-auto'>Update Profile</Button>
                 </div>
             </form>
         </Form>
+
+        {/* Donation Seeker Application Form Dialog */}
+        <DonationSeekerApplicationForm 
+          open={showDonationSeekerForm}
+          onClose={() => setShowDonationSeekerForm(false)}
+          onSubmit={handleDonationSeekerSubmit}
+        />
     </div>
   );
 }

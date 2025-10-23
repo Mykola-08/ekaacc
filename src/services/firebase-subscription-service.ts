@@ -10,6 +10,9 @@ import {
   SubscriptionInterval,
   SubscriptionUsage,
   UserSubscriptionSummary,
+  SubscriptionFeatures,
+  SubscriptionBadge,
+  Theme,
   DEFAULT_SUBSCRIPTION_TIERS,
 } from '@/lib/subscription-types';
 import {
@@ -25,6 +28,59 @@ import {
   getSubscriptionsByType,
 } from '@/firebase/firestore/subscriptions';
 import type { ISubscriptionService } from '@/services/subscription-service';
+import { getThemeService } from '@/services/theme-service';
+
+function mergeSubscriptionFeatures(featuresList: SubscriptionFeatures[]): SubscriptionFeatures {
+  return featuresList.reduce<SubscriptionFeatures>((acc, feature) => {
+    for (const [key, value] of Object.entries(feature)) {
+      if (value === undefined) continue;
+
+      if (Array.isArray(value)) {
+        const existing = Array.isArray(acc[key as keyof SubscriptionFeatures])
+          ? (acc[key as keyof SubscriptionFeatures] as unknown as string[])
+          : [];
+        const merged = new Set([...(existing ?? []), ...value]);
+        acc[key as keyof SubscriptionFeatures] = Array.from(merged) as never;
+      } else if (typeof value === 'boolean') {
+        acc[key as keyof SubscriptionFeatures] = (Boolean(
+          acc[key as keyof SubscriptionFeatures]
+        ) || value) as never;
+      } else if (typeof value === 'number') {
+        const current = typeof acc[key as keyof SubscriptionFeatures] === 'number'
+          ? (acc[key as keyof SubscriptionFeatures] as number)
+          : undefined;
+        const nextValue = current === undefined ? value : Math.max(current, value);
+        acc[key as keyof SubscriptionFeatures] = nextValue as never;
+      } else {
+        acc[key as keyof SubscriptionFeatures] = value as never;
+      }
+    }
+    return acc;
+  }, {} as SubscriptionFeatures);
+}
+
+function createFallbackThemesForUser(
+  hasLoyalty: boolean,
+  hasVip: boolean
+): Theme[] {
+  const baseTimestamp = Date.now();
+  return DEFAULT_THEMES.map((definition, index) => ({
+    ...definition,
+    id: `theme-${definition.name}`,
+    createdAt: new Date(baseTimestamp - index * 1000).toISOString(),
+    updatedAt: new Date(baseTimestamp - index * 1000).toISOString(),
+  })).filter(theme => {
+    if (theme.isActive === false) return false;
+    if (theme.isPublic) return true;
+    if (theme.requiredSubscription === 'loyalty') {
+      return hasLoyalty || hasVip;
+    }
+    if (theme.requiredSubscription === 'vip') {
+      return hasVip;
+    }
+    return false;
+  });
+}
 
 export class FirebaseSubscriptionService implements ISubscriptionService {
   private tiers: SubscriptionTier[] = DEFAULT_SUBSCRIPTION_TIERS.map((tier, index) => ({
@@ -55,9 +111,52 @@ export class FirebaseSubscriptionService implements ISubscriptionService {
   async getUserSubscriptionSummary(userId: string): Promise<UserSubscriptionSummary> {
     const subscriptions = await this.getUserSubscriptions(userId);
     const activeSubscriptions = subscriptions.filter(s => s.status === 'active');
-    
+
     const loyaltySub = activeSubscriptions.find(s => s.type === 'loyalty');
     const vipSub = activeSubscriptions.find(s => s.type === 'vip');
+
+    const loyaltyTier = this.tiers.find(t => t.type === 'loyalty');
+    const vipTier = this.tiers.find(t => t.type === 'vip');
+
+    const featureSources: SubscriptionFeatures[] = [];
+    const badges: SubscriptionBadge[] = [];
+
+    if (loyaltySub && loyaltyTier) {
+      featureSources.push({ ...loyaltyTier.features });
+      badges.push(loyaltyTier.badge);
+    }
+    if (vipSub && vipTier) {
+      featureSources.push({ ...vipTier.features });
+      badges.push(vipTier.badge);
+    }
+
+    const totalBenefits: SubscriptionFeatures = featureSources.length
+      ? mergeSubscriptionFeatures(featureSources)
+      : {} as SubscriptionFeatures;
+
+    let availableThemes: Theme[] = [];
+    let currentThemeDetails: Theme | undefined;
+
+    try {
+      const themeService = await getThemeService();
+      availableThemes = await themeService.getUserAvailableThemes(userId);
+      const preference = await themeService.getUserThemePreference(userId);
+      if (preference?.currentTheme) {
+        currentThemeDetails =
+          availableThemes.find(theme => theme.id === preference.currentTheme) ??
+          (await themeService.getTheme(preference.currentTheme) ?? undefined);
+      }
+    } catch (error) {
+      console.warn('Unable to load theme preferences for subscription summary', error);
+    }
+
+    if (!availableThemes.length) {
+      availableThemes = createFallbackThemesForUser(Boolean(loyaltySub), Boolean(vipSub));
+    }
+
+    availableThemes = availableThemes.filter(
+      (theme, index, self) => index === self.findIndex(t => t.id === theme.id)
+    );
 
     return {
       userId,
@@ -66,9 +165,10 @@ export class FirebaseSubscriptionService implements ISubscriptionService {
       hasBoth: !!loyaltySub && !!vipSub,
       loyaltySubscription: loyaltySub,
       vipSubscription: vipSub,
-      totalBenefits: {}, // TODO: Calculate combined benefits
-      combinedBadges: [], // TODO: Generate badges
-      availableThemes: [], // TODO: Get available themes
+      totalBenefits,
+      combinedBadges: badges,
+      availableThemes,
+      currentTheme: currentThemeDetails,
       usageSummary: {
         loyalty: loyaltySub ? (await this.getSubscriptionUsage(loyaltySub.id) || undefined) : undefined,
         vip: vipSub ? (await this.getSubscriptionUsage(vipSub.id) || undefined) : undefined,

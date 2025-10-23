@@ -1,4 +1,5 @@
 import { getFirestoreClient } from './firebase-client';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { mockBookingAPI, mockAIAPI } from './mock-bookings';
 import { mockAssessmentsAPI } from './mock-assessments';
 import { mockBillingAPI } from './mock-billing';
@@ -28,6 +29,40 @@ function safeSetItem(key: string, value: string) {
     if (typeof localStorage !== 'undefined' && localStorage) return localStorage.setItem(key, value);
   } catch (e) { /* ignore */ }
   _inMemoryStore.set(key, value);
+}
+
+function normalizeFirestoreValue(value: unknown): unknown {
+  if (value === null || value === undefined) return value;
+  if (Array.isArray(value)) {
+    return value.map(normalizeFirestoreValue);
+  }
+  if (typeof value === 'object') {
+    if (typeof (value as { toDate?: () => Date }).toDate === 'function') {
+      return (value as { toDate: () => Date }).toDate().toISOString();
+    }
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, val]) => [key, normalizeFirestoreValue(val)])
+    );
+  }
+  return value;
+}
+
+function deepMergeSettings(target: Record<string, unknown>, source: Record<string, unknown>): Record<string, unknown> {
+  const output: Record<string, unknown> = { ...target };
+  for (const [key, value] of Object.entries(source)) {
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      const existing = output[key];
+      output[key] = deepMergeSettings(
+        typeof existing === 'object' && existing !== null && !Array.isArray(existing)
+          ? (existing as Record<string, unknown>)
+          : {},
+        value as Record<string, unknown>
+      );
+    } else {
+      output[key] = value;
+    }
+  }
+  return output;
 }
 
 export const fxService = {
@@ -189,8 +224,18 @@ export const fxService = {
       try { safeSetItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
       return defaults;
     }
-    // TODO: implement real settings retrieval via firestore
-    return {};
+    const db = getFirestoreClient();
+    const settingsRef = doc(db, 'userSettings', userId);
+    const snapshot = await getDoc(settingsRef);
+
+    const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} } as Record<string, unknown>;
+
+    if (!snapshot.exists()) {
+      return defaults;
+    }
+
+    const data = normalizeFirestoreValue(snapshot.data()) as Record<string, unknown>;
+    return deepMergeSettings(defaults, data);
   },
   async updateSettings(userId: string, settings: Record<string, any>) {
     if (useMock) {
@@ -201,8 +246,26 @@ export const fxService = {
         return next;
       } catch (e) { return settings; }
     }
-    // TODO: implement real settings update via firestore
-    return settings;
+    const db = getFirestoreClient();
+    const settingsRef = doc(db, 'userSettings', userId);
+    const snapshot = await getDoc(settingsRef);
+
+    const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} } as Record<string, unknown>;
+    const existingData = snapshot.exists()
+      ? (normalizeFirestoreValue(snapshot.data()) as Record<string, unknown>)
+      : {};
+
+    const merged = deepMergeSettings(defaults, deepMergeSettings(existingData, settings));
+
+    const updatedAt = new Date().toISOString();
+
+    await setDoc(
+      settingsRef,
+      { ...merged, updatedAt: serverTimestamp() },
+      { merge: true }
+    );
+
+    return { ...normalizeFirestoreValue(merged), updatedAt };
   },
   auth: fxAuth,
 };

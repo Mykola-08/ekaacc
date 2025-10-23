@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Check, Lock, Palette, Sparkles } from 'lucide-react';
 import { getThemeService } from '@/services/theme-service';
+import type { IThemeService } from '@/services/theme-service';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
 import { useData } from '@/context/unified-data-context';
 import { cn } from '@/lib/utils';
@@ -23,16 +24,18 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [currentTheme, setCurrentTheme] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [service, setService] = useState<IThemeService | null>(null);
 
   useEffect(() => {
     const loadThemes = async () => {
       if (!currentUser?.id) return;
 
       try {
-        const themeService = await getThemeService();
-        const availableThemes = await themeService.getAllThemes();
-        const userPreference = await themeService.getUserThemePreference(currentUser.id);
-        
+        const themeServiceInstance = await getThemeService();
+        setService(themeServiceInstance);
+        const availableThemes = await themeServiceInstance.getAllThemes();
+        const userPreference = await themeServiceInstance.getUserThemePreference(currentUser.id);
+
         setThemes(availableThemes);
         const themeId = userPreference?.currentTheme || 'default';
         setCurrentTheme(themeId);
@@ -54,9 +57,18 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
     return false;
   };
 
+  const resolveThemeService = useCallback(async () => {
+    if (service) {
+      return service;
+    }
+    const instance = await getThemeService();
+    setService(instance);
+    return instance;
+  }, [service]);
+
   const handleThemeSelect = async (themeId: string, theme: Theme) => {
     if (!canAccessTheme(theme)) return;
-    
+
     setSelectedTheme(themeId);
     if (onThemeChange) {
       onThemeChange(themeId);
@@ -67,10 +79,10 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
     if (!currentUser?.id || !selectedTheme) return;
 
     try {
-      // For now, just apply locally since we don't have a save method yet
-      // TODO: Implement setUserThemePreference in theme service
+      const themeServiceInstance = await resolveThemeService();
+      await themeServiceInstance.setUserTheme(currentUser.id, selectedTheme);
       setCurrentTheme(selectedTheme);
-      
+
       // Apply theme to document
       applyThemeToDocument(themes.find(t => t.id === selectedTheme));
     } catch (error) {
@@ -80,7 +92,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
 
   const applyThemeToDocument = (theme: Theme | undefined) => {
     if (!theme) return;
-    
+
     // Apply CSS variables to document root
     const root = document.documentElement;
     root.style.setProperty('--theme-primary', theme.colors.primary);
@@ -101,6 +113,11 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
   }
 
   const hasChanges = selectedTheme !== currentTheme;
+
+  useEffect(() => {
+    if (!currentTheme) return;
+    applyThemeToDocument(themes.find(theme => theme.id === currentTheme));
+  }, [currentTheme, themes]);
 
   return (
     <div className={cn('space-y-6', className)}>

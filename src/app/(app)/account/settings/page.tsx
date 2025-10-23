@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,8 +18,8 @@ import { Badge } from '@/components/ui/badge';
 import { useData } from '@/context/unified-data-context';
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
-import { 
-  User, 
+import {
+  User,
   Bell, 
   Shield, 
   Palette, 
@@ -36,6 +36,13 @@ import {
   Share2,
   Users2
 } from 'lucide-react';
+
+const GoalInsights = React.lazy(() =>
+  import('@/components/eka/insights/goal-insights').then(module => ({ default: module.GoalInsights }))
+);
+const JournalInsights = React.lazy(() =>
+  import('@/components/eka/insights/journal-insights').then(module => ({ default: module.JournalInsights }))
+);
 
 // Zod schema for settings
 export const SettingsSchema = z.object({
@@ -93,21 +100,40 @@ export const SettingsSchema = z.object({
     sessionRate: z.number().optional(),
     acceptingNewClients: z.boolean().optional(),
   }).optional(),
-  patient: z.object({ 
-    shareProgress: z.boolean().optional(), 
-    reminders: z.boolean().optional(), 
-    reminderMinutesBefore: z.number().optional(), 
+  patient: z.object({
+    shareProgress: z.boolean().optional(),
+    reminders: z.boolean().optional(),
+    reminderMinutesBefore: z.number().optional(),
     shareAnonymizedData: z.boolean().optional(),
     preferredSessionTime: z.string().optional(),
     therapyGoals: z.string().optional(),
   }).optional(),
 });
 
+function InsightsSkeleton({ title }: { title: string }) {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>Loading personalized data...</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="h-3 w-2/3 animate-pulse rounded bg-muted" />
+        <div className="h-3 w-1/2 animate-pulse rounded bg-muted" />
+        <div className="grid grid-cols-2 gap-4">
+          <div className="h-16 animate-pulse rounded-lg bg-muted" />
+          <div className="h-16 animate-pulse rounded-lg bg-muted" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 type SettingsForm = z.infer<typeof SettingsSchema>;
 
 export default function AccountSettingsPage() {
   const router = useRouter();
-  const { currentUser } = useData();
+  const { currentUser, dataSource } = useData();
   const { toast } = useToast();
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('profile');
@@ -292,20 +318,12 @@ export default function AccountSettingsPage() {
 
       {/* Insights Blocks */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Goal Insights */}
-        <React.Suspense fallback={<div>Loading...</div>}>
-          {/* @ts-ignore */}
-          {typeof window !== 'undefined' && require('@/components/eka/insights/goal-insights').GoalInsights ? (
-            require('@/components/eka/insights/goal-insights').GoalInsights({ source: 'mock' })
-          ) : null}
-        </React.Suspense>
-        {/* Journal Insights */}
-        <React.Suspense fallback={<div>Loading...</div>}>
-          {/* @ts-ignore */}
-          {typeof window !== 'undefined' && require('@/components/eka/insights/journal-insights').JournalInsights ? (
-            require('@/components/eka/insights/journal-insights').JournalInsights({ source: 'mock' })
-          ) : null}
-        </React.Suspense>
+        <Suspense fallback={<InsightsSkeleton title="Goal Insights" />}>
+          <GoalInsights source={dataSource === 'firebase' ? 'firebase' : 'mock'} />
+        </Suspense>
+        <Suspense fallback={<InsightsSkeleton title="Journal Insights" />}>
+          <JournalInsights source={dataSource === 'firebase' ? 'firebase' : 'mock'} />
+        </Suspense>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>

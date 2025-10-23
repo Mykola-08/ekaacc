@@ -265,7 +265,9 @@ export const fxService = {
       { merge: true }
     );
 
-    return { ...normalizeFirestoreValue(merged), updatedAt };
+    const normalized = normalizeFirestoreValue(merged) as Record<string, unknown>;
+
+    return { ...normalized, updatedAt };
   },
   auth: fxAuth,
 };

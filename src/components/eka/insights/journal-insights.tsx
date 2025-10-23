@@ -8,7 +8,14 @@ import { useFeatureData } from '@/hooks/use-feature-data';
 import { useData } from '@/context/unified-data-context';
 import type { JournalEntry, StatCard as StatCardType } from '@/lib/types';
 
-const mockJournalData = async () => ({
+type JournalInsightsData = {
+  entries: number;
+  avgMood: number;
+  bestDay: string;
+  stats: StatCardType[];
+};
+
+const mockJournalData = async (): Promise<JournalInsightsData> => ({
   entries: 24,
   avgMood: 3.8,
   bestDay: '2025-10-19',
@@ -18,13 +25,6 @@ const mockJournalData = async () => ({
     { title: 'Best Day', value: '2025-10-19', change: undefined, changeType: undefined, icon: Smile },
   ],
 });
-
-interface JournalInsightsData {
-  entries: number;
-  avgMood: number;
-  bestDay?: string;
-  stats: StatCardType[];
-}
 
 const moodScore: Record<JournalEntry['mood'], number> = {
   Great: 5,
@@ -42,7 +42,10 @@ function formatSignedChange(value: number, decimals = 0): string | null {
   return `${value > 0 ? '+' : '-'}${formatted}`;
 }
 
-function parseEntryDate(entryDate: string | Date): Date | null {
+function parseEntryDate(entryDate: string | Date | undefined): Date | null {
+  if (!entryDate) {
+    return null;
+  }
   const date = typeof entryDate === 'string' ? new Date(entryDate) : entryDate;
   return Number.isNaN(date.getTime()) ? null : date;
 }
@@ -71,12 +74,13 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
     return {
       entries: 0,
       avgMood: 0,
+      bestDay: '—',
       stats: [
         { title: 'Entries', value: '0', icon: TrendingUp },
         { title: 'Avg. Mood', value: '—', icon: Smile },
         { title: 'Best Day', value: '—', icon: Smile },
       ],
-    } as JournalInsightsData;
+    };
   }
 
   const now = new Date();
@@ -122,6 +126,9 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
   const avgMoodPrev7 = prev7Entries ? prev7Mood / prev7Entries : 0;
   const avgMoodChange = avgMoodLast7 - avgMoodPrev7;
 
+  const bestEntryDate = parseEntryDate(bestEntry?.date);
+  const bestDayLabel = formatDate(bestEntryDate) ?? '—';
+
   const stats: StatCardType[] = [
     {
       title: 'Entries',
@@ -139,7 +146,7 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
     },
     {
       title: 'Best Day',
-      value: formatDate(parseEntryDate(bestEntry?.date)) ?? '—',
+      value: bestDayLabel,
       change: undefined,
       changeType: undefined,
       icon: Smile,
@@ -149,7 +156,7 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
   return {
     entries: entries.length,
     avgMood,
-    bestDay: formatDate(parseEntryDate(bestEntry?.date)),
+    bestDay: bestDayLabel,
     stats,
   };
 }

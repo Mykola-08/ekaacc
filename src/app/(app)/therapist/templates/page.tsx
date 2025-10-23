@@ -21,7 +21,7 @@ import {
   Plus,
   Clock,
   TrendingUp,
-  User,
+  User as UserIcon,
   Calendar,
   Sparkles
 } from 'lucide-react';
@@ -30,10 +30,11 @@ import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES, TemplateField } from '@/lib/template-types';
+import type { User as UserType } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
 
 export default function TherapistTemplatesPage() {
-  const { currentUser, users, sessions } = useData();
+  const { currentUser, allUsers, sessions } = useData();
   const { toast } = useToast();
   const [templates, setTemplates] = useState<TherapistTemplate[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<TherapistTemplate | null>(null);
@@ -57,9 +58,9 @@ export default function TherapistTemplatesPage() {
   }, []);
 
   // Get client list (users that are not therapists)
-  const clients = useMemo(() => {
-    return users.filter(u => u.role !== 'Therapist' && u.role !== 'Admin');
-  }, [users]);
+  const clients = useMemo<UserType[]>(() => {
+    return allUsers.filter(user => user.role !== 'Therapist' && user.role !== 'Admin');
+  }, [allUsers]);
 
   // Filter templates
   const filteredTemplates = useMemo(() => {
@@ -288,7 +289,7 @@ export default function TherapistTemplatesPage() {
             {/* Client Selection */}
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
-                <User className="w-4 h-4" />
+                <UserIcon className="w-4 h-4" />
                 Select Client *
               </Label>
               <Select value={selectedClient} onValueChange={setSelectedClient}>

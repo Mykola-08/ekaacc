@@ -100,13 +100,18 @@ export const mockBookingAPI = {
 
 // --- AI Mock ---
 export type AIMessage = {
+  id: string;
   role: 'user' | 'assistant';
   content: string;
 };
 
 const mockChatHistory: Record<string, AIMessage[]> = {
   user1: [
-    { role: 'assistant', content: 'Hello! How can I help you with your wellness journey today?' },
+    {
+      id: 'msg-initial-assistant',
+      role: 'assistant',
+      content: 'Hello! How can I help you with your wellness journey today?'
+    },
   ],
 };
 
@@ -118,13 +123,23 @@ export const mockAIAPI = {
   sendMessage: async (userId: string, content: string) => {
     await new Promise(res => setTimeout(res, 800));
     if (!mockChatHistory[userId]) mockChatHistory[userId] = [];
-    mockChatHistory[userId].push({ role: 'user', content });
+
+    const timestamp = Date.now();
+    const userMessage: AIMessage = {
+      id: `msg-${userId}-${timestamp}`,
+      role: 'user',
+      content,
+    };
+    mockChatHistory[userId].push(userMessage);
+
     const response: AIMessage = {
+      id: `msg-${userId}-${timestamp + 1}`,
       role: 'assistant',
       content: `This is a mock AI response to: "${content}". In a real app, this would be a helpful, contextual reply.`,
     };
     mockChatHistory[userId].push(response);
-    return mockChatHistory[userId];
+
+    return [userMessage, response];
   },
   getAIChatResponse: async (prompt: string, history: any[]) => {
     await new Promise(res => setTimeout(res, 800));

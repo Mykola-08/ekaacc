@@ -48,34 +48,42 @@ export default function SettingsPage() {
   const [autoSave, setAutoSave] = useState(true);
   const [compactView, setCompactView] = useState(false);
 
-  const handleSave = () => {
-    // Save all settings
-    updateUser({
-      settings: {
-        notifications: {
-          email: emailNotifications,
-          push: pushNotifications,
-          sms: smsNotifications,
-          marketing: marketingEmails,
+  const handleSave = async () => {
+    try {
+      await updateUser({
+        settings: {
+          notifications: {
+            email: emailNotifications,
+            push: pushNotifications,
+            sms: smsNotifications,
+            marketing: marketingEmails,
+          },
+          privacy: {
+            profileVisibility,
+            activityStatus,
+            dataSharing,
+          },
+          appPreferences: {
+            soundEffects,
+            autoSave,
+            compactView,
+          },
         },
-        privacy: {
-          profileVisibility,
-          activityStatus,
-          dataSharing,
-        },
-        preferences: {
-          soundEffects,
-          autoSave,
-          compactView,
-        },
-      },
-    });
+      });
 
-    toast({
-      title: "Settings Saved",
-      description: "Your preferences have been updated successfully.",
-    });
-    setHasChanges(false);
+      toast({
+        title: "Settings Saved",
+        description: "Your preferences have been updated successfully.",
+      });
+      setHasChanges(false);
+    } catch (error) {
+      console.error('Failed to save settings', error);
+      toast({
+        title: "Unable to save settings",
+        description: "Please try again or check your connection.",
+        variant: 'destructive',
+      });
+    }
   };
 
   const markChanged = () => setHasChanges(true);

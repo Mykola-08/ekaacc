@@ -14,6 +14,7 @@ import {
   SubscriptionBadge,
   Theme,
   DEFAULT_SUBSCRIPTION_TIERS,
+  DEFAULT_THEMES,
 } from '@/lib/subscription-types';
 import {
   createFirestoreSubscription,
@@ -69,7 +70,7 @@ function createFallbackThemesForUser(
     id: `theme-${definition.name}`,
     createdAt: new Date(baseTimestamp - index * 1000).toISOString(),
     updatedAt: new Date(baseTimestamp - index * 1000).toISOString(),
-  })).filter(theme => {
+  })).filter((theme: Theme) => {
     if (theme.isActive === false) return false;
     if (theme.isPublic) return true;
     if (theme.requiredSubscription === 'loyalty') {

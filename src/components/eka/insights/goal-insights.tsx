@@ -9,7 +9,15 @@ import { useFeatureData } from '@/hooks/use-feature-data';
 import { useData } from '@/context/unified-data-context';
 import type { Session, StatCard as StatCardType, User } from '@/lib/types';
 
-const mockGoalData = async () => ({
+type GoalInsightsData = {
+  sessionsCompleted: number;
+  targetSessions: number;
+  goal: string;
+  progress: number;
+  stats: StatCardType[];
+};
+
+const mockGoalData = async (): Promise<GoalInsightsData> => ({
   sessionsCompleted: 7,
   targetSessions: 10,
   goal: 'Complete initial therapy plan',
@@ -19,14 +27,6 @@ const mockGoalData = async () => ({
     { title: 'Goal Progress', value: '70%', change: '+10%', changeType: 'increase', icon: Target },
   ],
 });
-
-interface GoalInsightsData {
-  sessionsCompleted: number;
-  targetSessions: number;
-  goal: string;
-  progress: number;
-  stats: StatCardType[];
-}
 
 const FALLBACK_GOAL = 'Complete initial therapy plan';
 

@@ -124,14 +124,11 @@ export function AppSidebar() {
     { href: '/ai-insights', icon: Sparkles, label: 'AI Insights' },
     { href: '/progress', icon: TrendingUp, label: 'Progress' },
     { href: '/journal', icon: BookOpen, label: 'Journal' },
-    { href: '/exercises', icon: Dumbbell, label: 'Exercises' },
     // { href: '/community', icon: Users, label: 'Community' }, // Hidden - Backend in development
-  // { href: '/wallet', icon: Wallet, label: 'Wallet' },
-  // { href: '/loyalty', icon: Trophy, label: 'Loyalty' },
+    // { href: '/wallet', icon: Wallet, label: 'Wallet' },
+    // { href: '/loyalty', icon: Trophy, label: 'Loyalty' },
     { href: '/donations', icon: Heart, label: 'Donations' },
-  ];
-
-  // Donation Seeker link - only show if user is a donation seeker
+  ];  // Donation Seeker link - only show if user is a donation seeker
   const donationSeekerLink = currentUser?.isDonationSeeker 
     ? [{ href: '/donation-seeker', icon: Heart, label: 'Donation Seeker' }]
     : [];
@@ -148,6 +145,7 @@ export function AppSidebar() {
   // Explicit therapist menu items
   const therapistLinks = [
     { href: '/therapist', icon: Home, label: 'Dashboard' },
+    { href: '/verificator', icon: Shield, label: 'Verificator' },
     { href: '/therapist/clients', icon: Users, label: 'Clients' },
     { href: '/therapist/bookings', icon: CalendarDays, label: 'Bookings' },
     { href: '/therapist/billing', icon: Briefcase, label: 'Billing' },
@@ -158,6 +156,7 @@ export function AppSidebar() {
   // Admin-specific links
   const adminLinks = [
     { href: '/admin', icon: Shield, label: 'Admin Dashboard' },
+    { href: '/verificator', icon: Shield, label: 'Verificator' },
     { href: '/admin/users', icon: Users, label: 'Manage Users' },
     { href: '/admin/settings', icon: Settings, label: 'Admin Settings' },
     { href: '/reports', icon: FileText, label: 'System Reports' },

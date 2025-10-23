@@ -12,6 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { getDataService } from '@/services/data-service';
 import { User, Session } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield, Database, Settings } from 'lucide-react';
+import { AnimatedCard } from '@/components/eka/animated-card';
+import { StatCard } from '@/components/eka/dashboard/stat-card';
 
 export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
@@ -76,96 +79,238 @@ export default function AdminDashboard() {
   };
 
   const totalUsers = users.length;
+  const therapists = users.filter(u => u.role === 'Therapist').length;
+  const patients = users.filter(u => u.role === 'Patient').length;
   const totalSessions = sessions.length;
   const upcomingSessions = sessions.filter(s => s.status === 'Upcoming').length;
   const completedSessions = sessions.filter(s => s.status === 'Completed').length;
   const canceledSessions = sessions.filter(s => s.status === 'Canceled').length;
   const recentUsers = users.slice(0, 10);
 
+  const adminStats = [
+    {
+      title: 'Total Users',
+      value: totalUsers.toString(),
+      change: `${patients} patients`,
+      icon: Users,
+    },
+    {
+      title: 'Total Sessions',
+      value: totalSessions.toString(),
+      change: `${upcomingSessions} upcoming`,
+      changeType: 'increase' as const,
+      icon: Calendar,
+    },
+    {
+      title: 'Therapists',
+      value: therapists.toString(),
+      change: 'Active staff',
+      icon: UserCheck,
+    },
+    {
+      title: 'System Status',
+      value: 'Operational',
+      change: 'All services running',
+      changeType: 'increase' as const,
+      icon: Activity,
+    },
+  ];
+
   if (loading) {
-    return <div className="p-6 space-y-6"><div className="text-center py-12">Loading...</div></div>;
+    return (
+      <div className="flex flex-col gap-8 p-6">
+        <div className="text-center py-12">Loading admin dashboard...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="flex flex-col gap-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground">Manage users, sessions, and subscriptions</p>
+          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+            <Shield className="h-8 w-8 text-primary" />
+            Admin Dashboard
+          </h1>
+          <p className="text-muted-foreground">System management and oversight</p>
         </div>
-        <Link href="/admin/subscriptions">
-          <Button>Manage Subscriptions</Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/admin/settings">
+            <Button variant="outline">
+              <Settings className="h-4 w-4 mr-2" />
+              Settings
+            </Button>
+          </Link>
+          <Link href="/admin/users">
+            <Button>
+              <Users className="h-4 w-4 mr-2" />
+              Manage Users
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-sm font-medium text-muted-foreground">Total Users</CardTitle></CardHeader>
-          <CardContent><div className="text-2xl font-bold">{totalUsers}</div><p className="text-xs text-muted-foreground mt-1">All users</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-sm font-medium text-muted-foreground">Total Sessions</CardTitle></CardHeader>
-          <CardContent><div className="text-2xl font-bold">{totalSessions}</div><p className="text-xs text-muted-foreground mt-1">All time</p></CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-sm font-medium text-muted-foreground">Upcoming</CardTitle></CardHeader>
-          <CardContent><div className="text-2xl font-bold">{upcomingSessions}</div><p className="text-xs text-muted-foreground mt-1">Sessions</p></CardContent>
-        </Card>
+      {/* Stats Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {adminStats.map((stat, index) => (
+          <AnimatedCard key={stat.title} delay={index * 100}>
+            <StatCard {...stat} />
+          </AnimatedCard>
+        ))}
       </div>
+
+      {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card>
-          <CardHeader><CardTitle>Recent Users</CardTitle><CardDescription>Latest user registrations</CardDescription></CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader><TableRow><TableHead>Name</TableHead><TableHead>Email</TableHead><TableHead>Role</TableHead><TableHead>Actions</TableHead></TableRow></TableHeader>
-              <TableBody>
-                {recentUsers.map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell className="font-medium">{user.name || user.displayName}</TableCell>
-                    <TableCell className="text-sm text-muted-foreground">{user.email}</TableCell>
-                    <TableCell><Badge variant="outline">{user.role || 'Patient'}</Badge></TableCell>
-                    <TableCell><Button size="sm" variant="outline" onClick={() => handleEditUser(user)}>Edit Role</Button></TableCell>
+        {/* Recent Users */}
+        <AnimatedCard delay={400}>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Recent Users
+              </CardTitle>
+              <CardDescription>Latest user registrations</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                </TableHeader>
+                <TableBody>
+                  {recentUsers.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell className="font-medium">{user.displayName || user.email}</TableCell>
+                      <TableCell>
+                        <Badge variant={user.role === 'Admin' ? 'destructive' : user.role === 'Therapist' ? 'default' : 'secondary'}>
+                          {user.role || 'Patient'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Button size="sm" variant="ghost" onClick={() => handleEditUser(user)}>
+                          Edit
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </AnimatedCard>
+
+        {/* Session Overview */}
+        <AnimatedCard delay={500}>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Session Overview
+              </CardTitle>
+              <CardDescription>Session statistics</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-green-50 dark:bg-green-950">
+                <div>
+                  <p className="text-sm text-muted-foreground">Completed</p>
+                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{completedSessions}</p>
+                </div>
+                <TrendingUp className="h-8 w-8 text-green-600 dark:text-green-400" />
+              </div>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-blue-50 dark:bg-blue-950">
+                <div>
+                  <p className="text-sm text-muted-foreground">Upcoming</p>
+                  <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{upcomingSessions}</p>
+                </div>
+                <Calendar className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div className="flex items-center justify-between p-3 rounded-lg bg-red-50 dark:bg-red-950">
+                <div>
+                  <p className="text-sm text-muted-foreground">Canceled</p>
+                  <p className="text-2xl font-bold text-red-600 dark:text-red-400">{canceledSessions}</p>
+                </div>
+                <UserX className="h-8 w-8 text-red-600 dark:text-red-400" />
+              </div>
+            </CardContent>
+          </Card>
+        </AnimatedCard>
+      </div>
+
+      {/* Quick Actions */}
+      <AnimatedCard delay={600}>
         <Card>
-          <CardHeader><CardTitle>Session Overview</CardTitle><CardDescription>Session statistics</CardDescription></CardHeader>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Database className="h-5 w-5" />
+              Quick Actions
+            </CardTitle>
+            <CardDescription>Common administrative tasks</CardDescription>
+          </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <p className="text-sm font-medium">Upcoming</p>
-                  <p className="text-2xl font-bold text-green-600">{upcomingSessions}</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <p className="text-sm font-medium">Completed</p>
-                  <p className="text-2xl font-bold text-blue-600">{completedSessions}</p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between p-4 border rounded-lg">
-                <div>
-                  <p className="text-sm font-medium">Canceled</p>
-                  <p className="text-2xl font-bold text-red-600">{canceledSessions}</p>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <Link href="/admin/users">
+                <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
+                  <Users className="h-6 w-6" />
+                  <span>Manage Users</span>
+                </Button>
+              </Link>
+              <Link href="/admin/sessions">
+                <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
+                  <Calendar className="h-6 w-6" />
+                  <span>View Sessions</span>
+                </Button>
+              </Link>
+              <Link href="/admin/subscriptions">
+                <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
+                  <DollarSign className="h-6 w-6" />
+                  <span>Subscriptions</span>
+                </Button>
+              </Link>
+              <Link href="/admin/settings">
+                <Button variant="outline" className="w-full h-20 flex flex-col gap-2">
+                  <Settings className="h-6 w-6" />
+                  <span>Settings</span>
+                </Button>
+              </Link>
             </div>
           </CardContent>
         </Card>
-      </div>
+      </AnimatedCard>
+
+      {/* Edit User Dialog */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Edit User Role</DialogTitle><DialogDescription>Update the role for {selectedUser?.name || selectedUser?.displayName}</DialogDescription></DialogHeader>
+          <DialogHeader>
+            <DialogTitle>Edit User Role</DialogTitle>
+            <DialogDescription>
+              Change the role for {selectedUser?.displayName || selectedUser?.email}
+            </DialogDescription>
+          </DialogHeader>
           <div className="space-y-4 py-4">
-            <div className="space-y-2"><Label>User</Label><div className="text-sm font-medium">{selectedUser?.name || selectedUser?.displayName}</div><div className="text-xs text-muted-foreground">{selectedUser?.email}</div></div>
-            <div className="space-y-2"><Label htmlFor="role">Role</Label><Select value={editRole} onValueChange={(v) => setEditRole(v as 'Patient' | 'Therapist' | 'Admin')}><SelectTrigger id="role"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="Patient">Patient</SelectItem><SelectItem value="Therapist">Therapist</SelectItem><SelectItem value="Admin">Admin</SelectItem></SelectContent></Select></div>
+            <div className="space-y-2">
+              <Label htmlFor="role">Role</Label>
+              <Select value={editRole} onValueChange={(value: any) => setEditRole(value)}>
+                <SelectTrigger id="role">
+                  <SelectValue placeholder="Select role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Patient">Patient</SelectItem>
+                  <SelectItem value="Therapist">Therapist</SelectItem>
+                  <SelectItem value="Admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-          <DialogFooter><Button variant="outline" onClick={() => setShowEditDialog(false)}>Cancel</Button><Button onClick={handleUpdateUserRole} disabled={loading}>Save Changes</Button></DialogFooter>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowEditDialog(false)}>Cancel</Button>
+            <Button onClick={handleUpdateUserRole} disabled={loading}>
+              {loading ? 'Updating...' : 'Update Role'}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

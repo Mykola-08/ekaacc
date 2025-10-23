@@ -205,17 +205,31 @@ export default function HomePage() {
 function GoalJournalPanel({ userId }: { userId?: string | null }) {
   const [roadmapText, setRoadmapText] = useState<string | null>(null);
   const [journalText, setJournalText] = useState<string | null>(null);
+  const [therapistNotes, setTherapistNotes] = useState<string | null>(null);
   const [loadingRoadmap, setLoadingRoadmap] = useState(false);
   const [loadingJournal, setLoadingJournal] = useState(false);
   const toast = useToast()?.toast;
   const { updateProgress } = useProgress();
+  const { currentUser } = useData();
+
+  // Load therapist notes from user data
+  useEffect(() => {
+    if (currentUser?.therapistNotes && currentUser.therapistNotes.length > 0) {
+      const latestNote = currentUser.therapistNotes[currentUser.therapistNotes.length - 1];
+      setTherapistNotes(latestNote.note);
+    }
+  }, [currentUser]);
 
   const generateRoadmap = async () => {
     setLoadingRoadmap(true);
     updateProgress(10, 'Analyzing your goals...');
     try {
       updateProgress(40, 'Generating personalized roadmap...');
-      const res = await fxService.generateAIReport(userId || 'user-unknown', 'Summarize goals and propose roadmap');
+      // Include therapist notes in AI prompt if available
+      const prompt = therapistNotes 
+        ? `Summarize goals and propose roadmap. Consider therapist notes: ${therapistNotes}`
+        : 'Summarize goals and propose roadmap';
+      const res = await fxService.generateAIReport(userId || 'user-unknown', prompt);
       updateProgress(80, 'Finalizing recommendations...');
       const ai = Array.isArray(res) ? (res[1]?.content || res[1]) : (res as any)?.content || res;
       setRoadmapText(typeof ai === 'string' ? ai : JSON.stringify(ai));

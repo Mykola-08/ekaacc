@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useData } from '@/context/unified-data-context';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export function WalletWidget() {
+  export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: boolean } = {}) {
   const router = useRouter();
   const { currentUser } = useData();
   const [balance, setBalance] = useState(0);
@@ -100,12 +100,18 @@ export function WalletWidget() {
         
         {/* Balance & Points */}
         <div className="p-4 space-y-3">
-          <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 cursor-pointer hover:shadow-md" onClick={() => router.push('/wallet')}>
+          <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 cursor-pointer hover:shadow-md" onClick={() => router.push('/myaccount?tab=profile')}>
             <div>
               <p className="text-xs text-muted-foreground">Available Balance</p>
               <p className="text-2xl font-bold text-green-600 dark:text-green-400">
                 {showBalance ? `€${balance.toFixed(2)}` : '••••••'}
               </p>
+              {showInlinePoints && (
+                <p className="text-xs mt-1 text-amber-600 flex items-center gap-1">
+                  <TrendingUp className="h-4 w-4" />
+                  {points.toLocaleString()} pts
+                </p>
+              )}
             </div>
             <Button
               variant="ghost"
@@ -120,34 +126,36 @@ export function WalletWidget() {
             </Button>
           </div>
 
-          <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 cursor-pointer hover:shadow-md" onClick={() => router.push('/loyalty')}>
-            <div>
-              <p className="text-xs text-muted-foreground">Loyalty Points</p>
-              <p className="text-xl font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                {showBalance ? points.toLocaleString() : '•••••'}
-                <TrendingUp className="h-4 w-4" />
-              </p>
+          {!showInlinePoints && (
+            <div className="flex items-center justify-between p-3 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 cursor-pointer hover:shadow-md" onClick={() => router.push('/subscriptions')}>
+              <div>
+                <p className="text-xs text-muted-foreground">Loyalty Points</p>
+                <p className="text-xl font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                  {showBalance ? points.toLocaleString() : '•••••'}
+                  <TrendingUp className="h-4 w-4" />
+                </p>
+              </div>
+              <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
+                Active
+              </Badge>
             </div>
-            <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
-              Active
-            </Badge>
-          </div>
+          )}
         </div>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push('/wallet')}>
+          <DropdownMenuItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Wallet className="mr-2 h-4 w-4" />
             <span>View Wallet</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push('/wallet?tab=topup')}>
+          <DropdownMenuItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Plus className="mr-2 h-4 w-4" />
-            <span>Add Funds</span>
+            <span>Top Up Wallet</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push('/wallet?tab=transactions')}>
+          <DropdownMenuItem onClick={() => router.push('/subscriptions')}>
             <TrendingUp className="mr-2 h-4 w-4" />
-            <span>Transaction History</span>
+            <span>Loyalty Program</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

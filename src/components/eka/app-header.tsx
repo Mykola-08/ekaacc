@@ -113,6 +113,10 @@ export function AppHeader() {
                 <CalendarPlus className="mr-2 h-4 w-4" />
                 <span>Book a Session</span>
               </DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => router.push('/subscriptions')}>
+                <ShieldCheck className="mr-2 h-4 w-4" />
+                <span>Loyalty Program</span>
+              </DropdownMenuItem>
             </>
           )}
           {isAdminRole && (
@@ -215,7 +219,7 @@ export function AppHeader() {
                   <span className="font-medium">Book Session</span>
                 </Button>
               )}
-              <WalletWidget />
+              {!isAdminRole && <WalletWidget showInlinePoints />}
               <QuickActions />
               <NotificationCenter />
               <div className="group relative">
@@ -225,8 +229,8 @@ export function AppHeader() {
                   <div className="flex flex-col py-2">
                     <Button variant="ghost" className="justify-start" onClick={() => router.push('/account')}>Account Overview</Button>
                     <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/settings')}>Settings</Button>
-                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/wallet')}>Wallet</Button>
-                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/loyalty')}>Loyalty</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/myaccount?tab=profile')}>Wallet</Button>
+                    <Button variant="ghost" className="justify-start" onClick={() => router.push('/subscriptions')}>Loyalty</Button>
                     <Button variant="ghost" className="justify-start" onClick={() => router.push('/account/settings')}>Referrals</Button>
                     <Button variant="ghost" className="justify-start" onClick={() => router.push('/ai-insights')}>Insights</Button>
                   </div>

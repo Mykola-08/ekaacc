@@ -11,22 +11,50 @@ import { TherapyRecommendation } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 export function AITherapyRecommendations() {
+  // Context-aware: fallback to static recommendations if AI is toggled off or fails
   const [recommendations, setRecommendations] = useState<TherapyRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [useAI, setUseAI] = useState(false); // default: use static, not AI
   const { toast } = useToast();
+
+  // Static fallback recommendations for booking context
+  const staticRecommendations: TherapyRecommendation[] = [
+    {
+      id: 'static-1',
+      title: 'Try Mindfulness Meditation',
+      reasoning: 'A daily mindfulness practice can help reduce stress and improve focus.',
+      type: 'meditation',
+    },
+    {
+      id: 'static-2',
+      title: 'Explore Cognitive Behavioral Therapy',
+      reasoning: 'CBT is effective for managing negative thought patterns and anxiety.',
+      type: 'article',
+    },
+    {
+      id: 'static-3',
+      title: 'Join a Group Session',
+      reasoning: 'Group therapy can provide support and new perspectives.',
+      type: 'article',
+    },
+  ];
 
   const fetchRecommendations = async () => {
     setIsLoading(true);
     setError(null);
+    if (!useAI) {
+      setRecommendations(staticRecommendations);
+      setIsLoading(false);
+      return;
+    }
     try {
       const data = await fxService.getAIRecommendations();
-      // normalize incoming mock data to match TherapyRecommendation types when possible
       const normalized = (data as any[]).map((d) => ({
         id: d.id,
         title: d.title,
         reasoning: d.reasoning,
-        type: (['exercise', 'article', 'meditation'].includes(d.type) ? d.type : 'article') as TherapyRecommendation['type'],
+        type: (['exercise', 'article', 'meditation', 'group'].includes(d.type) ? d.type : 'article') as TherapyRecommendation['type'],
       })) as TherapyRecommendation[];
       setRecommendations(normalized);
     } catch (err) {
@@ -37,6 +65,7 @@ export function AITherapyRecommendations() {
         title: 'Failed to load AI Recommendations',
         description: errorMessage,
       });
+      setRecommendations(staticRecommendations);
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +73,8 @@ export function AITherapyRecommendations() {
 
   useEffect(() => {
     fetchRecommendations();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [useAI]);
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -74,11 +104,16 @@ export function AITherapyRecommendations() {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-lg flex items-center gap-2">
           <Sparkles className="h-5 w-5 text-primary" />
-          AI-Powered Recommendations
+          {useAI ? 'AI-Powered Recommendations' : 'Recommended Therapies'}
         </CardTitle>
-        <Button variant="ghost" size="icon" onClick={fetchRecommendations} disabled={isLoading}>
-          <RefreshCw className={cn('h-4 w-4', isLoading && 'animate-spin')} />
-        </Button>
+        <div className="flex gap-2 items-center">
+          <Button variant={useAI ? 'default' : 'outline'} size="sm" onClick={() => setUseAI(!useAI)}>
+            {useAI ? 'Use Less AI' : 'Use More AI'}
+          </Button>
+          <Button variant="ghost" size="icon" onClick={fetchRecommendations} disabled={isLoading}>
+            <RefreshCw className={cn('h-4 w-4', isLoading && 'animate-spin')} />
+          </Button>
+        </div>
       </CardHeader>
       <CardContent>
         {isLoading && !recommendations.length ? (

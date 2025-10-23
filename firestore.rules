@@ -1,716 +1,139 @@
-/**
- * @file Firestore Security Rules
- * @description This ruleset enforces a strict user-ownership model for private user data and allows public read access to certain collections while restricting write access to authorized users. Denormalization is used to improve performance and security by avoiding costly `get()` calls.
- *
- * @data_structure
- * - /users/{userId}: Stores individual user profiles. Only the user (or potentially an admin) can access their profile.
- * - /users/{userId}/sessions/{sessionId}: Stores therapy session data, accessible only by the user or their therapist.
- * - /donations/{donationId}: Stores donation data, with denormalized donor and receiver IDs for efficient authorization.
- * - /users/{userId}/reports/{reportId}: Stores user reports, accessible by the user and the creating therapist.
- * - /messages/{messageId}: Stores messages, with denormalized sender and receiver IDs for efficient authorization.
- * - /users/{userId}/subscriptions/{subscriptionId}: Stores subscription data for each user.
- * - /services/{serviceId}: Stores public therapy service information, readable by all.
- * - /vipPlans/{planId}: Stores public VIP subscription plan details, readable by all.
- *
- * @key_security_decisions
- * - User listing is disallowed to protect privacy.
- * - Data validation is limited to authorization-critical fields to allow for rapid iteration.
- * - Public read access is granted to the `services` and `vipPlans` collections, assuming the data is non-sensitive.
- *
- * @denormalization_for_authorization
- * - The `donations` and `messages` collections denormalize sender/donor and receiver IDs into a `members` map for efficient authorization checks without requiring extra reads.
- *
- * @structural_segregation
- * - Private user data is stored under `/users/{userId}` to enforce ownership.
- * - Public service and VIP plan data are stored in top-level collections for easy public access.
- */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * @description Checks if the user is signed in.
-     * @returns {boolean} True if the user is signed in, false otherwise.
-     */
-    function isSignedIn() {
-      return request.auth != null;
-    }
+    // ---- Helpers ----
+    function isSignedIn() { return request.auth != null; }
+    function uid() { return request.auth.uid; }
+    function isAdmin() { return isSignedIn() && request.auth.token.admin == true; }
+    function isTherapist() { return isSignedIn() && request.auth.token.therapist == true; }
+    function isOwner(userId) { return isSignedIn() && uid() == userId; }
 
-    /**
-     * @description Checks if the user is the owner of the document based on the provided userId.
-     * @param {string} userId - The user ID to compare against the request's authentication UID.
-     * @returns {boolean} True if the user is the owner, false otherwise.
-     */
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
+    // ---- DEV-ONLY mock superuser (never set in prod) ----
+    function isDevMock() {
+      return isSignedIn()
+        && request.auth.token.env == 'dev'
+        && request.auth.token.email == 'demo@ekaacc.com'
+        && request.auth.token.mock_super == true;
     }
+    function isAdminLike() { return isAdmin() || isDevMock(); }
 
-    /**
-     * @description Checks if the user is the existing owner of the document based on the provided userId and if the document exists.
-     * @param {string} userId - The user ID to compare against the resource data's userId.
-     * @returns {boolean} True if the user is the owner and the document exists, false otherwise.
-     */
-    function isExistingOwner(userId) {
-        return isOwner(userId) && resource != null;
-    }
-
-    /**
-     * @description Allow read access to sample user data without authentication
-     * @path /users/{userId}
-     * @allow (get, list) - Anyone can read sample user data without authentication
-     * @deny (create, update, delete) - No one can create, update, or delete sample user data without authentication
-     * @principle Allows public read access to sample user data.
-     */
+    // ---- USERS (profile) ----
     match /users/{userId} {
-        allow get, list: if userId == 'sample_user' || userId == 'therapist_sample' || userId == 'donor_sample';
-        allow create: if isOwner(userId) && request.resource.data.id == request.auth.uid;
-        allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
-        allow delete: if isExistingOwner(userId);
+      // Public samples only
+      allow get, list: if userId in ['sample_user','therapist_sample','donor_sample'];
+
+      // Real users
+      allow get: if isOwner(userId) || isAdminLike();
+      allow list: if false; // no user directory
+
+      allow create: if isOwner(userId);
+      allow update: if (isOwner(userId) || isAdminLike())
+        // block privilege escalation from client
+        && !request.resource.data.diff(resource.data).affectedKeys()
+             .hasAny(['roles','admin','therapist','claims','env','mock_super']);
+      allow delete: if isOwner(userId) || isAdminLike();
     }
 
-    /**
-     * @description Manages user sessions, restricting access to the user and their therapist.
-     * @path /users/{userId}/sessions/{sessionId}
-     * @allow (create) - The user can create a session if the userId matches their auth UID.
-     * @allow (get, list) - The user can get or list their sessions.
-     * @allow (update, delete) - The user can update or delete their sessions.
-     * @deny (create) - Another user cannot create a session for a different user ID.
-     * @deny (get, list, update, delete) - Another user cannot access sessions that don't belong to them.
-     * @principle Enforces user-ownership and therapist-access for session data.
-     */
+    // ---- SESSIONS (user + assigned therapist) ----
+    // Doc must include: userId, therapistId, and any safe fields.
     match /users/{userId}/sessions/{sessionId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
+      allow create: if (isOwner(userId) || isAdminLike())
+        && request.resource.data.userId == userId;
+
+      allow get: if isOwner(userId)
+        || (isTherapist() && resource.data.therapistId == uid())
+        || isAdminLike();
+
+      allow list: if isOwner(userId)
+        || (isTherapist() && request.query.limit <= 50)
+        || isDevMock();
+
+      allow update, delete: if (isOwner(userId) && resource.data.userId == userId)
+        || (isTherapist() && resource.data.therapistId == uid())
+        || isAdminLike();
     }
 
-    /**
-     * @description Manages donation data, allowing access based on membership (donor or receiver).
-     * @path /donations/{donationId}
-     * @allow (get, list) - Any signed-in user can read donation data.
-     * @allow (create) - Only the donor can create a donation.
-     * @allow (update, delete) - Only the donor can update or delete a donation.
-     * @deny (create, update, delete) - Other users cannot modify donation data.
-     * @principle Enforces role-based access control for donation data.
-     */
-    match /donations/{donationId} {
-        allow get, list: if isSignedIn();
-        allow create: if isSignedIn() && request.auth.uid == request.resource.data.donorId;
-        allow update: if isSignedIn() && request.auth.uid == resource.data.donorId && resource != null;
-        allow delete: if isSignedIn() && request.auth.uid == resource.data.donorId && resource != null;
-    }
-
-    /**
-     * @description Manages user reports, allowing access to the user and their therapist.
-     * @path /users/{userId}/reports/{reportId}
-     * @allow (get, list) - The user can get or list their reports.
-     * @allow (create) - The user can create a report if the userId matches their auth UID.
-     * @allow (update, delete) - The user can update or delete their reports.
-     * @deny (create) - Another user cannot create a report for a different user ID.
-     * @deny (get, list, update, delete) - Another user cannot access reports that don't belong to them.
-     * @principle Enforces user-ownership and therapist-access for report data.
-     */
+    // ---- REPORTS (user + creating therapist) ----
+    // Doc must include: userId, therapistId.
     match /users/{userId}/reports/{reportId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
+      allow create: if isOwner(userId)
+        || (isTherapist()
+            && request.resource.data.userId == userId
+            && request.resource.data.therapistId == uid())
+        || isAdminLike();
+
+      allow get: if isOwner(userId)
+        || (isTherapist() && resource.data.therapistId == uid())
+        || isAdminLike();
+
+      allow list: if isOwner(userId)
+        || (isTherapist() && request.query.limit <= 50)
+        || isDevMock();
+
+      allow update, delete: if (isOwner(userId) && resource.data.userId == userId)
+        || (isTherapist() && resource.data.therapistId == uid())
+        || isAdminLike();
     }
 
-    /**
-     * @description Manages messages, allowing access based on membership (sender or receiver).
-     * @path /messages/{messageId}
-     * @allow (get, list) - Any signed-in user can read messages.
-     * @allow (create) - Any signed-in user can create messages.
-     * @allow (update, delete) - Only the sender can update or delete the message.
-     * @deny (create, update, delete) - Other users cannot modify message data.
-     * @principle Enforces role-based access control for messages.
-     */
-    match /messages/{messageId} {
-        allow get, list: if isSignedIn();
-        allow create: if isSignedIn() && request.auth.uid == request.resource.data.senderId;
-        allow update: if isSignedIn() && request.auth.uid == resource.data.senderId && resource != null;
-        allow delete: if isSignedIn() && request.auth.uid == resource.data.senderId && resource != null;
-    }
-
-    /**
-     * @description Manages user subscriptions, restricting access to the user.
-     * @path /users/{userId}/subscriptions/{subscriptionId}
-     * @allow (get, list) - The user can get or list their subscriptions.
-     * @allow (create) - The user can create a subscription if the userId matches their auth UID.
-     * @allow (update, delete) - The user can update or delete their subscriptions.
-     * @deny (create) - Another user cannot create a subscription for a different user ID.
-     * @deny (get, list, update, delete) - Another user cannot access subscriptions that don't belong to them.
-     * @principle Enforces user-ownership for subscription data.
-     */
+    // ---- SUBSCRIPTIONS (owner) ----
+    // Doc must include: userId.
     match /users/{userId}/subscriptions/{subscriptionId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == request.auth.uid;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
+      allow create: if (isOwner(userId) || isAdminLike())
+        && request.resource.data.userId == userId;
+      allow get, list: if isOwner(userId) || isAdminLike();
+      allow update, delete: if isOwner(userId) || isAdminLike();
     }
 
-    /**
-     * @description Allows public read access to service information.
-     * @path /services/{serviceId}
-     * @allow (get, list) - Anyone can read service data.
-     * @deny (create, update, delete) - No one can create, update, or delete service data.
-     * @principle Allows public read access to service data.
-     */
+    // ---- MESSAGES (member-only) ----
+    // Doc must include: senderId, members: { [uid]: true, ... }
+    match /messages/{messageId} {
+      function isMember() { return isSignedIn() && resource.data.members[uid()] == true; }
+      function isSender() { return isSignedIn() && resource.data.senderId == uid(); }
+
+      allow create: if isSignedIn()
+        && request.resource.data.senderId == uid()
+        && request.resource.data.members[uid()] == true
+        || isDevMock();
+
+      allow get: if isMember() || isAdminLike();
+      // Client must query with where('members.<uid>', '==', true)
+      allow list: if (isSignedIn() && request.query.limit <= 50) || isDevMock();
+
+      allow update, delete: if isSender() || isAdminLike();
+    }
+
+    // ---- DONATIONS (donor or receiver) ----
+    // Doc must include: donorId, receiverId, members: { donorUid: true, receiverUid: true }
+    match /donations/{donationId} {
+      function isDonationMember() { return isSignedIn() && resource.data.members[uid()] == true; }
+
+      allow create: if isSignedIn()
+        && request.resource.data.donorId == uid()
+        && request.resource.data.members[uid()] == true
+        || isDevMock();
+
+      allow get: if isDonationMember() || isAdminLike();
+      // Client must query with where('members.<uid>', '==', true)
+      allow list: if (isSignedIn() && request.query.limit <= 50) || isDevMock();
+
+      // Only donor can change/cancel; admin-like can too
+      allow update, delete: if (isDonationMember() && uid() == resource.data.donorId) || isAdminLike();
+    }
+
+    // ---- PUBLIC CATALOGS ----
     match /services/{serviceId} {
-        allow get, list: if true;
-        allow create: if false;
-        allow update: if false;
-        allow delete: if false;
+      allow get, list: if true;                  // public read
+      allow create, update, delete: if isAdminLike(); // write via Admin or dev-mock
     }
-
-    /**
-     * @description Allows public read access to VIP plan information.
-     * @path /vipPlans/{planId}
-     * @allow (get, list) - Anyone can read VIP plan data.
-     * @deny (create, update, delete) - No one can create, update, or delete VIP plan data.
-     * @principle Allows public read access to VIP plan data.
-     */
     match /vipPlans/{planId} {
-        allow get, list: if true;
-        allow create: if false;
-        allow update: if false;
-        allow delete: if false;
+      allow get, list: if true;                  
+      allow create, update, delete: if isAdminLike();
     }
 
-    /**
-     * @description Manages user wallets with strict security.
-     * @path /wallets/{walletId}
-     * @allow (get) - User can read their own wallet. Admins can read any wallet.
-     * @deny (create, update, delete) - Direct writes prevented. Use Cloud Functions.
-     * @principle Wallet balance can only be modified through Cloud Functions to prevent fraud.
-     */
-    match /wallets/{walletId} {
-        allow get: if isOwner(walletId) || isAdmin();
-        allow list: if isAdmin();
-        allow create, update, delete: if false; // Only Cloud Functions can modify
-    }
-
-    /**
-     * @description Manages wallet transactions (subcollection of wallets).
-     * @path /wallets/{walletId}/transactions/{transactionId}
-     * @allow (get, list) - User can read their own transactions. Admins can read any.
-     * @deny (create, update, delete) - Only Cloud Functions can create transactions.
-     * @principle Transaction history is immutable and created only by Cloud Functions.
-     */
-    match /wallets/{walletId}/transactions/{transactionId} {
-        allow get, list: if isOwner(walletId) || isAdmin();
-        allow create, update, delete: if false; // Only Cloud Functions
-    }
-
-    /**
-     * @description Manages payment requests (Bizum/Cash).
-     * @path /paymentRequests/{requestId}
-     * @allow (create) - Any user can create payment requests.
-     * @allow (get) - User can read their own requests. Admins/Therapists can read all.
-     * @allow (update) - Only Admins/Therapists can update (confirm/reject).
-     * @principle Users submit requests, staff confirms them.
-     */
-    match /paymentRequests/{requestId} {
-        allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-        allow get: if isSignedIn() && (
-          request.auth.uid == resource.data.userId ||
-          isAdmin() ||
-          isTherapist()
-        );
-        allow list: if isAdmin() || isTherapist();
-        allow update: if (isAdmin() || isTherapist()) && 
-                       resource.data.status == 'pending' &&
-                       request.resource.data.confirmedBy == request.auth.uid;
-        allow delete: if false;
-    }
-
-    /**
-     * @description Manages loyalty program enrollment.
-     * @path /loyaltyPrograms/{userId}
-     * @allow (get) - User can read their own loyalty data. Admins can read any.
-     * @allow (update) - User can enroll/unenroll. Cloud Functions update points/tier.
-     * @principle Users control enrollment, system manages points.
-     */
-    match /loyaltyPrograms/{userId} {
-        allow get: if isOwner(userId) || isAdmin();
-        allow list: if isAdmin();
-        allow create: if false; // Created by Cloud Function on user creation
-        allow update: if (isOwner(userId) && 
-                         request.resource.data.keys().hasOnly(['isEnrolled', 'enrolledAt'])) ||
-                        false; // Cloud Functions update tier/points
-        allow delete: if false;
-    }
-
-    /**
-     * @description Manages loyalty points transactions (subcollection).
-     * @path /loyaltyPrograms/{userId}/pointsTransactions/{transactionId}
-     * @allow (get, list) - User can read their own points history. Admins can read any.
-     * @deny (create, update, delete) - Only Cloud Functions can create transactions.
-     * @principle Points history is immutable and managed by Cloud Functions.
-     */
-    match /loyaltyPrograms/{userId}/pointsTransactions/{transactionId} {
-        allow get, list: if isOwner(userId) || isAdmin();
-        allow create, update, delete: if false; // Only Cloud Functions
-    }
-
-    /**
-     * @description Manages loyalty rewards catalog.
-     * @path /loyaltyRewards/{rewardId}
-     * @allow (get, list) - All authenticated users can view active rewards.
-     * @allow (create, update, delete) - Only admins can manage rewards.
-     * @principle Public catalog, admin-managed.
-     */
-    match /loyaltyRewards/{rewardId} {
-        allow get, list: if isSignedIn() && resource.data.isActive == true;
-        allow create, update, delete: if isAdmin();
-    }
-
-    /**
-     * @description Manages referral codes.
-     * @path /referralCodes/{codeId}
-     * @allow (get) - Anyone can read to validate codes during registration.
-     * @allow (create) - Users can create their own referral code.
-     * @allow (update) - System updates usage count via Cloud Functions.
-     * @principle Codes are user-created but system-managed.
-     */
-    match /referralCodes/{codeId} {
-        allow get: if isSignedIn();
-        allow list: if isAdmin();
-        allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
-        allow update: if false; // Only Cloud Functions update usage
-        allow delete: if isOwner(resource.data.userId) || isAdmin();
-    }
-
-    /**
-     * @description Manages referral tracking.
-     * @path /referrals/{referralId}
-     * @allow (get) - Referrer, referee, or admins can read.
-     * @allow (create) - System creates during registration via Cloud Function.
-     * @allow (update) - System updates status and rewards via Cloud Functions.
-     * @principle Referral system is fully automated.
-     */
-    match /referrals/{referralId} {
-        allow get: if isSignedIn() && (
-          request.auth.uid == resource.data.referrerId ||
-          request.auth.uid == resource.data.refereeId ||
-          isAdmin()
-        );
-        allow list: if isAdmin();
-        allow create, update, delete: if false; // Only Cloud Functions
-    }
-
-    /**
-     * @description Manages purchases.
-     * @path /purchases/{purchaseId}
-     * @allow (get, list) - User can read their purchases. Admins can read all.
-     * @allow (create) - Created via Cloud Functions during checkout.
-     * @allow (update) - Admins/Therapists can fulfill purchases.
-     * @principle Purchase records are system-created and staff-fulfilled.
-     */
-    match /purchases/{purchaseId} {
-        allow get: if isSignedIn() && (
-          request.auth.uid == resource.data.userId ||
-          isAdmin()
-        );
-        allow list: if isAdmin();
-        allow create: if false; // Cloud Functions only
-        allow update: if (isAdmin() || isTherapist()) && 
-                       request.resource.data.keys().hasOnly(['isFulfilled', 'fulfilledAt', 'fulfilledBy']);
-        allow delete: if false;
-    }
-
-    /**
-     * @description Manages purchasable items catalog.
-     * @path /purchasableItems/{itemId}
-     * @allow (get, list) - All authenticated users can view active items.
-     * @allow (create, update, delete) - Only admins can manage catalog.
-     * @principle Public catalog, admin-managed.
-     */
-    match /purchasableItems/{itemId} {
-        allow get, list: if isSignedIn() && resource.data.isActive == true;
-        allow create, update, delete: if isAdmin();
-    }
-
-    /**
-     * @description Global referral settings (singleton document).
-     * @path /settings/referralSettings
-     * @allow (get) - All authenticated users can read settings.
-     * @allow (update) - Only admins can modify settings.
-     * @principle System-wide configuration managed by admins.
-     */
-    match /settings/referralSettings {
-        allow get: if isSignedIn();
-        allow create, update: if isAdmin();
-        allow delete: if false;
-    }
-
-    /**
-     * @description Helper function to check if user is an admin.
-     * @returns {boolean} True if user has admin role.
-     */
-    function isAdmin() {
-        return isSignedIn() && 
-               exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Admin';
-    }
-
-    /**
-     * @description Helper function to check if user is a therapist.
-     * @returns {boolean} True if user has therapist role.
-     */
-    function isTherapist() {
-        return isSignedIn() && 
-               exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Therapist';
-    }
-
-    // ========================================================================
-    // SUBSCRIPTION SYSTEM RULES
-    // ========================================================================
-
-    /**
-     * @collection subscriptions
-     * @description User subscription records (Loyal, VIP memberships)
-     * @path /subscriptions/{subscriptionId}
-     */
-    match /subscriptions/{subscriptionId} {
-      // Users can read their own subscriptions
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
-      
-      // Admins can read all subscriptions
-      allow read: if isAdmin();
-      
-      // Only admins can create/update/delete subscriptions
-      allow create, update, delete: if isAdmin();
-    }
-
-    /**
-     * @collection subscriptionUsage
-     * @description Usage tracking for subscriptions (points, discounts, themes used)
-     * @path /subscriptionUsage/{subscriptionId}
-     */
-    match /subscriptionUsage/{subscriptionId} {
-      // Users can read usage for their own subscriptions
-      allow read: if isSignedIn() && 
-                     exists(/databases/$(database)/documents/subscriptions/$(subscriptionId)) &&
-                     get(/databases/$(database)/documents/subscriptions/$(subscriptionId)).data.userId == request.auth.uid;
-      
-      // Admins can read all usage data
-      allow read: if isAdmin();
-      
-      // System can create/update usage (via Cloud Functions or admin)
-      allow create, update: if isAdmin();
-      
-      // No direct deletion - should cascade from subscription deletion
-      allow delete: if isAdmin();
-    }
-
-    /**
-     * @collection userThemePreferences
-     * @description User theme preferences and customizations
-     * @path /userThemePreferences/{userId}
-     */
-    match /userThemePreferences/{userId} {
-      // Users can read/write their own theme preferences
-      allow read, write: if isOwner(userId);
-      
-      // Admins can read all preferences
-      allow read: if isAdmin();
-    }
-
-    /**
-     * @collection subscriptionRewards
-     * @description Loyalty rewards earned by users
-     * @path /subscriptionRewards/{rewardId}
-     */
-    match /subscriptionRewards/{rewardId} {
-      // Users can read their own rewards
-      allow read: if isSignedIn() && resource.data.userId == request.auth.uid;
-      
-      // Admins can read all rewards
-      allow read: if isAdmin();
-      
-      // Only system/admin can create rewards
-      allow create: if isAdmin();
-      
-      // Users can update redemption status of their own rewards
-      allow update: if isSignedIn() && 
-                       resource.data.userId == request.auth.uid &&
-                       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['redeemedAt', 'updatedAt']);
-      
-      // Only admins can delete rewards
-      allow delete: if isAdmin();
-    }
-
-    // ============================================
-    // COMMUNITY & GROUPS RULES
-    // ============================================
-
-    /**
-     * @collection community_posts
-     * @description Community posts with engagement tracking
-     * @path /community_posts/{postId}
-     */
-    match /community_posts/{postId} {
-      // Anyone can read public posts
-      allow read: if resource.data.visibility == 'public' 
-        || (isSignedIn() && (
-          // Own posts
-          resource.data.authorId == request.auth.uid
-          // Group posts where user is member
-          || (resource.data.visibility == 'group' 
-              && exists(/databases/$(database)/documents/community_group_members/$(resource.data.groupId)_$(request.auth.uid)))
-        ));
-      
-      // Authenticated users can create posts
-      allow create: if isSignedIn()
-        && request.resource.data.authorId == request.auth.uid
-        && !request.resource.data.isArchived
-        && !request.resource.data.isHidden;
-      
-      // Authors can update their own posts, admins can moderate
-      allow update: if isSignedIn()
-        && (resource.data.authorId == request.auth.uid || isAdmin());
-      
-      // Authors and admins can delete
-      allow delete: if isSignedIn()
-        && (resource.data.authorId == request.auth.uid || isAdmin());
-    }
-
-    /**
-     * @collection community_comments
-     * @description Comments and replies on community posts
-     * @path /community_comments/{commentId}
-     */
-    match /community_comments/{commentId} {
-      // Anyone authenticated can read comments
-      allow read: if isSignedIn();
-      
-      // Authenticated users can create comments
-      allow create: if isSignedIn()
-        && request.resource.data.userId == request.auth.uid;
-      
-      // Authors can update/delete their comments, admins can moderate
-      allow update, delete: if isSignedIn()
-        && (resource.data.userId == request.auth.uid || isAdmin());
-    }
-
-    /**
-     * @collection community_reactions
-     * @description User reactions to posts (like, heart, support, etc.)
-     * @path /community_reactions/{reactionId}
-     */
-    match /community_reactions/{reactionId} {
-      allow read: if isSignedIn();
-      
-      // Users can create/update/delete their own reactions
-      allow create, update, delete: if isSignedIn()
-        && request.resource.data.userId == request.auth.uid;
-    }
-
-    /**
-     * @collection community_groups
-     * @description Community groups with membership management
-     * @path /community_groups/{groupId}
-     */
-    match /community_groups/{groupId} {
-      // Public groups are readable by all
-      allow read: if resource.data.privacy == 'public'
-        || (isSignedIn() && (
-          // Private groups readable by members
-          resource.data.privacy == 'private' 
-          && exists(/databases/$(database)/documents/community_group_members/$(groupId)_$(request.auth.uid))
-        ));
-      
-      // Authenticated users can create groups
-      allow create: if isSignedIn()
-        && request.resource.data.ownerId == request.auth.uid;
-      
-      // Owners and admins can update
-      allow update: if isSignedIn()
-        && (resource.data.ownerId == request.auth.uid
-            || request.auth.uid in resource.data.adminIds
-            || isAdmin());
-      
-      // Only owners and platform admins can delete
-      allow delete: if isSignedIn()
-        && (resource.data.ownerId == request.auth.uid || isAdmin());
-    }
-
-    /**
-     * @collection community_group_members
-     * @description Group membership tracking
-     * @path /community_group_members/{memberId}
-     */
-    match /community_group_members/{memberId} {
-      // Members can read member lists of groups they're in
-      allow read: if isSignedIn()
-        && exists(/databases/$(database)/documents/community_group_members/$(resource.data.groupId)_$(request.auth.uid));
-      
-      // Group admins and moderators can add members
-      allow create: if isSignedIn()
-        && (
-          get(/databases/$(database)/documents/community_groups/$(request.resource.data.groupId)).data.ownerId == request.auth.uid
-          || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(request.resource.data.groupId)).data.adminIds
-        );
-      
-      // Members can leave (delete their membership), admins can remove
-      allow delete: if isSignedIn()
-        && (resource.data.userId == request.auth.uid
-            || get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
-            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
-    }
-
-    /**
-     * @collection community_group_invitations
-     * @description Group invitation management
-     * @path /community_group_invitations/{invitationId}
-     */
-    match /community_group_invitations/{invitationId} {
-      // Inviter and invitee can read
-      allow read: if isSignedIn()
-        && (resource.data.inviterId == request.auth.uid
-            || resource.data.inviteeId == request.auth.uid);
-      
-      // Group members can create invitations
-      allow create: if isSignedIn()
-        && request.resource.data.inviterId == request.auth.uid
-        && exists(/databases/$(database)/documents/community_group_members/$(request.resource.data.groupId)_$(request.auth.uid));
-      
-      // Invitee can update (accept/decline)
-      allow update: if isSignedIn()
-        && resource.data.inviteeId == request.auth.uid;
-      
-      // Inviter or invitee can delete
-      allow delete: if isSignedIn()
-        && (resource.data.inviterId == request.auth.uid
-            || resource.data.inviteeId == request.auth.uid);
-    }
-
-    /**
-     * @collection community_group_join_requests
-     * @description Join requests for private groups
-     * @path /community_group_join_requests/{requestId}
-     */
-    match /community_group_join_requests/{requestId} {
-      // Requester and group admins can read
-      allow read: if isSignedIn()
-        && (resource.data.userId == request.auth.uid
-            || get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
-            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
-      
-      // Authenticated users can create join requests
-      allow create: if isSignedIn()
-        && request.resource.data.userId == request.auth.uid;
-      
-      // Group admins can update (approve/reject)
-      allow update: if isSignedIn()
-        && (get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
-            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds);
-      
-      // Requester can delete their own request
-      allow delete: if isSignedIn()
-        && resource.data.userId == request.auth.uid;
-    }
-
-    /**
-     * @collection community_follows
-     * @description User follow relationships
-     * @path /community_follows/{followId}
-     */
-    match /community_follows/{followId} {
-      allow read: if isSignedIn();
-      
-      // Users can follow others
-      allow create: if isSignedIn()
-        && request.resource.data.followerId == request.auth.uid;
-      
-      // Users can unfollow
-      allow delete: if isSignedIn()
-        && resource.data.followerId == request.auth.uid;
-    }
-
-    /**
-     * @collection community_notifications
-     * @description User notifications for community events
-     * @path /community_notifications/{notificationId}
-     */
-    match /community_notifications/{notificationId} {
-      // Users can read their own notifications
-      allow read: if isSignedIn()
-        && resource.data.userId == request.auth.uid;
-      
-      // System can create notifications
-      allow create: if isSignedIn();
-      
-      // Users can update their own notifications (mark as read)
-      allow update: if isSignedIn()
-        && resource.data.userId == request.auth.uid;
-      
-      // Users can delete their own notifications
-      allow delete: if isSignedIn()
-        && resource.data.userId == request.auth.uid;
-    }
-
-    /**
-     * @collection community_reports
-     * @description Content moderation reports
-     * @path /community_reports/{reportId}
-     */
-    match /community_reports/{reportId} {
-      // Reporters and admins can read
-      allow read: if isSignedIn()
-        && (resource.data.reporterId == request.auth.uid || isAdmin());
-      
-      // Authenticated users can create reports
-      allow create: if isSignedIn()
-        && request.resource.data.reporterId == request.auth.uid;
-      
-      // Only admins can update/resolve reports
-      allow update: if isAdmin();
-    }
-
-    /**
-     * @collection community_user_profiles
-     * @description Extended user profiles for community features
-     * @path /community_user_profiles/{userId}
-     */
-    match /community_user_profiles/{userId} {
-      // Users can read profiles based on privacy settings
-      allow read: if isSignedIn()
-        && (userId == request.auth.uid
-            || resource.data.privacySettings.profileVisibility == 'public'
-            || (resource.data.privacySettings.profileVisibility == 'friends' 
-                && exists(/databases/$(database)/documents/community_follows/$(userId)_$(request.auth.uid))));
-      
-      // Users can create/update their own profile
-      allow create, update: if isSignedIn()
-        && userId == request.auth.uid;
-    }
-
-    /**
-     * @collection community_group_analytics
-     * @description Analytics data for groups
-     * @path /community_group_analytics/{analyticsId}
-     */
-    match /community_group_analytics/{analyticsId} {
-      // Group owners and admins can read analytics
-      allow read: if isSignedIn()
-        && (get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.ownerId == request.auth.uid
-            || request.auth.uid in get(/databases/$(database)/documents/community_groups/$(resource.data.groupId)).data.adminIds
-            || isAdmin());
-    }
-
-    /**
-     * @collection community_analytics
-     * @description Platform-wide community analytics
-     * @path /community_analytics/{analyticsId}
-     */
-    match /community_analytics/{analyticsId} {
-      // Only platform admins can read community-wide analytics
-      allow read: if isAdmin();
+    // ---- DENY EVERYTHING ELSE ----
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

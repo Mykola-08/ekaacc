@@ -92,24 +92,42 @@ export type User = {
     phone: string;
     relationship: string;
   };
-  
-  
-    // Additional Profile Info
-    birthday?: string; // ISO date string
-    preferences?: {
-      likesTea?: boolean;
-      likesCoffee?: boolean;
-      favoriteDrink?: string;
-      hobbies?: string[];
-      favoriteActivities?: string[];
-      dietaryRestrictions?: string;
-      sleepPattern?: string;
-      exerciseFrequency?: string;
-      notes?: string;
+
+  // Additional Profile Info
+  birthday?: string; // ISO date string
+  preferences?: {
+    likesTea?: boolean;
+    likesCoffee?: boolean;
+    favoriteDrink?: string;
+    hobbies?: string[];
+    favoriteActivities?: string[];
+    dietaryRestrictions?: string;
+    sleepPattern?: string;
+    exerciseFrequency?: string;
+    notes?: string;
+  };
+
+  settings?: {
+    notifications?: {
+      email?: boolean;
+      push?: boolean;
+      sms?: boolean;
+      marketing?: boolean;
     };
-  
-    // Therapist-only visible fields
-    therapistVisible?: {
+    privacy?: {
+      profileVisibility?: boolean;
+      activityStatus?: boolean;
+      dataSharing?: boolean;
+    };
+    appPreferences?: {
+      soundEffects?: boolean;
+      autoSave?: boolean;
+      compactView?: boolean;
+    };
+  };
+
+  // Therapist-only visible fields
+  therapistVisible?: {
       birthday?: string;
       preferences?: {
         likesTea?: boolean;

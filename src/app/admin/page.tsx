@@ -163,7 +163,7 @@ export default function AdminDashboard() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Users */}
-        <AnimatedCard delay={400}>
+        <AnimatedCard delay={400} asChild>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
         </AnimatedCard>
 
         {/* Session Overview */}
-        <AnimatedCard delay={500}>
+        <AnimatedCard delay={500} asChild>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -241,7 +241,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <AnimatedCard delay={600}>
+      <AnimatedCard delay={600} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

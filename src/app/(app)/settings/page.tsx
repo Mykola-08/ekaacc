@@ -48,34 +48,42 @@ export default function SettingsPage() {
   const [autoSave, setAutoSave] = useState(true);
   const [compactView, setCompactView] = useState(false);
 
-  const handleSave = () => {
-    // Save all settings
-    updateUser({
-      settings: {
-        notifications: {
-          email: emailNotifications,
-          push: pushNotifications,
-          sms: smsNotifications,
-          marketing: marketingEmails,
+  const handleSave = async () => {
+    try {
+      await updateUser({
+        settings: {
+          notifications: {
+            email: emailNotifications,
+            push: pushNotifications,
+            sms: smsNotifications,
+            marketing: marketingEmails,
+          },
+          privacy: {
+            profileVisibility,
+            activityStatus,
+            dataSharing,
+          },
+          appPreferences: {
+            soundEffects,
+            autoSave,
+            compactView,
+          },
         },
-        privacy: {
-          profileVisibility,
-          activityStatus,
-          dataSharing,
-        },
-        preferences: {
-          soundEffects,
-          autoSave,
-          compactView,
-        },
-      },
-    });
+      });
 
-    toast({
-      title: "Settings Saved",
-      description: "Your preferences have been updated successfully.",
-    });
-    setHasChanges(false);
+      toast({
+        title: "Settings Saved",
+        description: "Your preferences have been updated successfully.",
+      });
+      setHasChanges(false);
+    } catch (error) {
+      console.error('Failed to save settings', error);
+      toast({
+        title: "Unable to save settings",
+        description: "Please try again or check your connection.",
+        variant: 'destructive',
+      });
+    }
   };
 
   const markChanged = () => setHasChanges(true);
@@ -112,7 +120,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Appearance */}
-      <AnimatedCard delay={100}>
+      <AnimatedCard delay={100} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -171,7 +179,7 @@ export default function SettingsPage() {
       </AnimatedCard>
 
       {/* Notifications */}
-      <AnimatedCard delay={200}>
+      <AnimatedCard delay={200} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -257,7 +265,7 @@ export default function SettingsPage() {
       </AnimatedCard>
 
       {/* Privacy & Security */}
-      <AnimatedCard delay={300}>
+      <AnimatedCard delay={300} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -325,7 +333,7 @@ export default function SettingsPage() {
       </AnimatedCard>
 
       {/* App Preferences */}
-      <AnimatedCard delay={400}>
+      <AnimatedCard delay={400} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

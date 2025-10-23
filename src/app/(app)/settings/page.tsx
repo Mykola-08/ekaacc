@@ -112,7 +112,7 @@ export default function SettingsPage() {
       </div>
 
       {/* Appearance */}
-      <AnimatedCard delay={100}>
+      <AnimatedCard delay={100} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -171,7 +171,7 @@ export default function SettingsPage() {
       </AnimatedCard>
 
       {/* Notifications */}
-      <AnimatedCard delay={200}>
+      <AnimatedCard delay={200} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -257,7 +257,7 @@ export default function SettingsPage() {
       </AnimatedCard>
 
       {/* Privacy & Security */}
-      <AnimatedCard delay={300}>
+      <AnimatedCard delay={300} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -325,7 +325,7 @@ export default function SettingsPage() {
       </AnimatedCard>
 
       {/* App Preferences */}
-      <AnimatedCard delay={400}>
+      <AnimatedCard delay={400} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

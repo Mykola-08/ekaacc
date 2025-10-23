@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -80,7 +80,12 @@ export default function AccountPage() {
   const { currentUser, updateUser } = useData();
   const { toast } = useToast();
   const searchParams = useSearchParams();
-  const [activeTab, setActiveTab] = useState(searchParams.get('tab') ?? 'profile');
+  const router = useRouter();
+  const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState<string>(() => {
+    const tab = searchParams.get('tab');
+    return tab === 'wallet' || tab === 'subscription' ? tab : 'profile';
+  });
 
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
@@ -91,6 +96,7 @@ export default function AccountPage() {
   const [topUpAmount, setTopUpAmount] = useState('');
   const [topUpMethod, setTopUpMethod] = useState<PaymentMethod>('bizum');
   const [proofText, setProofText] = useState('');
+  const [submittingTopUp, setSubmittingTopUp] = useState(false);
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -101,8 +107,34 @@ export default function AccountPage() {
 
   useEffect(() => {
     const tab = searchParams.get('tab');
-    if (tab) setActiveTab(tab);
+    const nextTab = tab === 'wallet' || tab === 'subscription' ? tab : 'profile';
+    setActiveTab(prev => (prev === nextTab ? prev : nextTab));
   }, [searchParams]);
+
+  const handleTabChange = useCallback(
+    (value: string) => {
+      setActiveTab(value);
+      const params = new URLSearchParams(searchParams.toString());
+      if (value === 'profile') {
+        params.delete('tab');
+      } else {
+        params.set('tab', value);
+      }
+      const query = params.toString();
+      const nextUrl = query ? `${pathname}?${query}` : pathname;
+      router.replace(nextUrl, { scroll: false });
+    },
+    [pathname, router, searchParams]
+  );
+
+  const handleTopUpDialogChange = useCallback((open: boolean) => {
+    setTopUpDialogOpen(open);
+    if (!open) {
+      setTopUpAmount('');
+      setProofText('');
+      setSubmittingTopUp(false);
+    }
+  }, []);
 
   const loadWalletData = useCallback(async () => {
     if (!currentUser) return;
@@ -152,21 +184,29 @@ export default function AccountPage() {
   const walletSummary = useMemo(() => formatWalletSummary(wallet), [wallet]);
 
   const handleTopUp = useCallback(async () => {
-    if (!currentUser || !topUpAmount || Number(topUpAmount) <= 0) {
+    if (!currentUser || submittingTopUp) {
+      return;
+    }
+
+    const parsedAmount = Number.parseFloat(topUpAmount.replace(',', '.'));
+    const normalizedAmount = Math.round((Number.isFinite(parsedAmount) ? parsedAmount : 0) * 100) / 100;
+
+    if (!Number.isFinite(parsedAmount) || normalizedAmount < 1) {
       toast({
         title: 'Invalid amount',
-        description: 'Please enter a valid amount before submitting.',
+        description: 'Please enter a valid top-up amount of at least €1.00 before submitting.',
         variant: 'destructive',
       });
       return;
     }
 
     try {
+      setSubmittingTopUp(true);
       const { getPaymentService } = await import('@/services/payment-service');
       const paymentService = await getPaymentService();
       await paymentService.createPaymentRequest(
         currentUser.id,
-        Number(topUpAmount),
+        normalizedAmount,
         topUpMethod,
         'Wallet top-up',
         undefined,
@@ -174,11 +214,9 @@ export default function AccountPage() {
       );
       toast({
         title: 'Top-up submitted',
-        description: `Your ${topUpMethod} payment of €${Number(topUpAmount).toFixed(2)} is pending review.`,
+        description: `Your ${topUpMethod} payment of €${normalizedAmount.toFixed(2)} is pending review.`,
       });
-      setTopUpDialogOpen(false);
-      setTopUpAmount('');
-      setProofText('');
+      handleTopUpDialogChange(false);
       await loadWalletData();
     } catch (error) {
       console.error('Failed to submit top-up request:', error);
@@ -187,8 +225,10 @@ export default function AccountPage() {
         description: 'We were unable to create your top-up request. Please try again.',
         variant: 'destructive',
       });
+    } finally {
+      setSubmittingTopUp(false);
     }
-  }, [currentUser, loadWalletData, proofText, toast, topUpAmount, topUpMethod]);
+  }, [currentUser, handleTopUpDialogChange, loadWalletData, proofText, submittingTopUp, toast, topUpAmount, topUpMethod]);
 
   const onSubmit = useCallback(
     async (values: ProfileFormValues) => {
@@ -271,7 +311,7 @@ export default function AccountPage() {
         </div>
       </div>
 
-      <AnimatedCard delay={0}>
+      <AnimatedCard delay={0} asChild>
         <Card>
           <CardContent className="flex flex-col gap-4 py-6 md:flex-row md:items-center md:justify-between">
             <div className="flex items-center gap-4">
@@ -306,7 +346,7 @@ export default function AccountPage() {
         </Card>
       </AnimatedCard>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="profile">
             <User className="mr-2 h-4 w-4" />
@@ -323,7 +363,7 @@ export default function AccountPage() {
         </TabsList>
 
         <TabsContent value="profile" className="space-y-6">
-          <AnimatedCard delay={100}>
+          <AnimatedCard delay={100} asChild>
             <Card>
               <CardHeader>
                 <CardTitle>Profile</CardTitle>
@@ -408,7 +448,7 @@ export default function AccountPage() {
             </Card>
           </AnimatedCard>
 
-          <AnimatedCard delay={200}>
+          <AnimatedCard delay={200} asChild>
             <Card>
               <CardHeader>
                 <CardTitle>Testing tools</CardTitle>
@@ -425,14 +465,14 @@ export default function AccountPage() {
         </TabsContent>
 
         <TabsContent value="wallet" className="space-y-6">
-          <AnimatedCard delay={100}>
+          <AnimatedCard delay={100} asChild>
             <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
               <CardHeader>
                 <CardTitle className="flex flex-wrap items-center justify-between gap-4">
                   <span className="flex items-center gap-2">
                     <WalletIcon className="h-5 w-5" /> Wallet overview
                   </span>
-                  <Button onClick={() => setTopUpDialogOpen(true)}>
+                  <Button onClick={() => handleTopUpDialogChange(true)}>
                     <Plus className="mr-2 h-4 w-4" /> Top up
                   </Button>
                 </CardTitle>
@@ -555,7 +595,7 @@ export default function AccountPage() {
         </TabsContent>
 
         <TabsContent value="subscription" className="space-y-6">
-          <AnimatedCard delay={100}>
+          <AnimatedCard delay={100} asChild>
             <Card>
               <CardHeader>
                 <CardTitle>Membership status</CardTitle>
@@ -628,7 +668,7 @@ export default function AccountPage() {
             </Card>
           </AnimatedCard>
 
-          <AnimatedCard delay={180}>
+          <AnimatedCard delay={180} asChild>
             <Card>
               <CardHeader>
                 <CardTitle>Need help with billing?</CardTitle>
@@ -647,7 +687,7 @@ export default function AccountPage() {
         </TabsContent>
       </Tabs>
 
-      <Dialog open={topUpDialogOpen} onOpenChange={setTopUpDialogOpen}>
+      <Dialog open={topUpDialogOpen} onOpenChange={handleTopUpDialogChange}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Top up wallet</DialogTitle>
@@ -663,11 +703,16 @@ export default function AccountPage() {
                   type="number"
                   min="1"
                   step="0.01"
+                  disabled={submittingTopUp}
                 />
               </div>
               <div>
                 <FormLabel>Method</FormLabel>
-                <Select value={topUpMethod} onValueChange={value => setTopUpMethod(value as PaymentMethod)}>
+                <Select
+                  value={topUpMethod}
+                  onValueChange={value => setTopUpMethod(value as PaymentMethod)}
+                  disabled={submittingTopUp}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Choose a method" />
                   </SelectTrigger>
@@ -686,6 +731,7 @@ export default function AccountPage() {
                 placeholder="Transaction reference, last four digits, or any helpful note"
                 value={proofText}
                 onChange={event => setProofText(event.target.value)}
+                disabled={submittingTopUp}
               />
             </div>
             <div className="rounded-md border border-blue-500/20 bg-blue-500/10 p-3 text-sm text-blue-700">
@@ -693,11 +739,17 @@ export default function AccountPage() {
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setTopUpDialogOpen(false)}>
+            <Button variant="outline" onClick={() => handleTopUpDialogChange(false)} disabled={submittingTopUp}>
               Cancel
             </Button>
-            <Button onClick={handleTopUp}>
-              <Check className="mr-2 h-4 w-4" /> Submit request
+            <Button onClick={handleTopUp} disabled={submittingTopUp}>
+              {submittingTopUp ? (
+                'Submitting...'
+              ) : (
+                <>
+                  <Check className="mr-2 h-4 w-4" /> Submit request
+                </>
+              )}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,16 +1,20 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import type { ReactNode } from 'react';
+import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 
-export function AnimatedCard({ 
-  children, 
-  className,
-  delay = 0 
-}: { 
-  children: React.ReactNode; 
+interface AnimatedCardProps {
+  children: ReactNode;
   className?: string;
   delay?: number;
-}) {
+  /**
+   * When true, renders children directly without wrapping them in a Card.
+   * Useful when the caller already provides a Card or custom surface.
+   */
+  asChild?: boolean;
+}
+
+export function AnimatedCard({ children, className, delay = 0, asChild = false }: AnimatedCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -18,19 +22,17 @@ export function AnimatedCard({
       transition={{ duration: 0.5, delay: delay / 1000 }}
       className={className}
     >
-      <Card>
-        {children}
-      </Card>
+      {asChild ? children : <Card>{children}</Card>}
     </motion.div>
   );
 }
 
-export function GlowCard({ 
-  children, 
+export function GlowCard({
+  children,
   className,
-  glowColor = 'primary' 
-}: { 
-  children: React.ReactNode; 
+  glowColor = 'primary'
+}: {
+  children: ReactNode;
   className?: string;
   glowColor?: 'primary' | 'green' | 'blue' | 'purple';
 }) {

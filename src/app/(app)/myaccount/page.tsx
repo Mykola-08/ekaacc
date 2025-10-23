@@ -204,7 +204,7 @@ export default function MyAccountPage() {
           </Form>
 
           {/* Wallet Section inside Profile */}
-          <AnimatedCard delay={100}>
+          <AnimatedCard delay={100} asChild>
             <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">

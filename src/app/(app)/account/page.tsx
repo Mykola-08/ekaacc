@@ -24,7 +24,7 @@ import { AnimatedCard } from '@/components/eka/animated-card';
 import { RoleChanger } from '@/components/ui/role-changer';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
 import { format } from 'date-fns';
-import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from '@/lib/wallet-types';
+import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod, PaymentStatus } from '@/lib/wallet-types';
 import { Crown, Check, Shield, Sparkles, User, Wallet as WalletIcon, Plus, Smartphone, CreditCard, Euro } from 'lucide-react';
 
 const profileFormSchema = z.object({
@@ -74,6 +74,41 @@ function formatWalletSummary(wallet: Wallet | null): WalletSummary {
   const lastUpdated = updated ? format(updated, 'PPpp') : 'Never';
 
   return { balance, totalCredits, totalDebits, lastUpdated };
+}
+
+const paymentStatusMeta: Record<PaymentStatus, { label: string; className: string }> = {
+  pending: {
+    label: 'Pending review',
+    className: 'border-amber-300 bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200',
+  },
+  confirmed: {
+    label: 'Confirmed',
+    className: 'border-emerald-300 bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-200',
+  },
+  rejected: {
+    label: 'Rejected',
+    className: 'border-rose-300 bg-rose-100 text-rose-800 dark:bg-rose-900/30 dark:text-rose-200',
+  },
+  cancelled: {
+    label: 'Cancelled',
+    className: 'border-slate-300 bg-slate-100 text-slate-700 dark:bg-slate-900/30 dark:text-slate-200',
+  },
+  expired: {
+    label: 'Expired',
+    className: 'border-orange-300 bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-200',
+  },
+};
+
+function PaymentStatusBadge({ status }: { status: PaymentStatus }) {
+  const meta = paymentStatusMeta[status] ?? {
+    label: status,
+    className: 'border-muted bg-muted text-foreground',
+  };
+  return (
+    <Badge variant="outline" className={meta.className}>
+      {meta.label}
+    </Badge>
+  );
 }
 
 export default function AccountPage() {
@@ -580,7 +615,9 @@ export default function AccountPage() {
                                   {request.method}
                                 </span>
                               </TableCell>
-                              <TableCell className="capitalize">{request.status}</TableCell>
+                              <TableCell>
+                                <PaymentStatusBadge status={request.status} />
+                              </TableCell>
                               <TableCell className="text-right font-medium">€{request.amount.toFixed(2)}</TableCell>
                             </TableRow>
                           );

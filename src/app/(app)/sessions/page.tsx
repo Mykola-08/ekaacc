@@ -14,15 +14,32 @@ import { useData } from "@/context/unified-data-context";
 
 // Helper to map mock booking to session type
 const mapBookingToSession = (booking: any): AppSession => {
+  const dateValue = booking.date ? new Date(booking.date) : new Date();
+  const status = (booking.status || '').toString().toLowerCase();
+  let statusLabel: AppSession['status'] = 'Upcoming';
+  if (status === 'cancelled' || status === 'canceled' || status === 'no_show') {
+    statusLabel = 'Canceled';
+  } else if (status === 'completed' || status === 'checked_out' || status === 'done') {
+    statusLabel = 'Completed';
+  }
+
+  const therapistName = booking.therapistName
+    || booking.therapist
+    || booking.teamMemberName
+    || booking.therapistId
+    || 'Assigned therapist';
+
+  const sessionType = booking.serviceName || booking.type || 'Therapy Session';
+
   return {
     id: booking.id,
-    therapist: 'EKA Therapist',
-    therapistAvatarUrl: 'https://i.pravatar.cc/150?u=square',
-    date: booking.date,
-    time: new Date(booking.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    duration: 60,
-    status: booking.status === 'confirmed' ? 'Upcoming' : booking.status === 'cancelled' ? 'Canceled' : 'Completed',
-    type: 'Therapy Session',
+    therapist: therapistName,
+    therapistAvatarUrl: booking.therapistAvatarUrl || 'https://i.pravatar.cc/150?u=square',
+    date: dateValue.toISOString(),
+    time: dateValue.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    duration: booking.durationMinutes || booking.duration || 60,
+    status: statusLabel,
+    type: sessionType,
     userId: booking.userId,
   };
 };
@@ -36,9 +53,16 @@ export default function SessionsPage() {
   useEffect(() => {
     if (!currentUser) return;
     setIsLoading(true);
-    fxService.getBookingsForUser(currentUser.uid || 'user1')
+    fxService.getBookingsForUser(currentUser.uid || currentUser.id || 'user1', {
+      email: currentUser.email,
+      phone: currentUser.phoneNumber,
+    })
       .then(bookings => {
-        setSessions(bookings.map(mapBookingToSession).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
+        setSessions(
+          bookings
+            .map(mapBookingToSession)
+            .sort((a: AppSession, b: AppSession) => new Date(b.date).getTime() - new Date(a.date).getTime())
+        );
         setError(null);
       })
       .catch(e => setError(e))

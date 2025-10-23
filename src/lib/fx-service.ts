@@ -15,6 +15,7 @@ import { fxBilling } from './fx-billing';
 import { fxUsers } from './fx-users';
 
 const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
+const useSquareApi = process.env.NEXT_PUBLIC_USE_SQUARE_API === 'true';
 
 // Safe storage helpers: use localStorage when available (browser), otherwise fall back to an in-memory Map
 const _inMemoryStore = new Map<string, string>();
@@ -70,8 +71,36 @@ export const fxService = {
     if (useMock) return mockBookingAPI.createBooking(userId, therapistId, date, notes);
     return fxBookings.createBooking(userId, therapistId, date, notes);
   },
-  async getBookingsForUser(userId: string) {
+  async getBookingsForUser(
+    userId: string,
+    context?: { email?: string | null; phone?: string | null }
+  ) {
     if (useMock) return mockBookingAPI.getBookingsForUser(userId);
+
+    if (useSquareApi) {
+      const params = new URLSearchParams({ userId });
+      if (context?.email) params.set('email', context.email);
+      if (context?.phone) params.set('phone', context.phone);
+
+      try {
+        const response = await fetch(`/api/square/bookings?${params.toString()}`, { cache: 'no-store' });
+        if (response.ok) {
+          const payload = await response.json();
+          if (Array.isArray(payload.bookings)) {
+            return payload.bookings;
+          }
+        } else {
+          const errorBody = await response.json().catch(() => ({}));
+          console.warn('Square bookings request failed; falling back to Firestore', {
+            status: response.status,
+            error: errorBody?.error ?? response.statusText,
+          });
+        }
+      } catch (error) {
+        console.warn('Square bookings unavailable, using Firestore data instead', error);
+      }
+    }
+
     return fxBookings.getBookingsForUser(userId);
   },
   async getAllBookings() {

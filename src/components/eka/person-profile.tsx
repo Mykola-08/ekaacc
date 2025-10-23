@@ -42,20 +42,40 @@ export default function PersonProfile({ userId }: { userId: string }) {
       setTags(found?.tags || []);
       setHiddenNotes(found?.hiddenNotes || '');
       // load bookings and reports (mock-first)
-      try { const b = await fxService.getBookingsForUser(found?.id || userId); setBookings(b || []); } catch (e) { setBookings([]); }
+      let bookingList: any[] = [];
+      try {
+        bookingList = await fxService.getBookingsForUser(found?.id || userId, {
+          email: found?.email,
+          phone: found?.phoneNumber || (found?.profile ? found?.profile.phone : undefined),
+        });
+        setBookings(bookingList || []);
+      } catch (e) {
+        console.warn('Unable to load bookings for profile', e);
+        bookingList = [];
+        setBookings([]);
+      }
+
       // mock reports are available in mock-data; in production use assessments or reports collection
       try {
         // try loading reports via fxService.generateAIReport hook (or assessments) - fallback to empty
         // There's no fxService.getReports, so try to fetch assessments for session ids from bookings
         const repList: any[] = [];
-        for (const b of bookings) {
+        for (const b of bookingList) {
+          if (!b?.sessionId) continue;
           try {
             const r = await fxService.getAssessmentsForSession(b.sessionId);
-            if (r && r.length) repList.push(...r.map((x: any) => ({ ...x, type: 'assessment', sourceSession: b.sessionId })));
-          } catch (e) { /* ignore */ }
+            if (r && r.length) {
+              repList.push(...r.map((x: any) => ({ ...x, type: 'assessment', sourceSession: b.sessionId })));
+            }
+          } catch (e) {
+            console.debug('No assessments for session', b.sessionId, e);
+          }
         }
         setReports(repList);
-      } catch (e) { setReports([]); }
+      } catch (e) {
+        console.warn('Unable to load reports timeline', e);
+        setReports([]);
+      }
     } catch (e) {
       console.error('loadPerson', e);
     } finally { setLoading(false); }

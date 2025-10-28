@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { listBookings } from '@/server/square-client';
+import { listBookings } from '@/server/square-client-improved';
+import type { NormalizedBooking } from '@/types/square';
 
 function normalizePhone(value?: string | null): string | null {
   if (!value) return null;
@@ -72,7 +73,7 @@ export async function GET(req: NextRequest) {
   const userId = searchParams.get('userId')?.trim() || undefined;
 
   try {
-    const bookings = await listBookings(limit);
+    const bookings = await listBookings({ limit });
     const normalized = bookings.map(normalizeBooking);
     const filtered = normalized.filter((booking: ReturnType<typeof normalizeBooking>) =>
       matchesFilters(booking, { email, phone, userId })

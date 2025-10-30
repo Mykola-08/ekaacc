@@ -10,7 +10,7 @@ import { loadPreferences } from '@/firebase/onboardingStore';
 import AIGoalSuggestions from './AIGoalSuggestions';
 
 export default function DashboardView() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const [presence, setPresence] = useState<{ state: string; last_changed: string } | null>(null);
   const [preferences, setPreferences] = useState<any>(null);
 
@@ -59,7 +59,7 @@ export default function DashboardView() {
           <h1 className="text-3xl font-bold">Welcome, {user.displayName || user.email}</h1>
           <p className="text-gray-500">Here is your personalized dashboard.</p>
         </div>
-        <button onClick={logout} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
+        <button onClick={signOut} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
       </div>
 
       <div className="p-4 bg-gray-100 rounded-lg">

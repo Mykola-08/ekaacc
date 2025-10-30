@@ -13,6 +13,12 @@ import {
 } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 
+// Helper to ensure db is initialized
+function getDb() {
+  if (!db) throw new Error('Firestore not initialized');
+  return db;
+}
+
 export interface SubscriptionPlan {
   id: string;
   type: 'loyal' | 'vip';
@@ -63,7 +69,7 @@ class SubscriptionManager {
   // Get all available subscription plans
   async getAvailablePlans(): Promise<SubscriptionPlan[]> {
     try {
-      const plansRef = collection(db, 'subscriptionPlans');
+      const plansRef = collection(getDb(), 'subscriptionPlans');
       const snapshot = await getDocs(plansRef);
       return snapshot.docs.map(doc => ({
         id: doc.id,
@@ -78,7 +84,7 @@ class SubscriptionManager {
   // Get user's active subscriptions
   async getUserSubscriptions(userId: string): Promise<UserSubscription[]> {
     try {
-      const subsRef = collection(db, 'userSubscriptions');
+      const subsRef = collection(getDb(), 'userSubscriptions');
       const q = query(subsRef, where('userId', '==', userId), where('status', '==', 'active'));
       const snapshot = await getDocs(q);
       return snapshot.docs.map(doc => ({
@@ -117,7 +123,7 @@ class SubscriptionManager {
         paymentMethod: paymentMethodId,
       };
 
-      const subsRef = collection(db, 'userSubscriptions');
+      const subsRef = collection(getDb(), 'userSubscriptions');
       const docRef = await addDoc(subsRef, subscriptionData);
 
       return {
@@ -133,7 +139,7 @@ class SubscriptionManager {
   // Cancel subscription
   async cancelSubscription(subscriptionId: string, immediate: boolean = false): Promise<void> {
     try {
-      const subRef = doc(db, 'userSubscriptions', subscriptionId);
+      const subRef = doc(getDb(), 'userSubscriptions', subscriptionId);
       
       if (immediate) {
         await updateDoc(subRef, {

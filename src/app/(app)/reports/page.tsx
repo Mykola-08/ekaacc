@@ -9,12 +9,11 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "r
 // AI assistant removed from reports page
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { collection, Timestamp, getFirestore } from 'firebase/firestore';
-import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
+import type { Timestamp } from 'firebase/firestore';
 
 const chartData = [
     { metric: "Pain", score: 4, fullMark: 10 },
@@ -34,7 +33,11 @@ const chartConfig = {
 function toDate(timestamp: Timestamp | Date | string): Date {
     if (timestamp instanceof Date) return timestamp;
     if (typeof timestamp === 'string') return new Date(timestamp);
-    return (timestamp as Timestamp).toDate();
+    // Firestore Timestamp object
+    if (typeof timestamp === 'object' && 'toDate' in timestamp) {
+        return timestamp.toDate();
+    }
+    return new Date();
 }
 
 export default function ReportsPage() {
@@ -69,10 +72,6 @@ export default function ReportsPage() {
         fetchReports();
     }, [dataService, currentUser]);
 
-    // Firebase is initialized in the app layout
-    // const reportsRef = currentUser && currentUser.uid
-    //     ? collection(getFirestore(), 'users', currentUser.uid, 'reports')
-    //     : null;
     const { toast } = useToast();
     const [isGenerating, setIsGenerating] = useState(false);
     
@@ -102,10 +101,13 @@ export default function ReportsPage() {
                 createdAt: new Date().toISOString(),
                 date: new Date().toISOString()
             };
-            // TODO: Re-enable when reportsRef is properly set up
-            // if (reportsRef) {
-            //     await addDocumentNonBlocking(reportsRef, newReport);
-            // }
+            // Save report using data service
+            if (dataService) {
+                await dataService.createReport(newReport);
+                // Refresh reports list
+                const updatedReports = await dataService.getReports(currentUser.id);
+                setReports(updatedReports);
+            }
             toast({
                 title: "Report Generated!",
                 description: "Your new monthly summary is ready.",

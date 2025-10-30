@@ -21,6 +21,12 @@ import type {
   SubscriptionReward,
 } from '@/lib/subscription-types';
 
+// Helper to ensure db is initialized
+function getDb() {
+  if (!db) throw new Error('Firestore not initialized');
+  return db;
+}
+
 /**
  * Firestore Collections for Subscription System
  * 
@@ -36,7 +42,7 @@ import type {
 // ============================================================================
 
 export async function createFirestoreSubscription(subscription: Subscription): Promise<void> {
-  const docRef = doc(db, 'subscriptions', subscription.id);
+  const docRef = doc(getDb(), 'subscriptions', subscription.id);
   await setDoc(docRef, {
     ...subscription,
     createdAt: serverTimestamp(),
@@ -45,7 +51,7 @@ export async function createFirestoreSubscription(subscription: Subscription): P
 }
 
 export async function getFirestoreSubscription(subscriptionId: string): Promise<Subscription | null> {
-  const docRef = doc(db, 'subscriptions', subscriptionId);
+  const docRef = doc(getDb(), 'subscriptions', subscriptionId);
   const docSnap = await getDoc(docRef);
   
   if (!docSnap.exists()) {
@@ -57,7 +63,7 @@ export async function getFirestoreSubscription(subscriptionId: string): Promise<
 
 export async function getUserFirestoreSubscriptions(userId: string): Promise<Subscription[]> {
   const q = query(
-    collection(db, 'subscriptions'),
+    collection(getDb(), 'subscriptions'),
     where('userId', '==', userId),
     orderBy('createdAt', 'desc')
   );
@@ -70,7 +76,7 @@ export async function updateFirestoreSubscription(
   subscriptionId: string,
   updates: Partial<Subscription>
 ): Promise<void> {
-  const docRef = doc(db, 'subscriptions', subscriptionId);
+  const docRef = doc(getDb(), 'subscriptions', subscriptionId);
   await updateDoc(docRef, {
     ...updates,
     updatedAt: serverTimestamp(),
@@ -78,7 +84,7 @@ export async function updateFirestoreSubscription(
 }
 
 export async function deleteFirestoreSubscription(subscriptionId: string): Promise<void> {
-  const docRef = doc(db, 'subscriptions', subscriptionId);
+  const docRef = doc(getDb(), 'subscriptions', subscriptionId);
   await deleteDoc(docRef);
 }
 
@@ -87,7 +93,7 @@ export async function deleteFirestoreSubscription(subscriptionId: string): Promi
 // ============================================================================
 
 export async function createFirestoreUsage(usage: SubscriptionUsage): Promise<void> {
-  const docRef = doc(db, 'subscriptionUsage', usage.subscriptionId);
+  const docRef = doc(getDb(), 'subscriptionUsage', usage.subscriptionId);
   await setDoc(docRef, {
     ...usage,
     updatedAt: serverTimestamp(),
@@ -95,7 +101,7 @@ export async function createFirestoreUsage(usage: SubscriptionUsage): Promise<vo
 }
 
 export async function getFirestoreUsage(subscriptionId: string): Promise<SubscriptionUsage | null> {
-  const docRef = doc(db, 'subscriptionUsage', subscriptionId);
+  const docRef = doc(getDb(), 'subscriptionUsage', subscriptionId);
   const docSnap = await getDoc(docRef);
   
   if (!docSnap.exists()) {
@@ -109,7 +115,7 @@ export async function updateFirestoreUsage(
   subscriptionId: string,
   updates: Partial<SubscriptionUsage>
 ): Promise<void> {
-  const docRef = doc(db, 'subscriptionUsage', subscriptionId);
+  const docRef = doc(getDb(), 'subscriptionUsage', subscriptionId);
   await updateDoc(docRef, {
     ...updates,
     updatedAt: serverTimestamp(),
@@ -124,7 +130,7 @@ export async function setUserThemePreference(
   userId: string,
   preference: UserThemePreference
 ): Promise<void> {
-  const docRef = doc(db, 'userThemePreferences', userId);
+  const docRef = doc(getDb(), 'userThemePreferences', userId);
   await setDoc(docRef, {
     ...preference,
     updatedAt: serverTimestamp(),
@@ -132,7 +138,7 @@ export async function setUserThemePreference(
 }
 
 export async function getUserThemePreference(userId: string): Promise<UserThemePreference | null> {
-  const docRef = doc(db, 'userThemePreferences', userId);
+  const docRef = doc(getDb(), 'userThemePreferences', userId);
   const docSnap = await getDoc(docRef);
   
   if (!docSnap.exists()) {
@@ -147,7 +153,7 @@ export async function getUserThemePreference(userId: string): Promise<UserThemeP
 // ============================================================================
 
 export async function createFirestoreReward(reward: SubscriptionReward): Promise<void> {
-  const docRef = doc(db, 'subscriptionRewards', reward.id);
+  const docRef = doc(getDb(), 'subscriptionRewards', reward.id);
   await setDoc(docRef, {
     ...reward,
     createdAt: serverTimestamp(),
@@ -159,7 +165,7 @@ export async function getUserFirestoreRewards(
   limitCount: number = 50
 ): Promise<SubscriptionReward[]> {
   const q = query(
-    collection(db, 'subscriptionRewards'),
+    collection(getDb(), 'subscriptionRewards'),
     where('userId', '==', userId),
     orderBy('earnedAt', 'desc'),
     limit(limitCount)
@@ -175,7 +181,7 @@ export async function getUserFirestoreRewards(
 
 export async function getAllActiveSubscriptions(limitCount: number = 100): Promise<Subscription[]> {
   const q = query(
-    collection(db, 'subscriptions'),
+    collection(getDb(), 'subscriptions'),
     where('status', '==', 'active'),
     orderBy('createdAt', 'desc'),
     limit(limitCount)
@@ -190,7 +196,7 @@ export async function getSubscriptionsByType(
   limitCount: number = 100
 ): Promise<Subscription[]> {
   const q = query(
-    collection(db, 'subscriptions'),
+    collection(getDb(), 'subscriptions'),
     where('type', '==', type),
     where('status', '==', 'active'),
     orderBy('createdAt', 'desc'),

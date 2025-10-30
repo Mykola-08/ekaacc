@@ -42,9 +42,9 @@ export default function LoyaltyPage() {
 
   useEffect(() => {
     if (currentUser) {
-      // Use loyalBenefits or calculate from other fields
-      setCurrentPoints(0); // TODO: Add loyalty points tracking
-      setLifetimePoints(0); // TODO: Add lifetime points tracking
+      // Use loyalty points from user profile
+      setCurrentPoints(currentUser.loyaltyPoints?.current || 0);
+      setLifetimePoints(currentUser.loyaltyPoints?.lifetime || 0);
     }
   }, [currentUser]);
 

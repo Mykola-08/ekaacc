@@ -102,12 +102,11 @@ export default function DonationsPage() {
     if (!dataService || !currentUser) return;
 
     console.log('Application submitted:', data);
-    // TODO: Add isDonationSeekerApplicationPending to User type
-    // Store application data in a separate field or collection instead of donationSeekerApplication
-    // await dataService.updateUser(currentUser.id, {
-    //   isDonationSeekerApplicationPending: true,
-    //   // Store application details in metadata or custom field
-    // });
+    // Store application data - mark as pending for admin review
+    await dataService.updateUser(currentUser.id, {
+      isDonationSeekerApplicationPending: true,
+      donationSeekerReason: data.reasonForSupport,
+    });
     await refreshAppUser();
 
     toast({

@@ -334,15 +334,21 @@ export default function MyAccountPage() {
                           </TableHeader>
                           <TableBody>
                             {transactions.length > 0 ? (
-                              transactions.map((tx) => (
-                                <TableRow key={tx.id}>
-                                  <TableCell>{format(new Date(tx.createdAt || Date.now()), "MMM d, yyyy")}</TableCell>
-                                  <TableCell>{tx.description}</TableCell>
-                                  <TableCell className={`text-right font-medium ${tx.type === 'credit' ? 'text-green-500' : 'text-red-500'}`}>
-                                    {tx.type === 'credit' ? '+' : '-'}€{tx.amount.toFixed(2)}
-                                  </TableCell>
-                                </TableRow>
-                              ))
+                              transactions.map((tx) => {
+                                // Handle Firestore Timestamp or string
+                                const date = typeof tx.createdAt === 'string' 
+                                  ? new Date(tx.createdAt) 
+                                  : tx.createdAt?.toDate?.() || new Date();
+                                return (
+                                  <TableRow key={tx.id}>
+                                    <TableCell>{format(date, "MMM d, yyyy")}</TableCell>
+                                    <TableCell>{tx.description}</TableCell>
+                                    <TableCell className={`text-right font-medium ${tx.type === 'credit' ? 'text-green-500' : 'text-red-500'}`}>
+                                      {tx.type === 'credit' ? '+' : '-'}€{tx.amount.toFixed(2)}
+                                    </TableCell>
+                                  </TableRow>
+                                );
+                              })
                             ) : (
                               <TableRow>
                                 <TableCell colSpan={3} className="text-center">No transactions yet.</TableCell>

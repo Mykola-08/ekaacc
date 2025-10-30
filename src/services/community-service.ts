@@ -44,6 +44,12 @@ import {
   type GroupMemberRole,
 } from '@/lib/community-types';
 
+// Helper to ensure db is initialized
+function getDb() {
+  if (!db) throw new Error('Firestore not initialized');
+  return db;
+}
+
 // ============================================
 // POST OPERATIONS
 // ============================================
@@ -66,7 +72,7 @@ export const postService = {
     mentions?: string[];
   }): Promise<string> {
     try {
-      const postRef = doc(collection(db, COMMUNITY_COLLECTIONS.POSTS));
+      const postRef = doc(collection(getDb(), COMMUNITY_COLLECTIONS.POSTS));
       const now = Timestamp.now();
 
       const post: Post = {
@@ -98,7 +104,7 @@ export const postService = {
 
       // Update group post count if posted in a group
       if (data.groupId) {
-        const groupRef = doc(db, COMMUNITY_COLLECTIONS.GROUPS, data.groupId);
+        const groupRef = doc(getDb(), COMMUNITY_COLLECTIONS.GROUPS, data.groupId);
         await updateDoc(groupRef, {
           postsCount: increment(1),
           lastActivityAt: now,
@@ -153,7 +159,7 @@ export const postService = {
         constraints.push(startAfter(options.lastDoc));
       }
 
-      const q = query(collection(db, COMMUNITY_COLLECTIONS.POSTS), ...constraints);
+      const q = query(collection(getDb(), COMMUNITY_COLLECTIONS.POSTS), ...constraints);
       const snapshot = await getDocs(q);
 
       const posts = snapshot.docs.map((doc) => doc.data() as Post);
@@ -171,7 +177,7 @@ export const postService = {
    */
   async getPost(postId: string): Promise<Post | null> {
     try {
-      const postDoc = await getDoc(doc(db, COMMUNITY_COLLECTIONS.POSTS, postId));
+      const postDoc = await getDoc(doc(getDb(), COMMUNITY_COLLECTIONS.POSTS, postId));
       if (!postDoc.exists()) return null;
 
       // Increment view count
@@ -189,7 +195,7 @@ export const postService = {
    */
   async updatePost(postId: string, updates: Partial<Post>): Promise<void> {
     try {
-      const postRef = doc(db, COMMUNITY_COLLECTIONS.POSTS, postId);
+      const postRef = doc(getDb(), COMMUNITY_COLLECTIONS.POSTS, postId);
       await updateDoc(postRef, {
         ...updates,
         isEdited: true,
@@ -206,15 +212,15 @@ export const postService = {
    */
   async deletePost(postId: string): Promise<void> {
     try {
-      const batch = writeBatch(db);
+      const batch = writeBatch(getDb());
 
       // Delete post
-      const postRef = doc(db, COMMUNITY_COLLECTIONS.POSTS, postId);
+      const postRef = doc(getDb(), COMMUNITY_COLLECTIONS.POSTS, postId);
       batch.delete(postRef);
 
       // Delete all comments
       const commentsQuery = query(
-        collection(db, COMMUNITY_COLLECTIONS.COMMENTS),
+        collection(getDb(), COMMUNITY_COLLECTIONS.COMMENTS),
         where('postId', '==', postId)
       );
       const commentsSnapshot = await getDocs(commentsQuery);
@@ -222,7 +228,7 @@ export const postService = {
 
       // Delete all reactions
       const reactionsQuery = query(
-        collection(db, COMMUNITY_COLLECTIONS.REACTIONS),
+        collection(getDb(), COMMUNITY_COLLECTIONS.REACTIONS),
         where('postId', '==', postId)
       );
       const reactionsSnapshot = await getDocs(reactionsQuery);
@@ -245,10 +251,10 @@ export const postService = {
   ): Promise<void> {
     try {
       const reactionId = `${postId}_${userId}`;
-      const reactionRef = doc(db, COMMUNITY_COLLECTIONS.REACTIONS, reactionId);
+      const reactionRef = doc(getDb(), COMMUNITY_COLLECTIONS.REACTIONS, reactionId);
       const existingReaction = await getDoc(reactionRef);
 
-      const postRef = doc(db, COMMUNITY_COLLECTIONS.POSTS, postId);
+      const postRef = doc(getDb(), COMMUNITY_COLLECTIONS.POSTS, postId);
 
       if (existingReaction.exists()) {
         const oldType = existingReaction.data().type;
@@ -294,7 +300,7 @@ export const postService = {
    */
   async updateUserStats(userId: string, updates: Partial<UserCommunityProfile>): Promise<void> {
     try {
-      const profileRef = doc(db, COMMUNITY_COLLECTIONS.USER_PROFILES, userId);
+      const profileRef = doc(getDb(), COMMUNITY_COLLECTIONS.USER_PROFILES, userId);
       const profileDoc = await getDoc(profileRef);
 
       if (!profileDoc.exists()) {
@@ -370,7 +376,7 @@ export const commentService = {
     parentCommentId?: string;
   }): Promise<string> {
     try {
-      const commentRef = doc(collection(db, COMMUNITY_COLLECTIONS.COMMENTS));
+      const commentRef = doc(collection(getDb(), COMMUNITY_COLLECTIONS.COMMENTS));
       const now = Timestamp.now();
 
       const comment: PostComment = {
@@ -385,7 +391,7 @@ export const commentService = {
       await setDoc(commentRef, comment);
 
       // Update post comment count and last activity
-      const postRef = doc(db, COMMUNITY_COLLECTIONS.POSTS, data.postId);
+      const postRef = doc(getDb(), COMMUNITY_COLLECTIONS.POSTS, data.postId);
       await updateDoc(postRef, {
         commentsCount: increment(1),
         lastActivityAt: now,
@@ -393,7 +399,7 @@ export const commentService = {
 
       // Update parent comment reply count if this is a reply
       if (data.parentCommentId) {
-        const parentRef = doc(db, COMMUNITY_COLLECTIONS.COMMENTS, data.parentCommentId);
+        const parentRef = doc(getDb(), COMMUNITY_COLLECTIONS.COMMENTS, data.parentCommentId);
         await updateDoc(parentRef, { replyCount: increment(1) });
       }
 
@@ -423,7 +429,7 @@ export const commentService = {
         constraints.push(where('parentCommentId', '==', null));
       }
 
-      const q = query(collection(db, COMMUNITY_COLLECTIONS.COMMENTS), ...constraints);
+      const q = query(collection(getDb(), COMMUNITY_COLLECTIONS.COMMENTS), ...constraints);
       const snapshot = await getDocs(q);
 
       return snapshot.docs.map((doc) => doc.data() as PostComment);
@@ -438,10 +444,10 @@ export const commentService = {
    */
   async deleteComment(commentId: string, postId: string): Promise<void> {
     try {
-      await deleteDoc(doc(db, COMMUNITY_COLLECTIONS.COMMENTS, commentId));
+      await deleteDoc(doc(getDb(), COMMUNITY_COLLECTIONS.COMMENTS, commentId));
 
       // Update post comment count
-      const postRef = doc(db, COMMUNITY_COLLECTIONS.POSTS, postId);
+      const postRef = doc(getDb(), COMMUNITY_COLLECTIONS.POSTS, postId);
       await updateDoc(postRef, { commentsCount: increment(-1) });
     } catch (error) {
       console.error('Error deleting comment:', error);
@@ -472,7 +478,7 @@ export const groupService = {
     rules?: { title: string; description: string }[];
   }): Promise<string> {
     try {
-      const groupRef = doc(collection(db, COMMUNITY_COLLECTIONS.GROUPS));
+      const groupRef = doc(collection(getDb(), COMMUNITY_COLLECTIONS.GROUPS));
       const now = Timestamp.now();
 
       const rules = (data.rules || []).map((rule, index) => ({
@@ -559,7 +565,7 @@ export const groupService = {
         limit(options.limitCount || 20)
       );
 
-      const q = query(collection(db, COMMUNITY_COLLECTIONS.GROUPS), ...constraints);
+      const q = query(collection(getDb(), COMMUNITY_COLLECTIONS.GROUPS), ...constraints);
       const snapshot = await getDocs(q);
 
       return snapshot.docs.map((doc) => doc.data() as Group);
@@ -574,7 +580,7 @@ export const groupService = {
    */
   async getGroup(groupId: string): Promise<Group | null> {
     try {
-      const groupDoc = await getDoc(doc(db, COMMUNITY_COLLECTIONS.GROUPS, groupId));
+      const groupDoc = await getDoc(doc(getDb(), COMMUNITY_COLLECTIONS.GROUPS, groupId));
       return groupDoc.exists() ? (groupDoc.data() as Group) : null;
     } catch (error) {
       console.error('Error getting group:', error);
@@ -594,7 +600,7 @@ export const groupService = {
   ): Promise<void> {
     try {
       const memberId = `${groupId}_${userId}`;
-      const memberRef = doc(db, COMMUNITY_COLLECTIONS.GROUP_MEMBERS, memberId);
+      const memberRef = doc(getDb(), COMMUNITY_COLLECTIONS.GROUP_MEMBERS, memberId);
 
       const member: GroupMember = {
         id: memberId,
@@ -612,11 +618,11 @@ export const groupService = {
       await setDoc(memberRef, member);
 
       // Update group member count
-      const groupRef = doc(db, COMMUNITY_COLLECTIONS.GROUPS, groupId);
+      const groupRef = doc(getDb(), COMMUNITY_COLLECTIONS.GROUPS, groupId);
       await updateDoc(groupRef, { membersCount: increment(1) });
 
       // Update user profile
-      const profileRef = doc(db, COMMUNITY_COLLECTIONS.USER_PROFILES, userId);
+      const profileRef = doc(getDb(), COMMUNITY_COLLECTIONS.USER_PROFILES, userId);
       await updateDoc(profileRef, {
         groupsJoined: arrayUnion(groupId),
         updatedAt: Timestamp.now(),
@@ -633,14 +639,14 @@ export const groupService = {
   async removeMember(groupId: string, userId: string): Promise<void> {
     try {
       const memberId = `${groupId}_${userId}`;
-      await deleteDoc(doc(db, COMMUNITY_COLLECTIONS.GROUP_MEMBERS, memberId));
+      await deleteDoc(doc(getDb(), COMMUNITY_COLLECTIONS.GROUP_MEMBERS, memberId));
 
       // Update group member count
-      const groupRef = doc(db, COMMUNITY_COLLECTIONS.GROUPS, groupId);
+      const groupRef = doc(getDb(), COMMUNITY_COLLECTIONS.GROUPS, groupId);
       await updateDoc(groupRef, { membersCount: increment(-1) });
 
       // Update user profile
-      const profileRef = doc(db, COMMUNITY_COLLECTIONS.USER_PROFILES, userId);
+      const profileRef = doc(getDb(), COMMUNITY_COLLECTIONS.USER_PROFILES, userId);
       await updateDoc(profileRef, {
         groupsJoined: arrayRemove(groupId),
         updatedAt: Timestamp.now(),
@@ -657,7 +663,7 @@ export const groupService = {
   async isMember(groupId: string, userId: string): Promise<boolean> {
     try {
       const memberId = `${groupId}_${userId}`;
-      const memberDoc = await getDoc(doc(db, COMMUNITY_COLLECTIONS.GROUP_MEMBERS, memberId));
+      const memberDoc = await getDoc(doc(getDb(), COMMUNITY_COLLECTIONS.GROUP_MEMBERS, memberId));
       return memberDoc.exists();
     } catch (error) {
       console.error('Error checking membership:', error);
@@ -671,7 +677,7 @@ export const groupService = {
   async getMembers(groupId: string): Promise<GroupMember[]> {
     try {
       const q = query(
-        collection(db, COMMUNITY_COLLECTIONS.GROUP_MEMBERS),
+        collection(getDb(), COMMUNITY_COLLECTIONS.GROUP_MEMBERS),
         where('groupId', '==', groupId),
         orderBy('joinedAt', 'desc')
       );

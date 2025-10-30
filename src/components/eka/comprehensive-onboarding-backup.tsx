@@ -295,7 +295,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
       
       // Peak-End Rule: End on high note
       toast({
-        title: '🎉 You're all set!',
+        title: '🎉 You\'re all set!',
         description: 'We understand how to help you feel lighter and freer.',
         duration: 5000
       });
@@ -319,7 +319,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
 
   return (
     <Dialog open={true} onOpenChange={() => {}}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0" hideClose>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0">
         <div className="relative">
           {/* Progress Bar */}
           {step > 0 && step < totalSteps && (

@@ -320,7 +320,7 @@ export class FirestoreThemeService implements IThemeService {
 
     try {
       const db = getDb();
-      const snapshot = await getDocs(collection(db, 'themes'));
+      const snapshot = await getDocs(collection(getDb(), 'themes'));
       const themes = snapshot.docs.map(doc => convertFirestoreTheme(doc.id, doc.data() as Partial<Theme>));
 
       if (themes.length) {

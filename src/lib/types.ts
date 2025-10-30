@@ -404,10 +404,20 @@ export type User = {
   // Donation Related
   isDonor?: boolean;
   isDonationSeeker?: boolean;
+  isDonationSeekerApplicationPending?: boolean;
   totalDonated?: number; // in EUR
   totalReceived?: number; // in EUR
   donationSeekerApproved?: boolean;
   donationSeekerReason?: string;
+  
+  // Loyalty Points
+  loyaltyPoints?: {
+    current?: number;
+    lifetime?: number;
+    tier?: 'bronze' | 'silver' | 'gold' | 'platinum';
+    lastUpdated?: string;
+  };
+  
   // Relationships
   linkedChildren?: string[]; // Array of user IDs
   linkedParent?: string; // User ID of parent

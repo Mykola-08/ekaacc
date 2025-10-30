@@ -1,5 +1,5 @@
 import { getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from './index';
+import { initializeApp, getApps, getApp } from 'firebase/app';
 
 export const firebaseConfig = {
   "projectId": "studio-1965873331-9f090",
@@ -15,8 +15,8 @@ let _db: ReturnType<typeof getFirestore> | null = null;
 
 export const getDb = () => {
   if (!_db) {
-    const { firestore } = initializeFirebase();
-    _db = firestore;
+    const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+    _db = getFirestore(app);
   }
   return _db;
 };

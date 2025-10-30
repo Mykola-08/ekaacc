@@ -6,6 +6,7 @@ import { useAuth } from '@/context/auth-context';
 import { savePreferences, UserPreferences, Role, Tone } from '@/firebase/onboardingStore';
 import { firebaseServices } from '@/firebase/firebaseClient';
 import { ref, set, serverTimestamp } from 'firebase/database';
+import { USE_MOCK_DATA } from '@/services/data-service';
 
 export default function OnboardingForm() {
   const { user } = useAuth();
@@ -34,16 +35,21 @@ export default function OnboardingForm() {
     };
 
     try {
-      // 1. Persist preferences to Firestore
-      await savePreferences(user.uid, preferences);
+      if (!USE_MOCK_DATA) {
+        // 1. Persist preferences to Firestore (Firebase mode only)
+        await savePreferences(user.uid, preferences);
 
-      // 2. Write presence to Realtime Database
-      const { rtdb } = firebaseServices;
-      const presenceRef = ref(rtdb, `status/${user.uid}`);
-      await set(presenceRef, {
-        state: 'online',
-        last_changed: serverTimestamp(),
-      });
+        // 2. Write presence to Realtime Database (Firebase mode only)
+        const { rtdb } = firebaseServices;
+        const presenceRef = ref(rtdb, `status/${user.uid}`);
+        await set(presenceRef, {
+          state: 'online',
+          last_changed: serverTimestamp(),
+        });
+      } else {
+        // Mock mode: Just log the preferences
+        console.log('Mock mode: Preferences saved', preferences);
+      }
 
       // 3. Redirect to dashboard
       router.push('/dashboard');

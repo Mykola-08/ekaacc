@@ -8,6 +8,7 @@ import PersonalBlock from './PersonalBlock';
 import { requestPushPermissionAndRegister } from '@/firebase/messagingClient';
 import { loadPreferences } from '@/firebase/onboardingStore';
 import AIGoalSuggestions from './AIGoalSuggestions';
+import { USE_MOCK_DATA } from '@/services/data-service';
 
 export default function DashboardView() {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -15,6 +16,20 @@ export default function DashboardView() {
   const [preferences, setPreferences] = useState<any>(null);
 
   useEffect(() => {
+    // Skip Firebase Realtime Database operations in mock mode
+    if (USE_MOCK_DATA) {
+      // Set mock presence data
+      setPresence({
+        state: 'online',
+        last_changed: new Date().toLocaleString(),
+      });
+      // Set mock preferences
+      setPreferences({
+        updatedAt: { seconds: Math.floor(Date.now() / 1000) }
+      });
+      return;
+    }
+
     if (user) {
       // Listen for presence
       const { rtdb } = firebaseServices;

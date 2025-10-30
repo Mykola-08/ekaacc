@@ -15,9 +15,10 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface DonationSeekerApplicationFormProps {
-  open: boolean;
-  onClose: () => void;
+  open?: boolean;
+  onClose?: () => void;
   onSubmit: (data: DonationSeekerData) => void;
+  onCancel?: () => void;
 }
 
 export interface DonationSeekerData {

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/firebase/useAuth';
+import { useAuth } from '@/context/auth-context';
 import { getProfileSummary, getPersonalizedAdvice, ProfileSummary } from '@/firebase/personalizationEngine';
 
 export default function PersonalBlock() {

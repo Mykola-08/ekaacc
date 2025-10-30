@@ -10,6 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -335,7 +336,7 @@ export default function MyAccountPage() {
                             {transactions.length > 0 ? (
                               transactions.map((tx) => (
                                 <TableRow key={tx.id}>
-                                  <TableCell>{format(new Date(tx.date), "MMM d, yyyy")}</TableCell>
+                                  <TableCell>{format(new Date(tx.createdAt || Date.now()), "MMM d, yyyy")}</TableCell>
                                   <TableCell>{tx.description}</TableCell>
                                   <TableCell className={`text-right font-medium ${tx.type === 'credit' ? 'text-green-500' : 'text-red-500'}`}>
                                     {tx.type === 'credit' ? '+' : '-'}€{tx.amount.toFixed(2)}

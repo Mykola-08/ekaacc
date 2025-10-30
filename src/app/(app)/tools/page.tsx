@@ -34,7 +34,8 @@ export default function ToolsPage() {
   const sendTestNotification = async () => {
     try {
       append('Sending notification...');
-      const res = await fxService.createNotification({ title: 'Test notification', body: `Test from ${currentUser?.name || 'tools'}` });
+      const userId = currentUser?.id || 'test-user';
+      const res = await fxService.createNotification({ userId, title: 'Test notification', body: `Test from ${currentUser?.displayName || 'tools'}` });
       append('Notification created');
     } catch (e: any) {
       append(`Error creating notification: ${e?.message || e}`);

@@ -9,7 +9,6 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb, TrendingUp, TrendingDown, Activity } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { personalizationEngine } from '@/firebase/personalizationEngine';
 import { Skeleton } from '@/components/ui/skeleton';
 import type { User } from '@/lib/types';
 
@@ -51,13 +50,8 @@ export default function AIInsightsPage() {
 
   // Track page visit for personalization
   useEffect(() => {
-    if (currentUser) {
-      const updates = personalizationEngine.trackActivity(currentUser, {
-        type: 'page-visit',
-        data: { page: '/ai-insights' }
-      });
-      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
-    }
+    // TODO: Re-implement personalization tracking
+    // Previously tracked page visit to /ai-insights
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 

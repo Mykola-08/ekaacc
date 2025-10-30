@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/firebase/useAuth';
+import { useAuth } from '@/context/auth-context';
 import { firebaseServices } from '@/firebase/firebaseClient';
 import { ref, onValue, off } from 'firebase/database';
 import PersonalBlock from './PersonalBlock';
@@ -10,7 +10,7 @@ import { loadPreferences } from '@/firebase/onboardingStore';
 import AIGoalSuggestions from './AIGoalSuggestions';
 
 export default function DashboardView() {
-  const { user, loading: authLoading, logout } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [presence, setPresence] = useState<{ state: string; last_changed: string } | null>(null);
   const [preferences, setPreferences] = useState<any>(null);
 

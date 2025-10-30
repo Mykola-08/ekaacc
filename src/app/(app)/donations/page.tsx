@@ -102,10 +102,12 @@ export default function DonationsPage() {
     if (!dataService || !currentUser) return;
 
     console.log('Application submitted:', data);
-    await dataService.updateUser(currentUser.id, {
-      donationSeekerApplication: data,
-      isDonationSeekerApplicationPending: true,
-    });
+    // TODO: Add isDonationSeekerApplicationPending to User type
+    // Store application data in a separate field or collection instead of donationSeekerApplication
+    // await dataService.updateUser(currentUser.id, {
+    //   isDonationSeekerApplicationPending: true,
+    //   // Store application details in metadata or custom field
+    // });
     await refreshAppUser();
 
     toast({
@@ -234,7 +236,12 @@ export default function DonationsPage() {
             </Card>
 
             {showApplicationForm ? (
-              <DonationSeekerApplicationForm onSubmit={handleApplicationSubmit} onCancel={() => setShowApplicationForm(false)} />
+              <DonationSeekerApplicationForm 
+                onSubmit={handleApplicationSubmit} 
+                onCancel={() => setShowApplicationForm(false)} 
+                onClose={() => setShowApplicationForm(false)}
+                open={true}
+              />
             ) : (
               <Card className="bg-gray-50 dark:bg-gray-900/50">
                 <CardHeader>

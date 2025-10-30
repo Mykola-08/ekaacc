@@ -38,7 +38,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
         
         setBalance(wallet?.balance || 0);
         // Get points from user data - fallback to 0
-        const userPoints = currentUser?.loyalty?.points || 0;
+        const userPoints = 0; // TODO: Add loyalty points to User type
         setPoints(userPoints);
       } catch (error) {
         // Fallback to mock data

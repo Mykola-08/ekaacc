@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { personalizationEngine } from '@/firebase/personalizationEngine';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -66,7 +65,7 @@ export default function JournalPage() {
       userId: currentUser.id,
     };
 
-    const savedEntry = await dataService.addJournalEntry(newEntry);
+    const savedEntry = await dataService.createJournalEntry(newEntry);
 
     if (savedEntry) {
       setEntries([savedEntry, ...entries]);
@@ -82,20 +81,7 @@ export default function JournalPage() {
       });
 
       // Track activity for personalization
-      try {
-        const updated = personalizationEngine.trackActivity(currentUser, {
-          type: 'feature-use',
-          data: {
-            feature: 'journal',
-            action: 'create-entry',
-            timestamp: new Date().toISOString(),
-          }
-        });
-        // Persist to context/back-end (merge with existing activityData)
-        updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
-      } catch (e) {
-        console.error('Failed to track journal activity', e);
-      }
+      // TODO: Re-implement personalization tracking
     } else {
       toast({
         title: 'Error',
@@ -158,7 +144,10 @@ export default function JournalPage() {
               onSelect={(date) => date && setSelectedDate(date)}
               className="rounded-md border"
               modifiers={{
-                hasEntry: (date) => entries.some((entry) => entry.date.toDateString() === date.toDateString()),
+                hasEntry: (date) => entries.some((entry) => {
+                  const entryDate = typeof entry.date === 'string' ? new Date(entry.date) : entry.date;
+                  return entryDate.toDateString() === date.toDateString();
+                }),
               }}
               modifiersClassNames={{
                 hasEntry: 'bg-primary/20 font-bold',

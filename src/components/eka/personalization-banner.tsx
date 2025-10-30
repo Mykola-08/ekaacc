@@ -41,7 +41,7 @@ export function PersonalizationBanner() {
       personalizationCompleted: true,
       personalization: {
         goals: data.goals,
-        interests: data.interests,
+        interests: data.interests ? [data.interests] : [],  // Convert string to array
         values: data.values,
         preferences: data.preferences,
         communicationStyle: data.communicationStyle,

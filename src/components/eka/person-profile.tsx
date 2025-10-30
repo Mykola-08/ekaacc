@@ -121,7 +121,11 @@ export default function PersonProfile({ userId }: { userId: string }) {
           <div className="mt-3 flex gap-2">
             <Button onClick={runAi}>Generate AI Summary</Button>
             <Button variant="outline" onClick={() => window.open(`/therapist/bookings?client=${person.id}`, '_self')}>View Bookings</Button>
-            <Button variant="ghost" onClick={async () => { await fxService.createNotification({ title: 'Pinned note', body: `Therapist pinned note for ${person.id}` }); toast({ title: 'Pinned', description: 'Pinned note created' }); }}>Pin Note</Button>
+            <Button variant="ghost" onClick={async () => { 
+              const userId = person.id || person.uid;
+              await fxService.createNotification({ userId, title: 'Pinned note', body: `Therapist pinned note for ${userId}` }); 
+              toast({ title: 'Pinned', description: 'Pinned note created' }); 
+            }}>Pin Note</Button>
           </div>
         </div>
       </Card>
@@ -179,7 +183,11 @@ export default function PersonProfile({ userId }: { userId: string }) {
             {canSeeHidden ? (
               <div className="mt-3 flex gap-2">
                 <Button onClick={async () => { await fxService.createInvoice(person.id || person.uid, 50, 'Donation request'); toast({ title: 'Invoice created', description: 'Donation invoice (mock) created.' }); }}>Create Donation Invoice</Button>
-                <Button variant="outline" onClick={async () => { await fxService.createNotification({ title: 'Donation request created', body: `Donation invoice for ${person.id}` }); toast({ title: 'Notified', description: 'Donor notification created.' }); }}>Notify Donors</Button>
+                <Button variant="outline" onClick={async () => { 
+                  const userId = person.id || person.uid;
+                  await fxService.createNotification({ userId, title: 'Donation request created', body: `Donation invoice for ${userId}` }); 
+                  toast({ title: 'Notified', description: 'Donor notification created.' }); 
+                }}>Notify Donors</Button>
               </div>
             ) : (
               <p className="text-sm text-muted-foreground mt-2">Donation controls are visible to therapists and admins only.</p>

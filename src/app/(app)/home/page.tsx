@@ -51,10 +51,10 @@ export default function HomePage() {
       }).finally(() => {
         setDataLoading(false);
       });
-    } else if (!isLoading) {
+    } else if (!loading) {
       setDataLoading(false);
     }
-  }, [dataService, user, isLoading]);
+  }, [dataService, user, loading]);
 
   const updateUser = async (data: Partial<User>) => {
     if (dataService && currentUser?.id) {
@@ -66,12 +66,8 @@ export default function HomePage() {
   // Track page visit for personalization
   useEffect(() => {
     if (currentUser && currentUser.personalizationCompleted) {
-      const activityUpdates = personalizationEngine.trackActivity(currentUser, {
-        type: 'page-visit',
-        data: { page: '/home' }
-      });
-      // merge with existing activityData to avoid overwriting fields
-      updateUser({ activityData: { ...(currentUser.activityData || {}), ...activityUpdates } });
+      // Activity tracking removed - personalizationEngine not available
+      // TODO: Re-implement if needed
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
@@ -79,17 +75,16 @@ export default function HomePage() {
   // Generate personalized content
   useEffect(() => {
     if (currentUser && currentUser.personalizationCompleted && currentUser.personalization) {
-      // regenerate whenever user profile or activityData changes
-      const data = personalizationEngine.generatePersonalizedData(currentUser);
-      setPersonalizedData(data);
+      // Personalized data generation removed - personalizationEngine not available
+      // TODO: Re-implement if needed
     }
   }, [currentUser, currentUser?.activityData]);
 
   useEffect(() => {
-    if (!isLoading && currentUser && !currentUser.personalizationCompleted) {
+    if (!loading && currentUser && !currentUser.personalizationCompleted) {
       setShowOnboarding(true);
     }
-  }, [currentUser, isLoading]);
+  }, [currentUser, loading]);
 
   const handleOnboardingComplete = (personalizationData: Partial<User['personalization']>) => {
     updateUser({
@@ -134,22 +129,22 @@ export default function HomePage() {
     },
     {
       title: 'Mood Trend',
-      value: reports?.[0]?.mood ?? 'N/A',
+      value: 'N/A', // mood removed from Report type
       change: 'vs last week',
       changeType: 'neutral' as const,
       icon: Smile,
     },
     {
       title: 'Next Goal',
-      value: currentUser?.goal?.title ?? 'Set a Goal',
-      change: `Due: ${currentUser?.goal?.targetDate ? format(new Date(currentUser.goal.targetDate), 'MMM dd') : 'N/A'}`,
+      value: currentUser?.goal?.description ?? 'Set a Goal',
+      change: `Sessions: ${currentUser?.goal?.currentSessions ?? 0}/${currentUser?.goal?.targetSessions ?? 0}`,
       changeType: 'neutral' as const,
       icon: Target,
     },
   // eslint-disable-next-line react-hooks/exhaustive-deps
   ], [personalization, completedSessions.length, targetSessions, sessions?.length, reports, currentUser?.goal]);
 
-  if (isLoading || dataLoading) {
+  if (loading || dataLoading) {
     return (
       <div className="space-y-6">
         <Skeleton className="h-48 w-full" />
@@ -180,6 +175,6 @@ export default function HomePage() {
   }
 
   return (
-    <DashboardView user={currentUser} />
+    <DashboardView />
   );
 }

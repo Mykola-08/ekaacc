@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/firebase/useAuth';
+import { useAuth } from '@/context/auth-context';
 import { savePreferences, UserPreferences, Role, Tone } from '@/firebase/onboardingStore';
 import { firebaseServices } from '@/firebase/firebaseClient';
 import { ref, set, serverTimestamp } from 'firebase/database';

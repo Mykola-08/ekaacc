@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "r
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
 import { collection, Timestamp, getFirestore } from 'firebase/firestore';
-import { initializeFirebase } from '@/firebase/index';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
@@ -70,11 +69,10 @@ export default function ReportsPage() {
         fetchReports();
     }, [dataService, currentUser]);
 
-    // Ensure Firebase is initialized before using Firestore
-    initializeFirebase();
-    const reportsRef = currentUser && currentUser.uid
-        ? collection(getFirestore(), 'users', currentUser.uid, 'reports')
-        : null;
+    // Firebase is initialized in the app layout
+    // const reportsRef = currentUser && currentUser.uid
+    //     ? collection(getFirestore(), 'users', currentUser.uid, 'reports')
+    //     : null;
     const { toast } = useToast();
     const [isGenerating, setIsGenerating] = useState(false);
     
@@ -104,9 +102,10 @@ export default function ReportsPage() {
                 createdAt: new Date().toISOString(),
                 date: new Date().toISOString()
             };
-            if (reportsRef) {
-                await addDocumentNonBlocking(reportsRef, newReport);
-            }
+            // TODO: Re-enable when reportsRef is properly set up
+            // if (reportsRef) {
+            //     await addDocumentNonBlocking(reportsRef, newReport);
+            // }
             toast({
                 title: "Report Generated!",
                 description: "Your new monthly summary is ready.",

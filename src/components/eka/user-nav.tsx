@@ -47,7 +47,7 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            {currentUser.photoURL && <AvatarImage src={currentUser.photoURL} alt={currentUser.displayName || ''} />}
+            {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           {currentUser.isVip && currentUser.vipTier && (
@@ -61,7 +61,7 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
-              {currentUser.photoURL && <AvatarImage src={currentUser.photoURL} alt={currentUser.displayName || ''} />}
+              {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-1">

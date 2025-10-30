@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useData } from '@/context/unified-data-context';
+import { PersonalizationEngine } from '@/lib/personalization-engine';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -24,6 +26,7 @@ type JournalEntry = {
 
 export default function JournalPage() {
   const { toast } = useToast();
+  const { currentUser, updateUser } = useData();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [showNewEntry, setShowNewEntry] = useState(false);
   const [mood, setMood] = useState(3);
@@ -75,7 +78,43 @@ export default function JournalPage() {
       title: 'Entry saved',
       description: 'Your wellness journal entry has been saved.',
     });
+
+    // Track activity for personalization
+    try {
+      if (currentUser) {
+        const updated = PersonalizationEngine.trackActivity(currentUser, {
+          type: 'feature-use',
+          data: {
+            feature: 'journal',
+            action: 'create-entry',
+            timestamp: new Date().toISOString(),
+          }
+        });
+        // Persist to context/back-end (merge with existing activityData)
+        updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+      }
+    } catch (e) {
+      console.error('Failed to track journal activity', e);
+    }
   };
+
+  useEffect(() => {
+    // Track page visit
+    if (currentUser) {
+      try {
+        const updated = PersonalizationEngine.trackActivity(currentUser, {
+          type: 'page-visit',
+          data: {
+            page: '/journal',
+            timestamp: new Date().toISOString(),
+          }
+        });
+        updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+      } catch (e) {
+        console.error('Failed to track page visit', e);
+      }
+    }
+  }, [currentUser, updateUser]);
 
   const getMoodIcon = (moodValue: number) => {
     if (moodValue >= 4) return <Smile className="h-5 w-5 text-green-500" />;

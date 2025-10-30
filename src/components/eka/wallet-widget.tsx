@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 import { useData } from '@/context/unified-data-context';
 import { motion, AnimatePresence } from 'framer-motion';
 
-  export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: boolean } = {}) {
+export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: boolean } = {}) {
   const router = useRouter();
   const { currentUser } = useData();
   const [balance, setBalance] = useState(0);

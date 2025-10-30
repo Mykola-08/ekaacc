@@ -7,7 +7,7 @@
 
 import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost } from '@/lib/types';
 import { IDataService } from './data-service';
-import { initializeFirebase } from '@/firebase/index';
+import { auth, db } from '@/firebase/firebase';
 import {
   collection,
   doc,
@@ -28,13 +28,14 @@ import {
 
 export class FirebaseDataService implements IDataService {
   private static instance: FirebaseDataService;
-  private firebaseApp: any;
-  private firestore: any;
+  private db: any;
   private auth: any;
   private isInitialized = false;
 
   private constructor() {
-    this.initialize();
+    this.db = db;
+    this.auth = auth;
+    this.isInitialized = true;
   }
 
   static getInstance(): FirebaseDataService {
@@ -45,14 +46,9 @@ export class FirebaseDataService implements IDataService {
   }
 
   private initialize() {
-    if (this.isInitialized) return;
-
-    const { firebaseApp, firestore, auth } = initializeFirebase();
-    this.firebaseApp = firebaseApp;
-    this.firestore = firestore;
-    this.auth = auth;
-    this.isInitialized = true;
+    // No longer needed as Firebase is initialized in firebase.ts
   }
+
 
   async isReady(): Promise<boolean> {
     return this.isInitialized;
@@ -63,7 +59,7 @@ export class FirebaseDataService implements IDataService {
     const authUser = this.auth.currentUser;
     if (!authUser) return null;
 
-    const userDoc = await getDoc(doc(this.firestore, 'users', authUser.uid));
+    const userDoc = await getDoc(doc(this.db, 'users', authUser.uid));
     if (!userDoc.exists()) return null;
 
     const userData = userDoc.data();
@@ -88,7 +84,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    const usersSnapshot = await getDocs(collection(this.firestore, 'users'));
+        const usersSnapshot = await getDocs(collection(this.db, 'users'));
     return usersSnapshot.docs.map(doc => {
       const data = doc.data();
       return {
@@ -100,7 +96,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async updateUser(userId: string, updates: Partial<User>): Promise<void> {
-    const userRef = doc(this.firestore, 'users', userId);
+    const userRef = doc(this.db, 'users', userId);
     await updateDoc(userRef, updates as any);
   }
 
@@ -109,7 +105,7 @@ export class FirebaseDataService implements IDataService {
     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
 
-    const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
+    const userDoc = await getDoc(doc(this.db, 'users', user.uid));
     const userData = userDoc.exists() ? userDoc.data() : {};
 
     return {
@@ -140,9 +136,9 @@ export class FirebaseDataService implements IDataService {
   async getSessions(userId?: string): Promise<Session[]> {
     let q;
     if (userId) {
-      q = query(collection(this.firestore, 'sessions'), where('userId', '==', userId));
+      q = query(collection(this.db, 'sessions'), where('userId', '==', userId));
     } else {
-      q = collection(this.firestore, 'sessions');
+      q = collection(this.db, 'sessions');
     }
 
     const snapshot = await getDocs(q);
@@ -153,7 +149,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async createSession(session: Omit<Session, 'id'>): Promise<Session> {
-    const docRef = await addDoc(collection(this.firestore, 'sessions'), session);
+    const docRef = await addDoc(collection(this.db, 'sessions'), session);
     return {
       id: docRef.id,
       ...session,
@@ -161,7 +157,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async updateSession(sessionId: string, updates: Partial<Session>): Promise<void> {
-    const sessionRef = doc(this.firestore, 'sessions', sessionId);
+    const sessionRef = doc(this.db, 'sessions', sessionId);
     await updateDoc(sessionRef, updates as any);
   }
 
@@ -172,7 +168,7 @@ export class FirebaseDataService implements IDataService {
   // Reports
   async getReports(userId?: string): Promise<Report[]> {
     if (!userId) {
-      const snapshot = await getDocs(collection(this.firestore, 'reports'));
+      const snapshot = await getDocs(collection(this.db, 'reports'));
       return snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
@@ -180,7 +176,7 @@ export class FirebaseDataService implements IDataService {
     }
 
     // Get reports from user's subcollection
-    const reportsRef = collection(this.firestore, 'users', userId, 'reports');
+    const reportsRef = collection(this.db, 'users', userId, 'reports');
     const snapshot = await getDocs(reportsRef);
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -189,7 +185,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async createReport(report: Omit<Report, 'id'>): Promise<Report> {
-    const docRef = await addDoc(collection(this.firestore, 'reports'), {
+    const docRef = await addDoc(collection(this.db, 'reports'), {
       ...report,
       createdAt: Timestamp.now(),
     });
@@ -201,7 +197,7 @@ export class FirebaseDataService implements IDataService {
 
   // Services/Therapies
   async getServices(): Promise<Service[]> {
-    const snapshot = await getDocs(collection(this.firestore, 'services'));
+    const snapshot = await getDocs(collection(this.db, 'services'));
     return snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
@@ -209,7 +205,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async createService(service: Omit<Service, 'id'>): Promise<Service> {
-    const docRef = await addDoc(collection(this.firestore, 'services'), service);
+    const docRef = await addDoc(collection(this.db, 'services'), service);
     return {
       id: docRef.id,
       ...service,
@@ -217,21 +213,21 @@ export class FirebaseDataService implements IDataService {
   }
 
   async updateService(serviceId: string, updates: Partial<Service>): Promise<void> {
-    const serviceRef = doc(this.firestore, 'services', serviceId);
+    const serviceRef = doc(this.db, 'services', serviceId);
     await updateDoc(serviceRef, updates as any);
   }
 
   // Journal Entries
   async getJournalEntries(userId?: string): Promise<JournalEntry[]> {
     if (!userId) {
-      const snapshot = await getDocs(collection(this.firestore, 'journal'));
+      const snapshot = await getDocs(collection(this.db, 'journal'));
       return snapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data(),
       } as JournalEntry));
     }
 
-    const q = query(collection(this.firestore, 'journal'), where('userId', '==', userId));
+    const q = query(collection(this.db, 'journal'), where('userId', '==', userId));
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => ({
       id: doc.id,
@@ -240,7 +236,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async createJournalEntry(entry: Omit<JournalEntry, 'id'>): Promise<JournalEntry> {
-    const docRef = await addDoc(collection(this.firestore, 'journal'), entry);
+    const docRef = await addDoc(collection(this.db, 'journal'), entry);
     return {
       id: docRef.id,
       ...entry,
@@ -249,7 +245,7 @@ export class FirebaseDataService implements IDataService {
 
   // Exercises
   async getExercises(): Promise<Exercise[]> {
-    const snapshot = await getDocs(collection(this.firestore, 'exercises'));
+    const snapshot = await getDocs(collection(this.db, 'exercises'));
     return snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
@@ -258,7 +254,7 @@ export class FirebaseDataService implements IDataService {
 
   // Community
   async getCommunityPosts(): Promise<CommunityPost[]> {
-    const snapshot = await getDocs(collection(this.firestore, 'community'));
+    const snapshot = await getDocs(collection(this.db, 'community'));
     return snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
@@ -266,7 +262,7 @@ export class FirebaseDataService implements IDataService {
   }
 
   async createCommunityPost(post: Omit<CommunityPost, 'id'>): Promise<CommunityPost> {
-    const docRef = await addDoc(collection(this.firestore, 'communityPosts'), {
+    const docRef = await addDoc(collection(this.db, 'communityPosts'), {
       ...post,
       createdAt: Timestamp.now(),
     });

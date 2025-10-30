@@ -8,6 +8,8 @@ import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb, TrendingUp, TrendingDown, Activity } from 'lucide-react';
+import { useData } from '@/context/unified-data-context';
+import { PersonalizationEngine } from '@/lib/personalization-engine';
 
 // Define types for the analysis data
 type Trend = {
@@ -35,6 +37,18 @@ export default function AIInsightsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const { currentUser, updateUser } = useData();
+
+  // Track page visit for personalization
+  useEffect(() => {
+    if (currentUser) {
+      const updates = PersonalizationEngine.trackActivity(currentUser, {
+        type: 'page-visit',
+        data: { page: '/ai-insights' }
+      });
+      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+    }
+  }, [currentUser, updateUser]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -139,9 +139,9 @@ export const Sidebar = React.forwardRef<
       ref={ref as any}
       initial={false}
       animate={{ width: isExpanded ? 'var(--sidebar-w)' : 'var(--sidebar-w-collapsed)' }}
-      transition={{ type: 'spring', stiffness: 260, damping: 28 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       className={cn(
-        "fixed top-0 h-screen flex flex-col bg-background border-r overflow-hidden ease-in-out shadow-sm",
+        "fixed top-0 h-screen flex flex-col bg-background border-r overflow-hidden shadow-sm",
         side === 'left' ? 'left-0 z-30' : 'right-0 border-l z-30',
         className
       )}

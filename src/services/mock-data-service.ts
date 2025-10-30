@@ -17,10 +17,20 @@ import {
   Message,
 } from '@/lib/types';
 import { IDataService } from './data-service';
-import { mockSessions, mockReports, mockExercises, mockCommunityPosts, mockTherapies, mockJournalEntries, mockAuth } from '@/lib/mock-data';
+import { mockSessions, mockReports, mockExercises, mockCommunityPosts, mockTherapies, mockJournalEntries, mockAuth, mockCurrentUser } from '@/lib/mock-data';
 import { services } from '@/lib/data';
 import { MOCK_AI_RECOMMENDATIONS } from '@/lib/mock-ai-recommendations';
 
+// Simulate network/database delays for realistic async behavior
+const SIMULATE_ASYNC = true; // Set to false to disable delays
+const DELAY_MS = {
+  READ: 100,      // Reading data (getCurrentUser, getSessions, etc.)
+  WRITE: 200,     // Creating/updating data
+  AUTH: 300,      // Login/logout operations
+  AI: 500,        // AI operations
+};
+
+const delay = (ms: number) => SIMULATE_ASYNC ? new Promise(resolve => setTimeout(resolve, ms)) : Promise.resolve();
 
 const STORAGE_KEYS = {
   CURRENT_USER: 'mock_current_user',
@@ -57,7 +67,16 @@ export class MockDataService implements IDataService {
 
     // Load from localStorage or use defaults
     const savedUser = localStorage.getItem(STORAGE_KEYS.CURRENT_USER);
-    this.currentUser = savedUser ? JSON.parse(savedUser) : null;
+    if (savedUser) {
+      this.currentUser = JSON.parse(savedUser);
+    } else {
+      // Auto-login with demo user if no user is logged in
+      this.currentUser = {
+        ...mockCurrentUser,
+        personalizationCompleted: false, // Start with onboarding
+      };
+      localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(this.currentUser));
+    }
 
     const savedSessions = localStorage.getItem(STORAGE_KEYS.SESSIONS);
     this.sessions = savedSessions ? JSON.parse(savedSessions) : mockSessions;
@@ -89,21 +108,25 @@ export class MockDataService implements IDataService {
   }
 
   async isReady(): Promise<boolean> {
+    await delay(DELAY_MS.READ);
     return true;
   }
 
   // User Management
   async getCurrentUser(): Promise<User | null> {
+    await delay(DELAY_MS.READ);
     return this.currentUser;
   }
   
   async getAllUsers(): Promise<User[]> {
+    await delay(DELAY_MS.READ);
     // Return the comprehensive mock users array
     const { mockUsers } = await import('@/lib/mock-data');
     return mockUsers;
   }
 
   async updateUser(userId: string, updates: Partial<User>): Promise<void> {
+    await delay(DELAY_MS.WRITE);
     if (this.currentUser && this.currentUser.id === userId) {
       this.currentUser = { ...this.currentUser, ...updates };
       this.saveToStorage();
@@ -112,6 +135,7 @@ export class MockDataService implements IDataService {
 
   // Auth
   async login(email: string, password: string): Promise<User> {
+    await delay(DELAY_MS.AUTH);
     const user = await mockAuth.login(email, password);
     this.currentUser = user;
     localStorage.setItem(STORAGE_KEYS.CURRENT_USER, JSON.stringify(user));
@@ -119,6 +143,7 @@ export class MockDataService implements IDataService {
   }
 
   async logout(): Promise<void> {
+    await delay(DELAY_MS.AUTH);
     await mockAuth.logout();
     this.currentUser = null;
     localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
@@ -126,6 +151,7 @@ export class MockDataService implements IDataService {
 
   // Sessions
   async getSessions(userId?: string): Promise<Session[]> {
+    await delay(DELAY_MS.READ);
     if (userId) {
       return this.sessions.filter(s => s.userId === userId);
     }
@@ -133,6 +159,7 @@ export class MockDataService implements IDataService {
   }
 
   async createSession(session: Omit<Session, 'id'>): Promise<Session> {
+    await delay(DELAY_MS.WRITE);
     const newSession: Session = {
       ...session,
       id: `session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -143,6 +170,7 @@ export class MockDataService implements IDataService {
   }
 
   async updateSession(sessionId: string, updates: Partial<Session>): Promise<void> {
+    await delay(DELAY_MS.WRITE);
     const index = this.sessions.findIndex(s => s.id === sessionId);
     if (index !== -1) {
       this.sessions[index] = { ...this.sessions[index], ...updates };
@@ -151,11 +179,13 @@ export class MockDataService implements IDataService {
   }
 
   async cancelSession(sessionId: string): Promise<void> {
+    await delay(DELAY_MS.WRITE);
     await this.updateSession(sessionId, { status: 'Canceled' });
   }
 
   // Reports
   async getReports(userId?: string): Promise<Report[]> {
+    await delay(DELAY_MS.READ);
     if (userId) {
       return this.reports.filter(r => r.sessionId?.includes(userId));
     }
@@ -163,6 +193,7 @@ export class MockDataService implements IDataService {
   }
 
   async createReport(report: Omit<Report, 'id'>): Promise<Report> {
+    await delay(DELAY_MS.WRITE);
     const newReport: Report = {
       ...report,
       id: `report-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -174,10 +205,12 @@ export class MockDataService implements IDataService {
 
   // Services/Therapies
   async getServices(): Promise<Service[]> {
+    await delay(DELAY_MS.READ);
     return this.services;
   }
 
   async createService(service: Omit<Service, 'id'>): Promise<Service> {
+    await delay(DELAY_MS.WRITE);
     const newService: Service = {
       ...service,
       id: `service-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -188,6 +221,7 @@ export class MockDataService implements IDataService {
   }
 
   async updateService(serviceId: string, updates: Partial<Service>): Promise<void> {
+    await delay(DELAY_MS.WRITE);
     const index = this.services.findIndex(s => s.id === serviceId);
     if (index !== -1) {
       this.services[index] = { ...this.services[index], ...updates };
@@ -197,11 +231,13 @@ export class MockDataService implements IDataService {
 
   // Journal Entries
   async getJournalEntries(userId?: string): Promise<JournalEntry[]> {
+    await delay(DELAY_MS.READ);
     // Mock data doesn't have userId on journal entries, so return all
     return this.journalEntries;
   }
 
   async createJournalEntry(entry: Omit<JournalEntry, 'id'>): Promise<JournalEntry> {
+    await delay(DELAY_MS.WRITE);
     const newEntry: JournalEntry = {
       ...entry,
       id: `journal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -213,15 +249,18 @@ export class MockDataService implements IDataService {
 
   // Exercises
   async getExercises(): Promise<Exercise[]> {
+    await delay(DELAY_MS.READ);
     return mockExercises;
   }
 
   // Community
   async getCommunityPosts(): Promise<CommunityPost[]> {
+    await delay(DELAY_MS.READ);
     return this.communityPosts;
   }
 
   async createCommunityPost(post: Omit<CommunityPost, 'id'>): Promise<CommunityPost> {
+    await delay(DELAY_MS.WRITE);
     const newPost: CommunityPost = { ...post, id: `post-${Date.now()}` };
     this.communityPosts.unshift(newPost);
     this.saveToStorage();
@@ -230,6 +269,7 @@ export class MockDataService implements IDataService {
 
   // AI Features
   async getAIChatResponse(prompt: string, history: Message[]): Promise<string> {
+    await delay(DELAY_MS.AI);
     console.log('AI Chat Request:', { prompt, history });
     const responses = [
       "That's a very insightful question. Let's explore that a bit more.",
@@ -240,20 +280,26 @@ export class MockDataService implements IDataService {
       "Could you tell me more about why you feel that way?",
     ];
     const response = responses[Math.floor(Math.random() * responses.length)];
-    return new Promise(resolve => setTimeout(() => resolve(response), 1500));
+    // Additional delay for realistic AI response time
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return response;
   }
 
   async getAIRecommendations(): Promise<TherapyRecommendation[]> {
-    return new Promise(resolve => setTimeout(() => resolve(MOCK_AI_RECOMMENDATIONS), 1000));
+    await delay(DELAY_MS.AI);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    return MOCK_AI_RECOMMENDATIONS;
   }
 
   async getAIReportSummary(reportId: string): Promise<string> {
+    await delay(DELAY_MS.AI);
     const report = this.reports.find(r => r.id === reportId);
     if (!report) {
-      return new Promise(resolve => setTimeout(() => resolve("Could not find the specified report to summarize."), 500));
+      return "Could not find the specified report to summarize.";
     }
     const summary = `This report for ${report.patientName} on ${report.date} shows a positive trend in mood and anxiety levels. Key insights include consistent engagement with mindfulness exercises and improved sleep patterns. The patient noted feeling more 'in control' this week. Areas to focus on next include social interactions and applying coping strategies in real-world scenarios.`;
-    return new Promise(resolve => setTimeout(() => resolve(summary), 1200));
+    await new Promise(resolve => setTimeout(resolve, 700));
+    return summary;
   }
 }
 

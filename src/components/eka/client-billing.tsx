@@ -290,7 +290,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
                   </TableCell>
                   <TableCell>{transaction.description}</TableCell>
                   <TableCell className={`text-right font-semibold ${
-                    transaction.type === 'credit' ? 'text-green-600' : 'text-red-600'
+                    transaction.type === 'credit' ? 'text-foreground font-medium' : 'text-muted-foreground'
                   }`}>
                     {transaction.type === 'credit' ? '+' : '-'}€{transaction.amount.toFixed(2)}
                   </TableCell>

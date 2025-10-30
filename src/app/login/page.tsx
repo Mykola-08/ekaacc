@@ -10,31 +10,30 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Package2, UserCircle, Stethoscope } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LoginPage() {
-  const { currentUser, login, dataSource } = useData();
+  const { user, signIn } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('demo@eka.com');
+  const [password, setPassword] = useState('password');
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       router.push('/home');
     }
-  }, [currentUser, router]);
+  }, [user, router]);
 
-  const handleLogin = async (loginFn: () => Promise<any>) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
-      await loginFn();
+      await signIn(email, password);
       router.push('/home');
     } catch (error: any) {
       console.error("Login failed:", error);
@@ -48,31 +47,17 @@ export default function LoginPage() {
     }
   };
 
-  const handleEmailLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    handleLogin(() => login(email, password));
-  };
-  
-  const handlePatientLogin = () => {
-    handleLogin(() => login('demo@eka.com', 'password'));
-  };
-
-  const handleTherapistLogin = () => {
-    handleLogin(() => login('therapist@eka.com', 'password'));
-  };
-
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-muted/40">
-      <Card className="mx-auto max-w-sm">
+    <div className="flex h-screen w-full items-center justify-center bg-background">
+      <Card className="mx-auto max-w-sm bg-card text-card-foreground">
         <CardHeader className="text-center">
-          <Package2 className="mx-auto h-8 w-8 text-primary" />
-          <CardTitle className="text-2xl">Welcome to EKA</CardTitle>
+          <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Enter your credentials or use quick login
+            Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleEmailLogin} className="grid gap-4">
+          <form onSubmit={handleLogin} className="grid gap-4">
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -83,58 +68,30 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
+                className="bg-input text-foreground"
               />
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-                <a
-                  href="#"
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </a>
               </div>
               <Input 
                 id="password" 
                 type="password" 
-                required 
+                required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
+                className="bg-input text-foreground"
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? 'Logging in...' : 'Login'}
             </Button>
+            <Button variant="outline" className="w-full" onClick={() => router.push('/onboarding')}>
+              Create an account
+            </Button>
           </form>
-          <Separator className="my-6" />
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-4">Quick Demo Login</p>
-            <div className="grid gap-2">
-              <Button 
-                variant="secondary" 
-                className="w-full" 
-                onClick={handlePatientLogin} 
-                disabled={isLoading}
-              >
-                <UserCircle className="mr-2 h-4 w-4"/>
-                Login as Patient
-              </Button>
-              <Button 
-                variant="outline" 
-                className="w-full" 
-                onClick={handleTherapistLogin} 
-                disabled={isLoading}
-              >
-                <Stethoscope className="mr-2 h-4 w-4"/>
-                Login as Therapist
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground mt-4">
-              Mock data - no server required
-            </p>
-          </div>
         </CardContent>
       </Card>
     </div>

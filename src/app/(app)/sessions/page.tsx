@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import fxService from '@/lib/fx-service';
 import { useData } from "@/context/unified-data-context";
+import { PersonalizationEngine } from '@/lib/personalization-engine';
 
 // Helper to map mock booking to session type
 const mapBookingToSession = (booking: any): AppSession => {
@@ -29,6 +30,7 @@ const mapBookingToSession = (booking: any): AppSession => {
 
 export default function SessionsPage() {
   const { currentUser, isLoading: isUserLoading } = useData();
+  const { updateUser } = useData();
   const [sessions, setSessions] = useState<AppSession[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -44,6 +46,24 @@ export default function SessionsPage() {
       .catch(e => setError(e))
       .finally(() => setIsLoading(false));
   }, [currentUser]);
+
+  useEffect(() => {
+    // Track page visit
+    if (currentUser) {
+      try {
+        const updated = PersonalizationEngine.trackActivity(currentUser, {
+          type: 'page-visit',
+          data: {
+            page: '/sessions',
+            timestamp: new Date().toISOString(),
+          }
+        });
+        updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+      } catch (e) {
+        console.error('Failed to track sessions page visit', e);
+      }
+    }
+  }, [currentUser, updateUser]);
 
   return (
     <Card>
@@ -108,7 +128,25 @@ export default function SessionsPage() {
                         <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
                             {error ? error.message : "We couldn't find any sessions in your account. Ready to book your first one?"}
                         </p>
-                        <Button variant="outline" size="sm" className="mt-4">Book a Session</Button>
+                        <Button variant="outline" size="sm" className="mt-4" onClick={() => {
+                            try {
+                              if (currentUser) {
+                                const updated = PersonalizationEngine.trackActivity(currentUser, {
+                                  type: 'feature-use',
+                                  data: {
+                                    feature: 'sessions',
+                                    action: 'book-click',
+                                    timestamp: new Date().toISOString(),
+                                  }
+                                });
+                                updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+                              }
+                            } catch (e) {
+                              console.error('Failed to track book action', e);
+                            }
+                            // Navigate to booking page
+                            window.location.href = '/sessions/booking';
+                        }}>Book a Session</Button>
                     </TableCell>
                 </TableRow>
              )}

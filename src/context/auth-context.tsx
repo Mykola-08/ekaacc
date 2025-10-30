@@ -1,55 +1,60 @@
-"use client";
+'use client';
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import type { User } from '@/lib/types';
-import fxAuth from '@/lib/fx-auth';
+import { User, onAuthStateChanged, signInWithEmailAndPassword, signOut as firebaseSignOut } from 'firebase/auth';
+import { auth } from '@/firebase/firebase';
+import { getDataService } from '@/services/data-service';
+import { User as AppUser } from '@/lib/types';
 
 type AuthContextShape = {
-  currentUser: User | null;
-  setCurrentUser: (u: User | null) => void;
-  switchRole: (role: 'Patient' | 'Therapist' | 'Admin') => void;
+  user: User | null;
+  appUser: AppUser | null;
+  loading: boolean;
+  signIn: (email: string, password: string) => Promise<any>;
+  signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextShape | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [appUser, setAppUser] = useState<AppUser | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // initialize from unified auth wrapper
-    setCurrentUser((fxAuth.currentUser as any) || null);
-    const unsub = fxAuth.onAuthStateChanged((u:any) => {
-      setCurrentUser(u as User | null);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      setUser(user);
+      if (user) {
+        const dataService = await getDataService();
+        const currentAppUser = await dataService.getCurrentUser();
+        setAppUser(currentAppUser);
+      } else {
+        setAppUser(null);
+      }
+      setLoading(false);
     });
-    return () => { if (unsub) unsub(); };
+
+    return () => unsubscribe();
   }, []);
 
-  const switchRole = (role: 'Patient' | 'Therapist' | 'Admin') => {
-    // optimistic role switch in client for demo/testing
-    const existing = (fxAuth.currentUser as any) || currentUser || null;
-    if (!existing) return;
-    const updated = { ...existing, role } as User;
-    setCurrentUser(updated);
-    // if in mock mode, attempt to persist to mockAuth via fxAuth interface
-    try {
-      if ((fxAuth as any).currentUser) {
-        // mock wrapper keeps currentUser in memory; update if writable
-        (fxAuth as any).currentUser = updated as any;
-      }
-    } catch (e) {
-      // ignore
-    }
+  const signIn = (email: string, password: string) => {
+    return signInWithEmailAndPassword(auth, email, password);
   };
 
-  return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser, switchRole }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const signOut = () => {
+    return firebaseSignOut(auth);
+  };
+
+  const value = { user, appUser, loading, signIn, signOut };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
-  return ctx;
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
 }
+

@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { UnifiedDataProvider } from '@/context/unified-data-context';
+import { AuthProvider } from '@/context/auth-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
@@ -39,21 +40,23 @@ export default function RootLayout({
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" as="style" />
       </head>
       <body className={cn('antialiased font-body')}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ProgressProvider>
-            <TooltipProvider>
-              <UnifiedDataProvider>
-                {children}
-              </UnifiedDataProvider>
-              <Toaster />
-            </TooltipProvider>
-          </ProgressProvider>
-        </ThemeProvider>
+        <AuthProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <ProgressProvider>
+              <TooltipProvider>
+                <UnifiedDataProvider>
+                  {children}
+                </UnifiedDataProvider>
+                <Toaster />
+              </TooltipProvider>
+            </ProgressProvider>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

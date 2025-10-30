@@ -1,7 +1,7 @@
 "use client";
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp } from 'lucide-react';
@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 // AI assistant removed from progress page
 import { useData } from '@/context/unified-data-context';
+import { PersonalizationEngine } from '@/lib/personalization-engine';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -59,7 +60,7 @@ function toDate(timestamp: any) {
 }
 
 export default function ProgressPage() {
-  const { currentUser, reports: mockReports } = useData();
+  const { currentUser, reports: mockReports, updateUser } = useData();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
   const reports = mockReports;
@@ -76,6 +77,18 @@ export default function ProgressPage() {
       return dateB.getTime() - dateA.getTime();
     });
   }, [reports]);
+
+  // Track page visit for personalization
+  useEffect(() => {
+    if (currentUser) {
+      const updates = PersonalizationEngine.trackActivity(currentUser, {
+        type: 'page-visit',
+        data: { page: '/progress' }
+      });
+      // merge and persist
+      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+    }
+  }, [currentUser, updateUser]);
 
   return (
     <div className="space-y-8">

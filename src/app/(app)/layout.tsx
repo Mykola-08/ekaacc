@@ -1,7 +1,5 @@
 'use client';
-import { AppSidebar } from '@/components/eka/app-sidebar';
-import { AppHeader } from '@/components/eka/app-header';
-import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
+import { AuthProvider } from '@/context/auth-context';
 import { UnifiedDataProvider } from '@/context/unified-data-context';
 import { AIAssistant } from '@/components/eka/ai-assistant';
 import { cn } from '@/lib/utils';
@@ -16,11 +14,12 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   }, []);
 
   if (!mounted) {
-    return null;
+    // Render a placeholder or null on the server to avoid layout shift
+    return <div className="relative flex min-h-screen w-full bg-background"></div>;
   }
 
   return (
-    <div className="relative flex min-h-screen w-full bg-background">
+    <div className="relative flex min-h-screen w-full bg-background text-foreground">
       <AppSidebar />
       {/* Main content area that adapts to sidebar state */}
       <div 
@@ -50,13 +49,15 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <UnifiedDataProvider>
-        <AppLayoutContent>
-          {children}
-        </AppLayoutContent>
-        <AIAssistant />
-      </UnifiedDataProvider>
-    </SidebarProvider>
+    <AuthProvider>
+      <SidebarProvider>
+        <UnifiedDataProvider>
+          <AppLayoutContent>
+            {children}
+          </AppLayoutContent>
+          <AIAssistant />
+        </UnifiedDataProvider>
+      </SidebarProvider>
+    </AuthProvider>
   );
 }

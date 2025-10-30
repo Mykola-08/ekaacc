@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -16,6 +16,7 @@ import {
 import { FileText, Heart, ClipboardCheck, Sparkles, Gift, Brain } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useData } from '@/context/unified-data-context';
+import { PersonalizationEngine } from '@/lib/personalization-engine';
 
 export default function FormsPage() {
   const router = require('next/navigation').useRouter?.() || (function(){return { push: (p:string)=>{ window.location.href = p } }})();
@@ -32,13 +33,24 @@ export default function FormsPage() {
   const { toast } = useToast();
   const { currentUser, updateUser } = useData();
 
+  // Track page visit for personalization
+  useEffect(() => {
+    if (currentUser) {
+      const updates = PersonalizationEngine.trackActivity(currentUser, {
+        type: 'page-visit',
+        data: { page: '/forms' }
+      });
+      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+    }
+  }, [currentUser, updateUser]);
+
   const handlePersonalizationSubmit = (data: PersonalizationData) => {
     console.log('Personalization submitted:', data);
     updateUser({
       personalizationCompleted: true,
       personalization: {
         goals: data.goals,
-        interests: data.interests,
+        interests: data.interests ? data.interests.split(',').map(i => i.trim()) : [],
         values: data.values,
         preferences: data.preferences,
       },

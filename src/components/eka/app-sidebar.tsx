@@ -27,13 +27,20 @@ import {
 import { cn } from '@/lib/utils';
 import { useData } from '@/context/unified-data-context';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, useSidebar } from '../ui/sidebar';
-import React, { useEffect, useState } from 'react';
-import PersonaSwitcher from './persona-switcher';
+import React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { motion } from 'framer-motion';
 
 const SectionHeader = ({ label, icon: Icon, color, isCollapsed }: { label: string, icon: React.ElementType, color: string, isCollapsed: boolean }) => {
-  if (isCollapsed) return <div className="my-3 border-t border-border/50"></div>;
+  if (isCollapsed) {
+    return (
+      <div className="flex items-center justify-center my-2">
+        <div className={cn("p-1.5 rounded-md", color)}>
+          <Icon className="w-4 h-4" />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="px-3 py-2 mb-1">
       <div className={cn("flex items-center gap-2 text-xs font-bold px-2 py-1 rounded-md border", color)}>
@@ -58,6 +65,9 @@ const SidebarLink = memo(({
   isActive: boolean;
   isCollapsed: boolean;
 }) => {
+  // Shared classes
+  const base = 'transition-all duration-200 rounded-lg inline-flex items-center';
+
   if (isCollapsed) {
     return (
       <Tooltip>
@@ -65,13 +75,14 @@ const SidebarLink = memo(({
           <Link
             href={href}
             className={cn(
-              'flex items-center justify-center rounded-lg p-3 transition-all duration-200',
-              isActive 
-                ? 'bg-primary text-primary-foreground' 
-                : 'text-muted-foreground hover:bg-muted hover:text-primary'
+              base,
+              'justify-center p-2 w-10 h-10',
+              isActive ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:bg-muted hover:text-primary'
             )}
           >
-            <Icon className="h-5 w-5 shrink-0" />
+            {/* Ensure icon always uses current color */}
+            <Icon className="h-5 w-5 text-current" aria-hidden />
+            <span className="sr-only">{label}</span>
           </Link>
         </TooltipTrigger>
         <TooltipContent side="right">
@@ -85,13 +96,12 @@ const SidebarLink = memo(({
     <Link
       href={href}
       className={cn(
-        'flex items-center gap-3 rounded-lg px-3 py-2.5 transition-all duration-200',
-        isActive 
-          ? 'bg-primary text-primary-foreground font-medium' 
-          : 'text-muted-foreground hover:bg-muted hover:text-primary'
+        base,
+        'gap-3 px-3 py-2.5 w-full',
+        isActive ? 'bg-primary text-primary-foreground font-medium' : 'text-muted-foreground hover:bg-muted hover:text-primary'
       )}
     >
-      <Icon className="h-5 w-5 shrink-0" />
+      <Icon className="h-5 w-5 text-current flex-shrink-0" aria-hidden />
       <span className="truncate">{label}</span>
     </Link>
   );
@@ -101,22 +111,6 @@ SidebarLink.displayName = 'SidebarLink';
 export function AppSidebar() {
   const pathname = usePathname();
   const { currentUser } = useData();
-  const [persona, setPersona] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      const p = localStorage.getItem('eka_persona');
-      setPersona(p);
-    } catch(e) {
-      setPersona(null);
-    }
-    const handler = (e: Event) => {
-      const detail = (e as CustomEvent).detail as string;
-      setPersona(detail);
-    };
-    window.addEventListener('eka_persona_change', handler as EventListener);
-    return () => window.removeEventListener('eka_persona_change', handler as EventListener);
-  }, []);
   const { isExpanded } = useSidebar();
 
   const userLinks = [
@@ -167,12 +161,30 @@ export function AppSidebar() {
     { href: '/account', icon: Settings, label: 'Account' },
   ];
   const isCollapsed = !isExpanded;
-  if (!currentUser) return null;
-  // persona takes precedence; fall back to currentUser.role
-  const effectiveRole = persona || currentUser.role;
+  
+  // Show sidebar skeleton if no user (loading state)
+  if (!currentUser) {
+    return (
+      <Sidebar side="left" className="bg-background border-r border-border/50 flex flex-col">
+        <SidebarHeader className="flex h-[var(--header-h)] items-center px-4 border-b border-border/50">
+          <div className="h-6 w-16 bg-muted animate-pulse rounded" />
+        </SidebarHeader>
+        <SidebarContent className="flex-1 py-4 px-2">
+          <div className="space-y-2">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="h-10 bg-muted animate-pulse rounded" />
+            ))}
+          </div>
+        </SidebarContent>
+      </Sidebar>
+    );
+  }
+  
+  // Use currentUser.role directly without persona switching
+  const effectiveRole = currentUser.role;
   const isAdminRole = effectiveRole === 'Admin';
   const isTherapistRole = effectiveRole === 'Therapist';
-  const isClientRole = effectiveRole === 'Patient' || effectiveRole === 'User' || (!isAdminRole && !isTherapistRole);
+  const isClientRole = effectiveRole === 'Patient' || (!isAdminRole && !isTherapistRole);
 
   return (
     <motion.div
@@ -182,16 +194,16 @@ export function AppSidebar() {
     >
       <Sidebar side="left" className="bg-background border-r border-border/50 flex flex-col">
         <SidebarHeader className={cn(
-          "flex h-[var(--header-h)] items-center px-4 transition-all duration-300 border-b border-border/50",
-          isCollapsed ? 'justify-center px-2' : 'gap-2'
+          "flex h-[var(--header-h)] items-center transition-all duration-300 border-b border-border/50",
+          isCollapsed ? 'justify-center px-2' : 'px-4 gap-2'
         )}>
-          <Link href="/" className={cn("flex items-center font-semibold text-xl justify-center group")}> 
+          <Link href="/" className={cn("flex items-center font-semibold group", isCollapsed ? 'text-lg' : 'text-xl')}> 
             <div className="relative">
               <motion.span 
                 className="tracking-tight bg-gradient-to-r from-primary via-primary/80 to-primary bg-clip-text text-transparent"
                 whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
               >
-                EKA
+                {isCollapsed ? 'E' : 'EKA'}
               </motion.span>
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 to-primary/10 blur-lg opacity-0 group-hover:opacity-100 transition-opacity -z-10 rounded-lg"></div>
             </div>
@@ -206,7 +218,7 @@ export function AppSidebar() {
                 <SectionHeader 
                   label="ADMIN" 
                   icon={Shield} 
-                  color="text-red-600 dark:text-red-400 bg-red-500/10 border-red-500/20" 
+                  color="text-foreground bg-muted/50 border-border" 
                   isCollapsed={isCollapsed} 
                 />
                 {adminLinks.map(link => (
@@ -228,7 +240,7 @@ export function AppSidebar() {
                 <SectionHeader 
                   label="THERAPIST" 
                   icon={Briefcase} 
-                  color="text-blue-600 dark:text-blue-400 bg-blue-500/10 border-blue-500/20" 
+                  color="text-foreground bg-muted/50 border-border" 
                   isCollapsed={isCollapsed} 
                 />
                 {therapistLinks.map(link => (
@@ -250,7 +262,7 @@ export function AppSidebar() {
                 <SectionHeader 
                   label="CLIENT" 
                   icon={User} 
-                  color="text-green-600 dark:text-green-400 bg-green-500/10 border-green-500/20" 
+                  color="text-foreground bg-muted/50 border-border" 
                   isCollapsed={isCollapsed} 
                 />
                 {clientLinks.map(link => (
@@ -291,25 +303,22 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarContent>
 
-        <div className="mt-auto p-2 border-t border-border/50">
-          <SidebarMenu>
-            {bottomLinks.map(link => (
-              <SidebarMenuItem key={link.href}>
-                <SidebarLink 
-                  href={link.href}
-                  icon={link.icon}
-                  label={link.label}
-                  isActive={pathname === link.href}
-                  isCollapsed={isCollapsed}
-                />
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-          {!isCollapsed && (
-            <div className="p-2 mt-2">
-              <PersonaSwitcher />
-            </div>
-          )}
+        <div className="mt-auto border-t border-border/50">
+          <div className="p-2">
+            <SidebarMenu>
+              {bottomLinks.map(link => (
+                <SidebarMenuItem key={link.href}>
+                  <SidebarLink 
+                    href={link.href}
+                    icon={link.icon}
+                    label={link.label}
+                    isActive={pathname === link.href}
+                    isCollapsed={isCollapsed}
+                  />
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </div>
         </div>
       </Sidebar>
     </motion.div>

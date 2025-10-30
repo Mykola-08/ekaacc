@@ -15,9 +15,10 @@ import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
 import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
 import { Sparkles } from "lucide-react";
+import { PersonalizationEngine } from "@/lib/personalization-engine";
 
 export default function SessionBookingPage() {
-  const { currentUser } = useData();
+  const { currentUser, updateUser } = useData();
   const { toast } = useToast();
   const router = useRouter();
   
@@ -58,6 +59,17 @@ export default function SessionBookingPage() {
     '09:00', '10:00', '11:00', '12:00', '14:00', '15:00', '16:00', '17:00'
   ];
 
+  // Track page visit for personalization
+  useEffect(() => {
+    if (currentUser) {
+      const updates = PersonalizationEngine.trackActivity(currentUser, {
+        type: 'page-visit',
+        data: { page: '/sessions/booking' }
+      });
+      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+    }
+  }, [currentUser, updateUser]);
+
   const handleBook = () => {
     if (!selectedDate || !selectedTime || !selectedService) {
       toast({
@@ -73,6 +85,15 @@ export default function SessionBookingPage() {
       title: "Session Booked Successfully!",
       description: `Your session is scheduled for ${selectedDate.toLocaleDateString()} at ${selectedTime}.`,
     });
+
+    // Track booking completion for personalization
+    if (currentUser) {
+      const updates = PersonalizationEngine.trackActivity(currentUser, {
+        type: 'session-complete',
+        data: { service: selectedService }
+      });
+      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+    }
 
     // Redirect to dashboard after 2 seconds
     setTimeout(() => {

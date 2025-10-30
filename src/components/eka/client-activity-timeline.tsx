@@ -119,8 +119,8 @@ export function ClientActivityTimeline({ client }: ClientActivityTimelineProps) 
   };
 
   const getEventColor = (type: TimelineEvent['type'], status?: string) => {
-    if (status === 'cancelled') return 'text-red-500 bg-red-100 dark:bg-red-950';
-    if (status === 'pending') return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-950';
+    if (status === 'cancelled') return 'text-foreground bg-muted/50';
+    if (status === 'pending') return 'text-muted-foreground bg-muted/30';
     
     switch (type) {
       case 'session':

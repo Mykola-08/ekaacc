@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { Star, Gift, Trophy, TrendingUp, Sparkles, Crown, Zap, Award, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
@@ -30,9 +31,21 @@ type LoyaltyTier = {
 };
 
 export default function LoyaltyPage() {
-  const { currentUser } = useData();
-  const [currentPoints, setCurrentPoints] = useState(1250);
-  const [lifetimePoints, setLifetimePoints] = useState(3450);
+  const { appUser: currentUser } = useAuth();
+  const { initDataService } = useAppStore();
+  const [currentPoints, setCurrentPoints] = useState(0);
+  const [lifetimePoints, setLifetimePoints] = useState(0);
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  useEffect(() => {
+    if (currentUser?.loyalty) {
+      setCurrentPoints(currentUser.loyalty.points || 0);
+      setLifetimePoints(currentUser.loyalty.lifetimePoints || 0);
+    }
+  }, [currentUser]);
 
   const tiers: LoyaltyTier[] = [
     {

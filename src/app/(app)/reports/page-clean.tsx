@@ -9,7 +9,8 @@ import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 // AI assistant removed from reports page
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { collection } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { getFirestore } from 'firebase/firestore';
@@ -41,15 +42,43 @@ function toDate(timestamp: Timestamp | Date | string): Date {
 }
 
 export default function ReportsPage() {
-    const { currentUser, reports: mockReports } = useData();
+    const { appUser: currentUser } = useAuth();
+    const { dataService, initDataService } = useAppStore();
+    const [reports, setReports] = useState<Report[]>([]);
+    const [isLoadingReports, setIsLoadingReports] = useState(true);
+
+    useEffect(() => {
+        initDataService();
+    }, [initDataService]);
+
+    useEffect(() => {
+        const fetchReports = async () => {
+            if (dataService && currentUser) {
+                setIsLoadingReports(true);
+                try {
+                    const userReports = await dataService.getReports(currentUser.id);
+                    setReports(userReports);
+                } catch (error) {
+                    console.error("Failed to fetch reports:", error);
+                    toast({
+                        title: "Error",
+                        description: "Could not load reports.",
+                        variant: "destructive",
+                    });
+                } finally {
+                    setIsLoadingReports(false);
+                }
+            }
+        };
+        fetchReports();
+    }, [dataService, currentUser]);
+
     const reportsRef = currentUser && currentUser.uid
         ? collection(getFirestore(), 'users', currentUser.uid, 'reports')
         : null;
     const { toast } = useToast();
     const [isGenerating, setIsGenerating] = useState(false);
-    const reports = mockReports;
-    const isLoadingReports = false;
-
+    
     const handleGenerateReport = async () => {
         if (!currentUser || !reports) return;
         setIsGenerating(true);

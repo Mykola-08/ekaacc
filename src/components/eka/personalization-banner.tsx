@@ -1,19 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { X, Sparkles, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { EnhancedPersonalizationForm, PersonalizationData } from './forms';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 
 export function PersonalizationBanner() {
   const [showForm, setShowForm] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
-  const { updateUser } = useData();
+  const { appUser, refreshAppUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
 
-  if (isDismissed) return null;
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  if (isDismissed || appUser?.personalizationCompleted) return null;
 
   const handleDismiss = () => {
     setIsDismissed(true);
@@ -28,8 +34,10 @@ export function PersonalizationBanner() {
     setIsDismissed(true);
   };
 
-  const handleSubmit = (data: PersonalizationData) => {
-    updateUser({
+  const handleSubmit = async (data: PersonalizationData) => {
+    if (!dataService || !appUser) return;
+    
+    const updatedUserData = {
       personalizationCompleted: true,
       personalization: {
         goals: data.goals,
@@ -46,17 +54,28 @@ export function PersonalizationBanner() {
         lifeStage: data.lifeStage,
         supportSystem: data.supportSystem,
       },
-    });
-    // Store additional metadata
-    console.log('Complete personalization data:', data);
-    setShowForm(false);
-    setIsDismissed(true);
-    
-    toast({
-      title: '🎉 Personalization Complete!',
-      description: 'Your wellness journey is now optimized for you.',
-      duration: 5000,
-    });
+    };
+
+    try {
+      await dataService.updateUser(appUser.id, updatedUserData);
+      await refreshAppUser(); // Refresh user data from auth context
+      
+      setShowForm(false);
+      setIsDismissed(true);
+      
+      toast({
+        title: '🎉 Personalization Complete!',
+        description: 'Your wellness journey is now optimized for you.',
+        duration: 5000,
+      });
+    } catch (error) {
+      console.error("Failed to update user personalization", error);
+      toast({
+        title: 'Update Failed',
+        description: 'Could not save your personalization. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (

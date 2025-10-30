@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
 import { PageHeaderSkeleton, TableSkeleton } from '@/components/eka/loading-skeletons';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { NewBookingForm } from '@/components/eka/new-booking-form';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
@@ -15,7 +15,7 @@ export default function TherapistBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const { toast } = useToast();
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
 
   useEffect(() => { load(); }, []);
 

@@ -7,7 +7,7 @@
 
 'use client';
 
-import { useData } from '@/context/unified-data-context';
+import { useAppStore } from '@/store/app-store';
 import { Badge } from '@/components/ui/badge';
 import { Database, HardDrive } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -21,9 +21,9 @@ export function DataSourceIndicator({
   className, 
   showIcon = true 
 }: DataSourceIndicatorProps) {
-  const { dataSource } = useData();
+  const dataService = useAppStore((state) => state.dataService);
   
-  const isMock = dataSource === 'mock';
+  const isMock = dataService?.isMock ?? true;
   
   return (
     <Badge 

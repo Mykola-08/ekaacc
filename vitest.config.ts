@@ -12,6 +12,7 @@ export default defineConfig({
     jsx: 'automatic',
   },
   test: {
+    include: ['src/**/*.{test,spec}.{js,ts,jsx,tsx}'],
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],

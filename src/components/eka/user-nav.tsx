@@ -16,7 +16,7 @@ import {
   DropdownMenuPortal,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { DataSourceIndicator } from '@/components/eka/data-source-indicator';
 import { VipBadge } from '@/components/eka/vip-badge';
@@ -26,13 +26,13 @@ import { Crown, LogOut, Settings, User, Sun, Moon, Laptop } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 export function UserNav() {
-  const { currentUser, logout } = useData();
+  const { appUser: currentUser, signOut } = useAuth();
   const router = useRouter();
   const { setTheme } = useTheme();
   const { hasLoyalty, hasVip } = useActiveSubscriptions(currentUser?.id);
 
   const handleLogout = async () => {
-    await logout();
+    await signOut();
     router.push('/login');
   };
 
@@ -40,14 +40,14 @@ export function UserNav() {
     return null;
   }
   
-  const initials = currentUser.initials;
+  const initials = currentUser.displayName?.split(' ').map(n => n[0]).join('') || 'U';
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />}
+            {currentUser.photoURL && <AvatarImage src={currentUser.photoURL} alt={currentUser.displayName || ''} />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           {currentUser.isVip && currentUser.vipTier && (
@@ -61,12 +61,12 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
-              {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />}
+              {currentUser.photoURL && <AvatarImage src={currentUser.photoURL} alt={currentUser.displayName || ''} />}
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-2">
-                <p className="text-sm font-medium leading-none">{currentUser.name}</p>
+                <p className="text-sm font-medium leading-none">{currentUser.displayName}</p>
                 {/* Subscription badges */}
                 {hasLoyalty && <SubscriptionBadge type="loyalty" size="sm" showLabel={false} />}
                 {hasVip && <SubscriptionBadge type="vip" size="sm" showLabel={false} />}

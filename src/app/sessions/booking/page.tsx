@@ -6,7 +6,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { useData } from "@/context/unified-data-context";
+import { useAuth } from "@/context/auth-context";
+import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
 import { SessionAssessmentForm } from '@/components/eka/forms';
 import { useToast } from "@/hooks/use-toast";
@@ -18,7 +19,8 @@ import { Sparkles } from "lucide-react";
 import { PersonalizationEngine } from "@/lib/personalization-engine";
 
 export default function SessionBookingPage() {
-  const { currentUser, updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   const router = useRouter();
   
@@ -31,9 +33,35 @@ export default function SessionBookingPage() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [isBooked, setIsBooked] = useState(false);
+  const [allUsers, setAllUsers] = useState<any[]>([]);
+  const [dataServices, setDataServices] = useState<any[]>([]);
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (dataService) {
+        const [users, services] = await Promise.all([
+          dataService.getAllUsers(),
+          dataService.getServices(),
+        ]);
+        setAllUsers(users);
+        setDataServices(services);
+      }
+    };
+    fetchData();
+  }, [dataService]);
+
+  const updateUser = async (userData: any) => {
+    if (dataService && currentUser) {
+      await dataService.updateUser(currentUser.id, userData);
+      await refreshAppUser();
+    }
+  };
 
   // Use unified data when available
-  const { allUsers, services: dataServices } = useData();
   const therapists = (allUsers || []).filter((u:any) => u.role === 'Therapist').map(t => ({
     id: t.id,
     name: t.displayName || t.email,

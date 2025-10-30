@@ -1,13 +1,13 @@
 'use client';
 
-import { useData } from "@/context/unified-data-context";
+import { useAuth } from "@/context/auth-context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
 import { generateDailyQuote } from "@/ai/flows/generate-daily-quote";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardHero() {
-    const { currentUser } = useData();
+    const { appUser: currentUser } = useAuth();
     const [quote, setQuote] = useState({ quote: '', author: '' });
     const [isLoading, setIsLoading] = useState(true);
 

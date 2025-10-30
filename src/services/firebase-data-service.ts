@@ -5,7 +5,7 @@
  * Handles authentication, data fetching, and updates.
  */
 
-import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost } from '@/lib/types';
+import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation } from '@/lib/types';
 import { IDataService } from './data-service';
 import { auth, db } from '@/firebase/firebase';
 import {
@@ -27,6 +27,7 @@ import {
 } from 'firebase/auth';
 
 export class FirebaseDataService implements IDataService {
+  public readonly isMock = false;
   private static instance: FirebaseDataService;
   private db: any;
   private auth: any;
@@ -163,6 +164,40 @@ export class FirebaseDataService implements IDataService {
 
   async cancelSession(sessionId: string): Promise<void> {
     await this.updateSession(sessionId, { status: 'Canceled' });
+  }
+
+  // Donations
+  async getDonations(userId?: string): Promise<Donation[]> {
+    if (!userId) return [];
+    const q = query(
+      collection(this.db, 'donations'), 
+      where('donorId', '==', userId)
+    );
+    const q2 = query(
+      collection(this.db, 'donations'),
+      where('receiverId', '==', userId)
+    );
+
+    const [donorSnapshot, receiverSnapshot] = await Promise.all([getDocs(q), getDocs(q2)]);
+    
+    const donations: Donation[] = [];
+    donorSnapshot.forEach(doc => donations.push({ id: doc.id, ...doc.data() } as Donation));
+    receiverSnapshot.forEach(doc => donations.push({ id: doc.id, ...doc.data() } as Donation));
+
+    // Remove duplicates in case a user donated to themselves (should be rare)
+    return [...new Map(donations.map(item => [item['id'], item])).values()];
+  }
+
+  async addDonation(donation: Omit<Donation, 'id'>): Promise<Donation> {
+    const docRef = await addDoc(collection(this.db, 'donations'), {
+      ...donation,
+      date: Timestamp.now(),
+    });
+    return {
+      id: docRef.id,
+      ...donation,
+      date: new Date().toISOString(),
+    } as Donation;
   }
 
   // Reports

@@ -6,14 +6,14 @@ import { UserNav } from './user-nav';
 import { NotificationCenter } from './notification-center';
 import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 import React from 'react';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 
 export function AppHeader() {
   const { isMobile, setOpenMobile } = useSidebar();
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const router = useRouter();
 
   const isClient = currentUser?.role === 'Patient';

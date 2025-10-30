@@ -12,7 +12,7 @@
  * No other code changes needed!
  */
 
-import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost } from '@/lib/types';
+import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation } from '@/lib/types';
 
 // ==========================================
 // CONFIGURATION - CHANGE THIS TO SWITCH DATA SOURCE
@@ -25,6 +25,7 @@ export const USE_MOCK_DATA = true; // Set to false to use Firebase
  * All implementations (mock or Firebase) must implement this interface
  */
 export interface IDataService {
+  isMock: boolean;
   // User Management
   getCurrentUser(): Promise<User | null>;
   getAllUsers(): Promise<User[]>;
@@ -64,6 +65,10 @@ export interface IDataService {
   getAIChatResponse(prompt: string, history: any[]): Promise<string>;
   getAIRecommendations(): Promise<any[]>;
   getAIReportSummary(reportId: string): Promise<string>;
+
+  // Donations
+  getDonations(userId?: string): Promise<Donation[]>;
+  addDonation(donation: Omit<Donation, 'id'>): Promise<Donation>;
 
   // Initialization
   isReady(): Promise<boolean>;

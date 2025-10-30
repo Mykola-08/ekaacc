@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Calendar, Plus, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useData } from "@/context/unified-data-context";
+import { useAuth } from "@/context/auth-context";
 import { useOptimizedData } from "@/hooks/use-optimized-data";
 import { getDataService } from "@/services/data-service";
 import OptimizedSessionCard from "@/components/eka/optimized-session-card";
@@ -63,7 +63,7 @@ function SessionsList({
 }
 
 export default function OptimizedSessionsPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
 
   // Use optimized data fetching with caching
   const { data: sessions, isLoading, error } = useOptimizedData({

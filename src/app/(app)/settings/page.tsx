@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { 
@@ -24,52 +25,52 @@ import {
 } from 'lucide-react';
 import { AnimatedCard } from '@/components/eka/animated-card';
 import { useTheme } from 'next-themes';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { User } from '@/lib/types';
 
 export default function SettingsPage() {
-  const { currentUser, updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser, loading: authLoading } = useAuth();
+  const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
   const router = useRouter();
   const { theme, setTheme } = useTheme();
   const [hasChanges, setHasChanges] = useState(false);
 
-  // Notification settings
-  const [emailNotifications, setEmailNotifications] = useState(true);
-  const [pushNotifications, setPushNotifications] = useState(true);
-  const [smsNotifications, setSmsNotifications] = useState(false);
-  const [marketingEmails, setMarketingEmails] = useState(false);
+  // Local state for settings
+  const [settings, setSettings] = useState(currentUser?.settings);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Privacy settings
-  const [profileVisibility, setProfileVisibility] = useState(true);
-  const [activityStatus, setActivityStatus] = useState(true);
-  const [dataSharing, setDataSharing] = useState(false);
+  useEffect(() => {
+    if (currentUser) {
+      setSettings(currentUser.settings || {});
+      setIsLoading(false);
+    } else if (!authLoading) {
+      setIsLoading(false);
+    }
+  }, [currentUser, authLoading]);
 
-  // App preferences
-  const [soundEffects, setSoundEffects] = useState(true);
-  const [autoSave, setAutoSave] = useState(true);
-  const [compactView, setCompactView] = useState(false);
+
+  const handleSettingChange = (category: keyof User['settings'], key: string, value: boolean) => {
+    setSettings(prev => ({
+      ...prev,
+      [category]: {
+        // @ts-ignore
+        ...prev?.[category],
+        [key]: value,
+      },
+    }));
+    setHasChanges(true);
+  };
 
   const handleSave = async () => {
+    if (!currentUser || !dataService) {
+      toast({ title: "Could not save settings. User not found.", variant: 'destructive' });
+      return;
+    }
+
     try {
-      await updateUser({
-        settings: {
-          notifications: {
-            email: emailNotifications,
-            push: pushNotifications,
-            sms: smsNotifications,
-            marketing: marketingEmails,
-          },
-          privacy: {
-            profileVisibility,
-            activityStatus,
-            dataSharing,
-          },
-          appPreferences: {
-            soundEffects,
-            autoSave,
-            compactView,
-          },
-        },
-      });
+      await dataService.updateUser(currentUser.id, { settings });
+      await refreshAppUser();
 
       toast({
         title: "Settings Saved",
@@ -86,7 +87,34 @@ export default function SettingsPage() {
     }
   };
 
-  const markChanged = () => setHasChanges(true);
+  if (isLoading || authLoading) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-8">
+        <Skeleton className="h-10 w-1/3" />
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-1/4" />
+            <Skeleton className="h-4 w-1/2" />
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <Skeleton className="h-8 w-1/4" />
+            <Skeleton className="h-4 w-1/2" />
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <Skeleton className="h-8 w-full" />
+            <Skeleton className="h-8 w-full" />
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (!currentUser) {
     return (
@@ -98,7 +126,7 @@ export default function SettingsPage() {
           </CardHeader>
           <CardContent>
             <Button onClick={() => router.push('/login')} className="w-full">
-              Login
+              Go to Login
             </Button>
           </CardContent>
         </Card>
@@ -107,284 +135,171 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-          <p className="text-muted-foreground">Manage your notifications and preferences</p>
-        </div>
-        <Button variant="outline" onClick={() => router.push('/account')}>
-          View Profile
+    <div className="max-w-4xl mx-auto space-y-8">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <Button onClick={handleSave} disabled={!hasChanges}>
+          <Save className="mr-2 h-4 w-4" />
+          Save Changes
         </Button>
       </div>
 
-      {/* Appearance */}
-      <AnimatedCard delay={100} asChild>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              {theme === 'dark' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
-              Appearance
-            </CardTitle>
-            <CardDescription>Customize how the app looks</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="theme" className="flex flex-col gap-1">
-                <span className="font-medium">Theme</span>
-                <span className="text-sm text-muted-foreground">Choose your preferred color scheme</span>
-              </Label>
-              <div className="flex gap-2">
-                <Button
-                  variant={theme === 'light' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setTheme('light')}
-                >
-                  <Sun className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={theme === 'dark' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setTheme('dark')}
-                >
-                  <Moon className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={theme === 'system' ? 'default' : 'outline'}
-                  size="sm"
-                  onClick={() => setTheme('system')}
-                >
-                  <Monitor className="h-4 w-4" />
-                </Button>
+      {/* Notifications Section */}
+      <AnimatedCard>
+        <CardHeader>
+          <CardTitle>Notifications</CardTitle>
+          <CardDescription>Manage how you receive notifications from EKA.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Mail className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="email-notifications" className="font-medium">Email Notifications</Label>
+                <p className="text-sm text-gray-500">For session reminders, reports, and important updates.</p>
               </div>
             </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="compact-view" className="flex flex-col gap-1">
-                <span className="font-medium">Compact View</span>
-                <span className="text-sm text-muted-foreground">Use a denser layout</span>
-              </Label>
-              <Switch
-                id="compact-view"
-                checked={compactView}
-                onCheckedChange={(checked) => {
-                  setCompactView(checked);
-                  markChanged();
-                }}
-              />
+            <Switch
+              id="email-notifications"
+              checked={settings?.notifications?.email ?? true}
+              onCheckedChange={(checked) => handleSettingChange('notifications', 'email', checked)}
+            />
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Bell className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="push-notifications" className="font-medium">Push Notifications</Label>
+                <p className="text-sm text-gray-500">Real-time alerts on your mobile or desktop device.</p>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+            <Switch
+              id="push-notifications"
+              checked={settings?.notifications?.push ?? true}
+              onCheckedChange={(checked) => handleSettingChange('notifications', 'push', checked)}
+            />
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <MessageSquare className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="sms-notifications" className="font-medium">SMS Notifications</Label>
+                <p className="text-sm text-gray-500">For urgent alerts and password resets.</p>
+              </div>
+            </div>
+            <Switch
+              id="sms-notifications"
+              checked={settings?.notifications?.sms ?? false}
+              onCheckedChange={(checked) => handleSettingChange('notifications', 'sms', checked)}
+            />
+          </div>
+          <Separator />
+          <div className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 dark:bg-gray-900/30">
+            <div className="flex items-center space-x-4">
+              <Calendar className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="marketing-emails" className="font-medium">Promotions & Community News</Label>
+                <p className="text-sm text-gray-500">Receive occasional news, offers, and community updates.</p>
+              </div>
+            </div>
+            <Switch
+              id="marketing-emails"
+              checked={settings?.notifications?.marketing ?? false}
+              onCheckedChange={(checked) => handleSettingChange('notifications', 'marketing', checked)}
+            />
+          </div>
+        </CardContent>
       </AnimatedCard>
 
-      {/* Notifications */}
-      <AnimatedCard delay={200} asChild>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="h-5 w-5" />
-              Notifications
-            </CardTitle>
-            <CardDescription>Manage how you receive notifications</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="email-notifications" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  <span className="font-medium">Email Notifications</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Receive updates via email</span>
-              </Label>
-              <Switch
-                id="email-notifications"
-                checked={emailNotifications}
-                onCheckedChange={(checked) => {
-                  setEmailNotifications(checked);
-                  markChanged();
-                }}
-              />
+      {/* Privacy Section */}
+      <AnimatedCard>
+        <CardHeader>
+          <CardTitle>Privacy</CardTitle>
+          <CardDescription>Control how your information is used and seen by others.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Eye className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="profile-visibility" className="font-medium">Public Profile Visibility</Label>
+                <p className="text-sm text-gray-500">Allow others in the community to see your profile.</p>
+              </div>
             </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="push-notifications" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-4 w-4" />
-                  <span className="font-medium">Push Notifications</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Get instant updates</span>
-              </Label>
-              <Switch
-                id="push-notifications"
-                checked={pushNotifications}
-                onCheckedChange={(checked) => {
-                  setPushNotifications(checked);
-                  markChanged();
-                }}
-              />
+            <Switch
+              id="profile-visibility"
+              checked={settings?.privacy?.profileVisibility ?? true}
+              onCheckedChange={(checked) => handleSettingChange('privacy', 'profileVisibility', checked)}
+            />
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Shield className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="data-sharing" className="font-medium">Anonymized Data Sharing</Label>
+                <p className="text-sm text-gray-500">Help improve EKA by sharing anonymized data for research.</p>
+              </div>
             </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="sms-notifications" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="h-4 w-4" />
-                  <span className="font-medium">SMS Notifications</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Receive text messages</span>
-              </Label>
-              <Switch
-                id="sms-notifications"
-                checked={smsNotifications}
-                onCheckedChange={(checked) => {
-                  setSmsNotifications(checked);
-                  markChanged();
-                }}
-              />
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="marketing-emails" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <Mail className="h-4 w-4" />
-                  <span className="font-medium">Marketing Emails</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Receive promotional content</span>
-              </Label>
-              <Switch
-                id="marketing-emails"
-                checked={marketingEmails}
-                onCheckedChange={(checked) => {
-                  setMarketingEmails(checked);
-                  markChanged();
-                }}
-              />
-            </div>
-          </CardContent>
-        </Card>
+            <Switch
+              id="data-sharing"
+              checked={settings?.privacy?.dataSharing ?? false}
+              onCheckedChange={(checked) => handleSettingChange('privacy', 'dataSharing', checked)}
+            />
+          </div>
+        </CardContent>
       </AnimatedCard>
 
-      {/* Privacy & Security */}
-      <AnimatedCard delay={300} asChild>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
-              Privacy & Security
-            </CardTitle>
-            <CardDescription>Control your privacy and data</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="profile-visibility" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <Eye className="h-4 w-4" />
-                  <span className="font-medium">Profile Visibility</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Make your profile visible to others</span>
-              </Label>
-              <Switch
-                id="profile-visibility"
-                checked={profileVisibility}
-                onCheckedChange={(checked) => {
-                  setProfileVisibility(checked);
-                  markChanged();
-                }}
-              />
+      {/* App Preferences Section */}
+      <AnimatedCard>
+        <CardHeader>
+          <CardTitle>Appearance & Preferences</CardTitle>
+          <CardDescription>Customize your experience within the app.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Moon className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label className="font-medium">Theme</Label>
+                <p className="text-sm text-gray-500">Choose between light, dark, or system default.</p>
+              </div>
             </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="activity-status" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <Eye className="h-4 w-4" />
-                  <span className="font-medium">Activity Status</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Show when you're online</span>
-              </Label>
-              <Switch
-                id="activity-status"
-                checked={activityStatus}
-                onCheckedChange={(checked) => {
-                  setActivityStatus(checked);
-                  markChanged();
-                }}
-              />
+            <div className="flex items-center gap-2 rounded-md border p-1">
+              <Button variant={theme === 'light' ? 'secondary' : 'ghost'} size="sm" onClick={() => setTheme('light')}><Sun className="h-4 w-4" /></Button>
+              <Button variant={theme === 'dark' ? 'secondary' : 'ghost'} size="sm" onClick={() => setTheme('dark')}><Moon className="h-4 w-4" /></Button>
+              <Button variant={theme === 'system' ? 'secondary' : 'ghost'} size="sm" onClick={() => setTheme('system')}><Monitor className="h-4 w-4" /></Button>
             </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="data-sharing" className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  <Shield className="h-4 w-4" />
-                  <span className="font-medium">Data Sharing</span>
-                </div>
-                <span className="text-sm text-muted-foreground">Share anonymized data for research</span>
-              </Label>
-              <Switch
-                id="data-sharing"
-                checked={dataSharing}
-                onCheckedChange={(checked) => {
-                  setDataSharing(checked);
-                  markChanged();
-                }}
-              />
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Volume2 className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="sound-effects" className="font-medium">Sound Effects</Label>
+                <p className="text-sm text-gray-500">Enable or disable interface sounds.</p>
+              </div>
             </div>
-          </CardContent>
-        </Card>
+            <Switch
+              id="sound-effects"
+              checked={settings?.appPreferences?.soundEffects ?? true}
+              onCheckedChange={(checked) => handleSettingChange('appPreferences', 'soundEffects', checked)}
+            />
+          </div>
+          <div className="flex items-center justify-between p-4 rounded-lg border">
+            <div className="flex items-center space-x-4">
+              <Save className="h-6 w-6 text-gray-500" />
+              <div>
+                <Label htmlFor="auto-save" className="font-medium">Auto-Save Forms</Label>
+                <p className="text-sm text-gray-500">Automatically save your progress on forms like the journal.</p>
+              </div>
+            </div>
+            <Switch
+              id="auto-save"
+              checked={settings?.appPreferences?.autoSave ?? true}
+              onCheckedChange={(checked) => handleSettingChange('appPreferences', 'autoSave', checked)}
+            />
+          </div>
+        </CardContent>
       </AnimatedCard>
-
-      {/* App Preferences */}
-      <AnimatedCard delay={400} asChild>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Volume2 className="h-5 w-5" />
-              App Preferences
-            </CardTitle>
-            <CardDescription>Customize your app experience</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="sound-effects" className="flex flex-col gap-1">
-                <span className="font-medium">Sound Effects</span>
-                <span className="text-sm text-muted-foreground">Play sounds for actions</span>
-              </Label>
-              <Switch
-                id="sound-effects"
-                checked={soundEffects}
-                onCheckedChange={(checked) => {
-                  setSoundEffects(checked);
-                  markChanged();
-                }}
-              />
-            </div>
-            <Separator />
-            <div className="flex items-center justify-between">
-              <Label htmlFor="auto-save" className="flex flex-col gap-2">
-                <span className="font-medium">Auto-Save</span>
-                <span className="text-sm text-muted-foreground">Automatically save your work</span>
-              </Label>
-              <Switch
-                id="auto-save"
-                checked={autoSave}
-                onCheckedChange={(checked) => {
-                  setAutoSave(checked);
-                  markChanged();
-                }}
-              />
-            </div>
-          </CardContent>
-        </Card>
-      </AnimatedCard>
-
-      {/* Save Button */}
-      {hasChanges && (
-        <div className="sticky bottom-4 flex justify-end">
-          <Button onClick={handleSave} size="lg" className="shadow-lg">
-            <Save className="h-4 w-4 mr-2" />
-            Save Changes
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

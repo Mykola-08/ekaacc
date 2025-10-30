@@ -15,6 +15,7 @@ import {
   CommunityPost,
   TherapyRecommendation,
   Message,
+  Donation,
 } from '@/lib/types';
 import { IDataService } from './data-service';
 import { mockSessions, mockReports, mockExercises, mockCommunityPosts, mockTherapies, mockJournalEntries, mockAuth, mockCurrentUser } from '@/lib/mock-data';
@@ -39,9 +40,11 @@ const STORAGE_KEYS = {
   SERVICES: 'mock_services',
   JOURNAL: 'mock_journal',
   COMMUNITY: 'mock_community',
+  DONATIONS: 'mock_donations',
 };
 
 export class MockDataService implements IDataService {
+  public readonly isMock = true;
   private static instance: MockDataService;
   private currentUser: User | null = null;
   private sessions: Session[] = [];
@@ -50,6 +53,7 @@ export class MockDataService implements IDataService {
   private journalEntries: JournalEntry[] = [];
   private communityPosts: CommunityPost[] = [];
   private isInitialized = false;
+  private donations: Donation[] = [];
 
   private constructor() {
     this.initialize();
@@ -93,6 +97,9 @@ export class MockDataService implements IDataService {
     const savedCommunity = localStorage.getItem(STORAGE_KEYS.COMMUNITY);
     this.communityPosts = savedCommunity ? JSON.parse(savedCommunity) : mockCommunityPosts;
 
+    const savedDonations = localStorage.getItem(STORAGE_KEYS.DONATIONS);
+    this.donations = savedDonations ? JSON.parse(savedDonations) : [];
+
     this.isInitialized = true;
   }
 
@@ -105,6 +112,7 @@ export class MockDataService implements IDataService {
     localStorage.setItem(STORAGE_KEYS.SERVICES, JSON.stringify(this.services));
     localStorage.setItem(STORAGE_KEYS.JOURNAL, JSON.stringify(this.journalEntries));
     localStorage.setItem(STORAGE_KEYS.COMMUNITY, JSON.stringify(this.communityPosts));
+    localStorage.setItem(STORAGE_KEYS.DONATIONS, JSON.stringify(this.donations));
   }
 
   async isReady(): Promise<boolean> {
@@ -181,6 +189,26 @@ export class MockDataService implements IDataService {
   async cancelSession(sessionId: string): Promise<void> {
     await delay(DELAY_MS.WRITE);
     await this.updateSession(sessionId, { status: 'Canceled' });
+  }
+
+  // Donations
+  async getDonations(userId?: string): Promise<Donation[]> {
+    await delay(DELAY_MS.READ);
+    if (userId) {
+      return this.donations.filter(d => d.donorId === userId || d.receiverId === userId);
+    }
+    return this.donations;
+  }
+
+  async addDonation(donation: Omit<Donation, 'id'>): Promise<Donation> {
+    await delay(DELAY_MS.WRITE);
+    const newDonation: Donation = {
+      ...donation,
+      id: `donation-${Date.now()}`,
+    };
+    this.donations.push(newDonation);
+    this.saveToStorage();
+    return newDonation;
   }
 
   // Reports

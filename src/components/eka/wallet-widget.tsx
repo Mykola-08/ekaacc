@@ -14,12 +14,12 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { useRouter } from 'next/navigation';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: boolean } = {}) {
   const router = useRouter();
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const [balance, setBalance] = useState(0);
   const [points, setPoints] = useState(0);
   const [showBalance, setShowBalance] = useState(true);
@@ -38,7 +38,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
         
         setBalance(wallet?.balance || 0);
         // Get points from user data - fallback to 0
-        const userPoints = (currentUser as any).loyaltyPoints || 0;
+        const userPoints = currentUser?.loyalty?.points || 0;
         setPoints(userPoints);
       } catch (error) {
         // Fallback to mock data

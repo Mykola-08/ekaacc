@@ -1,8 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { useData } from "@/context/unified-data-context";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/context/auth-context";
+import { useAppStore } from "@/store/app-store";
 import { Button } from "@/components/ui/button";
+import { User } from "@/lib/types";
 
 const roles = [
   "Patient",
@@ -13,9 +15,28 @@ const roles = [
 type Role = typeof roles[number];
 
 export function RoleChanger() {
-  const { currentUser, updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const [selectedRole, setSelectedRole] = useState<Role>(roles.includes(currentUser?.role as Role) ? currentUser?.role as Role : "Patient");
   const [isDonationSeeker, setIsDonationSeeker] = useState(!!currentUser?.isDonationSeeker);
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  useEffect(() => {
+    if (currentUser) {
+      setSelectedRole(roles.includes(currentUser.role as Role) ? currentUser.role as Role : "Patient");
+      setIsDonationSeeker(!!currentUser.isDonationSeeker);
+    }
+  }, [currentUser]);
+
+  const updateUser = async (userData: Partial<User>) => {
+    if (dataService && currentUser) {
+      await dataService.updateUser(currentUser.id, userData);
+      await refreshAppUser();
+    }
+  };
 
   const handleChange = (role: Role) => {
     setSelectedRole(role);

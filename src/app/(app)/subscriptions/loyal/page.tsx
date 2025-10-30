@@ -7,14 +7,14 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Check, Star, Sparkles, TrendingUp, Zap, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import subscriptionManager, { type SubscriptionPlan } from '@/services/subscription-manager';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 
 export default function LoyalSubscriptionPage() {
   const router = useRouter();
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
   const [loading, setLoading] = useState(true);

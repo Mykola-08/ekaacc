@@ -1,6 +1,7 @@
 "use client";
 
-import { useData } from "@/context/unified-data-context";
+import { useAuth } from "@/context/auth-context";
+import { useAppStore } from "@/store/app-store";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -14,12 +15,45 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
 export default function TherapistDashboard() {
-  const { sessions, currentUser, reports } = useData();
+  const { appUser: currentUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [myClients, setMyClients] = useState<any[]>([]);
+  const [sessions, setSessions] = useState<any[]>([]);
+  const [reports, setReports] = useState<any[]>([]);
 
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (dataService && currentUser) {
+        setLoading(true);
+        try {
+          const [userSessions, userReports] = await Promise.all([
+            dataService.getSessions(currentUser.id),
+            dataService.getReports(currentUser.id),
+          ]);
+          setSessions(userSessions);
+          setReports(userReports);
+        } catch (error) {
+          console.error("Failed to fetch data:", error);
+          toast({
+            title: "Error",
+            description: "Could not load dashboard data.",
+            variant: "destructive",
+          });
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    fetchData();
+  }, [dataService, currentUser, toast]);
+  
   // Filter sessions assigned to the current therapist
   const mySessions = sessions.filter(
     session => session.therapist === currentUser?.displayName || session.userId === currentUser?.id

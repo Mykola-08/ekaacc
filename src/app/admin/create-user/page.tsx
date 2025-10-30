@@ -11,12 +11,12 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { UserPlus, Copy, Check, AlertCircle, Mail } from 'lucide-react';
 import type { RegistrationData } from '@/lib/wallet-types';
 
 export default function AdminCreateUserPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   
   const [formData, setFormData] = useState<Partial<RegistrationData>>({

@@ -12,7 +12,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { 
   NotificationType, 
   NotificationCategory, 
@@ -41,7 +41,7 @@ export function NotificationCenter() {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filterCategory, setFilterCategory] = useState<NotificationCategory | 'all'>('all');
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
 
   useEffect(() => {
     let mounted = true;

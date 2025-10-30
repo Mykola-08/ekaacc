@@ -25,7 +25,7 @@ import {
   Trophy,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, useSidebar } from '../ui/sidebar';
 import React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
@@ -110,7 +110,7 @@ SidebarLink.displayName = 'SidebarLink';
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { isExpanded } = useSidebar();
 
   const userLinks = [

@@ -8,7 +8,6 @@ import { mockNotificationsAPI } from './mock-notifications';
 import { allUsers } from './data';
 import { fxTemplates } from './fx-templates';
 import { fxNotifications } from './fx-notifications';
-import fxAuth from './fx-auth';
 import { fxBookings } from './fx-bookings';
 import { fxAssessments } from './fx-assessments';
 import { fxBilling } from './fx-billing';
@@ -172,19 +171,19 @@ export const fxService = {
     if (useMock) {
       const res = mockBookingAPI.updateBooking ? await mockBookingAPI.updateBooking(bookingId, updates) : { id: bookingId, ...updates };
       // create a notification for mock mode
-      try { await mockNotificationsAPI.createNotification({ title: 'Booking updated', body: `Booking ${bookingId} updated.` }); } catch (e) { /* ignore */ }
+      try { await mockNotificationsAPI.createNotification({ userId: 'system', title: 'Booking updated', body: `Booking ${bookingId} updated.` }); } catch (e) { /* ignore */ }
       return res;
     }
     const res = await fxBookings.updateBooking(bookingId, updates);
     // try to create a persisted notification in production, but don't fail the update if notifications fail
-    try { await fxNotifications.createNotification({ title: 'Booking updated', body: `Booking ${bookingId} updated.` }); } catch (e) { /* ignore */ }
+    try { await fxNotifications.createNotification({ userId: 'system', title: 'Booking updated', body: `Booking ${bookingId} updated.` }); } catch (e) { /* ignore */ }
     return res;
   },
   async listTemplates() { if (useMock) return mockTemplatesAPI.listTemplates(); return fxTemplates.listTemplates(); },
   async createTemplate(t: { title: string; content: string; authorId?: string }) { if (useMock) return mockTemplatesAPI.createTemplate(t); return fxTemplates.createTemplate(t); },
   async deleteTemplate(id: string) { if (useMock) return mockTemplatesAPI.deleteTemplate ? mockTemplatesAPI.deleteTemplate(id) : true; return fxTemplates.deleteTemplate(id); },
   async listNotifications() { if (useMock) return mockNotificationsAPI.listNotifications(); return fxNotifications.listNotifications(); },
-  async createNotification(n: { title: string; body?: string; type?: string }) { if (useMock) return mockNotificationsAPI.createNotification(n); return fxNotifications.createNotification(n); },
+  async createNotification(n: { userId: string, title: string; body?: string; type?: string }) { if (useMock) return mockNotificationsAPI.createNotification(n); return fxNotifications.createNotification(n); },
   async markSeen(id: string) { if (useMock) return mockNotificationsAPI.markSeen ? mockNotificationsAPI.markSeen(id) : true; return fxNotifications.markSeen(id); },
   async generateAIReport(userId: string, prompt: string) {
     if (useMock) return mockAIAPI.sendMessage(userId, prompt);
@@ -298,7 +297,6 @@ export const fxService = {
 
     return { ...normalized, updatedAt };
   },
-  auth: fxAuth,
 };
 
 export default fxService;

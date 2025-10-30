@@ -8,12 +8,15 @@ import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Settings, Crown, Sparkles, User, Heart } from 'lucide-react';
-import { useData } from '@/context/unified-data-context';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import type { SubscriptionType, LoyalTier, VipTier } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
 
 export function SubscriptionTestSwitcher() {
-  const { currentUser, updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const [subscriptionType, setSubscriptionType] = useState<SubscriptionType>(
     currentUser?.subscriptionType || 'Free'
   );
@@ -29,6 +32,20 @@ export function SubscriptionTestSwitcher() {
   const [donationSeekerApproved, setDonationSeekerApproved] = useState(
     currentUser?.donationSeekerApproved || false
   );
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  const updateUser = async (data: any) => {
+    if (!dataService || !currentUser) return;
+    try {
+      await dataService.updateUser(currentUser.id, data);
+      await refreshAppUser();
+    } catch (error) {
+      console.error("Failed to update user", error);
+    }
+  };
 
   const handleApplySubscription = () => {
     const updates: any = {

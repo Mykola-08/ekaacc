@@ -5,7 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { Smile, TrendingUp } from 'lucide-react';
 import { useFeatureData } from '@/hooks/use-feature-data';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
+import { useEffect } from 'react';
 import type { JournalEntry, StatCard as StatCardType } from '@/lib/types';
 
 type JournalInsightsData = {
@@ -25,49 +27,6 @@ const mockJournalData = async (): Promise<JournalInsightsData> => ({
     { title: 'Best Day', value: '2025-10-19', change: undefined, changeType: undefined, icon: Smile },
   ],
 });
-
-const moodScore: Record<JournalEntry['mood'], number> = {
-  Great: 5,
-  Good: 4,
-  Okay: 3,
-  Bad: 2,
-  Terrible: 1,
-};
-
-function formatSignedChange(value: number, decimals = 0): string | null {
-  if (!Number.isFinite(value) || Math.abs(value) < 1e-6) {
-    return null;
-  }
-  const formatted = Math.abs(value).toFixed(decimals);
-  return `${value > 0 ? '+' : '-'}${formatted}`;
-}
-
-function parseEntryDate(entryDate: string | Date | undefined): Date | null {
-  if (!entryDate) {
-    return null;
-  }
-  const date = typeof entryDate === 'string' ? new Date(entryDate) : entryDate;
-  return Number.isNaN(date.getTime()) ? null : date;
-}
-
-function formatDate(date: Date | null | undefined): string | undefined {
-  if (!date) return undefined;
-  return date.toLocaleDateString(undefined, {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-}
-
-function filterEntriesForUser(entries: JournalEntry[], userId: string): JournalEntry[] {
-  return entries.filter(entry => {
-    if (!entry) return false;
-    if (!('userId' in entry) || typeof (entry as any).userId === 'undefined') {
-      return true;
-    }
-    return (entry as any).userId === userId;
-  });
-}
 
 function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
   if (!entries.length) {
@@ -94,7 +53,7 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
   let bestScore = -Infinity;
 
   for (const entry of entries) {
-    const score = moodScore[entry.mood] ?? 0;
+    const score = entry.mood ?? 0;
     totalMood += score;
 
     const entryDate = parseEntryDate(entry.date);
@@ -161,18 +120,27 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
   };
 }
 
-export function JournalInsights({ source = 'mock' }: { source?: 'mock' | 'firebase' }) {
-  const { currentUser, journalEntries } = useData();
+export function JournalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' }) {
+  const { appUser: currentUser } = useAuth();
+  const { dataService, initDataService, dataSource } = useAppStore();
+
+  // Determine the source, defaulting to the store's data source
+  const source = initialSource || dataSource;
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
 
   const waitingForUser = source === 'firebase' && !currentUser;
 
   const fetchJournalDataFirebase = useCallback(async () => {
-    if (!currentUser) {
-      throw new Error('User context unavailable');
+    if (!currentUser || !dataService) {
+      throw new Error('User context or data service unavailable');
     }
+    const journalEntries = await dataService.getJournalEntries(currentUser.id);
     const entries = filterEntriesForUser(journalEntries, currentUser.id);
     return buildJournalInsights(entries);
-  }, [currentUser, journalEntries]);
+  }, [currentUser, dataService]);
 
   const { data, loading, error } = useFeatureData(
     mockJournalData,
@@ -225,4 +193,39 @@ export function JournalInsights({ source = 'mock' }: { source?: 'mock' | 'fireba
       </CardContent>
     </Card>
   );
+}
+
+function formatSignedChange(value: number, decimals = 0): string | null {
+  if (!Number.isFinite(value) || Math.abs(value) < 1e-6) {
+    return null;
+  }
+  const formatted = Math.abs(value).toFixed(decimals);
+  return `${value > 0 ? '+' : '-'}${formatted}`;
+}
+
+function parseEntryDate(entryDate: string | Date | undefined): Date | null {
+  if (!entryDate) {
+    return null;
+  }
+  const date = typeof entryDate === 'string' ? new Date(entryDate) : entryDate;
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function formatDate(date: Date | null | undefined): string | undefined {
+  if (!date) return undefined;
+  return date.toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function filterEntriesForUser(entries: JournalEntry[], userId: string): JournalEntry[] {
+  return entries.filter(entry => {
+    if (!entry) return false;
+    if (!('userId' in entry) || typeof (entry as any).userId === 'undefined') {
+      return true;
+    }
+    return (entry as any).userId === userId;
+  });
 }

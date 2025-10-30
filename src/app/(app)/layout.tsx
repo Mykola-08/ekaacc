@@ -1,9 +1,11 @@
 'use client';
 import { AuthProvider } from '@/context/auth-context';
-import { UnifiedDataProvider } from '@/context/unified-data-context';
 import { AIAssistant } from '@/components/eka/ai-assistant';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { AppHeader } from '@/components/eka/app-header';
+import { AppSidebar } from '@/components/eka/app-sidebar';
+import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { isMobile, isExpanded } = useSidebar();
@@ -51,12 +53,10 @@ export default function AppLayout({
   return (
     <AuthProvider>
       <SidebarProvider>
-        <UnifiedDataProvider>
-          <AppLayoutContent>
-            {children}
-          </AppLayoutContent>
-          <AIAssistant />
-        </UnifiedDataProvider>
+        <AppLayoutContent>
+          {children}
+        </AppLayoutContent>
+        <AIAssistant />
       </SidebarProvider>
     </AuthProvider>
   );

@@ -12,6 +12,7 @@ type AuthContextShape = {
   loading: boolean;
   signIn: (email: string, password: string) => Promise<any>;
   signOut: () => Promise<void>;
+  refreshAppUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextShape | undefined>(undefined);
@@ -21,13 +22,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [appUser, setAppUser] = useState<AppUser | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const refreshAppUser = async () => {
+    const dataService = await getDataService();
+    const currentAppUser = await dataService.getCurrentUser();
+    setAppUser(currentAppUser);
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        const dataService = await getDataService();
-        const currentAppUser = await dataService.getCurrentUser();
-        setAppUser(currentAppUser);
+        await refreshAppUser();
       } else {
         setAppUser(null);
       }
@@ -35,6 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
 
     return () => unsubscribe();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const signIn = (email: string, password: string) => {
@@ -45,7 +51,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return firebaseSignOut(auth);
   };
 
-  const value = { user, appUser, loading, signIn, signOut };
+  const value = { user, appUser, loading, signIn, signOut, refreshAppUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

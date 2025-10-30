@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import fxService from '@/lib/fx-service';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { useMemo } from 'react';
 
@@ -16,7 +16,7 @@ export default function PersonProfile({ userId }: { userId: string }) {
   const [hiddenNotes, setHiddenNotes] = useState<string>('');
   const [bookings, setBookings] = useState<any[]>([]);
   const [reports, setReports] = useState<any[]>([]);
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
 

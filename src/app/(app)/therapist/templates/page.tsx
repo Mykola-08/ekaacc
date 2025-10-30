@@ -6,37 +6,42 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { 
   FileText, 
   Search, 
   Filter, 
   Download, 
   Copy, 
-  Edit, 
-  Trash2,
   Plus,
-  Clock,
   TrendingUp,
   User as UserIcon,
-  Calendar,
   Sparkles
 } from 'lucide-react';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES, TemplateField } from '@/lib/template-types';
-import type { User as UserType } from '@/lib/types';
+import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES } from '@/lib/template-types';
+import type { User as UserType, Session } from '@/lib/types';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from '@/lib/utils';
 
 export default function TherapistTemplatesPage() {
-  const { currentUser, allUsers, sessions } = useData();
+  const { appUser: currentUser } = useAuth();
+  const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
+  
   const [templates, setTemplates] = useState<TherapistTemplate[]>([]);
+  const [allUsers, setAllUsers] = useState<UserType[]>([]);
+  const [sessions, setSessions] = useState<Session[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [selectedTemplate, setSelectedTemplate] = useState<TherapistTemplate | null>(null);
   const [selectedClient, setSelectedClient] = useState<string>('');
   const [showPreview, setShowPreview] = useState(false);
@@ -46,23 +51,41 @@ export default function TherapistTemplatesPage() {
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
 
   useEffect(() => {
-    // Initialize with default templates
-    const initialTemplates: TherapistTemplate[] = DEFAULT_TEMPLATES.map((t, i) => ({
-      ...t,
-      id: `template-${i + 1}`,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      useCount: Math.floor(Math.random() * 50),
-    }));
-    setTemplates(initialTemplates);
-  }, []);
+    const loadInitialData = async () => {
+      if (!dataService) return;
+      setIsLoading(true);
+      try {
+        const [users, allSessions] = await Promise.all([
+          dataService.getAllUsers(),
+          dataService.getSessions(),
+        ]);
+        setAllUsers(users);
+        setSessions(allSessions);
 
-  // Get client list (users that are not therapists)
+        const initialTemplates: TherapistTemplate[] = DEFAULT_TEMPLATES.map((t, i) => ({
+          ...t,
+          id: `template-${i + 1}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          useCount: Math.floor(Math.random() * 50),
+        }));
+        setTemplates(initialTemplates);
+
+      } catch (error) {
+        console.error("Failed to load data:", error);
+        toast({ title: "Error", description: "Could not load necessary data.", variant: "destructive" });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadInitialData();
+  }, [dataService, toast]);
+
   const clients = useMemo<UserType[]>(() => {
     return allUsers.filter(user => user.role !== 'Therapist' && user.role !== 'Admin');
   }, [allUsers]);
 
-  // Filter templates
   const filteredTemplates = useMemo(() => {
     return templates.filter(t => {
       const matchesSearch = t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -72,11 +95,10 @@ export default function TherapistTemplatesPage() {
     });
   }, [templates, searchQuery, categoryFilter]);
 
-  // Get autofill data for selected client
   const getAutofillData = (clientId: string): AutofillData => {
     const client = clients.find(c => c.id === clientId);
     const clientSessions = sessions.filter(s => s.userId === clientId);
-    const lastSession = clientSessions[clientSessions.length - 1];
+    const lastSession = clientSessions.length > 0 ? clientSessions.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0] : null;
     
     return {
       clientName: client?.name || 'Client Name',
@@ -93,25 +115,21 @@ export default function TherapistTemplatesPage() {
     };
   };
 
-  // Autofill template with data
   const autofillTemplate = (template: TherapistTemplate, clientId: string, customData: Record<string, string> = {}) => {
     const autoData = getAutofillData(clientId);
     let content = template.content;
     
-    // Replace autofill fields
     Object.entries(autoData).forEach(([key, value]) => {
       const regex = new RegExp(`{{${key}}}`, 'g');
       const displayValue = Array.isArray(value) ? value.join(', ') : String(value);
       content = content.replace(regex, displayValue);
     });
 
-    // Replace custom fields
     Object.entries(customData).forEach(([key, value]) => {
       const regex = new RegExp(`{{${key}}}`, 'g');
       content = content.replace(regex, value || '');
     });
 
-    // Replace any remaining placeholders with empty string
     content = content.replace(/{{[^}]+}}/g, '');
     
     return content;
@@ -136,11 +154,6 @@ export default function TherapistTemplatesPage() {
     const filledContent = autofillTemplate(selectedTemplate, selectedClient, formData);
     setPreviewContent(filledContent);
     setShowPreview(true);
-
-    // Update use count
-    setTemplates(prev => prev.map(t => 
-      t.id === selectedTemplate.id ? { ...t, useCount: t.useCount + 1 } : t
-    ));
   };
 
   const handleCopyToClipboard = () => {
@@ -166,7 +179,7 @@ export default function TherapistTemplatesPage() {
     });
   };
 
-  const categoryColors = {
+  const categoryColors: { [key: string]: string } = {
     'progress': 'bg-blue-500/10 text-blue-700 dark:text-blue-400',
     'assessment': 'bg-purple-500/10 text-purple-700 dark:text-purple-400',
     'treatment-plan': 'bg-green-500/10 text-green-700 dark:text-green-400',
@@ -174,9 +187,57 @@ export default function TherapistTemplatesPage() {
     'discharge': 'bg-red-500/10 text-red-700 dark:text-red-400',
   };
 
+  if (isLoading) {
+    return (
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <Skeleton className="h-8 w-64" />
+            <Skeleton className="h-4 w-80 mt-2" />
+          </div>
+          <Skeleton className="h-10 w-48" />
+        </div>
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex gap-4">
+              <Skeleton className="h-10 flex-1" />
+              <Skeleton className="h-10 w-48" />
+            </div>
+          </CardContent>
+        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, i) => (
+            <Card key={i}>
+              <CardHeader>
+                <div className="flex items-start justify-between">
+                  <Skeleton className="h-8 w-8" />
+                  <Skeleton className="h-6 w-24" />
+                </div>
+                <Skeleton className="h-6 w-3/4 mt-2" />
+                <Skeleton className="h-4 w-full mt-1" />
+                <Skeleton className="h-4 w-2/3 mt-1" />
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2 mb-4">
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+                <Skeleton className="h-10 w-full" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="p-6 space-y-6"
+    >
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -196,7 +257,6 @@ export default function TherapistTemplatesPage() {
         </div>
       </motion.div>
 
-      {/* Search and Filter */}
       <Card>
         <CardContent className="pt-6">
           <div className="flex gap-4">
@@ -227,7 +287,6 @@ export default function TherapistTemplatesPage() {
         </CardContent>
       </Card>
 
-      {/* Templates Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredTemplates.map((template, index) => (
           <motion.div
@@ -240,7 +299,7 @@ export default function TherapistTemplatesPage() {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <FileText className="w-8 h-8 text-primary mb-2" />
-                  <Badge className={categoryColors[template.category]}>
+                  <Badge className={cn(categoryColors[template.category] || 'bg-gray-500/10 text-gray-700 dark:text-gray-400', 'py-1 px-2 text-xs')}>
                     {template.category.replace('-', ' ')}
                   </Badge>
                 </div>
@@ -272,7 +331,6 @@ export default function TherapistTemplatesPage() {
         ))}
       </div>
 
-      {/* Template Editor Dialog */}
       <Dialog open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
@@ -285,8 +343,7 @@ export default function TherapistTemplatesPage() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4">
-            {/* Client Selection */}
+          <div className="space-y-4 p-1">
             <div className="space-y-2">
               <Label className="flex items-center gap-2">
                 <UserIcon className="w-4 h-4" />
@@ -308,16 +365,15 @@ export default function TherapistTemplatesPage() {
 
             <Separator />
 
-            {/* Auto-fill Information */}
             {selectedClient && (
               <Card className="bg-muted/50">
-                <CardHeader>
+                <CardHeader className="p-4">
                   <CardTitle className="text-sm flex items-center gap-2">
                     <Sparkles className="w-4 h-4" />
                     Auto-filled Information
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="text-xs space-y-1">
+                <CardContent className="p-4 pt-0 text-xs space-y-1">
                   {(() => {
                     const data = getAutofillData(selectedClient);
                     return (
@@ -333,7 +389,6 @@ export default function TherapistTemplatesPage() {
               </Card>
             )}
 
-            {/* Custom Fields */}
             <div className="space-y-4">
               <h4 className="font-medium text-sm">Additional Information</h4>
               {selectedTemplate?.fields.map((field) => (
@@ -392,31 +447,19 @@ export default function TherapistTemplatesPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Preview Dialog */}
       <Dialog open={showPreview} onOpenChange={setShowPreview}>
-        <DialogContent className="max-w-4xl max-h-[90vh]">
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Generated Report</DialogTitle>
-            <DialogDescription>
-              Preview your report before downloading or copying
-            </DialogDescription>
+            <DialogTitle>Generated Report Preview</DialogTitle>
           </DialogHeader>
-
-          <div className="flex-1 overflow-auto">
-            <Card>
-              <CardContent className="pt-6">
-                <pre className="whitespace-pre-wrap font-mono text-sm">
-                  {previewContent}
-                </pre>
-              </CardContent>
-            </Card>
-          </div>
-
-          <DialogFooter className="gap-2">
+          <ScrollArea className="h-96 p-4 border rounded-md bg-muted/50">
+            <pre className="text-sm whitespace-pre-wrap">{previewContent}</pre>
+          </ScrollArea>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setShowPreview(false)}>
               Close
             </Button>
-            <Button variant="outline" onClick={handleCopyToClipboard} className="gap-2">
+            <Button onClick={handleCopyToClipboard} className="gap-2">
               <Copy className="w-4 h-4" />
               Copy
             </Button>
@@ -427,6 +470,6 @@ export default function TherapistTemplatesPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </motion.div>
   );
 }

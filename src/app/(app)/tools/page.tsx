@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { Button } from '@/components/ui/button';
 import fxService from '@/lib/fx-service';
 
 export default function ToolsPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const role = currentUser?.role || (typeof window !== 'undefined' ? localStorage.getItem('eka_persona') || 'Patient' : 'Patient');
   const [log, setLog] = useState<string[]>([]);
   const append = (msg: string) => setLog(l => [msg, ...l].slice(0, 50));

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
-import { UnifiedDataProvider } from '@/context/unified-data-context';
 import { AuthProvider } from '@/context/auth-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -49,9 +48,7 @@ export default function RootLayout({
           >
             <ProgressProvider>
               <TooltipProvider>
-                <UnifiedDataProvider>
-                  {children}
-                </UnifiedDataProvider>
+                {children}
                 <Toaster />
               </TooltipProvider>
             </ProgressProvider>

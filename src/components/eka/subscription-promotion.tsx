@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Star, Crown, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { motion } from 'framer-motion';
 import subscriptionManager from '@/services/subscription-manager';
 
 export function SubscriptionPromotion() {
   const router = useRouter();
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const [hasLoyal, setHasLoyal] = useState(false);
   const [hasVIP, setHasVIP] = useState(false);
   const [loading, setLoading] = useState(true);

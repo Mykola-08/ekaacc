@@ -36,7 +36,7 @@ export type Donation = {
   donorId: string;
   receiverId: string;
   amount: number;
-  date: Timestamp;
+  date: string; // ISO string
   isAnonymous: boolean;
 };
 
@@ -506,12 +506,13 @@ export type Therapy = Service;
 
 export type JournalEntry = {
   id: string;
-  date: string;
-  mood: 'Great' | 'Good' | 'Okay' | 'Bad' | 'Terrible';
-  painLevel: number;
-  energy: number;
+  date: string; // ISO string
+  mood: number; // 1-5
+  painLevel: number; // 1-10
+  energyLevel: number; // 1-10
   notes?: string;
-  activities?: string[];
+  tags: string[];
+  userId: string;
 };
 
 export type Exercise = {

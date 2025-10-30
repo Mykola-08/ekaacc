@@ -46,16 +46,26 @@ vi.mock('next/navigation', () => ({
   usePathname: () => '/account/settings',
 }));
 
-// Mock useData to provide currentUser without initializing the real provider
-const unifiedDataMock = {
-  useData: () => ({
-    currentUser: { id: 'test-user', name: 'Test User', email: 'test@example.com', role: 'Patient', initials: 'TU' },
-    updateUser: async () => {},
-    isLoading: false,
+// Mock useAuth to provide appUser without initializing the real provider
+const authMock = {
+  useAuth: () => ({
+    appUser: { id: 'test-user', name: 'Test User', email: 'test@example.com', role: 'Patient', initials: 'TU' },
+    refreshAppUser: async () => {},
+    loading: false,
   })
 };
 // Mock the module using the path alias
-vi.mock('@/context/unified-data-context', () => unifiedDataMock);
+vi.mock('@/context/auth-context', () => authMock);
+
+const appStoreMock = {
+  useAppStore: () => ({
+    dataService: {
+      updateUser: async () => {},
+    },
+    initDataService: () => {},
+  }),
+};
+vi.mock('@/store/app-store', () => appStoreMock);
 
 import * as fxService from '@/lib/fx-service';
 

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { useData } from "@/context/unified-data-context";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/context/auth-context";
+import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -35,7 +36,8 @@ interface TestToolsProps {
 }
 
 export function TestTools({ isTestMode = false }: TestToolsProps) {
-  const { currentUser, updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   
   const [selectedRole, setSelectedRole] = useState<string>(currentUser?.role || "Patient");
@@ -45,6 +47,25 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
   const [isLoyal, setIsLoyal] = useState(currentUser?.isLoyal || false);
   const [loyalTier, setLoyalTier] = useState<string>(currentUser?.loyalTier || "Normal");
   const [isDonationSeeker, setIsDonationSeeker] = useState(currentUser?.isDonationSeeker || false);
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  const updateUser = async (data: any) => {
+    if (!dataService || !currentUser) return;
+    try {
+      await dataService.updateUser(currentUser.id, data);
+      await refreshAppUser();
+    } catch (error) {
+      console.error("Failed to update user", error);
+      toast({
+        title: "Update Failed",
+        description: "Could not save your changes. Please try again.",
+        variant: 'destructive',
+      });
+    }
+  };
 
   // Don't render in production mode
   if (!isTestMode) {
@@ -70,7 +91,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
       const tx = await fxService.applyAdjustment(currentUser.id, accountBalance, 'TestTools add balance');
       toast({ title: "Balance Added", description: `€${accountBalance} has been added to ${currentUser.displayName || currentUser.email}.` });
       // try to refresh unified data if available
-      try { (useData() as any).refreshData && (await (useData() as any).refreshData()); } catch (_) { /* ignore */ }
+      await refreshAppUser();
     } catch (e) {
       toast({ variant: 'destructive', title: 'Add balance failed', description: (e as any)?.message || 'Could not add balance' });
     } finally {

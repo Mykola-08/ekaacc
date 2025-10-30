@@ -10,7 +10,8 @@ import type { Session as AppSession, User } from '@/lib/types';
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import fxService from '@/lib/fx-service';
-import { useData } from "@/context/unified-data-context";
+import { useAuth } from "@/context/auth-context";
+import { useAppStore } from "@/store/app-store";
 import { PersonalizationEngine } from '@/lib/personalization-engine';
 
 // Helper to map mock booking to session type
@@ -46,14 +47,31 @@ const mapBookingToSession = (booking: any): AppSession => {
 };
 
 export default function SessionsPage() {
-  const { currentUser, isLoading: isUserLoading } = useData();
-  const { updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser, loading: isUserLoading } = useAuth();
+  const dataService = useAppStore((state) => state.dataService);
   const [sessions, setSessions] = useState<AppSession[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
+  const updateUserData = async (updates: Partial<User>) => {
+    if (!currentUser || !dataService) return;
+    try {
+      await dataService.updateUser(currentUser.id, updates);
+      await refreshAppUser();
+    } catch (e) {
+      console.error("Failed to update user data", e);
+    }
+  };
+
   useEffect(() => {
-    if (!currentUser) return;
+    if (isUserLoading) {
+      setIsLoading(true);
+      return;
+    }
+    if (!currentUser) {
+      setIsLoading(false);
+      return;
+    }
     setIsLoading(true);
     fxService.getBookingsForUser(currentUser.uid || currentUser.id || 'user1', {
       email: currentUser.email,
@@ -69,7 +87,7 @@ export default function SessionsPage() {
       })
       .catch(e => setError(e))
       .finally(() => setIsLoading(false));
-  }, [currentUser]);
+  }, [currentUser, isUserLoading]);
 
   useEffect(() => {
     // Track page visit
@@ -82,12 +100,13 @@ export default function SessionsPage() {
             timestamp: new Date().toISOString(),
           }
         });
-        updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+        updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
       } catch (e) {
         console.error('Failed to track sessions page visit', e);
       }
     }
-  }, [currentUser, updateUser]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   return (
     <Card>
@@ -107,7 +126,7 @@ export default function SessionsPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {isLoading && (
+            {(isLoading || isUserLoading) && (
               [...Array(3)].map((_, i) => (
                 <TableRow key={i}>
                   <TableCell><Skeleton className="h-5 w-32" /></TableCell>
@@ -118,7 +137,7 @@ export default function SessionsPage() {
                 </TableRow>
               ))
             )}
-            {!isLoading && sessions && sessions.length > 0 && sessions.map((session) => (
+            {!isLoading && !isUserLoading && sessions && sessions.length > 0 && sessions.map((session) => (
               <TableRow key={session.id}>
                 <TableCell className="font-medium whitespace-nowrap">{session.therapist}</TableCell>
                 <TableCell className="whitespace-nowrap">{session.type}</TableCell>
@@ -144,7 +163,7 @@ export default function SessionsPage() {
                 </TableCell>
               </TableRow>
             ))}
-             {!isLoading && (!sessions || sessions.length === 0) && (
+             {!isLoading && !isUserLoading && (!sessions || sessions.length === 0) && (
                 <TableRow>
                     <TableCell colSpan={5} className="h-48 text-center">
                         <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
@@ -163,7 +182,7 @@ export default function SessionsPage() {
                                     timestamp: new Date().toISOString(),
                                   }
                                 });
-                                updateUser({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+                                updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
                               }
                             } catch (e) {
                               console.error('Failed to track book action', e);

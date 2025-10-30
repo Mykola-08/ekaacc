@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Share2, Gift, Copy, Check, Mail, MessageCircle, Facebook, Twitter, Instagram, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -22,7 +22,7 @@ type Referral = {
 };
 
 export default function ReferralsPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [emailInput, setEmailInput] = useState('');

@@ -23,11 +23,11 @@ import {
   TrendingUp,
   Users
 } from 'lucide-react';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 
 export default function DonationSeekerPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   
   // Mock application status - in production, this comes from user data

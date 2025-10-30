@@ -1,5 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useData } from '@/context/unified-data-context';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
+import type { JournalEntry } from '@/lib/types';
 
 export interface JournalStats {
   totalEntries: number;
@@ -9,38 +11,37 @@ export interface JournalStats {
   weeklyStreak: number;
 }
 
-export function useJournalStats(userId?: string) {
-  const { journalEntries, currentUser, dataSource } = useData();
+export function useJournalStats() {
+  const { user } = useAuth();
+  const dataService = useAppStore((state) => state.dataService);
   const [stats, setStats] = useState<JournalStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
 
   useEffect(() => {
-    const calculateStats = async () => {
+    if (dataService && user?.uid) {
+      dataService.getJournalEntries(user.uid).then(entries => {
+        setJournalEntries(entries || []);
+      });
+    }
+  }, [dataService, user]);
+
+  useEffect(() => {
+    const calculateStats = () => {
       setLoading(true);
       try {
-        if (dataSource === 'firebase' && journalEntries.length > 0) {
-          // Calculate from real journal entries - all entries are for the current user
+        if (journalEntries.length > 0) {
           const userEntries = journalEntries;
 
           if (userEntries.length === 0) {
-            setStats(getMockStats());
+            setStats(getMockStats()); // Keep mock stats as a fallback
             setLoading(false);
             return;
           }
 
-          // Map mood strings to numbers for calculations
-          const moodMap: Record<string, number> = {
-            'Terrible': 1,
-            'Bad': 2,
-            'Okay': 3,
-            'Good': 4,
-            'Great': 5
-          };
-
           // Calculate average mood
           const moodsWithValues = userEntries
-            .filter(entry => entry.mood !== undefined)
-            .map(entry => moodMap[entry.mood] || 3);
+            .map(entry => entry.mood);
           
           const avgMood = moodsWithValues.length > 0
             ? moodsWithValues.reduce((sum, mood) => sum + mood, 0) / moodsWithValues.length
@@ -52,15 +53,15 @@ export function useJournalStats(userId?: string) {
           const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
           const recentMoods = userEntries
-            .filter(entry => new Date(entry.date) > sevenDaysAgo && entry.mood !== undefined)
-            .map(entry => moodMap[entry.mood] || 3);
+            .filter(entry => new Date(entry.date) > sevenDaysAgo)
+            .map(entry => entry.mood);
           
           const previousMoods = userEntries
             .filter(entry => {
               const date = new Date(entry.date);
-              return date > fourteenDaysAgo && date <= sevenDaysAgo && entry.mood !== undefined;
+              return date > fourteenDaysAgo && date <= sevenDaysAgo;
             })
-            .map(entry => moodMap[entry.mood] || 3);
+            .map(entry => entry.mood);
 
           const recentAvg = recentMoods.length > 0
             ? recentMoods.reduce((sum, mood) => sum + mood, 0) / recentMoods.length
@@ -74,59 +75,59 @@ export function useJournalStats(userId?: string) {
             recentAvg > previousAvg + 0.2 ? 'up' :
             recentAvg < previousAvg - 0.2 ? 'down' : 'stable';
 
-          // Extract top themes from activities
-          const allActivities: string[] = [];
-          userEntries.forEach(entry => {
-            if (entry.activities) {
-              allActivities.push(...entry.activities);
-            }
-          });
+          // Extract top themes from tags
+          const allTags: string[] = userEntries.flatMap(entry => entry.tags || []);
           
-          const activityCounts = allActivities.reduce((acc, activity) => {
-            acc[activity] = (acc[activity] || 0) + 1;
+          const tagCounts = allTags.reduce((acc, tag) => {
+            acc[tag] = (acc[tag] || 0) + 1;
             return acc;
           }, {} as Record<string, number>);
 
-          const topThemes = Object.entries(activityCounts)
+          const topThemes = Object.entries(tagCounts)
             .sort(([, a], [, b]) => b - a)
             .slice(0, 3)
-            .map(([activity]) => activity);
+            .map(([tag]) => tag);
 
           // Calculate writing streak
-          const sortedEntries = userEntries
+          const sortedEntryDates = userEntries
             .map(entry => new Date(entry.date))
             .sort((a, b) => b.getTime() - a.getTime());
+            
+          const uniqueDates = [...new Set(sortedEntryDates.map(d => d.toISOString().split('T')[0]))];
 
           let streak = 0;
-          let currentDate = new Date();
-          currentDate.setHours(0, 0, 0, 0);
-
-          for (const entryDate of sortedEntries) {
-            const date = new Date(entryDate);
-            date.setHours(0, 0, 0, 0);
-            
-            const diffDays = Math.floor((currentDate.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
-            
-            if (diffDays === streak) {
-              streak++;
-            } else if (diffDays > streak) {
-              break;
+          if (uniqueDates.length > 0) {
+            let currentDate = new Date(uniqueDates[0]);
+            if (
+              currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ||
+              currentDate.toISOString().split('T')[0] === new Date(Date.now() - 86400000).toISOString().split('T')[0]
+            ) {
+              streak = 1;
+              for (let i = 1; i < uniqueDates.length; i++) {
+                const prevDate = new Date(uniqueDates[i]);
+                const diff = (currentDate.getTime() - prevDate.getTime()) / (1000 * 3600 * 24);
+                if (diff === 1) {
+                  streak++;
+                  currentDate = prevDate;
+                } else {
+                  break;
+                }
+              }
             }
           }
 
           setStats({
             totalEntries: userEntries.length,
-            avgMood: Math.round(avgMood * 10) / 10,
+            avgMood,
             moodTrend,
-            topThemes: topThemes.length > 0 ? topThemes : ['Wellness', 'Growth', 'Reflection'],
+            topThemes,
             weeklyStreak: streak,
           });
         } else {
-          // Use mock data
           setStats(getMockStats());
         }
       } catch (error) {
-        console.error('Error calculating journal stats:', error);
+        console.error("Error calculating journal stats:", error);
         setStats(getMockStats());
       } finally {
         setLoading(false);
@@ -134,17 +135,17 @@ export function useJournalStats(userId?: string) {
     };
 
     calculateStats();
-  }, [journalEntries, userId, currentUser, dataSource]);
+  }, [journalEntries]);
 
   return { stats, loading };
 }
 
 function getMockStats(): JournalStats {
   return {
-    totalEntries: 24,
-    avgMood: 3.8,
+    totalEntries: 12,
+    avgMood: 4.2,
     moodTrend: 'up',
-    topThemes: ['Work Stress', 'Sleep Quality', 'Exercise'],
-    weeklyStreak: 7,
+    topThemes: ['Gratitude', 'Mindfulness', 'Work'],
+    weeklyStreak: 5,
   };
 }

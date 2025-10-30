@@ -12,6 +12,14 @@ const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
  * Payment Service Interface
  */
 export interface IPaymentService {
+  requestPayment(options: {
+    userId: string;
+    amount: number;
+    method: PaymentMethod;
+    description: string;
+  }): Promise<{ proof: string }>;
+
+  markAsPaid(requestId: string): Promise<void>;
   // Payment Requests
   createPaymentRequest(
     userId: string,
@@ -61,6 +69,36 @@ class MockPaymentService implements IPaymentService {
       MockPaymentService.instance = new MockPaymentService();
     }
     return MockPaymentService.instance;
+  }
+
+  async requestPayment(options: {
+    userId: string;
+    amount: number;
+    method: PaymentMethod;
+    description: string;
+  }): Promise<{ proof: string }> {
+    const proofText = `Mock proof for ${options.amount}€ via ${options.method}. Ref: MOCK${Date.now()}`;
+    await this.createPaymentRequest(
+      options.userId,
+      options.amount,
+      options.method,
+      options.description,
+      undefined,
+      proofText
+    );
+    return { proof: proofText };
+  }
+
+  async markAsPaid(requestId: string): Promise<void> {
+    const request = this.paymentRequests.get(requestId);
+    if (request) {
+      // In a real scenario, this would be an admin/therapist confirmation.
+      // Here we simulate the user confirming they have paid, which moves it to pending.
+      // The admin would then confirm it. For simplicity, we'll just log it.
+      console.log(`User marked request ${requestId} as paid. Awaiting admin confirmation.`);
+      // To make the UI reflect a change, we can just remove it from the pending list for the mock.
+      this.paymentRequests.delete(requestId);
+    }
   }
 
   private initializeMockData() {
@@ -256,6 +294,35 @@ class FirestorePaymentService implements IPaymentService {
     return FirestorePaymentService.instance;
   }
 
+  async requestPayment(options: {
+    userId: string;
+    amount: number;
+    method: PaymentMethod;
+    description: string;
+  }): Promise<{ proof: string }> {
+    const proofText = `Please make a payment of ${options.amount}€ to our ${options.method} account: EKA-ACCOUNT-DETAILS. Use reference: ${options.userId.substring(0, 8)}`;
+    await this.createPaymentRequest(
+      options.userId,
+      options.amount,
+      options.method,
+      options.description,
+      undefined,
+      proofText
+    );
+    return { proof: proofText };
+  }
+
+  async markAsPaid(requestId: string): Promise<void> {
+    const { getFirestore, doc, updateDoc, serverTimestamp } = await import('firebase/firestore');
+    const db = getFirestore();
+    const requestRef = doc(db, 'paymentRequests', requestId);
+    // This updates the status to 'user_confirmed' which an admin can then verify.
+    await updateDoc(requestRef, {
+      status: 'user_confirmed',
+      updatedAt: serverTimestamp(),
+    });
+  }
+
   async createPaymentRequest(
     userId: string,
     amount: number,
@@ -337,7 +404,7 @@ class FirestorePaymentService implements IPaymentService {
     const { getFirestore, collection, query, where, orderBy, getDocs } = await import('firebase/firestore');
     const db = getFirestore();
     const requestsRef = collection(db, 'paymentRequests');
-    const q = query(requestsRef, where('userId', '==', userId), orderBy('createdAt', 'desc'));
+    const q = query(requestsRef, where('userId', '==', userId), where('status', 'in', ['pending', 'user_confirmed']), orderBy('createdAt', 'desc'));
     
     const snapshot = await getDocs(q);
     return snapshot.docs.map(doc => ({
@@ -384,8 +451,8 @@ class FirestorePaymentService implements IPaymentService {
     }
 
     const currentData = requestSnap.data();
-    if (currentData.status !== 'pending') {
-      throw new Error('Can only confirm pending payment requests');
+    if (currentData.status !== 'pending' && currentData.status !== 'user_confirmed') {
+      throw new Error('Can only confirm pending or user-confirmed payment requests');
     }
 
     // Update request
@@ -433,8 +500,8 @@ class FirestorePaymentService implements IPaymentService {
     }
 
     const currentData = requestSnap.data();
-    if (currentData.status !== 'pending') {
-      throw new Error('Can only reject pending payment requests');
+    if (currentData.status !== 'pending' && currentData.status !== 'user_confirmed') {
+      throw new Error('Can only reject pending or user-confirmed payment requests');
     }
 
     await updateDoc(requestRef, {
@@ -473,8 +540,8 @@ class FirestorePaymentService implements IPaymentService {
       throw new Error('Unauthorized');
     }
 
-    if (currentData.status !== 'pending') {
-      throw new Error('Can only cancel pending payment requests');
+    if (currentData.status !== 'pending' && currentData.status !== 'user_confirmed') {
+      throw new Error('Can only cancel pending or user-confirmed payment requests');
     }
 
     await updateDoc(requestRef, {

@@ -20,11 +20,9 @@ import {
 } from "@/components/ui/table";
 import {
     ArrowUpRight,
-    Clock,
     Loader2,
     PlusCircle,
 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import {
     Dialog,
@@ -40,8 +38,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { User, Service, Session as AppSession } from "@/lib/types";
-import { Slider } from "@/components/ui/slider";
+import type { User, Service, Session as AppSession, UserRole } from "@/lib/types";
 import { Badge } from "@/components/ui/badge";
 import {
     Select,
@@ -54,11 +51,9 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import dynamic from "next/dynamic";
 
-import { AuthProvider, useAuth } from '@/context/auth-context';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import fxService from '@/lib/fx-service';
-import { mockAIAPI } from '@/lib/mock-bookings';
-import fxAuth from '@/lib/fx-auth';
 import { SessionAssessmentForm, SessionAssessmentData } from '@/components/eka/forms/session-assessment-form';
 import { useToast } from '@/hooks/use-toast';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -78,8 +73,6 @@ const ClientActivityTimeline = dynamic(
 );
 const AdminPanel = dynamic(() => import('@/components/eka/admin-panel').then((m) => m.AdminPanel), { ssr: false });
 
-const reportTags = ["on time", "late", "cooperative", "resistant", "new issue", "follow-up"];
-
 const mapBookingToSession = (booking: any): AppSession => {
     const serviceName = booking.appointment_segments?.[0]?.service_variation_data?.name || booking.serviceName || "Unknown Service";
     const therapistName = booking.therapistName || "EKA Therapist";
@@ -98,16 +91,25 @@ const mapBookingToSession = (booking: any): AppSession => {
 };
 
 function TherapistDashboardInner() {
-    // Local state (minimal to compile)
+    const router = useRouter();
+    const { toast } = useToast();
+    const { appUser } = useAuth();
+    const dataService = useAppStore((state) => state.dataService);
+
+    // Local state for current user to allow for role switching in test mode
+    const [currentUser, setCurrentUser] = useState<User | null>(appUser);
+    useEffect(() => {
+        setCurrentUser(appUser);
+    }, [appUser]);
+    
     const [activeTab, setActiveTab] = useState<string>("appointments");
     const [appointmentsView, setAppointmentsView] = useState<'list'|'calendar'>('list');
     const isTestMode = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
-    const { currentUser, setCurrentUser, switchRole } = useAuth();
     const isAdmin = currentUser?.role === 'Admin';
     const [isLoadingBookings, setIsLoadingBookings] = useState<boolean>(false);
     const [upcomingSessions, setUpcomingSessions] = useState<AppSession[]>([]);
     const [isLoadingUsers, setIsLoadingUsers] = useState<boolean>(false);
-    const [patients, setPatients] = useState<User[]>([] as any);
+    const [patients, setPatients] = useState<User[]>([]);
 
     const [selectedTagFilter, setSelectedTagFilter] = useState<string>("all");
     const [clientSearch, setClientSearch] = useState<string>("");
@@ -128,7 +130,7 @@ function TherapistDashboardInner() {
     const [isServiceDialogOpen, setIsServiceDialogOpen] = useState<boolean>(false);
     const [serviceForm, setServiceForm] = useState<Partial<Service>>({});
     const [selectedPatient, setSelectedPatient] = useState<User | null>(null);
-    const [managedUsers, setManagedUsers] = useState<User[]>([] as User[]);
+    const [managedUsers, setManagedUsers] = useState<User[]>([]);
     // Booking dialog state
     const [isBookingDialogOpen, setIsBookingDialogOpen] = useState<boolean>(false);
     const [bookingDateTime, setBookingDateTime] = useState<string>("");
@@ -146,7 +148,7 @@ function TherapistDashboardInner() {
     const [selectedPatientForReport, setSelectedPatientForReport] = useState<User | null>(null);
     const [isGeneratingReport, setIsGeneratingReport] = useState<boolean>(false);
     const [assessmentOpenForSession, setAssessmentOpenForSession] = useState<{ sessionId: string | null, sessionType: 'pre' | 'post' | null }>({ sessionId: null, sessionType: null });
-    const toast = useToast()?.toast;
+    
     const [sessionDetailOpen, setSessionDetailOpen] = useState<boolean>(false);
     const [sessionDetailFor, setSessionDetailFor] = useState<AppSession | null>(null);
     const [reassignDialogOpen, setReassignDialogOpen] = useState<boolean>(false);
@@ -154,164 +156,41 @@ function TherapistDashboardInner() {
     const [reassignTherapistId, setReassignTherapistId] = useState<string | null>(null);
     const [sessionAssessments, setSessionAssessments] = useState<any[]>([]);
     const [sessionTransactions, setSessionTransactions] = useState<any[]>([]);
+    const [clientBalance, setClientBalance] = useState<number | null>(null);
+    const [clientTransactions, setClientTransactions] = useState<any[]>([]);
     const [clientBalanceInfo, setClientBalanceInfo] = useState<{ balance?: number, transactions?: any[] } | null>(null);
+    const [adjustAmount, setAdjustAmount] = useState<number>(0);
+    const [adjustNote, setAdjustNote] = useState<string>('');
     const [adjustingAmount, setAdjustingAmount] = useState<number>(0);
     const [adjustingNoteLocal, setAdjustingNoteLocal] = useState<string>('');
     const [reportsFromData, setReportsFromData] = useState<any[]>([]);
     const [isSavingNotes, setIsSavingNotes] = useState<boolean>(false);
 
     const openSessionDetail = async (s: AppSession) => {
-        setSessionDetailFor(s);
-        setSessionDetailOpen(true);
-            // load assessments
-            try {
-                const assessments = await fxService.getAssessmentsForSession(s.id);
-                setSessionAssessments(assessments);
-            } catch (e) {
-                setSessionAssessments([]);
+        // For now just navigate to the sessions tab and scroll to the session
+        setActiveTab('sessions');
+        setTimeout(() => {
+            const el = document.getElementById(s.id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-            // load transactions for patient if userId exists
-            if (s.userId) {
-                try {
-                    const billing = await fxService.getBalanceForClient(s.userId);
-                    setSessionTransactions(billing.transactions || []);
-                } catch (e) {
-                    setSessionTransactions([]);
-                }
-            }
-            // load user list to map note author ids to friendly names
-            try {
-                const users = await fxService.getUsers();
-                const map: Record<string,string> = {};
-                (users || []).forEach((u:any) => { map[u.id] = u.displayName || u.name || u.email || u.id; });
-                setSessionAssessments(prev => (prev || []).map(a => ({ ...a, authorName: a.authorName || a.authorId ? map[a.authorId] : (a.data?.authorId ? map[a.data.authorId] : undefined) })));
-            } catch (e) {
-                // ignore mapping failure
-            }
-            // load templates for quick insert
-            try { await loadTemplates(); } catch (e) { /* ignore */ }
+        }, 100);
     };
 
-    // Start session only if a pre-session assessment exists
-    const startSession = async (s: AppSession) => {
-        // Only Therapists may start sessions in demo mode
-        if (currentUser?.role !== 'Therapist') {
-            toast?.({ variant: 'destructive', title: 'Unauthorized', description: 'Only therapists may start sessions.' });
-            return;
-        }
-        try {
-            const assessments = await fxService.getAssessmentsForSession(s.id);
-            const hasPre = assessments.some((a: any) => a.data?.sessionType === 'pre');
-            if (!hasPre) {
-                toast?.({ variant: 'destructive', title: 'Pre-session form required', description: 'Please complete the pre-session assessment before starting.' });
-                return;
-            }
-            openSessionNotes(s.id);
-        } catch (e) {
-            console.error('Error checking assessments', e);
-            openSessionNotes(s.id);
-        }
-    };
-
-    const filteredPatients = useMemo(() => {
-        if (!patients) return [] as User[];
-        return patients.filter((p: any) => {
-            if (selectedTagFilter && selectedTagFilter !== "all") {
-                return (clientTags[p.id] || []).includes(selectedTagFilter);
-            }
-            if (clientSearch) {
-                return p.name?.toLowerCase().includes(clientSearch.toLowerCase()) || p.email?.toLowerCase().includes(clientSearch.toLowerCase());
-            }
-            return true;
-        });
-    }, [patients, selectedTagFilter, clientSearch, clientTags]);
-
-    useEffect(() => {
-            // Load initial data from unified data context
-            setIsLoadingBookings(true);
-            setIsLoadingUsers(true);
-            (async () => {
-                                // Use unified data context (useData) to fetch lists if available
-                try {
-                    // eslint-disable-next-line react-hooks/rules-of-hooks
-                    const data = useData();
-                    // sessions, services, users come from data context
-                    setUpcomingSessions((data.sessions || []) as AppSession[]);
-                    setPatients((data.allUsers || []) as User[]);
-                    setManagedUsers((data.allUsers || []) as User[]);
-                    setClientTags({ ...(data.allUsers?.[0] ? { [data.allUsers[0].id]: ['VIP'] } : {}) });
-                    setServices((data.services || []) as Service[]);
-                    setBookingServiceId((data.services && data.services[0]?.id) ?? null);
-                    // reports may be provided by data context
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    setReportsFromData(data.reports || []);
-                } catch (e) {
-                    // fallback for demo: leave empty (other parts of UI may provide mock fallbacks)
-                    console.warn('Unified data not available in this context, using demo fallbacks');
-                } finally {
-                    setIsLoadingBookings(false);
-                    setIsLoadingUsers(false);
-                }
-            })();
-    }, []);
-
-    // Update indeterminate state for select-all checkbox when selection changes
-    useEffect(() => {
-        try {
-            const total = filteredPatients.length;
-            const selectedCount = Object.keys(selectedClients).filter(k => selectedClients[k] && filteredPatients.find(p=>p.id===k)).length;
-            if (selectAllRef.current) {
-                selectAllRef.current.indeterminate = selectedCount > 0 && selectedCount < total;
-            }
-        } catch (e) {
-            // ignore
-        }
-    }, [filteredPatients, selectedClients]);
-
-    // Test-mode role switcher via auth context
-    const switchRoleForTest = (role: 'Patient' | 'Therapist' | 'Admin') => {
-        switchRole(role);
-    };
-    const [clientBalance, setClientBalance] = useState<number | null>(null);
-    const [clientTransactions, setClientTransactions] = useState<any[]>([]);
-    const [adjustAmount, setAdjustAmount] = useState<number>(0);
-    const [adjustNote, setAdjustNote] = useState<string>('');
-
-    // Service handlers
-    const handleOpenServiceDialog = (svc?: Service | null) => {
-        setServiceForm(svc ? { ...svc } : {});
-        setIsServiceDialogOpen(true);
-    };
-
-    const handleServiceFormChange = (field: keyof Service, value: any) => {
-        setServiceForm((s) => ({ ...(s as any), [field]: value }));
-    };
-
-    const handleSaveService = () => {
-        // basic mock save
-        if (serviceForm.id) {
-            setServices((prev) => prev.map(s => s.id === serviceForm.id ? { ...(s as any), ...(serviceForm as Service) } : s));
-        } else {
-            const newSvc: Service = { ...(serviceForm as any) as Service, id: 'svc-' + Math.random().toString(36).slice(2) };
-            setServices((prev) => [newSvc, ...prev]);
-        }
-        setIsServiceDialogOpen(false);
-    };
-
-    const handleDeleteService = (id?: string) => {
-        if (!id) return;
-        setServices((prev) => prev.filter(s => s.id !== id));
+    // Therapy session start (Therapist)
+    const startSession = async (session: AppSession) => {
+        if (currentUser?.role !== 'Therapist') return;
+        // For now just navigate to the session detail
+        openSessionDetail(session);
     };
 
     // Booking handlers
-    const router = useRouter();
 
     const openBookingDialog = () => {
         // Navigate to the booking page with sensible prefilled query params for convenience
         const params = new URLSearchParams();
-        if (currentUser?.role === 'Patient') params.set('patient', currentUser.id);
-        if (currentUser?.role === 'Therapist') params.set('therapist', currentUser.id);
+        if (currentUser?.role === 'Patient' && currentUser.id) params.set('patient', currentUser.id);
+        if (currentUser?.role === 'Therapist' && currentUser.id) params.set('therapist', currentUser.id);
         if (services && services[0]?.id) params.set('service', services[0].id);
         // include any currently selected booking date/time if available
         if (bookingDateTime) params.set('datetime', bookingDateTime);
@@ -349,6 +228,7 @@ function TherapistDashboardInner() {
         const res = await fxService.getBalanceForClient(client.id);
         setClientBalance(res.balance);
         setClientTransactions(res.transactions);
+        setClientBalanceInfo(res);
     };
 
     useEffect(() => {
@@ -357,22 +237,32 @@ function TherapistDashboardInner() {
         } else {
             setClientBalance(null);
             setClientTransactions([]);
+            setClientBalanceInfo(null);
         }
     }, [selectedPatient]);
 
     const applyAdjustment = async () => {
         if (!selectedPatient) return;
-    const tx = await fxService.applyAdjustment(selectedPatient.id, adjustAmount, adjustNote || undefined);
+        const tx = await fxService.applyAdjustment(selectedPatient.id, adjustAmount, adjustNote || undefined);
         setClientTransactions((prev) => [tx, ...prev]);
         setClientBalance((b) => (b ?? 0) + tx.amountEUR);
+        setClientBalanceInfo(prev => ({ balance: (prev?.balance ?? 0) + tx.amountEUR, transactions: [tx, ...(prev?.transactions || [])] }));
         setAdjustAmount(0);
         setAdjustNote('');
     };
 
+    const filteredPatients = useMemo(() => {
+        return (patients || []).filter(p => {
+            const searchMatch = !clientSearch || (p.displayName || p.name || '').toLowerCase().includes(clientSearch.toLowerCase()) || (p.email || '').toLowerCase().includes(clientSearch.toLowerCase());
+            const tagMatch = selectedTagFilter === 'all' || (clientTags[p.id] || []).includes(selectedTagFilter);
+            return searchMatch && tagMatch;
+        });
+    }, [patients, clientSearch, selectedTagFilter, clientTags]);
+
     const exportSessionsCsv = () => {
         // Export sessions for filtered patients when in Clients tab, otherwise export all upcoming sessions
         const patientIds = new Set(filteredPatients.map((p:any)=>p.id));
-        const rows = upcomingSessions.filter(s => patientIds.size === 0 || patientIds.has(s.userId)).map(s => ({ id: s.id, date: s.date, time: s.time, type: s.type, therapist: s.therapist }));
+        const rows = upcomingSessions.filter(s => patientIds.size === 0 || (s.userId && patientIds.has(s.userId))).map(s => ({ id: s.id, date: s.date, time: s.time, type: s.type, therapist: s.therapist }));
         const header = Object.keys(rows[0] || {}).join(',') + '\n';
         const csv = header + rows.map(r => Object.values(r).map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -388,6 +278,13 @@ function TherapistDashboardInner() {
     const handleAddClientTag = (id: string, tag: string) => setClientTags((s) => ({ ...s, [id]: Array.from(new Set([...(s[id] || []), tag])) }));
     const handleRemoveClientTag = (id: string, tag: string) => setClientTags((s) => ({ ...s, [id]: (s[id] || []).filter((t) => t !== tag) }));
 
+    const switchRoleForTest = (role: UserRole) => {
+        if (currentUser) {
+            setCurrentUser({ ...currentUser, role });
+            toast?.({ title: 'Role Switched (Test)', description: `You are now acting as a ${role}.` });
+        }
+    };
+
     // Persist tag changes when possible
     const persistClientTags = async (userId: string, tags: string[]) => {
         try {
@@ -402,6 +299,43 @@ function TherapistDashboardInner() {
         setNotesSessionId(sessionId ?? null);
         setSessionNotes(initial);
         setIsSessionNotesOpen(true);
+    };
+
+    const handleOpenServiceDialog = (service: Service | null) => {
+        setServiceForm(service || { active: true });
+        setIsServiceDialogOpen(true);
+    };
+
+    const handleServiceFormChange = (field: keyof Service, value: any) => {
+        setServiceForm(prev => ({ ...prev, [field]: value }));
+    };
+
+    const handleSaveService = async () => {
+        if (!serviceForm?.name) return;
+        try {
+            // This is a mock implementation. In a real app, you'd call an API.
+            if (serviceForm.id) {
+                setServices(prev => prev.map(s => s.id === serviceForm.id ? { ...s, ...serviceForm } as Service : s));
+            } else {
+                const newService = { ...serviceForm, id: `svc_${Date.now()}` } as Service;
+                setServices(prev => [...prev, newService]);
+            }
+            toast?.({ title: 'Service saved' });
+            setIsServiceDialogOpen(false);
+        } catch (e) {
+            toast?.({ variant: 'destructive', title: 'Save failed' });
+        }
+    };
+
+    const handleDeleteService = async (serviceId: string) => {
+        if (!confirm('Are you sure you want to delete this service?')) return;
+        try {
+            // Mock implementation
+            setServices(prev => prev.filter(s => s.id !== serviceId));
+            toast?.({ title: 'Service deleted' });
+        } catch (e) {
+            toast?.({ variant: 'destructive', title: 'Delete failed' });
+        }
     };
 
     const openPreAssessmentForSession = (sessionId: string) => {
@@ -464,7 +398,9 @@ function TherapistDashboardInner() {
                 }
                     // show success for notes save
                         toast?.({ title: 'Notes saved', description: 'Session notes were saved successfully.' });
-                        try { await fxService.createNotification({ title: 'New session note', body: `Notes saved for session ${targetSessionId}`, type: 'session' }); } catch (e) { /* ignore */ }
+                        if (currentUser?.id) {
+                            try { await fxService.createNotification({ userId: currentUser.id, title: 'New session note', body: `Notes saved for session ${targetSessionId}`, type: 'session' }); } catch (e) { /* ignore */ }
+                        }
             } else {
                 // no session id known; save as a generic note? For now just log
                 console.warn('No session id available to attach notes to. Saved locally only.');
@@ -477,36 +413,6 @@ function TherapistDashboardInner() {
             setNotesSessionId(null);
             setSessionNotes('');
         }
-    };
-
-    // Goal & Journal AI section state
-    const [roadmapText, setRoadmapText] = useState<string | null>(null);
-    const [journalText, setJournalText] = useState<string | null>(null);
-    const [loadingRoadmap, setLoadingRoadmap] = useState(false);
-    const [loadingJournal, setLoadingJournal] = useState(false);
-
-    const generateRoadmap = async () => {
-        setLoadingRoadmap(true);
-        try {
-            const res = await fxService.generateAIReport(currentUser?.id || 'user-unknown', 'Summarize goals and propose roadmap');
-            const ai = Array.isArray(res) ? (res[1]?.content || res[1]) : (res as any)?.content || res;
-            setRoadmapText(typeof ai === 'string' ? ai : JSON.stringify(ai));
-            toast?.({ title: 'Roadmap generated' });
-        } catch (e) {
-            toast?.({ variant: 'destructive', title: 'AI unavailable' });
-        } finally { setLoadingRoadmap(false); }
-    };
-
-    const generateJournal = async () => {
-        setLoadingJournal(true);
-        try {
-            const res = await fxService.generateAIReport(currentUser?.id || 'user-unknown', 'Summarize recent journal entries');
-            const ai = Array.isArray(res) ? (res[1]?.content || res[1]) : (res as any)?.content || res;
-            setJournalText(typeof ai === 'string' ? ai : JSON.stringify(ai));
-            toast?.({ title: 'Journal summary generated' });
-        } catch (e) {
-            toast?.({ variant: 'destructive', title: 'AI unavailable' });
-        } finally { setLoadingJournal(false); }
     };
 
     const [templatesList, setTemplatesList] = useState<any[]>([]);
@@ -662,20 +568,22 @@ function TherapistDashboardInner() {
                             {appointmentsView === 'calendar' ? (
                                 <div className="h-56">
                                     <BookingCalendar value={bookingDateTime || null} onChange={(iso)=>{ 
-                                        setBookingDateTime(iso);
-                                        // attempt to find a session that matches the selected hour
-                                        const selected = upcomingSessions.find(s => {
-                                            try {
-                                                const slot = new Date(iso).getTime();
-                                                const sd = new Date(s.date).getTime();
-                                                // consider a match if within the same hour
-                                                return Math.abs(slot - sd) < (1000 * 60 * 60);
-                                            } catch (e) { return false; }
-                                        });
-                                        if (selected) {
-                                            openSessionDetail(selected);
-                                        } else {
-                                            setIsBookingDialogOpen(true);
+                                        if (iso) {
+                                            setBookingDateTime(iso);
+                                            // attempt to find a session that matches the selected hour
+                                            const selected = upcomingSessions.find(s => {
+                                                try {
+                                                    const slot = new Date(iso).getTime();
+                                                    const sd = new Date(s.date).getTime();
+                                                    // consider a match if within the same hour
+                                                    return Math.abs(slot - sd) < (1000 * 60 * 60);
+                                                } catch (e) { return false; }
+                                            });
+                                            if (selected) {
+                                                openSessionDetail(selected);
+                                            } else {
+                                                setIsBookingDialogOpen(true);
+                                            }
                                         }
                                     }} />
                                 </div>
@@ -705,7 +613,7 @@ function TherapistDashboardInner() {
 
                     {/* Goal Roadmap & Journal placeholders */}
                     <div className="grid gap-4 lg:grid-cols-2">
-                        <GoalJournalSection userId={currentUser?.id} />
+                        <GoalJournalSection userId={currentUser?.id} toast={toast} />
                     </div>
                     <Card>
                         <CardHeader>
@@ -772,13 +680,22 @@ function TherapistDashboardInner() {
                                 </div>
 
                                 <div className="flex items-center gap-2">
-                                    <Select value={currentUser?.id || ''} onValueChange={(v:any)=>{ const u = (patients||[]).concat(managedUsers||[]).find((x:any)=>x.id===v); if(u){ setCurrentUser(u as User); } }}>
-                                        <SelectTrigger className="w-56"><SelectValue placeholder="Select user to edit" /></SelectTrigger>
+                                    <Select value={currentUser?.id || ''} onValueChange={(v:any)=>{ 
+                                        const u = (patients||[]).concat(managedUsers||[]).find((x:any)=>x.id===v); 
+                                        if(u && u.role){ 
+                                            switchRoleForTest(u.role as any);
+                                        } 
+                                    }}>
+                                        <SelectTrigger className="w-56"><SelectValue placeholder="Select user to act as" /></SelectTrigger>
                                         <SelectContent>
                                             {((patients||[]).concat(managedUsers||[])).map((u:any)=> <SelectItem key={u.id} value={u.id}>{u.displayName || u.email}</SelectItem>)}
                                         </SelectContent>
                                     </Select>
-                                    <Select value={currentUser?.role || 'Patient'} onValueChange={(v:any)=>{ if(currentUser){ const updated = {...currentUser, role:v}; setCurrentUser(updated as User); } }}>
+                                    <Select value={currentUser?.role || 'Patient'} onValueChange={(v:any)=>{ 
+                                        if(currentUser){ 
+                                            switchRoleForTest(v as any);
+                                        } 
+                                    }}>
                                         <SelectTrigger className="w-40"><SelectValue placeholder="Role" /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="Patient">Patient</SelectItem>
@@ -985,14 +902,13 @@ function TherapistDashboardInner() {
                                                 <div className="text-sm text-muted-foreground">{new Date(s.date).toLocaleString()}</div>
                                             </div>
                                             <div className="flex gap-2">
-                                                {isAdmin && <Button size="sm" variant="ghost" onClick={async()=>{ try{ await fxService.cancelBooking(s.id); setUpcomingSessions(prev=>prev.filter(x=>x.id!==s.id)); toast?.({ title: 'Cancelled', description: 'Session cancelled.'}); }catch(e){ toast?.({ variant:'destructive', title:'Cancel failed' }); } }}>Cancel</Button>}
-                                                {isAdmin && <Button size="sm" onClick={async()=>{ setReassignTargetBooking(s.id); setReassignDialogOpen(true); }}>Reassign</Button>}
-                                                <Button size="sm" onClick={()=> openSessionDetail(s)}>Details</Button>
+                                                {isAdmin && <Button size="sm" variant="ghost" onClick={async()=>{ try{ await fxService.cancelBooking(s.id); setUpcomingSessions(prev=>prev.filter(x=>x.id!==s.id)); toast?.({ title: 'Cancelled', description: 'Booking cancelled successfully.' }); }catch(e){ toast?.({ variant: 'destructive', title: 'Cancel failed' }); } }}>Cancel</Button>}
+                                                <Button size="sm" variant="ghost" onClick={() => openSessionDetail(s)}>Details</Button>
                                             </div>
                                         </div>
                                     ))
                                 ) : (
-                                    <div className="p-6 text-center text-sm text-muted-foreground">No upcoming sessions. Use the Book New Session button to create one.</div>
+                                    <div className="p-6 text-center text-sm text-muted-foreground">No sessions found. Try adjusting your search or filters.</div>
                                 )}
                             </div>
                         </CardContent>
@@ -1000,23 +916,16 @@ function TherapistDashboardInner() {
                 </TabsContent>
 
                 <TabsContent value="billing" className="space-y-6">
-                    {selectedPatient ? (
-                        <div className="space-y-4">
-                            <Button variant="outline" size="sm" onClick={() => setSelectedPatient(null)}>← Back to Client List</Button>
-                            <div className="grid gap-6 lg:grid-cols-2">
-                                <div>
-                                    <ClientBilling client={selectedPatient} isAdmin={isAdmin} />
-                                </div>
-                                <div>
-                                    <ClientActivityTimeline client={selectedPatient} />
-                                </div>
-                            </div>
-                        </div>
+                    {isAdmin && selectedPatient ? (
+                        <ClientBilling
+                            client={selectedPatient}
+                            isAdmin={isAdmin}
+                        />
                     ) : (
                         <Card>
                             <CardHeader>
                                 <CardTitle>Client Billing & Accounts</CardTitle>
-                                <CardDescription>Manage client balances, transactions, and payment packages.</CardDescription>
+                                <CardDescription>Select a client to view their billing details.</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <Table>
@@ -1196,7 +1105,7 @@ function TherapistDashboardInner() {
 
                 <TabsContent value="settings" className="space-y-6">
                     <Card>
-                        <CardHeader className="flex items-center justify-between">
+                        <CardHeader className="flex flex-row items-center justify-between">
                             <div>
                                 <CardTitle>Settings</CardTitle>
                                 <CardDescription>Personalize your dashboard and notifications.</CardDescription>
@@ -1259,7 +1168,11 @@ function TherapistDashboardInner() {
                                                             <TableCell className="text-right">
                                                                 <Button size="sm" variant="outline" onClick={() => handleOpenServiceDialog(svc)}>Edit</Button>
                                                                 {isAdmin && (
-                                                                    <Button size="sm" variant="ghost" onClick={() => handleDeleteService(svc.id)}>Delete</Button>
+                                                                    <Button size="sm" variant="ghost" onClick={() => {
+                                                                        if (svc.id) {
+                                                                            handleDeleteService(svc.id)
+                                                                        }
+                                                                    }}>Delete</Button>
                                                                 )}
                                                             </TableCell>
                                                         </TableRow>
@@ -1295,9 +1208,8 @@ function TherapistDashboardInner() {
                                                                         setManagedUsers(prev => prev.map(x => x.id === u.id ? updated : x));
                                                                         // if we're editing the current user, update context
                                                                         if (currentUser?.id === u.id) {
-                                                                            setCurrentUser(updated as User);
+                                                                            switchRoleForTest(v as any);
                                                                         }
-                                                                        try { (fxAuth as any).currentUser = updated; } catch (e) { /* ignore if not writable */ }
                                                                     }}>
                                                                         <SelectTrigger className="w-40"><SelectValue placeholder="Role" /></SelectTrigger>
                                                                         <SelectContent>
@@ -1435,7 +1347,7 @@ function TherapistDashboardInner() {
 
             {/* Session Notes Dialog */}
             <Dialog open={isSessionNotesOpen} onOpenChange={setIsSessionNotesOpen}>
-                <DialogContent>
+                               <DialogContent>
                     <DialogHeader>
                         <DialogTitle>Session Notes</DialogTitle>
                         <DialogDescription>Add or edit notes for the session.</DialogDescription>
@@ -1501,7 +1413,7 @@ function TherapistDashboardInner() {
                         <div>
                             <Label>Date & Time</Label>
                             {/* Booking calendar with available hourly slots */}
-                            <BookingCalendar value={bookingDateTime} onChange={(isoLocal: string) => setBookingDateTime(isoLocal)} />
+                            <BookingCalendar value={bookingDateTime} onChange={(isoLocal: string | null) => { if(isoLocal) setBookingDateTime(isoLocal) }} />
                         </div>
                         <div>
                             <Label>Notes</Label>
@@ -1595,7 +1507,7 @@ function TherapistDashboardInner() {
                         </Card>
 
                         <Card>
-                            <CardHeader>
+                            <CardHeader className="flex flex-row items-center justify-between">
                                 <CardTitle>Session Notes</CardTitle>
                                 <div className="ml-auto flex items-center gap-2">
                                     <Button size="sm" onClick={()=> saveTemplateFromNotes()}>Save as Template</Button>
@@ -1694,7 +1606,7 @@ function TherapistDashboardInner() {
                             </CardContent>
                         </Card>
                     </div>
-                    <DialogFooter className="flex items-center justify-between">
+                    <DialogFooter className="flex items-center justify-between pt-4">
                         <div>
                             {(['Therapist','Admin'].includes(currentUser?.role || '')) && sessionDetailFor?.userId && (
                                 <Button variant="destructive" onClick={async ()=>{
@@ -1798,12 +1710,11 @@ function TherapistDashboardInner() {
     );
 }
 
-function GoalJournalSection({ userId }: { userId?: string | null }) {
+function GoalJournalSection({ userId, toast }: { userId?: string | null, toast: any }) {
     const [roadmapText, setRoadmapText] = useState<string | null>(null);
     const [journalText, setJournalText] = useState<string | null>(null);
     const [loadingRoadmap, setLoadingRoadmap] = useState(false);
     const [loadingJournal, setLoadingJournal] = useState(false);
-    const toast = useToast()?.toast;
 
     const generateRoadmap = async () => {
         setLoadingRoadmap(true);
@@ -1866,10 +1777,18 @@ function GoalJournalSection({ userId }: { userId?: string | null }) {
 }
 
 export default function TherapistDashboardPage() {
+    const { user, appUser, loading } = useAuth();
+
+    if (loading) {
+        return <div className="flex items-center justify-center h-screen"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+    }
+    
+    if (!user || !appUser) {
+        return <div className="text-center mt-10">Please log in to view the dashboard.</div>;
+    }
+
     return (
-        <AuthProvider>
-            <TherapistDashboardInner />
-        </AuthProvider>
+        <TherapistDashboardInner />
     );
 }
-    
+

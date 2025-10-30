@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { AITherapyRecommendations } from '@/components/eka/ai-therapy-recommendations';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
-import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Lightbulb, TrendingUp, TrendingDown, Activity } from 'lucide-react';
-import { useData } from '@/context/unified-data-context';
-import { PersonalizationEngine } from '@/lib/personalization-engine';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
+import { personalizationEngine } from '@/firebase/personalizationEngine';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { User } from '@/lib/types';
 
 // Define types for the analysis data
 type Trend = {
@@ -37,27 +39,61 @@ export default function AIInsightsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
-  const { currentUser, updateUser } = useData();
+  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const dataService = useAppStore((state) => state.dataService);
+
+  const updateUser = async (data: Partial<User>) => {
+    if (dataService && currentUser?.id) {
+      await dataService.updateUser(currentUser.id, data);
+      await refreshAppUser();
+    }
+  };
 
   // Track page visit for personalization
   useEffect(() => {
     if (currentUser) {
-      const updates = PersonalizationEngine.trackActivity(currentUser, {
+      const updates = personalizationEngine.trackActivity(currentUser, {
         type: 'page-visit',
         data: { page: '/ai-insights' }
       });
       updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
     }
-  }, [currentUser, updateUser]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!dataService) return;
       setIsLoading(true);
       setError(null);
       try {
         // This service method will be created next
-        const result = await fxService.getAIAnalysis();
-        setAnalysis(result);
+        // For now, using a mock response
+        const result = await dataService.getAIRecommendations(); // This is a placeholder
+        
+        // Mock analysis generation
+        const mockAnalysis: AnalysisResult = {
+          keyTrends: [
+            { title: 'Mood', value: 'Improving', change: 15, type: 'improvement' },
+            { title: 'Pain Level', value: 'Decreasing', change: -10, type: 'improvement' },
+            { title: 'Activity', value: 'Consistent', change: 2, type: 'neutral' },
+          ],
+          moodChart: [
+            { name: 'Week 1', value: 3.2 },
+            { name: 'Week 2', value: 3.8 },
+            { name: 'Week 3', value: 4.1 },
+            { name: 'This Week', value: 4.5 },
+          ],
+          painChart: [
+            { name: 'Week 1', value: 7 },
+            { name: 'Week 2', value: 6 },
+            { name: 'Week 3', value: 5 },
+            { name: 'This Week', value: 4 },
+          ],
+          recommendations: result,
+        };
+        setAnalysis(mockAnalysis);
+
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred.';
         setError(errorMessage);
@@ -71,7 +107,7 @@ export default function AIInsightsPage() {
       }
     };
     fetchData();
-  }, []);
+  }, [dataService, toast]);
 
   const renderTrendCard = (trend: Trend) => {
     const TrendIcon = trend.type === 'improvement' ? TrendingUp : TrendingDown;
@@ -94,7 +130,27 @@ export default function AIInsightsPage() {
   };
   
   if (isLoading) {
-      return <div>Loading insights...</div>
+    return (
+      <div className="space-y-8">
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-6 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
+        </div>
+        <div className="grid gap-4 md:grid-cols-3">
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-32 w-full" />
+        </div>
+        <div className="grid gap-8 md:grid-cols-2">
+          <Skeleton className="h-64 w-full" />
+          <Skeleton className="h-64 w-full" />
+        </div>
+        <Skeleton className="h-48 w-full" />
+      </div>
+    );
   }
   
   if (error) {

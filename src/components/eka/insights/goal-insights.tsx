@@ -6,7 +6,9 @@ import { Progress } from '@/components/ui/progress';
 import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { Target, TrendingUp } from 'lucide-react';
 import { useFeatureData } from '@/hooks/use-feature-data';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
+import { useEffect } from 'react';
 import type { Session, StatCard as StatCardType, User } from '@/lib/types';
 
 type GoalInsightsData = {
@@ -125,17 +127,26 @@ function buildGoalInsights(user: User, sessions: Session[]): GoalInsightsData {
   };
 }
 
-export function GoalInsights({ source = 'mock' }: { source?: 'mock' | 'firebase' }) {
-  const { currentUser, sessions } = useData();
+export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' }) {
+  const { appUser: currentUser } = useAuth();
+  const { dataService, initDataService, dataSource } = useAppStore();
+
+  // Determine the source, defaulting to the store's data source
+  const source = initialSource || dataSource;
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
 
   const waitingForUser = source === 'firebase' && !currentUser;
 
   const fetchGoalDataFirebase = useCallback(async () => {
-    if (!currentUser) {
-      throw new Error('User context unavailable');
+    if (!currentUser || !dataService) {
+      throw new Error('User context or data service unavailable');
     }
+    const sessions = await dataService.getSessions(currentUser.id);
     return buildGoalInsights(currentUser, sessions);
-  }, [currentUser, sessions]);
+  }, [currentUser, dataService]);
 
   const { data, loading, error } = useFeatureData(
     mockGoalData,

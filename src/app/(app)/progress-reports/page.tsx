@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp, Loader2 } from 'lucide-react';
@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button';
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 // AI assistant removed from progress reports page
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import type { Report } from '@/lib/types';
@@ -77,11 +78,34 @@ function toDate(timestamp: string | number | Date | { toDate?: () => Date }) {
 }
 
 export default function ProgressReportsPage() {
-  const { currentUser, reports: mockReports } = useData();
+  const { appUser: currentUser } = useAuth();
+  const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
-  const reports = mockReports;
-  const isLoadingReports = false;
+  const [reports, setReports] = useState<Report[]>([]);
+  const [isLoadingReports, setIsLoadingReports] = useState(true);
+
+  useEffect(() => {
+    initDataService();
+  }, [initDataService]);
+
+  useEffect(() => {
+    if (dataService) {
+      setIsLoadingReports(true);
+      dataService.getReports().then(fetchedReports => {
+        setReports(fetchedReports || []);
+        setIsLoadingReports(false);
+      }).catch(error => {
+        console.error("Failed to fetch reports", error);
+        setIsLoadingReports(false);
+        toast({
+          title: "Error fetching reports",
+          description: "Could not load your progress reports. Please try again later.",
+          variant: "destructive",
+        });
+      });
+    }
+  }, [dataService, toast]);
 
   const painReduction = ((progressData.painReduction.baseline - progressData.painReduction.current) / progressData.painReduction.baseline) * 100;
   const mobilityImprovement = ((progressData.mobility.current - progressData.mobility.baseline) / (progressData.mobility.target - progressData.mobility.baseline)) * 100;

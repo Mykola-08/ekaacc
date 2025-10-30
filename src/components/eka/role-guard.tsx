@@ -1,6 +1,6 @@
 "use client";
 
-import { useData } from "@/context/unified-data-context";
+import { useAuth } from "@/context/auth-context";
 import { ReactNode, useEffect, useMemo } from "react";
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +25,7 @@ function parseRolesFromUser(currentUser: any): string[] {
  * and compares against allowedRoles. Will only redirect after loading finishes.
  */
 export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuardProps) {
-  const { currentUser, isLoading } = useData();
+  const { appUser: currentUser, loading } = useAuth();
   const router = useRouter();
 
   const effectiveRoles = useMemo(() => {
@@ -46,13 +46,13 @@ export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuard
 
   useEffect(() => {
     // Don't redirect while data is loading (prevents flash/incorrect redirect)
-    if (isLoading) return;
+    if (loading) return;
     if (!allowed) {
       try { router.replace('/'); } catch (e) { /* ignore in non-router contexts */ }
     }
-  }, [allowed, isLoading, router]);
+  }, [allowed, loading, router]);
 
-  if (isLoading) return <>{fallback}</>;
+  if (loading) return <>{fallback}</>;
   if (!allowed) return <>{fallback}</>;
 
   return <>{children}</>;
@@ -62,7 +62,7 @@ export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuard
  * Hook for checking if current user has a specific role
  */
 export function useHasRole(role: 'Patient' | 'Therapist' | 'Admin'): boolean {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const roles = parseRolesFromUser(currentUser);
   return roles.includes(role);
 }
@@ -85,7 +85,7 @@ export function useIsTherapist(): boolean {
  * Hook for checking if current user is admin or therapist
  */
 export function useIsStaff(): boolean {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const roles = parseRolesFromUser(currentUser);
   return roles.includes('Admin') || roles.includes('Therapist');
 }

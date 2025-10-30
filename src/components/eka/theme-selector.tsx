@@ -8,7 +8,7 @@ import { Check, Lock, Palette, Sparkles, Timer } from 'lucide-react';
 import { getThemeService } from '@/services/theme-service';
 import type { IThemeService } from '@/services/theme-service';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { cn } from '@/lib/utils';
 import type { Theme } from '@/lib/subscription-types';
 
@@ -18,7 +18,7 @@ interface ThemeSelectorProps {
 }
 
 export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { hasLoyalty, hasVip } = useActiveSubscriptions(currentUser?.id);
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);

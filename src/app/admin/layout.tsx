@@ -1,6 +1,5 @@
 'use client';
 
-import { UnifiedDataProvider } from '@/context/unified-data-context';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -23,8 +22,7 @@ export default function AdminLayout({
   ];
 
   return (
-    <UnifiedDataProvider>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
         {/* Top Admin Header */}
         <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40">
           <div className="container mx-auto px-4 py-4">
@@ -86,6 +84,5 @@ export default function AdminLayout({
           {children}
         </main>
       </div>
-    </UnifiedDataProvider>
   );
 }

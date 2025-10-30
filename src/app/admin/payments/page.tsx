@@ -12,12 +12,12 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { Check, X, Eye, Clock, Euro, Filter, Search } from 'lucide-react';
 import type { PaymentRequest, PaymentStatus, PaymentMethod } from '@/lib/wallet-types';
 
 export default function AdminPaymentsPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   
   const [payments, setPayments] = useState<PaymentRequest[]>([]);

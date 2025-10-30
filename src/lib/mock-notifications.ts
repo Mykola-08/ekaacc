@@ -6,7 +6,7 @@ export const mockNotificationsAPI = {
   async listNotifications() {
     return notifications;
   },
-  async createNotification(n: { title: string; body?: string; type?: string }) {
+  async createNotification(n: { userId?: string; title: string; body?: string; type?: string }) {
     const item: NotificationItem = { id: 'notif-' + (notifications.length + 1), ...n, createdAt: new Date().toISOString(), seen: false };
     notifications.unshift(item);
     return item;

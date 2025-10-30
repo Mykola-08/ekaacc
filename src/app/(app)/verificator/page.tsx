@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from '@/hooks/use-toast';
-import { useData } from '@/context/unified-data-context';
+import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { 
   CheckCircle2, 
@@ -51,7 +51,7 @@ const toDate = (timestamp: string | Timestamp): Date => {
 };
 
 export default function VerificatorPage() {
-  const { currentUser } = useData();
+  const { appUser: currentUser } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
@@ -74,6 +74,9 @@ export default function VerificatorPage() {
         return;
       }
       loadData();
+    } else if (currentUser === null) {
+      // If user is explicitly null (not loading), redirect
+      router.push('/login');
     }
   }, [currentUser, router]);
 

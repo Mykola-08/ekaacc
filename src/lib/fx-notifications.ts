@@ -10,11 +10,11 @@ export const fxNotifications = {
     const snap = await getDocs(q as any);
     return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
   },
-  async createNotification(n: { title: string; body?: string; type?: string }) {
+  async createNotification(n: { userId?: string; title: string; body?: string; type?: string }) {
     const db = getFirestoreClient();
     if (!db) throw new Error('Firestore not initialized');
     const col = collection(db, 'notifications');
-    const payload = { title: n.title, body: n.body, type: n.type || 'system', createdAt: new Date().toISOString(), seen: false } as any;
+    const payload = { userId: n.userId, title: n.title, body: n.body, type: n.type || 'system', createdAt: new Date().toISOString(), seen: false } as any;
     const ref = await addDoc(col, payload as any);
     return { id: ref.id, ...payload };
   },

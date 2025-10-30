@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Check, Lock, Palette, Sparkles } from 'lucide-react';
+import { Check, Lock, Palette, Sparkles, Timer } from 'lucide-react';
 import { getThemeService } from '@/services/theme-service';
+import type { IThemeService } from '@/services/theme-service';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
 import { useData } from '@/context/unified-data-context';
 import { cn } from '@/lib/utils';
@@ -23,16 +24,18 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [currentTheme, setCurrentTheme] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [service, setService] = useState<IThemeService | null>(null);
 
   useEffect(() => {
     const loadThemes = async () => {
       if (!currentUser?.id) return;
 
       try {
-        const themeService = await getThemeService();
-        const availableThemes = await themeService.getAllThemes();
-        const userPreference = await themeService.getUserThemePreference(currentUser.id);
-        
+        const themeServiceInstance = await getThemeService();
+        setService(themeServiceInstance);
+        const availableThemes = await themeServiceInstance.getAllThemes();
+        const userPreference = await themeServiceInstance.getUserThemePreference(currentUser.id);
+
         setThemes(availableThemes);
         const themeId = userPreference?.currentTheme || 'default';
         setCurrentTheme(themeId);
@@ -54,9 +57,18 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
     return false;
   };
 
+  const resolveThemeService = useCallback(async () => {
+    if (service) {
+      return service;
+    }
+    const instance = await getThemeService();
+    setService(instance);
+    return instance;
+  }, [service]);
+
   const handleThemeSelect = async (themeId: string, theme: Theme) => {
     if (!canAccessTheme(theme)) return;
-    
+
     setSelectedTheme(themeId);
     if (onThemeChange) {
       onThemeChange(themeId);
@@ -67,10 +79,10 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
     if (!currentUser?.id || !selectedTheme) return;
 
     try {
-      // For now, just apply locally since we don't have a save method yet
-      // TODO: Implement setUserThemePreference in theme service
+      const themeServiceInstance = await resolveThemeService();
+      await themeServiceInstance.setUserTheme(currentUser.id, selectedTheme);
       setCurrentTheme(selectedTheme);
-      
+
       // Apply theme to document
       applyThemeToDocument(themes.find(t => t.id === selectedTheme));
     } catch (error) {
@@ -80,7 +92,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
 
   const applyThemeToDocument = (theme: Theme | undefined) => {
     if (!theme) return;
-    
+
     // Apply CSS variables to document root
     const root = document.documentElement;
     root.style.setProperty('--theme-primary', theme.colors.primary);
@@ -102,6 +114,11 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
 
   const hasChanges = selectedTheme !== currentTheme;
 
+  useEffect(() => {
+    if (!currentTheme) return;
+    applyThemeToDocument(themes.find(theme => theme.id === currentTheme));
+  }, [currentTheme, themes]);
+
   return (
     <div className={cn('space-y-6', className)}>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -109,7 +126,18 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
           const isLocked = !canAccessTheme(theme);
           const isSelected = selectedTheme === theme.id;
           const isCurrent = currentTheme === theme.id;
-          
+          const subscriptionLabel = theme.requiredSubscription === 'loyalty'
+            ? 'Loyalty'
+            : theme.requiredSubscription === 'vip'
+              ? 'VIP'
+              : undefined;
+
+          const statusBadge = isCurrent
+            ? { label: 'Active', variant: 'default' as const }
+            : isSelected
+              ? { label: 'Selected', variant: 'secondary' as const }
+              : null;
+
           return (
             <Card
               key={theme.id}
@@ -136,10 +164,12 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
                   </div>
                 )}
 
-                {/* Current theme indicator */}
-                {isCurrent && !isSelected && (
-                  <div className="absolute top-2 right-2">
-                    <Badge variant="secondary" className="text-xs">Current</Badge>
+                {/* Status badge */}
+                {statusBadge && (
+                  <div className="absolute top-2 left-2">
+                    <Badge variant={statusBadge.variant} className="text-[10px] uppercase tracking-wide">
+                      {statusBadge.label}
+                    </Badge>
                   </div>
                 )}
 
@@ -148,16 +178,16 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Palette className="w-5 h-5 text-gray-600" />
-                      <h3 className="font-semibold text-gray-900">{theme.name}</h3>
+                      <h3 className="font-semibold text-gray-900">{theme.displayName || theme.name}</h3>
                     </div>
-                    {!theme.isPublic && (
-                      <Badge 
+                    {!theme.isPublic && subscriptionLabel && (
+                      <Badge
                         className={cn(
-                          theme.requiredSubscription === 'loyalty' && 'bg-amber-500',
-                          theme.requiredSubscription === 'vip' && 'bg-gradient-to-r from-purple-600 to-pink-600'
+                          theme.requiredSubscription === 'loyalty' && 'bg-amber-500 text-white',
+                          theme.requiredSubscription === 'vip' && 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
                         )}
                       >
-                        {theme.requiredSubscription === 'loyalty' ? 'Loyal' : 'VIP'}
+                        {subscriptionLabel}
                       </Badge>
                     )}
                   </div>
@@ -197,18 +227,28 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
                     </div>
                   </div>
 
-                  {/* Locked message */}
-                  {isLocked && (
-                    <div className="pt-2 border-t">
-                      <p className="text-xs text-gray-500 flex items-center gap-1">
-                        <Sparkles className="w-3 h-3" />
-                        {theme.requiredSubscription === 'loyalty' 
-                          ? 'Requires Loyal or VIP membership' 
-                          : 'Requires VIP membership'}
-                      </p>
+                  <div className="flex justify-between items-center pt-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      <span>{theme.category === 'premium' ? 'Premium experience' : 'Core experience'}</span>
                     </div>
-                  )}
+                    <span>#{theme.order.toString().padStart(2, '0')}</span>
+                  </div>
                 </div>
+
+                {isLocked && (
+                  <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-lg bg-background/90 backdrop-blur-sm">
+                    <Badge variant="outline" className="flex items-center gap-1 text-xs uppercase">
+                      <Timer className="h-3.5 w-3.5" />
+                      Coming Soon
+                    </Badge>
+                    {subscriptionLabel && (
+                      <p className="text-xs text-muted-foreground text-center px-4">
+                        Unlock with the {subscriptionLabel} membership.
+                      </p>
+                    )}
+                  </div>
+                )}
               </CardContent>
             </Card>
           );

@@ -265,14 +265,29 @@ class FirestorePaymentService implements IPaymentService {
     proofText?: string,
     metadata?: any
   ): Promise<PaymentRequest> {
-    const { getFirestore, collection, addDoc, serverTimestamp } = await import('firebase/firestore');
+    const { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } = await import('firebase/firestore');
     const db = getFirestore();
-    
-    // Would need to get user data from users collection
+
+    let userName = 'Unknown User';
+    let userEmail = '';
+
+    try {
+      const userRef = doc(db, 'users', userId);
+      const userSnap = await getDoc(userRef);
+
+      if (userSnap.exists()) {
+        const userData = userSnap.data() as { name?: string; displayName?: string; email?: string };
+        userName = userData.displayName || userData.name || userName;
+        userEmail = userData.email || userEmail;
+      }
+    } catch (error) {
+      console.warn(`Unable to load user profile for payment request ${userId}`, error);
+    }
+
     const requestData = {
       userId,
-      userName: 'User Name', // TODO: Get from user document
-      userEmail: 'user@example.com', // TODO: Get from user document
+      userName,
+      userEmail,
       amount,
       currency: 'EUR' as const,
       method,

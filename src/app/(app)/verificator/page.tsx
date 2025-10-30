@@ -296,7 +296,7 @@ export default function VerificatorPage() {
 
       {/* Stats Overview */}
       <div className="grid gap-4 md:grid-cols-3">
-        <AnimatedCard delay={100}>
+        <AnimatedCard delay={100} asChild>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Pending Payments</CardTitle>
@@ -309,7 +309,7 @@ export default function VerificatorPage() {
           </Card>
         </AnimatedCard>
 
-        <AnimatedCard delay={200}>
+        <AnimatedCard delay={200} asChild>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Seeker Applications</CardTitle>
@@ -322,7 +322,7 @@ export default function VerificatorPage() {
           </Card>
         </AnimatedCard>
 
-        <AnimatedCard delay={300}>
+        <AnimatedCard delay={300} asChild>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Items</CardTitle>
@@ -351,7 +351,7 @@ export default function VerificatorPage() {
 
         {/* Payment Requests Tab */}
         <TabsContent value="payments">
-          <AnimatedCard delay={400}>
+          <AnimatedCard delay={400} asChild>
             <Card>
               <CardHeader>
                 <CardTitle>Pending Payment Requests</CardTitle>
@@ -425,7 +425,7 @@ export default function VerificatorPage() {
 
         {/* Donation Seeker Applications Tab */}
         <TabsContent value="applications">
-          <AnimatedCard delay={400}>
+          <AnimatedCard delay={400} asChild>
             <Card>
               <CardHeader>
                 <CardTitle>Donation Seeker Applications</CardTitle>

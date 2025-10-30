@@ -15,6 +15,9 @@ SQUARE_ACCESS_TOKEN=your_access_token_here
 # Optional: Environment (defaults to 'Sandbox')
 # Valid values: 'Production' or 'Sandbox'
 SQUARE_ENV=Sandbox
+
+# Optional: allow the client to request bookings via the Square API
+NEXT_PUBLIC_USE_SQUARE_API=true
 ```
 
 ### Getting a Square Access Token

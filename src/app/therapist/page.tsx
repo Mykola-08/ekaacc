@@ -122,7 +122,7 @@ export default function TherapistDashboard() {
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Today's Sessions */}
-        <AnimatedCard delay={400} className="lg:col-span-2">
+        <AnimatedCard delay={400} className="lg:col-span-2" asChild>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -170,7 +170,7 @@ export default function TherapistDashboard() {
         </AnimatedCard>
 
         {/* Quick Actions */}
-        <AnimatedCard delay={500}>
+        <AnimatedCard delay={500} asChild>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -204,7 +204,7 @@ export default function TherapistDashboard() {
       </div>
 
       {/* Upcoming Sessions */}
-      <AnimatedCard delay={600}>
+      <AnimatedCard delay={600} asChild>
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

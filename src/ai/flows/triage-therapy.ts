@@ -84,7 +84,7 @@ const triageTherapyPrompt = ai.definePrompt({
   4.  Provide two "alternatives" from the list using their 'id'.
   5.  Generate a concise "Reasoning" snippet (max 60 words) explaining why the top therapy was chosen.
   6.  Suggest a "Plan" including the number of sessions and frequency (e.g., 8 sessions, 1-2/week).
-  7.  Determine the correct Square serviceId and locationId from the environment variables. For now, use placeholder values from SERVICE_MAP and a placeholder locationId.
+  7.  Determine the correct Square serviceId and locationId from the environment variables.
   8.  Construct the bookingLink using the format: https://squareup.com/appointments/book/{locationId}/{serviceId}/start
 
   Output the result in the required JSON format.
@@ -99,11 +99,12 @@ const triageTherapyFlow = ai.defineFlow(
   },
   async (input) => {
 
+    // Load service IDs from environment variables
     const serviceMap: Record<string, string> = {
-        "massage-therapy": "L5D2M7J4K9N1R/services/6Z3X5Y7A9B1C2D4E",
-        "feldenkrais-method": "L5D2M7J4K9N1R/services/7A9B1C2D4E6Z3X5Y",
-        "kinesiology": "L5D2M7J4K9N1R/services/8B1C2D4E6Z3X5Y7A",
-        "360-therapy": "L5D2M7J4K9N1R/services/9C1D2E4F6G3H5I7J"
+      "massage-therapy": process.env.SQUARE_SERVICE_MASSAGE_THERAPY || "service-massage-therapy-not-configured",
+      "feldenkrais-method": process.env.SQUARE_SERVICE_FELDENKRAIS || "service-feldenkrais-not-configured",
+      "kinesiology": process.env.SQUARE_SERVICE_KINESIOLOGY || "service-kinesiology-not-configured",
+      "360-therapy": process.env.SQUARE_SERVICE_360_THERAPY || "service-360-therapy-not-configured"
     };
 
     const { output } = await triageTherapyPrompt(input);

@@ -1,60 +1,242 @@
 # EKA Account - Copilot Instructions
 
-This document provides essential guidance for AI agents working on the EKA Account codebase. Understanding these concepts is critical for being productive and avoiding common issues.
+A Next.js 16+ therapy management system with mock/Firebase dual-mode architecture. This guide focuses on **non-obvious patterns** essential for productive development.
 
-## 1. Core Architecture: The Data Service Abstraction
+## 1. Critical: Service Abstraction Architecture
 
-The most important architectural pattern in this app is the **data service abstraction layer**. It allows the application to seamlessly switch between mock data for development and live Firebase data for production.
+### The Pattern That Drives Everything
 
-- **Key File**: `src/services/data-service.ts`
-- **Interface**: `IDataService` defines the contract that all data services must follow.
-- **Implementations**:
-  - `src/services/mock-data-service.ts` (for development, testing, and demos)
-  - `src/services/firebase-data-service.ts` (for production)
+Every data operation flows through the **IDataService interface** (`src/services/data-service.ts`). This allows instant switching between mock (development) and Firebase (production) without changing application code.
 
-**How to Switch Data Sources:**
-
-To switch between mock and Firebase data, edit `src/services/data-service.ts`:
-
+**Switch Data Source (Requires Dev Server Restart):**
 ```typescript
 // src/services/data-service.ts
-export const USE_MOCK_DATA = true; // Set to `false` to use Firebase
+export const USE_MOCK_DATA = true; // Change to false for Firebase
 ```
 
-After changing this flag, you **must restart the development server** (`npm run dev`).
+**Never Do This:**
+```typescript
+// ❌ Direct Firebase import
+import { db } from '@/firebase/firebase';
+// ❌ Direct mock data import
+import { mockUsers } from '@/services/mock-data-service';
+```
 
-**Agent Guideline**: When asked to work on data-related features, always check which data service is active. Do not directly interact with Firebase or mock data files; use the `getDataService()` function to get the active service instance.
+**Always Do This:**
+```typescript
+// ✅ Use abstraction layer
+import { getDataService } from '@/services/data-service';
+const service = await getDataService();
+const users = await service.getAllUsers();
+```
 
-## 2. Development Workflow
+### Service Pattern Philosophy
 
-- **Run the app**: `npm run dev` (starts on `http://localhost:9002` with Turbopack)
-- **Run tests**: `npm run test` (uses Vitest)
-- **Type checking**: `npm run typecheck`
+This project uses **interface-first services** for all domain logic:
+- `IPaymentService` → `MockPaymentService` / `FirestorePaymentService` 
+- `ISubscriptionService` → `MockSubscriptionService` / `FirestoreSubscriptionService`
+- `IWalletService`, `IReferralService`, `IThemeService`, etc.
 
-The app is configured to use mock data by default, so it can be run immediately after `npm install`.
+When adding features, extend interfaces first, then implement both mock and Firebase versions.
 
-## 3. Key Components & Patterns
+## 2. Development Commands (Non-Standard Ports)
 
-### Application Layout and Context
+```bash
+npm run dev          # Next.js dev server on PORT 9002 (not 3000)
+npm run test         # Vitest with jsdom
+npm run typecheck    # TSC with --noEmit
+npm run genkit:dev   # Genkit AI flows development UI
+```
 
-- **Main Layout**: `src/app/(app)/layout.tsx` is the primary layout for the authenticated part of the app.
-- **Context Providers**: The main layout wraps children in important providers:
-  - `SidebarProvider`: Manages the state of the main navigation sidebar.
-  - `UnifiedDataProvider`: Provides data from the active data service to the entire component tree. Use the `useUnifiedData()` hook to access this data.
+**Why Port 9002?** Configured in `package.json` to avoid conflicts. Always use `http://localhost:9002`.
 
-### AI Integration with Genkit
+### Environment Setup
 
-- **Configuration**: `src/ai/genkit.ts` configures Google AI through Genkit.
-- **Flows**: AI-powered workflows are defined in `src/ai/flows/`.
-- **Agent Guideline**: When adding new AI features, create new flows and call them from the backend or API routes. Use the `ai` object exported from `src/ai/genkit.ts`.
+**Quick Start (Mock Data - No Firebase Required):**
+```bash
+# Ensure USE_MOCK_DATA is true in src/services/data-service.ts
+export const USE_MOCK_DATA = true;
 
-### External Services
+# Run immediately - no .env.local needed for mock mode
+npm run dev
+```
 
-- **Firebase**: Used for authentication, Firestore database, and storage. Configuration is likely in a file like `src/firebase/firebase.ts`.
-- **Stripe & Square**: Integrated for payment processing. Look for related services or hooks in `src/services/` or `src/hooks/`.
+**Production Setup (Firebase Required):**
 
-## 4. Project Conventions
+Create `.env.local` with Firebase credentials:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=your_measurement_id
 
-- **Styling**: This project uses Tailwind CSS with `clsx` and `tailwind-merge`. UI components are built with Radix UI and are located in `src/components/ui`.
-- **Testing**: Tests are written with Vitest and React Testing Library. Test files are co-located with components (e.g., `src/components/__tests__`) or in the top-level `src/__tests__` directory.
-- **Paths**: The project uses `@/` as an alias for the `src/` directory.
+# Optional: Square Integration
+SQUARE_ACCESS_TOKEN=your_square_token
+SQUARE_ENV=Sandbox
+
+# Optional: Stripe Integration  
+STRIPE_SECRET_KEY=your_stripe_secret
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable
+
+# Optional: Google AI (Genkit)
+GOOGLE_GENAI_API_KEY=your_google_ai_key
+```
+
+**Common Error:** `Firebase: Error (auth/invalid-api-key)` means:
+1. Missing `.env.local` file, OR
+2. You need to switch to mock data mode (set `USE_MOCK_DATA = true`)
+
+## 3. Next.js App Router Structure
+
+### Route Groups (Non-Standard)
+- `src/app/(app)/` - Authenticated routes with shared layout (`AppHeader` + `AppSidebar`)
+- `src/app/admin/` - Admin-only pages (role-based access)
+- `src/app/therapist/` - Therapist dashboard
+- `src/app/login/`, `src/app/onboarding/` - Public routes
+
+### Critical Layout Hierarchy
+```
+src/app/(app)/layout.tsx
+├── AuthProvider (Firebase auth context)
+├── SidebarProvider (Radix UI sidebar state)
+│   └── AppSidebar + AppHeader (nav components)
+└── AIAssistant (floating chat widget)
+```
+
+**Client Components Pattern:** Most layouts/pages use `'use client'` because of Firebase auth state and Zustand stores.
+
+### Data Access in Components
+```typescript
+// Server components or API routes
+const service = await getDataService();
+const sessions = await service.getSessions();
+
+// Client components with caching
+import { useOptimizedData } from '@/hooks/use-optimized-data';
+const { data: sessions } = useOptimizedData({
+  cacheKey: 'sessions',
+  fetcher: async () => {
+    const service = await getDataService();
+    return service.getSessions();
+  }
+});
+```
+
+## 4. State Management Patterns
+
+### Zustand for Global State
+```typescript
+// src/store/app-store.ts - Singleton pattern
+export const useAppStore = create<AppState>()(
+  devtools((set, get) => ({ ... }), { name: 'AppStore' })
+);
+```
+
+### React Hooks for Data Fetching
+```typescript
+// src/hooks/use-optimized-data.ts - Built-in caching layer
+useOptimizedData({
+  cacheKey: 'sessions',
+  fetcher: () => dataService.getSessions(),
+  staleTime: 300000, // 5 min cache
+});
+```
+
+**Pattern:** Prefer `useOptimizedData` over raw `useEffect` for data fetching—it provides request deduplication and cache management.
+
+## 5. AI Integration (Genkit Flows)
+
+AI features use Google's **Genkit framework** (not OpenAI SDK):
+
+```typescript
+// src/ai/genkit.ts - Single AI instance
+export const ai = genkit({ plugins: [googleAI()] });
+
+// src/ai/flows/*.ts - Reusable AI workflows
+export const summarizeSessionFlow = ai.defineFlow({ ... });
+```
+
+**To Add AI Features:**
+1. Create flow in `src/ai/flows/`
+2. Call from API route: `POST /api/ai/your-feature`
+3. Never call flows directly from client components
+
+**Development:** Use `npm run genkit:dev` for flow testing UI.
+
+## 6. Firebase Configuration (Critical for Production)
+
+### Multi-Service Setup
+```typescript
+// src/firebase/firebase.ts
+export { auth, db, storage, functions, database, remoteConfig, analytics };
+```
+
+**Non-Obvious:** This project uses **both** Firestore (`db`) and Realtime Database (`database`). Check schema docs before choosing.
+
+### Security Rules Location
+- `firestore.rules` - Firestore security (role-based access)
+- Firestore indexes: `firestore.indexes.json`
+
+## 7. Payment & Wallet System
+
+### Dual Payment Providers
+- **Square SDK** (`src/server/square-client.ts`) - Booking appointments
+- **Stripe SDK** (`src/services/subscription-manager.ts`) - Subscription payments
+
+**Square Pattern:** Server-side wrapper prevents client credential exposure:
+```typescript
+// ✅ Server Actions only
+import { listBookings } from '@/server/square-client';
+// ❌ Never import Square SDK in client components
+```
+
+### Wallet Architecture
+- `src/services/wallet-service.ts` - Internal wallet balance system
+- `src/services/payment-service.ts` - Bizum/Cash payment requests (manual confirmation workflow)
+- See `docs/firestore-database-schema.md` for 12-collection Firestore structure
+
+## 8. Testing Conventions
+
+### Vitest with React Testing Library
+```typescript
+// Tests in: src/__tests__/ or src/components/__tests__/
+// Mock Firebase: Always mock @/firebase/firebase in tests
+vi.mock('@/firebase/firebase', () => ({ db: mockDb }));
+```
+
+**Path Alias:** Tests use `@/` imports (configured in `vitest.config.ts`).
+
+## 9. Type System Notes
+
+### Shared Types Location
+- `src/lib/types.ts` - Core domain types (User, Session, Report)
+- `src/lib/wallet-types.ts` - Payment/wallet-specific types
+- `src/lib/subscription-types.ts` - Subscription tiers and status
+
+**Timestamp Handling:** Firebase uses `Timestamp` objects; mocks use ISO strings. Services normalize this.
+
+## 10. UI Component Library
+
+- **Radix UI + Tailwind** primitives in `src/components/ui/`
+- Custom components in `src/components/eka/`
+- **No Global CSS Modules** - Tailwind utility classes only
+- `cn()` helper from `@/lib/utils` for conditional classes
+
+## 11. Documentation Structure
+
+- `docs/` - Database schemas, feature specs, implementation guides
+- `Documentation/` - Quick start guides, performance optimizations
+- **Start Here:** `docs/QUICK_START_GUIDE.md` for wallet/payment system overview
+
+## 12. Common Pitfalls
+
+1. **Forgetting to restart after `USE_MOCK_DATA` change** - Next.js cache doesn't pick it up
+2. **Missing Firebase credentials causing `auth/invalid-api-key`** - Either add `.env.local` OR switch to `USE_MOCK_DATA = true`
+3. **Importing Firebase directly** - Always use `getDataService()` abstraction
+4. **Wrong port (3000 vs 9002)** - Check `package.json` scripts
+5. **Mixing Firestore and Realtime Database** - Verify schema docs first
+6. **Client-side Square SDK usage** - Use `src/server/square-client.ts` wrapper only
+7. **Running without environment setup** - Mock mode works out of the box; Firebase mode needs `.env.local`

@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Check, Target } from "lucide-react";
+import { InView, TextEffect, AnimatedNumber, AnimatedGroup } from "@/components/motion-primitives";
 
 interface GoalProgressProps {
     sessionsCompleted: number;
@@ -23,27 +24,37 @@ export function GoalProgress({ sessionsCompleted, goal = "Complete initial thera
     });
 
     return (
-        <Card>
+        <InView
+          variants={{
+            hidden: { opacity: 0, y: 30 },
+            visible: { opacity: 1, y: 0 },
+          }}
+          transition={{ duration: 0.6, ease: 'easeOut' }}
+        >
+          <Card className="hover:shadow-lg transition-shadow duration-300">
             <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                     <Target className="text-primary" />
-                    <span>Goal Roadmap</span>
+                    <TextEffect preset="fade" per="word">
+                      Goal Roadmap
+                    </TextEffect>
                 </CardTitle>
                 <CardDescription>
-                    Your AI-powered forecast shows you are <span className="font-bold text-primary">{Math.round(progress)}%</span> towards your goal of "{goal}".
+                    Your AI-powered forecast shows you are <span className="font-bold text-primary"><AnimatedNumber value={Math.round(progress)} />%</span> towards your goal of "{goal}".
                 </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div>
                     <div className="flex justify-between mb-1">
                         <span className="text-sm font-medium">Progress</span>
-                        <span className="text-sm font-medium">{Math.round(progress)}%</span>
+                        <span className="text-sm font-medium"><AnimatedNumber value={Math.round(progress)} />%</span>
                     </div>
                     <Progress value={progress} />
                 </div>
                 <div className="relative">
                     <div className="absolute left-3.5 top-0 bottom-0 w-0.5 bg-border -z-10" />
-                     <div className="space-y-4">
+                    <AnimatedGroup preset="fade">
+                      <div className="space-y-4">
                         {milestones.map((milestone) => (
                              <div key={milestone.milestoneNumber} className="flex items-center gap-4">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-colors ${milestone.completed ? 'bg-primary text-primary-foreground' : 'bg-muted border'}`}>
@@ -52,7 +63,8 @@ export function GoalProgress({ sessionsCompleted, goal = "Complete initial thera
                                 <span className={`text-sm font-medium transition-colors ${milestone.completed ? 'text-foreground' : 'text-muted-foreground'}`}>{milestone.name}</span>
                             </div>
                         ))}
-                    </div>
+                      </div>
+                    </AnimatedGroup>
                 </div>
 
                 <div className="flex justify-end">
@@ -60,6 +72,7 @@ export function GoalProgress({ sessionsCompleted, goal = "Complete initial thera
                 </div>
 
             </CardContent>
-        </Card>
+          </Card>
+        </InView>
     );
 }

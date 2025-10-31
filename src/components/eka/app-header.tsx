@@ -23,7 +23,7 @@ export function AppHeader() {
       initial={{ opacity: 0, y: -24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      className="flex h-16 items-center justify-between px-4 md:px-6 fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/80 dark:border-gray-700/80"
+      className="flex h-16 items-center justify-between px-4 md:px-6 sticky top-0 z-30 bg-transparent"
     >
       {/* Left: Sidebar Toggle & Search on Mobile */}
       <div className="flex items-center gap-2">

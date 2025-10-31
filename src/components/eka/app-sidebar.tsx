@@ -115,16 +115,48 @@ export function AppSidebar() {
   const { appUser: currentUser } = useAuth();
   const { isExpanded } = useSidebar();
 
-  // Define links for different roles
-  const clientLinks = [
-    { href: '/home', icon: Home, label: 'Dashboard' },
+  const userRole = currentUser?.role || 'Patient';
+
+  const navItems = getNavItems(userRole);
+  const isCollapsed = !isExpanded;
+
+  return (
+    <Sidebar className="border-r fixed left-0 top-0 h-full z-40 bg-background/80 backdrop-blur-lg">
+      <SidebarHeader isCollapsed={isCollapsed}>
+        <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+          <Package2 className="h-6 w-6" />
+          {!isCollapsed && <span>EKA Account</span>}
+        </Link>
+      </SidebarHeader>
+      <SidebarContent className="flex-1 overflow-auto py-4 px-3">
+        <SidebarMenu>
+          {navItems.map(item => (
+            <SidebarMenuItem key={item.href}>
+              <SidebarLink 
+                href={item.href}
+                icon={item.icon}
+                label={item.label}
+                isActive={pathname.startsWith(item.href)}
+                isCollapsed={isCollapsed}
+              />
+            </SidebarMenuItem>
+          ))}
+        </SidebarMenu>
+      </SidebarContent>
+    </Sidebar>
+  );
+}
+
+function getNavItems(role: string) {
+  const patientNav = [
+    { href: '/dashboard', icon: Home, label: 'Dashboard' },
     { href: '/ai-insights', icon: Sparkles, label: 'AI Insights' },
     { href: '/progress', icon: TrendingUp, label: 'My Progress' },
     { href: '/journal', icon: BookOpen, label: 'My Journal' },
     { href: '/donations', icon: Heart, label: 'Donations' },
   ];
 
-  const therapistLinks = [
+  const therapistNav = [
     { href: '/therapist', icon: Home, label: 'Dashboard' },
     { href: '/verificator', icon: Shield, label: 'Verificator' },
     { href: '/therapist/clients', icon: Users, label: 'Clients' },
@@ -133,91 +165,13 @@ export function AppSidebar() {
     { href: '/reports', icon: FileText, label: 'Reports' },
   ];
   
-  const adminLinks = [
+  const adminNav = [
     { href: '/admin', icon: Shield, label: 'Admin Panel' },
     { href: '/admin/users', icon: Users, label: 'Manage Users' },
     { href: '/admin/settings', icon: Settings, label: 'System Settings' },
   ];
 
-  const bottomLinks = [
-    { href: '/settings', icon: Settings, label: 'Settings' },
-  ];
-
-  const isCollapsed = !isExpanded;
-  
-  if (!currentUser) {
-    return (
-      <Sidebar side="left" className="bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
-        <SidebarHeader className="flex h-[var(--header-h)] items-center px-4 border-b border-gray-200 dark:border-gray-800">
-          <div className="h-6 w-20 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-md" />
-        </SidebarHeader>
-        <SidebarContent className="flex-1 py-4 px-3">
-          <div className="space-y-2">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-11 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-lg" />
-            ))}
-          </div>
-        </SidebarContent>
-      </Sidebar>
-    );
-  }
-  
-  const effectiveRole = currentUser.role;
-  let links = clientLinks;
-  if (effectiveRole === 'Admin') links = adminLinks;
-  else if (effectiveRole === 'Therapist') links = therapistLinks;
-
-  return (
-    <motion.div
-      initial={{ x: isCollapsed ? '-100%' : 0 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-    >
-      <Sidebar side="left" className="bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
-        <SidebarHeader className={cn(
-          "flex h-[var(--header-h)] items-center transition-all duration-300 border-b border-gray-200 dark:border-gray-800",
-          isCollapsed ? 'justify-center px-2' : 'px-4'
-        )}>
-          <Link href="/" className="flex items-center gap-2 font-bold text-lg text-primary"> 
-            <Package2 className="h-6 w-6" />
-            {!isCollapsed && <span className="tracking-tight">EKA</span>}
-          </Link>
-        </SidebarHeader>
-
-        <SidebarContent className="flex-1 overflow-auto py-4 px-3">
-          <SidebarMenu>
-            {links.map(link => (
-              <SidebarMenuItem key={link.href}>
-                <SidebarLink 
-                  href={link.href}
-                  icon={link.icon}
-                  label={link.label}
-                  isActive={pathname.startsWith(link.href)}
-                  isCollapsed={isCollapsed}
-                />
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarContent>
-
-        <div className="mt-auto border-t border-gray-200 dark:border-gray-800">
-          <div className="p-3">
-            <SidebarMenu>
-              {bottomLinks.map(link => (
-                <SidebarMenuItem key={link.href}>
-                  <SidebarLink 
-                    href={link.href}
-                    icon={link.icon}
-                    label={link.label}
-                    isActive={pathname.startsWith(link.href)}
-                    isCollapsed={isCollapsed}
-                  />
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </div>
-        </div>
-      </Sidebar>
-    </motion.div>
-  );
+  if (role === 'Admin') return adminNav;
+  if (role === 'Therapist') return therapistNav;
+  return patientNav;
 }

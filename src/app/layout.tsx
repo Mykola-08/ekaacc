@@ -29,16 +29,16 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://picsum.photos" />
         <link rel="dns-prefetch" href="https://i.pravatar.cc" />
         
-        {/* Load Inter font with optimal display strategy */}
+        {/* Load Inter and Manrope fonts with optimal display strategy */}
         <link 
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" 
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" 
           rel="stylesheet"
         />
         
         {/* Optimize font loading */}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" as="style" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" as="style" />
       </head>
-      <body className={cn('antialiased font-body')}>
+      <body className={cn('antialiased font-sans')}>
         <AuthProvider>
           <ThemeProvider
             attribute="class"

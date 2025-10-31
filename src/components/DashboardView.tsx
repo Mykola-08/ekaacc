@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { StatCard } from './eka/dashboard/stat-card';
 import { NextSession } from './eka/dashboard/next-session';
 import { GoalProgress } from './eka/dashboard/goal-progress';
+import { TextEffect, InView, AnimatedNumber, TextLoop } from '@/components/motion-primitives';
 
 export default function DashboardView() {
   const { appUser: currentUser, loading: authLoading, user, refreshAppUser, signOut } = useAuth();
@@ -171,11 +172,15 @@ export default function DashboardView() {
     <main className="p-4 sm:p-6 lg:p-8 bg-gray-50/50 dark:bg-background min-h-screen">
       <header className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
-            Hello, {currentUser.name?.split(' ')[0] || 'there'}
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400">
-            Here’s your wellness snapshot for today.
+          <TextEffect 
+            per="word" 
+            preset="fade-in-blur"
+            className="text-3xl font-bold text-gray-800 dark:text-white"
+          >
+            {`Hello, ${currentUser.name?.split(' ')[0] || 'there'}`}
+          </TextEffect>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            Here's your wellness snapshot for today.
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -192,23 +197,35 @@ export default function DashboardView() {
       </header>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {personalizedStats.map((stat) => (
-          <Card key={stat.title} className="bg-white dark:bg-gray-800/50 border-none shadow-sm hover:shadow-md transition-shadow duration-300">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.title}</CardTitle>
-              <stat.icon className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-gray-800 dark:text-white">{stat.value}</div>
-              <p className="text-xs text-green-500 dark:text-green-400 flex items-center">
-                <TrendingUp className="w-3 h-3 mr-1" />
-                {stat.trend}
-              </p>
-            </CardContent>
-          </Card>
+      <InView className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {personalizedStats.map((stat, index) => (
+          <InView 
+            key={stat.title}
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="h-full"
+          >
+            <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm hover:shadow-md transition-shadow duration-300 h-full">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-gray-500 dark:text-gray-400">{stat.title}</CardTitle>
+                <stat.icon className="w-4 h-4 text-gray-400 dark:text-gray-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold text-gray-800 dark:text-white">
+                  {typeof stat.value === 'number' ? (
+                    <AnimatedNumber value={stat.value} />
+                  ) : (
+                    stat.value
+                  )}
+                </div>
+                <p className="text-xs text-green-500 dark:text-green-400 flex items-center">
+                  <TrendingUp className="w-3 h-3 mr-1" />
+                  {stat.trend}
+                </p>
+              </CardContent>
+            </Card>
+          </InView>
         ))}
-      </div>
+      </InView>
 
       {/* Main Dashboard Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

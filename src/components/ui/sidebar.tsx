@@ -190,8 +190,8 @@ SidebarTrigger.displayName = "SidebarTrigger"
 // --- Structural Components ---
 export const SidebarHeader = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div">
->(({ className, ...props }, ref) => (
+  React.ComponentProps<"div"> & { isCollapsed?: boolean }
+>(({ className, isCollapsed, ...props }, ref) => (
   <div
     ref={ref}
     className={cn("flex shrink-0 flex-col gap-2 p-2", className)}

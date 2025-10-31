@@ -5,6 +5,7 @@ import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { AppHeader } from '@/components/eka/app-header';
 import { AppSidebar } from '@/components/eka/app-sidebar';
+import { AppFooter } from '@/components/eka/app-footer';
 import { SidebarProvider, useSidebar } from '@/components/ui/sidebar';
 import { useRouter } from 'next/navigation';
 
@@ -37,38 +38,28 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex min-h-screen w-full bg-gray-50/50 dark:bg-background text-foreground">
       <AppSidebar />
-      {/* Main content area that adapts to sidebar state */}
-      <div 
-        className={cn(
-          "flex flex-1 flex-col transition-all duration-300 ease-in-out",
-          isMobile 
-            ? "ml-0" 
-            : isExpanded 
-              ? "ml-[var(--sidebar-w)]" 
-              : "ml-[var(--sidebar-w-collapsed)]"
-        )}
-      >
+      <div className={cn(
+        "flex flex-1 flex-col transition-all duration-300",
+        isExpanded ? "ml-64" : "ml-16"
+      )}>
         <AppHeader />
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 mt-[var(--header-h)] min-h-[calc(100vh-var(--header-h))]">
+        <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
           {children}
         </main>
+        <AppFooter />
       </div>
+      <AIAssistant />
     </div>
   );
 }
 
-export default function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
       <SidebarProvider>
         <AppLayoutContent>
           {children}
         </AppLayoutContent>
-        <AIAssistant />
       </SidebarProvider>
     </AuthProvider>
   );

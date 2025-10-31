@@ -7,6 +7,7 @@ import { Clock, Video, CalendarOff } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Session } from '@/lib/types';
 import Link from 'next/link';
+import { InView, TextEffect } from '@/components/motion-primitives';
 
 interface NextSessionProps {
     sessions: Session[] | null;
@@ -40,24 +41,42 @@ export function NextSession({ sessions, isLoading }: NextSessionProps) {
 
   if (!nextSession) {
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Next Session</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center">
-                <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
-                <p className="mt-4 font-semibold">No upcoming sessions</p>
-                <p className="text-sm text-muted-foreground mt-1">Ready to book your next appointment?</p>
-                <Button className="mt-4" asChild>
-                    <Link href="/therapies">Book a Session</Link>
-                </Button>
-            </CardContent>
-        </Card>
+        <InView
+          variants={{
+            hidden: { opacity: 0, scale: 0.95 },
+            visible: { opacity: 1, scale: 1 },
+          }}
+          transition={{ duration: 0.5 }}
+        >
+          <Card>
+              <CardHeader>
+                  <CardTitle>Next Session</CardTitle>
+              </CardHeader>
+              <CardContent className="text-center">
+                  <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
+                  <TextEffect preset="fade" className="mt-4 font-semibold">
+                    No upcoming sessions
+                  </TextEffect>
+                  <p className="text-sm text-muted-foreground mt-1">Ready to book your next appointment?</p>
+                  <Button className="mt-4" asChild>
+                      <Link href="/therapies">Book a Session</Link>
+                  </Button>
+              </CardContent>
+          </Card>
+        </InView>
     )
   }
 
   return (
-    <Card>
+    <InView
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0 },
+      }}
+      transition={{ duration: 0.6, ease: 'easeOut' }}
+    >
+      <Card className="hover:shadow-lg transition-shadow duration-300">
+
       <CardHeader>
         <CardTitle>Your Next Session</CardTitle>
         <CardDescription>
@@ -91,5 +110,6 @@ export function NextSession({ sessions, isLoading }: NextSessionProps) {
         </div>
       </CardContent>
     </Card>
+    </InView>
   );
 }

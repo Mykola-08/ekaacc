@@ -92,7 +92,7 @@ export class FirebaseDataService implements IDataService {
         id: authUser.uid,
         uid: authUser.uid,
         ...newUserData,
-      } as User;
+      } as unknown as User;
     }
 
     const userData = userDoc.data();

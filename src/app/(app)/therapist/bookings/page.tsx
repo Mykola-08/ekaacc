@@ -1,14 +1,54 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import React, { useEffect, useState, useCallback } from 'react';
+import { RefreshCw, PlusCircle, CalendarX2 } from 'lucide-react';
+
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
-import { PageHeaderSkeleton, TableSkeleton } from '@/components/eka/loading-skeletons';
 import { useAuth } from '@/context/auth-context';
-import { NewBookingForm } from '@/components/eka/new-booking-form';
+
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
+import { Card, CardContent } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { NewBookingForm } from '@/components/eka/new-booking-form';
+import { Badge } from '@/components/ui/badge';
+
+// --- Reusable Components ---
+
+function BookingsTableSkeleton() {
+    return (
+        <div className="space-y-2">
+            {[...Array(5)].map((_, i) => (
+                <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
+                    <div className="flex-1 space-y-2">
+                        <Skeleton className="h-4 w-1/3" />
+                        <Skeleton className="h-3 w-1/2" />
+                    </div>
+                    <Skeleton className="h-8 w-20" />
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function NoBookingsEmptyState({ onCreate }: { onCreate: () => void }) {
+    return (
+        <div className="text-center py-16 border-2 border-dashed rounded-lg">
+            <CalendarX2 className="mx-auto h-12 w-12 text-muted-foreground" />
+            <h3 className="mt-4 text-lg font-semibold">No Bookings Found</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Get started by creating the first booking.</p>
+            <Button onClick={onCreate} className="mt-4">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Create New Booking
+            </Button>
+        </div>
+    );
+}
+
+// --- Main Page Component ---
 
 export default function TherapistBookingsPage() {
   const [bookings, setBookings] = useState<any[]>([]);
@@ -17,23 +57,32 @@ export default function TherapistBookingsPage() {
   const { toast } = useToast();
   const { appUser: currentUser } = useAuth();
 
-  useEffect(() => { load(); }, []);
-
-  const load = async () => {
+  const loadBookings = useCallback(async () => {
     setLoading(true);
     try {
-      // mock: get all bookings (for therapist dashboard we can call getAllBookings)
       const list = await fxService.getAllBookings();
       setBookings(list || []);
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
-  };
+    } catch (e) {
+      console.error(e);
+      toast({ title: 'Error', description: 'Failed to load bookings.', variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
+  }, [toast]);
 
-  const cancel = async (id: string) => {
+  useEffect(() => {
+    loadBookings();
+  }, [loadBookings]);
+
+  const cancelBooking = async (id: string) => {
     try {
       await fxService.cancelBooking(id);
-      await load();
-    } catch (e) { console.error(e); }
+      toast({ title: 'Success', description: 'Booking has been cancelled.' });
+      await loadBookings();
+    } catch (e) {
+      console.error(e);
+      toast({ title: 'Error', description: 'Failed to cancel booking.', variant: 'destructive' });
+    }
   };
 
   return (
@@ -41,55 +90,33 @@ export default function TherapistBookingsPage() {
       <NewBookingForm
         open={isBookingFormOpen}
         onClose={() => setIsBookingFormOpen(false)}
-        onSubmitSuccess={load}
+        onSubmitSuccess={loadBookings}
         therapistId={currentUser?.id || ''}
       />
-      <div className="p-6 space-y-6">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-blue-500/10 via-blue-500/5 to-background rounded-xl p-6 border border-border/50">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
-                Bookings
-              </h1>
-              <p className="text-sm text-muted-foreground mt-1">
-                Manage appointments and schedules
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button 
-                onClick={load} 
-                variant="outline"
-                disabled={loading}
-                className="shadow-sm hover:shadow-md transition-shadow"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                </svg>
-                Refresh
-              </Button>
-              <Button 
-                onClick={() => setIsBookingFormOpen(true)}
-                disabled={loading}
-                className="shadow-sm hover:shadow-md transition-shadow"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                </svg>
-                New Booking
-              </Button>
-            </div>
+      <SettingsShell>
+        <SettingsHeader
+          title="Bookings"
+          description="Manage all appointments and schedules across the platform."
+        >
+          <div className="flex gap-2">
+            <Button onClick={loadBookings} variant="outline" disabled={loading}>
+              <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
+              Refresh
+            </Button>
+            <Button onClick={() => setIsBookingFormOpen(true)} disabled={loading}>
+              <PlusCircle className="w-4 h-4 mr-2" />
+              New Booking
+            </Button>
           </div>
-        </div>
+        </SettingsHeader>
 
         <Card>
-          <div className="p-4">
-            {!loading && bookings.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-muted-foreground">No bookings found.</p>
-              </div>
-            )}
-            {!loading && bookings.length > 0 && (
+          <CardContent className="p-0">
+            {loading ? (
+              <BookingsTableSkeleton />
+            ) : bookings.length === 0 ? (
+              <NoBookingsEmptyState onCreate={() => setIsBookingFormOpen(true)} />
+            ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -97,29 +124,33 @@ export default function TherapistBookingsPage() {
                     <TableHead>Therapist</TableHead>
                     <TableHead>Date</TableHead>
                     <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {bookings.map(b => (
                     <TableRow key={b.id}>
-                      <TableCell>{b.userId}</TableCell>
+                      <TableCell className="font-medium">{b.userId}</TableCell>
                       <TableCell>{b.therapistId}</TableCell>
                       <TableCell>{new Date(b.date).toLocaleString()}</TableCell>
-                      <TableCell>{b.status}</TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="ghost" onClick={() => cancel(b.id)}>Cancel</Button>
-                        </div>
+                        <Badge variant={b.status === 'CANCELLED' ? 'destructive' : 'secondary'}>
+                          {b.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button size="sm" variant="ghost" onClick={() => cancelBooking(b.id)} disabled={b.status === 'CANCELLED'}>
+                          Cancel
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             )}
-          </div>
+          </CardContent>
         </Card>
-      </div>
+      </SettingsShell>
     </>
   );
 }

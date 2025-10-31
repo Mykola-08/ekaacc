@@ -1,8 +1,3 @@
-/**
- * Community Feature Setup Script
- * Run this script to initialize the community database when ready to launch
- */
-
 'use client';
 
 import { useState } from 'react';
@@ -17,9 +12,57 @@ import {
   Database, 
   Shield, 
   Users,
-  Settings
+  Settings as SettingsIcon
 } from 'lucide-react';
 import { initializeCommunityDatabase } from '@/firebase/firestore/community-init';
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
+
+const setupStepsConfig = [
+  { title: 'Database Collections', description: 'Create Firestore collections with initial data', icon: Database },
+  { title: 'Security Rules', description: 'Already deployed in firestore.rules', icon: Shield },
+  { title: 'Type Definitions', description: 'Already available in community-types.ts', icon: SettingsIcon },
+  { title: 'Service Layer', description: 'Already implemented in community-service.ts', icon: Users },
+];
+
+const nextStepsContent = [
+  { step: '1', title: 'Deploy Security Rules', description: 'The security rules are already in firestore.rules. Deploy them using:', code: 'firebase deploy --only firestore:rules' },
+  { step: '2', title: 'Create Firestore Indexes', description: 'Required composite indexes will be auto-created when you first query, or you can create them manually in the Firebase Console.' },
+  { step: '3', title: 'Enable Navigation', description: 'Uncomment the community link in src/components/eka/app-sidebar.tsx to enable user access.' },
+  { step: '4', title: 'Test the Feature', description: 'Navigate to /community to test posts, comments, groups, and all community features.' },
+];
+
+const createdCollections = ['community_posts', 'community_comments', 'community_reactions', 'community_groups', 'community_group_members', 'community_group_invitations', 'community_group_join_requests', 'community_follows', 'community_notifications', 'community_reports', 'community_user_profiles', 'community_analytics'];
+
+function SetupStepsGrid({ currentStatus }: { currentStatus: 'idle' | 'loading' | 'success' | 'error' }) {
+    return (
+        <div className="grid gap-4 md:grid-cols-2">
+            {setupStepsConfig.map((step, idx) => {
+                let status: 'complete' | 'in-progress' | 'pending' = 'complete';
+                if (idx === 0) status = currentStatus === 'success' ? 'complete' : currentStatus === 'loading' ? 'in-progress' : 'pending';
+                return (
+                    <Card key={step.title}>
+                        <CardHeader>
+                            <div className="flex items-center gap-3">
+                                <div className={`p-2 rounded-lg ${status === 'complete' ? 'bg-green-50 text-green-600 dark:bg-green-950' : status === 'in-progress' ? 'bg-blue-50 text-blue-600 dark:bg-blue-950' : 'bg-muted text-muted-foreground'}`}>
+                                    <step.icon className="h-5 w-5" />
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex items-center justify-between">
+                                        <CardTitle className="text-base">{step.title}</CardTitle>
+                                        {status === 'complete' && <CheckCircle2 className="h-5 w-5 text-green-600" />}
+                                        {status === 'in-progress' && <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />}
+                                    </div>
+                                    <p className="text-sm text-muted-foreground mt-1">{step.description}</p>
+                                </div>
+                            </div>
+                        </CardHeader>
+                    </Card>
+                );
+            })}
+        </div>
+    );
+}
 
 export default function CommunitySetupPage() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -34,11 +77,9 @@ export default function CommunitySetupPage() {
     setStatus('loading');
     setLogs([]);
     addLog('Starting community database initialization...');
-
     try {
       addLog('Creating default groups...');
       const result = await initializeCommunityDatabase();
-      
       addLog('✅ Database initialized successfully');
       setStatus('success');
       setMessage(result.message);
@@ -50,233 +91,78 @@ export default function CommunitySetupPage() {
     }
   };
 
-  const setupSteps = [
-    {
-      title: 'Database Collections',
-      description: 'Create Firestore collections with initial data',
-      icon: Database,
-      status: status === 'success' ? 'complete' : status === 'loading' ? 'in-progress' : 'pending',
-    },
-    {
-      title: 'Security Rules',
-      description: 'Already deployed in firestore.rules',
-      icon: Shield,
-      status: 'complete',
-    },
-    {
-      title: 'Type Definitions',
-      description: 'Already available in community-types.ts',
-      icon: Settings,
-      status: 'complete',
-    },
-    {
-      title: 'Service Layer',
-      description: 'Already implemented in community-service.ts',
-      icon: Users,
-      status: 'complete',
-    },
-  ];
-
   return (
-    <div className="container mx-auto max-w-4xl py-12 space-y-8">
-      <div className="space-y-2">
-        <h1 className="text-4xl font-bold">Community Setup</h1>
-        <p className="text-muted-foreground text-lg">
-          Initialize the community and groups backend infrastructure
-        </p>
-      </div>
+    <SettingsShell>
+        <div className="flex items-center gap-3">
+            <Database className="h-8 w-8 text-primary" />
+            <SettingsHeader
+                title="Community Setup"
+                description="Initialize the community and groups backend infrastructure for your app."
+            />
+        </div>
 
-      {/* Setup Steps */}
-      <div className="grid gap-4 md:grid-cols-2">
-        {setupSteps.map((step) => (
-          <Card key={step.title}>
-            <CardHeader className="flex flex-row items-center gap-4">
-              <div className={`p-3 rounded-lg ${
-                step.status === 'complete' 
-                  ? 'bg-green-500/10 text-green-600' 
-                  : step.status === 'in-progress'
-                  ? 'bg-blue-500/10 text-blue-600'
-                  : 'bg-gray-500/10 text-gray-600'
-              }`}>
-                <step.icon className="h-6 w-6" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">{step.title}</CardTitle>
-                  {step.status === 'complete' && (
-                    <CheckCircle2 className="h-5 w-5 text-green-600" />
-                  )}
-                  {step.status === 'in-progress' && (
-                    <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />
-                  )}
-                </div>
-                <CardDescription>{step.description}</CardDescription>
-              </div>
-            </CardHeader>
-          </Card>
-        ))}
-      </div>
+        <div className="space-y-6 mt-6">
+            <SetupStepsGrid currentStatus={status} />
 
-      {/* Action Card */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Initialize Database</CardTitle>
-          <CardDescription>
-            Click the button below to create the community database structure with default groups and sample data.
-            This only needs to be run once.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Button 
-            onClick={handleInitialize} 
-            disabled={status === 'loading' || status === 'success'}
-            size="lg"
-            className="w-full"
-          >
-            {status === 'loading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {status === 'success' ? 'Database Initialized ✓' : 'Initialize Community Database'}
-          </Button>
+            <Card>
+                <CardHeader>
+                    <CardTitle>Initialize Database</CardTitle>
+                    <CardDescription>Create the community database structure with default groups. This only needs to be run once.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <Button onClick={handleInitialize} disabled={status === 'loading' || status === 'success'} size="lg" className="w-full">
+                        {status === 'loading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                        {status === 'success' ? 'Database Initialized ✓' : 'Initialize Community Database'}
+                    </Button>
+                    {status === 'success' && <Alert><CheckCircle2 className="h-4 w-4" /><AlertTitle>Success!</AlertTitle><AlertDescription>Community database initialized successfully.</AlertDescription></Alert>}
+                    {status === 'error' && <Alert variant="destructive"><AlertCircle className="h-4 w-4" /><AlertTitle>Error</AlertTitle><AlertDescription>{message}</AlertDescription></Alert>}
+                    {logs.length > 0 && (
+                        <div className="space-y-2">
+                            <h4 className="font-semibold text-sm">Setup Logs</h4>
+                            <div className="bg-muted rounded-lg p-4 space-y-1 max-h-64 overflow-y-auto font-mono text-xs">{logs.map((log, idx) => <div key={idx} className="text-muted-foreground">{log}</div>)}</div>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
 
-          {/* Status Messages */}
-          {status === 'success' && (
-            <Alert>
-              <CheckCircle2 className="h-4 w-4" />
-              <AlertTitle>Success!</AlertTitle>
-              <AlertDescription>
-                Community database has been initialized successfully. Check the logs below for details.
-              </AlertDescription>
-            </Alert>
-          )}
+            <Card>
+                <CardHeader><CardTitle>Next Steps</CardTitle><CardDescription>After initialization, follow these steps.</CardDescription></CardHeader>
+                <CardContent className="space-y-4">
+                    {nextStepsContent.map(item => (
+                        <div key={item.step} className="flex items-start gap-3">
+                            <Badge variant="outline" className="mt-1">{item.step}</Badge>
+                            <div>
+                                <h4 className="font-semibold text-sm">{item.title}</h4>
+                                <p className="text-sm text-muted-foreground">{item.description}</p>
+                                {item.code && <code className="block mt-2 bg-muted p-2 rounded text-xs">{item.code}</code>}
+                            </div>
+                        </div>
+                    ))}
+                </CardContent>
+            </Card>
 
-          {status === 'error' && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{message}</AlertDescription>
-            </Alert>
-          )}
+            {status === 'success' && (
+                <Card>
+                    <CardHeader><CardTitle>✅ Created Collections</CardTitle></CardHeader>
+                    <CardContent>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">{createdCollections.map(c => <Badge key={c} variant="secondary" className="justify-center text-xs">{c}</Badge>)}</div>
+                    </CardContent>
+                </Card>
+            )}
 
-          {/* Logs */}
-          {logs.length > 0 && (
-            <div className="space-y-2">
-              <h4 className="font-semibold">Setup Logs:</h4>
-              <div className="bg-muted rounded-lg p-4 space-y-1 max-h-64 overflow-y-auto font-mono text-sm">
-                {logs.map((log, index) => (
-                  <div key={index} className="text-muted-foreground">
-                    {log}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Next Steps */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Next Steps</CardTitle>
-          <CardDescription>
-            After initialization, follow these steps to complete the setup
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-start gap-3">
-              <Badge variant="outline" className="mt-1">1</Badge>
-              <div>
-                <h4 className="font-semibold">Deploy Security Rules</h4>
-                <p className="text-sm text-muted-foreground">
-                  The security rules are already in firestore.rules. Deploy them using:
-                  <code className="block mt-1 bg-muted p-2 rounded text-xs">
-                    firebase deploy --only firestore:rules
-                  </code>
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Badge variant="outline" className="mt-1">2</Badge>
-              <div>
-                <h4 className="font-semibold">Create Firestore Indexes</h4>
-                <p className="text-sm text-muted-foreground">
-                  Required composite indexes will be auto-created when you first query, or you can create them manually in the Firebase Console.
-                  See COMMUNITY_BACKEND_GUIDE.md for the full list.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Badge variant="outline" className="mt-1">3</Badge>
-              <div>
-                <h4 className="font-semibold">Enable Navigation</h4>
-                <p className="text-sm text-muted-foreground">
-                  Uncomment the community link in src/components/eka/app-sidebar.tsx to enable user access.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-3">
-              <Badge variant="outline" className="mt-1">4</Badge>
-              <div>
-                <h4 className="font-semibold">Test the Feature</h4>
-                <p className="text-sm text-muted-foreground">
-                  Navigate to /community to test posts, comments, groups, and all community features.
-                </p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Documentation Reference */}
-      <Card>
-        <CardHeader>
-          <CardTitle>📚 Documentation</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <p className="text-sm text-muted-foreground">
-            For complete documentation, API reference, and usage examples, see:
-          </p>
-          <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
-            <li><strong>COMMUNITY_BACKEND_GUIDE.md</strong> - Complete implementation guide</li>
-            <li><strong>src/lib/community-types.ts</strong> - Type definitions</li>
-            <li><strong>src/services/community-service.ts</strong> - Service layer API</li>
-            <li><strong>src/firebase/community-rules.txt</strong> - Security rules reference</li>
-          </ul>
-        </CardContent>
-      </Card>
-
-      {/* Created Collections */}
-      {status === 'success' && (
-        <Card>
-          <CardHeader>
-            <CardTitle>✅ Created Collections</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {[
-                'community_posts',
-                'community_comments',
-                'community_reactions',
-                'community_groups',
-                'community_group_members',
-                'community_group_invitations',
-                'community_group_join_requests',
-                'community_follows',
-                'community_notifications',
-                'community_reports',
-                'community_user_profiles',
-                'community_analytics',
-              ].map((collection) => (
-                <Badge key={collection} variant="secondary" className="justify-center">
-                  {collection}
-                </Badge>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+            <Card>
+                <CardHeader><CardTitle>📚 Documentation</CardTitle></CardHeader>
+                <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2">For complete documentation, API reference, and usage examples, see:</p>
+                    <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground ml-4">
+                        <li><strong>COMMUNITY_BACKEND_GUIDE.md</strong> - Complete implementation guide</li>
+                        <li><strong>src/lib/community-types.ts</strong> - Type definitions</li>
+                        <li><strong>src/services/community-service.ts</strong> - Service layer API</li>
+                        <li><strong>src/firebase/community-rules.txt</strong> - Security rules reference</li>
+                    </ul>
+                </CardContent>
+            </Card>
+        </div>
+    </SettingsShell>
   );
 }

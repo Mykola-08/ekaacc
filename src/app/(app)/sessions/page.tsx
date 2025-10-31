@@ -1,18 +1,23 @@
-'use client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, CalendarOff } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
+import { MoreHorizontal, CalendarOff } from "lucide-react";
+
 import type { Session as AppSession, User } from '@/lib/types';
-import { Skeleton } from "@/components/ui/skeleton";
-import { useEffect, useState } from "react";
-import fxService from '@/lib/fx-service';
 import { useAuth } from "@/context/auth-context";
 import { useAppStore } from "@/store/app-store";
 import { PersonalizationEngine } from '@/lib/personalization-engine';
+import fxService from '@/lib/fx-service';
+
+import { SettingsShell } from "@/components/eka/settings/settings-shell";
+import { SettingsHeader } from "@/components/eka/settings/settings-header";
+import { Card, CardContent } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Helper to map mock booking to session type
 const mapBookingToSession = (booking: any): AppSession => {
@@ -46,6 +51,37 @@ const mapBookingToSession = (booking: any): AppSession => {
   };
 };
 
+function SessionsLoadingSkeleton() {
+  return (
+    <TableRow>
+      <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+      <TableCell><Skeleton className="h-5 w-24" /></TableCell>
+      <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
+      <TableCell><Skeleton className="h-5 w-32" /></TableCell>
+      <TableCell className="text-right"><Skeleton className="h-8 w-8" /></TableCell>
+    </TableRow>
+  );
+}
+
+function NoSessionsFound({ error, onBookClick }: { error: Error | null, onBookClick: () => void }) {
+  return (
+    <TableRow>
+      <TableCell colSpan={5} className="h-64 text-center">
+        <div className="flex flex-col items-center justify-center h-full">
+          <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
+          <h3 className="mt-4 text-lg font-semibold">{error ? "An Error Occurred" : "No Sessions Found"}</h3>
+          <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
+            {error ? error.message : "We couldn't find any sessions in your account. Ready to book your first one?"}
+          </p>
+          <Button variant="outline" size="sm" className="mt-4" onClick={onBookClick}>
+            Book a Session
+          </Button>
+        </div>
+      </TableCell>
+    </TableRow>
+  );
+}
+
 export default function SessionsPage() {
   const { appUser: currentUser, refreshAppUser, loading: isUserLoading } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
@@ -53,7 +89,7 @@ export default function SessionsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const updateUserData = async (updates: Partial<User>) => {
+  const updateUserData = useCallback(async (updates: Partial<User>) => {
     if (!currentUser || !dataService) return;
     try {
       await dataService.updateUser(currentUser.id, updates);
@@ -61,7 +97,7 @@ export default function SessionsPage() {
     } catch (e) {
       console.error("Failed to update user data", e);
     }
-  };
+  }, [currentUser, dataService, refreshAppUser]);
 
   useEffect(() => {
     if (isUserLoading) {
@@ -90,112 +126,94 @@ export default function SessionsPage() {
   }, [currentUser, isUserLoading]);
 
   useEffect(() => {
-    // Track page visit
     if (currentUser) {
       try {
         const updated = PersonalizationEngine.trackActivity(currentUser, {
           type: 'page-visit',
-          data: {
-            page: '/sessions',
-            timestamp: new Date().toISOString(),
-          }
+          data: { page: '/sessions', timestamp: new Date().toISOString() }
         });
         updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
       } catch (e) {
         console.error('Failed to track sessions page visit', e);
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
+  }, [currentUser, updateUserData]);
+
+  const handleBookClick = () => {
+    if (currentUser) {
+      try {
+        const updated = PersonalizationEngine.trackActivity(currentUser, {
+          type: 'feature-use',
+          data: { feature: 'sessions', action: 'book-click', timestamp: new Date().toISOString() }
+        });
+        updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+      } catch (e) {
+        console.error('Failed to track book action', e);
+      }
+    }
+    // This might need to be updated to use Next.js router if available
+    window.location.href = '/sessions/booking';
+  };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Sessions</CardTitle>
-        <CardDescription>Manage your past and upcoming sessions booked via Square.</CardDescription>
-      </CardHeader>
-      <CardContent className="overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="min-w-[180px]">Therapist</TableHead>
-              <TableHead className="min-w-[150px]">Type</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="min-w-[150px]">Date</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {(isLoading || isUserLoading) && (
-              [...Array(3)].map((_, i) => (
-                <TableRow key={i}>
-                  <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                  <TableCell><Skeleton className="h-5 w-24" /></TableCell>
-                  <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
-                  <TableCell><Skeleton className="h-5 w-32" /></TableCell>
-                  <TableCell className="text-right"><Skeleton className="h-8 w-8" /></TableCell>
-                </TableRow>
-              ))
-            )}
-            {!isLoading && !isUserLoading && sessions && sessions.length > 0 && sessions.map((session) => (
-              <TableRow key={session.id}>
-                <TableCell className="font-medium whitespace-nowrap">{session.therapist}</TableCell>
-                <TableCell className="whitespace-nowrap">{session.type}</TableCell>
-                <TableCell>
-                  <Badge variant={session.status === 'Upcoming' ? 'default' : session.status === 'Canceled' ? 'destructive' : 'secondary'}>{session.status}</Badge>
-                </TableCell>
-                <TableCell className="whitespace-nowrap">{format(new Date(session.date), "MMMM d, yyyy")}</TableCell>
-                <TableCell className="text-right">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button aria-haspopup="true" size="icon" variant="ghost">
-                        <MoreHorizontal className="h-4 w-4" />
-                        <span className="sr-only">Toggle menu</span>
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem>View Details</DropdownMenuItem>
-                      <DropdownMenuItem disabled={session.status !== 'Upcoming'}>Reschedule</DropdownMenuItem>
-                      <DropdownMenuItem disabled={session.status !== 'Upcoming'}>Cancel</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-             {!isLoading && !isUserLoading && (!sessions || sessions.length === 0) && (
+    <SettingsShell>
+      <SettingsHeader 
+        title="Sessions" 
+        description="Manage your past and upcoming sessions booked via Square." 
+      />
+      <Card>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
                 <TableRow>
-                    <TableCell colSpan={5} className="h-48 text-center">
-                        <CalendarOff className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-semibold">{error ? "An Error Occurred" : "No Sessions Found"}</h3>
-                        <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
-                            {error ? error.message : "We couldn't find any sessions in your account. Ready to book your first one?"}
-                        </p>
-                        <Button variant="outline" size="sm" className="mt-4" onClick={() => {
-                            try {
-                              if (currentUser) {
-                                const updated = PersonalizationEngine.trackActivity(currentUser, {
-                                  type: 'feature-use',
-                                  data: {
-                                    feature: 'sessions',
-                                    action: 'book-click',
-                                    timestamp: new Date().toISOString(),
-                                  }
-                                });
-                                updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
-                              }
-                            } catch (e) {
-                              console.error('Failed to track book action', e);
-                            }
-                            // Navigate to booking page
-                            window.location.href = '/sessions/booking';
-                        }}>Book a Session</Button>
-                    </TableCell>
+                  <TableHead className="min-w-[180px] pl-6">Therapist</TableHead>
+                  <TableHead className="min-w-[150px]">Type</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="min-w-[150px]">Date</TableHead>
+                  <TableHead className="text-right pr-6">Actions</TableHead>
                 </TableRow>
-             )}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
+              </TableHeader>
+              <TableBody>
+                {(isLoading || isUserLoading) && (
+                  [...Array(3)].map((_, i) => <SessionsLoadingSkeleton key={i} />)
+                )}
+                {!isLoading && !isUserLoading && sessions && sessions.length > 0 && sessions.map((session) => (
+                  <TableRow key={session.id}>
+                    <TableCell className="font-medium whitespace-nowrap pl-6">{session.therapist}</TableCell>
+                    <TableCell className="whitespace-nowrap">{session.type}</TableCell>
+                    <TableCell>
+                      <Badge variant={session.status === 'Upcoming' ? 'default' : session.status === 'Canceled' ? 'destructive' : 'secondary'}>
+                        {session.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">{format(new Date(session.date), "MMMM d, yyyy")}</TableCell>
+                    <TableCell className="text-right pr-6">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button aria-haspopup="true" size="icon" variant="ghost">
+                            <MoreHorizontal className="h-4 w-4" />
+                            <span className="sr-only">Toggle menu</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuItem>View Details</DropdownMenuItem>
+                          <DropdownMenuItem disabled={session.status !== 'Upcoming'}>Reschedule</DropdownMenuItem>
+                          <DropdownMenuItem disabled={session.status !== 'Upcoming'}>Cancel</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+                {!isLoading && !isUserLoading && (!sessions || sessions.length === 0) && (
+                  <NoSessionsFound error={error} onBookClick={handleBookClick} />
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </SettingsShell>
   );
 }

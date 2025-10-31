@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/context/auth-context";
+import { useAppStore } from "@/store/app-store";
+import { format } from "date-fns";
+import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
+import type { Timestamp } from 'firebase/firestore';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,52 +22,69 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/context/auth-context";
-import { useAppStore } from "@/store/app-store";
-import { AnimatedCard } from "@/components/eka/animated-card";
-import { format } from "date-fns";
-import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/wallet-types";
-import { Wallet as WalletIcon, Plus, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SettingsShell } from "@/components/eka/settings/settings-shell";
+import { SettingsHeader } from "@/components/eka/settings/settings-header";
+
 import type { User } from "@/lib/types";
+import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/wallet-types";
+
+// Helper function to convert Timestamp or string to Date
+function toDate(timestamp: Timestamp | string): Date {
+    if (typeof timestamp === 'string') return new Date(timestamp);
+    if (timestamp && typeof timestamp.toDate === 'function') {
+        return timestamp.toDate();
+    }
+    return new Date();
+}
 
 const profileFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  email: z.string().email(),
+  email: z.string().email().readonly(),
   phoneNumber: z.string().optional(),
   location: z.string().optional(),
   about: z.string().optional(),
 });
 
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
+
 export default function MyAccountPage() {
   const { appUser: currentUser, refreshAppUser, loading: authLoading } = useAuth();
-  const dataService = useAppStore((state) => state.dataService);
-  const { toast } = useToast();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") ?? "profile");
 
-  // Wallet state
-  const [wallet, setWallet] = useState<Wallet | null>(null);
-  const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
-  const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
-  const [loadingWallet, setLoadingWallet] = useState(false);
+  return (
+    <SettingsShell>
+      <SettingsHeader
+        title="My Account"
+        description="Manage your profile, wallet, and personal information."
+      />
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="wallet">Wallet</TabsTrigger>
+        </TabsList>
+        <TabsContent value="profile">
+          <ProfileSection currentUser={currentUser} refreshAppUser={refreshAppUser} authLoading={authLoading} />
+        </TabsContent>
+        <TabsContent value="wallet">
+          <WalletSection currentUser={currentUser} authLoading={authLoading} />
+        </TabsContent>
+      </Tabs>
+    </SettingsShell>
+  );
+}
 
-  // Top-up dialog
-  const [topUpDialogOpen, setTopUpDialogOpen] = useState(false);
-  const [topUpAmount, setTopUpAmount] = useState("");
-  const [topUpMethod, setTopUpMethod] = useState<PaymentMethod>("bizum");
-  const [proofText, setProofText] = useState("");
+// #region Profile Section
+function ProfileSection({ currentUser, refreshAppUser, authLoading }: { currentUser: User | null, refreshAppUser: () => Promise<void>, authLoading: boolean }) {
+  const dataService = useAppStore((state) => state.dataService);
+  const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
 
-  const form = useForm<z.infer<typeof profileFormSchema>>({
+  const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: { name: "", email: "", phoneNumber: "", location: "", about: "" },
   });
-
-  useEffect(() => {
-    const tab = searchParams.get("tab");
-    if (tab) setActiveTab(tab);
-  }, [searchParams]);
 
   useEffect(() => {
     if (currentUser) {
@@ -73,376 +95,410 @@ export default function MyAccountPage() {
         location: currentUser.location || "",
         about: currentUser.bio || "",
       });
-      loadWalletData();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser, form]);
 
-  const loadWalletData = async () => {
-    if (!currentUser) return;
+  const onSubmit = async (data: ProfileFormValues) => {
+    if (!currentUser || !dataService) return;
+    setIsSaving(true);
     try {
-      setLoadingWallet(true);
+      await dataService.updateUser(currentUser.id, {
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        location: data.location,
+        bio: data.about,
+      });
+      await refreshAppUser();
+      toast({ title: "Profile Updated", description: "Your information has been saved." });
+      form.reset(data, { keepValues: true }); // keep the new values and reset dirty state
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to update profile.", variant: "destructive" });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  if (authLoading) return <ProfileSkeleton />;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Personal Information</CardTitle>
+        <CardDescription>Update your personal details here.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your full name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email Address</FormLabel>
+                    <FormControl>
+                      <Input placeholder="your@email.com" {...field} readOnly className="cursor-not-allowed bg-muted/50" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phoneNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="(123) 456-7890" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      <Input placeholder="City, Country" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <FormField
+              control={form.control}
+              name="about"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>About You</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Tell us a little bit about yourself" className="resize-none" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-end">
+              <Button type="submit" disabled={isSaving || !form.formState.isDirty}>
+                <Save className="mr-2 h-4 w-4" />
+                {isSaving ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ProfileSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-6 w-40" />
+        <Skeleton className="h-4 w-64 mt-1" />
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-20" />
+            <Skeleton className="h-10 w-full" />
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-20" />
+          <Skeleton className="h-24 w-full" />
+        </div>
+        <div className="flex justify-end">
+          <Skeleton className="h-10 w-32" />
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+// #endregion
+
+// #region Wallet Section
+function WalletSection({ currentUser, authLoading }: { currentUser: User | null, authLoading: boolean }) {
+  const { toast } = useToast();
+  const [wallet, setWallet] = useState<Wallet | null>(null);
+  const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
+  const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
+  const [loadingWallet, setLoadingWallet] = useState(true);
+  const [topUpDialogOpen, setTopUpDialogOpen] = useState(false);
+  const [topUpAmount, setTopUpAmount] = useState("");
+  const [topUpMethod, setTopUpMethod] = useState<PaymentMethod>("bizum");
+  const [proofText, setProofText] = useState("");
+
+  const loadWalletData = useCallback(async () => {
+    if (!currentUser) return;
+    setLoadingWallet(true);
+    try {
       const { getWalletService } = await import("@/services/wallet-service");
       const { getPaymentService } = await import("@/services/payment-service");
       const walletService = await getWalletService();
       const paymentService = await getPaymentService();
       const [walletData, transactionsData, paymentsData] = await Promise.all([
         walletService.getWallet(currentUser.id),
-        walletService.getTransactions(currentUser.id),
+        walletService.getTransactions(currentUser.id, 5),
         paymentService.getUserPaymentRequests(currentUser.id),
       ]);
       setWallet(walletData);
-      setTransactions(transactionsData.slice(0, 10));
+      setTransactions(transactionsData);
       setPaymentRequests(paymentsData);
     } catch (e) {
       console.error("Error loading wallet data:", e);
+      toast({ title: "Error", description: "Could not load wallet data.", variant: "destructive" });
     } finally {
       setLoadingWallet(false);
     }
-  };
+  }, [currentUser, toast]);
 
-  const handleProfileUpdate = async (values: z.infer<typeof profileFormSchema>) => {
-    if (!currentUser || !dataService) return;
-    try {
-      await dataService.updateUser(currentUser.id, {
-        name: values.name,
-        displayName: values.name,
-        phoneNumber: values.phoneNumber,
-        location: values.location,
-        bio: values.about,
-      });
-      await refreshAppUser();
-      toast({ title: "Profile Updated", description: "Your account details have been saved." });
-    } catch (error) {
-      console.error("Failed to update profile", error);
-      toast({ title: "Update Failed", description: "Could not save your profile.", variant: "destructive" });
-    }
-  };
+  useEffect(() => {
+    loadWalletData();
+  }, [loadWalletData]);
 
-  const handleTopUp = async () => {
-    if (!currentUser || !topUpAmount || parseFloat(topUpAmount) <= 0) {
-      toast({ title: "Invalid Amount", description: "Please enter a valid amount", variant: "destructive" });
+  const handleTopUpRequest = async () => {
+    if (!currentUser) return;
+    const amount = parseFloat(topUpAmount);
+    if (isNaN(amount) || amount <= 0) {
+      toast({ title: "Invalid Amount", description: "Please enter a valid positive number.", variant: "destructive" });
       return;
     }
+
     try {
       const { getPaymentService } = await import("@/services/payment-service");
       const paymentService = await getPaymentService();
-      const proof = await paymentService.requestPayment({
-        userId: currentUser.id,
-        amount: parseFloat(topUpAmount),
-        method: topUpMethod,
-        description: "Wallet Top-up",
-      });
-      setProofText(proof.proof);
-    } catch (e) {
-      console.error("Error requesting payment:", e);
-      toast({ title: "Top-up Failed", description: "Could not initiate top-up.", variant: "destructive" });
+      await paymentService.createPaymentRequest(
+        currentUser.id,
+        amount,
+        topUpMethod,
+        "pending",
+        proofText,
+        currentUser.name || "N/A",
+      );
+      toast({ title: "Top-up Request Submitted", description: "Your request is pending approval." });
+      setTopUpDialogOpen(false);
+      setTopUpAmount("");
+      setProofText("");
+      loadWalletData();
+    } catch (error) {
+      toast({ title: "Error", description: "Failed to submit top-up request.", variant: "destructive" });
     }
   };
 
-  const handleMarkAsPaid = async (requestId: string) => {
-    try {
-      const { getPaymentService } = await import("@/services/payment-service");
-      const paymentService = await getPaymentService();
-      await paymentService.markAsPaid(requestId);
-      toast({ title: "Payment Confirmed", description: "The payment has been marked as paid." });
-      loadWalletData(); // Refresh data
-    } catch (e) {
-      console.error("Error marking as paid:", e);
-      toast({ title: "Confirmation Failed", variant: "destructive" });
-    }
-  };
-
-  if (authLoading) {
-    return (
-      <div className="space-y-6">
-        <Skeleton className="h-10 w-1/3" />
-        <div className="grid gap-8 md:grid-cols-3">
-          <div className="md:col-span-1">
-            <Skeleton className="h-12 w-full" />
-          </div>
-          <div className="md:col-span-2">
-            <Skeleton className="h-96 w-full" />
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (loadingWallet || authLoading) return <WalletSkeleton />;
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">My Account</h1>
-      <div className="grid gap-8 md:grid-cols-3">
-        <div className="md:col-span-1">
-          <Tabs
-            orientation="vertical"
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full"
-          >
-            <TabsList className="w-full h-auto">
-              <TabsTrigger value="profile" className="w-full justify-start p-3">Profile</TabsTrigger>
-              <TabsTrigger value="wallet" className="w-full justify-start p-3">Wallet</TabsTrigger>
-              <TabsTrigger value="subscriptions" className="w-full justify-start p-3">Subscriptions</TabsTrigger>
-              <TabsTrigger value="security" className="w-full justify-start p-3">Security</TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-        <div className="md:col-span-2">
-          <Tabs value={activeTab}>
-            <TabsContent value="profile">
-              <AnimatedCard>
-                <CardHeader>
-                  <CardTitle>Profile Details</CardTitle>
-                  <CardDescription>Update your personal information.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Form {...form}>
-                    <form onSubmit={form.handleSubmit(handleProfileUpdate)} className="space-y-6">
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Full Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Your full name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email Address</FormLabel>
-                            <FormControl>
-                              <Input placeholder="your@email.com" {...field} disabled />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="phoneNumber"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Phone Number</FormLabel>
-                            <FormControl>
-                              <Input placeholder="+1 234 567 890" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="location"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Location</FormLabel>
-                            <FormControl>
-                              <Input placeholder="City, Country" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="about"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>About Me</FormLabel>
-                            <FormControl>
-                              <Textarea placeholder="Tell us a little about yourself" className="resize-none" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <Button type="submit" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-              </AnimatedCard>
-            </TabsContent>
-            <TabsContent value="wallet">
-              <AnimatedCard>
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <CardTitle>My Wallet</CardTitle>
-                      <CardDescription>View your balance and transaction history.</CardDescription>
-                    </div>
-                    <Button onClick={() => setTopUpDialogOpen(true)}>
-                      <Plus className="mr-2 h-4 w-4" /> Top Up
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {loadingWallet ? (
-                    <div className="space-y-4">
-                      <Skeleton className="h-24 w-full" />
-                      <Skeleton className="h-40 w-full" />
-                    </div>
-                  ) : (
-                    <>
-                      <Card className="flex items-center justify-between p-6 bg-primary text-primary-foreground">
-                        <div>
-                          <p className="text-sm">Current Balance</p>
-                          <p className="text-4xl font-bold">€{wallet?.balance.toFixed(2) ?? "0.00"}</p>
-                        </div>
-                        <WalletIcon className="h-12 w-12" />
-                      </Card>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardTitle className="text-sm font-medium">Current Balance</CardTitle>
+          <WalletIcon className="h-4 w-4 text-muted-foreground" />
+        </CardHeader>
+        <CardContent>
+          <div className="text-2xl font-bold">€{wallet?.balance.toFixed(2) ?? '0.00'}</div>
+          <p className="text-xs text-muted-foreground">
+            Available funds for sessions and services.
+          </p>
+          <Button size="sm" className="mt-4" onClick={() => setTopUpDialogOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" /> Top Up Wallet
+          </Button>
+        </CardContent>
+      </Card>
 
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Pending Payments</h3>
-                        {paymentRequests.length > 0 ? (
-                          <div className="space-y-2">
-                            {paymentRequests.map((req) => (
-                              <Card key={req.id} className="flex justify-between items-center p-3">
-                                <div>
-                                  <p><strong>€{req.amount.toFixed(2)}</strong> via {req.method}</p>
-                                  <p className="text-xs text-muted-foreground">{req.description}</p>
-                                </div>
-                                <Button size="sm" onClick={() => handleMarkAsPaid(req.id)}>
-                                  <Check className="mr-2 h-4 w-4" /> I've Paid
-                                </Button>
-                              </Card>
-                            ))}
-                          </div>
-                        ) : (
-                          <p className="text-sm text-muted-foreground">No pending payments.</p>
-                        )}
-                      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Recent Transactions</CardTitle>
+          <CardDescription>Your last 5 wallet movements.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <TransactionTable transactions={transactions} />
+        </CardContent>
+      </Card>
 
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">Recent Transactions</h3>
-                        <Table>
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>Date</TableHead>
-                              <TableHead>Description</TableHead>
-                              <TableHead className="text-right">Amount</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {transactions.length > 0 ? (
-                              transactions.map((tx) => {
-                                // Handle Firestore Timestamp or string
-                                const date = typeof tx.createdAt === 'string' 
-                                  ? new Date(tx.createdAt) 
-                                  : tx.createdAt?.toDate?.() || new Date();
-                                return (
-                                  <TableRow key={tx.id}>
-                                    <TableCell>{format(date, "MMM d, yyyy")}</TableCell>
-                                    <TableCell>{tx.description}</TableCell>
-                                    <TableCell className={`text-right font-medium ${tx.type === 'credit' ? 'text-green-500' : 'text-red-500'}`}>
-                                      {tx.type === 'credit' ? '+' : '-'}€{tx.amount.toFixed(2)}
-                                    </TableCell>
-                                  </TableRow>
-                                );
-                              })
-                            ) : (
-                              <TableRow>
-                                <TableCell colSpan={3} className="text-center">No transactions yet.</TableCell>
-                              </TableRow>
-                            )}
-                          </TableBody>
-                        </Table>
-                      </div>
-                    </>
-                  )}
-                </CardContent>
-              </AnimatedCard>
-            </TabsContent>
-            <TabsContent value="subscriptions">
-              <AnimatedCard>
-                <CardHeader>
-                  <CardTitle>Subscriptions</CardTitle>
-                  <CardDescription>Manage your EKA subscription plans.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-center py-12 border-2 border-dashed rounded-lg">
-                    <h3 className="text-lg font-medium">Coming Soon</h3>
-                    <p className="text-sm text-muted-foreground">
-                      Subscription management will be available here shortly.
-                    </p>
-                  </div>
-                </CardContent>
-              </AnimatedCard>
-            </TabsContent>
-            <TabsContent value="security">
-              <AnimatedCard>
-                <CardHeader>
-                  <CardTitle>Security</CardTitle>
-                  <CardDescription>Manage your password and account security.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <Button>Change Password</Button>
-                </CardContent>
-              </AnimatedCard>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Pending Payments</CardTitle>
+          <CardDescription>Top-up requests awaiting admin approval.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <PaymentRequestTable requests={paymentRequests.filter(r => r.status === 'pending')} />
+        </CardContent>
+      </Card>
 
-      <Dialog open={topUpDialogOpen} onOpenChange={setTopUpDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Top Up Your Wallet</DialogTitle>
-            <DialogDescription>
-              {proofText ? "Complete your payment and your balance will be updated shortly." : "Enter the amount and choose your payment method."}
-            </DialogDescription>
-          </DialogHeader>
-          {proofText ? (
-            <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">
-                Please use the following information to complete your payment of <strong>€{topUpAmount}</strong> via <strong>{topUpMethod}</strong>.
-              </p>
-              <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-md">
-                <pre className="text-sm whitespace-pre-wrap">{proofText}</pre>
-              </div>
-              <p className="text-xs text-center text-muted-foreground">
-                Your balance will be updated automatically once payment is confirmed.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="grid gap-2">
-                <Label htmlFor="amount">Amount (€)</Label>
-                <Input id="amount" type="number" value={topUpAmount} onChange={(e) => setTopUpAmount(e.target.value)} />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="method">Payment Method</Label>
-                <Select value={topUpMethod} onValueChange={(v) => setTopUpMethod(v as PaymentMethod)}>
-                  <SelectTrigger id="method">
-                    <SelectValue placeholder="Select method" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="bizum">Bizum</SelectItem>
-                    <SelectItem value="revolut">Revolut</SelectItem>
-                    <SelectItem value="paypal">PayPal</SelectItem>
-                    <SelectItem value="bank_transfer">Bank Transfer</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          )}
-          <DialogFooter>
-            <Button variant="outline" onClick={() => { setTopUpDialogOpen(false); setProofText(""); }}>
-              {proofText ? "Close" : "Cancel"}
-            </Button>
-            {!proofText && <Button onClick={handleTopUp}>Request Payment</Button>}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <TopUpDialog
+        open={topUpDialogOpen}
+        onOpenChange={setTopUpDialogOpen}
+        amount={topUpAmount}
+        setAmount={setTopUpAmount}
+        method={topUpMethod}
+        setMethod={setTopUpMethod}
+        proof={proofText}
+        setProof={setProofText}
+        onSubmit={handleTopUpRequest}
+      />
     </div>
   );
 }
+
+function TransactionTable({ transactions }: { transactions: WalletTransaction[] }) {
+  if (transactions.length === 0) return <p className="text-sm text-muted-foreground">No transactions yet.</p>;
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Date</TableHead>
+          <TableHead>Description</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {transactions.map((tx) => (
+          <TableRow key={tx.id}>
+            <TableCell>{format(toDate(tx.createdAt), "MMM d, yyyy")}</TableCell>
+            <TableCell>{tx.description}</TableCell>
+            <TableCell className={`text-right font-medium ${tx.type === 'credit' ? 'text-green-600' : 'text-red-600'}`}>
+              {tx.type === 'credit' ? '+' : '-'}€{tx.amount.toFixed(2)}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+function PaymentRequestTable({ requests }: { requests: PaymentRequest[] }) {
+  if (requests.length === 0) return <p className="text-sm text-muted-foreground">No pending payments.</p>;
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>Date</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {requests.map((req) => (
+          <TableRow key={req.id}>
+            <TableCell>{format(toDate(req.createdAt), "MMM d, yyyy")}</TableCell>
+            <TableCell className="capitalize">{req.method}</TableCell>
+            <TableCell className="text-right font-medium">€{req.amount.toFixed(2)}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod, proof, setProof, onSubmit }: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  amount: string;
+  setAmount: (amount: string) => void;
+  method: PaymentMethod;
+  setMethod: (method: PaymentMethod) => void;
+  proof: string;
+  setProof: (proof: string) => void;
+  onSubmit: () => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Request Wallet Top-up</DialogTitle>
+          <DialogDescription>
+            Submit a request for manual balance top-up. An admin will approve it shortly.
+          </DialogDescription>
+        </DialogHeader>
+        <div className="space-y-4 py-2">
+          <div className="space-y-2">
+            <Label htmlFor="amount">Amount (€)</Label>
+            <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="e.g., 50" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="method">Payment Method</Label>
+            <Select value={method} onValueChange={(value) => setMethod(value as PaymentMethod)}>
+              <SelectTrigger id="method">
+                <SelectValue placeholder="Select method" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="bizum">Bizum</SelectItem>
+                <SelectItem value="cash">Cash</SelectItem>
+                <SelectItem value="transfer">Bank Transfer</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="proof">Proof / Reference</Label>
+            <Textarea id="proof" value={proof} onChange={(e) => setProof(e.target.value)} placeholder="e.g., Transaction ID, or a note for the admin" />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button onClick={onSubmit}>Submit Request</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function WalletSkeleton() {
+  return (
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-5 w-32" />
+        </CardHeader>
+        <CardContent>
+          <Skeleton className="h-8 w-24 mb-2" />
+          <Skeleton className="h-4 w-48" />
+          <Skeleton className="h-9 w-32 mt-4" />
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-6 w-40" />
+          <Skeleton className="h-4 w-56 mt-1" />
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+// #endregion

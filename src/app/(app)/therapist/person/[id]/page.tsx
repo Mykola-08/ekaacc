@@ -1,12 +1,17 @@
 import React from 'react';
 import PersonProfile from '@/components/eka/person-profile';
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
 
 export default function PersonPage({ params }: { params: { id: string } }) {
   const { id } = params;
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-semibold mb-4">Person Profile</h1>
+    <SettingsShell>
+      <SettingsHeader
+        title="Client Profile"
+        description={`Viewing details for client ID: ${id}`}
+      />
       <PersonProfile userId={id} />
-    </div>
+    </SettingsShell>
   );
 }

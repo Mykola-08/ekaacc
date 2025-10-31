@@ -1,21 +1,85 @@
 "use client";
-import { useState, useMemo, useEffect } from 'react';
+
+import { useState, useMemo, useEffect, useCallback } from 'react';
+import { format } from 'date-fns';
+import type { Timestamp } from 'firebase/firestore';
+import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+
+import type { Report } from '@/lib/types';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
+import { useToast } from '@/hooks/use-toast';
+
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
-// AI assistant removed from reports page
-import { useAuth } from '@/context/auth-context';
-import { useAppStore } from '@/store/app-store';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
-import type { Report } from '@/lib/types';
-import { format } from 'date-fns';
-import type { Timestamp } from 'firebase/firestore';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
-const chartData = [
+// Helper function to convert various timestamp formats to a Date object
+function toDate(timestamp: Timestamp | Date | string): Date {
+    if (timestamp instanceof Date) return timestamp;
+    if (typeof timestamp === 'string') return new Date(timestamp);
+    if (timestamp && typeof timestamp.toDate === 'function') {
+        return timestamp.toDate();
+    }
+    return new Date();
+}
+
+// --- Sub-components for better structure ---
+
+function ReportListSkeleton() {
+    return (
+        <ul className="space-y-4 p-4">
+            {[...Array(3)].map((_, i) => (
+                <li key={i} className="flex items-start gap-4">
+                    <Skeleton className="h-10 w-10 rounded-full" />
+                    <div className="flex-1 space-y-2">
+                        <Skeleton className="h-4 w-3/4" />
+                        <Skeleton className="h-4 w-1/2" />
+                        <Skeleton className="h-4 w-full" />
+                    </div>
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+function NoReportsEmptyState() {
+    return (
+        <div className="text-center py-16 border-2 border-dashed rounded-lg m-4">
+            <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
+            <h3 className="mt-4 text-lg font-semibold">No Reports Yet</h3>
+            <p className="mt-1 text-sm text-muted-foreground">Your session reports and summaries will appear here.</p>
+        </div>
+    );
+}
+
+function ReportListItem({ report }: { report: Report }) {
+    return (
+        <li className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
+            <div className="p-3 bg-muted rounded-full flex items-center justify-center shrink-0">
+                {report.type === 'AI Summary' ? <Bot className="h-6 w-6 text-primary" /> : <FileText className="h-6 w-6 text-primary" />}
+            </div>
+            <div className="flex-1 overflow-hidden">
+                <div className="flex justify-between items-center">
+                    <p className="font-semibold truncate">{report.title}</p>
+                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
+                </div>
+                <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
+                <p className="text-sm mt-1 break-words">{report.summary}</p>
+            </div>
+            <Button variant="ghost" size="icon" className="shrink-0 self-center">
+                <ArrowUp className="h-4 w-4 transform -rotate-45" />
+            </Button>
+        </li>
+    );
+}
+
+const wellnessChartData = [
     { metric: "Pain", score: 4, fullMark: 10 },
     { metric: "Mood", score: 8, fullMark: 10 },
     { metric: "Energy", score: 7, fullMark: 10 },
@@ -23,58 +87,81 @@ const chartData = [
     { metric: "Mobility", score: 9, fullMark: 10 },
 ];
 
-const chartConfig = {
-    score: {
-        label: "Score",
-        color: "hsl(var(--primary))",
-    }
+const wellnessChartConfig = {
+    score: { label: "Score", color: "hsl(var(--primary))" },
 };
 
-function toDate(timestamp: Timestamp | Date | string): Date {
-    if (timestamp instanceof Date) return timestamp;
-    if (typeof timestamp === 'string') return new Date(timestamp);
-    // Firestore Timestamp object
-    if (typeof timestamp === 'object' && 'toDate' in timestamp) {
-        return timestamp.toDate();
-    }
-    return new Date();
+function WellnessSnapshotCard() {
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>Wellness Snapshot</CardTitle>
+                <CardDescription>Your current ratings across key metrics.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <ChartContainer config={wellnessChartConfig} className="mx-auto aspect-square h-full w-full max-h-[250px]">
+                    <RadarChart data={wellnessChartData}>
+                        <PolarGrid />
+                        <PolarAngleAxis dataKey="metric" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }} />
+                        <PolarRadiusAxis angle={30} domain={[0, 10]} tick={false} axisLine={false} />
+                        <Radar name="Score" dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.6} />
+                        <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+                    </RadarChart>
+                </ChartContainer>
+            </CardContent>
+        </Card>
+    );
 }
+
+function GenerateReportCard({ onGenerate, isGenerating, isLoading }: { onGenerate: () => void; isGenerating: boolean; isLoading: boolean; }) {
+    return (
+        <Card>
+            <CardHeader>
+                <CardTitle>AI Summary</CardTitle>
+                <CardDescription>Let our AI analyze your recent progress and generate a monthly summary for you.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Button onClick={onGenerate} disabled={isGenerating || isLoading} className="w-full">
+                    {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isGenerating ? 'Generating...' : 'Generate Monthly Report'}
+                </Button>
+            </CardContent>
+        </Card>
+    );
+}
+
+
+// --- Main Page Component ---
 
 export default function ReportsPage() {
     const { appUser: currentUser } = useAuth();
-    const { dataService, initDataService } = useAppStore();
+    const dataService = useAppStore((state) => state.dataService);
     const [reports, setReports] = useState<Report[]>([]);
     const [isLoadingReports, setIsLoadingReports] = useState(true);
-
-    useEffect(() => {
-        initDataService();
-    }, [initDataService]);
-
-    useEffect(() => {
-        const fetchReports = async () => {
-            if (dataService && currentUser) {
-                setIsLoadingReports(true);
-                try {
-                    const userReports = await dataService.getReports(currentUser.id);
-                    setReports(userReports);
-                } catch (error) {
-                    console.error("Failed to fetch reports:", error);
-                    toast({
-                        title: "Error",
-                        description: "Could not load reports.",
-                        variant: "destructive",
-                    });
-                } finally {
-                    setIsLoadingReports(false);
-                }
-            }
-        };
-        fetchReports();
-    }, [dataService, currentUser]);
-
-    const { toast } = useToast();
     const [isGenerating, setIsGenerating] = useState(false);
-    
+    const { toast } = useToast();
+
+    const fetchReports = useCallback(async () => {
+        if (dataService && currentUser) {
+            setIsLoadingReports(true);
+            try {
+                const userReports = await dataService.getReports(currentUser.id);
+                setReports(userReports || []);
+            } catch (error) {
+                console.error("Failed to fetch reports:", error);
+                toast({ title: "Error", description: "Could not load reports.", variant: "destructive" });
+            } finally {
+                setIsLoadingReports(false);
+            }
+        } else if (!currentUser) {
+            setIsLoadingReports(false);
+        }
+    }, [dataService, currentUser, toast]);
+
+    useEffect(() => {
+        fetchReports();
+    }, [fetchReports]);
+
     const handleGenerateReport = async () => {
         if (!currentUser || !reports) return;
         setIsGenerating(true);
@@ -89,129 +176,82 @@ export default function ReportsPage() {
                 startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
                 endDate: new Date().toISOString(),
                 healthHistory: "User has a history of chronic lower back pain and is currently focusing on improving mobility.",
-                reports: JSON.stringify(reports.slice(0, 5).map(r => ({title: r.title, summary: r.summary, date: r.date}))),
-                messages: "User has been feeling more positive about their progress and is motivated to continue with the therapy plan.",
+                reports: JSON.stringify(reports.slice(0, 5).map((r: Report) => ({title: r.title, summary: r.summary, date: r.date}))),
+                messages: JSON.stringify([]), // Empty messages array
             };
             const result = await generateMonthlyReport(input);
-            const newReport: Omit<Report, 'id'> = {
-                title: "Monthly AI Progress Summary",
-                author: "AI Assistant",
-                type: 'AI Summary',
-                summary: result.report,
-                createdAt: new Date().toISOString(),
-                date: new Date().toISOString()
-            };
-            // Save report using data service
-            if (dataService) {
-                await dataService.createReport(newReport);
-                // Refresh reports list
-                const updatedReports = await dataService.getReports(currentUser.id);
-                setReports(updatedReports);
-            }
             toast({
-                title: "Report Generated!",
-                description: "Your new monthly summary is ready.",
+                title: "Report Generated",
+                description: "Your monthly report is ready!",
             });
+            // Refresh reports list
+            await fetchReports();
         } catch (error) {
-            console.error("Failed to generate report:", error);
+            console.error('Failed to generate report:', error);
             toast({
+                title: "Error",
+                description: "Could not generate report. Please try again.",
                 variant: "destructive",
-                title: "Generation Failed",
-                description: "There was an error generating your report. Please try again."
             });
         } finally {
             setIsGenerating(false);
         }
     };
 
-    const sortedReports = useMemo(() => {
-        if (!reports) return [];
-        return [...reports].sort((a, b) => {
-            const dateA = a.date ? toDate(a.date) : new Date(0);
-            const dateB = b.date ? toDate(b.date) : new Date(0);
-            return dateB.getTime() - dateA.getTime();
-        });
-    }, [reports]);
-
     return (
-        <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 space-y-8">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>My Reports</CardTitle>
-                        <CardDescription>View all your session summaries and progress reports.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        {isLoadingReports && (
-                            <ul className="space-y-4">
-                                {[1, 2, 3].map(i => (
-                                    <li key={i} className="flex items-start gap-4 p-4">
-                                        <Skeleton className="h-12 w-12 rounded-full" />
-                                        <div className="flex-1 space-y-2">
-                                            <Skeleton className="h-4 w-3/4" />
-                                            <Skeleton className="h-4 w-1/2" />
-                                            <Skeleton className="h-4 w-full" />
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+        <SettingsShell>
+            <SettingsHeader
+                title="Reports"
+                description="View your wellness journey reports and insights."
+            />
+
+            <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                    <div>
+                        <CardTitle>Your Reports</CardTitle>
+                        <CardDescription>AI-powered insights into your mental health progress</CardDescription>
+                    </div>
+                    <Button onClick={handleGenerateReport} disabled={isGenerating}>
+                        {isGenerating ? (
+                            <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                Generating...
+                            </>
+                        ) : (
+                            <>
+                                <Bot className="mr-2 h-4 w-4" />
+                                Generate New Report
+                            </>
                         )}
-                        {!isLoadingReports && sortedReports && sortedReports.length > 0 && (
-                            <ul className="space-y-1">
-                                {sortedReports.map((report) => (
-                                    <li key={report.id} className="flex items-start gap-4 p-4 rounded-lg hover:bg-muted/50 transition-colors">
-                                        <div className="p-3 bg-muted rounded-full flex items-center justify-center shrink-0">
-                                            {report.type === 'AI Summary' ? <Bot className="h-6 w-6 text-primary" /> : <FileText className="h-6 w-6 text-primary" />}
+                    </Button>
+                </CardHeader>
+                <CardContent>
+                    {isLoadingReports ? (
+                        <ReportListSkeleton />
+                    ) : reports && reports.length > 0 ? (
+                        <ul className="space-y-4">
+                            {reports.map((report) => (
+                                <li key={report.id} className="flex items-start gap-4 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
+                                    <FileText className="h-10 w-10 text-primary shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center justify-between gap-2 mb-1">
+                                            <h3 className="font-semibold text-base truncate">{report.title}</h3>
+                                            <Badge variant="outline">{report.date ? format(toDate(report.date), 'MMM d, yyyy') : 'N/A'}</Badge>
                                         </div>
-                                        <div className="flex-1 overflow-hidden">
-                                            <div className="flex justify-between items-center">
-                                                <p className="font-semibold truncate">{report.title}</p>
-                                                <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
-                                            </div>
-                                            <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
-                                            <p className="text-sm mt-1 break-words">{report.summary}</p>
-                                        </div>
-                                        <Button variant="ghost" size="icon" className="shrink-0">
-                                            <ArrowUp className="h-4 w-4 transform -rotate-45" />
-                                        </Button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                        {!isLoadingReports && (!sortedReports || sortedReports.length === 0) && (
-                            <div className="text-center py-12">
-                                <FileText className="mx-auto h-12 w-12 text-muted-foreground" />
-                                <h3 className="mt-4 text-lg font-semibold">No Reports Yet</h3>
-                                <p className="mt-1 text-sm text-muted-foreground">Your session reports and summaries will appear here.</p>
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
-            </div>
-            <div className="space-y-8">
-                {/* AI assistant removed */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Wellness Snapshot</CardTitle>
-                        <CardDescription>Your current ratings across key metrics.</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                        <ChartContainer config={chartConfig} className="mx-auto aspect-square h-full w-full">
-                            <RadarChart data={chartData}>
-                                <PolarGrid />
-                                <PolarAngleAxis dataKey="metric" />
-                                <PolarRadiusAxis angle={30} domain={[0, 10]} />
-                                <Radar name="Score" dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.6} />
-                                <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-                            </RadarChart>
-                        </ChartContainer>
-                    </CardContent>
-                </Card>
-                <Button onClick={handleGenerateReport} disabled={isGenerating || isLoadingReports} className="w-full">
-                    {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isGenerating ? 'Generating...' : 'Generate Monthly Report'}
-                </Button>
-            </div>
-        </div>
+                                        <p className="text-sm text-muted-foreground line-clamp-2">{report.summary}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <div className="text-center py-12">
+                            <FileText className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+                            <p className="text-muted-foreground">No reports available yet.</p>
+                            <p className="text-sm text-muted-foreground mt-1">Generate your first report to get started!</p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+        </SettingsShell>
     );
 }

@@ -3,86 +3,78 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Home, Users, Calendar, Settings, BarChart3, FileText, ArrowLeft } from 'lucide-react';
+import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
-export default function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const pathname = usePathname();
+const navItems = [
+	{ href: '/admin', label: 'Dashboard', icon: BarChart3 },
+	{ href: '/admin/users', label: 'Users', icon: Users },
+	{ href: '/admin/subscriptions', label: 'Subscriptions', icon: DollarSign },
+	{ href: '/admin/payments', label: 'Payments', icon: CreditCard },
+	{ href: '/admin/community-setup', label: 'Community', icon: Database },
+	{ href: '/admin/settings', label: 'Settings', icon: Settings },
+];
 
-  const navItems = [
-    { href: '/admin', label: 'Dashboard', icon: BarChart3 },
-    { href: '/admin/users', label: 'Users', icon: Users },
-    { href: '/admin/sessions', label: 'Sessions', icon: Calendar },
-    { href: '/admin/reports', label: 'Reports', icon: FileText },
-    { href: '/admin/settings', label: 'Settings', icon: Settings },
-  ];
+function AdminSidebar() {
+	const pathname = usePathname();
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-        {/* Top Admin Header */}
-        <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-40">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <Link href="/home">
-                  <Button variant="ghost" size="sm">
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back to App
-                  </Button>
-                </Link>
-                <div>
-                  <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                    Admin Portal
-                  </h1>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
-                    System Administration & Management
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-slate-600 dark:text-slate-300 px-3 py-1 bg-amber-100 dark:bg-amber-900/30 rounded-full">
-                  Admin Mode
-                </span>
-              </div>
-            </div>
-          </div>
-        </header>
+	return (
+		<aside className="w-64 flex-shrink-0 border-r bg-background hidden lg:flex flex-col">
+			<div className="flex h-full flex-col justify-between">
+				<div>
+					<div className="p-4 border-b h-[69px] flex items-center">
+						<Link href="/admin" className="flex items-center gap-3">
+							<Shield className="h-7 w-7 text-primary" />
+							<h1 className="text-lg font-bold">Admin Portal</h1>
+						</Link>
+					</div>
+					<nav className="flex-1 space-y-1 p-2">
+						{navItems.map((item) => {
+							const isActive = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href));
+							return (
+								<Link key={item.href} href={item.href}>
+									<Button
+										variant={isActive ? 'secondary' : 'ghost'}
+										className="w-full justify-start"
+									>
+										<item.icon className="mr-2 h-4 w-4" />
+										{item.label}
+									</Button>
+								</Link>
+							);
+						})}
+					</nav>
+				</div>
+				<div className="p-4 border-t">
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Button variant="outline" className="w-full justify-start" asChild>
+									<Link href="/home">
+										<ArrowLeft className="mr-2 h-4 w-4" />
+										Back to App
+									</Link>
+								</Button>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>Return to the main application view.</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</div>
+			</div>
+		</aside>
+	);
+}
 
-        {/* Admin Navigation Tabs */}
-        <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700">
-          <div className="container mx-auto px-4">
-            <nav className="flex gap-1 overflow-x-auto">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = pathname === item.href;
-                return (
-                  <Link key={item.href} href={item.href}>
-                    <Button
-                      variant="ghost"
-                      className={cn(
-                        'rounded-none border-b-2 border-transparent px-4 py-6 hover:border-slate-300 dark:hover:border-slate-600',
-                        isActive &&
-                          'border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/30'
-                      )}
-                    >
-                      <Icon className="h-4 w-4 mr-2" />
-                      {item.label}
-                    </Button>
-                  </Link>
-                );
-              })}
-            </nav>
-          </div>
-        </div>
-
-        {/* Main Content Area - Full Width, No Sidebar */}
-        <main className="container mx-auto px-4 py-8">
-          {children}
-        </main>
-      </div>
-  );
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+	return (
+		<div className="flex min-h-screen bg-background">
+			<AdminSidebar />
+			<main className="flex-1 overflow-y-auto">
+				<div className="p-4 sm:p-6 lg:p-8">{children}</div>
+			</main>
+		</div>
+	);
 }

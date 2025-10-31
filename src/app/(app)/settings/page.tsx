@@ -1,44 +1,33 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
 import { 
-  Bell, 
-  Mail, 
-  MessageSquare, 
-  Calendar, 
-  Shield, 
-  Eye, 
-  Moon, 
-  Sun, 
-  Monitor,
-  Volume2,
-  Save
+  Bell, Mail, MessageSquare, Calendar, Save
 } from 'lucide-react';
-import { AnimatedCard } from '@/components/eka/animated-card';
-import { useTheme } from 'next-themes';
+import { Button } from "@/components/ui/button";
 import { Skeleton } from '@/components/ui/skeleton';
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
+import { SettingsCard } from '@/components/eka/settings/settings-card';
+import { ThemeSelector } from '@/components/eka/settings/theme-selector';
+import { NotificationSwitch } from '@/components/eka/settings/notification-switch';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import type { User } from '@/lib/types';
+
+type UserSettings = NonNullable<User['settings']>;
+type SettingsCategory = keyof UserSettings;
 
 export default function SettingsPage() {
   const { appUser: currentUser, refreshAppUser, loading: authLoading } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
-  const router = useRouter();
-  const { theme, setTheme } = useTheme();
-  const [hasChanges, setHasChanges] = useState(false);
 
-  // Local state for settings
-  const [settings, setSettings] = useState(currentUser?.settings);
+  const [settings, setSettings] = useState<UserSettings>(currentUser?.settings || {});
   const [isLoading, setIsLoading] = useState(true);
+  const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -49,17 +38,24 @@ export default function SettingsPage() {
     }
   }, [currentUser, authLoading]);
 
-
-  const handleSettingChange = (category: string, key: string, value: boolean) => {
-    setSettings(prev => ({
-      ...prev,
-      [category]: {
-        // @ts-ignore
-        ...prev?.[category],
-        [key]: value,
-      },
-    }));
-    setHasChanges(true);
+  const handleSettingChange = (category: SettingsCategory, key: string, value: boolean) => {
+    setSettings((prev) => {
+      const newSettings = {
+        ...prev,
+        [category]: {
+          ...prev?.[category],
+          [key]: value,
+        },
+      };
+      
+      // Deep compare to check for actual changes
+      if (JSON.stringify(newSettings) !== JSON.stringify(currentUser?.settings || {})) {
+        setHasChanges(true);
+      } else {
+        setHasChanges(false);
+      }
+      return newSettings;
+    });
   };
 
   const handleSave = async () => {
@@ -68,6 +64,7 @@ export default function SettingsPage() {
       return;
     }
 
+    setIsLoading(true);
     try {
       await dataService.updateUser(currentUser.id, { settings });
       await refreshAppUser();
@@ -84,222 +81,135 @@ export default function SettingsPage() {
         description: "Please try again or check your connection.",
         variant: 'destructive',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (isLoading || authLoading) {
-    return (
-      <div className="max-w-4xl mx-auto space-y-8">
-        <Skeleton className="h-10 w-1/3" />
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-8 w-1/4" />
-            <Skeleton className="h-4 w-1/2" />
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-8 w-full" />
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-8 w-1/4" />
-            <Skeleton className="h-4 w-1/2" />
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <Skeleton className="h-8 w-full" />
-            <Skeleton className="h-8 w-full" />
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  const notificationSettings = useMemo(() => [
+    { id: 'email-news', label: 'Newsletter and Updates', category: 'notifications', subcategory: 'email', key: 'marketing', icon: <Mail className="h-5 w-5 text-muted-foreground" /> },
+    { id: 'email-reminders', label: 'Appointment Reminders', category: 'notifications', subcategory: 'email', key: 'email', icon: <Calendar className="h-5 w-5 text-muted-foreground" /> },
+    { id: 'push-messages', label: 'New Chat Messages', category: 'notifications', subcategory: 'push', key: 'push', icon: <MessageSquare className="h-5 w-5 text-muted-foreground" /> },
+    { id: 'push-sms', label: 'SMS Notifications', category: 'notifications', subcategory: 'push', key: 'sms', icon: <Bell className="h-5 w-5 text-muted-foreground" /> },
+  ] as const, []);
 
-  if (!currentUser) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <CardTitle>Please log in</CardTitle>
-            <CardDescription>You need to be logged in to access settings.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button onClick={() => router.push('/login')} className="w-full">
-              Go to Login
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+  if (isLoading || authLoading) {
+    return <SettingsSkeleton />;
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <Button onClick={handleSave} disabled={!hasChanges}>
+    <SettingsShell>
+      <div className="flex items-center justify-between">
+        <SettingsHeader
+          title="Settings"
+          description="Manage your account, notifications, and appearance preferences."
+        />
+        <Button onClick={handleSave} disabled={!hasChanges || isLoading}>
           <Save className="mr-2 h-4 w-4" />
-          Save Changes
+          {isLoading ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
 
-      {/* Notifications Section */}
-      <AnimatedCard>
-        <CardHeader>
-          <CardTitle>Notifications</CardTitle>
-          <CardDescription>Manage how you receive notifications from EKA.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Mail className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="email-notifications" className="font-medium">Email Notifications</Label>
-                <p className="text-sm text-gray-500">For session reminders, reports, and important updates.</p>
-              </div>
-            </div>
-            <Switch
-              id="email-notifications"
-              checked={settings?.notifications?.email ?? true}
-              onCheckedChange={(checked) => handleSettingChange('notifications', 'email', checked)}
-            />
-          </div>
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Bell className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="push-notifications" className="font-medium">Push Notifications</Label>
-                <p className="text-sm text-gray-500">Real-time alerts on your mobile or desktop device.</p>
-              </div>
-            </div>
-            <Switch
-              id="push-notifications"
-              checked={settings?.notifications?.push ?? true}
-              onCheckedChange={(checked) => handleSettingChange('notifications', 'push', checked)}
-            />
-          </div>
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <MessageSquare className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="sms-notifications" className="font-medium">SMS Notifications</Label>
-                <p className="text-sm text-gray-500">For urgent alerts and password resets.</p>
-              </div>
-            </div>
-            <Switch
-              id="sms-notifications"
-              checked={settings?.notifications?.sms ?? false}
-              onCheckedChange={(checked) => handleSettingChange('notifications', 'sms', checked)}
-            />
-          </div>
-          <Separator />
-          <div className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 dark:bg-gray-900/30">
-            <div className="flex items-center space-x-4">
-              <Calendar className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="marketing-emails" className="font-medium">Promotions & Community News</Label>
-                <p className="text-sm text-gray-500">Receive occasional news, offers, and community updates.</p>
-              </div>
-            </div>
-            <Switch
-              id="marketing-emails"
-              checked={settings?.notifications?.marketing ?? false}
-              onCheckedChange={(checked) => handleSettingChange('notifications', 'marketing', checked)}
-            />
-          </div>
-        </CardContent>
-      </AnimatedCard>
+      <SettingsCard
+        title="Appearance"
+        description="Customize the look and feel of the application."
+      >
+        <ThemeSelector />
+      </SettingsCard>
 
-      {/* Privacy Section */}
-      <AnimatedCard>
-        <CardHeader>
-          <CardTitle>Privacy</CardTitle>
-          <CardDescription>Control how your information is used and seen by others.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Eye className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="profile-visibility" className="font-medium">Public Profile Visibility</Label>
-                <p className="text-sm text-gray-500">Allow others in the community to see your profile.</p>
-              </div>
-            </div>
-            <Switch
-              id="profile-visibility"
-              checked={settings?.privacy?.profileVisibility ?? true}
-              onCheckedChange={(checked) => handleSettingChange('privacy', 'profileVisibility', checked)}
-            />
+      <SettingsCard
+        title="Notifications"
+        description="Choose how you want to be notified about important events."
+      >
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h4 className="font-medium">Email Notifications</h4>
+            {notificationSettings.filter(s => s.subcategory === 'email').map(setting => (
+              <NotificationSwitch
+                key={setting.id}
+                id={setting.id}
+                label={setting.label}
+                icon={setting.icon}
+                checked={settings?.notifications?.[setting.key as 'email' | 'marketing'] ?? false}
+                onCheckedChange={(value) => handleSettingChange('notifications', setting.key, value)}
+              />
+            ))}
           </div>
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Shield className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="data-sharing" className="font-medium">Anonymized Data Sharing</Label>
-                <p className="text-sm text-gray-500">Help improve EKA by sharing anonymized data for research.</p>
-              </div>
-            </div>
-            <Switch
-              id="data-sharing"
-              checked={settings?.privacy?.dataSharing ?? false}
-              onCheckedChange={(checked) => handleSettingChange('privacy', 'dataSharing', checked)}
-            />
+          <div className="space-y-2">
+            <h4 className="font-medium">Push Notifications</h4>
+            {notificationSettings.filter(s => s.subcategory === 'push').map(setting => (
+              <NotificationSwitch
+                key={setting.id}
+                id={setting.id}
+                label={setting.label}
+                icon={setting.icon}
+                checked={settings?.notifications?.[setting.key as 'push' | 'sms'] ?? false}
+                onCheckedChange={(value) => handleSettingChange('notifications', setting.key, value)}
+              />
+            ))}
           </div>
-        </CardContent>
-      </AnimatedCard>
+        </div>
+      </SettingsCard>
 
-      {/* App Preferences Section */}
-      <AnimatedCard>
+      <SettingsCard
+        title="Account & Security"
+        description="Manage your account information and security settings."
+      >
+        <div className="space-y-4">
+          <div className="flex items-center justify-between rounded-lg border p-4">
+            <div>
+              <h4 className="font-medium">Password</h4>
+              <p className="text-sm text-muted-foreground">
+                For security, password changes are handled via email reset.
+              </p>
+            </div>
+            <Button variant="outline">Reset Password</Button>
+          </div>
+           <div className="flex items-center justify-between rounded-lg border p-4">
+            <div>
+              <h4 className="font-medium">Two-Factor Authentication</h4>
+              <p className="text-sm text-muted-foreground">
+                Add an extra layer of security to your account.
+              </p>
+            </div>
+            <Button variant="outline" disabled>Enable</Button>
+          </div>
+        </div>
+      </SettingsCard>
+    </SettingsShell>
+  );
+}
+
+function SettingsSkeleton() {
+  return (
+    <SettingsShell>
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <Skeleton className="h-8 w-32" />
+          <Skeleton className="h-4 w-72" />
+        </div>
+        <Skeleton className="h-10 w-32" />
+      </div>
+      <Card>
         <CardHeader>
-          <CardTitle>Appearance & Preferences</CardTitle>
-          <CardDescription>Customize your experience within the app.</CardDescription>
+          <Skeleton className="h-6 w-24" />
+          <Skeleton className="h-4 w-48" />
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Moon className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label className="font-medium">Theme</Label>
-                <p className="text-sm text-gray-500">Choose between light, dark, or system default.</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 rounded-md border p-1">
-              <Button variant={theme === 'light' ? 'secondary' : 'ghost'} size="sm" onClick={() => setTheme('light')}><Sun className="h-4 w-4" /></Button>
-              <Button variant={theme === 'dark' ? 'secondary' : 'ghost'} size="sm" onClick={() => setTheme('dark')}><Moon className="h-4 w-4" /></Button>
-              <Button variant={theme === 'system' ? 'secondary' : 'ghost'} size="sm" onClick={() => setTheme('system')}><Monitor className="h-4 w-4" /></Button>
-            </div>
-          </div>
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Volume2 className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="sound-effects" className="font-medium">Sound Effects</Label>
-                <p className="text-sm text-gray-500">Enable or disable interface sounds.</p>
-              </div>
-            </div>
-            <Switch
-              id="sound-effects"
-              checked={settings?.appPreferences?.soundEffects ?? true}
-              onCheckedChange={(checked) => handleSettingChange('appPreferences', 'soundEffects', checked)}
-            />
-          </div>
-          <div className="flex items-center justify-between p-4 rounded-lg border">
-            <div className="flex items-center space-x-4">
-              <Save className="h-6 w-6 text-gray-500" />
-              <div>
-                <Label htmlFor="auto-save" className="font-medium">Auto-Save Forms</Label>
-                <p className="text-sm text-gray-500">Automatically save your progress on forms like the journal.</p>
-              </div>
-            </div>
-            <Switch
-              id="auto-save"
-              checked={settings?.appPreferences?.autoSave ?? true}
-              onCheckedChange={(checked) => handleSettingChange('appPreferences', 'autoSave', checked)}
-            />
-          </div>
+        <CardContent>
+          <Skeleton className="h-20 w-full" />
         </CardContent>
-      </AnimatedCard>
-    </div>
+      </Card>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-4 w-64" />
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-12 w-full" />
+        </CardContent>
+      </Card>
+    </SettingsShell>
   );
 }

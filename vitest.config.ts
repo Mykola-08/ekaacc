@@ -16,8 +16,10 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: ['./vitest.setup.ts'],
-    deps: {
-      inline: ['react', 'react/jsx-runtime'],
-    },
+    server: {
+      deps: {
+        inline: ['react', 'react/jsx-runtime'],
+      },
+    }
   },
 });

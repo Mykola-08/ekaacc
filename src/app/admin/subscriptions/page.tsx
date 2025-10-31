@@ -1,27 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Dialog,
   DialogContent,
@@ -29,7 +8,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   Select,
@@ -39,25 +17,21 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { getSubscriptionService } from '@/services/subscription-service';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
-import { 
-  Search, 
-  MoreVertical, 
-  Plus, 
-  UserPlus, 
-  UserMinus, 
-  Shield, 
-  TrendingUp,
-  Users,
-  Crown,
-  Star,
-  Filter,
-  Download,
-  RefreshCw
-} from 'lucide-react';
+import { Plus, Star, Crown, DollarSign } from 'lucide-react';
 import type { Subscription, SubscriptionType, SubscriptionTier } from '@/lib/subscription-types';
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
+import {
+    StatCard,
+    SubscriptionFilters,
+    SubscriptionsTable,
+    SubscriptionsPageSkeleton,
+    STATS_CONFIG
+} from './components';
 
 interface UserSubscriptionData {
   userId: string;
@@ -80,62 +54,56 @@ export default function AdminSubscriptionsPage() {
   const [newSubscriptionType, setNewSubscriptionType] = useState<SubscriptionType>('loyalty');
   const [tiers, setTiers] = useState<SubscriptionTier[]>([]);
 
-  // Stats
-  const stats = {
-    totalUsers: users.length,
-    loyalMembers: users.filter(u => u.subscriptions.some(s => s.type === 'loyalty' && s.status === 'active')).length,
-    vipMembers: users.filter(u => u.subscriptions.some(s => s.type === 'vip' && s.status === 'active')).length,
-    totalRevenue: users.reduce((sum, u) => sum + u.totalSpent, 0),
-  };
-
-  useEffect(() => {
-    loadSubscriptionData();
-  }, []);
-
-  useEffect(() => {
-    filterUsers();
-  }, [searchQuery, filterType, users]);
-
-  const loadSubscriptionData = async () => {
+  const loadSubscriptionData = useCallback(async () => {
     setLoading(true);
     try {
       const service = await getSubscriptionService();
       const allTiers = await service.getSubscriptionTiers();
       setTiers(allTiers);
       
-      // Mock user data - in production, fetch from user service
+      // This is mock data. In a real app, you'd fetch this from your user service
+      // and then enrich it with subscription data.
       const mockUsers: UserSubscriptionData[] = [
         {
           userId: 'user-1',
-          userName: 'John Doe',
-          userEmail: 'john@example.com',
+          userName: 'Alice Johnson',
+          userEmail: 'alice@example.com',
           subscriptions: await service.getUserSubscriptions('user-1'),
-          totalSpent: 199.99,
-          joinedDate: new Date('2024-01-15'),
+          totalSpent: 250.50,
+          joinedDate: new Date('2024-02-10'),
         },
         {
           userId: 'user-2',
-          userName: 'Jane Smith',
-          userEmail: 'jane@example.com',
+          userName: 'Bob Williams',
+          userEmail: 'bob@example.com',
           subscriptions: await service.getUserSubscriptions('user-2'),
-          totalSpent: 599.99,
-          joinedDate: new Date('2024-03-20'),
+          totalSpent: 75.00,
+          joinedDate: new Date('2024-05-01'),
+        },
+        {
+          userId: 'user-3',
+          userName: 'Charlie Brown',
+          userEmail: 'charlie@example.com',
+          subscriptions: [],
+          totalSpent: 0,
+          joinedDate: new Date('2024-06-15'),
         },
       ];
       
       setUsers(mockUsers);
-      setFilteredUsers(mockUsers);
     } catch (error) {
       console.error('Failed to load subscription data:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const filterUsers = () => {
+  useEffect(() => {
+    loadSubscriptionData();
+  }, [loadSubscriptionData]);
+
+  const filterUsers = useCallback(() => {
     let filtered = users;
-
-    // Search filter
     if (searchQuery) {
       filtered = filtered.filter(
         user =>
@@ -143,40 +111,30 @@ export default function AdminSubscriptionsPage() {
           user.userEmail.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-
-    // Type filter
     if (filterType !== 'all') {
       filtered = filtered.filter(user =>
         user.subscriptions.some(s => s.type === filterType && s.status === 'active')
       );
     }
-
     setFilteredUsers(filtered);
-  };
+  }, [searchQuery, filterType, users]);
+
+  useEffect(() => {
+    filterUsers();
+  }, [filterUsers]);
 
   const handleGrantSubscription = async () => {
     if (!selectedUser) return;
-
     try {
       const service = await getSubscriptionService();
       const tier = tiers.find(t => t.type === newSubscriptionType);
-      
       if (!tier || !tier.id) {
         console.error('Tier not found');
         return;
       }
-
-      // Create new subscription
-      await service.createSubscription(
-        selectedUser.userId,
-        tier.id,
-        'monthly'
-      );
-
-      // Reload data
+      await service.createSubscription(selectedUser.userId, tier.id, 'monthly');
       await loadSubscriptionData();
       setGrantDialogOpen(false);
-      setSelectedUser(null);
     } catch (error) {
       console.error('Failed to grant subscription:', error);
     }
@@ -186,276 +144,88 @@ export default function AdminSubscriptionsPage() {
     try {
       const service = await getSubscriptionService();
       await service.cancelSubscription(subscriptionId, true); // immediate cancellation
-      
-      // Reload data
       await loadSubscriptionData();
       setRevokeDialogOpen(false);
-      setSelectedUser(null);
     } catch (error) {
       console.error('Failed to revoke subscription:', error);
     }
   };
 
-  const getActiveSubscription = (user: UserSubscriptionData, type: SubscriptionType) => {
-    return user.subscriptions.find(s => s.type === type && s.status === 'active');
+  const handleTableAction = (user: UserSubscriptionData, action: 'grant' | 'revoke' | 'view') => {
+      setSelectedUser(user);
+      if (action === 'grant') setGrantDialogOpen(true);
+      if (action === 'revoke') setRevokeDialogOpen(true);
+      // 'view' action can be implemented here
   };
 
-  if (loading) {
-    return (
-      <div className="container mx-auto p-6">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
-        </div>
-      </div>
-    );
-  }
+  const stats = {
+    totalUsers: users.length,
+    loyalMembers: users.filter(u => u.subscriptions.some(s => s.type === 'loyalty' && s.status === 'active')).length,
+    vipMembers: users.filter(u => u.subscriptions.some(s => s.type === 'vip' && s.status === 'active')).length,
+    totalRevenue: users.reduce((sum, u) => sum + u.totalSpent, 0),
+  };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Subscription Management</h1>
-          <p className="text-muted-foreground mt-1">
-            Manage user subscriptions, grant access, and view analytics
-          </p>
+    <SettingsShell>
+        <div className="flex items-center gap-3">
+            <DollarSign className="h-8 w-8 text-primary" />
+            <SettingsHeader
+                title="Subscription Management"
+                description="Oversee user subscriptions, grant access, and view key metrics."
+            />
         </div>
-        <Button onClick={loadSubscriptionData} variant="outline" size="sm">
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
-      </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Users className="w-4 h-4 text-gray-600" />
-              Total Users
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalUsers}</div>
-          </CardContent>
-        </Card>
+        {loading ? <SubscriptionsPageSkeleton /> : (
+            <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    {STATS_CONFIG.map(stat => (
+                        <StatCard 
+                            key={stat.key} 
+                            title={stat.title} 
+                            value={stat.key === 'totalRevenue' ? `€${stats.totalRevenue.toFixed(2)}` : stats[stat.key as keyof typeof stats].toString()} 
+                            icon={stat.icon}
+                            iconClass={stat.iconClass}
+                        />
+                    ))}
+                </div>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Star className="w-4 h-4 text-amber-600" />
-              Loyal Members
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-amber-600">{stats.loyalMembers}</div>
-          </CardContent>
-        </Card>
+                <SubscriptionFilters
+                    searchQuery={searchQuery}
+                    onSearchChange={setSearchQuery}
+                    filterType={filterType}
+                    onFilterChange={(value) => setFilterType(value as 'all' | SubscriptionType)}
+                    onExport={() => alert('Export functionality not implemented.')}
+                />
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Crown className="w-4 h-4 text-accent" />
-              VIP Members
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-accent">{stats.vipMembers}</div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-success" />
-              Total Revenue
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-success">€{stats.totalRevenue.toFixed(2)}</div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Filters and Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>User Subscriptions</CardTitle>
-          <CardDescription>View and manage all user subscription memberships</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <Input
-                placeholder="Search users by name or email..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-              />
+                <SubscriptionsTable users={filteredUsers} onAction={handleTableAction} />
             </div>
-            <Select value={filterType} onValueChange={(value) => setFilterType(value as typeof filterType)}>
-              <SelectTrigger className="w-[180px]">
-                <Filter className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="Filter by type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Subscriptions</SelectItem>
-                <SelectItem value="loyalty">Loyal Only</SelectItem>
-                <SelectItem value="vip">VIP Only</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button variant="outline">
-              <Download className="w-4 h-4 mr-2" />
-              Export
-            </Button>
-          </div>
-
-          <Separator />
-
-          {/* Users Table */}
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>User</TableHead>
-                  <TableHead>Subscriptions</TableHead>
-                  <TableHead>Total Spent</TableHead>
-                  <TableHead>Joined</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredUsers.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center py-8 text-gray-500">
-                      No users found
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredUsers.map((user) => {
-                    const loyalSub = getActiveSubscription(user, 'loyalty');
-                    const vipSub = getActiveSubscription(user, 'vip');
-
-                    return (
-                      <TableRow key={user.userId}>
-                        <TableCell>
-                          <div>
-                            <div className="font-medium">{user.userName}</div>
-                            <div className="text-sm text-gray-500">{user.userEmail}</div>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2">
-                            {loyalSub && <SubscriptionBadge type="loyalty" size="sm" />}
-                            {vipSub && <SubscriptionBadge type="vip" size="sm" />}
-                            {!loyalSub && !vipSub && (
-                              <Badge variant="outline">No subscription</Badge>
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-medium">€{user.totalSpent.toFixed(2)}</TableCell>
-                        <TableCell className="text-sm text-gray-500">
-                          {user.joinedDate.toLocaleDateString()}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="sm">
-                                <MoreVertical className="w-4 h-4" />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                onClick={() => {
-                                  setSelectedUser(user);
-                                  setGrantDialogOpen(true);
-                                }}
-                              >
-                                <UserPlus className="w-4 h-4 mr-2" />
-                                Grant Subscription
-                              </DropdownMenuItem>
-                              {(loyalSub || vipSub) && (
-                                <DropdownMenuItem
-                                  onClick={() => {
-                                    setSelectedUser(user);
-                                    setRevokeDialogOpen(true);
-                                  }}
-                                  className="text-destructive"
-                                >
-                                  <UserMinus className="w-4 h-4 mr-2" />
-                                  Revoke Access
-                                </DropdownMenuItem>
-                              )}
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem>
-                                <Shield className="w-4 h-4 mr-2" />
-                                View Details
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </CardContent>
-      </Card>
+        )}
 
       {/* Grant Subscription Dialog */}
       <Dialog open={grantDialogOpen} onOpenChange={setGrantDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Grant Subscription</DialogTitle>
-            <DialogDescription>
-              Give {selectedUser?.userName} access to a subscription tier
-            </DialogDescription>
+            <DialogDescription>Give {selectedUser?.userName} access to a subscription tier.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="subscription-type">Subscription Type</Label>
-              <Select
-                value={newSubscriptionType}
-                onValueChange={(value) => setNewSubscriptionType(value as SubscriptionType)}
-              >
-                <SelectTrigger id="subscription-type">
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
+              <Select value={newSubscriptionType} onValueChange={(value) => setNewSubscriptionType(value as SubscriptionType)}>
+                <SelectTrigger id="subscription-type"><SelectValue placeholder="Select type" /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="loyalty">
-                    <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-amber-600" />
-                      <span>Loyal Membership</span>
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="vip">
-                    <div className="flex items-center gap-2">
-                      <Crown className="w-4 h-4 text-accent" />
-                      <span>VIP Membership</span>
-                    </div>
-                  </SelectItem>
+                  <SelectItem value="loyalty"><div className="flex items-center gap-2"><Star className="w-4 h-4 text-amber-500" /><span>Loyal Membership</span></div></SelectItem>
+                  <SelectItem value="vip"><div className="flex items-center gap-2"><Crown className="w-4 h-4 text-purple-500" /><span>VIP Membership</span></div></SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Alert className="border-info/20 bg-info/5">
-              <AlertDescription>
-                This will create an active subscription for the user. They will have immediate access to all tier benefits.
-              </AlertDescription>
+            <Alert>
+              <AlertDescription>This will create an active subscription for the user, granting immediate access.</AlertDescription>
             </Alert>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setGrantDialogOpen(false)}>
-              Cancel
-            </Button>
-            <Button onClick={handleGrantSubscription}>
-              <Plus className="w-4 h-4 mr-2" />
-              Grant Access
-            </Button>
+            <Button variant="outline" onClick={() => setGrantDialogOpen(false)}>Cancel</Button>
+            <Button onClick={handleGrantSubscription}><Plus className="w-4 h-4 mr-2" />Grant Access</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -465,49 +235,30 @@ export default function AdminSubscriptionsPage() {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Revoke Subscription Access</DialogTitle>
-            <DialogDescription>
-              Remove subscription access for {selectedUser?.userName}
-            </DialogDescription>
+            <DialogDescription>Remove subscription access for {selectedUser?.userName}.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <Alert className="border-destructive/20 bg-destructive/5">
-              <AlertDescription>
-                <p className="font-medium">Warning</p>
-                <p className="mt-1">
-                  This action will immediately revoke the user's subscription access. They will lose all premium benefits.
-                </p>
-              </AlertDescription>
+            <Alert variant="destructive">
+              <AlertDescription>This action will immediately revoke the user's subscription access. This cannot be undone.</AlertDescription>
             </Alert>
             <div className="space-y-2">
               <Label>Active Subscriptions</Label>
-              <div className="flex flex-col gap-2">
-                {selectedUser?.subscriptions
-                  .filter(s => s.status === 'active')
-                  .map(sub => (
-                    <div key={sub.id} className="flex items-center justify-between p-2 border rounded">
-                      <div className="flex items-center gap-2">
-                        <SubscriptionBadge type={sub.type} size="sm" />
-                        <span className="text-sm">€{sub.price}/{sub.interval === 'monthly' ? 'mo' : 'yr'}</span>
-                      </div>
-                      <Button
-                        size="sm"
-                        variant="destructive"
-                        onClick={() => handleRevokeSubscription(sub.id)}
-                      >
-                        Revoke
-                      </Button>
-                    </div>
-                  ))}
-              </div>
+              {selectedUser?.subscriptions.filter(s => s.status === 'active').map(sub => (
+                <div key={sub.id} className="flex items-center justify-between p-2 border rounded-md">
+                  <div className="flex items-center gap-2">
+                    <SubscriptionBadge type={sub.type} size="sm" />
+                    <span className="text-sm font-mono">€{sub.price}/{sub.interval === 'monthly' ? 'mo' : 'yr'}</span>
+                  </div>
+                  <Button size="sm" variant="destructive" onClick={() => handleRevokeSubscription(sub.id)}>Revoke</Button>
+                </div>
+              ))}
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setRevokeDialogOpen(false)}>
-              Cancel
-            </Button>
+            <Button variant="outline" onClick={() => setRevokeDialogOpen(false)}>Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+    </SettingsShell>
   );
 }

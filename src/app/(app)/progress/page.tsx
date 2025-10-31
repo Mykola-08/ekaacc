@@ -1,74 +1,129 @@
 "use client";
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
-import type { Report, User } from '@/lib/types';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
+import type { Report } from '@/lib/types';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
+import { TrendingUp, TrendingDown, HeartPulse, Award, Activity, Accessibility } from 'lucide-react';
 
 function toDate(timestamp: any): Date {
   if (timestamp instanceof Date) return timestamp;
   if (typeof timestamp === 'string') return new Date(timestamp);
   if (timestamp && typeof timestamp.toDate === 'function') return timestamp.toDate();
-  // Fallback for Firestore Timestamps that might not have toDate() in some contexts
   if (timestamp && typeof timestamp.seconds === 'number') {
     return new Date(timestamp.seconds * 1000);
   }
-  return new Date(); // Fallback
+  return new Date();
+}
+
+function StatCard({ title, value, icon, description, trend, children }: {
+  title: string;
+  value: string;
+  icon: React.ReactNode;
+  description: string;
+  trend?: 'improving' | 'declining' | 'neutral';
+  children?: React.ReactNode;
+}) {
+  const trendInfo = {
+    improving: { icon: <TrendingUp className="h-4 w-4 text-green-500" />, color: 'text-green-500' },
+    declining: { icon: <TrendingDown className="h-4 w-4 text-red-500" />, color: 'text-red-500' },
+    neutral: { icon: null, color: '' },
+  }[trend || 'neutral'];
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+        <CardTitle className="text-sm font-medium">{title}</CardTitle>
+        {icon}
+      </CardHeader>
+      <CardContent>
+        <div className="text-2xl font-bold">{value}</div>
+        <p className="text-xs text-muted-foreground">{description}</p>
+        {trend && trend !== 'neutral' && (
+          <div className={`mt-2 flex items-center text-xs ${trendInfo.color}`}>
+            {trendInfo.icon}
+            <span className="ml-1">{trend === 'improving' ? 'Improving' : 'Declining'}</span>
+          </div>
+        )}
+        {children && <div className="mt-4">{children}</div>}
+      </CardContent>
+    </Card>
+  );
+}
+
+function ProgressPageSkeleton() {
+  return (
+    <SettingsShell>
+      <SettingsHeader title="Progress Overview" description="Track your recovery journey over time." />
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {[...Array(4)].map((_, i) => (
+          <Card key={i}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-4" />
+            </CardHeader>
+            <CardContent>
+              <Skeleton className="h-8 w-16" />
+              <Skeleton className="h-3 w-32 mt-1" />
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-6 w-48" />
+          <Skeleton className="h-4 w-64 mt-1" />
+        </CardHeader>
+        <CardContent className="h-[300px] w-full">
+          <Skeleton className="h-full w-full" />
+        </CardContent>
+      </Card>
+    </SettingsShell>
+  );
 }
 
 export default function ProgressPage() {
-  const { appUser: currentUser, user, refreshAppUser, loading: authLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
-  const { toast } = useToast();
   
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchReports = useCallback(async () => {
     if (dataService && user?.uid) {
       setIsLoading(true);
-      dataService.getReports(user.uid)
-        .then(userReports => {
-          setReports(userReports || []);
-        })
-        .finally(() => setIsLoading(false));
+      try {
+        const userReports = await dataService.getReports(user.uid);
+        setReports(userReports || []);
+      } catch (error) {
+        console.error("Failed to fetch reports", error);
+      } finally {
+        setIsLoading(false);
+      }
     } else if (!authLoading) {
       setIsLoading(false);
     }
   }, [dataService, user, authLoading]);
 
-  const updateUser = async (data: Partial<User>) => {
-    if (dataService && currentUser?.id) {
-      await dataService.updateUser(currentUser.id, data);
-      await refreshAppUser();
-    }
-  };
+  useEffect(() => {
+    fetchReports();
+  }, [fetchReports]);
 
-  const progressStats = useMemo(() => {
-    if (!reports || reports.length === 0) {
+  const { painReduction, mobilityImprovement, chartData, overallProgress, consistency } = useMemo(() => {
+    if (!reports || reports.length < 2) {
       return {
-        painReduction: { percent: 0, trend: 'neutral' },
-        mobilityImprovement: { percent: 0, trend: 'neutral' },
+        painReduction: { percent: 0, trend: 'neutral' as const },
+        mobilityImprovement: { percent: 0, trend: 'neutral' as const },
         chartData: [],
+        overallProgress: 0,
+        consistency: 0,
       };
     }
 
@@ -90,158 +145,106 @@ export default function ProgressPage() {
       Mobility: r.mobility,
     }));
 
+    const overallProgress = (painReductionPercent + mobilityImprovementPercent) / 2;
+
+    const totalDays = (lastReport.date.getTime() - firstReport.date.getTime()) / (1000 * 3600 * 24) + 1;
+    const consistency = reports.length / totalDays * 100;
+
     return {
       painReduction: {
         percent: Math.round(painReductionPercent),
-        trend: painReductionPercent > 0 ? 'improving' : painReductionPercent < 0 ? 'declining' : 'neutral',
+        trend: painReductionPercent > 0 ? 'improving' as const : painReductionPercent < 0 ? 'declining' as const : 'neutral' as const,
       },
       mobilityImprovement: {
         percent: Math.round(mobilityImprovementPercent),
-        trend: mobilityImprovementPercent > 0 ? 'improving' : mobilityImprovementPercent < 0 ? 'declining' : 'neutral',
+        trend: mobilityImprovementPercent > 0 ? 'improving' as const : mobilityImprovementPercent < 0 ? 'declining' as const : 'neutral' as const,
       },
       chartData,
+      overallProgress: Math.max(0, Math.min(100, Math.round(overallProgress))),
+      consistency: Math.min(100, Math.round(consistency)),
     };
   }, [reports]);
 
-  const sortedReports = useMemo(() => {
-    return [...reports].sort((a, b) => toDate(b.date).getTime() - toDate(a.date).getTime());
-  }, [reports]);
-
-  // Track page visit for personalization
-  useEffect(() => {
-    // TODO: Re-implement personalization tracking
-    // Previously tracked page visit to /progress
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentUser]);
-
-  if (isLoading || authLoading) {
+  if (isLoading) {
+    return <ProgressPageSkeleton />;
+  }
+  
+  if (reports.length < 2) {
     return (
-      <div className="space-y-8">
-        <Skeleton className="h-10 w-1/3" />
-        <div className="grid w-full grid-cols-2 mb-4">
-          <Skeleton className="h-10 w-full" />
-          <Skeleton className="h-10 w-full" />
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Skeleton className="h-40 w-full" />
-          <Skeleton className="h-40 w-full" />
-          <Skeleton className="h-40 w-full" />
-        </div>
-        <Skeleton className="h-80 w-full" />
-      </div>
+      <SettingsShell>
+        <SettingsHeader title="Progress Overview" description="Track your recovery journey over time." />
+        <Card className="flex flex-col items-center justify-center text-center p-8 border-dashed">
+          <TrendingUp className="h-12 w-12 text-muted-foreground" />
+          <h3 className="mt-4 text-lg font-semibold">Not Enough Data</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            You need at least two reports to start seeing your progress. Keep up the great work!
+          </p>
+        </Card>
+      </SettingsShell>
     );
   }
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-3xl font-bold tracking-tight">Progress & Reports</h1>
-      <Tabs defaultValue="progress" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-4">
-          <TabsTrigger value="progress">Progress Overview</TabsTrigger>
-          <TabsTrigger value="reports">My Reports</TabsTrigger>
-        </TabsList>
-        <TabsContent value="progress" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Pain Reduction</CardTitle>
-                <TrendingDown className="h-4 w-4 text-green-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{progressStats.painReduction.percent}%</div>
-                <p className="text-xs text-muted-foreground">
-                  {progressStats.painReduction.percent >= 0 ? 'Reduction' : 'Increase'} since starting
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Mobility Improvement</CardTitle>
-                <TrendingUp className="h-4 w-4 text-green-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">+{progressStats.mobilityImprovement.percent} pts</div>
-                <p className="text-xs text-muted-foreground">
-                  Improvement in mobility score
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Sessions Completed</CardTitle>
-                <Target className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {currentUser?.activityData?.completedSessions || 0} / {currentUser?.goal?.targetSessions || 10}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Towards your current goal
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+    <SettingsShell>
+      <SettingsHeader title="Progress Overview" description="Track your recovery journey over time." />
+      
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <StatCard
+          title="Overall Progress"
+          value={`${overallProgress}%`}
+          icon={<Award className="h-4 w-4 text-muted-foreground" />}
+          description="Combined score of all metrics."
+        >
+          <Progress value={overallProgress} className="h-2" />
+        </StatCard>
+        <StatCard
+          title="Pain Reduction"
+          value={`${painReduction.percent}%`}
+          icon={<HeartPulse className="h-4 w-4 text-muted-foreground" />}
+          trend={painReduction.trend}
+          description="Decrease in reported pain levels."
+        />
+        <StatCard
+          title="Mobility Improvement"
+          value={`${mobilityImprovement.percent > 0 ? '+' : ''}${mobilityImprovement.percent}%`}
+          icon={<Accessibility className="h-4 w-4 text-muted-foreground" />}
+          trend={mobilityImprovement.trend}
+          description="Improvement in mobility score."
+        />
+        <StatCard
+          title="Consistency"
+          value={`${consistency}%`}
+          icon={<Activity className="h-4 w-4 text-muted-foreground" />}
+          description="How often you submit reports."
+        >
+          <Progress value={consistency} className="h-2" />
+        </StatCard>
+      </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Wellness Trends</CardTitle>
-              <CardDescription>Your pain and mobility scores over time.</CardDescription>
-            </CardHeader>
-            <CardContent className="h-[350px] w-full">
-              <ResponsiveContainer>
-                <LineChart data={progressStats.chartData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis yAxisId="left" label={{ value: 'Pain Level', angle: -90, position: 'insideLeft' }} />
-                  <YAxis yAxisId="right" orientation="right" label={{ value: 'Mobility Score', angle: 90, position: 'insideRight' }} />
-                  <Tooltip />
-                  <Legend />
-                  <Line yAxisId="left" type="monotone" dataKey="Pain" stroke="#ef4444" activeDot={{ r: 8 }} />
-                  <Line yAxisId="right" type="monotone" dataKey="Mobility" stroke="#22c55e" />
-                </LineChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        <TabsContent value="reports">
-          <Card>
-            <CardHeader>
-              <CardTitle>My Reports</CardTitle>
-              <CardDescription>
-                View and download your session reports and AI-generated summaries.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {sortedReports.length > 0 ? (
-                sortedReports.map((report) => (
-                  <Card key={report.id} className="flex items-center justify-between p-4">
-                    <div className="flex items-center gap-4">
-                      <div className="bg-primary/10 p-3 rounded-full">
-                        <FileText className="h-6 w-6 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-semibold">{report.title || `Report for ${format(toDate(report.date), 'MMMM d, yyyy')}`}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {report.type || 'User Report'} - Created on {format(toDate(report.createdAt || report.date), 'MMMM d, yyyy')}
-                        </p>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm">View</Button>
-                  </Card>
-                ))
-              ) : (
-                <div className="text-center py-12 border-2 border-dashed rounded-lg">
-                  <FileText className="mx-auto h-12 w-12 text-gray-400" />
-                  <h3 className="mt-2 text-sm font-medium">No reports found</h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    Your session reports will appear here after they are created.
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Pain & Mobility Trends</CardTitle>
+          <CardDescription>Visualize your progress over the last reports.</CardDescription>
+        </CardHeader>
+        <CardContent className="h-[300px] w-full">
+          <ResponsiveContainer>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+              <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "hsl(var(--background))",
+                  borderColor: "hsl(var(--border))",
+                }}
+              />
+              <Legend />
+              <Line type="monotone" dataKey="Pain" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
+              <Line type="monotone" dataKey="Mobility" stroke="hsl(var(--secondary-foreground))" strokeWidth={2} dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
+    </SettingsShell>
   );
 }

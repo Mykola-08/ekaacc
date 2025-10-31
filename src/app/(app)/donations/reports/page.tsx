@@ -4,7 +4,8 @@ import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Bot, Gift } from "lucide-react";
-import { useUser, useFirestore, useCollection, collection, query, where, or, useMemoFirebase } from '@/firebase';
+import { collection, query, where, or } from 'firebase/firestore';
+import { useUser, useCollection } from '@/hooks/use-firebase-hooks';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -27,28 +28,23 @@ const toDate = (timestamp: Timestamp | Date): Date => {
 
 export default function DonationReportsPage() {
   const { user } = useUser();
-  const firestore = useFirestore();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<GeneratedReport | null>(null);
 
-  const usersRef = useMemoFirebase(() => firestore ? collection(firestore, 'users') : null, [firestore]);
-  const { data: allUsers, isLoading: isLoadingUsers } = useCollection<User>(usersRef);
+  const { data: allUsers, loading: isLoadingUsers } = useCollection<User>('users');
 
-  const donationsRef = useMemoFirebase(() => firestore ? collection(firestore, 'donations') : null, [firestore]);
-  
-  const userDonationsQuery = useMemoFirebase(() => {
-    if (!donationsRef || !user) return null;
-    return query(
-        donationsRef, 
+  const userDonationsQuery = useMemo(() => {
+    if (!user) return [];
+    return [
         or(
             where('donorId', '==', user.uid),
             where('receiverId', '==', user.uid)
         )
-    );
-  }, [donationsRef, user]);
+    ];
+  }, [user]);
 
-  const { data: userDonations, isLoading: isLoadingDonations } = useCollection<Donation>(userDonationsQuery);
+  const { data: userDonations, loading: isLoadingDonations } = useCollection<Donation>('donations', userDonationsQuery);
 
   const handleGenerateReport = async () => {
     if (!user || !userDonations || userDonations.length === 0 || !allUsers) {
@@ -185,4 +181,3 @@ export default function DonationReportsPage() {
   );
 }
 
-    

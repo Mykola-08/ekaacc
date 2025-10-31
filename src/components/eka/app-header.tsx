@@ -22,15 +22,12 @@ export function AppHeader() {
     <motion.header
       initial={{ opacity: 0, y: -24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="flex h-16 items-center justify-between px-4 md:px-6 fixed top-0 left-0 right-0 z-40 bg-background/80 backdrop-blur-xl border-b"
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+      className="flex h-16 items-center justify-between px-4 md:px-6 fixed top-0 left-0 right-0 z-40 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/80 dark:border-gray-700/80"
     >
-      {/* Left: Sidebar Toggle */}
-      <div className="flex items-center gap-3">
-        <div className="hidden md:flex">
-          <SidebarTrigger />
-        </div>
-        <div className="flex md:hidden">
+      {/* Left: Sidebar Toggle & Search on Mobile */}
+      <div className="flex items-center gap-2">
+        <div className="md:hidden">
           {isMobile ? (
             <Button
               variant="ghost"
@@ -44,38 +41,32 @@ export function AppHeader() {
             <SidebarTrigger />
           )}
         </div>
-      </div>
-
-      {/* Center: Search */}
-      <div className="hidden md:flex absolute left-1/2 transform -translate-x-1/2">
-        <div className="relative w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="hidden md:flex">
+          <SidebarTrigger />
+        </div>
+        <div className="relative md:w-96">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
           <Input
             type="search"
-            placeholder="Search EKA..."
-            className="pl-10 bg-background/50 border-muted"
+            placeholder="Search..."
+            className="pl-10 bg-gray-100/80 dark:bg-gray-800/80 border-none focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-gray-800 rounded-full"
           />
         </div>
       </div>
 
       {/* Right: Actions */}
       <div className="flex items-center gap-2">
-        {/* Book Session CTA - Only for clients */}
         {isClient && (
           <Button
             onClick={() => router.push('/sessions/booking')}
-            className="hidden md:flex gap-2 rounded-full px-5 shadow-sm"
+            className="hidden sm:flex gap-2 rounded-full px-4 shadow-sm bg-primary hover:bg-primary/90 text-primary-foreground"
             size="sm"
           >
             <CalendarPlus className="h-4 w-4" />
-            <span>Book Session</span>
+            <span>New Session</span>
           </Button>
         )}
-
-        {/* Notifications */}
         <NotificationCenter />
-
-        {/* User Menu */}
         <UserNav />
       </div>
     </motion.header>

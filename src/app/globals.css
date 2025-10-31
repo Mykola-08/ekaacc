@@ -1,74 +1,51 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    /* Apple/Notion-inspired minimalist palette */
-    --background: 0 0% 98%; /* Light warm gray */
-    --foreground: 0 0% 9%; /* Almost black */
-    --card: 0 0% 100%; /* Pure white */
-    --card-foreground: 0 0% 9%;
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
-    --primary: 0 0% 9%; /* Black for primary actions */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96%; /* Light gray */
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%; /* Medium gray */
-    --accent: 0 0% 20%; /* Dark gray accent */
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%; /* Subtle borders */
-    --input: 0 0% 90%;
-    --ring: 0 0% 9%;
-    --radius: 0.75rem; /* Slightly rounded */
-
-    /* Semantic Status Colors */
-    --success: 142 76% 36%; /* Green for success states */
-    --success-foreground: 0 0% 98%;
-    --warning: 38 92% 50%; /* Orange for warnings */
-    --warning-foreground: 0 0% 9%;
-    --info: 221 83% 53%; /* Blue for info */
-    --info-foreground: 0 0% 98%;
-
-    /* Layout & Non-color Tokens */
-    --header-h: 56px; /* Smaller, cleaner header */
-    --sidebar-w: 240px;
-    --sidebar-w-collapsed: 60px;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 220 9.1% 46.1%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 224 71.4% 4.1%;
+    --radius: 1rem;
   }
 
   .dark {
-    --background: 0 0% 9%; /* Almost black background */
-    --foreground: 0 0% 98%;
-    --card: 0 0% 12%; /* Dark card */
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%; /* White for primary in dark mode */
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 15%; /* Darker gray */
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%; /* Lighter gray text */
-    --accent: 0 0% 80%; /* Light gray accent */
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 18%; /* Subtle dark borders */
-    --input: 0 0% 18%;
-    --ring: 0 0% 83%;
-
-    /* Semantic Status Colors (Dark Mode) */
-    --success: 142 71% 45%; /* Brighter green for dark mode */
-    --success-foreground: 0 0% 98%;
-    --warning: 38 92% 60%; /* Brighter orange for dark mode */
-    --warning-foreground: 0 0% 9%;
-    --info: 221 83% 63%; /* Brighter blue for dark mode */
-    --info-foreground: 0 0% 98%;
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 20% 98%;
+    --primary-foreground: 220.9 39.3% 11%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 216 12.2% 83.9%;
   }
 }
 
@@ -79,83 +56,5 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: 'cv11', 'ss01';
-    font-variation-settings: 'opsz' auto;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
   }
 }
-
-@layer components {
-  .glass {
-    background-color: rgba(255, 255, 255, 0.8);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(0,0,0,0.04);
-  }
-  .dark .glass {
-    background-color: rgba(18, 18, 18, 0.8);
-    border: 1px solid rgba(255,255,255,0.08);
-  }
-  
-  /* Apple-style subtle shadows */
-  .shadow-subtle {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-  .dark .shadow-subtle {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.4);
-  }
-  
-  /* Notion-style hover effects */
-  .notion-hover {
-    @apply transition-all duration-150;
-  }
-  .notion-hover:hover {
-    @apply bg-muted/50;
-  }
-}
-
-/* Performance optimizations */
-@layer utilities {
-  /* Shimmer animation for loading states */
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    100% {
-      background-position: 200% 0;
-    }
-  }
-  
-  .animate-shimmer {
-    animation: shimmer 2s infinite linear;
-  }
-
-  /* Smooth skeleton pulse */
-  @keyframes skeleton-pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0.5;
-    }
-  }
-
-  .animate-skeleton {
-    animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-
-  /* Hardware acceleration hints */
-  .gpu-accelerate {
-    transform: translateZ(0);
-    will-change: transform;
-  }
-
-  /* Reduce motion for accessibility */
-  @media (prefers-reduced-motion: reduce) {
-    .animate-shimmer,
-    .animate-skeleton {
-      animation: none;
-    }
-  }
-}
-    

@@ -5,11 +5,17 @@ import { useAuth } from '@/context/auth-context';
 import { getAIGoalSuggestions } from '@/firebase/personalizationEngine';
 import { savePreferences, UserPreferences } from '@/firebase/onboardingStore';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Check, Plus } from 'lucide-react';
+import { Skeleton } from './ui/skeleton';
+import { useToast } from '@/hooks/use-toast';
 
 export default function AIGoalSuggestions() {
-  const { user, appUser } = useAuth();
+  const { user, appUser, refreshAppUser } = useAuth();
+  const { toast } = useToast();
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
 
   useEffect(() => {
@@ -17,7 +23,6 @@ export default function AIGoalSuggestions() {
       setLoading(true);
       getAIGoalSuggestions(user.uid)
         .then((s) => {
-          // Assuming the AI returns a JSON string array
           try {
             const parsedSuggestions = JSON.parse(s || '[]');
             setSuggestions(parsedSuggestions);
@@ -39,6 +44,7 @@ export default function AIGoalSuggestions() {
   const handleAddGoals = async () => {
     if (!user || !appUser?.personalization || selectedGoals.length === 0) return;
     
+    setSaving(true);
     const currentGoals = appUser.personalization.goals || [];
     const newGoals = [...new Set([...currentGoals, ...selectedGoals])];
 
@@ -47,40 +53,73 @@ export default function AIGoalSuggestions() {
       goals: newGoals,
     };
 
-    await savePreferences(user.uid, updatedPrefs as UserPreferences);
-    alert('Goals updated!');
-    setSelectedGoals([]);
-    // Optionally, refresh user data here
+    try {
+      await savePreferences(user.uid, updatedPrefs as UserPreferences);
+      await refreshAppUser();
+      toast({
+        title: 'Goals Updated',
+        description: 'Your new goals have been added to your profile.',
+      });
+      setSelectedGoals([]);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to update your goals. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setSaving(false);
+    }
   };
 
   if (loading) {
-    return <div className="p-4 bg-background rounded-lg animate-pulse">Loading goal suggestions...</div>;
+    return (
+      <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm">
+        <CardHeader>
+          <Skeleton className="h-6 w-1/2" />
+          <Skeleton className="h-4 w-3/4 mt-2" />
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-2">
+          <Skeleton className="h-8 w-24 rounded-full" />
+          <Skeleton className="h-8 w-32 rounded-full" />
+          <Skeleton className="h-8 w-28 rounded-full" />
+        </CardContent>
+      </Card>
+    );
   }
 
   if (suggestions.length === 0) {
-    return null; // Don't show if no suggestions
+    return null;
   }
 
   return (
-    <div className="p-6 bg-card rounded-lg shadow-md space-y-4">
-      <h3 className="text-xl font-bold text-card-foreground">Suggested Goals For You</h3>
-      <p className="text-sm text-muted-foreground">Based on your profile, you might be interested in these goals:</p>
-      <div className="flex flex-wrap gap-2">
-        {suggestions.map((goal, index) => (
-          <Button
-            key={index}
-            variant={selectedGoals.includes(goal) ? 'default' : 'secondary'}
-            onClick={() => handleToggleGoal(goal)}
-          >
-            {goal}
+    <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm">
+      <CardHeader>
+        <CardTitle>Suggested Goals For You</CardTitle>
+        <CardDescription>Based on your profile, you might like these goals. Select any to add them.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex flex-wrap gap-2">
+          {suggestions.map((goal, index) => (
+            <Button
+              key={index}
+              variant={selectedGoals.includes(goal) ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => handleToggleGoal(goal)}
+              className="rounded-full"
+            >
+              {selectedGoals.includes(goal) && <Check className="mr-2 h-4 w-4" />}
+              {goal}
+            </Button>
+          ))}
+        </div>
+        {selectedGoals.length > 0 && (
+          <Button onClick={handleAddGoals} disabled={saving} className="w-full">
+            {saving ? 'Saving...' : `Add ${selectedGoals.length} Goal(s)`}
+            {!saving && <Plus className="ml-2 h-4 w-4" />}
           </Button>
-        ))}
-      </div>
-      {selectedGoals.length > 0 && (
-        <Button onClick={handleAddGoals} className="w-full">
-          Add {selectedGoals.length} Goal(s) to Your Profile
-        </Button>
-      )}
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

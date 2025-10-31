@@ -25,25 +25,22 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
     }
   }, [user, loading, router]);
 
-  if (!mounted || loading) {
-    // Render a placeholder or null on the server to avoid layout shift
-    return <div className="relative flex min-h-screen w-full bg-background"></div>;
-  }
-
-  // Don't render content if no user (will redirect)
-  if (!user) {
-    return <div className="relative flex min-h-screen w-full bg-background"></div>;
+  if (!mounted || loading || !user) {
+    // Render a full-page loader
+    return (
+      <div className="relative flex min-h-screen w-full items-center justify-center bg-gray-50 dark:bg-gray-900">
+        {/* You can add a spinner or any loading animation here */}
+      </div>
+    );
   }
 
   return (
-    <div className="relative flex min-h-screen w-full bg-background text-foreground">
+    <div className="relative flex min-h-screen w-full bg-gray-50/50 dark:bg-background text-foreground">
       <AppSidebar />
       {/* Main content area that adapts to sidebar state */}
       <div 
         className={cn(
           "flex flex-1 flex-col transition-all duration-300 ease-in-out",
-          // On mobile, take full width (sidebar is overlay)
-          // On desktop, add left margin based on sidebar state
           isMobile 
             ? "ml-0" 
             : isExpanded 
@@ -52,7 +49,7 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
         )}
       >
         <AppHeader />
-        <main className="flex-1 p-4 lg:p-6 mt-[var(--header-h)] min-h-[calc(100vh-var(--header-h))]">
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 mt-[var(--header-h)] min-h-[calc(100vh-var(--header-h))]">
           {children}
         </main>
       </div>

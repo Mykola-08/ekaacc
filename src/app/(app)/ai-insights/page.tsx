@@ -105,18 +105,18 @@ export default function AIInsightsPage() {
 
   const renderTrendCard = (trend: Trend) => {
     const TrendIcon = trend.type === 'improvement' ? TrendingUp : TrendingDown;
-    const color = trend.type === 'improvement' ? 'text-green-500' : 'text-red-500';
+    const colorClass = trend.type === 'improvement' ? 'text-success' : 'text-destructive';
 
     return (
       <Card key={trend.title}>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">{trend.title}</CardTitle>
-          <TrendIcon className={`h-4 w-4 ${color}`} />
+          <TrendIcon className={`h-4 w-4 ${colorClass}`} />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">{trend.value}</div>
           <p className="text-xs text-muted-foreground">
-            <span className={color}>{trend.change > 0 ? '+' : ''}{trend.change.toFixed(1)}%</span> from last week
+            <span className={colorClass}>{trend.change > 0 ? '+' : ''}{trend.change.toFixed(1)}%</span> from last week
           </p>
         </CardContent>
       </Card>

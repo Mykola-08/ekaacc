@@ -95,12 +95,22 @@ GOOGLE_GENAI_API_KEY=your_google_ai_key
 - `src/app/(app)/` - Authenticated routes with shared layout (`AppHeader` + `AppSidebar`)
 - `src/app/admin/` - Admin-only pages (role-based access)
 - `src/app/therapist/` - Therapist dashboard
-- `src/app/login/`, `src/app/onboarding/` - Public routes
+- `src/app/login/` - Login/Signup page with tabs
+- `src/app/onboarding/` - Multi-step onboarding flow
+
+### Authentication Flow
+1. **New Users**: Login page → Sign Up tab → Create account → Auto-login → Onboarding → Dashboard
+2. **Existing Users**: Login page → Login tab → Dashboard
+3. **Protected Routes**: Automatic redirect to `/login` if not authenticated
+4. **First-Time Users**: Automatic Firestore profile creation on first login
 
 ### Critical Layout Hierarchy
 ```
 src/app/(app)/layout.tsx
 ├── AuthProvider (Firebase auth context)
+│   ├── Auto-redirect to /login if not authenticated
+│   ├── Auto-create Firestore profile on first login
+│   └── Mock or Firebase auth based on USE_MOCK_DATA
 ├── SidebarProvider (Radix UI sidebar state)
 │   └── AppSidebar + AppHeader (nav components)
 └── AIAssistant (floating chat widget)

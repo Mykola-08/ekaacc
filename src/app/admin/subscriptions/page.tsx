@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Table,
   TableBody,
@@ -254,24 +255,24 @@ export default function AdminSubscriptionsPage() {
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <Crown className="w-4 h-4 text-purple-600" />
+              <Crown className="w-4 h-4 text-accent" />
               VIP Members
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-purple-600">{stats.vipMembers}</div>
+            <div className="text-2xl font-bold text-accent">{stats.vipMembers}</div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-3">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-green-600" />
+              <TrendingUp className="w-4 h-4 text-success" />
               Total Revenue
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">€{stats.totalRevenue.toFixed(2)}</div>
+            <div className="text-2xl font-bold text-success">€{stats.totalRevenue.toFixed(2)}</div>
           </CardContent>
         </Card>
       </div>
@@ -382,7 +383,7 @@ export default function AdminSubscriptionsPage() {
                                     setSelectedUser(user);
                                     setRevokeDialogOpen(true);
                                   }}
-                                  className="text-red-600"
+                                  className="text-destructive"
                                 >
                                   <UserMinus className="w-4 h-4 mr-2" />
                                   Revoke Access
@@ -434,18 +435,18 @@ export default function AdminSubscriptionsPage() {
                   </SelectItem>
                   <SelectItem value="vip">
                     <div className="flex items-center gap-2">
-                      <Crown className="w-4 h-4 text-purple-600" />
+                      <Crown className="w-4 h-4 text-accent" />
                       <span>VIP Membership</span>
                     </div>
                   </SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <div className="rounded-lg bg-blue-50 p-3">
-              <p className="text-sm text-blue-900">
+            <Alert className="border-info/20 bg-info/5">
+              <AlertDescription>
                 This will create an active subscription for the user. They will have immediate access to all tier benefits.
-              </p>
-            </div>
+              </AlertDescription>
+            </Alert>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setGrantDialogOpen(false)}>
@@ -469,12 +470,14 @@ export default function AdminSubscriptionsPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
-            <div className="rounded-lg bg-red-50 p-3 border border-red-200">
-              <p className="text-sm text-red-900 font-medium">Warning</p>
-              <p className="text-sm text-red-800 mt-1">
-                This action will immediately revoke the user's subscription access. They will lose all premium benefits.
-              </p>
-            </div>
+            <Alert className="border-destructive/20 bg-destructive/5">
+              <AlertDescription>
+                <p className="font-medium">Warning</p>
+                <p className="mt-1">
+                  This action will immediately revoke the user's subscription access. They will lose all premium benefits.
+                </p>
+              </AlertDescription>
+            </Alert>
             <div className="space-y-2">
               <Label>Active Subscriptions</Label>
               <div className="flex flex-col gap-2">

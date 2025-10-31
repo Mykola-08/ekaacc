@@ -214,10 +214,10 @@ export default function AdminDashboard() {
               <CardDescription>Session statistics</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-green-50 dark:bg-green-950">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-success/5 border border-success/20">
                 <div>
-                  <p className="text-sm text-muted-foreground">Completed</p>
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">{completedSessions}</p>
+                  <p className="text-sm text-muted-foreground">Sessions Completed</p>
+                  <p className="text-2xl font-bold text-success">{completedSessions}</p>
                 </div>
                 <TrendingUp className="h-8 w-8 text-green-600 dark:text-green-400" />
               </div>

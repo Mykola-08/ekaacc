@@ -17,7 +17,7 @@ import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityP
 // ==========================================
 // CONFIGURATION - CHANGE THIS TO SWITCH DATA SOURCE
 // ==========================================
-export const USE_MOCK_DATA = false; // Set to false to use Firebase
+export const USE_MOCK_DATA = true; // Set to false to use Firebase
 // ==========================================
 
 /**

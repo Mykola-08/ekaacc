@@ -60,8 +60,40 @@ export class FirebaseDataService implements IDataService {
     const authUser = this.auth.currentUser;
     if (!authUser) return null;
 
-    const userDoc = await getDoc(doc(this.db, 'users', authUser.uid));
-    if (!userDoc.exists()) return null;
+    const userDocRef = doc(this.db, 'users', authUser.uid);
+    const userDoc = await getDoc(userDocRef);
+    
+    // If user document doesn't exist, create it automatically
+    if (!userDoc.exists()) {
+      const newUserData = {
+        name: authUser.displayName || authUser.email?.split('@')[0] || 'User',
+        displayName: authUser.displayName || authUser.email?.split('@')[0] || 'User',
+        email: authUser.email || '',
+        phoneNumber: authUser.phoneNumber || '',
+        avatarUrl: authUser.photoURL || `https://i.pravatar.cc/150?u=${authUser.uid}`,
+        role: 'Patient',
+        initials: (authUser.displayName || authUser.email?.split('@')[0] || 'U').split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase(),
+        createdAt: Timestamp.now(),
+        updatedAt: Timestamp.now(),
+        personalizationCompleted: false,
+        isActive: true,
+        isPaused: false,
+        registrationMethod: 'self',
+        emailVerified: authUser.emailVerified,
+      };
+      
+      await updateDoc(userDocRef, newUserData as any).catch(async () => {
+        // If update fails (doc doesn't exist), use setDoc
+        const { setDoc } = await import('firebase/firestore');
+        await setDoc(userDocRef, newUserData);
+      });
+      
+      return {
+        id: authUser.uid,
+        uid: authUser.uid,
+        ...newUserData,
+      } as User;
+    }
 
     const userData = userDoc.data();
     return {

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { PageHeaderSkeleton, CardSkeleton } from '@/components/eka/loading-skeletons';
 import { useToast } from '@/hooks/use-toast';
 
@@ -77,7 +78,12 @@ export default function AdminSettingsPage() {
                 <p className="text-sm text-muted-foreground">Use simulated data instead of Firebase</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-xs font-semibold px-2 py-1 rounded ${mockDataEnabled ? 'bg-green-500/10 text-green-700 dark:text-green-400' : 'bg-gray-500/10 text-gray-700 dark:text-gray-400'}`}>
+                <span className={cn(
+                  "text-xs font-semibold px-2 py-1 rounded",
+                  mockDataEnabled 
+                    ? 'bg-success/10 text-success border border-success/20' 
+                    : 'bg-muted text-muted-foreground border border-border'
+                )}>
                   {mockDataEnabled ? 'ENABLED' : 'DISABLED'}
                 </span>
               </div>
@@ -112,8 +118,8 @@ export default function AdminSettingsPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50 hover:border-primary/30 transition-colors">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 bg-info/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-info" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.486 22 2 17.514 2 12S6.486 2 12 2s10 4.486 10 10-4.486 10-10 10z"/>
                   </svg>
                 </div>
@@ -126,8 +132,8 @@ export default function AdminSettingsPage() {
             </div>
             <div className="flex items-center justify-between p-4 bg-muted/30 rounded-lg border border-border/50 hover:border-primary/30 transition-colors">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-orange-500" fill="currentColor" viewBox="0 0 24 24">
+                <div className="w-10 h-10 bg-warning/10 rounded-lg flex items-center justify-center">
+                  <svg className="w-6 h-6 text-warning" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0l3.708 7.512 8.292 1.204-6 5.848 1.416 8.256L12 18.512l-7.416 3.896L6 14.152l-6-5.848 8.292-1.204z"/>
                   </svg>
                 </div>
@@ -136,7 +142,7 @@ export default function AdminSettingsPage() {
                   <p className="text-sm text-muted-foreground">Cloud database and authentication</p>
                 </div>
               </div>
-              <span className="text-xs font-semibold px-2 py-1 rounded bg-green-500/10 text-green-700 dark:text-green-400">
+              <span className="text-xs font-semibold px-2 py-1 rounded bg-success/10 text-success border border-success/20">
                 CONNECTED
               </span>
             </div>

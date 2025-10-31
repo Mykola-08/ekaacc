@@ -20,6 +20,14 @@ Then restart: `npm run dev`
 
 ## 📚 Documentation
 
+### Design System & Style Guide
+
+- **[Quick Style Guide](./QUICK_STYLE_GUIDE.md)** - ⭐ Start here! Quick reference for colors, components, and patterns
+- **[Design System](./DESIGN_SYSTEM.md)** - Comprehensive design principles and guidelines
+- **[Design System Implementation](./DESIGN_SYSTEM_IMPLEMENTATION.md)** - Migration guide and detailed examples
+
+### Technical Documentation
+
 - **[Square Integration Guide](./SQUARE_INTEGRATION.md)** - Payment processing and booking management setup
 - [Quick Start - Data Switching](./QUICK_START_DATA_SWITCHING.md)
 - [Features Documentation](./FEATURES.md)

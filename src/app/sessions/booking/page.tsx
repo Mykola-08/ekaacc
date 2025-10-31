@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/auth-context";
@@ -11,7 +12,7 @@ import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
 import { SessionAssessmentForm } from '@/components/eka/forms';
 import { useToast } from "@/hooks/use-toast";
-import { Clock, User, Briefcase } from "lucide-react";
+import { Clock, User, Briefcase, CheckCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
 import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
@@ -287,7 +288,7 @@ export default function SessionBookingPage() {
                       <p className="font-semibold">{therapist.name}</p>
                       <p className="text-sm text-muted-foreground">{therapist.specialization}</p>
                       <div className="flex items-center gap-1 mt-1">
-                        <span className="text-yellow-500">★</span>
+                        <span className="text-warning">★</span>
                         <span className="text-xs">{(therapist.rating || 4.8).toFixed(1)}</span>
                         <span className="text-muted-foreground">({therapist.reviews || 32} reviews)</span>
                       </div>
@@ -427,16 +428,13 @@ export default function SessionBookingPage() {
       </Card>
 
       {isBooked && (
-        <Card className="border-green-200 bg-green-50">
-          <CardContent className="p-4 text-center">
-            <p className="text-green-700 font-semibold">
-              ✓ Your session has been booked successfully!
-            </p>
-            <p className="text-sm text-green-600 mt-1">
-              You will be redirected to your dashboard...
-            </p>
-          </CardContent>
-        </Card>
+        <Alert className="border-success/20 bg-success/5">
+          <CheckCircle className="h-4 w-4 text-success" />
+          <AlertDescription>
+            <p className="font-semibold">Your session has been booked successfully!</p>
+            <p className="text-sm mt-1">You will be redirected to your dashboard...</p>
+          </AlertDescription>
+        </Alert>
       )}
     </div>
   );

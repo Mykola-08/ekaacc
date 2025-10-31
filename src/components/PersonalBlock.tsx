@@ -3,6 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { getProfileSummary, getPersonalizedAdvice, ProfileSummary } from '@/firebase/personalizationEngine';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { AlertTriangle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function PersonalBlock() {
   const { user, loading: authLoading } = useAuth();
@@ -34,39 +40,51 @@ export default function PersonalBlock() {
   }
 
   if (!summary) {
-    return <div className="p-4 bg-yellow-100 text-yellow-800 rounded-lg">Please complete onboarding to get personalized advice.</div>;
+    return (
+      <Alert className="border-warning/20 bg-warning/5">
+        <AlertTriangle className="h-4 w-4 text-warning" />
+        <AlertDescription>Please complete onboarding to get personalized advice.</AlertDescription>
+      </Alert>
+    );
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md space-y-4">
-      <h3 className="text-xl font-bold text-gray-800">For You</h3>
-      <div className="text-sm text-gray-600">
-        <p><span className="font-semibold">Role:</span> {summary.role}</p>
-        <p><span className="font-semibold">Main Goal:</span> {summary.mainGoals[0] || 'Not set'}</p>
-        <p><span className="font-semibold">Tone:</span> {summary.tone}</p>
-      </div>
-      
-      <div className="space-y-2">
-        <label htmlFor="guidance" className="block text-sm font-medium text-gray-700">Ask for guidance:</label>
-        <input
-          id="guidance"
-          type="text"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="e.g., What's a good 5-minute stretch?"
-          className="w-full p-2 border border-gray-300 rounded-md"
-        />
-        <button onClick={handleAsk} disabled={loading} className="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 disabled:bg-gray-400">
-          {loading ? 'Thinking...' : 'Get Advice'}
-        </button>
-      </div>
-
-      {advice && (
-        <div className="p-4 bg-gray-50 rounded-md border border-gray-200">
-          <h4 className="font-semibold text-gray-800">Personalized Advice:</h4>
-          <p className="text-gray-700 whitespace-pre-wrap">{advice}</p>
+    <Card className="glass border-border/50">
+      <CardContent className="p-6 space-y-4">
+        <h3 className="text-xl font-bold">For You</h3>
+        <div className="text-sm text-muted-foreground space-y-1">
+          <p><span className="font-semibold text-foreground">Role:</span> {summary.role}</p>
+          <p><span className="font-semibold text-foreground">Main Goal:</span> {summary.mainGoals[0] || 'Not set'}</p>
+          <p><span className="font-semibold text-foreground">Tone:</span> {summary.tone}</p>
         </div>
-      )}
-    </div>
+        
+        <div className="space-y-2">
+          <Label htmlFor="guidance">Ask for guidance:</Label>
+          <Input
+            id="guidance"
+            type="text"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+            placeholder="e.g., What's a good 5-minute stretch?"
+          />
+          <Button 
+            onClick={handleAsk} 
+            disabled={loading}
+            className="w-full"
+          >
+            {loading ? 'Thinking...' : 'Get Advice'}
+          </Button>
+        </div>
+
+        {advice && (
+          <Alert className="border-info/20 bg-info/5">
+            <AlertDescription>
+              <h4 className="font-semibold mb-2">Personalized Advice:</h4>
+              <p className="whitespace-pre-wrap">{advice}</p>
+            </AlertDescription>
+          </Alert>
+        )}
+      </CardContent>
+    </Card>
   );
 }

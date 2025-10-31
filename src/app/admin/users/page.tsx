@@ -174,9 +174,9 @@ export default function UsersManagementPage() {
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case 'Admin': return 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20';
-      case 'Therapist': return 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20';
-      default: return 'bg-gray-500/10 text-gray-700 dark:text-gray-400 border-gray-500/20';
+      case 'Admin': return 'bg-destructive/10 text-destructive border-destructive/20';
+      case 'Therapist': return 'bg-info/10 text-info border-info/20';
+      default: return 'bg-muted text-muted-foreground border-border';
     }
   };
 
@@ -231,7 +231,7 @@ export default function UsersManagementPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Active</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{stats.active}</div>
+            <div className="text-2xl font-bold text-success">{stats.active}</div>
           </CardContent>
         </Card>
         <Card>
@@ -247,7 +247,7 @@ export default function UsersManagementPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Therapists</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-blue-600">{stats.therapists}</div>
+            <div className="text-2xl font-bold text-info">{stats.therapists}</div>
           </CardContent>
         </Card>
         <Card>
@@ -255,7 +255,7 @@ export default function UsersManagementPage() {
             <CardTitle className="text-sm font-medium text-muted-foreground">Admins</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{stats.admins}</div>
+            <div className="text-2xl font-bold text-destructive">{stats.admins}</div>
           </CardContent>
         </Card>
       </div>

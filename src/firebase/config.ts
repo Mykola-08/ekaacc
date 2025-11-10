@@ -2,24 +2,15 @@ import { getFirestore } from 'firebase/firestore';
 import { initializeApp, getApps, getApp } from 'firebase/app';
 
 export const firebaseConfig = {
-  "projectId": "studio-1965873331-9f090",
-  "appId": "1:296874779041:web:40f9a26c7ee84f410f6be0",
-  "apiKey": "AIzaSyArmyl3UcrEpZSNR_jl2g7vpXRhvjCR42A",
-  "authDomain": "studio-1965873331-9f090.firebaseapp.com",
-  "measurementId": "G-67QJRENXGL",
-  "messagingSenderId": "296874779041"
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 };
 
-// Initialize Firebase and export db
-let _db: ReturnType<typeof getFirestore> | null = null;
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const db = getFirestore(app);
 
-export const getDb = () => {
-  if (!_db) {
-    const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-    _db = getFirestore(app);
-  }
-  return _db;
-};
-
-// Export db for backwards compatibility
-export const db = getDb();
+export { db };

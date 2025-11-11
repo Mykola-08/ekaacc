@@ -12,7 +12,7 @@
  * No other code changes needed!
  */
 
-import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation } from '@/lib/types';
+import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation, Goal, Message } from '@/lib/types';
 
 // ==========================================
 // CONFIGURATION - CHANGE THIS TO SWITCH DATA SOURCE
@@ -54,6 +54,11 @@ export interface IDataService {
   getJournalEntries(userId?: string): Promise<JournalEntry[]>;
   createJournalEntry(entry: Omit<JournalEntry, 'id'>): Promise<JournalEntry>;
   
+  // Goals
+  getGoals(userId?: string): Promise<Goal[]>;
+  createGoal(goal: Omit<Goal, 'id'>): Promise<Goal>;
+  deleteGoal(goalId: string): Promise<void>;
+
   // Exercises
   getExercises(): Promise<Exercise[]>;
   
@@ -69,6 +74,10 @@ export interface IDataService {
   // Donations
   getDonations(userId?: string): Promise<Donation[]>;
   addDonation(donation: Omit<Donation, 'id'>): Promise<Donation>;
+
+  // Messages
+  getMessages(conversationId: string): Promise<Message[]>;
+  sendMessage(conversationId: string, message: Omit<Message, 'id'>): Promise<Message>;
 
   // Initialization
   isReady(): Promise<boolean>;

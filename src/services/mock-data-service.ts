@@ -16,6 +16,7 @@ import {
   TherapyRecommendation,
   Message,
   Donation,
+  Goal,
 } from '@/lib/types';
 import { IDataService } from './data-service';
 import { mockSessions, mockReports, mockExercises, mockCommunityPosts, mockTherapies, mockJournalEntries, mockAuth, mockCurrentUser } from '@/lib/mock-data';
@@ -41,6 +42,8 @@ const STORAGE_KEYS = {
   JOURNAL: 'mock_journal',
   COMMUNITY: 'mock_community',
   DONATIONS: 'mock_donations',
+  GOALS: 'mock_goals',
+  MESSAGES: 'mock_messages',
 };
 
 export class MockDataService implements IDataService {
@@ -54,6 +57,8 @@ export class MockDataService implements IDataService {
   private communityPosts: CommunityPost[] = [];
   private isInitialized = false;
   private donations: Donation[] = [];
+  private goals: Goal[] = [];
+  private messages: { [conversationId: string]: Message[] } = {};
 
   private constructor() {
     this.initialize();
@@ -100,6 +105,12 @@ export class MockDataService implements IDataService {
     const savedDonations = localStorage.getItem(STORAGE_KEYS.DONATIONS);
     this.donations = savedDonations ? JSON.parse(savedDonations) : [];
 
+    const savedGoals = localStorage.getItem(STORAGE_KEYS.GOALS);
+    this.goals = savedGoals ? JSON.parse(savedGoals) : [];
+
+    const savedMessages = localStorage.getItem(STORAGE_KEYS.MESSAGES);
+    this.messages = savedMessages ? JSON.parse(savedMessages) : {};
+
     this.isInitialized = true;
   }
 
@@ -113,6 +124,8 @@ export class MockDataService implements IDataService {
     localStorage.setItem(STORAGE_KEYS.JOURNAL, JSON.stringify(this.journalEntries));
     localStorage.setItem(STORAGE_KEYS.COMMUNITY, JSON.stringify(this.communityPosts));
     localStorage.setItem(STORAGE_KEYS.DONATIONS, JSON.stringify(this.donations));
+    localStorage.setItem(STORAGE_KEYS.GOALS, JSON.stringify(this.goals));
+    localStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(this.messages));
   }
 
   async isReady(): Promise<boolean> {
@@ -273,6 +286,52 @@ export class MockDataService implements IDataService {
     this.journalEntries.push(newEntry);
     this.saveToStorage();
     return newEntry;
+  }
+
+  // Goals
+  async getGoals(userId?: string): Promise<Goal[]> {
+    await delay(DELAY_MS.READ);
+    if (userId) {
+      return this.goals.filter(g => g.userId === userId);
+    }
+    return this.goals;
+  }
+
+  async createGoal(goal: Omit<Goal, 'id'>): Promise<Goal> {
+    await delay(DELAY_MS.WRITE);
+    const newGoal: Goal = {
+      ...goal,
+      id: `goal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    };
+    this.goals.push(newGoal);
+    this.saveToStorage();
+    return newGoal;
+  }
+
+  async deleteGoal(goalId: string): Promise<void> {
+    await delay(DELAY_MS.WRITE);
+    this.goals = this.goals.filter(g => g.id !== goalId);
+    this.saveToStorage();
+  }
+
+  // Messages
+  async getMessages(conversationId: string): Promise<Message[]> {
+    await delay(DELAY_MS.READ);
+    return this.messages[conversationId] || [];
+  }
+
+  async sendMessage(conversationId: string, message: Omit<Message, 'id'>): Promise<Message> {
+    await delay(DELAY_MS.WRITE);
+    const newMessage: Message = {
+      ...message,
+      id: `message-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    };
+    if (!this.messages[conversationId]) {
+      this.messages[conversationId] = [];
+    }
+    this.messages[conversationId].push(newMessage);
+    this.saveToStorage();
+    return newMessage;
   }
 
   // Exercises

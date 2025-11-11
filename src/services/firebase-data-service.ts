@@ -5,7 +5,7 @@
  * Handles authentication, data fetching, and updates.
  */
 
-import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation } from '@/lib/types';
+import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation, Goal, Message } from '@/lib/types';
 import { IDataService } from './data-service';
 import { auth, db } from '@/firebase/firebase';
 import {
@@ -19,6 +19,7 @@ import {
   where,
   Timestamp,
   deleteDoc,
+  orderBy,
 } from 'firebase/firestore';
 import {
   signInWithEmailAndPassword,
@@ -308,6 +309,60 @@ export class FirebaseDataService implements IDataService {
       id: docRef.id,
       ...entry,
     } as JournalEntry;
+  }
+
+  // Goals
+  async getGoals(userId?: string): Promise<Goal[]> {
+    if (!userId) {
+      const snapshot = await getDocs(collection(this.db, 'goals'));
+      return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      } as Goal));
+    }
+
+    const q = query(collection(this.db, 'goals'), where('userId', '==', userId));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    } as Goal));
+  }
+
+  async createGoal(goal: Omit<Goal, 'id'>): Promise<Goal> {
+    const docRef = await addDoc(collection(this.db, 'goals'), goal);
+    return {
+      id: docRef.id,
+      ...goal,
+    } as Goal;
+  }
+
+  async deleteGoal(goalId: string): Promise<void> {
+    const goalRef = doc(this.db, 'goals', goalId);
+    await deleteDoc(goalRef);
+  }
+
+  // Messages
+  async getMessages(conversationId: string): Promise<Message[]> {
+    const messagesRef = collection(this.db, 'conversations', conversationId, 'messages');
+    const q = query(messagesRef, orderBy('createdAt'));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    } as Message));
+  }
+
+  async sendMessage(conversationId: string, message: Omit<Message, 'id'>): Promise<Message> {
+    const messagesRef = collection(this.db, 'conversations', conversationId, 'messages');
+    const docRef = await addDoc(messagesRef, {
+      ...message,
+      createdAt: Timestamp.now(),
+    });
+    return {
+      id: docRef.id,
+      ...message,
+    } as Message;
   }
 
   // Exercises

@@ -2,7 +2,7 @@
 
 import { Button, Card, CardContent, CardHeader, Skeleton } from '@/components/keep';
 import { useState, useEffect, useMemo } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { 

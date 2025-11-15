@@ -11,12 +11,11 @@ import {
   Timestamp,
   addDoc
 } from 'firebase/firestore';
-import { db } from '@/firebase/config';
+const db: any = null;
 
 // Helper to ensure db is initialized
 function getDb() {
-  if (!db) throw new Error('Firestore not initialized');
-  return db;
+  throw new Error('Database not initialized');
 }
 
 export interface SubscriptionPlan {

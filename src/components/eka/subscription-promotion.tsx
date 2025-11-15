@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 ;
 import { Star, Crown, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { motion } from 'framer-motion';
 import subscriptionManager from '@/services/subscription-manager';
 

@@ -7,7 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { Target, TrendingUp } from 'lucide-react';
 import { useFeatureData } from '@/hooks/use-feature-data';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useEffect } from 'react';
 import type { Session, StatCard as StatCardType, User } from '@/lib/types';

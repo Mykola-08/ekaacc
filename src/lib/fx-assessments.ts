@@ -1,29 +1,20 @@
-import { getFirestoreClient } from './firebase-client';
-import { collection, addDoc, query, where, getDocs, orderBy, doc, deleteDoc } from 'firebase/firestore';
+const _assessments: any[] = [];
 
 export const fxAssessments = {
   async saveAssessment(sessionId: string, data: any) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized.');
-    const col = collection(db, 'assessments');
-    const payload = { sessionId, data, createdAt: new Date().toISOString() } as any;
-    const ref = await addDoc(col, payload);
-    return { id: ref.id, ...(payload as any) };
+    const id = Math.random().toString(36).slice(2);
+    const payload = { id, sessionId, data, createdAt: new Date().toISOString() };
+    _assessments.push(payload);
+    return payload;
   },
   async getAssessmentsForSession(sessionId: string) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized.');
-    const col = collection(db, 'assessments');
-    const q = query(col, where('sessionId', '==', sessionId), orderBy('createdAt', 'desc')) as any;
-    const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
-  }
-  ,
+    return _assessments
+      .filter(a => a.sessionId === sessionId)
+      .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+  },
   async deleteAssessment(assessmentId: string) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized.');
-    const ref = doc(db, 'assessments', assessmentId);
-    await deleteDoc(ref);
+    const idx = _assessments.findIndex(a => a.id === assessmentId);
+    if (idx >= 0) _assessments.splice(idx, 1);
     return { id: assessmentId };
   }
 };

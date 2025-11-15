@@ -6,7 +6,7 @@ import { Search, Menu, Bell, CalendarPlus } from 'lucide-react';
 import { UserNav } from './user-nav';
 import { NotificationCenter } from './notification-center';
 import React from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';

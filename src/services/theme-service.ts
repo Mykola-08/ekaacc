@@ -7,12 +7,6 @@ import {
   SubscriptionType,
   DEFAULT_THEMES,
 } from '@/lib/subscription-types';
-import { db } from '@/firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
-import {
-  getUserThemePreference as fetchUserThemePreference,
-  setUserThemePreference as persistUserThemePreference,
-} from '@/firebase/firestore/subscriptions';
 
 // ============================================================================
 // Helpers
@@ -319,15 +313,18 @@ export class FirestoreThemeService implements IThemeService {
     }
 
     try {
-      const snapshot = await getDocs(collection(db, 'themes'));
-      const themes = snapshot.docs.map(doc => convertFirestoreTheme(doc.id, doc.data() as Partial<Theme>));
-
-      if (themes.length) {
-        this.themeCache = themes.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-        return this.themeCache;
-      }
+      // TODO: Implement Supabase themes loading
+      console.log('Loading themes from Supabase (to be implemented)');
+      // For now, return the default themes with basic metadata
+      const now = new Date().toISOString();
+      return DEFAULT_THEMES.map((t, idx) => ({
+        id: `theme-${t.name}-${idx}`,
+        createdAt: now,
+        updatedAt: now,
+        ...t,
+      }));
     } catch (error) {
-      console.warn('Failed to load themes from Firestore, using fallback catalogue.', error);
+      console.warn('Failed to load themes from Supabase, using fallback catalogue.', error);
     }
 
     this.themeCache = buildThemeCatalogue();
@@ -383,12 +380,13 @@ export class FirestoreThemeService implements IThemeService {
   }
 
   async getUserThemePreference(userId: string): Promise<UserThemePreference | null> {
-    const preference = await fetchUserThemePreference(userId);
-    if (!preference) return null;
-
+    // TODO: Implement Supabase theme preference storage
+    // For now, return a default preference
     return {
-      ...preference,
-      updatedAt: normalizeTimestamp(preference.updatedAt) ?? new Date().toISOString(),
+      userId,
+      currentTheme: 'theme-default',
+      themeMode: 'auto',
+      updatedAt: new Date().toISOString(),
     };
   }
 
@@ -398,37 +396,13 @@ export class FirestoreThemeService implements IThemeService {
       throw new Error('User does not have access to this theme');
     }
 
-    const existing = await fetchUserThemePreference(userId);
-    const preference: UserThemePreference = {
-      ...(existing ?? {}),
-      userId,
-      currentTheme: themeId,
-      themeMode: existing?.themeMode ?? 'auto',
-      autoSwitchTheme: existing?.autoSwitchTheme,
-      lightThemeId: existing?.lightThemeId,
-      darkThemeId: existing?.darkThemeId,
-      customThemes: existing?.customThemes,
-      updatedAt: new Date().toISOString(),
-    };
-
-    await persistUserThemePreference(userId, preference);
+    // TODO: Implement Supabase theme preference storage
+    console.log(`Setting theme ${themeId} for user ${userId}`);
   }
 
   async setThemeMode(userId: string, mode: ThemeMode): Promise<void> {
-    const existing = await fetchUserThemePreference(userId);
-    const preference: UserThemePreference = {
-      ...(existing ?? {}),
-      userId,
-      currentTheme: existing?.currentTheme ?? 'theme-default',
-      themeMode: mode,
-      autoSwitchTheme: existing?.autoSwitchTheme,
-      lightThemeId: existing?.lightThemeId,
-      darkThemeId: existing?.darkThemeId,
-      customThemes: existing?.customThemes,
-      updatedAt: new Date().toISOString(),
-    };
-
-    await persistUserThemePreference(userId, preference);
+    // TODO: Implement Supabase theme mode storage
+    console.log(`Setting theme mode ${mode} for user ${userId}`);
   }
 
   async canUserAccessTheme(userId: string, themeId: string): Promise<boolean> {

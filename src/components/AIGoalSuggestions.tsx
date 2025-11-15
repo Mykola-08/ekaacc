@@ -2,7 +2,7 @@
 
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { getAIGoalSuggestions } from '@/firebase/personalizationEngine';
 import { savePreferences, UserPreferences } from '@/firebase/onboardingStore';
 ;

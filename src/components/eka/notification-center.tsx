@@ -9,7 +9,7 @@ import { Bell, Check, X, Settings as SettingsIcon, Filter } from 'lucide-react';
 ;
 ;
 import { cn } from '@/lib/utils';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { 
   NotificationType, 
   NotificationCategory, 

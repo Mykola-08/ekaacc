@@ -9,7 +9,7 @@ import { Check, Lock, Palette, Sparkles, Timer } from 'lucide-react';
 import { getThemeService } from '@/services/theme-service';
 import type { IThemeService } from '@/services/theme-service';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { cn } from '@/lib/utils';
 import type { Theme } from '@/lib/subscription-types';
 

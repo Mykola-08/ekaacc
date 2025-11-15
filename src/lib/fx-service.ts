@@ -1,5 +1,4 @@
-import { getFirestoreClient } from './firebase-client';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+// Firebase removed; production persistence should use Supabase services
 import { mockBookingAPI, mockAIAPI } from './mock-bookings';
 import { mockAssessmentsAPI } from './mock-assessments';
 import { mockBillingAPI } from './mock-billing';
@@ -242,60 +241,21 @@ export const fxService = {
     return fxUsers.updateUserRole(userId, role);
   },
   async getSettings(userId: string) {
-    if (useMock) {
-      try {
-        const raw = safeGetItem(`eka_settings_${userId}`);
-        if (raw) return JSON.parse(raw);
-      } catch (e) { /* ignore */ }
-      // default settings shape - persist defaults so subsequent updates/read round-trip predictably
-      const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
-      try { safeSetItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
-      return defaults;
-    }
-    const db = getFirestoreClient();
-    const settingsRef = doc(db, 'userSettings', userId);
-    const snapshot = await getDoc(settingsRef);
-
-    const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} } as Record<string, unknown>;
-
-    if (!snapshot.exists()) {
-      return defaults;
-    }
-
-    const data = normalizeFirestoreValue(snapshot.data()) as Record<string, unknown>;
-    return deepMergeSettings(defaults, data);
+    try {
+      const raw = safeGetItem(`eka_settings_${userId}`);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { /* ignore */ }
+    const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
+    try { safeSetItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
+    return defaults;
   },
   async updateSettings(userId: string, settings: Record<string, any>) {
-    if (useMock) {
-      try {
-        const currentRaw = safeGetItem(`eka_settings_${userId}`) || '{}';
-        const next = { ...(JSON.parse(currentRaw || '{}')), ...settings };
-        safeSetItem(`eka_settings_${userId}`, JSON.stringify(next));
-        return next;
-      } catch (e) { return settings; }
-    }
-    const db = getFirestoreClient();
-    const settingsRef = doc(db, 'userSettings', userId);
-    const snapshot = await getDoc(settingsRef);
-
-    const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} } as Record<string, unknown>;
-    const existingData = snapshot.exists()
-      ? (normalizeFirestoreValue(snapshot.data()) as Record<string, unknown>)
-      : {};
-
-    const merged = deepMergeSettings(defaults, deepMergeSettings(existingData, settings));
-
-    const updatedAt = new Date().toISOString();
-
-    await setDoc(
-      settingsRef,
-      { ...merged, updatedAt: serverTimestamp() },
-      { merge: true }
-    );
-
-    const normalized = normalizeFirestoreValue(merged) as Record<string, unknown>;
-
-    return { ...normalized, updatedAt };
+    try {
+      const currentRaw = safeGetItem(`eka_settings_${userId}`) || '{}';
+      const next = { ...(JSON.parse(currentRaw || '{}')), ...settings, updatedAt: new Date().toISOString() };
+      safeSetItem(`eka_settings_${userId}`, JSON.stringify(next));
+      return next;
+    } catch (e) { return settings; }
   },
 };
 

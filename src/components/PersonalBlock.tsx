@@ -2,8 +2,7 @@
 
 import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Notification, NotificationDescription, NotificationTitle } from '@/components/keep';
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/context/auth-context';
-import { getProfileSummary, getPersonalizedAdvice, ProfileSummary } from '@/firebase/personalizationEngine';
+import { useAuth } from '@/lib/supabase-auth';
 ;
 import { Lightbulb, AlertTriangle } from 'lucide-react';
 ;
@@ -14,30 +13,17 @@ import { Skeleton } from './ui/skeleton';
 
 export default function PersonalBlock() {
   const { user, loading: authLoading } = useAuth();
-  const [summary, setSummary] = useState<ProfileSummary | null>(null);
   const [question, setQuestion] = useState('');
   const [advice, setAdvice] = useState('');
   const [loading, setLoading] = useState(false);
-  const [summaryLoading, setSummaryLoading] = useState(true);
-
-  useEffect(() => {
-    if (user) {
-      setSummaryLoading(true);
-      getProfileSummary(user.uid)
-        .then(setSummary)
-        .finally(() => setSummaryLoading(false));
-    } else if (!authLoading) {
-      setSummaryLoading(false);
-    }
-  }, [user, authLoading]);
 
   const handleAsk = async () => {
     if (!user || !question) return;
     setLoading(true);
     setAdvice('');
     try {
-      const result = await getPersonalizedAdvice(user.uid, question);
-      setAdvice(result || 'Sorry, I could not fetch advice at this time.');
+      // TODO: Implement AI advice functionality with Supabase
+      setAdvice('AI advice feature coming soon! This functionality is being migrated from Firebase to Supabase.');
     } catch (error) {
       setAdvice('An error occurred while getting advice. Please try again.');
     } finally {
@@ -45,7 +31,7 @@ export default function PersonalBlock() {
     }
   };
 
-  if (authLoading || summaryLoading) {
+  if (authLoading) {
     return (
       <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm">
         <CardHeader>
@@ -60,15 +46,19 @@ export default function PersonalBlock() {
     );
   }
 
-  if (!summary) {
+  if (!user) {
     return (
-      <Notification className="bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50">
-        <AlertTriangle className="h-4 w-4 text-yellow-500" />
-        <NotificationTitle className="text-yellow-700 dark:text-yellow-300">Onboarding Incomplete</NotificationTitle>
-        <NotificationDescription className="text-yellow-600 dark:text-yellow-400">
-          Please complete your profile to receive personalized AI-powered advice.
-        </NotificationDescription>
-      </Notification>
+      <div className="bg-yellow-50 border border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50 rounded-lg p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5" />
+          <div className="flex-1">
+            <h4 className="text-sm font-medium text-yellow-700 dark:text-yellow-300">Please Login</h4>
+            <p className="text-sm text-yellow-600 dark:text-yellow-400 mt-1">
+              Please login to access personalized AI-powered advice.
+        </p>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -102,13 +92,17 @@ export default function PersonalBlock() {
         </div>
 
         {advice && (
-          <Notification className="bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50">
-            <Lightbulb className="h-4 w-4 text-blue-500" />
-            <NotificationTitle className="text-blue-700 dark:text-blue-300">Your Personalized Advice</NotificationTitle>
-            <NotificationDescription className="text-blue-600 dark:text-blue-400 whitespace-pre-wrap">
-              {advice}
-            </NotificationDescription>
-          </Notification>
+          <div className="bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <Lightbulb className="h-4 w-4 text-blue-500 mt-0.5" />
+              <div className="flex-1">
+                <h4 className="text-sm font-medium text-blue-700 dark:text-blue-300">Your Personalized Advice</h4>
+                <p className="text-sm text-blue-600 dark:text-blue-400 whitespace-pre-wrap mt-1">
+                  {advice}
+            </p>
+              </div>
+            </div>
+          </div>
         )}
       </CardContent>
     </Card>

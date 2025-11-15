@@ -1,28 +1,18 @@
-import { getFirestoreClient } from './firebase-client';
-import { collection, addDoc, getDocs, query, orderBy, doc, deleteDoc } from 'firebase/firestore';
+const _templates: any[] = [];
 
 export const fxTemplates = {
   async listTemplates() {
-    const db = getFirestoreClient();
-    if (!db) return [];
-    const col = collection(db, 'templates');
-    const q = query(col, orderBy('createdAt', 'desc') as any);
-    const snap = await getDocs(q as any);
-    return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
+    return _templates.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
   },
   async createTemplate({ title, content, authorId }: { title: string; content: string; authorId?: string }) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized');
-    const col = collection(db, 'templates');
-    const payload = { title, content, authorId, createdAt: new Date().toISOString() } as any;
-    const ref = await addDoc(col, payload as any);
-    return { id: ref.id, ...payload };
+    const id = Math.random().toString(36).slice(2);
+    const payload = { id, title, content, authorId, createdAt: new Date().toISOString() } as any;
+    _templates.push(payload);
+    return payload;
   },
   async deleteTemplate(id: string) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized');
-    const ref = doc(db, 'templates', id);
-    await deleteDoc(ref);
+    const idx = _templates.findIndex(t => t.id === id);
+    if (idx >= 0) _templates.splice(idx, 1);
     return true;
   }
 };

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 ;
 ;
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
 import { 
   CheckCircle2, 

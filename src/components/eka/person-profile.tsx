@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import fxService from '@/lib/fx-service';
 ;
 ;
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useToast } from '@/hooks/use-toast';
 import { useMemo } from 'react';
 

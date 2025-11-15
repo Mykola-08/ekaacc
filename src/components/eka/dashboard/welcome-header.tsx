@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { TextEffect } from '@/components/motion-primitives';
 import { Button } from '@/components/ui/button';
 import { Bell, Settings } from 'lucide-react';

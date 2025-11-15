@@ -7,7 +7,7 @@ import { Wallet, TrendingUp, Plus, Eye, EyeOff } from 'lucide-react';
 ;
 ;
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: boolean } = {}) {

@@ -14,7 +14,7 @@ import {
   UserThemePreference,
   DEFAULT_THEMES,
 } from '@/lib/subscription-types';
-import { FirebaseSubscriptionService } from './firebase-subscription-service';
+// Firebase removed; integrate Supabase-backed subscription service here
 
 // ============================================================================
 // Service Interface
@@ -447,7 +447,7 @@ export async function getSubscriptionService(): Promise<ISubscriptionService> {
     const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
     subscriptionServiceInstance = useMock
       ? new MockSubscriptionService()
-      : new FirebaseSubscriptionService();
+      : new FirestoreSubscriptionService();
   }
-  return subscriptionServiceInstance;
+  return subscriptionServiceInstance as any;
 }

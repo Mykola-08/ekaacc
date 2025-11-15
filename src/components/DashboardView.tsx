@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { WelcomeHeader } from './eka/dashboard/welcome-header';
 import { StatsGrid } from './eka/dashboard/stats-grid';

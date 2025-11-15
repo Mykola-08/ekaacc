@@ -10,8 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
 ;
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/firebase/firebase';
+import { useAuth } from '@/lib/supabase-auth';
 import { Sparkles, Mail, Lock, User, Package2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -94,6 +93,7 @@ function LoginForm() {
 
 function SignupForm() {
   const { toast } = useToast();
+  const { signUp } = useAuth();
   const router = useRouter();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -114,9 +114,7 @@ function SignupForm() {
     
     setIsLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const { updateProfile } = await import('firebase/auth');
-      await updateProfile(userCredential.user, { displayName: name });
+      await signUp(email, password, { displayName: name });
       
       toast({
         title: '🎉 Account created!',
@@ -127,20 +125,8 @@ function SignupForm() {
       
     } catch (error: any) {
       let errorMessage = 'An unknown error occurred.';
-      if (error.code) {
-        switch (error.code) {
-          case 'auth/email-already-in-use':
-            errorMessage = 'This email is already registered. Please login.';
-            break;
-          case 'auth/invalid-email':
-            errorMessage = 'Invalid email address.';
-            break;
-          case 'auth/weak-password':
-            errorMessage = 'Password is too weak.';
-            break;
-          default:
-            errorMessage = 'Signup failed. Please try again.';
-        }
+      if (error.message) {
+        errorMessage = error.message;
       }
       toast({
         variant: 'destructive',

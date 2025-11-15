@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { StatCard } from './stat-card';
 import { Activity, HeartPulse, Smile, Zap } from 'lucide-react';
 import type { Session } from '@/lib/types';

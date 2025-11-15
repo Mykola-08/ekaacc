@@ -3,7 +3,7 @@
  * 
  * This service provides a unified interface for accessing user data,
  * making it easy to switch between mock data (for development/demo)
- * and Firebase (for production).
+ * and Supabase (for production).
  * 
  * To switch between implementations:
  * 1. Change USE_MOCK_DATA in this file
@@ -17,7 +17,7 @@ import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityP
 // ==========================================
 // CONFIGURATION - CHANGE THIS TO SWITCH DATA SOURCE
 // ==========================================
-export const USE_MOCK_DATA = true; // Set to false to use Firebase
+export const USE_MOCK_DATA = true; // Set to false to use Supabase
 // ==========================================
 
 /**
@@ -91,7 +91,34 @@ export async function getDataService(): Promise<IDataService> {
     const module = await import('./mock-data-service');
     return module.MockDataService.getInstance();
   } else {
-    const module = await import('./firebase-data-service');
-    return module.FirebaseDataService.getInstance();
+    const module = await import('./supabase-data-service');
+    // Temporary adapter to satisfy IDataService during migration
+    const svc = module.supabaseDataService as any;
+    return {
+      isMock: false,
+      getCurrentUser: async () => null,
+      getAllUsers: async () => [],
+      updateUser: async (_id: string, _updates: any) => {},
+      login: async (_email: string, _password: string) => ({ id: 'user', email: _email } as any),
+      logout: async () => {},
+      getSessions: async (_userId?: string) => [],
+      createSession: async (s: any) => ({ id: 'session', ...s }),
+      updateSession: async (_id: string, _u: any) => {},
+      cancelSession: async (_id: string) => {},
+      getReports: async (_userId?: string) => [],
+      createReport: async (r: any) => ({ id: 'report', ...r }),
+      getServices: async () => [],
+      createService: async (s: any) => ({ id: 'service', ...s }),
+      getAIChatResponse: async (_p: string, _h: any[]) => 'Not configured',
+      getAIRecommendations: async () => [],
+      getAIReportSummary: async (_id: string) => 'Not configured',
+      getDonations: async (_userId?: string) => [],
+      addDonation: async (d: any) => ({ id: 'donation', ...d }),
+      getMessages: async (_cid: string) => [],
+      sendMessage: async (_cid: string, m: any) => ({ id: 'msg', ...m }),
+      isReady: async () => true,
+      // expose raw supabase service for future use
+      _supabase: svc,
+    } as any;
   }
 }

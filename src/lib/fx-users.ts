@@ -1,28 +1,15 @@
-import { getFirestoreClient } from './firebase-client';
-import { collection, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
+import { allUsers } from './data';
 
 export const fxUsers = {
   async getUsers() {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized.');
-    const col = collection(db, 'users');
-    const snap = await getDocs(col);
-    return snap.docs.map(d => ({ id: d.id, ...(d.data() as any) }));
+    return allUsers;
   },
   async updateUserRole(userId: string, role: string) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized.');
-    const ref = doc(db, 'users', userId);
-    await updateDoc(ref, { role });
-    return { id: userId, role };
+    return { id: userId, role } as any;
   }
   ,
   async updateUser(userId: string, data: Record<string, any>) {
-    const db = getFirestoreClient();
-    if (!db) throw new Error('Firestore not initialized.');
-    const ref = doc(db, 'users', userId);
-    await updateDoc(ref, data);
-    return { id: userId, ...data };
+    return { id: userId, ...data } as any;
   }
 };
 

@@ -2,19 +2,17 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/auth-context';
-import { savePreferences, UserPreferences, Role, Tone } from '@/firebase/onboardingStore';
-import { firebaseServices } from '@/firebase/firebaseClient';
-import { ref, set, serverTimestamp } from 'firebase/database';
+import { useAuth } from '@/lib/supabase-auth';
 import { USE_MOCK_DATA } from '@/services/data-service';
+import { supabase } from '@/lib/supabase';
 
 export default function OnboardingForm() {
   const { user } = useAuth();
   const router = useRouter();
-  const [role, setRole] = useState<Role>('office');
+  const [role, setRole] = useState('office');
   const [goals, setGoals] = useState('');
   const [concerns, setConcerns] = useState('');
-  const [tone, setTone] = useState<Tone>('supportive');
+  const [tone, setTone] = useState('supportive');
   const [notifyTips, setNotifyTips] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -26,26 +24,23 @@ export default function OnboardingForm() {
     }
     setLoading(true);
 
-    const preferences: Omit<UserPreferences, 'createdAt' | 'updatedAt'> = {
+    const preferences = {
       role,
       goals: goals.split(',').map(g => g.trim()).filter(Boolean),
       concerns: concerns.split(',').map(c => c.trim()).filter(Boolean),
       tone,
-      notifyTips,
+      notify_tips: notifyTips,
+      user_id: user.id,
     };
 
     try {
       if (!USE_MOCK_DATA) {
-        // 1. Persist preferences to Firestore (Firebase mode only)
-        await savePreferences(user.uid, preferences);
-
-        // 2. Write presence to Realtime Database (Firebase mode only)
-        const { rtdb } = firebaseServices;
-        const presenceRef = ref(rtdb, `status/${user.uid}`);
-        await set(presenceRef, {
-          state: 'online',
-          last_changed: serverTimestamp(),
-        });
+        // 1. Persist preferences to Supabase
+        const { error } = await supabase
+          .from('user_preferences')
+          .upsert(preferences);
+        
+        if (error) throw error;
       } else {
         // Mock mode: Just log the preferences
         console.log('Mock mode: Preferences saved', preferences);
@@ -66,7 +61,7 @@ export default function OnboardingForm() {
       
       <div>
         <label htmlFor="role" className="block text-sm font-medium text-gray-700">What is your primary role?</label>
-        <select id="role" value={role} onChange={e => setRole(e.target.value as Role)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+        <select id="role" value={role} onChange={e => setRole(e.target.value)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
           <option value="student">Student</option>
           <option value="office">Office Worker</option>
           <option value="athlete">Athlete</option>

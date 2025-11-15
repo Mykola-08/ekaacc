@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useUser } from '@/hooks/use-firebase-hooks';
+import { useAuth } from '@/lib/supabase-auth';
 import { allUsers as mockUsers } from '@/lib/data';
 import type { User } from '@/lib/types';
 
@@ -14,14 +14,22 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const { user: currentUser, loading: isLoading } = useUser();
+  const { user, loading: isLoading } = useAuth();
 
-  const allUsers = mockUsers; 
-  
+  const allUsers = mockUsers;
+
+  const currentUser: User | null = user
+    ? {
+        id: user.id,
+        name: user.user_metadata?.displayName || user.email || 'User',
+        email: user.email || '',
+      } as any
+    : null;
+
   const value = {
-      currentUser: currentUser as User | null,
-      allUsers,
-      isLoading
+    currentUser,
+    allUsers,
+    isLoading,
   };
 
   return (

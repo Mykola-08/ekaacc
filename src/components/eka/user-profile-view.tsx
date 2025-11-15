@@ -33,11 +33,11 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
 
   const getStatusBadgeVariant = (status?: string) => {
     switch (status) {
-      case 'active': return 'default';
-      case 'suspended': return 'destructive';
-      case 'pending': return 'secondary';
-      case 'deactivated': return 'outline';
-      default: return 'default';
+      case 'active': return 'base';
+      case 'suspended': return 'border';
+      case 'pending': return 'background';
+      case 'deactivated': return 'border';
+      default: return 'base';
     }
   };
 
@@ -387,19 +387,19 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Show Bio</span>
-                <Badge variant={typedUser.profileVisibility.showBio ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.profileVisibility.showBio ? 'base' : 'background'}>
                   {typedUser.profileVisibility.showBio ? 'Yes' : 'No'}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Visible to Therapists</span>
-                <Badge variant={typedUser.profileVisibility.showToTherapists ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.profileVisibility.showToTherapists ? 'base' : 'background'}>
                   {typedUser.profileVisibility.showToTherapists ? 'Yes' : 'No'}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Public Profile</span>
-                <Badge variant={typedUser.profileVisibility.publicProfile ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.profileVisibility.publicProfile ? 'base' : 'background'}>
                   {typedUser.profileVisibility.publicProfile ? 'Yes' : 'No'}
                 </Badge>
               </div>

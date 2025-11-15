@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { X, Sparkles, Gift } from 'lucide-react';
 ;
 import { EnhancedPersonalizationForm, PersonalizationData } from './forms';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 

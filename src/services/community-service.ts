@@ -24,7 +24,7 @@ import {
   type QueryConstraint,
   type DocumentSnapshot,
 } from 'firebase/firestore';
-import { db } from '@/firebase/config';
+const db: any = null;
 import {
   COMMUNITY_COLLECTIONS,
   type Post,

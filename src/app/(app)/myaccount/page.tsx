@@ -8,11 +8,10 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 import { format } from "date-fns";
 import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
-import type { Timestamp } from 'firebase/firestore';
 ;
 ;
 ;
@@ -26,11 +25,9 @@ import type { User } from "@/lib/types";
 import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/wallet-types";
 
 // Helper function to convert Timestamp or string to Date
-function toDate(timestamp: Timestamp | string): Date {
+function toDate(timestamp: Date | string): Date {
     if (typeof timestamp === 'string') return new Date(timestamp);
-    if (timestamp && typeof timestamp.toDate === 'function') {
-        return timestamp.toDate();
-    }
+    if (timestamp instanceof Date) return timestamp;
     return new Date();
 }
 

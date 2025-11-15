@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import { MoreHorizontal, CalendarOff } from "lucide-react";
 
 import type { Session as AppSession, User } from '@/lib/types';
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 import { PersonalizationEngine } from '@/lib/personalization-engine';
 import fxService from '@/lib/fx-service';

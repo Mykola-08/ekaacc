@@ -1,15 +1,16 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Textarea } from '@/components/keep';
 import React, { useEffect, useState, useMemo } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
+;
+;
+;
+;
+;
+;
+;
+;
+;
 import { 
   FileText, 
   Search, 
@@ -28,8 +29,8 @@ import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES } from '@/lib/template-types';
 import type { User as UserType, Session } from '@/lib/types';
-import { Separator } from '@/components/ui/separator';
-import { Skeleton } from '@/components/ui/skeleton';
+;
+;
 import { cn } from '@/lib/utils';
 
 export default function TherapistTemplatesPage() {
@@ -331,17 +332,17 @@ export default function TherapistTemplatesPage() {
         ))}
       </div>
 
-      <Dialog open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+      <Modal open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
+        <ModalContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <ModalHeader>
+            <ModalTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5" />
               {selectedTemplate?.name}
-            </DialogTitle>
-            <DialogDescription>
+            </ModalTitle>
+            <ModalDescription>
               Fill in the required fields. Client information will be auto-filled.
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
 
           <div className="space-y-4 p-1">
             <div className="space-y-2">
@@ -350,9 +351,7 @@ export default function TherapistTemplatesPage() {
                 Select Client *
               </Label>
               <Select value={selectedClient} onValueChange={setSelectedClient}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Choose a client..." />
-                </SelectTrigger>
+                <SelectValue placeholder="Choose a client..."  />
                 <SelectContent>
                   {clients.map(client => (
                     <SelectItem key={client.id} value={client.id}>
@@ -363,7 +362,7 @@ export default function TherapistTemplatesPage() {
               </Select>
             </div>
 
-            <Separator />
+            <Divider />
 
             {selectedClient && (
               <Card className="bg-muted/50">
@@ -410,9 +409,7 @@ export default function TherapistTemplatesPage() {
                       value={formData[field.key] || ''} 
                       onValueChange={(value) => setFormData(prev => ({ ...prev, [field.key]: value }))}
                     >
-                      <SelectTrigger>
-                        <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`} />
-                      </SelectTrigger>
+                      <SelectValue placeholder={`Select ${field.label.toLowerCase()}...`}  />
                       <SelectContent>
                         {field.options?.map(option => (
                           <SelectItem key={option} value={option}>
@@ -435,7 +432,7 @@ export default function TherapistTemplatesPage() {
             </div>
           </div>
 
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" onClick={() => setSelectedTemplate(null)}>
               Cancel
             </Button>
@@ -443,19 +440,19 @@ export default function TherapistTemplatesPage() {
               <FileText className="w-4 h-4" />
               Generate Report
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
-      <Dialog open={showPreview} onOpenChange={setShowPreview}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Generated Report Preview</DialogTitle>
-          </DialogHeader>
+      <Modal open={showPreview} onOpenChange={setShowPreview}>
+        <ModalContent className="max-w-2xl">
+          <ModalHeader>
+            <ModalTitle>Generated Report Preview</ModalTitle>
+          </ModalHeader>
           <ScrollArea className="h-96 p-4 border rounded-md bg-muted/50">
             <pre className="text-sm whitespace-pre-wrap">{previewContent}</pre>
           </ScrollArea>
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" onClick={() => setShowPreview(false)}>
               Close
             </Button>
@@ -467,9 +464,9 @@ export default function TherapistTemplatesPage() {
               <Download className="w-4 h-4" />
               Download
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </motion.div>
   );
 }

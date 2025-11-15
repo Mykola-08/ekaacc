@@ -1,6 +1,7 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+;
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { cn } from "@/lib/utils";
 import { InView } from "@/components/motion-primitives";
 

@@ -1,20 +1,21 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Checkbox, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Slider, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
+;
+;
+;
+;
+;
+;
+;
 import { Loader2, ClipboardCheck, TrendingUp, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Checkbox } from '@/components/ui/checkbox';
+;
+;
+;
+;
+;
 
 interface SessionAssessmentFormProps {
   open: boolean;
@@ -192,28 +193,28 @@ export function SessionAssessmentForm({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl flex items-center gap-2">
+    <Modal open={open} onOpenChange={onClose}>
+      <ModalContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
+          <ModalTitle className="text-2xl flex items-center gap-2">
             <ClipboardCheck className="h-6 w-6 text-primary" />
             {sessionType === 'pre' ? 'Pre-Session Assessment' : 'Post-Session Assessment'}
-          </DialogTitle>
-          <DialogDescription>
+          </ModalTitle>
+          <ModalDescription>
             Patient: <strong>{patientName}</strong>
-          </DialogDescription>
-        </DialogHeader>
+          </ModalDescription>
+        </ModalHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {sessionType === 'pre' ? (
             // PRE-SESSION FORM
             <>
-              <Alert>
+              <Notification>
                 <AlertCircle className="h-4 w-4" />
-                <AlertDescription>
+                <NotificationDescription>
                   Complete this assessment before the session begins to establish baseline and session goals.
-                </AlertDescription>
-              </Alert>
+                </NotificationDescription>
+              </Notification>
 
               <Card>
                 <CardHeader>
@@ -264,9 +265,7 @@ export function SessionAssessmentForm({
                   <div>
                     <Label htmlFor="crisisRisk">Crisis Risk Assessment</Label>
                     <Select value={crisisRisk} onValueChange={setCrisisRisk}>
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Assess current crisis risk" />
-                      </SelectTrigger>
+                      <SelectValue placeholder="Assess current crisis risk"  />
                       <SelectContent>
                         <SelectItem value="none">No risk identified</SelectItem>
                         <SelectItem value="low">Low risk - monitor</SelectItem>
@@ -323,18 +322,18 @@ export function SessionAssessmentForm({
           ) : (
             // POST-SESSION FORM
             <>
-              <Alert>
+              <Notification>
                 <TrendingUp className="h-4 w-4" />
-                <AlertDescription>
+                <NotificationDescription>
                   Document session outcomes, progress, and plan next steps for continued care.
-                </AlertDescription>
-              </Alert>
+                </NotificationDescription>
+              </Notification>
 
               <Tabs defaultValue="summary" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="summary">Summary</TabsTrigger>
-                  <TabsTrigger value="progress">Progress</TabsTrigger>
-                  <TabsTrigger value="followup">Follow-up</TabsTrigger>
+                  <TabsItem value="summary">Summary</TabsItem>
+                  <TabsItem value="progress">Progress</TabsItem>
+                  <TabsItem value="followup">Follow-up</TabsItem>
                 </TabsList>
 
                 <TabsContent value="summary" className="space-y-4">
@@ -549,7 +548,7 @@ export function SessionAssessmentForm({
             </>
           )}
 
-          <DialogFooter className="flex-col sm:flex-row gap-2">
+          <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
               variant="ghost"
@@ -568,9 +567,9 @@ export function SessionAssessmentForm({
                 'Save Assessment'
               )}
             </Button>
-          </DialogFooter>
+          </ModalFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 }

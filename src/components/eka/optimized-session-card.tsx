@@ -1,9 +1,10 @@
 "use client";
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import React, { memo } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+;
+;
+;
 import { Calendar, Clock, User, Video, MapPin, CheckCircle2 } from "lucide-react";
 import { format } from 'date-fns';
 import type { Session } from '@/lib/types';

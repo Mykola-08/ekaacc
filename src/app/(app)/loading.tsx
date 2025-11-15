@@ -1,7 +1,8 @@
 'use client';
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+;
+;
+import { Card, CardContent, CardHeader, Skeleton } from '@/components/keep';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 

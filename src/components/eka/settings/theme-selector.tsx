@@ -1,11 +1,12 @@
 
 'use client';
 
+import { Button, Label } from '@/components/keep';
 import * as React from "react";
 import { Moon, Sun, Monitor } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+;
+;
 import { cn } from "@/lib/utils";
 
 export function ThemeSelector() {

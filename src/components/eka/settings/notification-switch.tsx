@@ -1,6 +1,7 @@
 
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
+;
+;
+import { Label, Switch } from '@/components/keep';
 import { cn } from "@/lib/utils";
 
 interface NotificationSwitchProps {

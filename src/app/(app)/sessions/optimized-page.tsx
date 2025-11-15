@@ -1,15 +1,16 @@
 "use client";
 
+import { Button, Skeleton, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { Suspense, useMemo } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
+;
+;
 import { Calendar, Plus, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/context/auth-context";
 import { useOptimizedData } from "@/hooks/use-optimized-data";
 import { getDataService } from "@/services/data-service";
 import OptimizedSessionCard from "@/components/eka/optimized-session-card";
-import { Skeleton } from "@/components/ui/skeleton";
+;
 import type { Session } from "@/lib/types";
 
 // Skeleton loading component
@@ -126,18 +127,18 @@ export default function OptimizedSessionsPage() {
       {/* Sessions Tabs */}
       <Tabs defaultValue="upcoming" className="space-y-4">
         <TabsList>
-            <TabsTrigger value="upcoming" className="gap-2">
+            <TabsItem value="upcoming" className="gap-2">
               <Calendar className="h-4 w-4" />
               Upcoming ({upcoming.length})
-            </TabsTrigger>
-            <TabsTrigger value="past" className="gap-2">
+            </TabsItem>
+            <TabsItem value="past" className="gap-2">
               <Loader2 className="h-4 w-4" />
               Past ({past.length})
-            </TabsTrigger>
-            <TabsTrigger value="cancelled" className="gap-2">
+            </TabsItem>
+            <TabsItem value="cancelled" className="gap-2">
               <Plus className="h-4 w-4 rotate-45" />
               Cancelled ({cancelled.length})
-            </TabsTrigger>
+            </TabsItem>
         </TabsList>
 
         <TabsContent value="upcoming" className="space-y-4">

@@ -1,11 +1,9 @@
 "use client";
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { Skeleton } from '@/components/ui/skeleton';
 import { format } from 'date-fns';
 import type { Report } from '@/lib/types';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -195,7 +193,12 @@ export default function ProgressPage() {
           icon={<Award className="h-4 w-4 text-muted-foreground" />}
           description="Combined score of all metrics."
         >
-          <Progress value={overallProgress} className="h-2" />
+          <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-blue-600 transition-all duration-300" 
+              style={{ width: `${overallProgress}%` }}
+            />
+          </div>
         </StatCard>
         <StatCard
           title="Pain Reduction"
@@ -217,7 +220,12 @@ export default function ProgressPage() {
           icon={<Activity className="h-4 w-4 text-muted-foreground" />}
           description="How often you submit reports."
         >
-          <Progress value={consistency} className="h-2" />
+          <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-blue-600 transition-all duration-300" 
+              style={{ width: `${consistency}%` }}
+            />
+          </div>
         </StatCard>
       </div>
 

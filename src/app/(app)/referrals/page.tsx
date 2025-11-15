@@ -1,11 +1,12 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+;
+;
+;
+;
+;
 import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Share2, Gift, Copy, Check, Mail, MessageCircle, Facebook, Twitter, Instagram, TrendingUp } from 'lucide-react';
@@ -241,14 +242,14 @@ export default function ReferralsPage() {
       {/* Tabs */}
       <Tabs defaultValue="referrals" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="referrals">
+          <TabsItem value="referrals">
             <Users className="h-4 w-4 mr-2" />
             My Referrals
-          </TabsTrigger>
-          <TabsTrigger value="invite">
+          </TabsItem>
+          <TabsItem value="invite">
             <Mail className="h-4 w-4 mr-2" />
             Send Invite
-          </TabsTrigger>
+          </TabsItem>
         </TabsList>
 
         {/* Referrals List */}
@@ -283,15 +284,7 @@ export default function ReferralsPage() {
                       </div>
                     </div>
                     <div className="text-right flex flex-col items-end gap-2">
-                      <Badge
-                        variant={
-                          referral.status === 'completed'
-                            ? 'default'
-                            : referral.status === 'active'
-                            ? 'secondary'
-                            : 'outline'
-                        }
-                      >
+                      <Badge variant="base">
                         {referral.status}
                       </Badge>
                       <p className="text-sm font-semibold text-green-600">

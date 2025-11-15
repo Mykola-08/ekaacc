@@ -1,14 +1,15 @@
 'use client';
 
+import { Avatar, AvatarFallback, Button, Card, CardContent, CardHeader, CardTitle, Input } from '@/components/keep';
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
+;
+;
+;
+;
 import { MessageCircle, X, Send, Sparkles, Bot, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+;
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
 

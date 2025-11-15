@@ -1,20 +1,14 @@
 "use client";
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Label, Skeleton, Slider, Textarea } from '@/components/keep';
+import { Calendar } from '@/components/ui/calendar';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Calendar } from '@/components/ui/calendar';
-import { Badge } from '@/components/ui/badge';
 import { Plus, BookOpen, Smile, Meh, Frown, X } from 'lucide-react';
 import { format, isSameDay } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { JournalEntry } from '@/lib/types';
-import { Skeleton } from '@/components/ui/skeleton';
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
 import type { ReactElement } from 'react';
@@ -199,7 +193,7 @@ function NewEntryCard({
 						<CardTitle>New Entry for {format(selectedDate, 'MMMM d, yyyy')}</CardTitle>
 						<CardDescription>How are you feeling today?</CardDescription>
 					</div>
-					<Button variant="ghost" size="icon" onClick={onCancel}>
+					<Button variant="outline" className="h-9 w-9 p-0" onClick={onCancel}>
 						<X className="h-4 w-4" />
 					</Button>
 				</div>
@@ -216,8 +210,8 @@ function NewEntryCard({
 						{Object.entries(moodIcons).map(([level, icon]) => (
 							<Button
 								key={level}
-								variant={mood === parseInt(level) ? 'secondary' : 'ghost'}
-								size="icon"
+								variant={mood === parseInt(level) ? 'default' : 'outline'}
+								className="h-10 w-10 p-0"
 								onClick={() => setMood(parseInt(level))}
 							>
 								{icon}
@@ -285,7 +279,7 @@ function JournalEntryCard({ entry }: { entry: JournalEntry }) {
 				{entry.tags && entry.tags.length > 0 && (
 					<div className="flex flex-wrap gap-2 pt-2">
 						{entry.tags.map((tag) => (
-							<Badge key={tag} variant="secondary">
+							<Badge key={tag} className="bg-blue-500 text-white">
 								{tag}
 							</Badge>
 						))}

@@ -7,8 +7,9 @@
 
 'use client';
 
+import { Badge } from '@/components/keep';
 import { useAppStore } from '@/store/app-store';
-import { Badge } from '@/components/ui/badge';
+;
 import { Database, HardDrive } from 'lucide-react';
 import { cn } from '@/lib/utils';
 

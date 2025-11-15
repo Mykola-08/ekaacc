@@ -1,11 +1,7 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
 import { Star, Gift, Trophy, TrendingUp, Sparkles, Crown, Zap, Award, CheckCircle2 } from 'lucide-react';
@@ -221,7 +217,12 @@ export default function LoyaltyPage() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Progress value={progressToNextTier} className="mb-4" />
+              <div className="mb-4 h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-blue-600 transition-all duration-300" 
+                  style={{ width: `${progressToNextTier}%` }}
+                />
+              </div>
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <span>{currentTier.name}</span>
                 {nextTier && <span>{nextTier.name}</span>}
@@ -234,18 +235,18 @@ export default function LoyaltyPage() {
       {/* Tabs */}
       <Tabs defaultValue="rewards" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="rewards">
+          <TabsItem value="rewards">
             <Gift className="h-4 w-4 mr-2" />
             Rewards
-          </TabsTrigger>
-          <TabsTrigger value="tiers">
+          </TabsItem>
+          <TabsItem value="tiers">
             <Trophy className="h-4 w-4 mr-2" />
             Tiers
-          </TabsTrigger>
-          <TabsTrigger value="activity">
+          </TabsItem>
+          <TabsItem value="activity">
             <TrendingUp className="h-4 w-4 mr-2" />
             Activity
-          </TabsTrigger>
+          </TabsItem>
         </TabsList>
 
         {/* Rewards Tab */}
@@ -272,7 +273,7 @@ export default function LoyaltyPage() {
                       )}>
                         <reward.icon className="h-6 w-6" />
                       </div>
-                      <Badge variant={reward.available ? 'default' : 'secondary'}>
+                      <Badge className={reward.available ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}>
                         {reward.pointsCost} pts
                       </Badge>
                     </div>

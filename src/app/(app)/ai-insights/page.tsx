@@ -1,15 +1,16 @@
 'use client';
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Notification, NotificationDescription, NotificationTitle, Skeleton } from '@/components/keep';
 import { useEffect, useState } from 'react';
 import { AITherapyRecommendations } from '@/components/eka/ai-therapy-recommendations';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+;
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { useToast } from '@/hooks/use-toast';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+;
 import { Lightbulb, TrendingUp, TrendingDown, Activity } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { Skeleton } from '@/components/ui/skeleton';
+;
 import type { User } from '@/lib/types';
 
 // Define types for the analysis data

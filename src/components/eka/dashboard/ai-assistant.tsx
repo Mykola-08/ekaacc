@@ -1,20 +1,13 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-  DialogClose,
-} from '@/components/ui/dialog';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Textarea } from '@/components/ui/textarea';
+;
+;
+;
+;
+import { Avatar, AvatarFallback, Button, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
 import { useToast } from '@/hooks/use-toast';
 import { Bot, Loader2, Sparkles, User } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+;
 import { cn } from '@/lib/utils';
 
 
@@ -80,18 +73,18 @@ export function AiAssistant() {
         <span className="sr-only">Open AI Assistant</span>
       </Button>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[425px] flex flex-col h-[70vh]">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+      <Modal open={isOpen} onOpenChange={setIsOpen}>
+        <ModalContent className="sm:max-w-[425px] flex flex-col h-[70vh]">
+          <ModalHeader>
+            <ModalTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
               <span>AI Assistant</span>
-            </DialogTitle>
-            <DialogDescription>
+            </ModalTitle>
+            <ModalDescription>
               Ask me anything or tell me what to do. For example: "Summarize my
               progress this month."
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
           
           <ScrollArea className="flex-1 -mx-6 px-6" ref={scrollAreaRef}>
             <div className="space-y-4 pr-4">
@@ -139,17 +132,17 @@ export function AiAssistant() {
             />
           </div>
 
-          <DialogFooter>
-            <DialogClose asChild>
+          <ModalFooter>
+            <ModalClose asChild>
                 <Button variant="secondary">Close</Button>
-            </DialogClose>
+            </ModalClose>
             <Button type="submit" onClick={handleSend} disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Send
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

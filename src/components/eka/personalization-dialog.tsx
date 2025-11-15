@@ -1,10 +1,11 @@
 'use client';
 
+import { Button, Label, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+;
+;
+;
+;
 import { Loader2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '../ui/input';
@@ -46,18 +47,18 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
   };
 
   return (
-    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
+    <Modal open={true} onOpenChange={(open) => !open && onClose()}>
+      <ModalContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
         <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+          <ModalHeader>
+            <ModalTitle className="flex items-center gap-2">
               <Sparkles className="text-primary" />
               Personalize Your Experience
-            </DialogTitle>
-            <DialogDescription>
+            </ModalTitle>
+            <ModalDescription>
               Answer these questions to help us tailor the EKA platform to you and sync with your Square profile.
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="goals">What are your primary goals for using EKA?</Label>
@@ -89,20 +90,20 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
               />
             </div>
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
+          <ModalFooter>
+            <ModalClose asChild>
                 <Button type="button" variant="ghost" onClick={onClose}>
                 Skip for Now
                 </Button>
-            </DialogClose>
+            </ModalClose>
             <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save & Personalize
             </Button>
-          </DialogFooter>
+          </ModalFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 }
     

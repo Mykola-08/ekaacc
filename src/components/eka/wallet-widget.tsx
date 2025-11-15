@@ -1,18 +1,11 @@
 'use client';
 
+import { Badge, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList } from '@/components/keep';
 import { useState, useEffect } from 'react';
 import { Wallet, TrendingUp, Plus, Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
+;
+;
+;
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -62,8 +55,8 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
   }
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Dropdown>
+      <DropdownAction asChild>
         <Button variant="ghost" size="sm" className="gap-2 hover:bg-muted/50">
           <Wallet className="h-4 w-4" />
           <div className="flex flex-col items-start">
@@ -93,9 +86,9 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
             </AnimatePresence>
           </div>
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-72" align="end">
-        <DropdownMenuLabel>My Wallet</DropdownMenuLabel>
+      </DropdownAction>
+      <DropdownContent className="w-72" align="end">
+        <DropdownList>My Wallet</DropdownList>
         <DropdownMenuSeparator />
         
         {/* Balance & Points */}
@@ -145,20 +138,20 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push('/myaccount?tab=profile')}>
+          <DropdownItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Wallet className="mr-2 h-4 w-4" />
             <span>View Wallet</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push('/myaccount?tab=profile')}>
+          </DropdownItem>
+          <DropdownItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Plus className="mr-2 h-4 w-4" />
             <span>Top Up Wallet</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push('/subscriptions')}>
+          </DropdownItem>
+          <DropdownItem onClick={() => router.push('/subscriptions')}>
             <TrendingUp className="mr-2 h-4 w-4" />
             <span>Loyalty Program</span>
-          </DropdownMenuItem>
+          </DropdownItem>
         </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </DropdownContent>
+    </Dropdown>
   );
 }

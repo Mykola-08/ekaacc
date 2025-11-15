@@ -1,5 +1,6 @@
 'use client';
 
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
@@ -10,10 +11,10 @@ import { requestPushPermissionAndRegister } from '@/firebase/messagingClient';
 import { loadPreferences } from '@/firebase/onboardingStore';
 import AIGoalSuggestions from './AIGoalSuggestions';
 import { USE_MOCK_DATA } from '@/services/data-service';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+;
+;
 import { Activity, ArrowRight, Bell, CheckCircle2, Clock, HeartPulse, Settings, Smile, Target, TrendingUp, User as UserIcon, Zap } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
+;
 import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
 import { useToast } from '@/hooks/use-toast';
 import type { Session, Report, User } from '@/lib/types';

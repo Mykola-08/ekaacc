@@ -1,17 +1,18 @@
 'use client';
 
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Select, SelectContent, SelectItem, SelectValue, Skeleton } from '@/components/keep';
 import { useState, useMemo, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+;
+;
+;
+;
+;
 import { Heart, HandHeart } from "lucide-react";
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
-import { Skeleton } from '@/components/ui/skeleton';
+;
 import { DonationSeekerApplicationForm } from '@/components/eka/forms/donation-seeker-application-form';
 import type { DonationSeekerData } from '@/components/eka/forms/donation-seeker-application-form';
 
@@ -188,9 +189,7 @@ export default function DonationsPage() {
                         <div className="grid gap-2">
                             <Label htmlFor="recipient">Recipient</Label>
                             <Select value={recipient} onValueChange={setRecipient}>
-                                <SelectTrigger id="recipient">
-                                    <SelectValue placeholder="Select a recipient" />
-                                </SelectTrigger>
+                                <SelectValue placeholder="Select a recipient"  />
                                 <SelectContent>
                                     <SelectItem value="any">Anyone in need</SelectItem>
                                     {potentialRecipients.map(user => (

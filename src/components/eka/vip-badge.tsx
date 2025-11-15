@@ -1,7 +1,8 @@
 'use client';
 
+import { Badge } from '@/components/keep';
 import { Crown, Gem, Award, Star } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+;
 import { cn } from '@/lib/utils';
 import type { VipTier } from '@/lib/types';
 

@@ -7,10 +7,11 @@
 
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+;
+;
+;
+;
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Notification, NotificationDescription } from '@/components/keep';
 import { cn } from '@/lib/utils';
 import { 
   CheckCircle2, 
@@ -110,33 +111,33 @@ export function DesignSystemShowcase() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Alert className="border-success/20 bg-success/5">
+          <Notification className="border-success/20 bg-success/5">
             <CheckCircle2 className="h-4 w-4 text-success" />
-            <AlertDescription className="text-success-foreground ml-2">
+            <NotificationDescription className="text-success-foreground ml-2">
               Operation completed successfully
-            </AlertDescription>
-          </Alert>
+            </NotificationDescription>
+          </Notification>
 
-          <Alert className="border-warning/20 bg-warning/5">
+          <Notification className="border-warning/20 bg-warning/5">
             <AlertTriangle className="h-4 w-4 text-warning" />
-            <AlertDescription className="text-warning-foreground ml-2">
+            <NotificationDescription className="text-warning-foreground ml-2">
               Please review your settings before continuing
-            </AlertDescription>
-          </Alert>
+            </NotificationDescription>
+          </Notification>
 
-          <Alert className="border-info/20 bg-info/5">
+          <Notification className="border-info/20 bg-info/5">
             <Info className="h-4 w-4 text-info" />
-            <AlertDescription className="text-info-foreground ml-2">
+            <NotificationDescription className="text-info-foreground ml-2">
               New features are now available
-            </AlertDescription>
-          </Alert>
+            </NotificationDescription>
+          </Notification>
 
-          <Alert className="border-destructive/20 bg-destructive/5">
+          <Notification className="border-destructive/20 bg-destructive/5">
             <XCircle className="h-4 w-4 text-destructive" />
-            <AlertDescription className="text-destructive-foreground ml-2">
+            <NotificationDescription className="text-destructive-foreground ml-2">
               An error occurred. Please try again.
-            </AlertDescription>
-          </Alert>
+            </NotificationDescription>
+          </Notification>
         </CardContent>
       </Card>
 

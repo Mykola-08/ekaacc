@@ -1,8 +1,9 @@
 "use client";
 
+import { Card } from '@/components/keep';
 import React from 'react';
 import { RoleGuard } from '@/components/eka/role-guard';
-import { Card } from '@/components/ui/card';
+;
 import { TherapistSidebar } from '@/components/eka/therapist-sidebar';
 
 export default function TherapistLayout({ children }: { children: React.ReactNode }) {

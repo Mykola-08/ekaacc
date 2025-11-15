@@ -1,20 +1,15 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+;
+;
+;
+;
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+;
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase/firebase';
 import { Sparkles, Mail, Lock, User, Package2 } from 'lucide-react';
@@ -279,8 +274,8 @@ export default function LoginPage() {
           
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="login">Login</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsItem value="login">Login</TabsItem>
+              <TabsItem value="signup">Sign Up</TabsItem>
             </TabsList>
             <TabsContent value="login" className="mt-6">
               <LoginForm />

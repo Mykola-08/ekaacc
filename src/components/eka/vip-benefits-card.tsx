@@ -1,7 +1,8 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+;
+;
+import { Badge, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { CheckCircle2, Calendar, Percent, UserCheck, Sparkles } from 'lucide-react';
 import { VipBadge } from './vip-badge';
 import type { User } from '@/lib/types';

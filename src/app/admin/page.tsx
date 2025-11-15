@@ -1,5 +1,6 @@
 ﻿'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield, Database, Settings } from 'lucide-react';
@@ -10,14 +11,14 @@ import { useToast } from '@/hooks/use-toast';
 
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
+;
+;
+;
+;
+;
+;
+;
+;
 
 // --- Reusable Components ---
 
@@ -240,17 +241,17 @@ export default function AdminDashboard() {
             </div>
         )}
 
-        <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-            <DialogContent>
-                <DialogHeader>
-                    <DialogTitle>Edit User Role</DialogTitle>
-                    <DialogDescription>Change the role for {selectedUser?.displayName || selectedUser?.email}</DialogDescription>
-                </DialogHeader>
+        <Modal open={showEditDialog} onOpenChange={setShowEditDialog}>
+            <ModalContent>
+                <ModalHeader>
+                    <ModalTitle>Edit User Role</ModalTitle>
+                    <ModalDescription>Change the role for {selectedUser?.displayName || selectedUser?.email}</ModalDescription>
+                </ModalHeader>
                 <div className="space-y-4 py-4">
                     <div className="space-y-2">
                         <Label htmlFor="role">Role</Label>
                         <Select value={editRole} onValueChange={(value: any) => setEditRole(value)}>
-                            <SelectTrigger id="role"><SelectValue placeholder="Select role" /></SelectTrigger>
+                            <SelectValue placeholder="Select role"  />
                             <SelectContent>
                                 <SelectItem value="Patient">Patient</SelectItem>
                                 <SelectItem value="Therapist">Therapist</SelectItem>
@@ -259,14 +260,14 @@ export default function AdminDashboard() {
                         </Select>
                     </div>
                 </div>
-                <DialogFooter>
+                <ModalFooter>
                     <Button variant="outline" onClick={() => setShowEditDialog(false)}>Cancel</Button>
                     <Button onClick={handleUpdateUserRole} disabled={loading}>
                         {loading ? 'Updating...' : 'Update Role'}
                     </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
     </SettingsShell>
   );
 }

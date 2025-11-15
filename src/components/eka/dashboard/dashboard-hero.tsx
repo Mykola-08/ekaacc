@@ -1,10 +1,11 @@
 'use client';
 
+import { Avatar, AvatarFallback, AvatarImage, Skeleton } from '@/components/keep';
 import { useAuth } from "@/context/auth-context";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+;
 import { useEffect, useState } from "react";
 import { generateDailyQuote } from "@/ai/flows/generate-daily-quote";
-import { Skeleton } from "@/components/ui/skeleton";
+;
 
 export function DashboardHero() {
     const { appUser: currentUser } = useAuth();

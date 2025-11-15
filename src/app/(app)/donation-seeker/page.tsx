@@ -1,14 +1,7 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Label, Notification, NotificationDescription, Switch } from '@/components/keep';
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Progress } from '@/components/ui/progress';
-import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { 
   Heart, 
   Shield, 
@@ -111,30 +104,30 @@ export default function DonationSeekerPage() {
       </div>
 
       {/* Application Status */}
-      <Alert className={
-        applicationStatus === 'approved' ? 'border-green-500/50 bg-green-500/10' :
-        applicationStatus === 'pending' ? 'border-yellow-500/50 bg-yellow-500/10' :
-        'border-red-500/50 bg-red-500/10'
+      <div className={
+        applicationStatus === 'approved' ? 'border-green-500/50 bg-green-500/10 rounded-lg border p-4' :
+        applicationStatus === 'pending' ? 'border-yellow-500/50 bg-yellow-500/10 rounded-lg border p-4' :
+        'border-red-500/50 bg-red-500/10 rounded-lg border p-4'
       }>
         <div className="flex items-start gap-3">
           {getStatusIcon()}
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <h3 className="font-semibold">Application Status: {getStatusText()}</h3>
-              <Badge variant={
-                applicationStatus === 'approved' ? 'default' :
-                applicationStatus === 'pending' ? 'secondary' :
-                'destructive'
+              <Badge className={
+                applicationStatus === 'approved' ? 'bg-green-500 text-white' :
+                applicationStatus === 'pending' ? 'bg-yellow-500 text-white' :
+                'bg-red-500 text-white'
               }>
                 {getStatusText()}
               </Badge>
             </div>
-            <AlertDescription>
+            <p className="text-sm text-muted-foreground">
               {getStatusDescription()}
-            </AlertDescription>
+            </p>
           </div>
         </div>
-      </Alert>
+      </div>
 
       {/* Stats Overview */}
       {applicationStatus === 'approved' && (
@@ -208,7 +201,12 @@ export default function DonationSeekerPage() {
                 <span className="font-medium">€{stats.totalReceived.toFixed(2)} raised</span>
                 <span className="text-muted-foreground">Goal: €{stats.goalAmount.toFixed(2)}</span>
               </div>
-              <Progress value={progressPercentage} className="h-2" />
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                <div 
+                  className="bg-primary h-2 rounded-full transition-all duration-300"
+                  style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+                />
+              </div>
               <p className="text-xs text-muted-foreground">
                 {progressPercentage.toFixed(0)}% of monthly goal reached
               </p>
@@ -242,7 +240,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Separator />
+          <Divider />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -257,7 +255,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Separator />
+          <Divider />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -272,7 +270,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Separator />
+          <Divider />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -287,7 +285,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Separator />
+          <Divider />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -302,12 +300,12 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Alert>
+          <Notification>
             <Info className="h-4 w-4" />
-            <AlertDescription>
+            <NotificationDescription>
               Your privacy is important. You can change these settings at any time. Financial information is never shared with donors.
-            </AlertDescription>
-          </Alert>
+            </NotificationDescription>
+          </Notification>
         </CardContent>
       </Card>
 

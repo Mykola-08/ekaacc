@@ -1,15 +1,10 @@
 'use client';
 
+import { Button, Card, CardContent, Input, Label, Select, SelectContent, SelectItem, SelectValue, Slider, Switch, Textarea } from '@/components/keep';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { 
   ChevronRight, 
@@ -28,9 +23,9 @@ import {
   MessageCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
+;
+;
+;
 
 const basicSteps = [
   {
@@ -1000,7 +995,12 @@ export default function OnboardingPage() {
                   {Math.round(progress)}%
                 </span>
               </div>
-              <Progress value={progress} className="h-2" />
+              <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-blue-600 transition-all duration-300" 
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           )}
 
@@ -1040,7 +1040,7 @@ export default function OnboardingPage() {
           {onboardingType && currentStep > 0 && (
             <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
               <Button
-                variant="ghost"
+                variant="outline"
                 onClick={handleBack}
                 className="gap-2"
               >

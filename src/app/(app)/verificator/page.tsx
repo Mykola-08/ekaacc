@@ -1,14 +1,15 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+;
+;
+;
+;
+;
+;
+;
+;
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
@@ -342,14 +343,14 @@ export default function VerificatorPage() {
       {/* Tabs */}
       <Tabs defaultValue="payments" className="space-y-6">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="payments">
+          <TabsItem value="payments">
             <CreditCard className="h-4 w-4 mr-2" />
             Payment Requests ({paymentRequests.length})
-          </TabsTrigger>
-          <TabsTrigger value="applications">
+          </TabsItem>
+          <TabsItem value="applications">
             <HandHeart className="h-4 w-4 mr-2" />
             Donation Seekers ({applications.length})
-          </TabsTrigger>
+          </TabsItem>
         </TabsList>
 
         {/* Payment Requests Tab */}
@@ -495,12 +496,12 @@ export default function VerificatorPage() {
       </Tabs>
 
       {/* Payment Review Dialog */}
-      <Dialog open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Review Payment Request</DialogTitle>
-            <DialogDescription>Verify the payment details and approve or reject</DialogDescription>
-          </DialogHeader>
+      <Modal open={paymentDialogOpen} onOpenChange={setPaymentDialogOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Review Payment Request</ModalTitle>
+            <ModalDescription>Verify the payment details and approve or reject</ModalDescription>
+          </ModalHeader>
 
           {selectedPayment && (
             <div className="space-y-4">
@@ -561,7 +562,7 @@ export default function VerificatorPage() {
             </div>
           )}
 
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" onClick={() => setPaymentDialogOpen(false)}>
               Cancel
             </Button>
@@ -573,17 +574,17 @@ export default function VerificatorPage() {
               <CheckCircle2 className="h-4 w-4 mr-2" />
               Approve
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Application Review Dialog */}
-      <Dialog open={applicationDialogOpen} onOpenChange={setApplicationDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Review Donation Seeker Application</DialogTitle>
-            <DialogDescription>Verify the application and approve or reject</DialogDescription>
-          </DialogHeader>
+      <Modal open={applicationDialogOpen} onOpenChange={setApplicationDialogOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Review Donation Seeker Application</ModalTitle>
+            <ModalDescription>Verify the application and approve or reject</ModalDescription>
+          </ModalHeader>
 
           {selectedApplication && (
             <div className="space-y-4">
@@ -629,7 +630,7 @@ export default function VerificatorPage() {
             </div>
           )}
 
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" onClick={() => setApplicationDialogOpen(false)}>
               Cancel
             </Button>
@@ -641,9 +642,9 @@ export default function VerificatorPage() {
               <CheckCircle2 className="h-4 w-4 mr-2" />
               Approve
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

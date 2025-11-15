@@ -1,7 +1,8 @@
 "use client";
 
+import { Card } from '@/components/keep';
 import React from 'react';
-import { Card } from '@/components/ui/card';
+;
 
 export function TableSkeleton({ rows = 5 }: { rows?: number }) {
   return (

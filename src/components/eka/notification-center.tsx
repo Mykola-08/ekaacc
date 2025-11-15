@@ -1,16 +1,13 @@
 'use client';
 
+import { Badge, Button, Dropdown, DropdownAction, DropdownContent, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Bell, Check, X, Settings as SettingsIcon, Filter } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
+;
+;
+;
+;
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/auth-context';
 import { 
@@ -21,7 +18,7 @@ import {
   getCategoryColor,
   getPriorityBadgeVariant
 } from '@/lib/notification-types';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+;
 
 type Notification = {
   id: string;
@@ -215,8 +212,8 @@ export function NotificationCenter() {
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Dropdown>
+      <DropdownAction asChild>
         <Button variant="ghost" size="icon" className="relative rounded-full">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -228,8 +225,8 @@ export function NotificationCenter() {
             </Badge>
           )}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-96">
+      </DropdownAction>
+      <DropdownContent align="end" className="w-96">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="font-semibold">Notifications</h3>
           <div className="flex items-center gap-2">
@@ -258,20 +255,20 @@ export function NotificationCenter() {
         
         <Tabs value={filterCategory} onValueChange={(v) => setFilterCategory(v as NotificationCategory | 'all')} className="w-full">
           <TabsList className="w-full justify-start px-2 py-1 h-auto bg-muted/50">
-            <TabsTrigger value="all" className="text-xs px-2 py-1">
+            <TabsItem value="all" className="text-xs px-2 py-1">
               All {unreadCount > 0 && `(${unreadCount})`}
-            </TabsTrigger>
+            </TabsItem>
             {currentUser?.role === 'Admin' && (
-              <TabsTrigger value="admin" className="text-xs px-2 py-1">
+              <TabsItem value="admin" className="text-xs px-2 py-1">
                 Admin {getCategoryCount('admin') > 0 && `(${getCategoryCount('admin')})`}
-              </TabsTrigger>
+              </TabsItem>
             )}
-            <TabsTrigger value="sessions" className="text-xs px-2 py-1">
+            <TabsItem value="sessions" className="text-xs px-2 py-1">
               Sessions {getCategoryCount('sessions') > 0 && `(${getCategoryCount('sessions')})`}
-            </TabsTrigger>
-            <TabsTrigger value="reports" className="text-xs px-2 py-1">
+            </TabsItem>
+            <TabsItem value="reports" className="text-xs px-2 py-1">
               Reports {getCategoryCount('reports') > 0 && `(${getCategoryCount('reports')})`}
-            </TabsTrigger>
+            </TabsItem>
           </TabsList>
         </Tabs>
 
@@ -350,7 +347,7 @@ export function NotificationCenter() {
             </div>
           )}
         </ScrollArea>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </DropdownContent>
+    </Dropdown>
   );
 }

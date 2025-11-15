@@ -1,12 +1,7 @@
 "use client";
 
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, DatePicker, Label, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/auth-context";
 import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
@@ -328,11 +323,10 @@ export default function SessionBookingPage() {
             <div className="space-y-6">
               <div>
                 <Label className="mb-2 block">Select Date</Label>
-                <Calendar
+                <DatePicker
                   selected={selectedDate}
                   onSelect={setSelectedDate}
                   className="border rounded-md"
-                  disabled={(date) => date < new Date()}
                 />
               </div>
               {selectedDate && (
@@ -428,13 +422,15 @@ export default function SessionBookingPage() {
       </Card>
 
       {isBooked && (
-        <Alert className="border-success/20 bg-success/5">
-          <CheckCircle className="h-4 w-4 text-success" />
-          <AlertDescription>
-            <p className="font-semibold">Your session has been booked successfully!</p>
-            <p className="text-sm mt-1">You will be redirected to your dashboard...</p>
-          </AlertDescription>
-        </Alert>
+        <div className="border-success/20 bg-success/5 rounded-lg p-4">
+          <Notification>
+            <CheckCircle className="h-4 w-4 text-success" />
+            <NotificationDescription>
+              <p className="font-semibold">Your session has been booked successfully!</p>
+              <p className="text-sm mt-1">You will be redirected to your dashboard...</p>
+            </NotificationDescription>
+          </Notification>
+        </div>
       )}
     </div>
   );

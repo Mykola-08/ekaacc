@@ -1,17 +1,18 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, Checkbox, Input, Label, Progress, Select, SelectContent, SelectItem, SelectValue, Tooltip, TooltipAction, TooltipContent } from '@/components/keep';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Progress } from '@/components/ui/progress';
+;
+;
+;
+;
+;
+;
 import { Loader2, ArrowRight, ArrowLeft, Check, Shield, Lock, Info, Heart, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
+;
+;
+;
 import { cn } from '@/lib/utils';
 import type { User } from '@/lib/types';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -131,16 +132,14 @@ const PrivacyBadge = ({ className }: { className?: string }) => (
 
 // Why We Ask Tooltip
 const WhyWeAsk = ({ reason }: { reason: string }) => (
-  <TooltipProvider>
-    <Tooltip>
-      <TooltipTrigger asChild>
+  <Tooltip>
+      <TooltipAction asChild>
         <Info className="w-4 h-4 text-muted-foreground cursor-help" />
-      </TooltipTrigger>
+      </TooltipAction>
       <TooltipContent>
         <p className="text-sm">💡 {reason}</p>
       </TooltipContent>
     </Tooltip>
-  </TooltipProvider>
 );
 
 export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnboardingProps) {
@@ -496,9 +495,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                         <div className="space-y-2">
                           <Label>Currently you are *</Label>
                           <Select value={data.occupationType} onValueChange={(v) => updateData('occupationType', v)}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select..." />
-                            </SelectTrigger>
+                            <SelectValue placeholder="Select..."  />
                             <SelectContent>
                               {OCCUPATION_TYPES.map((type) => (
                                 <SelectItem key={type.value} value={type.value}>
@@ -753,9 +750,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                       <div className="space-y-2">
                         <Label>How active are you typically?</Label>
                         <Select value={data.activityLevel} onValueChange={(v) => updateData('activityLevel', v)}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select your activity level..." />
-                          </SelectTrigger>
+                          <SelectValue placeholder="Select your activity level..."  />
                           <SelectContent>
                             {[
                               { value: 'sedentary', label: '🛋️ Mostly sedentary', description: 'Little exercise' },
@@ -778,9 +773,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                       <div className="space-y-2">
                         <Label>Free time available for self-care?</Label>
                         <Select value={data.leisureTime} onValueChange={(v) => updateData('leisureTime', v)}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="How much time do you have?" />
-                          </SelectTrigger>
+                          <SelectValue placeholder="How much time do you have?"  />
                           <SelectContent>
                             {[
                               { value: 'none', label: '⏰ Almost none - Very busy' },

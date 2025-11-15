@@ -1,10 +1,11 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+;
+;
+;
+;
 import { Check, Star, Sparkles, TrendingUp, Zap, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';

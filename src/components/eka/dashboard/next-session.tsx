@@ -1,8 +1,9 @@
 'use client';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+;
+;
+;
+;
+import { Avatar, AvatarFallback, AvatarImage, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
 import { Clock, Video, CalendarOff } from 'lucide-react';
 import { format } from 'date-fns';
 import type { Session } from '@/lib/types';

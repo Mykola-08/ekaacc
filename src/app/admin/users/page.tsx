@@ -1,7 +1,8 @@
 ﻿'use client';
 
+import { Modal, ModalContent } from '@/components/keep';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+;
 import { getDataService } from '@/services/data-service';
 import type { User } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -218,11 +219,11 @@ export default function UsersManagementPage() {
                 </div>
             )}
 
-            <Dialog open={showProfileDialog} onOpenChange={setShowProfileDialog}>
-                <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+            <Modal open={showProfileDialog} onOpenChange={setShowProfileDialog}>
+                <ModalContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
                     {selectedUser && <UserProfileView user={selectedUser} viewerRole="Admin" />}
-                </DialogContent>
-            </Dialog>
+                </ModalContent>
+            </Modal>
 
             {selectedUser && (
                 <UserEditDialog

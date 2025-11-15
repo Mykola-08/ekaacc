@@ -1,6 +1,7 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
+;
+import { Card, CardContent } from '@/components/keep';
 import { format } from 'date-fns';
 import { AnimatedCard } from '@/components/eka/animated-card';
 

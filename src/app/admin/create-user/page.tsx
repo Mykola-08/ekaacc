@@ -1,15 +1,16 @@
 'use client';
 
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, NotificationTitle, Select, SelectContent, SelectItem, SelectValue, Textarea } from '@/components/keep';
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Checkbox } from '@/components/ui/checkbox';
+;
+;
+;
+;
+;
+;
+;
+;
+;
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/auth-context';
 import { UserPlus, Copy, Check, AlertCircle, Mail } from 'lucide-react';
@@ -197,17 +198,17 @@ export default function AdminCreateUserPage() {
       </div>
 
       {errors.length > 0 && (
-        <Alert variant="destructive" className="mb-6">
+        <Notification variant="destructive" className="mb-6">
           <AlertCircle className="h-4 w-4" />
-          <AlertTitle>Validation Errors</AlertTitle>
-          <AlertDescription>
+          <NotificationTitle>Validation Errors</NotificationTitle>
+          <NotificationDescription>
             <ul className="list-disc list-inside">
               {errors.map((error, index) => (
                 <li key={index}>{error}</li>
               ))}
             </ul>
-          </AlertDescription>
-        </Alert>
+          </NotificationDescription>
+        </Notification>
       )}
 
       <form onSubmit={handleSubmit}>
@@ -273,9 +274,7 @@ export default function AdminCreateUserPage() {
                 value={formData.role} 
                 onValueChange={(value) => handleInputChange('role', value)}
               >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
+                <SelectValue  />
                 <SelectContent>
                   <SelectItem value="Patient">Patient</SelectItem>
                   <SelectItem value="Therapist">Therapist</SelectItem>
@@ -348,14 +347,14 @@ export default function AdminCreateUserPage() {
             </div>
 
             {formData.sendWelcomeEmail && (
-              <Alert>
+              <Notification>
                 <Mail className="h-4 w-4" />
-                <AlertTitle>Welcome Email</AlertTitle>
-                <AlertDescription>
+                <NotificationTitle>Welcome Email</NotificationTitle>
+                <NotificationDescription>
                   A temporary password will be generated and sent to the user's email. 
                   They will be required to change it on first login.
-                </AlertDescription>
-              </Alert>
+                </NotificationDescription>
+              </Notification>
             )}
           </CardContent>
         </Card>
@@ -389,14 +388,14 @@ export default function AdminCreateUserPage() {
       </form>
 
       {/* Success Dialog */}
-      <Dialog open={resultDialogOpen} onOpenChange={setResultDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>✓ User Created Successfully</DialogTitle>
-            <DialogDescription>
+      <Modal open={resultDialogOpen} onOpenChange={setResultDialogOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>✓ User Created Successfully</ModalTitle>
+            <ModalDescription>
               The user account has been created with the following details:
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
 
           {result && (
             <div className="space-y-4">
@@ -418,10 +417,10 @@ export default function AdminCreateUserPage() {
               </div>
 
               {result.temporaryPassword && (
-                <Alert>
+                <Notification>
                   <AlertCircle className="h-4 w-4" />
-                  <AlertTitle>Temporary Password Generated</AlertTitle>
-                  <AlertDescription>
+                  <NotificationTitle>Temporary Password Generated</NotificationTitle>
+                  <NotificationDescription>
                     <div className="mt-2 flex items-center gap-2">
                       <code className="flex-1 p-2 bg-muted rounded text-sm">
                         {result.temporaryPassword}
@@ -439,23 +438,23 @@ export default function AdminCreateUserPage() {
                         ? 'This password has been sent to the user\'s email.' 
                         : 'Please share this password with the user securely.'}
                     </p>
-                  </AlertDescription>
-                </Alert>
+                  </NotificationDescription>
+                </Notification>
               )}
 
               {result.requiresEmailVerification && (
-                <Alert>
+                <Notification>
                   <Mail className="h-4 w-4" />
-                  <AlertTitle>Email Verification Required</AlertTitle>
-                  <AlertDescription>
+                  <NotificationTitle>Email Verification Required</NotificationTitle>
+                  <NotificationDescription>
                     A verification email has been sent to {result.user?.email}
-                  </AlertDescription>
-                </Alert>
+                  </NotificationDescription>
+                </Notification>
               )}
             </div>
           )}
 
-          <DialogFooter>
+          <ModalFooter>
             <Button onClick={() => {
               setResultDialogOpen(false);
               setResult(null);
@@ -463,9 +462,9 @@ export default function AdminCreateUserPage() {
             }}>
               Close
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

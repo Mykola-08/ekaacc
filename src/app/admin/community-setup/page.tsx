@@ -1,10 +1,11 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Notification, NotificationDescription, NotificationTitle } from '@/components/keep';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
+;
+;
+;
+;
 import { 
   CheckCircle2, 
   AlertCircle, 
@@ -114,8 +115,8 @@ export default function CommunitySetupPage() {
                         {status === 'loading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {status === 'success' ? 'Database Initialized ✓' : 'Initialize Community Database'}
                     </Button>
-                    {status === 'success' && <Alert><CheckCircle2 className="h-4 w-4" /><AlertTitle>Success!</AlertTitle><AlertDescription>Community database initialized successfully.</AlertDescription></Alert>}
-                    {status === 'error' && <Alert variant="destructive"><AlertCircle className="h-4 w-4" /><AlertTitle>Error</AlertTitle><AlertDescription>{message}</AlertDescription></Alert>}
+                    {status === 'success' && <Notification><CheckCircle2 className="h-4 w-4" /><NotificationTitle>Success!</NotificationTitle><NotificationDescription>Community database initialized successfully.</NotificationDescription></Notification>}
+                    {status === 'error' && <Notification variant="destructive"><AlertCircle className="h-4 w-4" /><NotificationTitle>Error</NotificationTitle><NotificationDescription>{message}</NotificationDescription></Notification>}
                     {logs.length > 0 && (
                         <div className="space-y-2">
                             <h4 className="font-semibold text-sm">Setup Logs</h4>

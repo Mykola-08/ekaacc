@@ -1,10 +1,11 @@
 "use client";
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { useAuth } from "@/context/auth-context";
 import { useAppStore } from "@/store/app-store";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+;
+;
+;
 import { Calendar, Clock, User, FileText, TrendingUp, Activity, Users, CheckCircle2 } from "lucide-react";
 import { AnimatedCard } from "@/components/eka/animated-card";
 import { StatCard } from "@/components/eka/dashboard/stat-card";
@@ -183,7 +184,7 @@ export default function TherapistDashboard() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge variant={session.status === 'Completed' ? 'default' : 'secondary'}>
+                        <Badge variant="base">
                           {session.status || 'Scheduled'}
                         </Badge>
                         <Button size="sm" variant="outline" onClick={() => handleViewSession(session.id)}>
@@ -258,7 +259,7 @@ export default function TherapistDashboard() {
                         {format(new Date(session.date), 'MMM dd, yyyy')} at {session.time}
                       </p>
                     </div>
-                    <Button size="sm" variant="ghost" onClick={() => handleViewSession(session.id)}>
+                    <Button size="sm" variant="outline" onClick={() => handleViewSession(session.id)}>
                       Details
                     </Button>
                   </div>

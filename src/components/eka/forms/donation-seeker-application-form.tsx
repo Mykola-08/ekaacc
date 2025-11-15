@@ -1,18 +1,19 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+;
+;
+;
+;
+;
+;
 import { Loader2, Sparkles, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+;
+;
+;
+;
 
 interface DonationSeekerApplicationFormProps {
   open?: boolean;
@@ -195,17 +196,17 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-2xl flex items-center gap-2">
+    <Modal open={open} onOpenChange={onClose}>
+      <ModalContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
+          <ModalTitle className="text-2xl flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary" />
             Donation Seeker Application
-          </DialogTitle>
-          <DialogDescription>
+          </ModalTitle>
+          <ModalDescription>
             Apply for financial support to access therapy services. All information is confidential.
-          </DialogDescription>
-        </DialogHeader>
+          </ModalDescription>
+        </ModalHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Progress indicator */}
@@ -284,12 +285,12 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                   <CardTitle className="text-lg">Financial Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Alert>
+                  <Notification>
                     <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
+                    <NotificationDescription>
                       This information is strictly confidential and used only to assess eligibility for donation support.
-                    </AlertDescription>
-                  </Alert>
+                    </NotificationDescription>
+                  </Notification>
 
                   <div>
                     <Label htmlFor="financialSituation">Current Financial Situation *</Label>
@@ -309,9 +310,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                       value={financialInfo.monthlyIncome} 
                       onValueChange={(value) => setFinancialInfo({ ...financialInfo, monthlyIncome: value })}
                     >
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select income range" />
-                      </SelectTrigger>
+                      <SelectValue placeholder="Select income range"  />
                       <SelectContent>
                         <SelectItem value="0-500">€0 - €500</SelectItem>
                         <SelectItem value="500-1000">€500 - €1,000</SelectItem>
@@ -328,9 +327,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                       value={financialInfo.employmentStatus} 
                       onValueChange={(value) => setFinancialInfo({ ...financialInfo, employmentStatus: value })}
                     >
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select your status" />
-                      </SelectTrigger>
+                      <SelectValue placeholder="Select your status"  />
                       <SelectContent>
                         <SelectItem value="unemployed">Unemployed</SelectItem>
                         <SelectItem value="student">Student</SelectItem>
@@ -404,16 +401,16 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                   ) : (
                     <Tabs defaultValue="suggestions" className="w-full">
                       <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="suggestions">AI Suggestions</TabsTrigger>
-                        <TabsTrigger value="revised">Revised Version</TabsTrigger>
+                        <TabsItem value="suggestions">AI Suggestions</TabsItem>
+                        <TabsItem value="revised">Revised Version</TabsItem>
                       </TabsList>
                       <TabsContent value="suggestions" className="space-y-3">
-                        <Alert>
+                        <Notification>
                           <CheckCircle2 className="h-4 w-4" />
-                          <AlertDescription>
+                          <NotificationDescription>
                             AI has analyzed your history. Here are some suggestions:
-                          </AlertDescription>
-                        </Alert>
+                          </NotificationDescription>
+                        </Notification>
                         {aiSuggestions.map((suggestion, index) => (
                           <Card key={index}>
                             <CardContent className="pt-4">
@@ -494,9 +491,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                   <div>
                     <Label htmlFor="supportNeeded">What level of support do you need? *</Label>
                     <Select value={supportNeeded} onValueChange={setSupportNeeded}>
-                      <SelectTrigger className="mt-2">
-                        <SelectValue placeholder="Select support level" />
-                      </SelectTrigger>
+                      <SelectValue placeholder="Select support level"  />
                       <SelectContent>
                         <SelectItem value="full">Full coverage (100%)</SelectItem>
                         <SelectItem value="substantial">Substantial support (75%)</SelectItem>
@@ -506,19 +501,19 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     </Select>
                   </div>
 
-                  <Alert>
+                  <Notification>
                     <AlertCircle className="h-4 w-4" />
-                    <AlertDescription>
+                    <NotificationDescription>
                       <strong>Next Steps:</strong> After submission, our team will review your application within 48 hours. 
                       You may be contacted for additional verification. Approved applicants will be matched with available donors.
-                    </AlertDescription>
-                  </Alert>
+                    </NotificationDescription>
+                  </Notification>
                 </CardContent>
               </Card>
             </div>
           )}
 
-          <DialogFooter className="flex-col sm:flex-row gap-2">
+          <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
               variant="ghost"
@@ -559,9 +554,9 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                 </Button>
               )}
             </div>
-          </DialogFooter>
+          </ModalFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 }

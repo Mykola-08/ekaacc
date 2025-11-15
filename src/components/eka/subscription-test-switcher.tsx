@@ -1,17 +1,18 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Label, Select, SelectContent, SelectItem, SelectValue, Switch } from '@/components/keep';
 import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+;
+;
+;
+;
+;
+;
 import { Settings, Crown, Sparkles, User, Heart } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
 import type { SubscriptionType, LoyalTier, VipTier } from '@/lib/types';
-import { Separator } from '@/components/ui/separator';
+;
 
 export function SubscriptionTestSwitcher() {
   const { appUser: currentUser, refreshAppUser } = useAuth();
@@ -161,9 +162,7 @@ export function SubscriptionTestSwitcher() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Subscription Type</label>
           <Select value={subscriptionType} onValueChange={(value) => setSubscriptionType(value as SubscriptionType)}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
+            <SelectValue  />
             <SelectContent>
               <SelectItem value="Free">
                 <div className="flex items-center gap-2">
@@ -191,9 +190,7 @@ export function SubscriptionTestSwitcher() {
           <div className="space-y-2">
             <label className="text-sm font-medium">Loyal Tier</label>
             <Select value={loyalTier} onValueChange={(value) => setLoyalTier(value as LoyalTier)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
+              <SelectValue  />
               <SelectContent>
                 <SelectItem value="Normal">Normal - €49/mo</SelectItem>
                 <SelectItem value="Plus">Plus - €89/mo (Popular)</SelectItem>
@@ -208,9 +205,7 @@ export function SubscriptionTestSwitcher() {
           <div className="space-y-2">
             <label className="text-sm font-medium">VIP Tier</label>
             <Select value={vipTier} onValueChange={(value) => setVipTier(value as VipTier)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
+              <SelectValue  />
               <SelectContent>
                 <SelectItem value="Bronze">Bronze Elite - €390/mo</SelectItem>
                 <SelectItem value="Silver">Silver Elite - €690/mo</SelectItem>
@@ -222,7 +217,7 @@ export function SubscriptionTestSwitcher() {
           </div>
         )}
 
-        <Separator className="my-4" />
+        <Divider className="my-4" />
 
         {/* Donation Seeker Status */}
         <div className="space-y-4">

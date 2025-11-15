@@ -1,13 +1,14 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
+;
+;
+;
+;
+;
+;
+;
+;
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { Check, X, Eye, Clock, Euro, Filter, Search } from 'lucide-react';
 import type { PaymentRequest, PaymentStatus, PaymentMethod } from '@/lib/wallet-types';
 
@@ -47,7 +48,7 @@ export function PaymentsFilter({
                     <div className="space-y-2">
                         <Label>Status</Label>
                         <Select value={statusFilter} onValueChange={onStatusChange}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectValue  />
                             <SelectContent>
                                 <SelectItem value="all">All Statuses</SelectItem>
                                 <SelectItem value="pending">Pending</SelectItem>
@@ -61,7 +62,7 @@ export function PaymentsFilter({
                     <div className="space-y-2">
                         <Label>Payment Method</Label>
                         <Select value={methodFilter} onValueChange={onMethodChange}>
-                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectValue  />
                             <SelectContent>
                                 <SelectItem value="all">All Methods</SelectItem>
                                 <SelectItem value="bizum">Bizum</SelectItem>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge, Button, Card, CardContent, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
 import { MoreHorizontal, CalendarOff } from "lucide-react";
@@ -12,12 +13,12 @@ import fxService from '@/lib/fx-service';
 
 import { SettingsShell } from "@/components/eka/settings/settings-shell";
 import { SettingsHeader } from "@/components/eka/settings/settings-header";
-import { Card, CardContent } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Skeleton } from "@/components/ui/skeleton";
+;
+;
+;
+;
+;
+;
 
 // Helper to map mock booking to session type
 const mapBookingToSession = (booking: any): AppSession => {
@@ -189,20 +190,20 @@ export default function SessionsPage() {
                     </TableCell>
                     <TableCell className="whitespace-nowrap">{format(new Date(session.date), "MMMM d, yyyy")}</TableCell>
                     <TableCell className="text-right pr-6">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
+                      <Dropdown>
+                        <DropdownAction asChild>
                           <Button aria-haspopup="true" size="icon" variant="ghost">
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Toggle menu</span>
                           </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>View Details</DropdownMenuItem>
-                          <DropdownMenuItem disabled={session.status !== 'Upcoming'}>Reschedule</DropdownMenuItem>
-                          <DropdownMenuItem disabled={session.status !== 'Upcoming'}>Cancel</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                        </DropdownAction>
+                        <DropdownContent align="end">
+                          <DropdownList>Actions</DropdownList>
+                          <DropdownItem>View Details</DropdownItem>
+                          <DropdownItem disabled={session.status !== 'Upcoming'}>Reschedule</DropdownItem>
+                          <DropdownItem disabled={session.status !== 'Upcoming'}>Cancel</DropdownItem>
+                        </DropdownContent>
+                      </Dropdown>
                     </TableCell>
                   </TableRow>
                 ))}

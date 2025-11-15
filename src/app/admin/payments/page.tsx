@@ -1,12 +1,13 @@
 'use client';
 
+import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
 import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/context/auth-context';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+;
+;
+;
+;
 import { CreditCard, Check, Clock, Euro } from 'lucide-react';
 import type { PaymentRequest } from '@/lib/wallet-types';
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
@@ -163,14 +164,14 @@ export default function AdminPaymentsPage() {
       )}
 
       {/* Action Dialog */}
-      <Dialog open={actionDialogOpen} onOpenChange={setActionDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{actionType === 'confirm' ? 'Confirm Payment' : 'Reject Payment'}</DialogTitle>
-            <DialogDescription>
+      <Modal open={actionDialogOpen} onOpenChange={setActionDialogOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>{actionType === 'confirm' ? 'Confirm Payment' : 'Reject Payment'}</ModalTitle>
+            <ModalDescription>
               {actionType === 'confirm' ? `Confirm payment of €${selectedPayment?.amount} from ${selectedPayment?.userName}?` : `Reject payment request from ${selectedPayment?.userName}?`}
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
           {selectedPayment && (
             <div className="py-4 space-y-4">
               {actionType === 'reject' && (
@@ -182,24 +183,24 @@ export default function AdminPaymentsPage() {
               <p className="text-sm text-muted-foreground">This action will be logged and cannot be undone.</p>
             </div>
           )}
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" onClick={() => setActionDialogOpen(false)}>Cancel</Button>
             {actionType === 'confirm' ? (
               <Button onClick={() => handlePaymentAction('confirm')}>Confirm</Button>
             ) : (
               <Button variant="destructive" onClick={() => handlePaymentAction('reject')} disabled={!rejectionReason}>Reject</Button>
             )}
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Proof Dialog */}
-      <Dialog open={proofDialogOpen} onOpenChange={setProofDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Payment Proof</DialogTitle>
-            <DialogDescription>Submitted by {selectedPayment?.userName}</DialogDescription>
-          </DialogHeader>
+      <Modal open={proofDialogOpen} onOpenChange={setProofDialogOpen}>
+        <ModalContent className="max-w-md">
+          <ModalHeader>
+            <ModalTitle>Payment Proof</ModalTitle>
+            <ModalDescription>Submitted by {selectedPayment?.userName}</ModalDescription>
+          </ModalHeader>
           {selectedPayment && (
             <div className="py-4 space-y-4">
               {selectedPayment.proofText && (
@@ -217,11 +218,11 @@ export default function AdminPaymentsPage() {
               {!selectedPayment.proofText && !selectedPayment.proofImageUrl && <p className="text-muted-foreground">No proof was submitted.</p>}
             </div>
           )}
-          <DialogFooter>
+          <ModalFooter>
             <Button variant="outline" onClick={() => setProofDialogOpen(false)}>Close</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </SettingsShell>
   );
 }

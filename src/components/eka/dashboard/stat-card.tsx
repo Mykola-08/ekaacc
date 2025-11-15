@@ -1,6 +1,7 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+;
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/keep';
 import { cn } from '@/lib/utils';
 import type { StatCard as StatCardType } from '@/lib/types';
 import { TrendingUp, TrendingDown } from 'lucide-react';

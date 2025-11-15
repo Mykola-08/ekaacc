@@ -1,5 +1,6 @@
 'use client';
 
+import { Button, Card, CardContent, CardHeader, Skeleton } from '@/components/keep';
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
@@ -7,14 +8,14 @@ import { useToast } from '@/hooks/use-toast';
 import { 
   Bell, Mail, MessageSquare, Calendar, Save
 } from 'lucide-react';
-import { Button } from "@/components/ui/button";
-import { Skeleton } from '@/components/ui/skeleton';
+;
+;
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
 import { SettingsCard } from '@/components/eka/settings/settings-card';
 import { ThemeSelector } from '@/components/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/eka/settings/notification-switch';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+;
 import type { User } from '@/lib/types';
 
 type UserSettings = NonNullable<User['settings']>;

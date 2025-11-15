@@ -1,5 +1,6 @@
+import { Divider } from '@/components/keep';
 import Link from 'next/link';
-import { Separator } from '@/components/ui/separator';
+;
 import { EkaLogo } from '@/components/eka/eka-logo';
 
 const footerLinks = [
@@ -26,7 +27,7 @@ export function AppFooter() {
             ))}
           </nav>
         </div>
-        <Separator className="my-8" />
+        <Divider className="my-8" />
         <div className="text-center text-sm text-muted-foreground">
           &copy; {new Date().getFullYear()} EKA. All rights reserved.
         </div>

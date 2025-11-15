@@ -1,18 +1,10 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Textarea } from '@/components/keep';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Loader2, Sparkles, Gift, X, Target, Heart, TrendingUp, Calendar, Smile, Star, Trophy, Zap, Brain, MessageCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 interface WelcomePersonalizationFormProps {
   open: boolean;
@@ -240,25 +232,30 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+    <Modal open={open} onOpenChange={onClose}>
+      <ModalContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
           <div className="flex items-center justify-between mb-2">
-            <DialogTitle className="text-2xl flex items-center gap-2">
+            <ModalTitle className="text-2xl flex items-center gap-2">
               <Sparkles className="h-6 w-6 text-blue-500" />
               Let's Personalize Your Journey
-            </DialogTitle>
+            </ModalTitle>
             {onSkip && (
               <Button variant="ghost" size="sm" onClick={onSkip}>
                 Skip for now
               </Button>
             )}
           </div>
-          <DialogDescription>
+          <ModalDescription>
             Step {step} of {totalSteps} - {Math.round(progress)}% complete
-          </DialogDescription>
-          <Progress value={progress} className="h-2 mt-2" />
-        </DialogHeader>
+          </ModalDescription>
+          <div className="h-2 mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+            <div 
+              className="h-full bg-blue-600 transition-all duration-300" 
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        </ModalHeader>
 
         <div className="space-y-6 py-4">
           {/* Step 1: Goal Categories */}
@@ -489,9 +486,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 <div className="space-y-2">
                   <Label>What stage of life are you in?</Label>
                   <Select value={lifeStage} onValueChange={setLifeStage}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select your life stage" />
-                    </SelectTrigger>
+                    <SelectValue placeholder="Select your life stage"  />
                     <SelectContent>
                       <SelectItem value="student">Student</SelectItem>
                       <SelectItem value="early-career">Early Career (20s-30s)</SelectItem>
@@ -506,9 +501,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 <div className="space-y-2">
                   <Label>When do you prefer sessions?</Label>
                   <Select value={preferredSessionTime} onValueChange={setPreferredSessionTime}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Choose your preferred time" />
-                    </SelectTrigger>
+                    <SelectValue placeholder="Choose your preferred time"  />
                     <SelectContent>
                       <SelectItem value="morning">Morning (6am - 12pm)</SelectItem>
                       <SelectItem value="afternoon">Afternoon (12pm - 5pm)</SelectItem>
@@ -521,9 +514,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 <div className="space-y-2">
                   <Label>Previous therapy experience?</Label>
                   <Select value={previousTherapyExperience} onValueChange={setPreviousTherapyExperience}>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Have you tried therapy before?" />
-                    </SelectTrigger>
+                    <SelectValue placeholder="Have you tried therapy before?"  />
                     <SelectContent>
                       <SelectItem value="none">This is my first time</SelectItem>
                       <SelectItem value="some">I've tried it a few times</SelectItem>
@@ -580,7 +571,12 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                           <span className="text-sm font-medium">Your Success Probability</span>
                           <span className="text-2xl font-bold text-green-600">{prediction.successRate}%</span>
                         </div>
-                        <Progress value={prediction.successRate} className="h-3" />
+                        <div className="h-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-green-600 transition-all duration-300" 
+                            style={{ width: `${prediction.successRate}%` }}
+                          />
+                        </div>
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
@@ -681,7 +677,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
           )}
         </div>
 
-        <DialogFooter className="gap-2">
+        <ModalFooter className="gap-2">
           {step > 1 && (
             <Button variant="outline" onClick={handleBack} disabled={isLoading}>
               Back
@@ -707,8 +703,8 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
               )}
             </Button>
           )}
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

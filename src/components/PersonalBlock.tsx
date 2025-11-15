@@ -1,14 +1,15 @@
 'use client';
 
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Notification, NotificationDescription, NotificationTitle } from '@/components/keep';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { getProfileSummary, getPersonalizedAdvice, ProfileSummary } from '@/firebase/personalizationEngine';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+;
 import { Lightbulb, AlertTriangle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+;
+;
+;
+;
 import { Skeleton } from './ui/skeleton';
 
 export default function PersonalBlock() {
@@ -61,13 +62,13 @@ export default function PersonalBlock() {
 
   if (!summary) {
     return (
-      <Alert variant="default" className="bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50">
+      <Notification variant="default" className="bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50">
         <AlertTriangle className="h-4 w-4 text-yellow-500" />
-        <AlertTitle className="text-yellow-700 dark:text-yellow-300">Onboarding Incomplete</AlertTitle>
-        <AlertDescription className="text-yellow-600 dark:text-yellow-400">
+        <NotificationTitle className="text-yellow-700 dark:text-yellow-300">Onboarding Incomplete</NotificationTitle>
+        <NotificationDescription className="text-yellow-600 dark:text-yellow-400">
           Please complete your profile to receive personalized AI-powered advice.
-        </AlertDescription>
-      </Alert>
+        </NotificationDescription>
+      </Notification>
     );
   }
 
@@ -101,13 +102,13 @@ export default function PersonalBlock() {
         </div>
 
         {advice && (
-          <Alert variant="default" className="bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50">
+          <Notification variant="default" className="bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50">
             <Lightbulb className="h-4 w-4 text-blue-500" />
-            <AlertTitle className="text-blue-700 dark:text-blue-300">Your Personalized Advice</AlertTitle>
-            <AlertDescription className="text-blue-600 dark:text-blue-400 whitespace-pre-wrap">
+            <NotificationTitle className="text-blue-700 dark:text-blue-300">Your Personalized Advice</NotificationTitle>
+            <NotificationDescription className="text-blue-600 dark:text-blue-400 whitespace-pre-wrap">
               {advice}
-            </AlertDescription>
-          </Alert>
+            </NotificationDescription>
+          </Notification>
         )}
       </CardContent>
     </Card>

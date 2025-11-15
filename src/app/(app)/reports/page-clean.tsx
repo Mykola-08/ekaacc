@@ -1,12 +1,13 @@
 // Clean copy of ReportsPage component
 'use client';
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
 import { useState, useMemo, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+;
+;
+;
 import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+;
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 // AI assistant removed from reports page
 import { useAuth } from '@/context/auth-context';
@@ -14,7 +15,7 @@ import { useAppStore } from '@/store/app-store';
 import { collection } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { getFirestore } from 'firebase/firestore';
-import { Skeleton } from '@/components/ui/skeleton';
+;
 import { useToast } from '@/hooks/use-toast';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
@@ -166,12 +167,12 @@ export default function ReportsPage() {
                                         <div className="flex-1 overflow-hidden">
                                             <div className="flex justify-between items-center">
                                                 <p className="font-semibold truncate">{report.title}</p>
-                                                <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
+                                                <Badge variant="base" className="ml-2 shrink-0">{report.type}</Badge>
                                             </div>
                                             <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                                             <p className="text-sm mt-1 break-words">{report.summary}</p>
                                         </div>
-                                        <Button variant="ghost" size="icon" className="shrink-0">
+                                        <Button variant="outline" size="sm" className="shrink-0">
                                             <ArrowUp className="h-4 w-4 transform -rotate-45" />
                                         </Button>
                                     </li>
@@ -196,15 +197,10 @@ export default function ReportsPage() {
                         <CardDescription>Your current ratings across key metrics.</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <ChartContainer config={chartConfig} className="mx-auto aspect-square h-full w-full">
-                            <RadarChart data={chartData}>
-                                <PolarGrid />
-                                <PolarAngleAxis dataKey="metric" />
-                                <PolarRadiusAxis angle={30} domain={[0, 10]} />
-                                <Radar name="Score" dataKey="score" stroke="hsl(var(--primary))" fill="hsl(var(--primary))" fillOpacity={0.6} />
-                                <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
-                            </RadarChart>
-                        </ChartContainer>
+                        <div className="mx-auto aspect-square h-full w-full">
+                            {/* Chart component temporarily disabled - needs proper charting library integration */}
+                            <p className="text-center text-muted-foreground py-8">Chart visualization coming soon</p>
+                        </div>
                     </CardContent>
                 </Card>
                 <Button onClick={handleGenerateReport} disabled={isGenerating || isLoadingReports} className="w-full">

@@ -1,11 +1,12 @@
 "use client";
 
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Select, SelectContent, SelectItem, SelectValue, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
+;
+;
+;
+;
+;
 import fxService from '@/lib/fx-service';
 // billing via fxService
 import { useToast } from '@/hooks/use-toast';
@@ -94,7 +95,7 @@ export function AdminPanel() {
                       <TableCell>{u.displayName || u.email}</TableCell>
                       <TableCell>
                         <Select value={u.role || 'Patient'} onValueChange={(v:any)=>changeRole(u.id, v)}>
-                          <SelectTrigger className="w-40"><SelectValue placeholder="Role" /></SelectTrigger>
+                          <SelectValue placeholder="Role"  />
                           <SelectContent>
                             <SelectItem value="Patient">Patient</SelectItem>
                             <SelectItem value="Therapist">Therapist</SelectItem>
@@ -142,7 +143,7 @@ export function AdminPanel() {
             <h3 className="font-semibold mb-2">Billing Adjustment</h3>
             <div className="flex gap-2 items-center">
               <Select value={selectedUserId || ''} onValueChange={(v:any)=>setSelectedUserId(v)}>
-                <SelectTrigger className="w-48"><SelectValue placeholder="Select user" /></SelectTrigger>
+                <SelectValue placeholder="Select user"  />
                 <SelectContent>
                   {users.map(u => <SelectItem key={u.id} value={u.id}>{u.displayName || u.email}</SelectItem>)}
                 </SelectContent>

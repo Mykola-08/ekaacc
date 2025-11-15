@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
@@ -11,18 +13,12 @@ import { useAppStore } from "@/store/app-store";
 import { format } from "date-fns";
 import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
 import type { Timestamp } from 'firebase/firestore';
-
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
+;
+;
+;
+;
+;
+;
 import { SettingsShell } from "@/components/eka/settings/settings-shell";
 import { SettingsHeader } from "@/components/eka/settings/settings-header";
 
@@ -61,8 +57,8 @@ export default function MyAccountPage() {
       />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="wallet">Wallet</TabsTrigger>
+          <TabsItem value="profile">Profile</TabsItem>
+          <TabsItem value="wallet">Wallet</TabsItem>
         </TabsList>
         <TabsContent value="profile">
           <ProfileSection currentUser={currentUser} refreshAppUser={refreshAppUser} authLoading={authLoading} />
@@ -434,14 +430,14 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
   onSubmit: () => void;
 }) {
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Request Wallet Top-up</DialogTitle>
-          <DialogDescription>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent>
+        <ModalHeader>
+          <ModalTitle>Request Wallet Top-up</ModalTitle>
+          <ModalDescription>
             Submit a request for manual balance top-up. An admin will approve it shortly.
-          </DialogDescription>
-        </DialogHeader>
+          </ModalDescription>
+        </ModalHeader>
         <div className="space-y-4 py-2">
           <div className="space-y-2">
             <Label htmlFor="amount">Amount (€)</Label>
@@ -450,9 +446,7 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
           <div className="space-y-2">
             <Label htmlFor="method">Payment Method</Label>
             <Select value={method} onValueChange={(value) => setMethod(value as PaymentMethod)}>
-              <SelectTrigger id="method">
-                <SelectValue placeholder="Select method" />
-              </SelectTrigger>
+              <SelectValue placeholder="Select method"  />
               <SelectContent>
                 <SelectItem value="bizum">Bizum</SelectItem>
                 <SelectItem value="cash">Cash</SelectItem>
@@ -465,12 +459,12 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
             <Textarea id="proof" value={proof} onChange={(e) => setProof(e.target.value)} placeholder="e.g., Transaction ID, or a note for the admin" />
           </div>
         </div>
-        <DialogFooter>
+        <ModalFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
           <Button onClick={onSubmit}>Submit Request</Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }
 

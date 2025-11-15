@@ -1,16 +1,17 @@
 'use client';
 
+import { Badge, Button, Card, CardContent, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Textarea } from '@/components/keep';
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+;
+;
+;
+;
+;
+;
 import { Loader2, Sparkles, Gift, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+;
+;
 
 interface WelcomePersonalizationFormProps {
   open: boolean;
@@ -159,25 +160,25 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+    <Modal open={open} onOpenChange={onClose}>
+      <ModalContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
           <div className="flex items-center justify-between">
             <div>
-              <DialogTitle className="text-2xl flex items-center gap-2">
+              <ModalTitle className="text-2xl flex items-center gap-2">
                 <Sparkles className="h-6 w-6 text-primary" />
                 Welcome to EKA
-              </DialogTitle>
-              <DialogDescription>
+              </ModalTitle>
+              <ModalDescription>
                 Complete this form to personalize your wellness journey
-              </DialogDescription>
+              </ModalDescription>
             </div>
             <Badge variant="secondary" className="flex items-center gap-1">
               <Gift className="h-3 w-3" />
               €10 Discount
             </Badge>
           </div>
-        </DialogHeader>
+        </ModalHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Progress indicator */}
@@ -279,9 +280,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                     <div>
                       <Label htmlFor="previousExperience">Previous therapy experience</Label>
                       <Select value={previousTherapyExperience} onValueChange={setPreviousTherapyExperience}>
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select your experience level" />
-                        </SelectTrigger>
+                        <SelectValue placeholder="Select your experience level"  />
                         <SelectContent>
                           <SelectItem value="none">This is my first time</SelectItem>
                           <SelectItem value="some">I've had some therapy before</SelectItem>
@@ -293,9 +292,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                     <div>
                       <Label htmlFor="sessionTime">Preferred session time</Label>
                       <Select value={preferredSessionTime} onValueChange={setPreferredSessionTime}>
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="When works best for you?" />
-                        </SelectTrigger>
+                        <SelectValue placeholder="When works best for you?"  />
                         <SelectContent>
                           <SelectItem value="morning">Morning (8 AM - 12 PM)</SelectItem>
                           <SelectItem value="afternoon">Afternoon (12 PM - 5 PM)</SelectItem>
@@ -350,9 +347,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                         value={emergencyContact.relationship} 
                         onValueChange={(value) => setEmergencyContact({ ...emergencyContact, relationship: value })}
                       >
-                        <SelectTrigger className="mt-2">
-                          <SelectValue placeholder="Select relationship" />
-                        </SelectTrigger>
+                        <SelectValue placeholder="Select relationship"  />
                         <SelectContent>
                           <SelectItem value="parent">Parent</SelectItem>
                           <SelectItem value="spouse">Spouse/Partner</SelectItem>
@@ -380,7 +375,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
             </div>
           )}
 
-          <DialogFooter className="flex-col sm:flex-row gap-2">
+          <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
               variant="ghost"
@@ -424,9 +419,9 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 </Button>
               )}
             </div>
-          </DialogFooter>
+          </ModalFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+      </ModalContent>
+    </Modal>
   );
 }

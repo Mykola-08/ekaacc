@@ -1,20 +1,9 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-  DropdownMenuPortal,
-} from '@/components/ui/dropdown-menu';
+;
+;
+;
+import { Avatar, AvatarFallback, AvatarImage, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList } from '@/components/keep';
 import Link from 'next/link';
 import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
@@ -43,8 +32,8 @@ export function UserNav() {
   const initials = currentUser.displayName?.split(' ').map(n => n[0]).join('') || 'U';
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Dropdown>
+      <DropdownAction asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
@@ -56,9 +45,9 @@ export function UserNav() {
             </div>
           )}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-64" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
+      </DropdownAction>
+      <DropdownContent className="w-64" align="end" forceMount>
+        <DropdownList className="font-normal">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10">
               {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
@@ -80,7 +69,7 @@ export function UserNav() {
               </p>
             </div>
           </div>
-        </DropdownMenuLabel>
+        </DropdownList>
         <DropdownMenuSeparator />
         <div className="px-2 py-1.5">
           <DataSourceIndicator />
@@ -88,16 +77,16 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link href="/account">
-            <DropdownMenuItem>
+            <DropdownItem>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
-            </DropdownMenuItem>
+            </DropdownItem>
           </Link>
           <Link href="/settings">
-            <DropdownMenuItem>
+            <DropdownItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
-            </DropdownMenuItem>
+            </DropdownItem>
           </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -110,28 +99,28 @@ export function UserNav() {
             </DropdownMenuSubTrigger>
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
-                <DropdownMenuItem onClick={() => setTheme('light')}>
+                <DropdownItem onClick={() => setTheme('light')}>
                   <Sun className="mr-2 h-4 w-4" />
                   <span>Light</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme('dark')}>
+                </DropdownItem>
+                <DropdownItem onClick={() => setTheme('dark')}>
                   <Moon className="mr-2 h-4 w-4" />
                   <span>Dark</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setTheme('system')}>
+                </DropdownItem>
+                <DropdownItem onClick={() => setTheme('system')}>
                   <Laptop className="mr-2 h-4 w-4" />
                   <span>System</span>
-                </DropdownMenuItem>
+                </DropdownItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </DropdownItem>
+      </DropdownContent>
+    </Dropdown>
   );
 }

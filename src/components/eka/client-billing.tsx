@@ -1,20 +1,21 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
+;
+;
+;
+;
+;
+;
+;
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 import fxService from '@/lib/fx-service';
 import { CreditCard, Plus, Minus, TrendingUp, Wallet, Package } from "lucide-react";
 import { BillingPackages } from './billing-packages';
 import type { User } from "@/lib/types";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+;
 
 interface Transaction {
   id: string;
@@ -343,14 +344,14 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
       </Card>
 
       {/* Add Balance Dialog */}
-      <Dialog open={isAddBalanceOpen} onOpenChange={setIsAddBalanceOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add Funds to Account</DialogTitle>
-            <DialogDescription>
+      <Modal open={isAddBalanceOpen} onOpenChange={setIsAddBalanceOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Add Funds to Account</ModalTitle>
+            <ModalDescription>
               Add funds to {client.name}'s internal account balance.
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="add-amount">Amount (€)</Label>
@@ -374,24 +375,24 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               />
             </div>
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
+          <ModalFooter>
+            <ModalClose asChild>
               <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            </ModalClose>
             <Button onClick={handleAddBalance}>Add Funds</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Subtract Balance Dialog */}
-      <Dialog open={isSubtractBalanceOpen} onOpenChange={setIsSubtractBalanceOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Deduct Funds from Account</DialogTitle>
-            <DialogDescription>
+      <Modal open={isSubtractBalanceOpen} onOpenChange={setIsSubtractBalanceOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Deduct Funds from Account</ModalTitle>
+            <ModalDescription>
               Deduct funds from {client.name}'s internal account balance.
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="subtract-amount">Amount (€)</Label>
@@ -419,22 +420,22 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               />
             </div>
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
+          <ModalFooter>
+            <ModalClose asChild>
               <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            </ModalClose>
             <Button variant="destructive" onClick={handleSubtractBalance}>Deduct Funds</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
 
       {/* Create Invoice Dialog */}
-      <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Create Invoice</DialogTitle>
-            <DialogDescription>Create an invoice for this client.</DialogDescription>
-          </DialogHeader>
+      <Modal open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Create Invoice</ModalTitle>
+            <ModalDescription>Create an invoice for this client.</ModalDescription>
+          </ModalHeader>
           <div className="grid gap-4 py-4">
             <div>
               <Label>Amount (€)</Label>
@@ -445,14 +446,14 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               <Input value={invoiceDesc} onChange={(e:any)=>setInvoiceDesc(e.target.value)} />
             </div>
           </div>
-          <DialogFooter>
-            <DialogClose asChild>
+          <ModalFooter>
+            <ModalClose asChild>
               <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            </ModalClose>
             <Button onClick={async ()=>{ try{ const inv = await fxService.createInvoice(client.id, invoiceAmount, invoiceDesc); setInvoices(prev=>[inv, ...prev]); toast({ title: 'Invoice created' }); setIsCreateInvoiceOpen(false); setInvoiceAmount(0); setInvoiceDesc(''); }catch(e){ toast({ variant:'destructive', title:'Create invoice failed' }); } }}>Create</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

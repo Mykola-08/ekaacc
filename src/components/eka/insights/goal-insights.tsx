@@ -1,8 +1,9 @@
 "use client";
 
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Progress } from '@/components/keep';
 import { useCallback, useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
+;
+;
 import { StatCard } from '@/components/eka/dashboard/stat-card';
 import { Target, TrendingUp } from 'lucide-react';
 import { useFeatureData } from '@/hooks/use-feature-data';

@@ -1,11 +1,12 @@
 "use client";
 
+import { Button, Input, Modal, ModalContent, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
 import React, { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
-import { Input } from '@/components/ui/input';
+;
+;
+;
+;
+;
 import { useToast } from '@/hooks/use-toast';
 import fxService from '@/lib/fx-service';
 import type { User } from '@/lib/types';
@@ -68,18 +69,16 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Create New Booking</DialogTitle>
-        </DialogHeader>
+    <Modal open={open} onOpenChange={onClose}>
+      <ModalContent className="sm:max-w-[425px]">
+        <ModalHeader>
+          <ModalTitle>Create New Booking</ModalTitle>
+        </ModalHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="client" className="text-right">Client</label>
             <Select onValueChange={setSelectedClientId} value={selectedClientId}>
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="Select a client" />
-              </SelectTrigger>
+              <SelectValue placeholder="Select a client"  />
               <SelectContent>
                 {clients.map(client => (
                   <SelectItem key={client.id} value={client.id}>{client.name}</SelectItem>
@@ -119,13 +118,13 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
             />
           </div>
         </div>
-        <DialogFooter>
+        <ModalFooter>
           <Button variant="outline" onClick={onClose} disabled={loading}>Cancel</Button>
           <Button onClick={handleSubmit} disabled={loading}>
             {loading ? 'Creating...' : 'Create Booking'}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

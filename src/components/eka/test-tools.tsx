@@ -1,18 +1,19 @@
 "use client";
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Input, Label, Select, SelectContent, SelectItem, SelectValue, Switch } from '@/components/keep';
 import { useState, useEffect } from "react";
 import { useAuth } from "@/context/auth-context";
 import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Separator } from "@/components/ui/separator";
+;
+;
+;
+;
+;
+;
+;
 import { useToast } from "@/hooks/use-toast";
-import { Badge } from "@/components/ui/badge";
+;
 import { Beaker, User, CreditCard, Crown, Gift } from "lucide-react";
 
 const allRoles = [
@@ -215,7 +216,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           </div>
         </div>
 
-        <Separator />
+        <Divider />
 
         {/* VIP Status */}
         <div className="space-y-3">
@@ -228,9 +229,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           </div>
           {isVip && (
             <Select value={vipTier} onValueChange={handleVipTierChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select VIP tier" />
-              </SelectTrigger>
+              <SelectValue placeholder="Select VIP tier"  />
               <SelectContent>
                 {vipTiers.map(tier => (
                   <SelectItem key={tier} value={tier}>{tier}</SelectItem>
@@ -240,7 +239,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           )}
         </div>
 
-        <Separator />
+        <Divider />
 
         {/* Loyal Subscription */}
         <div className="space-y-3">
@@ -253,9 +252,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           </div>
           {isLoyal && (
             <Select value={loyalTier} onValueChange={handleLoyalTierChange}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Loyal tier" />
-              </SelectTrigger>
+              <SelectValue placeholder="Select Loyal tier"  />
               <SelectContent>
                 {loyalTiers.map(tier => (
                   <SelectItem key={tier} value={tier}>{tier}</SelectItem>
@@ -265,7 +262,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           )}
         </div>
 
-        <Separator />
+        <Divider />
 
         {/* Internal Account Balance */}
         <div className="space-y-3">
@@ -286,7 +283,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           </div>
         </div>
 
-        <Separator />
+        <Divider />
 
         {/* Donation Seeker */}
         <div className="flex items-center justify-between">
@@ -294,7 +291,7 @@ export function TestTools({ isTestMode = false }: TestToolsProps) {
           <Switch checked={isDonationSeeker} onCheckedChange={handleDonationSeekerToggle} />
         </div>
 
-        <Separator />
+        <Divider />
 
         {/* Reset Button */}
         <Button variant="outline" onClick={handleResetAll} className="w-full">

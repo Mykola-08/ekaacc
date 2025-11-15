@@ -1,18 +1,14 @@
 "use client";
 
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState, useMemo, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp, Loader2 } from 'lucide-react';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+;
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 // AI assistant removed from progress reports page
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { Skeleton } from '@/components/ui/skeleton';
+;
 import { useToast } from '@/hooks/use-toast';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
@@ -124,8 +120,8 @@ export default function ProgressReportsPage() {
       <h1 className="text-3xl font-bold">Progress & Reports</h1>
       <Tabs defaultValue="progress" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-4">
-          <TabsTrigger value="progress">Progress</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
+          <TabsItem value="progress">Progress</TabsItem>
+          <TabsItem value="reports">Reports</TabsItem>
         </TabsList>
         <TabsContent value="progress" className="space-y-8">
           {/* Key Metrics Overview */}
@@ -138,7 +134,12 @@ export default function ProgressReportsPage() {
               <CardContent>
                 <div className="text-2xl font-bold">{painReduction.toFixed(0)}%</div>
                 <p className="text-xs text-muted-foreground">From level {progressData.painReduction.baseline} to {progressData.painReduction.current}</p>
-                <Progress value={painReduction} className="mt-2" />
+                <div className="mt-2 h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-blue-600 transition-all duration-300" 
+                    style={{ width: `${painReduction}%` }}
+                  />
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -149,7 +150,12 @@ export default function ProgressReportsPage() {
               <CardContent>
                 <div className="text-2xl font-bold">{progressData.mobility.current}%</div>
                 <p className="text-xs text-muted-foreground">Target: {progressData.mobility.target}%</p>
-                <Progress value={mobilityImprovement} className="mt-2" />
+                <div className="mt-2 h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-blue-600 transition-all duration-300" 
+                    style={{ width: `${mobilityImprovement}%` }}
+                  />
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -160,7 +166,12 @@ export default function ProgressReportsPage() {
               <CardContent>
                 <div className="text-2xl font-bold">{progressData.sessionsCompleted}/{progressData.sessionGoal}</div>
                 <p className="text-xs text-muted-foreground">{((progressData.sessionsCompleted / progressData.sessionGoal) * 100).toFixed(0)}% Complete</p>
-                <Progress value={(progressData.sessionsCompleted / progressData.sessionGoal) * 100} className="mt-2" />
+                <div className="mt-2 h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-blue-600 transition-all duration-300" 
+                    style={{ width: `${(progressData.sessionsCompleted / progressData.sessionGoal) * 100}%` }}
+                  />
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -177,9 +188,9 @@ export default function ProgressReportsPage() {
           {/* Progress Details Tabs */}
           <Tabs defaultValue="pain" className="w-full mt-8">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="pain">Pain Levels</TabsTrigger>
-              <TabsTrigger value="mobility">Mobility</TabsTrigger>
-              <TabsTrigger value="achievements">Achievements</TabsTrigger>
+              <TabsItem value="pain">Pain Levels</TabsItem>
+              <TabsItem value="mobility">Mobility</TabsItem>
+              <TabsItem value="achievements">Achievements</TabsItem>
             </TabsList>
             <TabsContent value="pain" className="space-y-4">
               <Card>
@@ -192,7 +203,14 @@ export default function ProgressReportsPage() {
                     {progressData.painReduction.history.map((entry, idx) => (
                       <div key={idx} className="flex items-center gap-4">
                         <div className="w-24 text-sm text-muted-foreground">{new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
-                        <div className="flex-1"><Progress value={(10 - entry.level) * 10} className="h-8" /></div>
+                        <div className="flex-1">
+                          <div className="h-8 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-blue-600 transition-all duration-300" 
+                              style={{ width: `${(10 - entry.level) * 10}%` }}
+                            />
+                          </div>
+                        </div>
                         <div className="w-16 text-right font-medium">Level {entry.level}</div>
                       </div>
                     ))}
@@ -211,7 +229,14 @@ export default function ProgressReportsPage() {
                     {progressData.mobility.history.map((entry, idx) => (
                       <div key={idx} className="flex items-center gap-4">
                         <div className="w-24 text-sm text-muted-foreground">{new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
-                        <div className="flex-1"><Progress value={entry.score / progressData.mobility.target * 100} className="h-8" /></div>
+                        <div className="flex-1">
+                          <div className="h-8 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-blue-600 transition-all duration-300" 
+                              style={{ width: `${entry.score / progressData.mobility.target * 100}%` }}
+                            />
+                          </div>
+                        </div>
                         <div className="w-16 text-right font-medium">{entry.score}%</div>
                       </div>
                     ))}
@@ -238,9 +263,9 @@ export default function ProgressReportsPage() {
                         </CardHeader>
                         <CardContent>
                           {ach.earned ? (
-                            <Badge variant="default">Earned</Badge>
+                            <Badge variant="base">Earned</Badge>
                           ) : (
-                            <Badge variant="secondary">Locked</Badge>
+                            <Badge variant="base">Locked</Badge>
                           )}
                           {ach.date && <div className="text-xs text-muted-foreground mt-2">{new Date(ach.date).toLocaleDateString()}</div>}
                         </CardContent>
@@ -285,12 +310,12 @@ export default function ProgressReportsPage() {
                           <div className="flex-1 overflow-hidden">
                             <div className="flex justify-between items-center">
                               <p className="font-semibold truncate">{report.title}</p>
-                              <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
+                              <Badge variant="base" className="ml-2 shrink-0">{report.type}</Badge>
                             </div>
                             <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                             <p className="text-sm mt-1 break-words">{report.summary}</p>
                           </div>
-                          <Button variant="ghost" size="icon" className="shrink-0">
+                          <Button variant="outline" size="sm" className="shrink-0">
                             <ArrowUp className="h-4 w-4 transform -rotate-45" />
                           </Button>
                         </li>
@@ -318,15 +343,15 @@ export default function ProgressReportsPage() {
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Pain</span>
-                      <Badge variant="secondary">{progressData.painReduction.current}</Badge>
+                      <Badge variant="base">{progressData.painReduction.current}</Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Mobility</span>
-                      <Badge variant="secondary">{progressData.mobility.current}%</Badge>
+                      <Badge variant="base">{progressData.mobility.current}%</Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Streak</span>
-                      <Badge variant="secondary">{progressData.streakDays} days</Badge>
+                      <Badge variant="base">{progressData.streakDays} days</Badge>
                     </div>
                   </div>
                 </CardContent>

@@ -1,16 +1,17 @@
 'use client';
 
+import { Badge, Button, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Switch, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
 import { useState } from 'react';
 import { User } from '@/lib/types';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
+;
+;
+;
+;
+;
+;
+;
+;
+;
 import { X } from 'lucide-react';
 
 interface UserEditDialogProps {
@@ -142,22 +143,22 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>Edit User Profile</DialogTitle>
-          <DialogDescription>
+    <Modal open={open} onOpenChange={onOpenChange}>
+      <ModalContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <ModalHeader>
+          <ModalTitle>Edit User Profile</ModalTitle>
+          <ModalDescription>
             Update user information and settings
-          </DialogDescription>
-        </DialogHeader>
+          </ModalDescription>
+        </ModalHeader>
 
         <Tabs defaultValue="basic" className="w-full">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="basic">Basic</TabsTrigger>
-            <TabsTrigger value="contact">Contact</TabsTrigger>
-            {user.role === 'Therapist' && <TabsTrigger value="therapist">Therapist</TabsTrigger>}
-            <TabsTrigger value="privacy">Privacy</TabsTrigger>
-            {viewerRole === 'Admin' && <TabsTrigger value="status">Status</TabsTrigger>}
+            <TabsItem value="basic">Basic</TabsItem>
+            <TabsItem value="contact">Contact</TabsItem>
+            {user.role === 'Therapist' && <TabsItem value="therapist">Therapist</TabsItem>}
+            <TabsItem value="privacy">Privacy</TabsItem>
+            {viewerRole === 'Admin' && <TabsItem value="status">Status</TabsItem>}
           </TabsList>
 
           {/* Basic Information */}
@@ -189,9 +190,7 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
                       value={formData.role}
                       onValueChange={(value) => setFormData({ ...formData, role: value as any })}
                     >
-                      <SelectTrigger id="role">
-                        <SelectValue />
-                      </SelectTrigger>
+                      <SelectValue  />
                       <SelectContent>
                         <SelectItem value="Patient">Patient</SelectItem>
                         <SelectItem value="Therapist">Therapist</SelectItem>
@@ -206,9 +205,7 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
                       value={formData.gender || 'prefer-not-to-say'}
                       onValueChange={(value) => setFormData({ ...formData, gender: value as any })}
                     >
-                      <SelectTrigger id="gender">
-                        <SelectValue />
-                      </SelectTrigger>
+                      <SelectValue  />
                       <SelectContent>
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
@@ -615,9 +612,7 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
                   value={formData.accountStatus || 'active'}
                   onValueChange={(value) => setFormData({ ...formData, accountStatus: value as any })}
                 >
-                  <SelectTrigger id="accountStatus">
-                    <SelectValue />
-                  </SelectTrigger>
+                  <SelectValue  />
                   <SelectContent>
                     <SelectItem value="active">Active</SelectItem>
                     <SelectItem value="suspended">Suspended</SelectItem>
@@ -654,15 +649,15 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
           )}
         </Tabs>
 
-        <DialogFooter>
+        <ModalFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 }

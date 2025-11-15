@@ -1,7 +1,8 @@
 'use client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
+;
+;
+;
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Progress } from '@/components/keep';
 import { Check, Target } from "lucide-react";
 import { InView, TextEffect, AnimatedNumber, AnimatedGroup } from "@/components/motion-primitives";
 

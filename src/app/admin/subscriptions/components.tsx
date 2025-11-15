@@ -1,23 +1,17 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
+;
+;
+;
+;
+;
+;
+;
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import type { Subscription, SubscriptionType } from '@/lib/subscription-types';
 import { Search, Filter, Download, MoreVertical, UserPlus, UserMinus, Shield, Users, Crown, Star, TrendingUp } from 'lucide-react';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+;
 
 interface UserSubscriptionData {
     userId: string;
@@ -149,27 +143,27 @@ export function SubscriptionsTable({
                                             <TableCell>€{user.totalSpent.toFixed(2)}</TableCell>
                                             <TableCell>{new Date(user.joinedDate).toLocaleDateString()}</TableCell>
                                             <TableCell className="text-right">
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
+                                                <Dropdown>
+                                                    <DropdownAction asChild>
                                                         <Button variant="ghost" className="h-8 w-8 p-0">
                                                             <span className="sr-only">Open menu</span>
                                                             <MoreVertical className="h-4 w-4" />
                                                         </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end">
-                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem onClick={() => onAction(user, 'grant')}>
+                                                    </DropdownAction>
+                                                    <DropdownContent align="end">
+                                                        <DropdownList>Actions</DropdownList>
+                                                        <DropdownItem onClick={() => onAction(user, 'grant')}>
                                                             <UserPlus className="mr-2 h-4 w-4" /> Grant
-                                                        </DropdownMenuItem>
-                                                        <DropdownMenuItem onClick={() => onAction(user, 'revoke')} disabled={!loyalSub && !vipSub}>
+                                                        </DropdownItem>
+                                                        <DropdownItem onClick={() => onAction(user, 'revoke')} disabled={!loyalSub && !vipSub}>
                                                             <UserMinus className="mr-2 h-4 w-4" /> Revoke
-                                                        </DropdownMenuItem>
+                                                        </DropdownItem>
                                                         <DropdownMenuSeparator />
-                                                        <DropdownMenuItem onClick={() => onAction(user, 'view')}>
+                                                        <DropdownItem onClick={() => onAction(user, 'view')}>
                                                             <Shield className="mr-2 h-4 w-4" /> View Details
-                                                        </DropdownMenuItem>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
+                                                        </DropdownItem>
+                                                    </DropdownContent>
+                                                </Dropdown>
                                             </TableCell>
                                         </TableRow>
                                     );

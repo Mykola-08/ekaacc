@@ -1,5 +1,6 @@
 "use client";
 
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import {
     ArrowUpRight,
@@ -24,17 +25,17 @@ import { useToast } from '@/hooks/use-toast';
 
 import { SettingsShell } from "@/components/eka/settings/settings-shell";
 import { SettingsHeader } from "@/components/eka/settings/settings-header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
+;
 import { format } from "date-fns";
 
 // --- Dynamic Imports for Heavy Components ---
@@ -139,9 +140,9 @@ function TherapistDashboardInner({ appUser, isTestMode, isAdmin }: { appUser: Us
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="grid w-full" style={{ gridTemplateColumns: `repeat(${TABS.length}, 1fr)`}}>
                 {TABS.map(tab => (
-                    <TabsTrigger key={tab.value} value={tab.value} className="flex items-center">
+                    <TabsItem key={tab.value} value={tab.value} className="flex items-center">
                         {tab.icon} {tab.label}
-                    </TabsTrigger>
+                    </TabsItem>
                 ))}
             </TabsList>
 

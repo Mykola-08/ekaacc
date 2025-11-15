@@ -521,8 +521,16 @@ export type JournalEntry = {
   painLevel: number; // 1-10
   energyLevel: number; // 1-10
   notes?: string;
-  tags: string[];
+  tags?: string[];
   userId: string;
+};
+
+export type Goal = {
+  id: string;
+  userId: string;
+  description: string;
+  targetDate: string; // ISO string
+  isCompleted: boolean;
 };
 
 export type Exercise = {
@@ -573,4 +581,3 @@ export type TherapyRecommendation = {
   reasoning: string;
   type: 'exercise' | 'article' | 'meditation';
 };
-

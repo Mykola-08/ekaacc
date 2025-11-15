@@ -5,12 +5,25 @@ import { Calendar } from '@/components/ui/calendar';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
+<<<<<<< HEAD
+=======
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Slider } from '@/components/ui/slider';
+import { Calendar } from '@/components/ui/calendar';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+>>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
 import { Plus, BookOpen, Smile, Meh, Frown, X } from 'lucide-react';
 import { format, isSameDay } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { JournalEntry } from '@/lib/types';
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
+import { TagInput } from '@/components/eka/forms/tag-input';
 import type { ReactElement } from 'react';
 
 const moodIcons: { [key: number]: ReactElement } = {
@@ -38,6 +51,8 @@ export default function JournalPage() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 	const [isCreating, setIsCreating] = useState(false);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
 	const fetchEntries = useCallback(async () => {
 		if (dataService && user?.uid) {
@@ -56,6 +71,26 @@ export default function JournalPage() {
 		() => entries.filter((entry) => isSameDay(new Date(entry.date), selectedDate)),
 		[entries, selectedDate]
 	);
+
+	const filteredEntries = useMemo(() => {
+		return entriesForSelectedDate
+			.filter((entry) => {
+				if (!searchTerm) return true;
+				return entry.notes?.toLowerCase().includes(searchTerm.toLowerCase());
+			})
+			.filter((entry) => {
+				if (!selectedTag) return true;
+				return entry.tags?.includes(selectedTag);
+			});
+	}, [entriesForSelectedDate, searchTerm, selectedTag]);
+
+	const allTags = useMemo(() => {
+		const tags = new Set<string>();
+		entries.forEach(entry => {
+			entry.tags?.forEach(tag => tags.add(tag));
+		});
+		return Array.from(tags);
+	}, [entries]);
 
 	const handleSaveEntry = (newEntry: JournalEntry) => {
 		setEntries([newEntry, ...entries]);
@@ -81,6 +116,25 @@ export default function JournalPage() {
 				)}
 			</div>
 
+			<div className="flex gap-4 mb-4">
+				<Input
+					placeholder="Search entries..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+				/>
+				<Select onValueChange={(value) => setSelectedTag(value === 'all' ? null : value)} value={selectedTag || 'all'}>
+					<SelectTrigger className="w-[180px]">
+						<SelectValue placeholder="Filter by tag" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem value="all">All Tags</SelectItem>
+						{allTags.map(tag => (
+							<SelectItem key={tag} value={tag}>{tag}</SelectItem>
+						))}
+					</SelectContent>
+				</Select>
+			</div>
+
 			<div className="grid gap-8 md:grid-cols-3">
 				<div className="md:col-span-2 space-y-6">
 					{isCreating && (
@@ -93,8 +147,8 @@ export default function JournalPage() {
 
 					{isLoading ? (
 						<JournalSkeleton />
-					) : entriesForSelectedDate.length > 0 ? (
-						entriesForSelectedDate.map((entry) => <JournalEntryCard key={entry.id} entry={entry} />)
+					) : filteredEntries.length > 0 ? (
+						filteredEntries.map((entry) => <JournalEntryCard key={entry.id} entry={entry} />)
 					) : (
 						!isCreating && (
 							<Card className="flex flex-col items-center justify-center text-center p-8 border-dashed">
@@ -151,6 +205,7 @@ function NewEntryCard({
 	const [painLevel, setPainLevel] = useState(5);
 	const [energyLevel, setEnergyLevel] = useState(5);
 	const [notes, setNotes] = useState('');
+	const [tags, setTags] = useState<string[]>([]);
 	const [isSaving, setIsSaving] = useState(false);
 
 	const handleSave = async () => {
@@ -163,7 +218,7 @@ function NewEntryCard({
 			painLevel,
 			energyLevel,
 			notes,
-			tags: [],
+			tags,
 			userId: currentUser.id,
 		};
 
@@ -245,6 +300,10 @@ function NewEntryCard({
 						onChange={(e) => setNotes(e.target.value)}
 						placeholder="Any thoughts, symptoms, or events to note?"
 					/>
+				</div>
+				<div className="space-y-2">
+					<Label>Tags</Label>
+					<TagInput value={tags} onChange={setTags} />
 				</div>
 				<div className="flex justify-end">
 					<Button onClick={handleSave} disabled={isSaving}>

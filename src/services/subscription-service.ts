@@ -444,10 +444,9 @@ let subscriptionServiceInstance: ISubscriptionService | null = null;
 
 export async function getSubscriptionService(): Promise<ISubscriptionService> {
   if (!subscriptionServiceInstance) {
-    const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true';
-    subscriptionServiceInstance = useMock
-      ? new MockSubscriptionService()
-      : new FirestoreSubscriptionService();
+    // Always use Supabase implementation since we removed mock data
+    const module = await import('./supabase-subscription-service');
+    subscriptionServiceInstance = new module.SupabaseSubscriptionService();
   }
-  return subscriptionServiceInstance as any;
+  return subscriptionServiceInstance;
 }

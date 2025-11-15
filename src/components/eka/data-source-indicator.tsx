@@ -24,21 +24,16 @@ export function DataSourceIndicator({
 }: DataSourceIndicatorProps) {
   const dataService = useAppStore((state) => state.dataService);
   
-  const isMock = dataService?.isMock ?? false;
-  
+  // Since we removed mock data, always show Supabase
   return (
     <Badge 
-      variant={isMock ? 'base' : 'background'}
+      variant="background"
       className={cn('text-xs', className)}
     >
       {showIcon && (
-        isMock ? (
-          <HardDrive className="h-3 w-3 mr-1" />
-        ) : (
-          <Database className="h-3 w-3 mr-1" />
-        )
+        <Database className="h-3 w-3 mr-1" />
       )}
-      {isMock ? 'Mock Data' : 'Supabase'}
+      Supabase
     </Badge>
   );
 }

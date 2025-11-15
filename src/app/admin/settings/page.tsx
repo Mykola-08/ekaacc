@@ -12,7 +12,8 @@ import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
 
 export default function AdminSettingsPage() {
-  const [mockDataEnabled, setMockDataEnabled] = useState(process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false');
+  // Mock data has been removed - always disabled
+  const [mockDataEnabled, setMockDataEnabled] = useState(false);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 

@@ -198,10 +198,11 @@ export default function AdminCreateUserPage() {
       </div>
 
       {errors.length > 0 && (
-        <Notification className="mb-6">
-          <AlertCircle className="h-4 w-4" />
-          <NotificationTitle>Validation Errors</NotificationTitle>
-          <NotificationDescription>
+        <div className="mb-6">
+          <Notification>
+            <AlertCircle className="h-4 w-4" />
+            <NotificationTitle>Validation Errors</NotificationTitle>
+            <NotificationDescription>
             <ul className="list-disc list-inside">
               {errors.map((error, index) => (
                 <li key={index}>{error}</li>
@@ -209,6 +210,7 @@ export default function AdminCreateUserPage() {
             </ul>
           </NotificationDescription>
         </Notification>
+        </div>
       )}
 
       <form onSubmit={handleSubmit}>

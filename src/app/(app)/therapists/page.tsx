@@ -117,7 +117,7 @@ function TherapistCard({ therapist }: { therapist: User }) {
         </p>
         <div className="flex flex-wrap gap-2 mb-4">
           {therapist.therapistProfile?.specializations?.slice(0, 3).map(spec => (
-            <Badge key={spec} variant="background">{spec}</Badge>
+            <Badge key={spec} color="primary">{spec}</Badge>
           ))}
         </div>
         <Button className="w-full">View Profile</Button>

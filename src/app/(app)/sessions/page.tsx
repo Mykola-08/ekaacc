@@ -132,7 +132,7 @@ export default function SessionsPage() {
           type: 'page-visit',
           data: { page: '/sessions', timestamp: new Date().toISOString() }
         });
-        updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+        updateUserData({ activityData: { ...(currentUser?.activityData || {}), ...updated } });
       } catch (e) {
         console.error('Failed to track sessions page visit', e);
       }
@@ -146,7 +146,7 @@ export default function SessionsPage() {
           type: 'feature-use',
           data: { feature: 'sessions', action: 'book-click', timestamp: new Date().toISOString() }
         });
-        updateUserData({ activityData: { ...(currentUser.activityData || {}), ...updated } });
+        updateUserData({ activityData: { ...(currentUser?.activityData || {}), ...updated } });
       } catch (e) {
         console.error('Failed to track book action', e);
       }

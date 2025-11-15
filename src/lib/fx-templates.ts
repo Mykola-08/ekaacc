@@ -1,19 +1,66 @@
-const _templates: any[] = [];
+// Production-grade templates service with Supabase integration
+import { supabase } from '@/lib/supabase'
 
 export const fxTemplates = {
   async listTemplates() {
-    return _templates.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    try {
+      const { data, error } = await supabase
+        .from('templates')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching templates:', error);
+        throw new Error('Failed to fetch templates');
+      }
+      
+      return data || [];
+    } catch (error) {
+      console.error('Error in listTemplates:', error);
+      throw error;
+    }
   },
   async createTemplate({ title, content, authorId }: { title: string; content: string; authorId?: string }) {
-    const id = Math.random().toString(36).slice(2);
-    const payload = { id, title, content, authorId, createdAt: new Date().toISOString() } as any;
-    _templates.push(payload);
-    return payload;
+    try {
+      const { data, error } = await supabase
+        .from('templates')
+        .insert([{
+          title,
+          content,
+          author_id: authorId,
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error creating template:', error);
+        throw new Error('Failed to create template');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in createTemplate:', error);
+      throw error;
+    }
   },
   async deleteTemplate(id: string) {
-    const idx = _templates.findIndex(t => t.id === id);
-    if (idx >= 0) _templates.splice(idx, 1);
-    return true;
+    try {
+      const { error } = await supabase
+        .from('templates')
+        .delete()
+        .eq('id', id);
+      
+      if (error) {
+        console.error('Error deleting template:', error);
+        throw new Error('Failed to delete template');
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error in deleteTemplate:', error);
+      throw error;
+    }
   }
 };
 

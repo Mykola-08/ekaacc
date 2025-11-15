@@ -1,11 +1,13 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { User } from '@supabase/supabase-js'
+import { User as SupabaseUser } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
+import { User as CustomUser } from '@/lib/types'
+import { convertSupabaseUserToCustomUser } from '@/lib/user-utils'
 
 type AuthContextType = {
-  user: User | null
+  user: CustomUser | null
   loading: boolean
   signIn: (email: string, password: string) => Promise<void>
   signUp: (email: string, password: string, metadata?: any) => Promise<void>
@@ -16,20 +18,20 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<CustomUser | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     // Check active sessions and sets the user
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null)
+      setUser(convertSupabaseUserToCustomUser(session?.user ?? null))
       setLoading(false)
     })
 
     // Listen for changes on auth state (logged in, signed out, etc.)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        setUser(session?.user ?? null)
+        setUser(convertSupabaseUserToCustomUser(session?.user ?? null))
       }
     )
 

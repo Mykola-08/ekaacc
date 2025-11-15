@@ -12,11 +12,9 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "r
 // AI assistant removed from reports page
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import { collection } from 'firebase/firestore';
-import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
-import { getFirestore } from 'firebase/firestore';
-;
+// Removed Firebase imports - using Supabase instead
 import { useToast } from '@/hooks/use-toast';
+import fxService from '@/lib/fx-service';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
 import { Timestamp } from 'firebase/firestore';
@@ -74,8 +72,8 @@ export default function ReportsPage() {
         fetchReports();
     }, [dataService, currentUser]);
 
-    const reportsRef = currentUser && currentUser.uid
-        ? collection(getFirestore(), 'users', currentUser.uid, 'reports')
+    const reportsRef = currentUser && currentUser.id
+        ? `users/${currentUser.id}/reports`
         : null;
     const { toast } = useToast();
     const [isGenerating, setIsGenerating] = useState(false);
@@ -90,7 +88,7 @@ export default function ReportsPage() {
         try {
             const { generateMonthlyReport } = await import('@/ai/flows/generate-monthly-report');
             const input = {
-                userId: currentUser?.uid || '',
+                userId: currentUser?.id || '',
                 startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
                 endDate: new Date().toISOString(),
                 healthHistory: "User has a history of chronic lower back pain and is currently focusing on improving mobility.",
@@ -98,16 +96,16 @@ export default function ReportsPage() {
                 messages: "User has been feeling more positive about their progress and is motivated to continue with the therapy plan.",
             };
             const result = await generateMonthlyReport(input);
-            const newReport: Omit<Report, 'id'> = {
+            const newReport = {
                 title: "Monthly AI Progress Summary",
                 author: "AI Assistant",
-                type: 'AI Summary',
+                type: 'AI Summary' as const,
                 summary: result.report,
                 createdAt: new Date().toISOString(),
                 date: new Date().toISOString()
             };
-            if (reportsRef) {
-                await addDocumentNonBlocking(reportsRef, newReport);
+            if (currentUser) {
+                await fxService.createReport(currentUser.id, newReport);
             }
             toast({
                 title: "Report Generated!",

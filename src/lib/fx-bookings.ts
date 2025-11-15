@@ -1,31 +1,131 @@
-const _bookings: any[] = [];
+// Production-grade bookings service with Supabase integration
+import { supabase } from '@/lib/supabase'
 
 export const fxBookings = {
   async createBooking(userId: string, therapistId: string, date: string, notes?: string) {
-    const id = Math.random().toString(36).slice(2);
-    const payload: any = { id, userId, therapistId, date, notes: notes || null, status: 'confirmed', createdAt: new Date().toISOString() };
-    _bookings.push(payload);
-    return payload;
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert([{
+          user_id: userId,
+          therapist_id: therapistId,
+          date,
+          notes: notes || null,
+          status: 'confirmed',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error creating booking:', error);
+        throw new Error('Failed to create booking');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in createBooking:', error);
+      throw error;
+    }
   },
   async getBookingsForUser(userId: string) {
-    return _bookings.filter(b => b.userId === userId).sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching user bookings:', error);
+        throw new Error('Failed to fetch user bookings');
+      }
+      
+      return data || [];
+    } catch (error) {
+      console.error('Error in getBookingsForUser:', error);
+      throw error;
+    }
   },
   async getBookingsForTherapist(therapistId: string) {
-    return _bookings.filter(b => b.therapistId === therapistId).sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .eq('therapist_id', therapistId)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching therapist bookings:', error);
+        throw new Error('Failed to fetch therapist bookings');
+      }
+      
+      return data || [];
+    } catch (error) {
+      console.error('Error in getBookingsForTherapist:', error);
+      throw error;
+    }
   },
   async cancelBooking(bookingId: string) {
-    const b = _bookings.find(b => b.id === bookingId);
-    if (b) b.status = 'cancelled';
-    return { id: bookingId, status: 'cancelled' } as any;
-  }
-  ,
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
+        .eq('id', bookingId)
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error cancelling booking:', error);
+        throw new Error('Failed to cancel booking');
+      }
+      
+      return { id: bookingId, status: 'cancelled' };
+    } catch (error) {
+      console.error('Error in cancelBooking:', error);
+      throw error;
+    }
+  },
   async updateBooking(bookingId: string, updates: Record<string, any>) {
-    const b = _bookings.find(b => b.id === bookingId);
-    if (b) Object.assign(b, updates);
-    return { id: bookingId, ...(updates || {}) } as any;
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .update({
+          ...updates,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', bookingId)
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error updating booking:', error);
+        throw new Error('Failed to update booking');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in updateBooking:', error);
+      throw error;
+    }
   },
   async getAllBookings() {
-    return _bookings.sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    try {
+      const { data, error } = await supabase
+        .from('bookings')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching all bookings:', error);
+        throw new Error('Failed to fetch bookings');
+      }
+      
+      return data || [];
+    } catch (error) {
+      console.error('Error in getAllBookings:', error);
+      throw error;
+    }
   },
 };
 

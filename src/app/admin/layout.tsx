@@ -36,7 +36,7 @@ function AdminSidebar() {
 							return (
 								<Link key={item.href} href={item.href}>
 									<Button
-										variant={isActive ? 'secondary' : 'ghost'}
+										variant={isActive ? 'softBg' : 'outline'}
 										className="w-full justify-start"
 									>
 										<item.icon className="mr-2 h-4 w-4" />
@@ -50,7 +50,7 @@ function AdminSidebar() {
 				<div className="p-4 border-t">
 					<Tooltip>
 							<TooltipAction asChild>
-								<Button variant="outline" className="w-full justify-start" asChild>
+								<Button variant="outline" className="w-full justify-start">
 									<Link href="/home">
 										<ArrowLeft className="mr-2 h-4 w-4" />
 										Back to App

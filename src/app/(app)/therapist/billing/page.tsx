@@ -72,15 +72,15 @@ export default function TherapistBillingPage() {
 
   const createInvoice = async () => {
     try {
-      const res = await fxService.createInvoice('demo-client', 25, 'Test invoice');
-      toast({ title: 'Invoice Created', description: `Invoice ID: ${res?.id}` });
+      const res = await fxService.createChargeForSession('demo-client', 'demo-session', 25, 'Test invoice');
+      toast({ title: 'Charge Created', description: `Charge ID: ${res?.id || 'demo-charge'}` });
       await loadInvoices();
     } catch (e) {
       console.error(e);
       toast({
         variant: 'destructive',
         title: 'Error',
-        description: 'Could not create a test invoice.',
+        description: 'Could not create a test charge.',
       });
     }
   };
@@ -128,7 +128,7 @@ export default function TherapistBillingPage() {
                     <TableCell>{i.description}</TableCell>
                     <TableCell>{i.status || 'Paid'}</TableCell>
                     <TableCell className="text-right">
-                        <Button variant="ghost" size="sm">View</Button>
+                        <Button variant="outline" size="sm">View</Button>
                     </TableCell>
                   </TableRow>
                 ))}

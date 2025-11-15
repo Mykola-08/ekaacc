@@ -261,7 +261,7 @@ export default function VerificatorPage() {
       wallet: { color: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20', label: 'Wallet' },
     };
     const { color, label } = config[method] || config.cash;
-    return <Badge variant="outline" className={color}>{label}</Badge>;
+    return <Badge color="primary" className={color}>{label}</Badge>;
   };
 
   if (!currentUser || (currentUser.role !== 'Admin' && currentUser.role !== 'Therapist')) {
@@ -293,7 +293,7 @@ export default function VerificatorPage() {
           </h1>
           <p className="text-muted-foreground">Verify transactions, donations, and applications</p>
         </div>
-        <Badge variant="outline" className="text-sm">
+        <Badge color="primary" className="text-sm">
           {currentUser.role}
         </Badge>
       </div>
@@ -450,7 +450,7 @@ export default function VerificatorPage() {
                             <h4 className="font-semibold">{application.userName}</h4>
                             <p className="text-sm text-muted-foreground">{application.userEmail}</p>
                           </div>
-                          <Badge variant="outline" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
+                          <Badge color="warning" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
                             <Clock className="h-3 w-3 mr-1" />
                             Pending
                           </Badge>
@@ -566,7 +566,7 @@ export default function VerificatorPage() {
             <Button variant="outline" onClick={() => setPaymentDialogOpen(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleRejectPayment}>
+            <Button color="error" onClick={handleRejectPayment}>
               <XCircle className="h-4 w-4 mr-2" />
               Reject
             </Button>
@@ -634,7 +634,7 @@ export default function VerificatorPage() {
             <Button variant="outline" onClick={() => setApplicationDialogOpen(false)}>
               Cancel
             </Button>
-            <Button variant="destructive" onClick={handleRejectApplication}>
+            <Button color="error" onClick={handleRejectApplication}>
               <XCircle className="h-4 w-4 mr-2" />
               Reject
             </Button>

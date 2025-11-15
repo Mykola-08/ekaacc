@@ -84,6 +84,19 @@ export type User = {
   initials: string;
   createdAt?: string;
   
+  // Supabase user_metadata compatibility
+  user_metadata?: {
+    displayName?: string;
+    name?: string;
+    activityData?: any;
+    donationSeekerApproved?: boolean;
+    totalReceived?: number;
+    totalDonated?: number;
+    isDonationSeeker?: boolean;
+    isDonor?: boolean;
+    [key: string]: any; // Allow any additional metadata
+  };
+  
   // Profile Information
   bio?: string;
   location?: string;

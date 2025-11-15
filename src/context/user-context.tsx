@@ -39,7 +39,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const currentUser: User | null = user
     ? {
         id: user.id,
-        name: user.user_metadata?.displayName || user.email || 'User',
+        name: user.displayName || user.email || 'User',
         email: user.email || '',
       } as any
     : null;

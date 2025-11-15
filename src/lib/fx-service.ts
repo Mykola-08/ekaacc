@@ -1,24 +1,79 @@
-// Clean service without Firebase and mock dependencies
+// Production-grade service with comprehensive error handling and logging
 import { fxTemplates } from './fx-templates';
 import { fxNotifications } from './fx-notifications';
 import { fxBookings } from './fx-bookings';
 import { fxAssessments } from './fx-assessments';
 import { fxBilling } from './fx-billing';
 import { fxUsers } from './fx-users';
+import { logger } from './logging';
+import { withRetry, safeOperation, AppError, ValidationError, NotFoundError } from './error-handling';
+import { supabase } from './supabase';
 
-// Safe storage helpers: use localStorage when available (browser), otherwise fall back to an in-memory Map
-const _inMemoryStore = new Map<string, string>();
-function safeGetItem(key: string) {
-  try {
-    if (typeof localStorage !== 'undefined' && localStorage) return localStorage.getItem(key);
-  } catch (e) { /* ignore */ }
-  return _inMemoryStore.has(key) ? _inMemoryStore.get(key)! : null;
+// Production-grade storage with proper error handling and validation
+async function safeGetItem(key: string): Promise<string | null> {
+  return await withRetry(async () => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        return window.localStorage.getItem(key);
+      }
+      
+      // Server-side: check Supabase user settings
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      
+      const { data, error } = await supabase
+        .from('user_settings')
+        .select('value')
+        .eq('user_id', user.id)
+        .eq('key', key)
+        .single();
+      
+      if (error) {
+        logger.debug(`Setting not found: ${key}`);
+        return null;
+      }
+      
+      return data?.value || null;
+    } catch (error) {
+      logger.error(`Error getting setting: ${key}`, error as Error);
+      return null;
+    }
+  }, {}, { operation: 'safeGetItem', metadata: { key } });
 }
-function safeSetItem(key: string, value: string) {
-  try {
-    if (typeof localStorage !== 'undefined' && localStorage) return localStorage.setItem(key, value);
-  } catch (e) { /* ignore */ }
-  _inMemoryStore.set(key, value);
+
+async function safeSetItem(key: string, value: string): Promise<void> {
+  await withRetry(async () => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        window.localStorage.setItem(key, value);
+        return;
+      }
+      
+      // Server-side: store in Supabase user settings
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new AppError('User not authenticated', 'AUTHENTICATION_ERROR', 401);
+      }
+      
+      const { error } = await supabase
+        .from('user_settings')
+        .upsert({
+          user_id: user.id,
+          key,
+          value,
+          updated_at: new Date().toISOString()
+        });
+      
+      if (error) {
+        throw new AppError(`Failed to save setting: ${error.message}`, 'DATABASE_ERROR', 500);
+      }
+      
+      logger.debug(`Setting saved: ${key}`);
+    } catch (error) {
+      logger.error(`Error saving setting: ${key}`, error as Error);
+      throw error;
+    }
+  }, {}, { operation: 'safeSetItem', metadata: { key } });
 }
 
 function normalizeValue(value: unknown): unknown {
@@ -213,36 +268,171 @@ const fxService = {
     return fxTemplates.deleteTemplate(id);
   },
 
-  // Settings
+  // Settings with production-grade error handling
   async getSettings() {
-    const stored = safeGetItem('app_settings');
-    return stored ? JSON.parse(stored) : {};
-  },
-  async updateSettings(updates: any) {
-    const current = await this.getSettings();
-    const updated = deepMergeSettings(current, updates);
-    safeSetItem('app_settings', JSON.stringify(updated));
-    return updated;
-  },
-
-  // Storage
-  async uploadFile(file: File, path: string) {
-    throw new Error('File upload not implemented in clean service');
-  },
-  async getFileUrl(path: string) {
-    throw new Error('File storage not implemented in clean service');
+    return await withRetry(async () => {
+      const stored = await safeGetItem('app_settings');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (error) {
+          logger.warn('Failed to parse settings, returning empty object', error as Error);
+          return {};
+        }
+      }
+      return {};
+    }, {}, { operation: 'getSettings' });
   },
   
-  // AI Features
+  async updateSettings(updates: any) {
+    return await withRetry(async () => {
+      const current = await this.getSettings();
+      const updated = deepMergeSettings(current, updates);
+      await safeSetItem('app_settings', JSON.stringify(updated));
+      logger.info('Settings updated', { updates: Object.keys(updates) });
+      return updated;
+    }, {}, { operation: 'updateSettings' });
+  },
+
+  // File upload with proper validation and error handling
+  async uploadFile(file: File, path: string) {
+    return await withRetry(async () => {
+      try {
+        // Validate file
+        if (!file || file.size === 0) {
+          throw new ValidationError('Invalid file provided');
+        }
+
+        // Validate file size (max 10MB)
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+          throw new ValidationError(`File size exceeds maximum allowed size of ${maxSize} bytes`);
+        }
+
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+        if (!allowedTypes.includes(file.type)) {
+          throw new ValidationError(`File type ${file.type} is not allowed`);
+        }
+
+        logger.info(`Uploading file: ${file.name} to ${path}`);
+        
+        const { data, error } = await supabase.storage
+          .from('user-files')
+          .upload(path, file, {
+            cacheControl: '3600',
+            upsert: false,
+          });
+
+        if (error) {
+          throw new AppError(`File upload failed: ${error.message}`, 'STORAGE_ERROR', 500);
+        }
+
+        logger.info(`File uploaded successfully: ${file.name}`);
+        return data;
+      } catch (error) {
+        logger.error(`File upload failed: ${file.name}`, error as Error);
+        throw error;
+      }
+    }, {}, { operation: 'uploadFile', metadata: { fileName: file.name, fileSize: file.size } });
+  },
+
+  async getFileUrl(path: string) {
+    return await withRetry(async () => {
+      try {
+        const { data } = supabase.storage.from('user-files').getPublicUrl(path);
+        
+        if (!data?.publicUrl) {
+          throw new NotFoundError(`File not found: ${path}`);
+        }
+
+        return data.publicUrl;
+      } catch (error) {
+        logger.error(`Failed to get file URL: ${path}`, error as Error);
+        throw error;
+      }
+    }, {}, { operation: 'getFileUrl', metadata: { path } });
+  },
+
+  // AI Features with proper error handling and logging
+  async createReport(userId: string, report: any) {
+    return await withRetry(async () => {
+      try {
+        logger.info('Creating report', { userId, reportTitle: report.title || 'Untitled' });
+        
+        const { data, error } = await supabase
+          .from('reports')
+          .insert([{
+            user_id: userId,
+            title: report.title || 'Untitled Report',
+            author: report.author || 'System',
+            type: report.type || 'User Report',
+            summary: report.summary || '',
+            created_at: report.createdAt || new Date().toISOString(),
+            date: report.date || new Date().toISOString(),
+            // Add other report fields as needed
+          }])
+          .select()
+          .single();
+
+        if (error) {
+          throw new AppError(`Failed to create report: ${error.message}`, 'DATABASE_ERROR', 500);
+        }
+
+        logger.info('Report created successfully', { reportId: data.id, userId });
+        return data;
+      } catch (error) {
+        logger.error('Create report failed', error as Error);
+        throw error;
+      }
+    }, {}, { operation: 'createReport', metadata: { userId } });
+  },
+
   async generateAIReport(userId: string, prompt: string) {
-    throw new Error('AI report generation not implemented');
+    return await withRetry(async () => {
+      try {
+        logger.info('Generating AI report', { userId, promptLength: prompt.length });
+        
+        // Implementation would integrate with AI service
+        // For now, return a placeholder
+        throw new AppError('AI report generation not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+      } catch (error) {
+        logger.error('AI report generation failed', error as Error);
+        throw error;
+      }
+    }, {}, { operation: 'generateAIReport', metadata: { userId } });
   },
+
   async getAIChatResponse(prompt: string, history: any[]) {
-    throw new Error('AI chat response not implemented');
+    return await withRetry(async () => {
+      try {
+        logger.info('Processing AI chat response', { promptLength: prompt.length, historyLength: history.length });
+        
+        // Implementation would integrate with AI service
+        throw new AppError('AI chat response not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+      } catch (error) {
+        logger.error('AI chat response failed', error as Error);
+        throw error;
+      }
+    }, {}, { operation: 'getAIChatResponse' });
   },
+
   async getAIRecommendations() {
-    throw new Error('AI recommendations not implemented');
+    return await withRetry(async () => {
+      try {
+        logger.info('Fetching AI recommendations');
+        
+        // Implementation would integrate with AI service
+        throw new AppError('AI recommendations not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+      } catch (error) {
+        logger.error('AI recommendations failed', error as Error);
+        throw error;
+      }
+    }, {}, { operation: 'getAIRecommendations' });
   },
+
+  // Storage - removed duplicate implementations
+  // AI Features - removed duplicate implementations
 };
 
 export default fxService;

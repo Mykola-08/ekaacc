@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { useEffect, useState, useCallback } from 'react';
@@ -58,12 +58,12 @@ function RecentUsersCard({ users, onEdit }: { users: User[], onEdit: (user: User
                             <TableRow key={user.id}>
                                 <TableCell className="font-medium">{user.displayName || user.email}</TableCell>
                                 <TableCell>
-                                    <Badge variant={user.role === 'Admin' ? 'destructive' : user.role === 'Therapist' ? 'default' : 'secondary'}>
+                                    <Badge color={user.role === 'Admin' ? 'error' : user.role === 'Therapist' ? 'warning' : 'secondary'}>
                                         {user.role || 'Patient'}
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-right">
-                                    <Button size="sm" variant="ghost" onClick={() => onEdit(user)}>Edit</Button>
+                                    <Button size="sm" variant="outline" onClick={() => onEdit(user)}>Edit</Button>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -114,11 +114,9 @@ function QuickActionsCard() {
             </CardHeader>
             <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {actions.map(action => (
-                    <Button key={action.href} asChild variant="outline" className="h-24 flex-col gap-2">
-                        <Link href={action.href}>
-                            <action.icon className="h-6 w-6" />
-                            <span>{action.label}</span>
-                        </Link>
+                    <Button key={action.href} variant="outline" className="h-24 flex-col gap-2" onClick={() => window.location.href = action.href}>
+                        <action.icon className="h-6 w-6" />
+                        <span>{action.label}</span>
                     </Button>
                 ))}
             </CardContent>

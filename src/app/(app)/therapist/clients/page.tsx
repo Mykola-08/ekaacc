@@ -168,8 +168,8 @@ export default function TherapistClientsPage() {
                         </TableCell>
                         <TableCell className="text-muted-foreground">{client.email || '-'}</TableCell>
                         <TableCell className="text-right">
-                          <Button asChild variant="outline" size="sm">
-                            <Link href={`/therapist/person/${client.id}`}>View Profile</Link>
+                          <Button variant="outline" size="sm" onClick={() => window.location.href = `/therapist/person/${client.id}`}>
+                            View Profile
                           </Button>
                         </TableCell>
                       </TableRow>

@@ -1,21 +1,66 @@
-const _assessments: any[] = [];
+// Production-grade assessments service with Supabase integration
+import { supabase } from '@/lib/supabase'
 
 export const fxAssessments = {
   async saveAssessment(sessionId: string, data: any) {
-    const id = Math.random().toString(36).slice(2);
-    const payload = { id, sessionId, data, createdAt: new Date().toISOString() };
-    _assessments.push(payload);
-    return payload;
+    try {
+      const { data: assessment, error } = await supabase
+        .from('assessments')
+        .insert([{
+          session_id: sessionId,
+          data,
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error saving assessment:', error);
+        throw new Error('Failed to save assessment');
+      }
+      
+      return assessment;
+    } catch (error) {
+      console.error('Error in saveAssessment:', error);
+      throw error;
+    }
   },
   async getAssessmentsForSession(sessionId: string) {
-    return _assessments
-      .filter(a => a.sessionId === sessionId)
-      .sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    try {
+      const { data, error } = await supabase
+        .from('assessments')
+        .select('*')
+        .eq('session_id', sessionId)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching assessments for session:', error);
+        throw new Error('Failed to fetch assessments for session');
+      }
+      
+      return data || [];
+    } catch (error) {
+      console.error('Error in getAssessmentsForSession:', error);
+      throw error;
+    }
   },
   async deleteAssessment(assessmentId: string) {
-    const idx = _assessments.findIndex(a => a.id === assessmentId);
-    if (idx >= 0) _assessments.splice(idx, 1);
-    return { id: assessmentId };
+    try {
+      const { error } = await supabase
+        .from('assessments')
+        .delete()
+        .eq('id', assessmentId);
+      
+      if (error) {
+        console.error('Error deleting assessment:', error);
+        throw new Error('Failed to delete assessment');
+      }
+      
+      return { id: assessmentId };
+    } catch (error) {
+      console.error('Error in deleteAssessment:', error);
+      throw error;
+    }
   }
 };
 

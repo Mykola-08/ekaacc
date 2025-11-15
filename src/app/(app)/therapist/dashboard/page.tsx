@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import {
     ArrowUpRight,
@@ -40,7 +40,7 @@ import { format } from "date-fns";
 
 // --- Dynamic Imports for Heavy Components ---
 // Force re-evaluation
-const TestTools = dynamic(() => import("@/components/eka/test-tools").then((mod) => ({ default: mod.TestTools })), { ssr: false });
+const TestTools = dynamic(() => import("@/components/eka/test-tools").then((mod) => mod.TestTools), { ssr: false });
 const ClientBilling = dynamic(() => import("@/components/eka/client-billing").then((mod) => mod.ClientBilling), { ssr: false });
 const AdminPanel = dynamic(() => import('@/components/eka/admin-panel').then((m) => m.AdminPanel), { ssr: false });
 const BookingCalendar = dynamic(() => import('@/components/eka/booking-calendar'), { ssr: false });
@@ -104,8 +104,8 @@ function TherapistDashboardInner({ appUser, isTestMode, isAdmin }: { appUser: Us
             setIsLoading(true);
             try {
                 const [bookings, users] = await Promise.all([
-                    fxService.getAllBookings(),
-                    dataService.getAllUsers(),
+                    fxService.getBookings(),
+                    fxService.getUsers(),
                 ]);
                 setUpcomingSessions(bookings.map(mapBookingToSession));
                 setPatients(users.filter(u => u.role === 'Patient'));
@@ -202,7 +202,7 @@ function DashboardTabContent({ sessions, patients, isLoading }: { sessions: AppS
                                     <p className="text-sm text-muted-foreground">{format(new Date(session.date), "p, MMM d")}</p>
                                 </div>
                             </div>
-                            <Button variant="secondary" size="sm" onClick={() => router.push('/sessions/live/' + session.id)}>
+                            <Button variant="outline" size="sm" onClick={() => router.push('/sessions/live/' + session.id)}>
                                 Start Session <ArrowUpRight className="h-4 w-4 ml-2" />
                             </Button>
                         </div>

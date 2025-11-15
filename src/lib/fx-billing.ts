@@ -1,47 +1,209 @@
-const _transactions: any[] = [];
-const _invoices: any[] = [];
+// Production-grade billing service with Supabase integration
+import { supabase } from '@/lib/supabase'
 
 export const fxBilling = {
   async getBalanceForClient(clientId: string) {
-    const txs = _transactions.filter(t => t.clientId === clientId).sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
-    const balance = txs.reduce((acc: number, t: any) => acc + (t.amountEUR || 0), 0);
-    return { balance, transactions: txs } as any;
+    try {
+      const { data: transactions, error } = await supabase
+        .from('billing_transactions')
+        .select('*')
+        .eq('client_id', clientId)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching billing transactions:', error);
+        throw new Error('Failed to fetch client balance');
+      }
+      
+      const balance = transactions?.reduce((acc: number, t: any) => acc + (t.amount_eur || 0), 0) || 0;
+      return { balance, transactions: transactions || [] };
+    } catch (error) {
+      console.error('Error in getBalanceForClient:', error);
+      throw error;
+    }
   },
   async applyAdjustment(clientId: string, amountEUR: number, note?: string) {
-    const id = Math.random().toString(36).slice(2);
-    const payload = { id, clientId, amountEUR, note: note || null, createdAt: new Date().toISOString() };
-    _transactions.push(payload);
-    return payload as any;
+    try {
+      const { data, error } = await supabase
+        .from('billing_transactions')
+        .insert([{
+          client_id: clientId,
+          amount_eur: amountEUR,
+          note: note || null,
+          type: 'adjustment',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error applying adjustment:', error);
+        throw new Error('Failed to apply billing adjustment');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in applyAdjustment:', error);
+      throw error;
+    }
   },
   async createChargeForSession(clientId: string, sessionId: string, amountEUR: number, note?: string) {
-    const id = Math.random().toString(36).slice(2);
-    const payload = { id, clientId, sessionId, amountEUR: -Math.abs(amountEUR), note: note || null, createdAt: new Date().toISOString() };
-    _transactions.push(payload);
-    return payload as any;
-  }
-  ,
+    try {
+      const { data, error } = await supabase
+        .from('billing_transactions')
+        .insert([{
+          client_id: clientId,
+          session_id: sessionId,
+          amount_eur: -Math.abs(amountEUR),
+          note: note || null,
+          type: 'session_charge',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error creating session charge:', error);
+        throw new Error('Failed to create session charge');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in createChargeForSession:', error);
+      throw error;
+    }
+  },
   async createCheckoutSessionForPackage(clientId: string, packageId: string, amountEUR: number) {
-    // Production checkout flow is not implemented in this project; stub for parity with mock
-    throw new Error('Checkout not implemented for production');
-  }
-  ,
+    try {
+      // Create a pending transaction for the package purchase
+      const { data: transaction, error: txError } = await supabase
+        .from('billing_transactions')
+        .insert([{
+          client_id: clientId,
+          package_id: packageId,
+          amount_eur: amountEUR,
+          type: 'package_purchase_pending',
+          status: 'pending',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (txError) {
+        console.error('Error creating package transaction:', txError);
+        throw new Error('Failed to create package purchase transaction');
+      }
+      
+      // In a real implementation, you would integrate with a payment processor here
+      // For now, we'll return the transaction ID for further processing
+      return {
+        transactionId: transaction.id,
+        status: 'pending',
+        amountEUR,
+        nextStep: 'payment_processing_required'
+      };
+    } catch (error) {
+      console.error('Error in createCheckoutSessionForPackage:', error);
+      throw error;
+    }
+  },
   async getInvoicesForClient(clientId: string) {
-    return _invoices.filter(i => i.clientId === clientId).sort((a, b) => (a.createdAt > b.createdAt ? -1 : 1));
+    try {
+      const { data: invoices, error } = await supabase
+        .from('billing_invoices')
+        .select('*')
+        .eq('client_id', clientId)
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Error fetching invoices:', error);
+        throw new Error('Failed to fetch client invoices');
+      }
+      
+      return invoices || [];
+    } catch (error) {
+      console.error('Error in getInvoicesForClient:', error);
+      throw error;
+    }
   },
   async createInvoice(clientId: string, amountEUR: number, description?: string) {
-    const id = Math.random().toString(36).slice(2);
-    const payload = { id, clientId, amountEUR, description: description || null, createdAt: new Date().toISOString(), status: 'open' };
-    _invoices.push(payload);
-    return payload as any;
+    try {
+      const { data, error } = await supabase
+        .from('billing_invoices')
+        .insert([{
+          client_id: clientId,
+          amount_eur: amountEUR,
+          description: description || null,
+          status: 'open',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Error creating invoice:', error);
+        throw new Error('Failed to create invoice');
+      }
+      
+      return data;
+    } catch (error) {
+      console.error('Error in createInvoice:', error);
+      throw error;
+    }
   },
   async markInvoicePaid(invoiceId: string) {
-    const inv = _invoices.find(i => i.id === invoiceId);
-    if (!inv) throw new Error('Invoice not found');
-    inv.status = 'paid';
-    const id = Math.random().toString(36).slice(2);
-    const tx = { id, clientId: inv.clientId, amountEUR: -Math.abs(inv.amountEUR || 0), note: `Invoice ${invoiceId} paid`, createdAt: new Date().toISOString() };
-    _transactions.push(tx);
-    return { invoiceId, transactionId: id } as any;
+    try {
+      // Update invoice status
+      const { data: invoice, error: invoiceError } = await supabase
+        .from('billing_invoices')
+        .update({ status: 'paid', paid_at: new Date().toISOString() })
+        .eq('id', invoiceId)
+        .select()
+        .single();
+      
+      if (invoiceError) {
+        console.error('Error updating invoice status:', invoiceError);
+        throw new Error('Failed to update invoice status');
+      }
+      
+      if (!invoice) {
+        throw new Error('Invoice not found');
+      }
+      
+      // Create payment transaction
+      const { data: transaction, error: txError } = await supabase
+        .from('billing_transactions')
+        .insert([{
+          client_id: invoice.client_id,
+          invoice_id: invoiceId,
+          amount_eur: -Math.abs(invoice.amount_eur || 0),
+          note: `Invoice ${invoiceId} paid`,
+          type: 'invoice_payment',
+          created_at: new Date().toISOString()
+        }])
+        .select()
+        .single();
+      
+      if (txError) {
+        console.error('Error creating payment transaction:', txError);
+        // Rollback invoice status update if transaction fails
+        await supabase
+          .from('billing_invoices')
+          .update({ status: 'open' })
+          .eq('id', invoiceId);
+        throw new Error('Failed to create payment transaction');
+      }
+      
+      return {
+        invoiceId,
+        transactionId: transaction.id,
+        amountPaid: invoice.amount_eur,
+        paidAt: new Date().toISOString()
+      };
+    } catch (error) {
+      console.error('Error in markInvoicePaid:', error);
+      throw error;
+    }
   }
 };
 

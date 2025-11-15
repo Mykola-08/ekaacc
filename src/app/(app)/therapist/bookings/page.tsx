@@ -61,7 +61,7 @@ export default function TherapistBookingsPage() {
   const loadBookings = useCallback(async () => {
     setLoading(true);
     try {
-      const list = await fxService.getAllBookings();
+      const list = await fxService.getBookings();
       setBookings(list || []);
     } catch (e) {
       console.error(e);
@@ -135,12 +135,12 @@ export default function TherapistBookingsPage() {
                       <TableCell>{b.therapistId}</TableCell>
                       <TableCell>{new Date(b.date).toLocaleString()}</TableCell>
                       <TableCell>
-                        <Badge variant={b.status === 'CANCELLED' ? 'destructive' : 'secondary'}>
+                        <Badge color={b.status === 'CANCELLED' ? 'error' : 'primary'}>
                           {b.status}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm" variant="ghost" onClick={() => cancelBooking(b.id)} disabled={b.status === 'CANCELLED'}>
+                        <Button size="sm" variant="outline" onClick={() => cancelBooking(b.id)} disabled={b.status === 'CANCELLED'}>
                           Cancel
                         </Button>
                       </TableCell>

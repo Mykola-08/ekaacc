@@ -1,11 +1,15 @@
 "use client";
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import type { Timestamp } from 'firebase/firestore';
 import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
 import type { Report } from '@/lib/types';
 import { useAuth } from '@/lib/supabase-auth';
@@ -68,7 +72,7 @@ function ReportListItem({ report }: { report: Report }) {
             <div className="flex-1 overflow-hidden">
                 <div className="flex justify-between items-center">
                     <p className="font-semibold truncate">{report.title}</p>
-                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
+                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'outline'} className="ml-2 shrink-0">{report.type}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                 <p className="text-sm mt-1 break-words">{report.summary}</p>
@@ -173,7 +177,7 @@ export default function ReportsPage() {
         try {
             const { generateMonthlyReport } = await import('@/ai/flows/generate-monthly-report');
             const input = {
-                userId: currentUser?.uid || '',
+                userId: currentUser?.id || '',
                 startDate: new Date(new Date().setMonth(new Date().getMonth() - 1)).toISOString(),
                 endDate: new Date().toISOString(),
                 healthHistory: "User has a history of chronic lower back pain and is currently focusing on improving mobility.",

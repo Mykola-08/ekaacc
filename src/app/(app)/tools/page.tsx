@@ -1,10 +1,11 @@
 'use client';
 
-import { Button } from '@/components/keep';
+import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 ;
 import fxService from '@/lib/fx-service';
+import { fxBilling } from '@/lib/fx-billing';
 
 export default function ToolsPage() {
   const { user: currentUser } = useAuth();
@@ -25,7 +26,12 @@ export default function ToolsPage() {
       }
       const userId = currentUser?.id || 'test-user';
       const date = new Date(Date.now() + 60 * 60 * 1000).toISOString();
-      const res: any = await fxService.createBooking(userId, therapist as string, date, 'Test session from Tools');
+      const res: any = await fxService.createBooking({
+        userId,
+        therapistId: therapist as string,
+        date,
+        notes: 'Test session from Tools'
+      });
       append(`Created booking ${res?.id || JSON.stringify(res)}`);
     } catch (e: any) {
       append(`Error creating booking: ${e?.message || e}`);
@@ -62,7 +68,12 @@ export default function ToolsPage() {
       const therapist = t?.id || currentUser?.id || 'therapist-1';
       const userId = currentUser?.id || 'demo-user';
       const date = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
-      const res: any = await fxService.createBooking(userId, therapist, date, 'Demo booking');
+      const res: any = await fxService.createBooking({
+        userId,
+        therapistId: therapist,
+        date,
+        notes: 'Demo booking'
+      });
       append(`Demo booking: ${res?.id || JSON.stringify(res)}`);
     } catch (e: any) {
       append(`Error booking demo: ${e?.message || e}`);
@@ -72,7 +83,10 @@ export default function ToolsPage() {
   const submitDemoForm = async () => {
     try {
       append('Submitting demo form...');
-      const res = await fxService.saveSessionNote('tools-demo-session', 'Demo form submission', currentUser?.id);
+      const res = await fxService.createAssessment({
+        sessionId: 'tools-demo-session',
+        data: { note: 'Demo form submission', userId: currentUser?.id }
+      });
       append('Demo form saved');
     } catch (e: any) {
       append(`Error saving form: ${e?.message || e}`);
@@ -84,7 +98,7 @@ export default function ToolsPage() {
       append('Running billing migration (test)...');
       const users: any[] = await fxService.getUsers();
       const client = users.find(u => u.role !== 'Therapist') || users[0] || { id: currentUser?.id };
-      const res = await fxService.createInvoice(client.id, 10, 'Test migration invoice');
+      const res = await fxBilling.createChargeForSession(client.id, 'demo-session', 10, 'Test migration invoice');
       append(`Invoice created: ${res?.id || JSON.stringify(res)}`);
     } catch (e: any) {
       append(`Billing error: ${e?.message || e}`);
@@ -94,11 +108,11 @@ export default function ToolsPage() {
   const purgeMockData = async () => {
     try {
       append('Purging mock bookings and templates...');
-      const bookings: any[] = await fxService.getAllBookings();
+      const bookings: any[] = await fxService.getBookings();
       for (const b of bookings) {
         try { await fxService.cancelBooking(b.id); } catch {}
       }
-      const templates: any[] = await fxService.listTemplates();
+      const templates: any[] = await fxService.getTemplates();
       for (const t of templates) {
         try { await fxService.deleteTemplate(t.id); } catch {}
       }

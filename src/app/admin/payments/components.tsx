@@ -89,14 +89,14 @@ export function PaymentsFilter({
 }
 
 const getStatusBadge = (status: PaymentStatus) => {
-    const variants: Record<PaymentStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-        pending: 'secondary',
-        confirmed: 'default',
-        rejected: 'destructive',
-        cancelled: 'outline',
-        expired: 'outline',
+    const colors: Record<PaymentStatus, 'primary' | 'secondary' | 'success' | 'warning' | 'error'> = {
+        pending: 'warning',
+        confirmed: 'success',
+        rejected: 'error',
+        cancelled: 'secondary',
+        expired: 'secondary',
     };
-    return <Badge variant={variants[status]}>{status}</Badge>;
+    return <Badge color={colors[status]}>{status}</Badge>;
 };
 
 const getMethodBadge = (method: PaymentMethod) => {

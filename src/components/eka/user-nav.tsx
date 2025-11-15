@@ -26,7 +26,7 @@ export function UserNav() {
     return null;
   }
   
-  const initials = (currentUser.user_metadata?.displayName || currentUser.email || 'User')
+  const initials = (currentUser.displayName || currentUser.email || 'User')
     .split(' ')
     .map((n: string) => n[0])
     .join('')
@@ -38,10 +38,10 @@ export function UserNav() {
       <DropdownAction asChild>
         <Button variant="outline" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
-            {currentUser.user_metadata?.avatarUrl && <AvatarImage src={currentUser.user_metadata.avatarUrl} alt={currentUser.user_metadata?.displayName || ''} />}
+            {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
-          {currentUser.user_metadata?.isVip && currentUser.user_metadata?.vipTier && (
+          {currentUser.isVip && currentUser.vipTier && (
             <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
               <Crown className="h-3.5 w-3.5 text-yellow-500" />
             </div>
@@ -52,18 +52,18 @@ export function UserNav() {
         <div className="font-normal">
           <div className="flex items-center gap-3 p-2">
             <Avatar className="h-10 w-10">
-              {currentUser.user_metadata?.avatarUrl && <AvatarImage src={currentUser.user_metadata.avatarUrl} alt={currentUser.user_metadata?.displayName || ''} />}
+              {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
               <AvatarFallback>{initials}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-2">
-                <p className="text-sm font-medium leading-none">{currentUser.user_metadata?.displayName}</p>
+                <p className="text-sm font-medium leading-none">{currentUser.displayName}</p>
                 {/* Subscription badges */}
                 {hasLoyalty && <SubscriptionBadge type="loyalty" size="sm" showLabel={false} />}
                 {hasVip && <SubscriptionBadge type="vip" size="sm" showLabel={false} />}
                 {/* Old wallet VIP badge */}
-                {currentUser.user_metadata?.isVip && currentUser.user_metadata?.vipTier && (
-                  <VipBadge tier={currentUser.user_metadata.vipTier} variant="compact" />
+                {currentUser.isVip && currentUser.vipTier && (
+                  <VipBadge tier={currentUser.vipTier} variant="compact" />
                 )}
               </div>
               <p className="text-xs leading-none text-muted-foreground">

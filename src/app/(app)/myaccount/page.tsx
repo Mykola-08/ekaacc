@@ -24,11 +24,15 @@ import { SettingsHeader } from "@/components/eka/settings/settings-header";
 import type { User } from "@/lib/types";
 import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/wallet-types";
 
-// Helper function to convert Timestamp or string to Date
-function toDate(timestamp: Date | string): Date {
+// Helper function to convert string to Date
+function toDate(timestamp: string | Date | any): Date {
     if (typeof timestamp === 'string') return new Date(timestamp);
     if (timestamp instanceof Date) return timestamp;
-    return new Date();
+    // Handle Firebase Timestamp-like objects
+    if (timestamp && typeof timestamp === 'object' && timestamp.toDate) {
+        return timestamp.toDate();
+    }
+    return new Date(); // Fallback to current date
 }
 
 const profileFormSchema = z.object({
@@ -45,6 +49,13 @@ export default function MyAccountPage() {
   const { user: currentUser, loading: authLoading } = useAuth();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") ?? "profile");
+
+  // Simple refresh function - in a real app, this would refetch user data
+  const refreshAppUser = async () => {
+    // For now, just return a resolved promise
+    // In a production app, you might refetch user data here
+    return Promise.resolve();
+  };
 
   return (
     <SettingsShell>

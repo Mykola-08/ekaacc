@@ -8,45 +8,25 @@
  * - SuggestChatReplyOutput - The return type for the suggestChatReply function.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
 
-const SuggestChatReplyInputSchema = z.object({
-  message: z.string().describe('The user message to reply to.'),
-});
-export type SuggestChatReplyInput = z.infer<typeof SuggestChatReplyInputSchema>;
-
-const SuggestChatReplyOutputSchema = z.object({
-  reply: z.string().describe('The suggested reply.'),
-});
-export type SuggestChatReplyOutput = z.infer<typeof SuggestChatReplyOutputSchema>;
-
-export async function suggestChatReply(input: SuggestChatReplyInput): Promise<SuggestChatReplyOutput> {
-  return suggestChatReplyFlow(input);
+export interface SuggestChatReplyInput {
+  message: string;
 }
 
-const prompt = ai.definePrompt({
-  name: 'suggestChatReplyPrompt',
-  input: {schema: SuggestChatReplyInputSchema},
-  output: {schema: SuggestChatReplyOutputSchema},
-  prompt: `You are EKA Core, a helpful AI assistant for a wellness and therapy application.
+export interface SuggestChatReplyOutput {
+  reply: string;
+}
 
-  A user has sent the following message. Your task is to provide a helpful and encouraging reply.
-
-  User Message: {{{message}}}
-
-  Keep your reply concise and supportive.
-  `,
-});
-
-const suggestChatReplyFlow = ai.defineFlow(
-  {
-    name: 'suggestChatReplyFlow',
-    inputSchema: SuggestChatReplyInputSchema,
-    outputSchema: SuggestChatReplyOutputSchema,
-  },
-  async input => {
-    const {output} = await prompt(input);
-    return output!;
-  }
-);
+export async function suggestChatReply(input: SuggestChatReplyInput): Promise<SuggestChatReplyOutput> {
+  const { message } = input;
+  
+  // Create a comprehensive prompt for the AI
+  const prompt = `You are a helpful therapy assistant. Please suggest a thoughtful and empathetic reply to this message: "${message}". The reply should be supportive, professional, and encouraging. Keep it concise but meaningful.`;
+  
+  const response = await ai.generateResponse({ input: prompt });
+  
+  return {
+    reply: response.output
+  };
+}

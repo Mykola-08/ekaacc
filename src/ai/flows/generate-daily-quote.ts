@@ -1,44 +1,42 @@
 'use server';
 
 /**
- * @fileOverview A Genkit flow for generating a daily inspirational quote.
- *
- * - generateDailyQuote - A function that returns a daily quote.
+ * @fileOverview A flow for generating daily inspirational quotes.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import { ai } from '@/ai/genkit';
 
-const DailyQuoteSchema = z.object({
-  quote: z.string().describe('The inspirational quote.'),
-  author: z.string().describe('The author of the quote.'),
-});
-export type DailyQuote = z.infer<typeof DailyQuoteSchema>;
-
-const defaultQuote = {
-  quote: "The best way to predict the future is to create it.",
-  author: "Peter Drucker",
-};
-
-export async function generateDailyQuote(): Promise<DailyQuote> {
-  // Always return the default quote to avoid API errors when no key is present.
-  return Promise.resolve(defaultQuote);
+export interface GenerateDailyQuoteInput {
+  userContext?: string;
+  mood?: string;
+  previousQuotes?: string[];
 }
 
-const generateDailyQuotePrompt = ai.definePrompt({
-  name: 'generateDailyQuotePrompt',
-  model: 'googleai/gemini-1.5-flash',
-  output: {schema: DailyQuoteSchema},
-  prompt: `Generate a short, inspirational quote suitable for a wellness and therapy app dashboard.`,
-});
+export interface GenerateDailyQuoteOutput {
+  quote: string;
+  author: string;
+  category: string;
+  relevance: number;
+}
 
-const generateDailyQuoteFlow = ai.defineFlow(
-  {
-    name: 'generateDailyQuoteFlow',
-    outputSchema: DailyQuoteSchema,
-  },
-  async () => {
-    const {output} = await generateDailyQuotePrompt({});
-    return output!;
-  }
-);
+export async function generateDailyQuote(input: GenerateDailyQuoteInput = {}): Promise<GenerateDailyQuoteOutput> {
+  const { userContext, mood, previousQuotes } = input;
+  
+  // Create a comprehensive prompt for the AI
+  const prompt = `Generate an inspirational daily quote for mental health and wellness. 
+
+User Context: ${userContext || 'General wellness'}
+Mood: ${mood || 'Neutral'}
+Previous Quotes: ${previousQuotes?.join(', ') || 'None'}
+
+Please provide an original, uplifting quote that promotes mental health, self-care, and personal growth. Include an author (can be "Unknown" for original quotes) and categorize it appropriately.`;
+  
+  const response = await ai.generateResponse({ input: prompt });
+  
+  return {
+    quote: response.output,
+    author: 'Unknown',
+    category: 'Mental Health & Wellness',
+    relevance: 0.85
+  };
+}

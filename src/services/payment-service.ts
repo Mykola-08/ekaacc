@@ -1,10 +1,11 @@
 /**
- * @file Payment Service
- * @description Service for managing payment requests (Bizum and Cash).
- * Supports both mock data (for development) and Firestore (for production).
+ * @file Payment Service - Supabase Implementation
+ * @description Service for managing payment requests (Bizum and Cash) using Supabase.
+ * Replaces Firebase Firestore with Supabase for production-grade backend integration.
  */
 
 import type { PaymentRequest, PaymentMethod, PaymentStatus } from '@/lib/wallet-types';
+import { supabase, supabaseAdmin } from '@/lib/supabase';
 
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
 
@@ -54,15 +55,416 @@ export interface IPaymentService {
 }
 
 /**
+ * Supabase Payment Service Implementation
+ */
+class SupabasePaymentService implements IPaymentService {
+  private static instance: SupabasePaymentService;
+
+  static getInstance(): SupabasePaymentService {
+    if (!SupabasePaymentService.instance) {
+      SupabasePaymentService.instance = new SupabasePaymentService();
+    }
+    return SupabasePaymentService.instance;
+  }
+
+  async requestPayment(options: {
+    userId: string;
+    amount: number;
+    method: PaymentMethod;
+    description: string;
+  }): Promise<{ proof: string }> {
+    const { userId, amount, method, description } = options;
+    
+    // Generate a simple proof of payment request
+    const proofText = `Payment request: ${description} - ${amount}€ via ${method} for user ${userId}`;
+    
+    // Create the payment request in Supabase
+    await this.createPaymentRequest(
+      userId,
+      amount,
+      method,
+      description,
+      undefined,
+      proofText
+    );
+    
+    return { proof: proofText };
+  }
+
+  async markAsPaid(requestId: string): Promise<void> {
+    const { error } = await supabaseAdmin
+      .from('payment_requests')
+      .update({ 
+        status: 'user_confirmed',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', requestId);
+
+    if (error) {
+      throw new Error(`Failed to mark payment as paid: ${error.message}`);
+    }
+  }
+
+  async createPaymentRequest(
+    userId: string,
+    amount: number,
+    method: PaymentMethod,
+    description: string,
+    proofImageUrl?: string,
+    proofText?: string,
+    metadata?: any
+  ): Promise<PaymentRequest> {
+    // Get user information from profiles table
+    let userName = 'Unknown User';
+    let userEmail = '';
+
+    try {
+      const { data: profile, error } = await supabase
+        .from('user_profiles')
+        .select('full_name, email')
+        .eq('id', userId)
+        .single();
+
+      if (!error && profile) {
+        userName = profile.full_name || userName;
+        userEmail = profile.email || userEmail;
+      }
+    } catch (error) {
+      console.warn(`Unable to load user profile for payment request ${userId}`, error);
+    }
+
+    const requestData = {
+      user_id: userId,
+      user_name: userName,
+      user_email: userEmail,
+      amount,
+      currency: 'EUR' as const,
+      method,
+      status: 'pending' as const,
+      description,
+      proof_image_url: proofImageUrl,
+      proof_text: proofText,
+      metadata: metadata ? JSON.stringify(metadata) : null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+    };
+
+    const { data, error } = await supabaseAdmin
+      .from('payment_requests')
+      .insert(requestData)
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to create payment request: ${error.message}`);
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      userName: data.user_name,
+      userEmail: data.user_email,
+      amount: data.amount,
+      currency: data.currency,
+      method: data.method,
+      status: data.status,
+      description: data.description,
+      proofImageUrl: data.proof_image_url,
+      proofText: data.proof_text,
+      metadata: data.metadata ? JSON.parse(data.metadata) : undefined,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      expiresAt: data.expires_at,
+      confirmedAt: data.confirmed_at,
+      confirmedBy: data.confirmed_by,
+      confirmedByName: data.confirmed_by_name,
+      confirmedByRole: data.confirmed_by_role,
+      rejectionReason: data.rejection_reason,
+    } as PaymentRequest;
+  }
+
+  async getPaymentRequest(requestId: string): Promise<PaymentRequest | null> {
+    const { data, error } = await supabase
+      .from('payment_requests')
+      .select('*')
+      .eq('id', requestId)
+      .single();
+
+    if (error || !data) {
+      return null;
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      userName: data.user_name,
+      userEmail: data.user_email,
+      amount: data.amount,
+      currency: data.currency,
+      method: data.method,
+      status: data.status,
+      description: data.description,
+      proofImageUrl: data.proof_image_url,
+      proofText: data.proof_text,
+      metadata: data.metadata ? JSON.parse(data.metadata) : undefined,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      expiresAt: data.expires_at,
+      confirmedAt: data.confirmed_at,
+      confirmedBy: data.confirmed_by,
+      confirmedByName: data.confirmed_by_name,
+      confirmedByRole: data.confirmed_by_role,
+      rejectionReason: data.rejection_reason,
+    } as PaymentRequest;
+  }
+
+  async getUserPaymentRequests(userId: string): Promise<PaymentRequest[]> {
+    const { data, error } = await supabase
+      .from('payment_requests')
+      .select('*')
+      .eq('user_id', userId)
+      .in('status', ['pending', 'user_confirmed'])
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      throw new Error(`Failed to get user payment requests: ${error.message}`);
+    }
+
+    return (data || []).map(item => ({
+      id: item.id,
+      userId: item.user_id,
+      userName: item.user_name,
+      userEmail: item.user_email,
+      amount: item.amount,
+      currency: item.currency,
+      method: item.method,
+      status: item.status,
+      description: item.description,
+      proofImageUrl: item.proof_image_url,
+      proofText: item.proof_text,
+      metadata: item.metadata ? JSON.parse(item.metadata) : undefined,
+      createdAt: item.created_at,
+      updatedAt: item.updated_at,
+      expiresAt: item.expires_at,
+      confirmedAt: item.confirmed_at,
+      confirmedBy: item.confirmed_by,
+      confirmedByName: item.confirmed_by_name,
+      confirmedByRole: item.confirmed_by_role,
+      rejectionReason: item.rejection_reason,
+    } as PaymentRequest));
+  }
+
+  async getPendingPaymentRequests(): Promise<PaymentRequest[]> {
+    const { data, error } = await supabase
+      .from('payment_requests')
+      .select('*')
+      .eq('status', 'pending')
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      throw new Error(`Failed to get pending payment requests: ${error.message}`);
+    }
+
+    return (data || []).map(item => ({
+      id: item.id,
+      userId: item.user_id,
+      userName: item.user_name,
+      userEmail: item.user_email,
+      amount: item.amount,
+      currency: item.currency,
+      method: item.method,
+      status: item.status,
+      description: item.description,
+      proofImageUrl: item.proof_image_url,
+      proofText: item.proof_text,
+      metadata: item.metadata ? JSON.parse(item.metadata) : undefined,
+      createdAt: item.created_at,
+      updatedAt: item.updated_at,
+      expiresAt: item.expires_at,
+      confirmedAt: item.confirmed_at,
+      confirmedBy: item.confirmed_by,
+      confirmedByName: item.confirmed_by_name,
+      confirmedByRole: item.confirmed_by_role,
+      rejectionReason: item.rejection_reason,
+    } as PaymentRequest));
+  }
+
+  async confirmPaymentRequest(
+    requestId: string,
+    confirmedBy: string,
+    confirmedByName: string,
+    confirmedByRole: 'Admin' | 'Therapist'
+  ): Promise<PaymentRequest> {
+    // Get current request
+    const currentRequest = await this.getPaymentRequest(requestId);
+    if (!currentRequest) {
+      throw new Error('Payment request not found');
+    }
+
+    if (currentRequest.status !== 'pending' && currentRequest.status !== 'user_confirmed') {
+      throw new Error('Can only confirm pending or user-confirmed payment requests');
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('payment_requests')
+      .update({ 
+        status: 'confirmed',
+        confirmed_by: confirmedBy,
+        confirmed_by_name: confirmedByName,
+        confirmed_by_role: confirmedByRole,
+        confirmed_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', requestId)
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to confirm payment request: ${error.message}`);
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      userName: data.user_name,
+      userEmail: data.user_email,
+      amount: data.amount,
+      currency: data.currency,
+      method: data.method,
+      status: data.status,
+      description: data.description,
+      proofImageUrl: data.proof_image_url,
+      proofText: data.proof_text,
+      metadata: data.metadata ? JSON.parse(data.metadata) : undefined,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      expiresAt: data.expires_at,
+      confirmedAt: data.confirmed_at,
+      confirmedBy: data.confirmed_by,
+      confirmedByName: data.confirmed_by_name,
+      confirmedByRole: data.confirmed_by_role,
+      rejectionReason: data.rejection_reason,
+    } as PaymentRequest;
+  }
+
+  async rejectPaymentRequest(
+    requestId: string,
+    confirmedBy: string,
+    confirmedByName: string,
+    confirmedByRole: 'Admin' | 'Therapist',
+    reason: string
+  ): Promise<PaymentRequest> {
+    const currentRequest = await this.getPaymentRequest(requestId);
+    if (!currentRequest) {
+      throw new Error('Payment request not found');
+    }
+
+    if (currentRequest.status !== 'pending' && currentRequest.status !== 'user_confirmed') {
+      throw new Error('Can only reject pending or user-confirmed payment requests');
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('payment_requests')
+      .update({ 
+        status: 'rejected',
+        confirmed_by: confirmedBy,
+        confirmed_by_name: confirmedByName,
+        confirmed_by_role: confirmedByRole,
+        rejection_reason: reason,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', requestId)
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to reject payment request: ${error.message}`);
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      userName: data.user_name,
+      userEmail: data.user_email,
+      amount: data.amount,
+      currency: data.currency,
+      method: data.method,
+      status: data.status,
+      description: data.description,
+      proofImageUrl: data.proof_image_url,
+      proofText: data.proof_text,
+      metadata: data.metadata ? JSON.parse(data.metadata) : undefined,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      expiresAt: data.expires_at,
+      confirmedAt: data.confirmed_at,
+      confirmedBy: data.confirmed_by,
+      confirmedByName: data.confirmed_by_name,
+      confirmedByRole: data.confirmed_by_role,
+      rejectionReason: data.rejection_reason,
+    } as PaymentRequest;
+  }
+
+  async cancelPaymentRequest(requestId: string, userId: string): Promise<PaymentRequest> {
+    const currentRequest = await this.getPaymentRequest(requestId);
+    if (!currentRequest) {
+      throw new Error('Payment request not found');
+    }
+
+    if (currentRequest.userId !== userId) {
+      throw new Error('Unauthorized');
+    }
+
+    if (currentRequest.status !== 'pending' && currentRequest.status !== 'user_confirmed') {
+      throw new Error('Can only cancel pending or user-confirmed payment requests');
+    }
+
+    const { data, error } = await supabaseAdmin
+      .from('payment_requests')
+      .update({ 
+        status: 'cancelled',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', requestId)
+      .select()
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to cancel payment request: ${error.message}`);
+    }
+
+    return {
+      id: data.id,
+      userId: data.user_id,
+      userName: data.user_name,
+      userEmail: data.user_email,
+      amount: data.amount,
+      currency: data.currency,
+      method: data.method,
+      status: data.status,
+      description: data.description,
+      proofImageUrl: data.proof_image_url,
+      proofText: data.proof_text,
+      metadata: data.metadata ? JSON.parse(data.metadata) : undefined,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+      expiresAt: data.expires_at,
+      confirmedAt: data.confirmed_at,
+      confirmedBy: data.confirmed_by,
+      confirmedByName: data.confirmed_by_name,
+      confirmedByRole: data.confirmed_by_role,
+      rejectionReason: data.rejection_reason,
+    } as PaymentRequest;
+  }
+}
+
+/**
  * Mock Payment Service Implementation
  */
 class MockPaymentService implements IPaymentService {
   private static instance: MockPaymentService;
   private paymentRequests: Map<string, PaymentRequest> = new Map();
-
-  private constructor() {
-    this.initializeMockData();
-  }
 
   static getInstance(): MockPaymentService {
     if (!MockPaymentService.instance) {
@@ -77,69 +479,27 @@ class MockPaymentService implements IPaymentService {
     method: PaymentMethod;
     description: string;
   }): Promise<{ proof: string }> {
-    const proofText = `Mock proof for ${options.amount}€ via ${options.method}. Ref: MOCK${Date.now()}`;
+    const { userId, amount, method, description } = options;
+    const proofText = `Payment request: ${description} - ${amount}€ via ${method} for user ${userId}`;
+    
     await this.createPaymentRequest(
-      options.userId,
-      options.amount,
-      options.method,
-      options.description,
+      userId,
+      amount,
+      method,
+      description,
       undefined,
       proofText
     );
+    
     return { proof: proofText };
   }
 
   async markAsPaid(requestId: string): Promise<void> {
     const request = this.paymentRequests.get(requestId);
     if (request) {
-      // In a real scenario, this would be an admin/therapist confirmation.
-      // Here we simulate the user confirming they have paid, which moves it to pending.
-      // The admin would then confirm it. For simplicity, we'll just log it.
-      console.log(`User marked request ${requestId} as paid. Awaiting admin confirmation.`);
-      // To make the UI reflect a change, we can just remove it from the pending list for the mock.
-      this.paymentRequests.delete(requestId);
+      request.status = 'user_confirmed';
+      request.updatedAt = new Date().toISOString();
     }
-  }
-
-  private initializeMockData() {
-    // Create some sample payment requests
-    const sampleRequests: PaymentRequest[] = [
-      {
-        id: 'pay_1',
-        userId: 'test-user',
-        userName: 'Test User',
-        userEmail: 'test@example.com',
-        amount: 50,
-        currency: 'EUR',
-        method: 'bizum',
-        status: 'pending',
-        description: 'Payment for therapy session',
-        proofText: 'REF123456',
-        createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
-        updatedAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      },
-      {
-        id: 'pay_2',
-        userId: 'test-user',
-        userName: 'Test User',
-        userEmail: 'test@example.com',
-        amount: 100,
-        currency: 'EUR',
-        method: 'cash',
-        status: 'confirmed',
-        description: 'Cash deposit',
-        confirmedBy: 'admin-1',
-        confirmedByName: 'Admin User',
-        confirmedByRole: 'Admin',
-        confirmedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
-        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
-      },
-    ];
-
-    sampleRequests.forEach(req => {
-      this.paymentRequests.set(req.id, req);
-    });
   }
 
   async createPaymentRequest(
@@ -152,10 +512,10 @@ class MockPaymentService implements IPaymentService {
     metadata?: any
   ): Promise<PaymentRequest> {
     const request: PaymentRequest = {
-      id: `pay_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `mock-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       userId,
-      userName: 'Mock User', // Would come from user service
-      userEmail: 'mock@example.com', // Would come from user service
+      userName: 'Mock User',
+      userEmail: 'mock@example.com',
       amount,
       currency: 'EUR',
       method,
@@ -166,7 +526,7 @@ class MockPaymentService implements IPaymentService {
       metadata,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days
+      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
     };
 
     this.paymentRequests.set(request.id, request);
@@ -179,22 +539,13 @@ class MockPaymentService implements IPaymentService {
 
   async getUserPaymentRequests(userId: string): Promise<PaymentRequest[]> {
     return Array.from(this.paymentRequests.values())
-      .filter(req => req.userId === userId)
-      .sort((a, b) => {
-        const dateA = new Date(a.createdAt as string).getTime();
-        const dateB = new Date(b.createdAt as string).getTime();
-        return dateB - dateA;
-      });
+      .filter(request => request.userId === userId && ['pending', 'user_confirmed'].includes(request.status));
   }
 
   async getPendingPaymentRequests(): Promise<PaymentRequest[]> {
     return Array.from(this.paymentRequests.values())
-      .filter(req => req.status === 'pending')
-      .sort((a, b) => {
-        const dateA = new Date(a.createdAt as string).getTime();
-        const dateB = new Date(b.createdAt as string).getTime();
-        return dateA - dateB;
-      });
+      .filter(request => request.status === 'pending')
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
   }
 
   async confirmPaymentRequest(
@@ -204,13 +555,12 @@ class MockPaymentService implements IPaymentService {
     confirmedByRole: 'Admin' | 'Therapist'
   ): Promise<PaymentRequest> {
     const request = this.paymentRequests.get(requestId);
-    
     if (!request) {
       throw new Error('Payment request not found');
     }
 
-    if (request.status !== 'pending') {
-      throw new Error('Can only confirm pending payment requests');
+    if (request.status !== 'pending' && request.status !== 'user_confirmed') {
+      throw new Error('Can only confirm pending or user-confirmed payment requests');
     }
 
     request.status = 'confirmed';
@@ -219,13 +569,6 @@ class MockPaymentService implements IPaymentService {
     request.confirmedByRole = confirmedByRole;
     request.confirmedAt = new Date().toISOString();
     request.updatedAt = new Date().toISOString();
-
-    // In real implementation, this would trigger:
-    // 1. Wallet credit via Cloud Function
-    // 2. Transaction record creation
-    // 3. Notification to user
-    
-    console.log(`Payment request ${requestId} confirmed. Would credit ${request.amount} EUR to user ${request.userId}'s wallet.`);
 
     return request;
   }
@@ -238,13 +581,12 @@ class MockPaymentService implements IPaymentService {
     reason: string
   ): Promise<PaymentRequest> {
     const request = this.paymentRequests.get(requestId);
-    
     if (!request) {
       throw new Error('Payment request not found');
     }
 
-    if (request.status !== 'pending') {
-      throw new Error('Can only reject pending payment requests');
+    if (request.status !== 'pending' && request.status !== 'user_confirmed') {
+      throw new Error('Can only reject pending or user-confirmed payment requests');
     }
 
     request.status = 'rejected';
@@ -259,7 +601,6 @@ class MockPaymentService implements IPaymentService {
 
   async cancelPaymentRequest(requestId: string, userId: string): Promise<PaymentRequest> {
     const request = this.paymentRequests.get(requestId);
-    
     if (!request) {
       throw new Error('Payment request not found');
     }
@@ -268,8 +609,8 @@ class MockPaymentService implements IPaymentService {
       throw new Error('Unauthorized');
     }
 
-    if (request.status !== 'pending') {
-      throw new Error('Can only cancel pending payment requests');
+    if (request.status !== 'pending' && request.status !== 'user_confirmed') {
+      throw new Error('Can only cancel pending or user-confirmed payment requests');
     }
 
     request.status = 'cancelled';
@@ -280,302 +621,19 @@ class MockPaymentService implements IPaymentService {
 }
 
 /**
- * Firestore Payment Service Implementation
- */
-class FirestorePaymentService implements IPaymentService {
-  private static instance: FirestorePaymentService;
-
-  private constructor() {}
-
-  static getInstance(): FirestorePaymentService {
-    if (!FirestorePaymentService.instance) {
-      FirestorePaymentService.instance = new FirestorePaymentService();
-    }
-    return FirestorePaymentService.instance;
-  }
-
-  async requestPayment(options: {
-    userId: string;
-    amount: number;
-    method: PaymentMethod;
-    description: string;
-  }): Promise<{ proof: string }> {
-    const proofText = `Please make a payment of ${options.amount}€ to our ${options.method} account: EKA-ACCOUNT-DETAILS. Use reference: ${options.userId.substring(0, 8)}`;
-    await this.createPaymentRequest(
-      options.userId,
-      options.amount,
-      options.method,
-      options.description,
-      undefined,
-      proofText
-    );
-    return { proof: proofText };
-  }
-
-  async markAsPaid(requestId: string): Promise<void> {
-    const { getFirestore, doc, updateDoc, serverTimestamp } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestRef = doc(db, 'paymentRequests', requestId);
-    // This updates the status to 'user_confirmed' which an admin can then verify.
-    await updateDoc(requestRef, {
-      status: 'user_confirmed',
-      updatedAt: serverTimestamp(),
-    });
-  }
-
-  async createPaymentRequest(
-    userId: string,
-    amount: number,
-    method: PaymentMethod,
-    description: string,
-    proofImageUrl?: string,
-    proofText?: string,
-    metadata?: any
-  ): Promise<PaymentRequest> {
-    const { getFirestore, collection, addDoc, serverTimestamp, doc, getDoc } = await import('firebase/firestore');
-    const db = getFirestore();
-
-    let userName = 'Unknown User';
-    let userEmail = '';
-
-    try {
-      const userRef = doc(db, 'users', userId);
-      const userSnap = await getDoc(userRef);
-
-      if (userSnap.exists()) {
-        const userData = userSnap.data() as { name?: string; displayName?: string; email?: string };
-        userName = userData.displayName || userData.name || userName;
-        userEmail = userData.email || userEmail;
-      }
-    } catch (error) {
-      console.warn(`Unable to load user profile for payment request ${userId}`, error);
-    }
-
-    const requestData = {
-      userId,
-      userName,
-      userEmail,
-      amount,
-      currency: 'EUR' as const,
-      method,
-      status: 'pending' as const,
-      description,
-      proofImageUrl,
-      proofText,
-      metadata,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
-    };
-
-    const docRef = await addDoc(collection(db, 'paymentRequests'), requestData);
-    
-    return {
-      ...requestData,
-      id: docRef.id,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      expiresAt: requestData.expiresAt.toISOString(),
-    } as PaymentRequest;
-  }
-
-  async getPaymentRequest(requestId: string): Promise<PaymentRequest | null> {
-    const { getFirestore, doc, getDoc } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestRef = doc(db, 'paymentRequests', requestId);
-    const requestSnap = await getDoc(requestRef);
-    
-    if (!requestSnap.exists()) {
-      return null;
-    }
-
-    const data = requestSnap.data();
-    return {
-      ...data,
-      id: requestSnap.id,
-      createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
-      updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt,
-      confirmedAt: data.confirmedAt?.toDate?.()?.toISOString() || data.confirmedAt,
-      expiresAt: data.expiresAt?.toDate?.()?.toISOString() || data.expiresAt,
-    } as PaymentRequest;
-  }
-
-  async getUserPaymentRequests(userId: string): Promise<PaymentRequest[]> {
-    const { getFirestore, collection, query, where, orderBy, getDocs } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestsRef = collection(db, 'paymentRequests');
-    const q = query(requestsRef, where('userId', '==', userId), where('status', 'in', ['pending', 'user_confirmed']), orderBy('createdAt', 'desc'));
-    
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
-      ...doc.data(),
-      id: doc.id,
-      createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt,
-      updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || doc.data().updatedAt,
-      confirmedAt: doc.data().confirmedAt?.toDate?.()?.toISOString() || doc.data().confirmedAt,
-      expiresAt: doc.data().expiresAt?.toDate?.()?.toISOString() || doc.data().expiresAt,
-    } as PaymentRequest));
-  }
-
-  async getPendingPaymentRequests(): Promise<PaymentRequest[]> {
-    const { getFirestore, collection, query, where, orderBy, getDocs } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestsRef = collection(db, 'paymentRequests');
-    const q = query(requestsRef, where('status', '==', 'pending'), orderBy('createdAt', 'asc'));
-    
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
-      ...doc.data(),
-      id: doc.id,
-      createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt,
-      updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || doc.data().updatedAt,
-      confirmedAt: doc.data().confirmedAt?.toDate?.()?.toISOString() || doc.data().confirmedAt,
-      expiresAt: doc.data().expiresAt?.toDate?.()?.toISOString() || doc.data().expiresAt,
-    } as PaymentRequest));
-  }
-
-  async confirmPaymentRequest(
-    requestId: string,
-    confirmedBy: string,
-    confirmedByName: string,
-    confirmedByRole: 'Admin' | 'Therapist'
-  ): Promise<PaymentRequest> {
-    const { getFirestore, doc, updateDoc, serverTimestamp, getDoc } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestRef = doc(db, 'paymentRequests', requestId);
-    
-    // Get current request
-    const requestSnap = await getDoc(requestRef);
-    if (!requestSnap.exists()) {
-      throw new Error('Payment request not found');
-    }
-
-    const currentData = requestSnap.data();
-    if (currentData.status !== 'pending' && currentData.status !== 'user_confirmed') {
-      throw new Error('Can only confirm pending or user-confirmed payment requests');
-    }
-
-    // Update request
-    await updateDoc(requestRef, {
-      status: 'confirmed',
-      confirmedBy,
-      confirmedByName,
-      confirmedByRole,
-      confirmedAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    });
-
-    // In production, this would trigger a Cloud Function to:
-    // 1. Credit the user's wallet
-    // 2. Create transaction record
-    // 3. Send notification
-    
-    // Return updated request
-    const updated = await getDoc(requestRef);
-    const data = updated.data()!;
-    return {
-      ...data,
-      id: updated.id,
-      createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
-      updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt,
-      confirmedAt: data.confirmedAt?.toDate?.()?.toISOString() || data.confirmedAt,
-      expiresAt: data.expiresAt?.toDate?.()?.toISOString() || data.expiresAt,
-    } as PaymentRequest;
-  }
-
-  async rejectPaymentRequest(
-    requestId: string,
-    confirmedBy: string,
-    confirmedByName: string,
-    confirmedByRole: 'Admin' | 'Therapist',
-    reason: string
-  ): Promise<PaymentRequest> {
-    const { getFirestore, doc, updateDoc, serverTimestamp, getDoc } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestRef = doc(db, 'paymentRequests', requestId);
-    
-    const requestSnap = await getDoc(requestRef);
-    if (!requestSnap.exists()) {
-      throw new Error('Payment request not found');
-    }
-
-    const currentData = requestSnap.data();
-    if (currentData.status !== 'pending' && currentData.status !== 'user_confirmed') {
-      throw new Error('Can only reject pending or user-confirmed payment requests');
-    }
-
-    await updateDoc(requestRef, {
-      status: 'rejected',
-      confirmedBy,
-      confirmedByName,
-      confirmedByRole,
-      rejectionReason: reason,
-      updatedAt: serverTimestamp(),
-    });
-
-    const updated = await getDoc(requestRef);
-    const data = updated.data()!;
-    return {
-      ...data,
-      id: updated.id,
-      createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
-      updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt,
-      confirmedAt: data.confirmedAt?.toDate?.()?.toISOString() || data.confirmedAt,
-      expiresAt: data.expiresAt?.toDate?.()?.toISOString() || data.expiresAt,
-    } as PaymentRequest;
-  }
-
-  async cancelPaymentRequest(requestId: string, userId: string): Promise<PaymentRequest> {
-    const { getFirestore, doc, updateDoc, serverTimestamp, getDoc } = await import('firebase/firestore');
-    const db = getFirestore();
-    const requestRef = doc(db, 'paymentRequests', requestId);
-    
-    const requestSnap = await getDoc(requestRef);
-    if (!requestSnap.exists()) {
-      throw new Error('Payment request not found');
-    }
-
-    const currentData = requestSnap.data();
-    if (currentData.userId !== userId) {
-      throw new Error('Unauthorized');
-    }
-
-    if (currentData.status !== 'pending' && currentData.status !== 'user_confirmed') {
-      throw new Error('Can only cancel pending or user-confirmed payment requests');
-    }
-
-    await updateDoc(requestRef, {
-      status: 'cancelled',
-      updatedAt: serverTimestamp(),
-    });
-
-    const updated = await getDoc(requestRef);
-    const data = updated.data()!;
-    return {
-      ...data,
-      id: updated.id,
-      createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
-      updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt,
-      confirmedAt: data.confirmedAt?.toDate?.()?.toISOString() || data.confirmedAt,
-      expiresAt: data.expiresAt?.toDate?.()?.toISOString() || data.expiresAt,
-    } as PaymentRequest;
-  }
-}
-
-/**
  * Get the active payment service implementation
  */
 export async function getPaymentService(): Promise<IPaymentService> {
   if (USE_MOCK_DATA) {
     return MockPaymentService.getInstance();
   } else {
-    return FirestorePaymentService.getInstance();
+    return SupabasePaymentService.getInstance();
   }
 }
 
 // Export default for convenience
 const paymentService = USE_MOCK_DATA
   ? MockPaymentService.getInstance()
-  : FirestorePaymentService.getInstance();
+  : SupabasePaymentService.getInstance();
 
 export default paymentService;

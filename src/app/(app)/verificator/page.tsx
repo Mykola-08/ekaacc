@@ -29,7 +29,7 @@ import {
 import { AnimatedCard } from '@/components/eka/animated-card';
 import { format } from 'date-fns';
 import type { PaymentRequest, PaymentMethod } from '@/lib/wallet-types';
-import type { Timestamp } from 'firebase/firestore';
+// Firebase types removed – we only handle string dates here
 
 interface DonationSeekerApplication {
   id: string;
@@ -43,12 +43,12 @@ interface DonationSeekerApplication {
 }
 
 // Helper to convert Timestamp or string to Date
-const toDate = (timestamp: string | Timestamp): Date => {
+const toDate = (timestamp: string): Date => {
   if (typeof timestamp === 'string') {
     return new Date(timestamp);
   }
   // Firestore Timestamp
-  return timestamp.toDate();
+  return new Date(timestamp);
 };
 
 export default function VerificatorPage() {

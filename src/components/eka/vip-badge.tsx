@@ -60,7 +60,7 @@ export function VipBadge({ tier, variant = 'default', className }: VipBadgeProps
   if (variant === 'compact') {
     return (
       <Badge
-        variant="outline"
+        variant="border"
         className={cn(
           'inline-flex items-center gap-1 border-2',
           config.color,

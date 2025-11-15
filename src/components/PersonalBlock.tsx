@@ -62,7 +62,7 @@ export default function PersonalBlock() {
 
   if (!summary) {
     return (
-      <Notification variant="default" className="bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50">
+      <Notification className="bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50">
         <AlertTriangle className="h-4 w-4 text-yellow-500" />
         <NotificationTitle className="text-yellow-700 dark:text-yellow-300">Onboarding Incomplete</NotificationTitle>
         <NotificationDescription className="text-yellow-600 dark:text-yellow-400">
@@ -102,7 +102,7 @@ export default function PersonalBlock() {
         </div>
 
         {advice && (
-          <Notification variant="default" className="bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50">
+          <Notification className="bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50">
             <Lightbulb className="h-4 w-4 text-blue-500" />
             <NotificationTitle className="text-blue-700 dark:text-blue-300">Your Personalized Advice</NotificationTitle>
             <NotificationDescription className="text-blue-600 dark:text-blue-400 whitespace-pre-wrap">

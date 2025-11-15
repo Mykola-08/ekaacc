@@ -1,30 +1,10 @@
 'use client';
 
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-<<<<<<< HEAD
-import { firebaseServices } from '@/firebase/firebaseClient';
-import { ref, onValue, off } from 'firebase/database';
-import PersonalBlock from './PersonalBlock';
-import { requestPushPermissionAndRegister } from '@/firebase/messagingClient';
-import { loadPreferences } from '@/firebase/onboardingStore';
-import AIGoalSuggestions from './AIGoalSuggestions';
-import { USE_MOCK_DATA } from '@/services/data-service';
-;
-;
-import { Activity, ArrowRight, Bell, CheckCircle2, Clock, HeartPulse, Settings, Smile, Target, TrendingUp, User as UserIcon, Zap } from 'lucide-react';
-;
-import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
-import { useToast } from '@/hooks/use-toast';
-import type { Session, Report, User } from '@/lib/types';
-import Link from 'next/link';
-import { StatCard } from './eka/dashboard/stat-card';
-=======
 import { WelcomeHeader } from './eka/dashboard/welcome-header';
 import { StatsGrid } from './eka/dashboard/stats-grid';
->>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
 import { NextSession } from './eka/dashboard/next-session';
 import { GoalProgress } from './eka/dashboard/goal-progress';
 import AIGoalSuggestions from './AIGoalSuggestions';
@@ -89,17 +69,17 @@ export default function DashboardView() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="p-6 lg:p-8 space-y-8 bg-gray-50/50 dark:bg-gray-900/50">
-        <Skeleton className="h-24 w-full rounded-lg" />
+      <div className="space-y-8">
+        <Skeleton className="h-24 w-full rounded-xl" />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Skeleton className="h-36 w-full rounded-lg" />
-          <Skeleton className="h-36 w-full rounded-lg" />
-          <Skeleton className="h-36 w-full rounded-lg" />
-          <Skeleton className="h-36 w-full rounded-lg" />
+          <Skeleton className="h-36 w-full rounded-xl" />
+          <Skeleton className="h-36 w-full rounded-xl" />
+          <Skeleton className="h-36 w-full rounded-xl" />
+          <Skeleton className="h-36 w-full rounded-xl" />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <Skeleton className="h-80 w-full lg:col-span-2 rounded-lg" />
-          <Skeleton className="h-80 w-full rounded-lg" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <Skeleton className="h-80 w-full lg:col-span-2 rounded-xl" />
+          <Skeleton className="h-80 w-full rounded-xl" />
         </div>
       </div>
     );
@@ -111,19 +91,25 @@ export default function DashboardView() {
 
   if (!currentUser) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center p-8">
-        <UserIcon className="w-16 h-16 text-gray-300 dark:text-gray-600 mb-4" />
-        <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-300">Welcome to EKA</h2>
-        <p className="text-gray-500 dark:text-gray-400 mt-2 max-w-md">
-          It looks like your profile is not fully set up yet. Please complete the onboarding process to get started.
+      <div className="flex flex-col items-center justify-center h-full text-center p-8 glass-effect rounded-2xl">
+        <UserIcon className="w-16 h-16 text-muted-foreground mb-6" />
+        <h2 className="text-3xl font-bold gradient-text mb-4">Welcome to EKA</h2>
+        <p className="text-muted-foreground max-w-md mb-8">
+          It looks like your profile is not fully set up yet. Let's get you started with a quick onboarding process.
         </p>
-        <Button onClick={() => setShowOnboarding(true)} className="mt-6">Begin Onboarding</Button>
+        <Button 
+          onClick={() => setShowOnboarding(true)} 
+          className="hover-lift bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg"
+          size="lg"
+        >
+          Begin Onboarding
+        </Button>
       </div>
     );
   }
 
   return (
-    <main className="p-4 sm:p-6 lg:p-8 bg-gray-50/50 dark:bg-background min-h-screen">
+    <div className="space-y-8">
       <WelcomeHeader />
       <StatsGrid sessions={sessions} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -142,6 +128,6 @@ export default function DashboardView() {
           )}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

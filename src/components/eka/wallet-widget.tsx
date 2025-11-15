@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList } from '@/components/keep';
+import { Badge, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem } from '@/components/keep';
 import { useState, useEffect } from 'react';
 import { Wallet, TrendingUp, Plus, Eye, EyeOff } from 'lucide-react';
 ;
@@ -47,7 +47,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
 
   if (loading) {
     return (
-      <Button variant="ghost" size="sm" className="gap-2" disabled>
+      <Button variant="outline" size="sm" className="gap-2" disabled>
         <Wallet className="h-4 w-4" />
         <span className="text-sm">Loading...</span>
       </Button>
@@ -57,7 +57,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
   return (
     <Dropdown>
       <DropdownAction asChild>
-        <Button variant="ghost" size="sm" className="gap-2 hover:bg-muted/50">
+        <Button variant="outline" size="sm" className="gap-2 hover:bg-muted/50">
           <Wallet className="h-4 w-4" />
           <div className="flex flex-col items-start">
             <span className="text-xs text-muted-foreground">Balance</span>
@@ -88,8 +88,8 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
         </Button>
       </DropdownAction>
       <DropdownContent className="w-72" align="end">
-        <DropdownList>My Wallet</DropdownList>
-        <DropdownMenuSeparator />
+        <div className="px-3 py-2 text-sm font-medium">My Wallet</div>
+        <div className="border-t border-gray-200 dark:border-gray-700" />
         
         {/* Balance & Points */}
         <div className="p-4 space-y-3">
@@ -107,8 +107,8 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
               )}
             </div>
             <Button
-              variant="ghost"
-              size="icon"
+              variant="outline"
+              size="sm"
               className="h-8 w-8"
               onClick={(e) => {
                 e.stopPropagation();
@@ -128,16 +128,16 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
                   <TrendingUp className="h-4 w-4" />
                 </p>
               </div>
-              <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
+              <Badge variant="border" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
                 Active
               </Badge>
             </div>
           )}
         </div>
 
-        <DropdownMenuSeparator />
+        <div className="border-t border-gray-200 dark:border-gray-700" />
 
-        <DropdownMenuGroup>
+        <div className="px-1 py-1">
           <DropdownItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Wallet className="mr-2 h-4 w-4" />
             <span>View Wallet</span>
@@ -150,7 +150,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
             <TrendingUp className="mr-2 h-4 w-4" />
             <span>Loyalty Program</span>
           </DropdownItem>
-        </DropdownMenuGroup>
+        </div>
       </DropdownContent>
     </Dropdown>
   );

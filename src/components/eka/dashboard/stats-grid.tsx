@@ -49,7 +49,9 @@ export function StatsGrid({ sessions }: StatsGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       {personalizedStats.map((stat, index) => (
-        <StatCard key={stat.title} {...stat} index={index} />
+        <div key={stat.title} className="hover-lift">
+          <StatCard {...stat} index={index} />
+        </div>
       ))}
     </div>
   );

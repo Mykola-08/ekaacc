@@ -1,12 +1,5 @@
 "use client";
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Label, Skeleton, Slider, Textarea } from '@/components/keep';
-import { Calendar } from '@/components/ui/calendar';
-import { useState, useEffect, useMemo, useCallback } from 'react';
-import { useAuth } from '@/context/auth-context';
-import { useAppStore } from '@/store/app-store';
-<<<<<<< HEAD
-=======
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -16,7 +9,9 @@ import { Calendar } from '@/components/ui/calendar';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
->>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useAuth } from '@/context/auth-context';
+import { useAppStore } from '@/store/app-store';
 import { Plus, BookOpen, Smile, Meh, Frown, X } from 'lucide-react';
 import { format, isSameDay } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';

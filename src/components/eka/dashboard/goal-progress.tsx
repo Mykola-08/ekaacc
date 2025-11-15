@@ -1,17 +1,8 @@
 'use client';
-<<<<<<< HEAD
-;
-;
-;
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Progress } from '@/components/keep';
-import { Check, Target } from "lucide-react";
-import { InView, TextEffect, AnimatedNumber, AnimatedGroup } from "@/components/motion-primitives";
-=======
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Target } from 'lucide-react';
->>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
 
 interface GoalProgressProps {
   sessionsCompleted: number;

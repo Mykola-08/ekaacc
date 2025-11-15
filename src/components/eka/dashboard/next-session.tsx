@@ -1,18 +1,8 @@
 'use client';
-<<<<<<< HEAD
-;
-;
-;
-;
-import { Avatar, AvatarFallback, AvatarImage, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
-import { Clock, Video, CalendarOff } from 'lucide-react';
-import { format } from 'date-fns';
-=======
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Calendar, Clock, Video } from 'lucide-react';
->>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
 import type { Session } from '@/lib/types';
 import Link from 'next/link';
 

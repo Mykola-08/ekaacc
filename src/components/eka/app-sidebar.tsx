@@ -65,7 +65,7 @@ const SidebarLink = memo(({
   isActive: boolean;
   isCollapsed: boolean;
 }) => {
-  const base = 'transition-all duration-200 rounded-lg inline-flex items-center font-medium';
+  const base = 'transition-all duration-200 rounded-lg inline-flex items-center font-medium hover-lift';
 
   if (isCollapsed) {
     return (
@@ -75,17 +75,17 @@ const SidebarLink = memo(({
             href={href}
             className={cn(
               base,
-              'justify-center p-2.5 w-11 h-11',
+              'justify-center p-3 w-12 h-12',
               isActive 
-                ? 'bg-primary text-primary-foreground shadow-sm' 
-                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary'
+                ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg' 
+                : 'text-muted-foreground hover:bg-background/80 hover:text-primary'
             )}
           >
             <Icon className="h-5 w-5" aria-hidden />
             <span className="sr-only">{label}</span>
           </Link>
         </TooltipTrigger>
-        <TooltipContent side="right" className="bg-gray-800 text-white border-none">
+        <TooltipContent side="right" className="glass-effect">
           <p>{label}</p>
         </TooltipContent>
       </Tooltip>
@@ -97,14 +97,14 @@ const SidebarLink = memo(({
       href={href}
       className={cn(
         base,
-        'gap-3 px-4 py-2.5 w-full',
+        'gap-3 px-4 py-3 w-full',
         isActive 
-          ? 'bg-primary text-primary-foreground shadow-sm' 
-          : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-primary'
+          ? 'bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg' 
+          : 'text-muted-foreground hover:bg-background/80 hover:text-primary'
       )}
     >
       <Icon className="h-5 w-5 flex-shrink-0" aria-hidden />
-      <span className="truncate">{label}</span>
+      <span className="truncate font-medium">{label}</span>
     </Link>
   );
 });
@@ -121,15 +121,17 @@ export function AppSidebar() {
   const isCollapsed = !isExpanded;
 
   return (
-    <Sidebar className="border-r fixed left-0 top-0 h-full z-40 bg-background/80 backdrop-blur-lg">
+    <Sidebar className="border-r fixed left-0 top-0 h-full z-40 glass-effect backdrop-blur-xl">
       <SidebarHeader isCollapsed={isCollapsed}>
-        <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
-          <Package2 className="h-6 w-6" />
-          {!isCollapsed && <span>EKA Account</span>}
+        <Link href="/home" className="flex items-center gap-3 font-bold text-lg hover-lift">
+          <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center">
+            <Package2 className="h-5 w-5 text-white" />
+          </div>
+          {!isCollapsed && <span className="gradient-text">EKA</span>}
         </Link>
       </SidebarHeader>
-      <SidebarContent className="flex-1 overflow-auto py-4 px-3">
-        <SidebarMenu>
+      <SidebarContent className="flex-1 overflow-auto py-6 px-3">
+        <SidebarMenu className="space-y-1">
           {navItems.map(item => (
             <SidebarMenuItem key={item.href}>
               <SidebarLink 

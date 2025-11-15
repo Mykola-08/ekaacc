@@ -1,16 +1,15 @@
 'use client';
 
-import { Button, Input } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Search, Menu, Bell, CalendarPlus } from 'lucide-react';
-;
 import { UserNav } from './user-nav';
 import { NotificationCenter } from './notification-center';
-;
 import React from 'react';
 import { useAuth } from '@/context/auth-context';
 import { motion } from 'framer-motion';
-;
 import { useRouter } from 'next/navigation';
+import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 
 export function AppHeader() {
   const { isMobile, setOpenMobile } = useSidebar();
@@ -24,33 +23,29 @@ export function AppHeader() {
       initial={{ opacity: 0, y: -24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-      className="flex h-16 items-center justify-between px-4 md:px-6 sticky top-0 z-30 bg-transparent"
+      className="flex h-16 items-center justify-between px-4 md:px-6 sticky top-0 z-30 glass-effect border-b"
     >
-      {/* Left: Sidebar Toggle & Search on Mobile */}
-      <div className="flex items-center gap-2">
+      {/* Left: Sidebar Toggle & Search */}
+      <div className="flex items-center gap-3">
         <div className="md:hidden">
-          {isMobile ? (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full"
-              onClick={() => setOpenMobile(true)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
-          ) : (
-            <SidebarTrigger />
-          )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-lg hover-lift"
+            onClick={() => setOpenMobile(true)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
         <div className="hidden md:flex">
-          <SidebarTrigger />
+          <SidebarTrigger className="rounded-lg" />
         </div>
-        <div className="relative md:w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <div className="relative w-full max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
-            placeholder="Search..."
-            className="pl-10 bg-gray-100/80 dark:bg-gray-800/80 border-none focus:ring-2 focus:ring-primary focus:bg-white dark:focus:bg-gray-800 rounded-full"
+            placeholder="Search anything..."
+            className="pl-10 bg-background/50 border-border/50 rounded-lg focus:ring-2 focus:ring-primary/50 focus:bg-background"
           />
         </div>
       </div>
@@ -60,15 +55,17 @@ export function AppHeader() {
         {isClient && (
           <Button
             onClick={() => router.push('/sessions/booking')}
-            className="hidden sm:flex gap-2 rounded-full px-4 shadow-sm bg-primary hover:bg-primary/90 text-primary-foreground"
+            className="hidden sm:flex gap-2 rounded-lg px-4 hover-lift bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg"
             size="sm"
           >
             <CalendarPlus className="h-4 w-4" />
             <span>New Session</span>
           </Button>
         )}
-        <NotificationCenter />
-        <UserNav />
+        <div className="flex items-center gap-1">
+          <NotificationCenter />
+          <UserNav />
+        </div>
       </div>
     </motion.header>
   );

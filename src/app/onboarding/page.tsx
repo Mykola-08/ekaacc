@@ -25,14 +25,10 @@ import {
   Clock,
   MessageCircle,
   Activity,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
-<<<<<<< HEAD
 import { motion, AnimatePresence } from 'framer-motion';
-;
-;
-;
-=======
->>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
 
 const steps = [
   {
@@ -146,33 +142,34 @@ export default function OnboardingPage() {
 
   const currentStepData = steps[currentStep];
   const CurrentStepComponent = currentStepData.component;
+  const CurrentIcon = currentStepData.icon;
+
+  // Calculate progress
+  const progress = ((currentStep + 1) / steps.length) * 100;
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-950 dark:via-blue-950 dark:to-indigo-950 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-grid-slate-200/50 dark:bg-grid-slate-800/50 [mask-image:radial-gradient(white,transparent_85%)]" />
       
       <Card className="relative w-full max-w-2xl shadow-2xl border-slate-200 dark:border-slate-800">
         <CardContent className="p-8">
           {/* Progress Bar */}
-          {onboardingType && (
-            <div className="mb-8">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-                  Step {currentStep + 1} of {steps.length}
-                </span>
-                <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                  {Math.round(progress)}%
-                </span>
-              </div>
-              <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-blue-600 transition-all duration-300" 
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-2">
+              <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+                Step {currentStep + 1} of {steps.length}
+              </span>
+              <span className="text-sm font-medium text-blue-600 dark:text-blue-400">
+                {Math.round(progress)}%
+              </span>
             </div>
-          )}
+            <div className="h-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-blue-600 transition-all duration-300" 
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
 
           {/* Content */}
           <AnimatePresence mode="wait">
@@ -201,68 +198,51 @@ export default function OnboardingPage() {
 
               {/* Step Content */}
               <div className="min-h-[300px] flex items-center justify-center">
-                {onboardingType === 'basic' ? renderBasicStep() : renderFullStep()}
+                <CurrentStepComponent 
+                  onNext={handleNext} 
+                  formData={formData}
+                  currentStep={currentStep}
+                  totalSteps={steps.length}
+                />
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Navigation */}
-          {onboardingType && currentStep > 0 && (
-            <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
-              <Button
-                variant="outline"
-                onClick={handleBack}
-                className="gap-2"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                Back
-              </Button>
+          <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              disabled={currentStep === 0}
+              className="gap-2"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Back
+            </Button>
 
-              {currentStep < steps.length - 1 ? (
-                <Button
-                  onClick={handleNext}
-                  size="lg"
-                  className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all hover:scale-105 px-8"
-                >
-                  {currentStep === 0 && onboardingType ? 'Start Your Journey' : 'Continue'}
-                  <ChevronRight className="w-5 h-5" />
-                </Button>
-              ) : (
-                <Button
-                  onClick={handleComplete}
-                  disabled={isLoading}
-                  size="lg"
-                  className="gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-xl hover:shadow-2xl transition-all hover:scale-105 px-8 animate-pulse"
-                >
-                  {isLoading ? 'Creating Your Journey...' : '🎉 Complete & Get Started'}
-                  {!isLoading && <Sparkles className="w-5 h-5" />}
-                </Button>
-              )}
-            </div>
-          )}
+            {currentStep < steps.length - 1 ? (
+              <Button
+                onClick={() => handleNext({})}
+                size="lg"
+                className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all hover:scale-105 px-8"
+              >
+                {currentStep === 0 ? 'Start Your Journey' : 'Continue'}
+                <ChevronRight className="w-5 h-5" />
+              </Button>
+            ) : (
+              <Button
+                onClick={handleComplete}
+                disabled={isLoading}
+                size="lg"
+                className="gap-2 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 shadow-xl hover:shadow-2xl transition-all hover:scale-105 px-8 animate-pulse"
+              >
+                {isLoading ? 'Creating Your Journey...' : '🎉 Complete & Get Started'}
+                {!isLoading && <Sparkles className="w-5 h-5" />}
+              </Button>
+            )}
+          </div>
         </CardContent>
       </Card>
     </div>
-=======
-    <OnboardingShell>
-      <OnboardingStep
-        currentStep={currentStep}
-        totalSteps={steps.length}
-        title={currentStepData.title}
-        description={currentStepData.description}
-        icon={currentStepData.icon}
-      >
-        <CurrentStepComponent onNext={handleNext} formData={formData} />
-      </OnboardingStep>
-      <OnboardingNavigation
-        currentStep={currentStep}
-        totalSteps={steps.length}
-        isLoading={isLoading}
-        onBack={handleBack}
-        onNext={() => {}}
-        onComplete={handleComplete}
-      />
-    </OnboardingShell>
->>>>>>> bbef2937e86dbdff133c47e33ad42e2cfa65c958
   );
 }

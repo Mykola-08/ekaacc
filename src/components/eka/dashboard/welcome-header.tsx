@@ -17,24 +17,38 @@ export function WelcomeHeader() {
           as="h1"
           per="word"
           preset="fade-in-blur"
-          className="text-3xl font-bold text-gray-800 dark:text-white"
+          className="text-4xl font-bold gradient-text mb-2"
         >
           {`Hello, ${userName}`}
         </TextEffect>
-        <p className="text-gray-500 dark:text-gray-400 mt-1">
+        <p className="text-muted-foreground text-lg">
           Here's your wellness snapshot for today.
         </p>
       </div>
       <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon">
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="hover-lift rounded-lg"
+        >
           <Bell className="h-5 w-5" />
         </Button>
         <Link href="/settings">
-          <Button variant="ghost" size="icon">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="hover-lift rounded-lg"
+          >
             <Settings className="h-5 w-5" />
           </Button>
         </Link>
-        <Button onClick={signOut} variant="outline">Logout</Button>
+        <Button 
+          onClick={signOut} 
+          variant="outline"
+          className="hover-lift rounded-lg"
+        >
+          Logout
+        </Button>
       </div>
     </header>
   );

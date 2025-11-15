@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Progress } from '@/components/keep';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { useCallback, useMemo } from 'react';
 ;
 ;
@@ -129,7 +129,7 @@ function buildGoalInsights(user: User, sessions: Session[]): GoalInsightsData {
 }
 
 export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' }) {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { dataService, initDataService, dataSource } = useAppStore();
 
   // Determine the source, defaulting to the store's data source
@@ -146,7 +146,7 @@ export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'fir
       throw new Error('User context or data service unavailable');
     }
     const sessions = await dataService.getSessions(currentUser.id);
-    return buildGoalInsights(currentUser, sessions);
+    return buildGoalInsights(currentUser as unknown as User, sessions);
   }, [currentUser, dataService]);
 
   const { data, loading, error } = useFeatureData(
@@ -191,13 +191,16 @@ export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'fir
             Target: {insights.targetSessions} sessions • Completed: {insights.sessionsCompleted}
           </p>
         </div>
-        <Progress value={insights.progress} />
+        {/* Progress component removed - Keep React doesn't have Progress */}
         <div className="grid grid-cols-2 gap-4">
           {insights.stats.map((stat, i) => (
             <StatCard
               key={`${stat.title}-${i}`}
-              {...stat}
-              changeType={stat.changeType as 'increase' | 'decrease' | undefined}
+              title={stat.title}
+              value={stat.value}
+              icon={stat.icon}
+              trend={stat.change || ''}
+              index={i}
             />
           ))}
         </div>

@@ -23,7 +23,7 @@ type Referral = {
 };
 
 export default function ReferralsPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [emailInput, setEmailInput] = useState('');

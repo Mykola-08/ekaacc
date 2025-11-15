@@ -7,7 +7,7 @@ import { useAuth } from '@/context/auth-context';
 import fxService from '@/lib/fx-service';
 
 export default function ToolsPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const role = currentUser?.role || (typeof window !== 'undefined' ? localStorage.getItem('eka_persona') || 'Patient' : 'Patient');
   const [log, setLog] = useState<string[]>([]);
   const append = (msg: string) => setLog(l => [msg, ...l].slice(0, 50));

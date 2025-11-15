@@ -1,7 +1,7 @@
 "use client";
 
 import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 ;
 ;
@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 
 export default function TherapistDashboard() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   const router = useRouter();

@@ -420,7 +420,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                         ))}
                         <Button
                           type="button"
-                          variant="ghost"
+                          variant="outline"
                           onClick={() => setShowAIResults(false)}
                           className="w-full"
                         >
@@ -516,7 +516,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
           <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
-              variant="ghost"
+              variant="outline"
               onClick={onClose}
               disabled={isLoading}
             >

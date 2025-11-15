@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 export function PersonalizationBanner() {
   const [showForm, setShowForm] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
-  const { appUser, refreshAppUser } = useAuth();
+  const { user } = useAuth();
   const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
 
@@ -20,7 +20,7 @@ export function PersonalizationBanner() {
     initDataService();
   }, [initDataService]);
 
-  if (isDismissed || appUser?.personalizationCompleted) return null;
+  if (isDismissed) return null;
 
   const handleDismiss = () => {
     setIsDismissed(true);
@@ -36,7 +36,7 @@ export function PersonalizationBanner() {
   };
 
   const handleSubmit = async (data: PersonalizationData) => {
-    if (!dataService || !appUser) return;
+    if (!dataService || !user) return;
     
     const updatedUserData = {
       personalizationCompleted: true,
@@ -58,8 +58,7 @@ export function PersonalizationBanner() {
     };
 
     try {
-      await dataService.updateUser(appUser.id, updatedUserData);
-      await refreshAppUser(); // Refresh user data from auth context
+      await dataService.updateUser(user.id, updatedUserData);
       
       setShowForm(false);
       setIsDismissed(true);
@@ -114,10 +113,10 @@ export function PersonalizationBanner() {
                 <Sparkles className="h-4 w-4" />
               </Button>
               <Button
-                size="icon"
-                variant="ghost"
+                size="sm"
+                variant="outline"
                 onClick={handleDismiss}
-                className="h-8 w-8 text-white hover:bg-white/10"
+                className="h-8 w-8 text-white hover:bg-white/10 p-0"
               >
                 <X className="h-4 w-4" />
                 <span className="sr-only">Dismiss</span>

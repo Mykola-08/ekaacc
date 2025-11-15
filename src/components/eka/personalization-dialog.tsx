@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Label, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
+import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
 import { useState } from 'react';
 ;
 ;
@@ -91,11 +91,9 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
             </div>
           </div>
           <ModalFooter>
-            <ModalClose asChild>
-                <Button type="button" variant="ghost" onClick={onClose}>
-                Skip for Now
-                </Button>
-            </ModalClose>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Skip for Now
+            </Button>
             <Button type="submit" disabled={isLoading}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save & Personalize

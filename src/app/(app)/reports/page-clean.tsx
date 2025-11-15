@@ -43,7 +43,7 @@ function toDate(timestamp: Timestamp | Date | string): Date {
 }
 
 export default function ReportsPage() {
-    const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
     const { dataService, initDataService } = useAppStore();
     const [reports, setReports] = useState<Report[]>([]);
     const [isLoadingReports, setIsLoadingReports] = useState(true);

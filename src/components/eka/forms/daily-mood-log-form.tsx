@@ -467,7 +467,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
           <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
-              variant="ghost"
+              variant="outline"
               onClick={onClose}
               disabled={isLoading}
             >

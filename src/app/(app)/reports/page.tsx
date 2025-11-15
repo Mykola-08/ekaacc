@@ -135,7 +135,7 @@ function GenerateReportCard({ onGenerate, isGenerating, isLoading }: { onGenerat
 // --- Main Page Component ---
 
 export default function ReportsPage() {
-    const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
     const dataService = useAppStore((state) => state.dataService);
     const [reports, setReports] = useState<Report[]>([]);
     const [isLoadingReports, setIsLoadingReports] = useState(true);

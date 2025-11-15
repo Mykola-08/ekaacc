@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: boolean } = {}) {
   const router = useRouter();
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const [balance, setBalance] = useState(0);
   const [points, setPoints] = useState(0);
   const [showBalance, setShowBalance] = useState(true);
@@ -31,7 +31,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
         
         setBalance(wallet?.balance || 0);
         // Get points from user's loyalty points data
-        const userPoints = currentUser.loyaltyPoints?.current || 0;
+        const userPoints = (currentUser as any).loyaltyPoints?.current || 0;
         setPoints(userPoints);
       } catch (error) {
         // Fallback to mock data

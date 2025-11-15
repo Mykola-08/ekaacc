@@ -1,6 +1,6 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList } from '@/components/keep';
+import { Avatar, AvatarFallback, AvatarImage, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem } from '@/components/keep';
 import Link from 'next/link';
 import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
@@ -44,7 +44,7 @@ export function UserNav() {
         </Button>
       </DropdownAction>
       <DropdownContent className="w-64" align="end" forceMount>
-        <DropdownList className="font-normal">
+        <div className="font-normal">
           <div className="flex items-center gap-3 p-2">
             <Avatar className="h-10 w-10">
               {currentUser.user_metadata?.avatarUrl && <AvatarImage src={currentUser.user_metadata.avatarUrl} alt={currentUser.user_metadata?.displayName || ''} />}
@@ -66,15 +66,15 @@ export function UserNav() {
               </p>
             </div>
           </div>
-        </DropdownList>
+        </div>
         <div className="border-t my-1"></div>
-        <DropdownList>
+        <div>
           <div className="px-2 py-1.5">
             <DataSourceIndicator />
           </div>
-        </DropdownList>
+        </div>
         <div className="border-t my-1"></div>
-        <DropdownList>
+        <div>
           <Link href="/account">
             <DropdownItem>
               <User className="mr-2 h-4 w-4" />
@@ -87,9 +87,9 @@ export function UserNav() {
               <span>Settings</span>
             </DropdownItem>
           </Link>
-        </DropdownList>
+        </div>
         <div className="border-t my-1"></div>
-        <DropdownList>
+        <div>
           <div className="px-2 py-1 text-sm font-medium">Theme</div>
           <DropdownItem onClick={() => setTheme('light')}>
             <Sun className="h-4 w-4 mr-2" />
@@ -103,14 +103,14 @@ export function UserNav() {
             <Laptop className="h-4 w-4 mr-2" />
             <span>System</span>
           </DropdownItem>
-        </DropdownList>
+        </div>
         <div className="border-t my-1"></div>
-        <DropdownList>
+        <div>
           <DropdownItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
           </DropdownItem>
-        </DropdownList>
+        </div>
       </DropdownContent>
     </Dropdown>
   );

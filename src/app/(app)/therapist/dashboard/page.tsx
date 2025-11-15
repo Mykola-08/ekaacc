@@ -18,7 +18,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from "next/dynamic";
 
 import type { User, Service, Session as AppSession, UserRole } from "@/lib/types";
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
@@ -66,7 +66,7 @@ const mapBookingToSession = (booking: any): AppSession => {
 
 // --- Main Page Component ---
 export default function TherapistDashboardPage() {
-    const { appUser } = useAuth();
+    const { user: appUser } = useAuth();
     const isTestMode = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
     const isAdmin = appUser?.role === 'Admin';
 

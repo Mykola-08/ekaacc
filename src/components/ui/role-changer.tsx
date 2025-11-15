@@ -16,10 +16,10 @@ const roles = [
 type Role = typeof roles[number];
 
 export function RoleChanger() {
-  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { dataService, initDataService } = useAppStore();
   const [selectedRole, setSelectedRole] = useState<Role>(roles.includes(currentUser?.role as Role) ? currentUser?.role as Role : "Patient");
-  const [isDonationSeeker, setIsDonationSeeker] = useState(!!currentUser?.isDonationSeeker);
+  const [isDonationSeeker, setIsDonationSeeker] = useState(false); // Removed donation seeker functionality
 
   useEffect(() => {
     initDataService();
@@ -28,14 +28,14 @@ export function RoleChanger() {
   useEffect(() => {
     if (currentUser) {
       setSelectedRole(roles.includes(currentUser.role as Role) ? currentUser.role as Role : "Patient");
-      setIsDonationSeeker(!!currentUser.isDonationSeeker);
+      // setIsDonationSeeker(!!currentUser.isDonationSeeker); // Removed donation seeker functionality
     }
   }, [currentUser]);
 
   const updateUser = async (userData: Partial<User>) => {
     if (dataService && currentUser) {
       await dataService.updateUser(currentUser.id, userData);
-      await refreshAppUser();
+      try { /* no refresh available in supabase auth context */ } catch {}
     }
   };
 

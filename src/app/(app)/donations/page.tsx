@@ -8,7 +8,7 @@ import { useState, useMemo, useEffect } from 'react';
 ;
 ;
 import { Heart, HandHeart } from "lucide-react";
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
@@ -17,7 +17,7 @@ import { DonationSeekerApplicationForm } from '@/components/eka/forms/donation-s
 import type { DonationSeekerData } from '@/components/eka/forms/donation-seeker-application-form';
 
 export default function DonationsPage() {
-  const { appUser: currentUser, user, refreshAppUser } = useAuth();
+  const { user: currentUser, user } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
 
@@ -29,10 +29,10 @@ export default function DonationsPage() {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   useEffect(() => {
-    if (dataService && user?.uid) {
+    if (dataService && user?.id) {
       setIsLoading(true);
       Promise.all([
-        dataService.getDonations(user.uid),
+        dataService.getDonations(user.id),
         dataService.getAllUsers(),
       ]).then(([donations, users]) => {
         setUserDonations(donations || []);

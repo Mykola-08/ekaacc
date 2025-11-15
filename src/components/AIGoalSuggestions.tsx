@@ -12,7 +12,7 @@ import { Skeleton } from './ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 
 export default function AIGoalSuggestions() {
-  const { user, appUser, refreshAppUser } = useAuth();
+  const { user } = useAuth();
   const { toast } = useToast();
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ export default function AIGoalSuggestions() {
   const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
 
   useEffect(() => {
-    if (user && appUser?.personalization) {
+    if (user) {
       setLoading(true);
       getAIGoalSuggestions(user.uid)
         .then((s) => {
@@ -34,7 +34,7 @@ export default function AIGoalSuggestions() {
         })
         .finally(() => setLoading(false));
     }
-  }, [user, appUser]);
+  }, [user]);
 
   const handleToggleGoal = (goal: string) => {
     setSelectedGoals(prev => 
@@ -43,14 +43,14 @@ export default function AIGoalSuggestions() {
   };
 
   const handleAddGoals = async () => {
-    if (!user || !appUser?.personalization || selectedGoals.length === 0) return;
+    if (!user || selectedGoals.length === 0) return;
     
     setSaving(true);
-    const currentGoals = appUser.personalization.goals || [];
+    const currentGoals: string[] = [];
     const newGoals = [...new Set([...currentGoals, ...selectedGoals])];
 
     const updatedPrefs: Partial<UserPreferences> = {
-      ...appUser.personalization,
+      ...{},
       goals: newGoals,
     };
 

@@ -74,7 +74,7 @@ function toDate(timestamp: string | number | Date | { toDate?: () => Date }) {
 }
 
 export default function ProgressReportsPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);

@@ -8,7 +8,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { useToast } from '@/hooks/use-toast';
 ;
 import { Lightbulb, TrendingUp, TrendingDown, Activity } from 'lucide-react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 ;
 import type { User } from '@/lib/types';
@@ -39,13 +39,13 @@ export default function AIInsightsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
-  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
 
   const updateUser = async (data: Partial<User>) => {
     if (dataService && currentUser?.id) {
       await dataService.updateUser(currentUser.id, data);
-      await refreshAppUser();
+      
     }
   };
 

@@ -122,7 +122,7 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
 }
 
 export function JournalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' }) {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { dataService, initDataService, dataSource } = useAppStore();
 
   // Determine the source, defaulting to the store's data source
@@ -186,8 +186,11 @@ export function JournalInsights({ source: initialSource }: { source?: 'mock' | '
           {insights.stats.map((stat, i) => (
             <StatCard
               key={`${stat.title}-${i}`}
-              {...stat}
-              changeType={stat.changeType as 'increase' | 'decrease' | undefined}
+              title={stat.title}
+              value={stat.value}
+              icon={stat.icon}
+              trend={stat.change || ''}
+              index={i}
             />
           ))}
         </div>

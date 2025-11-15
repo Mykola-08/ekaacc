@@ -1,14 +1,12 @@
 'use client';
 
 import { Avatar, AvatarFallback, AvatarImage, Skeleton } from '@/components/keep';
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/lib/supabase-auth";
 ;
 import { useEffect, useState } from "react";
-import { generateDailyQuote } from "@/ai/flows/generate-daily-quote";
-;
 
 export function DashboardHero() {
-    const { appUser: currentUser } = useAuth();
+    const { user: currentUser } = useAuth();
     const [quote, setQuote] = useState({ quote: '', author: '' });
     const [isLoading, setIsLoading] = useState(true);
 

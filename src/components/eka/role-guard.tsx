@@ -25,7 +25,7 @@ function parseRolesFromUser(currentUser: any): string[] {
  * and compares against allowedRoles. Will only redirect after loading finishes.
  */
 export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuardProps) {
-  const { appUser: currentUser, loading } = useAuth();
+  const { user: currentUser, loading } = useAuth();
   const router = useRouter();
 
   const effectiveRoles = useMemo(() => {
@@ -62,7 +62,7 @@ export function RoleGuard({ children, allowedRoles, fallback = null }: RoleGuard
  * Hook for checking if current user has a specific role
  */
 export function useHasRole(role: 'Patient' | 'Therapist' | 'Admin'): boolean {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const roles = parseRolesFromUser(currentUser);
   return roles.includes(role);
 }
@@ -85,7 +85,7 @@ export function useIsTherapist(): boolean {
  * Hook for checking if current user is admin or therapist
  */
 export function useIsStaff(): boolean {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const roles = parseRolesFromUser(currentUser);
   return roles.includes('Admin') || roles.includes('Therapist');
 }

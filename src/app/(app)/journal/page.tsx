@@ -39,7 +39,7 @@ const moodDescriptions: { [key: number]: string } = {
 
 export default function JournalPage() {
 	const { toast } = useToast();
-	const { appUser: currentUser, user } = useAuth();
+	const { user: currentUser, user } = useAuth();
 	const dataService = useAppStore((state) => state.dataService);
 
 	const [entries, setEntries] = useState<JournalEntry[]>([]);
@@ -193,7 +193,7 @@ function NewEntryCard({
 	onCancel: () => void;
 }) {
 	const { toast } = useToast();
-	const { appUser: currentUser } = useAuth();
+	const { user: currentUser } = useAuth();
 	const dataService = useAppStore((state) => state.dataService);
 
 	const [mood, setMood] = useState(3);

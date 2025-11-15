@@ -84,7 +84,7 @@ function NoSessionsFound({ error, onBookClick }: { error: Error | null, onBookCl
 }
 
 export default function SessionsPage() {
-  const { appUser: currentUser, refreshAppUser, loading: isUserLoading } = useAuth();
+  const { user: currentUser, loading: isUserLoading } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
   const [sessions, setSessions] = useState<AppSession[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);

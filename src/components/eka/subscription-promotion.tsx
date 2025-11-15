@@ -9,11 +9,11 @@ import { Star, Crown, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/supabase-auth';
 import { motion } from 'framer-motion';
-import subscriptionManager from '@/services/subscription-manager';
+// import subscriptionManager from '@/services/subscription-manager';
 
 export function SubscriptionPromotion() {
   const router = useRouter();
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const [hasLoyal, setHasLoyal] = useState(false);
   const [hasVIP, setHasVIP] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -27,8 +27,10 @@ export function SubscriptionPromotion() {
 
       try {
         const [loyalActive, vipActive] = await Promise.all([
-          subscriptionManager.hasActiveSubscription(currentUser.id, 'loyal'),
-          subscriptionManager.hasActiveSubscription(currentUser.id, 'vip')
+          // subscriptionManager.hasActiveSubscription(currentUser.id, 'loyal'),
+          // subscriptionManager.hasActiveSubscription(currentUser.id, 'vip')
+          Promise.resolve(false), // Mock for now
+          Promise.resolve(false)  // Mock for now
         ]);
 
         setHasLoyal(loyalActive);

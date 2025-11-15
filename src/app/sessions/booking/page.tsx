@@ -2,7 +2,7 @@
 
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, DatePicker, Label, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
 import { useState } from "react";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
 import { SessionAssessmentForm } from '@/components/eka/forms';
@@ -15,7 +15,7 @@ import { Sparkles } from "lucide-react";
 import { PersonalizationEngine } from "@/lib/personalization-engine";
 
 export default function SessionBookingPage() {
-  const { appUser: currentUser, refreshAppUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { dataService, initDataService } = useAppStore();
   const { toast } = useToast();
   const router = useRouter();
@@ -53,7 +53,7 @@ export default function SessionBookingPage() {
   const updateUser = async (userData: any) => {
     if (dataService && currentUser) {
       await dataService.updateUser(currentUser.id, userData);
-      await refreshAppUser();
+      
     }
   };
 

@@ -326,17 +326,17 @@ export function getCategoryColor(category: NotificationCategory): string {
   return colors[category] || 'text-gray-500';
 }
 
-export function getPriorityBadgeVariant(priority: NotificationPriority): 'default' | 'secondary' | 'destructive' | 'outline' {
+export function getPriorityBadgeVariant(priority: NotificationPriority): 'background' | 'border' | 'base' {
   switch (priority) {
     case 'urgent':
-      return 'destructive';
+      return 'border';
     case 'high':
-      return 'default';
+      return 'background';
     case 'medium':
-      return 'secondary';
+      return 'base';
     case 'low':
-      return 'outline';
+      return 'base';
     default:
-      return 'secondary';
+      return 'base';
   }
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, Checkbox, Input, Label, Progress, Select, SelectContent, SelectItem, SelectValue, Tooltip, TooltipAction, TooltipContent } from '@/components/keep';
+import { Badge, Button, Card, CardContent, Checkbox, Input, Label, Select, SelectContent, SelectItem, SelectValue, Tooltip, TooltipAction, TooltipContent } from '@/components/keep';
 import { useState, useEffect } from 'react';
 ;
 ;
@@ -1073,7 +1073,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
             {step > 0 && step < totalSteps && (
               <div className="flex items-center justify-between pt-6 mt-6 border-t">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   onClick={handleBack}
                   disabled={step === 1}
                 >

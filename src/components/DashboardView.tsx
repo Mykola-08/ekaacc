@@ -16,7 +16,7 @@ import { User as UserIcon } from 'lucide-react';
 import type { Session, Report, User } from '@/lib/types';
 
 export default function DashboardView() {
-  const { appUser: currentUser, loading: authLoading, user, refreshAppUser } = useAuth();
+  const { user: currentUser, loading: authLoading, user } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
 
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -25,11 +25,11 @@ export default function DashboardView() {
   const [showOnboarding, setShowOnboarding] = useState(false);
 
   useEffect(() => {
-    if (dataService && user?.uid) {
+    if (dataService && user?.id) {
       setDataLoading(true);
       Promise.all([
-        dataService.getSessions(user.uid),
-        dataService.getReports(user.uid),
+        dataService.getSessions(user.id),
+        dataService.getReports(user.id),
       ]).then(([userSessions, userReports]) => {
         setSessions(userSessions || []);
         setReports(userReports || []);

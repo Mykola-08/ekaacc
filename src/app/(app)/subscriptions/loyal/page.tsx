@@ -15,7 +15,7 @@ import { useToast } from '@/hooks/use-toast';
 
 export default function LoyalSubscriptionPage() {
   const router = useRouter();
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { toast } = useToast();
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
   const [loading, setLoading] = useState(true);

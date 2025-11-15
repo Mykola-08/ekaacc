@@ -38,7 +38,7 @@ export function NotificationCenter() {
   const router = useRouter();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [filterCategory, setFilterCategory] = useState<NotificationCategory | 'all'>('all');
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
 
   useEffect(() => {
     let mounted = true;
@@ -64,7 +64,7 @@ export function NotificationCenter() {
       }
       // fallback demo items based on user role
       if (mounted && currentUser) {
-        const roleBasedNotifications = getRoleBasedDemoNotifications(currentUser.role);
+        const roleBasedNotifications = getRoleBasedDemoNotifications(currentUser.role as 'Patient' | 'Therapist' | 'Admin');
         setNotifications(roleBasedNotifications);
       }
     })();
@@ -218,7 +218,7 @@ export function NotificationCenter() {
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
             <Badge
-              variant="destructive"
+              variant="border"
               className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
             >
               {unreadCount > 9 ? '9+' : unreadCount}
@@ -243,7 +243,7 @@ export function NotificationCenter() {
             )}
             <Button
               variant="outline"
-              size="icon"
+              size="sm"
               className="h-7 w-7"
               onClick={() => router.push('/account/notifications')}
               title="Notification Settings"
@@ -272,7 +272,7 @@ export function NotificationCenter() {
           </TabsList>
         </Tabs>
 
-        <ScrollArea className="h-96">
+        <div className="h-96 overflow-y-auto">
           {filteredNotifications.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
               <Bell className="h-12 w-12 mx-auto mb-2 opacity-20" />
@@ -346,7 +346,7 @@ export function NotificationCenter() {
               ))}
             </div>
           )}
-        </ScrollArea>
+        </div>
       </DropdownContent>
     </Dropdown>
   );

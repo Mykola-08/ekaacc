@@ -104,7 +104,7 @@ export function AdminPanel() {
                         </Select>
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm" variant="ghost" onClick={()=>{ setSelectedUserId(u.id); toast?.({ title: 'Selected user', description: u.displayName || u.email }); }}>Select</Button>
+                        <Button size="sm" variant="outline" onClick={()=>{ setSelectedUserId(u.id); toast?.({ title: 'Selected user', description: u.displayName || u.email }); }}>Select</Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -130,7 +130,7 @@ export function AdminPanel() {
                       <TableCell>{b.userId}</TableCell>
                       <TableCell>{b.status}</TableCell>
                       <TableCell className="text-right">
-                        <Button size="sm" variant="ghost" onClick={()=>cancelBooking(b.id)}>Cancel</Button>
+                        <Button size="sm" variant="outline" onClick={()=>cancelBooking(b.id)}>Cancel</Button>
                       </TableCell>
                     </TableRow>
                   ))}

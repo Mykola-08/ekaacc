@@ -13,7 +13,7 @@ import { useSidebar, SidebarTrigger } from '@/components/ui/sidebar';
 
 export function AppHeader() {
   const { isMobile, setOpenMobile } = useSidebar();
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const router = useRouter();
 
   const isClient = currentUser?.role === 'Patient';

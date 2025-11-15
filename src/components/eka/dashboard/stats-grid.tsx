@@ -11,8 +11,8 @@ interface StatsGridProps {
 }
 
 export function StatsGrid({ sessions }: StatsGridProps) {
-  const { appUser } = useAuth();
-  const personalization = appUser?.personalization;
+  const { user: appUser } = useAuth();
+  const personalization = (appUser as any)?.personalization;
 
   const completedSessions = useMemo(
     () => sessions?.filter(s => new Date(s.date) < new Date()) || [],

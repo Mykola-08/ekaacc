@@ -85,7 +85,7 @@ export default function OnboardingForm() {
 
       <div>
         <label htmlFor="tone" className="block text-sm font-medium text-gray-700">Preferred communication style</label>
-        <select id="tone" value={tone} onChange={e => setTone(e.target.value as Tone)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
+        <select id="tone" value={tone} onChange={e => setTone(e.target.value)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
           <option value="direct">Direct</option>
           <option value="supportive">Supportive</option>
           <option value="scientific">Scientific</option>

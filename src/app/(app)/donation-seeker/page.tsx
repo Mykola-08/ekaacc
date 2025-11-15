@@ -20,7 +20,7 @@ import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 
 export default function DonationSeekerPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { toast } = useToast();
   
   // Mock application status - in production, this comes from user data

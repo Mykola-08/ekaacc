@@ -116,15 +116,15 @@ export function AIAssistant() {
                   AI Assistant
                 </CardTitle>
                 <Button
-                  variant="ghost"
-                  size="icon"
+                  variant="outline"
+                  size="sm"
                   onClick={() => setIsOpen(false)}
                 >
                   <X className="h-4 w-4" />
                 </Button>
               </CardHeader>
               <CardContent className="flex-1 flex flex-col p-0">
-                <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+                <div className="flex-1 p-4 overflow-y-auto" ref={scrollRef}>
                   <div className="space-y-4">
                     <AnimatePresence initial={false}>
                       {messages.map((message) => (
@@ -196,7 +196,7 @@ export function AIAssistant() {
                       </motion.div>
                     )}
                   </div>
-                </ScrollArea>
+                </div>
                 <div className="p-4 border-t">
                   <div className="flex gap-2">
                     <Input
@@ -207,7 +207,7 @@ export function AIAssistant() {
                       disabled={isLoading}
                     />
                     <Button
-                      size="icon"
+                      size="sm"
                       onClick={handleSend}
                       disabled={!input.trim() || isLoading}
                     >

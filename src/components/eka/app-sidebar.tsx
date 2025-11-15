@@ -112,7 +112,7 @@ SidebarLink.displayName = 'SidebarLink';
 
 export function AppSidebar() {
   const pathname = usePathname();
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { isExpanded } = useSidebar();
 
   const userRole = currentUser?.role || 'Patient';

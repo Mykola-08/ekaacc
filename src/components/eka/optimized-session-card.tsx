@@ -31,16 +31,16 @@ const OptimizedSessionCard = memo(function OptimizedSessionCard({
   // Memoize status badge rendering
   const statusBadge = React.useMemo(() => {
     const statusConfig = {
-      Upcoming: { variant: "default" as const, icon: Calendar },
-      Completed: { variant: "secondary" as const, icon: CheckCircle2 },
-      Canceled: { variant: "destructive" as const, icon: Calendar },
+      Upcoming: { variant: "background" as const, icon: Calendar, className: "text-info border-info/20" },
+      Completed: { variant: "background" as const, icon: CheckCircle2, className: "text-success border-success/20" },
+      Canceled: { variant: "border" as const, icon: Calendar, className: "text-destructive border-destructive/20" },
     };
 
     const config = statusConfig[session.status];
     const Icon = config.icon;
 
     return (
-      <Badge variant={config.variant} className="gap-1">
+      <Badge variant={config.variant} className={`gap-1 ${config.className || ''}`}>
         <Icon className="h-3 w-3" />
         {session.status}
       </Badge>
@@ -75,7 +75,7 @@ const OptimizedSessionCard = memo(function OptimizedSessionCard({
         {isUpcoming && onCancel && (
           <Button 
             onClick={() => onCancel(session.id)} 
-            variant="ghost" 
+            variant="outline" 
             size="sm"
           >
             Cancel

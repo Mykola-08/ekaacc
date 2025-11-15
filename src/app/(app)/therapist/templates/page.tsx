@@ -34,7 +34,7 @@ import type { User as UserType, Session } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 export default function TherapistTemplatesPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
   

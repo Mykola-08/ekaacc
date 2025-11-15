@@ -22,7 +22,7 @@ type UserSettings = NonNullable<User['settings']>;
 type SettingsCategory = keyof UserSettings;
 
 export default function SettingsPage() {
-  const { appUser: currentUser, refreshAppUser, loading: authLoading } = useAuth();
+  const { user: currentUser, loading: authLoading } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
 

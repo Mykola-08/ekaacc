@@ -134,9 +134,9 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
               : undefined;
 
           const statusBadge = isCurrent
-            ? { label: 'Active', variant: 'default' as const }
+            ? { label: 'Active', variant: 'background' as const, className: 'text-success border-success/20' }
             : isSelected
-              ? { label: 'Selected', variant: 'background' as const }
+              ? { label: 'Selected', variant: 'background' as const, className: 'text-primary border-primary/20' }
               : null;
 
           return (
@@ -168,7 +168,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
                 {/* Status badge */}
                 {statusBadge && (
                   <div className="absolute top-2 left-2">
-                    <Badge variant={statusBadge.variant} className="text-[10px] uppercase tracking-wide">
+                    <Badge variant={statusBadge.variant} className={`text-[10px] uppercase tracking-wide ${statusBadge.className || ''}`}>
                       {statusBadge.label}
                     </Badge>
                   </div>
@@ -183,6 +183,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
                     </div>
                     {!theme.isPublic && subscriptionLabel && (
                       <Badge
+                        variant="background"
                         className={cn(
                           theme.requiredSubscription === 'loyalty' && 'bg-amber-500 text-white',
                           theme.requiredSubscription === 'vip' && 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'

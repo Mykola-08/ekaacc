@@ -56,7 +56,7 @@ export default function TherapistBookingsPage() {
   const [loading, setLoading] = useState(true);
   const [isBookingFormOpen, setIsBookingFormOpen] = useState(false);
   const { toast } = useToast();
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
 
   const loadBookings = useCallback(async () => {
     setLoading(true);

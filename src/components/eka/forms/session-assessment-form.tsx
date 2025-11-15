@@ -245,7 +245,7 @@ export function SessionAssessmentForm({
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <Label>Client's Anxiety Level</Label>
-                      <Badge variant="secondary">{preSessionAnxiety[0]}/10</Badge>
+                      <Badge variant="background">{preSessionAnxiety[0]}/10</Badge>
                     </div>
                     <Slider
                       value={preSessionAnxiety}
@@ -551,7 +551,7 @@ export function SessionAssessmentForm({
           <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
-              variant="ghost"
+              variant="outline"
               onClick={onClose}
               disabled={isLoading}
             >

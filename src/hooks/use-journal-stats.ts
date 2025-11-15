@@ -19,8 +19,8 @@ export function useJournalStats() {
   const [journalEntries, setJournalEntries] = useState<JournalEntry[]>([]);
 
   useEffect(() => {
-    if (dataService && user?.uid) {
-      dataService.getJournalEntries(user.uid).then(entries => {
+    if (dataService && user?.id) {
+      dataService.getJournalEntries(user.id).then(entries => {
         setJournalEntries(entries || []);
       });
     }

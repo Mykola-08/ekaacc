@@ -378,7 +378,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
           <ModalFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
-              variant="ghost"
+              variant="outline"
               onClick={handleSkip}
               disabled={isLoading}
             >

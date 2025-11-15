@@ -42,8 +42,11 @@ export function SessionRecommendationsCard({ sessions, delay = 200 }: Recommenda
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold">{session.title}</h4>
                     <Badge variant={
-                      session.priority === 'high' ? 'destructive' :
-                      session.priority === 'medium' ? 'default' : 'secondary'
+                      session.priority === 'high' ? 'border' :
+                      session.priority === 'medium' ? 'background' : 'base'
+                    } className={
+                      session.priority === 'high' ? 'text-destructive border-destructive/20' :
+                      session.priority === 'medium' ? 'text-warning border-warning/20' : 'text-muted-foreground'
                     }>
                       {session.priority}
                     </Badge>
@@ -57,12 +60,12 @@ export function SessionRecommendationsCard({ sessions, delay = 200 }: Recommenda
               </div>
             </div>
           ))}
-          <Button asChild className="w-full mt-2">
-            <Link href="/sessions/booking">
+          <Link href="/sessions/booking" className="w-full mt-2">
+            <Button className="w-full">
               Book a Session
               <ArrowRight className="ml-2 w-4 h-4" />
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </CardContent>
       </Card>
     </AnimatedCard>

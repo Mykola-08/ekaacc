@@ -7,8 +7,8 @@ import { Bell, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export function WelcomeHeader() {
-  const { appUser, signOut } = useAuth();
-  const userName = appUser?.name?.split(' ')[0] || 'there';
+  const { user: appUser, signOut } = useAuth();
+  const userName = (appUser as any)?.name?.split(' ')[0] || 'there';
 
   return (
     <header className="flex justify-between items-center mb-8">

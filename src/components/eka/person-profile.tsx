@@ -17,7 +17,7 @@ export default function PersonProfile({ userId }: { userId: string }) {
   const [hiddenNotes, setHiddenNotes] = useState<string>('');
   const [bookings, setBookings] = useState<any[]>([]);
   const [reports, setReports] = useState<any[]>([]);
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { toast } = useToast();
   const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({});
 

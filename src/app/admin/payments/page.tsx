@@ -3,7 +3,7 @@
 import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
 import { useState, useEffect, useCallback } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 ;
 ;
 ;
@@ -20,7 +20,7 @@ import {
 } from './components';
 
 export default function AdminPaymentsPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { toast } = useToast();
   
   const [payments, setPayments] = useState<PaymentRequest[]>([]);

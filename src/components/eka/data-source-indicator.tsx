@@ -28,7 +28,7 @@ export function DataSourceIndicator({
   
   return (
     <Badge 
-      variant={isMock ? 'secondary' : 'default'}
+      variant={isMock ? 'base' : 'background'}
       className={cn('text-xs', className)}
     >
       {showIcon && (

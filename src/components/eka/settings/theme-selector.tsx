@@ -25,7 +25,7 @@ export function ThemeSelector() {
         {themes.map((t) => (
           <Button
             key={t.value}
-            variant="ghost"
+            variant="outline"
             size="sm"
             className={cn(
               "flex h-auto flex-col items-center justify-center gap-1 p-2",

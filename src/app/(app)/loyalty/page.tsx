@@ -27,7 +27,7 @@ type LoyaltyTier = {
 };
 
 export default function LoyaltyPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { initDataService } = useAppStore();
   const [currentPoints, setCurrentPoints] = useState(0);
   const [lifetimePoints, setLifetimePoints] = useState(0);

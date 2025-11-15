@@ -52,7 +52,7 @@ const toDate = (timestamp: string | Timestamp): Date => {
 };
 
 export default function VerificatorPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
   const [loading, setLoading] = useState(true);

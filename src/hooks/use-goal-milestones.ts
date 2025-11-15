@@ -12,7 +12,7 @@ export interface Milestone {
 }
 
 export function useGoalMilestones(userId?: string) {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
   const [milestones, setMilestones] = useState<Milestone[]>([]);
   const [isLoading, setIsLoading] = useState(true);

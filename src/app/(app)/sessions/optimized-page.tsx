@@ -64,7 +64,7 @@ function SessionsList({
 }
 
 export default function OptimizedSessionsPage() {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
 
   // Use optimized data fetching with caching
   const { data: sessions, isLoading, error } = useOptimizedData({

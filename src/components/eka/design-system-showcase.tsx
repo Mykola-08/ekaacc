@@ -47,7 +47,7 @@ export function DesignSystemShowcase() {
           <div>
             <h4 className="text-sm font-medium mb-3">✅ Good: Using Semantic Tokens</h4>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              <Badge variant="default" className="justify-center">
+              <Badge variant="background" className="justify-center">
                 <CheckCircle2 className="h-3 w-3 mr-1" />
                 Primary
               </Badge>
@@ -93,11 +93,9 @@ export function DesignSystemShowcase() {
         <CardContent>
           <div className="flex flex-wrap gap-3">
             <Button variant="default">Default</Button>
-            <Button variant="secondary">Secondary</Button>
+            <Button variant="softBg">SoftBg</Button>
             <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
             <Button variant="link">Link</Button>
-            <Button variant="destructive">Destructive</Button>
           </div>
         </CardContent>
       </Card>
@@ -111,30 +109,30 @@ export function DesignSystemShowcase() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Notification className="border-success/20 bg-success/5">
+          <Notification>
             <CheckCircle2 className="h-4 w-4 text-success" />
-            <NotificationDescription className="text-success-foreground ml-2">
+            <NotificationDescription className="ml-2">
               Operation completed successfully
             </NotificationDescription>
           </Notification>
 
-          <Notification className="border-warning/20 bg-warning/5">
+          <Notification>
             <AlertTriangle className="h-4 w-4 text-warning" />
-            <NotificationDescription className="text-warning-foreground ml-2">
+            <NotificationDescription className="ml-2">
               Please review your settings before continuing
             </NotificationDescription>
           </Notification>
 
-          <Notification className="border-info/20 bg-info/5">
+          <Notification>
             <Info className="h-4 w-4 text-info" />
-            <NotificationDescription className="text-info-foreground ml-2">
+            <NotificationDescription className="ml-2">
               New features are now available
             </NotificationDescription>
           </Notification>
 
-          <Notification className="border-destructive/20 bg-destructive/5">
+          <Notification>
             <XCircle className="h-4 w-4 text-destructive" />
-            <NotificationDescription className="text-destructive-foreground ml-2">
+            <NotificationDescription className="ml-2">
               An error occurred. Please try again.
             </NotificationDescription>
           </Notification>

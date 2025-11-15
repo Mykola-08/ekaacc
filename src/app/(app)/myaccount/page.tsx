@@ -42,7 +42,7 @@ const profileFormSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function MyAccountPage() {
-  const { appUser: currentUser, refreshAppUser, loading: authLoading } = useAuth();
+  const { user: currentUser, loading: authLoading } = useAuth();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") ?? "profile");
 

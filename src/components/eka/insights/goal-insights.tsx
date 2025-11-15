@@ -105,6 +105,8 @@ function buildGoalInsights(user: User, sessions: Session[]): GoalInsightsData {
           : 'decrease'
         : undefined,
       icon: TrendingUp,
+      trend: sessionChangeLabel || '0',
+      index: 0
     },
     {
       title: 'Goal Progress',
@@ -116,6 +118,8 @@ function buildGoalInsights(user: User, sessions: Session[]): GoalInsightsData {
           : 'decrease'
         : undefined,
       icon: Target,
+      trend: progressChangeLabel || '0%',
+      index: 1
     },
   ];
 
@@ -128,7 +132,7 @@ function buildGoalInsights(user: User, sessions: Session[]): GoalInsightsData {
   };
 }
 
-export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' }) {
+export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' | 'supabase' }) {
   const { user: currentUser } = useAuth();
   const { dataService, initDataService, dataSource } = useAppStore();
 
@@ -149,11 +153,19 @@ export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'fir
     return buildGoalInsights(currentUser as unknown as User, sessions);
   }, [currentUser, dataService]);
 
+  const fetchGoalDataSupabase = useCallback(async () => {
+    if (!currentUser || !dataService) {
+      throw new Error('User context or data service unavailable');
+    }
+    const sessions = await dataService.getSessions(currentUser.id);
+    return buildGoalInsights(currentUser as unknown as User, sessions);
+  }, [currentUser, dataService]);
+
   const { data, loading, error } = useFeatureData(
     mockGoalData,
-    fetchGoalDataFirebase,
+    source === 'supabase' ? fetchGoalDataSupabase : fetchGoalDataFirebase,
     source,
-    { enabled: source === 'firebase' ? Boolean(currentUser) : true }
+    { enabled: (source === 'firebase' || source === 'supabase') ? Boolean(currentUser) : true }
   );
 
   const insights = useMemo(() => data, [data]);
@@ -199,7 +211,7 @@ export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'fir
               title={stat.title}
               value={stat.value}
               icon={stat.icon}
-              trend={stat.change || ''}
+              trend={stat.change || '0'}
               index={i}
             />
           ))}

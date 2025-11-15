@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export type DataSource = 'mock' | 'firebase';
+export type DataSource = 'mock' | 'firebase' | 'supabase';
 
 interface UseFeatureDataOptions {
   enabled?: boolean;

@@ -3,9 +3,7 @@
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
-import { getAIGoalSuggestions } from '@/firebase/personalizationEngine';
-import { savePreferences, UserPreferences } from '@/firebase/onboardingStore';
-;
+import { PersonalizationEngine } from '@/lib/personalization-engine';
 ;
 import { Check, Plus } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
@@ -22,17 +20,25 @@ export default function AIGoalSuggestions() {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      getAIGoalSuggestions(user.id)
-        .then((s) => {
-          try {
-            const parsedSuggestions = JSON.parse(s || '[]');
-            setSuggestions(parsedSuggestions);
-          } catch (e) {
-            console.error("Failed to parse AI suggestions:", e);
-            setSuggestions([]);
-          }
-        })
-        .finally(() => setLoading(false));
+      // Convert Supabase user to App user format for personalization
+      const appUser = {
+        id: user.id,
+        email: user.email || '',
+        role: 'Patient' as const,
+        initials: (user.email?.split('@')[0] || '').slice(0, 2).toUpperCase(),
+        personalization: {}
+      };
+      
+      try {
+        // Generate AI goal suggestions based on user profile
+        const generatedSuggestions = PersonalizationEngine.generateMotivationalMessages(appUser);
+        setSuggestions(generatedSuggestions.slice(0, 5)); // Take first 5 suggestions
+      } catch (e) {
+        console.error("Failed to generate AI suggestions:", e);
+        setSuggestions([]);
+      } finally {
+        setLoading(false);
+      }
     }
   }, [user]);
 
@@ -46,16 +52,19 @@ export default function AIGoalSuggestions() {
     if (!user || selectedGoals.length === 0) return;
     
     setSaving(true);
-    const currentGoals: string[] = [];
-    const newGoals = [...new Set([...currentGoals, ...selectedGoals])];
-
-    const updatedPrefs: Partial<UserPreferences> = {
-      ...{},
-      goals: newGoals,
-    };
-
+    
     try {
-      await savePreferences(user.id, updatedPrefs as UserPreferences);
+      // Get data service to update user goals
+      const { getDataService } = await import('@/services/data-service');
+      const dataService = await getDataService();
+      
+      // Update user with new goals
+      await dataService.updateUser(user.id, {
+        personalization: {
+          therapeuticGoals: selectedGoals
+        }
+      });
+      
       toast({
         title: 'Goals Updated',
         description: 'Your new goals have been added to your profile.',

@@ -23,6 +23,7 @@ export default function DashboardView() {
   const [reports, setReports] = useState<Report[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
     if (dataService && user?.id) {
@@ -30,9 +31,11 @@ export default function DashboardView() {
       Promise.all([
         dataService.getSessions(user.id),
         dataService.getReports(user.id),
-      ]).then(([userSessions, userReports]) => {
+        dataService.getCurrentUser(),
+      ]).then(([userSessions, userReports, userProfile]) => {
         setSessions(userSessions || []);
         setReports(userReports || []);
+        setUserData(userProfile);
       }).finally(() => {
         setDataLoading(false);
       });
@@ -44,15 +47,14 @@ export default function DashboardView() {
   const updateUser = async (data: Partial<User>) => {
     if (dataService && currentUser?.id) {
       await dataService.updateUser(currentUser.id, data);
-      await refreshAppUser();
     }
   };
 
   useEffect(() => {
-    if (!authLoading && currentUser && !currentUser.personalizationCompleted) {
+    if (!authLoading && userData && !userData.personalizationCompleted) {
       setShowOnboarding(true);
     }
-  }, [currentUser, authLoading]);
+  }, [userData, authLoading]);
 
   const handleOnboardingComplete = (personalizationData: Partial<User['personalization']>) => {
     updateUser({
@@ -119,11 +121,11 @@ export default function DashboardView() {
         </div>
         <div className="space-y-8">
           <PersonalBlock />
-          {currentUser.goal && (
+          {userData?.goal && (
             <GoalProgress
-              sessionsCompleted={currentUser.goal.currentSessions || 0}
-              goal={currentUser.goal.description}
-              targetSessions={currentUser.goal.targetSessions || 10}
+              sessionsCompleted={userData.goal.currentSessions || 0}
+              goal={userData.goal.description || ''}
+              targetSessions={userData.goal.targetSessions || 10}
             />
           )}
         </div>

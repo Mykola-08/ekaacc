@@ -1,47 +1,51 @@
 'use client';
 
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
-import { useState, useMemo } from 'react';
-;
-;
+import { useState, useMemo, useEffect } from 'react';
 import { Loader2, Bot, Gift } from "lucide-react";
-import { useUser, useCollection } from '@/hooks/use-firebase-hooks';
 import { useToast } from '@/hooks/use-toast';
+import { getDataService } from '@/services/data-service';
+import { useUserContext } from '@/context/user-context';
 import type { Donation, User } from '@/lib/types';
-;
 import { format } from 'date-fns';
-;
-import type { Timestamp } from 'firebase/firestore';
 
 interface GeneratedReport {
     summary: string;
     progress: string;
 }
 
-// Helper to safely convert Firestore Timestamp to Date
-const toDate = (timestamp: Timestamp | Date): Date => {
-    if (timestamp instanceof Date) {
-        return timestamp;
-    }
-    return timestamp.toDate();
-}
-
 export default function DonationReportsPage() {
-  const { user } = useUser();
+  const { currentUser: user, allUsers } = useUserContext();
   const { toast } = useToast();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<GeneratedReport | null>(null);
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { data: allUsers, loading: isLoadingUsers } = useCollection<User>('users');
+  useEffect(() => {
+    const loadDonations = async () => {
+      if (!user) {
+        setIsLoading(false);
+        return;
+      }
+      
+      try {
+        const dataService = await getDataService();
+        const userDonations = await dataService.getDonations(user.id);
+        setDonations(userDonations);
+      } catch (error) {
+        console.error('Failed to load donations:', error);
+        setDonations([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const userDonationsQuery = useMemo(() => {
-    return [];
+    loadDonations();
   }, [user]);
 
-  const { data: userDonations, loading: isLoadingDonations } = useCollection<Donation>('donations', userDonationsQuery);
-
   const handleGenerateReport = async () => {
-    if (!user || !userDonations || userDonations.length === 0 || !allUsers) {
+    if (!user || donations.length === 0 || !allUsers) {
         toast({
             variant: "destructive",
             title: "Not enough data",
@@ -57,15 +61,15 @@ export default function DonationReportsPage() {
       try {
           const { generateSupportSummary } = await import('@/ai/flows/generate-support-summary');
           
-          const donorNames = Array.from(new Set(userDonations.map(d => {
+          const donorNames = Array.from(new Set(donations.map(d => {
             const donor = allUsers?.find(u => u.id === d.donorId);
             return donor?.name || 'Anonymous';
           }))).filter((name): name is string => name !== undefined);
 
-          const supportDetails = userDonations.map(d => `€${d.amount} on ${format(toDate(d.date), 'PPP')}`).join(', ');
+          const supportDetails = donations.map(d => `€${d.amount} on ${format(new Date(d.date), 'PPP')}`).join(', ');
 
           const input = {
-              receiverName: user.displayName || 'the recipient',
+              receiverName: user.name || 'the recipient',
               donorNames: donorNames,
               supportDetails: supportDetails,
               progressDetails: "The recipient is making steady progress towards their therapy goals.",
@@ -91,10 +95,9 @@ export default function DonationReportsPage() {
   };
   
   const sortedDonations = useMemo(() => {
-    if (!userDonations) return [];
-    return [...userDonations].sort((a, b) => toDate(b.date).getTime() - toDate(a.date).getTime());
-  }, [userDonations]);
-
+    if (!donations) return [];
+    return [...donations].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [donations]);
 
   return (
     <div className="space-y-8">
@@ -104,7 +107,7 @@ export default function DonationReportsPage() {
                 <CardDescription>Generate AI-powered summaries of donation activity or review your history.</CardDescription>
             </CardHeader>
             <CardContent>
-                <Button onClick={handleGenerateReport} disabled={isGenerating || isLoadingDonations || isLoadingUsers}>
+                <Button onClick={handleGenerateReport} disabled={isGenerating || isLoading}>
                     {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     {isGenerating ? 'Generating...' : 'Generate Support Summary'}
                 </Button>
@@ -129,12 +132,12 @@ export default function DonationReportsPage() {
                 <CardDescription>A complete log of all donations you've made or received.</CardDescription>
             </CardHeader>
             <CardContent>
-                 {(isLoadingDonations || isLoadingUsers) && (
+                 {isLoading && (
                     <div className="space-y-4">
                         {[1, 2, 3].map(i => <Skeleton key={i} className="h-12 w-full" />)}
                     </div>
                  )}
-                 {!isLoadingDonations && !isLoadingUsers && sortedDonations && sortedDonations.length > 0 ? (
+                 {!isLoading && sortedDonations && sortedDonations.length > 0 ? (
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -150,7 +153,7 @@ export default function DonationReportsPage() {
                                 const receiver = allUsers?.find(u => u.id === donation.receiverId);
                                 return (
                                     <TableRow key={donation.id}>
-                                        <TableCell>{format(toDate(donation.date), 'PP')}</TableCell>
+                                        <TableCell>{format(new Date(donation.date), 'PP')}</TableCell>
                                         <TableCell>{donor?.name ?? 'Anonymous'}</TableCell>
                                         <TableCell>{receiver?.name ?? 'A good cause'}</TableCell>
                                         <TableCell className="text-right font-medium">€{donation.amount.toFixed(2)}</TableCell>
@@ -160,7 +163,7 @@ export default function DonationReportsPage() {
                         </TableBody>
                     </Table>
                  ) : (
-                    !isLoadingDonations && !isLoadingUsers && (
+                    !isLoading && (
                     <div className="text-center py-12">
                         <Gift className="mx-auto h-12 w-12 text-muted-foreground" />
                         <h3 className="mt-4 text-lg font-semibold">No Donations Yet</h3>

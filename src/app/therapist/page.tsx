@@ -57,7 +57,7 @@ export default function TherapistDashboard() {
   
   // Filter sessions assigned to the current therapist
   const mySessions = sessions.filter(
-    session => session.therapist === currentUser?.displayName || session.userId === currentUser?.id
+    session => session.therapist === (currentUser?.email?.split('@')[0] || currentUser?.id) || session.userId === currentUser?.id
   );
 
   const todaySessions = mySessions.filter(s => {
@@ -68,7 +68,7 @@ export default function TherapistDashboard() {
 
   const upcomingSessions = mySessions.filter(s => new Date(s.date) >= new Date()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   const completedSessions = mySessions.filter(s => s.status === 'Completed' || new Date(s.date) < new Date());
-  const pendingReports = reports.filter(r => r.author === currentUser?.displayName);
+  const pendingReports = reports.filter(r => r.author === (currentUser?.email?.split('@')[0] || currentUser?.id));
 
   useEffect(() => {
     loadClients();
@@ -92,29 +92,31 @@ export default function TherapistDashboard() {
     {
       title: 'Today\'s Sessions',
       value: todaySessions.length.toString(),
-      change: `${mySessions.length} total`,
+      trend: `${mySessions.length} total`,
       icon: Calendar,
+      index: 0
     },
     {
       title: 'Total Clients',
       value: myClients.length.toString(),
-      change: 'Active patients',
-      changeType: 'increase' as const,
+      trend: 'Active patients',
       icon: Users,
+      index: 1
     },
     {
       title: 'Completed Sessions',
       value: completedSessions.length.toString(),
-      change: 'All time',
-      changeType: 'increase' as const,
+      trend: 'All time',
       icon: CheckCircle2,
+      index: 2
     },
     {
       title: 'Pending Reports',
       value: pendingReports.length.toString(),
-      change: 'To complete',
+      trend: 'To complete',
       icon: FileText,
-    },
+      index: 3
+    }
   ];
 
   const handleViewSession = (sessionId: string) => {
@@ -131,7 +133,7 @@ export default function TherapistDashboard() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Therapist Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back, {currentUser?.displayName || 'Therapist'}</p>
+          <p className="text-muted-foreground">Welcome back, {currentUser?.email?.split('@')[0] || 'Therapist'}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={() => router.push('/therapist/reports')}>

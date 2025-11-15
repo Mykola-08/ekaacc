@@ -82,7 +82,7 @@ const steps = [
 ];
 
 export default function OnboardingPage() {
-  const { user, refreshAppUser } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -118,11 +118,10 @@ export default function OnboardingPage() {
     try {
       const { getDataService } = await import('@/services/data-service');
       const dataService = await getDataService();
-      await dataService.updateUser(user.uid, {
+      await dataService.updateUser(user.id, {
         personalizationCompleted: true,
         personalization: formData,
       });
-      await refreshAppUser();
       toast({
         title: '🎉 Welcome aboard!',
         description: 'Your personalized dashboard is ready.',
@@ -201,8 +200,6 @@ export default function OnboardingPage() {
                 <CurrentStepComponent 
                   onNext={handleNext} 
                   formData={formData}
-                  currentStep={currentStep}
-                  totalSteps={steps.length}
                 />
               </div>
             </motion.div>

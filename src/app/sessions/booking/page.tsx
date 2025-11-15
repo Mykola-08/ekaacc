@@ -86,11 +86,20 @@ export default function SessionBookingPage() {
   // Track page visit for personalization
   useEffect(() => {
     if (currentUser) {
-      const updates = PersonalizationEngine.trackActivity(currentUser, {
+      // Convert Supabase user to App user format for personalization
+      const appUser = {
+        id: currentUser.id,
+        email: currentUser.email || '',
+        role: 'Patient' as const,
+        initials: (currentUser.email?.split('@')[0] || '').slice(0, 2).toUpperCase(),
+        activityData: {}
+      };
+      
+      const updates = PersonalizationEngine.trackActivity(appUser, {
         type: 'page-visit',
         data: { page: '/sessions/booking' }
       });
-      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+      updateUser({ activityData: updates });
     }
   }, [currentUser, updateUser]);
 
@@ -112,11 +121,20 @@ export default function SessionBookingPage() {
 
     // Track booking completion for personalization
     if (currentUser) {
-      const updates = PersonalizationEngine.trackActivity(currentUser, {
+      // Convert Supabase user to App user format for personalization
+      const appUser = {
+        id: currentUser.id,
+        email: currentUser.email || '',
+        role: 'Patient' as const,
+        initials: (currentUser.email?.split('@')[0] || '').slice(0, 2).toUpperCase(),
+        activityData: {}
+      };
+      
+      const updates = PersonalizationEngine.trackActivity(appUser, {
         type: 'session-complete',
         data: { service: selectedService }
       });
-      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+      updateUser({ activityData: updates });
     }
 
     // Redirect to dashboard after 2 seconds

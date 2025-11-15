@@ -96,6 +96,8 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
       change: formatSignedChange(entriesChange) ?? undefined,
       changeType: entriesChange > 0 ? 'increase' : entriesChange < 0 ? 'decrease' : undefined,
       icon: TrendingUp,
+      trend: formatSignedChange(entriesChange) || '0',
+      index: 0
     },
     {
       title: 'Avg. Mood',
@@ -103,6 +105,8 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
       change: formatSignedChange(avgMoodChange, 1) ?? undefined,
       changeType: avgMoodChange > 0 ? 'increase' : avgMoodChange < 0 ? 'decrease' : undefined,
       icon: Smile,
+      trend: formatSignedChange(avgMoodChange, 1) || '0',
+      index: 1
     },
     {
       title: 'Best Day',
@@ -110,6 +114,8 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
       change: undefined,
       changeType: undefined,
       icon: Smile,
+      trend: '',
+      index: 2
     },
   ];
 
@@ -121,7 +127,7 @@ function buildJournalInsights(entries: JournalEntry[]): JournalInsightsData {
   };
 }
 
-export function JournalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' }) {
+export function JournalInsights({ source: initialSource }: { source?: 'mock' | 'firebase' | 'supabase' }) {
   const { user: currentUser } = useAuth();
   const { dataService, initDataService, dataSource } = useAppStore();
 
@@ -132,7 +138,7 @@ export function JournalInsights({ source: initialSource }: { source?: 'mock' | '
     initDataService();
   }, [initDataService]);
 
-  const waitingForUser = source === 'firebase' && !currentUser;
+  const waitingForUser = (source === 'firebase' || source === 'supabase') && !currentUser;
 
   const fetchJournalDataFirebase = useCallback(async () => {
     if (!currentUser || !dataService) {
@@ -143,11 +149,20 @@ export function JournalInsights({ source: initialSource }: { source?: 'mock' | '
     return buildJournalInsights(entries);
   }, [currentUser, dataService]);
 
+  const fetchJournalDataSupabase = useCallback(async () => {
+    if (!currentUser || !dataService) {
+      throw new Error('User context or data service unavailable');
+    }
+    const journalEntries = await dataService.getJournalEntries(currentUser.id);
+    const entries = filterEntriesForUser(journalEntries, currentUser.id);
+    return buildJournalInsights(entries);
+  }, [currentUser, dataService]);
+
   const { data, loading, error } = useFeatureData(
     mockJournalData,
-    fetchJournalDataFirebase,
+    source === 'supabase' ? fetchJournalDataSupabase : fetchJournalDataFirebase,
     source,
-    { enabled: source === 'firebase' ? Boolean(currentUser) : true }
+    { enabled: (source === 'firebase' || source === 'supabase') ? Boolean(currentUser) : true }
   );
 
   const insights = useMemo(() => data, [data]);
@@ -189,7 +204,7 @@ export function JournalInsights({ source: initialSource }: { source?: 'mock' | '
               title={stat.title}
               value={stat.value}
               icon={stat.icon}
-              trend={stat.change || ''}
+              trend={stat.change || '0'}
               index={i}
             />
           ))}

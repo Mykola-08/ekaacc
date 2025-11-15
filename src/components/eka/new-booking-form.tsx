@@ -56,7 +56,12 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
       const bookingDateTime = new Date(selectedDate);
       bookingDateTime.setHours(hours, minutes, 0, 0);
 
-      await fxService.createBooking(selectedClientId, therapistId, bookingDateTime.toISOString(), notes);
+      await fxService.createBooking({
+        userId: selectedClientId,
+        therapistId: therapistId,
+        date: bookingDateTime.toISOString(),
+        notes: notes
+      });
       
       toast({ title: 'Success', description: 'New booking created successfully.' });
       onSubmitSuccess();

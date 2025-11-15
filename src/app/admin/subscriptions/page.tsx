@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Skeleton } from '@/components/keep';
+import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect, useCallback } from 'react';
 ;
 ;
@@ -237,7 +238,7 @@ export default function AdminSubscriptionsPage() {
                     <SubscriptionBadge type={sub.type} size="sm" />
                     <span className="text-sm font-mono">€{sub.price}/{sub.interval === 'monthly' ? 'mo' : 'yr'}</span>
                   </div>
-                  <Button size="sm" variant="destructive" onClick={() => handleRevokeSubscription(sub.id)}>Revoke</Button>
+                  <Button size="sm" variant="outline" className="text-red-600 border-red-600 hover:bg-red-50" onClick={() => handleRevokeSubscription(sub.id)}>Revoke</Button>
                 </div>
               ))}
             </div>

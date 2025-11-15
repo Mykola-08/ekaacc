@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/supabase-auth';
-import { USE_MOCK_DATA } from '@/services/data-service';
 import { supabase } from '@/lib/supabase';
 
 export default function OnboardingForm() {
@@ -34,19 +33,14 @@ export default function OnboardingForm() {
     };
 
     try {
-      if (!USE_MOCK_DATA) {
-        // 1. Persist preferences to Supabase
-        const { error } = await supabase
-          .from('user_preferences')
-          .upsert(preferences);
-        
-        if (error) throw error;
-      } else {
-        // Mock mode: Just log the preferences
-        console.log('Mock mode: Preferences saved', preferences);
-      }
+      // Persist preferences to Supabase
+      const { error } = await supabase
+        .from('user_preferences')
+        .upsert(preferences);
+      
+      if (error) throw error;
 
-      // 3. Redirect to dashboard
+      // Redirect to dashboard
       router.push('/dashboard');
     } catch (error) {
       console.error("Failed to save onboarding data:", error);
@@ -68,40 +62,34 @@ export default function OnboardingForm() {
           <option value="artist">Artist</option>
           <option value="other">Other</option>
         </select>
-        <p className="mt-1 text-xs text-gray-500">Stored securely. You can change or delete this later.</p>
       </div>
 
       <div>
-        <label htmlFor="goals" className="block text-sm font-medium text-gray-700">What are your wellness goals? (comma-separated)</label>
-        <input type="text" id="goals" value={goals} onChange={e => setGoals(e.target.value)} placeholder="e.g., reduce neck tension, focus better" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
-        <p className="mt-1 text-xs text-gray-500">Stored securely. You can change or delete this later.</p>
+        <label htmlFor="goals" className="block text-sm font-medium text-gray-700">What are your therapy goals? (comma-separated)</label>
+        <textarea id="goals" value={goals} onChange={e => setGoals(e.target.value)} placeholder="e.g., reduce anxiety, improve sleep, build confidence" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
       </div>
 
       <div>
-        <label htmlFor="concerns" className="block text-sm font-medium text-gray-700">Any physical or lifestyle concerns? (comma-separated)</label>
-        <input type="text" id="concerns" value={concerns} onChange={e => setConcerns(e.target.value)} placeholder="e.g., shoulders hurt after work" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
-        <p className="mt-1 text-xs text-gray-500">Stored securely. You can change or delete this later.</p>
+        <label htmlFor="concerns" className="block text-sm font-medium text-gray-700">Any specific concerns? (comma-separated)</label>
+        <textarea id="concerns" value={concerns} onChange={e => setConcerns(e.target.value)} placeholder="e.g., work stress, relationship issues, self-esteem" className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm" />
       </div>
 
       <div>
         <label htmlFor="tone" className="block text-sm font-medium text-gray-700">Preferred communication style</label>
         <select id="tone" value={tone} onChange={e => setTone(e.target.value)} className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm">
-          <option value="direct">Direct</option>
-          <option value="supportive">Supportive</option>
-          <option value="scientific">Scientific</option>
-          <option value="motivational">Motivational</option>
+          <option value="supportive">Supportive and gentle</option>
+          <option value="direct">Direct and solution-focused</option>
+          <option value="analytical">Analytical and evidence-based</option>
         </select>
-        <p className="mt-1 text-xs text-gray-500">Stored securely. You can change or delete this later.</p>
       </div>
 
       <div className="flex items-center">
-        <input type="checkbox" id="notifyTips" checked={notifyTips} onChange={e => setNotifyTips(e.target.checked)} className="h-4 w-4 text-indigo-600 border-gray-300 rounded" />
-        <label htmlFor="notifyTips" className="ml-2 block text-sm text-gray-900">Receive occasional tips and reminders via push notifications?</label>
+        <input id="notifyTips" type="checkbox" checked={notifyTips} onChange={e => setNotifyTips(e.target.checked)} className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
+        <label htmlFor="notifyTips" className="ml-2 block text-sm text-gray-700">Send me daily wellness tips</label>
       </div>
-       <p className="mt-1 text-xs text-gray-500">Stored securely. You can change or delete this later.</p>
 
-      <button type="submit" disabled={loading} className="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700 disabled:bg-gray-400">
-        {loading ? 'Saving...' : 'Complete Onboarding'}
+      <button type="submit" disabled={loading} className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50">
+        {loading ? 'Saving...' : 'Continue to Dashboard'}
       </button>
     </form>
   );

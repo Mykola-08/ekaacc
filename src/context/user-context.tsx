@@ -2,7 +2,8 @@
 
 import React, { createContext, useContext, ReactNode } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
-import { allUsers as mockUsers } from '@/lib/data';
+import { getDataService } from '@/services/data-service';
+import { useEffect, useState } from 'react';
 import type { User } from '@/lib/types';
 
 interface UserContextType {
@@ -14,9 +15,26 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-  const { user, loading: isLoading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const allUsers = mockUsers;
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        const dataService = await getDataService();
+        const users = await dataService.getAllUsers();
+        setAllUsers(users);
+      } catch (error) {
+        console.error('Failed to load users:', error);
+        setAllUsers([]);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUsers();
+  }, []);
 
   const currentUser: User | null = user
     ? {
@@ -29,7 +47,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     currentUser,
     allUsers,
-    isLoading,
+    isLoading: authLoading || isLoading,
   };
 
   return (

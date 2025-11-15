@@ -62,6 +62,8 @@ export type StatCard = {
   change?: string;
   changeType?: 'increase' | 'decrease';
   icon: React.ElementType;
+  trend?: string;
+  index?: number;
 };
 
 export type UserRole = "Patient" | "Therapist" | "Admin";

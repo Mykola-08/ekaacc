@@ -4,7 +4,7 @@ import { IDataService, getDataService } from '@/services/data-service';
 
 interface AppState {
   dataService: IDataService | null;
-  dataSource: 'mock' | 'firebase';
+  dataSource: 'supabase';
   initDataService: () => Promise<void>;
 }
 
@@ -17,7 +17,7 @@ export const useAppStore = create<AppState>()(
         if (get().dataService) return;
 
         const service = await getDataService();
-        const source = 'supabase';
+        const source = 'supabase' as const;
         
         set({ dataService: service, dataSource: source });
       },

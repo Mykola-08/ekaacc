@@ -1,19 +1,10 @@
-// Firebase removed; production persistence should use Supabase services
-import { mockBookingAPI, mockAIAPI } from './mock-bookings';
-import { mockAssessmentsAPI } from './mock-assessments';
-import { mockBillingAPI } from './mock-billing';
-import { mockTemplatesAPI } from './mock-templates';
-import { mockNotificationsAPI } from './mock-notifications';
-import { allUsers } from './data';
+// Clean service without Firebase and mock dependencies
 import { fxTemplates } from './fx-templates';
 import { fxNotifications } from './fx-notifications';
 import { fxBookings } from './fx-bookings';
 import { fxAssessments } from './fx-assessments';
 import { fxBilling } from './fx-billing';
 import { fxUsers } from './fx-users';
-
-const useMock = false;
-const useSquareApi = process.env.NEXT_PUBLIC_USE_SQUARE_API === 'true';
 
 // Safe storage helpers: use localStorage when available (browser), otherwise fall back to an in-memory Map
 const _inMemoryStore = new Map<string, string>();
@@ -30,17 +21,17 @@ function safeSetItem(key: string, value: string) {
   _inMemoryStore.set(key, value);
 }
 
-function normalizeFirestoreValue(value: unknown): unknown {
+function normalizeValue(value: unknown): unknown {
   if (value === null || value === undefined) return value;
   if (Array.isArray(value)) {
-    return value.map(normalizeFirestoreValue);
+    return value.map(normalizeValue);
   }
   if (typeof value === 'object') {
     if (typeof (value as { toDate?: () => Date }).toDate === 'function') {
       return (value as { toDate: () => Date }).toDate().toISOString();
     }
     return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, val]) => [key, normalizeFirestoreValue(val)])
+      Object.entries(value as Record<string, unknown>).map(([key, val]) => [key, normalizeValue(val)])
     );
   }
   return value;
@@ -48,214 +39,209 @@ function normalizeFirestoreValue(value: unknown): unknown {
 
 function deepMergeSettings(target: Record<string, unknown>, source: Record<string, unknown>): Record<string, unknown> {
   const output: Record<string, unknown> = { ...target };
-  for (const [key, value] of Object.entries(source)) {
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      const existing = output[key];
+  for (const key in source) {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
       output[key] = deepMergeSettings(
-        typeof existing === 'object' && existing !== null && !Array.isArray(existing)
-          ? (existing as Record<string, unknown>)
-          : {},
-        value as Record<string, unknown>
+        (target[key] as Record<string, unknown>) || {},
+        source[key] as Record<string, unknown>
       );
     } else {
-      output[key] = value;
+      output[key] = source[key];
     }
   }
   return output;
 }
 
-export const fxService = {
-  async createBooking(userId: string, therapistId: string, date: string, notes?: string) {
-    if (useMock) return mockBookingAPI.createBooking(userId, therapistId, date, notes);
-    return fxBookings.createBooking(userId, therapistId, date, notes);
+const fxService = {
+  // Users
+  async getUsers() {
+    return fxUsers.getUsers();
   },
-  async getBookingsForUser(
-    userId: string,
-    context?: { email?: string | null; phone?: string | null }
-  ) {
-    if (useMock) return mockBookingAPI.getBookingsForUser(userId);
-
-    if (useSquareApi) {
-      const params = new URLSearchParams({ userId });
-      if (context?.email) params.set('email', context.email);
-      if (context?.phone) params.set('phone', context.phone);
-
-      try {
-        const response = await fetch(`/api/square/bookings?${params.toString()}`, { cache: 'no-store' });
-        if (response.ok) {
-          const payload = await response.json();
-          if (Array.isArray(payload.bookings)) {
-            return payload.bookings;
-          }
-        } else {
-          const errorBody = await response.json().catch(() => ({}));
-          console.warn('Square bookings request failed; falling back to Firestore', {
-            status: response.status,
-            error: errorBody?.error ?? response.statusText,
-          });
-        }
-      } catch (error) {
-        console.warn('Square bookings unavailable, using Firestore data instead', error);
-      }
-    }
-
-    return fxBookings.getBookingsForUser(userId);
+  async getUser(id: string) {
+    const users = await fxUsers.getUsers();
+    return users.find(u => u.id === id) || null;
   },
-  async getAllBookings() {
-    if (useMock) return mockBookingAPI.getAllBookings();
+  async updateUser(id: string, data: any) {
+    return fxUsers.updateUser(id, data);
+  },
+  async deleteUser(id: string) {
+    throw new Error('User deletion not implemented');
+  },
+
+  // Bookings
+  async getBookings() {
     return fxBookings.getAllBookings();
   },
-  async getBookingsForTherapist(therapistId: string) {
-    if (useMock) {
-      // mock API does not have therapist-specific query, filter locally
-  const all = await mockBookingAPI.getAllBookings();
-  return all.filter(b => b.therapistId === therapistId || String(b.therapistId) === String(therapistId));
+  async getBooking(id: string) {
+    const bookings = await fxBookings.getAllBookings();
+    return bookings.find(b => b.id === id) || null;
+  },
+  async createBooking(data: any) {
+    // Handle both old and new signatures
+    if (typeof data === 'object' && data.userId && data.therapistId && data.date) {
+      return fxBookings.createBooking(data.userId, data.therapistId, data.date, data.notes);
     }
+    // Handle legacy signature: createBooking(selectedClientId, therapistId, bookingDateTime, notes)
+    // This is called with multiple arguments, so we need to handle it differently
+    throw new Error('Invalid booking data - use object format: { userId, therapistId, date, notes }');
+  },
+  async updateBooking(id: string, data: any) {
+    return fxBookings.updateBooking(id, data);
+  },
+  async deleteBooking(id: string) {
+    throw new Error('Booking deletion not implemented, use cancelBooking');
+  },
+  async getBookingsForUser(userId: string, userData?: any) {
+    // Handle both old and new signatures
+    const bookings = await fxBookings.getBookingsForUser(userId);
+    if (userData) {
+      // If additional user data is provided, merge it with the bookings
+      return bookings.map(booking => ({
+        ...booking,
+        userData: userData
+      }));
+    }
+    return bookings;
+  },
+  async getBookingsForTherapist(therapistId: string) {
     return fxBookings.getBookingsForTherapist(therapistId);
   },
   async cancelBooking(bookingId: string) {
-    if (useMock) return mockBookingAPI.cancelBooking(bookingId);
     return fxBookings.cancelBooking(bookingId);
   },
-  async saveAssessment(sessionId: string, data: any) {
-    if (useMock) return mockAssessmentsAPI.saveAssessment(sessionId, data);
-    return fxAssessments.saveAssessment(sessionId, data);
+
+  // Assessments
+  async getAssessments() {
+    throw new Error('Get all assessments not implemented');
   },
-  async saveSessionNote(sessionId: string, note: string, authorId?: string) {
-    const payload = { sessionType: 'note', content: note, authorId, createdAt: new Date().toISOString() };
-    if (useMock) return mockAssessmentsAPI.saveAssessment(sessionId, payload);
-    return fxAssessments.saveAssessment(sessionId, payload);
+  async getAssessment(id: string) {
+    throw new Error('Get assessment by ID not implemented');
+  },
+  async createAssessment(data: any) {
+    return fxAssessments.saveAssessment(data.sessionId, data.data);
+  },
+  async updateAssessment(id: string, data: any) {
+    throw new Error('Update assessment not implemented, use saveAssessment');
+  },
+  async deleteAssessment(id: string) {
+    return fxAssessments.deleteAssessment(id);
   },
   async getAssessmentsForSession(sessionId: string) {
-    if (useMock) return mockAssessmentsAPI.getAssessmentsForSession(sessionId);
     return fxAssessments.getAssessmentsForSession(sessionId);
   },
-  async deleteAssessment(assessmentId: string) {
-    if (useMock) return mockAssessmentsAPI.deleteAssessment(assessmentId);
-    return fxAssessments.deleteAssessment(assessmentId);
+  async saveAssessment(sessionId: string, data: any) {
+    return fxAssessments.saveAssessment(sessionId, data);
+  },
+
+  // Billing
+  async getBilling() {
+    throw new Error('Get all billing not implemented');
+  },
+  async getBillingItem(id: string) {
+    throw new Error('Get billing item by ID not implemented');
+  },
+  async createBillingItem(data: any) {
+    throw new Error('Create billing item not implemented');
+  },
+  async updateBillingItem(id: string, data: any) {
+    throw new Error('Update billing item not implemented');
+  },
+  async deleteBillingItem(id: string) {
+    throw new Error('Delete billing item not implemented');
   },
   async getBalanceForClient(clientId: string) {
-    if (useMock) return mockBillingAPI.getBalanceForClient(clientId);
     return fxBilling.getBalanceForClient(clientId);
   },
   async applyAdjustment(clientId: string, amountEUR: number, note?: string) {
-    if (useMock) return mockBillingAPI.applyAdjustment(clientId, amountEUR, note);
     return fxBilling.applyAdjustment(clientId, amountEUR, note);
   },
   async createChargeForSession(clientId: string, sessionId: string, amountEUR: number, note?: string) {
-    if (useMock) return mockBillingAPI.createChargeForSession(clientId, sessionId, amountEUR, note);
     return fxBilling.createChargeForSession(clientId, sessionId, amountEUR, note);
   },
   async createCheckoutSessionForPackage(clientId: string, packageId: string, amountEUR: number) {
-    if (useMock) return mockBillingAPI.createCheckoutSessionForPackage(clientId, packageId, amountEUR);
     return fxBilling.createCheckoutSessionForPackage(clientId, packageId, amountEUR);
   },
   async getInvoicesForClient(clientId: string) {
-    if (useMock) return mockBillingAPI.getInvoicesForClient(clientId);
     return fxBilling.getInvoicesForClient(clientId);
   },
   async createInvoice(clientId: string, amountEUR: number, description?: string) {
-    if (useMock) return mockBillingAPI.createInvoice(clientId, amountEUR, description);
-    return fxBilling.createInvoice(clientId, amountEUR, description);
+    throw new Error('Create invoice not implemented');
   },
   async markInvoicePaid(invoiceId: string) {
-    if (useMock) return mockBillingAPI.markInvoicePaid(invoiceId);
     return fxBilling.markInvoicePaid(invoiceId);
   },
-  async getUsers() {
-    if (useMock) return (allUsers || []).slice();
-    return fxUsers.getUsers();
+
+  // Notifications
+  async getNotifications() {
+    return fxNotifications.listNotifications();
   },
-  async updateBooking(bookingId: string, updates: Record<string, any>) {
-    if (useMock) {
-      const res = mockBookingAPI.updateBooking ? await mockBookingAPI.updateBooking(bookingId, updates) : { id: bookingId, ...updates };
-      // create a notification for mock mode
-      try { await mockNotificationsAPI.createNotification({ userId: 'system', title: 'Booking updated', body: `Booking ${bookingId} updated.` }); } catch (e) { /* ignore */ }
-      return res;
-    }
-    const res = await fxBookings.updateBooking(bookingId, updates);
-    // try to create a persisted notification in production, but don't fail the update if notifications fail
-    try { await fxNotifications.createNotification({ userId: 'system', title: 'Booking updated', body: `Booking ${bookingId} updated.` }); } catch (e) { /* ignore */ }
-    return res;
+  async getNotification(id: string) {
+    const notifications = await fxNotifications.listNotifications();
+    return notifications.find(n => n.id === id) || null;
   },
-  async listTemplates() { if (useMock) return mockTemplatesAPI.listTemplates(); return fxTemplates.listTemplates(); },
-  async createTemplate(t: { title: string; content: string; authorId?: string }) { if (useMock) return mockTemplatesAPI.createTemplate(t); return fxTemplates.createTemplate(t); },
-  async deleteTemplate(id: string) { if (useMock) return mockTemplatesAPI.deleteTemplate ? mockTemplatesAPI.deleteTemplate(id) : true; return fxTemplates.deleteTemplate(id); },
-  async listNotifications() { if (useMock) return mockNotificationsAPI.listNotifications(); return fxNotifications.listNotifications(); },
-  async createNotification(n: { userId: string, title: string; body?: string; type?: string }) { if (useMock) return mockNotificationsAPI.createNotification(n); return fxNotifications.createNotification(n); },
-  async markSeen(id: string) { if (useMock) return mockNotificationsAPI.markSeen ? mockNotificationsAPI.markSeen(id) : true; return fxNotifications.markSeen(id); },
+  async createNotification(data: { userId: string; title: string; body?: string; type?: string }) {
+    return fxNotifications.createNotification(data);
+  },
+  async updateNotification(id: string, data: any) {
+    throw new Error('Update notification not implemented');
+  },
+  async deleteNotification(id: string) {
+    throw new Error('Delete notification not implemented');
+  },
+  async listNotifications() {
+    return fxNotifications.listNotifications();
+  },
+  async markSeen(id: string) {
+    return fxNotifications.markSeen(id);
+  },
+
+  // Templates
+  async getTemplates() {
+    return fxTemplates.listTemplates();
+  },
+  async getTemplate(id: string) {
+    const templates = await fxTemplates.listTemplates();
+    return templates.find(t => t.id === id) || null;
+  },
+  async createTemplate(data: any) {
+    return fxTemplates.createTemplate(data);
+  },
+  async updateTemplate(id: string, data: any) {
+    throw new Error('Update template not implemented');
+  },
+  async deleteTemplate(id: string) {
+    return fxTemplates.deleteTemplate(id);
+  },
+
+  // Settings
+  async getSettings() {
+    const stored = safeGetItem('app_settings');
+    return stored ? JSON.parse(stored) : {};
+  },
+  async updateSettings(updates: any) {
+    const current = await this.getSettings();
+    const updated = deepMergeSettings(current, updates);
+    safeSetItem('app_settings', JSON.stringify(updated));
+    return updated;
+  },
+
+  // Storage
+  async uploadFile(file: File, path: string) {
+    throw new Error('File upload not implemented in clean service');
+  },
+  async getFileUrl(path: string) {
+    throw new Error('File storage not implemented in clean service');
+  },
+  
+  // AI Features
   async generateAIReport(userId: string, prompt: string) {
-    if (useMock) return mockAIAPI.sendMessage(userId, prompt);
-    // Production AI integration is not implemented yet
-    throw new Error('AI service not configured');
+    throw new Error('AI report generation not implemented');
   },
   async getAIChatResponse(prompt: string, history: any[]) {
-    if (useMock) return mockAIAPI.getAIChatResponse(prompt, history);
-    throw new Error('AI service not configured');
+    throw new Error('AI chat response not implemented');
   },
   async getAIRecommendations() {
-    if (useMock) return mockAIAPI.getAIRecommendations();
-    throw new Error('AI service not configured');
-  },
-  async getAIReportSummary(reportId: string) {
-    if (useMock) return mockAIAPI.getAIReportSummary(reportId);
-    throw new Error('AI service not configured');
-  },
-  async getAIAnalysis() {
-    if (useMock) {
-        // In a real scenario, this would involve complex logic.
-        // Here, we just simulate a delay and return a mock object.
-        await new Promise(res => setTimeout(res, 1500));
-        
-        const mockAnalysis = {
-            keyTrends: [
-                { title: 'Avg. Mood', value: '😊 (4.1)', change: 10.5, type: 'improvement' },
-                { title: 'Avg. Pain Level', value: '3.2 / 10', change: -15.2, type: 'improvement' },
-                { title: 'Session Consistency', value: '92%', change: 5, type: 'improvement' },
-                { title: 'Journal Entries', value: '5 this week', change: 25, type: 'improvement' },
-            ],
-            moodChart: [
-                { name: '4w ago', value: 3.5 },
-                { name: '3w ago', value: 3.8 },
-                { name: '2w ago', value: 3.7 },
-                { name: 'Last week', value: 4.1 },
-            ],
-            painChart: [
-                { name: '4w ago', value: 5.5 },
-                { name: '3w ago', value: 4.2 },
-                { name: '2w ago', value: 3.8 },
-                { name: 'Last week', value: 3.2 },
-            ],
-            recommendations: [] // This would be populated by the AI logic
-        };
-        return mockAnalysis;
-    }
-    throw new Error('AI analysis service not configured');
-  },
-  async updateUser(userId: string, data: Record<string, any>) {
-    if (useMock) return { id: userId, ...data };
-    return fxUsers.updateUser(userId, data);
-  },
-  async updateUserRole(userId: string, role: string) {
-    if (useMock) return { id: userId, role };
-    return fxUsers.updateUserRole(userId, role);
-  },
-  async getSettings(userId: string) {
-    try {
-      const raw = safeGetItem(`eka_settings_${userId}`);
-      if (raw) return JSON.parse(raw);
-    } catch (e) { /* ignore */ }
-    const defaults = { notifications: { email: true, sms: false }, preferences: {}, billing: {} };
-    try { safeSetItem(`eka_settings_${userId}`, JSON.stringify(defaults)); } catch (e) { /* ignore */ }
-    return defaults;
-  },
-  async updateSettings(userId: string, settings: Record<string, any>) {
-    try {
-      const currentRaw = safeGetItem(`eka_settings_${userId}`) || '{}';
-      const next = { ...(JSON.parse(currentRaw || '{}')), ...settings, updatedAt: new Date().toISOString() };
-      safeSetItem(`eka_settings_${userId}`, JSON.stringify(next));
-      return next;
-    } catch (e) { return settings; }
+    throw new Error('AI recommendations not implemented');
   },
 };
 

@@ -20,8 +20,8 @@ export function BillingPackages({ clientId }: { clientId: string }) {
     try {
       const cs = await fxService.createCheckoutSessionForPackage(clientId, pkg.id, pkg.priceEUR);
       // Open the mock checkout URL in a new tab (mock will route to success page)
-      if (cs && cs.url) {
-        window.open(cs.url, '_blank');
+      if (cs && (cs as any).url) {
+        window.open((cs as any).url, '_blank');
         toast({ title: 'Checkout started', description: `Opened checkout for ${pkg.name}` });
       } else {
         toast({ variant: 'destructive', title: 'Checkout failed', description: 'Could not create checkout session.' });

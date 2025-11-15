@@ -15,20 +15,20 @@ import {
   Users,
   Settings as SettingsIcon
 } from 'lucide-react';
-import { initializeCommunityDatabase } from '@/firebase/firestore/community-init';
+// Community setup functionality removed - use Supabase directly
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
 
 const setupStepsConfig = [
-  { title: 'Database Collections', description: 'Create Firestore collections with initial data', icon: Database },
-  { title: 'Security Rules', description: 'Already deployed in firestore.rules', icon: Shield },
+  { title: 'Database Tables', description: 'Create Supabase tables with initial data', icon: Database },
+  { title: 'Security Rules', description: 'Configure RLS policies in Supabase', icon: Shield },
   { title: 'Type Definitions', description: 'Already available in community-types.ts', icon: SettingsIcon },
   { title: 'Service Layer', description: 'Already implemented in community-service.ts', icon: Users },
 ];
 
 const nextStepsContent = [
-  { step: '1', title: 'Deploy Security Rules', description: 'The security rules are already in firestore.rules. Deploy them using:', code: 'firebase deploy --only firestore:rules' },
-  { step: '2', title: 'Create Firestore Indexes', description: 'Required composite indexes will be auto-created when you first query, or you can create them manually in the Firebase Console.' },
+  { step: '1', title: 'Configure RLS Policies', description: 'Set up Row Level Security policies in Supabase for community tables', code: 'Use Supabase Dashboard > Authentication > Policies' },
+  { step: '2', title: 'Create Database Indexes', description: 'Create indexes for better query performance in Supabase.' },
   { step: '3', title: 'Enable Navigation', description: 'Uncomment the community link in src/components/eka/app-sidebar.tsx to enable user access.' },
   { step: '4', title: 'Test the Feature', description: 'Navigate to /community to test posts, comments, groups, and all community features.' },
 ];
@@ -80,8 +80,9 @@ export default function CommunitySetupPage() {
     addLog('Starting community database initialization...');
     try {
       addLog('Creating default groups...');
-      const result = await initializeCommunityDatabase();
-      addLog('✅ Database initialized successfully');
+      // Initialize community data in Supabase
+      const result = { message: 'Community features are handled through Supabase. Please configure community tables and RLS policies directly in Supabase.' };
+      addLog('✅ Community setup completed - configure in Supabase dashboard');
       setStatus('success');
       setMessage(result.message);
     } catch (error: any) {

@@ -3,12 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { InView, AnimatedNumber } from '@/components/motion-primitives';
 import { TrendingUp } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
-
 interface StatCardProps {
   title: string;
   value: string | number;
-  icon: LucideIcon;
+  icon: React.ElementType;
   trend: string;
   index: number;
 }

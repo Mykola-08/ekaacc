@@ -158,10 +158,10 @@ export function PaymentsTable({
                                                 {payment.status === 'pending' ? (
                                                     <>
                                                         {(payment.proofImageUrl || payment.proofText) && (
-                                                            <Button size="icon" variant="outline" onClick={() => onViewProof(payment)}><Eye className="h-4 w-4" /></Button>
+                                                            <Button shape="icon" size="sm" variant="outline" onClick={() => onViewProof(payment)}><Eye className="h-4 w-4" /></Button>
                                                         )}
-                                                        <Button size="icon" variant="default" onClick={() => onConfirm(payment)}><Check className="h-4 w-4" /></Button>
-                                                        <Button size="icon" variant="destructive" onClick={() => onReject(payment)}><X className="h-4 w-4" /></Button>
+                                                        <Button shape="icon" size="sm" variant="default" onClick={() => onConfirm(payment)}><Check className="h-4 w-4" /></Button>
+                                                        <Button shape="icon" size="sm" variant="outline" onClick={() => onReject(payment)}><X className="h-4 w-4" /></Button>
                                                     </>
                                                 ) : (
                                                     <span className="text-xs text-muted-foreground">

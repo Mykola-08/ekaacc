@@ -85,10 +85,10 @@ export default function AdminPaymentsPage() {
         const service = await getPaymentService();
 
         if (type === 'confirm') {
-            await service.confirmPaymentRequest(selectedPayment.id, currentUser.id, currentUser.name || 'Admin', currentUser.role as 'Admin' | 'Therapist');
+            await service.confirmPaymentRequest(selectedPayment.id, currentUser.id, currentUser.user_metadata?.name || 'Admin', 'Admin');
             toast({ title: 'Payment Confirmed', description: `€${selectedPayment.amount} credited to ${selectedPayment.userName}` });
         } else {
-            await service.rejectPaymentRequest(selectedPayment.id, currentUser.id, currentUser.name || 'Admin', currentUser.role as 'Admin' | 'Therapist', rejectionReason);
+            await service.rejectPaymentRequest(selectedPayment.id, currentUser.id, currentUser.user_metadata?.name || 'Admin', 'Admin', rejectionReason);
             toast({ title: 'Payment Rejected', description: `Request from ${selectedPayment.userName} rejected` });
         }
 
@@ -188,7 +188,7 @@ export default function AdminPaymentsPage() {
             {actionType === 'confirm' ? (
               <Button onClick={() => handlePaymentAction('confirm')}>Confirm</Button>
             ) : (
-              <Button variant="destructive" onClick={() => handlePaymentAction('reject')} disabled={!rejectionReason}>Reject</Button>
+              <Button variant="outline" onClick={() => handlePaymentAction('reject')} disabled={!rejectionReason}>Reject</Button>
             )}
           </ModalFooter>
         </ModalContent>

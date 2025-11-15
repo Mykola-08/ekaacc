@@ -39,7 +39,7 @@ export function DashboardHero() {
             <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16 text-2xl hidden sm:flex">
                     <AvatarImage src={currentUser.user_metadata?.avatarUrl || ''} alt={currentUser.user_metadata?.displayName || currentUser.email || 'User'} />
-                    <AvatarFallback>{(currentUser.user_metadata?.displayName || currentUser.email || 'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}</AvatarFallback>
+                    <AvatarFallback>{(currentUser.user_metadata?.displayName || currentUser.email || 'U').split(' ').map((n: string) => n[0]).join('').slice(0,2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Welcome back, {(currentUser.user_metadata?.displayName || currentUser.email || 'User').split(' ')[0]}!</h1>

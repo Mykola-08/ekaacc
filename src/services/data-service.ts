@@ -1,28 +1,15 @@
 /**
  * Data Service Abstraction Layer
  * 
- * This service provides a unified interface for accessing user data,
- * making it easy to switch between mock data (for development/demo)
- * and Supabase (for production).
- * 
- * To switch between implementations:
- * 1. Change USE_MOCK_DATA in this file
- * 2. Restart your dev server
- * 
- * No other code changes needed!
+ * This service provides a unified interface for accessing user data
+ * using Supabase for production data.
  */
 
 import type { User, Session, Report, Service, JournalEntry, Exercise, CommunityPost, Donation, Goal, Message } from '@/lib/types';
 
-// ==========================================
-// CONFIGURATION - CHANGE THIS TO SWITCH DATA SOURCE
-// ==========================================
-export const USE_MOCK_DATA = false; // Use Supabase for all data access
-// ==========================================
-
 /**
  * Data Service Interface
- * All implementations (mock or Firebase) must implement this interface
+ * All implementations must implement this interface
  */
 export interface IDataService {
   isMock: boolean;
@@ -88,5 +75,5 @@ export interface IDataService {
  */
 export async function getDataService(): Promise<IDataService> {
   const module = await import('./supabase-data-service');
-  return module.supabaseDataService as IDataService;
+  return module.supabaseDataService;
 }

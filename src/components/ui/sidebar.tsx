@@ -168,7 +168,7 @@ export const SidebarTrigger = React.forwardRef<
         <Button
           ref={ref}
           variant="outline"
-          size="small"
+          size="sm"
           className={cn("h-8 w-8 shrink-0", className)}
           onClick={(event) => {
             onClick?.(event)

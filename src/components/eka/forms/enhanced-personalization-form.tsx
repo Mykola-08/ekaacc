@@ -241,7 +241,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
               Let's Personalize Your Journey
             </ModalTitle>
             {onSkip && (
-              <Button variant="outline" size="small" onClick={onSkip}>
+              <Button variant="outline" size="sm" onClick={onSkip}>
                 Skip for now
               </Button>
             )}

@@ -19,7 +19,7 @@ interface ThemeSelectorProps {
 }
 
 export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) {
-  const { appUser: currentUser } = useAuth();
+  const { user: currentUser } = useAuth();
   const { hasLoyalty, hasVip } = useActiveSubscriptions(currentUser?.id);
   const [themes, setThemes] = useState<Theme[]>([]);
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
@@ -136,7 +136,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
           const statusBadge = isCurrent
             ? { label: 'Active', variant: 'default' as const }
             : isSelected
-              ? { label: 'Selected', variant: 'secondary' as const }
+              ? { label: 'Selected', variant: 'background' as const }
               : null;
 
           return (

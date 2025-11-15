@@ -66,7 +66,7 @@ export function AiAssistant() {
     <>
       <Button
         className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-lg z-50"
-        size="small"
+        size="sm"
         onClick={() => setIsOpen(true)}
       >
         <Sparkles className="h-8 w-8" />

@@ -166,7 +166,7 @@ function GoalCard({ goal, onDelete }: { goal: Goal; onDelete: (id: string) => vo
         </p>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Button variant="outline" size="small" onClick={() => onDelete(goal.id)}>
+        <Button variant="outline" size="sm" onClick={() => onDelete(goal.id)}>
           <Trash className="h-4 w-4" />
         </Button>
       </CardFooter>

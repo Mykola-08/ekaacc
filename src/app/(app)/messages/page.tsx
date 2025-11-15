@@ -121,7 +121,7 @@ export default function MessagesPage() {
                   className="pr-24"
                 />
                 <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <Button variant="outline" size="small">
+                  <Button variant="outline" size="sm">
                     <Paperclip className="h-5 w-5" />
                   </Button>
                   <Button onClick={handleSendMessage}>

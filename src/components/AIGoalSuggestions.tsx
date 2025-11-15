@@ -105,7 +105,7 @@ export default function AIGoalSuggestions() {
             <Button
               key={index}
               variant={selectedGoals.includes(goal) ? 'default' : 'outline'}
-              size="small"
+              size="sm"
               onClick={() => handleToggleGoal(goal)}
               className="rounded-full"
             >

@@ -214,7 +214,7 @@ export function NotificationCenter() {
   return (
     <Dropdown>
       <DropdownAction asChild>
-        <Button variant="outline" size="small" className="relative rounded-full">
+        <Button variant="outline" size="sm" className="relative rounded-full">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
             <Badge
@@ -233,7 +233,7 @@ export function NotificationCenter() {
             {unreadCount > 0 && (
               <Button
                 variant="outline"
-                size="small"
+                size="sm"
                 onClick={markAllAsRead}
                 className="text-xs"
               >
@@ -319,7 +319,7 @@ export function NotificationCenter() {
                       {!notification.read && (
                         <Button
                           variant="outline"
-                          size="small"
+                          size="sm"
                           className="h-6 w-6"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -331,7 +331,7 @@ export function NotificationCenter() {
                       )}
                       <Button
                         variant="outline"
-                        size="small"
+                        size="sm"
                         className="h-6 w-6"
                         onClick={(e) => {
                           e.stopPropagation();

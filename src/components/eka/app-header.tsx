@@ -30,7 +30,7 @@ export function AppHeader() {
         <div className="md:hidden">
           <Button
             variant="outline"
-            size="small"
+            size="sm"
             className="rounded-lg hover-lift"
             onClick={() => setOpenMobile(true)}
           >

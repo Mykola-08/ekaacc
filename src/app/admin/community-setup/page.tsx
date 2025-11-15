@@ -116,7 +116,7 @@ export default function CommunitySetupPage() {
                         {status === 'success' ? 'Database Initialized ✓' : 'Initialize Community Database'}
                     </Button>
                     {status === 'success' && <Notification><CheckCircle2 className="h-4 w-4" /><NotificationTitle>Success!</NotificationTitle><NotificationDescription>Community database initialized successfully.</NotificationDescription></Notification>}
-                    {status === 'error' && <Notification variant="destructive"><AlertCircle className="h-4 w-4" /><NotificationTitle>Error</NotificationTitle><NotificationDescription>{message}</NotificationDescription></Notification>}
+                    {status === 'error' && <Notification><AlertCircle className="h-4 w-4" /><NotificationTitle>Error</NotificationTitle><NotificationDescription>{message}</NotificationDescription></Notification>}
                     {logs.length > 0 && (
                         <div className="space-y-2">
                             <h4 className="font-semibold text-sm">Setup Logs</h4>

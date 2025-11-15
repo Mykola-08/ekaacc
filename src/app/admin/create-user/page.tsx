@@ -198,7 +198,7 @@ export default function AdminCreateUserPage() {
       </div>
 
       {errors.length > 0 && (
-        <Notification variant="destructive" className="mb-6">
+        <Notification className="mb-6">
           <AlertCircle className="h-4 w-4" />
           <NotificationTitle>Validation Errors</NotificationTitle>
           <NotificationDescription>

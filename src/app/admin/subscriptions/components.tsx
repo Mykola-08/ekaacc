@@ -158,7 +158,7 @@ export function SubscriptionsTable({
                                                         <DropdownItem onClick={() => onAction(user, 'revoke')} disabled={!loyalSub && !vipSub}>
                                                             <UserMinus className="mr-2 h-4 w-4" /> Revoke
                                                         </DropdownItem>
-                                                        <DropdownMenuSeparator />
+                                                        <div className="my-1 h-px bg-muted" />
                                                         <DropdownItem onClick={() => onAction(user, 'view')}>
                                                             <Shield className="mr-2 h-4 w-4" /> View Details
                                                         </DropdownItem>

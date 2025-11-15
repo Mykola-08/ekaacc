@@ -400,7 +400,7 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {formData.therapistProfile?.languages?.map((lang, idx) => (
-                    <Badge key={idx} variant="outline" className="gap-1">
+                    <Badge key={idx} variant="border" className="gap-1">
                       {lang}
                       <X className="h-3 w-3 cursor-pointer" onClick={() => removeLanguage(idx)} />
                     </Badge>

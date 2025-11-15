@@ -204,7 +204,7 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
 
             {typedUser.therapistProfile.acceptingNewClients !== undefined && (
               <div className="pt-2">
-                <Badge variant={typedUser.therapistProfile.acceptingNewClients ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.therapistProfile.acceptingNewClients ? 'default' : 'background'}>
                   {typedUser.therapistProfile.acceptingNewClients ? 'Accepting New Clients' : 'Not Accepting Clients'}
                 </Badge>
               </div>
@@ -271,7 +271,7 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm">Show Email</span>
-                <Badge variant={typedUser.profileVisibility.showEmail ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.profileVisibility.showEmail ? 'default' : 'background'}>
                   {typedUser.profileVisibility.showEmail ? 'Yes' : 'No'}
                       {/* Preferences & Personal Info */}
                       {(typedUser.birthday || typedUser.preferences) && (
@@ -375,13 +375,13 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Show Phone</span>
-                <Badge variant={typedUser.profileVisibility.showPhone ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.profileVisibility.showPhone ? 'default' : 'background'}>
                   {typedUser.profileVisibility.showPhone ? 'Yes' : 'No'}
                 </Badge>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm">Show Location</span>
-                <Badge variant={typedUser.profileVisibility.showLocation ? 'default' : 'secondary'}>
+                <Badge variant={typedUser.profileVisibility.showLocation ? 'default' : 'background'}>
                   {typedUser.profileVisibility.showLocation ? 'Yes' : 'No'}
                 </Badge>
               </div>

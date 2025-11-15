@@ -226,7 +226,7 @@ export default function AdminSubscriptionsPage() {
             <ModalDescription>Remove subscription access for {selectedUser?.userName}.</ModalDescription>
           </ModalHeader>
           <div className="space-y-4 py-4">
-            <Notification variant="destructive">
+            <Notification>
               <NotificationDescription>This action will immediately revoke the user's subscription access. This cannot be undone.</NotificationDescription>
             </Notification>
             <div className="space-y-2">

@@ -74,7 +74,7 @@ function NoSessionsFound({ error, onBookClick }: { error: Error | null, onBookCl
           <p className="mt-1 text-sm text-muted-foreground max-w-md mx-auto">
             {error ? error.message : "We couldn't find any sessions in your account. Ready to book your first one?"}
           </p>
-          <Button variant="outline" size="small" className="mt-4" onClick={onBookClick}>
+          <Button variant="outline" size="sm" className="mt-4" onClick={onBookClick}>
             Book a Session
           </Button>
         </div>

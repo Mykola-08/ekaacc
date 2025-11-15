@@ -210,11 +210,14 @@ export function ClientActivityTimeline({ client }: ClientActivityTimelineProps) 
                       <div className="flex items-center gap-2">
                         <h4 className="font-semibold">{event.title}</h4>
                         {event.status && (
-                          <Badge variant={
-                            event.status === 'completed' ? 'default' :
-                            event.status === 'pending' ? 'secondary' :
-                            'destructive'
-                          } className="text-xs">
+                          <Badge 
+                            variant={event.status === 'completed' ? 'background' : 'border'}
+                            className={cn('text-xs', 
+                              event.status === 'completed' ? 'text-success border-success/20 bg-success/5' :
+                              event.status === 'pending' ? 'text-warning border-warning/20 bg-warning/5' :
+                              'text-destructive border-destructive/20 bg-destructive/5'
+                            )}
+                          >
                             {event.status}
                           </Badge>
                         )}
@@ -227,18 +230,18 @@ export function ClientActivityTimeline({ client }: ClientActivityTimelineProps) 
                       {event.metadata && (
                         <div className="flex flex-wrap gap-2 mt-2">
                           {event.metadata.duration && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="border" className="text-xs">
                               <Clock className="h-3 w-3 mr-1" />
                               {event.metadata.duration} min
                             </Badge>
                           )}
                           {event.metadata.therapist && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="border" className="text-xs">
                               {event.metadata.therapist}
                             </Badge>
                           )}
                           {event.metadata.amount && (
-                            <Badge variant="outline" className="text-xs">
+                            <Badge variant="border" className="text-xs">
                               €{event.metadata.amount}
                             </Badge>
                           )}

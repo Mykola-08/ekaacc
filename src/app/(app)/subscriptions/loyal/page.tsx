@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 ;
 import { Check, Star, Sparkles, TrendingUp, Zap, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import subscriptionManager, { type SubscriptionPlan } from '@/services/subscription-manager';
 import { motion } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';

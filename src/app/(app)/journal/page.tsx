@@ -50,9 +50,9 @@ export default function JournalPage() {
 	const [selectedTag, setSelectedTag] = useState<string | null>(null);
 
 	const fetchEntries = useCallback(async () => {
-		if (dataService && user?.uid) {
+		if (dataService && user?.id) {
 			setIsLoading(true);
-			const userEntries = await dataService.getJournalEntries(user.uid);
+			const userEntries = await dataService.getJournalEntries(user.id);
 			setEntries(userEntries || []);
 			setIsLoading(false);
 		}

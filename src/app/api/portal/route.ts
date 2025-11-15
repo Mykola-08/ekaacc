@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
     const session = await createCustomerPortalSession(
       customerId,
-      `${process.env.NEXT_PUBLIC_APP_URL}/account/subscriptions`
+      `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/account/subscriptions`
     );
 
     return NextResponse.json({ url: session.url });

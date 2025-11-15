@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Notification, NotificationDescription, NotificationTitle } from '@/components/keep';
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
 import { useState } from 'react';
 ;
 ;
@@ -115,8 +115,24 @@ export default function CommunitySetupPage() {
                         {status === 'loading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         {status === 'success' ? 'Database Initialized ✓' : 'Initialize Community Database'}
                     </Button>
-                    {status === 'success' && <Notification><CheckCircle2 className="h-4 w-4" /><NotificationTitle>Success!</NotificationTitle><NotificationDescription>Community database initialized successfully.</NotificationDescription></Notification>}
-                    {status === 'error' && <Notification><AlertCircle className="h-4 w-4" /><NotificationTitle>Error</NotificationTitle><NotificationDescription>{message}</NotificationDescription></Notification>}
+                    {status === 'success' && (
+                      <div className="flex items-start gap-2 rounded-md border border-success/20 bg-success/5 p-3">
+                        <CheckCircle2 className="h-4 w-4 text-success" />
+                        <div>
+                          <p className="font-medium">Success!</p>
+                          <p className="text-sm text-success-foreground">Community database initialized successfully.</p>
+                        </div>
+                      </div>
+                    )}
+                    {status === 'error' && (
+                      <div className="flex items-start gap-2 rounded-md border border-destructive/20 bg-destructive/5 p-3">
+                        <AlertCircle className="h-4 w-4 text-destructive" />
+                        <div>
+                          <p className="font-medium">Error</p>
+                          <p className="text-sm text-destructive-foreground">{message}</p>
+                        </div>
+                      </div>
+                    )}
                     {logs.length > 0 && (
                         <div className="space-y-2">
                             <h4 className="font-semibold text-sm">Setup Logs</h4>
@@ -131,7 +147,7 @@ export default function CommunitySetupPage() {
                 <CardContent className="space-y-4">
                     {nextStepsContent.map(item => (
                         <div key={item.step} className="flex items-start gap-3">
-                            <Badge variant="outline" className="mt-1">{item.step}</Badge>
+                            <Badge variant="border" className="mt-1">{item.step}</Badge>
                             <div>
                                 <h4 className="font-semibold text-sm">{item.title}</h4>
                                 <p className="text-sm text-muted-foreground">{item.description}</p>

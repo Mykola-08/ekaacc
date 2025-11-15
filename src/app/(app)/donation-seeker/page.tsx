@@ -1,6 +1,6 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Label, Notification, NotificationDescription, Switch } from '@/components/keep';
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Label, Switch } from '@/components/keep';
 import { useState } from 'react';
 import { 
   Heart, 
@@ -16,7 +16,7 @@ import {
   TrendingUp,
   Users
 } from 'lucide-react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useToast } from '@/hooks/use-toast';
 
 export default function DonationSeekerPage() {
@@ -25,7 +25,7 @@ export default function DonationSeekerPage() {
   
   // Mock application status - in production, this comes from user data
   const [applicationStatus, setApplicationStatus] = useState<'pending' | 'approved' | 'rejected'>(
-    currentUser?.donationSeekerApproved ? 'approved' : 'pending'
+    currentUser?.user_metadata?.donationSeekerApproved ? 'approved' : 'pending'
   );
   
   // Privacy settings
@@ -39,7 +39,7 @@ export default function DonationSeekerPage() {
 
   // Mock stats
   const stats = {
-    totalReceived: currentUser?.totalReceived || 0,
+    totalReceived: (currentUser?.user_metadata?.totalReceived as number) || 0,
     currentMonthReceived: 125.00,
     activeDonors: 3,
     goalAmount: 500,
@@ -61,11 +61,11 @@ export default function DonationSeekerPage() {
   const getStatusIcon = () => {
     switch (applicationStatus) {
       case 'approved':
-        return <CheckCircle2 className="h-5 w-5 text-green-500" />;
+        return <CheckCircle2 className="h-5 w-5 text-success" />;
       case 'pending':
-        return <Clock className="h-5 w-5 text-yellow-500" />;
+        return <Clock className="h-5 w-5 text-warning" />;
       case 'rejected':
-        return <AlertCircle className="h-5 w-5 text-red-500" />;
+        return <AlertCircle className="h-5 w-5 text-destructive" />;
     }
   };
 

@@ -3,7 +3,8 @@
 ;
 ;
 ;
-import { Avatar, AvatarFallback, Button, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
+import { Avatar, AvatarFallback, Button, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { Bot, Loader2, Sparkles, User } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
@@ -86,7 +87,7 @@ export function AiAssistant() {
             </ModalDescription>
           </ModalHeader>
           
-          <ScrollArea className="flex-1 -mx-6 px-6" ref={scrollAreaRef}>
+          <ScrollArea className="flex-1 -mx-6 px-6" ref={scrollAreaRef as any}>
             <div className="space-y-4 pr-4">
                 {conversation.map((msg, index) => (
                     <div key={index} className={cn("flex items-start gap-3", msg.role === 'user' ? 'justify-end' : 'justify-start')}>
@@ -133,9 +134,7 @@ export function AiAssistant() {
           </div>
 
           <ModalFooter>
-            <ModalClose asChild>
-                <Button variant="outline">Close</Button>
-            </ModalClose>
+            <Button variant="outline" onClick={() => setIsOpen(false)}>Close</Button>
             <Button type="submit" onClick={handleSend} disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Send

@@ -28,29 +28,29 @@ export async function POST(req: NextRequest) {
     }
 
     // Get the appropriate price ID from environment variables
-    // In production, these would be stored in the database or env vars
-    const priceId = getPriceId(subscriptionType, interval);
+    const priceIdKey = `STRIPE_PRICE_${tierId.toUpperCase()}_${subscriptionType.toUpperCase()}_${interval.toUpperCase()}`;
+    const priceId = process.env[priceIdKey];
 
     if (!priceId) {
       return NextResponse.json(
-        { error: 'Price ID not configured' },
-        { status: 500 }
+        { error: 'Price not configured for this tier' },
+        { status: 400 }
       );
     }
 
-    // Create Stripe checkout session
+    // Create checkout session
     const session = await createCheckoutSession({
       userId,
       userEmail,
       tierId,
-      subscriptionType: subscriptionType as SubscriptionType,
-      interval: interval as SubscriptionInterval,
+      subscriptionType,
+      interval,
       priceId,
-      successUrl: `${process.env.NEXT_PUBLIC_APP_URL}/account/subscriptions?success=true&session_id={CHECKOUT_SESSION_ID}`,
-      cancelUrl: `${process.env.NEXT_PUBLIC_APP_URL}/account/subscriptions?canceled=true`,
+      successUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/account/subscriptions?success=true&session_id={CHECKOUT_SESSION_ID}`,
+      cancelUrl: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/account/subscriptions?canceled=true`,
     });
 
-    return NextResponse.json({ sessionId: session.id, url: session.url });
+    return NextResponse.json({ sessionId: session.id });
   } catch (error) {
     console.error('Checkout error:', error);
     return NextResponse.json(
@@ -58,13 +58,4 @@ export async function POST(req: NextRequest) {
       { status: 500 }
     );
   }
-}
-
-/**
- * Get Stripe price ID based on subscription type and interval
- * In production, these should be stored in environment variables or database
- */
-function getPriceId(type: string, interval: string): string | null {
-  const key = `STRIPE_PRICE_${type.toUpperCase()}_${interval.toUpperCase()}`;
-  return process.env[key] || null;
 }

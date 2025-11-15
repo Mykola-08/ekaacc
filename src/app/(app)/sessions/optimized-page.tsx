@@ -6,7 +6,7 @@ import { Suspense, useMemo } from "react";
 ;
 import { Calendar, Plus, Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useAuth } from "@/context/auth-context";
+import { useAuth } from "@/lib/supabase-auth";
 import { useOptimizedData } from "@/hooks/use-optimized-data";
 import { getDataService } from "@/services/data-service";
 import OptimizedSessionCard from "@/components/eka/optimized-session-card";

@@ -149,7 +149,7 @@ export function AdminPanel() {
                 </SelectContent>
               </Select>
               <Input type="number" value={adjustAmount} onChange={(e:any)=>setAdjustAmount(parseFloat(e.target.value||'0'))} className="w-32" />
-              <Button onClick={applyAdjustment}>Apply</Button>
+              <Button variant="default" onClick={applyAdjustment}>Apply</Button>
             </div>
           </div>
 

@@ -12,7 +12,7 @@ import { fxAssessments } from './fx-assessments';
 import { fxBilling } from './fx-billing';
 import { fxUsers } from './fx-users';
 
-const useMock = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
+const useMock = false;
 const useSquareApi = process.env.NEXT_PUBLIC_USE_SQUARE_API === 'true';
 
 // Safe storage helpers: use localStorage when available (browser), otherwise fall back to an in-memory Map

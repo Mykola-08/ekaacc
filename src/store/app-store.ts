@@ -12,12 +12,12 @@ export const useAppStore = create<AppState>()(
   devtools(
     (set, get) => ({
       dataService: null,
-      dataSource: 'mock',
+      dataSource: 'supabase',
       initDataService: async () => {
         if (get().dataService) return;
 
         const service = await getDataService();
-        const source = (await import('@/services/data-service')).USE_MOCK_DATA ? 'mock' : 'firebase';
+        const source = 'supabase';
         
         set({ dataService: service, dataSource: source });
       },

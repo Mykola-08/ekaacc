@@ -7,7 +7,9 @@
 ;
 ;
 ;
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dropdown, DropdownAction, DropdownContent, DropdownItem, Input, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { SelectTrigger } from '@/components/ui/select';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import type { Subscription, SubscriptionType } from '@/lib/subscription-types';
 import { Search, Filter, Download, MoreVertical, UserPlus, UserMinus, Shield, Users, Crown, Star, TrendingUp } from 'lucide-react';
@@ -137,7 +139,7 @@ export function SubscriptionsTable({
                                                 <div className="flex gap-2">
                                                     {loyalSub && <SubscriptionBadge type="loyalty" size="sm" />}
                                                     {vipSub && <SubscriptionBadge type="vip" size="sm" />}
-                                                    {!loyalSub && !vipSub && <Badge variant="outline">None</Badge>}
+                                                    {!loyalSub && !vipSub && <Badge variant="border" className="text-muted-foreground">None</Badge>}
                                                 </div>
                                             </TableCell>
                                             <TableCell>€{user.totalSpent.toFixed(2)}</TableCell>
@@ -145,13 +147,12 @@ export function SubscriptionsTable({
                                             <TableCell className="text-right">
                                                 <Dropdown>
                                                     <DropdownAction asChild>
-                                                        <Button variant="ghost" className="h-8 w-8 p-0">
+                                                        <Button variant="outline" className="h-8 w-8 p-0">
                                                             <span className="sr-only">Open menu</span>
                                                             <MoreVertical className="h-4 w-4" />
                                                         </Button>
                                                     </DropdownAction>
                                                     <DropdownContent align="end">
-                                                        <DropdownList>Actions</DropdownList>
                                                         <DropdownItem onClick={() => onAction(user, 'grant')}>
                                                             <UserPlus className="mr-2 h-4 w-4" /> Grant
                                                         </DropdownItem>

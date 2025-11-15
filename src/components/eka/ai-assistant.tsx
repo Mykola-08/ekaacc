@@ -90,7 +90,7 @@ export function AIAssistant() {
           >
             <Button
               onClick={() => setIsOpen(true)}
-              size="lg"
+              size="sm"
               className="h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90"
             >
               <Sparkles className="h-6 w-6" />

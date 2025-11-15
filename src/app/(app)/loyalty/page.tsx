@@ -2,7 +2,7 @@
 
 import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { Star, Gift, Trophy, TrendingUp, Sparkles, Crown, Zap, Award, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -38,9 +38,9 @@ export default function LoyaltyPage() {
 
   useEffect(() => {
     if (currentUser) {
-      // Use loyalty points from user profile
-      setCurrentPoints(currentUser.loyaltyPoints?.current || 0);
-      setLifetimePoints(currentUser.loyaltyPoints?.lifetime || 0);
+      const lp = (currentUser as any).user_metadata?.loyaltyPoints || {};
+      setCurrentPoints(lp.current || 0);
+      setLifetimePoints(lp.lifetime || 0);
     }
   }, [currentUser]);
 

@@ -6,7 +6,7 @@ import { RefreshCw, PlusCircle, CalendarX2 } from 'lucide-react';
 
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';

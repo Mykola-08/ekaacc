@@ -22,7 +22,7 @@ export default function AIGoalSuggestions() {
   useEffect(() => {
     if (user) {
       setLoading(true);
-      getAIGoalSuggestions(user.uid)
+      getAIGoalSuggestions(user.id)
         .then((s) => {
           try {
             const parsedSuggestions = JSON.parse(s || '[]');
@@ -55,8 +55,7 @@ export default function AIGoalSuggestions() {
     };
 
     try {
-      await savePreferences(user.uid, updatedPrefs as UserPreferences);
-      await refreshAppUser();
+      await savePreferences(user.id, updatedPrefs as UserPreferences);
       toast({
         title: 'Goals Updated',
         description: 'Your new goals have been added to your profile.',

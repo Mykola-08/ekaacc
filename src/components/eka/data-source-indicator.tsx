@@ -24,7 +24,7 @@ export function DataSourceIndicator({
 }: DataSourceIndicatorProps) {
   const dataService = useAppStore((state) => state.dataService);
   
-  const isMock = dataService?.isMock ?? true;
+  const isMock = dataService?.isMock ?? false;
   
   return (
     <Badge 
@@ -38,7 +38,7 @@ export function DataSourceIndicator({
           <Database className="h-3 w-3 mr-1" />
         )
       )}
-      {isMock ? 'Mock Data' : 'Firebase'}
+      {isMock ? 'Mock Data' : 'Supabase'}
     </Badge>
   );
 }

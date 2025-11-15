@@ -1,5 +1,5 @@
 'use client';
-import { AuthProvider, useAuth } from '@/context/auth-context';
+import { AuthProvider, useAuth } from '@/lib/supabase-auth';
 import { AIAssistant } from '@/components/eka/ai-assistant';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';

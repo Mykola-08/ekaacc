@@ -46,7 +46,7 @@ export default function BookingCalendar({ value, onChange }: BookingCalendarProp
             const disabled = busySlots.includes(h);
             const label = `${h}:00`;
             return (
-              <Button key={h} onClick={()=>handleSelectSlot(h)} disabled={disabled} variant={disabled ? 'ghost' : 'default'}>
+              <Button key={h} onClick={()=>handleSelectSlot(h)} disabled={disabled} variant={disabled ? 'outline' : 'default'} className={disabled ? 'opacity-70 cursor-not-allowed' : ''}>
                 {label} {disabled ? ' (Booked)' : ''}
               </Button>
             );

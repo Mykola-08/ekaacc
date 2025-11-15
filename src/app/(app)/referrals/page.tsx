@@ -7,7 +7,7 @@ import { useState } from 'react';
 ;
 ;
 ;
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useToast } from '@/hooks/use-toast';
 import { Users, Share2, Gift, Copy, Check, Mail, MessageCircle, Facebook, Twitter, Instagram, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';

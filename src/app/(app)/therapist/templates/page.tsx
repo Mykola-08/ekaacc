@@ -22,7 +22,7 @@ import {
   User as UserIcon,
   Sparkles
 } from 'lucide-react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';

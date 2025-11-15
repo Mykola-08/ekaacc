@@ -63,7 +63,7 @@ export default function DonationsPage() {
     setAmount(val);
   };
 
-  const potentialRecipients = useMemo(() => allUsers.filter(u => u.id !== currentUser?.id && u.isDonationSeeker), [allUsers, currentUser]);
+  const potentialRecipients = useMemo(() => allUsers.filter(u => u.id !== currentUser?.id && (u as any).user_metadata?.isDonationSeeker), [allUsers, currentUser]);
 
   const handleDonate = async () => {
     if (!currentUser || !dataService || !amount) {
@@ -105,10 +105,12 @@ export default function DonationsPage() {
     console.log('Application submitted:', data);
     // Store application data - mark as pending for admin review
     await dataService.updateUser(currentUser.id, {
-      isDonationSeekerApplicationPending: true,
-      donationSeekerReason: data.reasonForSupport,
-    });
-    await refreshAppUser();
+      user_metadata: {
+        ...(currentUser.user_metadata || {}),
+        isDonationSeekerApplicationPending: true,
+        donationSeekerReason: data.reasonForSupport,
+      }
+    } as any);
 
     toast({
       title: 'Application submitted!',
@@ -117,7 +119,7 @@ export default function DonationsPage() {
     setShowApplicationForm(false);
   };
 
-  const isDonationSeeker = currentUser?.isDonationSeeker;
+  const isDonationSeeker = currentUser?.user_metadata?.isDonationSeeker;
 
   if (isLoading) {
     return (

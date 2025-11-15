@@ -68,7 +68,7 @@ export default function SettingsPage() {
     setIsLoading(true);
     try {
       await dataService.updateUser(currentUser.id, { settings });
-      await refreshAppUser();
+      
 
       toast({
         title: "Settings Saved",

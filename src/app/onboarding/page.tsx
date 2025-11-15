@@ -4,7 +4,7 @@ import { Button, Card, CardContent, Input, Label, Select, SelectContent, SelectI
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useToast } from '@/hooks/use-toast';
 import { OnboardingShell } from '@/components/eka/onboarding/onboarding-shell';
 import { OnboardingStep } from '@/components/eka/onboarding/onboarding-step';

@@ -26,7 +26,12 @@ export function UserNav() {
     return null;
   }
   
-  const initials = currentUser.user_metadata?.displayName?.split(' ').map((n: string) => n[0]).join('') || 'U';
+  const initials = (currentUser.user_metadata?.displayName || currentUser.email || 'User')
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .slice(0,2)
+    .toUpperCase();
 
   return (
     <Dropdown>

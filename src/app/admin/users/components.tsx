@@ -1,6 +1,8 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { SelectTrigger } from '@/components/ui/select';
 import { forwardRef } from 'react';
 ;
 ;
@@ -94,19 +96,19 @@ export function UserFilters({
 
 const getRoleBadgeVariant = (role: string) => {
     switch (role) {
-        case 'Admin': return 'destructive';
-        case 'Therapist': return 'default';
-        default: return 'secondary';
+        case 'Admin': return 'border';
+        case 'Therapist': return 'background';
+        default: return 'background';
     }
 };
 
 const getStatusBadgeVariant = (status?: string) => {
     switch (status) {
-        case 'active': return 'default';
-        case 'suspended': return 'destructive';
-        case 'pending': return 'secondary';
-        case 'deactivated': return 'outline';
-        default: return 'default';
+        case 'active': return 'background';
+        case 'suspended': return 'border';
+        case 'pending': return 'background';
+        case 'deactivated': return 'border';
+        default: return 'background';
     }
 };
 
@@ -182,9 +184,9 @@ export const UserTable = forwardRef<HTMLInputElement, UserTableProps>(({
                                         </TableCell>
                                         <TableCell className="text-right">
                                             <div className="flex gap-1 justify-end">
-                                                <Button size="sm" variant="ghost" onClick={() => onViewProfile(user)}><Eye className="h-4 w-4" /></Button>
-                                                <Button size="sm" variant="ghost" onClick={() => onEditUser(user)}><Edit className="h-4 w-4" /></Button>
-                                                <Button size="sm" variant="ghost" onClick={() => onToggleStatus(user)}>
+                                                <Button size="sm" variant="outline" onClick={() => onViewProfile(user)}><Eye className="h-4 w-4" /></Button>
+                                                <Button size="sm" variant="outline" onClick={() => onEditUser(user)}><Edit className="h-4 w-4" /></Button>
+                                                <Button size="sm" variant="outline" onClick={() => onToggleStatus(user)}>
                                                     {(user.accountStatus || 'active') === 'active' ? <UserX className="h-4 w-4 text-destructive" /> : <UserCheck className="h-4 w-4 text-green-500" />}
                                                 </Button>
                                             </div>
@@ -233,7 +235,7 @@ export function BulkActions({ onSuspend, onActivate, selectedCount }: { onSuspen
                     <p className="text-sm text-muted-foreground pt-1">{selectedCount} user(s) selected</p>
                 </div>
                 <div className="flex gap-2">
-                    <Button variant="destructive" onClick={onSuspend} disabled={selectedCount === 0}>
+                    <Button variant="default" className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={onSuspend} disabled={selectedCount === 0}>
                         <UserX className="mr-2 h-4 w-4" /> Suspend
                     </Button>
                     <Button onClick={onActivate} disabled={selectedCount === 0}>

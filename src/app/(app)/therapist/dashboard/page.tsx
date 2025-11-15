@@ -40,7 +40,7 @@ import { format } from "date-fns";
 
 // --- Dynamic Imports for Heavy Components ---
 // Force re-evaluation
-const TestTools = dynamic(() => import("@/components/eka/test-tools").then((mod) => mod.TestTools), { ssr: false });
+const TestTools = dynamic(() => import("@/components/eka/test-tools").then((mod) => ({ default: mod.TestTools })), { ssr: false });
 const ClientBilling = dynamic(() => import("@/components/eka/client-billing").then((mod) => mod.ClientBilling), { ssr: false });
 const AdminPanel = dynamic(() => import('@/components/eka/admin-panel').then((m) => m.AdminPanel), { ssr: false });
 const BookingCalendar = dynamic(() => import('@/components/eka/booking-calendar'), { ssr: false });

@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Button, Card, CardContent, Dropdown, DropdownAction, DropdownContent, DropdownItem, DropdownList, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { Badge, Button, Card, CardContent, Dropdown, DropdownAction, DropdownContent, DropdownItem, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
 import { MoreHorizontal, CalendarOff } from "lucide-react";
@@ -94,11 +94,10 @@ export default function SessionsPage() {
     if (!currentUser || !dataService) return;
     try {
       await dataService.updateUser(currentUser.id, updates);
-      await refreshAppUser();
     } catch (e) {
       console.error("Failed to update user data", e);
     }
-  }, [currentUser, dataService, refreshAppUser]);
+  }, [currentUser, dataService]);
 
   useEffect(() => {
     if (isUserLoading) {
@@ -110,7 +109,7 @@ export default function SessionsPage() {
       return;
     }
     setIsLoading(true);
-    fxService.getBookingsForUser(currentUser.uid || currentUser.id || 'user1', {
+    fxService.getBookingsForUser(currentUser.id || 'user1', {
       email: currentUser.email,
       phone: currentUser.phoneNumber,
     })
@@ -184,7 +183,10 @@ export default function SessionsPage() {
                     <TableCell className="font-medium whitespace-nowrap pl-6">{session.therapist}</TableCell>
                     <TableCell className="whitespace-nowrap">{session.type}</TableCell>
                     <TableCell>
-                      <Badge variant={session.status === 'Upcoming' ? 'default' : session.status === 'Canceled' ? 'destructive' : 'secondary'}>
+                      <Badge 
+                        variant={session.status === 'Upcoming' ? 'background' : 'border'}
+                        className={session.status === 'Upcoming' ? 'text-info border-info/20 bg-info/5' : (session.status === 'Canceled' ? 'text-destructive border-destructive/20 bg-destructive/5' : 'text-muted-foreground border-muted/30 bg-muted/10')}
+                      >
                         {session.status}
                       </Badge>
                     </TableCell>
@@ -192,13 +194,12 @@ export default function SessionsPage() {
                     <TableCell className="text-right pr-6">
                       <Dropdown>
                         <DropdownAction asChild>
-                          <Button aria-haspopup="true" size="icon" variant="ghost">
+                          <Button aria-haspopup="true" size="sm" variant="outline">
                             <MoreHorizontal className="h-4 w-4" />
                             <span className="sr-only">Toggle menu</span>
                           </Button>
                         </DropdownAction>
                         <DropdownContent align="end">
-                          <DropdownList>Actions</DropdownList>
                           <DropdownItem>View Details</DropdownItem>
                           <DropdownItem disabled={session.status !== 'Upcoming'}>Reschedule</DropdownItem>
                           <DropdownItem disabled={session.status !== 'Upcoming'}>Cancel</DropdownItem>

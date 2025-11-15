@@ -6,7 +6,7 @@ import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, Arr
 ;
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 // AI assistant removed from progress reports page
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 ;
 import { useToast } from '@/hooks/use-toast';

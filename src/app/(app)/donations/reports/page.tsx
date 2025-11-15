@@ -5,7 +5,6 @@ import { useState, useMemo } from 'react';
 ;
 ;
 import { Loader2, Bot, Gift } from "lucide-react";
-import { collection, query, where, or } from 'firebase/firestore';
 import { useUser, useCollection } from '@/hooks/use-firebase-hooks';
 import { useToast } from '@/hooks/use-toast';
 import type { Donation, User } from '@/lib/types';
@@ -36,13 +35,7 @@ export default function DonationReportsPage() {
   const { data: allUsers, loading: isLoadingUsers } = useCollection<User>('users');
 
   const userDonationsQuery = useMemo(() => {
-    if (!user) return [];
-    return [
-        or(
-            where('donorId', '==', user.uid),
-            where('receiverId', '==', user.uid)
-        )
-    ];
+    return [];
   }, [user]);
 
   const { data: userDonations, loading: isLoadingDonations } = useCollection<Donation>('donations', userDonationsQuery);

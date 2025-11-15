@@ -59,7 +59,7 @@ export default function AdminSettingsPage() {
                 <p className="font-medium">Mock Data Mode</p>
                 <p className="text-sm text-muted-foreground">Use simulated data instead of Firebase</p>
               </div>
-              <Badge variant={mockDataEnabled ? 'default' : 'outline'}>{mockDataEnabled ? 'ENABLED' : 'DISABLED'}</Badge>
+              <Badge variant={mockDataEnabled ? 'background' : 'border'} className={mockDataEnabled ? 'text-success border-success/20 bg-success/5' : 'text-muted-foreground border-muted/30 bg-muted/10'}>{mockDataEnabled ? 'ENABLED' : 'DISABLED'}</Badge>
             </div>
             <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
               <div>
@@ -106,7 +106,7 @@ export default function AdminSettingsPage() {
                   <p className="text-sm text-muted-foreground">Cloud database and authentication</p>
                 </div>
               </div>
-              <Badge variant="default">CONNECTED</Badge>
+              <Badge variant="background" className="text-primary border-primary/20 bg-primary/5">CONNECTED</Badge>
             </div>
           </CardContent>
         </Card>

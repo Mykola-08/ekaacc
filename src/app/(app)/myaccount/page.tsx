@@ -82,7 +82,7 @@ function ProfileSection({ currentUser, refreshAppUser, authLoading }: { currentU
   useEffect(() => {
     if (currentUser) {
       form.reset({
-        name: currentUser.name || currentUser.displayName || "",
+        name: currentUser.name || currentUser.user_metadata?.displayName || currentUser.email || "",
         email: currentUser.email || "",
         phoneNumber: currentUser.phoneNumber || "",
         location: currentUser.location || "",
@@ -101,7 +101,7 @@ function ProfileSection({ currentUser, refreshAppUser, authLoading }: { currentU
         location: data.location,
         bio: data.about,
       });
-      await refreshAppUser();
+      
       toast({ title: "Profile Updated", description: "Your information has been saved." });
       form.reset(data, { keepValues: true }); // keep the new values and reset dirty state
     } catch (error) {

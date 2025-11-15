@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/keep';
 import React, { useState } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/lib/supabase-auth';
 ;
 import fxService from '@/lib/fx-service';
 

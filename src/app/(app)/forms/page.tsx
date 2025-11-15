@@ -54,19 +54,22 @@ export default function FormsPage() {
         type: 'page-visit',
         data: { page: '/forms' }
       });
-      updateUser({ activityData: { ...(currentUser.activityData || {}), ...updates } });
+      updateUser({ user_metadata: { ...(currentUser.user_metadata || {}), activityData: { ...((currentUser.user_metadata as any)?.activityData || {}), ...updates } } } as any);
     }
   }, [currentUser, updateUser]);
 
   const handlePersonalizationSubmit = (data: PersonalizationData) => {
     console.log('Personalization submitted:', data);
     updateUser({
-      personalizationCompleted: true,
-      personalization: {
+      user_metadata: {
+        ...(currentUser?.user_metadata || {}),
+        personalizationCompleted: true,
+        personalization: {
         goals: data.goals,
         interests: data.interests ? data.interests.split(',').map(i => i.trim()) : [],
         values: data.values,
         preferences: data.preferences,
+        },
       },
     });
     setShowWelcomeForm(false);

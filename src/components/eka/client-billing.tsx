@@ -1,6 +1,6 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalClose, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
 import { useState } from "react";
 ;
 ;
@@ -281,10 +281,10 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
                 <TableRow key={transaction.id}>
                   <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
                   <TableCell>
-                    <Badge variant={
-                      transaction.type === 'credit' ? 'default' : 
-                      transaction.type === 'debit' ? 'secondary' : 
-                      'outline'
+                    <Badge variant={transaction.type === 'credit' ? 'background' : 'border'} className={
+                      transaction.type === 'credit' 
+                        ? 'text-success border-success/20 bg-success/5' 
+                        : 'text-muted-foreground border-muted/30 bg-muted/10'
                     }>
                       {transaction.type}
                     </Badge>
@@ -376,9 +376,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
             </div>
           </div>
           <ModalFooter>
-            <ModalClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </ModalClose>
+            <Button variant="outline" onClick={() => setIsAddBalanceOpen(false)}>Cancel</Button>
             <Button onClick={handleAddBalance}>Add Funds</Button>
           </ModalFooter>
         </ModalContent>
@@ -421,10 +419,8 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
             </div>
           </div>
           <ModalFooter>
-            <ModalClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </ModalClose>
-            <Button variant="destructive" onClick={handleSubtractBalance}>Deduct Funds</Button>
+            <Button variant="outline" onClick={() => setIsSubtractBalanceOpen(false)}>Cancel</Button>
+            <Button variant="default" className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={handleSubtractBalance}>Deduct Funds</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
@@ -447,9 +443,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
             </div>
           </div>
           <ModalFooter>
-            <ModalClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </ModalClose>
+            <Button variant="outline" onClick={() => setIsCreateInvoiceOpen(false)}>Cancel</Button>
             <Button onClick={async ()=>{ try{ const inv = await fxService.createInvoice(client.id, invoiceAmount, invoiceDesc); setInvoices(prev=>[inv, ...prev]); toast({ title: 'Invoice created' }); setIsCreateInvoiceOpen(false); setInvoiceAmount(0); setInvoiceDesc(''); }catch(e){ toast({ variant:'destructive', title:'Create invoice failed' }); } }}>Create</Button>
           </ModalFooter>
         </ModalContent>

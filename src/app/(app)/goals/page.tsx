@@ -25,9 +25,9 @@ export default function GoalsPage() {
   const [isCreating, setIsCreating] = useState(false);
 
   const fetchGoals = useCallback(async () => {
-    if (dataService && user?.uid) {
+    if (dataService && user?.id) {
       setIsLoading(true);
-      const userGoals = await dataService.getGoals(user.uid);
+      const userGoals = await dataService.getGoals(user.id);
       setGoals(userGoals || []);
       setIsLoading(false);
     }
@@ -114,7 +114,7 @@ function NewGoalCard({
   const handleSave = async () => {
     if (dataService && user) {
       const newGoal = await dataService.createGoal({
-        userId: user.uid,
+        userId: user.id,
         description,
         targetDate,
         isCompleted: false,

@@ -38,11 +38,11 @@ export function DashboardHero() {
         <div className="flex flex-col md:flex-row items-start justify-between gap-4">
             <div className="flex items-center gap-4">
                 <Avatar className="h-16 w-16 text-2xl hidden sm:flex">
-                    <AvatarImage src={currentUser.avatarUrl} alt={currentUser.name} />
-                    <AvatarFallback>{currentUser.initials}</AvatarFallback>
+                    <AvatarImage src={currentUser.user_metadata?.avatarUrl || ''} alt={currentUser.user_metadata?.displayName || currentUser.email || 'User'} />
+                    <AvatarFallback>{(currentUser.user_metadata?.displayName || currentUser.email || 'U').split(' ').map(n=>n[0]).join('').slice(0,2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight">Welcome back, {currentUser.name ? currentUser.name.split(' ')[0] : 'User'}!</h1>
+                    <h1 className="text-2xl font-bold tracking-tight">Welcome back, {(currentUser.user_metadata?.displayName || currentUser.email || 'User').split(' ')[0]}!</h1>
                     <p className="text-muted-foreground">Here's your wellness snapshot for today.</p>
                 </div>
             </div>

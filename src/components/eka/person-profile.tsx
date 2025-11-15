@@ -122,7 +122,7 @@ export default function PersonProfile({ userId }: { userId: string }) {
           <div className="mt-3 flex gap-2">
             <Button onClick={runAi}>Generate AI Summary</Button>
             <Button variant="outline" onClick={() => window.open(`/therapist/bookings?client=${person.id}`, '_self')}>View Bookings</Button>
-            <Button variant="ghost" onClick={async () => { 
+            <Button variant="outline" onClick={async () => { 
               const userId = person.id || person.uid;
               await fxService.createNotification({ userId, title: 'Pinned note', body: `Therapist pinned note for ${userId}` }); 
               toast({ title: 'Pinned', description: 'Pinned note created' }); 
@@ -159,7 +159,7 @@ export default function PersonProfile({ userId }: { userId: string }) {
             <h3 className="font-medium">Tags / Flags</h3>
             <div className="mt-2 flex gap-2 flex-wrap">
               {['high-risk','needs-transport','language-needs','vip','donor','donation-seeker'].map(t => (
-                <Button key={t} size="sm" variant={tags.includes(t) ? 'default' : 'ghost'} onClick={() => toggleTag(t)}>{t}</Button>
+                <Button key={t} size="small" variant={tags.includes(t) ? 'default' : 'outline'} onClick={() => toggleTag(t)}>{t}</Button>
               ))}
             </div>
             {canSeeHidden && (
@@ -232,8 +232,8 @@ export default function PersonProfile({ userId }: { userId: string }) {
 
                       <div className="flex flex-col items-end gap-2">
                         <div className="text-xs text-muted-foreground">ID: {b.id}</div>
-                        <Button size="sm" variant="ghost" onClick={() => { navigator.clipboard?.writeText(b.id); toast({ title: 'Copied', description: 'Booking id copied to clipboard' }); }}>Copy id</Button>
-                        <Button size="sm" variant="ghost" onClick={() => window.open(`/therapist/bookings?client=${person.id}&booking=${b.id}`, '_self')}>Open</Button>
+                        <Button size="small" variant="outline" onClick={() => { navigator.clipboard?.writeText(b.id); toast({ title: 'Copied', description: 'Booking id copied to clipboard' }); }}>Copy id</Button>
+                        <Button size="small" variant="outline" onClick={() => window.open(`/therapist/bookings?client=${person.id}&booking=${b.id}`, '_self')}>Open</Button>
                       </div>
                     </div>
                   </li>

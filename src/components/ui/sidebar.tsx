@@ -167,8 +167,8 @@ export const SidebarTrigger = React.forwardRef<
       <TooltipTrigger asChild>
         <Button
           ref={ref}
-          variant="ghost"
-          size="icon"
+          variant="outline"
+          size="small"
           className={cn("h-8 w-8 shrink-0", className)}
           onClick={(event) => {
             onClick?.(event)

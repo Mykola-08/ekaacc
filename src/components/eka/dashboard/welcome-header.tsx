@@ -27,8 +27,8 @@ export function WelcomeHeader() {
       </div>
       <div className="flex items-center gap-2">
         <Button 
-          variant="ghost" 
-          size="icon"
+          variant="outline" 
+          size="small"
           className="hover-lift rounded-lg"
         >
           <Bell className="h-5 w-5" />

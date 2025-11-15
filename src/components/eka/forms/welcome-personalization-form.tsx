@@ -173,7 +173,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 Complete this form to personalize your wellness journey
               </ModalDescription>
             </div>
-            <Badge variant="secondary" className="flex items-center gap-1">
+            <Badge variant="background" className="flex items-center gap-1">
               <Gift className="h-3 w-3" />
               €10 Discount
             </Badge>

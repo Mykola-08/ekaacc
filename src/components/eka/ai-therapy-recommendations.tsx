@@ -108,10 +108,10 @@ export function AITherapyRecommendations() {
           {useAI ? 'AI-Powered Recommendations' : 'Recommended Therapies'}
         </CardTitle>
         <div className="flex gap-2 items-center">
-          <Button variant={useAI ? 'default' : 'outline'} size="sm" onClick={() => setUseAI(!useAI)}>
+          <Button variant={useAI ? 'default' : 'outline'} size="small" onClick={() => setUseAI(!useAI)}>
             {useAI ? 'Use Less AI' : 'Use More AI'}
           </Button>
-          <Button variant="ghost" size="icon" onClick={fetchRecommendations} disabled={isLoading}>
+          <Button variant="outline" size="small" onClick={fetchRecommendations} disabled={isLoading}>
             <RefreshCw className={cn('h-4 w-4', isLoading && 'animate-spin')} />
           </Button>
         </div>

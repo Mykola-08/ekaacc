@@ -97,8 +97,8 @@ export function PersonalizationBanner() {
             </div>
             <div className="flex items-center gap-2">
               <Button
-                size="sm"
-                variant="secondary"
+                size="small"
+                variant="outline"
                 onClick={() => setShowForm(true)}
                 className="hidden sm:flex"
               >
@@ -106,8 +106,8 @@ export function PersonalizationBanner() {
                 Complete Now
               </Button>
               <Button
-                size="sm"
-                variant="secondary"
+                size="small"
+                variant="outline"
                 onClick={() => setShowForm(true)}
                 className="sm:hidden"
               >

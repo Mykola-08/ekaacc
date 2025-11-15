@@ -29,8 +29,8 @@ export function AppHeader() {
       <div className="flex items-center gap-3">
         <div className="md:hidden">
           <Button
-            variant="ghost"
-            size="icon"
+            variant="outline"
+            size="small"
             className="rounded-lg hover-lift"
             onClick={() => setOpenMobile(true)}
           >

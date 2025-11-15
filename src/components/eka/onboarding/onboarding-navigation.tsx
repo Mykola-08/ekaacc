@@ -23,7 +23,7 @@ export function OnboardingNavigation({
   return (
     <div className="flex justify-between items-center mt-8 pt-6 border-t border-slate-200 dark:border-slate-700">
       <Button
-        variant="ghost"
+        variant="outline"
         onClick={onBack}
         className="gap-2"
         disabled={currentStep === 0}

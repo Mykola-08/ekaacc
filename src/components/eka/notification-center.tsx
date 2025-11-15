@@ -214,7 +214,7 @@ export function NotificationCenter() {
   return (
     <Dropdown>
       <DropdownAction asChild>
-        <Button variant="ghost" size="icon" className="relative rounded-full">
+        <Button variant="outline" size="small" className="relative rounded-full">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
             <Badge
@@ -232,8 +232,8 @@ export function NotificationCenter() {
           <div className="flex items-center gap-2">
             {unreadCount > 0 && (
               <Button
-                variant="ghost"
-                size="sm"
+                variant="outline"
+                size="small"
                 onClick={markAllAsRead}
                 className="text-xs"
               >
@@ -242,7 +242,7 @@ export function NotificationCenter() {
               </Button>
             )}
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
               className="h-7 w-7"
               onClick={() => router.push('/account/notifications')}
@@ -318,8 +318,8 @@ export function NotificationCenter() {
                     <div className="flex gap-1">
                       {!notification.read && (
                         <Button
-                          variant="ghost"
-                          size="icon"
+                          variant="outline"
+                          size="small"
                           className="h-6 w-6"
                           onClick={(e) => {
                             e.stopPropagation();
@@ -330,8 +330,8 @@ export function NotificationCenter() {
                         </Button>
                       )}
                       <Button
-                        variant="ghost"
-                        size="icon"
+                        variant="outline"
+                        size="small"
                         className="h-6 w-6"
                         onClick={(e) => {
                           e.stopPropagation();

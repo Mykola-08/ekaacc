@@ -355,7 +355,7 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
                   {formData.therapistProfile?.specializations?.map((spec, idx) => (
-                    <Badge key={idx} variant="secondary" className="gap-1">
+                    <Badge key={idx} variant="background" className="gap-1">
                       {spec}
                       <X className="h-3 w-3 cursor-pointer" onClick={() => removeSpecialization(idx)} />
                     </Badge>

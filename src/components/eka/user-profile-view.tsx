@@ -78,7 +78,7 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
                   )}
                 </div>
                 <div className="flex gap-2">
-                  <Badge variant="outline" className={getRoleBadgeColor(typedUser.role)}>
+                  <Badge variant="border" className={getRoleBadgeColor(typedUser.role)}>
                     {typedUser.role}
                   </Badge>
                   {typedUser.accountStatus && (
@@ -133,7 +133,7 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
                 <h4 className="text-sm font-medium mb-2">Specializations</h4>
                 <div className="flex flex-wrap gap-2">
                   {typedUser.therapistProfile.specializations.map((spec, idx) => (
-                    <Badge key={idx} variant="secondary">{spec}</Badge>
+                    <Badge key={idx} variant="background">{spec}</Badge>
                   ))}
                 </div>
               </div>

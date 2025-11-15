@@ -146,7 +146,7 @@ export default function CommunitySetupPage() {
                 <Card>
                     <CardHeader><CardTitle>✅ Created Collections</CardTitle></CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">{createdCollections.map(c => <Badge key={c} variant="secondary" className="justify-center text-xs">{c}</Badge>)}</div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">{createdCollections.map(c => <Badge key={c} variant="background" className="justify-center text-xs">{c}</Badge>)}</div>
                     </CardContent>
                 </Card>
             )}

@@ -66,7 +66,7 @@ export function AiAssistant() {
     <>
       <Button
         className="fixed bottom-6 right-6 h-16 w-16 rounded-full shadow-lg z-50"
-        size="icon"
+        size="small"
         onClick={() => setIsOpen(true)}
       >
         <Sparkles className="h-8 w-8" />
@@ -134,7 +134,7 @@ export function AiAssistant() {
 
           <ModalFooter>
             <ModalClose asChild>
-                <Button variant="secondary">Close</Button>
+                <Button variant="outline">Close</Button>
             </ModalClose>
             <Button type="submit" onClick={handleSend} disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}

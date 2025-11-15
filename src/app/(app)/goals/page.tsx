@@ -149,7 +149,7 @@ function NewGoalCard({
         </div>
       </CardContent>
       <CardFooter className="flex justify-end gap-2">
-        <Button variant="ghost" onClick={onCancel}>Cancel</Button>
+        <Button variant="outline" onClick={onCancel}>Cancel</Button>
         <Button onClick={handleSave}>Save</Button>
       </CardFooter>
     </Card>
@@ -166,7 +166,7 @@ function GoalCard({ goal, onDelete }: { goal: Goal; onDelete: (id: string) => vo
         </p>
       </CardContent>
       <CardFooter className="flex justify-end">
-        <Button variant="ghost" size="icon" onClick={() => onDelete(goal.id)}>
+        <Button variant="outline" size="small" onClick={() => onDelete(goal.id)}>
           <Trash className="h-4 w-4" />
         </Button>
       </CardFooter>

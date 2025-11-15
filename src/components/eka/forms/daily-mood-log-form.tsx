@@ -266,7 +266,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                       </Label>
                       <div className="flex items-center gap-2">
                         {getMoodEmoji(overallMood[0])}
-                        <Badge variant="secondary">{overallMood[0]}/10</Badge>
+                        <Badge variant="background">{overallMood[0]}/10</Badge>
                       </div>
                     </div>
                     <Slider
@@ -290,7 +290,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                         <Battery className="h-4 w-4" />
                         Energy Level
                       </Label>
-                      <Badge variant="secondary">{energy[0]}/10</Badge>
+                      <Badge variant="background">{energy[0]}/10</Badge>
                     </div>
                     <Slider
                       value={energy}
@@ -313,7 +313,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                         <Activity className="h-4 w-4" />
                         Stress Level
                       </Label>
-                      <Badge variant="secondary">{stress[0]}/10</Badge>
+                      <Badge variant="background">{stress[0]}/10</Badge>
                     </div>
                     <Slider
                       value={stress}
@@ -336,7 +336,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                         <Moon className="h-4 w-4" />
                         Sleep Quality
                       </Label>
-                      <Badge variant="secondary">{sleep[0]}/10</Badge>
+                      <Badge variant="background">{sleep[0]}/10</Badge>
                     </div>
                     <Slider
                       value={sleep}
@@ -359,7 +359,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                         <Heart className="h-4 w-4" />
                         Physical Health
                       </Label>
-                      <Badge variant="secondary">{physicalHealth[0]}/10</Badge>
+                      <Badge variant="background">{physicalHealth[0]}/10</Badge>
                     </div>
                     <Slider
                       value={physicalHealth}

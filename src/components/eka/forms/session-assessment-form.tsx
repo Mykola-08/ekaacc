@@ -225,7 +225,7 @@ export function SessionAssessmentForm({
                   <div>
                     <div className="flex items-center justify-between mb-2">
                       <Label>Client's Reported Mood</Label>
-                      <Badge variant="secondary">{preSessionMood[0]}/10</Badge>
+                      <Badge variant="background">{preSessionMood[0]}/10</Badge>
                     </div>
                     <Slider
                       value={preSessionMood}
@@ -400,7 +400,7 @@ export function SessionAssessmentForm({
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <Label>Client's Mood After Session</Label>
-                          <Badge variant="secondary">{postSessionMood[0]}/10</Badge>
+                          <Badge variant="background">{postSessionMood[0]}/10</Badge>
                         </div>
                         <Slider
                           value={postSessionMood}
@@ -416,7 +416,7 @@ export function SessionAssessmentForm({
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <Label>Session Progress/Productivity</Label>
-                          <Badge variant="secondary">{postSessionProgress[0]}/10</Badge>
+                          <Badge variant="background">{postSessionProgress[0]}/10</Badge>
                         </div>
                         <Slider
                           value={postSessionProgress}
@@ -432,7 +432,7 @@ export function SessionAssessmentForm({
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <Label>Client Engagement</Label>
-                          <Badge variant="secondary">{clientEngagement[0]}/10</Badge>
+                          <Badge variant="background">{clientEngagement[0]}/10</Badge>
                         </div>
                         <Slider
                           value={clientEngagement}
@@ -448,7 +448,7 @@ export function SessionAssessmentForm({
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <Label>Therapeutic Alliance</Label>
-                          <Badge variant="secondary">{therapeuticAlliance[0]}/10</Badge>
+                          <Badge variant="background">{therapeuticAlliance[0]}/10</Badge>
                         </div>
                         <Slider
                           value={therapeuticAlliance}
@@ -464,7 +464,7 @@ export function SessionAssessmentForm({
                       <div>
                         <div className="flex items-center justify-between mb-2">
                           <Label>Progress Towards Treatment Goals</Label>
-                          <Badge variant="secondary">{progressTowardsGoals[0]}/10</Badge>
+                          <Badge variant="background">{progressTowardsGoals[0]}/10</Badge>
                         </div>
                         <Slider
                           value={progressTowardsGoals}

@@ -225,7 +225,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-semibold">{packageUsage.packageName}</span>
-                <Badge variant="secondary">Active</Badge>
+                <Badge variant="background">Active</Badge>
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span>Used: {packageUsage.usedSessions}/{packageUsage.totalSessions}</span>

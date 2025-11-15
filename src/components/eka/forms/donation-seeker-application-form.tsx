@@ -349,7 +349,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                 <CardHeader>
                   <CardTitle className="text-lg flex items-center justify-between">
                     Mental Health History
-                    <Badge variant="secondary" className="flex items-center gap-1">
+                    <Badge variant="background" className="flex items-center gap-1">
                       <Sparkles className="h-3 w-3" />
                       AI Assisted
                     </Badge>

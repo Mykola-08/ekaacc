@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { WelcomeHeader } from './eka/dashboard/welcome-header';
@@ -18,6 +19,7 @@ import type { Session, Report, User } from '@/lib/types';
 export default function DashboardView() {
   const { user: currentUser, loading: authLoading, user } = useAuth();
   const dataService = useAppStore((state) => state.dataService);
+  const router = useRouter();
 
   const [sessions, setSessions] = useState<Session[]>([]);
   const [reports, setReports] = useState<Report[]>([]);
@@ -71,18 +73,19 @@ export default function DashboardView() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="space-y-8">
-        <Skeleton className="h-24 w-full rounded-xl" />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <Skeleton className="h-36 w-full rounded-xl" />
-          <Skeleton className="h-36 w-full rounded-xl" />
-          <Skeleton className="h-36 w-full rounded-xl" />
-          <Skeleton className="h-36 w-full rounded-xl" />
+      <div className="space-y-8" role="status" aria-label="Loading dashboard">
+        <Skeleton className="h-24 w-full rounded-xl skeleton-modern" />
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
+          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
+          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
+          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <Skeleton className="h-80 w-full lg:col-span-2 rounded-xl" />
-          <Skeleton className="h-80 w-full rounded-xl" />
+          <Skeleton className="h-80 w-full lg:col-span-2 rounded-xl skeleton-modern" />
+          <Skeleton className="h-80 w-full rounded-xl skeleton-modern" />
         </div>
+        <span className="sr-only">Loading your personalized dashboard...</span>
       </div>
     );
   }
@@ -93,25 +96,37 @@ export default function DashboardView() {
 
   if (!currentUser) {
     return (
-      <div className="flex flex-col items-center justify-center h-full text-center p-8 glass-effect rounded-2xl">
+      <div className="flex flex-col items-center justify-center min-h-[70vh] text-center p-8 rounded-2xl bg-muted/30">
         <UserIcon className="w-16 h-16 text-muted-foreground mb-6" />
-        <h2 className="text-3xl font-bold gradient-text mb-4">Welcome to EKA</h2>
-        <p className="text-muted-foreground max-w-md mb-8">
-          It looks like your profile is not fully set up yet. Let's get you started with a quick onboarding process.
+        <h2 className="text-4xl font-semibold text-foreground mb-4">Welcome to EKA</h2>
+        <p className="text-muted-foreground max-w-md mb-8 text-lg">
+          Your personalized space for mental wellness and growth. Sign in to access your dashboard and begin your journey.
         </p>
-        <Button 
-          onClick={() => setShowOnboarding(true)} 
-          className="hover-lift bg-gradient-to-r from-primary to-purple-600 text-white shadow-lg"
-          size="lg"
-        >
-          Begin Onboarding
-        </Button>
+        <div className="flex gap-4 mb-6">
+          <Button 
+            onClick={() => router.push('/login?tab=login')} 
+            variant="default"
+            size="lg"
+          >
+            Sign In
+          </Button>
+          <Button 
+            onClick={() => router.push('/login?tab=signup')} 
+            variant="ghost"
+            size="lg"
+          >
+            Sign Up
+          </Button>
+        </div>
+        <p className="text-sm text-muted-foreground">
+          New to EKA? Create an account to get started with personalized mental wellness tools.
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <WelcomeHeader />
       <StatsGrid sessions={sessions} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

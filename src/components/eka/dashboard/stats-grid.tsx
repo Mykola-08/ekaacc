@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/lib/supabase-auth';
 import { StatCard } from './stat-card';
 import { Activity, HeartPulse, Smile, Zap } from 'lucide-react';
@@ -27,13 +28,13 @@ export function StatsGrid({ sessions }: StatsGridProps) {
       trend: '+5%',
     },
     {
-      title: 'Sessions Done',
+      title: 'Sessions Completed',
       value: completedSessions.length,
       icon: Activity,
       trend: `${Math.round((completedSessions.length / (sessions?.length || 1)) * 100)}%`,
     },
     {
-      title: 'Mood',
+      title: 'Current Mood',
       value: 'Positive', // Placeholder
       icon: Smile,
       trend: 'Up',
@@ -47,11 +48,16 @@ export function StatsGrid({ sessions }: StatsGridProps) {
   ], [personalization, completedSessions.length, sessions?.length]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {personalizedStats.map((stat, index) => (
-        <div key={stat.title} className="hover-lift">
+        <motion.div
+          key={stat.title}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+        >
           <StatCard {...stat} index={index} />
-        </div>
+        </motion.div>
       ))}
     </div>
   );

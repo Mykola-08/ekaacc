@@ -15,9 +15,9 @@ export function NextSession({ sessions, isLoading }: NextSessionProps) {
   const nextSession = sessions[0];
 
   return (
-    <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm">
+    <Card className="border-0 bg-muted/20 rounded-2xl">
       <CardHeader>
-        <CardTitle>Next Session</CardTitle>
+        <CardTitle className="text-foreground text-lg">Next Session</CardTitle>
       </CardHeader>
       <CardContent>
         {isLoading ? (
@@ -29,25 +29,25 @@ export function NextSession({ sessions, isLoading }: NextSessionProps) {
         ) : nextSession ? (
           <div className="space-y-4">
             <div className="flex items-center">
-              <Calendar className="w-5 h-5 mr-3 text-gray-500" />
-              <p>{new Date(nextSession.date).toLocaleDateString()}</p>
+              <Calendar className="w-5 h-5 mr-3 text-muted-foreground" />
+              <p className="text-foreground">{new Date(nextSession.date).toLocaleDateString()}</p>
             </div>
             <div className="flex items-center">
-              <Clock className="w-5 h-5 mr-3 text-gray-500" />
-              <p>{new Date(nextSession.date).toLocaleTimeString()}</p>
+              <Clock className="w-5 h-5 mr-3 text-muted-foreground" />
+              <p className="text-foreground">{new Date(nextSession.date).toLocaleTimeString()}</p>
             </div>
             <div className="flex items-center">
-              <Video className="w-5 h-5 mr-3 text-gray-500" />
-              <p>{nextSession.type}</p>
+              <Video className="w-5 h-5 mr-3 text-muted-foreground" />
+              <p className="text-foreground">{nextSession.type}</p>
             </div>
             <Link href={`/sessions/${nextSession.id}`}>
-              <Button className="w-full mt-4">
-                View Details <ArrowRight className="w-4 h-4 ml-2" />
+              <Button variant="default" className="w-full mt-6 rounded-xl">
+                View Session Details <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
           </div>
         ) : (
-          <p>No upcoming sessions.</p>
+          <p className="text-muted-foreground">No upcoming sessions.</p>
         )}
       </CardContent>
     </Card>

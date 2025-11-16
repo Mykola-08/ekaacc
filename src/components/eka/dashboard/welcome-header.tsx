@@ -7,29 +7,31 @@ import { Bell, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export function WelcomeHeader() {
-  const { user: appUser, signOut } = useAuth();
+  const { user: appUser } = useAuth();
   const userName = (appUser as any)?.name?.split(' ')[0] || 'there';
+  const currentTime = new Date().getHours();
+  const greeting = currentTime < 12 ? 'Good morning' : currentTime < 18 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <header className="flex justify-between items-center mb-8">
+    <header className="flex justify-between items-center mb-12">
       <div>
         <TextEffect
           as="h1"
           per="word"
           preset="fade-in-blur"
-          className="text-4xl font-bold gradient-text mb-2"
+          className="text-5xl font-light text-foreground mb-3"
         >
-          {`Hello, ${userName}`}
+          {`${greeting}, ${userName}`}
         </TextEffect>
-        <p className="text-muted-foreground text-lg">
-          Here's your wellness snapshot for today.
+        <p className="text-muted-foreground text-xl font-light">
+          Your wellness journey continues
         </p>
       </div>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <Button 
-          variant="outline" 
-          size="sm"
-          className="hover-lift rounded-lg"
+          variant="ghost" 
+          size="icon"
+          className="rounded-xl"
         >
           <Bell className="h-5 w-5" />
         </Button>
@@ -37,18 +39,11 @@ export function WelcomeHeader() {
           <Button 
             variant="ghost" 
             size="icon"
-            className="hover-lift rounded-lg"
+            className="rounded-xl"
           >
             <Settings className="h-5 w-5" />
           </Button>
         </Link>
-        <Button 
-          onClick={signOut} 
-          variant="outline"
-          className="hover-lift rounded-lg"
-        >
-          Logout
-        </Button>
       </div>
     </header>
   );

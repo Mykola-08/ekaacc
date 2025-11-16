@@ -2,8 +2,7 @@
 
 import { Badge, Button, Card, CardContent, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Slider, Textarea } from '@/components/keep';
 import { useState } from 'react';
-;
-;
+import { useBehavioralTracking } from '@/hooks/use-behavioral-tracking';
 ;
 ;
 ;
@@ -62,6 +61,7 @@ const activities = [
 export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const { trackMoodLog } = useBehavioralTracking();
   const [formType, setFormType] = useState<'basic' | 'full'>('basic');
 
   // Shared state
@@ -111,7 +111,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     if (formType === 'basic') {
-      onSubmit({
+      const moodData = {
         date: new Date(),
         overallMood: 0,
         energy: 0,
@@ -123,7 +123,16 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
         activities: [],
         triggers: '',
         gratitude: '',
+      };
+      
+      onSubmit(moodData);
+      
+      // Track behavioral interaction
+      trackMoodLog(basicMood.toLowerCase(), undefined, {
+        formType: 'basic',
+        hasNotes: notes.length > 0
       });
+      
       toast({
         title: 'Basic mood log saved!',
         description: 'Your quick check-in has been recorded.',
@@ -138,7 +147,8 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
         setIsLoading(false);
         return;
       }
-      onSubmit({
+      
+      const moodData = {
         date: new Date(),
         overallMood: overallMood[0],
         energy: energy[0],
@@ -150,7 +160,25 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
         gratitude,
         notes,
         activities: selectedActivities,
+      };
+      
+      onSubmit(moodData);
+      
+      // Track behavioral interaction
+      const primaryMood = selectedEmotions.length > 0 ? selectedEmotions[0].toLowerCase() : 'neutral';
+      trackMoodLog(primaryMood, overallMood[0], {
+        formType: 'full',
+        energy: energy[0],
+        stress: stress[0],
+        sleep: sleep[0],
+        physicalHealth: physicalHealth[0],
+        emotionCount: selectedEmotions.length,
+        activityCount: selectedActivities.length,
+        hasTriggers: triggers.length > 0,
+        hasGratitude: gratitude.length > 0,
+        hasNotes: notes.length > 0
       });
+      
       toast({
         title: 'Mood log saved!',
         description: 'Your daily check-in has been recorded. Keep up the great work! 🌟',

@@ -1,6 +1,6 @@
-﻿'use client';
+'use client';
 
-import { Modal, ModalContent } from '@/components/keep';
+import { Modal, ModalContent, ModalHeader, ModalTitle } from '@/components/keep';
 import { useEffect, useState, useRef, useCallback } from 'react';
 ;
 import { getDataService } from '@/services/data-service';
@@ -221,6 +221,9 @@ export default function UsersManagementPage() {
 
             <Modal open={showProfileDialog} onOpenChange={setShowProfileDialog}>
                 <ModalContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+                    <ModalHeader>
+                        <ModalTitle>User Profile</ModalTitle>
+                    </ModalHeader>
                     {selectedUser && <UserProfileView user={selectedUser} viewerRole="Admin" />}
                 </ModalContent>
             </Modal>

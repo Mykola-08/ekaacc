@@ -34,18 +34,18 @@ import { motion } from 'framer-motion';
 const SectionHeader = ({ label, icon: Icon, color, isCollapsed }: { label: string, icon: React.ElementType, color: string, isCollapsed: boolean }) => {
   if (isCollapsed) {
     return (
-      <div className="flex items-center justify-center my-2">
-        <div className={cn("p-1.5 rounded-md", color)}>
-          <Icon className="w-4 h-4" />
+      <div className="flex items-center justify-center my-3">
+        <div className={cn("p-2 rounded-xl bg-muted/30", color)}>
+          <Icon className="w-4 h-4 text-muted-foreground" />
         </div>
       </div>
     );
   }
   return (
-    <div className="px-3 py-2 mb-1">
-      <div className={cn("flex items-center gap-2 text-xs font-bold px-2 py-1 rounded-md border", color)}>
-        <Icon className="w-3.5 h-3.5" />
-        {label}
+    <div className="px-4 py-3 mb-2">
+      <div className={cn("flex items-center gap-3 text-xs font-semibold px-3 py-2 rounded-xl bg-muted/30", color)}>
+        <Icon className="w-4 h-4 text-muted-foreground" />
+        <span className="text-muted-foreground uppercase tracking-wider">{label}</span>
       </div>
     </div>
   );
@@ -121,17 +121,17 @@ export function AppSidebar() {
   const isCollapsed = !isExpanded;
 
   return (
-    <Sidebar className="border-r fixed left-0 top-0 h-full z-40 glass-effect backdrop-blur-xl">
+    <Sidebar className="border-r border-border/10 fixed left-0 top-0 h-full z-40 bg-background/80 backdrop-blur-xl">
       <SidebarHeader isCollapsed={isCollapsed}>
-        <Link href="/home" className="flex items-center gap-3 font-bold text-lg hover-lift">
-          <div className="w-8 h-8 bg-gradient-to-br from-primary to-purple-600 rounded-lg flex items-center justify-center">
+        <Link href="/home" className="flex items-center gap-3 font-semibold text-lg">
+          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
             <Package2 className="h-5 w-5 text-white" />
           </div>
-          {!isCollapsed && <span className="gradient-text">EKA</span>}
+          {!isCollapsed && <span className="text-foreground text-xl">EKA</span>}
         </Link>
       </SidebarHeader>
-      <SidebarContent className="flex-1 overflow-auto py-6 px-3">
-        <SidebarMenu className="space-y-1">
+      <SidebarContent className="flex-1 overflow-auto py-6 px-4">
+        <SidebarMenu className="space-y-2">
           {navItems.map(item => (
             <SidebarMenuItem key={item.href}>
               <SidebarLink 

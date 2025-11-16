@@ -10,13 +10,13 @@ export const fxNotifications = {
         .order('created_at', { ascending: false });
       
       if (error) {
-        console.error('Error fetching notifications:', error);
+        // Suppress console error since we handle fallback in UI
         throw new Error('Failed to fetch notifications');
       }
       
       return data || [];
     } catch (error) {
-      console.error('Error in listNotifications:', error);
+      // Suppress console error since we handle fallback in UI
       throw error;
     }
   },

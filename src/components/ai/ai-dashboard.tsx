@@ -82,7 +82,7 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
   const [timeRange, setTimeRange] = useState('7d');
   const [showSettings, setShowSettings] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const { ref: chartRef, inView: chartInView } = useInView({ threshold: 0.1 });
+  const chartRef = useInView({ threshold: 0.1 });
 
   useEffect(() => {
     fetchDashboardData();
@@ -208,7 +208,7 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
               </Badge>
               <ShimmerButton
                 onClick={() => setShowSettings(!showSettings)}
-                size="sm"
+                className="h-9 px-3 text-sm"
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Settings
@@ -231,7 +231,7 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
               </select>
               <ShimmerButton
                 onClick={fetchDashboardData}
-                size="sm"
+                className="h-9 px-3 text-sm"
                 disabled={loading}
               >
                 <RefreshCw className={cn("w-4 h-4 mr-2", { 'animate-spin': loading })} />
@@ -399,7 +399,7 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
           <motion.div
             ref={chartRef}
             initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: chartInView ? 1 : 0, x: chartInView ? 0 : -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
             <Card className="p-6 bg-white/80 backdrop-blur-sm">

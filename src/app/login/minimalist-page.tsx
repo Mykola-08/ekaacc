@@ -1,11 +1,13 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/supabase-auth';
 import { Eye, EyeOff, ArrowRight } from 'lucide-react';
-import { Card, Button, Input, Spinner } from '@/components/keep';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 export default function MinimalistLoginPage() {
   const [email, setEmail] = useState('');
@@ -40,7 +42,7 @@ export default function MinimalistLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-minimal-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <motion.div
         className="sm:mx-auto sm:w-full sm:max-w-md"
         initial={{ opacity: 0, y: 20 }}
@@ -53,14 +55,14 @@ export default function MinimalistLoginPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
           >
-            <h2 className="text-2xl font-semibold">Welcome back</h2>
+            <h2 className="text-2xl font-semibold text-foreground">Welcome back</h2>
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.6 }}
           >
-            <p className="text-base text-gray-600 mt-2">Sign in to continue your wellness journey</p>
+            <p className="text-base text-muted-foreground mt-2">Sign in to continue your wellness journey</p>
           </motion.div>
         </div>
       </motion.div>
@@ -71,9 +73,12 @@ export default function MinimalistLoginPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
       >
-        <Card className="py-8 px-6">
+        <Card className="py-8 px-6 square-hole-card">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
+              <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
+                Email address
+              </label>
               <Input
                 id="email"
                 name="email"
@@ -83,35 +88,39 @@ export default function MinimalistLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                label="Email address"
+                className="square-hole-input"
               />
             </div>
 
             <div>
-              <Input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter your password"
-                label="Password"
-                rightIcon={
-                  <button
-                    type="button"
-                    className="p-1"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4 text-secondary-500" />
-                    ) : (
-                      <Eye className="h-4 w-4 text-secondary-500" />
-                    )}
-                  </button>
-                }
-              />
+              <label htmlFor="password" className="block text-sm font-medium text-foreground mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="square-hole-input pr-12"
+                />
+                <button
+                  type="button"
+                  className="square-hole-button absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Eye className="h-4 w-4 text-muted-foreground" />
+                  )}
+                </button>
+              </div>
             </div>
 
             {error && (
@@ -120,7 +129,7 @@ export default function MinimalistLoginPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="bg-error-50 border border-error-200 rounded-lg p-3 text-sm text-error-600">
+                <div className="bg-destructive/10 border border-destructive/20 rounded-lg p-3 text-sm text-destructive">
                   {error}
                 </div>
               </motion.div>
@@ -129,16 +138,18 @@ export default function MinimalistLoginPage() {
             <Button
               type="submit"
               disabled={isLoading}
-              className="w-full"
-              rightIcon={isLoading ? undefined : <ArrowRight className="h-4 w-4" />}
+              className="w-full auth-button-primary"
             >
               {isLoading ? (
                 <>
-                  <Spinner size="sm" color="white" className="mr-2" />
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
                   Signing in...
                 </>
               ) : (
-                'Sign in'
+                <>
+                  Sign in
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </>
               )}
             </Button>
           </form>
@@ -146,20 +157,27 @@ export default function MinimalistLoginPage() {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-minimal-border" />
+                <div className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-minimal-text-secondary">or</span>
+                <span className="px-2 bg-card text-muted-foreground">or</span>
               </div>
             </div>
 
-            <div className="mt-6 text-center">
+            <div className="mt-6 text-center space-y-2">
               <Button
-                href="/signup"
-                variant="link"
-                size="sm"
+                onClick={() => router.push('/onboarding')}
+                variant="outline"
+                className="w-full auth-button-secondary"
               >
-                Don't have an account? Sign up
+                Create new account
+              </Button>
+              <Button
+                onClick={() => router.push('/forgot-password')}
+                variant="ghost"
+                className="w-full nav-button-secondary"
+              >
+                Forgot password?
               </Button>
             </div>
           </div>

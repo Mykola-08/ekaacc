@@ -161,7 +161,7 @@ export default function TherapistBookingsPage() {
                       <TableRow key={b.id}>
                         <TableCell>
                           <div className="flex items-center gap-3">
-                            <Avatar size="sm">
+                            <Avatar className="h-8 w-8">
                               <AvatarFallback>{b.userId.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <p className="text-base font-medium">{b.userId}</p>
@@ -169,7 +169,7 @@ export default function TherapistBookingsPage() {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center gap-3">
-                            <Avatar size="sm">
+                            <Avatar className="h-8 w-8">
                               <AvatarFallback>{b.therapistId.charAt(0).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <p className="text-base font-medium">{b.therapistId}</p>

@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/context/auth-context';
 import { SystemRole, hasPermission } from '@/lib/role-permissions';
+import { Badge } from '@/components/ui/badge';
 import { 
   LayoutDashboard, 
   Users, 
@@ -181,7 +182,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground square-hole-interactive touch-target hover-enhanced focus-aa-compliant",
                     isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                   )}
                 >
@@ -292,7 +293,8 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
             <h2 className="text-lg font-semibold">Navigation</h2>
             <button 
               onClick={onClose}
-              className="p-2 hover:bg-accent rounded-lg"
+              className="square-hole-button touch-target hover-enhanced focus-aa-compliant p-2"
+              aria-label="Close navigation"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -311,7 +313,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                   href={item.href}
                   onClick={onClose}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground square-hole-interactive touch-target hover-enhanced focus-aa-compliant",
                     isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                   )}
                 >

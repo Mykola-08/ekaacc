@@ -1,0 +1,1177 @@
+/**
+ * Enhanced Data Access Layer (DAL) with comprehensive error handling, logging, and transaction support
+ * This service extends the existing data service with advanced features for the new tables
+ */
+
+import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { Database } from '@/types/supabase'
+import type { IDataService } from './data-service'
+import { supabaseDataService } from './supabase-data-service'
+import { logger } from '@/lib/logging'
+
+// Enhanced database types
+export type DbService = Database['public']['Tables']['services']['Row']
+export type DbUserPreference = Database['public']['Tables']['user_preferences']['Row']
+export type DbSubscription = Database['public']['Tables']['subscriptions']['Row']
+export type DbSubscriptionTier = Database['public']['Tables']['subscription_tiers']['Row']
+export type DbSubscriptionUsage = Database['public']['Tables']['subscription_usage']['Row']
+export type DbCommunityPost = Database['public']['Tables']['community_posts']['Row']
+
+// Enhanced interfaces for new functionality
+export interface IEnhancedDataService extends IDataService {
+  // Services Management
+  getServiceById(serviceId: string): Promise<DbService | null>
+  getServicesByCategory(category: string): Promise<DbService[]>
+  getActiveServices(): Promise<DbService[]>
+  createServiceWithValidation(service: Omit<DbService, 'id' | 'created_at' | 'updated_at'>): Promise<DbService>
+  updateServiceWithValidation(serviceId: string, updates: Partial<DbService>): Promise<DbService>
+  deleteService(serviceId: string): Promise<void>
+
+  // User Preferences Management
+  getUserPreferences(userId: string): Promise<DbUserPreference | null>
+  createUserPreferences(userId: string, preferences: Omit<DbUserPreference, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<DbUserPreference>
+  updateUserPreferences(userId: string, preferences: Partial<DbUserPreference>): Promise<DbUserPreference>
+  deleteUserPreferences(userId: string): Promise<void>
+
+  // Subscription Management
+  getSubscriptionById(subscriptionId: string): Promise<DbSubscription | null>
+  getUserSubscription(userId: string): Promise<DbSubscription | null>
+  getActiveSubscriptions(): Promise<DbSubscription[]>
+  createSubscriptionWithValidation(subscription: Omit<DbSubscription, 'id' | 'created_at' | 'updated_at'>): Promise<DbSubscription>
+  updateSubscriptionStatus(subscriptionId: string, status: DbSubscription['status']): Promise<DbSubscription>
+  cancelSubscription(subscriptionId: string): Promise<DbSubscription>
+
+  // Subscription Tiers Management
+  getSubscriptionTiers(): Promise<DbSubscriptionTier[]>
+  getSubscriptionTierById(tierId: string): Promise<DbSubscriptionTier | null>
+  getSubscriptionTierByType(type: 'loyalty' | 'vip'): Promise<DbSubscriptionTier | null>
+  createSubscriptionTier(tier: Omit<DbSubscriptionTier, 'id' | 'created_at' | 'updated_at'>): Promise<DbSubscriptionTier>
+  updateSubscriptionTier(tierId: string, updates: Partial<DbSubscriptionTier>): Promise<DbSubscriptionTier>
+
+  // Subscription Usage Management
+  getSubscriptionUsage(subscriptionId: string): Promise<DbSubscriptionUsage | null>
+  getUserSubscriptionUsage(userId: string): Promise<DbSubscriptionUsage | null>
+  createSubscriptionUsage(usage: Omit<DbSubscriptionUsage, 'id' | 'last_updated'>): Promise<DbSubscriptionUsage>
+  updateSubscriptionUsage(usageId: string, updates: Partial<DbSubscriptionUsage>): Promise<DbSubscriptionUsage>
+  incrementSessionUsage(subscriptionId: string, userId: string): Promise<DbSubscriptionUsage>
+
+  // Community Posts Management
+  getCommunityPostById(postId: string): Promise<DbCommunityPost | null>
+  getPublishedCommunityPosts(limit?: number, offset?: number): Promise<DbCommunityPost[]>
+  getUserCommunityPosts(userId: string): Promise<DbCommunityPost[]>
+  getFeaturedCommunityPosts(): Promise<DbCommunityPost[]>
+  createCommunityPostWithValidation(post: Omit<DbCommunityPost, 'id' | 'created_at' | 'updated_at' | 'likes_count' | 'comments_count' | 'views_count'>): Promise<DbCommunityPost>
+  updateCommunityPost(postId: string, updates: Partial<DbCommunityPost>): Promise<DbCommunityPost>
+  deleteCommunityPost(postId: string): Promise<void>
+  incrementPostViews(postId: string): Promise<void>
+  incrementPostLikes(postId: string): Promise<void>
+  decrementPostLikes(postId: string): Promise<void>
+
+  // Transaction Support
+  executeTransaction<T>(operation: () => Promise<T>): Promise<T>
+  
+  // Batch Operations
+  batchUpdateServices(updates: Array<{id: string, data: Partial<DbService>}>): Promise<void>
+  batchCreateCommunityPosts(posts: Array<Omit<DbCommunityPost, 'id' | 'created_at' | 'updated_at'>>): Promise<DbCommunityPost[]>
+}
+
+export class EnhancedDataService implements IEnhancedDataService {
+  private baseService: IDataService;
+
+  constructor(baseService: IDataService = supabaseDataService) {
+    this.baseService = baseService;
+  }
+
+  get isMock() {
+    return this.baseService.isMock;
+  }
+
+  // Transaction Support
+  async executeTransaction<T>(operation: () => Promise<T>): Promise<T> {
+    logger.info('Starting database transaction');
+    try {
+      const result = await operation();
+      logger.info('Transaction completed successfully');
+      return result;
+    } catch (error) {
+      logger.error('Transaction failed', { error });
+      throw error;
+    }
+  }
+
+  // Services Management
+  async getServiceById(serviceId: string): Promise<DbService | null> {
+    try {
+      logger.info('Fetching service by ID', { serviceId });
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .eq('id', serviceId)
+        .single();
+
+      if (error) {
+        logger.error('Error fetching service', { serviceId, error });
+        throw error;
+      }
+
+      logger.info('Service fetched successfully', { serviceId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch service', { serviceId, error });
+      throw error;
+    }
+  }
+
+  async getServicesByCategory(category: string): Promise<DbService[]> {
+    try {
+      logger.info('Fetching services by category', { category });
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .eq('category', category)
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) {
+        logger.error('Error fetching services by category', { category, error });
+        throw error;
+      }
+
+      logger.info('Services fetched successfully', { category, count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch services by category', { category, error });
+      throw error;
+    }
+  }
+
+  async getActiveServices(): Promise<DbService[]> {
+    try {
+      logger.info('Fetching active services');
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) {
+        logger.error('Error fetching active services', { error });
+        throw error;
+      }
+
+      logger.info('Active services fetched successfully', { count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch active services', { error });
+      throw error;
+    }
+  }
+
+  async createServiceWithValidation(service: Omit<DbService, 'id' | 'created_at' | 'updated_at'>): Promise<DbService> {
+    try {
+      logger.info('Creating service with validation', { service });
+      
+      // Validation
+      if (!service.name || service.name.trim().length === 0) {
+        throw new Error('Service name is required');
+      }
+      if (service.price < 0) {
+        throw new Error('Service price cannot be negative');
+      }
+
+      const { data, error } = await supabase
+        .from('services')
+        .insert([service])
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error creating service', { service, error });
+        throw error;
+      }
+
+      logger.info('Service created successfully', { serviceId: data.id });
+      return data;
+    } catch (error) {
+      logger.error('Failed to create service', { service, error });
+      throw error;
+    }
+  }
+
+  async updateServiceWithValidation(serviceId: string, updates: Partial<DbService>): Promise<DbService> {
+    try {
+      logger.info('Updating service with validation', { serviceId, updates });
+      
+      // Validation
+      if (updates.price !== undefined && updates.price < 0) {
+        throw new Error('Service price cannot be negative');
+      }
+
+      const { data, error } = await supabase
+        .from('services')
+        .update(updates)
+        .eq('id', serviceId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error updating service', { serviceId, updates, error });
+        throw error;
+      }
+
+      logger.info('Service updated successfully', { serviceId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to update service', { serviceId, updates, error });
+      throw error;
+    }
+  }
+
+  async deleteService(serviceId: string): Promise<void> {
+    try {
+      logger.info('Deleting service', { serviceId });
+      const { error } = await supabase
+        .from('services')
+        .delete()
+        .eq('id', serviceId);
+
+      if (error) {
+        logger.error('Error deleting service', { serviceId, error });
+        throw error;
+      }
+
+      logger.info('Service deleted successfully', { serviceId });
+    } catch (error) {
+      logger.error('Failed to delete service', { serviceId, error });
+      throw error;
+    }
+  }
+
+  // User Preferences Management
+  async getUserPreferences(userId: string): Promise<DbUserPreference | null> {
+    try {
+      logger.info('Fetching user preferences', { userId });
+      const { data, error } = await supabase
+        .from('user_preferences')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') { // No rows found
+          logger.info('No preferences found for user', { userId });
+          return null;
+        }
+        logger.error('Error fetching user preferences', { userId, error });
+        throw error;
+      }
+
+      logger.info('User preferences fetched successfully', { userId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch user preferences', { userId, error });
+      throw error;
+    }
+  }
+
+  async createUserPreferences(userId: string, preferences: Omit<DbUserPreference, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<DbUserPreference> {
+    try {
+      logger.info('Creating user preferences', { userId, preferences });
+      const { data, error } = await supabase
+        .from('user_preferences')
+        .insert([{ user_id: userId, ...preferences }])
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error creating user preferences', { userId, preferences, error });
+        throw error;
+      }
+
+      logger.info('User preferences created successfully', { userId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to create user preferences', { userId, preferences, error });
+      throw error;
+    }
+  }
+
+  async updateUserPreferences(userId: string, preferences: Partial<DbUserPreference>): Promise<DbUserPreference> {
+    try {
+      logger.info('Updating user preferences', { userId, preferences });
+      const { data, error } = await supabase
+        .from('user_preferences')
+        .update(preferences)
+        .eq('user_id', userId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error updating user preferences', { userId, preferences, error });
+        throw error;
+      }
+
+      logger.info('User preferences updated successfully', { userId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to update user preferences', { userId, preferences, error });
+      throw error;
+    }
+  }
+
+  async deleteUserPreferences(userId: string): Promise<void> {
+    try {
+      logger.info('Deleting user preferences', { userId });
+      const { error } = await supabase
+        .from('user_preferences')
+        .delete()
+        .eq('user_id', userId);
+
+      if (error) {
+        logger.error('Error deleting user preferences', { userId, error });
+        throw error;
+      }
+
+      logger.info('User preferences deleted successfully', { userId });
+    } catch (error) {
+      logger.error('Failed to delete user preferences', { userId, error });
+      throw error;
+    }
+  }
+
+  // Subscription Management
+  async getSubscriptionById(subscriptionId: string): Promise<DbSubscription | null> {
+    try {
+      logger.info('Fetching subscription by ID', { subscriptionId });
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('id', subscriptionId)
+        .single();
+
+      if (error) {
+        logger.error('Error fetching subscription', { subscriptionId, error });
+        throw error;
+      }
+
+      logger.info('Subscription fetched successfully', { subscriptionId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch subscription', { subscriptionId, error });
+      throw error;
+    }
+  }
+
+  async getUserSubscription(userId: string): Promise<DbSubscription | null> {
+    try {
+      logger.info('Fetching user subscription', { userId });
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', userId)
+        .in('status', ['active', 'pending'])
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') { // No rows found
+          logger.info('No active subscription found for user', { userId });
+          return null;
+        }
+        logger.error('Error fetching user subscription', { userId, error });
+        throw error;
+      }
+
+      logger.info('User subscription fetched successfully', { userId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch user subscription', { userId, error });
+      throw error;
+    }
+  }
+
+  async getActiveSubscriptions(): Promise<DbSubscription[]> {
+    try {
+      logger.info('Fetching active subscriptions');
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('status', 'active')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        logger.error('Error fetching active subscriptions', { error });
+        throw error;
+      }
+
+      logger.info('Active subscriptions fetched successfully', { count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch active subscriptions', { error });
+      throw error;
+    }
+  }
+
+  async createSubscriptionWithValidation(subscription: Omit<DbSubscription, 'id' | 'created_at' | 'updated_at'>): Promise<DbSubscription> {
+    try {
+      logger.info('Creating subscription with validation', { subscription });
+      
+      // Validation
+      if (!subscription.user_id) {
+        throw new Error('User ID is required');
+      }
+      if (!subscription.type || !['loyalty', 'vip'].includes(subscription.type)) {
+        throw new Error('Valid subscription type is required (loyalty or vip)');
+      }
+      if (subscription.price < 0) {
+        throw new Error('Subscription price cannot be negative');
+      }
+
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .insert([subscription])
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error creating subscription', { subscription, error });
+        throw error;
+      }
+
+      logger.info('Subscription created successfully', { subscriptionId: data.id });
+      return data;
+    } catch (error) {
+      logger.error('Failed to create subscription', { subscription, error });
+      throw error;
+    }
+  }
+
+  async updateSubscriptionStatus(subscriptionId: string, status: DbSubscription['status']): Promise<DbSubscription> {
+    try {
+      logger.info('Updating subscription status', { subscriptionId, status });
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .update({ status })
+        .eq('id', subscriptionId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error updating subscription status', { subscriptionId, status, error });
+        throw error;
+      }
+
+      logger.info('Subscription status updated successfully', { subscriptionId, status });
+      return data;
+    } catch (error) {
+      logger.error('Failed to update subscription status', { subscriptionId, status, error });
+      throw error;
+    }
+  }
+
+  async cancelSubscription(subscriptionId: string): Promise<DbSubscription> {
+    try {
+      logger.info('Cancelling subscription', { subscriptionId });
+      const { data, error } = await supabase
+        .from('subscriptions')
+        .update({ 
+          status: 'cancelled',
+          cancelled_at: new Date().toISOString()
+        })
+        .eq('id', subscriptionId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error cancelling subscription', { subscriptionId, error });
+        throw error;
+      }
+
+      logger.info('Subscription cancelled successfully', { subscriptionId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to cancel subscription', { subscriptionId, error });
+      throw error;
+    }
+  }
+
+  // Subscription Tiers Management
+  async getSubscriptionTiers(): Promise<DbSubscriptionTier[]> {
+    try {
+      logger.info('Fetching subscription tiers');
+      const { data, error } = await supabase
+        .from('subscription_tiers')
+        .select('*')
+        .eq('is_active', true)
+        .eq('is_public', true)
+        .order('sort_order', { ascending: true });
+
+      if (error) {
+        logger.error('Error fetching subscription tiers', { error });
+        throw error;
+      }
+
+      logger.info('Subscription tiers fetched successfully', { count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch subscription tiers', { error });
+      throw error;
+    }
+  }
+
+  async getSubscriptionTierById(tierId: string): Promise<DbSubscriptionTier | null> {
+    try {
+      logger.info('Fetching subscription tier by ID', { tierId });
+      const { data, error } = await supabase
+        .from('subscription_tiers')
+        .select('*')
+        .eq('id', tierId)
+        .single();
+
+      if (error) {
+        logger.error('Error fetching subscription tier', { tierId, error });
+        throw error;
+      }
+
+      logger.info('Subscription tier fetched successfully', { tierId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch subscription tier', { tierId, error });
+      throw error;
+    }
+  }
+
+  async getSubscriptionTierByType(type: 'loyalty' | 'vip'): Promise<DbSubscriptionTier | null> {
+    try {
+      logger.info('Fetching subscription tier by type', { type });
+      const { data, error } = await supabase
+        .from('subscription_tiers')
+        .select('*')
+        .eq('type', type)
+        .eq('is_active', true)
+        .single();
+
+      if (error) {
+        logger.error('Error fetching subscription tier by type', { type, error });
+        throw error;
+      }
+
+      logger.info('Subscription tier fetched successfully', { type });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch subscription tier by type', { type, error });
+      throw error;
+    }
+  }
+
+  async createSubscriptionTier(tier: Omit<DbSubscriptionTier, 'id' | 'created_at' | 'updated_at'>): Promise<DbSubscriptionTier> {
+    try {
+      logger.info('Creating subscription tier', { tier });
+      const { data, error } = await supabase
+        .from('subscription_tiers')
+        .insert([tier])
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error creating subscription tier', { tier, error });
+        throw error;
+      }
+
+      logger.info('Subscription tier created successfully', { tierId: data.id });
+      return data;
+    } catch (error) {
+      logger.error('Failed to create subscription tier', { tier, error });
+      throw error;
+    }
+  }
+
+  async updateSubscriptionTier(tierId: string, updates: Partial<DbSubscriptionTier>): Promise<DbSubscriptionTier> {
+    try {
+      logger.info('Updating subscription tier', { tierId, updates });
+      const { data, error } = await supabase
+        .from('subscription_tiers')
+        .update(updates)
+        .eq('id', tierId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error updating subscription tier', { tierId, updates, error });
+        throw error;
+      }
+
+      logger.info('Subscription tier updated successfully', { tierId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to update subscription tier', { tierId, updates, error });
+      throw error;
+    }
+  }
+
+  // Subscription Usage Management
+  async getSubscriptionUsage(subscriptionId: string): Promise<DbSubscriptionUsage | null> {
+    try {
+      logger.info('Fetching subscription usage', { subscriptionId });
+      const { data, error } = await supabase
+        .from('subscription_usage')
+        .select('*')
+        .eq('subscription_id', subscriptionId)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') { // No rows found
+          logger.info('No usage found for subscription', { subscriptionId });
+          return null;
+        }
+        logger.error('Error fetching subscription usage', { subscriptionId, error });
+        throw error;
+      }
+
+      logger.info('Subscription usage fetched successfully', { subscriptionId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch subscription usage', { subscriptionId, error });
+      throw error;
+    }
+  }
+
+  async getUserSubscriptionUsage(userId: string): Promise<DbSubscriptionUsage | null> {
+    try {
+      logger.info('Fetching user subscription usage', { userId });
+      const { data, error } = await supabase
+        .from('subscription_usage')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (error) {
+        if (error.code === 'PGRST116') { // No rows found
+          logger.info('No usage found for user', { userId });
+          return null;
+        }
+        logger.error('Error fetching user subscription usage', { userId, error });
+        throw error;
+      }
+
+      logger.info('User subscription usage fetched successfully', { userId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch user subscription usage', { userId, error });
+      throw error;
+    }
+  }
+
+  async createSubscriptionUsage(usage: Omit<DbSubscriptionUsage, 'id' | 'last_updated'>): Promise<DbSubscriptionUsage> {
+    try {
+      logger.info('Creating subscription usage', { usage });
+      const { data, error } = await supabase
+        .from('subscription_usage')
+        .insert([usage])
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error creating subscription usage', { usage, error });
+        throw error;
+      }
+
+      logger.info('Subscription usage created successfully', { usageId: data.id });
+      return data;
+    } catch (error) {
+      logger.error('Failed to create subscription usage', { usage, error });
+      throw error;
+    }
+  }
+
+  async updateSubscriptionUsage(usageId: string, updates: Partial<DbSubscriptionUsage>): Promise<DbSubscriptionUsage> {
+    try {
+      logger.info('Updating subscription usage', { usageId, updates });
+      const { data, error } = await supabase
+        .from('subscription_usage')
+        .update(updates)
+        .eq('id', usageId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error updating subscription usage', { usageId, updates, error });
+        throw error;
+      }
+
+      logger.info('Subscription usage updated successfully', { usageId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to update subscription usage', { usageId, updates, error });
+      throw error;
+    }
+  }
+
+  async incrementSessionUsage(subscriptionId: string, userId: string): Promise<DbSubscriptionUsage> {
+    try {
+      logger.info('Incrementing session usage', { subscriptionId, userId });
+      
+      return await this.executeTransaction(async () => {
+        const currentUsage = await this.getSubscriptionUsage(subscriptionId);
+        
+        if (!currentUsage) {
+          // Create new usage record
+          const newUsage = await this.createSubscriptionUsage({
+            subscription_id: subscriptionId,
+            user_id: userId,
+            type: 'loyalty', // Default type, should be determined from subscription
+            current_period_start: new Date().toISOString(),
+            current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+            sessions_used: 1,
+            sessions_remaining: 0
+          });
+          return newUsage;
+        }
+
+        // Update existing usage
+        const updatedUsage = await this.updateSubscriptionUsage(currentUsage.id, {
+          sessions_used: currentUsage.sessions_used + 1,
+          sessions_remaining: Math.max(0, currentUsage.sessions_remaining - 1)
+        });
+        
+        return updatedUsage;
+      });
+    } catch (error) {
+      logger.error('Failed to increment session usage', { subscriptionId, userId, error });
+      throw error;
+    }
+  }
+
+  // Community Posts Management
+  async getCommunityPostById(postId: string): Promise<DbCommunityPost | null> {
+    try {
+      logger.info('Fetching community post by ID', { postId });
+      const { data, error } = await supabase
+        .from('community_posts')
+        .select('*')
+        .eq('id', postId)
+        .single();
+
+      if (error) {
+        logger.error('Error fetching community post', { postId, error });
+        throw error;
+      }
+
+      logger.info('Community post fetched successfully', { postId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to fetch community post', { postId, error });
+      throw error;
+    }
+  }
+
+  async getPublishedCommunityPosts(limit = 50, offset = 0): Promise<DbCommunityPost[]> {
+    try {
+      logger.info('Fetching published community posts', { limit, offset });
+      const { data, error } = await supabase
+        .from('community_posts')
+        .select('*')
+        .eq('is_published', true)
+        .order('published_at', { ascending: false })
+        .range(offset, offset + limit - 1);
+
+      if (error) {
+        logger.error('Error fetching published community posts', { limit, offset, error });
+        throw error;
+      }
+
+      logger.info('Published community posts fetched successfully', { limit, offset, count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch published community posts', { limit, offset, error });
+      throw error;
+    }
+  }
+
+  async getUserCommunityPosts(userId: string): Promise<DbCommunityPost[]> {
+    try {
+      logger.info('Fetching user community posts', { userId });
+      const { data, error } = await supabase
+        .from('community_posts')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        logger.error('Error fetching user community posts', { userId, error });
+        throw error;
+      }
+
+      logger.info('User community posts fetched successfully', { userId, count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch user community posts', { userId, error });
+      throw error;
+    }
+  }
+
+  async getFeaturedCommunityPosts(): Promise<DbCommunityPost[]> {
+    try {
+      logger.info('Fetching featured community posts');
+      const { data, error } = await supabase
+        .from('community_posts')
+        .select('*')
+        .eq('is_published', true)
+        .eq('is_featured', true)
+        .order('published_at', { ascending: false });
+
+      if (error) {
+        logger.error('Error fetching featured community posts', { error });
+        throw error;
+      }
+
+      logger.info('Featured community posts fetched successfully', { count: data?.length });
+      return data || [];
+    } catch (error) {
+      logger.error('Failed to fetch featured community posts', { error });
+      throw error;
+    }
+  }
+
+  async createCommunityPostWithValidation(post: Omit<DbCommunityPost, 'id' | 'created_at' | 'updated_at' | 'likes_count' | 'comments_count' | 'views_count'>): Promise<DbCommunityPost> {
+    try {
+      logger.info('Creating community post with validation', { post });
+      
+      // Validation
+      if (!post.title || post.title.trim().length === 0) {
+        throw new Error('Post title is required');
+      }
+      if (!post.content || post.content.trim().length === 0) {
+        throw new Error('Post content is required');
+      }
+      if (!post.user_id) {
+        throw new Error('User ID is required');
+      }
+
+      const { data, error } = await supabase
+        .from('community_posts')
+        .insert([{
+          ...post,
+          likes_count: 0,
+          comments_count: 0,
+          views_count: 0
+        }])
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error creating community post', { post, error });
+        throw error;
+      }
+
+      logger.info('Community post created successfully', { postId: data.id });
+      return data;
+    } catch (error) {
+      logger.error('Failed to create community post', { post, error });
+      throw error;
+    }
+  }
+
+  async updateCommunityPost(postId: string, updates: Partial<DbCommunityPost>): Promise<DbCommunityPost> {
+    try {
+      logger.info('Updating community post', { postId, updates });
+      const { data, error } = await supabase
+        .from('community_posts')
+        .update(updates)
+        .eq('id', postId)
+        .select()
+        .single();
+
+      if (error) {
+        logger.error('Error updating community post', { postId, updates, error });
+        throw error;
+      }
+
+      logger.info('Community post updated successfully', { postId });
+      return data;
+    } catch (error) {
+      logger.error('Failed to update community post', { postId, updates, error });
+      throw error;
+    }
+  }
+
+  async deleteCommunityPost(postId: string): Promise<void> {
+    try {
+      logger.info('Deleting community post', { postId });
+      const { error } = await supabase
+        .from('community_posts')
+        .delete()
+        .eq('id', postId);
+
+      if (error) {
+        logger.error('Error deleting community post', { postId, error });
+        throw error;
+      }
+
+      logger.info('Community post deleted successfully', { postId });
+    } catch (error) {
+      logger.error('Failed to delete community post', { postId, error });
+      throw error;
+    }
+  }
+
+  async incrementPostViews(postId: string): Promise<void> {
+    try {
+      logger.info('Incrementing post views', { postId });
+      const { data: current, error: fetchError } = await supabase
+        .from('community_posts')
+        .select('views_count')
+        .eq('id', postId)
+        .single();
+
+      if (fetchError) {
+        logger.error('Error fetching current views_count', { postId, error: fetchError });
+        throw fetchError;
+      }
+
+      const nextCount = (current?.views_count ?? 0) + 1;
+
+      const { error } = await supabase
+        .from('community_posts')
+        .update({ views_count: nextCount })
+        .eq('id', postId);
+
+      if (error) {
+        logger.error('Error incrementing post views', { postId, error });
+        throw error;
+      }
+
+      logger.info('Post views incremented successfully', { postId });
+    } catch (error) {
+      logger.error('Failed to increment post views', { postId, error });
+      throw error;
+    }
+  }
+
+  async incrementPostLikes(postId: string): Promise<void> {
+    try {
+      logger.info('Incrementing post likes', { postId });
+      const { data: current, error: fetchError } = await supabase
+        .from('community_posts')
+        .select('likes_count')
+        .eq('id', postId)
+        .single();
+
+      if (fetchError) {
+        logger.error('Error fetching current likes_count', { postId, error: fetchError });
+        throw fetchError;
+      }
+
+      const nextCount = (current?.likes_count ?? 0) + 1;
+
+      const { error } = await supabase
+        .from('community_posts')
+        .update({ likes_count: nextCount })
+        .eq('id', postId);
+
+      if (error) {
+        logger.error('Error incrementing post likes', { postId, error });
+        throw error;
+      }
+
+      logger.info('Post likes incremented successfully', { postId });
+    } catch (error) {
+      logger.error('Failed to increment post likes', { postId, error });
+      throw error;
+    }
+  }
+
+  async decrementPostLikes(postId: string): Promise<void> {
+    try {
+      logger.info('Decrementing post likes', { postId });
+      const { data: current, error: fetchError } = await supabase
+        .from('community_posts')
+        .select('likes_count')
+        .eq('id', postId)
+        .single();
+
+      if (fetchError) {
+        logger.error('Error fetching current likes_count', { postId, error: fetchError });
+        throw fetchError;
+      }
+
+      const nextCount = Math.max(0, (current?.likes_count ?? 0) - 1);
+
+      const { error } = await supabase
+        .from('community_posts')
+        .update({ likes_count: nextCount })
+        .eq('id', postId);
+
+      if (error) {
+        logger.error('Error decrementing post likes', { postId, error });
+        throw error;
+      }
+
+      logger.info('Post likes decremented successfully', { postId });
+    } catch (error) {
+      logger.error('Failed to decrement post likes', { postId, error });
+      throw error;
+    }
+  }
+
+  // Batch Operations
+  async batchUpdateServices(updates: Array<{id: string, data: Partial<DbService>}>): Promise<void> {
+    try {
+      logger.info('Batch updating services', { count: updates.length });
+      
+      await this.executeTransaction(async () => {
+        for (const update of updates) {
+          await this.updateServiceWithValidation(update.id, update.data);
+        }
+      });
+
+      logger.info('Services batch updated successfully', { count: updates.length });
+    } catch (error) {
+      logger.error('Failed to batch update services', { updates, error });
+      throw error;
+    }
+  }
+
+  async batchCreateCommunityPosts(posts: Array<Omit<DbCommunityPost, 'id' | 'created_at' | 'updated_at'>>): Promise<DbCommunityPost[]> {
+    try {
+      logger.info('Batch creating community posts', { count: posts.length });
+      
+      const createdPosts: DbCommunityPost[] = [];
+      
+      await this.executeTransaction(async () => {
+        for (const post of posts) {
+          const createdPost = await this.createCommunityPostWithValidation(post);
+          createdPosts.push(createdPost);
+        }
+      });
+
+      logger.info('Community posts batch created successfully', { count: posts.length });
+      return createdPosts;
+    } catch (error) {
+      logger.error('Failed to batch create community posts', { posts, error });
+      throw error;
+    }
+  }
+
+  // Delegate base service methods
+  async getCurrentUser() {
+    return this.baseService.getCurrentUser();
+  }
+
+  async getAllUsers() {
+    return this.baseService.getAllUsers();
+  }
+
+  async updateUser(userId: string, updates: any) {
+    return this.baseService.updateUser(userId, updates);
+  }
+
+  async login(email: string, password: string) {
+    return this.baseService.login(email, password);
+  }
+
+  async logout() {
+    return this.baseService.logout();
+  }
+
+  async getSessions(userId?: string) {
+    return this.baseService.getSessions(userId);
+  }
+
+  async createSession(session: any) {
+    return this.baseService.createSession(session);
+  }
+
+  async updateSession(sessionId: string, updates: any) {
+    return this.baseService.updateSession(sessionId, updates);
+  }
+
+  async cancelSession(sessionId: string) {
+    return this.baseService.cancelSession(sessionId);
+  }
+
+  async getReports(userId?: string) {
+    return this.baseService.getReports(userId);
+  }
+
+  async createReport(report: any) {
+    return this.baseService.createReport(report);
+  }
+
+  async getServices() {
+    return this.baseService.getServices();
+  }
+
+  async createService(service: any) {
+    return this.baseService.createService(service);
+  }
+
+  async updateService(serviceId: string, updates: any) {
+    return this.baseService.updateService(serviceId, updates);
+  }
+
+  async getJournalEntries(userId?: string) {
+    return this.baseService.getJournalEntries(userId);
+  }
+
+  async createJournalEntry(entry: any) {
+    return this.baseService.createJournalEntry(entry);
+  }
+
+  async getGoals(userId?: string) {
+    return this.baseService.getGoals(userId);
+  }
+
+  async createGoal(goal: any) {
+    return this.baseService.createGoal(goal);
+  }
+
+  async deleteGoal(goalId: string) {
+    return this.baseService.deleteGoal(goalId);
+  }
+
+  async getExercises() {
+    return this.baseService.getExercises();
+  }
+
+  async getCommunityPosts() {
+    return this.baseService.getCommunityPosts();
+  }
+
+  async createCommunityPost(post: any) {
+    return this.baseService.createCommunityPost(post);
+  }
+
+  async getAIChatResponse(prompt: string, history: any[]) {
+    return this.baseService.getAIChatResponse(prompt, history);
+  }
+
+  async getAIRecommendations() {
+    return this.baseService.getAIRecommendations();
+  }
+
+  async getAIReportSummary(reportId: string) {
+    return this.baseService.getAIReportSummary(reportId);
+  }
+
+  async getDonations(userId?: string) {
+    return this.baseService.getDonations(userId);
+  }
+
+  async addDonation(donation: any) {
+    return this.baseService.addDonation(donation);
+  }
+
+  async getMessages(conversationId: string) {
+    return this.baseService.getMessages(conversationId);
+  }
+
+  async sendMessage(conversationId: string, message: any) {
+    return this.baseService.sendMessage(conversationId, message);
+  }
+
+  async isReady() {
+    return this.baseService.isReady();
+  }
+}
+
+export const enhancedDataService = new EnhancedDataService();

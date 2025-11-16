@@ -393,11 +393,11 @@ export default function SettingsPage() {
 
 function SettingsSkeleton() {
   return (
-    <div className="apple-page">
-      <div className="apple-container">
-        <div className="apple-section">
-          <div className="apple-flex-between">
-            <div className="apple-space-y-2">
+    <div className="settings-skeleton-page">
+      <div className="settings-skeleton-container">
+        <div className="settings-skeleton-section">
+          <div className="settings-skeleton-flex-between">
+            <div className="settings-skeleton-space-y-2">
               <Skeleton className="h-8 w-32" />
               <Skeleton className="h-4 w-72" />
             </div>
@@ -405,22 +405,22 @@ function SettingsSkeleton() {
           </div>
         </div>
         
-        <div className="apple-card">
-          <div className="apple-card-header">
+        <div className="settings-skeleton-card">
+          <div className="settings-skeleton-card-header">
             <Skeleton className="h-6 w-24" />
             <Skeleton className="h-4 w-48" />
           </div>
-          <div className="apple-card-content">
+          <div className="settings-skeleton-card-content">
             <Skeleton className="h-20 w-full" />
           </div>
         </div>
         
-        <div className="apple-card">
-          <div className="apple-card-header">
+        <div className="settings-skeleton-card">
+          <div className="settings-skeleton-card-header">
             <Skeleton className="h-6 w-32" />
             <Skeleton className="h-4 w-64" />
           </div>
-          <div className="apple-card-content apple-space-y-4">
+          <div className="settings-skeleton-card-content settings-skeleton-space-y-4">
             <Skeleton className="h-12 w-full" />
             <Skeleton className="h-12 w-full" />
             <Skeleton className="h-12 w-full" />

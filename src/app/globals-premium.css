@@ -6,19 +6,19 @@
 /* Premium Color Palette & Design Tokens */
 @layer base {
   :root {
-    /* Apple-Inspired Primary Palette */
+    /* Premium Primary Palette */
     --primary-50: #f0f7ff;     /* Lightest blue - subtle backgrounds */
     --primary-100: #e0efff;    /* Very light blue - accents */
     --primary-200: #b8ddff;    /* Light blue - hover states */
     --primary-300: #76c1ff;    /* Medium blue - borders */
     --primary-400: #36a3ff;    /* Bright blue - interactive elements */
-    --primary-500: #0066cc;    /* Apple Science Blue - primary actions */
+    --primary-500: #0066cc;    /* Primary actions */
     --primary-600: #0052a3;    /* Darker blue - hover states */
     --primary-700: #003d7a;    /* Deep blue - text emphasis */
     --primary-800: #002952;    /* Very dark blue */
     --primary-900: #001429;    /* Near black blue */
 
-    /* Sophisticated Neutral Palette (Inspired by Apple & Notion) */
+    /* Sophisticated Neutral Palette */
     --neutral-0: #ffffff;      /* Pure white - backgrounds */
     --neutral-50: #f8f9fa;     /* Off-white - subtle backgrounds */
     --neutral-100: #f1f3f4;    /* Light gray - borders, dividers */
@@ -28,7 +28,7 @@
     --neutral-500: #9aa0a6;    /* Medium-dark gray */
     --neutral-600: #5f6368;    /* Dark gray - primary text */
     --neutral-700: #3c4043;    /* Darker gray - headings */
-    --neutral-800: #1d1d1f;    /* Apple Shark - main text */
+    --neutral-800: #1d1d1f;    /* Main text */
     --neutral-900: #0f0f0f;    /* Near black - maximum contrast */
 
     /* Purposeful Accent Colors */
@@ -53,7 +53,7 @@
     --info-600: #2563eb;
 
     /* Premium Typography System */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-primary: 'Inter', system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     --font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
     
     /* Modern Type Scale (Golden Ratio Inspired) */

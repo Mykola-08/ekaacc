@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { SystemRole, hasPermission, PermissionGroup, PermissionAction, CustomRole } from '@/lib/role-permissions';
 import { User } from '@/lib/types';
 import { supabase } from '@/lib/supabase';
@@ -13,6 +13,7 @@ export interface AuthUser extends User {
   isActive: boolean;
   lastRoleChange?: string;
   roleAssignedBy?: string;
+  initials: string; // Add required initials property
 }
 
 interface AuthContextType {
@@ -75,14 +76,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchUserWithRole = async (userId: string): Promise<AuthUser | null> => {
     try {
-      // Fetch user data with role information from public.users
+      // Fetch user data with role information from user_accounts
       const { data: userData, error: userError } = await supabase
-        .from('users')
+        .from('user_accounts')
         .select(`
           *,
-          user_roles!inner (
-            role,
-            is_active,
+          user_role_assignments!inner (
+            role_id,
             assigned_at,
             assigned_by
           )
@@ -108,8 +108,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           role: 'Patient',
           isActive: true,
           customRoles: [],
-          permissions: []
+          permissions: [],
+          initials: authData.user.user_metadata?.displayName?.split(' ').map(n => n[0]).join('').toUpperCase() || authData.user.email!.substring(0, 2).toUpperCase()
         };
+      }
+
+      // Fetch the actual role name from user_roles table
+      let roleName = 'Patient';
+      if (userData.user_role_assignments?.[0]?.role_id) {
+        const { data: roleData } = await supabase
+          .from('user_roles')
+          .select('role')
+          .eq('id', userData.user_role_assignments[0].role_id)
+          .single();
+        
+        roleName = roleData?.role || 'Patient';
       }
 
       // Fetch custom roles if any
@@ -120,12 +133,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return {
         ...userData,
-        role: userData.user_roles?.[0]?.role || 'Patient',
-        isActive: userData.user_roles?.[0]?.is_active ?? true,
-        lastRoleChange: userData.user_roles?.[0]?.assigned_at,
-        roleAssignedBy: userData.user_roles?.[0]?.assigned_by,
+        role: roleName,
+        isActive: true,
+        lastRoleChange: userData.user_role_assignments?.[0]?.assigned_at,
+        roleAssignedBy: userData.user_role_assignments?.[0]?.assigned_by,
         customRoles: customRoles || [],
-        permissions: [] // Will be populated based on role
+        permissions: [], // Will be populated based on role
+        initials: userData.displayName?.split(' ').map(n => n[0]).join('').toUpperCase() || userData.email?.substring(0, 2).toUpperCase() || ''
       };
     } catch (error) {
       console.error('Error fetching user with role:', error);
@@ -203,18 +217,28 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       // Assign default Patient role to new users
-      const { error: roleError } = await supabase
+      // First, get the Patient role ID
+      const { data: patientRole } = await supabase
         .from('user_roles')
-        .insert({
-          user_id: authData.user.id,
-          role: 'Patient',
-          is_active: true,
-          assigned_at: new Date().toISOString(),
-        });
+        .select('id')
+        .eq('role', 'Patient')
+        .single();
 
-      if (roleError) {
-        console.error('Error assigning default role:', roleError);
-        // Don't throw here, as the user was created successfully
+      if (patientRole) {
+        const { error: roleError } = await supabase
+          .from('user_role_assignments')
+          .insert({
+            user_id: authData.user.id,
+            role_id: patientRole.id,
+            assigned_at: new Date().toISOString(),
+          });
+
+        if (roleError) {
+          console.error('Error assigning default role:', roleError);
+          // Don't throw here, as the user was created successfully
+        }
+      } else {
+        console.error('Patient role not found in user_roles table');
       }
 
       const userWithRole = await fetchUserWithRole(authData.user.id);
@@ -307,17 +331,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const updateUserRole = async (userId: string, newRole: SystemRole, assignedBy: string) => {
     try {
-      const { error } = await supabase
+      // First, get the role ID for the new role
+      const { data: roleData } = await supabase
         .from('user_roles')
-        .upsert({
+        .select('id')
+        .eq('role', newRole)
+        .single();
+
+      if (!roleData) {
+        throw new Error(`Role '${newRole}' not found in user_roles table`);
+      }
+
+      // Deactivate existing role assignments for this user
+      const { error: deactivateError } = await supabase
+        .from('user_role_assignments')
+        .update({ is_active: false })
+        .eq('user_id', userId);
+
+      if (deactivateError) throw deactivateError;
+
+      // Create new role assignment
+      const { error: assignError } = await supabase
+        .from('user_role_assignments')
+        .insert({
           user_id: userId,
-          role: newRole,
+          role_id: roleData.id,
           assigned_by: assignedBy,
           assigned_at: new Date().toISOString(),
           is_active: true
         });
 
-      if (error) throw error;
+      if (assignError) throw assignError;
 
       // Refresh current user if it's the same user
       if (user?.id === userId) {
@@ -370,21 +414,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (!userWithRole) {
           // Create default Patient role for OAuth users
           try {
-            const { error: roleError } = await supabase
+            // First, get the Patient role ID
+            const { data: patientRole } = await supabase
               .from('user_roles')
-              .insert({
-                user_id: session.user.id,
-                role: 'Patient',
-                is_active: true,
-                assigned_at: new Date().toISOString(),
-              });
+              .select('id')
+              .eq('role', 'Patient')
+              .single();
 
-            if (roleError) {
-              console.error('Error assigning default role to OAuth user:', roleError);
+            if (patientRole) {
+              const { error: roleError } = await supabase
+                .from('user_role_assignments')
+                .insert({
+                  user_id: session.user.id,
+                  role_id: patientRole.id,
+                  assigned_at: new Date().toISOString(),
+                });
+
+              if (roleError) {
+                console.error('Error assigning default role to OAuth user:', roleError);
+              } else {
+                // Fetch the user again with the new role
+                const updatedUser = await fetchUserWithRole(session.user.id);
+                setUser(updatedUser);
+              }
             } else {
-              // Fetch the user again with the new role
-              const updatedUser = await fetchUserWithRole(session.user.id);
-              setUser(updatedUser);
+              console.error('Patient role not found in user_roles table');
             }
           } catch (error) {
             console.error('Error handling OAuth user role assignment:', error);

@@ -3,7 +3,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { Card, Button, LineProgress, Spinner } from '@/components/keep';
+import { Card, Button } from '@/components/keep';
+import { Progress } from '@/components/ui/progress';
 import { User, Calendar, TrendingUp, Heart, Clock, Target } from 'lucide-react';
 import type { Session, Report, User as UserType } from '@/lib/types';
 import { MinimalLayout } from '@/components/layout/minimal-layout';
@@ -135,7 +136,7 @@ function MinimalGoalProgress({
             </p>
           </div>
         </div>
-        <LineProgress value={progress} size="sm" color="primary" />
+        <Progress value={progress} className="h-2" />
         <p className="text-sm text-gray-600">
           {progress >= 100 ? 'Goal completed!' : `${Math.round(progress)}% complete`}
         </p>
@@ -191,12 +192,10 @@ function MinimalQuickActions({ onToggleAI }: { onToggleAI: () => void }) {
             size="md"
             className="w-full justify-start text-left"
             onClick={() => action.onClick ? action.onClick() : window.location.href = action.href}
-            leftIcon={
-              <div className="p-2 bg-primary-100 rounded-lg">
-                <action.icon className="w-4 h-4 text-primary-600" />
-              </div>
-            }
           >
+            <div className="p-2 bg-primary-100 rounded-lg mr-3">
+              <action.icon className="w-4 h-4 text-primary-600" />
+            </div>
             <div className="flex-1">
               <p className="text-base font-medium block">{action.title}</p>
               <p className="text-sm text-gray-600">{action.description}</p>
@@ -253,7 +252,7 @@ export default function MinimalPatientDashboard() {
     return (
       <MinimalLayout centered>
         <div className="text-center">
-          <Spinner size="xl" color="primary" className="mx-auto mb-4" />
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
           <p className="text-sm text-gray-600">Loading your dashboard...</p>
         </div>
       </MinimalLayout>
@@ -342,7 +341,7 @@ export default function MinimalPatientDashboard() {
             <MinimalStatCard
               icon={User}
               title="Therapist"
-              value={userData?.therapist || 'Not assigned'}
+              value={userData?.linkedTherapist ? 'Assigned' : 'Not assigned'}
               subtitle="Current"
             />
           </div>

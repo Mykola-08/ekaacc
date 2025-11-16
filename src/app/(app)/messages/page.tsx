@@ -60,17 +60,17 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="apple-page">
-      <div className="apple-flex apple-h-[calc(100vh-80px)] apple-bg-background">
+    <div>
+      <div className="flex h-[calc(100vh-80px)] bg-background">
         {/* Conversation List */}
-        <aside className="apple-w-1/4 apple-border-r apple-border-border">
-          <header className="apple-p-6 apple-border-b apple-border-border">
-            <h2 className="apple-title-section">Messages</h2>
+        <aside className="w-1/4 border-r border-border">
+          <header className="p-6 border-b border-border">
+            <h2 className="text-2xl font-semibold">Messages</h2>
           </header>
-          <Card className="apple-h-full apple-overflow-y-auto apple-border-0 apple-shadow-none">
-            <CardContent className="apple-p-0">
+          <Card className="h-full overflow-y-auto border-0 shadow-none">
+            <CardContent className="p-0">
               {isLoading ? (
-                <div className="apple-p-6 apple-space-y-4">
+                <div className="p-6 space-y-4">
                   {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
                 </div>
               ) : (
@@ -88,23 +88,23 @@ export default function MessagesPage() {
         </aside>
 
         {/* Message View */}
-        <main className="apple-w-3/4 apple-flex apple-flex-col apple-bg-background">
+        <main className="w-3/4 flex flex-col bg-background">
           {activeConversation ? (
             <>
-              <header className="apple-p-6 apple-border-b apple-border-border apple-flex apple-items-center apple-gap-4">
-                <Avatar className="apple-avatar">
+              <header className="p-6 border-b border-border flex items-center gap-4">
+                <Avatar>
                   <AvatarImage src={activeConversation.avatarUrl} />
                   <AvatarFallback>{activeConversation.initials}</AvatarFallback>
                 </Avatar>
                 <div>
-                  <h3 className="apple-title-card">{activeConversation.name}</h3>
-                  <p className="apple-text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>Online</p>
+                  <h3 className="font-semibold text-lg">{activeConversation.name}</h3>
+                  <p className="text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>Online</p>
                 </div>
               </header>
 
-              <Card className="apple-flex-1 apple-overflow-y-auto apple-border-0 apple-shadow-none">
-                <CardContent className="apple-p-6">
-                  <div className="apple-space-y-6">
+              <Card className="flex-1 overflow-y-auto border-0 shadow-none">
+                <CardContent className="p-6">
+                  <div className="space-y-6">
                     {messages.map((msg) => (
                       <MessageItem key={msg.id} message={msg} />
                     ))}
@@ -112,29 +112,29 @@ export default function MessagesPage() {
                 </CardContent>
               </Card>
 
-              <footer className="apple-p-6 apple-border-t apple-border-border">
-                <div className="apple-relative">
+              <footer className="p-6 border-t border-border">
+                <div className="relative">
                   <Input
                     placeholder="Type a message..."
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                    className="apple-input apple-pr-24"
+                    className="pr-24"
                   />
-                  <div className="apple-absolute apple-right-3 apple-top-1/2 apple--translate-y-1/2 apple-flex apple-items-center apple-gap-2">
-                    <Button variant="outline" size="icon" className="apple-button-outline">
-                      <Paperclip className="apple-w-5 apple-h-5" />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                    <Button variant="outline" size="icon">
+                      <Paperclip className="w-5 h-5" />
                     </Button>
-                    <Button onClick={handleSendMessage} className="apple-button-gradient-blue apple-p-2">
-                      <Send className="apple-w-5 apple-h-5" />
+                    <Button onClick={handleSendMessage} className="p-2">
+                      <Send className="w-5 h-5" />
                     </Button>
                   </div>
                 </div>
               </footer>
             </>
           ) : (
-            <div className="apple-flex-1 apple-flex apple-items-center apple-justify-center" style={{color: 'hsl(var(--muted-foreground))'}}>
-              <p className="apple-text-body">Select a conversation to start messaging.</p>
+            <div className="flex-1 flex items-center justify-center" style={{color: 'hsl(var(--muted-foreground))'}}>
+              <p>Select a conversation to start messaging.</p>
             </div>
           )}
         </main>
@@ -148,21 +148,21 @@ function ConversationItem({ user, isActive, onClick }: { user: User, isActive: b
     <button
       onClick={onClick}
       className={cn(
-        "apple-flex apple-items-center apple-gap-4 apple-p-6 apple-w-full apple-text-left apple-hover:bg-muted/50 apple-transition-colors",
-        isActive && "apple-bg-muted"
+        "flex items-center gap-4 p-6 w-full text-left hover:bg-muted/50 transition-colors",
+        isActive && "bg-muted"
       )}
     >
-      <Avatar className="apple-avatar">
+      <Avatar>
         <AvatarImage src={user.avatarUrl} />
         <AvatarFallback>{user.initials}</AvatarFallback>
       </Avatar>
-      <div className="apple-flex-1">
-        <h4 className="apple-title-card">{user.name}</h4>
-        <p className="apple-text-sm" style={{color: 'hsl(var(--muted-foreground))'}}>
+      <div className="flex-1">
+        <h4 className="font-semibold text-lg">{user.name}</h4>
+        <p className="text-sm" style={{color: 'hsl(var(--muted-foreground))'}}>
           That's great to hear. Is there anything...
         </p>
       </div>
-      <span className="apple-text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>2m ago</span>
+      <span className="text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>2m ago</span>
     </button>
   );
 }
@@ -170,16 +170,16 @@ function ConversationItem({ user, isActive, onClick }: { user: User, isActive: b
 function MessageItem({ message }: { message: Message }) {
   const isUser = message.role === 'user';
   return (
-    <div className={cn("apple-flex", isUser ? "apple-justify-end" : "apple-justify-start")}>
+    <div className={cn("flex", isUser ? "justify-end" : "justify-start")}> 
       <div
         className={cn(
-          "apple-max-w-xs lg:apple-max-w-md apple-p-4 apple-rounded-xl",
+          "max-w-xs lg:max-w-md p-4 rounded-xl",
           isUser
-            ? "apple-bg-primary apple-text-primary-foreground"
-            : "apple-bg-muted"
+            ? "bg-primary text-primary-foreground"
+            : "bg-muted"
         )}
       >
-        <p className="apple-text-body">{message.content}</p>
+        <p>{message.content}</p>
       </div>
     </div>
   );
@@ -187,11 +187,11 @@ function MessageItem({ message }: { message: Message }) {
 
 function ConversationSkeleton() {
   return (
-    <div className="apple-flex apple-items-center apple-gap-4 apple-p-6">
-      <Skeleton className="apple-h-12 apple-w-12 apple-rounded-full" />
-      <div className="apple-space-y-2 apple-flex-1">
-        <Skeleton className="apple-h-4 apple-w-3/4" />
-        <Skeleton className="apple-h-4 apple-w-1/2" />
+    <div className="flex items-center gap-4 p-6">
+      <Skeleton className="h-12 w-12 rounded-full" />
+      <div className="space-y-2 flex-1">
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-4 w-1/2" />
       </div>
     </div>
   )

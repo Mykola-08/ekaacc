@@ -73,19 +73,12 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
   const [usage, setUsage] = useState<AIUsage>({ daily: 0, limit: subscriptionConfig[subscriptionTier].limit, resetTime: '24h' });
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { ref: insightsRef, inView: insightsInView } = useInView({ threshold: 0.1 });
+  const insightsRef = useRef(null);
+  const isInView = useInView(insightsRef, { threshold: 0.1 });
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    api: '/api/ai/chat',
-    body: {
-      userId,
-      subscriptionTier,
-      context: {
-        proactive: showProactivePanel,
-        insights: aiInsights
-      }
-    },
-    onResponse: (response) => {
+  const [input, setInput] = useState('');
+  const { messages, sendMessage, status } = useChat({
+    onResponse: (response: any) => {
       // Update usage from response headers
       const dailyUsage = response.headers.get('X-AI-Daily-Usage');
       const limit = response.headers.get('X-AI-Limit');
@@ -98,6 +91,8 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
       }
     }
   });
+
+  const isLoading = status === 'streaming' || status === 'submitted';
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -147,8 +142,20 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
   ];
 
   const handleQuickPrompt = (prompt: string) => {
-    handleInputChange({ target: { value: prompt } } as React.ChangeEvent<HTMLInputElement>);
-    handleSubmit(new Event('submit') as any);
+    setInput(prompt);
+    handleFormSubmit(new Event('submit') as any);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim()) {
+      sendMessage(input);
+      setInput('');
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
   };
 
   const usagePercentage = (usage.daily / usage.limit) * 100;
@@ -221,7 +228,7 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
           <TabsContent value="chat" className="flex-1 mt-0">
             <ScrollArea className="flex-1 p-4" ref={scrollRef}>
               <AnimatePresence>
-                {messages.length === 0 && (
+                  {messages.length === 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -243,7 +250,7 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
                         >
                           <ShimmerButton
                             onClick={() => handleQuickPrompt(prompt)}
-                            className="w-full text-xs"
+                            className="w-full h-7 px-2 text-xs"
                           >
                             {prompt}
                           </ShimmerButton>
@@ -285,7 +292,12 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
                             'text-white': message.role === 'user'
                           })}
                         >
-                          {message.content}
+                          {message.parts.map((part, index) => {
+                            if (part.type === 'text') {
+                              return <span key={index}>{part.text}</span>;
+                            }
+                            return null;
+                          })}
                         </TextShimmer>
                       </Card>
                     </div>
@@ -314,11 +326,71 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
                   </motion.div>
                 )}
               </AnimatePresence>
+              {messages.map((message: any, index: number) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={cn("flex gap-3 mb-4", {
+                    'justify-end': message.role === 'user',
+                    'justify-start': message.role === 'assistant'
+                  })}
+                >
+                  <div className={cn("flex gap-3 max-w-[80%]", {
+                    'flex-row-reverse': message.role === 'user'
+                  })}>
+                    <Avatar className="w-8 h-8">
+                      {message.role === 'user' ? (
+                        <AvatarFallback>U</AvatarFallback>
+                      ) : (
+                        <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500">
+                          <Sparkles className="w-4 h-4" />
+                        </AvatarFallback>
+                      )}
+                    </Avatar>
+                    <Card className={cn("p-3", {
+                      'bg-blue-500 text-white': message.role === 'user',
+                      'bg-white': message.role === 'assistant'
+                    })}>
+                      <TextShimmer 
+                        duration={1.5}
+                        className={cn("text-sm", {
+                          'text-white': message.role === 'user'
+                        })}
+                      >
+                        {message.content}
+                      </TextShimmer>
+                    </Card>
+                  </div>
+                </motion.div>
+              ))}
+
+              {isLoading && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex gap-3 mb-4"
+                >
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-500">
+                      <Sparkles className="w-4 h-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                  <Card className="bg-white p-3">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" />
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                      <span className="text-sm text-slate-600 ml-2">Thinking...</span>
+                    </div>
+                  </Card>
+                </motion.div>
+              )}
             </ScrollArea>
 
             {/* Input Area */}
             <div className="border-t border-slate-200 p-4 bg-white/80 backdrop-blur-sm">
-              <form onSubmit={handleSubmit} className="flex gap-2">
+              <form onSubmit={handleFormSubmit} className="flex gap-2">
                 <Button type="button" variant="ghost" size="sm">
                   <Paperclip className="w-4 h-4" />
                 </Button>
@@ -345,7 +417,7 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
           </TabsContent>
 
           <TabsContent value="insights" className="flex-1 mt-0">
-            <div className="p-4" ref={insightsRef}>
+            <div className="p-4" ref={insightsRef as any}>
               <h3 className="text-lg font-semibold mb-4">AI Insights</h3>
               <AnimatedList className="space-y-3">
                 {aiInsights.map((insight) => (
@@ -372,9 +444,9 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
                           </div>
                           <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
                           {insight.action && (
-                            <ShimmerButton size="sm" className="text-xs">
-                              {insight.action}
-                            </ShimmerButton>
+                            <ShimmerButton className="h-7 px-2 text-xs">
+                            {insight.action}
+                          </ShimmerButton>
                           )}
                         </div>
                       </div>

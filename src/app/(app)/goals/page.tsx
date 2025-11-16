@@ -53,25 +53,24 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="apple-page">
-      <div className="apple-container">
-        <div className="apple-flex-between apple-mb-12">
+    <div>
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between mb-12">
           <div>
-            <h1 className="apple-title-section">My Goals</h1>
-            <p className="apple-text-body">Set and track your therapy goals.</p>
+            <h1 className="text-2xl font-semibold">My Goals</h1>
+            <p className="text-muted-foreground">Set and track your therapy goals.</p>
           </div>
           {!isCreating && (
             <Button 
               onClick={() => setIsCreating(true)}
-              className="apple-button-gradient-blue"
             >
-              <Plus className="apple-w-4 apple-h-4 apple-mr-2" />
+              <Plus className="w-4 h-4 mr-2" />
               New Goal
             </Button>
           )}
         </div>
 
-        <div className="apple-space-y-8">
+        <div className="space-y-8">
           {isCreating && (
             <NewGoalCard
               onSave={handleSaveGoal}
@@ -85,9 +84,9 @@ export default function GoalsPage() {
             goals.map((goal) => <GoalCard key={goal.id} goal={goal} onDelete={handleDeleteGoal} />)
           ) : (
             !isCreating && (
-              <Card className="apple-card apple-card-dashed apple-flex apple-flex-col apple-items-center apple-justify-center apple-text-center apple-p-12">
-                <h3 className="apple-title-card apple-mb-2">No goals yet</h3>
-                <p className="apple-text-body">
+              <Card className="border-dashed flex flex-col items-center justify-center text-center p-12">
+                <h3 className="font-semibold text-lg mb-2">No goals yet</h3>
+                <p className="text-muted-foreground">
                   Create a new goal to start tracking your progress.
                 </p>
               </Card>
@@ -124,35 +123,35 @@ function NewGoalCard({
   };
 
   return (
-    <Card className="apple-card apple-card-subtle">
+    <Card>
       <CardHeader>
-        <CardTitle className="apple-title-card">New Goal</CardTitle>
+        <CardTitle className="font-semibold text-lg">New Goal</CardTitle>
       </CardHeader>
-      <CardContent className="apple-space-y-6">
-        <div className="apple-space-y-3">
-          <Label htmlFor="description" className="apple-text-sm apple-font-medium">Description</Label>
+      <CardContent className="space-y-6">
+        <div className="space-y-3">
+          <Label htmlFor="description" className="text-sm font-medium">Description</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="What do you want to achieve?"
-            className="apple-input"
+            className=""
           />
         </div>
-        <div className="apple-space-y-3">
-          <Label htmlFor="targetDate" className="apple-text-sm apple-font-medium">Target Date</Label>
+        <div className="space-y-3">
+          <Label htmlFor="targetDate" className="text-sm font-medium">Target Date</Label>
           <Input
             id="targetDate"
             type="date"
             value={targetDate}
             onChange={(e) => setTargetDate(e.target.value)}
-            className="apple-input"
+            className=""
           />
         </div>
       </CardContent>
-      <CardFooter className="apple-flex apple-justify-end apple-gap-3">
-        <Button variant="outline" onClick={onCancel} className="apple-button-outline">Cancel</Button>
-        <Button onClick={handleSave} className="apple-button-gradient-blue">Save</Button>
+      <CardFooter className="flex justify-end gap-3">
+        <Button variant="outline" onClick={onCancel}>Cancel</Button>
+        <Button onClick={handleSave}>Save</Button>
       </CardFooter>
     </Card>
   );
@@ -178,14 +177,14 @@ function GoalCard({ goal, onDelete }: { goal: Goal; onDelete: (id: string) => vo
 
 function GoalSkeleton() {
   return (
-    <div className="apple-space-y-8">
-      <Card className="apple-card">
+    <div className="space-y-8">
+      <Card>
         <CardHeader>
-          <Skeleton className="apple-h-6 apple-w-1/2" />
+          <Skeleton className="h-6 w-1/2" />
         </CardHeader>
-        <CardContent className="apple-space-y-4">
-          <Skeleton className="apple-h-4 apple-w-full" />
-          <Skeleton className="apple-h-4 apple-w-3/4" />
+        <CardContent className="space-y-4">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-3/4" />
         </CardContent>
       </Card>
     </div>

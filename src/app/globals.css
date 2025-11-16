@@ -351,6 +351,102 @@
     box-shadow: 0 0 0 var(--focus-ring-width) var(--ring),
                 0 0 0 calc(var(--focus-ring-width) + var(--focus-ring-offset)) var(--background);
   }
+
+  /* Unified Border Radius Utilities */
+  .rounded-sm { border-radius: var(--radius-sm); }
+  .rounded-md { border-radius: var(--radius-md); }
+  .rounded-lg { border-radius: var(--radius-lg); }
+  .rounded-xl { border-radius: var(--radius-xl); }
+  .rounded-2xl { border-radius: var(--radius-2xl); }
+  .rounded-full { border-radius: var(--radius-full); }
+
+  /* Square Hole Design System */
+  .square-hole {
+    border-radius: var(--square-hole-radius);
+    background: var(--square-hole-bg);
+    border: 1px solid var(--square-hole-border);
+    box-shadow: var(--square-hole-shadow);
+    transition: all 0.2s ease-in-out;
+  }
+
+  .square-hole-interactive {
+    @apply square-hole hover:shadow-md hover:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  }
+
+  .square-hole-button {
+    @apply square-hole-interactive min-h-[44px] min-w-[44px] flex items-center justify-center font-medium;
+  }
+
+  .square-hole-card {
+    @apply square-hole p-6 hover:shadow-lg transition-all duration-300;
+  }
+
+  .square-hole-input {
+    @apply square-hole-interactive w-full px-4 py-3 text-base;
+  }
+
+  /* Touch Target Compliance */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .touch-target-sm {
+    min-height: 32px;
+    min-width: 32px;
+  }
+
+  /* Enhanced Hover States */
+  .hover-enhanced {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .hover-enhanced:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* WCAG 2.1 AA Compliant Focus States */
+  .focus-aa-compliant {
+    outline: 3px solid transparent;
+    outline-offset: 2px;
+  }
+
+  .focus-aa-compliant:focus-visible {
+    outline-color: hsl(var(--primary));
+    outline-offset: 4px;
+  }
+
+  /* Navigation Button Standards */
+  .nav-button {
+    @apply square-hole-button touch-target hover-enhanced focus-aa-compliant;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .nav-button-primary {
+    @apply nav-button bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .nav-button-secondary {
+    @apply nav-button bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+
+  /* Authentication Flow Buttons */
+  .auth-button {
+    @apply square-hole-button touch-target hover-enhanced focus-aa-compliant;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .auth-button-primary {
+    @apply auth-button bg-primary text-primary-foreground hover:bg-primary/90;
+  }
+
+  .auth-button-secondary {
+    @apply auth-button bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
 }
 
 /* Keyframe Animations */

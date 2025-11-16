@@ -42,7 +42,7 @@
   --space-3xl: 4rem;
   
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
   
   --text-xs: 0.75rem;

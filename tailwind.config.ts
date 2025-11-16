@@ -99,12 +99,12 @@ export default {
   				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
-  		borderRadius: {
-  			xl: '`calc(var(--radius) + 4px)`',
-  			lg: '`var(--radius)`',
-  			md: '`calc(var(--radius) - 4px)`',
-  			sm: 'calc(var(--radius) - 8px)'
-  		},
+    		borderRadius: {
+    			xl: 'calc(var(--radius) + 4px)',
+    			lg: 'var(--radius)',
+    			md: 'calc(var(--radius) - 4px)',
+    			sm: 'calc(var(--radius) - 8px)'
+    		},
   		spacing: {
   			'18': '4.5rem',
   			'88': '22rem'

@@ -72,19 +72,19 @@ export default function DashboardView() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="apple-page">
-        <div className="apple-container">
-          <div className="apple-space-y-8" role="status" aria-label="Loading dashboard">
-            <Skeleton className="h-24 w-full apple-rounded-xl skeleton-modern" />
-            <div className="apple-grid-4">
-              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
-              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
-              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
-              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
+      <div>
+        <div className="container mx-auto">
+          <div className="space-y-8" role="status" aria-label="Loading dashboard">
+            <Skeleton className="h-24 w-full rounded-xl" />
+            <div className="grid grid-cols-4 gap-4">
+              <Skeleton className="h-36 w-full rounded-xl" />
+              <Skeleton className="h-36 w-full rounded-xl" />
+              <Skeleton className="h-36 w-full rounded-xl" />
+              <Skeleton className="h-36 w-full rounded-xl" />
             </div>
-            <div className="apple-grid-3">
-              <Skeleton className="h-80 w-full apple-rounded-xl skeleton-modern" />
-              <Skeleton className="h-80 w-full apple-rounded-xl skeleton-modern" />
+            <div className="grid grid-cols-3 gap-6">
+              <Skeleton className="h-80 w-full rounded-xl" />
+              <Skeleton className="h-80 w-full rounded-xl" />
             </div>
             <span className="sr-only">Loading your personalized dashboard...</span>
           </div>
@@ -99,26 +99,24 @@ export default function DashboardView() {
 
   if (!currentUser) {
     return (
-      <div className="apple-page">
-        <div className="apple-container">
-          <div className="apple-flex-center min-h-[70vh] apple-text-center apple-p-8 apple-rounded-2xl apple-bg-muted/30">
-            <div className="apple-max-w-md">
+      <div>
+        <div className="container mx-auto">
+          <div className="flex items-center justify-center min-h-[70vh] text-center p-8 rounded-2xl bg-muted/30">
+            <div className="max-w-md">
               <UserIcon className="w-16 h-16 text-muted-foreground apple-mb-6" />
               <h2 className="apple-title-section apple-mb-4">Welcome to EKA</h2>
               <p className="apple-text-body apple-mb-8">
                 Your personalized space for mental wellness and growth. Sign in to access your dashboard and begin your journey.
               </p>
-              <div className="apple-flex apple-gap-4 apple-mb-6">
+              <div className="flex gap-4 mb-6">
                 <Button 
-                  onClick={() => router.push('/login?tab=login')} 
-                  className="apple-button-primary"
+                  onClick={() => router.push('/login?tab=login')}
                 >
                   Sign In
                 </Button>
                 <Button 
                   onClick={() => router.push('/login?tab=signup')} 
                   variant="outline"
-                  className="apple-button-outline"
                 >
                   Sign Up
                 </Button>
@@ -134,17 +132,17 @@ export default function DashboardView() {
   }
 
   return (
-    <div className="apple-page">
-      <div className="apple-container">
-        <div className="apple-space-y-12">
+    <div>
+      <div className="container mx-auto">
+        <div className="space-y-12">
           <WelcomeHeader />
           <StatsGrid sessions={sessions} />
-          <div className="apple-grid-3">
-            <div className="apple-space-y-8">
+          <div className="grid grid-cols-3 gap-6">
+            <div className="space-y-8">
               <NextSession sessions={upcomingSessions} isLoading={dataLoading} />
               <AIGoalSuggestions />
             </div>
-            <div className="apple-space-y-8">
+            <div className="space-y-8">
               <PersonalBlock />
               {userData?.goal && (
                 <GoalProgress

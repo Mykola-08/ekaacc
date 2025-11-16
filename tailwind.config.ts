@@ -57,6 +57,9 @@ export default {
         lg: `var(--radius)`,
         md: `calc(var(--radius) - 4px)`,
         sm: 'calc(var(--radius) - 8px)',
+        squircle: '24px', // Squircle border radius
+        'squircle-sm': '16px', // Small squircle
+        'squircle-lg': '32px', // Large squircle
       },
       spacing: {
         '18': '4.5rem',

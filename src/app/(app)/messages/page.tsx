@@ -64,79 +64,81 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="h-[calc(100vh-80px)] flex">
-      {/* Conversation List */}
-      <aside className="w-1/4 border-r">
-        <header className="p-4 border-b">
-          <h2 className="text-xl font-bold">Messages</h2>
-        </header>
-        <ScrollArea className="h-full">
-          {isLoading ? (
-            <div className="p-4 space-y-4">
-              {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
-            </div>
-          ) : (
-            conversations.map(convoUser => (
-              <ConversationItem
-                key={convoUser.id}
-                user={convoUser}
-                isActive={activeConversation?.id === convoUser.id}
-                onClick={() => setActiveConversation(convoUser)}
-              />
-            ))
-          )}
-        </ScrollArea>
-      </aside>
-
-      {/* Message View */}
-      <main className="w-3/4 flex flex-col">
-        {activeConversation ? (
-          <>
-            <header className="p-4 border-b flex items-center gap-4">
-              <Avatar>
-                <AvatarImage src={activeConversation.avatarUrl} />
-                <AvatarFallback>{activeConversation.initials}</AvatarFallback>
-              </Avatar>
-              <div>
-                <h3 className="font-semibold">{activeConversation.name}</h3>
-                <p className="text-xs text-muted-foreground">Online</p>
+    <div className="apple-page">
+      <div className="apple-flex apple-h-[calc(100vh-80px)] apple-bg-background">
+        {/* Conversation List */}
+        <aside className="apple-w-1/4 apple-border-r apple-border-border">
+          <header className="apple-p-6 apple-border-b apple-border-border">
+            <h2 className="apple-title-section">Messages</h2>
+          </header>
+          <ScrollArea className="apple-h-full">
+            {isLoading ? (
+              <div className="apple-p-6 apple-space-y-4">
+                {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
               </div>
-            </header>
-
-            <ScrollArea className="flex-1 p-6">
-              <div className="space-y-6">
-                {messages.map((msg) => (
-                  <MessageItem key={msg.id} message={msg} />
-                ))}
-              </div>
-            </ScrollArea>
-
-            <footer className="p-4 border-t">
-              <div className="relative">
-                <Input
-                  placeholder="Type a message..."
-                  value={newMessage}
-                  onChange={(e) => setNewMessage(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                  className="pr-24"
+            ) : (
+              conversations.map(convoUser => (
+                <ConversationItem
+                  key={convoUser.id}
+                  user={convoUser}
+                  isActive={activeConversation?.id === convoUser.id}
+                  onClick={() => setActiveConversation(convoUser)}
                 />
-                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <Button variant="outline" size="sm">
-                    <Paperclip className="h-5 w-5" />
-                  </Button>
-                  <Button onClick={handleSendMessage}>
-                    <Send className="h-5 w-5" />
-                  </Button>
+              ))
+            )}
+          </ScrollArea>
+        </aside>
+
+        {/* Message View */}
+        <main className="apple-w-3/4 apple-flex apple-flex-col apple-bg-background">
+          {activeConversation ? (
+            <>
+              <header className="apple-p-6 apple-border-b apple-border-border apple-flex apple-items-center apple-gap-4">
+                <Avatar className="apple-avatar">
+                  <AvatarImage src={activeConversation.avatarUrl} />
+                  <AvatarFallback>{activeConversation.initials}</AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="apple-title-card">{activeConversation.name}</h3>
+                  <p className="apple-text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>Online</p>
                 </div>
-              </div>
-            </footer>
-          </>
-        ) : (
-          <div className="flex-1 flex items-center justify-center text-muted-foreground">
-            <p>Select a conversation to start messaging.</p>
-          </div>
-        )}
-      </main>
+              </header>
+
+              <ScrollArea className="apple-flex-1 apple-p-6">
+                <div className="apple-space-y-6">
+                  {messages.map((msg) => (
+                    <MessageItem key={msg.id} message={msg} />
+                  ))}
+                </div>
+              </ScrollArea>
+
+              <footer className="apple-p-6 apple-border-t apple-border-border">
+                <div className="apple-relative">
+                  <Input
+                    placeholder="Type a message..."
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                    className="apple-input apple-pr-24"
+                  />
+                  <div className="apple-absolute apple-right-3 apple-top-1/2 apple--translate-y-1/2 apple-flex apple-items-center apple-gap-2">
+                    <Button variant="outline" size="icon" className="apple-button-outline">
+                      <Paperclip className="apple-w-5 apple-h-5" />
+                    </Button>
+                    <Button onClick={handleSendMessage} className="apple-button-gradient-blue apple-p-2">
+                      <Send className="apple-w-5 apple-h-5" />
+                    </Button>
+                  </div>
+                </div>
+              </footer>
+            </>
+          ) : (
+            <div className="apple-flex-1 apple-flex apple-items-center apple-justify-center" style={{color: 'hsl(var(--muted-foreground))'}}>
+              <p className="apple-text-body">Select a conversation to start messaging.</p>
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 }
@@ -146,21 +148,21 @@ function ConversationItem({ user, isActive, onClick }: { user: User, isActive: b
     <button
       onClick={onClick}
       className={cn(
-        "flex items-center gap-4 p-4 w-full text-left hover:bg-muted/50 transition-colors",
-        isActive && "bg-muted"
+        "apple-flex apple-items-center apple-gap-4 apple-p-6 apple-w-full apple-text-left apple-hover:bg-muted/50 apple-transition-colors",
+        isActive && "apple-bg-muted"
       )}
     >
-      <Avatar>
+      <Avatar className="apple-avatar">
         <AvatarImage src={user.avatarUrl} />
         <AvatarFallback>{user.initials}</AvatarFallback>
       </Avatar>
-      <div className="flex-1">
-        <h4 className="font-semibold">{user.name}</h4>
-        <p className="text-sm text-muted-foreground truncate">
+      <div className="apple-flex-1">
+        <h4 className="apple-title-card">{user.name}</h4>
+        <p className="apple-text-sm" style={{color: 'hsl(var(--muted-foreground))'}}>
           That's great to hear. Is there anything...
         </p>
       </div>
-      <span className="text-xs text-muted-foreground">2m ago</span>
+      <span className="apple-text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>2m ago</span>
     </button>
   );
 }
@@ -168,16 +170,16 @@ function ConversationItem({ user, isActive, onClick }: { user: User, isActive: b
 function MessageItem({ message }: { message: Message }) {
   const isUser = message.role === 'user';
   return (
-    <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
+    <div className={cn("apple-flex", isUser ? "apple-justify-end" : "apple-justify-start")}>
       <div
         className={cn(
-          "max-w-xs lg:max-w-md p-3 rounded-lg",
+          "apple-max-w-xs lg:apple-max-w-md apple-p-4 apple-rounded-xl",
           isUser
-            ? "bg-primary text-primary-foreground"
-            : "bg-muted"
+            ? "apple-bg-primary apple-text-primary-foreground"
+            : "apple-bg-muted"
         )}
       >
-        <p>{message.content}</p>
+        <p className="apple-text-body">{message.content}</p>
       </div>
     </div>
   );
@@ -185,11 +187,11 @@ function MessageItem({ message }: { message: Message }) {
 
 function ConversationSkeleton() {
   return (
-    <div className="flex items-center gap-4 p-4">
-      <Skeleton className="h-12 w-12 rounded-full" />
-      <div className="space-y-2 flex-1">
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-4 w-1/2" />
+    <div className="apple-flex apple-items-center apple-gap-4 apple-p-6">
+      <Skeleton className="apple-h-12 apple-w-12 apple-rounded-full" />
+      <div className="apple-space-y-2 apple-flex-1">
+        <Skeleton className="apple-h-4 apple-w-3/4" />
+        <Skeleton className="apple-h-4 apple-w-1/2" />
       </div>
     </div>
   )

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Sparkles, User, Settings, Heart, Brain, Palette, Bell, Shield } from 'lucide-react';
+import { ArrowLeft, Sparkles, User, Settings, Heart, Brain, Palette, Bell, Shield, Zap, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,6 +12,37 @@ import PersonalizationEngine from '@/components/eka/personalization-engine';
 import { InView } from '@/components/motion-primitives/in-view';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }
+  }
+};
+
+const floatingVariants = {
+  animate: {
+    y: [0, -10, 0],
+    transition: {
+      duration: 4,
+      repeat: Infinity,
+      ease: "easeInOut"
+    }
+  }
+};
 
 export default function PersonalizationPage() {
   const router = useRouter();
@@ -85,422 +116,456 @@ export default function PersonalizationPage() {
   const overallProgress = personalizationSections.reduce((acc, section) => acc + section.progress, 0) / personalizationSections.length;
 
   return (
-    <div className="apple-page">
-      <div className="apple-container">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30">
+      {/* Floating Background Elements */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-1/4 top-1/4 w-96 h-96 bg-gradient-to-br from-purple-100/20 via-blue-100/10 to-pink-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute right-1/4 bottom-1/4 w-80 h-80 bg-gradient-to-br from-indigo-100/20 via-purple-100/10 to-violet-100/20 rounded-full blur-3xl"></div>
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-br from-violet-100/15 via-purple-100/10 to-pink-100/15 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-6 py-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="apple-mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="mb-12"
         >
-          <div className="apple-flex-between">
-            <div className="apple-flex apple-items-center apple-gap-6">
-              <Button
-                variant="ghost"
-                size="icon"
+          <motion.div
+            variants={itemVariants}
+            className="flex items-center justify-between mb-8"
+          >
+            <div className="flex items-center gap-6">
+              <motion.button
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => router.back()}
-                className="apple-hover-lift"
+                className="w-12 h-12 bg-white/80 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border border-white/20 hover:bg-white transition-all duration-200"
               >
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
+                <ArrowLeft className="w-5 h-5 text-slate-700" />
+              </motion.button>
               <div>
-                <h1 className="apple-title-section">
+                <motion.h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 bg-clip-text text-transparent mb-2">
                   Personalization Center
-                </h1>
-                <p className="apple-text-body">
-                  Customize your therapy platform experience
-                </p>
+                </motion.h1>
+                <p className="text-lg text-slate-600">Customize your therapy platform experience</p>
               </div>
             </div>
-            <div className="hidden sm:flex apple-items-center apple-gap-3">
+            <div className="hidden sm:flex items-center gap-4">
               <motion.div
                 animate={{ scale: [1, 1.05, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="apple-card-icon apple-card-icon-blue"
+                className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-500/25"
               >
                 <Sparkles className="w-6 h-6 text-white" />
               </motion.div>
-              <Badge variant="outline" className="apple-text-xs">
+              <Badge variant="outline" className="bg-white/80 backdrop-blur-sm border-purple-200 text-purple-700">
                 AI Powered
               </Badge>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Progress Overview */}
-        <InView>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="apple-mb-12"
-          >
-            <Card className="apple-card apple-card-blue">
-              <CardHeader>
-                <CardTitle className="apple-flex apple-items-center apple-gap-3">
-                  <User className="w-5 h-5 text-blue-600" />
-                  <span>Personalization Progress</span>
-                </CardTitle>
-                <CardDescription className="apple-text-body">
-                  Your personalization journey is {Math.round(overallProgress)}% complete
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="apple-space-y-6">
-                  <div className="apple-flex-between">
-                    <span className="apple-text-sm apple-font-medium">Overall Completion</span>
-                    <span className="apple-text-sm apple-font-semibold">{Math.round(overallProgress)}%</span>
-                  </div>
-                  <Progress value={overallProgress} className="h-3 apple-rounded-full" />
-                  <div className="apple-grid-2 apple-mt-6">
-                    {personalizationSections.map((section) => (
-                      <div key={section.id} className="apple-space-y-3">
-                        <div className="apple-flex-between">
-                          <span className="apple-text-sm apple-font-medium">{section.name}</span>
-                          <Badge variant="outline" className="apple-text-xs">
-                            {section.progress}%
-                          </Badge>
-                        </div>
-                        <Progress value={section.progress} className="h-2 apple-rounded-full" />
-                      </div>
-                    ))}
+          {/* Progress Overview */}
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-2xl shadow-purple-500/10 border border-white/20">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                  <User className="w-6 h-6 text-white" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold text-slate-900">Personalization Progress</h2>
+                  <p className="text-slate-600">Your personalization journey is {Math.round(overallProgress)}% complete</p>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="text-lg font-semibold text-slate-900">Overall Completion</span>
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                      {Math.round(overallProgress)}%
+                    </span>
+                    <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+                
+                <Progress value={overallProgress} className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                
+                <div className="grid md:grid-cols-2 gap-6 mt-6">
+                  {personalizationSections.map((section) => (
+                    <div key={section.id} className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                          <span className="font-medium text-slate-900">{section.name}</span>
+                        </div>
+                        <Badge variant="outline" className="bg-white/80 backdrop-blur-sm">
+                          {section.progress}%
+                        </Badge>
+                      </div>
+                      <Progress value={section.progress} className="h-2 rounded-full" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </motion.div>
-        </InView>
+        </motion.div>
 
         {/* Main Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="apple-space-y-8">
-          <TabsList className="apple-grid apple-grid-cols-2 md:apple-grid-cols-4 lg:apple-grid-cols-6 apple-gap-2">
-            <TabsTrigger value="overview" className="apple-text-xs md:apple-text-sm">Overview</TabsTrigger>
-            <TabsTrigger value="visual" className="apple-text-xs md:apple-text-sm">Visual</TabsTrigger>
-            <TabsTrigger value="behavioral" className="apple-text-xs md:apple-text-sm">Behavioral</TabsTrigger>
-            <TabsTrigger value="accessibility" className="apple-text-xs md:apple-text-sm">Accessibility</TabsTrigger>
-            <TabsTrigger value="wellness" className="apple-text-xs md:apple-text-sm">Wellness</TabsTrigger>
-            <TabsTrigger value="ai" className="apple-text-xs md:apple-text-sm">AI Features</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 bg-white/60 backdrop-blur-sm rounded-2xl p-2 border border-white/20">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Overview</TabsTrigger>
+            <TabsTrigger value="visual" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Visual</TabsTrigger>
+            <TabsTrigger value="behavioral" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Behavioral</TabsTrigger>
+            <TabsTrigger value="accessibility" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Accessibility</TabsTrigger>
+            <TabsTrigger value="wellness" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Wellness</TabsTrigger>
+            <TabsTrigger value="ai" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">AI Features</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="overview" className="apple-space-y-8">
-            <InView>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <Card className="apple-card apple-card-subtle">
-                  <CardHeader>
-                    <CardTitle className="apple-flex apple-items-center apple-gap-3">
-                      <Sparkles className="w-5 h-5 text-purple-600" />
-                      <span>Welcome to Your Personalization Journey</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="apple-space-y-6">
-                    <p className="apple-text-body">
+          <TabsContent value="overview" className="space-y-8">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={itemVariants}>
+                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Sparkles className="w-6 h-6 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-slate-900">Welcome to Your Personalization Journey</h2>
+                  </div>
+                  <div className="space-y-6">
+                    <p className="text-lg text-slate-600 leading-relaxed">
                       This personalization center helps you customize every aspect of your therapy platform experience. 
                       Our AI system learns from your preferences and behavior to create a truly personalized environment.
                     </p>
                     
-                    <div className="apple-grid-2">
-                      <div className="apple-card apple-card-blue apple-p-6">
-                        <h4 className="apple-title-card apple-mb-3">Smart Adaptation</h4>
-                        <p className="apple-text-caption">
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <motion.div
+                        whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                        className="group bg-gradient-to-br from-blue-50/50 to-blue-100/30 rounded-2xl p-6 border border-blue-200/50"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                            <Zap className="w-5 h-5 text-white" />
+                          </div>
+                          <h4 className="text-xl font-bold text-slate-900">Smart Adaptation</h4>
+                        </div>
+                        <p className="text-slate-600 leading-relaxed">
                           The platform adapts to your mood, time of day, and usage patterns automatically.
                         </p>
-                      </div>
+                      </motion.div>
                       
-                      <div className="apple-card apple-card-green apple-p-6">
-                        <h4 className="apple-title-card apple-mb-3">Privacy First</h4>
-                        <p className="apple-text-caption">
+                      <motion.div
+                        whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                        className="group bg-gradient-to-br from-green-50/50 to-green-100/30 rounded-2xl p-6 border border-green-200/50"
+                      >
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-lg">
+                            <Shield className="w-5 h-5 text-white" />
+                          </div>
+                          <h4 className="text-xl font-bold text-slate-900">Privacy First</h4>
+                        </div>
+                        <p className="text-slate-600 leading-relaxed">
                           All personalization data is encrypted and stored securely. You control everything.
                         </p>
-                      </div>
+                      </motion.div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </motion.div>
-            </InView>
 
-            <div className="apple-grid-3">
-              {personalizationSections.map((section) => {
-                const Icon = section.icon;
-                return (
-                  <InView key={section.id}>
+              <motion.div variants={itemVariants} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {personalizationSections.map((section) => {
+                  const Icon = section.icon;
+                  return (
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1 }}
+                      key={section.id}
+                      whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                      onClick={() => setActiveTab(section.id)}
+                      className="group cursor-pointer bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300"
                     >
-                      <Card 
-                        className="apple-card apple-hover-lift apple-cursor-pointer"
-                        onClick={() => setActiveTab(section.id)}
-                      >
-                        <CardHeader>
-                          <div className="apple-flex-between">
-                            <div className="apple-flex apple-items-center apple-gap-4">
-                              <div className="apple-card-icon apple-card-icon-blue">
-                                <Icon className="w-5 h-5 text-white" />
-                              </div>
-                              <div>
-                                <CardTitle className="apple-title-card">{section.name}</CardTitle>
-                                <CardDescription className="apple-text-caption">{section.description}</CardDescription>
-                              </div>
-                            </div>
-                            <Badge 
-                              variant={section.status === 'configured' ? 'default' : 'secondary'}
-                              className="apple-text-xs"
-                            >
-                              {section.status}
-                            </Badge>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                            <Icon className="w-6 h-6 text-white" />
                           </div>
-                        </CardHeader>
-                        <CardContent>
-                          <div className="apple-space-y-3">
-                            <div className="apple-flex-between">
-                              <span className="apple-text-sm apple-font-medium">Progress</span>
-                              <span className="apple-text-sm apple-font-semibold">{section.progress}%</span>
-                            </div>
-                            <Progress value={section.progress} className="h-2 apple-rounded-full" />
+                          <div>
+                            <h3 className="text-lg font-bold text-slate-900 mb-1">{section.name}</h3>
+                            <p className="text-sm text-slate-600 leading-relaxed">{section.description}</p>
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                        <Badge 
+                          variant={section.status === 'configured' ? 'default' : 'secondary'}
+                          className="bg-white/80 backdrop-blur-sm"
+                        >
+                          {section.status}
+                        </Badge>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-semibold text-slate-700">Progress</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                              {section.progress}%
+                            </span>
+                            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                          </div>
+                        </div>
+                        <Progress value={section.progress} className="h-2 rounded-full" />
+                      </div>
                     </motion.div>
-                  </InView>
-                );
-              })}
-            </div>
+                  );
+                })}
+              </motion.div>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="visual" className="space-y-6">
-            <InView>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={itemVariants}>
                 <PersonalizationEngine onSettingsChange={handleSaveSettings} />
               </motion.div>
-            </InView>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="behavioral" className="space-y-6">
-            <InView>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <Card className="bg-background/80 backdrop-blur-sm border-border/50">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Brain className="w-5 h-5 text-purple-600" />
-                      <span>Behavioral Preferences</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Customize how the platform adapts to your behavior and preferences
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200/50">
-                        <h4 className="font-semibold mb-2">Adaptive Features</h4>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          Our AI system can adapt the interface based on your mood, time of day, and usage patterns.
-                        </p>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full" />
-                            <span>Mood-based color scheme adaptation</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                            <span>Time-based interface adjustments</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                            <span>Behavioral pattern recognition</span>
-                          </div>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={itemVariants}>
+                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Brain className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-900">Behavioral Preferences</h2>
+                      <p className="text-slate-600">Customize how the platform adapts to your behavior and preferences</p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-br from-purple-50/50 to-purple-100/30 rounded-2xl p-6 border border-purple-200/50">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                          <Target className="w-5 h-5 text-white" />
+                        </div>
+                        <h4 className="text-xl font-bold text-slate-900">Adaptive Features</h4>
+                      </div>
+                      <p className="text-slate-600 leading-relaxed mb-4">
+                        Our AI system can adapt the interface based on your mood, time of day, and usage patterns.
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
+                          <span className="text-slate-700">Mood-based color scheme adaptation</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                          <span className="text-slate-700">Time-based interface adjustments</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                          <span className="text-slate-700">Behavioral pattern recognition</span>
                         </div>
                       </div>
-                      
-                      <div className="text-center">
-                        <Button 
-                          variant="outline" 
-                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700"
-                        >
-                          Configure Behavioral Settings
-                        </Button>
-                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <div className="text-center">
+                      <Button className="bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300">
+                        Configure Behavioral Settings
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-            </InView>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="accessibility" className="space-y-6">
-            <InView>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <Card className="bg-background/80 backdrop-blur-sm border-border/50">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Settings className="w-5 h-5 text-blue-600" />
-                      <span>Accessibility Settings</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Configure accessibility features to meet your needs
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="p-4 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200/50">
-                        <h4 className="font-semibold mb-2">Available Features</h4>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                            <span>Screen reader optimization</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full" />
-                            <span>High contrast mode</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                            <span>Keyboard navigation enhancement</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-orange-500 rounded-full" />
-                            <span>Reduced motion options</span>
-                          </div>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={itemVariants}>
+                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Settings className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-900">Accessibility Settings</h2>
+                      <p className="text-slate-600">Configure accessibility features to meet your needs</p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-br from-blue-50/50 to-blue-100/30 rounded-2xl p-6 border border-blue-200/50">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                          <Target className="w-5 h-5 text-white" />
+                        </div>
+                        <h4 className="text-xl font-bold text-slate-900">Available Features</h4>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"></div>
+                          <span className="text-slate-700">Screen reader optimization</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
+                          <span className="text-slate-700">High contrast mode</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                          <span className="text-slate-700">Keyboard navigation enhancement</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full"></div>
+                          <span className="text-slate-700">Reduced motion options</span>
                         </div>
                       </div>
-                      
-                      <div className="text-center">
-                        <Button 
-                          variant="outline" 
-                          className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white border-0 hover:from-blue-700 hover:to-indigo-700"
-                        >
-                          Open Accessibility Settings
-                        </Button>
-                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <div className="text-center">
+                      <Button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300">
+                        Open Accessibility Settings
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-            </InView>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="wellness" className="space-y-6">
-            <InView>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <Card className="bg-background/80 backdrop-blur-sm border-border/50">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Heart className="w-5 h-5 text-green-600" />
-                      <span>Wellness Preferences</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Personalize your therapy and wellness experience
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="p-4 rounded-lg bg-gradient-to-br from-green-50 to-teal-50 border border-green-200/50">
-                        <h4 className="font-semibold mb-2">Therapy Style</h4>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          Choose how you prefer to work with your therapist:
-                        </p>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-green-500 rounded-full" />
-                            <span>Directive: Structured guidance</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-teal-500 rounded-full" />
-                            <span>Supportive: Empathetic listening</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                            <span>Collaborative: Working together</span>
-                          </div>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={itemVariants}>
+                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Heart className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-900">Wellness Preferences</h2>
+                      <p className="text-slate-600">Personalize your therapy and wellness experience</p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-br from-green-50/50 to-green-100/30 rounded-2xl p-6 border border-green-200/50">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center shadow-lg">
+                          <Target className="w-5 h-5 text-white" />
+                        </div>
+                        <h4 className="text-xl font-bold text-slate-900">Therapy Style</h4>
+                      </div>
+                      <p className="text-slate-600 leading-relaxed mb-4">
+                        Choose how you prefer to work with your therapist:
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full"></div>
+                          <span className="text-slate-700">Directive: Structured guidance</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full"></div>
+                          <span className="text-slate-700">Supportive: Empathetic listening</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
+                          <span className="text-slate-700">Collaborative: Working together</span>
                         </div>
                       </div>
-                      
-                      <div className="text-center">
-                        <Button 
-                          variant="outline" 
-                          className="bg-gradient-to-r from-green-600 to-teal-600 text-white border-0 hover:from-green-700 hover:to-teal-700"
-                        >
-                          Configure Wellness Settings
-                        </Button>
-                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <div className="text-center">
+                      <Button className="bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg shadow-green-500/25 hover:shadow-xl hover:shadow-green-500/40 transition-all duration-300">
+                        Configure Wellness Settings
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-            </InView>
+            </motion.div>
           </TabsContent>
 
           <TabsContent value="ai" className="space-y-6">
-            <InView>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <Card className="bg-background/80 backdrop-blur-sm border-border/50">
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Sparkles className="w-5 h-5 text-purple-600" />
-                      <span>AI Features & Adaptation</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Control how AI personalizes your experience
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-6">
-                      <div className="p-4 rounded-lg bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200/50">
-                        <h4 className="font-semibold mb-2">AI Adaptation Features</h4>
-                        <p className="text-sm text-muted-foreground mb-3">
-                          Our AI system can adapt various aspects of your experience:
-                        </p>
-                        <div className="space-y-2 text-sm">
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-purple-500 rounded-full" />
-                            <span>Mood-based interface adjustments</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-pink-500 rounded-full" />
-                            <span>Time-based content recommendations</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-indigo-500 rounded-full" />
-                            <span>Behavioral pattern recognition</span>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full" />
-                            <span>Predictive wellness insights</span>
-                          </div>
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+            >
+              <motion.div variants={itemVariants}>
+                <div className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg">
+                      <Sparkles className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-slate-900">AI Features & Adaptation</h2>
+                      <p className="text-slate-600">Control how AI personalizes your experience</p>
+                    </div>
+                  </div>
+                  <div className="space-y-6">
+                    <div className="bg-gradient-to-br from-purple-50/50 to-purple-100/30 rounded-2xl p-6 border border-purple-200/50">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+                          <TrendingUp className="w-5 h-5 text-white" />
+                        </div>
+                        <h4 className="text-xl font-bold text-slate-900">AI Adaptation Features</h4>
+                      </div>
+                      <p className="text-slate-600 leading-relaxed mb-4">
+                        Our AI system can adapt various aspects of your experience:
+                      </p>
+                      <div className="space-y-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                          <span className="text-slate-700">Mood-based interface adjustments</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full"></div>
+                          <span className="text-slate-700">Time-based content recommendations</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full"></div>
+                          <span className="text-slate-700">Behavioral pattern recognition</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
+                          <span className="text-slate-700">Predictive wellness insights</span>
                         </div>
                       </div>
-                      
-                      <div className="text-center">
-                        <Button 
-                          variant="outline" 
-                          className="bg-gradient-to-r from-purple-600 to-pink-600 text-white border-0 hover:from-purple-700 hover:to-pink-700"
-                        >
-                          Configure AI Settings
-                        </Button>
-                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                    
+                    <div className="text-center">
+                      <Button className="bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300">
+                        Configure AI Settings
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-            </InView>
+            </motion.div>
           </TabsContent>
         </Tabs>
       </div>

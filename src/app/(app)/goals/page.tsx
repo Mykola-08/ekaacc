@@ -58,44 +58,49 @@ export default function GoalsPage() {
   };
 
   return (
-    <SettingsShell>
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <SettingsHeader
-          title="My Goals"
-          description="Set and track your therapy goals."
-        />
-        {!isCreating && (
-          <Button onClick={() => setIsCreating(true)}>
-            <Plus className="mr-2 h-4 w-4" />
-            New Goal
-          </Button>
-        )}
-      </div>
+    <div className="apple-page">
+      <div className="apple-container">
+        <div className="apple-flex-between apple-mb-12">
+          <div>
+            <h1 className="apple-title-section">My Goals</h1>
+            <p className="apple-text-body">Set and track your therapy goals.</p>
+          </div>
+          {!isCreating && (
+            <Button 
+              onClick={() => setIsCreating(true)}
+              className="apple-button-gradient-blue"
+            >
+              <Plus className="apple-w-4 apple-h-4 apple-mr-2" />
+              New Goal
+            </Button>
+          )}
+        </div>
 
-      <div className="space-y-6">
-        {isCreating && (
-          <NewGoalCard
-            onSave={handleSaveGoal}
-            onCancel={() => setIsCreating(false)}
-          />
-        )}
+        <div className="apple-space-y-8">
+          {isCreating && (
+            <NewGoalCard
+              onSave={handleSaveGoal}
+              onCancel={() => setIsCreating(false)}
+            />
+          )}
 
-        {isLoading ? (
-          <GoalSkeleton />
-        ) : goals.length > 0 ? (
-          goals.map((goal) => <GoalCard key={goal.id} goal={goal} onDelete={handleDeleteGoal} />)
-        ) : (
-          !isCreating && (
-            <Card className="flex flex-col items-center justify-center text-center p-8 border-dashed">
-              <h3 className="mt-4 text-lg font-semibold">No goals yet</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Create a new goal to start tracking your progress.
-              </p>
-            </Card>
-          )
-        )}
+          {isLoading ? (
+            <GoalSkeleton />
+          ) : goals.length > 0 ? (
+            goals.map((goal) => <GoalCard key={goal.id} goal={goal} onDelete={handleDeleteGoal} />)
+          ) : (
+            !isCreating && (
+              <Card className="apple-card apple-card-dashed apple-flex apple-flex-col apple-items-center apple-justify-center apple-text-center apple-p-12">
+                <h3 className="apple-title-card apple-mb-2">No goals yet</h3>
+                <p className="apple-text-body">
+                  Create a new goal to start tracking your progress.
+                </p>
+              </Card>
+            )
+          )}
+        </div>
       </div>
-    </SettingsShell>
+    </div>
   );
 }
 
@@ -124,33 +129,35 @@ function NewGoalCard({
   };
 
   return (
-    <Card>
+    <Card className="apple-card apple-card-subtle">
       <CardHeader>
-        <CardTitle>New Goal</CardTitle>
+        <CardTitle className="apple-title-card">New Goal</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="description">Description</Label>
+      <CardContent className="apple-space-y-6">
+        <div className="apple-space-y-3">
+          <Label htmlFor="description" className="apple-text-sm apple-font-medium">Description</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="What do you want to achieve?"
+            className="apple-input"
           />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="targetDate">Target Date</Label>
+        <div className="apple-space-y-3">
+          <Label htmlFor="targetDate" className="apple-text-sm apple-font-medium">Target Date</Label>
           <Input
             id="targetDate"
             type="date"
             value={targetDate}
             onChange={(e) => setTargetDate(e.target.value)}
+            className="apple-input"
           />
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2">
-        <Button variant="outline" onClick={onCancel}>Cancel</Button>
-        <Button onClick={handleSave}>Save</Button>
+      <CardFooter className="apple-flex apple-justify-end apple-gap-3">
+        <Button variant="outline" onClick={onCancel} className="apple-button-outline">Cancel</Button>
+        <Button onClick={handleSave} className="apple-button-gradient-blue">Save</Button>
       </CardFooter>
     </Card>
   );
@@ -176,14 +183,14 @@ function GoalCard({ goal, onDelete }: { goal: Goal; onDelete: (id: string) => vo
 
 function GoalSkeleton() {
   return (
-    <div className="space-y-6">
-      <Card>
+    <div className="apple-space-y-8">
+      <Card className="apple-card">
         <CardHeader>
-          <Skeleton className="h-6 w-1/2" />
+          <Skeleton className="apple-h-6 apple-w-1/2" />
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
+        <CardContent className="apple-space-y-4">
+          <Skeleton className="apple-h-4 apple-w-full" />
+          <Skeleton className="apple-h-4 apple-w-3/4" />
         </CardContent>
       </Card>
     </div>

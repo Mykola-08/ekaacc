@@ -5,13 +5,14 @@ export const fxBookings = {
   async createBooking(userId: string, therapistId: string, date: string, notes?: string) {
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('appointments')
         .insert([{
           user_id: userId,
-          therapist_id: therapistId,
+          practitioner_id: therapistId,
           date,
+          time: '09:00', // Default time, should be provided by caller
           notes: notes || null,
-          status: 'confirmed',
+          status: 'upcoming',
           created_at: new Date().toISOString()
         }])
         .select()
@@ -31,7 +32,7 @@ export const fxBookings = {
   async getBookingsForUser(userId: string) {
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('appointments')
         .select('*')
         .eq('user_id', userId)
         .order('created_at', { ascending: false });
@@ -50,9 +51,9 @@ export const fxBookings = {
   async getBookingsForTherapist(therapistId: string) {
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('appointments')
         .select('*')
-        .eq('therapist_id', therapistId)
+        .eq('practitioner_id', therapistId)
         .order('created_at', { ascending: false });
       
       if (error) {
@@ -69,7 +70,7 @@ export const fxBookings = {
   async cancelBooking(bookingId: string) {
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('appointments')
         .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
         .eq('id', bookingId)
         .select()
@@ -89,7 +90,7 @@ export const fxBookings = {
   async updateBooking(bookingId: string, updates: Record<string, any>) {
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('appointments')
         .update({
           ...updates,
           updated_at: new Date().toISOString()
@@ -112,7 +113,7 @@ export const fxBookings = {
   async getAllBookings() {
     try {
       const { data, error } = await supabase
-        .from('bookings')
+        .from('appointments')
         .select('*')
         .order('created_at', { ascending: false });
       

@@ -12,7 +12,7 @@ import { useState } from 'react';
 ;
 ;
 import { useToast } from '@/hooks/use-toast';
-import { useAuth } from '@/lib/supabase-auth';
+import { useAuth } from '@/context/auth-context';
 import { UserPlus, Copy, Check, AlertCircle, Mail } from 'lucide-react';
 import type { RegistrationData } from '@/lib/wallet-types';
 

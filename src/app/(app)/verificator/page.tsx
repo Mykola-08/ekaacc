@@ -283,89 +283,90 @@ export default function VerificatorPage() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="apple-page">
+      <div className="apple-container apple-space-y-8">
+        {/* Apple Header */}
+        <div className="apple-flex-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
+          <h1 className="apple-title-hero apple-flex apple-items-center apple-gap-3">
             <Shield className="h-8 w-8 text-primary" />
             Verificator
           </h1>
-          <p className="text-muted-foreground">Verify transactions, donations, and applications</p>
+          <p className="apple-text-body">Verify transactions, donations, and applications</p>
         </div>
-        <Badge color="primary" className="text-sm">
+        <Badge color="primary" className="apple-text-sm">
           {currentUser.role}
         </Badge>
       </div>
 
-      {/* Stats Overview */}
-      <div className="grid gap-4 md:grid-cols-3">
+        {/* Apple Stats Overview */}
+        <div className="apple-grid-3 apple-gap-6">
         <AnimatedCard delay={100} asChild>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending Payments</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="apple-flex-between apple-pb-3">
+              <CardTitle className="apple-text-sm apple-font-medium">Pending Payments</CardTitle>
+              <Clock className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{paymentRequests.length}</div>
-              <p className="text-xs text-muted-foreground">Awaiting verification</p>
+              <div className="apple-text-2xl apple-font-bold">{paymentRequests.length}</div>
+              <p className="apple-text-xs">Awaiting verification</p>
             </CardContent>
           </Card>
         </AnimatedCard>
 
         <AnimatedCard delay={200} asChild>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Seeker Applications</CardTitle>
-              <HandHeart className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="apple-flex-between apple-pb-3">
+              <CardTitle className="apple-text-sm apple-font-medium">Seeker Applications</CardTitle>
+              <HandHeart className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{applications.length}</div>
-              <p className="text-xs text-muted-foreground">Pending review</p>
+              <div className="apple-text-2xl apple-font-bold">{applications.length}</div>
+              <p className="apple-text-xs">Pending review</p>
             </CardContent>
           </Card>
         </AnimatedCard>
 
         <AnimatedCard delay={300} asChild>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Items</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="apple-flex-between apple-pb-3">
+              <CardTitle className="apple-text-sm apple-font-medium">Total Items</CardTitle>
+              <FileText className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{paymentRequests.length + applications.length}</div>
-              <p className="text-xs text-muted-foreground">Requires action</p>
+              <div className="apple-text-2xl apple-font-bold">{paymentRequests.length + applications.length}</div>
+              <p className="apple-text-xs">Requires action</p>
             </CardContent>
           </Card>
         </AnimatedCard>
       </div>
 
-      {/* Tabs */}
-      <Tabs defaultValue="payments" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsItem value="payments">
+        {/* Apple Tabs */}
+        <Tabs defaultValue="payments" className="apple-space-y-8">
+          <TabsList className="apple-grid apple-grid-cols-2 apple-gap-2">
+            <TabsItem value="payments" className="apple-text-sm">
             <CreditCard className="h-4 w-4 mr-2" />
             Payment Requests ({paymentRequests.length})
           </TabsItem>
-          <TabsItem value="applications">
+            <TabsItem value="applications" className="apple-text-sm">
             <HandHeart className="h-4 w-4 mr-2" />
             Donation Seekers ({applications.length})
           </TabsItem>
         </TabsList>
 
-        {/* Payment Requests Tab */}
+          {/* Apple Payment Requests Tab */}
         <TabsContent value="payments">
           <AnimatedCard delay={400} asChild>
             <Card>
-              <CardHeader>
-                <CardTitle>Pending Payment Requests</CardTitle>
-                <CardDescription>Verify and approve wallet top-up requests</CardDescription>
+              <CardHeader className="apple-p-6">
+                <CardTitle className="apple-title-card">Pending Payment Requests</CardTitle>
+                <CardDescription className="apple-text-body">Verify and approve wallet top-up requests</CardDescription>
               </CardHeader>
               <CardContent>
                 {loading ? (
-                  <div className="text-center py-12 text-muted-foreground">Loading...</div>
+                  <div className="apple-text-center apple-py-12">Loading...</div>
                 ) : paymentRequests.length > 0 ? (
-                  <Table>
+                  <Table className="apple-table">
                     <TableHeader>
                       <TableRow>
                         <TableHead>Date</TableHead>
@@ -379,23 +380,23 @@ export default function VerificatorPage() {
                     <TableBody>
                       {paymentRequests.map((request) => (
                         <TableRow key={request.id}>
-                          <TableCell className="text-sm">
+                          <TableCell className="apple-text-sm">
                             {format(toDate(request.createdAt), 'MMM dd, yyyy HH:mm')}
                           </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
+                          <TableCell className="apple-text-sm">
+                            <div className="apple-flex apple-items-center apple-gap-2">
                               <User className="h-4 w-4 text-muted-foreground" />
                               <span className="font-medium">{request.userId}</span>
                             </div>
                           </TableCell>
-                          <TableCell className="font-bold text-green-600">
+                          <TableCell className="apple-font-bold apple-text-green-600">
                             €{request.amount.toFixed(2)}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="apple-text-sm">
                             {getPaymentMethodBadge(request.method)}
                           </TableCell>
                           <TableCell>
-                            <div className="max-w-[200px] truncate text-sm text-muted-foreground">
+                            <div className="apple-max-w-xs apple-truncate apple-text-sm">
                               {request.proofText || 'No proof provided'}
                             </div>
                           </TableCell>
@@ -417,7 +418,7 @@ export default function VerificatorPage() {
                     </TableBody>
                   </Table>
                 ) : (
-                  <div className="text-center py-12 text-muted-foreground">
+                  <div className="apple-text-center apple-py-12">
                     <CheckCircle2 className="h-12 w-12 mx-auto mb-2 opacity-20" />
                     <p>No pending payment requests</p>
                   </div>
@@ -427,42 +428,42 @@ export default function VerificatorPage() {
           </AnimatedCard>
         </TabsContent>
 
-        {/* Donation Seeker Applications Tab */}
+          {/* Apple Donation Seeker Applications Tab */}
         <TabsContent value="applications">
           <AnimatedCard delay={400} asChild>
             <Card>
-              <CardHeader>
-                <CardTitle>Donation Seeker Applications</CardTitle>
-                <CardDescription>Review and approve users requesting donation support</CardDescription>
+              <CardHeader className="apple-p-6">
+                <CardTitle className="apple-title-card">Donation Seeker Applications</CardTitle>
+                <CardDescription className="apple-text-body">Review and approve users requesting donation support</CardDescription>
               </CardHeader>
               <CardContent>
                 {loading ? (
-                  <div className="text-center py-12 text-muted-foreground">Loading...</div>
+                  <div className="apple-text-center apple-py-12">Loading...</div>
                 ) : applications.length > 0 ? (
-                  <div className="space-y-4">
+                  <div className="apple-space-y-6">
                     {applications.map((application) => (
                       <div
                         key={application.id}
-                        className="p-4 rounded-lg border hover:border-primary/50 transition-colors"
+                        className="apple-card apple-card-subtle apple-p-6 apple-hover-lift"
                       >
-                        <div className="flex items-start justify-between mb-3">
+                        <div className="apple-flex-between apple-mb-4">
                           <div>
-                            <h4 className="font-semibold">{application.userName}</h4>
-                            <p className="text-sm text-muted-foreground">{application.userEmail}</p>
+                            <h4 className="apple-title-card">{application.userName}</h4>
+                            <p className="apple-text-sm">{application.userEmail}</p>
                           </div>
-                          <Badge color="warning" className="bg-yellow-500/10 text-yellow-600 border-yellow-500/20">
+                          <Badge color="warning" className="apple-badge-yellow">
                             <Clock className="h-3 w-3 mr-1" />
                             Pending
                           </Badge>
                         </div>
 
-                        <div className="mb-3">
-                          <p className="text-sm text-muted-foreground mb-1">Story:</p>
-                          <p className="text-sm line-clamp-2">{application.story}</p>
+                        <div className="apple-mb-4">
+                          <p className="apple-text-sm apple-mb-2">Story:</p>
+                          <p className="apple-text-sm apple-line-clamp-2">{application.story}</p>
                         </div>
 
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2 text-sm">
+                        <div className="apple-flex-between">
+                          <div className="apple-flex apple-items-center apple-gap-2 apple-text-sm">
                             <Euro className="h-4 w-4 text-green-600" />
                             <span className="font-medium text-green-600">
                               Target: €{application.targetAmount}
@@ -645,6 +646,7 @@ export default function VerificatorPage() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      </div>
     </div>
   );
 }

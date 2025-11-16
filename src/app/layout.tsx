@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
-import { AuthProvider } from '@/lib/supabase-auth';
+import { AuthProvider } from '@/context/auth-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
@@ -29,22 +29,13 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://picsum.photos" />
         <link rel="dns-prefetch" href="https://i.pravatar.cc" />
         
-        {/* Apple-like system fonts - SF Pro and system-ui for clean aesthetic */}
+        {/* Inter font for clean, modern aesthetic */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <style dangerouslySetInnerHTML={{__html: `
-          @font-face {
-            font-family: 'SF Pro Display';
-            font-style: normal;
-            font-weight: 100 900;
-            font-display: swap;
-            src: local('.SFNSDisplay-Regular'), local('SF Pro Display'), local('SFProDisplay-Regular');
-          }
-          
-          @font-face {
-            font-family: 'SF Pro Text';
-            font-style: normal;
-            font-weight: 100 900;
-            font-display: swap;
-            src: local('.SFNSText-Regular'), local('SF Pro Text'), local('SFProText-Regular');
+          body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
           }
         `}} />
       </head>

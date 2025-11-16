@@ -53,9 +53,9 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
         exit={{ opacity: 0, y: -20 }}
         whileHover={{ scale: 1.02 }}
         className={cn(
-          "relative overflow-hidden rounded-xl border p-6 backdrop-blur-sm",
+          "apple-card apple-card-subtle apple-p-6 relative overflow-hidden",
           severityColors[pattern.severity],
-          "hover:shadow-lg transition-all duration-300"
+          "apple-hover-lift apple-transition"
         )}
       >
         {/* Glow effect */}
@@ -78,20 +78,20 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
               <motion.div
                 whileHover={{ rotate: 360 }}
                 transition={{ duration: 0.5 }}
-                className="p-2 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20"
+                className="apple-card-icon apple-card-icon-blue"
               >
-                <PatternIcon className="w-6 h-6 text-blue-600" />
+                <PatternIcon className="w-6 h-6 text-white" />
               </motion.div>
               <div>
-                <h3 className="font-semibold text-lg capitalize">
+                <h3 className="apple-title-card capitalize">
                   {pattern.pattern_type.replace(/_/g, ' ')}
                 </h3>
-                <div className="flex items-center space-x-2 mt-1">
-                  <Badge variant="outline" className={cn("capitalize", severityColors[pattern.severity])}>
+                <div className="apple-flex apple-items-center apple-gap-2 apple-mt-1">
+                  <Badge variant="outline" className={cn("apple-text-xs capitalize", severityColors[pattern.severity])}>
                     <IconComponent className="w-3 h-3 mr-1" />
                     {pattern.severity}
                   </Badge>
-                  <Badge variant="secondary">
+                  <Badge variant="secondary" className="apple-text-xs">
                     {Math.round(pattern.confidence_score * 100)}% confidence
                   </Badge>
                 </div>
@@ -102,24 +102,24 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => onResolve(pattern.id!)}
-                className="p-2 rounded-full hover:bg-white/20 transition-colors"
+                className="apple-button-icon apple-hover-lift"
               >
                 <X className="w-4 h-4" />
               </motion.button>
             )}
           </div>
 
-          <div className="space-y-3">
+          <div className="apple-space-y-4">
             <div>
-              <h4 className="text-sm font-medium text-muted-foreground mb-2">Evidence</h4>
-              <ul className="space-y-1">
+              <h4 className="apple-text-sm apple-font-medium apple-mb-3">Evidence</h4>
+              <ul className="apple-space-y-2">
                 {pattern.evidence.map((evidence, index) => (
                   <motion.li
                     key={index}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="text-sm text-muted-foreground flex items-start space-x-2"
+                    className="apple-text-sm apple-flex apple-items-start apple-gap-2"
                   >
                     <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 flex-shrink-0" />
                     <span>{evidence}</span>
@@ -128,13 +128,13 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
               </ul>
             </div>
 
-            <div className="flex items-center justify-between pt-3 border-t border-border/50">
-              <div className="text-xs text-muted-foreground">
+            <div className="apple-flex-between apple-pt-4 apple-border-t">
+              <div className="apple-text-xs">
                 First detected: {new Date(pattern.first_detected).toLocaleDateString()}
               </div>
-              <div className="flex items-center space-x-2">
+              <div className="apple-flex apple-items-center apple-gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                <span className="text-xs text-muted-foreground">{pattern.status}</span>
+                <span className="apple-text-xs">{pattern.status}</span>
               </div>
             </div>
           </div>

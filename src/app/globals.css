@@ -2,56 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Production-Ready Visual Design System */
 @layer base {
   :root {
-    /* Apple Design System - Comprehensive Color Palette */
-    --background: 220 20% 98%; /* Soft gray background - Apple-style */
-    --foreground: 220 15% 20%; /* Dark gray text for better contrast */
+    /* Premium Color Palette - Modern & Sophisticated */
+    --background: 0 0% 99%; /* Almost pure white - premium feel */
+    --foreground: 220 15% 15%; /* Deep charcoal for excellent contrast */
     
-    --muted: 220 14% 96%; /* Very light gray */
-    --muted-foreground: 220 9% 46%; /* Medium gray for secondary text */
+    --muted: 220 10% 96%; /* Soft gray with subtle blue tint */
+    --muted-foreground: 220 8% 45%; /* Sophisticated gray for secondary text */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 20%;
+    --popover: 0 0% 100%; /* Pure white popovers */
+    --popover-foreground: 220 15% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 20%;
+    --card: 0 0% 100%; /* Pure white cards */
+    --card-foreground: 220 15% 15%;
  
-    --border: 220 14% 92%; /* Subtle border color */
-    --input: 220 14% 92%;
+    --border: 220 13% 92%; /* Elegant light gray borders */
+    --input: 220 13% 96%;
 
-    /* Apple-style Primary Colors - SF System Colors */
-    --primary: 220 90% 50%; /* Vibrant blue - Apple system blue */
+    /* Premium Primary Colors - Modern Blue */
+    --primary: 221 83% 53%; /* Vibrant but professional blue */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 220 14% 96%; /* Light gray */
-    --secondary-foreground: 220 15% 25%;
+    --secondary-foreground: 220 15% 20%;
     
-    --accent: 220 14% 96%;
-    --accent-foreground: 220 15% 25%;
+    --accent: 220 14% 94%;
+    --accent-foreground: 220 15% 20%;
  
-    --destructive: 0 84% 60%; /* Apple system red */
+    --destructive: 0 84% 60%; /* Professional red */
     --destructive-foreground: 0 0% 98%;
 
-    /* Additional Apple System Colors */
-    --success: 142 76% 36%; /* Apple system green */
-    --warning: 38 92% 50%; /* Apple system orange */
-    --info: 200 98% 39%; /* Apple system teal */
+    /* Success & Status Colors */
+    --success: 142 76% 36%; /* Modern green */
+    --warning: 38 92% 50%; /* Warm amber */
+    --info: 199 89% 48%; /* Calming blue */
 
-    --ring: 220 90% 50%;
-    --radius: 0.75rem; /* Beautiful rounded corners - Apple-style */
+    --ring: 221 83% 53%;
+    --radius: 0.75rem; /* Sophisticated rounded corners */
 
-    /* Layout Variables - Apple Proportions */
-    --sidebar-w: 20rem; /* Wider sidebar - Apple-style */
+    /* Squircle Design System */
+    --squircle-radius: 24px;
+    --squircle-radius-sm: 16px;
+    --squircle-radius-lg: 32px;
+
+    /* Layout Variables */
+    --sidebar-w: 20rem;
     --sidebar-w-collapsed: 5rem;
-    --header-h: 4rem; /* Apple header height */
-    --content-max-width: 80rem; /* Apple max content width */
+    --header-h: 4rem;
+    --content-max-width: 80rem;
 
-    /* Typography System - Apple SF Pro */
-    --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    --font-heading: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'SF Pro Icons', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    /* Premium Typography System */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     
-    /* Apple Typography Scale */
+    /* Modern Typography Scale */
     --text-xs: 0.75rem;   /* 12px */
     --text-sm: 0.875rem;  /* 14px */
     --text-base: 1rem;    /* 16px */
@@ -63,7 +69,7 @@
     --text-5xl: 3rem;     /* 48px */
     --text-6xl: 3.75rem;  /* 60px */
 
-    /* Spacing System - Apple 8px Grid */
+    /* Premium Spacing System */
     --space-1: 0.25rem;   /* 4px */
     --space-2: 0.5rem;    /* 8px */
     --space-3: 0.75rem;   /* 12px */
@@ -78,60 +84,62 @@
     --space-24: 6rem;     /* 96px */
     --space-32: 8rem;     /* 128px */
 
-    /* Animation System - Apple-style */
+    /* Premium Animation System */
     --animation-duration: 200ms;
     --animation-duration-slow: 400ms;
-    --animation-easing: cubic-bezier(0.4, 0, 0.2, 1); /* Apple easing */
+    --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
     --animation-easing-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
     
-    /* Shadow System - Apple-style Depth */
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03); /* Subtle elevation */
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05); /* Card elevation */
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05); /* Modal elevation */
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05); /* Popover elevation */
+    /* Premium Shadow System - Sophisticated Depth */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 
-    /* Glass Effect - Apple-style */
+    /* Glass Effect */
     --glass-bg: rgba(255, 255, 255, 0.8);
     --glass-border: rgba(255, 255, 255, 0.2);
     --glass-backdrop: blur(20px);
 
-    /* Focus Ring - Apple-style */
+    /* Focus Ring */
     --focus-ring-width: 3px;
     --focus-ring-offset: 2px;
   }
- 
+
   .dark {
-    --background: 220 15% 12%; /* Dark gray instead of pure black */
-    --foreground: 220 10% 95%; /* Light gray text */
+    /* Premium Dark Mode - Sophisticated & Modern */
+    --background: 220 13% 10%; /* Deep charcoal */
+    --foreground: 0 0% 98%; /* Pure white text */
 
-    --muted: 220 13% 20%; /* Medium dark gray */
-    --muted-foreground: 220 9% 70%; /* Light gray for secondary text */
+    --muted: 220 13% 18%; /* Rich dark gray */
+    --muted-foreground: 220 8% 70%; /* Light gray for secondary text */
 
-    --popover: 220 15% 15%;
-    --popover-foreground: 220 10% 95%;
+    --popover: 220 13% 13%;
+    --popover-foreground: 0 0% 98%;
 
-    --card: 220 15% 15%;
-    --card-foreground: 220 10% 95%;
+    --card: 220 13% 13%;
+    --card-foreground: 0 0% 98%;
 
-    --border: 220 13% 25%; /* Subtle border for dark mode */
-    --input: 220 13% 25%;
+    --border: 220 13% 22%; /* Subtle dark borders */
+    --input: 220 13% 18%;
 
-    --primary: 220 90% 60%; /* Lighter blue for dark mode */
+    --primary: 217 91% 60%; /* Bright blue for dark mode */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 13% 20%;
-    --secondary-foreground: 220 10% 95%;
+    --secondary: 220 13% 18%;
+    --secondary-foreground: 0 0% 98%;
 
     --accent: 220 13% 20%;
-    --accent-foreground: 220 10% 95%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
 
-    --ring: 220 90% 60%;
+    --ring: 217 91% 60%;
   }
 }
- 
+
+/* Premium Base Styles */
 @layer base {
   * {
     @apply border-border;
@@ -151,7 +159,6 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-image: none; /* Remove pattern for minimalist look */
     letter-spacing: -0.01em;
     line-height: 1.6;
   }
@@ -161,22 +168,22 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading font-light tracking-tight;
+    @apply font-heading font-semibold tracking-tight;
     line-height: 1.2;
     letter-spacing: -0.025em;
   }
   
-  /* Focus styles for better accessibility */
+  /* Enhanced Focus Styles */
   :focus-visible {
     @apply outline-none ring-2 ring-primary ring-offset-2;
   }
   
-  /* Improved selection styles */
+  /* Premium Selection Styles */
   ::selection {
     @apply bg-primary/20 text-foreground;
   }
   
-  /* Custom scrollbar */
+  /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -191,479 +198,216 @@
   }
 }
 
-/* Apple Design System Utility Classes */
+/* Premium Utility Classes */
 @layer utilities {
-  /* Apple Typography Utilities */
-  .apple-text-xs { font-size: var(--text-xs); line-height: 1.333; }
-  .apple-text-sm { font-size: var(--text-sm); line-height: 1.428; }
-  .apple-text-base { font-size: var(--text-base); line-height: 1.5; }
-  .apple-text-lg { font-size: var(--text-lg); line-height: 1.444; }
-  .apple-text-xl { font-size: var(--text-xl); line-height: 1.4; }
-  .apple-text-2xl { font-size: var(--text-2xl); line-height: 1.333; }
-  .apple-text-3xl { font-size: var(--text-3xl); line-height: 1.2; }
-  .apple-text-4xl { font-size: var(--text-4xl); line-height: 1.111; }
-  .apple-text-5xl { font-size: var(--text-5xl); line-height: 1.083; }
-  .apple-text-6xl { font-size: var(--text-6xl); line-height: 1.066; }
+  /* Typography Utilities */
+  .text-xs { font-size: var(--text-xs); line-height: 1.333; font-weight: 500; }
+  .text-sm { font-size: var(--text-sm); line-height: 1.428; font-weight: 450; }
+  .text-base { font-size: var(--text-base); line-height: 1.5; font-weight: 400; }
+  .text-lg { font-size: var(--text-lg); line-height: 1.444; font-weight: 400; }
+  .text-xl { font-size: var(--text-xl); line-height: 1.4; font-weight: 500; }
+  .text-2xl { font-size: var(--text-2xl); line-height: 1.333; font-weight: 600; }
+  .text-3xl { font-size: var(--text-3xl); line-height: 1.2; font-weight: 600; }
+  .text-4xl { font-size: var(--text-4xl); line-height: 1.111; font-weight: 700; }
+  .text-5xl { font-size: var(--text-5xl); line-height: 1.083; font-weight: 700; }
+  .text-6xl { font-size: var(--text-6xl); line-height: 1.05; font-weight: 800; }
 
-  /* Apple Spacing Utilities */
-  .apple-space-1 { margin: var(--space-1); }
-  .apple-space-2 { margin: var(--space-2); }
-  .apple-space-3 { margin: var(--space-3); }
-  .apple-space-4 { margin: var(--space-4); }
-  .apple-space-5 { margin: var(--space-5); }
-  .apple-space-6 { margin: var(--space-6); }
-  .apple-space-8 { margin: var(--space-8); }
-  .apple-space-10 { margin: var(--space-10); }
-  .apple-space-12 { margin: var(--space-12); }
-  .apple-space-16 { margin: var(--space-16); }
-  .apple-space-20 { margin: var(--space-20); }
-  .apple-space-24 { margin: var(--space-24); }
-  .apple-space-32 { margin: var(--space-32); }
+  /* Premium Spacing */
+  .space-y-1 > * + * { margin-top: var(--space-1); }
+  .space-y-2 > * + * { margin-top: var(--space-2); }
+  .space-y-3 > * + * { margin-top: var(--space-3); }
+  .space-y-4 > * + * { margin-top: var(--space-4); }
+  .space-y-5 > * + * { margin-top: var(--space-5); }
+  .space-y-6 > * + * { margin-top: var(--space-6); }
+  .space-y-8 > * + * { margin-top: var(--space-8); }
 
-  /* Apple Padding Utilities */
-  .apple-p-1 { padding: var(--space-1); }
-  .apple-p-2 { padding: var(--space-2); }
-  .apple-p-3 { padding: var(--space-3); }
-  .apple-p-4 { padding: var(--space-4); }
-  .apple-p-5 { padding: var(--space-5); }
-  .apple-p-6 { padding: var(--space-6); }
-  .apple-p-8 { padding: var(--space-8); }
-  .apple-p-10 { padding: var(--space-10); }
-  .apple-p-12 { padding: var(--space-12); }
-  .apple-p-16 { padding: var(--space-16); }
-  .apple-p-20 { padding: var(--space-20); }
-  .apple-p-24 { padding: var(--space-24); }
-  .apple-p-32 { padding: var(--space-32); }
+  /* Premium Animation Classes */
+  .animate-in {
+    animation: animate-in var(--animation-duration) var(--animation-easing);
+  }
+  
+  .animate-out {
+    animation: animate-out var(--animation-duration) var(--animation-easing);
+  }
+  
+  .animate-slide-up {
+    animation: slide-up var(--animation-duration-slow) var(--animation-easing-smooth);
+  }
+  
+  .animate-fade-in {
+    animation: fade-in var(--animation-duration) var(--animation-easing);
+  }
 
-  /* Apple Glass Effect */
-  .apple-glass {
+  /* Premium Glass Effect */
+  .glass {
     background: var(--glass-bg);
     backdrop-filter: var(--glass-backdrop);
+    -webkit-backdrop-filter: var(--glass-backdrop);
     border: 1px solid var(--glass-border);
   }
 
-  /* Apple Card Style */
-  .apple-card {
-    background: hsl(var(--card));
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-md);
-    border: 1px solid hsl(var(--border) / 0.5);
-  }
-
-  /* Apple Button Style */
-  .apple-button {
-    border-radius: calc(var(--radius) * 0.75);
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    transition: all var(--animation-duration) var(--animation-easing);
-  }
-
-  /* Apple Focus Ring */
-  .apple-focus {
-    outline: none;
-    box-shadow: 0 0 0 var(--focus-ring-width) hsl(var(--ring)),
-                0 0 0 calc(var(--focus-ring-width) + var(--focus-ring-offset)) hsl(var(--background));
-  }
-
-  /* Apple Animation Utilities */
-  .apple-transition {
-    transition: all var(--animation-duration) var(--animation-easing);
-  }
-  
-  .apple-transition-slow {
-    transition: all var(--animation-duration-slow) var(--animation-easing-smooth);
-  }
-
-  /* Apple Text Utilities */
-  .apple-text-light { font-weight: 300; }
-  .apple-text-regular { font-weight: 400; }
-  .apple-text-medium { font-weight: 500; }
-  .apple-text-semibold { font-weight: 600; }
-
-  /* Apple Color Utilities */
-  .apple-bg-primary { background-color: hsl(var(--primary)); }
-  .apple-text-primary { color: hsl(var(--primary)); }
-  .apple-bg-secondary { background-color: hsl(var(--secondary)); }
-  .apple-text-secondary { color: hsl(var(--secondary-foreground)); }
-  .apple-bg-success { background-color: hsl(var(--success)); }
-  .apple-text-success { color: hsl(var(--success)); }
-  .apple-bg-warning { background-color: hsl(var(--warning)); }
-  .apple-text-warning { color: hsl(var(--warning)); }
-
-  /* Apple Layout Utilities */
-  .apple-container {
-    max-width: var(--content-max-width);
-    margin: 0 auto;
-    padding: 0 var(--space-6);
-  }
-
-  .apple-section {
-    padding: var(--space-12) 0;
-  }
-
-  /* Apple Header Style */
-  .apple-header {
-    height: var(--header-h);
-    backdrop-filter: var(--glass-backdrop);
-    background: var(--glass-bg);
-    border-bottom: 1px solid hsl(var(--border) / 0.1);
-  }
-
-  /* Apple Sidebar Style */
-  .apple-sidebar {
-    width: var(--sidebar-w);
-    background: hsl(var(--background));
-    border-right: 1px solid hsl(var(--border) / 0.5);
-  }
-
-  /* Apple Content Style */
-  .apple-content {
-    padding: var(--space-8);
-    max-width: var(--content-max-width);
-  }
-
-  /* Apple Grid System */
-  .apple-grid {
-    display: grid;
-    gap: var(--space-6);
-  }
-
-  .apple-grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-  .apple-grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-  .apple-grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
-
-  /* Apple Flex Utilities */
-  .apple-flex { display: flex; }
-  .apple-flex-col { flex-direction: column; }
-  .apple-items-center { align-items: center; }
-  .apple-justify-center { justify-content: center; }
-  .apple-justify-between { justify-content: space-between; }
-
-  /* Apple Border Utilities */
-  .apple-border { border: 1px solid hsl(var(--border) / 0.5); }
-  .apple-border-light { border: 1px solid hsl(var(--border) / 0.2); }
-  .apple-border-strong { border: 1px solid hsl(var(--border) / 0.8); }
-
-  /* Apple Radius Utilities */
-  .apple-rounded-sm { border-radius: calc(var(--radius) * 0.5); }
-  .apple-rounded { border-radius: var(--radius); }
-  .apple-rounded-lg { border-radius: calc(var(--radius) * 1.5); }
-  .apple-rounded-xl { border-radius: calc(var(--radius) * 2); }
-  .apple-rounded-full { border-radius: 9999px; }
-
-  /* Apple Shadow Utilities */
-  .apple-shadow-sm { box-shadow: var(--shadow-sm); }
-  .apple-shadow { box-shadow: var(--shadow-md); }
-  .apple-shadow-lg { box-shadow: var(--shadow-lg); }
-  .apple-shadow-xl { box-shadow: var(--shadow-xl); }
-
-  /* Apple Hover Effects */
-  .apple-hover-lift {
+  /* Premium Hover Effects */
+  .hover-lift {
     transition: transform var(--animation-duration) var(--animation-easing),
                 box-shadow var(--animation-duration) var(--animation-easing);
   }
   
-  .apple-hover-lift:hover {
+  .hover-lift:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
   }
 
-  .apple-hover-scale {
-    transition: transform var(--animation-duration) var(--animation-easing);
+  /* Squircle Design System */
+  .rounded-squircle {
+    border-radius: var(--squircle-radius);
   }
   
-  .apple-hover-scale:hover {
-    transform: scale(1.02);
-  }
-
-  /* Apple Active States */
-  .apple-active {
-    transform: scale(0.98);
-    transition: transform var(--animation-duration) var(--animation-easing);
-  }
-
-  /* Apple Page Layout */
-  .apple-page {
-    @apply relative flex min-h-screen w-full bg-background text-foreground apple-transition;
-  }
-
-  .apple-section {
-    @apply apple-p-12;
-  }
-
-  .apple-container {
-    @apply apple-max-w-7xl apple-mx-auto apple-p-6;
-  }
-
-  /* Apple Typography Utilities */
-  .apple-title-hero {
-    @apply apple-text-5xl apple-font-bold apple-tracking-tight text-foreground;
-  }
-
-  .apple-title-section {
-    @apply apple-text-3xl apple-font-semibold apple-tracking-tight text-foreground;
-  }
-
-  .apple-title-card {
-    @apply apple-text-xl apple-font-semibold text-foreground;
-  }
-
-  .apple-text-lead {
-    @apply apple-text-xl text-muted-foreground apple-leading-relaxed;
-  }
-
-  .apple-text-body {
-    @apply apple-text-base text-muted-foreground apple-leading-relaxed;
-  }
-
-  .apple-text-caption {
-    @apply apple-text-sm text-muted-foreground;
-  }
-
-  .apple-text-center {
-    @apply text-center;
-  }
-
-  /* Apple Layout Utilities */
-  .apple-max-w-lg { max-width: 32rem; }
-  .apple-max-w-xl { max-width: 36rem; }
-  .apple-max-w-2xl { max-width: 42rem; }
-  .apple-max-w-3xl { max-width: 48rem; }
-  .apple-max-w-4xl { max-width: 56rem; }
-  .apple-max-w-5xl { max-width: 64rem; }
-  .apple-max-w-6xl { max-width: 72rem; }
-  .apple-max-w-7xl { max-width: 80rem; }
-
-  .apple-mx-auto { margin-left: auto; margin-right: auto; }
-
-  /* Apple Flex Utilities */
-  .apple-flex-center {
-    @apply apple-flex apple-items-center apple-justify-center;
-  }
-
-  .apple-flex-between {
-    @apply apple-flex apple-items-center apple-justify-between;
-  }
-
-  /* Apple Grid Utilities */
-  .apple-grid-3 {
-    @apply grid apple-gap-8;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-
-  .apple-grid-2 {
-    @apply grid apple-gap-6;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  }
-
-  /* Apple Card Styles */
-  .apple-card {
-    @apply apple-card apple-p-8 apple-rounded-xl;
-  }
-
-  .apple-card-subtle {
-    @apply apple-card apple-p-6 apple-bg-muted/30;
-  }
-
-  .apple-card-blue {
-    @apply apple-card;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--primary)/0.1) 100%);
-    border: 1px solid hsl(var(--primary)/0.2);
-  }
-
-  .apple-card-purple {
-    @apply apple-card;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--secondary)/0.1) 100%);
-    border: 1px solid hsl(var(--secondary)/0.2);
-  }
-
-  .apple-card-green {
-    @apply apple-card;
-    background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--success)/0.1) 100%);
-    border: 1px solid hsl(var(--success)/0.2);
-  }
-
-  /* Apple Card Icon */
-  .apple-card-icon {
-    @apply w-12 h-12 apple-rounded-xl apple-flex-center apple-mb-6;
-  }
-
-  .apple-card-icon-blue {
-    @apply apple-card-icon;
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary)/0.8) 100%);
-  }
-
-  .apple-card-icon-purple {
-    @apply apple-card-icon;
-    background: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--secondary)/0.8) 100%);
-  }
-
-  .apple-card-icon-green {
-    @apply apple-card-icon;
-    background: linear-gradient(135deg, hsl(var(--success)) 0%, hsl(var(--success)/0.8) 100%);
-  }
-
-  .apple-card-title {
-    @apply apple-title-card apple-mb-4;
-  }
-
-  .apple-card-text {
-    @apply apple-text-body;
-  }
-
-  /* Apple Hero Icon */
-  .apple-icon-hero {
-    @apply w-20 h-20 apple-rounded-full apple-flex-center apple-mx-auto;
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--secondary)) 100%);
-  }
-
-  /* Apple Badge Styles */
-  .apple-badge {
-    @apply apple-flex-center apple-gap-2 apple-px-4 apple-py-2 apple-rounded-full apple-text-sm apple-font-medium;
-    background: hsl(var(--card));
-    border: 1px solid hsl(var(--border)/0.5);
-  }
-
-  .apple-badge-blue {
-    @apply apple-badge;
-    background: hsl(var(--primary)/0.1);
-    border-color: hsl(var(--primary)/0.3);
-    color: hsl(var(--primary));
-  }
-
-  .apple-badge-purple {
-    @apply apple-badge;
-    background: hsl(var(--secondary)/0.1);
-    border-color: hsl(var(--secondary)/0.3);
-    color: hsl(var(--secondary));
-  }
-
-  .apple-badge-green {
-    @apply apple-badge;
-    background: hsl(var(--success)/0.1);
-    border-color: hsl(var(--success)/0.3);
-    color: hsl(var(--success));
-  }
-
-  .apple-badge-text {
-    @apply apple-text-sm apple-font-medium;
-  }
-
-  /* Apple Tag Styles */
-  .apple-tag {
-    @apply apple-px-3 apple-py-1 apple-rounded-full apple-text-sm;
-  }
-
-  .apple-tag-blue {
-    @apply apple-tag;
-    background: hsl(var(--primary)/0.15);
-    color: hsl(var(--primary));
-  }
-
-  .apple-tag-purple {
-    @apply apple-tag;
-    background: hsl(var(--secondary)/0.15);
-    color: hsl(var(--secondary));
-  }
-
-  .apple-tag-green {
-    @apply apple-tag;
-    background: hsl(var(--success)/0.15);
-    color: hsl(var(--success));
-  }
-
-  /* Apple Glow Effects */
-  .apple-glow {
-    @apply absolute inset-0 apple-rounded-3xl blur-2xl -z-10;
-  }
-
-  .apple-glow-blue {
-    @apply apple-glow;
-    background: linear-gradient(135deg, hsl(var(--primary)/0.3) 0%, hsl(var(--primary)/0.1) 100%);
-  }
-
-  .apple-glow-purple {
-    @apply apple-glow;
-    background: linear-gradient(135deg, hsl(var(--secondary)/0.3) 0%, hsl(var(--secondary)/0.1) 100%);
-  }
-
-  .apple-glow-green {
-    @apply apple-glow;
-    background: linear-gradient(135deg, hsl(var(--success)/0.3) 0%, hsl(var(--success)/0.1) 100%);
-  }
-
-  /* Apple Widget Style */
-  .apple-widget {
-    @apply apple-card apple-shadow-xl;
-  }
-
-  /* Apple Animation Utilities */
-  .apple-transition {
-    transition: all var(--animation-duration) var(--animation-easing);
-  }
-}
-  
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
-  }
-}
-
-@layer components {
-  .glass-effect {
-    @apply bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+  .rounded-squircle-sm {
+    border-radius: var(--squircle-radius-sm);
   }
   
-  .gradient-text {
-    @apply bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent;
+  .rounded-squircle-lg {
+    border-radius: var(--squircle-radius-lg);
   }
   
-  .hover-lift {
-    @apply transition-all duration-300 ease-out hover:-translate-y-0.5 hover:shadow-md;
+  /* Squircle Button Variants */
+  .btn-squircle-primary {
+    @apply inline-flex items-center justify-center rounded-squircle bg-gray-900 text-white font-medium px-5 py-2.5 transition-all duration-200 hover:bg-gray-800 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none shadow-sm;
   }
   
+  .btn-squircle-secondary {
+    @apply inline-flex items-center justify-center rounded-squircle bg-gray-100 text-gray-900 font-medium px-5 py-2.5 transition-all duration-200 hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none;
+  }
+  
+  .btn-squircle-outline {
+    @apply inline-flex items-center justify-center rounded-squircle border border-gray-300 bg-white text-gray-700 font-medium px-5 py-2.5 transition-all duration-200 hover:bg-gray-50 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none;
+  }
+  
+  .btn-squircle-ghost {
+    @apply inline-flex items-center justify-center rounded-squircle bg-transparent text-gray-700 font-medium px-5 py-2.5 transition-all duration-200 hover:bg-gray-100 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none;
+  }
+  
+  /* Squircle Card Styles */
+  .card-squircle {
+    @apply bg-white border border-gray-200 rounded-squircle transition-all duration-200 hover:shadow-md hover:scale-[1.01];
+  }
+  
+  .card-squircle-outline {
+    @apply bg-white border border-gray-200 rounded-squircle transition-all duration-200;
+  }
+
+  /* Premium Focus Ring */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 var(--focus-ring-width) var(--ring),
+                0 0 0 calc(var(--focus-ring-width) + var(--focus-ring-offset)) var(--background);
+  }
+}
+
+/* Keyframe Animations */
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes animate-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Premium Component Classes */
+@layer components {
+  /* Premium Button Styles */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-lg bg-primary text-primary-foreground font-medium text-sm px-4 py-2 transition-all duration-200 hover:bg-primary/90 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
-  .apple-card {
-    @apply bg-white dark:bg-gray-900 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-lg bg-secondary text-secondary-foreground font-medium text-sm px-4 py-2 transition-all duration-200 hover:bg-secondary/80 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
-  .apple-button {
-    @apply rounded-lg font-medium transition-all duration-200 hover:shadow-md active:scale-[0.98];
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-lg text-foreground font-medium text-sm px-4 py-2 transition-all duration-200 hover:bg-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-muted-foreground focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Premium Card Styles */
+  .card-premium {
+    @apply bg-card text-card-foreground rounded-xl border border-border shadow-sm transition-all duration-200 hover:shadow-md;
   }
   
-  /* Minimalist Card Design */
-  .card-minimal {
-    @apply bg-card text-card-foreground rounded-lg shadow-sm hover:shadow-md transition-all duration-200;
+  .card-glass {
+    @apply glass rounded-xl border border-border/50 backdrop-blur-sm;
+  }
+
+  /* Premium Input Styles */
+  .input-premium {
+    @apply w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Premium Badge Styles */
+  .badge-premium {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
+  }
+
+  /* Premium Button Classes */
+  .premium-button-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-gray-900 text-white font-semibold px-6 py-3 transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:shadow-gray-900/25 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5;
   }
   
-  /* Subtle Loading States */
-  .skeleton-minimal {
-    @apply animate-pulse bg-muted rounded-lg;
+  .premium-button-outline {
+    @apply inline-flex items-center justify-center rounded-xl border-2 border-gray-300 bg-white text-gray-700 font-medium px-4 py-2 transition-all duration-300 hover:border-gray-400 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
-  /* Minimal Interactive Elements */
-  .interactive-minimal {
-    @apply transition-all duration-200 ease-out hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary;
+  .premium-card {
+    @apply bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300;
   }
   
-  /* Status Indicators */
-  .status-badge {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  .premium-dropdown {
+    @apply bg-white rounded-xl border border-gray-200 shadow-lg p-2 min-w-[180px];
   }
   
-  .status-online {
-    @apply bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400;
+  .premium-dropdown-item {
+    @apply flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
-  .status-offline {
-    @apply bg-gray-100 text-gray-800 dark:bg-gray-800/20 dark:text-gray-400;
+  .premium-input {
+    @apply rounded-xl border-gray-200 focus:border-gray-400 focus:ring-gray-400 focus:ring-2 transition-all duration-200;
   }
   
-  .status-busy {
-    @apply bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400;
+  .premium-select {
+    @apply rounded-xl border-gray-200 focus:border-gray-400 focus:ring-gray-400 focus:ring-2 transition-all duration-200;
   }
 }

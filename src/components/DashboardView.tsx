@@ -73,19 +73,23 @@ export default function DashboardView() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="space-y-8" role="status" aria-label="Loading dashboard">
-        <Skeleton className="h-24 w-full rounded-xl skeleton-modern" />
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
-          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
-          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
-          <Skeleton className="h-36 w-full rounded-xl skeleton-modern" />
+      <div className="apple-page">
+        <div className="apple-container">
+          <div className="apple-space-y-8" role="status" aria-label="Loading dashboard">
+            <Skeleton className="h-24 w-full apple-rounded-xl skeleton-modern" />
+            <div className="apple-grid-4">
+              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
+              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
+              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
+              <Skeleton className="h-36 w-full apple-rounded-xl skeleton-modern" />
+            </div>
+            <div className="apple-grid-3">
+              <Skeleton className="h-80 w-full apple-rounded-xl skeleton-modern" />
+              <Skeleton className="h-80 w-full apple-rounded-xl skeleton-modern" />
+            </div>
+            <span className="sr-only">Loading your personalized dashboard...</span>
+          </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <Skeleton className="h-80 w-full lg:col-span-2 rounded-xl skeleton-modern" />
-          <Skeleton className="h-80 w-full rounded-xl skeleton-modern" />
-        </div>
-        <span className="sr-only">Loading your personalized dashboard...</span>
       </div>
     );
   }
@@ -96,53 +100,62 @@ export default function DashboardView() {
 
   if (!currentUser) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh] text-center p-8 rounded-2xl bg-muted/30">
-        <UserIcon className="w-16 h-16 text-muted-foreground mb-6" />
-        <h2 className="text-4xl font-semibold text-foreground mb-4">Welcome to EKA</h2>
-        <p className="text-muted-foreground max-w-md mb-8 text-lg">
-          Your personalized space for mental wellness and growth. Sign in to access your dashboard and begin your journey.
-        </p>
-        <div className="flex gap-4 mb-6">
-          <Button 
-            onClick={() => router.push('/login?tab=login')} 
-            variant="default"
-            size="lg"
-          >
-            Sign In
-          </Button>
-          <Button 
-            onClick={() => router.push('/login?tab=signup')} 
-            variant="ghost"
-            size="lg"
-          >
-            Sign Up
-          </Button>
+      <div className="apple-page">
+        <div className="apple-container">
+          <div className="apple-flex-center min-h-[70vh] apple-text-center apple-p-8 apple-rounded-2xl apple-bg-muted/30">
+            <div className="apple-max-w-md">
+              <UserIcon className="w-16 h-16 text-muted-foreground apple-mb-6" />
+              <h2 className="apple-title-section apple-mb-4">Welcome to EKA</h2>
+              <p className="apple-text-body apple-mb-8">
+                Your personalized space for mental wellness and growth. Sign in to access your dashboard and begin your journey.
+              </p>
+              <div className="apple-flex apple-gap-4 apple-mb-6">
+                <Button 
+                  onClick={() => router.push('/login?tab=login')} 
+                  className="apple-button-primary"
+                >
+                  Sign In
+                </Button>
+                <Button 
+                  onClick={() => router.push('/login?tab=signup')} 
+                  variant="outline"
+                  className="apple-button-outline"
+                >
+                  Sign Up
+                </Button>
+              </div>
+              <p className="apple-text-caption">
+                New to EKA? Create an account to get started with personalized mental wellness tools.
+              </p>
+            </div>
+          </div>
         </div>
-        <p className="text-sm text-muted-foreground">
-          New to EKA? Create an account to get started with personalized mental wellness tools.
-        </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-12">
-      <WelcomeHeader />
-      <StatsGrid sessions={sessions} />
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <NextSession sessions={upcomingSessions} isLoading={dataLoading} />
-          <AIGoalSuggestions />
-        </div>
-        <div className="space-y-8">
-          <PersonalBlock />
-          {userData?.goal && (
-            <GoalProgress
-              sessionsCompleted={userData.goal.currentSessions || 0}
-              goal={userData.goal.description || ''}
-              targetSessions={userData.goal.targetSessions || 10}
-            />
-          )}
+    <div className="apple-page">
+      <div className="apple-container">
+        <div className="apple-space-y-12">
+          <WelcomeHeader />
+          <StatsGrid sessions={sessions} />
+          <div className="apple-grid-3">
+            <div className="apple-space-y-8">
+              <NextSession sessions={upcomingSessions} isLoading={dataLoading} />
+              <AIGoalSuggestions />
+            </div>
+            <div className="apple-space-y-8">
+              <PersonalBlock />
+              {userData?.goal && (
+                <GoalProgress
+                  sessionsCompleted={userData.goal.currentSessions || 0}
+                  goal={userData.goal.description || ''}
+                  targetSessions={userData.goal.targetSessions || 10}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

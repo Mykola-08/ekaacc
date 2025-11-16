@@ -1,0 +1,400 @@
+/* Minimalist Design System for Role-Based Access */
+
+:root {
+  /* Color System */
+  --primary: 220 90% 50%;
+  --primary-foreground: 220 0% 100%;
+  
+  --secondary: 220 10% 96%;
+  --secondary-foreground: 220 10% 15%;
+  
+  --accent: 220 10% 90%;
+  --accent-foreground: 220 10% 20%;
+  
+  --background: 0 0% 100%;
+  --foreground: 220 10% 10%;
+  
+  --muted: 220 10% 85%;
+  --muted-foreground: 220 10% 40%;
+  
+  --border: 220 10% 90%;
+  --input: 220 10% 95%;
+  --ring: 220 90% 50%;
+  
+  /* Role-specific colors */
+  --admin: 0 84% 60%;
+  --therapist: 220 90% 50%;
+  --reception: 140 70% 45%;
+  --patient: 220 10% 60%;
+  --vip-patient: 45 90% 55%;
+  --corporate: 280 70% 55%;
+  --content-manager: 200 80% 50%;
+  --marketing: 330 80% 55%;
+  --accountant: 25 80% 55%;
+  
+  /* Spacing System */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+  
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark mode support */
+.dark {
+  --primary: 220 90% 60%;
+  --primary-foreground: 220 0% 100%;
+  
+  --secondary: 220 10% 20%;
+  --secondary-foreground: 220 10% 95%;
+  
+  --accent: 220 10% 25%;
+  --accent-foreground: 220 10% 95%;
+  
+  --background: 220 10% 5%;
+  --foreground: 220 10% 95%;
+  
+  --muted: 220 10% 25%;
+  --muted-foreground: 220 10% 70%;
+  
+  --border: 220 10% 25%;
+  --input: 220 10% 20%;
+  --ring: 220 90% 60%;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Role-based styling */
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+  border: 1px solid hsl(var(--border));
+  transition: all var(--transition-fast);
+}
+
+.role-badge[data-role="Admin"] {
+  background-color: hsl(var(--admin) / 0.1);
+  color: hsl(var(--admin));
+  border-color: hsl(var(--admin) / 0.2);
+}
+
+.role-badge[data-role="Therapist"] {
+  background-color: hsl(var(--therapist) / 0.1);
+  color: hsl(var(--therapist));
+  border-color: hsl(var(--therapist) / 0.2);
+}
+
+.role-badge[data-role="Reception"] {
+  background-color: hsl(var(--reception) / 0.1);
+  color: hsl(var(--reception));
+  border-color: hsl(var(--reception) / 0.2);
+}
+
+.role-badge[data-role="Patient"] {
+  background-color: hsl(var(--patient) / 0.1);
+  color: hsl(var(--patient));
+  border-color: hsl(var(--patient) / 0.2);
+}
+
+.role-badge[data-role="VIP Patient"] {
+  background-color: hsl(var(--vip-patient) / 0.1);
+  color: hsl(var(--vip-patient));
+  border-color: hsl(var(--vip-patient) / 0.2);
+}
+
+.role-badge[data-role="Corporate Client"] {
+  background-color: hsl(var(--corporate) / 0.1);
+  color: hsl(var(--corporate));
+  border-color: hsl(var(--corporate) / 0.2);
+}
+
+.role-badge[data-role="Content Manager"] {
+  background-color: hsl(var(--content-manager) / 0.1);
+  color: hsl(var(--content-manager));
+  border-color: hsl(var(--content-manager) / 0.2);
+}
+
+.role-badge[data-role="Marketing"] {
+  background-color: hsl(var(--marketing) / 0.1);
+  color: hsl(var(--marketing));
+  border-color: hsl(var(--marketing) / 0.2);
+}
+
+.role-badge[data-role="Accountant"] {
+  background-color: hsl(var(--accountant) / 0.1);
+  color: hsl(var(--accountant));
+  border-color: hsl(var(--accountant) / 0.2);
+}
+
+/* Permission indicators */
+.permission-granted {
+  color: hsl(140 70% 45%);
+  background-color: hsl(140 70% 45% / 0.1);
+  border-color: hsl(140 70% 45% / 0.2);
+}
+
+.permission-denied {
+  color: hsl(0 84% 60%);
+  background-color: hsl(0 84% 60% / 0.1);
+  border-color: hsl(0 84% 60% / 0.2);
+}
+
+/* Minimalist card design */
+.minimalist-card {
+  background-color: hsl(var(--background));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.minimalist-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: hsl(var(--accent));
+}
+
+/* Clean form styling */
+.minimalist-input {
+  background-color: hsl(var(--input));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: var(--text-base);
+  transition: all var(--transition-fast);
+}
+
+.minimalist-input:focus {
+  outline: none;
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.1);
+}
+
+/* Button styling */
+.minimalist-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.minimalist-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.minimalist-button-primary {
+  background-color: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+}
+
+.minimalist-button-primary:hover:not(:disabled) {
+  background-color: hsl(var(--primary) / 0.9);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.minimalist-button-secondary {
+  background-color: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+  border-color: hsl(var(--border));
+}
+
+.minimalist-button-secondary:hover:not(:disabled) {
+  background-color: hsl(var(--accent));
+  border-color: hsl(var(--accent));
+}
+
+/* Table styling */
+.minimalist-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.minimalist-table th {
+  background-color: hsl(var(--muted));
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.minimalist-table td {
+  padding: 1rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.minimalist-table tr:hover {
+  background-color: hsl(var(--accent));
+}
+
+/* Status indicators */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+}
+
+.status-active {
+  background-color: hsl(140 70% 45% / 0.1);
+  color: hsl(140 70% 45%);
+}
+
+.status-pending {
+  background-color: hsl(45 90% 55% / 0.1);
+  color: hsl(45 90% 55%);
+}
+
+.status-inactive {
+  background-color: hsl(220 10% 85% / 0.5);
+  color: hsl(220 10% 40%);
+}
+
+.status-error {
+  background-color: hsl(0 84% 60% / 0.1);
+  color: hsl(0 84% 60%);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .minimalist-card {
+    border-radius: var(--radius-md);
+  }
+  
+  .minimalist-button {
+    padding: 0.625rem 1.25rem;
+    font-size: var(--text-sm);
+  }
+  
+  .minimalist-table {
+    font-size: var(--text-xs);
+  }
+  
+  .minimalist-table th,
+  .minimalist-table td {
+    padding: 0.75rem;
+  }
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--accent)) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Focus styles for accessibility */
+.focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Smooth transitions for all interactive elements */
+button, 
+input, 
+select, 
+textarea, 
+a {
+  transition: all var(--transition-fast);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}

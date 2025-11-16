@@ -23,6 +23,8 @@ import {
   Wallet,
   Gift,
   Trophy,
+  PanelLeft,
+  PanelLeftClose,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/supabase-auth';
@@ -30,6 +32,7 @@ import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, u
 import React from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { motion } from 'framer-motion';
+import { Button } from '../ui/button';
 
 const SectionHeader = ({ label, icon: Icon, color, isCollapsed }: { label: string, icon: React.ElementType, color: string, isCollapsed: boolean }) => {
   if (isCollapsed) {

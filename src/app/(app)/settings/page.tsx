@@ -1,21 +1,21 @@
 'use client';
 
-import { Button, Card, CardContent, CardHeader, Skeleton } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  Bell, Mail, MessageSquare, Calendar, Save
+  Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User, Smartphone, Globe, Lock, Eye, EyeOff
 } from 'lucide-react';
-;
-;
-import { SettingsShell } from '@/components/eka/settings/settings-shell';
-import { SettingsHeader } from '@/components/eka/settings/settings-header';
-import { SettingsCard } from '@/components/eka/settings/settings-card';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeSelector } from '@/components/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/eka/settings/notification-switch';
-;
 import type { User } from '@/lib/types';
 
 type UserSettings = NonNullable<User['settings']>;
@@ -29,6 +29,7 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<UserSettings>(currentUser?.settings || {});
   const [isLoading, setIsLoading] = useState(true);
   const [hasChanges, setHasChanges] = useState(false);
+  const [showPasswordReset, setShowPasswordReset] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -69,7 +70,6 @@ export default function SettingsPage() {
     try {
       await dataService.updateUser(currentUser.id, { settings });
       
-
       toast({
         title: "Settings Saved",
         description: "Your preferences have been updated successfully.",
@@ -88,129 +88,350 @@ export default function SettingsPage() {
   };
 
   const notificationSettings = useMemo(() => [
-    { id: 'email-news', label: 'Newsletter and Updates', category: 'notifications', subcategory: 'email', key: 'marketing', icon: <Mail className="h-5 w-5 text-muted-foreground" /> },
-    { id: 'email-reminders', label: 'Appointment Reminders', category: 'notifications', subcategory: 'email', key: 'email', icon: <Calendar className="h-5 w-5 text-muted-foreground" /> },
-    { id: 'push-messages', label: 'New Chat Messages', category: 'notifications', subcategory: 'push', key: 'push', icon: <MessageSquare className="h-5 w-5 text-muted-foreground" /> },
-    { id: 'push-sms', label: 'SMS Notifications', category: 'notifications', subcategory: 'push', key: 'sms', icon: <Bell className="h-5 w-5 text-muted-foreground" /> },
+    { id: 'email-news', label: 'Newsletter and Updates', category: 'notifications', subcategory: 'email', key: 'marketing', icon: <Mail className="h-5 w-5 text-blue-600" /> },
+    { id: 'email-reminders', label: 'Appointment Reminders', category: 'notifications', subcategory: 'email', key: 'email', icon: <Calendar className="h-5 w-5 text-green-600" /> },
+    { id: 'push-messages', label: 'New Chat Messages', category: 'notifications', subcategory: 'push', key: 'push', icon: <MessageSquare className="h-5 w-5 text-purple-600" /> },
+    { id: 'push-sms', label: 'SMS Notifications', category: 'notifications', subcategory: 'push', key: 'sms', icon: <Bell className="h-5 w-5 text-orange-600" /> },
   ] as const, []);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12
+      }
+    }
+  };
 
   if (isLoading || authLoading) {
     return <SettingsSkeleton />;
   }
 
   return (
-    <SettingsShell>
-      <div className="flex items-center justify-between">
-        <SettingsHeader
-          title="Settings"
-          description="Manage your account, notifications, and appearance preferences."
-        />
-        <Button onClick={handleSave} disabled={!hasChanges || isLoading}>
-          <Save className="mr-2 h-4 w-4" />
-          {isLoading ? 'Saving...' : 'Save Changes'}
-        </Button>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Premium Header */}
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-transparent mb-2">
+                Settings
+              </h1>
+              <p className="text-lg text-slate-600 max-w-2xl">
+                Customize your experience and manage your account preferences
+              </p>
+            </div>
+            <AnimatePresence>
+              {hasChanges && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Button 
+                    onClick={handleSave} 
+                    disabled={isLoading}
+                    className="premium-button-primary group"
+                  >
+                    <Save className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                    {isLoading ? 'Saving...' : 'Save Changes'}
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          className="space-y-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Profile Settings */}
+          <motion.div variants={itemVariants}>
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 rounded-xl flex items-center justify-center">
+                    <User className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-slate-900">Profile Information</h2>
+                    <p className="text-sm text-slate-600">Manage your personal information and account details</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-slate-700">Full Name</Label>
+                    <Input 
+                      value={currentUser?.fullName || ''} 
+                      disabled 
+                      className="premium-input bg-slate-50"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium text-slate-700">Email Address</Label>
+                    <Input 
+                      value={currentUser?.email || ''} 
+                      disabled 
+                      className="premium-input bg-slate-50"
+                    />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Appearance Settings */}
+          <motion.div variants={itemVariants}>
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center">
+                    <Palette className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-slate-900">Appearance</h2>
+                    <p className="text-sm text-slate-600">Customize the look and feel of your application</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <ThemeSelector />
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Notifications Settings */}
+          <motion.div variants={itemVariants}>
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-blue-100 rounded-xl flex items-center justify-center">
+                    <Bell className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-slate-900">Notifications</h2>
+                    <p className="text-sm text-slate-600">Choose how you want to be notified about important events</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Mail className="w-5 h-5 text-blue-600" />
+                      <h3 className="text-lg font-semibold text-slate-900">Email Notifications</h3>
+                    </div>
+                    {notificationSettings.filter(s => s.subcategory === 'email').map(setting => (
+                      <NotificationSwitch
+                        key={setting.id}
+                        id={setting.id}
+                        label={setting.label}
+                        icon={setting.icon}
+                        checked={settings?.notifications?.[setting.key as 'email' | 'marketing'] ?? false}
+                        onCheckedChange={(value) => handleSettingChange('notifications', setting.key, value)}
+                      />
+                    ))}
+                  </div>
+                  
+                  <div className="border-t border-slate-200 pt-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Smartphone className="w-5 h-5 text-purple-600" />
+                      <h3 className="text-lg font-semibold text-slate-900">Push Notifications</h3>
+                    </div>
+                    {notificationSettings.filter(s => s.subcategory === 'push').map(setting => (
+                      <NotificationSwitch
+                        key={setting.id}
+                        id={setting.id}
+                        label={setting.label}
+                        icon={setting.icon}
+                        checked={settings?.notifications?.[setting.key as 'push' | 'sms'] ?? false}
+                        onCheckedChange={(value) => handleSettingChange('notifications', setting.key, value)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Security Settings */}
+          <motion.div variants={itemVariants}>
+            <Card className="premium-card">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-red-100 rounded-xl flex items-center justify-center">
+                    <Shield className="w-6 h-6 text-orange-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-slate-900">Security</h2>
+                    <p className="text-sm text-slate-600">Manage your account security and privacy settings</p>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl border border-slate-200">
+                    <div className="space-y-1">
+                      <h4 className="font-semibold text-slate-900 flex items-center gap-2">
+                        <Lock className="w-4 h-4 text-blue-600" />
+                        Password
+                      </h4>
+                      <p className="text-sm text-slate-600">
+                        For security, password changes are handled via email reset
+                      </p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      className="premium-button-outline"
+                      onClick={() => setShowPasswordReset(true)}
+                    >
+                      Reset Password
+                    </Button>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-purple-50 rounded-xl border border-slate-200">
+                    <div className="space-y-1">
+                      <h4 className="font-semibold text-slate-900 flex items-center gap-2">
+                        <Shield className="w-4 h-4 text-purple-600" />
+                        Two-Factor Authentication
+                      </h4>
+                      <p className="text-sm text-slate-600">
+                        Add an extra layer of security to your account
+                      </p>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      disabled
+                      className="premium-button-outline-disabled"
+                    >
+                      Coming Soon
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </motion.div>
+
+        {/* Password Reset Modal */}
+        <AnimatePresence>
+          {showPasswordReset && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+              onClick={() => setShowPasswordReset(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="bg-white rounded-2xl p-8 max-w-md mx-4"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Mail className="w-8 h-8 text-blue-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-2">Password Reset</h3>
+                  <p className="text-slate-600 mb-6">
+                    A password reset link will be sent to your email address.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button 
+                      variant="outline" 
+                      className="flex-1 premium-button-outline"
+                      onClick={() => setShowPasswordReset(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button 
+                      className="flex-1 premium-button-primary"
+                      onClick={() => {
+                        // Handle password reset logic here
+                        toast({
+                          title: "Password Reset Sent",
+                          description: "Check your email for the reset link.",
+                        });
+                        setShowPasswordReset(false);
+                      }}
+                    >
+                      Send Reset Link
+                    </Button>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-
-      <SettingsCard
-        title="Appearance"
-        description="Customize the look and feel of the application."
-      >
-        <ThemeSelector />
-      </SettingsCard>
-
-      <SettingsCard
-        title="Notifications"
-        description="Choose how you want to be notified about important events."
-      >
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <h4 className="font-medium">Email Notifications</h4>
-            {notificationSettings.filter(s => s.subcategory === 'email').map(setting => (
-              <NotificationSwitch
-                key={setting.id}
-                id={setting.id}
-                label={setting.label}
-                icon={setting.icon}
-                checked={settings?.notifications?.[setting.key as 'email' | 'marketing'] ?? false}
-                onCheckedChange={(value) => handleSettingChange('notifications', setting.key, value)}
-              />
-            ))}
-          </div>
-          <div className="space-y-2">
-            <h4 className="font-medium">Push Notifications</h4>
-            {notificationSettings.filter(s => s.subcategory === 'push').map(setting => (
-              <NotificationSwitch
-                key={setting.id}
-                id={setting.id}
-                label={setting.label}
-                icon={setting.icon}
-                checked={settings?.notifications?.[setting.key as 'push' | 'sms'] ?? false}
-                onCheckedChange={(value) => handleSettingChange('notifications', setting.key, value)}
-              />
-            ))}
-          </div>
-        </div>
-      </SettingsCard>
-
-      <SettingsCard
-        title="Account & Security"
-        description="Manage your account information and security settings."
-      >
-        <div className="space-y-4">
-          <div className="flex items-center justify-between rounded-lg border p-4">
-            <div>
-              <h4 className="font-medium">Password</h4>
-              <p className="text-sm text-muted-foreground">
-                For security, password changes are handled via email reset.
-              </p>
-            </div>
-            <Button variant="outline">Reset Password</Button>
-          </div>
-           <div className="flex items-center justify-between rounded-lg border p-4">
-            <div>
-              <h4 className="font-medium">Two-Factor Authentication</h4>
-              <p className="text-sm text-muted-foreground">
-                Add an extra layer of security to your account.
-              </p>
-            </div>
-            <Button variant="outline" disabled>Enable</Button>
-          </div>
-        </div>
-      </SettingsCard>
-    </SettingsShell>
+    </div>
   );
 }
 
 function SettingsSkeleton() {
   return (
-    <SettingsShell>
-      <div className="flex items-center justify-between">
-        <div className="space-y-2">
-          <Skeleton className="h-8 w-32" />
-          <Skeleton className="h-4 w-72" />
+    <div className="apple-page">
+      <div className="apple-container">
+        <div className="apple-section">
+          <div className="apple-flex-between">
+            <div className="apple-space-y-2">
+              <Skeleton className="h-8 w-32" />
+              <Skeleton className="h-4 w-72" />
+            </div>
+            <Skeleton className="h-10 w-32" />
+          </div>
         </div>
-        <Skeleton className="h-10 w-32" />
+        
+        <div className="apple-card">
+          <div className="apple-card-header">
+            <Skeleton className="h-6 w-24" />
+            <Skeleton className="h-4 w-48" />
+          </div>
+          <div className="apple-card-content">
+            <Skeleton className="h-20 w-full" />
+          </div>
+        </div>
+        
+        <div className="apple-card">
+          <div className="apple-card-header">
+            <Skeleton className="h-6 w-32" />
+            <Skeleton className="h-4 w-64" />
+          </div>
+          <div className="apple-card-content apple-space-y-4">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
       </div>
-      <Card>
-        <CardHeader>
-          <Skeleton className="h-6 w-24" />
-          <Skeleton className="h-4 w-48" />
-        </CardHeader>
-        <CardContent>
-          <Skeleton className="h-20 w-full" />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <Skeleton className="h-6 w-32" />
-          <Skeleton className="h-4 w-64" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
-          <Skeleton className="h-12 w-full" />
-        </CardContent>
-      </Card>
-    </SettingsShell>
+    </div>
   );
 }

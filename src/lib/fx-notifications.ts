@@ -29,6 +29,7 @@ export const fxNotifications = {
           title: n.title,
           body: n.body,
           type: n.type || 'system',
+          is_read: false,
           seen: false,
           created_at: new Date().toISOString()
         }])

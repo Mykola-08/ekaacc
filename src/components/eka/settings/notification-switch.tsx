@@ -1,28 +1,35 @@
 
-;
-;
-import { Label, Switch } from '@/components/keep';
-import { cn } from "@/lib/utils";
+'use client';
+
+import { motion } from 'framer-motion';
+import { Switch } from '@/components/ui/switch';
+import { ReactNode } from 'react';
 
 interface NotificationSwitchProps {
   id: string;
   label: string;
+  icon: ReactNode;
   checked: boolean;
   onCheckedChange: (checked: boolean) => void;
-  icon?: React.ReactNode;
-  className?: string;
 }
 
-export function NotificationSwitch({ id, label, checked, onCheckedChange, icon, className }: NotificationSwitchProps) {
+export function NotificationSwitch({ id, label, icon, checked, onCheckedChange }: NotificationSwitchProps) {
   return (
-    <div className={cn("flex items-center justify-between space-x-4 rounded-lg border p-4", className)}>
-      <div className="flex items-center space-x-3">
+    <motion.div
+      className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 hover:border-slate-300 transition-colors"
+      whileHover={{ scale: 1.01 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+    >
+      <div className="flex items-center gap-3">
         {icon}
-        <Label htmlFor={id} className="flex flex-col space-y-1">
-          <span>{label}</span>
-        </Label>
+        <span className="text-sm font-medium text-slate-700">{label}</span>
       </div>
-      <Switch id={id} checked={checked} onCheckedChange={onCheckedChange} />
-    </div>
+      <Switch
+        id={id}
+        checked={checked}
+        onCheckedChange={onCheckedChange}
+        className="data-[state=checked]:bg-blue-600"
+      />
+    </motion.div>
   );
 }

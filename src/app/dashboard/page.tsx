@@ -1,13 +1,13 @@
 import dynamic from 'next/dynamic';
 
-const EnhancedPatientDashboard = dynamic(
-  () => import('@/components/eka/dashboard/enhanced-patient-dashboard'),
+const MinimalPatientDashboard = dynamic(
+  () => import('@/components/eka/dashboard/minimal-patient-dashboard'),
   { 
     loading: () => (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading your personalized dashboard...</p>
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
     )
@@ -15,9 +15,5 @@ const EnhancedPatientDashboard = dynamic(
 );
 
 export default function DashboardPage() {
-  return (
-    <div className="min-h-screen bg-background">
-      <EnhancedPatientDashboard />
-    </div>
-  );
+  return <MinimalPatientDashboard />;
 }

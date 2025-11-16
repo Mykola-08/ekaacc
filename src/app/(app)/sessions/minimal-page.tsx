@@ -6,9 +6,8 @@ import { CalendarOff, Clock, Calendar, Video, User, Plus, Filter } from "lucide-
 import type { Session as AppSession, User } from '@/lib/types';
 import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
-import { MinimalCard } from '@/components/ui/minimal-card';
-import { MinimalButton } from '@/components/ui/minimal-button';
-import { MinimalLayout } from '@/components/layout/minimal-layout';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import fxService from '@/lib/fx-service';
 
 // Helper to map appointment to session type
@@ -59,7 +58,7 @@ function MinimalSessionCard({ session }: { session: AppSession }) {
   };
 
   return (
-    <MinimalCard variant="default" className="p-6 rounded-squircle">
+    <Card className="p-6 rounded-lg">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 bg-gray-100 rounded-squircle flex items-center justify-center">
@@ -96,24 +95,24 @@ function MinimalSessionCard({ session }: { session: AppSession }) {
         </div>
         <div className="flex items-center gap-2">
           {isUpcoming && (
-            <MinimalButton 
+            <Button 
               variant="outline" 
               size="sm"
               onClick={() => window.location.href = `/sessions/${session.id}`}
             >
               View Details
-            </MinimalButton>
+            </Button>
           )}
-          <MinimalButton 
-            variant="ghost" 
+          <Button 
+            variant="outline" 
             size="sm"
             onClick={() => window.location.href = `/sessions/${session.id}`}
           >
             View →
-          </MinimalButton>
+          </Button>
         </div>
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -121,7 +120,7 @@ function SessionsLoadingSkeleton() {
   return (
     <div className="space-y-4">
       {[1, 2, 3].map((i) => (
-        <MinimalCard key={i} variant="default" className="p-6 rounded-squircle">
+        <Card key={i} className="p-6 rounded-lg">
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-gray-200 rounded-squircle"></div>
             <div className="flex-1 space-y-2">
@@ -130,7 +129,7 @@ function SessionsLoadingSkeleton() {
             </div>
             <div className="h-6 bg-gray-200 rounded w-16"></div>
           </div>
-        </MinimalCard>
+        </Card>
       ))}
     </div>
   );
@@ -138,7 +137,7 @@ function SessionsLoadingSkeleton() {
 
 function NoSessionsFound({ error, onBookClick }: { error: Error | null, onBookClick: () => void }) {
   return (
-    <MinimalCard variant="default" className="p-12 text-center rounded-squircle">
+    <Card className="p-12 text-center rounded-lg">
       <div className="max-w-md mx-auto">
         <div className="w-16 h-16 bg-gray-100 rounded-squircle flex items-center justify-center mx-auto mb-4">
           <CalendarOff className="w-8 h-8 text-gray-400" />
@@ -149,17 +148,17 @@ function NoSessionsFound({ error, onBookClick }: { error: Error | null, onBookCl
         <p className="text-gray-600 mb-6">
           {error ? error.message : "Ready to start your wellness journey? Book your first session."}
         </p>
-        <MinimalButton 
-          variant="primary" 
+        <Button 
+          variant="default" 
           size="md"
           onClick={onBookClick}
           className="rounded-squircle"
         >
           <Plus className="w-4 h-4 mr-2" />
           Book Your First Session
-        </MinimalButton>
+        </Button>
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -230,7 +229,7 @@ export default function MinimalSessionsPage() {
   ];
 
   return (
-    <MinimalLayout centered={false}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -240,20 +239,20 @@ export default function MinimalSessionsPage() {
               Manage your therapy sessions and track your progress
             </p>
           </div>
-          <MinimalButton 
-            variant="primary" 
+          <Button 
+            variant="default" 
             size="md"
             onClick={handleBookClick}
             className="rounded-squircle"
           >
             <Plus className="w-4 h-4 mr-2" />
             Book Session
-          </MinimalButton>
+          </Button>
         </div>
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <MinimalCard variant="default" className="p-4 rounded-squircle">
+          <Card className="p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Total</p>
@@ -263,9 +262,9 @@ export default function MinimalSessionsPage() {
                 <Calendar className="w-5 h-5 text-gray-600" />
               </div>
             </div>
-          </MinimalCard>
+          </Card>
 
-          <MinimalCard variant="default" className="p-4 rounded-squircle">
+          <Card className="p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Upcoming</p>
@@ -275,9 +274,9 @@ export default function MinimalSessionsPage() {
                 <Clock className="w-5 h-5 text-gray-600" />
               </div>
             </div>
-          </MinimalCard>
+          </Card>
 
-          <MinimalCard variant="default" className="p-4 rounded-squircle">
+          <Card variant="default" className="p-4 rounded-squircle">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Completed</p>
@@ -287,9 +286,9 @@ export default function MinimalSessionsPage() {
                 <Video className="w-5 h-5 text-gray-600" />
               </div>
             </div>
-          </MinimalCard>
+          </Card>
 
-          <MinimalCard variant="default" className="p-4 rounded-squircle">
+          <Card variant="default" className="p-4 rounded-squircle">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Canceled</p>
@@ -299,13 +298,13 @@ export default function MinimalSessionsPage() {
                 <CalendarOff className="w-5 h-5 text-gray-600" />
               </div>
             </div>
-          </MinimalCard>
+          </Card>
         </div>
 
         {/* Filter */}
         <div className="flex flex-wrap gap-2">
           {filterOptions.map((option) => (
-            <MinimalButton
+            <Button
               key={option.value}
               variant={filterStatus === option.value ? 'primary' : 'outline'}
               size="sm"
@@ -313,7 +312,7 @@ export default function MinimalSessionsPage() {
               className="rounded-squircle"
             >
               {option.label}
-            </MinimalButton>
+            </Button>
           ))}
         </div>
 
@@ -332,6 +331,6 @@ export default function MinimalSessionsPage() {
           <NoSessionsFound error={error} onBookClick={handleBookClick} />
         )}
       </div>
-    </MinimalLayout>
+    </div>
   );
 }

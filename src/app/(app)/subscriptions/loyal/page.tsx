@@ -1,7 +1,6 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
-import { CardFooter } from '@/components/ui/card';
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
 import { useState, useEffect } from 'react';
 ;
 ;

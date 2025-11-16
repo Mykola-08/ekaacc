@@ -11,8 +11,7 @@ import { GoalProgress } from './eka/dashboard/goal-progress';
 import AIGoalSuggestions from './AIGoalSuggestions';
 import PersonalBlock from './PersonalBlock';
 import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
+import { Skeleton, Button } from '@/components/keep';
 import { User as UserIcon } from 'lucide-react';
 import type { Session, Report, User } from '@/lib/types';
 

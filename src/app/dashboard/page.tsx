@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import { Spinner } from '@/components/keep';
 
 const MinimalPatientDashboard = dynamic(
   () => import('@/components/eka/dashboard/minimal-patient-dashboard'),
@@ -6,8 +7,8 @@ const MinimalPatientDashboard = dynamic(
     loading: () => (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <Spinner size="xl" color="primary" className="mx-auto mb-4" />
+          <p className="text-sm text-gray-600">Loading your dashboard...</p>
         </div>
       </div>
     )

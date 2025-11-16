@@ -2,8 +2,9 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { MinimalButton, MinimalCard, MinimalLayout } from '@/components/ui/minimal-index'
-import { useAuth } from '@/lib/supabase-auth'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { useAuth } from '@/context/auth-context'
 import { ArrowRight } from 'lucide-react'
 
 export default function MinimalHomePage() {
@@ -40,7 +41,7 @@ export default function MinimalHomePage() {
   ]
   
   return (
-    <MinimalLayout centered={false}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
       <div className="text-center space-y-8 mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
@@ -52,21 +53,21 @@ export default function MinimalHomePage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {user ? (
             <Link href="/dashboard">
-              <MinimalButton size="lg">
+              <Button size="lg">
                 Go to Dashboard
-              </MinimalButton>
+              </Button>
             </Link>
           ) : (
             <>
               <Link href="/login">
-                <MinimalButton size="lg" variant="primary">
+                <Button size="lg">
                   Get Started
-                </MinimalButton>
+                </Button>
               </Link>
               <Link href="/therapists">
-                <MinimalButton size="lg" variant="outline">
+                <Button size="lg" variant="outline">
                   Find a Therapist
-                </MinimalButton>
+                </Button>
               </Link>
             </>
           )}
@@ -79,10 +80,10 @@ export default function MinimalHomePage() {
         <div className="grid gap-6 md:grid-cols-2">
           {features.map((feature, index) => (
             <Link key={index} href={feature.href}>
-              <MinimalCard interactive={true} className="p-6">
+              <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-              </MinimalCard>
+              </Card>
             </Link>
           ))}
         </div>
@@ -93,10 +94,10 @@ export default function MinimalHomePage() {
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Platform Statistics</h2>
         <div className="grid gap-4 md:grid-cols-4">
           {stats.map((stat, index) => (
-            <MinimalCard key={index} variant="outline" className="p-6 text-center">
+            <Card key={index} variant="outline" className="p-6 text-center">
               <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
               <div className="text-sm text-gray-600">{stat.label}</div>
-            </MinimalCard>
+            </Card>
           ))}
         </div>
       </div>
@@ -112,19 +113,19 @@ export default function MinimalHomePage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           {user ? (
             <Link href="/dashboard">
-              <MinimalButton size="lg">
+              <Button size="lg">
                 Access Dashboard
-              </MinimalButton>
+              </Button>
             </Link>
           ) : (
             <Link href="/login">
-              <MinimalButton size="lg" variant="primary">
+              <Button size="lg">
                 Sign Up Now
-              </MinimalButton>
+              </Button>
             </Link>
           )}
         </div>
       </div>
-    </MinimalLayout>
+    </div>
   )
 }

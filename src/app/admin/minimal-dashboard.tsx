@@ -2,12 +2,11 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
+import { format } from 'date-fns';
 import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield } from 'lucide-react';
 import { getDataService } from '@/services/data-service';
 import type { User, Session } from '@/lib/types';
-import { MinimalCard } from '@/components/ui/minimal-card';
-import { MinimalButton } from '@/components/ui/minimal-button';
-import { MinimalLayout } from '@/components/layout/minimal-layout';
+import { Card, Button, Badge } from '@/components/keep';
 import { useToast } from '@/hooks/use-toast';
 
 function MinimalStatCard({ 
@@ -22,7 +21,7 @@ function MinimalStatCard({
   icon: React.ElementType 
 }) {
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-gray-600">{title}</h3>
         <Icon className="h-5 w-5 text-gray-600" />
@@ -31,22 +30,22 @@ function MinimalStatCard({
         <p className="text-2xl font-bold text-gray-900">{value}</p>
         <p className="text-sm text-gray-600">{change}</p>
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
 function MinimalRecentUsers({ users }: { users: User[] }) {
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Recent Users</h3>
-        <MinimalButton 
-          variant="ghost" 
+        <Button 
+          variant="outline" 
           size="sm"
           onClick={() => window.location.href = '/admin/users'}
         >
           View All
-        </MinimalButton>
+        </Button>
       </div>
       <div className="space-y-3">
         {users.slice(0, 5).map((user) => (
@@ -68,22 +67,22 @@ function MinimalRecentUsers({ users }: { users: User[] }) {
           </div>
         ))}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
 function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold text-gray-900">Recent Sessions</h3>
-        <MinimalButton 
-          variant="ghost" 
+        <Button 
+          variant="outline" 
           size="sm"
           onClick={() => window.location.href = '/admin/sessions'}
         >
           View All
-        </MinimalButton>
+        </Button>
       </div>
       <div className="space-y-3">
         {sessions.slice(0, 5).map((session) => (
@@ -101,7 +100,7 @@ function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
           </div>
         ))}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -166,120 +165,118 @@ export default function MinimalAdminDashboard() {
 
   if (isLoading) {
     return (
-      <MinimalLayout centered>
+      <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading dashboard...</p>
         </div>
-      </MinimalLayout>
+      </div>
     );
   }
 
   return (
-    <MinimalLayout centered={false}>
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-            <p className="text-gray-600">Overview of platform activity and user management</p>
-          </div>
-          <div className="flex gap-2">
-            <MinimalButton 
-              variant="outline" 
-              size="md"
-              onClick={() => window.location.href = '/admin/create-user'}
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Create User
-            </MinimalButton>
-            <MinimalButton 
-              variant="primary" 
-              size="md"
-              onClick={() => window.location.href = '/admin/settings'}
-            >
-              Settings
-            </MinimalButton>
-          </div>
+    <div className="flex-1 space-y-8 p-4 sm:p-6 lg:p-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+          <p className="text-gray-600">Overview of platform activity and user management</p>
         </div>
-
-        {/* Stats Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <MinimalStatCard
-            title="Total Users"
-            value={stats.totalUsers.toString()}
-            change="All registered users"
-            icon={Users}
-          />
-          <MinimalStatCard
-            title="Active Users"
-            value={stats.activeUsers.toString()}
-            change="Active in last 7 days"
-            icon={UserCheck}
-          />
-          <MinimalStatCard
-            title="Total Sessions"
-            value={stats.totalSessions.toString()}
-            change="All completed sessions"
-            icon={Calendar}
-          />
-          <MinimalStatCard
-            title="Revenue"
-            value={`$${stats.totalRevenue.toLocaleString()}`}
-            change="Total platform revenue"
-            icon={DollarSign}
-          />
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="md"
+            onClick={() => window.location.href = '/admin/create-user'}
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Create User
+          </Button>
+          <Button 
+            variant="default" 
+            size="md"
+            onClick={() => window.location.href = '/admin/settings'}
+          >
+            Settings
+          </Button>
         </div>
-
-        {/* Recent Activity */}
-        <div className="grid gap-6 lg:grid-cols-2">
-          <MinimalRecentUsers users={stats.recentUsers} />
-          <MinimalRecentSessions sessions={stats.recentSessions} />
-        </div>
-
-        {/* Quick Actions */}
-        <MinimalCard variant="default" className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <MinimalButton 
-              variant="outline" 
-              size="md"
-              className="w-full"
-              onClick={() => window.location.href = '/admin/users'}
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Manage Users
-            </MinimalButton>
-            <MinimalButton 
-              variant="outline" 
-              size="md"
-              className="w-full"
-              onClick={() => window.location.href = '/admin/subscriptions'}
-            >
-              <Activity className="w-4 h-4 mr-2" />
-              Subscriptions
-            </MinimalButton>
-            <MinimalButton 
-              variant="outline" 
-              size="md"
-              className="w-full"
-              onClick={() => window.location.href = '/admin/payments'}
-            >
-              <DollarSign className="w-4 h-4 mr-2" />
-              Payments
-            </MinimalButton>
-            <MinimalButton 
-              variant="outline" 
-              size="md"
-              className="w-full"
-              onClick={() => window.location.href = '/admin/settings'}
-            >
-              <Shield className="w-4 h-4 mr-2" />
-              Security
-            </MinimalButton>
-          </div>
-        </MinimalCard>
       </div>
-    </MinimalLayout>
+
+      {/* Stats Grid */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <MinimalStatCard
+          title="Total Users"
+          value={stats.totalUsers.toString()}
+          change="All registered users"
+          icon={Users}
+        />
+        <MinimalStatCard
+          title="Active Users"
+          value={stats.activeUsers.toString()}
+          change="Active in last 7 days"
+          icon={UserCheck}
+        />
+        <MinimalStatCard
+          title="Total Sessions"
+          value={stats.totalSessions.toString()}
+          change="All completed sessions"
+          icon={Calendar}
+        />
+        <MinimalStatCard
+          title="Revenue"
+          value={`$${stats.totalRevenue.toLocaleString()}`}
+          change="Total platform revenue"
+          icon={DollarSign}
+        />
+      </div>
+
+      {/* Recent Activity */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        <MinimalRecentUsers users={stats.recentUsers} />
+        <MinimalRecentSessions sessions={stats.recentSessions} />
+      </div>
+
+      {/* Quick Actions */}
+      <Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <Button 
+            variant="outline" 
+            size="md"
+            className="w-full"
+            onClick={() => window.location.href = '/admin/users'}
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Manage Users
+          </Button>
+          <Button 
+            variant="outline" 
+            size="md"
+            className="w-full"
+            onClick={() => window.location.href = '/admin/subscriptions'}
+          >
+            <Activity className="w-4 h-4 mr-2" />
+            Subscriptions
+          </Button>
+          <Button 
+            variant="outline" 
+            size="md"
+            className="w-full"
+            onClick={() => window.location.href = '/admin/payments'}
+          >
+            <DollarSign className="w-4 h-4 mr-2" />
+            Payments
+          </Button>
+          <Button 
+            variant="outline" 
+            size="md"
+            className="w-full"
+            onClick={() => window.location.href = '/admin/settings'}
+          >
+            <Shield className="w-4 h-4 mr-2" />
+            Security
+          </Button>
+        </div>
+      </Card>
+    </div>
   );
 }

@@ -1,45 +1,61 @@
 'use client';
 
-import { Button, Card, CardContent, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { 
+  Button, 
+  Card, 
+  CardContent, 
+  Skeleton, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow,
+  Badge,
+  Divider,
+  Avatar,
+  AvatarFallback
+} from '@/components/keep';
 import React, { useEffect, useState, useCallback } from 'react';
-import { Loader2, RefreshCw, PlusCircle } from 'lucide-react';
+import { Loader2, RefreshCw, PlusCircle, DollarSign, Clock, CheckCircle } from 'lucide-react';
 
 import fxService from '@/lib/fx-service';
 import { useToast } from '@/hooks/use-toast';
-
-import { SettingsShell } from '@/components/eka/settings/settings-shell';
-import { SettingsHeader } from '@/components/eka/settings/settings-header';
-;
 ;
 ;
 ;
 
 function BillingSkeleton() {
   return (
-    <div className="space-y-2">
-      {[...Array(3)].map((_, i) => (
-        <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-4 w-1/4" />
-            <Skeleton className="h-3 w-1/2" />
+    <Card className="p-4">
+      <div className="space-y-4">
+        {[...Array(3)].map((_, i) => (
+          <div key={i} className="flex items-center justify-between p-4 border rounded-lg">
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-4 w-1/4" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+            <Skeleton className="h-8 w-24" />
           </div>
-          <Skeleton className="h-8 w-24" />
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </Card>
   );
 }
 
 function NoInvoicesEmptyState({ onCreate }: { onCreate: () => void }) {
     return (
-        <div className="text-center py-16 border-2 border-dashed rounded-lg">
-            <h3 className="mt-4 text-lg font-semibold">No Invoices Found</h3>
-            <p className="mt-1 text-sm text-muted-foreground">There are no invoices for this client yet.</p>
-            <Button onClick={onCreate} className="mt-4">
+        <Card className="text-center py-16 border-2 border-dashed">
+            <DollarSign className="mx-auto h-12 w-12 text-gray-400" />
+            <h5 className="text-lg font-semibold mt-4">No Invoices Found</h5>
+            <p className="text-sm text-gray-600 mt-1">
+                There are no invoices for this client yet.
+            </p>
+            <Button onClick={onCreate} className="mt-4" variant="default">
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Create First Invoice
             </Button>
-        </div>
+        </Card>
     );
 }
 
@@ -86,57 +102,84 @@ export default function TherapistBillingPage() {
   };
 
   return (
-    <SettingsShell>
-      <SettingsHeader
-        title="Client Billing"
-        description="Manage invoices and payments for your clients."
-      >
-        <div className="flex gap-2">
-          <Button onClick={loadInvoices} variant="outline" disabled={loading}>
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
-            Refresh
-          </Button>
-          <Button onClick={createInvoice}>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Create Test Invoice
-          </Button>
+    <Layout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <Typography variant="h3">Client Billing</Typography>
+            <Typography variant="body2" className="text-gray-600">
+              Manage invoices and payments for your clients.
+            </Typography>
+          </div>
+          <div className="flex gap-2">
+            <Button onClick={loadInvoices} variant="outline" disabled={loading}>
+              {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
+              Refresh
+            </Button>
+            <Button onClick={createInvoice} variant="default">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create Test Invoice
+            </Button>
+          </div>
         </div>
-      </SettingsHeader>
 
-      <Card>
-        <CardContent className="p-0">
-          {loading ? (
-            <BillingSkeleton />
-          ) : invoices.length === 0 ? (
-            <NoInvoicesEmptyState onCreate={createInvoice} />
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Invoice ID</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {invoices.map(i => (
-                  <TableRow key={i.id}>
-                    <TableCell className="font-mono text-xs">{i.id}</TableCell>
-                    <TableCell className="font-medium">€{i.amount.toFixed(2)}</TableCell>
-                    <TableCell>{i.description}</TableCell>
-                    <TableCell>{i.status || 'Paid'}</TableCell>
-                    <TableCell className="text-right">
-                        <Button variant="outline" size="sm">View</Button>
-                    </TableCell>
+        {/* Billing Table */}
+        <Card>
+          <CardContent className="p-0">
+            {loading ? (
+              <BillingSkeleton />
+            ) : invoices.length === 0 ? (
+              <NoInvoicesEmptyState onCreate={createInvoice} />
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>
+                      <Typography variant="body2" className="font-medium">Invoice ID</Typography>
+                    </TableHead>
+                    <TableHead>
+                      <Typography variant="body2" className="font-medium">Amount</Typography>
+                    </TableHead>
+                    <TableHead>
+                      <Typography variant="body2" className="font-medium">Description</Typography>
+                    </TableHead>
+                    <TableHead>
+                      <Typography variant="body2" className="font-medium">Status</Typography>
+                    </TableHead>
+                    <TableHead className="text-right">
+                      <Typography variant="body2" className="font-medium">Actions</Typography>
+                    </TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
-    </SettingsShell>
+                </TableHeader>
+                <TableBody>
+                  {invoices.map(i => (
+                    <TableRow key={i.id}>
+                      <TableCell>
+                        <Typography variant="body2" className="font-mono text-xs">{i.id}</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body1" className="font-medium">€{i.amount.toFixed(2)}</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Typography variant="body2">{i.description}</Typography>
+                      </TableCell>
+                      <TableCell>
+                        <Badge color={i.status === 'Paid' ? 'success' : 'warning'}>
+                          {i.status || 'Paid'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="outline" size="sm">View</Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </Layout>
   );
 }

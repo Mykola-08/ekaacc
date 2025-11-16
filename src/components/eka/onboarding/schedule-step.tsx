@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Button, Radio, Label } from '@/components/keep';
 
 interface ScheduleStepProps {
   onNext: (data: { preferredDays: string[]; preferredTime: string; sessionFrequency: string }) => void;
@@ -55,61 +54,69 @@ export function ScheduleStep({ onNext }: ScheduleStepProps) {
       </div>
 
       <div className="space-y-3">
-        <RadioGroup value={preferredTime} onValueChange={setPreferredTime}>
-          <div className="grid gap-3">
-            {timeOptions.map((option) => (
-              <label
-                key={option.value}
-                className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
-                  preferredTime === option.value
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-lg'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'
-                }`}
-              >
-                {option.popular && (
-                  <div className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                    Popular
-                  </div>
-                )}
-                <span className="text-3xl">{option.icon}</span>
-                <RadioGroupItem value={option.value} id={option.value} className="mt-0" />
-                <div className="flex-1">
-                  <div className="font-semibold">{option.label}</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">{option.desc}</div>
+        <div className="grid gap-3">
+          {timeOptions.map((option) => (
+            <Label
+              key={option.value}
+              className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+                preferredTime === option.value
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-lg'
+                  : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'
+              }`}
+            >
+              {option.popular && (
+                <div className="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                  Popular
                 </div>
-              </label>
-            ))}
-          </div>
-        </RadioGroup>
+              )}
+              <span className="text-3xl">{option.icon}</span>
+              <Radio
+                name="preferredTime"
+                value={option.value}
+                checked={preferredTime === option.value}
+                onChange={() => setPreferredTime(option.value)}
+                className="mt-0"
+              />
+              <div className="flex-1">
+                <div className="font-semibold">{option.label}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">{option.desc}</div>
+              </div>
+            </Label>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-3">
-        <RadioGroup value={sessionFrequency} onValueChange={setSessionFrequency}>
-          <div className="grid gap-3">
-            {frequencyOptions.map((option) => (
-              <label
-                key={option.value}
-                className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
-                  sessionFrequency === option.value
-                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950 shadow-lg'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300'
-                }`}
-              >
-                {option.recommended && (
-                  <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                    ✓ Recommended
-                  </div>
-                )}
-                <span className="text-3xl">{option.icon}</span>
-                <RadioGroupItem value={option.value} id={option.value} className="mt-0" />
-                <div className="flex-1">
-                  <div className="font-semibold">{option.label}</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">{option.desc}</div>
+        <div className="grid gap-3">
+          {frequencyOptions.map((option) => (
+            <Label
+              key={option.value}
+              className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+                sessionFrequency === option.value
+                  ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950 shadow-lg'
+                  : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300'
+              }`}
+            >
+              {option.recommended && (
+                <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                  ✓ Recommended
                 </div>
-              </label>
-            ))}
-          </div>
-        </RadioGroup>
+              )}
+              <span className="text-3xl">{option.icon}</span>
+              <Radio
+                name="sessionFrequency"
+                value={option.value}
+                checked={sessionFrequency === option.value}
+                onChange={() => setSessionFrequency(option.value)}
+                className="mt-0"
+              />
+              <div className="flex-1">
+                <div className="font-semibold">{option.label}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">{option.desc}</div>
+              </div>
+            </Label>
+          ))}
+        </div>
       </div>
       <Button onClick={() => onNext({ preferredDays, preferredTime, sessionFrequency })} disabled={!preferredTime || !sessionFrequency} className="w-full">
         Continue

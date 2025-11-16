@@ -19,7 +19,7 @@ import { User as UserIcon, Heart, Brain, Calendar, TrendingUp, Sparkles, ArrowRi
 import type { Session, Report, User } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { simpleAI } from '@/ai/simple-ai-service';
+import { generateWellnessInsights } from '@/ai/ai-service';
 import { cn } from '@/lib/utils';
 
 // Enhanced calming color palette for mental health
@@ -45,17 +45,22 @@ function WellnessInsights({ userData }: { userData: User }) {
           goals: userData.goal?.description || 'Wellness journey'
         };
 
-        const aiResponse = await simpleAI.generateResponse({
-          input: `Generate 3 personalized wellness insights for a patient who has completed ${context.sessionsCompleted} sessions with mood ${context.mood} and goal: ${context.goals}`,
-          context
+        const insights = await generateWellnessInsights({
+          userData: {
+            sessionsCompleted: context.sessionsCompleted,
+            mood: context.mood,
+            goals: context.goals,
+            name: userData.name || undefined,
+          },
+          context: 'patient-dashboard'
         });
 
         // Parse the response into structured insights
-        const insightsList = aiResponse.output.split('\n').filter(line => line.trim()).map((line, index) => ({
+        const insightsList = insights.map((text, index) => ({
           id: index,
-          text: line.replace(/^\d+\.\s*/, '').trim(),
+          text: text,
           type: index % 2 === 0 ? 'positive' : 'suggestion',
-          confidence: aiResponse.confidence
+          confidence: 0.85
         }));
 
         setInsights(insightsList);

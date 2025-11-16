@@ -5,7 +5,7 @@
  * Simple implementation without external AI dependencies.
  */
 
-import { generateMonthlyReportSummary } from '@/ai/ai-help-service';
+import { generateAIResponse } from '@/ai/ai-service';
 
 export interface GenerateMonthlyReportInput {
   userId: string;
@@ -30,8 +30,21 @@ export async function generateMonthlyReport(input: GenerateMonthlyReportInput): 
   try {
     const { userId, startDate, endDate, healthHistory, reports, messages } = input;
     
-    // Generate a supportive summary using our simple AI service
-    const aiSummary = await generateMonthlyReportSummary(userId, new Date(startDate).getMonth(), new Date(startDate).getFullYear());
+    // Generate a supportive summary using our unified AI service
+    const aiSummaryResponse = await generateAIResponse({
+      input: `Generate a supportive monthly summary for a therapy patient (ID: ${userId}) for ${new Date(startDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}. Focus on encouragement and progress acknowledgment.`,
+      context: {
+        userId,
+        month: new Date(startDate).getMonth(),
+        year: new Date(startDate).getFullYear(),
+        reportType: 'monthly-summary'
+      },
+      model: 'openai',
+      maxTokens: 300,
+      temperature: 0.7,
+    });
+    
+    const aiSummary = aiSummaryResponse.output;
     
     // Create a comprehensive report based on the input data
     const report = generateDetailedReport(input, aiSummary);

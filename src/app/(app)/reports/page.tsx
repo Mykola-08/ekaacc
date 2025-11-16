@@ -1,9 +1,6 @@
 "use client";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton } from '@/components/keep';
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
 import type { Timestamp } from 'firebase/firestore';
@@ -72,12 +69,12 @@ function ReportListItem({ report }: { report: Report }) {
             <div className="flex-1 overflow-hidden">
                 <div className="flex justify-between items-center">
                     <p className="font-semibold truncate">{report.title}</p>
-                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'outline'} className="ml-2 shrink-0">{report.type}</Badge>
+                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'softBg'} className="ml-2 shrink-0">{report.type}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                 <p className="text-sm mt-1 break-words">{report.summary}</p>
             </div>
-            <Button variant="ghost" size="icon" className="shrink-0 self-center">
+            <Button variant="outline" size="icon" className="shrink-0 self-center">
                 <ArrowUp className="h-4 w-4 transform -rotate-45" />
             </Button>
         </li>

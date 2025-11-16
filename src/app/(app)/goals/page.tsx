@@ -3,16 +3,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import { Button } from '@/components/ui/button';
+import { Button, Card, CardContent, CardHeader, CardTitle, CardFooter, Skeleton, Input, Textarea, Label } from '@/components/keep';
 import { Plus, Trash } from 'lucide-react';
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
 import type { Goal } from '@/lib/types';
 
 export default function GoalsPage() {

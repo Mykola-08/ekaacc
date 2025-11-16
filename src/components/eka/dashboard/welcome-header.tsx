@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/lib/supabase-auth';
 import { TextEffect } from '@/components/motion-primitives';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/components/keep';
 import { Bell, Settings } from 'lucide-react';
 import Link from 'next/link';
 
@@ -29,7 +29,7 @@ export function WelcomeHeader() {
       </div>
       <div className="flex items-center gap-3">
         <Button 
-          variant="ghost" 
+          variant="outline" 
           size="icon"
           className="rounded-xl"
         >
@@ -37,7 +37,7 @@ export function WelcomeHeader() {
         </Button>
         <Link href="/settings">
           <Button 
-            variant="ghost" 
+            variant="outline" 
             size="icon"
             className="rounded-xl"
           >

@@ -19,9 +19,7 @@ import {
   Sun,
   Moon
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from '@/components/keep';
 import { cn } from '@/lib/utils';
 
 // Accessibility Context
@@ -288,7 +286,7 @@ export function AccessibilityToolbar() {
                       Accessibility Options
                     </CardTitle>
                     <Button
-                      variant="ghost"
+                      variant="outline"
                       size="sm"
                       onClick={() => setIsOpen(false)}
                       aria-label="Close accessibility menu"

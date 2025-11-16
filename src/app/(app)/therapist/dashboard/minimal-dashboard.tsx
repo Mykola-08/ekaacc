@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   Calendar,
@@ -16,9 +16,13 @@ import {
 
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import { MinimalCard } from '@/components/ui/minimal-card';
-import { MinimalButton } from '@/components/ui/minimal-button';
-import { MinimalLayout } from '@/components/layout/minimal-layout';
+import {
+  Card,
+  Button,
+  Badge,
+  Avatar,
+  Divider
+} from '@/components/keep';
 import { format } from "date-fns";
 import type { User, Session as AppSession } from "@/lib/types";
 import fxService from '@/lib/fx-service';
@@ -35,16 +39,18 @@ function MinimalStatCard({
   icon: React.ElementType 
 }) {
   return (
-    <MinimalCard variant="default" className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-gray-600">{title}</h3>
-        <Icon className="h-5 w-5 text-gray-600" />
+    <Card className="p-6 h-full">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600">{title}</p>
+          <p className="text-2xl font-bold text-gray-900">{value}</p>
+          <p className="text-xs text-gray-500 mt-1">{change}</p>
+        </div>
+        <div className="p-3 bg-blue-50 rounded-lg">
+          <Icon className="w-6 h-6 text-blue-600" />
+        </div>
       </div>
-      <div className="space-y-2">
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
-        <p className="text-sm text-gray-600">{change}</p>
-      </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -56,35 +62,34 @@ function MinimalUpcomingSessions({ sessions }: { sessions: AppSession[] }) {
 
   if (upcomingSessions.length === 0) {
     return (
-      <MinimalCard variant="default" className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Upcoming Sessions</h3>
+      <Card className="p-6">
+        <h5 className="text-lg font-semibold mb-4">Upcoming Sessions</h5>
         <div className="text-center py-8">
           <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-600">No upcoming sessions scheduled</p>
-          <MinimalButton 
+          <p className="text-sm text-gray-600 mb-4">No upcoming sessions scheduled</p>
+          <Button 
             variant="outline" 
             size="sm"
-            className="mt-4"
             onClick={() => window.location.href = '/sessions/booking'}
           >
             Book Session
-          </MinimalButton>
+          </Button>
         </div>
-      </MinimalCard>
+      </Card>
     );
   }
 
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Upcoming Sessions</h3>
-        <MinimalButton 
-          variant="ghost" 
+        <h5 className="text-lg font-semibold">Upcoming Sessions</h5>
+        <Button 
+          variant="outline" 
           size="sm"
           onClick={() => window.location.href = '/sessions'}
         >
           View All
-        </MinimalButton>
+        </Button>
       </div>
       <div className="space-y-3">
         {upcomingSessions.map((session) => {
@@ -93,57 +98,68 @@ function MinimalUpcomingSessions({ sessions }: { sessions: AppSession[] }) {
           const formattedTime = format(sessionDate, "h:mm a");
 
           return (
-            <div key={session.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <div>
-                <p className="font-medium text-gray-900">{session.therapist}</p>
-                <p className="text-sm text-gray-600">{session.type}</p>
+            <Card key={session.id} className="p-3 bg-gray-50">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-sm">{session.therapist}</p>
+                  <p className="text-sm text-gray-600">{session.type}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-sm font-medium">{formattedTime}</p>
+                  <p className="text-sm text-gray-600">{formattedDate}</p>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-sm font-medium text-gray-900">{formattedTime}</p>
-                <p className="text-sm text-gray-600">{formattedDate}</p>
-              </div>
-            </div>
+            </Card>
           );
         })}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
 function MinimalRecentClients({ clients }: { clients: User[] }) {
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Recent Clients</h3>
-        <MinimalButton 
-          variant="ghost" 
+        <h5 className="text-lg font-semibold">Recent Clients</h5>
+        <Button 
+          variant="outline" 
           size="sm"
           onClick={() => window.location.href = '/therapists'}
         >
           View All
-        </MinimalButton>
+        </Button>
       </div>
       <div className="space-y-3">
         {clients.slice(0, 5).map((client) => (
-          <div key={client.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <div>
-              <p className="font-medium text-gray-900">{client.name || client.email}</p>
-              <p className="text-sm text-gray-600">{client.personalization?.mood || 'No mood data'}</p>
-            </div>
-            <div className="text-right">
-              <MinimalButton 
+          <Card key={client.id} className="p-3 bg-gray-50">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Avatar 
+                  src={client.avatar_url} 
+                  alt={client.name || client.email}
+                  size="sm"
+                />
+                <div>
+                  <p className="font-medium text-sm">{client.name || client.email}</p>
+                  <p className="text-sm text-gray-600">
+                    {client.personalization?.mood || 'No mood data'}
+                  </p>
+                </div>
+              </div>
+              <Button 
                 variant="outline" 
                 size="sm"
                 onClick={() => window.location.href = `/messages?user=${client.id}`}
               >
                 <MessageSquare className="w-4 h-4 mr-1" />
                 Message
-              </MinimalButton>
+              </Button>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -210,41 +226,44 @@ export default function MinimalTherapistDashboard() {
 
   if (authLoading || isLoading) {
     return (
-      <MinimalLayout centered>
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
           <p className="text-gray-600">Loading your dashboard...</p>
         </div>
-      </MinimalLayout>
+      </div>
     );
   }
 
   return (
-    <MinimalLayout centered={false}>
-      <div className="space-y-8">
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Therapist Dashboard</h1>
-            <p className="text-gray-600">Welcome back, {currentUser?.name || currentUser?.email}</p>
+            <h3 className="text-2xl font-bold mb-2">Therapist Dashboard</h3>
+            <p className="text-gray-600">
+              Welcome back, {currentUser?.name || currentUser?.email}
+            </p>
           </div>
           <div className="flex gap-2">
-            <MinimalButton 
+            <Button 
               variant="outline" 
               size="md"
               onClick={() => window.location.href = '/sessions/booking'}
             >
               <Calendar className="w-4 h-4 mr-2" />
               Book Session
-            </MinimalButton>
-            <MinimalButton 
-              variant="primary" 
+            </Button>
+            <Button 
+              variant="default" 
               size="md"
               onClick={() => window.location.href = '/therapist/templates'}
             >
               <FileText className="w-4 h-4 mr-2" />
               Templates
-            </MinimalButton>
+            </Button>
           </div>
         </div>
 
@@ -277,10 +296,10 @@ export default function MinimalTherapistDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <MinimalCard variant="default" className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+        <Card className="p-6">
+          <h5 className="text-lg font-semibold mb-4">Quick Actions</h5>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <MinimalButton 
+            <Button 
               variant="outline" 
               size="md"
               className="w-full"
@@ -288,8 +307,8 @@ export default function MinimalTherapistDashboard() {
             >
               <Calendar className="w-4 h-4 mr-2" />
               View Sessions
-            </MinimalButton>
-            <MinimalButton 
+            </Button>
+            <Button 
               variant="outline" 
               size="md"
               className="w-full"
@@ -297,8 +316,8 @@ export default function MinimalTherapistDashboard() {
             >
               <Users className="w-4 h-4 mr-2" />
               My Clients
-            </MinimalButton>
-            <MinimalButton 
+            </Button>
+            <Button 
               variant="outline" 
               size="md"
               className="w-full"
@@ -306,8 +325,8 @@ export default function MinimalTherapistDashboard() {
             >
               <TrendingUp className="w-4 h-4 mr-2" />
               Reports
-            </MinimalButton>
-            <MinimalButton 
+            </Button>
+            <Button 
               variant="outline" 
               size="md"
               className="w-full"
@@ -315,10 +334,11 @@ export default function MinimalTherapistDashboard() {
             >
               <MessageSquare className="w-4 h-4 mr-2" />
               Messages
-            </MinimalButton>
+            </Button>
           </div>
-        </MinimalCard>
+        </Card>
+        </div>
       </div>
-    </MinimalLayout>
+    </div>
   );
 }

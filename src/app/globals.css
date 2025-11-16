@@ -5,7 +5,7 @@
 /* Production-Ready Visual Design System */
 @layer base {
   :root {
-    /* Premium Color Palette - Modern & Sophisticated */
+    /* Motion Primitives Pro Inspired Color Palette */
     --background: 0 0% 99%; /* Almost pure white - premium feel */
     --foreground: 220 15% 15%; /* Deep charcoal for excellent contrast */
     
@@ -21,7 +21,7 @@
     --border: 220 13% 92%; /* Elegant light gray borders */
     --input: 220 13% 96%;
 
-    /* Premium Primary Colors - Modern Blue */
+    /* Motion Primitives Pro Primary Colors - Modern Gradient Ready */
     --primary: 221 83% 53%; /* Vibrant but professional blue */
     --primary-foreground: 0 0% 100%;
 
@@ -39,6 +39,13 @@
     --warning: 38 92% 50%; /* Warm amber */
     --info: 199 89% 48%; /* Calming blue */
 
+    /* Motion Primitives Pro Glow Colors */
+    --glow-pink: 347 100% 65%; /* #ff6b6b */
+    --glow-yellow: 43 99% 66%; /* #feca57 */
+    --glow-blue: 195 96% 65%; /* #48dbfb */
+    --glow-purple: 267 76% 64%; /* #a55eea */
+    --glow-green: 153 76% 52%; /* #26de81 */
+
     --ring: 221 83% 53%;
     --radius: 0.75rem; /* Sophisticated rounded corners */
 
@@ -53,9 +60,24 @@
     --header-h: 4rem;
     --content-max-width: 80rem;
 
-    /* Premium Typography System */
-    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    --font-heading: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    /* Unified Border Radius System - 8px standard */
+    --radius-sm: 0.5rem;   /* 8px */
+    --radius-md: 0.75rem;  /* 12px */
+    --radius-lg: 1rem;     /* 16px */
+    --radius-xl: 1.5rem;   /* 24px */
+    --radius-2xl: 2rem;    /* 32px */
+    --radius-full: 9999px;
+
+    /* Square Hole Design System */
+    --square-hole-radius: 0.5rem;  /* 8px for interactive elements */
+    --square-hole-bg: hsl(var(--background));
+    --square-hole-border: hsl(var(--border));
+    --square-hole-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    /* Motion Primitives Pro Typography System */
+    --font-sans: 'Inter', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-heading: 'Inter', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-display: 'Inter', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
     
     /* Modern Typography Scale */
     --text-xs: 0.75rem;   /* 12px */
@@ -84,11 +106,13 @@
     --space-24: 6rem;     /* 96px */
     --space-32: 8rem;     /* 128px */
 
-    /* Premium Animation System */
+    /* Motion Primitives Pro Animation System */
     --animation-duration: 200ms;
     --animation-duration-slow: 400ms;
+    --animation-duration-slower: 600ms;
     --animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
     --animation-easing-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --animation-easing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
     
     /* Premium Shadow System - Sophisticated Depth */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(0 0 0 / 0.1);
@@ -104,6 +128,14 @@
     /* Focus Ring */
     --focus-ring-width: 3px;
     --focus-ring-offset: 2px;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -136,6 +168,22 @@
     --destructive-foreground: 0 0% 98%;
 
     --ring: 217 91% 60%;
+
+    --sidebar-background: 240 5.9% 10%;
+
+    --sidebar-foreground: 240 4.8% 95.9%;
+
+    --sidebar-primary: 224.3 76.3% 48%;
+
+    --sidebar-primary-foreground: 0 0% 100%;
+
+    --sidebar-accent: 240 3.7% 15.9%;
+
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+
+    --sidebar-border: 240 3.7% 15.9%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -382,32 +430,78 @@
     @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2;
   }
 
-  /* Premium Button Classes */
-  .premium-button-primary {
-    @apply inline-flex items-center justify-center rounded-xl bg-gray-900 text-white font-semibold px-6 py-3 transition-all duration-300 hover:bg-gray-800 hover:shadow-lg hover:shadow-gray-900/25 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5;
+  /* Motion Primitives Pro Glow Effects */
+  .glow-pink {
+    box-shadow: 0 0 20px hsl(var(--glow-pink) / 0.3), 0 0 40px hsl(var(--glow-pink) / 0.2);
   }
   
-  .premium-button-outline {
-    @apply inline-flex items-center justify-center rounded-xl border-2 border-gray-300 bg-white text-gray-700 font-medium px-4 py-2 transition-all duration-300 hover:border-gray-400 hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  .glow-yellow {
+    box-shadow: 0 0 20px hsl(var(--glow-yellow) / 0.3), 0 0 40px hsl(var(--glow-yellow) / 0.2);
   }
   
-  .premium-card {
-    @apply bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-gray-300;
+  .glow-blue {
+    box-shadow: 0 0 20px hsl(var(--glow-blue) / 0.3), 0 0 40px hsl(var(--glow-blue) / 0.2);
   }
   
-  .premium-dropdown {
-    @apply bg-white rounded-xl border border-gray-200 shadow-lg p-2 min-w-[180px];
+  .glow-purple {
+    box-shadow: 0 0 20px hsl(var(--glow-purple) / 0.3), 0 0 40px hsl(var(--glow-purple) / 0.2);
   }
   
-  .premium-dropdown-item {
-    @apply flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  .glow-green {
+    box-shadow: 0 0 20px hsl(var(--glow-green) / 0.3), 0 0 40px hsl(var(--glow-green) / 0.2);
   }
   
-  .premium-input {
-    @apply rounded-xl border-gray-200 focus:border-gray-400 focus:ring-gray-400 focus:ring-2 transition-all duration-200;
+  /* Motion Primitives Pro Gradient Backgrounds */
+  .gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   }
   
-  .premium-select {
-    @apply rounded-xl border-gray-200 focus:border-gray-400 focus:ring-gray-400 focus:ring-2 transition-all duration-200;
+  .gradient-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  }
+  
+  .gradient-accent {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  }
+  
+  .gradient-glow {
+    background: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+  }
+  
+  /* Motion Primitives Pro Premium Button Classes */
+  .motion-button-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold px-6 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform;
+  }
+  
+  .motion-button-gradient {
+    @apply inline-flex items-center justify-center rounded-xl gradient-primary text-white font-semibold px-6 py-3 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/25 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform;
+  }
+  
+  .motion-button-glow {
+    @apply inline-flex items-center justify-center rounded-xl bg-gray-900 text-white font-semibold px-6 py-3 transition-all duration-300 hover:glow-pink focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5;
+  }
+  
+  .motion-card {
+    @apply bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-xl hover:border-gray-300 hover:scale-105;
+  }
+  
+  .motion-card-glow {
+    @apply bg-white rounded-2xl border border-gray-200 shadow-sm transition-all duration-300 hover:glow-blue hover:shadow-2xl;
+  }
+  
+  .motion-dropdown {
+    @apply bg-white rounded-xl border border-gray-200 shadow-2xl p-2 min-w-[180px] backdrop-blur-sm;
+  }
+  
+  .motion-dropdown-item {
+    @apply flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .motion-input {
+    @apply rounded-xl border-gray-200 focus:border-blue-400 focus:ring-blue-400 focus:ring-2 transition-all duration-200 hover:shadow-sm;
+  }
+  
+  .motion-select {
+    @apply rounded-xl border-gray-200 focus:border-blue-400 focus:ring-blue-400 focus:ring-2 transition-all duration-200 hover:shadow-sm;
   }
 }

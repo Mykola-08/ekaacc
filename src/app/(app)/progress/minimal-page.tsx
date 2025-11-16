@@ -5,9 +5,8 @@ import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { format } from 'date-fns';
 import type { Report } from '@/lib/types';
-import { MinimalCard } from '@/components/ui/minimal-card';
-import { MinimalButton } from '@/components/ui/minimal-button';
-import { MinimalLayout } from '@/components/layout/minimal-layout';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, HeartPulse, Award, Activity, Target } from 'lucide-react';
 
 function MinimalStatCard({ 
@@ -30,7 +29,7 @@ function MinimalStatCard({
   }[trend || 'neutral'];
 
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-gray-600">{title}</h3>
         {icon}
@@ -45,13 +44,13 @@ function MinimalStatCard({
           </div>
         )}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
 function ProgressPageSkeleton() {
   return (
-    <MinimalLayout centered>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
       <div className="space-y-8">
         <div className="text-center">
           <div className="h-8 bg-gray-200 rounded w-48 mx-auto mb-2"></div>
@@ -59,27 +58,27 @@ function ProgressPageSkeleton() {
         </div>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
-            <MinimalCard key={i} variant="default" className="p-6">
+            <Card key={i} className="p-6">
               <div className="space-y-2">
                 <div className="h-4 bg-gray-200 rounded w-24"></div>
                 <div className="h-8 bg-gray-200 rounded w-16"></div>
                 <div className="h-3 bg-gray-200 rounded w-32"></div>
               </div>
-            </MinimalCard>
+            </Card>
           ))}
         </div>
-        <MinimalCard variant="default" className="p-6">
+        <Card className="p-6">
           <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
           <div className="h-64 bg-gray-200 rounded"></div>
-        </MinimalCard>
+        </Card>
       </div>
-    </MinimalLayout>
+    </div>
   );
 }
 
 function MinimalProgressChart({ data }: { data: any[] }) {
   return (
-    <MinimalCard variant="default" className="p-6">
+    <Card className="p-6">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Progress Over Time</h3>
       <div className="space-y-4">
         {data.map((point, index) => (
@@ -100,7 +99,7 @@ function MinimalProgressChart({ data }: { data: any[] }) {
           </div>
         ))}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -169,7 +168,7 @@ export default function MinimalProgressPage() {
   }
 
   return (
-    <MinimalLayout centered={false}>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="space-y-8">
         {/* Header */}
         <div className="text-center">
@@ -211,7 +210,7 @@ export default function MinimalProgressPage() {
 
         {/* Empty State */}
         {progressData.length === 0 && (
-          <MinimalCard variant="default" className="p-12 text-center">
+          <Card className="p-12 text-center">
             <div className="max-w-md mx-auto">
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target className="w-8 h-8 text-gray-400" />
@@ -220,35 +219,35 @@ export default function MinimalProgressPage() {
               <p className="text-gray-600 mb-6">
                 Start your wellness journey by completing sessions. Your progress will appear here as you continue.
               </p>
-              <MinimalButton 
-                variant="primary" 
+              <Button 
+                variant="default" 
                 size="md"
                 onClick={() => window.location.href = '/sessions/booking'}
               >
                 Book Your First Session
-              </MinimalButton>
+              </Button>
             </div>
-          </MinimalCard>
+          </Card>
         )}
 
         {/* Action Buttons */}
         <div className="flex flex-wrap gap-4 justify-center">
-          <MinimalButton 
+          <Button 
             variant="outline" 
             size="md"
             onClick={() => window.location.href = '/progress-reports'}
           >
             View Detailed Reports
-          </MinimalButton>
-          <MinimalButton 
+          </Button>
+          <Button 
             variant="outline" 
             size="md"
             onClick={() => window.location.href = '/goals'}
           >
             Manage Goals
-          </MinimalButton>
+          </Button>
         </div>
       </div>
-    </MinimalLayout>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
-import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Skeleton } from '@/components/keep';
 import { useState, useEffect, useCallback } from 'react';
 ;
 ;

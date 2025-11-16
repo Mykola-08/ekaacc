@@ -1,47 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogDescription, 
-  DialogHeader, 
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter
-} from '@/components/ui/dialog';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
-import { 
-  Form, 
-  FormControl, 
-  FormDescription, 
-  FormField, 
-  FormItem, 
-  FormLabel, 
-  FormMessage 
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge, Alert, AlertDescription, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Modal, ModalContent, ModalDescription, ModalHeader, ModalTitle, ModalFooter, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input, Textarea, Checkbox, Label } from '@/components/keep';
 import { RoleBadge } from '@/components/role-guard';
 import { useAuth } from '@/context/auth-context';
 import { supabase } from '@/lib/supabase';
@@ -104,7 +64,7 @@ export function RoleManagementPanel() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRole, setSelectedRole] = useState<string>('all');
-  const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
+  const [isAssignModalOpen, setIsAssignModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserWithRole | null>(null);
 
   const form = useForm<RoleAssignmentFormData>({
@@ -242,7 +202,7 @@ export function RoleManagementPanel() {
         description: 'Role assigned successfully'
       });
 
-      setIsAssignDialogOpen(false);
+      setIsAssignModalOpen(false);
       setSelectedUser(null);
       form.reset();
       
@@ -311,7 +271,7 @@ export function RoleManagementPanel() {
           </p>
         </div>
         {hasPermission('user_management', 'create') && (
-          <Button onClick={() => setIsAssignDialogOpen(true)}>
+          <Button onClick={() => setIsAssignModalOpen(true)}>
             <UserPlus className="mr-2 h-4 w-4" />
             Assign Role
           </Button>
@@ -423,11 +383,11 @@ export function RoleManagementPanel() {
                         <div className="flex gap-2">
                           {hasPermission('user_management', 'update') && (
                             <Button
-                              variant="ghost"
+                              variant="outline"
                               size="sm"
                               onClick={() => {
                                 setSelectedUser(user);
-                                setIsAssignDialogOpen(true);
+                                setIsAssignModalOpen(true);
                               }}
                             >
                               <Edit className="h-4 w-4" />
@@ -435,7 +395,7 @@ export function RoleManagementPanel() {
                           )}
                           {hasPermission('user_management', 'update') && (
                             <Button
-                              variant="ghost"
+                              variant="outline"
                               size="sm"
                               onClick={() => handleDeactivateUser(user.id, user.isActive)}
                             >
@@ -496,15 +456,15 @@ export function RoleManagementPanel() {
         </CardContent>
       </Card>
 
-      {/* Role Assignment Dialog */}
-      <Dialog open={isAssignDialogOpen} onOpenChange={setIsAssignDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Assign Role</DialogTitle>
-            <DialogDescription>
+      {/* Role Assignment Modal */}
+      <Modal open={isAssignModalOpen} onOpenChange={setIsAssignModalOpen}>
+        <ModalContent className="max-w-md">
+          <ModalHeader>
+            <ModalTitle>Assign Role</ModalTitle>
+            <ModalDescription>
               Assign a role to {selectedUser?.name || 'selected user'}
-            </DialogDescription>
-          </DialogHeader>
+            </ModalDescription>
+          </ModalHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleRoleAssignment)} className="space-y-4">
               <FormField
@@ -606,16 +566,16 @@ export function RoleManagementPanel() {
                 )}
               />
 
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsAssignDialogOpen(false)}>
+              <ModalFooter>
+                <Button type="button" variant="outline" onClick={() => setIsAssignModalOpen(false)}>
                   Cancel
                 </Button>
                 <Button type="submit">Assign Role</Button>
-              </DialogFooter>
+              </ModalFooter>
             </form>
           </Form>
-        </DialogContent>
-      </Dialog>
+        </ModalContent>
+      </Modal>
     </div>
   );
 }

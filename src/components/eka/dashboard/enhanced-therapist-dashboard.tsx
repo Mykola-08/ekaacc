@@ -31,15 +31,9 @@ import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { SettingsShell } from "@/components/eka/settings/settings-shell";
 import { SettingsHeader } from "@/components/eka/settings/settings-header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Badge, Button, Avatar, AvatarFallback, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsList, TabsItem } from '@/components/keep';
 import { cn } from '@/lib/utils';
-import { simpleAI } from '@/ai/simple-ai-service';
+import { generateTherapyRecommendations } from '@/ai/ai-service';
 import type { User, Session as AppSession, UserRole } from "@/lib/types";
 
 import fxService from '@/lib/fx-service';
@@ -72,16 +66,16 @@ function SessionInsights({ sessions }: { sessions: AppSession[] }) {
           }).length
         };
 
-        const aiResponse = await simpleAI.generateResponse({
-          input: `Generate 3 actionable insights for a therapist with ${sessionContext.totalSessions} total sessions, ${sessionContext.upcomingSessions} upcoming, and ${sessionContext.completedThisWeek} completed this week.`,
-          context: sessionContext
-        });
+        const recommendations = await generateTherapyRecommendations(
+          `Generate actionable insights for therapist practice management with ${sessionContext.totalSessions} total sessions, ${sessionContext.upcomingSessions} upcoming, and ${sessionContext.completedThisWeek} completed this week.`,
+          JSON.stringify(sessionContext)
+        );
 
-        const insightsList = aiResponse.output.split('\n').filter(line => line.trim()).map((line, index) => ({
+        const insightsList = recommendations.map((rec, index) => ({
           id: index,
-          text: line.replace(/^\d+\.\s*/, '').trim(),
+          text: rec.description,
           type: index === 0 ? 'priority' : index === 1 ? 'opportunity' : 'trend',
-          confidence: aiResponse.confidence
+          confidence: rec.confidence
         }));
 
         setInsights(insightsList);

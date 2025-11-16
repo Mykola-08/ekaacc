@@ -2,7 +2,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Switch } from '@/components/ui/switch';
+import { Switch } from '@/components/keep';
 import { ReactNode } from 'react';
 
 interface NotificationSwitchProps {

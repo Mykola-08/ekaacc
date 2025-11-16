@@ -1,10 +1,31 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Textarea } from '@/components/keep';
-import { SelectTrigger } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { 
+  Badge, 
+  Button, 
+  Card, 
+  CardContent, 
+  CardDescription, 
+  CardHeader, 
+  CardTitle, 
+  Divider, 
+  Input, 
+  Label, 
+  Modal, 
+  ModalContent, 
+  ModalDescription, 
+  ModalFooter, 
+  ModalHeader, 
+  ModalTitle, 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectValue,
+  Skeleton, 
+  Textarea,
+  ScrollArea
+} from '@/components/keep';
 import React, { useEffect, useState, useMemo } from 'react';
-;
 ;
 ;
 ;
@@ -31,8 +52,6 @@ import { format } from 'date-fns';
 import { motion } from 'framer-motion';
 import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES } from '@/lib/template-types';
 import type { User as UserType, Session } from '@/lib/types';
-;
-;
 import { cn } from '@/lib/utils';
 
 export default function TherapistTemplatesPage() {
@@ -192,148 +211,164 @@ export default function TherapistTemplatesPage() {
 
   if (isLoading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <Skeleton className="h-8 w-64" />
-            <Skeleton className="h-4 w-80 mt-2" />
-          </div>
-          <Skeleton className="h-10 w-48" />
-        </div>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex gap-4">
-              <Skeleton className="h-10 flex-1" />
-              <Skeleton className="h-10 w-48" />
+      <div className="min-h-screen bg-gray-50">
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <Skeleton className="h-8 w-64" />
+              <Skeleton className="h-4 w-80 mt-2" />
             </div>
-          </CardContent>
-        </Card>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {[...Array(6)].map((_, i) => (
-            <Card key={i}>
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <Skeleton className="h-8 w-8" />
-                  <Skeleton className="h-6 w-24" />
-                </div>
-                <Skeleton className="h-6 w-3/4 mt-2" />
-                <Skeleton className="h-4 w-full mt-1" />
-                <Skeleton className="h-4 w-2/3 mt-1" />
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 mb-4">
-                  <Skeleton className="h-4 w-1/2" />
-                  <Skeleton className="h-4 w-1/2" />
-                </div>
-                <Skeleton className="h-10 w-full" />
-              </CardContent>
-            </Card>
-          ))}
+            <Skeleton className="h-10 w-48" />
+          </div>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex gap-4">
+                <Skeleton className="h-10 flex-1" />
+                <Skeleton className="h-10 w-48" />
+              </div>
+            </CardContent>
+          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i}>
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <Skeleton className="h-8 w-8" />
+                    <Skeleton className="h-6 w-24" />
+                  </div>
+                  <Skeleton className="h-6 w-3/4 mt-2" />
+                  <Skeleton className="h-4 w-full mt-1" />
+                  <Skeleton className="h-4 w-2/3 mt-1" />
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2 mb-4">
+                    <Skeleton className="h-4 w-1/2" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </div>
+                  <Skeleton className="h-10 w-full" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="p-6 space-y-6"
-    >
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
+    <div className="min-h-screen bg-gray-50">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
+        className="space-y-6"
       >
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight">Report Templates</h1>
-            <p className="text-muted-foreground mt-1">
-              Professional templates with smart autofill from client data
-            </p>
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }}
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-2xl font-bold">Report Templates</h3>
+              <p className="text-gray-600 mt-1">
+                Professional templates with smart autofill from client data
+              </p>
+            </div>
+            <Button variant="default" className="gap-2">
+              <Plus className="w-4 h-4" />
+              Create Custom Template
+            </Button>
           </div>
-          <Button className="gap-2">
-            <Plus className="w-4 h-4" />
-            Create Custom Template
-          </Button>
+        </motion.div>
+
+        {/* Search and Filter */}
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex gap-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Input
+                  placeholder="Search templates..."
+                  className="pl-9"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-48">
+                  <Filter className="w-4 h-4 mr-2" />
+                  <SelectValue placeholder="All Categories" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Categories</SelectItem>
+                  <SelectItem value="assessment">Assessment</SelectItem>
+                  <SelectItem value="progress">Progress Notes</SelectItem>
+                  <SelectItem value="treatment-plan">Treatment Plans</SelectItem>
+                  <SelectItem value="session-notes">Session Notes</SelectItem>
+                  <SelectItem value="discharge">Discharge</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Templates Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredTemplates.map((template, index) => (
+            <motion.div
+              key={template.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, delay: index * 0.05 }}
+            >
+              <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <FileText className="w-8 h-8 text-blue-500 mb-2" />
+                    <Badge 
+                      color={template.category === 'progress' ? 'primary' : 
+                             template.category === 'assessment' ? 'purple' :
+                             template.category === 'treatment-plan' ? 'green' :
+                             template.category === 'session-notes' ? 'orange' :
+                             template.category === 'discharge' ? 'red' : 'gray'}
+                      variant="soft"
+                    >
+                      {template.category.replace('-', ' ')}
+                    </Badge>
+                  </div>
+                  <h5 className="text-lg font-semibold">{template.name}</h5>
+                  <p className="text-sm text-gray-600">
+                    {template.description}
+                  </p>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col justify-between">
+                  <div className="space-y-2 text-xs text-gray-500 mb-4">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-3 h-3" />
+                      <span>Used {template.useCount} times</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-3 h-3" />
+                      <span>{template.fields.length} auto-fill fields</span>
+                    </div>
+                  </div>
+                  <Button 
+                    variant="default"
+                    className="w-full"
+                    onClick={() => handleUseTemplate(template)}
+                  >
+                    Use Template
+                  </Button>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
       </motion.div>
 
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex gap-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                placeholder="Search templates..."
-                className="pl-9"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-48">
-                <Filter className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="All Categories" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Categories</SelectItem>
-                <SelectItem value="assessment">Assessment</SelectItem>
-                <SelectItem value="progress">Progress Notes</SelectItem>
-                <SelectItem value="treatment-plan">Treatment Plans</SelectItem>
-                <SelectItem value="session-notes">Session Notes</SelectItem>
-                <SelectItem value="discharge">Discharge</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredTemplates.map((template, index) => (
-          <motion.div
-            key={template.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: index * 0.05 }}
-          >
-            <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full flex flex-col">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <FileText className="w-8 h-8 text-primary mb-2" />
-                  <Badge className={cn(categoryColors[template.category] || 'bg-gray-500/10 text-gray-700 dark:text-gray-400', 'py-1 px-2 text-xs')}>
-                    {template.category.replace('-', ' ')}
-                  </Badge>
-                </div>
-                <CardTitle className="text-lg">{template.name}</CardTitle>
-                <CardDescription className="text-sm">
-                  {template.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-between">
-                <div className="space-y-2 text-xs text-muted-foreground mb-4">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="w-3 h-3" />
-                    <span>Used {template.useCount} times</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="w-3 h-3" />
-                    <span>{template.fields.length} auto-fill fields</span>
-                  </div>
-                </div>
-                <Button 
-                  className="w-full"
-                  onClick={() => handleUseTemplate(template)}
-                >
-                  Use Template
-                </Button>
-              </CardContent>
-            </Card>
-          </motion.div>
-        ))}
-      </div>
-
+      {/* Template Modal */}
       <Modal open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
         <ModalContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <ModalHeader>
@@ -367,7 +402,7 @@ export default function TherapistTemplatesPage() {
             <Divider />
 
             {selectedClient && (
-              <Card className="bg-muted/50">
+              <Card className="bg-gray-50">
                 <CardHeader className="p-4">
                   <CardTitle className="text-sm flex items-center gap-2">
                     <Sparkles className="w-4 h-4" />
@@ -379,10 +414,10 @@ export default function TherapistTemplatesPage() {
                     const data = getAutofillData(selectedClient);
                     return (
                       <>
-                        <div><span className="font-medium">Client:</span> {data.clientName}</div>
-                        <div><span className="font-medium">Date:</span> {data.sessionDate}</div>
-                        <div><span className="font-medium">Session:</span> #{data.sessionNumber} of {data.totalSessions}</div>
-                        <div><span className="font-medium">Therapist:</span> {data.therapistName}</div>
+                        <div><p className="text-sm"><span className="font-medium">Client:</span> {data.clientName}</p></div>
+                        <div><p className="text-sm"><span className="font-medium">Date:</span> {data.sessionDate}</p></div>
+                        <div><p className="text-sm"><span className="font-medium">Session:</span> #{data.sessionNumber} of {data.totalSessions}</p></div>
+                        <div><p className="text-sm"><span className="font-medium">Therapist:</span> {data.therapistName}</p></div>
                       </>
                     );
                   })()}
@@ -391,11 +426,11 @@ export default function TherapistTemplatesPage() {
             )}
 
             <div className="space-y-4">
-              <h4 className="font-medium text-sm">Additional Information</h4>
+              <h6 className="text-base font-semibold">Additional Information</h6>
               {selectedTemplate?.fields.map((field) => (
                 <div key={field.key} className="space-y-2">
                   <Label htmlFor={field.key}>
-                    {field.label} {field.required && <span className="text-destructive">*</span>}
+                    {field.label} {field.required && <span className="text-red-500">*</span>}
                   </Label>
                   
                   {field.type === 'textarea' ? (
@@ -438,7 +473,7 @@ export default function TherapistTemplatesPage() {
             <Button variant="outline" onClick={() => setSelectedTemplate(null)}>
               Cancel
             </Button>
-            <Button onClick={handleGenerateReport} className="gap-2">
+            <Button onClick={handleGenerateReport} variant="default" className="gap-2">
               <FileText className="w-4 h-4" />
               Generate Report
             </Button>
@@ -446,29 +481,30 @@ export default function TherapistTemplatesPage() {
         </ModalContent>
       </Modal>
 
+      {/* Preview Modal */}
       <Modal open={showPreview} onOpenChange={setShowPreview}>
         <ModalContent className="max-w-2xl">
           <ModalHeader>
             <ModalTitle>Generated Report Preview</ModalTitle>
           </ModalHeader>
-          <ScrollArea className="h-96 p-4 border rounded-md bg-muted/50">
-            <pre className="text-sm whitespace-pre-wrap">{previewContent}</pre>
+          <ScrollArea className="h-96 p-4 border rounded-md bg-gray-50">
+            <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
           </ScrollArea>
           <ModalFooter>
             <Button variant="outline" onClick={() => setShowPreview(false)}>
               Close
             </Button>
-            <Button onClick={handleCopyToClipboard} className="gap-2">
+            <Button onClick={handleCopyToClipboard} variant="outline" className="gap-2">
               <Copy className="w-4 h-4" />
               Copy
             </Button>
-            <Button onClick={handleDownload} className="gap-2">
+            <Button onClick={handleDownload} variant="default" className="gap-2">
               <Download className="w-4 h-4" />
               Download
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </motion.div>
+    </div>
   );
 }

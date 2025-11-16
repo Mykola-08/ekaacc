@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { useAuth } from '@/lib/supabase-auth';
+import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { MinimalCard } from '@/components/ui/minimal-card';
-import { MinimalButton } from '@/components/ui/minimal-button';
+import { Card, Button, LineProgress, Spinner } from '@/components/keep';
 import { User, Calendar, TrendingUp, Heart, Clock, Target } from 'lucide-react';
 import type { Session, Report, User as UserType } from '@/lib/types';
 import { MinimalLayout } from '@/components/layout/minimal-layout';
+import { FloatingAIAssistant } from '@/components/ai/enhanced-ai-chat';
+import { AIDashboard } from '@/components/ai/ai-dashboard';
 
 function MinimalStatCard({ 
   icon: Icon, 
@@ -23,23 +24,21 @@ function MinimalStatCard({
   onClick?: () => void;
 }) {
   return (
-    <MinimalCard 
-      variant="default" 
-      interactive={!!onClick}
+    <Card 
       onClick={onClick}
-      className="p-6"
+      className={`p-6 ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}`}
     >
       <div className="flex items-center gap-4">
-        <div className="p-2 bg-gray-100 rounded-lg">
-          <Icon className="w-5 h-5 text-gray-700" />
+        <div className="p-2 bg-primary-100 rounded-lg">
+          <Icon className="w-5 h-5 text-primary-600" />
         </div>
         <div className="flex-1">
           <p className="text-sm text-gray-600 mb-1">{title}</p>
-          <p className="text-2xl font-semibold text-gray-900">{value}</p>
-          {subtitle && <p className="text-sm text-gray-500">{subtitle}</p>}
+          <h4 className="text-xl font-semibold">{value}</h4>
+          {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
         </div>
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -48,21 +47,20 @@ function MinimalNextSession({ sessions }: { sessions: Session[] }) {
   
   if (!nextSession) {
     return (
-      <MinimalCard variant="default" className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Next Session</h3>
+      <Card className="p-6">
+        <h4 className="text-xl font-semibold mb-4">Next Session</h4>
         <div className="text-center py-8">
-          <Calendar className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-600">No upcoming sessions scheduled</p>
-          <MinimalButton 
-            variant="primary" 
+          <Calendar className="w-12 h-12 text-secondary-400 mx-auto mb-3" />
+          <p className="text-base text-gray-600 mb-4">No upcoming sessions scheduled</p>
+          <Button 
+            variant="default" 
             size="sm"
-            className="mt-4"
             onClick={() => window.location.href = '/sessions/booking'}
           >
             Book Session
-          </MinimalButton>
+          </Button>
         </div>
-      </MinimalCard>
+      </Card>
     );
   }
 
@@ -78,38 +76,38 @@ function MinimalNextSession({ sessions }: { sessions: Session[] }) {
   });
 
   return (
-    <MinimalCard variant="default" className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Next Session</h3>
+    <Card className="p-6">
+      <h4 className="text-xl font-semibold mb-4">Next Session</h4>
       <div className="space-y-3">
         <div className="flex items-center gap-3">
-          <Clock className="w-5 h-5 text-gray-600" />
+          <Clock className="w-5 h-5 text-secondary-500" />
           <div>
-            <p className="font-medium text-gray-900">{formattedDate} at {formattedTime}</p>
+            <p className="text-base font-medium">{formattedDate} at {formattedTime}</p>
             <p className="text-sm text-gray-600">{nextSession.duration} minutes</p>
           </div>
         </div>
         {nextSession.therapist && (
           <div className="flex items-center gap-3">
-            <User className="w-5 h-5 text-gray-600" />
-            <p className="text-gray-900">{nextSession.therapist}</p>
+            <User className="w-5 h-5 text-secondary-500" />
+            <p className="text-base">{nextSession.therapist}</p>
           </div>
         )}
         {nextSession.type && (
           <div className="flex items-center gap-3">
-            <Heart className="w-5 h-5 text-gray-600" />
-            <p className="text-gray-900">{nextSession.type}</p>
+            <Heart className="w-5 h-5 text-secondary-500" />
+            <p className="text-base">{nextSession.type}</p>
           </div>
         )}
       </div>
-      <MinimalButton 
+      <Button 
         variant="outline" 
         size="sm"
         className="mt-4 w-full"
         onClick={() => window.location.href = '/sessions'}
       >
         View All Sessions
-      </MinimalButton>
-    </MinimalCard>
+      </Button>
+    </Card>
   );
 }
 
@@ -125,41 +123,36 @@ function MinimalGoalProgress({
   const progress = Math.min((sessionsCompleted / targetSessions) * 100, 100);
   
   return (
-    <MinimalCard variant="default" className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Goal Progress</h3>
+    <Card className="p-6">
+      <h4 className="text-xl font-semibold mb-4">Goal Progress</h4>
       <div className="space-y-4">
         <div>
           <p className="text-sm text-gray-600 mb-2">{goal}</p>
           <div className="flex items-center gap-2">
-            <Target className="w-4 h-4 text-gray-600" />
-            <span className="text-sm font-medium text-gray-900">
+            <Target className="w-4 h-4 text-secondary-500" />
+            <p className="text-sm font-medium">
               {sessionsCompleted} / {targetSessions} sessions
-            </span>
+            </p>
           </div>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
-          <div 
-            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
+        <LineProgress value={progress} size="sm" color="primary" />
         <p className="text-sm text-gray-600">
           {progress >= 100 ? 'Goal completed!' : `${Math.round(progress)}% complete`}
         </p>
       </div>
-      <MinimalButton 
+      <Button 
         variant="outline" 
         size="sm"
         className="mt-4 w-full"
         onClick={() => window.location.href = '/progress'}
       >
         Update Goals
-      </MinimalButton>
-    </MinimalCard>
+      </Button>
+    </Card>
   );
 }
 
-function MinimalQuickActions() {
+function MinimalQuickActions({ onToggleAI }: { onToggleAI: () => void }) {
   const actions = [
     {
       icon: Calendar,
@@ -178,34 +171,40 @@ function MinimalQuickActions() {
       title: 'Daily Check-in',
       description: 'Log your mood and feelings',
       href: '/journal'
+    },
+    {
+      icon: User,
+      title: 'AI Assistant',
+      description: 'Get personalized wellness insights',
+      onClick: onToggleAI
     }
   ];
 
   return (
-    <MinimalCard variant="default" className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+    <Card className="p-6">
+      <h4 className="text-xl font-semibold mb-4">Quick Actions</h4>
       <div className="space-y-3">
         {actions.map((action, index) => (
-          <MinimalButton
+          <Button
             key={index}
-            variant="ghost"
+            variant="outline"
             size="md"
             className="w-full justify-start text-left"
-            onClick={() => window.location.href = action.href}
+            onClick={() => action.onClick ? action.onClick() : window.location.href = action.href}
+            leftIcon={
+              <div className="p-2 bg-primary-100 rounded-lg">
+                <action.icon className="w-4 h-4 text-primary-600" />
+              </div>
+            }
           >
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-gray-100 rounded-lg">
-                <action.icon className="w-4 h-4 text-gray-700" />
-              </div>
-              <div className="flex-1">
-                <p className="font-medium text-gray-900">{action.title}</p>
-                <p className="text-sm text-gray-600">{action.description}</p>
-              </div>
+            <div className="flex-1">
+              <p className="text-base font-medium block">{action.title}</p>
+              <p className="text-sm text-gray-600">{action.description}</p>
             </div>
-          </MinimalButton>
+          </Button>
         ))}
       </div>
-    </MinimalCard>
+    </Card>
   );
 }
 
@@ -217,6 +216,7 @@ export default function MinimalPatientDashboard() {
   const [reports, setReports] = useState<Report[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [userData, setUserData] = useState<UserType | null>(null);
+  const [showAIDashboard, setShowAIDashboard] = useState(false);
 
   useEffect(() => {
     if (dataService && user?.id) {
@@ -253,8 +253,8 @@ export default function MinimalPatientDashboard() {
     return (
       <MinimalLayout centered>
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your dashboard...</p>
+          <Spinner size="xl" color="primary" className="mx-auto mb-4" />
+          <p className="text-sm text-gray-600">Loading your dashboard...</p>
         </div>
       </MinimalLayout>
     );
@@ -263,105 +263,129 @@ export default function MinimalPatientDashboard() {
   if (!user) {
     return (
       <MinimalLayout centered>
-        <MinimalCard variant="default" className="p-8 max-w-md">
+        <Card className="p-8 max-w-md">
           <div className="text-center">
             <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">Welcome</h2>
             <p className="text-gray-600 mb-6">
               Your profile is not fully set up yet. Let's personalize your experience.
             </p>
-            <MinimalButton 
-              variant="primary" 
+            <Button 
+              variant="default" 
               size="md"
               onClick={() => window.location.href = '/onboarding'}
             >
               Get Started
-            </MinimalButton>
+            </Button>
           </div>
-        </MinimalCard>
+        </Card>
       </MinimalLayout>
     );
   }
 
   return (
     <MinimalLayout centered={false}>
-      <div className="space-y-8">
-        {/* Welcome Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Welcome back, {user.name || user.email}
-          </h1>
-          <p className="text-gray-600">
-            Here's your wellness journey overview
-          </p>
-        </div>
-
-        {/* Stats Grid */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          <MinimalStatCard
-            icon={Calendar}
-            title="Upcoming Sessions"
-            value={upcomingSessions.length}
-            subtitle="Scheduled"
-            onClick={() => window.location.href = '/sessions'}
-          />
-          <MinimalStatCard
-            icon={TrendingUp}
-            title="Completed Sessions"
-            value={completedSessions}
-            subtitle="Total"
-            onClick={() => window.location.href = '/progress'}
-          />
-          <MinimalStatCard
-            icon={Heart}
-            title="Reports"
-            value={totalReports}
-            subtitle="Available"
-            onClick={() => window.location.href = '/progress-reports'}
-          />
-          <MinimalStatCard
-            icon={User}
-            title="Therapist"
-            value={userData?.therapist || 'Not assigned'}
-            subtitle="Current"
-          />
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
-            <MinimalNextSession sessions={upcomingSessions} />
-            <MinimalQuickActions />
-          </div>
-
-          {/* Right Column */}
-          <div className="space-y-6">
-            {userData?.goal && (
-              <MinimalGoalProgress
-                sessionsCompleted={userData.goal.currentSessions || 0}
-                goal={userData.goal.description || ''}
-                targetSessions={userData.goal.targetSessions || 10}
-              />
-            )}
-            
-            <MinimalCard variant="default" className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Need Help?</h3>
-              <p className="text-gray-600 mb-4">
-                If you have questions or need support, our team is here to help.
+      {showAIDashboard ? (
+        <div className="space-y-8">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold mb-2">AI Analytics Dashboard</h1>
+              <p className="text-base text-gray-600">
+                Monitor your AI usage and insights
               </p>
-              <MinimalButton 
-                variant="outline" 
-                size="sm"
-                className="w-full"
-                onClick={() => window.location.href = '/messages'}
-              >
-                Contact Support
-              </MinimalButton>
-            </MinimalCard>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowAIDashboard(false)}
+            >
+              Back to Dashboard
+            </Button>
+          </div>
+          <AIDashboard userId={user.id} subscriptionTier="premium" />
+        </div>
+      ) : (
+        <div className="space-y-8">
+          {/* Welcome Header */}
+          <div className="text-center">
+            <h1 className="text-3xl font-bold mb-2">
+              Welcome back, {user.name || user.email}
+            </h1>
+            <p className="text-base text-gray-600">
+              Here's your wellness journey overview
+            </p>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <MinimalStatCard
+              icon={Calendar}
+              title="Upcoming Sessions"
+              value={upcomingSessions.length}
+              subtitle="Scheduled"
+              onClick={() => window.location.href = '/sessions'}
+            />
+            <MinimalStatCard
+              icon={TrendingUp}
+              title="Completed Sessions"
+              value={completedSessions}
+              subtitle="Total"
+              onClick={() => window.location.href = '/progress'}
+            />
+            <MinimalStatCard
+              icon={Heart}
+              title="Reports"
+              value={totalReports}
+              subtitle="Available"
+              onClick={() => window.location.href = '/progress-reports'}
+            />
+            <MinimalStatCard
+              icon={User}
+              title="Therapist"
+              value={userData?.therapist || 'Not assigned'}
+              subtitle="Current"
+            />
+          </div>
+
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column */}
+            <div className="lg:col-span-2 space-y-6">
+              <MinimalNextSession sessions={upcomingSessions} />
+              <MinimalQuickActions onToggleAI={() => setShowAIDashboard(true)} />
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-6">
+              {userData?.goal && (
+                <MinimalGoalProgress
+                  sessionsCompleted={userData.goal.currentSessions || 0}
+                  goal={userData.goal.description || ''}
+                  targetSessions={userData.goal.targetSessions || 10}
+                />
+              )}
+              
+              <Card className="p-6">
+                <h4 className="text-xl font-semibold mb-4">Need Help?</h4>
+                <p className="text-base text-gray-600 mb-4">
+                  If you have questions or need support, our team is here to help.
+                </p>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="w-full"
+                  onClick={() => window.location.href = '/messages'}
+                >
+                  Contact Support
+                </Button>
+              </Card>
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      
+      {/* Floating AI Assistant */}
+      <FloatingAIAssistant userId={user.id} subscriptionTier="premium" />
     </MinimalLayout>
   );
 }

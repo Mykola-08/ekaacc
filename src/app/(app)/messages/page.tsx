@@ -3,12 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Button, Input, Avatar, AvatarFallback, AvatarImage, Card, CardContent, Skeleton } from '@/components/keep';
 import { Paperclip, Send } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
 import type { Message, User } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -71,22 +67,24 @@ export default function MessagesPage() {
           <header className="apple-p-6 apple-border-b apple-border-border">
             <h2 className="apple-title-section">Messages</h2>
           </header>
-          <ScrollArea className="apple-h-full">
-            {isLoading ? (
-              <div className="apple-p-6 apple-space-y-4">
-                {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
-              </div>
-            ) : (
-              conversations.map(convoUser => (
-                <ConversationItem
-                  key={convoUser.id}
-                  user={convoUser}
-                  isActive={activeConversation?.id === convoUser.id}
-                  onClick={() => setActiveConversation(convoUser)}
-                />
-              ))
-            )}
-          </ScrollArea>
+          <Card className="apple-h-full apple-overflow-y-auto apple-border-0 apple-shadow-none">
+            <CardContent className="apple-p-0">
+              {isLoading ? (
+                <div className="apple-p-6 apple-space-y-4">
+                  {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
+                </div>
+              ) : (
+                conversations.map(convoUser => (
+                  <ConversationItem
+                    key={convoUser.id}
+                    user={convoUser}
+                    isActive={activeConversation?.id === convoUser.id}
+                    onClick={() => setActiveConversation(convoUser)}
+                  />
+                ))
+              )}
+            </CardContent>
+          </Card>
         </aside>
 
         {/* Message View */}
@@ -104,13 +102,15 @@ export default function MessagesPage() {
                 </div>
               </header>
 
-              <ScrollArea className="apple-flex-1 apple-p-6">
-                <div className="apple-space-y-6">
-                  {messages.map((msg) => (
-                    <MessageItem key={msg.id} message={msg} />
-                  ))}
-                </div>
-              </ScrollArea>
+              <Card className="apple-flex-1 apple-overflow-y-auto apple-border-0 apple-shadow-none">
+                <CardContent className="apple-p-6">
+                  <div className="apple-space-y-6">
+                    {messages.map((msg) => (
+                      <MessageItem key={msg.id} message={msg} />
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
 
               <footer className="apple-p-6 apple-border-t apple-border-border">
                 <div className="apple-relative">

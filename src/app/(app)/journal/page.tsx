@@ -1,15 +1,6 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Calendar } from '@/components/ui/calendar';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DatePicker, Slider, Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Textarea, Label, Badge, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Skeleton } from '@/components/keep';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
@@ -346,22 +337,10 @@ export default function JournalPage() {
 									<Calendar className="w-5 h-5 text-blue-600" />
 									Journal Calendar
 								</h3>
-								<Calendar
-									mode="single"
+								<DatePicker
 									selected={selectedDate}
-									onSelect={(date) => date && setSelectedDate(date)}
+									onChange={(date) => date && setSelectedDate(date)}
 									className="rounded-lg"
-									modifiers={{
-										hasEntry: entries.map((e) => new Date(e.date)),
-									}}
-									modifiersStyles={{
-										hasEntry: {
-											fontWeight: 'bold',
-											backgroundColor: 'hsl(var(--primary))',
-											color: 'white',
-											borderRadius: '8px',
-										},
-									}}
 								/>
 							</CardContent>
 						</Card>

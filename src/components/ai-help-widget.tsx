@@ -10,11 +10,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { HelpCircle, X, Sparkles, MessageCircle, Lightbulb } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { 
-  getAIHelpRecommendations, 
-  getSupportiveMessage,
-  type AIHelpRecommendation,
-  type AIHelpRequest 
-} from '@/ai/ai-help-service';
+  generateTherapyRecommendations,
+  generateAIResponse,
+  type TherapyRecommendation
+} from '@/ai/ai-service';
 
 interface AIHelpWidgetProps {
   className?: string;
@@ -37,7 +36,7 @@ export function AIHelpWidget({
 }: AIHelpWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState(initialQuery);
-  const [recommendations, setRecommendations] = useState<AIHelpRecommendation[]>([]);
+  const [recommendations, setRecommendations] = useState<TherapyRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [supportiveMessage, setSupportiveMessage] = useState('');
   const [showSupportiveMessage, setShowSupportiveMessage] = useState(false);
@@ -63,13 +62,19 @@ export function AIHelpWidget({
         page
       };
 
-      const [recs, message] = await Promise.all([
-        getAIHelpRecommendations(query.trim(), context, page),
-        getSupportiveMessage(query.trim())
+      const [recs, supportiveResponse] = await Promise.all([
+        generateTherapyRecommendations(query.trim(), context, page),
+        generateAIResponse({
+          input: `Provide a supportive, empathetic message for someone asking: "${query.trim()}". Keep it brief and encouraging.`,
+          context: { query: query.trim(), page },
+          model: 'openai',
+          maxTokens: 150,
+          temperature: 0.8,
+        })
       ]);
 
       setRecommendations(recs);
-      setSupportiveMessage(message);
+      setSupportiveMessage(supportiveResponse.output);
       setShowSupportiveMessage(true);
     } catch (error) {
       console.error('Failed to get AI recommendations:', error);

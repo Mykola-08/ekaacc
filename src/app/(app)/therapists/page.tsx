@@ -2,13 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useAppStore } from '@/store/app-store';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Button, Card, CardContent, Avatar, AvatarFallback, AvatarImage, Badge, Skeleton } from '@/components/keep';
 import type { User } from '@/lib/types';
 
 export default function TherapistsPage() {

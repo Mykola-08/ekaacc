@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, Bell, Settings, LogOut, ChevronDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button, Avatar, AvatarFallback, AvatarImage } from '@/components/keep';
 import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -76,7 +75,7 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
           <div className="flex items-center space-x-4">
             {/* Notifications */}
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               className="relative rounded-full hover:bg-gray-100/50 transition-all duration-200"
             >
@@ -90,7 +89,7 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
             {user ? (
               <div className="relative">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={() => setUserMenuOpen(!userMenuOpen)}
                   className="flex items-center space-x-2 rounded-full hover:bg-gray-100/50 transition-all duration-200"
@@ -139,7 +138,7 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
             ) : (
               <div className="flex items-center space-x-2">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="sm"
                   onClick={() => router.push('/login')}
                   className="text-gray-600 hover:text-gray-900 transition-colors"
@@ -158,7 +157,7 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
 
             {/* Mobile Menu */}
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={onMenuClick}
               className="md:hidden rounded-full hover:bg-gray-100/50 transition-all duration-200"

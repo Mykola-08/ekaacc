@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Button, Radio, Label } from '@/components/keep';
 
 interface ReasonStepProps {
   onNext: (data: { reasonForSeeking: string; previousTherapy: string }) => void;
@@ -24,52 +23,60 @@ export function ReasonStep({ onNext }: ReasonStepProps) {
   return (
     <div className="space-y-6 w-full max-h-[500px] overflow-y-auto pr-2">
       <div className="space-y-3">
-        <RadioGroup value={reasonForSeeking} onValueChange={setReasonForSeeking}>
-          <div className="grid gap-3">
-            {reasonOptions.map((option) => (
-              <label
-                key={option.value}
-                className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
-                  reasonForSeeking === option.value
-                    ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950 shadow-md'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300'
-                }`}
-              >
-                <span className="text-3xl">{option.icon}</span>
-                <RadioGroupItem value={option.value} id={option.value} className="mt-0" />
-                <div className="flex-1">
-                  <div className="font-semibold">{option.label}</div>
-                  <div className="text-sm text-slate-500 dark:text-slate-400">{option.desc}</div>
-                </div>
-              </label>
-            ))}
-          </div>
-        </RadioGroup>
+        <div className="grid gap-3">
+          {reasonOptions.map((option) => (
+            <Label
+              key={option.value}
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+                reasonForSeeking === option.value
+                  ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950 shadow-md'
+                  : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300'
+              }`}
+            >
+              <span className="text-3xl">{option.icon}</span>
+              <Radio
+                name="reasonForSeeking"
+                value={option.value}
+                checked={reasonForSeeking === option.value}
+                onChange={() => setReasonForSeeking(option.value)}
+                className="mt-0"
+              />
+              <div className="flex-1">
+                <div className="font-semibold">{option.label}</div>
+                <div className="text-sm text-slate-500 dark:text-slate-400">{option.desc}</div>
+              </div>
+            </Label>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-3">
-        <RadioGroup value={previousTherapy} onValueChange={setPreviousTherapy}>
-          <div className="grid gap-3">
-            {[
-              { value: 'no', label: 'First time exploring therapy', icon: '✨' },
-              { value: 'yes-helpful', label: 'Yes, it helped me', icon: '💚' },
-              { value: 'yes-mixed', label: 'Yes, with mixed results', icon: '🤔' },
-            ].map((option) => (
-              <label
-                key={option.value}
-                className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                  previousTherapy === option.value
-                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-md'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'
-                }`}
-              >
-                <span className="text-2xl">{option.icon}</span>
-                <RadioGroupItem value={option.value} id={option.value} className="mt-0" />
-                <div className="font-medium">{option.label}</div>
-              </label>
-            ))}
-          </div>
-        </RadioGroup>
+        <div className="grid gap-3">
+          {[
+            { value: 'no', label: 'First time exploring therapy', icon: '✨' },
+            { value: 'yes-helpful', label: 'Yes, it helped me', icon: '💚' },
+            { value: 'yes-mixed', label: 'Yes, with mixed results', icon: '🤔' },
+          ].map((option) => (
+            <Label
+              key={option.value}
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                previousTherapy === option.value
+                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-md'
+                  : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'
+              }`}
+            >
+              <span className="text-2xl">{option.icon}</span>
+              <Radio
+                name="previousTherapy"
+                value={option.value}
+                checked={previousTherapy === option.value}
+                onChange={() => setPreviousTherapy(option.value)}
+                className="mt-0"
+              />
+              <div className="font-medium">{option.label}</div>
+            </Label>
+          ))}
+        </div>
       </div>
       <Button onClick={() => onNext({ reasonForSeeking, previousTherapy })} disabled={!reasonForSeeking || !previousTherapy} className="w-full">
         Continue

@@ -12,6 +12,11 @@
 
 # testing
 /coverage
+/playwright-report/
+/test-results/
+/load-tests/results/
+*.mp4
+*.webm
 
 # next.js
 /.next/

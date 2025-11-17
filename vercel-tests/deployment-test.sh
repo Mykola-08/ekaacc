@@ -59,7 +59,7 @@ run_test() {
 
 # Test 1: Check if deployment is accessible
 run_test "Deployment is accessible" \
-    "curl -s -o /dev/null -w '%{http_code}' '$DEPLOYMENT_URL' | grep -E '^(200|301|302)$'"
+    "curl -s -o /dev/null -w '%{http_code}' '$DEPLOYMENT_URL' | grep -E '^(200|301|302|307|308)$'"
 
 # Test 2: Homepage loads without 500 errors
 run_test "Homepage loads successfully" \

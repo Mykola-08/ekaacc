@@ -102,7 +102,7 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
 
   useEffect(() => {
     // Simulate proactive insights for premium+ users
-    if (subscriptionTier !== 'basic' && insightsInView) {
+    if (subscriptionTier !== 'basic' && isInView) {
       const mockInsights: AIInsight[] = [
         {
           id: '1',
@@ -131,7 +131,7 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
       ];
       setAiInsights(mockInsights);
     }
-  }, [subscriptionTier, insightsInView]);
+  }, [subscriptionTier, isInView]);
 
   const quickPrompts = [
     "Help me book a therapy session",

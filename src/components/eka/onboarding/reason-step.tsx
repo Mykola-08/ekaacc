@@ -36,7 +36,7 @@ export function ReasonStep({ onNext }: ReasonStepProps) {
               }`}
             >
               <span className="text-3xl">{option.icon}</span>
-              <Radio
+              <RadioGroupItem
                 name="reasonForSeeking"
                 value={option.value}
                 checked={reasonForSeeking === option.value}
@@ -68,7 +68,7 @@ export function ReasonStep({ onNext }: ReasonStepProps) {
               }`}
             >
               <span className="text-2xl">{option.icon}</span>
-              <Radio
+              <RadioGroupItem
                 name="previousTherapy"
                 value={option.value}
                 checked={previousTherapy === option.value}

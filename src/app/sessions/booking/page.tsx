@@ -1,18 +1,25 @@
 "use client";
 
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, DatePicker, Label, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import { useState } from "react";
 import { useAuth } from "@/context/auth-context";
 import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
 import { SessionAssessmentForm } from '@/components/eka/forms';
 import { useToast } from "@/hooks/use-toast";
-import { Clock, User, Briefcase, CheckCircle } from "lucide-react";
+import { Clock, User, Briefcase, CheckCircle, CalendarIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect } from 'react';
 import { AITherapyRecommendations } from "@/components/eka/ai-therapy-recommendations";
 import { Sparkles } from "lucide-react";
 import { PersonalizationEngine } from "@/lib/personalization-engine";
+import { format } from "date-fns";
 
 export default function SessionBookingPage() {
   const { user: currentUser } = useAuth();

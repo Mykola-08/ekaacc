@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/navigation/ShadcnSidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useRouter } from 'next/navigation';
-import { Spinner } from '@/components/keep';
+import { Loader2 } from 'lucide-react';
 
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
@@ -27,7 +27,7 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-center">
-          <Spinner size="xl" color="primary" className="mx-auto mb-4" />
+          <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
           <p className="text-sm text-gray-600">Loading...</p>
         </div>
       </div>

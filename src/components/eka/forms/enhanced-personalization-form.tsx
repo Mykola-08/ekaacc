@@ -684,7 +684,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
           )}
         </div>
 
-        <ModalFooter className="gap-2">
+        <DialogFooter className="gap-2">
           {step > 1 && (
             <Button variant="outline" onClick={handleBack} disabled={isLoading}>
               Back

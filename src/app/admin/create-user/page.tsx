@@ -392,7 +392,7 @@ export default function AdminCreateUserPage() {
 
       {/* Success Dialog */}
       <Dialog open={resultDialogOpen} onOpenChange={setResultDialogOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>✓ User Created Successfully</DialogTitle>
             <DialogDescription>
@@ -465,7 +465,8 @@ export default function AdminCreateUserPage() {
             }}>
               Close
             </Button>
-          </DialogFooter></DialogContent>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
     </div>
   );

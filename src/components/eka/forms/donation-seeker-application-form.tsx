@@ -512,7 +512,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
             </div>
           )}
 
-          <ModalFooter className="flex-col sm:flex-row gap-2">
+          <DialogFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
               variant="outline"

@@ -374,7 +374,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
             </div>
           )}
 
-          <ModalFooter className="flex-col sm:flex-row gap-2">
+          <DialogFooter className="flex-col sm:flex-row gap-2">
             <Button
               type="button"
               variant="outline"

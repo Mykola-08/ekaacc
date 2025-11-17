@@ -442,7 +442,7 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <ModalContent>
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Request Wallet Top-up</DialogTitle>
           <DialogDescription>
@@ -475,7 +475,8 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
           <Button onClick={onSubmit}>Submit Request</Button>
-        </DialogFooter></DialogContent>
+        </DialogFooter>
+      </DialogContent>
     </Dialog>
   );
 }

@@ -1,6 +1,14 @@
 'use client';
 
-import { Badge, Button, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Switch, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { User } from '@/lib/types';
 ;
@@ -143,22 +151,22 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
   };
 
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
-      <ModalContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <ModalHeader>
-          <ModalTitle>Edit User Profile</ModalTitle>
-          <ModalDescription>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Edit User Profile</DialogTitle>
+          <DialogDescription>
             Update user information and settings
-          </ModalDescription>
-        </ModalHeader>
+          </DialogDescription>
+        </DialogHeader>
 
         <Tabs defaultValue="basic" className="w-full">
           <TabsList className="grid w-full grid-cols-5">
-            <TabsItem value="basic">Basic</TabsItem>
-            <TabsItem value="contact">Contact</TabsItem>
-            {user.role === 'Therapist' && <TabsItem value="therapist">Therapist</TabsItem>}
-            <TabsItem value="privacy">Privacy</TabsItem>
-            {viewerRole === 'Admin' && <TabsItem value="status">Status</TabsItem>}
+            <TabsTrigger value="basic">Basic</TabsTrigger>
+            <TabsTrigger value="contact">Contact</TabsTrigger>
+            {user.role === 'Therapist' && <TabsTrigger value="therapist">Therapist</TabsTrigger>}
+            <TabsTrigger value="privacy">Privacy</TabsTrigger>
+            {viewerRole === 'Admin' && <TabsTrigger value="status">Status</TabsTrigger>}
           </TabsList>
 
           {/* Basic Information */}
@@ -649,15 +657,15 @@ export function UserEditDialog({ user, open, onOpenChange, onSave, viewerRole }:
           )}
         </Tabs>
 
-        <ModalFooter>
+        <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
             Cancel
           </Button>
           <Button onClick={handleSave} disabled={loading}>
             {loading ? 'Saving...' : 'Save Changes'}
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

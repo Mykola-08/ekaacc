@@ -4,11 +4,14 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { AppSidebar } from '../components/navigation/ShadcnSidebar';
 import { SidebarProvider } from '../components/ui/sidebar';
-import { useAuth } from '../hooks/use-auth';
+import { useAuth } from '../context/auth-context';
 import { useSidebar } from '../components/ui/sidebar';
 
 // Mock the auth hook
-jest.mock('../hooks/use-auth');
+jest.mock('../context/auth-context', () => ({
+  ...jest.requireActual('../context/auth-context'),
+  useAuth: jest.fn()
+}));
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({

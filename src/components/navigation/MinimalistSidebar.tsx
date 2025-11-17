@@ -21,7 +21,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/supabase-auth';
-import { Button, Avatar } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Avatar } from '@/components/ui/avatar';
 
 interface SidebarNavItem {
   name: string;

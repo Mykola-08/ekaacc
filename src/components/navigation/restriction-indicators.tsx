@@ -12,7 +12,8 @@ import {
   Warning
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Badge, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 export type RestrictionType = 'permission' | 'role' | 'subscription' | 'beta' | 'time' | 'location';
 export type RestrictionSeverity = 'info' | 'warning' | 'error' | 'critical';

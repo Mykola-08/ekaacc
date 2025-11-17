@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<AuthState>({
     user: null,
     isLoading: true,
+    loading: true, // Alias for backward compatibility
     isAuthenticated: false,
   })
 
@@ -109,6 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setState({
         user: authUser,
         isLoading: false,
+        loading: false,
         isAuthenticated: true,
       })
     } catch (error) {
@@ -116,6 +118,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setState({
         user: null,
         isLoading: false,
+        loading: false,
         isAuthenticated: false,
       })
     }
@@ -134,6 +137,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setState({
             user: null,
             isLoading: false,
+            loading: false,
             isAuthenticated: false,
           })
           return
@@ -145,6 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setState({
             user: null,
             isLoading: false,
+            loading: false,
             isAuthenticated: false,
           })
         }
@@ -154,6 +159,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setState({
             user: null,
             isLoading: false,
+            loading: false,
             isAuthenticated: false,
           })
         }
@@ -173,6 +179,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setState({
             user: null,
             isLoading: false,
+            loading: false,
             isAuthenticated: false,
           })
         }

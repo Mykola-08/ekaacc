@@ -53,15 +53,19 @@ export interface AuditLog {
 export interface AuthUser {
   id: string;
   email: string;
+  name?: string; // User's display name
+  displayName?: string; // Alias for name
   role: UserRole;
   permissions: Permission[];
   profile: UserProfile;
   preferences: UserPreference;
+  user_metadata?: Record<string, any>; // Supabase user metadata
 }
 
 export interface AuthState {
   user: AuthUser | null;
   isLoading: boolean;
+  loading?: boolean; // Alias for isLoading for backward compatibility
   isAuthenticated: boolean;
 }
 

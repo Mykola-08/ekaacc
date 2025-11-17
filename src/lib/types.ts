@@ -81,6 +81,7 @@ export type User = {
   phoneNumber?: string;
   avatarUrl?: string;
   role: UserRole;
+  userType?: string; // User type (Patient, Therapist, Admin, etc.)
   initials: string;
   createdAt?: string;
   

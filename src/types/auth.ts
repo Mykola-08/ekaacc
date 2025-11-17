@@ -52,9 +52,13 @@ export interface AuditLog {
 
 export interface AuthUser {
   id: string;
+  uid?: string; // Alias for id (Firebase compatibility)
   email: string;
   name?: string; // User's display name
   displayName?: string; // Alias for name
+  avatarUrl?: string; // User's avatar URL
+  user_type?: string; // User type/role
+  settings?: Record<string, any>; // User settings
   role: UserRole;
   permissions: Permission[];
   profile: UserProfile;

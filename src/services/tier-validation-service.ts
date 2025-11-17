@@ -17,6 +17,7 @@ import { ISubscriptionService } from './subscription-service';
 
 export interface TierValidationResult {
   isValid: boolean;
+  isEligible?: boolean; // Alias for isValid for backward compatibility
   requirementsMet: boolean;
   missingRequirements: string[];
   currentMetrics: {

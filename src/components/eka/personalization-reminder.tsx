@@ -1,8 +1,7 @@
 'use client';
 
-;
-;
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles, ArrowRight } from "lucide-react";
 
 interface PersonalizationReminderProps {

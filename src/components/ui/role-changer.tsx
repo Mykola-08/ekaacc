@@ -1,10 +1,9 @@
 "use client";
 
-import { Button } from '@/components/keep';
+import { Button } from '@/components/ui/button';
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
-;
 import { User } from "@/lib/types";
 
 const roles = [

@@ -1,6 +1,9 @@
 "use client";
 
-import { Button, Input, Modal, ModalContent, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
 import { Calendar } from '@/components/ui/calendar';
 import React, { useState, useEffect } from 'react';
 ;
@@ -75,11 +78,11 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
   };
 
   return (
-    <Modal open={open} onOpenChange={onClose}>
-      <ModalContent className="sm:max-w-[425px]">
-        <ModalHeader>
-          <ModalTitle>Create New Booking</ModalTitle>
-        </ModalHeader>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Create New Booking</DialogTitle>
+        </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="client" className="text-right">Client</label>
@@ -124,13 +127,13 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
             />
           </div>
         </div>
-        <ModalFooter>
+        <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={loading}>Cancel</Button>
           <Button onClick={handleSubmit} disabled={loading}>
             {loading ? 'Creating...' : 'Create Booking'}
           </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

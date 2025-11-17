@@ -1,6 +1,5 @@
-import { Card } from '@/components/keep';
+import { Card } from '@/components/ui/card';
 import type { ReactNode } from 'react';
-;
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 

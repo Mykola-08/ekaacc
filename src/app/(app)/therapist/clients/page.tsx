@@ -1,23 +1,13 @@
 'use client';
 
-import { 
-  Avatar, 
-  AvatarFallback, 
-  Button, 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle, 
-  Skeleton, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow,
-  Badge,
-  Divider
-} from '@/components/keep';
+import { Avatar } from '@/components/ui/avatar';
+import { AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { RefreshCw, PlusCircle, Users, Activity, Calendar, Mail, Phone } from 'lucide-react';

@@ -1,10 +1,10 @@
 'use client';
 
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { PersonalizationEngine } from '@/lib/personalization-engine';
-;
 import { Check, Plus } from 'lucide-react';
 import { Skeleton } from './ui/skeleton';
 import { useToast } from '@/hooks/use-toast';

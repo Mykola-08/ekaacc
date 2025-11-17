@@ -1,8 +1,13 @@
 'use client';
 
-import { Modal, ModalContent, ModalHeader, ModalTitle, Button, Card, Badge, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton } from '@/components/keep';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useEffect, useState, useRef, useCallback } from 'react';
-;
 import { getDataService } from '@/services/data-service';
 import type { User } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -219,14 +224,14 @@ export default function UsersManagementPage() {
                 </div>
             )}
 
-            <Modal open={showProfileDialog} onOpenChange={setShowProfileDialog}>
-                <ModalContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
-                    <ModalHeader>
-                        <ModalTitle>User Profile</ModalTitle>
-                    </ModalHeader>
+            <Dialog open={showProfileDialog} onOpenChange={setShowProfileDialog}>
+                <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>User Profile</DialogTitle>
+                    </DialogHeader>
                     {selectedUser && <UserProfileView user={selectedUser} viewerRole="Admin" />}
-                </ModalContent>
-            </Modal>
+                </DialogContent>
+            </Dialog>
 
             {selectedUser && (
                 <UserEditDialog

@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, User, Bell, Settings, LogOut, ChevronDown } from 'lucide-react';
-import { Button, Avatar, AvatarFallback, AvatarImage } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';

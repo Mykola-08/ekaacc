@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Heart, Users, Shield, Star } from 'lucide-react';
-import { Button } from '@/components/keep';
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 
 export default function PremiumHero() {

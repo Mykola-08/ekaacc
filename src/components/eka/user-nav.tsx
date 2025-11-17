@@ -1,6 +1,8 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem } from '@/components/keep';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
 import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
@@ -34,8 +36,8 @@ export function UserNav() {
     .toUpperCase();
 
   return (
-    <Dropdown>
-      <DropdownAction asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button variant="outline" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10">
             {currentUser.avatarUrl && <AvatarImage src={currentUser.avatarUrl} alt={currentUser.displayName || ''} />}
@@ -47,8 +49,8 @@ export function UserNav() {
             </div>
           )}
         </Button>
-      </DropdownAction>
-      <DropdownContent className="w-64" align="end" forceMount>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-64" align="end" forceMount>
         <div className="font-normal">
           <div className="flex items-center gap-3 p-2">
             <Avatar className="h-10 w-10">
@@ -81,42 +83,42 @@ export function UserNav() {
         <div className="border-t my-1"></div>
         <div>
           <Link href="/account">
-            <DropdownItem>
+            <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
-            </DropdownItem>
+            </DropdownMenuItem>
           </Link>
           <Link href="/settings">
-            <DropdownItem>
+            <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
-            </DropdownItem>
+            </DropdownMenuItem>
           </Link>
         </div>
         <div className="border-t my-1"></div>
         <div>
           <div className="px-2 py-1 text-sm font-medium">Theme</div>
-          <DropdownItem onClick={() => setTheme('light')}>
+          <DropdownMenuItem onClick={() => setTheme('light')}>
             <Sun className="h-4 w-4 mr-2" />
             <span>Light</span>
-          </DropdownItem>
-          <DropdownItem onClick={() => setTheme('dark')}>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme('dark')}>
             <Moon className="h-4 w-4 mr-2" />
             <span>Dark</span>
-          </DropdownItem>
-          <DropdownItem onClick={() => setTheme('system')}>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => setTheme('system')}>
             <Laptop className="h-4 w-4 mr-2" />
             <span>System</span>
-          </DropdownItem>
+          </DropdownMenuItem>
         </div>
         <div className="border-t my-1"></div>
         <div>
-          <DropdownItem onClick={handleLogout}>
+          <DropdownMenuItem onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log out</span>
-          </DropdownItem>
+          </DropdownMenuItem>
         </div>
-      </DropdownContent>
-    </Dropdown>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

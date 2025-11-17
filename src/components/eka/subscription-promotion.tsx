@@ -1,10 +1,9 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
-;
-;
-;
 import { Star, Crown, ArrowRight, Check, Sparkles } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/supabase-auth';

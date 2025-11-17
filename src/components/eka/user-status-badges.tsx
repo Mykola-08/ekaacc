@@ -1,8 +1,7 @@
 'use client';
 
-import { Badge } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
 import { Heart, HandHeart, Users } from 'lucide-react';
-;
 import { cn } from '@/lib/utils';
 import type { User } from '@/lib/types';
 

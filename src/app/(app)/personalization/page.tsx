@@ -3,7 +3,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Sparkles, User, Settings, Heart, Brain, Palette, Bell, Shield, Zap, Target, TrendingUp } from 'lucide-react';
-import { Button, Badge, Tabs, TabsContent, TabsList, TabsItem, Card, CardContent, CardDescription, CardHeader, CardTitle, LineProgress } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
 import { useRouter } from 'next/navigation';
 import { useAdaptiveInterface } from '@/hooks/use-adaptive-interface';
 import PersonalizationEngine from '@/components/eka/personalization-engine';
@@ -186,7 +190,7 @@ export default function PersonalizationPage() {
                   </div>
                 </div>
                 
-                <LineProgress value={overallProgress} size="md" color="primary" className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                <Progress value={overallProgress} size="md" color="primary" className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
                 
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
                   {personalizationSections.map((section) => (
@@ -200,7 +204,7 @@ export default function PersonalizationPage() {
                           {section.progress}%
                         </Badge>
                       </div>
-                      <LineProgress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
+                      <Progress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
                     </div>
                   ))}
                 </div>
@@ -212,12 +216,12 @@ export default function PersonalizationPage() {
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
           <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 bg-white/60 backdrop-blur-sm rounded-2xl p-2 border border-white/20">
-            <TabsItem value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Overview</TabsItem>
-            <TabsItem value="visual" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Visual</TabsItem>
-            <TabsItem value="behavioral" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Behavioral</TabsItem>
-            <TabsItem value="accessibility" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Accessibility</TabsItem>
-            <TabsItem value="wellness" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Wellness</TabsItem>
-            <TabsItem value="ai" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">AI Features</TabsItem>
+            <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Overview</TabsTrigger>
+            <TabsTrigger value="visual" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Visual</TabsTrigger>
+            <TabsTrigger value="behavioral" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Behavioral</TabsTrigger>
+            <TabsTrigger value="accessibility" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Accessibility</TabsTrigger>
+            <TabsTrigger value="wellness" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">Wellness</TabsTrigger>
+            <TabsTrigger value="ai" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white">AI Features</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview" className="space-y-8">
@@ -313,7 +317,7 @@ export default function PersonalizationPage() {
                             <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
                           </div>
                         </div>
-                        <LineProgress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
+                        <Progress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
                       </div>
                     </motion.div>
                   );

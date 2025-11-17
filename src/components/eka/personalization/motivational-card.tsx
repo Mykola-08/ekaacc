@@ -1,7 +1,6 @@
 'use client';
 
-;
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/keep';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles } from 'lucide-react';
 import { AnimatedCard } from '@/components/eka/animated-card';
 

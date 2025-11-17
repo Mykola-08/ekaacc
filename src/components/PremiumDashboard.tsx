@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, LineProgress, Badge } from '@/components/keep';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
 import { 
   TrendingUp, 
   Heart, 
@@ -155,7 +157,7 @@ export default function PremiumDashboard({ sessions = [], user }: PremiumDashboa
                     <span className="text-gray-600">Session Completion</span>
                     <span className="font-medium text-gray-900">{completedSessions}/{totalSessions}</span>
                   </div>
-                  <LineProgress value={progressPercentage} className="h-3" />
+                  <Progress value={progressPercentage} className="h-3" />
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">

@@ -1,6 +1,15 @@
 "use client";
 
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
@@ -12,12 +21,6 @@ import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 import { format } from "date-fns";
 import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
-;
-;
-;
-;
-;
-;
 import { SettingsShell } from "@/components/eka/settings/settings-shell";
 import { SettingsHeader } from "@/components/eka/settings/settings-header";
 
@@ -65,8 +68,8 @@ export default function MyAccountPage() {
       />
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsItem value="profile">Profile</TabsItem>
-          <TabsItem value="wallet">Wallet</TabsItem>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="wallet">Wallet</TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
           <ProfileSection currentUser={currentUser} refreshAppUser={refreshAppUser} authLoading={authLoading} />
@@ -438,14 +441,14 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
   onSubmit: () => void;
 }) {
   return (
-    <Modal open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <ModalContent>
-        <ModalHeader>
-          <ModalTitle>Request Wallet Top-up</ModalTitle>
-          <ModalDescription>
+        <DialogHeader>
+          <DialogTitle>Request Wallet Top-up</DialogTitle>
+          <DialogDescription>
             Submit a request for manual balance top-up. An admin will approve it shortly.
-          </ModalDescription>
-        </ModalHeader>
+          </DialogDescription>
+        </DialogHeader>
         <div className="space-y-4 py-2">
           <div className="space-y-2">
             <Label htmlFor="amount">Amount (€)</Label>
@@ -454,7 +457,9 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
           <div className="space-y-2">
             <Label htmlFor="method">Payment Method</Label>
             <Select value={method} onValueChange={(value) => setMethod(value as PaymentMethod)}>
-              <SelectValue placeholder="Select method"  />
+              <SelectTrigger>
+                <SelectValue placeholder="Select method"  />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="bizum">Bizum</SelectItem>
                 <SelectItem value="cash">Cash</SelectItem>
@@ -467,12 +472,11 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
             <Textarea id="proof" value={proof} onChange={(e) => setProof(e.target.value)} placeholder="e.g., Transaction ID, or a note for the admin" />
           </div>
         </div>
-        <ModalFooter>
+        <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
           <Button onClick={onSubmit}>Submit Request</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter></DialogContent>
+    </Dialog>
   );
 }
 

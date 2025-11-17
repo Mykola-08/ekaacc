@@ -1,10 +1,9 @@
 'use client';
 
-import { Badge, Card, CardContent, CardHeader, CardTitle, Divider } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import type { User } from '@/lib/types';
-;
-;
-;
 import { Mail, Phone, MapPin, Calendar, Award, Clock, DollarSign, Languages, GraduationCap, Shield } from 'lucide-react';
 
 interface UserProfileViewProps {
@@ -237,7 +236,7 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
 
             {typedUser.emergencyContact && (
               <>
-                <Divider />
+                <Separator />
                 <div>
                   <h4 className="text-sm font-medium mb-3">Emergency Contact</h4>
                   <div className="grid grid-cols-3 gap-4">
@@ -438,7 +437,7 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
 
             {typedUser.accountStatus === 'suspended' && typedUser.suspendedReason && (
               <>
-                <Divider />
+                <Separator />
                 <div>
                   <div className="text-sm text-muted-foreground mb-1">Suspension Reason</div>
                   <div className="text-sm font-medium text-destructive">{typedUser.suspendedReason}</div>

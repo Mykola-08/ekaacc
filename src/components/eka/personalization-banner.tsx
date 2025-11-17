@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/keep';
+import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import { X, Sparkles, Gift } from 'lucide-react';
 ;

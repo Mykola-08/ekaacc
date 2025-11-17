@@ -3,7 +3,8 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useAppStore } from '@/store/app-store';
-import { Card, Button } from '@/components/keep';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { User, Calendar, TrendingUp, Heart, Clock, Target } from 'lucide-react';
 import type { Session, Report, User as UserType } from '@/lib/types';

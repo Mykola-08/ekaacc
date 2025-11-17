@@ -1,7 +1,6 @@
 'use client';
 
-;
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { TrendingUp, ArrowRight } from 'lucide-react';
 import { AnimatedCard } from '@/components/eka/animated-card';
 

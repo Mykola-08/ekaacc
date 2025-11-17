@@ -1,21 +1,20 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Checkbox, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Slider, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
-;
-;
-;
-;
-;
-;
-;
 import { Loader2, ClipboardCheck, TrendingUp, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-;
-;
-;
-;
-;
 
 interface SessionAssessmentFormProps {
   open: boolean;
@@ -193,28 +192,28 @@ export function SessionAssessmentForm({
   };
 
   return (
-    <Modal open={open} onOpenChange={onClose}>
-      <ModalContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
-        <ModalHeader>
-          <ModalTitle className="text-2xl flex items-center gap-2">
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl flex items-center gap-2">
             <ClipboardCheck className="h-6 w-6 text-primary" />
             {sessionType === 'pre' ? 'Pre-Session Assessment' : 'Post-Session Assessment'}
-          </ModalTitle>
-          <ModalDescription>
+          </DialogTitle>
+          <DialogDescription>
             Patient: <strong>{patientName}</strong>
-          </ModalDescription>
-        </ModalHeader>
+          </DialogDescription>
+        </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {sessionType === 'pre' ? (
             // PRE-SESSION FORM
             <>
-              <Notification>
+              <Alert>
                 <AlertCircle className="h-4 w-4" />
-                <NotificationDescription>
+                <AlertDescription>
                   Complete this assessment before the session begins to establish baseline and session goals.
-                </NotificationDescription>
-              </Notification>
+                </AlertDescription>
+              </Alert>
 
               <Card>
                 <CardHeader>
@@ -322,18 +321,18 @@ export function SessionAssessmentForm({
           ) : (
             // POST-SESSION FORM
             <>
-              <Notification>
+              <Alert>
                 <TrendingUp className="h-4 w-4" />
-                <NotificationDescription>
+                <AlertDescription>
                   Document session outcomes, progress, and plan next steps for continued care.
-                </NotificationDescription>
-              </Notification>
+                </AlertDescription>
+              </Alert>
 
               <Tabs defaultValue="summary" className="w-full">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsItem value="summary">Summary</TabsItem>
-                  <TabsItem value="progress">Progress</TabsItem>
-                  <TabsItem value="followup">Follow-up</TabsItem>
+                  <TabsTrigger value="summary">Summary</TabsTrigger>
+                  <TabsTrigger value="progress">Progress</TabsTrigger>
+                  <TabsTrigger value="followup">Follow-up</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="summary" className="space-y-4">
@@ -567,9 +566,9 @@ export function SessionAssessmentForm({
                 'Save Assessment'
               )}
             </Button>
-          </ModalFooter>
+          </DialogFooter>
         </form>
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }

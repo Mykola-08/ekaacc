@@ -182,7 +182,7 @@ export function AppSidebar({ className }: AppSidebarProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground square-hole-interactive touch-target hover-enhanced focus-aa-compliant",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground squircle-interactive touch-target hover-enhanced focus-aa-compliant",
                     isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                   )}
                 >
@@ -293,7 +293,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
             <h2 className="text-lg font-semibold">Navigation</h2>
             <button 
               onClick={onClose}
-              className="square-hole-button touch-target hover-enhanced focus-aa-compliant p-2"
+              className="squircle-button touch-target hover-enhanced focus-aa-compliant p-2"
               aria-label="Close navigation"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -313,7 +313,7 @@ export function MobileNavigation({ isOpen, onClose }: MobileNavigationProps) {
                   href={item.href}
                   onClick={onClose}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground square-hole-interactive touch-target hover-enhanced focus-aa-compliant",
+                    "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground squircle-interactive touch-target hover-enhanced focus-aa-compliant",
                     isActive ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                   )}
                 >

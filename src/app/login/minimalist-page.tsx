@@ -73,7 +73,7 @@ export default function MinimalistLoginPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
       >
-        <Card className="py-8 px-6 square-hole-card">
+        <Card className="py-8 px-6 squircle-card">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
@@ -88,7 +88,7 @@ export default function MinimalistLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="square-hole-input"
+                className="squircle-input"
               />
             </div>
 
@@ -106,11 +106,11 @@ export default function MinimalistLoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your password"
-                  className="square-hole-input pr-12"
+                  className="squircle-input pr-12"
                 />
                 <button
                   type="button"
-                  className="square-hole-button absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8"
+                  className="squircle-button absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >

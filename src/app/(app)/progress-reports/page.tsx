@@ -1,14 +1,16 @@
 "use client";
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Skeleton, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp, Loader2 } from 'lucide-react';
-;
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 // AI assistant removed from progress reports page
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-;
 import { useToast } from '@/hooks/use-toast';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';

@@ -7,7 +7,7 @@ This design system implements comprehensive UI/UX improvements with a focus on a
 
 ### 1. Component Styling Enhancement
 - **Consistent Border Radius**: 8px standard across all components
-- **Square Hole Visual Design**: Applied to all interactive elements
+- **Squircle Visual Design**: Applied to all interactive elements
 - **Unified Design Language**: Cohesive styling across the entire application
 
 ### 2. Navigation System Overhaul
@@ -34,12 +34,12 @@ This design system implements comprehensive UI/UX improvements with a focus on a
 --radius-full: 9999px; /* Full rounded */
 ```
 
-### Square Hole Design System
+### Squircle Design System
 ```css
---square-hole-radius: 0.5rem;  /* 8px for interactive elements */
---square-hole-bg: hsl(var(--background));
---square-hole-border: hsl(var(--border));
---square-hole-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+--squircle-radius: 0.5rem;  /* 8px for interactive elements */
+--squircle-bg: hsl(var(--background));
+--squircle-border: hsl(var(--border));
+--squircle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 ```
 
 ### Touch Targets
@@ -50,13 +50,13 @@ This design system implements comprehensive UI/UX improvements with a focus on a
 
 ## Component Classes
 
-### Square Hole Components
+### Squircle Components
 ```css
-.square-hole              /* Base square hole styling */
-.square-hole-interactive  /* Interactive elements with hover/focus */
-.square-hole-button       /* Button styling with touch targets */
-.square-hole-card         /* Card components with elevation */
-.square-hole-input        /* Form input styling */
+.squircle              /* Base squircle styling */
+.squircle-interactive  /* Interactive elements with hover/focus */
+.squircle-button       /* Button styling with touch targets */
+.squircle-card         /* Card components with elevation */
+.squircle-input        /* Form input styling */
 ```
 
 ### Navigation Components
@@ -85,14 +85,14 @@ This design system implements comprehensive UI/UX improvements with a focus on a
 
 ### Button Implementation
 ```tsx
-<Button className="square-hole-button nav-button-primary">
+<Button className="squircle-button nav-button-primary">
   Dashboard
 </Button>
 ```
 
 ### Card Implementation
 ```tsx
-<Card className="square-hole-card hover-enhanced">
+<Card className="squircle-card hover-enhanced">
   <CardHeader>
     <CardTitle>Card Title</CardTitle>
   </CardHeader>
@@ -105,7 +105,7 @@ This design system implements comprehensive UI/UX improvements with a focus on a
 ### Input Implementation
 ```tsx
 <Input 
-  className="square-hole-input touch-target hover-enhanced focus-aa-compliant"
+  className="squircle-input touch-target hover-enhanced focus-aa-compliant"
   placeholder="Enter your email"
 />
 ```
@@ -195,7 +195,7 @@ const Component = () => {
 
 ### Updating Existing Components
 1. Replace existing border radius with new system classes
-2. Add square-hole classes to interactive elements
+2. Add squircle classes to interactive elements
 3. Ensure touch target compliance
 4. Add proper focus states
 5. Validate color contrast
@@ -208,7 +208,7 @@ const Component = () => {
 </Button>
 
 // After
-<Button className="square-hole-button nav-button-primary">
+<Button className="squircle-button nav-button-primary">
   Click me
 </Button>
 ```

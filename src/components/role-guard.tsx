@@ -3,7 +3,8 @@
 import React from 'react';
 import { useAuth } from '@/context/auth-context';
 import { SystemRole, PermissionGroup, PermissionAction } from '@/lib/role-permissions';
-import { Alert, AlertDescription, AlertTitle, Button } from '@/components/keep';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Shield, AlertTriangle } from 'lucide-react';
 

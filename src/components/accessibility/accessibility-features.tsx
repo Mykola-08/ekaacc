@@ -19,7 +19,9 @@ import {
   Sun,
   Moon
 } from 'lucide-react';
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
 // Accessibility Context

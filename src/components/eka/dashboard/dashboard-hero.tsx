@@ -1,8 +1,8 @@
 'use client';
 
-import { Avatar, AvatarFallback, AvatarImage, Skeleton } from '@/components/keep';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useAuth } from "@/lib/supabase-auth";
-;
 import { useEffect, useState } from "react";
 
 export function DashboardHero() {

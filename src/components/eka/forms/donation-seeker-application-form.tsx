@@ -1,19 +1,18 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Tabs, TabsContent, TabsItem, TabsList, Textarea } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
-;
-;
-;
-;
-;
-;
 import { Loader2, Sparkles, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-;
-;
-;
-;
 
 interface DonationSeekerApplicationFormProps {
   open?: boolean;
@@ -196,17 +195,17 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
   };
 
   return (
-    <Modal open={open} onOpenChange={onClose}>
-      <ModalContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
-        <ModalHeader>
-          <ModalTitle className="text-2xl flex items-center gap-2">
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="text-2xl flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary" />
             Donation Seeker Application
-          </ModalTitle>
-          <ModalDescription>
+          </DialogTitle>
+          <DialogDescription>
             Apply for financial support to access therapy services. All information is confidential.
-          </ModalDescription>
-        </ModalHeader>
+          </DialogDescription>
+        </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Progress indicator */}
@@ -285,12 +284,12 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                   <CardTitle className="text-lg">Financial Information</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <Notification>
+                  <Alert>
                     <AlertCircle className="h-4 w-4" />
-                    <NotificationDescription>
+                    <AlertDescription>
                       This information is strictly confidential and used only to assess eligibility for donation support.
-                    </NotificationDescription>
-                  </Notification>
+                    </AlertDescription>
+                  </Alert>
 
                   <div>
                     <Label htmlFor="financialSituation">Current Financial Situation *</Label>
@@ -401,16 +400,16 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                   ) : (
                     <Tabs defaultValue="suggestions" className="w-full">
                       <TabsList className="grid w-full grid-cols-2">
-                        <TabsItem value="suggestions">AI Suggestions</TabsItem>
-                        <TabsItem value="revised">Revised Version</TabsItem>
+                        <TabsTrigger value="suggestions">AI Suggestions</TabsTrigger>
+                        <TabsTrigger value="revised">Revised Version</TabsTrigger>
                       </TabsList>
                       <TabsContent value="suggestions" className="space-y-3">
-                        <Notification>
+                        <Alert>
                           <CheckCircle2 className="h-4 w-4" />
-                          <NotificationDescription>
+                          <AlertDescription>
                             AI has analyzed your history. Here are some suggestions:
-                          </NotificationDescription>
-                        </Notification>
+                          </AlertDescription>
+                        </Alert>
                         {aiSuggestions.map((suggestion, index) => (
                           <Card key={index}>
                             <CardContent className="pt-4">
@@ -501,13 +500,13 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     </Select>
                   </div>
 
-                  <Notification>
+                  <Alert>
                     <AlertCircle className="h-4 w-4" />
-                    <NotificationDescription>
+                    <AlertDescription>
                       <strong>Next Steps:</strong> After submission, our team will review your application within 48 hours. 
                       You may be contacted for additional verification. Approved applicants will be matched with available donors.
-                    </NotificationDescription>
-                  </Notification>
+                    </AlertDescription>
+                  </Alert>
                 </CardContent>
               </Card>
             </div>
@@ -554,9 +553,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                 </Button>
               )}
             </div>
-          </ModalFooter>
-        </form>
-      </ModalContent>
-    </Modal>
+          </DialogFooter></form></DialogContent>
+    </Dialog>
   );
 }

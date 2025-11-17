@@ -3,7 +3,7 @@
 import { motion } from 'motion/react';
 import { useState } from 'react';
 import { Menu, X, User, Settings, LogOut } from 'lucide-react';
-import { Button } from '@/components/keep';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 interface MinimalistNavProps {

@@ -31,8 +31,9 @@ import {
   invalidateUserPermissionCache,
   getSecurityAlerts
 } from '@/lib/permission-service';
-import { Button, Badge, Tooltip, TooltipContent, TooltipProvider } from '@/components/keep';
-import { TooltipTrigger } from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';

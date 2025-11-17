@@ -1,7 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge, Alert, AlertDescription, Tabs, TabsContent, TabsList, TabsItem } from '@/components/keep';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RoleManagementPanel } from '@/components/admin/role-management-panel';
 import { ProductManagementPanel } from '@/components/admin/product-management-panel';
 import { RoleGuard } from '@/components/role-guard';

@@ -2,7 +2,7 @@
 
 import { useAuth } from '@/lib/supabase-auth';
 import { TextEffect } from '@/components/motion-primitives';
-import { Button } from '@/components/keep';
+import { Button } from '@/components/ui/button';
 import { Bell, Settings } from 'lucide-react';
 import Link from 'next/link';
 

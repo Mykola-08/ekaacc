@@ -1,7 +1,6 @@
 'use client';
 
-;
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/keep';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { HeartPulse } from 'lucide-react';
 import { AnimatedCard } from '@/components/eka/animated-card';
 import { format } from 'date-fns';

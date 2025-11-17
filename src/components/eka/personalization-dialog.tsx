@@ -1,11 +1,10 @@
 'use client';
 
-import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
-;
-;
-;
-;
 import { Loader2, Sparkles } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '../ui/input';
@@ -47,18 +46,18 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
   };
 
   return (
-    <Modal open={true} onOpenChange={(open) => !open && onClose()}>
-      <ModalContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
+    <Dialog open={true} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
         <form onSubmit={handleSubmit}>
-          <ModalHeader>
-            <ModalTitle className="flex items-center gap-2">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
               <Sparkles className="text-primary" />
               Personalize Your Experience
-            </ModalTitle>
-            <ModalDescription>
+            </DialogTitle>
+            <DialogDescription>
               Answer these questions to help us tailor the EKA platform to you and sync with your Square profile.
-            </ModalDescription>
-          </ModalHeader>
+            </DialogDescription>
+          </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="goals">What are your primary goals for using EKA?</Label>
@@ -90,7 +89,7 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
               />
             </div>
           </div>
-          <ModalFooter>
+          <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>
               Skip for Now
             </Button>
@@ -98,10 +97,10 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Save & Personalize
             </Button>
-          </ModalFooter>
+          </DialogFooter>
         </form>
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }
     

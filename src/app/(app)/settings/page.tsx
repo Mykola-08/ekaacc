@@ -1,6 +1,11 @@
 'use client';
 
-import { Button, Card, CardContent, CardHeader, Skeleton, Label, Input, Switch } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';

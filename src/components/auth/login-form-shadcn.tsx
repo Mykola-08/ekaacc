@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
-import { OAuthButtons } from '@/components/auth/oauth-buttons'
+import { OAuthButtons } from '@/components/auth/oauth-buttons-improved'
 import Link from 'next/link'
 
 const loginSchema = z.object({

@@ -34,6 +34,7 @@ interface UserActivitySnapshot {
   currentPage: string;
   sessionDuration: number;
   recentInteractions: string[];
+  recentActivity?: any[]; // Recent user activity data
   moodIndicators: {
     recentMoodEntries: number[];
     averageMood: number;

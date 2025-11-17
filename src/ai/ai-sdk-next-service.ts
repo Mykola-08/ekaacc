@@ -654,6 +654,43 @@ Focus on being helpful, supportive, and professional.`;
       tier: subscriptionTier
     };
   }
+
+  /**
+   * Generate background insights for user activity monitoring
+   * @param context - Context containing user activity and historical data
+   * @returns Array of insights generated from background analysis
+   */
+  async generateBackgroundInsights(context: any): Promise<any[]> {
+    // TODO: Implement background insights generation
+    // This is a placeholder for the AI background monitoring feature
+    console.log('generateBackgroundInsights called with context:', context);
+    return [];
+  }
+
+  /**
+   * Generate proactive recommendations based on user behavior
+   * @param context - Context containing user profile and activity patterns
+   * @returns Array of proactive recommendations
+   */
+  async generateProactiveRecommendations(context: any): Promise<any[]> {
+    // TODO: Implement proactive recommendations generation
+    // This is a placeholder for the proactive AI agent feature
+    console.log('generateProactiveRecommendations called with context:', context);
+    return [];
+  }
+
+  /**
+   * Generate personalized insights for a user
+   * @param userId - User ID to generate insights for
+   * @param context - Additional context for personalization
+   * @returns Personalized insights
+   */
+  async generatePersonalizedInsights(userId: string, context?: any): Promise<any> {
+    // TODO: Implement personalized insights generation
+    // This is a placeholder for the AI personalization feature
+    console.log('generatePersonalizedInsights called for user:', userId, 'with context:', context);
+    return {};
+  }
 }
 
 // Export singleton instance

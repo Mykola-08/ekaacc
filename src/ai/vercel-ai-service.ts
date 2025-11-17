@@ -69,8 +69,8 @@ export class VercelAIService {
       return {
         content: result.text,
         usage: result.usage ? {
-          promptTokens: result.usage.promptTokens,
-          completionTokens: result.usage.completionTokens,
+          promptTokens: (result.usage as any).promptTokens || result.usage.inputTokens || 0,
+          completionTokens: (result.usage as any).completionTokens || result.usage.outputTokens || 0,
           totalTokens: result.usage.totalTokens,
         } : undefined,
         model: result.response?.modelId || 'unknown',
@@ -109,8 +109,8 @@ export class VercelAIService {
         content: JSON.stringify(result.object),
         object: result.object,
         usage: result.usage ? {
-          promptTokens: result.usage.promptTokens,
-          completionTokens: result.usage.completionTokens,
+          promptTokens: (result.usage as any).promptTokens || result.usage.inputTokens || 0,
+          completionTokens: (result.usage as any).completionTokens || result.usage.outputTokens || 0,
           totalTokens: result.usage.totalTokens,
         } : undefined,
         model: result.response?.modelId || 'unknown',

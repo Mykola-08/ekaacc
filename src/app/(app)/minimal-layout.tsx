@@ -1,5 +1,5 @@
 'use client';
-import { AuthProvider, useAuth } from '@/lib/supabase-auth';
+import { useAuth } from '@/lib/supabase-auth';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/navigation/ShadcnSidebar';
@@ -50,11 +50,10 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
 }
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
+  // Auth is provided by the root layout, no need to wrap again
   return (
-    <AuthProvider>
-      <AppLayoutContent>
-        {children}
-      </AppLayoutContent>
-    </AuthProvider>
+    <AppLayoutContent>
+      {children}
+    </AppLayoutContent>
   );
 }

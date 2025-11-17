@@ -234,7 +234,7 @@ export class SupabaseDataService implements IDataService {
       title: 'Community Post',
       content: dbPost.content,
       category: 'General',
-      likes: dbPost.likes,
+      likes: dbPost.likes_count,
       replies: 0,
       createdAt: dbPost.created_at,
       tags: []
@@ -533,8 +533,7 @@ export class SupabaseDataService implements IDataService {
       content: post.content,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      likes: post.likes,
-      is_approved: true
+      likes_count: 0
     }
     
     const { data, error } = await supabase

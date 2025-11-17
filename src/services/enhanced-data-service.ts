@@ -718,11 +718,21 @@ export class EnhancedDataService implements IEnhancedDataService {
           const newUsage = await this.createSubscriptionUsage({
             subscription_id: subscriptionId,
             user_id: userId,
-            type: 'loyalty', // Default type, should be determined from subscription
+            type: 'loyalty',
             current_period_start: new Date().toISOString(),
-            current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
+            current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+            loyalty_points_earned: 0,
+            loyalty_points_spent: 0,
+            loyalty_discount_used: 0,
+            personal_therapist_assigned: false,
             sessions_used: 1,
-            sessions_remaining: 0
+            sessions_remaining: 0,
+            group_sessions_attended: 0,
+            reports_generated: 0,
+            themes_used: [],
+            current_theme: null,
+            rewards_claimed: [],
+            total_rewards_value: 0
           });
           return newUsage;
         }
@@ -736,7 +746,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         return updatedUsage;
       });
     } catch (error) {
-      logger.error('Failed to increment session usage', { subscriptionId, userId, error });
+      logger.error('Failed to increment session usage', { subscriptionId, userId, error: error });
       throw error;
     }
   }
@@ -752,14 +762,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error fetching community post', { postId, error });
+      logger.error('Error fetching community post', { postId, error: error });
         throw error;
       }
 
       logger.info('Community post fetched successfully', { postId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch community post', { postId, error });
+      logger.error('Failed to fetch community post', { postId, error: error });
       throw error;
     }
   }
@@ -775,14 +785,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .range(offset, offset + limit - 1);
 
       if (error) {
-        logger.error('Error fetching published community posts', { limit, offset, error });
+      logger.error('Error fetching published community posts', { limit, offset, error: error });
         throw error;
       }
 
       logger.info('Published community posts fetched successfully', { limit, offset, count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch published community posts', { limit, offset, error });
+      logger.error('Failed to fetch published community posts', { limit, offset, error: error });
       throw error;
     }
   }
@@ -797,14 +807,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('created_at', { ascending: false });
 
       if (error) {
-        logger.error('Error fetching user community posts', { userId, error });
+      logger.error('Error fetching user community posts', { userId, error: error });
         throw error;
       }
 
       logger.info('User community posts fetched successfully', { userId, count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch user community posts', { userId, error });
+      logger.error('Failed to fetch user community posts', { userId, error: error });
       throw error;
     }
   }
@@ -820,14 +830,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('published_at', { ascending: false });
 
       if (error) {
-        logger.error('Error fetching featured community posts', { error });
+      logger.error('Error fetching featured community posts', { error: error });
         throw error;
       }
 
       logger.info('Featured community posts fetched successfully', { count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch featured community posts', { error });
+      logger.error('Failed to fetch featured community posts', { error: error });
       throw error;
     }
   }
@@ -859,14 +869,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error creating community post', { post, error });
+      logger.error('Error creating community post', { post, error: error });
         throw error;
       }
 
       logger.info('Community post created successfully', { postId: data.id });
       return data;
     } catch (error) {
-      logger.error('Failed to create community post', { post, error });
+      logger.error('Failed to create community post', { post, error: error });
       throw error;
     }
   }
@@ -882,14 +892,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error updating community post', { postId, updates, error });
+      logger.error('Error updating community post', { postId, updates, error: error });
         throw error;
       }
 
       logger.info('Community post updated successfully', { postId });
       return data;
     } catch (error) {
-      logger.error('Failed to update community post', { postId, updates, error });
+      logger.error('Failed to update community post', { postId, updates, error: error });
       throw error;
     }
   }
@@ -903,13 +913,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error deleting community post', { postId, error });
+      logger.error('Error deleting community post', { postId, error: error });
         throw error;
       }
 
       logger.info('Community post deleted successfully', { postId });
     } catch (error) {
-      logger.error('Failed to delete community post', { postId, error });
+      logger.error('Failed to delete community post', { postId, error: error });
       throw error;
     }
   }
@@ -924,7 +934,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (fetchError) {
-        logger.error('Error fetching current views_count', { postId, error: fetchError });
+        logger.error('Error fetching current views_count', { postId, error: fetchError as any });
         throw fetchError;
       }
 
@@ -936,13 +946,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error incrementing post views', { postId, error });
+        logger.error('Error incrementing post views', { postId, error: error });
         throw error;
       }
 
       logger.info('Post views incremented successfully', { postId });
     } catch (error) {
-      logger.error('Failed to increment post views', { postId, error });
+      logger.error('Failed to increment post views', { postId, error: error });
       throw error;
     }
   }
@@ -957,7 +967,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (fetchError) {
-        logger.error('Error fetching current likes_count', { postId, error: fetchError });
+        logger.error('Error fetching current likes_count', { postId, error: fetchError as any });
         throw fetchError;
       }
 
@@ -969,13 +979,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error incrementing post likes', { postId, error });
+        logger.error('Error incrementing post likes', { postId, error: error });
         throw error;
       }
 
       logger.info('Post likes incremented successfully', { postId });
     } catch (error) {
-      logger.error('Failed to increment post likes', { postId, error });
+      logger.error('Failed to increment post likes', { postId, error: error });
       throw error;
     }
   }
@@ -990,7 +1000,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (fetchError) {
-        logger.error('Error fetching current likes_count', { postId, error: fetchError });
+        logger.error('Error fetching current likes_count', { postId, error: fetchError as any });
         throw fetchError;
       }
 
@@ -1002,13 +1012,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error decrementing post likes', { postId, error });
+        logger.error('Error decrementing post likes', { postId, error: error });
         throw error;
       }
 
       logger.info('Post likes decremented successfully', { postId });
     } catch (error) {
-      logger.error('Failed to decrement post likes', { postId, error });
+      logger.error('Failed to decrement post likes', { postId, error: error });
       throw error;
     }
   }
@@ -1026,7 +1036,7 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       logger.info('Services batch updated successfully', { count: updates.length });
     } catch (error) {
-      logger.error('Failed to batch update services', { updates, error });
+      logger.error('Failed to batch update services', { error: error });
       throw error;
     }
   }
@@ -1047,7 +1057,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       logger.info('Community posts batch created successfully', { count: posts.length });
       return createdPosts;
     } catch (error) {
-      logger.error('Failed to batch create community posts', { posts, error });
+      logger.error('Failed to batch create community posts', { error: error });
       throw error;
     }
   }

@@ -2,7 +2,8 @@
 import { AuthProvider, useAuth } from '@/lib/supabase-auth';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { MinimalistSidebar } from '@/components/navigation/MinimalistSidebar';
+import { AppSidebar } from '@/components/navigation/ShadcnSidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { useRouter } from 'next/navigation';
 import { Spinner } from '@/components/keep';
 
@@ -34,14 +35,17 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-minimal-background">
-      <MinimalistSidebar />
-      <main className="min-h-screen lg:ml-64 transition-all duration-300 ease-in-out">
-        <div className="p-6">
-          {children}
-        </div>
-      </main>
-    </div>
+    <SidebarProvider>
+      <div className="flex min-h-screen bg-minimal-background">
+        <AppSidebar />
+        <main className="flex-1 transition-all duration-300 ease-in-out">
+          <div className="p-6">
+            <SidebarTrigger className="mb-4" />
+            {children}
+          </div>
+        </main>
+      </div>
+    </SidebarProvider>
   );
 }
 

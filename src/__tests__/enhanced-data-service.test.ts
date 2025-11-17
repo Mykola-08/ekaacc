@@ -70,12 +70,15 @@ describe('EnhancedDataService', () => {
         const mockSingle = jest.fn().mockResolvedValue({ data: mockService, error: null })
         const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
         const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockInsert = jest.fn()
+        const mockUpdate = jest.fn()
+        const mockDelete = jest.fn()
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
-          insert: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn()
+          insert: mockInsert,
+          update: mockUpdate,
+          delete: mockDelete
         } as any)
 
         const result = await enhancedDataService.getServiceById('service-1')
@@ -92,12 +95,15 @@ describe('EnhancedDataService', () => {
         const mockSingle = jest.fn().mockResolvedValue({ data: null, error: mockError })
         const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
         const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockInsert = jest.fn()
+        const mockUpdate = jest.fn()
+        const mockDelete = jest.fn()
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
-          insert: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn()
+          insert: mockInsert,
+          update: mockUpdate,
+          delete: mockDelete
         } as any)
 
         await expect(enhancedDataService.getServiceById('invalid-id')).rejects.toThrow('Service not found')

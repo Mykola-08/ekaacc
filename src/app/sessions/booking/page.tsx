@@ -2,7 +2,7 @@
 
 import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, DatePicker, Label, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue } from '@/components/keep';
 import { useState } from "react";
-import { useAuth } from "@/lib/supabase-auth";
+import { useAuth } from "@/context/auth-context";
 import { useAppStore } from "@/store/app-store";
 import fxService from '@/lib/fx-service';
 import { SessionAssessmentForm } from '@/components/eka/forms';

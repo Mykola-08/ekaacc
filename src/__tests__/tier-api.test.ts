@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { POST } from '../app/api/admin/tiers/assign/route';
-import { supabase } from '../lib/supabase';
+import { GET } from '../app/api/admin/tiers/assign/route';
+import * as supabaseModule from '../lib/supabase';
 import { getTierValidationService } from '../services/tier-validation-service';
 
 // Mock dependencies
@@ -29,7 +30,7 @@ jest.mock('next/server', () => ({
   },
   NextResponse: {
     json: (data: any, init?: ResponseInit) => {
-      return new Response(JSON.stringify(data), {
+      return new global.Response(JSON.stringify(data), {
         ...init,
         headers: {
           ...init?.headers,
@@ -60,15 +61,26 @@ describe('Tier Assignment API', () => {
       select: jest.fn().mockReturnThis(),
       update: jest.fn().mockReturnThis(),
       insert: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
     };
 
     (getTierValidationService as jest.Mock).mockResolvedValue(mockValidationService);
-    (supabase as any) = mockSupabase;
+    (supabaseModule.supabase as any) = mockSupabase;
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
+
+  const createMockGetRequest = (userId: string, token = 'valid-token') => {
+    const url = new URL(`http://localhost:3000/api/admin/tiers/assign?userId=${userId}`);
+    return new NextRequest(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+  };
 
   describe('POST /api/admin/tiers/assign', () => {
     const createMockRequest = (body: any, token = 'valid-token') => {

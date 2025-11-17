@@ -94,8 +94,8 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         combinedBadges: badges,
         availableThemes: [],
         usageSummary: {
-          loyalty: loyaltySub ? await this.getSubscriptionUsage(loyaltySub.id) : undefined,
-          vip: vipSub ? await this.getSubscriptionUsage(vipSub.id) : undefined,
+          loyalty: loyaltySub ? (await this.getSubscriptionUsage(loyaltySub.id) || undefined) : undefined,
+          vip: vipSub ? (await this.getSubscriptionUsage(vipSub.id) || undefined) : undefined,
         },
       };
     } catch (error) {
@@ -246,13 +246,23 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       
       // If no tiers in database, return defaults
       if (!data || data.length === 0) {
-        return DEFAULT_SUBSCRIPTION_TIERS;
+        return DEFAULT_SUBSCRIPTION_TIERS.map(t => ({
+          ...t,
+          id: `tier-${t.type}`,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        }));
       }
       
       return data.map(this.mapDbTierToApp);
     } catch (error) {
       console.error('Error fetching subscription tiers:', error);
-      return DEFAULT_SUBSCRIPTION_TIERS;
+      return DEFAULT_SUBSCRIPTION_TIERS.map(t => ({
+        ...t,
+        id: `tier-${t.type}`,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      }));
     }
   }
 
@@ -461,7 +471,7 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       interval: db.interval as SubscriptionInterval,
       price: db.price,
       currency: db.currency,
-      stripeSubscriptionId: db.stripe_subscription_id,
+      stripeSubscriptionId: db.stripe_subscription_id ?? undefined,
       startDate: db.start_date,
       endDate: db.end_date,
       currentPeriodStart: db.current_period_start,
@@ -470,8 +480,8 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       cancelledAt: db.cancelled_at,
       createdAt: db.created_at,
       updatedAt: db.updated_at,
-      createdBy: db.created_by,
-      notes: db.notes,
+      createdBy: db.created_by ?? undefined,
+      notes: db.notes ?? undefined,
     };
   }
 
@@ -487,7 +497,14 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       yearlyPrice: db.yearly_price,
       currency: db.currency,
       features,
-      badge: db.badge,
+      badge: (db.badge as any) ?? {
+        text: 'TIER',
+        bgColor: 'bg-blue-500',
+        textColor: 'text-white',
+        icon: 'star',
+        gradient: false,
+        pulse: false,
+      },
       isActive: db.is_active,
       createdAt: db.created_at,
       updatedAt: db.updated_at,
@@ -507,7 +524,7 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       sessionsUsed: db.sessions_used,
       sessionsRemaining: db.sessions_remaining,
       themesUsed: db.themes_used || [],
-      rewardsClaimed: db.rewards_claimed || [],
+      rewardsClaimed: Array.isArray(db.rewards_claimed) ? (db.rewards_claimed as any) : [],
       totalRewardsValue: db.total_rewards_value,
       lastUpdated: db.last_updated,
     };

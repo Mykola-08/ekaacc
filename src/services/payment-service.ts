@@ -95,7 +95,7 @@ class SupabasePaymentService implements IPaymentService {
     const { error } = await supabaseAdmin
       .from('payment_requests')
       .update({ 
-        status: 'user_confirmed',
+        status: 'pending',
         updated_at: new Date().toISOString()
       })
       .eq('id', requestId);
@@ -224,7 +224,7 @@ class SupabasePaymentService implements IPaymentService {
       .from('payment_requests')
       .select('*')
       .eq('user_id', userId)
-      .in('status', ['pending', 'user_confirmed'])
+      .eq('status', 'pending')
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -302,8 +302,8 @@ class SupabasePaymentService implements IPaymentService {
       throw new Error('Payment request not found');
     }
 
-    if (currentRequest.status !== 'pending' && currentRequest.status !== 'user_confirmed') {
-      throw new Error('Can only confirm pending or user-confirmed payment requests');
+    if (currentRequest.status !== 'pending') {
+      throw new Error('Can only confirm pending payment requests');
     }
 
     const { data, error } = await supabaseAdmin
@@ -360,8 +360,8 @@ class SupabasePaymentService implements IPaymentService {
       throw new Error('Payment request not found');
     }
 
-    if (currentRequest.status !== 'pending' && currentRequest.status !== 'user_confirmed') {
-      throw new Error('Can only reject pending or user-confirmed payment requests');
+    if (currentRequest.status !== 'pending') {
+      throw new Error('Can only reject pending payment requests');
     }
 
     const { data, error } = await supabaseAdmin
@@ -416,8 +416,8 @@ class SupabasePaymentService implements IPaymentService {
       throw new Error('Unauthorized');
     }
 
-    if (currentRequest.status !== 'pending' && currentRequest.status !== 'user_confirmed') {
-      throw new Error('Can only cancel pending or user-confirmed payment requests');
+    if (currentRequest.status !== 'pending') {
+      throw new Error('Can only cancel pending payment requests');
     }
 
     const { data, error } = await supabaseAdmin
@@ -497,7 +497,7 @@ class MockPaymentService implements IPaymentService {
   async markAsPaid(requestId: string): Promise<void> {
     const request = this.paymentRequests.get(requestId);
     if (request) {
-      request.status = 'user_confirmed';
+      request.status = 'pending';
       request.updatedAt = new Date().toISOString();
     }
   }
@@ -539,7 +539,7 @@ class MockPaymentService implements IPaymentService {
 
   async getUserPaymentRequests(userId: string): Promise<PaymentRequest[]> {
     return Array.from(this.paymentRequests.values())
-      .filter(request => request.userId === userId && ['pending', 'user_confirmed'].includes(request.status));
+      .filter(request => request.userId === userId && request.status === 'pending');
   }
 
   async getPendingPaymentRequests(): Promise<PaymentRequest[]> {
@@ -559,8 +559,8 @@ class MockPaymentService implements IPaymentService {
       throw new Error('Payment request not found');
     }
 
-    if (request.status !== 'pending' && request.status !== 'user_confirmed') {
-      throw new Error('Can only confirm pending or user-confirmed payment requests');
+    if (request.status !== 'pending') {
+      throw new Error('Can only confirm pending payment requests');
     }
 
     request.status = 'confirmed';
@@ -585,8 +585,8 @@ class MockPaymentService implements IPaymentService {
       throw new Error('Payment request not found');
     }
 
-    if (request.status !== 'pending' && request.status !== 'user_confirmed') {
-      throw new Error('Can only reject pending or user-confirmed payment requests');
+    if (request.status !== 'pending') {
+      throw new Error('Can only reject pending payment requests');
     }
 
     request.status = 'rejected';
@@ -609,8 +609,8 @@ class MockPaymentService implements IPaymentService {
       throw new Error('Unauthorized');
     }
 
-    if (request.status !== 'pending' && request.status !== 'user_confirmed') {
-      throw new Error('Can only cancel pending or user-confirmed payment requests');
+    if (request.status !== 'pending') {
+      throw new Error('Can only cancel pending payment requests');
     }
 
     request.status = 'cancelled';

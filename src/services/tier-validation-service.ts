@@ -220,14 +220,7 @@ export class TierValidationService implements ITierValidationService {
       }
     }
     
-    // Check for referral requirements - handle both vip and loyalty tier requirements
-    const vipRequirements = (tier as VIPTierDetails).requirements;
-    if (vipRequirements?.referralCount) {
-      requiredMetrics.referralCount = vipRequirements.referralCount;
-      if (referralCount < vipRequirements.referralCount) {
-        missingRequirements.push(`Minimum ${vipRequirements.referralCount} referrals required (current: ${referralCount})`);
-      }
-    }
+    // Referral requirements are defined for loyalty tiers; VIP tiers use invitation-only or spend/session/duration
     
     if (tier.requirements?.invitationOnly) {
       // This would check if user has been invited
@@ -342,6 +335,14 @@ export class TierValidationService implements ITierValidationService {
     // For now, return true for silver, false for others
     return tier === 'silver';
   }
+}
+
+// Factory function to get the tier validation service instance
+export async function getTierValidationService(): Promise<ITierValidationService> {
+  // Import the subscription service dynamically to avoid circular dependencies
+  const { SubscriptionService } = await import('./subscription-service');
+  const subscriptionService = new SubscriptionService();
+  return new TierValidationService(subscriptionService);
 }
 
 export class TierAuditService {

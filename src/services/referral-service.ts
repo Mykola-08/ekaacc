@@ -381,7 +381,8 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async getReferralSettings(): Promise<ReferralSettings> {
-    const { getFirestore, doc, getDoc } = await import('firebase/firestore');
+    const firestoreModule = 'firebase/firestore' as string;
+    const { getFirestore, doc, getDoc } = await import(firestoreModule as any);
     const db = getFirestore();
     const settingsRef = doc(db, 'settings', 'referralSettings');
     const settingsSnap = await getDoc(settingsRef);
@@ -398,7 +399,8 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async updateReferralSettings(updates: Partial<ReferralSettings>, adminId: string): Promise<ReferralSettings> {
-    const { getFirestore, doc, setDoc, serverTimestamp, getDoc } = await import('firebase/firestore');
+    const firestoreModule1 = 'firebase/firestore' as string;
+    const { getFirestore, doc, setDoc, serverTimestamp, getDoc } = await import(firestoreModule1 as any);
     const db = getFirestore();
     const settingsRef = doc(db, 'settings', 'referralSettings');
     
@@ -420,7 +422,8 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async generateReferralCode(userId: string, userName: string, customCode?: string): Promise<ReferralCode> {
-    const { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } = await import('firebase/firestore');
+    const firestoreModule2 = 'firebase/firestore' as string;
+    const { getFirestore, collection, addDoc, query, where, getDocs, serverTimestamp } = await import(firestoreModule2 as any);
     const db = getFirestore();
     
     // Check if user already has a code
@@ -482,7 +485,8 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async getReferralCode(userId: string): Promise<ReferralCode | null> {
-    const { getFirestore, collection, query, where, getDocs } = await import('firebase/firestore');
+    const firestoreModule3 = 'firebase/firestore' as string;
+    const { getFirestore, collection, query, where, getDocs } = await import(firestoreModule3 as any);
     const db = getFirestore();
     const codesRef = collection(db, 'referralCodes');
     const q = query(codesRef, where('userId', '==', userId));
@@ -505,7 +509,8 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async getReferralCodeByCode(code: string): Promise<ReferralCode | null> {
-    const { getFirestore, collection, query, where, getDocs } = await import('firebase/firestore');
+    const firestoreModule4 = 'firebase/firestore' as string;
+    const { getFirestore, collection, query, where, getDocs } = await import(firestoreModule4 as any);
     const db = getFirestore();
     const codesRef = collection(db, 'referralCodes');
     const q = query(codesRef, where('code', '==', code.toUpperCase()));
@@ -566,7 +571,8 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async getReferral(referralId: string): Promise<Referral | null> {
-    const { getFirestore, doc, getDoc } = await import('firebase/firestore');
+    const firestoreModule5 = 'firebase/firestore' as string;
+    const { getFirestore, doc, getDoc } = await import(firestoreModule5 as any);
     const db = getFirestore();
     const referralRef = doc(db, 'referrals', referralId);
     const referralSnap = await getDoc(referralRef);
@@ -588,13 +594,14 @@ class FirestoreReferralService implements IReferralService {
   }
 
   async getUserReferrals(userId: string): Promise<Referral[]> {
-    const { getFirestore, collection, query, where, orderBy, getDocs } = await import('firebase/firestore');
+    const firestoreModule6 = 'firebase/firestore' as string;
+    const { getFirestore, collection, query, where, orderBy, getDocs } = await import(firestoreModule6 as any);
     const db = getFirestore();
     const referralsRef = collection(db, 'referrals');
     const q = query(referralsRef, where('referrerId', '==', userId), orderBy('createdAt', 'desc'));
     
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(doc => ({
+    return snapshot.docs.map(d => ({
       ...doc.data(),
       id: doc.id,
       registeredAt: doc.data().registeredAt?.toDate?.()?.toISOString() || doc.data().registeredAt,

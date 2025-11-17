@@ -1,6 +1,7 @@
 "use client";
 
-import { DatePicker, Slider, Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Textarea, Label, Badge, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Skeleton } from '@/components/keep';
+import { DatePicker, Slider, Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Textarea, Label, Badge, Input, Skeleton } from '@/components/keep';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';

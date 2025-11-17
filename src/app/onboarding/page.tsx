@@ -3,7 +3,7 @@
 import { Button, Card, CardContent, Input, Label, Select, SelectContent, SelectItem, SelectValue, Slider, Switch, Textarea, Radio } from '@/components/keep';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/supabase-auth';
+import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { OnboardingShell } from '@/components/eka/onboarding/onboarding-shell';
 import { OnboardingStep } from '@/components/eka/onboarding/onboarding-step';

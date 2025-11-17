@@ -200,7 +200,9 @@ export default function AdminSubscriptionsPage() {
             <div className="space-y-2">
               <Label htmlFor="subscription-type">Subscription Type</Label>
               <Select value={newSubscriptionType} onValueChange={(value) => setNewSubscriptionType(value as SubscriptionType)}>
-                <SelectValue placeholder="Select type"  />
+                <SelectTrigger>
+                  <SelectValue placeholder="Select type"  />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="loyalty"><div className="flex items-center gap-2"><Star className="w-4 h-4 text-amber-500" /><span>Loyal Membership</span></div></SelectItem>
                   <SelectItem value="vip"><div className="flex items-center gap-2"><Crown className="w-4 h-4 text-purple-500" /><span>VIP Membership</span></div></SelectItem>

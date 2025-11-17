@@ -83,13 +83,13 @@ export function UserNav() {
         <div className="border-t my-1"></div>
         <div>
           <Link href="/account">
-            <DropdownItem>
+            <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
           </Link>
           <Link href="/settings">
-            <DropdownItem>
+            <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
             </DropdownMenuItem>

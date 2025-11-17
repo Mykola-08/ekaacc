@@ -275,7 +275,9 @@ export default function AdminCreateUserPage() {
                 value={formData.role} 
                 onValueChange={(value) => handleInputChange('role', value)}
               >
-                <SelectValue  />
+                <SelectTrigger>
+                  <SelectValue  />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Patient">Patient</SelectItem>
                   <SelectItem value="Therapist">Therapist</SelectItem>

@@ -457,7 +457,9 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
           <div className="space-y-2">
             <Label htmlFor="method">Payment Method</Label>
             <Select value={method} onValueChange={(value) => setMethod(value as PaymentMethod)}>
-              <SelectValue placeholder="Select method"  />
+              <SelectTrigger>
+                <SelectValue placeholder="Select method"  />
+              </SelectTrigger>
               <SelectContent>
                 <SelectItem value="bizum">Bizum</SelectItem>
                 <SelectItem value="cash">Cash</SelectItem>

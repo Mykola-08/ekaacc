@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
 import { OAuthButtons } from '@/components/auth/oauth-buttons-improved'
-import { Loader2 } from 'lucide-react'
+import { IconLoader2 } from '@tabler/icons-react'
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -168,7 +168,7 @@ export function LoginForm03({ onSuccess, onError }: LoginForm03Props) {
               >
                 {isLoading ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
                     Signing in...
                   </>
                 ) : (

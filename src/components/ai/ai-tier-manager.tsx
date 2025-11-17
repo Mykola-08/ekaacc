@@ -396,7 +396,7 @@ export function AITierManager({
                     <div className="space-y-2">
                       <p className="text-sm font-medium">Key Features</p>
                       <div className="space-y-1">
-                        {comparison.config.features.slice(0, 5).map((feature) => (
+                        {comparison.config.features.slice(0, 5).map((feature: string) => (
                           <div key={feature} className="flex items-center gap-2">
                             <CheckCircle className="h-3 w-3 text-green-500" />
                             <span className="text-xs text-muted-foreground">

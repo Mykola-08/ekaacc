@@ -347,7 +347,7 @@ export default function JournalPage() {
 								</h3>
 								<DatePicker
 									selected={selectedDate}
-									onChange={(date) => date && setSelectedDate(date)}
+									onChange={(date: Date) => date && setSelectedDate(date)}
 									className="rounded-lg"
 								/>
 							</CardContent>

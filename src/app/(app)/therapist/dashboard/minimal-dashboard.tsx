@@ -177,16 +177,16 @@ export default function MinimalTherapistDashboard() {
     try {
       // Get sessions for this therapist
       const allSessions = await dataService.getAllSessions();
-      const therapistSessions = allSessions.filter(session => 
+      const therapistSessions = allSessions.filter((session: any) => 
         session.therapistId === currentUser.id || 
         session.therapist === currentUser.name ||
         session.therapist === currentUser.email
       );
       
       // Get unique clients
-      const clientIds = [...new Set(therapistSessions.map(s => s.userId))];
+      const clientIds = [...new Set(therapistSessions.map((s: any) => s.userId))];
       const clientData = await Promise.all(
-        clientIds.map(id => dataService.getUserById(id))
+        clientIds.map((id: string) => dataService.getUserById(id))
       );
       
       setSessions(therapistSessions);

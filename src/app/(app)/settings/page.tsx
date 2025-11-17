@@ -41,7 +41,7 @@ export default function SettingsPage() {
   }, [currentUser, authLoading]);
 
   const handleSettingChange = (category: SettingsCategory, key: string, value: boolean) => {
-    setSettings((prev) => {
+    setSettings((prev: Settings) => {
       const newSettings = {
         ...prev,
         [category]: {

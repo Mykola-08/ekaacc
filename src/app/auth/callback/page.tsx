@@ -11,20 +11,30 @@ export default function AuthCallback() {
     // Handle the OAuth callback
     const handleAuthCallback = async () => {
       try {
-        // Exchange code for session
-        const { data, error } = await supabase.auth.exchangeCodeForSession(
-          window.location.search
-        )
+        // Get the code from the URL
+        const params = new URLSearchParams(window.location.search)
+        const code = params.get('code')
 
-        if (error) {
-          console.error('Error exchanging code for session:', error)
-          router.push('/login?error=auth_failed')
-          return
-        }
+        if (code) {
+          // Exchange code for session
+          const { error } = await supabase.auth.exchangeCodeForSession(code)
 
-        if (data.session) {
+          if (error) {
+            console.error('Error exchanging code for session:', error)
+            router.push('/login?error=auth_failed')
+            return
+          }
+
           // Successfully authenticated
           router.push('/dashboard')
+        } else {
+          // No code provided, check if there's already a session
+          const { data: { session } } = await supabase.auth.getSession()
+          if (session) {
+            router.push('/dashboard')
+          } else {
+            router.push('/login')
+          }
         }
       } catch (error) {
         console.error('Error handling auth callback:', error)

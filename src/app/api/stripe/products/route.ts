@@ -1,12 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-11-20.acacia',
-});
+function getStripeClient() {
+  const apiKey = process.env.STRIPE_SECRET_KEY;
+  if (!apiKey) {
+    throw new Error('STRIPE_SECRET_KEY is not configured');
+  }
+  return new Stripe(apiKey, {
+    apiVersion: '2024-11-20.acacia',
+  });
+}
 
 export async function GET() {
   try {
+    const stripe = getStripeClient();
+    
     // Fetch all products
     const products = await stripe.products.list({
       limit: 100,
@@ -38,6 +46,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
+    const stripe = getStripeClient();
     const body = await request.json();
     const { name, description, images, metadata } = body;
 

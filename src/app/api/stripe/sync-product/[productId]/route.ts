@@ -2,15 +2,22 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabase';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2024-11-20.acacia',
-});
+function getStripeClient() {
+  const apiKey = process.env.STRIPE_SECRET_KEY;
+  if (!apiKey) {
+    throw new Error('STRIPE_SECRET_KEY is not configured');
+  }
+  return new Stripe(apiKey, {
+    apiVersion: '2024-11-20.acacia',
+  });
+}
 
 export async function POST(
   request: NextRequest,
   { params }: { params: { productId: string } }
 ) {
   try {
+    const stripe = getStripeClient();
     const { productId } = params;
 
     // Fetch product from database

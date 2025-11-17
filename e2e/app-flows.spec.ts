@@ -33,6 +33,10 @@ test.describe('Dashboard Page', () => {
       // Look for navigation or sidebar
       const hasNav = await page.locator('nav, aside, [role="navigation"]').count() > 0;
       expect(hasNav).toBeTruthy();
+    } else {
+      // If redirected or showing auth message, that's also acceptable
+      const hasAuthMessage = await page.locator('text=Please sign in').count() > 0;
+      expect(hasAuthMessage || page.url().includes('login')).toBeTruthy();
     }
   });
 

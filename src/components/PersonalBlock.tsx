@@ -1,14 +1,12 @@
 'use client';
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Notification, NotificationDescription, NotificationTitle } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
-;
 import { Lightbulb, AlertTriangle } from 'lucide-react';
-;
-;
-;
-;
 import { Skeleton } from './ui/skeleton';
 
 export default function PersonalBlock() {

@@ -1,9 +1,8 @@
 'use client';
 
-;
-;
-;
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CalendarDays, Sparkles, ArrowRight } from 'lucide-react';
 import { AnimatedCard } from '@/components/eka/animated-card';
 import Link from 'next/link';

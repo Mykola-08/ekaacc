@@ -1,7 +1,12 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
-import { SelectTrigger } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { forwardRef } from 'react';
 import type { User } from '@/lib/types';
 import { Search, Eye, Edit, UserX, UserCheck, Filter, Users, User as UserIcon, Shield, Activity } from 'lucide-react';
@@ -67,7 +72,9 @@ export function UserFilters({
                         </Select>
 
                         <Select value={statusFilter} onValueChange={onStatusChange}>
-                            <SelectValue placeholder="Status"  />
+                            <SelectTrigger className="w-[160px]">
+                                <SelectValue placeholder="Status"  />
+                            </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All Status</SelectItem>
                                 <SelectItem value="active">Active</SelectItem>

@@ -25,10 +25,10 @@ function StatCard({ title, value, icon }: { title: string, value: string, icon: 
     return (
         <Card className="p-4">
             <div className="flex items-center justify-between mb-2">
-                <Typography variant="body2" className="text-gray-600">{title}</Typography>
+                <span className="text-sm text-gray-600">{title}</span>
                 {icon}
             </div>
-            <Typography variant="h4">{value}</Typography>
+            <div className="text-2xl font-bold">{value}</div>
         </Card>
     );
 }
@@ -118,15 +118,15 @@ export default function TherapistClientsPage() {
   };
 
   return (
-    <Layout>
+    <div className="container mx-auto p-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <Typography variant="h3">Clients</Typography>
-            <Typography variant="body2" className="text-gray-600">
+            <h3 className="text-2xl font-bold">Clients</h3>
+            <p className="text-sm text-gray-600">
               Manage your client relationships and view their profiles.
-            </Typography>
+            </p>
           </div>
           <div className="flex gap-2">
             <Button onClick={loadClients} variant="outline" disabled={loading}>
@@ -173,13 +173,13 @@ export default function TherapistClientsPage() {
                     <TableHeader>
                       <TableRow>
                         <TableHead>
-                          <Typography variant="body2" className="font-medium">Client</Typography>
+                          <span className="text-sm font-medium">Client</span>
                         </TableHead>
                         <TableHead>
-                          <Typography variant="body2" className="font-medium">Contact</Typography>
+                          <span className="text-sm font-medium">Contact</span>
                         </TableHead>
                         <TableHead className="text-right">
-                          <Typography variant="body2" className="font-medium">Actions</Typography>
+                          <span className="text-sm font-medium">Actions</span>
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -191,15 +191,15 @@ export default function TherapistClientsPage() {
                               <Avatar size="sm">
                                 <AvatarFallback>{(client.name || 'C').charAt(0).toUpperCase()}</AvatarFallback>
                               </Avatar>
-                              <Typography variant="body1" className="font-medium group-hover:underline">
+                              <span className="font-medium group-hover:underline">
                                 {client.name || client.id}
-                              </Typography>
+                              </span>
                             </Link>
                           </TableCell>
                           <TableCell>
-                            <Typography variant="body2" className="text-gray-600">
+                            <span className="text-sm text-gray-600">
                               {client.email || '-'}
-                            </Typography>
+                            </span>
                           </TableCell>
                           <TableCell className="text-right">
                             <Button 
@@ -220,6 +220,6 @@ export default function TherapistClientsPage() {
           </div>
         )}
       </div>
-    </Layout>
+    </div>
   );
 }

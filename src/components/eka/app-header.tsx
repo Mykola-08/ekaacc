@@ -31,21 +31,21 @@ export function AppHeader() {
           <Button
             variant="outline"
             size="icon"
-            className="square-hole-button hover-enhanced"
+            className="squircle-button hover-enhanced"
             onClick={() => setOpenMobile(true)}
           >
             <Menu className="h-5 w-5" />
           </Button>
         </div>
         <div className="hidden md:flex">
-          <SidebarTrigger className="square-hole-button hover-enhanced" />
+          <SidebarTrigger className="squircle-button hover-enhanced" />
         </div>
         <div className="relative w-full max-w-lg">
           <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search everything..."
-            className="square-hole-input pl-12 pr-4 bg-muted/30 border-0 focus:ring-1 focus:ring-primary/20 focus:bg-background/50 transition-all duration-200"
+            className="squircle-input pl-12 pr-4 bg-muted/30 border-0 focus:ring-1 focus:ring-primary/20 focus:bg-background/50 transition-all duration-200"
           />
         </div>
       </div>

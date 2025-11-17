@@ -68,11 +68,11 @@
     --radius-2xl: 2rem;    /* 32px */
     --radius-full: 9999px;
 
-    /* Square Hole Design System */
-    --square-hole-radius: 0.5rem;  /* 8px for interactive elements */
-    --square-hole-bg: hsl(var(--background));
-    --square-hole-border: hsl(var(--border));
-    --square-hole-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Squircle Design System - replaces square hole */
+    --squircle-radius: 0.5rem;  /* 8px for interactive elements */
+    --squircle-bg: hsl(var(--background));
+    --squircle-border: hsl(var(--border));
+    --squircle-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     /* Motion Primitives Pro Typography System */
     --font-sans: 'Inter', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -361,28 +361,28 @@
   .rounded-full { border-radius: var(--radius-full); }
 
   /* Square Hole Design System */
-  .square-hole {
-    border-radius: var(--square-hole-radius);
-    background: var(--square-hole-bg);
-    border: 1px solid var(--square-hole-border);
-    box-shadow: var(--square-hole-shadow);
+  .squircle {
+    border-radius: var(--squircle-radius);
+    background: var(--squircle-bg);
+    border: 1px solid var(--squircle-border);
+    box-shadow: var(--squircle-shadow);
     transition: all 0.2s ease-in-out;
   }
 
-  .square-hole-interactive {
-    @apply square-hole hover:shadow-md hover:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
+  .squircle-interactive {
+    @apply squircle hover:shadow-md hover:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2;
   }
 
-  .square-hole-button {
-    @apply square-hole-interactive min-h-[44px] min-w-[44px] flex items-center justify-center font-medium;
+  .squircle-button {
+    @apply squircle-interactive min-h-[44px] min-w-[44px] flex items-center justify-center font-medium;
   }
 
-  .square-hole-card {
-    @apply square-hole p-6 hover:shadow-lg transition-all duration-300;
+  .squircle-card {
+    @apply squircle p-6 hover:shadow-lg transition-all duration-300;
   }
 
-  .square-hole-input {
-    @apply square-hole-interactive w-full px-4 py-3 text-base;
+  .squircle-input {
+    @apply squircle-interactive w-full px-4 py-3 text-base;
   }
 
   /* Touch Target Compliance */
@@ -419,7 +419,7 @@
 
   /* Navigation Button Standards */
   .nav-button {
-    @apply square-hole-button touch-target hover-enhanced focus-aa-compliant;
+    @apply squircle-button touch-target hover-enhanced focus-aa-compliant;
     font-size: 0.875rem;
     font-weight: 500;
   }
@@ -434,7 +434,7 @@
 
   /* Authentication Flow Buttons */
   .auth-button {
-    @apply square-hole-button touch-target hover-enhanced focus-aa-compliant;
+    @apply squircle-button touch-target hover-enhanced focus-aa-compliant;
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-weight: 600;

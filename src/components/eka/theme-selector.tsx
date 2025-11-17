@@ -1,10 +1,9 @@
 'use client';
 
-import { Badge, Button, Card, CardContent } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { useState, useEffect, useCallback } from 'react';
-;
-;
-;
 import { Check, Lock, Palette, Sparkles, Timer } from 'lucide-react';
 import { getThemeService } from '@/services/theme-service';
 import type { IThemeService } from '@/services/theme-service';

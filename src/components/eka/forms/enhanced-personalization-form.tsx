@@ -1,6 +1,13 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Textarea } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useState, useEffect } from 'react';
 import { Loader2, Sparkles, Gift, X, Target, Heart, TrendingUp, Calendar, Smile, Star, Trophy, Zap, Brain, MessageCircle } from 'lucide-react';
@@ -232,30 +239,30 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
   };
 
   return (
-    <Modal open={open} onOpenChange={onClose}>
-      <ModalContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-        <ModalHeader>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
           <div className="flex items-center justify-between mb-2">
             <ModalTitle className="text-2xl flex items-center gap-2">
               <Sparkles className="h-6 w-6 text-blue-500" />
               Let's Personalize Your Journey
-            </ModalTitle>
+            </DialogTitle>
             {onSkip && (
               <Button variant="outline" size="sm" onClick={onSkip}>
                 Skip for now
               </Button>
             )}
           </div>
-          <ModalDescription>
+          <DialogDescription>
             Step {step} of {totalSteps} - {Math.round(progress)}% complete
-          </ModalDescription>
+          </DialogDescription>
           <div className="h-2 mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
             <div 
               className="h-full bg-blue-600 transition-all duration-300" 
               style={{ width: `${progress}%` }}
             />
           </div>
-        </ModalHeader>
+        </DialogHeader>
 
         <div className="space-y-6 py-4">
           {/* Step 1: Goal Categories */}
@@ -703,8 +710,8 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
               )}
             </Button>
           )}
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

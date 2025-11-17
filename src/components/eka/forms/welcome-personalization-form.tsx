@@ -1,17 +1,16 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Select, SelectContent, SelectItem, SelectValue, Textarea } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
-;
-;
-;
-;
-;
-;
 import { Loader2, Sparkles, Gift, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-;
-;
 
 interface WelcomePersonalizationFormProps {
   open: boolean;
@@ -160,25 +159,25 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
   };
 
   return (
-    <Modal open={open} onOpenChange={onClose}>
-      <ModalContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <ModalHeader>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
           <div className="flex items-center justify-between">
             <div>
               <ModalTitle className="text-2xl flex items-center gap-2">
                 <Sparkles className="h-6 w-6 text-primary" />
                 Welcome to EKA
-              </ModalTitle>
-              <ModalDescription>
+              </DialogTitle>
+              <DialogDescription>
                 Complete this form to personalize your wellness journey
-              </ModalDescription>
+              </DialogDescription>
             </div>
             <Badge variant="background" className="flex items-center gap-1">
               <Gift className="h-3 w-3" />
               €10 Discount
             </Badge>
           </div>
-        </ModalHeader>
+        </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Progress indicator */}
@@ -419,9 +418,9 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 </Button>
               )}
             </div>
-          </ModalFooter>
+          </DialogFooter>
         </form>
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }

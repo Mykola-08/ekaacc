@@ -120,25 +120,25 @@ export default function MinimalAdminDashboard() {
 
   const fetchDashboardData = useCallback(async () => {
     try {
-      const dataService = getDataService();
+      const dataService = await getDataService();
       const [users, sessions] = await Promise.all([
         dataService.getAllUsers(),
         dataService.getAllSessions()
       ]);
 
       const totalUsers = users.length;
-      const activeUsers = users.filter(u => u.lastActive && 
+      const activeUsers = users.filter((u: any) => u.lastActive && 
         new Date(u.lastActive) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       ).length;
       const totalSessions = sessions.length;
-      const totalRevenue = sessions.reduce((sum, session) => sum + (session.price || 0), 0);
+      const totalRevenue = sessions.reduce((sum: number, session: any) => sum + (session.price || 0), 0);
 
       const recentUsers = users
-        .sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
+        .sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime())
         .slice(0, 10);
 
       const recentSessions = sessions
-        .sort((a, b) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime())
+        .sort((a: any, b: any) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime())
         .slice(0, 10);
 
       setStats({
@@ -187,7 +187,7 @@ export default function MinimalAdminDashboard() {
         <div className="flex gap-2">
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             onClick={() => window.location.href = '/admin/create-user'}
           >
             <Users className="w-4 h-4 mr-2" />
@@ -195,7 +195,7 @@ export default function MinimalAdminDashboard() {
           </Button>
           <Button 
             variant="default" 
-            size="md"
+            size="default"
             onClick={() => window.location.href = '/admin/settings'}
           >
             Settings
@@ -243,7 +243,7 @@ export default function MinimalAdminDashboard() {
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             className="w-full"
             onClick={() => window.location.href = '/admin/users'}
           >
@@ -252,7 +252,7 @@ export default function MinimalAdminDashboard() {
           </Button>
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             className="w-full"
             onClick={() => window.location.href = '/admin/subscriptions'}
           >
@@ -261,7 +261,7 @@ export default function MinimalAdminDashboard() {
           </Button>
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             className="w-full"
             onClick={() => window.location.href = '/admin/payments'}
           >
@@ -270,7 +270,7 @@ export default function MinimalAdminDashboard() {
           </Button>
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             className="w-full"
             onClick={() => window.location.href = '/admin/settings'}
           >

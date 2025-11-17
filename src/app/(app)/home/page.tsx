@@ -1,7 +1,7 @@
 'use client';
 
-import MinimalistHomePage from './minimalist-page';
+import EnhancedPatientDashboard from './enhanced-page';
 
 export default function HomePage() {
-  return <MinimalistHomePage />;
+  return <EnhancedPatientDashboard />;
 }

@@ -340,8 +340,8 @@ export class TierValidationService implements ITierValidationService {
 // Factory function to get the tier validation service instance
 export async function getTierValidationService(): Promise<ITierValidationService> {
   // Import the subscription service dynamically to avoid circular dependencies
-  const { SubscriptionService } = await import('./subscription-service');
-  const subscriptionService = new SubscriptionService();
+  const { getSubscriptionService } = await import('./subscription-service');
+  const subscriptionService = await getSubscriptionService();
   return new TierValidationService(subscriptionService);
 }
 

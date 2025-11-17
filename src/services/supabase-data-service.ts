@@ -530,10 +530,20 @@ export class SupabaseDataService implements IDataService {
   async createCommunityPost(post: Omit<AppCommunityPost, 'id'>): Promise<AppCommunityPost> {
     const dbPost: Omit<DbCommunityPost, 'id'> = {
       user_id: post.author,
+      title: post.title || 'Untitled Post',
       content: post.content,
+      category: post.category || null,
+      tags: post.tags || [],
+      is_published: post.isPublished || false,
+      published_at: post.isPublished ? new Date().toISOString() : null,
+      likes_count: 0,
+      comments_count: 0,
+      views_count: 0,
+      is_featured: false,
+      is_anonymous: post.isAnonymous || false,
+      metadata: post.metadata || {},
       created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString(),
-      likes_count: 0
+      updated_at: new Date().toISOString()
     }
     
     const { data, error } = await supabase

@@ -492,10 +492,12 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       id: db.id,
       type: db.type as SubscriptionType,
       name: db.name,
+      displayName: db.name, // Use name as displayName
       description: db.description,
       monthlyPrice: db.monthly_price,
       yearlyPrice: db.yearly_price,
       currency: db.currency,
+      benefits: features.benefits || [], // Extract benefits from features
       features,
       badge: (db.badge as any) ?? {
         text: 'TIER',
@@ -505,7 +507,9 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         gradient: false,
         pulse: false,
       },
+      color: features.color || 'blue', // Default color
       isActive: db.is_active,
+      order: features.order || 0, // Default order
       createdAt: db.created_at,
       updatedAt: db.updated_at,
     };

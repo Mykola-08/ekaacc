@@ -94,7 +94,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       logger.info('Transaction completed successfully');
       return result;
     } catch (error) {
-      logger.error('Transaction failed', { error });
+      logger.error('Transaction failed', error as Error);
       throw error;
     }
   }
@@ -110,14 +110,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error fetching service', { serviceId, error });
+        logger.error('Error fetching service', error as Error, { serviceId });
         throw error;
       }
 
       logger.info('Service fetched successfully', { serviceId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch service', { serviceId, error });
+      logger.error('Failed to fetch service', error as Error, { serviceId });
       throw error;
     }
   }
@@ -133,14 +133,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('name');
 
       if (error) {
-        logger.error('Error fetching services by category', { category, error });
+        logger.error('Error fetching services by category', error as Error, { category });
         throw error;
       }
 
       logger.info('Services fetched successfully', { category, count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch services by category', { category, error });
+      logger.error('Failed to fetch services by category', error as Error, { category });
       throw error;
     }
   }
@@ -155,14 +155,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('name');
 
       if (error) {
-        logger.error('Error fetching active services', { error });
+        logger.error('Error fetching active services', error as Error);
         throw error;
       }
 
       logger.info('Active services fetched successfully', { count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch active services', { error });
+      logger.error('Failed to fetch active services', error as Error);
       throw error;
     }
   }
@@ -186,14 +186,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error creating service', { service, error });
+        logger.error('Error creating service', error as Error, { service });
         throw error;
       }
 
       logger.info('Service created successfully', { serviceId: data.id });
       return data;
     } catch (error) {
-      logger.error('Failed to create service', { service, error });
+      logger.error('Failed to create service', error as Error, { service });
       throw error;
     }
   }
@@ -215,14 +215,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error updating service', { serviceId, updates, error });
+        logger.error('Error updating service', error as Error, { serviceId, updates });
         throw error;
       }
 
       logger.info('Service updated successfully', { serviceId });
       return data;
     } catch (error) {
-      logger.error('Failed to update service', { serviceId, updates, error });
+      logger.error('Failed to update service', error as Error, { serviceId, updates });
       throw error;
     }
   }
@@ -236,13 +236,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', serviceId);
 
       if (error) {
-        logger.error('Error deleting service', { serviceId, error });
+        logger.error('Error deleting service', error as Error, { serviceId });
         throw error;
       }
 
       logger.info('Service deleted successfully', { serviceId });
     } catch (error) {
-      logger.error('Failed to delete service', { serviceId, error });
+      logger.error('Failed to delete service', error as Error, { serviceId });
       throw error;
     }
   }
@@ -262,14 +262,14 @@ export class EnhancedDataService implements IEnhancedDataService {
           logger.info('No preferences found for user', { userId });
           return null;
         }
-        logger.error('Error fetching user preferences', { userId, error });
+        logger.error('Error fetching user preferences', error as Error, { userId });
         throw error;
       }
 
       logger.info('User preferences fetched successfully', { userId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch user preferences', { userId, error });
+      logger.error('Failed to fetch user preferences', error as Error, { userId });
       throw error;
     }
   }
@@ -284,14 +284,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error creating user preferences', { userId, preferences, error });
+        logger.error('Error creating user preferences', error as Error, { userId, preferences });
         throw error;
       }
 
       logger.info('User preferences created successfully', { userId });
       return data;
     } catch (error) {
-      logger.error('Failed to create user preferences', { userId, preferences, error });
+      logger.error('Failed to create user preferences', error as Error, { userId, preferences });
       throw error;
     }
   }
@@ -307,14 +307,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error updating user preferences', { userId, preferences, error });
+        logger.error('Error updating user preferences', error as Error, { userId, preferences });
         throw error;
       }
 
       logger.info('User preferences updated successfully', { userId });
       return data;
     } catch (error) {
-      logger.error('Failed to update user preferences', { userId, preferences, error });
+      logger.error('Failed to update user preferences', error as Error, { userId, preferences });
       throw error;
     }
   }
@@ -328,13 +328,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('user_id', userId);
 
       if (error) {
-        logger.error('Error deleting user preferences', { userId, error });
+        logger.error('Error deleting user preferences', error as Error, { userId });
         throw error;
       }
 
       logger.info('User preferences deleted successfully', { userId });
     } catch (error) {
-      logger.error('Failed to delete user preferences', { userId, error });
+      logger.error('Failed to delete user preferences', error as Error, { userId });
       throw error;
     }
   }
@@ -350,14 +350,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error fetching subscription', { subscriptionId, error });
+        logger.error('Error fetching subscription', error as Error, { subscriptionId });
         throw error;
       }
 
       logger.info('Subscription fetched successfully', { subscriptionId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch subscription', { subscriptionId, error });
+      logger.error('Failed to fetch subscription', error as Error, { subscriptionId });
       throw error;
     }
   }
@@ -377,14 +377,14 @@ export class EnhancedDataService implements IEnhancedDataService {
           logger.info('No active subscription found for user', { userId });
           return null;
         }
-        logger.error('Error fetching user subscription', { userId, error });
+        logger.error('Error fetching user subscription', error as Error, { userId });
         throw error;
       }
 
       logger.info('User subscription fetched successfully', { userId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch user subscription', { userId, error });
+      logger.error('Failed to fetch user subscription', error as Error, { userId });
       throw error;
     }
   }
@@ -399,14 +399,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('created_at', { ascending: false });
 
       if (error) {
-        logger.error('Error fetching active subscriptions', { error });
+        logger.error('Error fetching active subscriptions', error as Error);
         throw error;
       }
 
       logger.info('Active subscriptions fetched successfully', { count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch active subscriptions', { error });
+      logger.error('Failed to fetch active subscriptions', error as Error);
       throw error;
     }
   }
@@ -433,14 +433,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error creating subscription', { subscription, error });
+        logger.error('Error creating subscription', error as Error, { subscription });
         throw error;
       }
 
       logger.info('Subscription created successfully', { subscriptionId: data.id });
       return data;
     } catch (error) {
-      logger.error('Failed to create subscription', { subscription, error });
+      logger.error('Failed to create subscription', error as Error, { subscription });
       throw error;
     }
   }
@@ -456,14 +456,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error updating subscription status', { subscriptionId, status, error });
+        logger.error('Error updating subscription status', error as Error, { subscriptionId, status });
         throw error;
       }
 
       logger.info('Subscription status updated successfully', { subscriptionId, status });
       return data;
     } catch (error) {
-      logger.error('Failed to update subscription status', { subscriptionId, status, error });
+      logger.error('Failed to update subscription status', error as Error, { subscriptionId, status });
       throw error;
     }
   }
@@ -482,14 +482,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error cancelling subscription', { subscriptionId, error });
+        logger.error('Error cancelling subscription', error as Error, { subscriptionId });
         throw error;
       }
 
       logger.info('Subscription cancelled successfully', { subscriptionId });
       return data;
     } catch (error) {
-      logger.error('Failed to cancel subscription', { subscriptionId, error });
+      logger.error('Failed to cancel subscription', error as Error, { subscriptionId });
       throw error;
     }
   }
@@ -506,14 +506,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('sort_order', { ascending: true });
 
       if (error) {
-        logger.error('Error fetching subscription tiers', { error });
+        logger.error('Error fetching subscription tiers', error as Error);
         throw error;
       }
 
       logger.info('Subscription tiers fetched successfully', { count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch subscription tiers', { error });
+      logger.error('Failed to fetch subscription tiers', error as Error);
       throw error;
     }
   }
@@ -528,14 +528,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error fetching subscription tier', { tierId, error });
+        logger.error('Error fetching subscription tier', error as Error, { tierId });
         throw error;
       }
 
       logger.info('Subscription tier fetched successfully', { tierId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch subscription tier', { tierId, error });
+      logger.error('Failed to fetch subscription tier', error as Error, { tierId });
       throw error;
     }
   }
@@ -551,14 +551,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error fetching subscription tier by type', { type, error });
+        logger.error('Error fetching subscription tier by type', error as Error, { type });
         throw error;
       }
 
       logger.info('Subscription tier fetched successfully', { type });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch subscription tier by type', { type, error });
+      logger.error('Failed to fetch subscription tier by type', error as Error, { type });
       throw error;
     }
   }
@@ -573,14 +573,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error creating subscription tier', { tier, error });
+        logger.error('Error creating subscription tier', error as Error, { tier });
         throw error;
       }
 
       logger.info('Subscription tier created successfully', { tierId: data.id });
       return data;
     } catch (error) {
-      logger.error('Failed to create subscription tier', { tier, error });
+      logger.error('Failed to create subscription tier', error as Error, { tier });
       throw error;
     }
   }
@@ -596,14 +596,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error updating subscription tier', { tierId, updates, error });
+        logger.error('Error updating subscription tier', error as Error, { tierId, updates });
         throw error;
       }
 
       logger.info('Subscription tier updated successfully', { tierId });
       return data;
     } catch (error) {
-      logger.error('Failed to update subscription tier', { tierId, updates, error });
+      logger.error('Failed to update subscription tier', error as Error, { tierId, updates });
       throw error;
     }
   }
@@ -623,14 +623,14 @@ export class EnhancedDataService implements IEnhancedDataService {
           logger.info('No usage found for subscription', { subscriptionId });
           return null;
         }
-        logger.error('Error fetching subscription usage', { subscriptionId, error });
+        logger.error('Error fetching subscription usage', error as Error, { subscriptionId });
         throw error;
       }
 
       logger.info('Subscription usage fetched successfully', { subscriptionId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch subscription usage', { subscriptionId, error });
+      logger.error('Failed to fetch subscription usage', error as Error, { subscriptionId });
       throw error;
     }
   }
@@ -649,14 +649,14 @@ export class EnhancedDataService implements IEnhancedDataService {
           logger.info('No usage found for user', { userId });
           return null;
         }
-        logger.error('Error fetching user subscription usage', { userId, error });
+        logger.error('Error fetching user subscription usage', error as Error, { userId });
         throw error;
       }
 
       logger.info('User subscription usage fetched successfully', { userId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch user subscription usage', { userId, error });
+      logger.error('Failed to fetch user subscription usage', error as Error, { userId });
       throw error;
     }
   }
@@ -671,14 +671,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error creating subscription usage', { usage, error });
+        logger.error('Error creating subscription usage', error as Error, { usage });
         throw error;
       }
 
       logger.info('Subscription usage created successfully', { usageId: data.id });
       return data;
     } catch (error) {
-      logger.error('Failed to create subscription usage', { usage, error });
+      logger.error('Failed to create subscription usage', error as Error, { usage });
       throw error;
     }
   }
@@ -694,14 +694,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-        logger.error('Error updating subscription usage', { usageId, updates, error });
+        logger.error('Error updating subscription usage', error as Error, { usageId, updates });
         throw error;
       }
 
       logger.info('Subscription usage updated successfully', { usageId });
       return data;
     } catch (error) {
-      logger.error('Failed to update subscription usage', { usageId, updates, error });
+      logger.error('Failed to update subscription usage', error as Error, { usageId, updates });
       throw error;
     }
   }
@@ -746,7 +746,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         return updatedUsage;
       });
     } catch (error) {
-      logger.error('Failed to increment session usage', { subscriptionId, userId, error: error });
+      logger.error('Failed to increment session usage', error as Error, { subscriptionId, userId });
       throw error;
     }
   }
@@ -762,14 +762,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-      logger.error('Error fetching community post', { postId, error: error });
+      logger.error('Error fetching community post', error as Error, { postId });
         throw error;
       }
 
       logger.info('Community post fetched successfully', { postId });
       return data;
     } catch (error) {
-      logger.error('Failed to fetch community post', { postId, error: error });
+      logger.error('Failed to fetch community post', error as Error, { postId });
       throw error;
     }
   }
@@ -785,14 +785,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .range(offset, offset + limit - 1);
 
       if (error) {
-      logger.error('Error fetching published community posts', { limit, offset, error: error });
+      logger.error('Error fetching published community posts', error as Error, { limit, offset });
         throw error;
       }
 
       logger.info('Published community posts fetched successfully', { limit, offset, count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch published community posts', { limit, offset, error: error });
+      logger.error('Failed to fetch published community posts', error as Error, { limit, offset });
       throw error;
     }
   }
@@ -807,14 +807,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('created_at', { ascending: false });
 
       if (error) {
-      logger.error('Error fetching user community posts', { userId, error: error });
+      logger.error('Error fetching user community posts', error as Error, { userId });
         throw error;
       }
 
       logger.info('User community posts fetched successfully', { userId, count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch user community posts', { userId, error: error });
+      logger.error('Failed to fetch user community posts', error as Error, { userId });
       throw error;
     }
   }
@@ -830,14 +830,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .order('published_at', { ascending: false });
 
       if (error) {
-      logger.error('Error fetching featured community posts', { error: error });
+      logger.error('Error fetching featured community posts', error as Error);
         throw error;
       }
 
       logger.info('Featured community posts fetched successfully', { count: data?.length });
       return data || [];
     } catch (error) {
-      logger.error('Failed to fetch featured community posts', { error: error });
+      logger.error('Failed to fetch featured community posts', error as Error);
       throw error;
     }
   }
@@ -869,14 +869,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-      logger.error('Error creating community post', { post, error: error });
+      logger.error('Error creating community post', error as Error, { post });
         throw error;
       }
 
       logger.info('Community post created successfully', { postId: data.id });
       return data;
     } catch (error) {
-      logger.error('Failed to create community post', { post, error: error });
+      logger.error('Failed to create community post', error as Error, { post });
       throw error;
     }
   }
@@ -892,14 +892,14 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (error) {
-      logger.error('Error updating community post', { postId, updates, error: error });
+      logger.error('Error updating community post', error as Error, { postId, updates });
         throw error;
       }
 
       logger.info('Community post updated successfully', { postId });
       return data;
     } catch (error) {
-      logger.error('Failed to update community post', { postId, updates, error: error });
+      logger.error('Failed to update community post', error as Error, { postId, updates });
       throw error;
     }
   }
@@ -913,13 +913,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-      logger.error('Error deleting community post', { postId, error: error });
+      logger.error('Error deleting community post', error as Error, { postId });
         throw error;
       }
 
       logger.info('Community post deleted successfully', { postId });
     } catch (error) {
-      logger.error('Failed to delete community post', { postId, error: error });
+      logger.error('Failed to delete community post', error as Error, { postId });
       throw error;
     }
   }
@@ -934,7 +934,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (fetchError) {
-        logger.error('Error fetching current views_count', { postId, error: fetchError as any });
+        logger.error('Error fetching current views_count', fetchError as Error, { postId });
         throw fetchError;
       }
 
@@ -946,13 +946,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error incrementing post views', { postId, error: error });
+        logger.error('Error incrementing post views', error as Error, { postId });
         throw error;
       }
 
       logger.info('Post views incremented successfully', { postId });
     } catch (error) {
-      logger.error('Failed to increment post views', { postId, error: error });
+      logger.error('Failed to increment post views', error as Error, { postId });
       throw error;
     }
   }
@@ -967,7 +967,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (fetchError) {
-        logger.error('Error fetching current likes_count', { postId, error: fetchError as any });
+        logger.error('Error fetching current likes_count', fetchError as Error, { postId });
         throw fetchError;
       }
 
@@ -979,13 +979,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error incrementing post likes', { postId, error: error });
+        logger.error('Error incrementing post likes', error as Error, { postId });
         throw error;
       }
 
       logger.info('Post likes incremented successfully', { postId });
     } catch (error) {
-      logger.error('Failed to increment post likes', { postId, error: error });
+      logger.error('Failed to increment post likes', error as Error, { postId });
       throw error;
     }
   }
@@ -1000,7 +1000,7 @@ export class EnhancedDataService implements IEnhancedDataService {
         .single();
 
       if (fetchError) {
-        logger.error('Error fetching current likes_count', { postId, error: fetchError as any });
+        logger.error('Error fetching current likes_count', fetchError as Error, { postId });
         throw fetchError;
       }
 
@@ -1012,13 +1012,13 @@ export class EnhancedDataService implements IEnhancedDataService {
         .eq('id', postId);
 
       if (error) {
-        logger.error('Error decrementing post likes', { postId, error: error });
+        logger.error('Error decrementing post likes', error as Error, { postId });
         throw error;
       }
 
       logger.info('Post likes decremented successfully', { postId });
     } catch (error) {
-      logger.error('Failed to decrement post likes', { postId, error: error });
+      logger.error('Failed to decrement post likes', error as Error, { postId });
       throw error;
     }
   }
@@ -1036,7 +1036,7 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       logger.info('Services batch updated successfully', { count: updates.length });
     } catch (error) {
-      logger.error('Failed to batch update services', { error: error });
+      logger.error('Failed to batch update services', error as Error);
       throw error;
     }
   }
@@ -1057,7 +1057,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       logger.info('Community posts batch created successfully', { count: posts.length });
       return createdPosts;
     } catch (error) {
-      logger.error('Failed to batch create community posts', { error: error });
+      logger.error('Failed to batch create community posts', error as Error);
       throw error;
     }
   }

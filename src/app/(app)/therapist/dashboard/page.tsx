@@ -1,6 +1,6 @@
-import MinimalTherapistDashboard from './minimal-dashboard';
+import EnhancedTherapistDashboard from './enhanced-page';
 
 export default function TherapistDashboardPage() {
-  return <MinimalTherapistDashboard />;
+  return <EnhancedTherapistDashboard />;
 }
 

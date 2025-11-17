@@ -602,13 +602,13 @@ class FirestoreReferralService implements IReferralService {
     
     const snapshot = await getDocs(q);
     return snapshot.docs.map(d => ({
-      ...doc.data(),
-      id: doc.id,
-      registeredAt: doc.data().registeredAt?.toDate?.()?.toISOString() || doc.data().registeredAt,
-      completedAt: doc.data().completedAt?.toDate?.()?.toISOString() || doc.data().completedAt,
-      rewardsPaidAt: doc.data().rewardsPaidAt?.toDate?.()?.toISOString() || doc.data().rewardsPaidAt,
-      createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || doc.data().createdAt,
-      updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || doc.data().updatedAt,
+      ...d.data(),
+      id: d.id,
+      registeredAt: d.data().registeredAt?.toDate?.()?.toISOString() || d.data().registeredAt,
+      completedAt: d.data().completedAt?.toDate?.()?.toISOString() || d.data().completedAt,
+      rewardsPaidAt: d.data().rewardsPaidAt?.toDate?.()?.toISOString() || d.data().rewardsPaidAt,
+      createdAt: d.data().createdAt?.toDate?.()?.toISOString() || d.data().createdAt,
+      updatedAt: d.data().updatedAt?.toDate?.()?.toISOString() || d.data().updatedAt,
     } as Referral));
   }
 

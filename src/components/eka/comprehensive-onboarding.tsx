@@ -1,6 +1,13 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, Checkbox, Input, Label, Select, SelectContent, SelectItem, SelectValue, Tooltip, TooltipAction, TooltipContent } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui/tooltip';
 import { Progress } from '@/components/ui/progress';
 import { useState, useEffect } from 'react';
 ;
@@ -134,9 +141,9 @@ const PrivacyBadge = ({ className }: { className?: string }) => (
 // Why We Ask Tooltip
 const WhyWeAsk = ({ reason }: { reason: string }) => (
   <Tooltip>
-      <TooltipAction asChild>
+      <TooltipTrigger asChild>
         <Info className="w-4 h-4 text-muted-foreground cursor-help" />
-      </TooltipAction>
+      </TooltipTrigger>
       <TooltipContent>
         <p className="text-sm">💡 {reason}</p>
       </TooltipContent>
@@ -496,7 +503,9 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                         <div className="space-y-2">
                           <Label>Currently you are *</Label>
                           <Select value={data.occupationType} onValueChange={(v) => updateData('occupationType', v)}>
-                            <SelectValue placeholder="Select..."  />
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select..."  />
+                            </SelectTrigger>
                             <SelectContent>
                               {OCCUPATION_TYPES.map((type) => (
                                 <SelectItem key={type.value} value={type.value}>
@@ -751,7 +760,9 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                       <div className="space-y-2">
                         <Label>How active are you typically?</Label>
                         <Select value={data.activityLevel} onValueChange={(v) => updateData('activityLevel', v)}>
-                          <SelectValue placeholder="Select your activity level..."  />
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select your activity level..."  />
+                          </SelectTrigger>
                           <SelectContent>
                             {[
                               { value: 'sedentary', label: '🛋️ Mostly sedentary', description: 'Little exercise' },
@@ -774,7 +785,9 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                       <div className="space-y-2">
                         <Label>Free time available for self-care?</Label>
                         <Select value={data.leisureTime} onValueChange={(v) => updateData('leisureTime', v)}>
-                          <SelectValue placeholder="How much time do you have?"  />
+                          <SelectTrigger>
+                            <SelectValue placeholder="How much time do you have?"  />
+                          </SelectTrigger>
                           <SelectContent>
                             {[
                               { value: 'none', label: '⏰ Almost none - Very busy' },

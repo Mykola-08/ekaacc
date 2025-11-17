@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from '@/components/keep';
+import { Card } from '@/components/ui/card';
 import React from 'react';
 ;
 

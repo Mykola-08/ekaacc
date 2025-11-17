@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Slider, Label } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
+import { Label } from '@/components/ui/label';
 
 interface WellnessCheckStepProps {
   onNext: (data: { stressLevel: number; sleepQuality: number; energyLevel: number }) => void;

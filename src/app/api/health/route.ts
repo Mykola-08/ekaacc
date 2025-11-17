@@ -15,9 +15,8 @@ export async function GET() {
     const healthCheck = {
       status: 'ok',
       timestamp: new Date().toISOString(),
-      uptime: process.uptime(),
       environment: process.env.NODE_ENV,
-      version: process.env.npm_package_version || '0.1.0',
+      version: '0.1.0',
       services: {
         api: 'healthy',
         // Add more service checks as needed
@@ -70,4 +69,3 @@ export async function GET() {
 
 // Ensure this route is always dynamic
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge';

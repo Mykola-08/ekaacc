@@ -274,7 +274,7 @@ export function DynamicSidebar({
                   variant="secondary" 
                   className={cn("text-xs", getRoleIndicatorColor(user.role))}
                 >
-                  {user.role}
+                  {user.role.name}
                 </Badge>
               )}
             </div>

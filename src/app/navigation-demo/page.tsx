@@ -120,7 +120,7 @@ export default function NavigationSystemDemo() {
                       <div className="space-y-1">
                         <p className="text-sm font-medium">Role</p>
                         <Badge variant="secondary" className="text-sm">
-                          {user.role}
+                          {user.role.name}
                         </Badge>
                       </div>
                       <div className="space-y-1">

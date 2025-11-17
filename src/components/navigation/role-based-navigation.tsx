@@ -203,10 +203,10 @@ export function AppSidebar({ className }: AppSidebarProps) {
         {user && (
           <div className="px-3 py-2">
             <h2 className="mb-2 px-4 text-sm font-semibold tracking-tight">
-              Your Role: {user.role}
+              Your Role: {user.role.name}
             </h2>
             <div className="space-y-1">
-              {user.role === 'VIP Patient' && (
+              {user.role.name === 'VIP Patient' && (
                 <div className="text-xs text-muted-foreground px-3 py-2">
                   <div className="flex items-center gap-2 mb-2">
                     <Award className="h-3 w-3 text-yellow-500" />

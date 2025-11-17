@@ -297,7 +297,7 @@ export default function FormsPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Role:</span>
-                <span className="font-medium">{currentUser.role}</span>
+                <span className="font-medium">{currentUser.role.name}</span>
               </div>
             </div>
           </CardContent>

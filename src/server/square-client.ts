@@ -23,10 +23,13 @@ if (!token) {
 
 function getClient(): SquareClient {
   const env = envName === 'Production' ? SquareEnvironment.Production : SquareEnvironment.Sandbox;
+  if (!token) {
+    throw new Error('SQUARE_ACCESS_TOKEN not configured');
+  }
   return new SquareClient({
     environment: env,
-    token: token ? () => ({ type: 'bearer', token }) : undefined,
-  } as any);
+    accessToken: token,
+  });
 }
 
 export async function listBookings(limit = 20) {

@@ -79,10 +79,11 @@ function getClient(): SquareClient {
     ? SquareEnvironment.Production 
     : SquareEnvironment.Sandbox;
 
+  // Provide a minimal valid config to avoid initialization errors
   return new SquareClient({
     environment: env,
-    token: () => ({ type: 'bearer', token: config.accessToken }),
-  } as any);
+    accessToken: config.accessToken,
+  });
 }
 
 /**

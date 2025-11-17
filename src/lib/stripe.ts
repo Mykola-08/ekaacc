@@ -1,8 +1,15 @@
 import Stripe from 'stripe';
 import type { SubscriptionType, SubscriptionInterval } from '@/lib/subscription-types';
 
-// Initialize Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+// Initialize Stripe with a placeholder or actual key
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+
+// Log warning if using placeholder (only in development)
+if (process.env.NODE_ENV === 'development' && !process.env.STRIPE_SECRET_KEY) {
+  console.warn('⚠️  STRIPE_SECRET_KEY not set. Using placeholder. Stripe features will not work.');
+}
+
+const stripe = new Stripe(stripeSecretKey, {
   apiVersion: '2025-10-29.clover',
 });
 

@@ -8,7 +8,8 @@ export interface VercelAIRequest {
   prompt: string;
   context?: string;
   userId?: string;
-  model?: 'openai' | 'anthropic' | 'google';
+  model?: 'openai' | 'anthropic' | 'google' | 'o1' | 'o3-mini';
+  modelVariant?: 'gpt-4-turbo' | 'gpt-4' | 'gpt-3.5-turbo' | 'o1-preview' | 'o1-mini' | 'o3-mini' | 'claude-3-opus' | 'claude-3-sonnet' | 'claude-3-haiku' | 'gemini-pro';
   maxTokens?: number;
   temperature?: number;
   stream?: boolean;
@@ -38,7 +39,17 @@ export class VercelAIService {
   private providers = {
     openai,
     anthropic,
-    google
+    google,
+    'o1': openai,
+    'o3-mini': openai
+  };
+
+  private modelVariants = {
+    'openai': 'gpt-4-turbo',
+    'anthropic': 'claude-3-sonnet-20240229',
+    'google': 'gemini-pro',
+    'o1': 'o1-preview',
+    'o3-mini': 'o3-mini'
   };
 
   private defaultModel = 'openai';
@@ -50,7 +61,9 @@ export class VercelAIService {
    */
   async generateText(request: VercelAIRequest): Promise<VercelAIResponse> {
     try {
-      const model = this.providers[request.model || this.defaultModel];
+      const modelKey = request.model || this.defaultModel;
+      const provider = this.providers[modelKey];
+      const modelVariant = request.modelVariant || this.modelVariants[modelKey];
       const maxTokens = request.maxTokens || this.defaultMaxTokens;
       const temperature = request.temperature || this.defaultTemperature;
 
@@ -59,7 +72,7 @@ export class VercelAIService {
         : 'You are a helpful AI assistant for a mental health therapy platform. Provide supportive, empathetic, and professional responses.';
 
       const result = await generateText({
-        model: model('gpt-4-turbo'),
+        model: provider(modelVariant),
         system: systemPrompt,
         prompt: request.prompt,
         maxTokens,
@@ -88,7 +101,9 @@ export class VercelAIService {
    */
   async generateObject<T>(request: VercelAIObjectRequest<T>): Promise<VercelAIObjectResponse<T>> {
     try {
-      const model = this.providers[request.model || this.defaultModel];
+      const modelKey = request.model || this.defaultModel;
+      const provider = this.providers[modelKey];
+      const modelVariant = request.modelVariant || this.modelVariants[modelKey];
       const maxTokens = request.maxTokens || this.defaultMaxTokens;
       const temperature = request.temperature || this.defaultTemperature;
 
@@ -97,7 +112,7 @@ export class VercelAIService {
         : 'You are a helpful AI assistant for a mental health therapy platform. Provide structured, professional responses.';
 
       const result = await generateObject({
-        model: model('gpt-4-turbo'),
+        model: provider(modelVariant),
         system: systemPrompt,
         prompt: request.prompt,
         schema: request.schema,

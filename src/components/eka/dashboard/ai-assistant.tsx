@@ -1,14 +1,13 @@
 'use client';
-;
-;
-;
-;
-import { Avatar, AvatarFallback, Button, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Textarea } from '@/components/keep';
+
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useToast } from '@/hooks/use-toast';
 import { Bot, Loader2, Sparkles, User } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
-;
 import { cn } from '@/lib/utils';
 
 
@@ -74,18 +73,18 @@ export function AiAssistant() {
         <span className="sr-only">Open AI Assistant</span>
       </Button>
 
-      <Modal open={isOpen} onOpenChange={setIsOpen}>
-        <ModalContent className="sm:max-w-[425px] flex flex-col h-[70vh]">
-          <ModalHeader>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-[425px] flex flex-col h-[70vh]">
+          <DialogHeader>
             <ModalTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
               <span>AI Assistant</span>
-            </ModalTitle>
-            <ModalDescription>
+            </DialogTitle>
+            <DialogDescription>
               Ask me anything or tell me what to do. For example: "Summarize my
               progress this month."
-            </ModalDescription>
-          </ModalHeader>
+            </DialogDescription>
+          </DialogHeader>
           
           <ScrollArea className="flex-1 -mx-6 px-6" ref={scrollAreaRef as any}>
             <div className="space-y-4 pr-4">
@@ -133,15 +132,15 @@ export function AiAssistant() {
             />
           </div>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setIsOpen(false)}>Close</Button>
             <Button type="submit" onClick={handleSend} disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Send
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

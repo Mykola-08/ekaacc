@@ -260,7 +260,7 @@ export function RoleManagementPanel() {
     fetchRoleLogs();
   }, []);
 
-  if (!hasPermission('user_management', 'read')) {
+  if (!canAccessResource('user_management', 'read')) {
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
@@ -281,7 +281,7 @@ export function RoleManagementPanel() {
             Manage user roles and permissions across the system
           </p>
         </div>
-        {hasPermission('user_management', 'create') && (
+        {canAccessResource('user_management', 'create') && (
           <Button onClick={() => setIsAssignDialogOpen(true)}>
             <UserPlus className="mr-2 h-4 w-4" />
             Assign Role
@@ -392,7 +392,7 @@ export function RoleManagementPanel() {
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          {hasPermission('user_management', 'update') && (
+                          {canAccessResource('user_management', 'update') && (
                             <Button
                               variant="outline"
                               size="sm"
@@ -404,7 +404,7 @@ export function RoleManagementPanel() {
                               <Edit className="h-4 w-4" />
                             </Button>
                           )}
-                          {hasPermission('user_management', 'update') && (
+                          {canAccessResource('user_management', 'update') && (
                             <Button
                               variant="outline"
                               size="sm"

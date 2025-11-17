@@ -32,7 +32,7 @@ export default function MinimalistLoginPage() {
     setError('');
 
     try {
-      await signIn(email, password);
+      await signIn({ email, password });
       router.push('/dashboard');
     } catch (err) {
       setError('Invalid email or password');

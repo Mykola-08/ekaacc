@@ -1,6 +1,10 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
 ;
 ;
@@ -242,14 +246,14 @@ export default function ReferralsPage() {
       {/* Tabs */}
       <Tabs defaultValue="referrals" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsItem value="referrals">
+          <TabsTrigger value="referrals">
             <Users className="h-4 w-4 mr-2" />
             My Referrals
-          </TabsItem>
-          <TabsItem value="invite">
+          </TabsTrigger>
+          <TabsTrigger value="invite">
             <Mail className="h-4 w-4 mr-2" />
             Send Invite
-          </TabsItem>
+          </TabsTrigger>
         </TabsList>
 
         {/* Referrals List */}
@@ -284,7 +288,7 @@ export default function ReferralsPage() {
                       </div>
                     </div>
                     <div className="text-right flex flex-col items-end gap-2">
-                      <Badge variant="base">
+                      <Badge variant="secondary" className="capitalize">
                         {referral.status}
                       </Badge>
                       <p className="text-sm font-semibold text-green-600">

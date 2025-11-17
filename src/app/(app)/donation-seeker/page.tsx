@@ -1,6 +1,12 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Divider, Label, Switch, Notification, NotificationDescription } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useState } from 'react';
 import { 
   Heart, 
@@ -240,7 +246,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Divider />
+          <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -255,7 +261,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Divider />
+          <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -270,7 +276,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Divider />
+          <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -285,7 +291,7 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Divider />
+          <Separator />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5 flex-1">
@@ -300,12 +306,12 @@ export default function DonationSeekerPage() {
             />
           </div>
 
-          <Notification>
+          <Alert>
             <Info className="h-4 w-4" />
-            <NotificationDescription>
+            <AlertDescription>
               Your privacy is important. You can change these settings at any time. Financial information is never shared with donors.
-            </NotificationDescription>
-          </Notification>
+            </AlertDescription>
+          </Alert>
         </CardContent>
       </Card>
 

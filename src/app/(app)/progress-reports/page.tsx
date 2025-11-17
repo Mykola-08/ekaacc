@@ -122,8 +122,8 @@ export default function ProgressReportsPage() {
       <h1 className="text-3xl font-bold">Progress & Reports</h1>
       <Tabs defaultValue="progress" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-4">
-          <TabsItem value="progress">Progress</TabsItem>
-          <TabsItem value="reports">Reports</TabsItem>
+          <TabsTrigger value="progress">Progress</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
         </TabsList>
         <TabsContent value="progress" className="space-y-8">
           {/* Key Metrics Overview */}
@@ -190,9 +190,9 @@ export default function ProgressReportsPage() {
           {/* Progress Details Tabs */}
           <Tabs defaultValue="pain" className="w-full mt-8">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsItem value="pain">Pain Levels</TabsItem>
-              <TabsItem value="mobility">Mobility</TabsItem>
-              <TabsItem value="achievements">Achievements</TabsItem>
+              <TabsTrigger value="pain">Pain Levels</TabsTrigger>
+              <TabsTrigger value="mobility">Mobility</TabsTrigger>
+              <TabsTrigger value="achievements">Achievements</TabsTrigger>
             </TabsList>
             <TabsContent value="pain" className="space-y-4">
               <Card>

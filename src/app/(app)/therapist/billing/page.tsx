@@ -93,15 +93,15 @@ export default function TherapistBillingPage() {
   };
 
   return (
-    <Layout>
+    <div className="container mx-auto p-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <Typography variant="h3">Client Billing</Typography>
-            <Typography variant="body2" className="text-gray-600">
+            <h3 className="text-2xl font-bold">Client Billing</h3>
+            <p className="text-sm text-gray-600">
               Manage invoices and payments for your clients.
-            </Typography>
+            </p>
           </div>
           <div className="flex gap-2">
             <Button onClick={loadInvoices} variant="outline" disabled={loading}>
@@ -127,19 +127,19 @@ export default function TherapistBillingPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>
-                      <Typography variant="body2" className="font-medium">Invoice ID</Typography>
+                      <span className="text-sm font-medium">Invoice ID</span>
                     </TableHead>
                     <TableHead>
-                      <Typography variant="body2" className="font-medium">Amount</Typography>
+                      <span className="text-sm font-medium">Amount</span>
                     </TableHead>
                     <TableHead>
-                      <Typography variant="body2" className="font-medium">Description</Typography>
+                      <span className="text-sm font-medium">Description</span>
                     </TableHead>
                     <TableHead>
-                      <Typography variant="body2" className="font-medium">Status</Typography>
+                      <span className="text-sm font-medium">Status</span>
                     </TableHead>
                     <TableHead className="text-right">
-                      <Typography variant="body2" className="font-medium">Actions</Typography>
+                      <span className="text-sm font-medium">Actions</span>
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -147,13 +147,13 @@ export default function TherapistBillingPage() {
                   {invoices.map(i => (
                     <TableRow key={i.id}>
                       <TableCell>
-                        <Typography variant="body2" className="font-mono text-xs">{i.id}</Typography>
+                        <span className="font-mono text-xs">{i.id}</span>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body1" className="font-medium">€{i.amount.toFixed(2)}</Typography>
+                        <span className="font-medium">€{i.amount.toFixed(2)}</span>
                       </TableCell>
                       <TableCell>
-                        <Typography variant="body2">{i.description}</Typography>
+                        <span className="text-sm">{i.description}</span>
                       </TableCell>
                       <TableCell>
                         <Badge color={i.status === 'Paid' ? 'success' : 'warning'}>
@@ -171,6 +171,6 @@ export default function TherapistBillingPage() {
           </CardContent>
         </Card>
       </div>
-    </Layout>
+    </div>
   );
 }

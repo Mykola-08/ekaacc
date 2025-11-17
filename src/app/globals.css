@@ -47,7 +47,7 @@
     --glow-green: 153 76% 52%; /* #26de81 */
 
     --ring: 221 83% 53%;
-    --radius: 0.75rem; /* Sophisticated rounded corners */
+    --radius: 1rem; /* Rounded design - increased for softer, more rounded appearance */
 
     /* Squircle Design System */
     --squircle-radius: 24px;

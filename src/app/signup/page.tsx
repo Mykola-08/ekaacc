@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { SignUpForm } from '@/components/auth/signup-form-shadcn'
+import { SignupForm03 } from '@/components/auth/signup-form-03'
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -11,9 +11,5 @@ export default function SignUpPage() {
     router.push('/onboarding')
   }
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background py-12 px-4 sm:px-6 lg:px-8">
-      <SignUpForm onSuccess={handleSuccess} />
-    </div>
-  )
+  return <SignupForm03 onSuccess={handleSuccess} />
 }

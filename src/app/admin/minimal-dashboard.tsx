@@ -6,7 +6,9 @@ import { format } from 'date-fns';
 import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield } from 'lucide-react';
 import { getDataService } from '@/services/data-service';
 import type { User, Session } from '@/lib/types';
-import { Card, Button, Badge } from '@/components/keep';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 
 function MinimalStatCard({ 

@@ -20,6 +20,16 @@ Before running tests, ensure you have:
 - For load tests: k6 installed (see [k6.io](https://k6.io/docs/getting-started/installation/))
 - For E2E tests: Playwright browsers installed: `npx playwright install`
 
+### Quick Setup Validation
+
+Run the validation script to check your setup:
+
+```bash
+./validate-test-setup.sh
+```
+
+This will verify all required dependencies and provide helpful feedback if anything is missing.
+
 ## Running Tests
 
 ### Unit/Integration Tests

@@ -1,0 +1,148 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  unit-tests:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run linter
+        run: npm run lint
+        continue-on-error: true
+      
+      - name: Type check
+        run: npm run typecheck
+        continue-on-error: true
+      
+      - name: Run unit tests
+        run: npm test -- --coverage
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+        continue-on-error: true
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+      
+      - name: Build application
+        run: npm run build
+      
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          CI: true
+      
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  load-tests:
+    name: Load Tests
+    runs-on: ubuntu-latest
+    # Only run load tests on main branch or manually
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install k6
+        run: |
+          curl https://github.com/grafana/k6/releases/download/v0.47.0/k6-v0.47.0-linux-amd64.tar.gz -L | tar xvz
+          sudo mv k6-v0.47.0-linux-amd64/k6 /usr/local/bin/k6
+      
+      - name: Start application
+        run: |
+          npm run build
+          npm run start &
+          sleep 10
+      
+      - name: Wait for application to be ready
+        run: |
+          timeout 60 bash -c 'until curl -s http://localhost:3000 > /dev/null; do sleep 2; done'
+        continue-on-error: true
+      
+      - name: Run basic load test
+        run: npm run test:load
+        continue-on-error: true
+      
+      - name: Upload load test results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: load-test-results
+          path: load-tests/results/
+          retention-days: 30
+
+  vercel-integration:
+    name: Vercel Integration Tests
+    runs-on: ubuntu-latest
+    # Only run on Vercel deployments
+    if: github.event_name == 'deployment_status'
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Wait for deployment
+        if: github.event.deployment_status.state == 'success'
+        run: sleep 10
+      
+      - name: Run deployment tests
+        if: github.event.deployment_status.state == 'success'
+        run: |
+          chmod +x ./vercel-tests/deployment-test.sh
+          ./vercel-tests/deployment-test.sh ${{ github.event.deployment_status.target_url }}
+      
+      - name: Run environment tests
+        if: github.event.deployment_status.state == 'success'
+        run: |
+          chmod +x ./vercel-tests/env-check.sh
+          ./vercel-tests/env-check.sh ${{ github.event.deployment_status.target_url }}

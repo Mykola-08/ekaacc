@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge, Alert, AlertDescription, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Modal, ModalContent, ModalDescription, ModalHeader, ModalTitle, ModalFooter, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input, Textarea, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch, Label } from '@/components/keep';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge, Alert, AlertDescription, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter, Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, Input, Textarea, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Switch, Label } from '@/components/keep';
 import { useAuth } from '@/context/auth-context';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -99,7 +99,7 @@ export function ProductManagementPanel() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
   const [stripeProducts, setStripeProducts] = useState<StripeProduct[]>([]);
@@ -225,7 +225,7 @@ export function ProductManagementPanel() {
         });
       }
 
-      setIsModalOpen(false);
+      setIsDialogOpen(false);
       setSelectedProduct(null);
       form.reset();
       fetchProducts();
@@ -330,7 +330,7 @@ export function ProductManagementPanel() {
           </p>
         </div>
         {hasPermission('product_management', 'create') && (
-          <Button onClick={() => setIsModalOpen(true)}>
+          <Button onClick={() => setIsDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Create Product
           </Button>
@@ -463,7 +463,7 @@ export function ProductManagementPanel() {
                               onClick={() => {
                                 setSelectedProduct(product);
                                 form.reset(product);
-                                setIsModalOpen(true);
+                                setIsDialogOpen(true);
                               }}
                             >
                               <Edit className="h-4 w-4" />
@@ -499,17 +499,17 @@ export function ProductManagementPanel() {
         </CardContent>
       </Card>
 
-      {/* Product Creation/Edit Modal */}
-      <Modal open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <ModalContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-          <ModalHeader>
-            <ModalTitle>
+      {/* Product Creation/Edit Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>
               {selectedProduct ? 'Edit Product' : 'Create Product'}
-            </ModalTitle>
-            <ModalDescription>
+            </DialogTitle>
+            <DialogDescription>
               {selectedProduct ? 'Update product details and Stripe integration' : 'Create a new product with Stripe integration'}
-            </ModalDescription>
-          </ModalHeader>
+            </DialogDescription>
+          </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleProductSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -768,9 +768,9 @@ export function ProductManagementPanel() {
                 </Card>
               )}
 
-              <ModalFooter>
+              <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => {
-                  setIsModalOpen(false);
+                  setIsDialogOpen(false);
                   setSelectedProduct(null);
                   form.reset();
                 }}>
@@ -779,11 +779,11 @@ export function ProductManagementPanel() {
                 <Button type="submit">
                   {selectedProduct ? 'Update Product' : 'Create Product'}
                 </Button>
-              </ModalFooter>
+              </DialogFooter>
             </form>
           </Form>
-        </ModalContent>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

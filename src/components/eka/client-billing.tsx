@@ -1,6 +1,13 @@
 "use client";
 
-import { Avatar, AvatarFallback, AvatarImage, Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState } from "react";
 ;
 ;
@@ -344,14 +351,14 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
       </Card>
 
       {/* Add Balance Dialog */}
-      <Modal open={isAddBalanceOpen} onOpenChange={setIsAddBalanceOpen}>
+      <Dialog open={isAddBalanceOpen} onOpenChange={setIsAddBalanceOpen}>
         <ModalContent>
-          <ModalHeader>
-            <ModalTitle>Add Funds to Account</ModalTitle>
-            <ModalDescription>
+          <DialogHeader>
+            <DialogTitle>Add Funds to Account</DialogTitle>
+            <DialogDescription>
               Add funds to {client.name}'s internal account balance.
-            </ModalDescription>
-          </ModalHeader>
+            </DialogDescription>
+          </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="add-amount">Amount (€)</Label>
@@ -375,22 +382,22 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               />
             </div>
           </div>
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddBalanceOpen(false)}>Cancel</Button>
             <Button onClick={handleAddBalance}>Add Funds</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Subtract Balance Dialog */}
-      <Modal open={isSubtractBalanceOpen} onOpenChange={setIsSubtractBalanceOpen}>
+      <Dialog open={isSubtractBalanceOpen} onOpenChange={setIsSubtractBalanceOpen}>
         <ModalContent>
-          <ModalHeader>
-            <ModalTitle>Deduct Funds from Account</ModalTitle>
-            <ModalDescription>
+          <DialogHeader>
+            <DialogTitle>Deduct Funds from Account</DialogTitle>
+            <DialogDescription>
               Deduct funds from {client.name}'s internal account balance.
-            </ModalDescription>
-          </ModalHeader>
+            </DialogDescription>
+          </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
               <Label htmlFor="subtract-amount">Amount (€)</Label>
@@ -418,20 +425,20 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               />
             </div>
           </div>
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setIsSubtractBalanceOpen(false)}>Cancel</Button>
             <Button variant="default" className="bg-destructive text-destructive-foreground hover:bg-destructive/90" onClick={handleSubtractBalance}>Deduct Funds</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Create Invoice Dialog */}
-      <Modal open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
+      <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
         <ModalContent>
-          <ModalHeader>
-            <ModalTitle>Create Invoice</ModalTitle>
-            <ModalDescription>Create an invoice for this client.</ModalDescription>
-          </ModalHeader>
+          <DialogHeader>
+            <DialogTitle>Create Invoice</DialogTitle>
+            <DialogDescription>Create an invoice for this client.</DialogDescription>
+          </DialogHeader>
           <div className="grid gap-4 py-4">
             <div>
               <Label>Amount (€)</Label>
@@ -442,12 +449,12 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               <Input value={invoiceDesc} onChange={(e:any)=>setInvoiceDesc(e.target.value)} />
             </div>
           </div>
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setIsCreateInvoiceOpen(false)}>Cancel</Button>
             <Button onClick={async ()=>{ try{ const inv = await fxService.createInvoice(client.id, invoiceAmount, invoiceDesc); setInvoices(prev=>[inv, ...prev]); toast({ title: 'Invoice created' }); setIsCreateInvoiceOpen(false); setInvoiceAmount(0); setInvoiceDesc(''); }catch(e){ toast({ variant:'destructive', title:'Create invoice failed' }); } }}>Create</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

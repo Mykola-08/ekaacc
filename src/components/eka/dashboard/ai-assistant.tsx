@@ -76,7 +76,7 @@ export function AiAssistant() {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-[425px] flex flex-col h-[70vh]">
           <DialogHeader>
-            <ModalTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-primary" />
               <span>AI Assistant</span>
             </DialogTitle>

@@ -198,7 +198,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <ModalTitle className="text-2xl flex items-center gap-2">
+          <DialogTitle className="text-2xl flex items-center gap-2">
             <FileText className="h-6 w-6 text-primary" />
             Donation Seeker Application
           </DialogTitle>

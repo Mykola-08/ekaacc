@@ -243,7 +243,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <div className="flex items-center justify-between mb-2">
-            <ModalTitle className="text-2xl flex items-center gap-2">
+            <DialogTitle className="text-2xl flex items-center gap-2">
               <Sparkles className="h-6 w-6 text-blue-500" />
               Let's Personalize Your Journey
             </DialogTitle>

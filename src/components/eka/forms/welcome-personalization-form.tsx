@@ -164,7 +164,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
         <DialogHeader>
           <div className="flex items-center justify-between">
             <div>
-              <ModalTitle className="text-2xl flex items-center gap-2">
+              <DialogTitle className="text-2xl flex items-center gap-2">
                 <Sparkles className="h-6 w-6 text-primary" />
                 Welcome to EKA
               </DialogTitle>

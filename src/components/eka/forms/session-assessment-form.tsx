@@ -195,7 +195,7 @@ export function SessionAssessmentForm({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <ModalTitle className="text-2xl flex items-center gap-2">
+          <DialogTitle className="text-2xl flex items-center gap-2">
             <ClipboardCheck className="h-6 w-6 text-primary" />
             {sessionType === 'pre' ? 'Pre-Session Assessment' : 'Post-Session Assessment'}
           </DialogTitle>

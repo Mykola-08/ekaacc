@@ -192,7 +192,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <ModalTitle className="text-2xl flex items-center gap-2">
+          <DialogTitle className="text-2xl flex items-center gap-2">
             <Heart className="h-6 w-6 text-primary" />
             Daily Mood Check-in
           </DialogTitle>

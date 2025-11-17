@@ -50,7 +50,7 @@ export function PersonalizationDialog({ onClose, onSubmit }: PersonalizationDial
       <DialogContent className="sm:max-w-md" onInteractOutside={(e) => e.preventDefault()}>
         <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <ModalTitle className="flex items-center gap-2">
+            <DialogTitle className="flex items-center gap-2">
               <Sparkles className="text-primary" />
               Personalize Your Experience
             </DialogTitle>

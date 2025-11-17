@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'motion/react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button } from '@/components/keep';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { 
   TrendingUp, 
   Heart, 

@@ -1,15 +1,16 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Slider, Textarea } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Slider } from '@/components/ui/slider';
+import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import { useBehavioralTracking } from '@/hooks/use-behavioral-tracking';
-;
-;
-;
 import { Loader2, Heart, Brain, Battery, Moon, Activity, Smile, Frown, Meh } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-;
-;
 import { format } from 'date-fns';
 
 interface DailyMoodLogFormProps {
@@ -188,17 +189,17 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
   };
 
   return (
-    <Modal open={open} onOpenChange={onClose}>
-      <ModalContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <ModalHeader>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
           <ModalTitle className="text-2xl flex items-center gap-2">
             <Heart className="h-6 w-6 text-primary" />
             Daily Mood Check-in
-          </ModalTitle>
-          <ModalDescription>
+          </DialogTitle>
+          <DialogDescription>
             {format(new Date(), 'EEEE, MMMM d, yyyy')}
-          </ModalDescription>
-        </ModalHeader>
+          </DialogDescription>
+        </DialogHeader>
 
         {/* Form type selector */}
         <div className="flex gap-2 mb-4">
@@ -511,9 +512,9 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                 'Save Mood Log'
               )}
             </Button>
-          </ModalFooter>
+          </DialogFooter>
         </form>
-      </ModalContent>
-    </Modal>
+      </DialogContent>
+    </Dialog>
   );
 }

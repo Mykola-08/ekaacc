@@ -166,7 +166,7 @@ const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
       <button
         type="button"
         onClick={() => setShowPassword(!showPassword)}
-        className="p-1 hover:bg-neutral-100 rounded-md transition-colors"
+        className="p-1 hover:bg-neutral-100 rounded-lg transition-colors"
         tabIndex={-1}
       >
         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -177,7 +177,7 @@ const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
       <button
         type="button"
         onClick={handleClear}
-        className="p-1 hover:bg-neutral-100 rounded-md transition-colors"
+        className="p-1 hover:bg-neutral-100 rounded-lg transition-colors"
         tabIndex={-1}
       >
         <div className="w-4 h-4 rounded-full bg-neutral-400 flex items-center justify-center">

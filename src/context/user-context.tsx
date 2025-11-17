@@ -8,6 +8,7 @@ import type { User } from '@/lib/types';
 
 interface UserContextType {
   currentUser: User | null;
+  user?: User | null; // Alias for currentUser
   allUsers: User[];
   isLoading: boolean;
 }
@@ -46,6 +47,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
 
   const value = {
     currentUser,
+    user: currentUser, // Alias for currentUser
     allUsers,
     isLoading: authLoading || isLoading,
   };

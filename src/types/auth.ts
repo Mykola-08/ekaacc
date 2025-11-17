@@ -56,9 +56,13 @@ export interface AuthUser {
   email: string;
   name?: string; // User's display name
   displayName?: string; // Alias for name
+  fullName?: string; // Full name
   avatarUrl?: string; // User's avatar URL
+  phoneNumber?: string; // Phone number
   user_type?: string; // User type/role
   settings?: Record<string, any>; // User settings
+  personalizationCompleted?: boolean; // Whether personalization is done
+  donationSeekerReason?: string; // Reason for seeking donations
   role: UserRole;
   permissions: Permission[];
   profile: UserProfile;

@@ -54,6 +54,10 @@ export type Report = {
   notes?: string;
   exercises?: string[];
   createdAt?: Timestamp | string;
+  mood?: number; // Mood score
+  overallScore?: number; // Overall score
+  trend?: 'improving' | 'stable' | 'declining'; // Trend indicator
+  goalProgress?: number; // Goal completion progress
 };
 
 export type StatCard = {
@@ -84,6 +88,7 @@ export type User = {
   userType?: string; // User type (Patient, Therapist, Admin, etc.)
   initials: string;
   createdAt?: string;
+  lastActive?: string; // Last activity timestamp
   
   // Supabase user_metadata compatibility
   user_metadata?: {
@@ -103,6 +108,7 @@ export type User = {
   location?: string;
   dateOfBirth?: string;
   gender?: 'male' | 'female' | 'non-binary' | 'prefer-not-to-say' | 'other';
+  mood?: number; // Current mood score
   emergencyContact?: {
     name: string;
     phone: string;

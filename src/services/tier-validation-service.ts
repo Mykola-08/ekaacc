@@ -20,6 +20,7 @@ export interface TierValidationResult {
   isEligible?: boolean; // Alias for isValid for backward compatibility
   requirementsMet: boolean;
   missingRequirements: string[];
+  progress?: number; // Progress percentage towards tier requirements
   currentMetrics: {
     totalSpend?: number;
     totalSessions?: number;

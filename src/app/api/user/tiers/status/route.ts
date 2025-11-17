@@ -102,6 +102,7 @@ export async function GET(request: NextRequest) {
       vip: {
         sessionsUsed: 0,
         sessionsRemaining: 0,
+        sessionsLimit: 0,
         supportRequests: 0,
         storageUsed: 0,
         storageLimit: 0

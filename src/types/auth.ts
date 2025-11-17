@@ -63,6 +63,8 @@ export interface AuthUser {
   settings?: Record<string, any>; // User settings
   personalizationCompleted?: boolean; // Whether personalization is done
   donationSeekerReason?: string; // Reason for seeking donations
+  isVip?: boolean; // VIP status
+  vipTier?: string; // VIP tier level
   role: UserRole;
   permissions: Permission[];
   profile: UserProfile;

@@ -59,9 +59,11 @@ interface TierData {
     vip: {
       sessionsUsed: number;
       sessionsRemaining: number;
+      sessionsLimit?: number;
       supportRequests: number;
       storageUsed: number;
       storageLimit: number;
+      storageRemaining: number;
     };
     loyalty: {
       pointsEarned: number;

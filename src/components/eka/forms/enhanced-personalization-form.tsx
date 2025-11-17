@@ -711,7 +711,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
             </Button>
           )}
         </DialogFooter>
-      </DialogContent>
+        </DialogContent>
     </Dialog>
   );
 }

@@ -1,6 +1,9 @@
 'use client';
 
-import { Badge, Button, Dropdown, DropdownAction, DropdownContent, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent } from '@/components/ui/dropdown-menu';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Bell, Check, X, Settings as SettingsIcon, Filter } from 'lucide-react';
@@ -212,8 +215,8 @@ export function NotificationCenter() {
   };
 
   return (
-    <Dropdown>
-      <DropdownAction asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="relative rounded-full">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -225,8 +228,8 @@ export function NotificationCenter() {
             </Badge>
           )}
         </Button>
-      </DropdownAction>
-      <DropdownContent align="end" className="w-96">
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-96">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="font-semibold">Notifications</h3>
           <div className="flex items-center gap-2">
@@ -255,20 +258,20 @@ export function NotificationCenter() {
         
         <Tabs value={filterCategory} onValueChange={(v) => setFilterCategory(v as NotificationCategory | 'all')} className="w-full">
           <TabsList className="w-full justify-start px-2 py-1 h-auto bg-muted/50">
-            <TabsItem value="all" className="text-xs px-2 py-1">
+            <TabsTrigger value="all" className="text-xs px-2 py-1">
               All {unreadCount > 0 && `(${unreadCount})`}
-            </TabsItem>
+            </TabsTrigger>
             {currentUser?.role === 'Admin' && (
-              <TabsItem value="admin" className="text-xs px-2 py-1">
+              <TabsTrigger value="admin" className="text-xs px-2 py-1">
                 Admin {getCategoryCount('admin') > 0 && `(${getCategoryCount('admin')})`}
-              </TabsItem>
+              </TabsTrigger>
             )}
-            <TabsItem value="sessions" className="text-xs px-2 py-1">
+            <TabsTrigger value="sessions" className="text-xs px-2 py-1">
               Sessions {getCategoryCount('sessions') > 0 && `(${getCategoryCount('sessions')})`}
-            </TabsItem>
-            <TabsItem value="reports" className="text-xs px-2 py-1">
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="text-xs px-2 py-1">
               Reports {getCategoryCount('reports') > 0 && `(${getCategoryCount('reports')})`}
-            </TabsItem>
+            </TabsTrigger>
           </TabsList>
         </Tabs>
 
@@ -347,7 +350,7 @@ export function NotificationCenter() {
             </div>
           )}
         </div>
-      </DropdownContent>
-    </Dropdown>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

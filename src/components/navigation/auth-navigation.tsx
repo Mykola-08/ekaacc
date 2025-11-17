@@ -122,7 +122,7 @@ export function Navigation({ className }: NavigationProps) {
           {allItems.map((item) => {
             const Icon = item.icon
             const isVisible = !item.requiresAuth || isAuthenticated
-            const isAdminVisible = !item.requiresAdmin || isAdmin
+            const isAdminVisible = !(item as any).requiresAdmin || isAdmin
             
             if (!isVisible || !isAdminVisible) return null
             
@@ -175,7 +175,7 @@ export function Navigation({ className }: NavigationProps) {
             <div className="hidden md:ml-6 md:flex md:items-center md:space-x-4">
               {allItems.map((item) => {
                 const isVisible = !item.requiresAuth || isAuthenticated
-                const isAdminVisible = !item.requiresAdmin || isAdmin
+                const isAdminVisible = !(item as any).requiresAdmin || isAdmin
                 
                 if (!isVisible || !isAdminVisible) return null
                 

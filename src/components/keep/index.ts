@@ -1,13 +1,15 @@
 /**
- * Keep React Component Re-exports
+ * @deprecated This file is deprecated. The project has migrated from keep-react to shadcn/ui.
  * 
- * This file provides easy access to Keep React components.
- * Import from here to use Keep React components throughout the app.
+ * Please use shadcn/ui components directly instead:
+ * - Button: import { Button } from '@/components/ui/button'
+ * - Card: import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+ * - Dialog: import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+ * - etc.
  * 
- * Example usage:
- * import { Button, Card, Avatar } from '@/components/keep';
+ * See the shadcn/ui documentation at https://ui.shadcn.com/ for more components.
  */
 
-// Re-export all components from keep-react
-export * from 'keep-react';
-
+// This file is kept for backwards compatibility but should not be used
+// All keep-react imports have been replaced with shadcn/ui components
+export {};

@@ -1,6 +1,9 @@
 'use client';
 
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
@@ -235,18 +238,18 @@ export default function LoyaltyPage() {
       {/* Tabs */}
       <Tabs defaultValue="rewards" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsItem value="rewards">
+          <TabsTrigger value="rewards">
             <Gift className="h-4 w-4 mr-2" />
             Rewards
-          </TabsItem>
-          <TabsItem value="tiers">
+          </TabsTrigger>
+          <TabsTrigger value="tiers">
             <Trophy className="h-4 w-4 mr-2" />
             Tiers
-          </TabsItem>
-          <TabsItem value="activity">
+          </TabsTrigger>
+          <TabsTrigger value="activity">
             <TrendingUp className="h-4 w-4 mr-2" />
             Activity
-          </TabsItem>
+          </TabsTrigger>
         </TabsList>
 
         {/* Rewards Tab */}

@@ -50,10 +50,10 @@ export async function GET(request: NextRequest) {
       '';
 
     // Get tier distribution
-    const { data: tierDistribution, error: tierError } = await supabase
+    const { data: tierDistribution, error: tierError } = await (supabase
       .from('user_tiers')
       .select('tier_type, tier_name, count(*)')
-      .eq('is_active', true)
+      .eq('is_active', true) as any)
       .group('tier_type, tier_name');
 
     if (tierError) {
@@ -84,10 +84,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Get tier activity by date
-    const { data: activityByDate, error: activityError } = await supabase
+    const { data: activityByDate, error: activityError } = await (supabase
       .from('tier_audit_logs')
       .select('action, timestamp::date, count(*)')
-      .gte('timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+      .gte('timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()) as any)
       .group('action, timestamp::date')
       .order('timestamp::date', { ascending: false });
 
@@ -114,9 +114,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Get action statistics
-    const { data: actionStats, error: statsError } = await supabase
+    const { data: actionStats, error: statsError } = await (supabase
       .from('tier_audit_logs')
-      .select('action, count(*)')
+      .select('action, count(*)') as any)
       .group('action');
 
     if (statsError) {

@@ -3,7 +3,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import { Button, Input, Avatar, AvatarFallback, AvatarImage, Card, CardContent, Skeleton } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Paperclip, Send } from 'lucide-react';
 import type { Message, User } from '@/lib/types';
 import { cn } from '@/lib/utils';

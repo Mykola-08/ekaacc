@@ -1,0 +1,89 @@
+// Types for the new clean auth system
+export interface UserProfile {
+  id: string;
+  username: string | null;
+  full_name: string | null;
+  avatar_url: string | null;
+  bio: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserRole {
+  id: string;
+  name: string;
+  description: string | null;
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface Permission {
+  id: string;
+  name: string;
+  resource: string;
+  action: string;
+  description: string | null;
+  created_at: string;
+}
+
+export interface UserPreference {
+  id: string;
+  user_id: string;
+  theme: 'light' | 'dark' | 'system';
+  language: string;
+  timezone: string;
+  email_notifications: boolean;
+  push_notifications: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AuditLog {
+  id: string;
+  user_id: string | null;
+  action: string;
+  resource_type: string | null;
+  resource_id: string | null;
+  details: Record<string, any> | null;
+  ip_address: string | null;
+  user_agent: string | null;
+  created_at: string;
+}
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  role: UserRole;
+  permissions: Permission[];
+  profile: UserProfile;
+  preferences: UserPreference;
+}
+
+export interface AuthState {
+  user: AuthUser | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password: string;
+}
+
+export interface SignUpCredentials {
+  email: string;
+  password: string;
+  fullName?: string;
+  username?: string;
+}
+
+export interface AuthError {
+  message: string;
+  code?: string;
+}
+
+export type OAuthProvider = 'google' | 'github' | 'twitter' | 'linkedin';
+
+// Permission checking types
+export type ResourceType = 'users' | 'roles' | 'content' | 'admin';
+export type ActionType = 'read' | 'write' | 'delete' | 'access';

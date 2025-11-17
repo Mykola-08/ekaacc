@@ -22,9 +22,9 @@ import {
   SelectItem, 
   SelectValue,
   Skeleton, 
-  Textarea,
-  ScrollArea
+  Textarea
 } from '@/components/keep';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import React, { useEffect, useState, useMemo } from 'react';
 ;
 ;

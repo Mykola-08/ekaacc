@@ -191,6 +191,16 @@ export default {
   				'100%': {
   					transform: 'rotate(360deg)'
   				}
+  			},
+  			'blur-in': {
+  				'0%': {
+  					filter: 'blur(10px)',
+  					opacity: '0'
+  				},
+  				'100%': {
+  					filter: 'blur(0px)',
+  					opacity: '1'
+  				}
   			}
   		},
   		animation: {
@@ -201,7 +211,8 @@ export default {
   			'scale-in': 'scale-in 0.2s ease-out',
   			'gradient': 'gradient 3s ease infinite',
   			'shimmer': 'shimmer 2s linear infinite',
-  			'shimmer-button': 'shimmer-button 2s linear infinite'
+  			'shimmer-button': 'shimmer-button 2s linear infinite',
+  			'blur-in': 'blur-in 0.4s ease-out'
   		},
   		backdropBlur: {
   			xs: '2px',

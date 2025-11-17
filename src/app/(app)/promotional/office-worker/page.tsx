@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Monitor, Users, Clock, Shield, CheckCircle, Activity, Zap, Coffee, Stretch } from 'lucide-react';
+import { ArrowRight, Monitor, Users, Clock, Shield, CheckCircle, Activity, Zap, Coffee, StretchHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -87,7 +87,7 @@ export default function OfficeWorkerPromotionalPage() {
       color: 'text-blue-600'
     },
     {
-      icon: Stretch,
+      icon: StretchHorizontal,
       title: 'Ergonomic Health',
       description: 'Prevent and address posture-related issues and physical strain',
       color: 'text-green-600'

@@ -1,29 +1,15 @@
 'use client';
 
-import { 
-  Badge, 
-  Button, 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle, 
-  Divider, 
-  Input, 
-  Label, 
-  Modal, 
-  ModalContent, 
-  ModalDescription, 
-  ModalFooter, 
-  ModalHeader, 
-  ModalTitle, 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectValue,
-  Skeleton, 
-  Textarea
-} from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import React, { useEffect, useState, useMemo } from 'react';
 ;
@@ -369,17 +355,17 @@ export default function TherapistTemplatesPage() {
       </motion.div>
 
       {/* Template Modal */}
-      <Modal open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
-        <ModalContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <ModalHeader>
-            <ModalTitle className="flex items-center gap-2">
+      <Dialog open={!!selectedTemplate} onOpenChange={() => setSelectedTemplate(null)}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
               <FileText className="w-5 h-5" />
               {selectedTemplate?.name}
-            </ModalTitle>
-            <ModalDescription>
+            </DialogTitle>
+            <DialogDescription>
               Fill in the required fields. Client information will be auto-filled.
-            </ModalDescription>
-          </ModalHeader>
+            </DialogDescription>
+          </DialogHeader>
 
           <div className="space-y-4 p-1">
             <div className="space-y-2">
@@ -399,7 +385,7 @@ export default function TherapistTemplatesPage() {
               </Select>
             </div>
 
-            <Divider />
+            <Separator />
 
             {selectedClient && (
               <Card className="bg-gray-50">
@@ -469,7 +455,7 @@ export default function TherapistTemplatesPage() {
             </div>
           </div>
 
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setSelectedTemplate(null)}>
               Cancel
             </Button>
@@ -477,20 +463,20 @@ export default function TherapistTemplatesPage() {
               <FileText className="w-4 h-4" />
               Generate Report
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Preview Modal */}
-      <Modal open={showPreview} onOpenChange={setShowPreview}>
-        <ModalContent className="max-w-2xl">
-          <ModalHeader>
-            <ModalTitle>Generated Report Preview</ModalTitle>
-          </ModalHeader>
+      <Dialog open={showPreview} onOpenChange={setShowPreview}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Generated Report Preview</DialogTitle>
+          </DialogHeader>
           <ScrollArea className="h-96 p-4 border rounded-md bg-gray-50">
             <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
           </ScrollArea>
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setShowPreview(false)}>
               Close
             </Button>
@@ -502,9 +488,9 @@ export default function TherapistTemplatesPage() {
               <Download className="w-4 h-4" />
               Download
             </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

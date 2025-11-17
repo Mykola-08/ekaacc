@@ -1,21 +1,12 @@
 'use client';
 
-import { 
-  Badge, 
-  Button, 
-  Card, 
-  CardContent, 
-  Skeleton, 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow,
-  Avatar,
-  AvatarFallback,
-  Divider
-} from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState, useCallback } from 'react';
 import { RefreshCw, PlusCircle, CalendarX2, Calendar, User, Clock } from 'lucide-react';
 

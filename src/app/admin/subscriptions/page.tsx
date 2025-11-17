@@ -1,12 +1,12 @@
 'use client';
 
-import { Button, Label, Modal, ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalTitle, Notification, NotificationDescription, Select, SelectContent, SelectItem, SelectValue, Skeleton } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect, useCallback } from 'react';
-;
-;
-;
-;
-;
 import { getSubscriptionService } from '@/services/subscription-service';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import { Plus, Star, Crown, DollarSign } from 'lucide-react';
@@ -190,12 +190,12 @@ export default function AdminSubscriptionsPage() {
         )}
 
       {/* Grant Subscription Dialog */}
-      <Modal open={grantDialogOpen} onOpenChange={setGrantDialogOpen}>
+      <Dialog open={grantDialogOpen} onOpenChange={setGrantDialogOpen}>
         <ModalContent>
-          <ModalHeader>
-            <ModalTitle>Grant Subscription</ModalTitle>
-            <ModalDescription>Give {selectedUser?.userName} access to a subscription tier.</ModalDescription>
-          </ModalHeader>
+          <DialogHeader>
+            <DialogTitle>Grant Subscription</DialogTitle>
+            <DialogDescription>Give {selectedUser?.userName} access to a subscription tier.</DialogDescription>
+          </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label htmlFor="subscription-type">Subscription Type</Label>
@@ -207,28 +207,28 @@ export default function AdminSubscriptionsPage() {
                 </SelectContent>
               </Select>
             </div>
-            <Notification>
-              <NotificationDescription>This will create an active subscription for the user, granting immediate access.</NotificationDescription>
-            </Notification>
+            <Alert>
+              <AlertDescription>This will create an active subscription for the user, granting immediate access.</AlertDescription>
+            </Alert>
           </div>
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setGrantDialogOpen(false)}>Cancel</Button>
             <Button onClick={handleGrantSubscription}><Plus className="w-4 h-4 mr-2" />Grant Access</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Revoke Subscription Dialog */}
-      <Modal open={revokeDialogOpen} onOpenChange={setRevokeDialogOpen}>
+      <Dialog open={revokeDialogOpen} onOpenChange={setRevokeDialogOpen}>
         <ModalContent>
-          <ModalHeader>
-            <ModalTitle>Revoke Subscription Access</ModalTitle>
-            <ModalDescription>Remove subscription access for {selectedUser?.userName}.</ModalDescription>
-          </ModalHeader>
+          <DialogHeader>
+            <DialogTitle>Revoke Subscription Access</DialogTitle>
+            <DialogDescription>Remove subscription access for {selectedUser?.userName}.</DialogDescription>
+          </DialogHeader>
           <div className="space-y-4 py-4">
-            <Notification>
-              <NotificationDescription>This action will immediately revoke the user's subscription access. This cannot be undone.</NotificationDescription>
-            </Notification>
+            <Alert>
+              <AlertDescription>This action will immediately revoke the user's subscription access. This cannot be undone.</AlertDescription>
+            </Alert>
             <div className="space-y-2">
               <Label>Active Subscriptions</Label>
               {selectedUser?.subscriptions.filter(s => s.status === 'active').map(sub => (
@@ -242,11 +242,11 @@ export default function AdminSubscriptionsPage() {
               ))}
             </div>
           </div>
-          <ModalFooter>
+          <DialogFooter>
             <Button variant="outline" onClick={() => setRevokeDialogOpen(false)}>Close</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </SettingsShell>
   );
 }

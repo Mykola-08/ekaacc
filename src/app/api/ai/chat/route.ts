@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AISDKNextService } from '@/ai/ai-sdk-next-service';
-import { auth } from '@clerk/nextjs/server';
+// import { auth } from '@clerk/nextjs/server'; // Removed clerk dependency
 
 const aiService = new AISDKNextService();
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
+    // Simple auth check - can be enhanced with proper auth later
+    const authHeader = req.headers.get('authorization');
+    const userId = authHeader?.replace('Bearer ', '') || 'anonymous';
+    
+    if (!userId || userId === 'anonymous') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

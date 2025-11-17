@@ -64,3 +64,7 @@ export const useUserContext = () => {
   }
   return context;
 };
+
+// Alias for backwards compatibility
+export const useUser = useUserContext;
+};

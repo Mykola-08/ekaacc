@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useAppStore } from '@/store/app-store';
-import { Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Button, Card, CardContent, Avatar, AvatarFallback, AvatarImage, Badge, Skeleton } from '@/components/keep';
+import { Input, Select, SelectContent, SelectItem, SelectValue, Button, Card, CardContent, Avatar, AvatarFallback, AvatarImage, Badge, Skeleton } from '@/components/keep';
+import { Select as ShadcnSelect, SelectTrigger } from '@/components/ui/select';
 import type { User } from '@/lib/types';
 
 export default function TherapistsPage() {

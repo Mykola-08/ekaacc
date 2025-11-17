@@ -7,7 +7,8 @@
 ;
 ;
 ;
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dropdown, DropdownAction, DropdownContent, DropdownItem, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, SelectTrigger } from '@/components/keep';
+import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dropdown, DropdownAction, DropdownContent, DropdownItem, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { SelectTrigger } from '@/components/ui/select';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import type { Subscription, SubscriptionType } from '@/lib/subscription-types';
 import { Search, Filter, Download, MoreVertical, UserPlus, UserMinus, Shield, Users, Crown, Star, TrendingUp } from 'lucide-react';

@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Button, Radio, Label } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
 interface CommunicationStepProps {
   onNext: (data: { communicationStyle: string }) => void;

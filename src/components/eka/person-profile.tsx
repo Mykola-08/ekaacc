@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Card } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import React, { useEffect, useState } from 'react';
 import fxService from '@/lib/fx-service';
 ;

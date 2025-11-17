@@ -1,6 +1,8 @@
 "use client";
 
-import { Button, Skeleton, Tabs, TabsContent, TabsItem, TabsList } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Suspense, useMemo } from "react";
 ;
 ;
@@ -127,18 +129,18 @@ export default function OptimizedSessionsPage() {
       {/* Sessions Tabs */}
       <Tabs defaultValue="upcoming" className="space-y-4">
         <TabsList>
-            <TabsItem value="upcoming" className="gap-2">
+            <TabsTrigger value="upcoming" className="gap-2">
               <Calendar className="h-4 w-4" />
               Upcoming ({upcoming.length})
-            </TabsItem>
-            <TabsItem value="past" className="gap-2">
+            </TabsTrigger>
+            <TabsTrigger value="past" className="gap-2">
               <Loader2 className="h-4 w-4" />
               Past ({past.length})
-            </TabsItem>
-            <TabsItem value="cancelled" className="gap-2">
+            </TabsTrigger>
+            <TabsTrigger value="cancelled" className="gap-2">
               <Plus className="h-4 w-4 rotate-45" />
               Cancelled ({cancelled.length})
-            </TabsItem>
+            </TabsTrigger>
         </TabsList>
 
         <TabsContent value="upcoming" className="space-y-4">

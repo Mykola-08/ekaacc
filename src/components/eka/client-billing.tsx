@@ -352,7 +352,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
 
       {/* Add Balance Dialog */}
       <Dialog open={isAddBalanceOpen} onOpenChange={setIsAddBalanceOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Add Funds to Account</DialogTitle>
             <DialogDescription>
@@ -391,7 +391,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
 
       {/* Subtract Balance Dialog */}
       <Dialog open={isSubtractBalanceOpen} onOpenChange={setIsSubtractBalanceOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Deduct Funds from Account</DialogTitle>
             <DialogDescription>
@@ -434,7 +434,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
 
       {/* Create Invoice Dialog */}
       <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Create Invoice</DialogTitle>
             <DialogDescription>Create an invoice for this client.</DialogDescription>

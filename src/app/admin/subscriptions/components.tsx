@@ -7,8 +7,14 @@
 ;
 ;
 ;
-import { Badge, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Dropdown, DropdownAction, DropdownContent, DropdownItem, Input, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
-import { SelectTrigger } from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import type { Subscription, SubscriptionType } from '@/lib/subscription-types';
 import { Search, Filter, Download, MoreVertical, UserPlus, UserMinus, Shield, Users, Crown, Star, TrendingUp } from 'lucide-react';
@@ -143,26 +149,26 @@ export function SubscriptionsTable({
                                             <TableCell>€{user.totalSpent.toFixed(2)}</TableCell>
                                             <TableCell>{new Date(user.joinedDate).toLocaleDateString()}</TableCell>
                                             <TableCell className="text-right">
-                                                <Dropdown>
-                                                    <DropdownAction asChild>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
                                                         <Button variant="outline" className="h-8 w-8 p-0">
                                                             <span className="sr-only">Open menu</span>
                                                             <MoreVertical className="h-4 w-4" />
                                                         </Button>
-                                                    </DropdownAction>
-                                                    <DropdownContent align="end">
-                                                        <DropdownItem onClick={() => onAction(user, 'grant')}>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuItem onClick={() => onAction(user, 'grant')}>
                                                             <UserPlus className="mr-2 h-4 w-4" /> Grant
-                                                        </DropdownItem>
-                                                        <DropdownItem onClick={() => onAction(user, 'revoke')} disabled={!loyalSub && !vipSub}>
+                                                        </DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => onAction(user, 'revoke')} disabled={!loyalSub && !vipSub}>
                                                             <UserMinus className="mr-2 h-4 w-4" /> Revoke
-                                                        </DropdownItem>
+                                                        </DropdownMenuItem>
                                                         <div className="my-1 h-px bg-muted" />
-                                                        <DropdownItem onClick={() => onAction(user, 'view')}>
+                                                        <DropdownMenuItem onClick={() => onAction(user, 'view')}>
                                                             <Shield className="mr-2 h-4 w-4" /> View Details
-                                                        </DropdownItem>
-                                                    </DropdownContent>
-                                                </Dropdown>
+                                                        </DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
                                             </TableCell>
                                         </TableRow>
                                     );

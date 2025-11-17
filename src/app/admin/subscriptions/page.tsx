@@ -191,7 +191,7 @@ export default function AdminSubscriptionsPage() {
 
       {/* Grant Subscription Dialog */}
       <Dialog open={grantDialogOpen} onOpenChange={setGrantDialogOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Grant Subscription</DialogTitle>
             <DialogDescription>Give {selectedUser?.userName} access to a subscription tier.</DialogDescription>
@@ -216,12 +216,13 @@ export default function AdminSubscriptionsPage() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setGrantDialogOpen(false)}>Cancel</Button>
             <Button onClick={handleGrantSubscription}><Plus className="w-4 h-4 mr-2" />Grant Access</Button>
-          </DialogFooter></DialogContent>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
 
       {/* Revoke Subscription Dialog */}
       <Dialog open={revokeDialogOpen} onOpenChange={setRevokeDialogOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Revoke Subscription Access</DialogTitle>
             <DialogDescription>Remove subscription access for {selectedUser?.userName}.</DialogDescription>

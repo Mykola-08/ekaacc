@@ -164,7 +164,7 @@ export default function AdminPaymentsPage() {
 
       {/* Action Dialog */}
       <Dialog open={actionDialogOpen} onOpenChange={setActionDialogOpen}>
-        <ModalContent>
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>{actionType === 'confirm' ? 'Confirm Payment' : 'Reject Payment'}</DialogTitle>
             <DialogDescription>
@@ -189,7 +189,8 @@ export default function AdminPaymentsPage() {
             ) : (
               <Button variant="outline" onClick={() => handlePaymentAction('reject')} disabled={!rejectionReason}>Reject</Button>
             )}
-          </DialogFooter></DialogContent>
+          </DialogFooter>
+        </DialogContent>
       </Dialog>
 
       {/* Proof Dialog */}

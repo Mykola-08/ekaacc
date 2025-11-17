@@ -8,7 +8,14 @@
 ;
 ;
 ;
-import { Badge, Button, Card, CardContent, CardHeader, CardTitle, Input, Label, Select, SelectContent, SelectItem, SelectValue, Skeleton, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Check, X, Eye, Clock, Euro, Filter, Search } from 'lucide-react';
 import type { PaymentRequest, PaymentStatus, PaymentMethod } from '@/lib/wallet-types';
 
@@ -48,7 +55,9 @@ export function PaymentsFilter({
                     <div className="space-y-2">
                         <Label>Status</Label>
                         <Select value={statusFilter} onValueChange={onStatusChange}>
-                            <SelectValue  />
+                            <SelectTrigger>
+                                <SelectValue  />
+                            </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All Statuses</SelectItem>
                                 <SelectItem value="pending">Pending</SelectItem>
@@ -62,7 +71,9 @@ export function PaymentsFilter({
                     <div className="space-y-2">
                         <Label>Payment Method</Label>
                         <Select value={methodFilter} onValueChange={onMethodChange}>
-                            <SelectValue  />
+                            <SelectTrigger>
+                                <SelectValue  />
+                            </SelectTrigger>
                             <SelectContent>
                                 <SelectItem value="all">All Methods</SelectItem>
                                 <SelectItem value="bizum">Bizum</SelectItem>

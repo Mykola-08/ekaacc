@@ -16,13 +16,11 @@ import {
 
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import {
-  Card,
-  Button,
-  Badge,
-  Avatar,
-  Divider
-} from '@/components/keep';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
 import { format } from "date-fns";
 import type { User, Session as AppSession } from "@/lib/types";
 import fxService from '@/lib/fx-service';

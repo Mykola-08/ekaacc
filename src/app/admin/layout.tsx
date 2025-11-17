@@ -1,12 +1,11 @@
 'use client';
 
-import { Button, Tooltip, TooltipAction, TooltipContent } from '@/components/keep';
+import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-;
 import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
-;
 
 const navItems = [
 	{ href: '/admin', label: 'Dashboard', icon: BarChart3 },
@@ -36,7 +35,7 @@ function AdminSidebar() {
 							return (
 								<Link key={item.href} href={item.href}>
 									<Button
-										variant={isActive ? 'softBg' : 'outline'}
+										variant={isActive ? "secondary" : "outline"}
 										className="w-full justify-start"
 									>
 										<item.icon className="mr-2 h-4 w-4" />
@@ -49,14 +48,14 @@ function AdminSidebar() {
 				</div>
 				<div className="p-4 border-t">
 					<Tooltip>
-							<TooltipAction asChild>
+							<TooltipTrigger asChild>
 								<Button variant="outline" className="w-full justify-start">
 									<Link href="/home">
 										<ArrowLeft className="mr-2 h-4 w-4" />
 										Back to App
 									</Link>
 								</Button>
-							</TooltipAction>
+							</TooltipTrigger>
 							<TooltipContent>
 								<p>Return to the main application view.</p>
 							</TooltipContent>

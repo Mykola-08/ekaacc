@@ -512,9 +512,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                 'Save Mood Log'
               )}
             </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+          </DialogFooter></form></DialogContent>
     </Dialog>
   );
 }

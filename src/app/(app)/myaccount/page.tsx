@@ -475,8 +475,7 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
           <Button onClick={onSubmit}>Submit Request</Button>
-        </DialogFooter>
-      </DialogContent>
+        </DialogFooter></DialogContent>
     </Dialog>
   );
 }

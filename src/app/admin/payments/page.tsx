@@ -189,8 +189,7 @@ export default function AdminPaymentsPage() {
             ) : (
               <Button variant="outline" onClick={() => handlePaymentAction('reject')} disabled={!rejectionReason}>Reject</Button>
             )}
-          </DialogFooter>
-        </DialogContent>
+          </DialogFooter></DialogContent>
       </Dialog>
 
       {/* Proof Dialog */}

@@ -216,8 +216,7 @@ export default function AdminSubscriptionsPage() {
           <DialogFooter>
             <Button variant="outline" onClick={() => setGrantDialogOpen(false)}>Cancel</Button>
             <Button onClick={handleGrantSubscription}><Plus className="w-4 h-4 mr-2" />Grant Access</Button>
-          </DialogFooter>
-        </DialogContent>
+          </DialogFooter></DialogContent>
       </Dialog>
 
       {/* Revoke Subscription Dialog */}

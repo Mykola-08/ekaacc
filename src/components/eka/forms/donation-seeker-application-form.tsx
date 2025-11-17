@@ -553,9 +553,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                 </Button>
               )}
             </div>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+          </DialogFooter></form></DialogContent>
     </Dialog>
   );
 }

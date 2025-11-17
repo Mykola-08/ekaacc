@@ -465,8 +465,7 @@ export default function AdminCreateUserPage() {
             }}>
               Close
             </Button>
-          </DialogFooter>
-        </DialogContent>
+          </DialogFooter></DialogContent>
       </Dialog>
     </div>
   );

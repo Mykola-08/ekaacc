@@ -1,11 +1,10 @@
 'use client';
 
-import { Badge, Button, Dropdown, DropdownAction, DropdownContent, DropdownItem } from '@/components/keep';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useState, useEffect } from 'react';
 import { Wallet, TrendingUp, Plus, Eye, EyeOff } from 'lucide-react';
-;
-;
-;
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/supabase-auth';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -55,8 +54,8 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
   }
 
   return (
-    <Dropdown>
-      <DropdownAction asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="gap-2 hover:bg-muted/50">
           <Wallet className="h-4 w-4" />
           <div className="flex flex-col items-start">
@@ -86,8 +85,8 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
             </AnimatePresence>
           </div>
         </Button>
-      </DropdownAction>
-      <DropdownContent className="w-72" align="end">
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-72" align="end">
         <div className="px-3 py-2 text-sm font-medium">My Wallet</div>
         <div className="border-t border-gray-200 dark:border-gray-700" />
         
@@ -138,20 +137,20 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
         <div className="border-t border-gray-200 dark:border-gray-700" />
 
         <div className="px-1 py-1">
-          <DropdownItem onClick={() => router.push('/myaccount?tab=profile')}>
+          <DropdownMenuItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Wallet className="mr-2 h-4 w-4" />
             <span>View Wallet</span>
-          </DropdownItem>
-          <DropdownItem onClick={() => router.push('/myaccount?tab=profile')}>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/myaccount?tab=profile')}>
             <Plus className="mr-2 h-4 w-4" />
             <span>Top Up Wallet</span>
-          </DropdownItem>
-          <DropdownItem onClick={() => router.push('/subscriptions')}>
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push('/subscriptions')}>
             <TrendingUp className="mr-2 h-4 w-4" />
             <span>Loyalty Program</span>
-          </DropdownItem>
+          </DropdownMenuItem>
         </div>
-      </DropdownContent>
-    </Dropdown>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

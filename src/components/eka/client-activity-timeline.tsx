@@ -231,18 +231,18 @@ export function ClientActivityTimeline({ client }: ClientActivityTimelineProps) 
                       {event.metadata && (
                         <div className="flex flex-wrap gap-2 mt-2">
                           {event.metadata.duration && (
-                            <Badge variant="border" className="text-xs">
+                            <Badge variant="outline" className="text-xs">
                               <Clock className="h-3 w-3 mr-1" />
                               {event.metadata.duration} min
                             </Badge>
                           )}
                           {event.metadata.therapist && (
-                            <Badge variant="border" className="text-xs">
+                            <Badge variant="outline" className="text-xs">
                               {event.metadata.therapist}
                             </Badge>
                           )}
                           {event.metadata.amount && (
-                            <Badge variant="border" className="text-xs">
+                            <Badge variant="outline" className="text-xs">
                               €{event.metadata.amount}
                             </Badge>
                           )}

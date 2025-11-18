@@ -30,13 +30,13 @@ export function UserProfileView({ user, viewerRole }: UserProfileViewProps) {
     }
   };
 
-  const getStatusBadgeVariant = (status?: string) => {
+  const getStatusBadgeVariant = (status?: string): "default" | "secondary" | "destructive" | "outline" => {
     switch (status) {
-      case 'active': return 'base';
-      case 'suspended': return 'border';
-      case 'pending': return 'background';
-      case 'deactivated': return 'border';
-      default: return 'base';
+      case 'active': return 'default';
+      case 'suspended': return 'outline';
+      case 'pending': return 'secondary';
+      case 'deactivated': return 'outline';
+      default: return 'default';
     }
   };
 

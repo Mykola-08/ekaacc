@@ -169,7 +169,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                 Complete this form to personalize your wellness journey
               </DialogDescription>
             </div>
-            <Badge variant="background" className="flex items-center gap-1">
+            <Badge variant="secondary" className="flex items-center gap-1">
               <Gift className="h-3 w-3" />
               €10 Discount
             </Badge>

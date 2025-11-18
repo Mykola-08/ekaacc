@@ -208,7 +208,7 @@ export default function LoyaltyMemberPage() {
               <p className="text-blue-100">Points Multiplier</p>
             </div>
             <div>
-              <NumberTicker value={5} className="text-4xl font-bold mb-2" suffix="%" />
+              <NumberTicker value={5} className="text-4xl font-bold mb-2" />
               <p className="text-blue-100">Discount Rate</p>
             </div>
             <div>

@@ -147,10 +147,10 @@ export default function MinimalProgressPage() {
       : 0;
     const completedGoals = reports.filter(report => report.goalProgress === 'completed').length;
     const recentReports = reports.slice(-5);
-    const recentTrend = recentReports.length > 1 
-      ? recentReports[recentReports.length - 1].mood > recentReports[0].mood 
+    const recentTrend: 'improving' | 'declining' | 'neutral' = recentReports.length > 1 
+      ? (recentReports[recentReports.length - 1].mood || 0) > (recentReports[0].mood || 0)
         ? 'improving' 
-        : recentReports[recentReports.length - 1].mood < recentReports[0].mood 
+        : (recentReports[recentReports.length - 1].mood || 0) < (recentReports[0].mood || 0)
           ? 'declining' 
           : 'neutral'
       : 'neutral';
@@ -221,7 +221,7 @@ export default function MinimalProgressPage() {
               </p>
               <Button 
                 variant="default" 
-                size="md"
+                size="default"
                 onClick={() => window.location.href = '/sessions/booking'}
               >
                 Book Your First Session
@@ -234,14 +234,14 @@ export default function MinimalProgressPage() {
         <div className="flex flex-wrap gap-4 justify-center">
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             onClick={() => window.location.href = '/progress-reports'}
           >
             View Detailed Reports
           </Button>
           <Button 
             variant="outline" 
-            size="md"
+            size="default"
             onClick={() => window.location.href = '/goals'}
           >
             Manage Goals

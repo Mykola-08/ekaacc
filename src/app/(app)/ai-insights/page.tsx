@@ -192,7 +192,7 @@ export default function AIInsightsPage() {
         userId: user!.id,
         type: 'page_view',
         section: 'ai_insights',
-        timestamp: Date.now(),
+        timestamp: new Date(),
         metadata: { action: 'ai_dashboard_accessed' }
       });
 

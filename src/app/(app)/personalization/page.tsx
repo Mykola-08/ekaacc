@@ -190,7 +190,7 @@ export default function PersonalizationPage() {
                   </div>
                 </div>
                 
-                <Progress value={overallProgress} size="md" color="primary" className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                <Progress value={overallProgress} className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
                 
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
                   {personalizationSections.map((section) => (
@@ -204,7 +204,7 @@ export default function PersonalizationPage() {
                           {section.progress}%
                         </Badge>
                       </div>
-                      <Progress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
+                      <Progress value={section.progress} className="h-2 rounded-full" />
                     </div>
                   ))}
                 </div>
@@ -317,7 +317,7 @@ export default function PersonalizationPage() {
                             <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
                           </div>
                         </div>
-                        <Progress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
+                        <Progress value={section.progress} className="h-2 rounded-full" />
                       </div>
                     </motion.div>
                   );

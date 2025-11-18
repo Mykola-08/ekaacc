@@ -109,7 +109,7 @@ export function RoleManagementPanel() {
 
       if (error) throw error;
 
-      const usersWithRoles: UserWithRole[] = data?.map(user => ({
+      const usersWithRoles: UserWithRole[] = (data as any)?.map((user: any) => ({
         id: user.id,
         email: user.email,
         name: user.name || 'Unknown',
@@ -148,7 +148,7 @@ export function RoleManagementPanel() {
 
       if (error) throw error;
 
-      const logs: RoleAssignmentLog[] = data?.map(log => ({
+      const logs: RoleAssignmentLog[] = (data as any)?.map((log: any) => ({
         id: log.id,
         userId: log.user_id,
         userEmail: log.user?.email || 'Unknown',
@@ -190,7 +190,7 @@ export function RoleManagementPanel() {
             isActive: data.isActive,
             expiresAt: data.expiresAt
           }
-        });
+        } as any);
 
       if (logError) throw logError;
 
@@ -234,7 +234,7 @@ export function RoleManagementPanel() {
     try {
       const { error } = await supabase
         .from('user_roles')
-        .update({ is_active: !currentStatus })
+        .update({ is_active: !currentStatus } as any)
         .eq('user_id', userId);
 
       if (error) throw error;
@@ -477,9 +477,9 @@ export function RoleManagementPanel() {
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleRoleAssignment)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(handleRoleAssignment as any)} className="space-y-4">
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="userId"
                 render={({ field }) => (
                   <FormItem>
@@ -508,7 +508,7 @@ export function RoleManagementPanel() {
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="role"
                 render={({ field }) => (
                   <FormItem>
@@ -537,7 +537,7 @@ export function RoleManagementPanel() {
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="reason"
                 render={({ field }) => (
                   <FormItem>
@@ -555,7 +555,7 @@ export function RoleManagementPanel() {
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="isActive"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0">

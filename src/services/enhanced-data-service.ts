@@ -115,7 +115,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Service fetched successfully', { serviceId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch service', error as Error, { serviceId });
       throw error;
@@ -181,7 +181,7 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       const { data, error } = await supabase
         .from('services')
-        .insert([service])
+        .insert([service] as any)
         .select()
         .single();
 
@@ -190,8 +190,8 @@ export class EnhancedDataService implements IEnhancedDataService {
         throw error;
       }
 
-      logger.info('Service created successfully', { serviceId: data.id });
-      return data;
+      logger.info('Service created successfully', { serviceId: (data as any).id });
+      return data as any;
     } catch (error) {
       logger.error('Failed to create service', error as Error, { service });
       throw error;
@@ -209,7 +209,7 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       const { data, error } = await supabase
         .from('services')
-        .update(updates)
+        .update(updates as any)
         .eq('id', serviceId)
         .select()
         .single();
@@ -220,7 +220,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Service updated successfully', { serviceId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to update service', error as Error, { serviceId, updates });
       throw error;
@@ -267,7 +267,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('User preferences fetched successfully', { userId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch user preferences', error as Error, { userId });
       throw error;
@@ -289,7 +289,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('User preferences created successfully', { userId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to create user preferences', error as Error, { userId, preferences });
       throw error;
@@ -312,7 +312,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('User preferences updated successfully', { userId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to update user preferences', error as Error, { userId, preferences });
       throw error;
@@ -355,7 +355,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription fetched successfully', { subscriptionId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch subscription', error as Error, { subscriptionId });
       throw error;
@@ -382,7 +382,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('User subscription fetched successfully', { userId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch user subscription', error as Error, { userId });
       throw error;
@@ -438,7 +438,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription created successfully', { subscriptionId: data.id });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to create subscription', error as Error, { subscription });
       throw error;
@@ -461,7 +461,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription status updated successfully', { subscriptionId, status });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to update subscription status', error as Error, { subscriptionId, status });
       throw error;
@@ -487,7 +487,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription cancelled successfully', { subscriptionId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to cancel subscription', error as Error, { subscriptionId });
       throw error;
@@ -533,7 +533,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription tier fetched successfully', { tierId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch subscription tier', error as Error, { tierId });
       throw error;
@@ -556,7 +556,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription tier fetched successfully', { type });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch subscription tier by type', error as Error, { type });
       throw error;
@@ -578,7 +578,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription tier created successfully', { tierId: data.id });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to create subscription tier', error as Error, { tier });
       throw error;
@@ -590,7 +590,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       logger.info('Updating subscription tier', { tierId, updates });
       const { data, error } = await supabase
         .from('subscription_tiers')
-        .update(updates)
+        .update(updates as any)
         .eq('id', tierId)
         .select()
         .single();
@@ -601,7 +601,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription tier updated successfully', { tierId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to update subscription tier', error as Error, { tierId, updates });
       throw error;
@@ -628,7 +628,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription usage fetched successfully', { subscriptionId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch subscription usage', error as Error, { subscriptionId });
       throw error;
@@ -654,7 +654,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('User subscription usage fetched successfully', { userId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch user subscription usage', error as Error, { userId });
       throw error;
@@ -676,7 +676,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription usage created successfully', { usageId: data.id });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to create subscription usage', error as Error, { usage });
       throw error;
@@ -688,7 +688,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       logger.info('Updating subscription usage', { usageId, updates });
       const { data, error } = await supabase
         .from('subscription_usage')
-        .update(updates)
+        .update(updates as any)
         .eq('id', usageId)
         .select()
         .single();
@@ -699,7 +699,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Subscription usage updated successfully', { usageId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to update subscription usage', error as Error, { usageId, updates });
       throw error;
@@ -767,7 +767,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Community post fetched successfully', { postId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to fetch community post', error as Error, { postId });
       throw error;
@@ -874,7 +874,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Community post created successfully', { postId: data.id });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to create community post', error as Error, { post });
       throw error;
@@ -886,7 +886,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       logger.info('Updating community post', { postId, updates });
       const { data, error } = await supabase
         .from('community_posts')
-        .update(updates)
+        .update(updates as any)
         .eq('id', postId)
         .select()
         .single();
@@ -897,7 +897,7 @@ export class EnhancedDataService implements IEnhancedDataService {
       }
 
       logger.info('Community post updated successfully', { postId });
-      return data;
+      return data as any;
     } catch (error) {
       logger.error('Failed to update community post', error as Error, { postId, updates });
       throw error;

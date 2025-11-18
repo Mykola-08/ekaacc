@@ -17,7 +17,7 @@ import type { DonationSeekerData } from '@/components/eka/forms/donation-seeker-
 
 export default function DonationsPage() {
   const { user: currentUser, user } = useAuth();
-  const dataService = useAppStore((state) => state.dataService);
+  const dataService = useAppStore((state: any) => state.dataService);
   const { toast } = useToast();
 
   const [amount, setAmount] = useState<number | ''>('');
@@ -48,9 +48,9 @@ export default function DonationsPage() {
     if (!userDonations) {
       return { totalDonated: 0, sessionsFunded: 0, livesTouched: 0 };
     }
-    const totalDonated = userDonations.reduce((acc, d) => acc + d.amount, 0);
+    const totalDonated = userDonations.reduce((acc: any, d: any) => acc + d.amount, 0);
     const sessionsFunded = Math.floor(totalDonated / 50); // Assuming 50 per session
-    const uniqueReceivers = new Set(userDonations.map(d => d.receiverId));
+    const uniqueReceivers = new Set(userDonations.map((d: any) => d.receiverId));
     return {
       totalDonated,
       sessionsFunded,
@@ -62,7 +62,7 @@ export default function DonationsPage() {
     setAmount(val);
   };
 
-  const potentialRecipients = useMemo(() => allUsers.filter(u => u.id !== currentUser?.id && (u as any).user_metadata?.isDonationSeeker), [allUsers, currentUser]);
+  const potentialRecipients = useMemo(() => allUsers.filter((u: any) => u.id !== currentUser?.id && (u as any).user_metadata?.isDonationSeeker), [allUsers, currentUser]);
 
   const handleDonate = async () => {
     if (!currentUser || !dataService || !amount) {
@@ -83,7 +83,7 @@ export default function DonationsPage() {
     const savedDonation = await dataService.addDonation(newDonation);
 
     if (savedDonation) {
-      setUserDonations(prev => [...prev, savedDonation]);
+      setUserDonations((prev: any) => [...prev, savedDonation]);
       toast({
         title: 'Thank you for your donation!',
         description: `You successfully donated €${amount}.`,
@@ -184,7 +184,7 @@ export default function DonationsPage() {
                                 type="number" 
                                 placeholder="e.g. 75" 
                                 value={amount}
-                                onChange={(e) => setAmount(e.target.value === '' ? '' : parseFloat(e.target.value))}
+                                onChange={(e: any) => setAmount(e.target.value === '' ? '' : parseFloat(e.target.value))}
                             />
                         </div>
                         <div className="grid gap-2">
@@ -193,7 +193,7 @@ export default function DonationsPage() {
                                 <SelectValue placeholder="Select a recipient"  />
                                 <SelectContent>
                                     <SelectItem value="any">Anyone in need</SelectItem>
-                                    {potentialRecipients.map(user => (
+                                    {potentialRecipients.map((user: any) => (
                                         <SelectItem key={user.id} value={user.id}>
                                             {user.name}
                                         </SelectItem>

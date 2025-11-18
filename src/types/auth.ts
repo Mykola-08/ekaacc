@@ -52,16 +52,30 @@ export interface AuditLog {
 
 export interface AuthUser {
   id: string;
+  uid?: string; // Alias for id (Firebase compatibility)
   email: string;
+  name?: string; // User's display name
+  displayName?: string; // Alias for name
+  fullName?: string; // Full name
+  avatarUrl?: string; // User's avatar URL
+  phoneNumber?: string; // Phone number
+  user_type?: string; // User type/role
+  settings?: Record<string, any>; // User settings
+  personalizationCompleted?: boolean; // Whether personalization is done
+  donationSeekerReason?: string; // Reason for seeking donations
+  isVip?: boolean; // VIP status
+  vipTier?: string; // VIP tier level
   role: UserRole;
   permissions: Permission[];
   profile: UserProfile;
   preferences: UserPreference;
+  user_metadata?: Record<string, any>; // Supabase user metadata
 }
 
 export interface AuthState {
   user: AuthUser | null;
   isLoading: boolean;
+  loading?: boolean; // Alias for isLoading for backward compatibility
   isAuthenticated: boolean;
 }
 

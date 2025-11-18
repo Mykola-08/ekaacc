@@ -879,7 +879,6 @@ export const EXTENDED_VIP_TIERS: Omit<VIPTierDetails, 'id' | 'createdAt' | 'upda
       minimumSpend: 1500,
       minimumSessions: 50,
       minimumDuration: 6,
-      referralCount: 5,
       invitationOnly: true,
     },
     privileges: {

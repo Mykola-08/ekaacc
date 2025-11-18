@@ -38,4 +38,15 @@ export const ai = {
     );
     return object as T;
   },
+
+  /**
+   * Generate response (alias for generate, for backward compatibility)
+   */
+  async generateResponse(options: { input: string; maxTokens?: number; temperature?: number }): Promise<{ output: string }> {
+    const text = await this.generate(options.input, {
+      maxTokens: options.maxTokens,
+      temperature: options.temperature,
+    });
+    return { output: text };
+  },
 };

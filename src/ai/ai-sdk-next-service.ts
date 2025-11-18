@@ -190,7 +190,7 @@ export class AISDKNextService {
         dailyRequestLimit: 200,
         monthlyRequestLimit: 5000,
         maxTokensPerRequest: 4000,
-        availableModels: ['gpt-3.5-turbo', 'gpt-4-turbo', 'claude-3-haiku'],
+        availableModels: ['gpt-3.5-turbo', 'gpt-4-turbo', 'claude-3-haiku', 'o3-mini'],
         toolsEnabled: ['booking', 'goal', 'reminder'],
         streamingEnabled: true,
         advancedFeatures: true,
@@ -202,7 +202,7 @@ export class AISDKNextService {
         dailyRequestLimit: 1000,
         monthlyRequestLimit: 25000,
         maxTokensPerRequest: 8000,
-        availableModels: ['gpt-3.5-turbo', 'gpt-4-turbo', 'claude-3-haiku', 'claude-3-sonnet', 'gemini-pro'],
+        availableModels: ['gpt-3.5-turbo', 'gpt-4-turbo', 'o1-preview', 'o1-mini', 'o3-mini', 'claude-3-haiku', 'claude-3-sonnet', 'gemini-pro'],
         toolsEnabled: ['booking', 'goal', 'reminder', 'report'],
         streamingEnabled: true,
         advancedFeatures: true,
@@ -489,7 +489,6 @@ Focus on being helpful, supportive, and professional.`;
         model: 'fallback',
         confidence: 0.5,
         subscriptionTier: request.subscriptionTier,
-        error: error?.message,
       },
     };
 
@@ -653,6 +652,43 @@ Focus on being helpful, supportive, and professional.`;
       limit: config.dailyRequestLimit,
       tier: subscriptionTier
     };
+  }
+
+  /**
+   * Generate background insights for user activity monitoring
+   * @param context - Context containing user activity and historical data
+   * @returns Array of insights generated from background analysis
+   */
+  async generateBackgroundInsights(context: any): Promise<any[]> {
+    // TODO: Implement background insights generation
+    // This is a placeholder for the AI background monitoring feature
+    console.log('generateBackgroundInsights called with context:', context);
+    return [];
+  }
+
+  /**
+   * Generate proactive recommendations based on user behavior
+   * @param context - Context containing user profile and activity patterns
+   * @returns Array of proactive recommendations
+   */
+  async generateProactiveRecommendations(context: any): Promise<any[]> {
+    // TODO: Implement proactive recommendations generation
+    // This is a placeholder for the proactive AI agent feature
+    console.log('generateProactiveRecommendations called with context:', context);
+    return [];
+  }
+
+  /**
+   * Generate personalized insights for a user
+   * @param userId - User ID to generate insights for
+   * @param context - Additional context for personalization
+   * @returns Personalized insights
+   */
+  async generatePersonalizedInsights(userId: string, context?: any): Promise<any> {
+    // TODO: Implement personalized insights generation
+    // This is a placeholder for the AI personalization feature
+    console.log('generatePersonalizedInsights called for user:', userId, 'with context:', context);
+    return {};
   }
 }
 

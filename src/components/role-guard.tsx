@@ -74,7 +74,7 @@ export function RoleGuard({
           <AlertTitle>Access Denied</AlertTitle>
           <AlertDescription>
             You don't have the required role to access this content. 
-            Your current role: {user.role}
+            Your current role: {user.role.name}
           </AlertDescription>
           <div className="mt-4">
             <Button onClick={() => router.push('/dashboard')} size="sm" variant="outline">

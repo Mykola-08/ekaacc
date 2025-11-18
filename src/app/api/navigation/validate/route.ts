@@ -200,7 +200,7 @@ function getClientIP(request: NextRequest): string {
     return realIP;
   }
   
-  return request.ip || '127.0.0.1';
+  return (request as any).ip || request.headers.get('x-real-ip') || '127.0.0.1';
 }
 
 /**

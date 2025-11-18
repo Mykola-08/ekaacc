@@ -54,6 +54,10 @@ export type Report = {
   notes?: string;
   exercises?: string[];
   createdAt?: Timestamp | string;
+  mood?: number; // Mood score
+  overallScore?: number; // Overall score
+  trend?: 'improving' | 'stable' | 'declining'; // Trend indicator
+  goalProgress?: number; // Goal completion progress
 };
 
 export type StatCard = {
@@ -81,8 +85,10 @@ export type User = {
   phoneNumber?: string;
   avatarUrl?: string;
   role: UserRole;
+  userType?: string; // User type (Patient, Therapist, Admin, etc.)
   initials: string;
   createdAt?: string;
+  lastActive?: string; // Last activity timestamp
   
   // Supabase user_metadata compatibility
   user_metadata?: {
@@ -102,6 +108,7 @@ export type User = {
   location?: string;
   dateOfBirth?: string;
   gender?: 'male' | 'female' | 'non-binary' | 'prefer-not-to-say' | 'other';
+  mood?: number; // Current mood score
   emergencyContact?: {
     name: string;
     phone: string;
@@ -264,6 +271,7 @@ export type User = {
     personalityTraits?: string[]; // e.g., "introverted", "analytical", "creative"
     copingMechanisms?: string[]; // How they currently cope with challenges
     emotionalState?: 'stable' | 'fluctuating' | 'challenged';
+    mood?: number; // Current mood score (1-10)
     
     // Previous Experience
     previousTherapyExperience?: boolean;
@@ -572,6 +580,9 @@ export type CommunityPost = {
   replies: number;
   createdAt: string;
   tags?: string[];
+  isPublished?: boolean;
+  isAnonymous?: boolean;
+  metadata?: Record<string, any>;
 };
 
 export interface UserProfile {

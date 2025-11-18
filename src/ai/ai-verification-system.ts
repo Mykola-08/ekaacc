@@ -671,7 +671,7 @@ export class AIVerificationSystem {
     }
 
     return {
-      urgencyScore: Math.min(100, urgencyScore),
+      urgencyScore: Math.min(100, urgencyScoreValue),
       keyFactors,
       timelineRisk,
       supportingEvidence
@@ -804,7 +804,7 @@ export class AIVerificationSystem {
     }
 
     if (analysis.behavioralAnalysis) {
-      if (analysis.behavioralAnalysis.authenticityScore < 50) {
+      if (analysis.behavioralAnalysis.languageAnalysis?.authenticityScore < 50) {
         explanations.push('Application authenticity concerns identified');
       }
     }

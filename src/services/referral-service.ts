@@ -601,7 +601,7 @@ class FirestoreReferralService implements IReferralService {
     const q = query(referralsRef, where('referrerId', '==', userId), orderBy('createdAt', 'desc'));
     
     const snapshot = await getDocs(q);
-    return snapshot.docs.map(d => ({
+    return snapshot.docs.map((d: any) => ({
       ...d.data(),
       id: d.id,
       registeredAt: d.data().registeredAt?.toDate?.()?.toISOString() || d.data().registeredAt,

@@ -112,7 +112,7 @@ class SupabaseWalletService implements IWalletService {
       throw new Error(`Failed to get wallet transactions: ${error.message}`);
     }
 
-    return (data || []).map(item => ({
+    return (data || []).map((item: any) => ({
       id: item.id,
       userId: item.user_id,
       type: item.type,
@@ -147,7 +147,7 @@ class SupabaseWalletService implements IWalletService {
       throw new Error(`Failed to get purchasable items: ${error.message}`);
     }
 
-    return (data || []).map(item => ({
+    return (data || []).map((item: any) => ({
       id: item.id,
       type: item.type ?? item.category ?? 'session',
       name: item.name,
@@ -172,7 +172,7 @@ class SupabaseWalletService implements IWalletService {
       throw new Error(`Failed to get purchases: ${error.message}`);
     }
 
-    return (data || []).map(item => ({
+    return (data || []).map((item: any) => ({
       id: item.id,
       userId: item.user_id,
       userName: item.user_name ?? '',

@@ -10,7 +10,7 @@ interface AppState {
 
 export const useAppStore = create<AppState>()(
   devtools(
-    (set, get) => ({
+    (set: any, get: any) => ({
       dataService: null,
       dataSource: 'supabase',
       initDataService: async () => {

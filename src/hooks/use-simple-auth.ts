@@ -25,6 +25,7 @@ export function useSimpleAuth() {
 
     // Permission checking (simplified)
     can: auth.canAccessResource,
+    canAccessResource: auth.canAccessResource,
     hasPermission: auth.hasPermission,
 
     // Check if user has admin role

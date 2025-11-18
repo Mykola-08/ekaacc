@@ -285,12 +285,13 @@ export class BehavioralTrackingService {
   }
 
   private analyzePositiveProgress(interactions: UserInteraction[], userId: string): BehavioralPattern | null {
-    const exerciseCompletions = interactions.filter(i => i.interaction_type === 'exercise_completed');
-    const goalAchievements = interactions.filter(i => i.interaction_type === 'goal_achievement');
+    const exerciseCompletions = interactions.filter((i: any) => i.interaction_type === 'exercise_completed');
+    // Note: goal_achievement is not in the UserInteraction type union, filtering will return empty
+    const goalAchievements = interactions.filter((i: any) => i.interaction_type === 'goal_achievement' as any);
     
     if (exerciseCompletions.length + goalAchievements.length < 2) return null;
 
-    const recentProgress = [...exerciseCompletions, ...goalAchievements].filter(p => 
+    const recentProgress = [...exerciseCompletions, ...goalAchievements].filter((p: any) => 
       new Date(p.timestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     );
 
@@ -416,13 +417,14 @@ export class BehavioralTrackingService {
   }
 
   private predictPositiveOutcomes(interactions: UserInteraction[], userId: string): PredictiveInsight | null {
-    const exerciseCompletions = interactions.filter(i => i.interaction_type === 'exercise_completed');
-    const goalAchievements = interactions.filter(i => i.interaction_type === 'goal_achievement');
-    const moodLogs = interactions.filter(i => i.interaction_type === 'mood_logged');
+    const exerciseCompletions = interactions.filter((i: any) => i.interaction_type === 'exercise_completed');
+    // Note: goal_achievement is not in the UserInteraction type union, filtering will return empty
+    const goalAchievements = interactions.filter((i: any) => i.interaction_type === 'goal_achievement' as any);
+    const moodLogs = interactions.filter((i: any) => i.interaction_type === 'mood_logged');
     
     if (exerciseCompletions.length + goalAchievements.length < 3) return null;
 
-    const recentMoods = moodLogs.slice(0, 5).map(log => log.metadata?.mood || 'neutral');
+    const recentMoods = moodLogs.slice(0, 5).map((log: any) => log.metadata?.mood || 'neutral');
     const positiveMoods = recentMoods.filter(mood => ['happy', 'content', 'excited', 'grateful'].includes(mood));
 
     if (positiveMoods.length >= recentMoods.length * 0.6 && (exerciseCompletions.length + goalAchievements.length) >= 5) {

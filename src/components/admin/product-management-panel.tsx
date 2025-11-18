@@ -104,7 +104,7 @@ interface StripePrice {
 }
 
 export function ProductManagementPanel() {
-  const { user, hasPermission } = useAuth();
+  const { user, canAccessResource } = useAuth();
   const { toast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -319,7 +319,7 @@ export function ProductManagementPanel() {
     fetchStripeData();
   }, []);
 
-  if (!hasPermission('product_management', 'read')) {
+  if (!canAccessResource('product_management', 'read')) {
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
@@ -340,7 +340,7 @@ export function ProductManagementPanel() {
             Create and manage products with Stripe integration
           </p>
         </div>
-        {hasPermission('product_management', 'create') && (
+        {canAccessResource('product_management', 'create') && (
           <Button onClick={() => setIsDialogOpen(true)}>
             <Plus className="mr-2 h-4 w-4" />
             Create Product
@@ -467,7 +467,7 @@ export function ProductManagementPanel() {
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-2">
-                          {hasPermission('product_management', 'update') && (
+                          {canAccessResource('product_management', 'update') && (
                             <Button
                               variant="outline"
                               size="sm"
@@ -480,7 +480,7 @@ export function ProductManagementPanel() {
                               <Edit className="h-4 w-4" />
                             </Button>
                           )}
-                          {hasPermission('product_management', 'update') && (
+                          {canAccessResource('product_management', 'update') && (
                             <Button
                               variant="outline"
                               size="sm"
@@ -490,7 +490,7 @@ export function ProductManagementPanel() {
                               <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
                             </Button>
                           )}
-                          {hasPermission('product_management', 'delete') && (
+                          {canAccessResource('product_management', 'delete') && (
                             <Button
                               variant="outline"
                               size="sm"

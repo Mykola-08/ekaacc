@@ -25,7 +25,8 @@ import {
   Lock,
   Eye,
   Edit,
-  Trash2
+  Trash2,
+  CheckCircle
 } from 'lucide-react';
 
 interface SystemStats {

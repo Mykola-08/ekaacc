@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DynamicSidebar } from '@/components/navigation/dynamic-sidebar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -120,7 +120,7 @@ export default function NavigationSystemDemo() {
                       <div className="space-y-1">
                         <p className="text-sm font-medium">Role</p>
                         <Badge variant="secondary" className="text-sm">
-                          {user.role}
+                          {user.role.name}
                         </Badge>
                       </div>
                       <div className="space-y-1">

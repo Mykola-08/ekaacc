@@ -16,9 +16,10 @@ export async function POST(
   request: NextRequest,
   { params }: { params: { productId: string } }
 ) {
+  const { productId } = params;
+  
   try {
     const stripe = getStripeClient();
-    const { productId } = params;
 
     // Fetch product from database
     const { data: product, error: dbError } = await supabase

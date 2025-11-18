@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
-import { Plus, BookOpen, Smile, Meh, Frown, X, Search, Tag, Heart, Sparkles, Edit3, Save, TrendingUp } from 'lucide-react';
+import { Plus, BookOpen, Smile, Meh, Frown, X, Search, Tag, Heart, Sparkles, Edit3, Save, TrendingUp, Calendar } from 'lucide-react';
 import { format, isSameDay } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -345,9 +345,10 @@ export default function JournalPage() {
 									<Calendar className="w-5 h-5 text-blue-600" />
 									Journal Calendar
 								</h3>
-								<DatePicker
-									selected={selectedDate}
-									onChange={(date) => date && setSelectedDate(date)}
+								<Input
+									type="date"
+									value={selectedDate ? format(selectedDate, 'yyyy-MM-dd') : ''}
+									onChange={(e) => e.target.value && setSelectedDate(new Date(e.target.value))}
 									className="rounded-lg"
 								/>
 							</CardContent>

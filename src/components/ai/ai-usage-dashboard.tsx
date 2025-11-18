@@ -484,7 +484,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                       <div className="mt-4">
                         <p className="text-sm font-medium mb-2">Available Features</p>
                         <div className="flex flex-wrap gap-1">
-                          {config.features.slice(0, 8).map((feature) => (
+                          {config.features.slice(0, 8).map((feature: string) => (
                             <Badge key={feature} variant="outline" className="text-xs">
                               {feature.replace('-', ' ')}
                             </Badge>

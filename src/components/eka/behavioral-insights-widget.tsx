@@ -351,7 +351,7 @@ const BehavioralInsightsWidget: React.FC<BehavioralInsightsWidgetProps> = ({ cla
 
       {/* Metrics Grid */}
       <AnimatedGroup className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {insights.metrics.map((metric, index) => (
+        {insights.metrics.map((metric: any, index: number) => (
           <MetricCard key={index} metric={metric} />
         ))}
       </AnimatedGroup>

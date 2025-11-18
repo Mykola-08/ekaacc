@@ -231,7 +231,7 @@ class SupabasePaymentService implements IPaymentService {
       throw new Error(`Failed to get user payment requests: ${error.message}`);
     }
 
-    return (data || []).map(item => ({
+    return (data || []).map((item: any) => ({
       id: item.id,
       userId: item.user_id,
       userName: item.user_name,
@@ -266,7 +266,7 @@ class SupabasePaymentService implements IPaymentService {
       throw new Error(`Failed to get pending payment requests: ${error.message}`);
     }
 
-    return (data || []).map(item => ({
+    return (data || []).map((item: any) => ({
       id: item.id,
       userId: item.user_id,
       userName: item.user_name,

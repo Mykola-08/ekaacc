@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { useSimpleAuth, useUserPreferences } from '@/hooks/use-simple-auth'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import {
   Form,
   FormControl,

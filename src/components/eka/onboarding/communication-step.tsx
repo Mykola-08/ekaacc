@@ -37,7 +37,7 @@ export function CommunicationStep({ onNext }: CommunicationStepProps) {
                 </div>
               )}
               <span className="text-3xl">{style.label.split(' ')[0]}</span>
-              <Radio
+              <RadioGroupItem
                 name="communicationStyle"
                 value={style.value}
                 checked={communicationStyle === style.value}

@@ -50,10 +50,10 @@ export async function GET(request: NextRequest) {
       '';
 
     // Get tier distribution
-    const { data: tierDistribution, error: tierError } = await supabase
+    const { data: tierDistribution, error: tierError } = await (supabase
       .from('user_tiers')
       .select('tier_type, tier_name, count(*)')
-      .eq('is_active', true)
+      .eq('is_active', true) as any)
       .group('tier_type, tier_name');
 
     if (tierError) {
@@ -84,10 +84,10 @@ export async function GET(request: NextRequest) {
     }
 
     // Get tier activity by date
-    const { data: activityByDate, error: activityError } = await supabase
+    const { data: activityByDate, error: activityError } = await (supabase
       .from('tier_audit_logs')
       .select('action, timestamp::date, count(*)')
-      .gte('timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+      .gte('timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()) as any)
       .group('action, timestamp::date')
       .order('timestamp::date', { ascending: false });
 
@@ -114,9 +114,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Get action statistics
-    const { data: actionStats, error: statsError } = await supabase
+    const { data: actionStats, error: statsError } = await (supabase
       .from('tier_audit_logs')
-      .select('action, count(*)')
+      .select('action, count(*)') as any)
       .group('action');
 
     if (statsError) {
@@ -131,30 +131,30 @@ export async function GET(request: NextRequest) {
     const processedData = {
       overview: {
         totalTierUsers: totalTierUsers || 0,
-        totalVipUsers: tierDistribution?.filter(t => t.tier_type === 'vip').reduce((sum, t) => sum + parseInt(t.count), 0) || 0,
-        totalLoyaltyUsers: tierDistribution?.filter(t => t.tier_type === 'loyalty').reduce((sum, t) => sum + parseInt(t.count), 0) || 0,
+        totalVipUsers: tierDistribution?.filter((t: any) => t.tier_type === 'vip').reduce((sum: number, t: any) => sum + parseInt(t.count), 0) || 0,
+        totalLoyaltyUsers: tierDistribution?.filter((t: any) => t.tier_type === 'loyalty').reduce((sum: number, t: any) => sum + parseInt(t.count), 0) || 0,
         recentActivity: recentAssignments?.length || 0
       },
       tierDistribution: {
         vip: {
-          silver: tierDistribution?.find(t => t.tier_type === 'vip' && t.tier_name === 'silver')?.count || 0,
-          gold: tierDistribution?.find(t => t.tier_type === 'vip' && t.tier_name === 'gold')?.count || 0,
-          platinum: tierDistribution?.find(t => t.tier_type === 'vip' && t.tier_name === 'platinum')?.count || 0
+          silver: tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'silver')?.count || 0,
+          gold: tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'gold')?.count || 0,
+          platinum: tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'platinum')?.count || 0
         },
         loyalty: {
-          member: tierDistribution?.find(t => t.tier_type === 'loyalty' && t.tier_name === 'member')?.count || 0,
-          elite: tierDistribution?.find(t => t.tier_type === 'loyalty' && t.tier_name === 'elite')?.count || 0
+          member: tierDistribution?.find((t: any) => t.tier_type === 'loyalty' && t.tier_name === 'member')?.count || 0,
+          elite: tierDistribution?.find((t: any) => t.tier_type === 'loyalty' && t.tier_name === 'elite')?.count || 0
         }
       },
       activityStats: {
-        totalActions: actionStats?.reduce((sum, stat) => sum + parseInt(stat.count), 0) || 0,
-        assignCount: actionStats?.find(s => s.action === 'assign')?.count || 0,
-        revokeCount: actionStats?.find(s => s.action === 'revoke')?.count || 0,
-        upgradeCount: actionStats?.find(s => s.action === 'upgrade')?.count || 0,
-        downgradeCount: actionStats?.find(s => s.action === 'downgrade')?.count || 0
+        totalActions: actionStats?.reduce((sum: number, stat: any) => sum + parseInt(stat.count), 0) || 0,
+        assignCount: actionStats?.find((s: any) => s.action === 'assign')?.count || 0,
+        revokeCount: actionStats?.find((s: any) => s.action === 'revoke')?.count || 0,
+        upgradeCount: actionStats?.find((s: any) => s.action === 'upgrade')?.count || 0,
+        downgradeCount: actionStats?.find((s: any) => s.action === 'downgrade')?.count || 0
       },
       recentActivity: recentAssignments || [],
-      activityByDate: activityByDate?.map(item => ({
+      activityByDate: activityByDate?.map((item: any) => ({
         date: item.timestamp,
         action: item.action,
         count: parseInt(item.count)

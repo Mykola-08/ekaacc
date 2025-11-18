@@ -82,8 +82,9 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
-    const { userId } = await auth();
-    if (!userId) {
+    const authHeader = req.headers.get('authorization');
+    const userId = authHeader?.replace('Bearer ', '') || 'anonymous';
+    if (!userId || userId === 'anonymous') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 

@@ -54,7 +54,7 @@ export default function DonationSeekerPage() {
   };
 
   const handlePrivacyToggle = (key: keyof typeof privacySettings) => {
-    setPrivacySettings(prev => ({
+    setPrivacySettings((prev: any) => ({
       ...prev,
       [key]: !prev[key]
     }));

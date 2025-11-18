@@ -94,7 +94,7 @@ export default function MinimalHomePage() {
         <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Platform Statistics</h2>
         <div className="grid gap-4 md:grid-cols-4">
           {stats.map((stat, index) => (
-            <Card key={index} variant="outline" className="p-6 text-center">
+            <Card key={index} className="p-6 text-center border">
               <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
               <div className="text-sm text-gray-600">{stat.label}</div>
             </Card>

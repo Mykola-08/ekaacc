@@ -72,10 +72,10 @@ export default function MyAccountPage() {
           <TabsTrigger value="wallet">Wallet</TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
-          <ProfileSection currentUser={currentUser} refreshAppUser={refreshAppUser} authLoading={authLoading} />
+          <ProfileSection currentUser={currentUser} refreshAppUser={refreshAppUser} authLoading={authLoading || false} />
         </TabsContent>
         <TabsContent value="wallet">
-          <WalletSection currentUser={currentUser} authLoading={authLoading} />
+          <WalletSection currentUser={currentUser} authLoading={authLoading || false} />
         </TabsContent>
       </Tabs>
     </SettingsShell>

@@ -59,9 +59,11 @@ interface TierData {
     vip: {
       sessionsUsed: number;
       sessionsRemaining: number;
+      sessionsLimit?: number;
       supportRequests: number;
       storageUsed: number;
       storageLimit: number;
+      storageRemaining: number;
     };
     loyalty: {
       pointsEarned: number;
@@ -291,19 +293,19 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {tierData?.currentTiers?.vip && tierData?.usage?.vip ? (
+            {tierData?.currentTiers?.vip && (tierData?.usage as any)?.vip ? (
               <>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Sessions Used</span>
                   <Badge variant="secondary">
-                    {tierData.usage.vip.sessionsUsed} / {tierData.usage.vip.sessionsRemaining === -1 ? '∞' : tierData.usage.vip.sessionsRemaining + tierData.usage.vip.sessionsUsed}
+                    {(tierData.usage as any).vip.sessionsUsed} / {(tierData.usage as any).vip.sessionsRemaining === -1 ? '∞' : (tierData.usage as any).vip.sessionsRemaining + (tierData.usage as any).vip.sessionsUsed}
                   </Badge>
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Storage Used</span>
                   <Badge variant="secondary">
-                    {tierData.usage.vip.storageUsed}GB / {tierData.usage.vip.storageLimit === -1 ? '∞' : tierData.usage.vip.storageLimit + 'GB'}
+                    {(tierData.usage as any).vip.storageUsed}GB / {(tierData.usage as any).vip.storageLimit === -1 ? '∞' : (tierData.usage as any).vip.storageLimit + 'GB'}
                   </Badge>
                 </div>
 
@@ -361,19 +363,19 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {tierData?.currentTiers?.loyalty && tierData?.usage?.loyalty ? (
+            {tierData?.currentTiers?.loyalty && (tierData?.usage as any)?.loyalty ? (
               <>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Points Earned</span>
                   <Badge variant="secondary">
-                    {tierData.usage.loyalty.pointsEarned.toLocaleString()}
+                    {(tierData.usage as any).loyalty.pointsEarned.toLocaleString()}
                   </Badge>
                 </div>
                 
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Points Multiplier</span>
                   <Badge variant="secondary">
-                    {tierData.usage.loyalty.pointsMultiplier}x
+                    {(tierData.usage as any).loyalty.pointsMultiplier}x
                   </Badge>
                 </div>
 

@@ -43,6 +43,50 @@ jest.mock('@/lib/supabase', () => ({
 }))
 
 describe('EnhancedDataService', () => {
+  // Define shared mock data at top level for reuse across tests
+  const mockService = {
+    id: 'service-1',
+    name: 'Test Service',
+    description: 'Test Description',
+    price: 100,
+    currency: 'EUR',
+    duration: 60,
+    category: 'Therapy',
+    is_active: true,
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z'
+  }
+
+  const mockSubscription = {
+    id: 'sub-1',
+    user_id: 'user-1',
+    type: 'vip' as const,
+    status: 'active' as const,
+    interval: 'monthly' as const,
+    price: 99.99,
+    currency: 'EUR',
+    stripe_customer_id: 'cus_123',
+    stripe_subscription_id: 'sub_123',
+    stripe_price_id: 'price_123',
+    start_date: '2024-01-01T00:00:00Z',
+    end_date: '2024-02-01T00:00:00Z',
+    current_period_start: '2024-01-01T00:00:00Z',
+    current_period_end: '2024-02-01T00:00:00Z',
+    cancelled_at: null,
+    trial_end_date: null,
+    cancel_at_period_end: false,
+    created_by: null,
+    notes: null,
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-01-01T00:00:00Z',
+    tier_id: 'tier-1',
+    payment_method: 'card',
+    payment_status: 'paid',
+    auto_renew: true,
+    renewal_reminder_sent: false,
+    metadata: {}
+  }
+
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -52,18 +96,6 @@ describe('EnhancedDataService', () => {
   })
 
   describe('Services Management', () => {
-    const mockService = {
-      id: 'service-1',
-      name: 'Test Service',
-      description: 'Test Description',
-      price: 100,
-      currency: 'EUR',
-      duration: 60,
-      category: 'Therapy',
-      is_active: true,
-      created_at: '2024-01-01T00:00:00Z',
-      updated_at: '2024-01-01T00:00:00Z'
-    }
 
     describe('getServiceById', () => {
       it('should fetch service by ID successfully', async () => {
@@ -345,36 +377,6 @@ describe('EnhancedDataService', () => {
   })
 
   describe('Subscription Management', () => {
-    const mockSubscription = {
-      id: 'sub-1',
-      user_id: 'user-1',
-      type: 'vip' as const,
-      status: 'active' as const,
-      interval: 'monthly' as const,
-      price: 99.99,
-      currency: 'EUR',
-      stripe_customer_id: 'cus_123',
-      stripe_subscription_id: 'sub_123',
-      stripe_price_id: 'price_123',
-      start_date: '2024-01-01T00:00:00Z',
-      end_date: '2024-02-01T00:00:00Z',
-      current_period_start: '2024-01-01T00:00:00Z',
-      current_period_end: '2024-02-01T00:00:00Z',
-      cancelled_at: null,
-      trial_end_date: null,
-      cancel_at_period_end: false,
-      created_by: null,
-      notes: null,
-      created_at: '2024-01-01T00:00:00Z',
-      updated_at: '2024-01-01T00:00:00Z',
-      tier_id: 'tier-1',
-      payment_method: 'card',
-      payment_status: 'paid',
-      auto_renew: true,
-      renewal_reminder_sent: false,
-      metadata: {}
-    }
-
     describe('getSubscriptionById', () => {
       it('should fetch subscription by ID successfully', async () => {
         const mockSingle = jest.fn().mockResolvedValue({ data: mockSubscription, error: null })

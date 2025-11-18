@@ -523,6 +523,11 @@ export class AIPersonalizationService {
     await this.saveUserProfile(profile);
   }
 
+  // Public method to get personalization profile
+  async getPersonalizationProfile(userId: string): Promise<AIPersonalizationProfile | null> {
+    return this.getUserProfile(userId);
+  }
+
   private async getUserProfile(userId: string): Promise<AIPersonalizationProfile | null> {
     // Check cache first
     const cachedProfile = this.userProfiles.get(userId);

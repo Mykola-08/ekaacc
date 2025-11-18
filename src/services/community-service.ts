@@ -162,7 +162,7 @@ export const postService = {
       const q = query(collection(getDb(), COMMUNITY_COLLECTIONS.POSTS), ...constraints);
       const snapshot = await getDocs(q);
 
-      const posts = snapshot.docs.map((doc) => doc.data() as Post);
+      const posts = snapshot.docs.map((doc: any) => doc.data() as Post);
       const lastDoc = snapshot.docs[snapshot.docs.length - 1] || null;
 
       return { posts, lastDoc };
@@ -224,7 +224,7 @@ export const postService = {
         where('postId', '==', postId)
       );
       const commentsSnapshot = await getDocs(commentsQuery);
-      commentsSnapshot.docs.forEach((doc) => batch.delete(doc.ref));
+      commentsSnapshot.docs.forEach((doc: any) => batch.delete(doc.ref));
 
       // Delete all reactions
       const reactionsQuery = query(
@@ -232,7 +232,7 @@ export const postService = {
         where('postId', '==', postId)
       );
       const reactionsSnapshot = await getDocs(reactionsQuery);
-      reactionsSnapshot.docs.forEach((doc) => batch.delete(doc.ref));
+      reactionsSnapshot.docs.forEach((doc: any) => batch.delete(doc.ref));
 
       await batch.commit();
     } catch (error) {
@@ -432,7 +432,7 @@ export const commentService = {
       const q = query(collection(getDb(), COMMUNITY_COLLECTIONS.COMMENTS), ...constraints);
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map((doc) => doc.data() as PostComment);
+      return snapshot.docs.map((doc: any) => doc.data() as PostComment);
     } catch (error) {
       console.error('Error getting comments:', error);
       throw error;
@@ -568,7 +568,7 @@ export const groupService = {
       const q = query(collection(getDb(), COMMUNITY_COLLECTIONS.GROUPS), ...constraints);
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map((doc) => doc.data() as Group);
+      return snapshot.docs.map((doc: any) => doc.data() as Group);
     } catch (error) {
       console.error('Error getting groups:', error);
       throw error;
@@ -683,7 +683,7 @@ export const groupService = {
       );
       const snapshot = await getDocs(q);
 
-      return snapshot.docs.map((doc) => doc.data() as GroupMember);
+      return snapshot.docs.map((doc: any) => doc.data() as GroupMember);
     } catch (error) {
       console.error('Error getting members:', error);
       throw error;

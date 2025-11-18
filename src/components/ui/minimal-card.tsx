@@ -129,10 +129,12 @@ const MinimalCardFooter = React.forwardRef<HTMLDivElement, MinimalCardFooterProp
 MinimalCardFooter.displayName = 'MinimalCardFooter';
 
 // Attach sub-components to MinimalCard
-MinimalCard.Header = MinimalCardHeader;
-MinimalCard.Title = MinimalCardTitle;
-MinimalCard.Description = MinimalCardDescription;
-MinimalCard.Content = MinimalCardContent;
-MinimalCard.Footer = MinimalCardFooter;
+const MinimalCardWithSubComponents = Object.assign(MinimalCard, {
+  Header: MinimalCardHeader,
+  Title: MinimalCardTitle,
+  Description: MinimalCardDescription,
+  Content: MinimalCardContent,
+  Footer: MinimalCardFooter,
+});
 
-export { MinimalCard };
+export { MinimalCardWithSubComponents as MinimalCard };

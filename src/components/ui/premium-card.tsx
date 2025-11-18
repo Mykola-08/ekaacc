@@ -304,15 +304,17 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
 PremiumCard.displayName = 'PremiumCard';
 
 // Attach sub-components to PremiumCard
-PremiumCard.Header = PremiumCardHeader;
-PremiumCard.Title = PremiumCardTitle;
-PremiumCard.Description = PremiumCardDescription;
-PremiumCard.Content = PremiumCardContent;
-PremiumCard.Footer = PremiumCardFooter;
-PremiumCard.Badge = PremiumCardBadge;
+const PremiumCardWithSubComponents = Object.assign(PremiumCard, {
+  Header: PremiumCardHeader,
+  Title: PremiumCardTitle,
+  Description: PremiumCardDescription,
+  Content: PremiumCardContent,
+  Footer: PremiumCardFooter,
+  Badge: PremiumCardBadge,
+});
 
 export {
-  PremiumCard,
+  PremiumCardWithSubComponents as PremiumCard,
   PremiumCardHeader,
   PremiumCardTitle,
   PremiumCardDescription,

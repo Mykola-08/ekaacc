@@ -4,7 +4,8 @@
  * loyalty program, and referral system.
  */
 
-import type { Timestamp } from 'firebase/firestore';
+// Using Supabase - Date type instead of Firebase Timestamp
+type Timestamp = Date;
 
 // ==========================================
 // WALLET TYPES

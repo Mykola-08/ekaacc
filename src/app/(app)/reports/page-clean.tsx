@@ -20,7 +20,8 @@ import { useToast } from '@/hooks/use-toast';
 import fxService from '@/lib/fx-service';
 import type { Report } from '@/lib/types';
 import { format } from 'date-fns';
-import { Timestamp } from 'firebase/firestore';
+// Using Supabase - Date type instead of Firebase Timestamp
+type Timestamp = Date;
 
 const chartData = [
     { metric: "Pain", score: 4, fullMark: 10 },

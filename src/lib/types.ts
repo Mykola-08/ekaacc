@@ -25,7 +25,9 @@ export type Service = {
   active: boolean;
 };
 
-import type { FieldValue, Timestamp } from 'firebase/firestore';
+// Using Supabase - Date type instead of Firebase Timestamp
+type Timestamp = Date;
+type FieldValue = any;
 
 // Duplicate removed. See below for unified User type.
 

@@ -13,7 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { 
   Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User, Smartphone, Globe, Lock, Eye, EyeOff
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { ThemeSelector } from '@/components/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/eka/settings/notification-switch';
 import type { User } from '@/lib/types';
@@ -94,7 +94,7 @@ export default function SettingsPage() {
     { id: 'push-sms', label: 'SMS Notifications', category: 'notifications', subcategory: 'push', key: 'sms', icon: <Bell className="h-5 w-5 text-orange-600" /> },
   ] as const, []);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -105,7 +105,7 @@ export default function SettingsPage() {
     }
   };
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,

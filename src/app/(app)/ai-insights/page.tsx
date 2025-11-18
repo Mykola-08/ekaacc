@@ -86,17 +86,20 @@ export default function AIInsightsPage() {
       const aiMonitor = new AIBackgroundMonitor();
       await aiMonitor.initializeMonitoring(user!.id, {
         privacyLevel: 'comprehensive',
-        monitoringSections: ['dashboard', 'sessions', 'progress', 'journal'],
         proactiveSuggestions: true
-      });
+      } as any);
 
       // Get personalized insights
       const aiPersonalization = new AIPersonalizationService();
       const insights = await aiPersonalization.getPersonalizedInsights({
         userId: user!.id,
-        context: 'dashboard_overview',
+        context: {
+          currentPage: 'dashboard_overview',
+          recentActivity: [],
+          subscriptionTier: 'premium'
+        },
         limit: 20
-      });
+      } as any);
 
       // Generate mock AI insights for demonstration
       const mockInsights: AIInsight[] = [
@@ -174,11 +177,15 @@ export default function AIInsightsPage() {
       const personalization = await aiPersonalization.getPersonalizationProfile(user!.id);
       setPersonalizationData({
         userId: user!.id,
-        preferences: personalization.preferences,
-        patterns: personalization.patterns,
+        preferences: personalization?.preferences || {
+          personalizationLevel: 'balanced',
+          proactiveSuggestions: true,
+          wellnessMonitoring: true,
+          therapyInsights: true
+        },
         insights: insights.slice(0, 5),
-        lastUpdated: Date.now()
-      });
+        lastUpdated: new Date()
+      } as any);
 
       // Track page visit
       aiPersonalization.trackUserInteraction({
@@ -656,7 +663,7 @@ export default function AIInsightsPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <EnhancedAIChat />
+                <EnhancedAIChat userId={user?.id || ''} subscriptionTier="premium" />
               </CardContent>
             </Card>
           </TabsContent>

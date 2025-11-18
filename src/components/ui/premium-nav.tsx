@@ -226,6 +226,20 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
 
     // Determine effective variant based on scroll state
     const effectiveVariant = transparent && !scrolledState ? 'glass' : variant
+    
+    // Map main nav variants to item variants
+    const getItemVariant = (mainVariant: string | null | undefined) => {
+      if (!mainVariant) return 'default'
+      switch (mainVariant) {
+        case 'gradient':
+        case 'elevated':
+          return 'primary'
+        case 'dark':
+          return 'minimal'
+        default:
+          return 'default'
+      }
+    }
 
     return (
       <nav
@@ -277,7 +291,7 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className={cn(
-                  premiumNavItemVariants({ variant: effectiveVariant }),
+                  premiumNavItemVariants({ variant: getItemVariant(effectiveVariant) }),
                   "p-2"
                 )}
               >
@@ -302,7 +316,7 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
           <button
             onClick={toggleMobileMenu}
             className={cn(
-              premiumNavItemVariants({ variant: effectiveVariant }),
+              premiumNavItemVariants({ variant: getItemVariant(effectiveVariant) }),
               mobileBreakpointClass,
               "p-2"
             )}

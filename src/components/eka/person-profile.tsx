@@ -112,7 +112,7 @@ export default function PersonProfile({ userId }: { userId: string }) {
   if (loading) return <div className="p-4">Loading...</div>;
   if (!person) return <div className="p-4">Person not found</div>;
 
-  const canSeeHidden = currentUser?.role === 'Therapist' || currentUser?.role === 'Admin' || (typeof window !== 'undefined' && (localStorage.getItem('eka_persona') === 'Therapist' || localStorage.getItem('eka_persona') === 'Admin'));
+  const canSeeHidden = currentUser?.role?.name === 'Therapist' || currentUser?.role?.name === 'Admin' || (typeof window !== 'undefined' && (localStorage.getItem('eka_persona') === 'Therapist' || localStorage.getItem('eka_persona') === 'Admin'));
 
   return (
     <div className="space-y-4 p-4">

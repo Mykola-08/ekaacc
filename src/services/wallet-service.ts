@@ -6,6 +6,7 @@
 
 import type { Wallet, WalletTransaction, PurchasableItem, Purchase } from '@/lib/wallet-types';
 import { supabase, supabaseAdmin } from '@/lib/supabase';
+import { safeSupabaseSelectSingle, safeSupabaseUpdate } from '@/lib/supabase-utils';
 
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
 
@@ -41,11 +42,10 @@ class SupabaseWalletService implements IWalletService {
   }
 
   async getWallet(userId: string): Promise<Wallet | null> {
-    const { data, error } = await supabase
-      .from('wallets')
-      .select('*')
-      .eq('user_id', userId)
-      .single();
+    const { data, error } = await safeSupabaseSelectSingle<any>(
+      'wallets',
+      { user_id: userId }
+    );
 
     if (error || !data) {
       return null;
@@ -71,14 +71,15 @@ class SupabaseWalletService implements IWalletService {
   }
 
   async pauseWallet(userId: string, reason: string): Promise<void> {
-    const { error } = await supabaseAdmin
-      .from('wallets')
-      .update({ 
+    const { error } = await safeSupabaseUpdate(
+      'wallets',
+      { 
         is_paused: true,
         pause_reason: reason,
         updated_at: new Date().toISOString()
-      })
-      .eq('user_id', userId);
+      },
+      { user_id: userId }
+    );
 
     if (error) {
       throw new Error(`Failed to pause wallet: ${error.message}`);
@@ -86,14 +87,15 @@ class SupabaseWalletService implements IWalletService {
   }
 
   async unpauseWallet(userId: string): Promise<void> {
-    const { error } = await supabaseAdmin
-      .from('wallets')
-      .update({ 
+    const { error } = await safeSupabaseUpdate(
+      'wallets',
+      { 
         is_paused: false,
         pause_reason: null,
         updated_at: new Date().toISOString()
-      })
-      .eq('user_id', userId);
+      },
+      { user_id: userId }
+    );
 
     if (error) {
       throw new Error(`Failed to unpause wallet: ${error.message}`);

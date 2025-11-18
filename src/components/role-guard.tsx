@@ -62,7 +62,7 @@ export function RoleGuard({
   }
 
   // Check role-based access
-  if (allowedRoles && !allowedRoles.includes(user.role as SystemRole)) {
+  if (allowedRoles && !allowedRoles.includes(user.role.name as SystemRole)) {
     if (fallback) {
       return <>{fallback}</>;
     }
@@ -87,11 +87,7 @@ export function RoleGuard({
   }
 
   // Check permission-based access
-  if (requiredPermission && !hasPermission(
-    requiredPermission.group,
-    requiredPermission.action,
-    requiredPermission.conditions
-  )) {
+  if (requiredPermission && !hasPermission(requiredPermission)) {
     if (fallback) {
       return <>{fallback}</>;
     }
@@ -116,11 +112,7 @@ export function RoleGuard({
   }
 
   // Check resource-based access
-  if (requiredResource && !canAccessResource(
-    requiredResource.resource,
-    requiredResource.action,
-    requiredResource.context
-  )) {
+  if (requiredResource && !canAccessResource(requiredResource)) {
     if (fallback) {
       return <>{fallback}</>;
     }
@@ -200,7 +192,7 @@ interface PermissionCheckProps {
 export function PermissionCheck({ permission, fallback, children }: PermissionCheckProps) {
   const { hasPermission } = useAuth();
   
-  if (!hasPermission(permission.group, permission.action, permission.conditions)) {
+  if (!hasPermission(permission)) {
     return fallback ? <>{fallback}</> : null;
   }
   

@@ -5,17 +5,17 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import {
-  IconCalendar,
-  IconClock,
-  IconChevronLeft,
-  IconChevronRight,
-  IconUser,
-  IconStethoscope,
-  IconMoodHappy,
-  IconBrain,
-  IconHeart,
-  IconUsers,
-} from '@tabler/icons-react'
+  Calendar,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  User,
+  Stethoscope,
+  Smile,
+  Brain,
+  Heart,
+  Users,
+} from 'lucide-react'
 import { format, addDays, startOfWeek, isSameDay, isToday, isPast } from 'date-fns'
 
 interface TimeSlot {
@@ -34,7 +34,7 @@ const therapyTypes = [
   {
     id: 'individual',
     name: 'Individual Therapy',
-    icon: IconUser,
+    icon: User,
     description: 'One-on-one session',
     duration: 60,
     price: 80,
@@ -43,7 +43,7 @@ const therapyTypes = [
   {
     id: 'cognitive',
     name: 'Cognitive Behavioral',
-    icon: IconBrain,
+    icon: Brain,
     description: 'CBT techniques',
     duration: 60,
     price: 100,
@@ -52,7 +52,7 @@ const therapyTypes = [
   {
     id: 'wellness',
     name: 'Wellness & Mindfulness',
-    icon: IconMoodHappy,
+    icon: Smile,
     description: 'Holistic approach',
     duration: 45,
     price: 65,
@@ -61,7 +61,7 @@ const therapyTypes = [
   {
     id: 'couples',
     name: "Couples Therapy",
-    icon: IconHeart,
+    icon: Heart,
     description: 'Relationship counseling',
     duration: 90,
     price: 120,
@@ -70,7 +70,7 @@ const therapyTypes = [
   {
     id: 'group',
     name: 'Group Session',
-    icon: IconUsers,
+    icon: Users,
     description: 'Small group therapy',
     duration: 90,
     price: 45,
@@ -79,7 +79,7 @@ const therapyTypes = [
   {
     id: 'specialist',
     name: 'Specialist Consultation',
-    icon: IconStethoscope,
+    icon: Stethoscope,
     description: 'Expert assessment',
     duration: 75,
     price: 140,
@@ -138,7 +138,7 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
       {/* Therapy Type Selection */}
       <div>
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <IconStethoscope className="h-5 w-5 text-primary" />
+          <Stethoscope className="h-5 w-5 text-primary" />
           Choose Your Therapy Type
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -163,7 +163,7 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
                       <p className="text-sm text-muted-foreground">{therapy.description}</p>
                       <div className="flex items-center gap-4 mt-2 text-sm">
                         <span className="flex items-center gap-1">
-                          <IconClock className="h-4 w-4" />
+                          <Clock className="h-4 w-4" />
                           {therapy.duration}min
                         </span>
                         <span className="font-semibold text-primary">€{therapy.price}</span>
@@ -184,7 +184,7 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
             <div className="flex items-center justify-between">
               <div>
                 <CardTitle className="flex items-center gap-2">
-                  <IconCalendar className="h-5 w-5 text-primary" />
+                  <Calendar className="h-5 w-5 text-primary" />
                   {view === 'week' ? 'Select a Day' : 'Select a Time'}
                 </CardTitle>
                 <CardDescription>
@@ -209,14 +209,14 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
                   size="icon"
                   onClick={handlePreviousWeek}
                 >
-                  <IconChevronLeft className="h-4 w-4" />
+                  <ChevronLeft className="h-4 w-4" />
                 </Button>
                 <Button
                   variant="outline"
                   size="icon"
                   onClick={handleNextWeek}
                 >
-                  <IconChevronRight className="h-4 w-4" />
+                  <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
@@ -269,7 +269,7 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
                     onClick={() => slot.available && handleTimeSelect(slot.time)}
                     disabled={!slot.available}
                   >
-                    <IconClock className="h-4 w-4" />
+                    <Clock className="h-4 w-4" />
                     <span className="font-semibold">{slot.time}</span>
                     {!slot.available && (
                       <span className="text-xs">Booked</span>
@@ -288,7 +288,7 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
           <CardContent className="p-4">
             <div className="flex items-start gap-3">
               <div className="p-2 rounded-lg bg-primary/10">
-                <IconCalendar className="h-5 w-5 text-primary" />
+                <Calendar className="h-5 w-5 text-primary" />
               </div>
               <div className="flex-1">
                 <h4 className="font-semibold mb-2">Booking Summary</h4>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -82,7 +82,8 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
   const [timeRange, setTimeRange] = useState('7d');
   const [showSettings, setShowSettings] = useState(false);
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const chartRef = useInView({ threshold: 0.1 });
+  const ref = useRef(null);
+  const isChartInView = useInView(ref);
 
   useEffect(() => {
     fetchDashboardData();
@@ -397,7 +398,7 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           {/* Usage Trend Chart */}
           <motion.div
-            ref={chartRef}
+            ref={ref}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}

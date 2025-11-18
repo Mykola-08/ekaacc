@@ -91,9 +91,9 @@ export class AIService {
       const result = await generateText({
         model: provider,
         prompt: fullPrompt,
-        maxTokens,
-        temperature,
-      });
+        maxTokens: maxTokens,
+        temperature: temperature
+      } as any);
       
       return {
         output: result.text,

@@ -7,11 +7,11 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
 import { BookingCalendar } from '@/components/booking/booking-calendar'
 import {
-  IconCheck,
-  IconArrowLeft,
-  IconSparkles,
-  IconCalendarEvent,
-} from '@tabler/icons-react'
+  Check,
+  ArrowLeft,
+  Sparkles,
+  CalendarDays,
+} from 'lucide-react'
 import { format } from 'date-fns'
 
 export default function BookingPageRevised() {
@@ -63,7 +63,7 @@ export default function BookingPageRevised() {
               size="icon"
               onClick={() => router.back()}
             >
-              <IconArrowLeft className="h-5 w-5" />
+              <ArrowLeft className="h-5 w-5" />
             </Button>
             <h1 className="text-3xl font-bold">Book a Session</h1>
           </div>
@@ -72,7 +72,7 @@ export default function BookingPageRevised() {
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <IconSparkles className="h-4 w-4 text-primary" />
+          <Sparkles className="h-4 w-4 text-primary" />
           <span>AI-powered recommendations available</span>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function BookingPageRevised() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <div className="p-3 rounded-lg bg-primary text-primary-foreground">
-                  <IconCalendarEvent className="h-6 w-6" />
+                  <CalendarDays className="h-6 w-6" />
                 </div>
                 <div>
                   <h3 className="font-semibold text-lg">Ready to book?</h3>
@@ -108,12 +108,12 @@ export default function BookingPageRevised() {
               >
                 {isBooking ? (
                   <>
-                    <IconCheck className="mr-2 h-5 w-5 animate-pulse" />
+                    <Check className="mr-2 h-5 w-5 animate-pulse" />
                     Booking...
                   </>
                 ) : (
                   <>
-                    <IconCheck className="mr-2 h-5 w-5" />
+                    <Check className="mr-2 h-5 w-5" />
                     Confirm Booking
                   </>
                 )}

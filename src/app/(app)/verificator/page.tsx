@@ -77,7 +77,7 @@ export default function VerificatorPage() {
 
   useEffect(() => {
     if (currentUser) {
-      if (currentUser.role !== 'Admin' && currentUser.role !== 'Therapist') {
+      if (currentUser.role?.name !== 'Admin' && currentUser.role?.name !== 'Therapist') {
         router.push('/home');
         return;
       }
@@ -147,7 +147,7 @@ export default function VerificatorPage() {
         selectedPayment.id,
         currentUser.id,
         currentUser.name || 'Unknown',
-        currentUser.role as 'Admin' | 'Therapist'
+        currentUser.role?.name as 'Admin' | 'Therapist'
       );
 
       toast({
@@ -271,7 +271,7 @@ export default function VerificatorPage() {
     return <Badge color="primary" className={color}>{label}</Badge>;
   };
 
-  if (!currentUser || (currentUser.role !== 'Admin' && currentUser.role !== 'Therapist')) {
+  if (!currentUser || (currentUser.role?.name !== 'Admin' && currentUser.role?.name !== 'Therapist')) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Card className="w-full max-w-md">
@@ -391,7 +391,7 @@ export default function VerificatorPage() {
                             {format(toDate(request.createdAt), 'MMM dd, yyyy HH:mm')}
                           </TableCell>
                           <TableCell className="text-sm">
-                            <div className="apple-flex apple-items-center apple-gap-2">
+                            <div className="flex items-center gap-2">
                               <User className="h-4 w-4 text-muted-foreground" />
                               <span className="font-medium">{request.userId}</span>
                             </div>

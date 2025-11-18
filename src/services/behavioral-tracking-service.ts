@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase';
+import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from '@/lib/supabase-utils';
 
 export interface UserInteraction {
   id?: string;
@@ -79,9 +80,9 @@ export class BehavioralTrackingService {
         timestamp: new Date()
       };
 
-      const { error } = await supabase
-        .from('user_interactions')
-        .insert(interactionData);
+      const { error } = await safeSupabaseInsert<UserInteraction>(
+        'user_interactions', interactionData
+      );
 
       if (error) {
         console.error('Error tracking interaction:', error);
@@ -103,12 +104,14 @@ export class BehavioralTrackingService {
       // Get recent interactions (last 7 days)
       const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
       
-      const { data: interactions, error } = await supabase
-        .from('user_interactions')
-        .select('*')
-        .eq('user_id', userId)
-        .gte('timestamp', sevenDaysAgo.toISOString())
-        .order('timestamp', { ascending: false });
+      const { data: interactions, error } = await safeSupabaseQuery<UserInteraction[]>(
+        supabase
+          .from('user_interactions')
+          .select('*')
+          .eq('user_id', userId)
+          .gte('timestamp', sevenDaysAgo.toISOString())
+          .order('timestamp', { ascending: false })
+      );
 
       if (error || !interactions) {
         console.error('Error fetching interactions:', error);
@@ -285,13 +288,11 @@ export class BehavioralTrackingService {
   }
 
   private analyzePositiveProgress(interactions: UserInteraction[], userId: string): BehavioralPattern | null {
-    const exerciseCompletions = interactions.filter((i: any) => i.interaction_type === 'exercise_completed');
-    // Note: goal_achievement is not in the UserInteraction type union, filtering will return empty
-    const goalAchievements = interactions.filter((i: any) => i.interaction_type === 'goal_achievement' as any);
+    const exerciseCompletions = interactions.filter((i) => i.interaction_type === 'exercise_completed');
     
-    if (exerciseCompletions.length + goalAchievements.length < 2) return null;
+    if (exerciseCompletions.length < 2) return null;
 
-    const recentProgress = [...exerciseCompletions, ...goalAchievements].filter((p: any) => 
+    const recentProgress = exerciseCompletions.filter((p) => 
       new Date(p.timestamp) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     );
 
@@ -302,7 +303,6 @@ export class BehavioralTrackingService {
         confidence_score: 0.8,
         evidence: [
           `Recent exercises completed: ${exerciseCompletions.length}`,
-          `Recent goals achieved: ${goalAchievements.length}`,
           `Total progress activities: ${recentProgress.length}`
         ],
         severity: 'low',
@@ -417,24 +417,21 @@ export class BehavioralTrackingService {
   }
 
   private predictPositiveOutcomes(interactions: UserInteraction[], userId: string): PredictiveInsight | null {
-    const exerciseCompletions = interactions.filter((i: any) => i.interaction_type === 'exercise_completed');
-    // Note: goal_achievement is not in the UserInteraction type union, filtering will return empty
-    const goalAchievements = interactions.filter((i: any) => i.interaction_type === 'goal_achievement' as any);
-    const moodLogs = interactions.filter((i: any) => i.interaction_type === 'mood_logged');
+    const exerciseCompletions = interactions.filter((i) => i.interaction_type === 'exercise_completed');
+    const moodLogs = interactions.filter((i) => i.interaction_type === 'mood_logged');
     
-    if (exerciseCompletions.length + goalAchievements.length < 3) return null;
+    if (exerciseCompletions.length < 3) return null;
 
-    const recentMoods = moodLogs.slice(0, 5).map((log: any) => log.metadata?.mood || 'neutral');
+    const recentMoods = moodLogs.slice(0, 5).map((log) => log.metadata?.mood || 'neutral');
     const positiveMoods = recentMoods.filter(mood => ['happy', 'content', 'excited', 'grateful'].includes(mood));
 
-    if (positiveMoods.length >= recentMoods.length * 0.6 && (exerciseCompletions.length + goalAchievements.length) >= 5) {
+    if (positiveMoods.length >= recentMoods.length * 0.6 && exerciseCompletions.length >= 5) {
       return {
         user_id: userId,
         insight_type: 'positive_outcome',
         probability: 0.85,
         contributing_factors: [
           'Consistent exercise completion',
-          'Regular goal achievement',
           'Positive mood trends'
         ],
         recommended_actions: [
@@ -454,28 +451,42 @@ export class BehavioralTrackingService {
   private async storeBehavioralPattern(pattern: BehavioralPattern): Promise<void> {
     try {
       // Check if similar pattern already exists
-      const { data: existingPatterns } = await supabase
-        .from('behavioral_patterns')
-        .select('*')
-        .eq('user_id', pattern.user_id)
-        .eq('pattern_type', pattern.pattern_type)
-        .eq('status', 'active');
+      const { data: existingPatterns, error: selectError } = await safeSupabaseQuery<BehavioralPattern[]>(
+        supabase
+          .from('behavioral_patterns')
+          .select('*')
+          .eq('user_id', pattern.user_id)
+          .eq('pattern_type', pattern.pattern_type)
+          .eq('status', 'active')
+      );
+
+      if (selectError) {
+        console.error('Error checking existing patterns:', selectError);
+        return;
+      }
 
       if (existingPatterns && existingPatterns.length > 0) {
         // Update existing pattern
-        await supabase
-          .from('behavioral_patterns')
-          .update({
+        const { error: updateError } = await safeSupabaseUpdate<BehavioralPattern>(
+          'behavioral_patterns', {
             confidence_score: pattern.confidence_score,
             evidence: pattern.evidence,
             last_updated: new Date()
-          })
-          .eq('id', existingPatterns[0].id);
+          }, { id: existingPatterns[0].id }
+        );
+        
+        if (updateError) {
+          console.error('Error updating behavioral pattern:', updateError);
+        }
       } else {
         // Create new pattern
-        await supabase
-          .from('behavioral_patterns')
-          .insert(pattern);
+        const { error: insertError } = await safeSupabaseInsert<BehavioralPattern>(
+          'behavioral_patterns', pattern
+        );
+        
+        if (insertError) {
+          console.error('Error inserting behavioral pattern:', insertError);
+        }
       }
     } catch (error) {
       console.error('Error storing behavioral pattern:', error);
@@ -484,9 +495,9 @@ export class BehavioralTrackingService {
 
   private async storePredictiveInsight(insight: PredictiveInsight): Promise<void> {
     try {
-      await supabase
-        .from('predictive_insights')
-        .insert(insight);
+      await safeSupabaseInsert<PredictiveInsight>(
+        'predictive_insights', insight
+      );
     } catch (error) {
       console.error('Error storing predictive insight:', error);
     }
@@ -513,27 +524,33 @@ export class BehavioralTrackingService {
       const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
 
       const [patternsResult, insightsResult, interactionsResult] = await Promise.all([
-        supabase
-          .from('behavioral_patterns')
-          .select('*')
-          .eq('user_id', userId)
-          .gte('first_detected', thirtyDaysAgo.toISOString())
-          .order('first_detected', { ascending: false }),
+        safeSupabaseQuery<BehavioralPattern[]>(
+          supabase
+            .from('behavioral_patterns')
+            .select('*')
+            .eq('user_id', userId)
+            .gte('first_detected', thirtyDaysAgo.toISOString())
+            .order('first_detected', { ascending: false })
+        ),
         
-        supabase
-          .from('predictive_insights')
-          .select('*')
-          .eq('user_id', userId)
-          .gte('created_at', thirtyDaysAgo.toISOString())
-          .order('created_at', { ascending: false }),
+        safeSupabaseQuery<PredictiveInsight[]>(
+          supabase
+            .from('predictive_insights')
+            .select('*')
+            .eq('user_id', userId)
+            .gte('created_at', thirtyDaysAgo.toISOString())
+            .order('created_at', { ascending: false })
+        ),
         
-        supabase
-          .from('user_interactions')
-          .select('*')
-          .eq('user_id', userId)
-          .gte('timestamp', thirtyDaysAgo.toISOString())
-          .order('timestamp', { ascending: false })
-          .limit(50)
+        safeSupabaseQuery<UserInteraction[]>(
+          supabase
+            .from('user_interactions')
+            .select('*')
+            .eq('user_id', userId)
+            .gte('timestamp', thirtyDaysAgo.toISOString())
+            .order('timestamp', { ascending: false })
+            .limit(50)
+        )
       ]);
 
       return {
@@ -549,10 +566,9 @@ export class BehavioralTrackingService {
 
   async markPatternAsResolved(patternId: string): Promise<void> {
     try {
-      await supabase
-        .from('behavioral_patterns')
-        .update({ status: 'resolved', last_updated: new Date() })
-        .eq('id', patternId);
+      await safeSupabaseUpdate<BehavioralPattern>(
+        'behavioral_patterns', { status: 'resolved', last_updated: new Date() }, { id: patternId }
+      );
     } catch (error) {
       console.error('Error marking pattern as resolved:', error);
     }
@@ -560,10 +576,9 @@ export class BehavioralTrackingService {
 
   async dismissInsight(insightId: string): Promise<void> {
     try {
-      await supabase
-        .from('predictive_insights')
-        .update({ expires_at: new Date() }) // Expire immediately
-        .eq('id', insightId);
+      await safeSupabaseUpdate<PredictiveInsight>(
+        'predictive_insights', { expires_at: new Date() }, { id: insightId }
+      );
     } catch (error) {
       console.error('Error dismissing insight:', error);
     }

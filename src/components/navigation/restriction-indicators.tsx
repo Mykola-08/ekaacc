@@ -9,7 +9,7 @@ import {
   CheckCircle,
   XCircle,
   Info,
-  Warning
+  AlertCircle
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
@@ -97,7 +97,7 @@ const severityConfig = {
     color: 'text-red-500'
   },
   critical: {
-    icon: Warning,
+    icon: AlertCircle,
     color: 'text-red-700'
   }
 };

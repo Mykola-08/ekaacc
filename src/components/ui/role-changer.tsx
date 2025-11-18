@@ -17,7 +17,9 @@ type Role = typeof roles[number];
 export function RoleChanger() {
   const { user: currentUser } = useAuth();
   const { dataService, initDataService } = useAppStore();
-  const [selectedRole, setSelectedRole] = useState<Role>(roles.includes(currentUser?.role as Role) ? currentUser?.role as Role : "Patient");
+  const [selectedRole, setSelectedRole] = useState<Role>(
+    currentUser?.role && roles.includes(currentUser.role as unknown as Role) ? currentUser.role as unknown as Role : "Patient"
+  );
   const [isDonationSeeker, setIsDonationSeeker] = useState(false); // Removed donation seeker functionality
 
   useEffect(() => {
@@ -26,7 +28,9 @@ export function RoleChanger() {
 
   useEffect(() => {
     if (currentUser) {
-      setSelectedRole(roles.includes(currentUser.role as Role) ? currentUser.role as Role : "Patient");
+      setSelectedRole(
+        currentUser.role && roles.includes(currentUser.role as unknown as Role) ? currentUser.role as unknown as Role : "Patient"
+      );
       // setIsDonationSeeker(!!currentUser.isDonationSeeker); // Removed donation seeker functionality
     }
   }, [currentUser]);

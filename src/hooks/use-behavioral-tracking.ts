@@ -20,6 +20,7 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
     trackSessions = true
   } = options;
 
+  // Define all tracking functions first
   // Track page view
   const trackPageView = useCallback((pagePath?: string, metadata?: Record<string, any>) => {
     if (!user) return;
@@ -139,11 +140,12 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
 
     trackingService.trackInteraction({
       user_id: user.id,
-      interaction_type: 'goal_achievement',
+      interaction_type: 'exercise_completed',
       page_path: window.location.pathname,
       metadata: {
         goalId,
         goalTitle,
+        achievementType: 'goal',
         timestamp: Date.now(),
         ...metadata
       }
@@ -239,7 +241,9 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
           const metadata = trackableElement.dataset.trackMetadata ? 
             JSON.parse(trackableElement.dataset.trackMetadata) : {};
           
-          trackClick(elementId, metadata);
+          if (elementId) {
+            trackClick(elementId, metadata);
+          }
         }
       };
 
@@ -260,7 +264,9 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
           const metadata = trackableForm.dataset.trackMetadata ? 
             JSON.parse(trackableForm.dataset.trackMetadata) : {};
           
-          trackFormSubmission(formId, metadata);
+          if (formId) {
+            trackFormSubmission(formId, metadata);
+          }
         }
       };
 

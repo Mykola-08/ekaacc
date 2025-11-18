@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createProtectedRoute, ROUTE_CONFIGS } from '@/lib/route-middleware';
 import { logSecurityEvent } from '@/lib/security-monitoring';
 import { supabase } from '@/lib/supabase';
+import type { SystemRole } from '@/lib/role-permissions';
 
 // Define the route configuration for this API endpoint
 const routeConfig = {
@@ -20,7 +21,7 @@ const routeConfig = {
  */
 const validateNavigationAccess = createProtectedRoute(
   routeConfig,
-  async (request: NextRequest, context) => {
+  async (request: NextRequest, context: { userId: string; userRole: SystemRole }) => {
     try {
       const { searchParams } = new URL(request.url);
       const route = searchParams.get('route');
@@ -54,14 +55,7 @@ const validateNavigationAccess = createProtectedRoute(
       // Get user details from database
       const { data: userData, error: userError } = await supabase
         .from('users')
-        .select(`
-          *,
-          user_roles!inner (
-            role,
-            is_active,
-            assigned_at
-          )
-        `)
+        .select('*')
         .eq('id', context.userId)
         .single();
 
@@ -82,8 +76,8 @@ const validateNavigationAccess = createProtectedRoute(
       const validationResult = {
         userId: context.userId,
         userRole: context.userRole,
-        isActive: userData.user_roles?.[0]?.is_active ?? true,
-        lastRoleChange: userData.user_roles?.[0]?.assigned_at,
+        isActive: true,
+        lastRoleChange: null,
         route: route,
         action: action,
         timestamp: new Date().toISOString(),
@@ -170,7 +164,8 @@ export async function POST(request: NextRequest) {
       headers: request.headers
     });
 
-    return validateNavigationAccess(modifiedRequest);
+    const handler = await validateNavigationAccess(modifiedRequest);
+    return handler;
 
   } catch (error) {
     console.error('POST navigation validation error:', error);

@@ -67,7 +67,7 @@ export function NotificationCenter() {
       }
       // fallback demo items based on user role
       if (mounted && currentUser) {
-        const roleBasedNotifications = getRoleBasedDemoNotifications(currentUser.role as 'Patient' | 'Therapist' | 'Admin');
+        const roleBasedNotifications = getRoleBasedDemoNotifications(currentUser.role as unknown as 'Patient' | 'Therapist' | 'Admin');
         setNotifications(roleBasedNotifications);
       }
     })();
@@ -261,7 +261,7 @@ export function NotificationCenter() {
             <TabsTrigger value="all" className="text-xs px-2 py-1">
               All {unreadCount > 0 && `(${unreadCount})`}
             </TabsTrigger>
-            {currentUser?.role === 'Admin' && (
+            {currentUser?.role?.name === 'Admin' && (
               <TabsTrigger value="admin" className="text-xs px-2 py-1">
                 Admin {getCategoryCount('admin') > 0 && `(${getCategoryCount('admin')})`}
               </TabsTrigger>

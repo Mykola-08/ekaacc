@@ -1,17 +1,20 @@
 import { supabase } from '@/lib/supabase'
+import { safeSupabaseQuery, safeSupabaseInsert, safeSupabaseDelete } from '@/lib/supabase-utils'
 import type { UserRole, Permission } from '@/types/auth'
 
 /**
  * Get user role by user ID
  */
 export async function getUserRole(userId: string): Promise<UserRole | null> {
-  const { data, error } = await supabase
-    .from('user_role_assignments')
-    .select(`
-      user_roles!inner(*)
-    `)
-    .eq('user_id', userId)
-    .single()
+  const { data, error } = await safeSupabaseQuery<any>(
+    supabase
+      .from('user_role_assignments')
+      .select(`
+        user_roles!inner(*)
+      `)
+      .eq('user_id', userId)
+      .single()
+  )
 
   if (error || !data) {
     console.error('Error fetching user role:', error)
@@ -25,25 +28,35 @@ export async function getUserRole(userId: string): Promise<UserRole | null> {
  * Get user permissions by user ID
  */
 export async function getUserPermissions(userId: string): Promise<Permission[]> {
-  const { data, error } = await supabase
-    .from('role_permissions')
-    .select(`
-      permissions!inner(*)
-    `)
-    .eq('role_id', (
-      await supabase
-        .from('user_role_assignments')
-        .select('role_id')
-        .eq('user_id', userId)
-        .single()
-    ).data?.role_id)
+  // First get the role assignment
+  const { data: roleData, error: roleError } = await safeSupabaseQuery<any>(
+    supabase
+      .from('user_role_assignments')
+      .select('role_id')
+      .eq('user_id', userId)
+      .single()
+  )
+
+  if (roleError || !roleData) {
+    console.error('Error fetching user role assignment:', roleError)
+    return []
+  }
+
+  const { data, error } = await safeSupabaseQuery<any>(
+    supabase
+      .from('role_permissions')
+      .select(`
+        permissions!inner(*)
+      `)
+      .eq('role_id', roleData.role_id)
+  )
 
   if (error || !data) {
     console.error('Error fetching user permissions:', error)
     return []
   }
 
-  return data.map(p => p.permissions)
+  return data.map((p: any) => p.permissions)
 }
 
 /**
@@ -74,13 +87,14 @@ export async function assignUserRole(
   roleId: string, 
   assignedBy?: string
 ): Promise<{ error: Error | null }> {
-  const { error } = await supabase
-    .from('user_role_assignments')
-    .insert({
+  const { error } = await safeSupabaseInsert<any>(
+    'user_role_assignments',
+    {
       user_id: userId,
       role_id: roleId,
       assigned_by: assignedBy,
-    })
+    }
+  )
 
   if (error) {
     console.error('Error assigning user role:', error)
@@ -94,11 +108,10 @@ export async function assignUserRole(
  * Remove role from user (admin only)
  */
 export async function removeUserRole(userId: string, roleId: string): Promise<{ error: Error | null }> {
-  const { error } = await supabase
-    .from('user_role_assignments')
-    .delete()
-    .eq('user_id', userId)
-    .eq('role_id', roleId)
+  const { error } = await safeSupabaseDelete(
+    'user_role_assignments',
+    { user_id: userId, role_id: roleId }
+  )
 
   if (error) {
     console.error('Error removing user role:', error)
@@ -118,9 +131,9 @@ export async function createAuditLog(
   resourceId?: string,
   details?: Record<string, any>
 ): Promise<{ error: Error | null }> {
-  const { error } = await supabase
-    .from('audit_logs')
-    .insert({
+  const { error } = await safeSupabaseInsert<any>(
+    'audit_logs',
+    {
       user_id: userId,
       action,
       resource_type: resourceType,
@@ -128,7 +141,8 @@ export async function createAuditLog(
       details,
       ip_address: null, // Will be set by RLS policy
       user_agent: null, // Will be set by RLS policy
-    })
+    }
+  )
 
   if (error) {
     console.error('Error creating audit log:', error)

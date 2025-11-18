@@ -104,9 +104,9 @@ export default function DashboardView() {
         <div className="container mx-auto">
           <div className="flex items-center justify-center min-h-[70vh] text-center p-8 rounded-2xl bg-muted/30">
             <div className="max-w-md">
-              <UserIcon className="w-16 h-16 text-muted-foreground apple-mb-6" />
-              <h2 className="apple-title-section apple-mb-4">Welcome to EKA</h2>
-              <p className="apple-text-body apple-mb-8">
+              <UserIcon className="w-16 h-16 text-muted-foreground mb-6" />
+              <h2 className="text-3xl font-bold mb-4">Welcome to EKA</h2>
+              <p className="text-lg text-muted-foreground mb-8">
                 Your personalized space for mental wellness and growth. Sign in to access your dashboard and begin your journey.
               </p>
               <div className="flex gap-4 mb-6">
@@ -122,7 +122,7 @@ export default function DashboardView() {
                   Sign Up
                 </Button>
               </div>
-              <p className="apple-text-caption">
+              <p className="text-sm text-muted-foreground">
                 New to EKA? Create an account to get started with personalized mental wellness tools.
               </p>
             </div>

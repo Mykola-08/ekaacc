@@ -1,4 +1,5 @@
 import { supabase, supabaseAdmin } from '@/lib/supabase'
+import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseSelect, safeSupabaseSelectSingle } from '@/lib/supabase-utils'
 import { Database } from '@/types/supabase'
 import type { IDataService } from './data-service'
 import type { User as AppUser, Session as AppSession, CommunityPost as AppCommunityPost } from '@/lib/types'
@@ -286,10 +287,9 @@ export class SupabaseDataService implements IDataService {
 
   async updateUser(userId: string, updates: Partial<AppUser>): Promise<void> {
     const dbUpdates = this.mapAppUserToDbUser(updates)
-    const { error } = await supabase
-      .from('users')
-      .update(dbUpdates)
-      .eq('id', userId)
+    const { error } = await safeSupabaseUpdate<DbUser>(
+      'users', dbUpdates, { id: userId }
+    )
     
     if (error) {
       console.error('Error updating user:', error)
@@ -339,11 +339,10 @@ export class SupabaseDataService implements IDataService {
 
   async createSession(session: Omit<AppSession, 'id'>): Promise<AppSession> {
     const dbSession = this.mapAppSessionToDbSession(session)
-    const { data, error } = await supabase
-      .from('sessions')
-      .insert([dbSession])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<DbSession>(
+      'sessions',
+      [dbSession]
+    )
     
     if (error) throw error
     return this.mapDbSessionToAppSession(data as DbSession)
@@ -351,10 +350,9 @@ export class SupabaseDataService implements IDataService {
 
   async updateSession(sessionId: string, updates: Partial<AppSession>): Promise<void> {
     const dbUpdates = this.mapAppSessionToDbSession(updates)
-    const { error } = await supabase
-      .from('sessions')
-      .update(dbUpdates)
-      .eq('id', sessionId)
+    const { error } = await safeSupabaseUpdate<DbSession>(
+      'sessions', dbUpdates, { id: sessionId }
+    )
     
     if (error) throw error
   }
@@ -384,11 +382,10 @@ export class SupabaseDataService implements IDataService {
   }
 
   async createReport(report: Omit<any, 'id'>): Promise<any> {
-    const { data, error } = await supabase
-      .from('reports')
-      .insert([report])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<any>(
+      'reports',
+      [report]
+    )
     
     if (error) throw error
     return data
@@ -409,21 +406,19 @@ export class SupabaseDataService implements IDataService {
   }
 
   async createService(service: Omit<any, 'id'>): Promise<any> {
-    const { data, error } = await supabase
-      .from('services')
-      .insert([service])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<any>(
+      'services',
+      [service]
+    )
     
     if (error) throw error
     return data
   }
 
   async updateService(serviceId: string, updates: Partial<any>): Promise<void> {
-    const { error } = await supabase
-      .from('services')
-      .update(updates as any)
-      .eq('id', serviceId)
+    const { error } = await safeSupabaseUpdate<any>(
+      'services', updates as any, { id: serviceId }
+    )
     
     if (error) throw error
   }
@@ -449,11 +444,10 @@ export class SupabaseDataService implements IDataService {
   }
 
   async createJournalEntry(entry: Omit<any, 'id'>): Promise<any> {
-    const { data, error } = await supabase
-      .from('journal_entries')
-      .insert([entry])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<any>(
+      'journal_entries',
+      [entry]
+    )
     
     if (error) throw error
     return data
@@ -480,11 +474,10 @@ export class SupabaseDataService implements IDataService {
   }
 
   async createGoal(goal: Omit<any, 'id'>): Promise<any> {
-    const { data, error } = await supabase
-      .from('goals')
-      .insert([goal])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<any>(
+      'goals',
+      [goal]
+    )
     
     if (error) throw error
     return data
@@ -546,11 +539,10 @@ export class SupabaseDataService implements IDataService {
       updated_at: new Date().toISOString()
     }
     
-    const { data, error } = await supabase
-      .from('community_posts')
-      .insert([dbPost])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<DbCommunityPost>(
+      'community_posts',
+      [dbPost]
+    )
     
     if (error) throw error
     return this.mapDbCommunityPostToAppCommunityPost(data as DbCommunityPost)
@@ -590,11 +582,10 @@ export class SupabaseDataService implements IDataService {
   }
 
   async addDonation(donation: Omit<any, 'id'>): Promise<any> {
-    const { data, error } = await supabase
-      .from('donations')
-      .insert([donation])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<any>(
+      'donations',
+      [donation]
+    )
     
     if (error) throw error
     return data
@@ -616,11 +607,10 @@ export class SupabaseDataService implements IDataService {
   }
 
   async sendMessage(conversationId: string, message: Omit<any, 'id'>): Promise<any> {
-    const { data, error } = await supabase
-      .from('messages')
-      .insert([{ ...message, conversation_id: conversationId }])
-      .select()
-      .single()
+    const { data, error } = await safeSupabaseInsert<any>(
+      'messages',
+      [{ ...message, conversation_id: conversationId }]
+    )
     
     if (error) throw error
     return data

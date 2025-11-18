@@ -177,23 +177,32 @@ export default function AIInsightsPage() {
       const personalization = await aiPersonalization.getPersonalizationProfile(user!.id);
       setPersonalizationData({
         userId: user!.id,
-        preferences: personalization?.preferences || {
+        preferences: {
           personalizationLevel: 'balanced',
           proactiveSuggestions: true,
           wellnessMonitoring: true,
           therapyInsights: true
         },
+        patterns: {
+          navigation: [],
+          engagement: [],
+          wellness: []
+        },
         insights: insights.slice(0, 5),
-        lastUpdated: new Date()
-      } as any);
+        lastUpdated: Date.now()
+      });
 
       // Track page visit
       aiPersonalization.trackUserInteraction({
         userId: user!.id,
         type: 'page_view',
-        section: 'ai_insights',
-        timestamp: new Date(),
-        metadata: { action: 'ai_dashboard_accessed' }
+        timestamp: new Date().toISOString(),
+        metadata: { 
+          action: 'ai_dashboard_accessed', 
+          section: 'ai_insights',
+          page: 'ai_insights',
+          section_detail: 'dashboard'
+        }
       });
 
     } catch (error) {

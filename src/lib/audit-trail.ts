@@ -1,4 +1,5 @@
 import { supabase } from './supabase';
+import { safeSupabaseInsert, safeSupabaseQuery, safeSupabaseUpdate } from './supabase-utils';
 import { SystemRole } from './role-permissions';
 import { NavigationItem } from './navigation-config';
 
@@ -130,11 +131,10 @@ class AuditTrailService {
         retention_until: this.calculateRetentionDate()
       };
 
-      const { data, error } = await supabase
-        .from('audit_logs')
-        .insert(auditEntry)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseInsert<any>(
+        'audit_logs',
+        auditEntry
+      );
 
       if (error) {
         console.error('Failed to create audit log:', error);
@@ -248,11 +248,11 @@ class AuditTrailService {
    * Log security event
    */
   async logSecurityEvent(
-    eventType: 'security_alert_triggered' | 'unauthorized_access_attempt' | 'suspicious_activity',
+    eventType: 'security_alert_triggered',
     severity: AuditSeverity,
+    resource: string,
     userId?: string,
     userRole?: SystemRole,
-    resource: string,
     reason?: string,
     context?: Record<string, any>
   ): Promise<AuditLogEntry | null> {
@@ -324,7 +324,7 @@ class AuditTrailService {
 
       if (filters.acknowledged !== undefined) {
         if (filters.acknowledged) {
-          query = query.not.is('acknowledged_at', null);
+          query = query.not('acknowledged_at', 'is', null);
         } else {
           query = query.is('acknowledged_at', null);
         }
@@ -579,7 +579,7 @@ class AuditTrailService {
     acknowledgedBy: string
   ): Promise<{ success: boolean; count: number }> {
     try {
-      const { error, count } = await supabase
+      const { error } = await supabase
         .from('audit_logs')
         .update({
           acknowledged_by: acknowledgedBy,
@@ -592,7 +592,7 @@ class AuditTrailService {
         return { success: false, count: 0 };
       }
 
-      return { success: true, count: count || 0 };
+      return { success: true, count: logIds.length };
     } catch (error) {
       console.error('Error acknowledging audit logs:', error);
       return { success: false, count: 0 };
@@ -607,7 +607,7 @@ class AuditTrailService {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - this.retentionDays);
 
-      const { error, count } = await supabase
+      const { error } = await supabase
         .from('audit_logs')
         .delete()
         .lt('created_at', cutoffDate.toISOString());
@@ -617,7 +617,7 @@ class AuditTrailService {
         return { deleted: 0, error: error.message };
       }
 
-      return { deleted: count || 0 };
+      return { deleted: 0 }; // Supabase doesn't return count for delete operations
     } catch (error) {
       console.error('Error cleaning up old audit logs:', error);
       return { deleted: 0, error: error instanceof Error ? error.message : 'Unknown error' };
@@ -687,15 +687,15 @@ export async function logRoleChange(
 }
 
 export async function logSecurityEvent(
-  eventType: 'security_alert_triggered' | 'unauthorized_access_attempt' | 'suspicious_activity',
+  eventType: 'security_alert_triggered',
   severity: AuditSeverity,
+  resource: string,
   userId?: string,
   userRole?: SystemRole,
-  resource: string,
   reason?: string,
   context?: Record<string, any>
 ) {
-  return auditTrail.logSecurityEvent(eventType, severity, userId, userRole, resource, reason, context);
+  return auditTrail.logSecurityEvent(eventType, severity, resource, userId, userRole, reason, context);
 }
 
 export async function queryAuditLogs(filters?: AuditQueryFilters) {

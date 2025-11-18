@@ -3,6 +3,7 @@ import { SystemRole, hasPermission, PermissionGroup, PermissionAction } from '@/
 import { canAccessRoute } from '@/lib/permission-service';
 import { logSecurityEvent, logUnauthorizedAccess } from '@/lib/security-monitoring';
 import { supabase } from '@/lib/supabase';
+import { safeSupabaseQuery } from '@/lib/supabase-utils';
 
 export interface RouteValidationResult {
   hasAccess: boolean;
@@ -81,17 +82,19 @@ export async function validateRouteAccess(
     }
 
     // Get user role from database
-    const { data: userData, error: userError } = await supabase
-      .from('users')
-      .select(`
-        *,
-        user_roles!inner (
-          role,
-          is_active
-        )
-      `)
-      .eq('id', authUser.id)
-      .single();
+    const { data: userData, error: userError } = await safeSupabaseQuery<any>(
+      supabase
+        .from('users')
+        .select(`
+          *,
+          user_roles!inner (
+            role,
+            is_active
+          )
+        `)
+        .eq('id', authUser.id)
+        .single()
+    );
 
     if (userError || !userData) {
       logSecurityEvent({

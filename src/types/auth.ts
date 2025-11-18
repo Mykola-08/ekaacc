@@ -72,11 +72,25 @@ export interface AuthUser {
   user_metadata?: Record<string, any>; // Supabase user metadata
 }
 
+export interface ImpersonationData {
+  originalUserId: string;
+  originalUserEmail: string;
+  targetUserId: string;
+  targetUserEmail: string;
+  targetUserRole: UserRole;
+  targetUserPermissions: Permission[];
+  reason: string;
+  startedAt: string;
+  sessionId: string;
+}
+
 export interface AuthState {
   user: AuthUser | null;
   isLoading: boolean;
   loading?: boolean; // Alias for isLoading for backward compatibility
   isAuthenticated: boolean;
+  isImpersonating?: boolean;
+  impersonationData?: ImpersonationData | null;
 }
 
 export interface LoginCredentials {

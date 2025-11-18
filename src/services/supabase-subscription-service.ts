@@ -12,6 +12,7 @@ import {
 } from '@/lib/subscription-types';
 import { ISubscriptionService } from './subscription-service';
 import { supabase, supabaseAdmin } from '@/lib/supabase';
+import { safeSupabaseAdminInsert, safeSupabaseAdminUpdate } from '@/lib/supabase-utils';
 import { Database } from '@/types/supabase';
 
 // Database types
@@ -146,11 +147,10 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         cancel_at_period_end: false,
       };
 
-      const { data, error } = await supabaseAdmin
-        .from('subscriptions')
-        .insert(subscriptionData)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseAdminInsert<DbSubscription>(
+        'subscriptions',
+        [subscriptionData]
+      );
 
       if (error) throw error;
       
@@ -176,12 +176,11 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         ...(immediate ? { end_date: now } : { cancel_at_period_end: true }),
       };
 
-      const { data, error } = await supabaseAdmin
-        .from('subscriptions')
-        .update(updateData)
-        .eq('id', subscriptionId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseAdminUpdate<DbSubscription>(
+        'subscriptions',
+        updateData,
+        { id: subscriptionId }
+      );
 
       if (error) throw error;
       
@@ -217,12 +216,11 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         updated_at: now.toISOString(),
       };
 
-      const { data, error } = await supabaseAdmin
-        .from('subscriptions')
-        .update(updateData)
-        .eq('id', subscriptionId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseAdminUpdate<DbSubscription>(
+        'subscriptions',
+        updateData,
+        { id: subscriptionId }
+      );
 
       if (error) throw error;
       
@@ -308,17 +306,16 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       };
 
       if (existing) {
-        await supabaseAdmin
-          .from('subscription_usage')
-          .update(updateData)
-          .eq('subscription_id', subscriptionId);
+        await safeSupabaseAdminUpdate<Database['public']['Tables']['subscription_usage']['Row']>(
+          'subscription_usage', updateData, { subscription_id: subscriptionId }
+        );
       } else {
-        await supabaseAdmin
-          .from('subscription_usage')
-          .insert({
+        await safeSupabaseAdminInsert<Database['public']['Tables']['subscription_usage']['Row']>(
+          'subscription_usage', {
             subscription_id: subscriptionId,
             ...updateData,
-          });
+          }
+        );
       }
       
       console.log(`📊 Updated usage for subscription ${subscriptionId}`);
@@ -359,11 +356,10 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         notes: reason,
       };
 
-      const { data, error } = await supabaseAdmin
-        .from('subscriptions')
-        .insert(subscriptionData)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseAdminInsert<DbSubscription>(
+        'subscriptions',
+        [subscriptionData]
+      );
 
       if (error) throw error;
       
@@ -385,10 +381,11 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         notes: `Revoked by admin: ${reason || 'No reason provided'}`,
       };
 
-      const { error } = await supabaseAdmin
-        .from('subscriptions')
-        .update(updateData)
-        .eq('id', subscriptionId);
+      const { error } = await safeSupabaseAdminUpdate(
+        'subscriptions',
+        updateData,
+        { id: subscriptionId }
+      );
 
       if (error) throw error;
       
@@ -456,13 +453,13 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         last_updated: now,
       };
 
-      await supabaseAdmin.from('subscription_usage').insert(usageData);
+      await safeSupabaseAdminInsert('subscription_usage', [usageData]);
     } catch (error) {
       console.error('Error initializing usage:', error);
     }
   }
 
-  private mapDbSubscriptionToApp(db: DbSubscription): Subscription {
+  private mapDbSubscriptionToApp(db: any): Subscription {
     return {
       id: db.id,
       userId: db.user_id,
@@ -474,10 +471,10 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       stripeSubscriptionId: db.stripe_subscription_id ?? undefined,
       startDate: db.start_date,
       endDate: db.end_date,
-      currentPeriodStart: db.current_period_start,
-      currentPeriodEnd: db.current_period_end,
+      currentPeriodStart: db.current_period_start || db.start_date,
+      currentPeriodEnd: db.current_period_end || db.end_date,
       cancelAtPeriodEnd: db.cancel_at_period_end,
-      cancelledAt: db.cancelled_at,
+      cancelledAt: db.cancelled_at || undefined,
       createdAt: db.created_at,
       updatedAt: db.updated_at,
       createdBy: db.created_by ?? undefined,

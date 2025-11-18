@@ -475,6 +475,401 @@ export interface Database {
           updated_at?: string
         }
       }
+      wallets: {
+        Row: {
+          id: string
+          user_id: string
+          balance: number
+          currency: string
+          is_active: boolean
+          is_paused: boolean
+          pause_reason: string | null
+          created_at: string
+          updated_at: string
+          last_transaction_at: string | null
+          total_credits: number
+          total_debits: number
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          balance?: number
+          currency?: string
+          is_active?: boolean
+          is_paused?: boolean
+          pause_reason?: string | null
+          created_at?: string
+          updated_at?: string
+          last_transaction_at?: string | null
+          total_credits?: number
+          total_debits?: number
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          balance?: number
+          currency?: string
+          is_active?: boolean
+          is_paused?: boolean
+          pause_reason?: string | null
+          created_at?: string
+          updated_at?: string
+          last_transaction_at?: string | null
+          total_credits?: number
+          total_debits?: number
+        }
+      }
+      wallet_transactions: {
+        Row: {
+          id: string
+          user_id: string
+          type: 'credit' | 'debit'
+          amount: number
+          balance_after: number
+          status: 'pending' | 'completed' | 'failed' | 'cancelled'
+          description: string
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          type: 'credit' | 'debit'
+          amount: number
+          balance_after: number
+          status?: 'pending' | 'completed' | 'failed' | 'cancelled'
+          description: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          type?: 'credit' | 'debit'
+          amount?: number
+          balance_after?: number
+          status?: 'pending' | 'completed' | 'failed' | 'cancelled'
+          description?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      purchasable_items: {
+        Row: {
+          id: string
+          name: string
+          description: string | null
+          price: number
+          currency: string
+          type: string
+          category: string | null
+          is_active: boolean
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          name: string
+          description?: string | null
+          price: number
+          currency?: string
+          type?: string
+          category?: string | null
+          is_active?: boolean
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          description?: string | null
+          price?: number
+          currency?: string
+          type?: string
+          category?: string | null
+          is_active?: boolean
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      purchases: {
+        Row: {
+          id: string
+          user_id: string
+          user_name: string | null
+          item_id: string
+          item_type: string
+          item_name: string
+          quantity: number
+          price: number
+          total_amount: number
+          discount_percentage: number
+          currency: string
+          status: 'pending' | 'completed' | 'failed' | 'cancelled' | 'refunded'
+          payment_method: string
+          transaction_id: string | null
+          metadata: Json | null
+          fulfilled_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          user_name?: string | null
+          item_id: string
+          item_type?: string
+          item_name: string
+          quantity?: number
+          price: number
+          total_amount: number
+          discount_percentage?: number
+          currency?: string
+          status?: 'pending' | 'completed' | 'failed' | 'cancelled' | 'refunded'
+          payment_method?: string
+          transaction_id?: string | null
+          metadata?: Json | null
+          fulfilled_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          user_name?: string | null
+          item_id?: string
+          item_type?: string
+          item_name?: string
+          quantity?: number
+          price?: number
+          total_amount?: number
+          discount_percentage?: number
+          currency?: string
+          status?: 'pending' | 'completed' | 'failed' | 'cancelled' | 'refunded'
+          payment_method?: string
+          transaction_id?: string | null
+          metadata?: Json | null
+          fulfilled_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      messages: {
+        Row: {
+          id: string
+          conversation_id: string
+          user_id: string
+          content: string
+          message_type: string
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          conversation_id: string
+          user_id: string
+          content: string
+          message_type?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          conversation_id?: string
+          user_id?: string
+          content?: string
+          message_type?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      journal_entries: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          content: string
+          mood: string | null
+          tags: string[]
+          is_private: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          content: string
+          mood?: string | null
+          tags?: string[]
+          is_private?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          content?: string
+          mood?: string | null
+          tags?: string[]
+          is_private?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      goals: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          description: string | null
+          target_date: string | null
+          status: string
+          progress: number
+          category: string | null
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          description?: string | null
+          target_date?: string | null
+          status?: string
+          progress?: number
+          category?: string | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          description?: string | null
+          target_date?: string | null
+          status?: string
+          progress?: number
+          category?: string | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      reports: {
+        Row: {
+          id: string
+          user_id: string
+          title: string
+          content: string
+          report_type: string
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title: string
+          content: string
+          report_type: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string
+          content?: string
+          report_type?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      donations: {
+        Row: {
+          id: string
+          user_id: string
+          amount: number
+          currency: string
+          recipient_id: string | null
+          message: string | null
+          status: string
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          amount: number
+          currency?: string
+          recipient_id?: string | null
+          message?: string | null
+          status?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          amount?: number
+          currency?: string
+          recipient_id?: string | null
+          message?: string | null
+          status?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      conversations: {
+        Row: {
+          id: string
+          user_id: string
+          title: string | null
+          type: string
+          status: string
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          title?: string | null
+          type?: string
+          status?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          title?: string | null
+          type?: string
+          status?: string
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

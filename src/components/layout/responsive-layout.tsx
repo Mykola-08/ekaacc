@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import MobileNavigation from '@/components/navigation/mobile-navigation';
+import { MobileNavigation } from '@/components/navigation/mobile-navigation';
 
 interface ResponsiveLayoutProps {
   children: ReactNode;

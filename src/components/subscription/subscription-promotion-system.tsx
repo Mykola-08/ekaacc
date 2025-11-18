@@ -303,7 +303,7 @@ export default function SubscriptionPromotionSystem() {
                   {tier.donationEligible && (
                     <Dialog open={showDonationForm} onOpenChange={setShowDonationForm}>
                       <DialogTrigger asChild>
-                        <ShimmerButton className="w-full text-sm" variant="secondary">
+                        <ShimmerButton className="w-full text-sm bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700">
                           <HandHeart className="h-4 w-4 mr-2" />
                           Need financial assistance?
                         </ShimmerButton>

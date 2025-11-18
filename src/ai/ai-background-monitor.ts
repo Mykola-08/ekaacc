@@ -64,7 +64,7 @@ export class AIBackgroundMonitor {
 
   constructor() {
     this.personalizationService = new AIPersonalizationService();
-    this.aiService = new AISDKNextService();
+    this.aiService = AISDKNextService.getInstance();
     this.monitoringConfigs = new Map();
     this.userActivitySnapshots = new Map();
     this.monitoringIntervals = new Map();
@@ -176,7 +176,7 @@ export class AIBackgroundMonitor {
 
   private async getRecentUserInteractions(userId: string): Promise<any[]> {
     try {
-      const { data, error } = await this.personalizationService.supabase
+      const { data, error } = await this.personalizationService.getSupabaseClient()
         .from('user_interactions')
         .select('*')
         .eq('user_id', userId)
@@ -478,7 +478,7 @@ export class AIBackgroundMonitor {
       const aiContext = {
         currentSnapshot: current,
         historicalSnapshots: historical.slice(0, 20), // Last 20 snapshots
-        userProfile: await this.personalizationService.getUserProfile(userId),
+        userProfile: await this.personalizationService.getPersonalizationProfile(userId),
         recentInteractions: current.recentInteractions
       };
 
@@ -490,9 +490,9 @@ export class AIBackgroundMonitor {
         context: {
           page: current.currentPage,
           recentActivity: (current.recentActivity || []) as string[],
-          relevantMetrics: insight.context?.relevantMetrics || {}
+          relevantMetrics: (insight as any).context?.relevantMetrics || {}
         }
-      }));
+      } as BackgroundAIInsight));
     } catch (error) {
       console.error('Error generating AI insights:', error);
       return [];

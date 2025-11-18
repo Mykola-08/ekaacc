@@ -1,5 +1,6 @@
 // Production-grade logging and monitoring service
 import { supabase } from './supabase';
+import { safeSupabaseInsert } from './supabase-utils';
 
 export enum LogLevel {
   ERROR = 0,
@@ -85,17 +86,20 @@ class LoggingService {
 
     try {
       // Log to Supabase for persistence and analysis
-      const { error } = await supabase.from('system_logs').insert([{
-        level: LogLevel[entry.level],
-        message: entry.message,
-        context: entry.context || {},
-        timestamp: entry.timestamp,
-        user_id: entry.userId,
-        session_id: entry.sessionId,
-        request_id: entry.requestId,
-        error_message: entry.error?.message,
-        error_stack: entry.error?.stack,
-      }]);
+      const { error } = await safeSupabaseInsert<any>(
+        'system_logs',
+        {
+          level: LogLevel[entry.level],
+          message: entry.message,
+          context: entry.context || {},
+          timestamp: entry.timestamp,
+          user_id: entry.userId,
+          session_id: entry.sessionId,
+          request_id: entry.requestId,
+          error_message: entry.error?.message,
+          error_stack: entry.error?.stack,
+        }
+      );
 
       if (error) {
         // Fallback to console if remote logging fails

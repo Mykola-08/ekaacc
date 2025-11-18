@@ -11,6 +11,9 @@ import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Loader2, Sparkles, AlertCircle, CheckCircle2, FileText } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -21,26 +24,32 @@ interface DonationSeekerApplicationFormProps {
   onCancel?: () => void;
 }
 
-export interface DonationSeekerData {
-  personalInfo: {
-    fullName: string;
-    email: string;
-    phone: string;
-    location: string;
-  };
-  financialInfo: {
-    currentFinancialSituation: string;
-    monthlyIncome: string;
-    employmentStatus: string;
-  };
-  mentalHealthHistory: string;
-  reasonForSupport: string;
-  supportNeeded: string;
-  previousTherapyAccess: string;
-  aiRevisedHistory?: string;
-  aiSuggestions?: string[];
-  verificationDocuments?: File[];
-}
+const personalInfoSchema = z.object({
+  fullName: z.string().min(2, 'Full name must be at least 2 characters'),
+  email: z.string().email('Please enter a valid email address'),
+  phone: z.string().min(10, 'Please enter a valid phone number'),
+  location: z.string().optional(),
+});
+
+const financialInfoSchema = z.object({
+  currentFinancialSituation: z.string().min(10, 'Please describe your financial situation in detail'),
+  monthlyIncome: z.string().optional(),
+  employmentStatus: z.string().optional(),
+});
+
+const donationSeekerSchema = z.object({
+  personalInfo: personalInfoSchema,
+  financialInfo: financialInfoSchema,
+  mentalHealthHistory: z.string().min(50, 'Please provide at least 50 characters about your mental health history'),
+  reasonForSupport: z.string().min(10, 'Please explain why you need support'),
+  supportNeeded: z.string().min(1, 'Please select the level of support needed'),
+  previousTherapyAccess: z.string().optional(),
+  aiRevisedHistory: z.string().optional(),
+  aiSuggestions: z.array(z.string()).optional(),
+  verificationDocuments: z.array(z.instanceof(File)).optional(),
+});
+
+export type DonationSeekerData = z.infer<typeof donationSeekerSchema>;
 
 export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: DonationSeekerApplicationFormProps) {
   const [step, setStep] = useState(1);
@@ -48,25 +57,45 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
   const [isAIProcessing, setIsAIProcessing] = useState(false);
   const { toast } = useToast();
 
-  // Form state
-  const [personalInfo, setPersonalInfo] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    location: ''
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    trigger,
+  } = useForm({
+    resolver: zodResolver(donationSeekerSchema),
+    defaultValues: {
+      personalInfo: {
+        fullName: '',
+        email: '',
+        phone: '',
+        location: ''
+      },
+      financialInfo: {
+        currentFinancialSituation: '',
+        monthlyIncome: '',
+        employmentStatus: ''
+      },
+      mentalHealthHistory: '',
+      reasonForSupport: '',
+      supportNeeded: '',
+      previousTherapyAccess: '',
+      aiRevisedHistory: '',
+      aiSuggestions: [],
+      verificationDocuments: []
+    }
   });
 
-  const [financialInfo, setFinancialInfo] = useState({
-    currentFinancialSituation: '',
-    monthlyIncome: '',
-    employmentStatus: ''
-  });
+  // Watch form values
+  const personalInfo = watch('personalInfo');
+  const financialInfo = watch('financialInfo');
+  const mentalHealthHistory = watch('mentalHealthHistory');
+  const reasonForSupport = watch('reasonForSupport');
+  const supportNeeded = watch('supportNeeded');
+  const previousTherapyAccess = watch('previousTherapyAccess');
 
-  const [mentalHealthHistory, setMentalHealthHistory] = useState('');
-  const [reasonForSupport, setReasonForSupport] = useState('');
-  const [supportNeeded, setSupportNeeded] = useState('');
-  const [previousTherapyAccess, setPreviousTherapyAccess] = useState('');
-  
   // AI enhanced fields
   const [aiRevisedHistory, setAiRevisedHistory] = useState('');
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
@@ -74,32 +103,20 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
 
   const totalSteps = 4;
 
-  const handleNext = () => {
-    if (step === 1 && (!personalInfo.fullName || !personalInfo.email || !personalInfo.phone)) {
-      toast({
-        variant: 'destructive',
-        title: 'Please complete all required fields',
-        description: 'Personal information is required to process your application.',
-      });
-      return;
+  const handleNext = async () => {
+    let isValid = false;
+    
+    if (step === 1) {
+      isValid = await trigger('personalInfo');
+    } else if (step === 2) {
+      isValid = await trigger('financialInfo.currentFinancialSituation');
+    } else if (step === 3) {
+      isValid = await trigger('mentalHealthHistory');
     }
-    if (step === 2 && !financialInfo.currentFinancialSituation) {
-      toast({
-        variant: 'destructive',
-        title: 'Please describe your financial situation',
-        description: 'This helps us understand your needs better.',
-      });
-      return;
+
+    if (isValid || step > 3) {
+      setStep(step + 1);
     }
-    if (step === 3 && !mentalHealthHistory) {
-      toast({
-        variant: 'destructive',
-        title: 'Please share your mental health history',
-        description: 'This information is confidential and helps us provide appropriate support.',
-      });
-      return;
-    }
-    setStep(step + 1);
   };
 
   const handleBack = () => {
@@ -107,7 +124,8 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
   };
 
   const handleAIRevision = async () => {
-    if (!mentalHealthHistory || mentalHealthHistory.length < 50) {
+    const isValid = await trigger('mentalHealthHistory');
+    if (!isValid || !mentalHealthHistory || mentalHealthHistory.length < 50) {
       toast({
         variant: 'destructive',
         title: 'Please provide more details',
@@ -147,7 +165,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
   };
 
   const handleUseAIVersion = () => {
-    setMentalHealthHistory(aiRevisedHistory);
+    setValue('mentalHealthHistory', aiRevisedHistory);
     setShowAIResults(false);
     toast({
       title: 'AI version applied',
@@ -155,18 +173,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!reasonForSupport || !supportNeeded) {
-      toast({
-        variant: 'destructive',
-        title: 'Please complete all sections',
-        description: 'All information helps us process your application fairly.',
-      });
-      return;
-    }
-
+  const onFormSubmit = async (data: DonationSeekerData) => {
     setIsLoading(true);
     toast({
       title: 'Submitting your application...',
@@ -176,19 +183,14 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     onSubmit({
-      personalInfo,
-      financialInfo,
-      mentalHealthHistory,
-      reasonForSupport,
-      supportNeeded,
-      previousTherapyAccess,
+      ...data,
       aiRevisedHistory: showAIResults ? aiRevisedHistory : undefined,
       aiSuggestions: showAIResults ? aiSuggestions : undefined
     });
 
     toast({
       title: 'Application submitted successfully!',
-      description: 'We\'ll contact you at ' + personalInfo.email + ' within 48 hours.',
+      description: 'We\'ll contact you at ' + data.personalInfo.email + ' within 48 hours.',
     });
 
     setIsLoading(false);
@@ -207,7 +209,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
           {/* Progress indicator */}
           <div className="flex items-center justify-between mb-4">
             {[1, 2, 3, 4].map((s) => (
@@ -231,10 +233,12 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     <Input
                       id="fullName"
                       placeholder="Enter your full name"
-                      value={personalInfo.fullName}
-                      onChange={(e) => setPersonalInfo({ ...personalInfo, fullName: e.target.value })}
+                      {...register('personalInfo.fullName')}
                       className="mt-2"
                     />
+                    {errors.personalInfo?.fullName && (
+                      <p className="text-sm text-destructive mt-1">{errors.personalInfo.fullName.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -243,10 +247,12 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                       id="email"
                       type="email"
                       placeholder="your.email@example.com"
-                      value={personalInfo.email}
-                      onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
+                      {...register('personalInfo.email')}
                       className="mt-2"
                     />
+                    {errors.personalInfo?.email && (
+                      <p className="text-sm text-destructive mt-1">{errors.personalInfo.email.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -255,10 +261,12 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                       id="phone"
                       type="tel"
                       placeholder="+1 (555) 000-0000"
-                      value={personalInfo.phone}
-                      onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
+                      {...register('personalInfo.phone')}
                       className="mt-2"
                     />
+                    {errors.personalInfo?.phone && (
+                      <p className="text-sm text-destructive mt-1">{errors.personalInfo.phone.message}</p>
+                    )}
                   </div>
 
                   <div>
@@ -266,8 +274,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     <Input
                       id="location"
                       placeholder="e.g., Amsterdam, Netherlands"
-                      value={personalInfo.location}
-                      onChange={(e) => setPersonalInfo({ ...personalInfo, location: e.target.value })}
+                      {...register('personalInfo.location')}
                       className="mt-2"
                     />
                   </div>
@@ -296,18 +303,20 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     <Textarea
                       id="financialSituation"
                       placeholder="Please describe your current financial circumstances..."
-                      value={financialInfo.currentFinancialSituation}
-                      onChange={(e) => setFinancialInfo({ ...financialInfo, currentFinancialSituation: e.target.value })}
+                      {...register('financialInfo.currentFinancialSituation')}
                       rows={4}
                       className="mt-2"
                     />
+                    {errors.financialInfo?.currentFinancialSituation && (
+                      <p className="text-sm text-destructive mt-1">{errors.financialInfo.currentFinancialSituation.message}</p>
+                    )}
                   </div>
 
                   <div>
                     <Label htmlFor="monthlyIncome">Approximate Monthly Income</Label>
                     <Select 
                       value={financialInfo.monthlyIncome} 
-                      onValueChange={(value) => setFinancialInfo({ ...financialInfo, monthlyIncome: value })}
+                      onValueChange={(value) => setValue('financialInfo.monthlyIncome', value)}
                     >
                       <SelectValue placeholder="Select income range"  />
                       <SelectContent>
@@ -324,7 +333,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     <Label htmlFor="employmentStatus">Employment Status</Label>
                     <Select 
                       value={financialInfo.employmentStatus} 
-                      onValueChange={(value) => setFinancialInfo({ ...financialInfo, employmentStatus: value })}
+                      onValueChange={(value) => setValue('financialInfo.employmentStatus', value)}
                     >
                       <SelectValue placeholder="Select your status"  />
                       <SelectContent>
@@ -367,14 +376,16 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                         <Textarea
                           id="mentalHealthHistory"
                           placeholder="e.g., I have been dealing with anxiety for 3 years, experiencing panic attacks, difficulty sleeping..."
-                          value={mentalHealthHistory}
-                          onChange={(e) => setMentalHealthHistory(e.target.value)}
+                          {...register('mentalHealthHistory')}
                           rows={8}
                           className="mt-2"
                         />
                         <p className="text-xs text-muted-foreground mt-2">
-                          {mentalHealthHistory.length} characters (minimum 50 recommended for AI assistance)
+                          {mentalHealthHistory?.length || 0} characters (minimum 50 recommended for AI assistance)
                         </p>
+                        {errors.mentalHealthHistory && (
+                          <p className="text-sm text-destructive mt-1">{errors.mentalHealthHistory.message}</p>
+                        )}
                       </div>
 
                       <Button
@@ -456,8 +467,7 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     <Textarea
                       id="previousTherapy"
                       placeholder="Have you had therapy before? If yes, what prevented you from continuing?"
-                      value={previousTherapyAccess}
-                      onChange={(e) => setPreviousTherapyAccess(e.target.value)}
+                      {...register('previousTherapyAccess')}
                       rows={3}
                       className="mt-2"
                     />
@@ -480,16 +490,18 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                     <Textarea
                       id="reasonForSupport"
                       placeholder="Explain why you need financial assistance for therapy..."
-                      value={reasonForSupport}
-                      onChange={(e) => setReasonForSupport(e.target.value)}
+                      {...register('reasonForSupport')}
                       rows={4}
                       className="mt-2"
                     />
+                    {errors.reasonForSupport && (
+                      <p className="text-sm text-destructive mt-1">{errors.reasonForSupport.message}</p>
+                    )}
                   </div>
 
                   <div>
                     <Label htmlFor="supportNeeded">What level of support do you need? *</Label>
-                    <Select value={supportNeeded} onValueChange={setSupportNeeded}>
+                    <Select value={supportNeeded} onValueChange={(value) => setValue('supportNeeded', value)}>
                       <SelectValue placeholder="Select support level"  />
                       <SelectContent>
                         <SelectItem value="full">Full coverage (100%)</SelectItem>
@@ -498,6 +510,9 @@ export function DonationSeekerApplicationForm({ open, onClose, onSubmit }: Donat
                         <SelectItem value="sliding">Sliding scale (25-50%)</SelectItem>
                       </SelectContent>
                     </Select>
+                    {errors.supportNeeded && (
+                      <p className="text-sm text-destructive mt-1">{errors.supportNeeded.message}</p>
+                    )}
                   </div>
 
                   <Alert>

@@ -207,6 +207,76 @@ export const TEXT_SIZING = {
 };
 
 /**
+ * Calculate relative luminance of a color
+ */
+function getLuminance(color: string): number {
+  // Convert hex to RGB if needed
+  let r, g, b;
+  
+  if (color.startsWith('#')) {
+    const hex = color.slice(1);
+    r = parseInt(hex.slice(0, 2), 16) / 255;
+    g = parseInt(hex.slice(2, 4), 16) / 255;
+    b = parseInt(hex.slice(4, 6), 16) / 255;
+  } else if (color.startsWith('rgb')) {
+    const matches = color.match(/\d+/g);
+    if (matches) {
+      r = parseInt(matches[0], 10) / 255;
+      g = parseInt(matches[1], 10) / 255;
+      b = parseInt(matches[2], 10) / 255;
+    } else {
+      return 0.5; // Default fallback
+    }
+  } else {
+    return 0.5; // Default fallback for unknown formats
+  }
+  
+  // Apply gamma correction
+  const toLinear = (c: number) => {
+    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  };
+  
+  r = toLinear(r);
+  g = toLinear(g);
+  b = toLinear(b);
+  
+  // Calculate relative luminance
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/**
+ * Calculate contrast ratio between two colors
+ */
+function getContrastRatio(color1: string, color2: string): number {
+  const lum1 = getLuminance(color1);
+  const lum2 = getLuminance(color2);
+  
+  const lighter = Math.max(lum1, lum2);
+  const darker = Math.min(lum1, lum2);
+  
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+/**
+ * Parse color from computed style
+ */
+function parseColor(color: string): string {
+  // Handle various color formats
+  if (color.startsWith('#') || color.startsWith('rgb')) {
+    return color;
+  }
+  
+  // Handle named colors by creating a temporary element
+  const tempDiv = document.createElement('div');
+  tempDiv.style.color = color;
+  document.body.appendChild(tempDiv);
+  const computedColor = window.getComputedStyle(tempDiv).color;
+  document.body.removeChild(tempDiv);
+  
+  return computedColor;
+}
+
+/**
  * Validate entire component for accessibility
  */
 export function validateComponentAccessibility(
@@ -223,8 +293,20 @@ export function validateComponentAccessibility(
 
   // Check contrast
   const computedStyle = window.getComputedStyle(element);
-  const color = computedStyle.color;
-  const backgroundColor = computedStyle.backgroundColor;
+  const color = parseColor(computedStyle.color);
+  const backgroundColor = parseColor(computedStyle.backgroundColor);
+  
+  let hasProperContrast = true;
+  try {
+    const contrastRatio = getContrastRatio(color, backgroundColor);
+    if (contrastRatio < 4.5) {
+      issues.push(`Low contrast ratio: ${contrastRatio.toFixed(2)}:1 (minimum 4.5:1 required)`);
+      hasProperContrast = false;
+    }
+  } catch (error) {
+    issues.push('Unable to calculate contrast ratio');
+    hasProperContrast = false;
+  }
   
   // Check touch targets
   const rect = element.getBoundingClientRect();
@@ -234,9 +316,11 @@ export function validateComponentAccessibility(
   const hasFocus = computedStyle.outline !== 'none' || computedStyle.boxShadow.includes('focus');
   
   // Check labels
-  const hasLabel = element.hasAttribute('aria-label') || 
-                  element.hasAttribute('aria-labelledby') ||
-                  element.tagName === 'BUTTON' && element.textContent?.trim();
+  const hasLabel = Boolean(
+    element.hasAttribute('aria-label') || 
+    element.hasAttribute('aria-labelledby') ||
+    (element.tagName === 'BUTTON' && element.textContent?.trim())
+  );
 
   if (!touchTarget.meetsMinimum) {
     issues.push(`Touch target too small: ${rect.width}x${rect.height}px`);
@@ -253,7 +337,7 @@ export function validateComponentAccessibility(
   const score = Math.max(0, 100 - (issues.length * 25));
 
   return {
-    hasProperContrast: true, // Would need actual color parsing
+    hasProperContrast,
     hasTouchTargets: touchTarget.meetsMinimum,
     hasFocusStates: hasFocus,
     hasLabels: hasLabel,

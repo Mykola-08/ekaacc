@@ -21,7 +21,7 @@ const premiumInputVariants = cva(
         lg: 'px-6 py-4 text-lg',
         xl: 'px-8 py-5 text-xl',
       },
-      state: {
+      validationState: {
         default: '',
         success: 'border-green-500 focus:border-green-500 focus:ring-green-500/20',
         error: 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
@@ -36,7 +36,7 @@ const premiumInputVariants = cva(
     defaultVariants: {
       variant: 'default',
       size: 'md',
-      state: 'default',
+      validationState: 'default',
       shape: 'default',
     },
   }
@@ -63,8 +63,11 @@ const premiumInputGroupVariants = cva(
 )
 
 export interface PremiumInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement>,
-    VariantProps<typeof premiumInputVariants> {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'state' | 'variant' | 'size'> {
+  variant?: 'default' | 'outlined' | 'filled' | 'glass' | 'minimal' | 'premium'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  validationState?: 'default' | 'success' | 'error' | 'warning'
+  shape?: 'default' | 'pill' | 'square'
   label?: string
   helperText?: string
   errorMessage?: string
@@ -87,7 +90,7 @@ const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
     className, 
     variant, 
     size, 
-    state, 
+    validationState,
     shape,
     label,
     helperText,
@@ -157,8 +160,8 @@ const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
     const handleMouseLeave = () => setIsHovered(false)
 
     // Determine current state
-    const currentState = state === 'default' && errorMessage ? 'error' : 
-                        state === 'default' && successMessage ? 'success' : state
+    const currentState = validationState === 'default' && errorMessage ? 'error' : 
+                        validationState === 'default' && successMessage ? 'success' : validationState
 
     // Icon components
     const SearchIcon = search ? <Search className="w-4 h-4" /> : null
@@ -265,7 +268,7 @@ const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
             disabled={disabled || loading}
             maxLength={maxLength}
             className={cn(
-              premiumInputVariants({ variant, size, state: currentState, shape }),
+              premiumInputVariants({ variant, size: size as any, validationState: currentState, shape }),
               leftIcon && "pl-10",
               rightIcons.length > 0 && "pr-10",
               floatingLabel && "pt-6",

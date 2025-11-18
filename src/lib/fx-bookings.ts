@@ -1,12 +1,13 @@
 // Production-grade bookings service with Supabase integration
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase';
+import { safeSupabaseInsert, safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/supabase-utils';
 
 export const fxBookings = {
   async createBooking(userId: string, therapistId: string, date: string, notes?: string) {
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<any>(
+        'appointments',
+        {
           user_id: userId,
           practitioner_id: therapistId,
           date,
@@ -14,9 +15,8 @@ export const fxBookings = {
           notes: notes || null,
           status: 'upcoming',
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error creating booking:', error);
@@ -31,11 +31,13 @@ export const fxBookings = {
   },
   async getBookingsForUser(userId: string) {
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQuery<any[]>(
+        supabase
+          .from('appointments')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+      );
       
       if (error) {
         console.error('Error fetching user bookings:', error);
@@ -69,12 +71,11 @@ export const fxBookings = {
   },
   async cancelBooking(bookingId: string) {
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .update({ status: 'cancelled', cancelled_at: new Date().toISOString() })
-        .eq('id', bookingId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<any>(
+        'appointments',
+        { status: 'cancelled', cancelled_at: new Date().toISOString() },
+        { id: bookingId }
+      );
       
       if (error) {
         console.error('Error cancelling booking:', error);
@@ -89,15 +90,14 @@ export const fxBookings = {
   },
   async updateBooking(bookingId: string, updates: Record<string, any>) {
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .update({
+      const { data, error } = await safeSupabaseUpdate<any>(
+        'appointments',
+        {
           ...updates,
           updated_at: new Date().toISOString()
-        })
-        .eq('id', bookingId)
-        .select()
-        .single();
+        },
+        { id: bookingId }
+      );
       
       if (error) {
         console.error('Error updating booking:', error);
@@ -112,10 +112,12 @@ export const fxBookings = {
   },
   async getAllBookings() {
     try {
-      const { data, error } = await supabase
-        .from('appointments')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQuery<any[]>(
+        supabase
+          .from('appointments')
+          .select('*')
+          .order('created_at', { ascending: false })
+      );
       
       if (error) {
         console.error('Error fetching all bookings:', error);

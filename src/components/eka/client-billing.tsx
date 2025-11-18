@@ -48,6 +48,9 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
   const [currentBalance, setCurrentBalance] = useState(0);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [invoices, setInvoices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [transactionsError, setTransactionsError] = useState<string | null>(null);
+  const [invoicesError, setInvoicesError] = useState<string | null>(null);
   const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false);
   const [invoiceAmount, setInvoiceAmount] = useState<number>(0);
   const [invoiceDesc, setInvoiceDesc] = useState<string>('');
@@ -146,23 +149,40 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
     let mounted = true;
     const load = async () => {
       if (!client) return;
-    const res = await (fxService.getBalanceForClient ? fxService.getBalanceForClient(client.id) : { balance: 0, transactions: [] });
-      if (!mounted) return;
-      setCurrentBalance(res.balance);
-      setTransactions(res.transactions.map((t: any) => ({
-        id: t.id,
-        date: t.createdAt.split('T')[0],
-        type: t.amountEUR >= 0 ? 'credit' : 'debit',
-        amount: Math.abs(t.amountEUR),
-        description: t.note || '',
-        balance: 0,
-      })));
+      setLoading(true);
+      setTransactionsError(null);
+      setInvoicesError(null);
+      
+      try {
+        const res = await (fxService.getBalanceForClient ? fxService.getBalanceForClient(client.id) : { balance: 0, transactions: [] });
+        if (!mounted) return;
+        setCurrentBalance(res.balance);
+        setTransactions(res.transactions.map((t: any) => ({
+          id: t.id,
+          date: t.createdAt.split('T')[0],
+          type: t.amountEUR >= 0 ? 'credit' : 'debit',
+          amount: Math.abs(t.amountEUR),
+          description: t.note || '',
+          balance: 0,
+        })));
+      } catch (error) {
+        console.error('Failed to fetch balance and transactions:', error);
+        setTransactionsError('Failed to load transaction history.');
+        if (!mounted) return;
+        setCurrentBalance(0);
+        setTransactions([]);
+      }
+      
       // load invoices
       try {
         const invs = await fxService.getInvoicesForClient(client.id);
         if (mounted) setInvoices(invs || []);
-      } catch (e) {
-        // ignore
+      } catch (error) {
+        console.error('Failed to fetch invoices:', error);
+        setInvoicesError('Failed to load invoices.');
+        if (mounted) setInvoices([]);
+      } finally {
+        if (mounted) setLoading(false);
       }
     };
     load();
@@ -284,7 +304,36 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transactions.map((transaction) => (
+              {loading && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8">
+                    <div className="flex items-center justify-center">
+                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Loading transactions...
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              {!loading && transactionsError && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8">
+                    <div className="text-red-500">
+                      <p>{transactionsError}</p>
+                      <Button variant="outline" size="sm" className="mt-2" onClick={() => window.location.reload()}>
+                        Retry
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              {!loading && !transactionsError && transactions.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                    No transactions found
+                  </TableCell>
+                </TableRow>
+              )}
+              {!loading && !transactionsError && transactions.map((transaction) => (
                 <TableRow key={transaction.id}>
                   <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
                   <TableCell>
@@ -334,7 +383,36 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {invoices.map(inv => (
+              {loading && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8">
+                    <div className="flex items-center justify-center">
+                      <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2"></div>
+                      Loading invoices...
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              {!loading && invoicesError && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8">
+                    <div className="text-red-500">
+                      <p>{invoicesError}</p>
+                      <Button variant="outline" size="sm" className="mt-2" onClick={() => window.location.reload()}>
+                        Retry
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )}
+              {!loading && !invoicesError && invoices.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                    No invoices found
+                  </TableCell>
+                </TableRow>
+              )}
+              {!loading && !invoicesError && invoices.map(inv => (
                 <TableRow key={inv.id}>
                   <TableCell>{inv.id}</TableCell>
                   <TableCell>€{inv.amountEUR.toFixed(2)}</TableCell>

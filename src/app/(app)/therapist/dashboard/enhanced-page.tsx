@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
+import { Progress } from '@/components/ui/progress'
+import { Separator } from '@/components/ui/separator'
 
 export default function TherapistDashboardPage() {
   const { user } = useSimpleAuth()
@@ -137,17 +139,17 @@ export default function TherapistDashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+      <div className="min-h-screen bg-gradient-to-br from-background via-purple-50/10 to-blue-50/10">
         {/* Header Section */}
         <section className="relative overflow-hidden py-8 sm:py-12">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="flex items-center justify-between animate-in fade-in duration-500">
+            <div className="flex items-center justify-between">
               <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 px-4 py-2 text-sm font-medium text-purple-700">
                   <Award className="h-4 w-4" />
                   Professional Therapist Dashboard
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+                <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
                   {welcomeMessage}
                 </h1>
                 <p className="mt-4 text-lg text-muted-foreground">
@@ -156,11 +158,11 @@ export default function TherapistDashboardPage() {
               </div>
               
               <div className="flex items-center gap-4">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
                   <Bell className="h-4 w-4 mr-2" />
                   Notifications
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </Button>
@@ -172,26 +174,25 @@ export default function TherapistDashboardPage() {
         {/* Stats Overview */}
         <section className="py-8">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="animate-in fade-in duration-500 delay-100">
+            <div>
               <h2 className="text-2xl font-bold text-foreground mb-8">Practice Overview</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {therapistStats.map((stat, index) => (
-                  <div
-                    key={stat.title}
-                    className="animate-in fade-in duration-500"
-                    style={{ animationDelay: `${200 + index * 100}ms` }}
-                  >
-                    <Card className="hover:shadow-lg transition-shadow">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between mb-4">
-                          <stat.icon className={`h-8 w-8 ${stat.color}`} />
-                          <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                  <Card key={stat.title} className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className={`w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center ${stat.color}`}>
+                          <stat.icon className="h-6 w-6" />
                         </div>
-                        <h3 className="font-semibold text-foreground mb-1">{stat.title}</h3>
-                        <p className="text-sm text-muted-foreground">{stat.change}</p>
-                      </CardContent>
-                    </Card>
-                  </div>
+                        <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                      </div>
+                      <h3 className="font-semibold text-foreground mb-1">{stat.title}</h3>
+                      <p className="text-sm text-muted-foreground">{stat.change}</p>
+                      <div className="mt-3">
+                        <Progress value={75} className="h-2" />
+                      </div>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
             </div>
@@ -201,34 +202,28 @@ export default function TherapistDashboardPage() {
         {/* Quick Actions */}
         <section className="py-8">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="animate-in fade-in duration-500 delay-300">
+            <div>
               <h2 className="text-2xl font-bold text-foreground mb-8">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {quickActions.map((action, index) => (
-                  <div
-                    key={action.title}
-                    className="animate-in fade-in duration-500"
-                    style={{ animationDelay: `${400 + index * 100}ms` }}
-                  >
-                    <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer group">
-                      <CardHeader className="pb-3">
-                        <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                          <action.icon className="h-6 w-6 text-white" />
-                        </div>
-                        <CardTitle className="text-lg">{action.title}</CardTitle>
-                        <CardDescription>{action.description}</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <Button 
-                          variant="outline" 
-                          className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-colors"
-                          onClick={() => window.location.href = action.href}
-                        >
-                          Open
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  </div>
+                  <Card key={action.title} className="h-full bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300 cursor-pointer group">
+                    <CardHeader className="pb-3">
+                      <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                        <action.icon className="h-6 w-6 text-white" />
+                      </div>
+                      <CardTitle className="text-lg">{action.title}</CardTitle>
+                      <CardDescription>{action.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <Button 
+                        variant="outline" 
+                        className="w-full group-hover:bg-purple-600 group-hover:text-white transition-colors border-purple-200"
+                        onClick={() => window.location.href = action.href}
+                      >
+                        Open
+                      </Button>
+                    </CardContent>
+                  </Card>
                 ))}
               </div>
             </div>
@@ -236,12 +231,12 @@ export default function TherapistDashboardPage() {
         </section>
 
         {/* Upcoming Sessions */}
-        <section className="py-8 bg-muted/30">
+        <section className="py-8 bg-gradient-to-r from-purple-50/20 to-blue-50/20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <div className="animate-in fade-in duration-500 delay-500">
+            <div>
               <div className="flex items-center justify-between mb-8">
                 <h2 className="text-2xl font-bold text-foreground">Today's Schedule</h2>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
                   <Calendar className="h-4 w-4 mr-2" />
                   View All
                 </Button>
@@ -252,33 +247,27 @@ export default function TherapistDashboardPage() {
                   <h3 className="text-lg font-semibold text-foreground mb-4">Upcoming Sessions</h3>
                   <div className="space-y-4">
                     {upcomingSessions.map((session, index) => (
-                      <div
-                        key={index}
-                        className="animate-in fade-in duration-500"
-                        style={{ animationDelay: `${600 + index * 100}ms` }}
-                      >
-                        <Card className="hover:shadow-md transition-shadow">
-                          <CardContent className="p-4">
-                            <div className="flex items-center justify-between">
-                              <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                                  <Clock className="h-5 w-5 text-primary" />
-                                </div>
-                                <div>
-                                  <h4 className="font-semibold text-foreground">{session.client}</h4>
-                                  <p className="text-sm text-muted-foreground">{session.type} • {session.duration}</p>
-                                </div>
+                      <Card key={index} className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-md transition-all duration-300">
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
+                                <Clock className="h-5 w-5 text-purple-600" />
                               </div>
-                              <div className="text-right">
-                                <p className="font-semibold text-foreground">{session.time}</p>
-                                <Badge variant={session.status === 'confirmed' ? 'default' : 'secondary'}>
-                                  {session.status}
-                                </Badge>
+                              <div>
+                                <h4 className="font-semibold text-foreground">{session.client}</h4>
+                                <p className="text-sm text-muted-foreground">{session.type} • {session.duration}</p>
                               </div>
                             </div>
-                          </CardContent>
-                        </Card>
-                      </div>
+                            <div className="text-right">
+                              <p className="font-semibold text-foreground">{session.time}</p>
+                              <Badge variant={session.status === 'confirmed' ? 'default' : 'secondary'} className="bg-purple-100 text-purple-700">
+                                {session.status}
+                              </Badge>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
                     ))}
                   </div>
                 </div>
@@ -287,27 +276,21 @@ export default function TherapistDashboardPage() {
                   <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activities</h3>
                   <div className="space-y-4">
                     {recentActivities.map((activity, index) => (
-                      <div
-                        key={index}
-                        className="animate-in fade-in duration-500"
-                        style={{ animationDelay: `${700 + index * 100}ms` }}
-                      >
-                        <Card className="hover:shadow-md transition-shadow">
-                          <CardContent className="p-4">
-                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                                <Users className="h-5 w-5 text-primary" />
-                              </div>
-                              <div className="flex-1">
-                                <p className="text-sm text-foreground">
-                                  <span className="font-semibold">{activity.client}</span> {activity.action}
-                                </p>
-                                <p className="text-xs text-muted-foreground">{activity.time}</p>
-                              </div>
+                      <Card key={index} className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-md transition-all duration-300">
+                        <CardContent className="p-4">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
+                              <Users className="h-5 w-5 text-purple-600" />
                             </div>
-                          </CardContent>
-                        </Card>
-                      </div>
+                            <div className="flex-1">
+                              <p className="text-sm text-foreground">
+                                <span className="font-semibold">{activity.client}</span> {activity.action}
+                              </p>
+                              <p className="text-xs text-muted-foreground">{activity.time}</p>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
                     ))}
                   </div>
                 </div>

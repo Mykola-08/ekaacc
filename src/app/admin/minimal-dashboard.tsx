@@ -3,7 +3,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { format } from 'date-fns';
-import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield } from 'lucide-react';
+import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield, Eye } from 'lucide-react';
+import { UserImpersonationDialog } from '@/components/admin/user-impersonation';
+import { useAuth } from '@/context/auth-context';
 import { getDataService } from '@/services/data-service';
 import type { User, Session } from '@/lib/types';
 import { Card } from '@/components/ui/card';
@@ -108,6 +110,8 @@ function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
 
 export default function MinimalAdminDashboard() {
   const { toast } = useToast();
+  const { user, hasPermission, startImpersonation } = useAuth();
+  const [showImpersonationDialog, setShowImpersonationDialog] = useState(false);
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
@@ -118,12 +122,34 @@ export default function MinimalAdminDashboard() {
   });
   const [isLoading, setIsLoading] = useState(true);
 
+  const canImpersonate = user && (
+    hasPermission('admin.impersonate') || 
+    hasPermission('admin.full_access') ||
+    user.role.name === 'admin'
+  );
+
+  const handleImpersonate = async (targetUserId: string, reason: string) => {
+    const { error } = await startImpersonation(targetUserId, reason);
+    if (error) {
+      toast({
+        title: 'Impersonation Failed',
+        description: error.message,
+        variant: 'destructive'
+      });
+    } else {
+      toast({
+        title: 'Impersonation Started',
+        description: 'You are now viewing the platform as the selected user'
+      });
+    }
+  };
+
   const fetchDashboardData = useCallback(async () => {
     try {
       const dataService = await getDataService();
       const [users, sessions] = await Promise.all([
         dataService.getAllUsers(),
-        dataService.getAllSessions()
+        dataService.getSessions()
       ]);
 
       const totalUsers = users.length;
@@ -185,6 +211,16 @@ export default function MinimalAdminDashboard() {
           <p className="text-gray-600">Overview of platform activity and user management</p>
         </div>
         <div className="flex gap-2">
+          {canImpersonate && (
+            <Button 
+              variant="outline" 
+              size="default"
+              onClick={() => setShowImpersonationDialog(true)}
+            >
+              <Eye className="w-4 h-4 mr-2" />
+              Impersonate User
+            </Button>
+          )}
           <Button 
             variant="outline" 
             size="default"
@@ -279,6 +315,15 @@ export default function MinimalAdminDashboard() {
           </Button>
         </div>
       </Card>
+
+      {/* Impersonation Dialog */}
+      {canImpersonate && (
+        <UserImpersonationDialog
+          open={showImpersonationDialog}
+          onOpenChange={setShowImpersonationDialog}
+          onImpersonate={handleImpersonate}
+        />
+      )}
     </div>
   );
 }

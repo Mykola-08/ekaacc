@@ -26,7 +26,8 @@ import {
   ChevronDown,
   Zap,
   Star,
-  Crown
+  Crown,
+  AlertTriangle
 } from 'lucide-react';
 import { TextShimmer } from '@/components/magicui/text-shimmer';
 import { BlurIn } from '@/components/magicui/blur-in';
@@ -74,23 +75,11 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const insightsRef = useRef(null);
-  const isInView = useInView(insightsRef, { threshold: 0.1 });
+  const isInView = useInView(insightsRef);
 
   const [input, setInput] = useState('');
-  const { messages, sendMessage, status } = useChat({
-    onResponse: (response: any) => {
-      // Update usage from response headers
-      const dailyUsage = response.headers.get('X-AI-Daily-Usage');
-      const limit = response.headers.get('X-AI-Limit');
-      if (dailyUsage && limit) {
-        setUsage({
-          daily: parseInt(dailyUsage),
-          limit: parseInt(limit),
-          resetTime: '24h'
-        });
-      }
-    }
-  });
+  const [error, setError] = useState<string | null>(null);
+  const { messages, sendMessage, status } = useChat();
 
   const isLoading = status === 'streaming' || status === 'submitted';
 
@@ -146,11 +135,17 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
     handleFormSubmit(new Event('submit') as any);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim()) {
-      sendMessage(input);
-      setInput('');
+      try {
+        setError(null);
+        await sendMessage(input as any);
+        setInput('');
+      } catch (err) {
+        setError('Failed to send message. Please try again.');
+        console.error('Chat error:', err);
+      }
     }
   };
 
@@ -383,6 +378,31 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
                       <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
                       <span className="text-sm text-slate-600 ml-2">Thinking...</span>
                     </div>
+                  </Card>
+                </motion.div>
+              )}
+              
+              {error && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex gap-3 mb-4"
+                >
+                  <Avatar className="w-8 h-8">
+                    <AvatarFallback className="bg-red-500">
+                      <AlertTriangle className="w-4 h-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                  <Card className="bg-red-50 border-red-200 p-3">
+                    <p className="text-sm text-red-700">{error}</p>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="mt-2"
+                      onClick={() => setError(null)}
+                    >
+                      Dismiss
+                    </Button>
                   </Card>
                 </motion.div>
               )}

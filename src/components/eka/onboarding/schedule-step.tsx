@@ -73,10 +73,7 @@ export function ScheduleStep({ onNext }: ScheduleStepProps) {
               )}
               <span className="text-3xl">{option.icon}</span>
               <RadioGroupItem
-                name="preferredTime"
                 value={option.value}
-                checked={preferredTime === option.value}
-                onChange={() => setPreferredTime(option.value)}
                 className="mt-0"
               />
               <div className="flex-1">
@@ -106,10 +103,7 @@ export function ScheduleStep({ onNext }: ScheduleStepProps) {
               )}
               <span className="text-3xl">{option.icon}</span>
               <RadioGroupItem
-                name="sessionFrequency"
                 value={option.value}
-                checked={sessionFrequency === option.value}
-                onChange={() => setSessionFrequency(option.value)}
                 className="mt-0"
               />
               <div className="flex-1">

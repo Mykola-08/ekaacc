@@ -55,10 +55,10 @@ export default function AthletePromotionalPage() {
         const preferences = personaData?.preferences || {};
         
         setPersonalization({
-          user_name: userData.name,
-          sport: userData.sport,
-          level: userData.athletic_level,
-          team: userData.team,
+          user_name: userData.name || '',
+          sport: userData.sport || '',
+          level: userData.athletic_level || '',
+          team: userData.team || '',
           pain_points: personaData?.pain_points || [],
           goals: personaData?.goals || [],
           preferred_session_length: preferences.preferred_session_length || '45-60min'
@@ -168,7 +168,7 @@ export default function AthletePromotionalPage() {
               </Badge>
             </InView>
             
-            <InView delay={0.1}>
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}>
               <TextEffect 
                 preset="blur" 
                 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
@@ -177,13 +177,13 @@ export default function AthletePromotionalPage() {
               </TextEffect>
             </InView>
 
-            <InView delay={0.2}>
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}>
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                 {heroSubtitle}
               </p>
             </InView>
 
-            <InView delay={0.3}>
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-green-600 hover:bg-green-700">
                   Start Free Consultation
@@ -210,7 +210,7 @@ export default function AthletePromotionalPage() {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {personalization.pain_points.slice(0, 6).map((painPoint, index) => (
-                <InView key={index} delay={index * 0.1}>
+                <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                   <Card className="p-6 border-l-4 border-red-400 hover:shadow-lg transition-shadow">
                     <div className="flex items-start space-x-3">
                       <div className="flex-shrink-0">
@@ -246,7 +246,7 @@ export default function AthletePromotionalPage() {
           
           <div className="grid md:grid-cols-2 gap-8">
             {performanceChallenges.map((challenge, index) => (
-              <InView key={index} delay={index * 0.1}>
+              <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                 <Card className="p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
@@ -286,7 +286,7 @@ export default function AthletePromotionalPage() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => (
-              <InView key={index} delay={index * 0.1}>
+              <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                 <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <benefit.icon className={`w-12 h-12 mx-auto mb-4 ${benefit.color}`} />
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
@@ -307,17 +307,17 @@ export default function AthletePromotionalPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center text-white">
             <InView>
-              <AnimatedNumber value={25} className="text-4xl font-bold mb-2" />
+              <AnimatedNumber value={25} className="text-4xl font-bold mb-2" as="span" />
               <p className="text-green-100">% average performance improvement</p>
             </InView>
             
-            <InView delay={0.1}>
-              <AnimatedNumber value={40} className="text-4xl font-bold mb-2" />
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}>
+              <AnimatedNumber value={40} className="text-4xl font-bold mb-2" as="span" />
               <p className="text-green-100">% faster injury recovery time</p>
             </InView>
             
-            <InView delay={0.2}>
-              <AnimatedNumber value={90} className="text-4xl font-bold mb-2" />
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}>
+              <AnimatedNumber value={90} className="text-4xl font-bold mb-2" as="span" />
               <p className="text-green-100">% improved mental resilience</p>
             </InView>
           </div>
@@ -335,7 +335,7 @@ export default function AthletePromotionalPage() {
           
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <InView key={index} delay={index * 0.1}>
+              <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                 <Card className="p-8">
                   <div className="flex items-center mb-4">
                     <div className="text-4xl text-yellow-400 mr-4">"</div>
@@ -380,13 +380,13 @@ export default function AthletePromotionalPage() {
             </h2>
           </InView>
           
-          <InView delay={0.1}>
+          <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}>
             <p className="text-xl text-green-100 mb-8">
               Join elite athletes who have gained a mental edge through sports psychology and mindfulness training
             </p>
           </InView>
           
-          <InView delay={0.2}>
+          <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-green-600 hover:bg-gray-100">
                 <CheckCircle className="mr-2 h-5 w-5" />
@@ -398,7 +398,7 @@ export default function AthletePromotionalPage() {
             </div>
           </InView>
           
-          <InView delay={0.3}>
+          <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}>
             <p className="text-sm text-green-100 mt-6">
               ✓ Sports psychology expertise ✓ Flexible scheduling around training ✓ Performance-focused approach
             </p>

@@ -375,7 +375,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
 
             {/* Title */}
             <h1 className={cn(
-              premiumHeroTitleVariants({ variant: variant === 'dark' || variant === 'premium' ? 'white' : 'primary' }),
+              premiumHeroTitleVariants({ gradient: variant === 'dark' || variant === 'premium' ? 'white' : 'primary' }),
               "animate-fade-in-up"
             )}>
               {title}

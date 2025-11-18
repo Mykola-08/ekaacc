@@ -22,7 +22,7 @@ export function NumberTicker({
 }: NumberTickerProps) {
   const ref = useRef<HTMLSpanElement>(null)
   const motionValue = useMotionValue(direction === "down" ? value : 0)
-  const springValue = useSpring(motionValue, { duration: duration * 1000, delay })
+  const springValue = useSpring(motionValue, { stiffness: 100, damping: 30 })
   const isInView = useInView(ref, { once: true, margin: "0px" })
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export function NumberTicker({
           ref.current.textContent = Intl.NumberFormat("en-US", {
             minimumFractionDigits: decimalPlaces,
             maximumFractionDigits: decimalPlaces,
-          }).format(latest)
+          }).format(Number(latest))
         }
       }),
     [springValue, decimalPlaces]

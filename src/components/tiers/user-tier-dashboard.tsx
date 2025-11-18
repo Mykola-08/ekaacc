@@ -121,7 +121,8 @@ const mockTierData: TierData = {
       sessionsRemaining: 7,
       supportRequests: 3,
       storageUsed: 2.5,
-      storageLimit: 10
+      storageLimit: 10,
+      storageRemaining: 7.5
     },
     loyalty: {
       pointsEarned: 1250,
@@ -147,8 +148,10 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
   const [activeTab, setActiveTab] = useState<'overview' | 'benefits' | 'progress' | 'history'>('overview');
 
   useEffect(() => {
-    fetchUserTiers();
-  }, [fetchUserTiers]);
+    if (userId) {
+      fetchUserTiers(userId);
+    }
+  }, [fetchUserTiers, userId]);
 
   // Move benefits arrays inside the component to avoid null access
   const getVipBenefits = (data: typeof tierData) => data ? [
@@ -382,7 +385,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Discount Available</span>
                   <Badge variant="secondary">
-                    {tierData.usage.loyalty.discountAvailable}%
+                    {tierData.usage.loyalty?.discountAvailable || 0}%
                   </Badge>
                 </div>
 

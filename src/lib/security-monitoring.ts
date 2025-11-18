@@ -153,6 +153,8 @@ class SecurityMonitoringService {
       action: 'access_denied',
       result: false,
       reason,
+      ipAddress: context?.ipAddress || 'unknown',
+      userAgent: context?.userAgent || 'unknown',
       metadata: context
     });
   }
@@ -176,6 +178,8 @@ class SecurityMonitoringService {
       action: 'permission_check',
       result: false,
       reason: `Missing permission: ${requiredPermission}`,
+      ipAddress: context?.ipAddress || 'unknown',
+      userAgent: context?.userAgent || 'unknown',
       metadata: context
     });
   }
@@ -200,6 +204,8 @@ class SecurityMonitoringService {
       action: 'navigation_check',
       result,
       reason,
+      ipAddress: context?.ipAddress || 'unknown',
+      userAgent: context?.userAgent || 'unknown',
       metadata: {
         href: item.href,
         label: item.label,
@@ -228,6 +234,8 @@ class SecurityMonitoringService {
       action: activity,
       result: false,
       reason: 'Suspicious behavior detected',
+      ipAddress: context?.ipAddress || 'unknown',
+      userAgent: context?.userAgent || 'unknown',
       metadata: context
     });
   }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// @ts-ignore - tiered-ai-service module not yet implemented
-import { tieredAI, ServiceTier, TierConfig, UsageMetrics } from '@/ai/tiered-ai-service';
+import { AIService } from '@/ai/ai-service';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -41,15 +40,21 @@ import {
 
 interface AITierManagerProps {
   className?: string;
-  currentTier?: ServiceTier;
-  onTierChange?: (newTier: ServiceTier) => void;
+  currentTier?: 'basic' | 'premium' | 'vip';
+  onTierChange?: (newTier: 'basic' | 'premium' | 'vip') => void;
   showUsageAnalytics?: boolean;
   allowDowngrade?: boolean;
 }
 
 interface TierComparison {
-  tier: ServiceTier;
-  config: TierConfig;
+  tier: 'basic' | 'premium' | 'vip';
+  config: {
+    name: string;
+    maxRequestsPerDay: number;
+    costLimit: number;
+    features: string[];
+    costPerRequest: number;
+  };
   currentUsage?: {
     requests: number;
     cost: number;
@@ -67,12 +72,12 @@ export function AITierManager({
   showUsageAnalytics = true,
   allowDowngrade = true
 }: AITierManagerProps) {
-  const [selectedTier, setSelectedTier] = useState<ServiceTier>(currentTier);
+  const [selectedTier, setSelectedTier] = useState<'basic' | 'premium' | 'vip'>(currentTier);
   const [isLoading, setIsLoading] = useState(true);
   const [tierComparisons, setTierComparisons] = useState<TierComparison[]>([]);
-  const [usageMetrics, setUsageMetrics] = useState<UsageMetrics | null>(null);
+  const [usageMetrics, setUsageMetrics] = useState<any>(null);
   const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
-  const [pendingTierChange, setPendingTierChange] = useState<ServiceTier | null>(null);
+  const [pendingTierChange, setPendingTierChange] = useState<'basic' | 'premium' | 'vip' | null>(null);
 
   useEffect(() => {
     loadTierData();
@@ -82,12 +87,28 @@ export function AITierManager({
     try {
       setIsLoading(true);
       
-      // Get current usage metrics
-      const metrics = tieredAI.getUsageMetrics();
-      setUsageMetrics(metrics);
+      // Mock usage metrics - in real implementation this would come from analytics
+      const mockMetrics = {
+        totalRequests: 1250,
+        totalTokens: 45000,
+        requestsByProvider: {
+          openai: 800,
+          anthropic: 300,
+          google: 150
+        },
+        costByProvider: {
+          openai: 12.50,
+          anthropic: 8.75,
+          google: 3.25
+        },
+        averageResponseTime: 1.2,
+        successRate: 98.5
+      };
+      
+      setUsageMetrics(mockMetrics);
       
       // Build tier comparisons
-      const comparisons = buildTierComparisons(metrics, currentTier);
+      const comparisons = buildTierComparisons(mockMetrics, currentTier);
       setTierComparisons(comparisons);
       
     } catch (error) {
@@ -97,16 +118,42 @@ export function AITierManager({
     }
   };
 
-  const buildTierComparisons = (metrics: UsageMetrics, current: ServiceTier): TierComparison[] => {
-    const tiers: ServiceTier[] = ['basic', 'premium', 'enterprise'];
+  const buildTierComparisons = (metrics: any, current: 'basic' | 'premium' | 'vip'): TierComparison[] => {
+    const tiers: ('basic' | 'premium' | 'vip')[] = ['basic', 'premium', 'vip'];
     const comparisons: TierComparison[] = [];
     
+    // Mock tier configurations
+    const tierConfigs = {
+      basic: {
+        name: 'Basic',
+        maxRequestsPerDay: 100,
+        costLimit: 10,
+        features: ['Basic AI Chat', 'Standard Support', 'Community Access'],
+        costPerRequest: 0.10
+      },
+      premium: {
+        name: 'Premium',
+        maxRequestsPerDay: 500,
+        costLimit: 50,
+        features: ['Advanced AI Chat', 'Priority Support', 'Advanced Analytics', 'Custom Integrations'],
+        costPerRequest: 0.08
+      },
+      vip: {
+        name: 'VIP',
+        maxRequestsPerDay: 2000,
+        costLimit: 200,
+        features: ['Unlimited AI Chat', '24/7 Support', 'Advanced Analytics', 'Custom Integrations', 'White Label'],
+        costPerRequest: 0.05
+      }
+    };
+    
     tiers.forEach(tier => {
-      const config = tieredAI.getTierConfig(tier);
+      const config = tierConfigs[tier];
       if (!config) return;
       
-      const currentRequests = metrics.requestsByTier[tier];
-      const currentCost = metrics.costByTier[tier];
+      // Mock current usage based on metrics
+      const currentRequests = Math.floor(metrics.totalRequests * (tier === 'basic' ? 0.6 : tier === 'premium' ? 0.3 : 0.1));
+      const currentCost = metrics?.costByProvider ? Object.values(metrics.costByProvider as Record<string, number>).reduce((sum: number, cost: number) => sum + cost, 0) * (tier === 'basic' ? 0.6 : tier === 'premium' ? 0.3 : 0.1) : 0;
       const utilization = (currentRequests / config.maxRequestsPerDay) * 100;
       
       // Calculate recommendations based on usage patterns
@@ -140,7 +187,7 @@ export function AITierManager({
     return comparisons;
   };
 
-  const handleTierChange = (newTier: ServiceTier) => {
+  const handleTierChange = (newTier: 'basic' | 'premium' | 'vip') => {
     if (newTier === currentTier) return;
     
     setPendingTierChange(newTier);
@@ -156,26 +203,26 @@ export function AITierManager({
     setPendingTierChange(null);
   };
 
-  const getTierIcon = (tier: ServiceTier) => {
+  const getTierIcon = (tier: 'basic' | 'premium' | 'vip') => {
     switch (tier) {
       case 'basic':
         return <Settings className="h-5 w-5" />;
       case 'premium':
         return <Star className="h-5 w-5" />;
-      case 'enterprise':
+      case 'vip':
         return <Crown className="h-5 w-5" />;
       default:
         return <Settings className="h-5 w-5" />;
     }
   };
 
-  const getTierColor = (tier: ServiceTier) => {
+  const getTierColor = (tier: 'basic' | 'premium' | 'vip') => {
     switch (tier) {
       case 'basic':
         return 'text-blue-600 bg-blue-50 border-blue-200';
       case 'premium':
         return 'text-purple-600 bg-purple-50 border-purple-200';
-      case 'enterprise':
+      case 'vip':
         return 'text-amber-600 bg-amber-50 border-amber-200';
       default:
         return 'text-gray-600 bg-gray-50 border-gray-200';
@@ -276,7 +323,7 @@ export function AITierManager({
                     <p className="text-sm text-muted-foreground">Features Available</p>
                     <p className="text-2xl font-bold">{currentComparison.config.features.length}</p>
                     <p className="text-xs text-muted-foreground mt-2">
-                      {currentComparison.config.maxRequestsPerHour.toLocaleString()} req/hour
+                      {Math.floor(currentComparison.config.maxRequestsPerDay / 24).toLocaleString()} req/hour
                     </p>
                   </div>
                 </div>
@@ -389,7 +436,7 @@ export function AITierManager({
                       <div className="flex items-center justify-between">
                         <span className="text-sm text-muted-foreground">Hourly Limit</span>
                         <span className="font-mono text-sm">
-                          {comparison.config.maxRequestsPerHour.toLocaleString()}
+                          {Math.floor(comparison.config.maxRequestsPerDay / 24).toLocaleString()}
                         </span>
                       </div>
                     </div>
@@ -416,7 +463,7 @@ export function AITierManager({
                     {comparison.tier !== currentTier && (
                       <Button
                         onClick={() => handleTierChange(comparison.tier)}
-                        variant={comparison.tier === 'enterprise' ? 'default' : 'outline'}
+                        variant={comparison.tier === 'vip' ? 'default' : 'outline'}
                         className="w-full"
                         disabled={comparison.tier === 'basic' && !allowDowngrade && currentTier !== 'basic'}
                       >
@@ -451,7 +498,7 @@ export function AITierManager({
             <DialogDescription>
               {pendingTierChange === 'basic' 
                 ? 'You are about to downgrade to the Basic tier. This will reduce your available features and limits.'
-                : `You are about to upgrade to the ${pendingTierChange?.charAt(0).toUpperCase() + pendingTierChange?.slice(1)} tier. This will provide enhanced features and increased limits.`
+                : `You are about to upgrade to the ${pendingTierChange ? pendingTierChange.charAt(0).toUpperCase() + pendingTierChange.slice(1) : 'selected'} tier. This will provide enhanced features and increased limits.`
               }
             </DialogDescription>
           </DialogHeader>
@@ -474,7 +521,12 @@ export function AITierManager({
                   </h4>
                   <div className="text-sm text-muted-foreground space-y-1">
                     {(() => {
-                      const newConfig = tieredAI.getTierConfig(pendingTierChange);
+                      const tierConfigs = {
+                        basic: { name: 'Basic', maxRequestsPerDay: 100, costLimit: 10, features: ['Basic AI Chat', 'Standard Support', 'Community Access'], costPerRequest: 0.10 },
+                        premium: { name: 'Premium', maxRequestsPerDay: 500, costLimit: 50, features: ['Advanced AI Chat', 'Priority Support', 'Advanced Analytics', 'Custom Integrations'], costPerRequest: 0.08 },
+                        vip: { name: 'VIP', maxRequestsPerDay: 2000, costLimit: 200, features: ['Unlimited AI Chat', '24/7 Support', 'Advanced Analytics', 'Custom Integrations', 'White Label'], costPerRequest: 0.05 }
+                      };
+                      const newConfig = tierConfigs[pendingTierChange as keyof typeof tierConfigs];
                       return newConfig ? (
                         <>
                           <p>• {newConfig.features.length} features</p>

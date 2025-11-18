@@ -49,11 +49,11 @@ export default function FormsPage() {
   // Track page visit for personalization
   useEffect(() => {
     if (currentUser) {
-      const updates = PersonalizationEngine.trackActivity(currentUser, {
+      const updates = PersonalizationEngine.trackActivity(currentUser as any, {
         type: 'page-visit',
         data: { page: '/forms' }
       });
-      updateUser({ user_metadata: { ...(currentUser.user_metadata || {}), activityData: { ...((currentUser.user_metadata as any)?.activityData || {}), ...updates } } } as any);
+      updateUser({ user_metadata: { ...(currentUser.user_metadata || {}), activityData: { ...((currentUser.user_metadata as any)?.activityData || {}), ...updates } } });
     }
   }, [currentUser, updateUser]);
 

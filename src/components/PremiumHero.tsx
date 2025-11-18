@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, type Variants, type Variants } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ArrowRight, Sparkles, Heart, Users, Shield, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';

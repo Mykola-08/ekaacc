@@ -15,11 +15,12 @@ import {
 } from "lucide-react";
 
 import { useAuth } from '@/lib/supabase-auth';
+import { supabase } from '@/lib/supabase';
 import { useAppStore } from '@/store/app-store';
 import { Card } from '@/components/ui/card';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { format } from "date-fns";
 import type { User, Session as AppSession } from "@/lib/types";
@@ -133,11 +134,10 @@ function MinimalRecentClients({ clients }: { clients: User[] }) {
           <Card key={client.id} className="p-3 bg-gray-50">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <Avatar 
-                  src={client.avatar_url} 
-                  alt={client.name || client.email}
-                  size="sm"
-                />
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={client.avatarUrl} alt={client.name || client.email} />
+                  <AvatarFallback>{client.name?.charAt(0) || client.email.charAt(0)}</AvatarFallback>
+                </Avatar>
                 <div>
                   <p className="font-medium text-sm">{client.name || client.email}</p>
                   <p className="text-sm text-gray-600">
@@ -176,7 +176,7 @@ export default function MinimalTherapistDashboard() {
     setIsLoading(true);
     try {
       // Get sessions for this therapist
-      const allSessions = await dataService.getAllSessions();
+      const allSessions = await dataService.getSessions();
       const therapistSessions = allSessions.filter((session: any) => 
         session.therapistId === currentUser.id || 
         session.therapist === currentUser.name ||
@@ -186,7 +186,14 @@ export default function MinimalTherapistDashboard() {
       // Get unique clients
       const clientIds = [...new Set(therapistSessions.map((s: any) => s.userId))];
       const clientData = await Promise.all(
-        clientIds.map((id: string) => dataService.getUserById(id))
+        clientIds.map(async (id: string) => {
+          try {
+            const { data } = await supabase.from('users').select('*').eq('id', id).single();
+            return data;
+          } catch {
+            return null;
+          }
+        })
       );
       
       setSessions(therapistSessions);

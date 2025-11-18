@@ -1,13 +1,16 @@
 // Production-grade notifications service with Supabase integration
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase';
+import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from '@/lib/supabase-utils';
 
 export const fxNotifications = {
   async listNotifications() {
     try {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQuery<any[]>(
+        supabase
+          .from('notifications')
+          .select('*')
+          .order('created_at', { ascending: false })
+      );
       
       if (error) {
         // Suppress console error since we handle fallback in UI
@@ -22,9 +25,8 @@ export const fxNotifications = {
   },
   async createNotification(n: { userId?: string; title: string; body?: string; type?: string }) {
     try {
-      const { data, error } = await supabase
-        .from('notifications')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<any>(
+        'notifications', {
           user_id: n.userId,
           title: n.title,
           body: n.body,
@@ -32,9 +34,8 @@ export const fxNotifications = {
           is_read: false,
           seen: false,
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error creating notification:', error);
@@ -49,12 +50,11 @@ export const fxNotifications = {
   },
   async markSeen(id: string) {
     try {
-      const { data, error } = await supabase
-        .from('notifications')
-        .update({ seen: true, seen_at: new Date().toISOString() })
-        .eq('id', id)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<any>(
+        'notifications', 
+        { seen: true, seen_at: new Date().toISOString() }, 
+        { id }
+      );
       
       if (error) {
         console.error('Error marking notification as seen:', error);

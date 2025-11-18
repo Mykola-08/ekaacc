@@ -6,6 +6,7 @@ import { AuthProvider } from '@/context/auth-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
+import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
 
 
 export const metadata: Metadata = {
@@ -49,7 +50,9 @@ export default function RootLayout({
           >
             <ProgressProvider>
               <TooltipProvider>
-                {children}
+                <ImpersonationWrapper>
+                  {children}
+                </ImpersonationWrapper>
                 <Toaster />
               </TooltipProvider>
             </ProgressProvider>

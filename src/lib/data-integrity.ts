@@ -1,5 +1,6 @@
 // Production-grade data consistency and transactional integrity utilities
 import { supabase } from './supabase';
+import { safeSupabaseQuery, safeSupabaseInsert, safeSupabaseUpdate } from './supabase-utils';
 import { logger } from './logging';
 import { AppError } from './error-handling';
 
@@ -219,17 +220,16 @@ export class TransactionManager {
       
       // Create the session
       async () => {
-        const { data: session, error } = await supabase
-          .from('sessions')
-          .insert([{
+        const { data: session, error } = await safeSupabaseInsert<any>(
+          'sessions',
+          {
             user_id: userId,
             therapist_id: therapistId,
             session_data: sessionData,
             status: 'scheduled',
             created_at: new Date().toISOString(),
-          }])
-          .select()
-          .single();
+          }
+        );
         
         if (error) {
           throw new AppError(`Failed to create session: ${error.message}`, 'DATABASE_ERROR', 500);
@@ -240,17 +240,16 @@ export class TransactionManager {
       
       // Create billing record
       async () => {
-        const { data: billingRecord, error } = await supabase
-          .from('billing_transactions')
-          .insert([{
+        const { data: billingRecord, error } = await safeSupabaseInsert<any>(
+          'billing_transactions',
+          {
             client_id: userId,
             session_id: sessionData.id,
             amount_eur: -100, // Example session cost
             type: 'session_booking',
             created_at: new Date().toISOString(),
-          }])
-          .select()
-          .single();
+          }
+        );
         
         if (error) {
           throw new AppError(`Failed to create billing record: ${error.message}`, 'DATABASE_ERROR', 500);
@@ -261,15 +260,16 @@ export class TransactionManager {
       
       // Send confirmation notification
       async () => {
-        const { error } = await supabase
-          .from('notifications')
-          .insert([{
+        const { error } = await safeSupabaseInsert<any>(
+          'notifications',
+          {
             user_id: userId,
             title: 'Session Booked',
             body: `Your session with therapist ${therapistId} has been scheduled for ${sessionData.date} at ${sessionData.time}`,
             type: 'session_confirmation',
             created_at: new Date().toISOString(),
-          }]);
+          }
+        );
         
         if (error) {
           logger.warn(`Failed to send session confirmation notification: ${error.message}`);
@@ -300,12 +300,14 @@ export class TransactionManager {
     return await this.executeInTransaction([
       // Get current subscription
       async () => {
-        const { data: subscription, error } = await supabase
-          .from('subscriptions')
-          .select('*')
-          .eq('user_id', userId)
-          .eq('status', 'active')
-          .single();
+        const { data: subscription, error } = await safeSupabaseQuery<any>(
+          supabase
+            .from('subscriptions')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('status', 'active')
+            .single()
+        );
         
         if (error) {
           throw new AppError(`Failed to fetch current subscription: ${error.message}`, 'DATABASE_ERROR', 500);
@@ -336,9 +338,9 @@ export class TransactionManager {
         const newEndDate = new Date();
         newEndDate.setMonth(newEndDate.getMonth() + 1);
         
-        const { data: newSubscription, error } = await supabase
-          .from('subscriptions')
-          .insert([{
+        const { data: newSubscription, error } = await safeSupabaseInsert<any>(
+          'subscriptions',
+          {
             user_id: userId,
             plan: newPlan,
             amount: 100, // Example new plan amount
@@ -347,9 +349,8 @@ export class TransactionManager {
             status: 'active',
             prorated_credit: proratedCredit,
             created_at: new Date().toISOString(),
-          }])
-          .select()
-          .single();
+          }
+        );
         
         if (error) {
           throw new AppError(`Failed to create new subscription: ${error.message}`, 'DATABASE_ERROR', 500);
@@ -361,10 +362,11 @@ export class TransactionManager {
       // Cancel old subscription
       async () => {
         
-        const { error } = await supabase
-          .from('subscriptions')
-          .update({ status: 'cancelled' })
-          .eq('id', currentSubscription.id);
+        const { error } = await safeSupabaseUpdate<any>(
+          'subscriptions',
+          { status: 'cancelled' },
+          { id: currentSubscription.id }
+        );
         
         if (error) {
           throw new AppError(`Failed to cancel old subscription: ${error.message}`, 'DATABASE_ERROR', 500);

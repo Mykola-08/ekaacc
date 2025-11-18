@@ -10,15 +10,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import {
-  IconNotes,
-  IconUserCircle,
-  IconCalendarEvent,
-  IconClock,
-  IconMoodHappy,
-  IconTargetArrow,
-  IconChecklist,
-  IconFileText,
-} from '@tabler/icons-react'
+  FileText,
+  UserCircle,
+  CalendarDays,
+  Clock,
+  Smile,
+  Target,
+  CheckSquare,
+  FileText as FileTextIcon,
+} from 'lucide-react'
 import { Descendant } from 'slate'
 
 export default function SessionNotesPage() {
@@ -47,7 +47,7 @@ export default function SessionNotesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold flex items-center gap-2">
-            <IconNotes className="h-8 w-8 text-primary" />
+            <FileText className="h-8 w-8 text-primary" />
             Session Notes
           </h1>
           <p className="text-muted-foreground mt-1">
@@ -55,7 +55,7 @@ export default function SessionNotesPage() {
           </p>
         </div>
         <Button onClick={handleSave} size="lg" className="gap-2">
-          <IconFileText className="h-5 w-5" />
+          <FileTextIcon className="h-5 w-5" />
           Save Notes
         </Button>
       </div>
@@ -70,7 +70,7 @@ export default function SessionNotesPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="space-y-2">
               <Label htmlFor="client" className="flex items-center gap-2">
-                <IconUserCircle className="h-4 w-4" />
+                <UserCircle className="h-4 w-4" />
                 Client Name
               </Label>
               <Input
@@ -83,7 +83,7 @@ export default function SessionNotesPage() {
 
             <div className="space-y-2">
               <Label htmlFor="date" className="flex items-center gap-2">
-                <IconCalendarEvent className="h-4 w-4" />
+                <CalendarDays className="h-4 w-4" />
                 Session Date
               </Label>
               <Input
@@ -96,7 +96,7 @@ export default function SessionNotesPage() {
 
             <div className="space-y-2">
               <Label htmlFor="duration" className="flex items-center gap-2">
-                <IconClock className="h-4 w-4" />
+                <Clock className="h-4 w-4" />
                 Duration (min)
               </Label>
               <Select value={sessionDuration} onValueChange={setSessionDuration}>
@@ -114,7 +114,7 @@ export default function SessionNotesPage() {
 
             <div className="space-y-2">
               <Label htmlFor="type" className="flex items-center gap-2">
-                <IconNotes className="h-4 w-4" />
+                <FileText className="h-4 w-4" />
                 Session Type
               </Label>
               <Select value={sessionType} onValueChange={setSessionType}>
@@ -133,7 +133,7 @@ export default function SessionNotesPage() {
 
           <div className="mt-4 space-y-2">
             <Label htmlFor="mood" className="flex items-center gap-2">
-              <IconMoodHappy className="h-4 w-4" />
+              <Smile className="h-4 w-4" />
               Client Mood Rating (1-10)
             </Label>
             <div className="flex gap-2">
@@ -157,19 +157,19 @@ export default function SessionNotesPage() {
       <Tabs defaultValue="notes" className="space-y-4">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="notes" className="gap-2">
-            <IconNotes className="h-4 w-4" />
+            <FileText className="h-4 w-4" />
             Session Notes
           </TabsTrigger>
           <TabsTrigger value="observations" className="gap-2">
-            <IconUserCircle className="h-4 w-4" />
+            <UserCircle className="h-4 w-4" />
             Observations
           </TabsTrigger>
           <TabsTrigger value="goals" className="gap-2">
-            <IconTargetArrow className="h-4 w-4" />
+            <Target className="h-4 w-4" />
             Goals
           </TabsTrigger>
           <TabsTrigger value="homework" className="gap-2">
-            <IconChecklist className="h-4 w-4" />
+            <CheckSquare className="h-4 w-4" />
             Homework
           </TabsTrigger>
         </TabsList>

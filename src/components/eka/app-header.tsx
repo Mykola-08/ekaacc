@@ -16,7 +16,7 @@ export function AppHeader() {
   const { user: currentUser } = useAuth();
   const router = useRouter();
 
-  const isClient = currentUser?.role === 'Patient';
+  const isClient = currentUser?.role.name === 'Patient';
 
   return (
     <motion.header

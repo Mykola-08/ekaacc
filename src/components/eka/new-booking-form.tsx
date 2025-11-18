@@ -29,18 +29,28 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
   const [selectedTime, setSelectedTime] = useState<string>('10:00');
   const [notes, setNotes] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [clientsLoading, setClientsLoading] = useState(false);
+  const [clientsError, setClientsError] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     if (open) {
       const fetchClients = async () => {
+        setClientsLoading(true);
+        setClientsError(null);
         try {
           const users = await fxService.getUsers();
-          const patients = users.filter(u => !u.role || u.role === 'Patient');
+          const patients = users.filter(u => !u.role || u.role.name === 'Patient');
           setClients(patients);
+          if (patients.length === 0) {
+            setClientsError('No patients found in the system.');
+          }
         } catch (error) {
           console.error('Failed to fetch clients:', error);
+          setClientsError('Failed to load clients. Please try again.');
           toast({ title: 'Error', description: 'Could not load clients.', variant: 'destructive' });
+        } finally {
+          setClientsLoading(false);
         }
       };
       fetchClients();
@@ -87,9 +97,24 @@ export function NewBookingForm({ open, onClose, onSubmitSuccess, therapistId }: 
           <div className="grid grid-cols-4 items-center gap-4">
             <label htmlFor="client" className="text-right">Client</label>
             <Select onValueChange={setSelectedClientId} value={selectedClientId}>
-              <SelectValue placeholder="Select a client"  />
+              <SelectValue placeholder={clientsLoading ? "Loading clients..." : "Select a client"}  />
               <SelectContent>
-                {clients.map(client => (
+                {clientsLoading && (
+                  <div className="p-4 text-center text-sm text-gray-500">
+                    Loading clients...
+                  </div>
+                )}
+                {clientsError && (
+                  <div className="p-4 text-center text-sm text-red-500">
+                    {clientsError}
+                  </div>
+                )}
+                {!clientsLoading && !clientsError && clients.length === 0 && (
+                  <div className="p-4 text-center text-sm text-gray-500">
+                    No clients available
+                  </div>
+                )}
+                {!clientsLoading && !clientsError && clients.map(client => (
                   <SelectItem key={client.id} value={client.id}>{client.name}</SelectItem>
                 ))}
               </SelectContent>

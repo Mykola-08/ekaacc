@@ -1,7 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { DynamicSidebar } from '@/components/navigation/dynamic-sidebar';
+import { AppSidebar } from '@/components/navigation/ShadcnSidebar';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppHeader } from '@/components/eka/app-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,7 +27,6 @@ import { useAuth } from '@/context/auth-context';
 
 export default function NavigationSystemDemo() {
   const { user } = useAuth();
-  const [showSidebar, setShowSidebar] = useState(true);
   const [showMetrics, setShowMetrics] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -35,9 +36,6 @@ export default function NavigationSystemDemo() {
     setIsRefreshing(true);
     try {
       invalidateUserPermissionCache(user.id);
-      // Force re-render by toggling sidebar
-      setShowSidebar(false);
-      setTimeout(() => setShowSidebar(true), 100);
     } catch (error) {
       console.error('Failed to refresh permissions:', error);
     } finally {
@@ -49,199 +47,166 @@ export default function NavigationSystemDemo() {
   const alerts = user ? getSecurityAlerts({ acknowledged: false, limit: 5 }) : [];
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="flex h-screen">
-        {/* Dynamic Sidebar */}
-        <DynamicSidebar
-          isCollapsed={!showSidebar}
-          onCollapseChange={setShowSidebar}
-          showRoleIndicator={true}
-          showSecurityAlerts={true}
-          enableRealTimeUpdates={true}
-          className="border-r"
-        />
+    <SidebarProvider>
+      <div className="min-h-screen bg-background">
+        <div className="flex h-screen">
+          {/* Shadc Sidebar - Only sidebar that remains */}
+          <AppSidebar />
 
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col">
-          {/* Header */}
-          <header className="border-b bg-card px-6 py-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold">Dynamic Navigation System</h1>
-                <p className="text-muted-foreground">
-                  Role-based access control with real-time permission updates
-                </p>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleRefreshPermissions}
-                  disabled={isRefreshing}
-                >
-                  <RefreshCw className={cn("h-4 w-4 mr-2", isRefreshing && "animate-spin")} />
-                  Refresh Permissions
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowMetrics(!showMetrics)}
-                >
-                  {showMetrics ? <EyeOff className="h-4 w-4 mr-2" /> : <Eye className="h-4 w-4 mr-2" />}
-                  {showMetrics ? 'Hide' : 'Show'} Metrics
-                </Button>
-              </div>
-            </div>
-          </header>
+          {/* Main Content */}
+          <div className="flex-1 flex flex-col">
+            {/* Header */}
+            <AppHeader />
 
-          {/* Demo Content */}
-          <div className="flex-1 overflow-auto p-6">
-            <div className="max-w-6xl mx-auto space-y-6">
-              {/* User Info Card */}
-              {user && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Shield className="h-5 w-5" />
-                      <span>Current User Information</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Your current role and permission status
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium">User ID</p>
-                        <p className="text-sm text-muted-foreground font-mono">
-                          {user.id}
-                        </p>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium">Role</p>
-                        <Badge variant="secondary" className="text-sm">
-                          {user.role.name}
-                        </Badge>
-                      </div>
-                      <div className="space-y-1">
-                        <p className="text-sm font-medium">Status</p>
-                        <div className="flex items-center space-x-2">
-                          <CheckCircle className="h-4 w-4 text-green-500" />
-                          <span className="text-sm text-green-600">Active</span>
+            {/* Demo Content */}
+            <div className="flex-1 overflow-auto p-6">
+              <div className="max-w-6xl mx-auto space-y-6">
+                {/* User Info Card */}
+                {user && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <Shield className="h-5 w-5" />
+                        <span>Current User Information</span>
+                      </CardTitle>
+                      <CardDescription>
+                        Your current role and permission status
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">User ID</p>
+                          <p className="text-sm text-muted-foreground font-mono">
+                            {user.id}
+                          </p>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">Role</p>
+                          <Badge variant="secondary" className="text-sm">
+                            {user.role.name}
+                          </Badge>
+                        </div>
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium">Status</p>
+                          <div className="flex items-center space-x-2">
+                            <CheckCircle className="h-4 w-4 text-green-500" />
+                            <span className="text-sm text-green-600">Active</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+                    </CardContent>
+                  </Card>
+                )}
 
-              {/* Security Metrics */}
-              {showMetrics && metrics && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <Activity className="h-5 w-5" />
-                      <span>Security Metrics</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Real-time security monitoring data
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                      <MetricCard
-                        title="Total Events"
-                        value={metrics.totalEvents}
-                        icon={Activity}
-                        color="text-blue-600"
-                      />
-                      <MetricCard
-                        title="Active Alerts"
-                        value={metrics.activeAlerts}
-                        icon={AlertTriangle}
-                        color="text-red-600"
-                      />
-                      <MetricCard
-                        title="Acknowledged"
-                        value={metrics.acknowledgedAlerts}
-                        icon={CheckCircle}
-                        color="text-green-600"
-                      />
-                      <MetricCard
-                        title="Auto-Resolved"
-                        value={metrics.autoResolvedAlerts}
-                        icon={RefreshCw}
-                        color="text-purple-600"
-                      />
-                    </div>
+                {/* Security Metrics */}
+                {showMetrics && metrics && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <Activity className="h-5 w-5" />
+                        <span>Security Metrics</span>
+                      </CardTitle>
+                      <CardDescription>
+                        Real-time security monitoring data
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <MetricCard
+                          title="Total Events"
+                          value={metrics.totalEvents}
+                          icon={Activity}
+                          color="text-blue-600"
+                        />
+                        <MetricCard
+                          title="Active Alerts"
+                          value={metrics.activeAlerts}
+                          icon={AlertTriangle}
+                          color="text-red-600"
+                        />
+                        <MetricCard
+                          title="Acknowledged"
+                          value={metrics.acknowledgedAlerts}
+                          icon={CheckCircle}
+                          color="text-green-600"
+                        />
+                        <MetricCard
+                          title="Auto-Resolved"
+                          value={metrics.autoResolvedAlerts}
+                          icon={RefreshCw}
+                          color="text-purple-600"
+                        />
+                      </div>
 
-                    {/* Event Breakdown */}
-                    <div className="mt-6">
-                      <h4 className="text-sm font-medium mb-3">Events by Type</h4>
-                      <div className="space-y-2">
-                        {Object.entries(metrics.eventsByType).map(([type, count]) => (
-                          <div key={type} className="flex items-center justify-between">
-                            <span className="text-sm text-muted-foreground capitalize">
-                              {type.replace(/_/g, ' ')}
-                            </span>
-                            <Badge variant="outline" className="text-xs">
-                              {count}
-                            </Badge>
-                          </div>
+                      {/* Event Breakdown */}
+                      <div className="mt-6">
+                        <h4 className="text-sm font-medium mb-3">Events by Type</h4>
+                        <div className="space-y-2">
+                          {Object.entries(metrics.eventsByType).map(([type, count]) => (
+                            <div key={type} className="flex items-center justify-between">
+                              <span className="text-sm text-muted-foreground capitalize">
+                                {type.replace(/_/g, ' ')}
+                              </span>
+                              <Badge variant="outline" className="text-xs">
+                                {count}
+                              </Badge>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Recent Alerts */}
+                {alerts.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center space-x-2">
+                        <AlertTriangle className="h-5 w-5" />
+                        <span>Recent Security Alerts</span>
+                      </CardTitle>
+                      <CardDescription>
+                        Unacknowledged security alerts requiring attention
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {alerts.map(alert => (
+                          <AlertCard key={alert.id} alert={alert} />
                         ))}
                       </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
+                    </CardContent>
+                  </Card>
+                )}
 
-              {/* Recent Alerts */}
-              {alerts.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center space-x-2">
-                      <AlertTriangle className="h-5 w-5" />
-                      <span>Recent Security Alerts</span>
-                    </CardTitle>
-                    <CardDescription>
-                      Unacknowledged security alerts requiring attention
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {alerts.map(alert => (
-                        <AlertCard key={alert.id} alert={alert} />
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Feature Showcase */}
-              <Tabs defaultValue="features" className="w-full">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="features">Features</TabsTrigger>
-                  <TabsTrigger value="permissions">Permissions</TabsTrigger>
-                  <TabsTrigger value="security">Security</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="features" className="space-y-4">
-                  <FeatureShowcase />
-                </TabsContent>
-                
-                <TabsContent value="permissions" className="space-y-4">
-                  <PermissionMatrix />
-                </TabsContent>
-                
-                <TabsContent value="security" className="space-y-4">
-                  <SecurityFeatures />
-                </TabsContent>
-              </Tabs>
+                {/* Feature Showcase */}
+                <Tabs defaultValue="features" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="features">Features</TabsTrigger>
+                    <TabsTrigger value="permissions">Permissions</TabsTrigger>
+                    <TabsTrigger value="security">Security</TabsTrigger>
+                  </TabsList>
+                  
+                  <TabsContent value="features" className="space-y-4">
+                    <FeatureShowcase />
+                  </TabsContent>
+                  
+                  <TabsContent value="permissions" className="space-y-4">
+                    <PermissionMatrix />
+                  </TabsContent>
+                  
+                  <TabsContent value="security" className="space-y-4">
+                    <SecurityFeatures />
+                  </TabsContent>
+                </Tabs>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }
 

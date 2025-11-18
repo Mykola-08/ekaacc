@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { AISDKNextService } from '@/ai/ai-sdk-next-service';
 // import { auth } from '@clerk/nextjs/server'; // Removed clerk dependency
 
-const aiService = new AISDKNextService();
+const aiService = AISDKNextService.getInstance();
 
 export async function POST(req: NextRequest) {
   try {
@@ -56,20 +56,13 @@ export async function POST(req: NextRequest) {
         headers: {
           'Content-Type': 'text/stream',
           'Cache-Control': 'no-cache',
-          'Connection': 'keep-alive',
-          'X-AI-Daily-Usage': response.usage?.daily?.toString() || '0',
-          'X-AI-Limit': response.usage?.limit?.toString() || '0'
+          'Connection': 'keep-alive'
         }
       });
     } else {
       const response = await aiService.processChatRequest(request);
       
-      return NextResponse.json(response, {
-        headers: {
-          'X-AI-Daily-Usage': response.usage?.daily?.toString() || '0',
-          'X-AI-Limit': response.usage?.limit?.toString() || '0'
-        }
-      });
+      return NextResponse.json(response);
     }
   } catch (error) {
     console.error('AI Chat API Error:', error);

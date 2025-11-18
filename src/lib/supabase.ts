@@ -1,5 +1,4 @@
 import { createClient } from '@supabase/supabase-js'
-import type { Database } from '@/types/database'
 
 // Get environment variables with fallbacks
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
@@ -12,7 +11,7 @@ if (process.env.NODE_ENV === 'development' && (!process.env.NEXT_PUBLIC_SUPABASE
 }
 
 // Create a single supabase client for interacting with your database
-export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: true,
     autoRefreshToken: true,
@@ -32,7 +31,7 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
 // Create admin client with service role key for server-side operations
 // This client bypasses Row Level Security (RLS) - use with caution
 export const supabaseAdmin = supabaseServiceRoleKey 
-  ? createClient<Database>(supabaseUrl, supabaseServiceRoleKey, {
+  ? createClient(supabaseUrl, supabaseServiceRoleKey, {
       auth: {
         autoRefreshToken: false,
         persistSession: false,

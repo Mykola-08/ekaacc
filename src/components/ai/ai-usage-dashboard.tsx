@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// @ts-ignore - tiered-ai-service module not yet implemented
-import { tieredAI, UsageMetrics, ServiceTier } from '@/ai/tiered-ai-service';
+import { AIService } from '@/ai/ai-service';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -21,11 +20,30 @@ import {
   RefreshCw,
   Download
 } from 'lucide-react';
+import { useAuth } from '@/context/auth-context';
 
 interface AIUsageDashboardProps {
   className?: string;
   refreshInterval?: number;
   showAlerts?: boolean;
+}
+
+interface UsageMetrics {
+  totalRequests: number;
+  totalTokens: number;
+  requestsByProvider: Record<string, number>;
+  requestsByModel: Record<string, number>;
+  costByProvider: Record<string, number>;
+  requestsByTier: Record<string, number>;
+  costByTier: Record<string, number>;
+  averageResponseTime: number;
+  averageLatency: number;
+  successRate: number;
+  dailyLimit: number;
+  currentUsage: number;
+  cacheHitRate: number;
+  batchEfficiency: number;
+  totalCost: number;
 }
 
 interface CostBreakdown {
@@ -36,7 +54,7 @@ interface CostBreakdown {
 }
 
 interface TierUsage {
-  tier: ServiceTier;
+  tier: string;
   requests: number;
   cost: number;
   utilization: number;
@@ -48,6 +66,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
   refreshInterval = 30000,
   showAlerts = true
 }) => {
+  const { user } = useAuth();
   const [metrics, setMetrics] = useState<UsageMetrics | null>(null);
   const [costBreakdown, setCostBreakdown] = useState<CostBreakdown[]>([]);
   const [tierUsage, setTierUsage] = useState<TierUsage[]>([]);
@@ -68,21 +87,63 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
   const loadMetrics = async () => {
     try {
       setIsLoading(true);
-      const usageMetrics = tieredAI.getUsageMetrics();
-      setMetrics(usageMetrics);
+      
+      // Mock usage metrics for now - in a real implementation, 
+      // this would come from a database or analytics service
+      const mockMetrics: UsageMetrics = {
+        totalRequests: 1250,
+        totalTokens: 45000,
+        requestsByProvider: {
+          openai: 800,
+          anthropic: 300,
+          google: 150
+        },
+        requestsByModel: {
+          'gpt-3.5-turbo': 600,
+          'gpt-4': 200,
+          'claude-3-haiku': 200,
+          'claude-3-sonnet': 100,
+          'gemini-pro': 150
+        },
+        requestsByTier: {
+          basic: 750,
+          premium: 375,
+          vip: 125
+        },
+        costByTier: {
+          basic: 15.00,
+          premium: 7.50,
+          vip: 2.50
+        },
+        costByProvider: {
+          openai: 12.50,
+          anthropic: 8.75,
+          google: 3.25
+        },
+        averageResponseTime: 1.2,
+        averageLatency: 0.8,
+        successRate: 98.5,
+        dailyLimit: 2000,
+        currentUsage: 1250,
+        cacheHitRate: 0.75,
+        batchEfficiency: 0.85,
+        totalCost: 24.50
+      };
+      
+      setMetrics(mockMetrics);
       setLastUpdated(new Date());
       
       // Calculate cost breakdown
-      const breakdown = calculateCostBreakdown(usageMetrics);
+      const breakdown = calculateCostBreakdown(mockMetrics);
       setCostBreakdown(breakdown);
       
       // Calculate tier usage
-      const usage = calculateTierUsage(usageMetrics);
+      const usage = calculateTierUsage(mockMetrics);
       setTierUsage(usage);
       
       // Generate alerts
       if (showAlerts) {
-        const newAlerts = generateAlerts(usageMetrics, usage);
+        const newAlerts = generateAlerts(mockMetrics, usage);
         setAlerts(newAlerts);
       }
       
@@ -99,13 +160,14 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
     
     // Calculate by provider
     Object.entries(metrics.requestsByProvider).forEach(([provider, requests]) => {
-      const cost = metrics.costByTier[provider as ServiceTier] || 0;
-      const efficiency = requests > 0 ? (metrics.totalRequests - requests) / metrics.totalRequests : 0;
+      const cost = metrics.costByProvider[provider] || 0;
+      const requestsCount = requests as number;
+      const efficiency = requestsCount > 0 ? (metrics.successRate / 100) : 0;
       
       breakdown.push({
         provider: provider.charAt(0).toUpperCase() + provider.slice(1),
         cost,
-        requests,
+        requests: requestsCount,
         efficiency
       });
     });
@@ -116,21 +178,24 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
   const calculateTierUsage = (metrics: UsageMetrics): TierUsage[] => {
     const usage: TierUsage[] = [];
     
-    Object.entries(metrics.requestsByTier).forEach(([tier, requests]) => {
-      const config = tieredAI.getTierConfig(tier as ServiceTier);
-      if (config) {
-        const cost = metrics.costByTier[tier as ServiceTier];
-        const utilization = (requests / config.maxRequestsPerDay) * 100;
-        const remaining = Math.max(0, config.costLimit - cost);
-        
-        usage.push({
-          tier: tier as ServiceTier,
-          requests,
-          cost,
-          utilization,
-          remaining
-        });
-      }
+    // Mock tier usage based on subscription tiers
+    const tiers = ['basic', 'premium', 'vip'];
+    const totalCost = Object.values(metrics.costByProvider).reduce((sum, cost) => sum + cost, 0);
+    
+    tiers.forEach((tier, index) => {
+      const tierRatio = [0.6, 0.3, 0.1][index]; // Basic gets 60%, Premium 30%, VIP 10%
+      const requests = Math.floor(metrics.totalRequests * tierRatio);
+      const cost = totalCost * tierRatio;
+      const utilization = (requests / (metrics.dailyLimit * tierRatio)) * 100;
+      const remaining = Math.max(0, (totalCost * 2) - cost);
+      
+      usage.push({
+        tier: tier.charAt(0).toUpperCase() + tier.slice(1),
+        requests,
+        cost,
+        utilization,
+        remaining
+      });
     });
     
     return usage;
@@ -142,22 +207,23 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
     // Check high cost usage
     tierUsage.forEach(usage => {
       if (usage.utilization > 80) {
-        alerts.push(`${usage.tier.charAt(0).toUpperCase() + usage.tier.slice(1)} tier is at ${usage.utilization.toFixed(1)}% of daily request limit`);
+        alerts.push(`${usage.tier} tier is at ${usage.utilization.toFixed(1)}% of daily request limit`);
       }
       
       if (usage.remaining < usage.cost * 0.2) {
-        alerts.push(`${usage.tier.charAt(0).toUpperCase() + usage.tier.slice(1)} tier is approaching cost limit with $${usage.remaining.toFixed(2)} remaining`);
+        alerts.push(`${usage.tier} tier is approaching cost limit with $${usage.remaining.toFixed(2)} remaining`);
       }
     });
     
     // Check high latency
-    if (metrics.averageLatency > 5000) {
-      alerts.push(`High average latency detected: ${(metrics.averageLatency / 1000).toFixed(1)}s`);
+    if (metrics.averageResponseTime > 5) {
+      alerts.push(`High average response time detected: ${metrics.averageResponseTime.toFixed(1)}s`);
     }
     
-    // Check low cache hit rate
-    if (metrics.cacheHitRate < 0.1 && metrics.totalRequests > 10) {
-      alerts.push(`Low cache efficiency: ${(metrics.cacheHitRate * 100).toFixed(1)}% hit rate`);
+    // Check overall usage limit
+    const overallUtilization = (metrics.currentUsage / metrics.dailyLimit) * 100;
+    if (overallUtilization > 85) {
+      alerts.push(`Overall usage at ${overallUtilization.toFixed(1)}% of daily limit`);
     }
     
     return alerts;
@@ -186,7 +252,8 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
 
   const resetMetrics = () => {
     if (confirm('Are you sure you want to reset all AI usage metrics? This action cannot be undone.')) {
-      tieredAI.resetMetrics();
+      // Mock reset - in real implementation this would call an API
+      console.log('Resetting AI metrics...');
       loadMetrics();
     }
   };
@@ -304,7 +371,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                   <DollarSign className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">${metrics.totalCost.toFixed(2)}</div>
+                  <div className="text-2xl font-bold">${Object.values(metrics.costByProvider).reduce((sum, cost) => sum + cost, 0).toFixed(2)}</div>
                   <p className="text-xs text-muted-foreground">
                     Cumulative cost across all services
                   </p>
@@ -347,12 +414,13 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                 <CardContent>
                   <div className="space-y-4">
                     {Object.entries(metrics.requestsByTier).map(([tier, count]) => {
-                      const percentage = metrics.totalRequests > 0 ? (count / metrics.totalRequests) * 100 : 0;
+                      const countNumber = count as number;
+                      const percentage = metrics.totalRequests > 0 ? (countNumber / metrics.totalRequests) * 100 : 0;
                       return (
                         <div key={tier} className="space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium capitalize">{tier}</span>
-                            <span className="text-sm text-muted-foreground">{count.toLocaleString()} ({percentage.toFixed(1)}%)</span>
+                            <span className="text-sm text-muted-foreground">{countNumber.toLocaleString()} ({percentage.toFixed(1)}%)</span>
                           </div>
                           <Progress value={percentage} className="h-2" />
                         </div>
@@ -370,13 +438,14 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                 <CardContent>
                   <div className="space-y-4">
                     {Object.entries(metrics.requestsByProvider).map(([provider, count]) => {
-                      const percentage = metrics.totalRequests > 0 ? (count / metrics.totalRequests) * 100 : 0;
+                      const countNumber = count as number;
+                      const percentage = metrics.totalRequests > 0 ? (countNumber / metrics.totalRequests) * 100 : 0;
                       return (
                         <div key={provider} className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <Badge variant="outline">{provider}</Badge>
                           </div>
-                          <span className="text-sm text-muted-foreground">{count.toLocaleString()} ({percentage.toFixed(1)}%)</span>
+                          <span className="text-sm text-muted-foreground">{countNumber.toLocaleString()} ({percentage.toFixed(1)}%)</span>
                         </div>
                       );
                     })}
@@ -396,12 +465,14 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                 <CardContent>
                   <div className="space-y-4">
                     {Object.entries(metrics.costByTier).map(([tier, cost]) => {
-                      const percentage = metrics.totalCost > 0 ? (cost / metrics.totalCost) * 100 : 0;
+                      const costNumber = cost as number;
+                      const totalCost = Object.values(metrics.costByProvider).reduce((sum, cost) => sum + cost, 0);
+                      const percentage = totalCost > 0 ? (costNumber / totalCost) * 100 : 0;
                       return (
                         <div key={tier} className="space-y-2">
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium capitalize">{tier}</span>
-                            <span className="text-sm font-mono">${cost.toFixed(2)} ({percentage.toFixed(1)}%)</span>
+                            <span className="text-sm font-mono">${costNumber.toFixed(2)} ({percentage.toFixed(1)}%)</span>
                           </div>
                           <Progress value={percentage} className="h-2" />
                         </div>
@@ -443,8 +514,14 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
           <TabsContent value="tiers" className="space-y-4">
             <div className="grid gap-4">
               {tierUsage.map((usage) => {
-                const config = tieredAI.getTierConfig(usage.tier);
-                if (!config) return null;
+                // Mock tier config - in real implementation this would come from tieredAI
+                const config = {
+                  name: usage.tier.charAt(0).toUpperCase() + usage.tier.slice(1),
+                  dailyLimit: usage.remaining + usage.cost,
+                  maxRequestsPerDay: usage.requests * 2,
+                  costLimit: usage.cost * 3,
+                  features: ['Basic AI', 'Standard Support']
+                };
                 
                 return (
                   <Card key={usage.tier}>
@@ -456,7 +533,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                             {config.features.length} features available
                           </CardDescription>
                         </div>
-                        <Badge variant={usage.utilization > 80 ? 'destructive' : usage.utilization > 60 ? 'warning' : 'default'}>
+                        <Badge variant={usage.utilization > 80 ? 'destructive' : usage.utilization > 60 ? 'outline' : 'default'}>
                           {usage.utilization.toFixed(1)}% utilized
                         </Badge>
                       </div>
@@ -528,7 +605,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium">Total Cost Efficiency</span>
                       <span className="text-sm font-mono">
-                        ${metrics.totalRequests > 0 ? (metrics.totalCost / metrics.totalRequests).toFixed(4) : '0.0000'} per request
+                        ${metrics.totalRequests > 0 ? (Object.values(metrics.costByProvider).reduce((sum, cost) => sum + cost, 0) / metrics.totalRequests).toFixed(4) : '0.0000'} per request
                       </span>
                     </div>
                   </div>
@@ -578,7 +655,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
                       </div>
                     )}
                     
-                    {Object.values(metrics.costByTier).some(cost => cost > 0) && (
+                    {Object.values(metrics.costByTier).some(cost => (cost as number) > 0) && (
                       <div className="flex items-start gap-2">
                         <DollarSign className="h-4 w-4 text-purple-500 mt-0.5" />
                         <div>

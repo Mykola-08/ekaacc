@@ -111,7 +111,7 @@ export default function AdminCreateUserPage() {
         displayName: formData.displayName,
         phoneNumber: formData.phoneNumber,
         role: formData.role as 'Patient' | 'Therapist' | 'Admin',
-        method: currentUser.role === 'Admin' ? 'admin-created' : 'therapist-created',
+        method: currentUser.role?.name === 'Admin' ? 'admin-created' : 'therapist-created',
         createdBy: currentUser.id,
         createdByName: currentUser.name || 'Unknown',
         sendWelcomeEmail: formData.sendWelcomeEmail || false,
@@ -176,7 +176,7 @@ export default function AdminCreateUserPage() {
     }
   };
 
-  if (!currentUser || (currentUser.role !== 'Admin' && currentUser.role !== 'Therapist')) {
+  if (!currentUser || (currentUser.role?.name !== 'Admin' && currentUser.role?.name !== 'Therapist')) {
     return (
       <div className="container mx-auto p-6">
         <Card>

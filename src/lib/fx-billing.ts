@@ -1,5 +1,6 @@
 // Production-grade billing service with Supabase integration
-import { supabase } from '@/lib/supabase'
+import { supabase } from '@/lib/supabase';
+import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from '@/lib/supabase-utils';
 
 export const fxBilling = {
   async getBalanceForClient(clientId: string) {
@@ -24,17 +25,16 @@ export const fxBilling = {
   },
   async applyAdjustment(clientId: string, amountEUR: number, note?: string) {
     try {
-      const { data, error } = await supabase
-        .from('billing_transactions')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<any>(
+        'billing_transactions',
+        {
           client_id: clientId,
           amount_eur: amountEUR,
           note: note || null,
           type: 'adjustment',
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error applying adjustment:', error);
@@ -49,18 +49,17 @@ export const fxBilling = {
   },
   async createChargeForSession(clientId: string, sessionId: string, amountEUR: number, note?: string) {
     try {
-      const { data, error } = await supabase
-        .from('billing_transactions')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<any>(
+        'billing_transactions',
+        {
           client_id: clientId,
           session_id: sessionId,
           amount_eur: -Math.abs(amountEUR),
           note: note || null,
           type: 'session_charge',
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error creating session charge:', error);
@@ -76,18 +75,17 @@ export const fxBilling = {
   async createCheckoutSessionForPackage(clientId: string, packageId: string, amountEUR: number) {
     try {
       // Create a pending transaction for the package purchase
-      const { data: transaction, error: txError } = await supabase
-        .from('billing_transactions')
-        .insert([{
+      const { data: transaction, error: txError } = await safeSupabaseInsert<any>(
+        'billing_transactions',
+        {
           client_id: clientId,
           package_id: packageId,
           amount_eur: amountEUR,
           type: 'package_purchase_pending',
           status: 'pending',
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (txError) {
         console.error('Error creating package transaction:', txError);
@@ -109,11 +107,13 @@ export const fxBilling = {
   },
   async getInvoicesForClient(clientId: string) {
     try {
-      const { data: invoices, error } = await supabase
-        .from('billing_invoices')
-        .select('*')
-        .eq('client_id', clientId)
-        .order('created_at', { ascending: false });
+      const { data: invoices, error } = await safeSupabaseQuery<any[]>(
+        supabase
+          .from('billing_invoices')
+          .select('*')
+          .eq('client_id', clientId)
+          .order('created_at', { ascending: false })
+      );
       
       if (error) {
         console.error('Error fetching invoices:', error);
@@ -128,17 +128,16 @@ export const fxBilling = {
   },
   async createInvoice(clientId: string, amountEUR: number, description?: string) {
     try {
-      const { data, error } = await supabase
-        .from('billing_invoices')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<any>(
+        'billing_invoices',
+        {
           client_id: clientId,
           amount_eur: amountEUR,
           description: description || null,
           status: 'open',
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error creating invoice:', error);
@@ -154,12 +153,11 @@ export const fxBilling = {
   async markInvoicePaid(invoiceId: string) {
     try {
       // Update invoice status
-      const { data: invoice, error: invoiceError } = await supabase
-        .from('billing_invoices')
-        .update({ status: 'paid', paid_at: new Date().toISOString() })
-        .eq('id', invoiceId)
-        .select()
-        .single();
+      const { data: invoice, error: invoiceError } = await safeSupabaseUpdate<any>(
+        'billing_invoices',
+        { status: 'paid', paid_at: new Date().toISOString() },
+        { id: invoiceId }
+      );
       
       if (invoiceError) {
         console.error('Error updating invoice status:', invoiceError);
@@ -171,26 +169,26 @@ export const fxBilling = {
       }
       
       // Create payment transaction
-      const { data: transaction, error: txError } = await supabase
-        .from('billing_transactions')
-        .insert([{
+      const { data: transaction, error: txError } = await safeSupabaseInsert<any>(
+        'billing_transactions',
+        {
           client_id: invoice.client_id,
           invoice_id: invoiceId,
           amount_eur: -Math.abs(invoice.amount_eur || 0),
           note: `Invoice ${invoiceId} paid`,
           type: 'invoice_payment',
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (txError) {
         console.error('Error creating payment transaction:', txError);
         // Rollback invoice status update if transaction fails
-        await supabase
-          .from('billing_invoices')
-          .update({ status: 'open' })
-          .eq('id', invoiceId);
+        await safeSupabaseUpdate<any>(
+          'billing_invoices',
+          { status: 'open' },
+          { id: invoiceId }
+        );
         throw new Error('Failed to create payment transaction');
       }
       

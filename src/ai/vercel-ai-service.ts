@@ -75,9 +75,9 @@ export class VercelAIService {
         model: provider(modelVariant),
         system: systemPrompt,
         prompt: request.prompt,
-        maxTokens,
-        temperature,
-      });
+        maxTokens: maxTokens,
+        temperature: temperature
+      } as any);
 
       return {
         content: result.text,
@@ -118,7 +118,7 @@ export class VercelAIService {
         schema: request.schema,
         maxTokens,
         temperature,
-      });
+      } as any);
 
       return {
         content: JSON.stringify(result.object),
@@ -157,7 +157,7 @@ export class VercelAIService {
         prompt: request.prompt,
         maxTokens,
         temperature,
-      });
+      } as any);
 
       for await (const delta of result.textStream) {
         yield delta;

@@ -48,7 +48,7 @@ function WellnessInsights({ userData }: { userData: User }) {
         const insights = await generateWellnessInsights({
           userData: {
             sessionsCompleted: context.sessionsCompleted,
-            mood: context.mood,
+            mood: String(context.mood),
             goals: context.goals,
             name: userData.name || undefined,
           },
@@ -298,7 +298,13 @@ export default function EnhancedPatientDashboard() {
   }
 
   if (showOnboarding) {
-    return <ComprehensiveOnboarding onComplete={handleOnboardingComplete} />;
+    return <ComprehensiveOnboarding onComplete={(data) => {
+      updateUser({
+        personalizationCompleted: true,
+        personalization: data,
+      });
+      setShowOnboarding(false);
+    }} />;
   }
 
   if (!currentUser) {
@@ -321,14 +327,6 @@ export default function EnhancedPatientDashboard() {
       </div>
     );
   }
-
-  const handleOnboardingComplete = (personalizationData: Partial<User['personalization']>) => {
-    updateUser({
-      personalizationCompleted: true,
-      personalization: personalizationData,
-    });
-    setShowOnboarding(false);
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -420,10 +418,7 @@ export default function EnhancedPatientDashboard() {
         </div>
 
         {/* AI Help Widget - Floating */}
-        <AIHelpWidget 
-          isOpen={showAIWidget}
-          onToggle={() => setShowAIWidget(!showAIWidget)}
-        />
+        <AIHelpWidget />
       </div>
     </div>
   );

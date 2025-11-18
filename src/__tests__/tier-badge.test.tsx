@@ -248,7 +248,9 @@ describe('TierBadge Components', () => {
 
       render(<TierBadgeGroup tiers={tiers} />);
       
-      const container = screen.getByText('VIP Silver').closest('div').parentElement;
+      const element = screen.getByText('VIP Silver').closest('div');
+      expect(element).toBeInTheDocument();
+      const container = element!.parentElement;
       expect(container).toHaveClass('gap-2');
     });
 
@@ -273,7 +275,9 @@ describe('TierBadge Components', () => {
 
       render(<TierBadgeGroup tiers={tiers} className="custom-container" />);
       
-      const container = screen.getByText('VIP Silver').closest('div').parentElement;
+      const element = screen.getByText('VIP Silver').closest('div');
+      expect(element).toBeInTheDocument();
+      const container = element!.parentElement;
       expect(container).toHaveClass('custom-container');
     });
 

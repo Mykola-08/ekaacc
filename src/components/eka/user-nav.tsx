@@ -8,6 +8,7 @@ import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
 import { DataSourceIndicator } from '@/components/eka/data-source-indicator';
 import { VipBadge } from '@/components/eka/vip-badge';
+import type { VipTier } from '@/lib/types';
 import { SubscriptionBadge } from '@/components/eka/subscription-badge';
 import { useActiveSubscriptions } from '@/hooks/use-active-subscriptions';
 import { Crown, LogOut, Settings, User, Sun, Moon, Laptop } from 'lucide-react';
@@ -65,7 +66,7 @@ export function UserNav() {
                 {hasVip && <SubscriptionBadge type="vip" size="sm" showLabel={false} />}
                 {/* Old wallet VIP badge */}
                 {currentUser.isVip && currentUser.vipTier && (
-                  <VipBadge tier={currentUser.vipTier} variant="compact" />
+                  <VipBadge tier={currentUser.vipTier as VipTier} variant="compact" />
                 )}
               </div>
               <p className="text-xs leading-none text-muted-foreground">

@@ -82,17 +82,18 @@ describe('Tier Assignment API', () => {
     });
   };
 
+  const createMockRequest = (body: any, token = 'valid-token') => {
+    return new NextRequest('http://localhost:3000/api/admin/tiers/assign', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+  };
+
   describe('POST /api/admin/tiers/assign', () => {
-    const createMockRequest = (body: any, token = 'valid-token') => {
-      return new NextRequest('http://localhost:3000/api/admin/tiers/assign', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      });
-    };
 
     it('should successfully assign VIP Silver tier', async () => {
       const mockAdminUser = { id: 'admin-123', email: 'admin@test.com' };
@@ -162,11 +163,7 @@ describe('Tier Assignment API', () => {
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: mockUser }, error: null });
       mockSupabase.single.mockResolvedValue({ data: mockUserRole, error: null });
 
-      const request = createMockRequest({
-        userId: 'user-456',
-        tierType: 'vip',
-        tierName: 'silver',
-      });
+      const request = createMockGetRequest('user-456');
 
       const response = await POST(request);
       const data = await response.json();
@@ -256,11 +253,7 @@ describe('Tier Assignment API', () => {
       mockValidationService.validateVIPTierEligibility.mockResolvedValue(mockValidationResult);
       mockSupabase.single.mockResolvedValue({ data: existingTier, error: null });
 
-      const request = createMockRequest({
-        userId: 'user-456',
-        tierType: 'vip',
-        tierName: 'silver',
-      });
+      const request = createMockGetRequest('user-456');
 
       const response = await POST(request);
       const data = await response.json();
@@ -385,11 +378,7 @@ describe('Tier Assignment API', () => {
     it('should handle invalid authorization tokens', async () => {
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: null }, error: new Error('Invalid token') });
 
-      const request = createMockRequest({
-        userId: 'user-456',
-        tierType: 'vip',
-        tierName: 'silver',
-      }, 'invalid-token');
+      const request = createMockGetRequest('user-456', 'invalid-token');
 
       const response = await POST(request);
       const data = await response.json();

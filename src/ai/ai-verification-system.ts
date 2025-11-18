@@ -126,7 +126,7 @@ export class AIVerificationSystem {
 
   constructor() {
     this.personalizationService = new AIPersonalizationService();
-    this.aiService = new AISDKNextService();
+    this.aiService = AISDKNextService.getInstance();
     this.fraudPatterns = new Map();
     this.verificationHistory = new Map();
     this.initializeFraudPatterns();
@@ -165,7 +165,7 @@ export class AIVerificationSystem {
     
     try {
       // Get user profile for additional context
-      const userProfile = await this.personalizationService.getUserProfile(request.userId);
+      const userProfile = await this.personalizationService.getPersonalizationProfile(request.userId);
       
       // Perform comprehensive analysis
       const analysis = await this.performComprehensiveAnalysis(request, userProfile);

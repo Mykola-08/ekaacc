@@ -143,7 +143,7 @@ export default function BusinessPromotionalPage() {
               </Badge>
             </InView>
             
-            <InView delay={0.1}>
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}>
               <TextEffect 
                 preset="blur" 
                 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6"
@@ -152,13 +152,13 @@ export default function BusinessPromotionalPage() {
               </TextEffect>
             </InView>
 
-            <InView delay={0.2}>
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}>
               <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
                 {heroSubtitle}
               </p>
             </InView>
 
-            <InView delay={0.3}>
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700">
                   Start Free Consultation
@@ -185,7 +185,7 @@ export default function BusinessPromotionalPage() {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {personalization.pain_points.slice(0, 6).map((painPoint, index) => (
-                <InView key={index} delay={index * 0.1}>
+                <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                   <Card className="p-6 border-l-4 border-red-400 hover:shadow-lg transition-shadow">
                     <div className="flex items-start space-x-3">
                       <div className="flex-shrink-0">
@@ -221,7 +221,7 @@ export default function BusinessPromotionalPage() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => (
-              <InView key={index} delay={index * 0.1}>
+              <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                 <Card className="p-6 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
                   <benefit.icon className={`w-12 h-12 mx-auto mb-4 ${benefit.color}`} />
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">
@@ -242,17 +242,17 @@ export default function BusinessPromotionalPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-3 gap-8 text-center text-white">
             <InView>
-              <AnimatedNumber value={85} className="text-4xl font-bold mb-2" />
+              <AnimatedNumber value={85} className="text-4xl font-bold mb-2" as="span" />
               <p className="text-blue-100">% of clients report improved work performance</p>
             </InView>
             
-            <InView delay={0.1}>
-              <AnimatedNumber value={70} className="text-4xl font-bold mb-2" />
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}>
+              <AnimatedNumber value={70} className="text-4xl font-bold mb-2" as="span" />
               <p className="text-blue-100">% reduction in stress levels</p>
             </InView>
             
-            <InView delay={0.2}>
-              <AnimatedNumber value={95} className="text-4xl font-bold mb-2" />
+            <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}>
+              <AnimatedNumber value={95} className="text-4xl font-bold mb-2" as="span" />
               <p className="text-blue-100">% client satisfaction rate</p>
             </InView>
           </div>
@@ -270,7 +270,7 @@ export default function BusinessPromotionalPage() {
           
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, index) => (
-              <InView key={index} delay={index * 0.1}>
+              <InView key={index} transition={{ duration: 0.6, ease: 'easeOut', delay: index * 0.1 }}>
                 <Card className="p-8">
                   <div className="flex items-center mb-4">
                     <div className="text-4xl text-yellow-400 mr-4">"</div>
@@ -315,13 +315,13 @@ export default function BusinessPromotionalPage() {
             </h2>
           </InView>
           
-          <InView delay={0.1}>
+          <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}>
             <p className="text-xl text-blue-100 mb-8">
               Join thousands of business professionals who have enhanced their performance through mindful therapy
             </p>
           </InView>
           
-          <InView delay={0.2}>
+          <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
                 <CheckCircle className="mr-2 h-5 w-5" />
@@ -333,7 +333,7 @@ export default function BusinessPromotionalPage() {
             </div>
           </InView>
           
-          <InView delay={0.3}>
+          <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}>
             <p className="text-sm text-blue-100 mt-6">
               ✓ No credit card required ✓ Cancel anytime ✓ HIPAA compliant
             </p>

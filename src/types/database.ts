@@ -34,3 +34,5 @@ export interface Database {
     }
   }
 }
+
+export default Database;

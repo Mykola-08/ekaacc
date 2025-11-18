@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+
 import {
   Sidebar,
   SidebarContent,
@@ -235,7 +236,7 @@ export function AppSidebar07() {
   const pathname = usePathname()
   const router = useRouter()
   const { user, signOut } = useAuth()
-  const { state } = useSidebar()
+  const { isExpanded } = useSidebar()
 
   // Determine which navigation to show based on current path
   const getNavigationGroups = () => {
@@ -260,31 +261,20 @@ export function AppSidebar07() {
   }
 
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader>
+    <Sidebar>
+      <SidebarHeader className="bg-gradient-to-br from-purple-50 to-blue-50 border-b border-purple-100">
         <div className="flex items-center gap-2 px-3 py-4">
           <div className={cn(
-            "flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground",
-            state === "collapsed" && "size-8"
+            "flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg",
+            !isExpanded && "size-8"
           )}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-4"
-            >
-              <path d="M12 2L2 7l10 5 10-5-10-5z" />
-              <path d="M2 17l10 5 10-5" />
-              <path d="M2 12l10 5 10-5" />
-            </svg>
+            <Heart className="size-4" />
           </div>
-          {state === "expanded" && (
+          {isExpanded && (
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold">EKA Account</span>
+              <span className="truncate font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+                EKA Account
+              </span>
               <span className="truncate text-xs text-muted-foreground">
                 Wellness Platform
               </span>
@@ -296,7 +286,7 @@ export function AppSidebar07() {
       <SidebarContent className="px-2">
         {navigationGroups.map((group) => (
           <div key={group.title} className="mb-6">
-            {state === "expanded" && (
+            {isExpanded && (
               <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                 {group.title}
               </h3>
@@ -318,11 +308,11 @@ export function AppSidebar07() {
                             variant="ghost"
                             className={cn(
                               "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
-                              "hover:bg-accent hover:text-accent-foreground"
+                              "hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 transition-all duration-200"
                             )}
                           >
                             <Icon className="size-4 shrink-0" />
-                            {state === "expanded" && (
+                            {isExpanded && (
                               <>
                                 <span className="flex-1 text-left">{item.title}</span>
                                 <ChevronRight className="size-4 transition-transform duration-200 data-[state=open]:rotate-90" />
@@ -330,7 +320,7 @@ export function AppSidebar07() {
                             )}
                           </Button>
                         </CollapsibleTrigger>
-                        {state === "expanded" && (
+                        {isExpanded && (
                           <CollapsibleContent className="pl-7 space-y-1">
                             {item.items.map((subItem) => (
                               <Button
@@ -360,18 +350,18 @@ export function AppSidebar07() {
                       variant="ghost"
                       className={cn(
                         "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
-                        isActive && "bg-accent text-accent-foreground",
-                        "hover:bg-accent hover:text-accent-foreground"
+                        isActive && "bg-purple-100 text-purple-700 border border-purple-200",
+                        "hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 transition-all duration-200"
                       )}
                       asChild
                     >
                       <Link href={item.url}>
                         <Icon className="size-4 shrink-0" />
-                        {state === "expanded" && (
+                        {isExpanded && (
                           <>
                             <span className="flex-1 text-left">{item.title}</span>
                             {item.badge && (
-                              <span className="rounded-md bg-primary px-1.5 py-0.5 text-xs text-primary-foreground">
+                              <span className="rounded-md bg-gradient-to-r from-purple-600 to-blue-600 px-1.5 py-0.5 text-xs text-white">
                                 {item.badge}
                               </span>
                             )}
@@ -403,7 +393,7 @@ export function AppSidebar07() {
                   {getUserInitials()}
                 </AvatarFallback>
               </Avatar>
-              {state === "expanded" && (
+              {isExpanded && (
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
                     {user?.user_metadata?.full_name || 'User'}

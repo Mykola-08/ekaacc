@@ -94,12 +94,16 @@ export class AIPersonalizationService {
   private learningModels: Map<string, any>;
   private userProfiles: Map<string, AIPersonalizationProfile>;
 
+  getSupabaseClient(): any {
+    return this.supabase;
+  }
+
   constructor() {
     this.supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
-    this.aiService = new AISDKNextService();
+    this.aiService = AISDKNextService.getInstance();
     this.learningModels = new Map();
     this.userProfiles = new Map();
   }
@@ -449,8 +453,36 @@ export class AIPersonalizationService {
     };
 
     try {
-      const aiResponse = await this.aiService.generatePersonalizedInsights(aiContext);
-      return this.filterInsightsByPrivacy(aiResponse, request.preferences.privacyLevel);
+      const aiResponse = await this.aiService.generateWellnessInsights({
+        userData: {
+          name: profile.name || 'User',
+          sessionsCompleted: profile.sessionsCompleted || 0,
+          mood: 'neutral',
+          goals: profile.goals || 'Wellness improvement'
+        },
+        context: aiContext
+      });
+      
+      // Convert string insights to AIInsight format
+      const insights: AIInsight[] = aiResponse.map((insight, index) => ({
+        id: `insight-${Date.now()}-${index}`,
+        userId: request.userId,
+        type: 'recommendation',
+        title: insight.split(':')[0] || 'Wellness Insight',
+        description: insight,
+        severity: 'low',
+        confidence: 0.8,
+        timestamp: new Date(),
+        suggestedActions: [],
+        requiresIntervention: false,
+        context: {
+          page: 'dashboard',
+          recentActivity: [],
+          relevantMetrics: {}
+        }
+      }));
+      
+      return this.filterInsightsByPrivacy(insights, request.preferences.privacyLevel);
     } catch (error) {
       console.error('Error generating personalized insights:', error);
       return this.generateFallbackInsights(profile, request);

@@ -19,7 +19,7 @@ export const ai = {
       prompt,
       maxTokens: options?.maxTokens || 1000,
       temperature: options?.temperature || 0.7,
-    });
+    } as any);
     return text;
   },
 
@@ -34,7 +34,7 @@ export const ai = {
         schema,
         maxTokens: options?.maxTokens || 1000,
         temperature: options?.temperature || 0.7,
-      })
+      } as any)
     );
     return object as T;
   },

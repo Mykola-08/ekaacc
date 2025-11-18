@@ -319,7 +319,7 @@ export default function TherapistTemplatesPage() {
                              template.category === 'treatment-plan' ? 'green' :
                              template.category === 'session-notes' ? 'orange' :
                              template.category === 'discharge' ? 'red' : 'gray'}
-                      variant="soft"
+                      variant="secondary"
                     >
                       {template.category.replace('-', ' ')}
                     </Badge>

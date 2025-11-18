@@ -88,7 +88,9 @@ export function TierBadge({
   className,
   animated = false
 }: TierBadgeProps) {
-  const config = tierConfig[tierType][tierName as VIPTier | LoyaltyTier];
+  const config = tierType === 'vip' 
+    ? tierConfig.vip[tierName as VIPTier]
+    : tierConfig.loyalty[tierName as LoyaltyTier];
   const sizeClasses = sizeConfig[size];
   const IconComponent = config.icon;
 
@@ -129,7 +131,7 @@ export function TierBadgeGradient({
   className,
   animated = true
 }: TierBadgeProps) {
-  const config = tierConfig[tierType][tierName as VIPTier | LoyaltyTier];
+  const config = (tierConfig[tierType as 'vip' | 'loyalty'] as any)[tierName as VIPTier | LoyaltyTier];
   const sizeClasses = sizeConfig[size];
   const IconComponent = config.icon;
 
@@ -167,7 +169,7 @@ export function TierBadgeMinimal({
   className,
   animated = false
 }: Omit<TierBadgeProps, 'showIcon'>) {
-  const config = tierConfig[tierType][tierName as VIPTier | LoyaltyTier];
+  const config = (tierConfig[tierType as 'vip' | 'loyalty'] as any)[tierName as VIPTier | LoyaltyTier];
   const sizeClasses = sizeConfig[size];
 
   return (
@@ -198,7 +200,7 @@ export function TierBadgeWithProgress({
   showIcon = true,
   className
 }: TierBadgeProps & { progress: number }) {
-  const config = tierConfig[tierType][tierName as VIPTier | LoyaltyTier];
+  const config = (tierConfig[tierType as 'vip' | 'loyalty'] as any)[tierName as VIPTier | LoyaltyTier];
   const sizeClasses = sizeConfig[size];
   const IconComponent = config.icon;
 

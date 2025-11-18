@@ -15,7 +15,6 @@ import {
   Keyboard,
   Palette,
   TextCursor,
-  HighContrast,
   Sun,
   Moon
 } from 'lucide-react';
@@ -195,7 +194,7 @@ export function AccessibilityToolbar() {
       id: 'high-contrast',
       title: 'High Contrast',
       description: 'Increase contrast for better visibility',
-      icon: HighContrast,
+      icon: Contrast,
       enabled: highContrast,
       toggle: toggleHighContrast,
       color: 'yellow'

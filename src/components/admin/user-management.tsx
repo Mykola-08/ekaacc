@@ -32,7 +32,7 @@ interface User {
     full_name: string | null
     username: string | null
     avatar_url: string | null
-  } | null
+  }[] | null
   user_role_assignments: {
     user_roles: {
       name: string
@@ -80,7 +80,17 @@ export function UserManagement({ className }: UserManagementProps) {
         return
       }
 
-      setUsers(data || [])
+      // Transform the data to match the User interface
+      const transformedUsers = (data || []).map(user => ({
+        id: user.id,
+        email: user.email,
+        created_at: user.created_at,
+        user_profiles: user.user_profiles || null,
+        user_role_assignments: user.user_role_assignments?.map((assignment: any) => ({
+          user_roles: assignment.user_roles
+        })) || []
+      }))
+      setUsers(transformedUsers)
     } catch (error) {
       console.error('Error fetching users:', error)
     } finally {
@@ -176,18 +186,18 @@ export function UserManagement({ className }: UserManagementProps) {
                       <TableCell>
                         <div className="flex items-center gap-3">
                           <Avatar className="h-8 w-8">
-                            <AvatarImage src={profile?.avatar_url || undefined} />
+                            <AvatarImage src={profile?.[0]?.avatar_url || undefined} />
                             <AvatarFallback>
-                              {profile?.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                              {profile?.[0]?.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
                           <div>
                             <div className="font-medium">
-                              {profile?.full_name || 'Unknown User'}
+                              {profile?.[0]?.full_name || 'Unknown User'}
                             </div>
-                            {profile?.username && (
+                            {profile?.[0]?.username && (
                               <div className="text-sm text-muted-foreground">
-                                @{profile.username}
+                                @{profile?.[0]?.username}
                               </div>
                             )}
                           </div>

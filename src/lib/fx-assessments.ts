@@ -1,18 +1,18 @@
 // Production-grade assessments service with Supabase integration
 import { supabase } from '@/lib/supabase'
+import { safeSupabaseInsert, safeSupabaseQuery } from '@/lib/supabase-utils'
 
 export const fxAssessments = {
   async saveAssessment(sessionId: string, data: any) {
     try {
-      const { data: assessment, error } = await supabase
-        .from('assessments')
-        .insert([{
+      const { data: assessment, error } = await safeSupabaseInsert<any>(
+        'assessments',
+        {
           session_id: sessionId,
           data,
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error saving assessment:', error);
@@ -27,11 +27,13 @@ export const fxAssessments = {
   },
   async getAssessmentsForSession(sessionId: string) {
     try {
-      const { data, error } = await supabase
-        .from('assessments')
-        .select('*')
-        .eq('session_id', sessionId)
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQuery<any[]>(
+        supabase
+          .from('assessments')
+          .select('*')
+          .eq('session_id', sessionId)
+          .order('created_at', { ascending: false })
+      );
       
       if (error) {
         console.error('Error fetching assessments for session:', error);

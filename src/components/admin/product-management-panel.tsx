@@ -53,7 +53,7 @@ const productSchema = z.object({
     duration: z.number().optional(),
     description: z.string().optional()
   })).optional(),
-  isActive: z.boolean().default(true)
+  isActive: z.boolean().optional()
 });
 
 type ProductFormData = z.infer<typeof productSchema>;

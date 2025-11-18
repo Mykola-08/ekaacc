@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       success: true,
       data: {
         isEligible: validationResult.isEligible,
-        requirements: validationResult.requirements,
+        requirements: validationResult.missingRequirements,
         progress: progressResult.progress,
         nextRequirements: progressResult.nextRequirements,
         currentTiers: {
@@ -187,21 +187,21 @@ export async function GET(request: NextRequest) {
         vip: {
           silver: {
             isEligible: vipValidations[0].isEligible,
-            requirements: vipValidations[0].requirements,
+            requirements: vipValidations[0].missingRequirements,
             progress: vipProgress[0].progress,
             nextRequirements: vipProgress[0].nextRequirements,
             current: currentVIPTier?.tier_name === 'silver'
           },
           gold: {
             isEligible: vipValidations[1].isEligible,
-            requirements: vipValidations[1].requirements,
+            requirements: vipValidations[1].missingRequirements,
             progress: vipProgress[1].progress,
             nextRequirements: vipProgress[1].nextRequirements,
             current: currentVIPTier?.tier_name === 'gold'
           },
           platinum: {
             isEligible: vipValidations[2].isEligible,
-            requirements: vipValidations[2].requirements,
+            requirements: vipValidations[2].missingRequirements,
             progress: vipProgress[2].progress,
             nextRequirements: vipProgress[2].nextRequirements,
             current: currentVIPTier?.tier_name === 'platinum'
@@ -210,14 +210,14 @@ export async function GET(request: NextRequest) {
         loyalty: {
           member: {
             isEligible: loyaltyValidations[0].isEligible,
-            requirements: loyaltyValidations[0].requirements,
+            requirements: loyaltyValidations[0].missingRequirements,
             progress: loyaltyProgress[0].progress,
             nextRequirements: loyaltyProgress[0].nextRequirements,
             current: currentLoyaltyTier?.tier_name === 'member'
           },
           elite: {
             isEligible: loyaltyValidations[1].isEligible,
-            requirements: loyaltyValidations[1].requirements,
+            requirements: loyaltyValidations[1].missingRequirements,
             progress: loyaltyProgress[1].progress,
             nextRequirements: loyaltyProgress[1].nextRequirements,
             current: currentLoyaltyTier?.tier_name === 'elite'

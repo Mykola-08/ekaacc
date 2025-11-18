@@ -9,6 +9,9 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Loader2, Sparkles, Gift, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -19,30 +22,34 @@ interface WelcomePersonalizationFormProps {
   onSkip?: () => void;
 }
 
-export interface PersonalizationData {
-  goals: string;
-  interests: string;
-  values: string;
-  preferences: string;
-  mentalHealthConcerns: string[];
-  previousTherapyExperience: string;
-  preferredSessionTime: string;
-  emergencyContact: {
-    name: string;
-    phone: string;
-    relationship: string;
-  };
+const emergencyContactSchema = z.object({
+  name: z.string().min(2, 'Emergency contact name is required'),
+  phone: z.string().min(10, 'Valid phone number is required'),
+  relationship: z.string().optional(),
+});
+
+const personalizationSchema = z.object({
+  goals: z.string().min(10, 'Please describe your therapy goals in detail'),
+  interests: z.string().optional(),
+  values: z.string().optional(),
+  preferences: z.string().optional(),
+  mentalHealthConcerns: z.array(z.string()).min(1, 'Please select at least one concern'),
+  previousTherapyExperience: z.string().optional(),
+  preferredSessionTime: z.string().optional(),
+  emergencyContact: emergencyContactSchema,
   // AI Learning Fields
-  communicationStyle?: 'formal' | 'casual' | 'empathetic' | 'direct';
-  motivationFactors?: string[];
-  stressors?: string[];
-  copingMechanisms?: string[];
-  preferredTherapyApproach?: string;
-  languagePreference?: string;
-  culturalBackground?: string;
-  lifeStage?: string;
-  supportSystem?: string;
-}
+  communicationStyle: z.enum(['formal', 'casual', 'empathetic', 'direct']).optional(),
+  motivationFactors: z.array(z.string()).optional(),
+  stressors: z.array(z.string()).optional(),
+  copingMechanisms: z.array(z.string()).optional(),
+  preferredTherapyApproach: z.string().optional(),
+  languagePreference: z.string().optional(),
+  culturalBackground: z.string().optional(),
+  lifeStage: z.string().optional(),
+  supportSystem: z.string().optional(),
+});
+
+export type PersonalizationData = z.infer<typeof personalizationSchema>;
 
 const mentalHealthOptions = [
   'Anxiety',
@@ -62,48 +69,58 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Form state
-  const [goals, setGoals] = useState('');
-  const [interests, setInterests] = useState('');
-  const [values, setValues] = useState('');
-  const [preferences, setPreferences] = useState('');
-  const [mentalHealthConcerns, setMentalHealthConcerns] = useState<string[]>([]);
-  const [previousTherapyExperience, setPreviousTherapyExperience] = useState('');
-  const [preferredSessionTime, setPreferredSessionTime] = useState('');
-  const [emergencyContact, setEmergencyContact] = useState({
-    name: '',
-    phone: '',
-    relationship: ''
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    trigger,
+  } = useForm({
+    resolver: zodResolver(personalizationSchema),
+    defaultValues: {
+      goals: '',
+      interests: '',
+      values: '',
+      preferences: '',
+      mentalHealthConcerns: [],
+      previousTherapyExperience: '',
+      preferredSessionTime: '',
+      emergencyContact: {
+        name: '',
+        phone: '',
+        relationship: ''
+      }
+    }
   });
+
+  // Watch form values
+  const goals = watch('goals');
+  const mentalHealthConcerns = watch('mentalHealthConcerns');
+  const emergencyContact = watch('emergencyContact');
 
   const totalSteps = 3;
 
   const handleConcernToggle = (concern: string) => {
-    setMentalHealthConcerns(prev => 
-      prev.includes(concern) 
-        ? prev.filter(c => c !== concern)
-        : [...prev, concern]
-    );
+    const currentConcerns = mentalHealthConcerns || [];
+    const newConcerns = currentConcerns.includes(concern) 
+      ? currentConcerns.filter(c => c !== concern)
+      : [...currentConcerns, concern];
+    setValue('mentalHealthConcerns', newConcerns);
   };
 
-  const handleNext = () => {
-    if (step === 1 && !goals.trim()) {
-      toast({
-        variant: 'destructive',
-        title: 'Please share your goals',
-        description: 'This helps us personalize your experience.',
-      });
-      return;
+  const handleNext = async () => {
+    let isValid = false;
+    
+    if (step === 1) {
+      isValid = await trigger('goals');
+    } else if (step === 2) {
+      isValid = await trigger('mentalHealthConcerns');
     }
-    if (step === 2 && mentalHealthConcerns.length === 0) {
-      toast({
-        variant: 'destructive',
-        title: 'Please select at least one concern',
-        description: 'This helps us match you with the right therapist.',
-      });
-      return;
+
+    if (isValid || step > 2) {
+      setStep(step + 1);
     }
-    setStep(step + 1);
   };
 
   const handleBack = () => {
@@ -118,18 +135,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!emergencyContact.name || !emergencyContact.phone) {
-      toast({
-        variant: 'destructive',
-        title: 'Emergency contact required',
-        description: 'Please provide emergency contact information for your safety.',
-      });
-      return;
-    }
-
+  const onFormSubmit = async (data: PersonalizationData) => {
     setIsLoading(true);
     toast({
       title: 'Personalizing your experience...',
@@ -139,16 +145,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
     // Simulate AI processing
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    onSubmit({
-      goals,
-      interests,
-      values,
-      preferences,
-      mentalHealthConcerns,
-      previousTherapyExperience,
-      preferredSessionTime,
-      emergencyContact
-    });
+    onSubmit(data);
 
     toast({
       title: '🎉 Welcome to EKA!',
@@ -179,7 +176,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
           </div>
         </DialogHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
           {/* Progress indicator */}
           <div className="flex items-center justify-between mb-4">
             {[1, 2, 3].map((s) => (
@@ -203,11 +200,13 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Textarea
                         id="goals"
                         placeholder="e.g., I want to manage my anxiety better, improve my relationships, build self-confidence..."
-                        value={goals}
-                        onChange={(e) => setGoals(e.target.value)}
+                        {...register('goals')}
                         rows={4}
                         className="mt-2"
                       />
+                      {errors.goals && (
+                        <p className="text-sm text-destructive mt-1">{errors.goals.message}</p>
+                      )}
                     </div>
 
                     <div>
@@ -215,8 +214,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Textarea
                         id="interests"
                         placeholder="e.g., Reading, yoga, painting, hiking..."
-                        value={interests}
-                        onChange={(e) => setInterests(e.target.value)}
+                        {...register('interests')}
                         rows={3}
                         className="mt-2"
                       />
@@ -227,8 +225,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Textarea
                         id="values"
                         placeholder="e.g., Family, honesty, personal growth, compassion..."
-                        value={values}
-                        onChange={(e) => setValues(e.target.value)}
+                        {...register('values')}
                         rows={3}
                         className="mt-2"
                       />
@@ -239,8 +236,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Textarea
                         id="preferences"
                         placeholder="e.g., CBT, mindfulness-based, solution-focused..."
-                        value={preferences}
-                        onChange={(e) => setPreferences(e.target.value)}
+                        {...register('preferences')}
                         rows={2}
                         className="mt-2"
                       />
@@ -266,7 +262,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                           <Button
                             key={concern}
                             type="button"
-                            variant={mentalHealthConcerns.includes(concern) ? 'default' : 'outline'}
+                            variant={mentalHealthConcerns?.includes(concern) ? 'default' : 'outline'}
                             onClick={() => handleConcernToggle(concern)}
                             className="justify-start"
                           >
@@ -274,31 +270,34 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                           </Button>
                         ))}
                       </div>
+                      {errors.mentalHealthConcerns && (
+                        <p className="text-sm text-destructive mt-1">{errors.mentalHealthConcerns.message}</p>
+                      )}
                     </div>
 
                     <div>
                       <Label htmlFor="previousExperience">Previous therapy experience</Label>
-                      <Select value={previousTherapyExperience} onValueChange={setPreviousTherapyExperience}>
-                        <SelectValue placeholder="Select your experience level"  />
-                        <SelectContent>
-                          <SelectItem value="none">This is my first time</SelectItem>
-                          <SelectItem value="some">I've had some therapy before</SelectItem>
-                          <SelectItem value="extensive">I've been in therapy for a while</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Select value={watch('previousTherapyExperience')} onValueChange={(value) => setValue('previousTherapyExperience', value)}>
+                      <SelectValue placeholder="Select your experience level"  />
+                      <SelectContent>
+                        <SelectItem value="none">This is my first time</SelectItem>
+                        <SelectItem value="some">I've had some therapy before</SelectItem>
+                        <SelectItem value="extensive">I've been in therapy for a while</SelectItem>
+                      </SelectContent>
+                    </Select>
                     </div>
 
                     <div>
                       <Label htmlFor="sessionTime">Preferred session time</Label>
-                      <Select value={preferredSessionTime} onValueChange={setPreferredSessionTime}>
-                        <SelectValue placeholder="When works best for you?"  />
-                        <SelectContent>
-                          <SelectItem value="morning">Morning (8 AM - 12 PM)</SelectItem>
-                          <SelectItem value="afternoon">Afternoon (12 PM - 5 PM)</SelectItem>
-                          <SelectItem value="evening">Evening (5 PM - 9 PM)</SelectItem>
-                          <SelectItem value="flexible">Flexible</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Select value={watch('preferredSessionTime')} onValueChange={(value) => setValue('preferredSessionTime', value)}>
+                      <SelectValue placeholder="When works best for you?"  />
+                      <SelectContent>
+                        <SelectItem value="morning">Morning (8 AM - 12 PM)</SelectItem>
+                        <SelectItem value="afternoon">Afternoon (12 PM - 5 PM)</SelectItem>
+                        <SelectItem value="evening">Evening (5 PM - 9 PM)</SelectItem>
+                        <SelectItem value="flexible">Flexible</SelectItem>
+                      </SelectContent>
+                    </Select>
                     </div>
                   </div>
                 </CardContent>
@@ -322,10 +321,12 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Input
                         id="emergencyName"
                         placeholder="Full name"
-                        value={emergencyContact.name}
-                        onChange={(e) => setEmergencyContact({ ...emergencyContact, name: e.target.value })}
+                        {...register('emergencyContact.name')}
                         className="mt-2"
                       />
+                      {errors.emergencyContact?.name && (
+                        <p className="text-sm text-destructive mt-1">{errors.emergencyContact.name.message}</p>
+                      )}
                     </div>
 
                     <div>
@@ -334,17 +335,19 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                         id="emergencyPhone"
                         type="tel"
                         placeholder="+1 (555) 000-0000"
-                        value={emergencyContact.phone}
-                        onChange={(e) => setEmergencyContact({ ...emergencyContact, phone: e.target.value })}
+                        {...register('emergencyContact.phone')}
                         className="mt-2"
                       />
+                      {errors.emergencyContact?.phone && (
+                        <p className="text-sm text-destructive mt-1">{errors.emergencyContact.phone.message}</p>
+                      )}
                     </div>
 
                     <div>
                       <Label htmlFor="emergencyRelationship">Relationship</Label>
                       <Select 
-                        value={emergencyContact.relationship} 
-                        onValueChange={(value) => setEmergencyContact({ ...emergencyContact, relationship: value })}
+                        value={emergencyContact?.relationship || ''} 
+                        onValueChange={(value) => setValue('emergencyContact.relationship', value)}
                       >
                         <SelectValue placeholder="Select relationship"  />
                         <SelectContent>

@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { 
           error: 'User does not meet tier requirements',
-          requirements: validationResult.requirements,
+          requirements: validationResult.missingRequirements,
           progress: validationResult.progress
         },
         { status: 400 }

@@ -8,14 +8,14 @@ import { fxBilling } from '@/lib/fx-billing';
 
 export default function ToolsPage() {
   const { user: currentUser } = useAuth();
-  const role = currentUser?.role || (typeof window !== 'undefined' ? localStorage.getItem('eka_persona') || 'Patient' : 'Patient');
+  const role: string = currentUser?.role?.name || (typeof window !== 'undefined' ? localStorage.getItem('eka_persona') || 'Patient' : 'Patient');
   const [log, setLog] = useState<string[]>([]);
   const append = (msg: string) => setLog(l => [msg, ...l].slice(0, 50));
 
   const createMockSession = async () => {
     try {
       append('Creating mock session...');
-      const therapistId = currentUser?.role === 'Therapist' ? currentUser.id : undefined;
+      const therapistId = currentUser?.role?.name === 'Therapist' ? currentUser.id : undefined;
       // pick a therapist if booking as patient
       let therapist = therapistId;
       if (!therapist) {

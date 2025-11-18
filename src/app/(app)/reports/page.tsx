@@ -68,7 +68,7 @@ function ReportListItem({ report }: { report: Report }) {
             <div className="flex-1 overflow-hidden">
                 <div className="flex justify-between items-center">
                     <p className="font-semibold truncate">{report.title}</p>
-                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'softBg'} className="ml-2 shrink-0">{report.type}</Badge>
+                    <Badge variant={report.type === 'AI Summary' ? 'default' : 'secondary'} className="ml-2 shrink-0">{report.type}</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                 <p className="text-sm mt-1 break-words">{report.summary}</p>

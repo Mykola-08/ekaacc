@@ -8,6 +8,14 @@ import { Database } from '@/types/supabase'
 import type { IDataService } from './data-service'
 import { supabaseDataService } from './supabase-data-service'
 import { logger } from '@/lib/logging'
+import { 
+  safeSupabaseQuery, 
+  safeSupabaseInsert, 
+  safeSupabaseUpdate, 
+  safeSupabaseDelete,
+  safeSupabaseSelectSingle,
+  safeSupabaseQueryBuilder
+} from '@/lib/supabase-utils'
 
 // Enhanced database types
 export type DbService = Database['public']['Tables']['services']['Row']
@@ -103,11 +111,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getServiceById(serviceId: string): Promise<DbService | null> {
     try {
       logger.info('Fetching service by ID', { serviceId });
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .eq('id', serviceId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbService>(
+        supabase.from('services').select('*').eq('id', serviceId).single()
+      );
 
       if (error) {
         logger.error('Error fetching service', error as Error, { serviceId });
@@ -125,12 +131,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getServicesByCategory(category: string): Promise<DbService[]> {
     try {
       logger.info('Fetching services by category', { category });
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .eq('category', category)
-        .eq('is_active', true)
-        .order('name');
+      const { data, error } = await safeSupabaseQueryBuilder<DbService[]>(
+        supabase.from('services').select('*').eq('category', category).eq('is_active', true).order('name')
+      );
+
+      if (error) {
+        logger.error('Error fetching services by category', error as Error, { category });
+        throw error;
+      }
+
+      logger.info('Services fetched successfully', { category, count: data?.length });
+      return data || [];
 
       if (error) {
         logger.error('Error fetching services by category', error as Error, { category });
@@ -148,11 +159,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getActiveServices(): Promise<DbService[]> {
     try {
       logger.info('Fetching active services');
-      const { data, error } = await supabase
-        .from('services')
-        .select('*')
-        .eq('is_active', true)
-        .order('name');
+      const { data, error } = await safeSupabaseQueryBuilder<DbService[]>(
+        supabase.from('services').select('*').eq('is_active', true).order('name')
+      );
+
+      if (error) {
+        logger.error('Error fetching active services', error as Error);
+        throw error;
+      }
+
+      logger.info('Active services fetched successfully', { count: data?.length });
+      return data || [];
 
       if (error) {
         logger.error('Error fetching active services', error as Error);
@@ -179,11 +196,9 @@ export class EnhancedDataService implements IEnhancedDataService {
         throw new Error('Service price cannot be negative');
       }
 
-      const { data, error } = await supabase
-        .from('services')
-        .insert([service] as any)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseInsert<DbService>(
+        'services', service
+      );
 
       if (error) {
         logger.error('Error creating service', error as Error, { service });
@@ -207,12 +222,9 @@ export class EnhancedDataService implements IEnhancedDataService {
         throw new Error('Service price cannot be negative');
       }
 
-      const { data, error } = await supabase
-        .from('services')
-        .update(updates as any)
-        .eq('id', serviceId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<DbService>(
+        'services', updates, { id: serviceId }
+      );
 
       if (error) {
         logger.error('Error updating service', error as Error, { serviceId, updates });
@@ -230,10 +242,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async deleteService(serviceId: string): Promise<void> {
     try {
       logger.info('Deleting service', { serviceId });
-      const { error } = await supabase
-        .from('services')
-        .delete()
-        .eq('id', serviceId);
+      const { error } = await safeSupabaseDelete(
+        'services', { id: serviceId }
+      );
 
       if (error) {
         logger.error('Error deleting service', error as Error, { serviceId });
@@ -251,11 +262,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getUserPreferences(userId: string): Promise<DbUserPreference | null> {
     try {
       logger.info('Fetching user preferences', { userId });
-      const { data, error } = await supabase
-        .from('user_preferences')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbUserPreference>(
+        supabase.from('user_preferences').select('*').eq('user_id', userId).single()
+      );
 
       if (error) {
         if (error.code === 'PGRST116') { // No rows found
@@ -277,11 +286,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async createUserPreferences(userId: string, preferences: Omit<DbUserPreference, 'id' | 'user_id' | 'created_at' | 'updated_at'>): Promise<DbUserPreference> {
     try {
       logger.info('Creating user preferences', { userId, preferences });
-      const { data, error } = await supabase
-        .from('user_preferences')
-        .insert([{ user_id: userId, ...preferences }])
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseInsert<DbUserPreference>(
+        'user_preferences', { user_id: userId, ...preferences }
+      );
 
       if (error) {
         logger.error('Error creating user preferences', error as Error, { userId, preferences });
@@ -299,12 +306,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async updateUserPreferences(userId: string, preferences: Partial<DbUserPreference>): Promise<DbUserPreference> {
     try {
       logger.info('Updating user preferences', { userId, preferences });
-      const { data, error } = await supabase
-        .from('user_preferences')
-        .update(preferences)
-        .eq('user_id', userId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<DbUserPreference>(
+        'user_preferences', preferences, { user_id: userId }
+      );
 
       if (error) {
         logger.error('Error updating user preferences', error as Error, { userId, preferences });
@@ -322,10 +326,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async deleteUserPreferences(userId: string): Promise<void> {
     try {
       logger.info('Deleting user preferences', { userId });
-      const { error } = await supabase
-        .from('user_preferences')
-        .delete()
-        .eq('user_id', userId);
+      const { error } = await safeSupabaseDelete(
+        'user_preferences', { user_id: userId }
+      );
 
       if (error) {
         logger.error('Error deleting user preferences', error as Error, { userId });
@@ -343,11 +346,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getSubscriptionById(subscriptionId: string): Promise<DbSubscription | null> {
     try {
       logger.info('Fetching subscription by ID', { subscriptionId });
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*')
-        .eq('id', subscriptionId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscription>(
+        supabase.from('subscriptions').select('*').eq('id', subscriptionId).single()
+      );
 
       if (error) {
         logger.error('Error fetching subscription', error as Error, { subscriptionId });
@@ -365,12 +366,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getUserSubscription(userId: string): Promise<DbSubscription | null> {
     try {
       logger.info('Fetching user subscription', { userId });
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*')
-        .eq('user_id', userId)
-        .in('status', ['active', 'pending'])
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscription>(
+        supabase.from('subscriptions').select('*').eq('user_id', userId).in('status', ['active', 'pending']).single()
+      );
 
       if (error) {
         if (error.code === 'PGRST116') { // No rows found
@@ -392,11 +390,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getActiveSubscriptions(): Promise<DbSubscription[]> {
     try {
       logger.info('Fetching active subscriptions');
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .select('*')
-        .eq('status', 'active')
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscription[]>(
+        supabase.from('subscriptions').select('*').eq('status', 'active').order('created_at', { ascending: false })
+      );
+
+      if (error) {
+        logger.error('Error fetching active subscriptions', error as Error);
+        throw error;
+      }
+
+      logger.info('Active subscriptions fetched successfully', { count: data?.length });
+      return data || [];
 
       if (error) {
         logger.error('Error fetching active subscriptions', error as Error);
@@ -426,18 +430,16 @@ export class EnhancedDataService implements IEnhancedDataService {
         throw new Error('Subscription price cannot be negative');
       }
 
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .insert([subscription])
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseInsert<DbSubscription>(
+        'subscriptions', subscription
+      );
 
       if (error) {
         logger.error('Error creating subscription', error as Error, { subscription });
         throw error;
       }
 
-      logger.info('Subscription created successfully', { subscriptionId: data.id });
+      logger.info('Subscription created successfully', { subscriptionId: data?.id });
       return data as any;
     } catch (error) {
       logger.error('Failed to create subscription', error as Error, { subscription });
@@ -448,12 +450,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async updateSubscriptionStatus(subscriptionId: string, status: DbSubscription['status']): Promise<DbSubscription> {
     try {
       logger.info('Updating subscription status', { subscriptionId, status });
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .update({ status })
-        .eq('id', subscriptionId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<DbSubscription>(
+        'subscriptions', { status }, { id: subscriptionId }
+      );
 
       if (error) {
         logger.error('Error updating subscription status', error as Error, { subscriptionId, status });
@@ -471,15 +470,14 @@ export class EnhancedDataService implements IEnhancedDataService {
   async cancelSubscription(subscriptionId: string): Promise<DbSubscription> {
     try {
       logger.info('Cancelling subscription', { subscriptionId });
-      const { data, error } = await supabase
-        .from('subscriptions')
-        .update({ 
+      const { data, error } = await safeSupabaseUpdate<DbSubscription>(
+        'subscriptions', 
+        { 
           status: 'cancelled',
           cancelled_at: new Date().toISOString()
-        })
-        .eq('id', subscriptionId)
-        .select()
-        .single();
+        }, 
+        { id: subscriptionId }
+      );
 
       if (error) {
         logger.error('Error cancelling subscription', error as Error, { subscriptionId });
@@ -498,12 +496,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getSubscriptionTiers(): Promise<DbSubscriptionTier[]> {
     try {
       logger.info('Fetching subscription tiers');
-      const { data, error } = await supabase
-        .from('subscription_tiers')
-        .select('*')
-        .eq('is_active', true)
-        .eq('is_public', true)
-        .order('sort_order', { ascending: true });
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscriptionTier[]>(
+        supabase.from('subscription_tiers').select('*').eq('is_active', true).eq('is_public', true).order('sort_order', { ascending: true })
+      );
+
+      if (error) {
+        logger.error('Error fetching subscription tiers', error as Error);
+        throw error;
+      }
+
+      logger.info('Subscription tiers fetched successfully', { count: data?.length });
+      return data || [];
 
       if (error) {
         logger.error('Error fetching subscription tiers', error as Error);
@@ -521,11 +524,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getSubscriptionTierById(tierId: string): Promise<DbSubscriptionTier | null> {
     try {
       logger.info('Fetching subscription tier by ID', { tierId });
-      const { data, error } = await supabase
-        .from('subscription_tiers')
-        .select('*')
-        .eq('id', tierId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscriptionTier>(
+        supabase.from('subscription_tiers').select('*').eq('id', tierId).single()
+      );
 
       if (error) {
         logger.error('Error fetching subscription tier', error as Error, { tierId });
@@ -543,12 +544,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getSubscriptionTierByType(type: 'loyalty' | 'vip'): Promise<DbSubscriptionTier | null> {
     try {
       logger.info('Fetching subscription tier by type', { type });
-      const { data, error } = await supabase
-        .from('subscription_tiers')
-        .select('*')
-        .eq('type', type)
-        .eq('is_active', true)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscriptionTier>(
+        supabase.from('subscription_tiers').select('*').eq('type', type).eq('is_active', true).single()
+      );
 
       if (error) {
         logger.error('Error fetching subscription tier by type', error as Error, { type });
@@ -566,18 +564,16 @@ export class EnhancedDataService implements IEnhancedDataService {
   async createSubscriptionTier(tier: Omit<DbSubscriptionTier, 'id' | 'created_at' | 'updated_at'>): Promise<DbSubscriptionTier> {
     try {
       logger.info('Creating subscription tier', { tier });
-      const { data, error } = await supabase
-        .from('subscription_tiers')
-        .insert([tier])
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseInsert<DbSubscriptionTier>(
+        'subscription_tiers', tier
+      );
 
       if (error) {
         logger.error('Error creating subscription tier', error as Error, { tier });
         throw error;
       }
 
-      logger.info('Subscription tier created successfully', { tierId: data.id });
+      logger.info('Subscription tier created successfully', { tierId: data?.id });
       return data as any;
     } catch (error) {
       logger.error('Failed to create subscription tier', error as Error, { tier });
@@ -588,12 +584,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async updateSubscriptionTier(tierId: string, updates: Partial<DbSubscriptionTier>): Promise<DbSubscriptionTier> {
     try {
       logger.info('Updating subscription tier', { tierId, updates });
-      const { data, error } = await supabase
-        .from('subscription_tiers')
-        .update(updates as any)
-        .eq('id', tierId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<DbSubscriptionTier>(
+        'subscription_tiers', updates as any, { id: tierId }
+      );
 
       if (error) {
         logger.error('Error updating subscription tier', error as Error, { tierId, updates });
@@ -612,11 +605,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getSubscriptionUsage(subscriptionId: string): Promise<DbSubscriptionUsage | null> {
     try {
       logger.info('Fetching subscription usage', { subscriptionId });
-      const { data, error } = await supabase
-        .from('subscription_usage')
-        .select('*')
-        .eq('subscription_id', subscriptionId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscriptionUsage>(
+        supabase.from('subscription_usage').select('*').eq('subscription_id', subscriptionId).single()
+      );
 
       if (error) {
         if (error.code === 'PGRST116') { // No rows found
@@ -638,11 +629,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getUserSubscriptionUsage(userId: string): Promise<DbSubscriptionUsage | null> {
     try {
       logger.info('Fetching user subscription usage', { userId });
-      const { data, error } = await supabase
-        .from('subscription_usage')
-        .select('*')
-        .eq('user_id', userId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbSubscriptionUsage>(
+        supabase.from('subscription_usage').select('*').eq('user_id', userId).single()
+      );
 
       if (error) {
         if (error.code === 'PGRST116') { // No rows found
@@ -664,18 +653,16 @@ export class EnhancedDataService implements IEnhancedDataService {
   async createSubscriptionUsage(usage: Omit<DbSubscriptionUsage, 'id' | 'last_updated'>): Promise<DbSubscriptionUsage> {
     try {
       logger.info('Creating subscription usage', { usage });
-      const { data, error } = await supabase
-        .from('subscription_usage')
-        .insert([usage])
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseInsert<DbSubscriptionUsage>(
+        'subscription_usage', usage
+      );
 
       if (error) {
         logger.error('Error creating subscription usage', error as Error, { usage });
         throw error;
       }
 
-      logger.info('Subscription usage created successfully', { usageId: data.id });
+      logger.info('Subscription usage created successfully', { usageId: data?.id });
       return data as any;
     } catch (error) {
       logger.error('Failed to create subscription usage', error as Error, { usage });
@@ -686,12 +673,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async updateSubscriptionUsage(usageId: string, updates: Partial<DbSubscriptionUsage>): Promise<DbSubscriptionUsage> {
     try {
       logger.info('Updating subscription usage', { usageId, updates });
-      const { data, error } = await supabase
-        .from('subscription_usage')
-        .update(updates as any)
-        .eq('id', usageId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<DbSubscriptionUsage>(
+        'subscription_usage', updates as any, { id: usageId }
+      );
 
       if (error) {
         logger.error('Error updating subscription usage', error as Error, { usageId, updates });
@@ -755,11 +739,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getCommunityPostById(postId: string): Promise<DbCommunityPost | null> {
     try {
       logger.info('Fetching community post by ID', { postId });
-      const { data, error } = await supabase
-        .from('community_posts')
-        .select('*')
-        .eq('id', postId)
-        .single();
+      const { data, error } = await safeSupabaseQueryBuilder<DbCommunityPost>(
+        supabase.from('community_posts').select('*').eq('id', postId).single()
+      );
 
       if (error) {
       logger.error('Error fetching community post', error as Error, { postId });
@@ -777,12 +759,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getPublishedCommunityPosts(limit = 50, offset = 0): Promise<DbCommunityPost[]> {
     try {
       logger.info('Fetching published community posts', { limit, offset });
-      const { data, error } = await supabase
-        .from('community_posts')
-        .select('*')
-        .eq('is_published', true)
-        .order('published_at', { ascending: false })
-        .range(offset, offset + limit - 1);
+      const { data, error } = await safeSupabaseQueryBuilder<DbCommunityPost[]>(
+        supabase.from('community_posts').select('*').eq('is_published', true).order('published_at', { ascending: false }).range(offset, offset + limit - 1)
+      );
+
+      if (error) {
+        logger.error('Error fetching published community posts', error as Error, { limit, offset });
+        throw error;
+      }
+
+      logger.info('Published community posts fetched successfully', { limit, offset, count: data?.length });
+      return data || [];
 
       if (error) {
       logger.error('Error fetching published community posts', error as Error, { limit, offset });
@@ -800,11 +787,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getUserCommunityPosts(userId: string): Promise<DbCommunityPost[]> {
     try {
       logger.info('Fetching user community posts', { userId });
-      const { data, error } = await supabase
-        .from('community_posts')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQueryBuilder<DbCommunityPost[]>(
+        supabase.from('community_posts').select('*').eq('user_id', userId).order('created_at', { ascending: false })
+      );
+
+      if (error) {
+        logger.error('Error fetching user community posts', error as Error, { userId });
+        throw error;
+      }
+
+      logger.info('User community posts fetched successfully', { userId, count: data?.length });
+      return data || [];
 
       if (error) {
       logger.error('Error fetching user community posts', error as Error, { userId });
@@ -822,12 +815,17 @@ export class EnhancedDataService implements IEnhancedDataService {
   async getFeaturedCommunityPosts(): Promise<DbCommunityPost[]> {
     try {
       logger.info('Fetching featured community posts');
-      const { data, error } = await supabase
-        .from('community_posts')
-        .select('*')
-        .eq('is_published', true)
-        .eq('is_featured', true)
-        .order('published_at', { ascending: false });
+      const { data, error } = await safeSupabaseQueryBuilder<DbCommunityPost[]>(
+        supabase.from('community_posts').select('*').eq('is_published', true).eq('is_featured', true).order('published_at', { ascending: false })
+      );
+
+      if (error) {
+        logger.error('Error fetching featured community posts', error as Error);
+        throw error;
+      }
+
+      logger.info('Featured community posts fetched successfully', { count: data?.length });
+      return data || [];
 
       if (error) {
       logger.error('Error fetching featured community posts', error as Error);
@@ -857,23 +855,21 @@ export class EnhancedDataService implements IEnhancedDataService {
         throw new Error('User ID is required');
       }
 
-      const { data, error } = await supabase
-        .from('community_posts')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<DbCommunityPost>(
+        'community_posts', {
           ...post,
           likes_count: 0,
           comments_count: 0,
           views_count: 0
-        }])
-        .select()
-        .single();
+        }
+      );
 
       if (error) {
       logger.error('Error creating community post', error as Error, { post });
         throw error;
       }
 
-      logger.info('Community post created successfully', { postId: data.id });
+      logger.info('Community post created successfully', { postId: data?.id });
       return data as any;
     } catch (error) {
       logger.error('Failed to create community post', error as Error, { post });
@@ -884,12 +880,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async updateCommunityPost(postId: string, updates: Partial<DbCommunityPost>): Promise<DbCommunityPost> {
     try {
       logger.info('Updating community post', { postId, updates });
-      const { data, error } = await supabase
-        .from('community_posts')
-        .update(updates as any)
-        .eq('id', postId)
-        .select()
-        .single();
+      const { data, error } = await safeSupabaseUpdate<DbCommunityPost>(
+        'community_posts', updates as any, { id: postId }
+      );
 
       if (error) {
       logger.error('Error updating community post', error as Error, { postId, updates });
@@ -907,10 +900,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async deleteCommunityPost(postId: string): Promise<void> {
     try {
       logger.info('Deleting community post', { postId });
-      const { error } = await supabase
-        .from('community_posts')
-        .delete()
-        .eq('id', postId);
+      const { error } = await safeSupabaseDelete(
+        'community_posts', { id: postId }
+      );
 
       if (error) {
       logger.error('Error deleting community post', error as Error, { postId });
@@ -927,11 +919,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async incrementPostViews(postId: string): Promise<void> {
     try {
       logger.info('Incrementing post views', { postId });
-      const { data: current, error: fetchError } = await supabase
-        .from('community_posts')
-        .select('views_count')
-        .eq('id', postId)
-        .single();
+      const { data: current, error: fetchError } = await safeSupabaseQueryBuilder<{ views_count: number }>(
+        supabase.from('community_posts').select('views_count').eq('id', postId).single()
+      );
 
       if (fetchError) {
         logger.error('Error fetching current views_count', fetchError as Error, { postId });
@@ -940,10 +930,9 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       const nextCount = (current?.views_count ?? 0) + 1;
 
-      const { error } = await supabase
-        .from('community_posts')
-        .update({ views_count: nextCount })
-        .eq('id', postId);
+      const { error } = await safeSupabaseUpdate(
+        'community_posts', { views_count: nextCount }, { id: postId }
+      );
 
       if (error) {
         logger.error('Error incrementing post views', error as Error, { postId });
@@ -960,11 +949,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async incrementPostLikes(postId: string): Promise<void> {
     try {
       logger.info('Incrementing post likes', { postId });
-      const { data: current, error: fetchError } = await supabase
-        .from('community_posts')
-        .select('likes_count')
-        .eq('id', postId)
-        .single();
+      const { data: current, error: fetchError } = await safeSupabaseQueryBuilder<{ likes_count: number }>(
+        supabase.from('community_posts').select('likes_count').eq('id', postId).single()
+      );
 
       if (fetchError) {
         logger.error('Error fetching current likes_count', fetchError as Error, { postId });
@@ -973,10 +960,9 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       const nextCount = (current?.likes_count ?? 0) + 1;
 
-      const { error } = await supabase
-        .from('community_posts')
-        .update({ likes_count: nextCount })
-        .eq('id', postId);
+      const { error } = await safeSupabaseUpdate(
+        'community_posts', { likes_count: nextCount }, { id: postId }
+      );
 
       if (error) {
         logger.error('Error incrementing post likes', error as Error, { postId });
@@ -993,11 +979,9 @@ export class EnhancedDataService implements IEnhancedDataService {
   async decrementPostLikes(postId: string): Promise<void> {
     try {
       logger.info('Decrementing post likes', { postId });
-      const { data: current, error: fetchError } = await supabase
-        .from('community_posts')
-        .select('likes_count')
-        .eq('id', postId)
-        .single();
+      const { data: current, error: fetchError } = await safeSupabaseQueryBuilder<{ likes_count: number }>(
+        supabase.from('community_posts').select('likes_count').eq('id', postId).single()
+      );
 
       if (fetchError) {
         logger.error('Error fetching current likes_count', fetchError as Error, { postId });
@@ -1006,10 +990,9 @@ export class EnhancedDataService implements IEnhancedDataService {
 
       const nextCount = Math.max(0, (current?.likes_count ?? 0) - 1);
 
-      const { error } = await supabase
-        .from('community_posts')
-        .update({ likes_count: nextCount })
-        .eq('id', postId);
+      const { error } = await safeSupabaseUpdate(
+        'community_posts', { likes_count: nextCount }, { id: postId }
+      );
 
       if (error) {
         logger.error('Error decrementing post likes', error as Error, { postId });

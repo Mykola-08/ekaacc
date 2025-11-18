@@ -37,10 +37,7 @@ export function ReasonStep({ onNext }: ReasonStepProps) {
             >
               <span className="text-3xl">{option.icon}</span>
               <RadioGroupItem
-                name="reasonForSeeking"
                 value={option.value}
-                checked={reasonForSeeking === option.value}
-                onChange={() => setReasonForSeeking(option.value)}
                 className="mt-0"
               />
               <div className="flex-1">
@@ -69,10 +66,7 @@ export function ReasonStep({ onNext }: ReasonStepProps) {
             >
               <span className="text-2xl">{option.icon}</span>
               <RadioGroupItem
-                name="previousTherapy"
                 value={option.value}
-                checked={previousTherapy === option.value}
-                onChange={() => setPreviousTherapy(option.value)}
                 className="mt-0"
               />
               <div className="font-medium">{option.label}</div>

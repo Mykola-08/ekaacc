@@ -60,7 +60,7 @@ export default function ReportsPage() {
                 setIsLoadingReports(true);
                 try {
                     const userReports = await dataService.getReports(currentUser.id);
-                    setReports(userReports);
+                    setReports(userReports || []);
                 } catch (error) {
                     console.error("Failed to fetch reports:", error);
                     toast({

@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
 import { OAuthButtons } from '@/components/auth/oauth-buttons-improved'
-import { IconLoader2 } from '@tabler/icons-react'
+import { Loader2 } from 'lucide-react'
 
 const signupSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters'),
@@ -61,11 +61,7 @@ export function SignupForm03({ onSuccess, onError }: SignupForm03Props) {
     const { error } = await signUp({
       email: values.email,
       password: values.password,
-      options: {
-        data: {
-          full_name: values.fullName,
-        },
-      },
+      fullName: values.fullName,
     })
     
     if (error) {
@@ -281,7 +277,7 @@ export function SignupForm03({ onSuccess, onError }: SignupForm03Props) {
               >
                 {isLoading ? (
                   <>
-                    <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creating account...
                   </>
                 ) : (

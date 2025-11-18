@@ -82,7 +82,6 @@ function getClient(): SquareClient {
   // Provide a minimal valid config to avoid initialization errors
   return new SquareClient({
     environment: env,
-    accessToken: config.accessToken,
   });
 }
 

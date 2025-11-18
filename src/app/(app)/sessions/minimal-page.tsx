@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
-import { CalendarOff, Clock, Calendar, Video, User, Plus, Filter } from "lucide-react";
+import { CalendarOff, Clock, Calendar, Video, User as UserIcon, Plus, Filter } from "lucide-react";
 import type { Session as AppSession, User } from '@/lib/types';
 import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
@@ -62,7 +62,7 @@ function MinimalSessionCard({ session }: { session: AppSession }) {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
           <div className="w-12 h-12 bg-gray-100 rounded-squircle flex items-center justify-center">
-            <User className="w-6 h-6 text-gray-600" />
+            <UserIcon className="w-6 h-6 text-gray-600" />
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
@@ -135,7 +135,7 @@ function SessionsLoadingSkeleton() {
   );
 }
 
-function NoSessionsFound({ error, onBookClick }: { error: Error | null, onBookClick: () => void }) {
+function NoSessionsFound({ error, onBookClick }: { error: Error | null; onBookClick: () => void }) {
   return (
     <Card className="p-12 text-center rounded-lg">
       <div className="max-w-md mx-auto">
@@ -276,7 +276,7 @@ export default function MinimalSessionsPage() {
             </div>
           </Card>
 
-          <Card variant="default" className="p-4 rounded-squircle">
+          <Card className="p-4 rounded-squircle">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Completed</p>
@@ -288,7 +288,7 @@ export default function MinimalSessionsPage() {
             </div>
           </Card>
 
-          <Card variant="default" className="p-4 rounded-squircle">
+          <Card className="p-4 rounded-squircle">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 mb-1">Canceled</p>
@@ -306,7 +306,7 @@ export default function MinimalSessionsPage() {
           {filterOptions.map((option) => (
             <Button
               key={option.value}
-              variant={filterStatus === option.value ? 'primary' : 'outline'}
+              variant={filterStatus === option.value ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilterStatus(option.value)}
               className="rounded-squircle"

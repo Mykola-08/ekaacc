@@ -157,9 +157,11 @@ export default function PrivacyControlsPage() {
       aiPersonalization.trackUserInteraction({
         userId: user.id,
         type: 'page_view',
-        section: 'privacy_controls',
-        timestamp: Date.now(),
-        metadata: { action: 'privacy_settings_accessed' }
+        timestamp: new Date().toISOString(),
+        metadata: { 
+          action: 'privacy_settings_accessed',
+          section: 'privacy_controls'
+        }
       });
     }
   }, [user?.id]);
@@ -223,11 +225,14 @@ export default function PrivacyControlsPage() {
         },
         {
           id: '2',
-          timestamp: Date.now() - 7200000,
+          timestamp: new Date(Date.now() - 7200000).toISOString(),
           accessor: 'ai_service',
           action: 'data_access',
-          section: 'wellness_data',
-          metadata: { purpose: 'personalization', duration: '2min' }
+          metadata: { 
+            purpose: 'personalization', 
+            duration: '2min',
+            section: 'wellness_data'
+          }
         }
       ];
       setAccessLogs(logs);
@@ -246,10 +251,10 @@ export default function PrivacyControlsPage() {
         const aiPersonalization = new AIPersonalizationService();
         aiPersonalization.trackUserInteraction({
           userId: user.id,
-          type: 'privacy_update',
-          section: 'privacy_controls',
-          timestamp: Date.now(),
+          type: 'form_submit',
+          timestamp: new Date().toISOString(),
           metadata: {
+            section: 'privacy_controls',
             ai_training: privacySettings.dataSharing.aiTraining,
             profile_visibility: privacySettings.visibility.profileVisibility,
             data_retention: privacySettings.dataRetention
@@ -276,10 +281,13 @@ export default function PrivacyControlsPage() {
         const aiPersonalization = new AIPersonalizationService();
         aiPersonalization.trackUserInteraction({
           userId: user.id,
-          type: 'data_export',
-          section: 'privacy_controls',
-          timestamp: Date.now(),
-          metadata: dataExportRequest
+          type: 'form_submit',
+          timestamp: new Date().toISOString(),
+          metadata: {
+            section: 'privacy_controls',
+            action: 'data_export',
+            ...dataExportRequest
+          }
         });
       }
       

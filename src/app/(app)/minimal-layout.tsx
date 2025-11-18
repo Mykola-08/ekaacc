@@ -2,8 +2,9 @@
 import { useAuth } from '@/lib/supabase-auth';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { AppSidebar07 } from '@/components/navigation/sidebar-07';
+import { AppSidebar } from '@/components/navigation/ShadcnSidebar';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppHeader } from '@/components/eka/app-header';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
@@ -37,13 +38,15 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
-        <AppSidebar07 />
-        <main className="flex-1 overflow-auto">
-          <div className="container mx-auto p-6">
-            <SidebarTrigger className="mb-4" />
-            {children}
-          </div>
-        </main>
+        <AppSidebar />
+        <div className="flex-1 flex flex-col">
+          <AppHeader />
+          <main className="flex-1 overflow-auto">
+            <div className="container mx-auto p-6">
+              {children}
+            </div>
+          </main>
+        </div>
       </div>
     </SidebarProvider>
   );

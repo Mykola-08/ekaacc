@@ -111,10 +111,10 @@ export default function MinimalProgressPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchReports = useCallback(async () => {
-    if (dataService && user?.uid) {
+    if (dataService && user?.id) {
       setIsLoading(true);
       try {
-        const userReports = await dataService.getReports(user.uid);
+        const userReports = await dataService.getReports(user.id);
         setReports(userReports || []);
       } catch (error) {
         console.error('Error fetching reports:', error);
@@ -124,7 +124,7 @@ export default function MinimalProgressPage() {
     } else {
       setIsLoading(false);
     }
-  }, [dataService, user?.uid]);
+  }, [dataService, user?.id]);
 
   useEffect(() => {
     fetchReports();
@@ -132,10 +132,10 @@ export default function MinimalProgressPage() {
 
   const progressData = useMemo(() => {
     return reports.map(report => ({
-      date: report.createdAt,
+      date: report.createdAt || new Date(),
       mood: report.mood || 8,
-      score: report.overallScore,
-      notes: report.notes,
+      score: report.overallScore || 0,
+      notes: report.notes || '',
       trend: report.trend || 'stable'
     })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }, [reports]);
@@ -145,7 +145,7 @@ export default function MinimalProgressPage() {
     const avgMood = totalSessions > 0 
       ? reports.reduce((sum, report) => sum + (report.mood || 8), 0) / totalSessions 
       : 0;
-    const completedGoals = reports.filter(report => report.goalProgress === 'completed').length;
+    const completedGoals = reports.filter(report => report.goalProgress === 100).length;
     const recentReports = reports.slice(-5);
     const recentTrend: 'improving' | 'declining' | 'neutral' = recentReports.length > 1 
       ? (recentReports[recentReports.length - 1].mood || 0) > (recentReports[0].mood || 0)

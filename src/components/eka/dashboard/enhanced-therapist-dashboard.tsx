@@ -340,7 +340,7 @@ function EnhancedSessionList({ sessions }: { sessions: AppSession[] }) {
                       {session.therapist.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
-                  {session.status === 'in-progress' && (
+                  {session.status === 'Upcoming' && (
                     <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-white animate-pulse"></div>
                   )}
                 </div>
@@ -360,11 +360,11 @@ function EnhancedSessionList({ sessions }: { sessions: AppSession[] }) {
                   {session.status}
                 </Badge>
                 <Button 
-                  variant={session.status === 'upcoming' ? 'default' : 'outline'}
+                  variant={session.status === 'Upcoming' ? 'default' : 'outline'}
                   size="sm"
                   className="hover-lift"
                 >
-                  {session.status === 'upcoming' ? 'Start' : 'View'}
+                  {session.status === 'Upcoming' ? 'Start' : 'View'}
                 </Button>
               </div>
             </motion.div>
@@ -379,18 +379,18 @@ function EnhancedSessionList({ sessions }: { sessions: AppSession[] }) {
 export default function EnhancedTherapistDashboard() {
   const { user: appUser } = useAuth();
   const isTestMode = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
-  const isAdmin = appUser?.role === 'Admin';
+  const isAdmin = appUser?.role?.name === 'Admin';
   const router = useRouter();
   const { toast } = useToast();
   const dataService = useAppStore((state) => state.dataService);
 
-  const [currentUser, setCurrentUser] = useState<User | null>(appUser);
+  const [currentUser, setCurrentUser] = useState<User | null>(appUser as User | null);
   const [activeTab, setActiveTab] = useState<string>("dashboard");
   const [upcomingSessions, setUpcomingSessions] = useState<AppSession[]>([]);
   const [patients, setPatients] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => { setCurrentUser(appUser); }, [appUser]);
+  useEffect(() => { setCurrentUser(appUser as User | null); }, [appUser]);
 
   // Fetch initial data
   useEffect(() => {
@@ -562,7 +562,7 @@ export default function EnhancedTherapistDashboard() {
         </TabsContent>
 
         <TabsContent value="billing">
-          <ClientBilling />
+          <ClientBilling client={currentUser as User} isAdmin={isAdmin} />
         </TabsContent>
 
         <TabsContent value="settings">

@@ -101,7 +101,7 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => onResolve(pattern.id!)}
-                className="apple-button-icon apple-hover-lift"
+                className="p-2 rounded-full hover:bg-white/20 transition-colors"
               >
                 <X className="w-4 h-4" />
               </motion.button>
@@ -337,7 +337,7 @@ const AIBehavioralInsights: React.FC = () => {
 
   const activePatterns = patterns.filter(p => p.status === 'active');
   const resolvedPatterns = patterns.filter(p => p.status === 'resolved');
-  const activeInsights = insights.filter(i => !i.is_dismissed && new Date(i.expires_at) > new Date());
+  const activeInsights = insights.filter(i => !(i as any).is_dismissed && new Date(i.expires_at) > new Date());
 
   const tabVariants = {
     active: { scale: 1.05 },

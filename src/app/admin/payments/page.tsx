@@ -118,7 +118,7 @@ export default function AdminPaymentsPage() {
     pendingVolume: payments.filter(p => p.status === 'pending').reduce((sum, p) => sum + p.amount, 0),
   };
 
-  if (!currentUser || (currentUser.role !== 'Admin' && currentUser.role !== 'Therapist')) {
+  if (!currentUser || (currentUser.role?.name !== 'Admin' && currentUser.role?.name !== 'Therapist')) {
     return (
       <SettingsShell>
         <SettingsHeader title="Access Denied" description="You do not have permission to view this page." />

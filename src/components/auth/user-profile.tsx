@@ -68,11 +68,11 @@ export function UserProfile({ className }: UserProfileProps) {
   const preferencesForm = useForm<PreferencesFormValues>({
     resolver: zodResolver(preferencesSchema),
     defaultValues: {
-      theme: preferences.theme,
-      language: preferences.language,
-      timezone: preferences.timezone,
-      emailNotifications: preferences.emailNotifications,
-      pushNotifications: preferences.pushNotifications,
+      theme: preferences?.theme || 'system',
+      language: preferences?.language || 'en',
+      timezone: preferences?.timezone || 'UTC',
+      emailNotifications: preferences?.email_notifications || true,
+      pushNotifications: preferences?.push_notifications || false,
     },
   })
 

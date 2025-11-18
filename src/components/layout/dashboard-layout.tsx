@@ -1,8 +1,9 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { CollapsibleSidebar } from '@/components/navigation/collapsible-sidebar'
-import { MobileNavigation } from '@/components/navigation/mobile-navigation'
+import { AppSidebar } from '@/components/navigation/ShadcnSidebar'
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppHeader } from '@/components/eka/app-header'
 import { cn } from '@/lib/utils'
 
 interface DashboardLayoutProps {
@@ -12,22 +13,25 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   return (
-    <div className="flex h-screen bg-background">
-      {/* Mobile Navigation */}
-      <MobileNavigation />
-      
-      {/* Desktop Sidebar */}
-      <CollapsibleSidebar className="hidden md:flex" />
-      
-      {/* Main Content */}
-      <main className={cn(
-        "flex-1 overflow-y-auto",
-        "md:ml-0", // Remove margin since sidebar is fixed
-        "pt-16 md:pt-0", // Add padding for mobile nav
-        className
-      )}>
-        {children}
-      </main>
-    </div>
+    <SidebarProvider>
+      <div className="flex h-screen bg-background">
+        {/* Shadc Sidebar - Only sidebar that remains */}
+        <AppSidebar />
+        
+        {/* Main Content Area */}
+        <div className="flex-1 flex flex-col">
+          {/* Header with sidebar trigger */}
+          <AppHeader />
+          
+          {/* Main Content */}
+          <main className={cn(
+            "flex-1 overflow-y-auto",
+            className
+          )}>
+            {children}
+          </main>
+        </div>
+      </div>
+    </SidebarProvider>
   )
 }

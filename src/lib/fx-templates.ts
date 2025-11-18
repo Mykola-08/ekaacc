@@ -1,13 +1,16 @@
 // Production-grade templates service with Supabase integration
 import { supabase } from '@/lib/supabase'
+import { safeSupabaseInsert, safeSupabaseQuery } from '@/lib/supabase-utils'
 
 export const fxTemplates = {
   async listTemplates() {
     try {
-      const { data, error } = await supabase
-        .from('templates')
-        .select('*')
-        .order('created_at', { ascending: false });
+      const { data, error } = await safeSupabaseQuery<any[]>(
+        supabase
+          .from('templates')
+          .select('*')
+          .order('created_at', { ascending: false })
+      );
       
       if (error) {
         console.error('Error fetching templates:', error);
@@ -22,16 +25,15 @@ export const fxTemplates = {
   },
   async createTemplate({ title, content, authorId }: { title: string; content: string; authorId?: string }) {
     try {
-      const { data, error } = await supabase
-        .from('templates')
-        .insert([{
+      const { data, error } = await safeSupabaseInsert<any>(
+        'templates',
+        {
           title,
           content,
           author_id: authorId,
           created_at: new Date().toISOString()
-        }])
-        .select()
-        .single();
+        }
+      );
       
       if (error) {
         console.error('Error creating template:', error);

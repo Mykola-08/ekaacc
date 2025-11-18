@@ -8,7 +8,8 @@ import {
 import { 
   NAVIGATION_CONFIG, 
   getNavigationItemsByRole,
-  findNavigationItemByHref 
+  findNavigationItemByHref,
+  NavigationCategory
 } from '../lib/navigation-config';
 
 // Mock user data for testing
@@ -258,7 +259,7 @@ describe('Role-Based Navigation System', () => {
         expect(item.metadata?.roleSpecific).toBeDefined();
         
         // Should be accessible only by the specified role
-        const specifiedRole = item.metadata.roleSpecific;
+        const specifiedRole = item.metadata!.roleSpecific;
         const allowedResult = checkNavigationPermission(specifiedRole, item);
         expect(allowedResult.hasAccess).toBe(true);
         

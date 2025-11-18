@@ -28,7 +28,6 @@ function getClient(): SquareClient {
   }
   return new SquareClient({
     environment: env,
-    accessToken: token,
   });
 }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabase';
 import type { VIPTier, LoyaltyTier } from '@/lib/subscription-types';
 
 export interface UserTierData {
@@ -170,7 +171,7 @@ export function useTiers(): UseTiersReturn {
   // Helper function to get auth token
   const getAuthToken = async (): Promise<string | null> => {
     try {
-      const { data: { session } } = await fetch('/api/auth/session').then(res => res.json());
+      const { data: { session } } = await supabase.auth.getSession();
       return session?.access_token || null;
     } catch {
       return null;
@@ -470,7 +471,7 @@ export function useAdminTiers(): UseAdminTiersReturn {
   // Helper function to get auth token
   const getAuthToken = async (): Promise<string> => {
     try {
-      const { data: { session } } = await fetch('/api/auth/session').then(res => res.json());
+      const { data: { session } } = await supabase.auth.getSession();
       return session?.access_token || '';
     } catch {
       return '';

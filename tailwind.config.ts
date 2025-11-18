@@ -99,12 +99,12 @@ export default {
   				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
-    		borderRadius: {
-    			xl: 'calc(var(--radius) + 8px)',
-    			lg: 'var(--radius)',
-    			md: 'calc(var(--radius) - 2px)',
-    			sm: 'calc(var(--radius) - 4px)'
-    		},
+  		borderRadius: {
+  			xl: 'calc(var(--radius) + 8px)',
+  			lg: 'var(--radius)',
+  			md: 'calc(var(--radius) - 2px)',
+  			sm: 'calc(var(--radius) - 4px)'
+  		},
   		spacing: {
   			'18': '4.5rem',
   			'88': '22rem'
@@ -165,7 +165,7 @@ export default {
   					opacity: '1'
   				}
   			},
-  			'gradient': {
+  			gradient: {
   				'0%': {
   					'background-position': '0% 50%'
   				},
@@ -176,7 +176,7 @@ export default {
   					'background-position': '0% 50%'
   				}
   			},
-  			'shimmer': {
+  			shimmer: {
   				'0%': {
   					transform: 'translateX(-100%)'
   				},
@@ -209,8 +209,8 @@ export default {
   			'fade-in': 'fade-in 0.3s ease-out',
   			'slide-up': 'slide-up 0.3s ease-out',
   			'scale-in': 'scale-in 0.2s ease-out',
-  			'gradient': 'gradient 3s ease infinite',
-  			'shimmer': 'shimmer 2s linear infinite',
+  			gradient: 'gradient 3s ease infinite',
+  			shimmer: 'shimmer 2s linear infinite',
   			'shimmer-button': 'shimmer-button 2s linear infinite',
   			'blur-in': 'blur-in 0.4s ease-out'
   		},

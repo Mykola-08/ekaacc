@@ -38,10 +38,7 @@ export function CommunicationStep({ onNext }: CommunicationStepProps) {
               )}
               <span className="text-3xl">{style.label.split(' ')[0]}</span>
               <RadioGroupItem
-                name="communicationStyle"
                 value={style.value}
-                checked={communicationStyle === style.value}
-                onChange={() => setCommunicationStyle(style.value)}
                 className="mt-0"
               />
               <div className="flex-1">

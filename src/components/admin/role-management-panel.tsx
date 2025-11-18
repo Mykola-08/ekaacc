@@ -38,7 +38,7 @@ const roleAssignmentSchema = z.object({
   role: z.string().min(1, 'Role is required'),
   reason: z.string().min(1, 'Reason is required'),
   expiresAt: z.string().optional(),
-  isActive: z.boolean().default(true)
+  isActive: z.boolean().optional()
 });
 
 type RoleAssignmentFormData = z.infer<typeof roleAssignmentSchema>;

@@ -36,23 +36,11 @@ export interface AdaptiveState {
 
 export const useAdaptiveInterface = () => {
   const { user } = useAuth();
-  const [settings, setSettings] = useState<AdaptiveSettings>(getDefaultSettings());
-  const [adaptiveState, setAdaptiveState] = useState<AdaptiveState>(getDefaultAdaptiveState());
   const [isLoading, setIsLoading] = useState(true);
-
   const behavioralService = useMemo(() => BehavioralTrackingService.getInstance(), []);
 
-  // Load settings from localStorage and user profile
-  useEffect(() => {
-    loadSettings();
-  }, [user]);
-
-  // Apply adaptive features based on current context
-  useEffect(() => {
-    applyAdaptiveFeatures();
-  }, [settings, user]);
-
-  const getDefaultSettings = (): AdaptiveSettings => ({
+  // Define default settings and state
+  const getDefaultSettings = useCallback((): AdaptiveSettings => ({
     theme: 'auto',
     colorScheme: 'calming',
     fontSize: 'medium',
@@ -71,9 +59,9 @@ export const useAdaptiveInterface = () => {
     therapyStyle: 'supportive',
     communicationTone: 'friendly',
     preferredContent: ['mindfulness', 'exercises', 'education']
-  });
+  }), []);
 
-  const getDefaultAdaptiveState = (): AdaptiveState => ({
+  const getDefaultAdaptiveState = useCallback((): AdaptiveState => ({
     currentTheme: 'light',
     currentColorScheme: 'calming',
     currentLayout: 'standard',
@@ -82,8 +70,12 @@ export const useAdaptiveInterface = () => {
     adaptiveMessages: [],
     uiModifications: {},
     isAdaptiveMode: false
-  });
+  }), []);
 
+  const [settings, setSettings] = useState<AdaptiveSettings>(getDefaultSettings());
+  const [adaptiveState, setAdaptiveState] = useState<AdaptiveState>(getDefaultAdaptiveState());
+
+  // Define all functions before they are used
   const loadSettings = useCallback(async () => {
     try {
       setIsLoading(true);
@@ -129,34 +121,6 @@ export const useAdaptiveInterface = () => {
     }
   }, [settings, user]);
 
-  const applyAdaptiveFeatures = useCallback(async () => {
-    if (!settings.aiRecommendations && !settings.moodBasedAdaptation && 
-        !settings.timeBasedAdaptation && !settings.behavioralAdaptation) {
-      setAdaptiveState(prev => ({ ...prev, isAdaptiveMode: false }));
-      return;
-    }
-
-    setAdaptiveState(prev => ({ ...prev, isAdaptiveMode: true }));
-
-    // Apply mood-based adaptations
-    if (settings.moodBasedAdaptation && user) {
-      await applyMoodBasedAdaptations();
-    }
-
-    // Apply time-based adaptations
-    if (settings.timeBasedAdaptation) {
-      await applyTimeBasedAdaptations();
-    }
-
-    // Apply behavioral adaptations
-    if (settings.behavioralAdaptation && user) {
-      await applyBehavioralAdaptations();
-    }
-
-    // Apply theme and visual adaptations
-    applyVisualAdaptations();
-  }, [settings, user]);
-
   const applyMoodBasedAdaptations = useCallback(async () => {
     if (!user) return;
 
@@ -194,7 +158,7 @@ export const useAdaptiveInterface = () => {
         case 'anxious':
         case 'stressed':
           newColorScheme = 'calming';
-          newLayout = 'minimal';
+          newLayout = 'compact';
           messages.push('Your interface has been simplified to reduce visual stress.');
           break;
         case 'happy':
@@ -343,6 +307,34 @@ export const useAdaptiveInterface = () => {
     document.documentElement.setAttribute('data-color-scheme', adaptiveState.currentColorScheme);
   }, [adaptiveState.currentTheme, adaptiveState.currentColorScheme, settings]);
 
+  const applyAdaptiveFeatures = useCallback(async () => {
+    if (!settings.aiRecommendations && !settings.moodBasedAdaptation && 
+        !settings.timeBasedAdaptation && !settings.behavioralAdaptation) {
+      setAdaptiveState(prev => ({ ...prev, isAdaptiveMode: false }));
+      return;
+    }
+
+    setAdaptiveState(prev => ({ ...prev, isAdaptiveMode: true }));
+
+    // Apply mood-based adaptations
+    if (settings.moodBasedAdaptation && user) {
+      await applyMoodBasedAdaptations();
+    }
+
+    // Apply time-based adaptations
+    if (settings.timeBasedAdaptation) {
+      await applyTimeBasedAdaptations();
+    }
+
+    // Apply behavioral adaptations
+    if (settings.behavioralAdaptation && user) {
+      await applyBehavioralAdaptations();
+    }
+
+    // Apply theme and visual adaptations
+    applyVisualAdaptations();
+  }, [settings, user, applyMoodBasedAdaptations, applyTimeBasedAdaptations, applyBehavioralAdaptations, applyVisualAdaptations]);
+
   const getAdaptiveMessage = useCallback(() => {
     if (adaptiveState.adaptiveMessages.length === 0) return null;
     return adaptiveState.adaptiveMessages[adaptiveState.adaptiveMessages.length - 1];
@@ -377,6 +369,16 @@ export const useAdaptiveInterface = () => {
       ...adaptiveState.uiModifications
     };
   }, [adaptiveState, settings]);
+
+  // Load settings from localStorage and user profile
+  useEffect(() => {
+    loadSettings();
+  }, [user, loadSettings]);
+
+  // Apply adaptive features based on current context
+  useEffect(() => {
+    applyAdaptiveFeatures();
+  }, [settings, user, applyAdaptiveFeatures]);
 
   return {
     settings,

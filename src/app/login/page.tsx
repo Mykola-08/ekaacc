@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { LoginForm03 } from '@/components/auth/login-form-03'
+import { LoginFormModern } from '@/components/auth/login-form-modern'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -11,5 +11,5 @@ export default function LoginPage() {
     router.push('/dashboard')
   }
 
-  return <LoginForm03 onSuccess={handleSuccess} />
+  return <LoginFormModern onSuccess={handleSuccess} />
 }

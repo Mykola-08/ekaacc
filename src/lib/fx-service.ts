@@ -8,6 +8,7 @@ import { fxUsers } from './fx-users';
 import { logger } from './logging';
 import { withRetry, safeOperation, AppError, ValidationError, NotFoundError } from './error-handling';
 import { supabase } from './supabase';
+import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from './supabase-utils';
 
 // Production-grade storage with proper error handling and validation
 async function safeGetItem(key: string): Promise<string | null> {
@@ -21,12 +22,14 @@ async function safeGetItem(key: string): Promise<string | null> {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return null;
       
-      const { data, error } = await supabase
-        .from('user_settings')
-        .select('value')
-        .eq('user_id', user.id)
-        .eq('key', key)
-        .single();
+      const { data, error } = await safeSupabaseQuery<{ value: string }>(
+        supabase
+          .from('user_settings')
+          .select('value')
+          .eq('user_id', user.id)
+          .eq('key', key)
+          .single()
+      );
       
       if (error) {
         logger.debug(`Setting not found: ${key}`);
@@ -55,14 +58,15 @@ async function safeSetItem(key: string, value: string): Promise<void> {
         throw new AppError('User not authenticated', 'AUTHENTICATION_ERROR', 401);
       }
       
-      const { error } = await supabase
-        .from('user_settings')
-        .upsert({
+      const { error } = await safeSupabaseInsert<any>(
+        'user_settings',
+        {
           user_id: user.id,
           key,
           value,
           updated_at: new Date().toISOString()
-        });
+        }
+      );
       
       if (error) {
         throw new AppError(`Failed to save setting: ${error.message}`, 'DATABASE_ERROR', 500);
@@ -360,9 +364,9 @@ const fxService = {
       try {
         logger.info('Creating report', { userId, reportTitle: report.title || 'Untitled' });
         
-        const { data, error } = await supabase
-          .from('reports')
-          .insert([{
+        const { data, error } = await safeSupabaseInsert<any>(
+          'reports',
+          {
             user_id: userId,
             title: report.title || 'Untitled Report',
             author: report.author || 'System',
@@ -371,15 +375,14 @@ const fxService = {
             created_at: report.createdAt || new Date().toISOString(),
             date: report.date || new Date().toISOString(),
             // Add other report fields as needed
-          }])
-          .select()
-          .single();
+          }
+        );
 
         if (error) {
           throw new AppError(`Failed to create report: ${error.message}`, 'DATABASE_ERROR', 500);
         }
 
-        logger.info('Report created successfully', { reportId: data.id, userId });
+        logger.info('Report created successfully', { reportId: data?.id, userId });
         return data;
       } catch (error) {
         logger.error('Create report failed', error as Error);

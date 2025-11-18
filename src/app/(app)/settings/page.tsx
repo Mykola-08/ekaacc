@@ -11,8 +11,8 @@ import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User, Smartphone, Globe, Lock, Eye, EyeOff
-} from 'lucide-react';
+  Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User as UserIcon, Smartphone, Globe, Lock, Eye, EyeOff
+} from "lucide-react";
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { ThemeSelector } from '@/components/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/eka/settings/notification-switch';
@@ -45,10 +45,10 @@ export default function SettingsPage() {
       const newSettings = {
         ...prev,
         [category]: {
-          ...prev?.[category],
+          ...prev?.[category as keyof UserSettings],
           [key]: value,
         },
-      };
+      } as UserSettings;
       
       // Deep compare to check for actual changes
       if (JSON.stringify(newSettings) !== JSON.stringify(currentUser?.settings || {})) {
@@ -175,7 +175,7 @@ export default function SettingsPage() {
               <CardHeader className="pb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 rounded-xl flex items-center justify-center">
-                    <User className="w-6 h-6 text-blue-600" />
+                    <UserIcon className="w-6 h-6 text-blue-600" />
                   </div>
                   <div>
                     <h2 className="text-xl font-semibold text-slate-900">Profile Information</h2>

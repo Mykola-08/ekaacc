@@ -222,7 +222,7 @@ export async function POST(request: NextRequest) {
         data: {
           canUpgrade: false,
           reason: 'User does not meet tier requirements',
-          requirements: validationResult.requirements,
+          requirements: validationResult.missingRequirements,
           progress: validationResult.progress
         }
       });
@@ -232,7 +232,7 @@ export async function POST(request: NextRequest) {
       success: true,
       data: {
         canUpgrade: true,
-        requirements: validationResult.requirements,
+        requirements: validationResult.missingRequirements,
         progress: validationResult.progress
       }
     });

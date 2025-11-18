@@ -90,7 +90,7 @@ export default function TherapistClientsPage() {
     setLoading(true);
     try {
       const users: any[] = await fxService.getUsers();
-      const patients = users.filter(u => !u.role || u.role === 'Patient');
+      const patients = users.filter(u => !u.role || u.role.name === 'Patient');
       setClients(patients);
     } catch (e) {
       console.error(e);
@@ -188,7 +188,7 @@ export default function TherapistClientsPage() {
                         <TableRow key={client.id}>
                           <TableCell>
                             <Link href={`/therapist/person/${client.id}`} className="flex items-center gap-3 group">
-                              <Avatar size="sm">
+                              <Avatar className="h-8 w-8">
                                 <AvatarFallback>{(client.name || 'C').charAt(0).toUpperCase()}</AvatarFallback>
                               </Avatar>
                               <span className="font-medium group-hover:underline">

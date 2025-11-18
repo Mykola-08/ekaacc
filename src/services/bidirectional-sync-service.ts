@@ -1,6 +1,6 @@
 import { SquareClient, SquareEnvironment } from 'square';
 import type { Booking as SquareBooking, Customer as SquareCustomer } from 'square';
-import type { SearchCustomersRequest, ListBookingsRequest } from 'square';
+import type { SearchCustomersRequest, ListBookingsRequest, UpdateBookingRequest, CancelBookingRequest, UpdateCustomerRequest } from 'square';
 import { createClient } from '@supabase/supabase-js';
 import type { NormalizedBooking } from '@/types/square';
 import type { Database } from '@/types/supabase';
@@ -29,7 +29,7 @@ export interface SyncResult {
   conflicts: number;
   errors: string[];
   duration: number;
-  conflicts?: SyncConflict[];
+  conflictDetails?: SyncConflict[];
 }
 
 export interface SyncConflict {
@@ -113,7 +113,7 @@ class BidirectionalSyncService {
       conflicts: 0,
       errors: [],
       duration: 0,
-      conflicts: [],
+      conflictDetails: [],
     };
 
     try {
@@ -125,8 +125,8 @@ class BidirectionalSyncService {
         result.updated += inboundResult.updated;
         result.conflicts += inboundResult.conflicts;
         result.errors.push(...inboundResult.errors);
-        if (inboundResult.conflicts) {
-          result.conflicts?.push(...inboundResult.conflicts);
+        if (inboundResult.conflictDetails) {
+          result.conflictDetails?.push(...inboundResult.conflictDetails);
         }
       }
 
@@ -136,8 +136,8 @@ class BidirectionalSyncService {
         result.updated += outboundResult.updated;
         result.conflicts += outboundResult.conflicts;
         result.errors.push(...outboundResult.errors);
-        if (outboundResult.conflicts) {
-          result.conflicts?.push(...outboundResult.conflicts);
+        if (outboundResult.conflictDetails) {
+          result.conflictDetails?.push(...outboundResult.conflictDetails);
         }
       }
 
@@ -162,7 +162,7 @@ class BidirectionalSyncService {
       conflicts: 0,
       errors: [],
       duration: 0,
-      conflicts: [],
+      conflictDetails: [],
     };
 
     try {
@@ -178,7 +178,7 @@ class BidirectionalSyncService {
           }
           if (processed.conflict) {
             result.conflicts++;
-            result.conflicts?.push(processed.conflict);
+            result.conflictDetails?.push(processed.conflict);
           }
         } catch (error) {
           result.errors.push(`Booking ${booking.id}: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -197,7 +197,7 @@ class BidirectionalSyncService {
           }
           if (processed.conflict) {
             result.conflicts++;
-            result.conflicts?.push(processed.conflict);
+            result.conflictDetails?.push(processed.conflict);
           }
         } catch (error) {
           result.errors.push(`Customer ${customer.id}: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -224,7 +224,7 @@ class BidirectionalSyncService {
       conflicts: 0,
       errors: [],
       duration: 0,
-      conflicts: [],
+      conflictDetails: [],
     };
 
     try {
@@ -252,7 +252,7 @@ class BidirectionalSyncService {
           }
           if (processed.conflict) {
             result.conflicts++;
-            result.conflicts?.push(processed.conflict);
+            result.conflictDetails?.push(processed.conflict);
           }
         } catch (error) {
           result.errors.push(`Queue item ${item.id}: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -464,7 +464,7 @@ class BidirectionalSyncService {
         case 'create':
           // Create new booking in Square
           const createResponse = await this.squareClient.bookings.create(payload);
-          if (createResponse.booking) {
+          if (createResponse.booking?.id) {
             result.isNew = true;
             // Update sync metadata with new Square ID
             await this.updateSyncMetadataAfterOutbound(entityId, createResponse.booking.id, 'booking');
@@ -473,7 +473,10 @@ class BidirectionalSyncService {
 
         case 'update':
           // Update existing booking in Square
-          const updateResponse = await this.squareClient.bookings.update(entityId, payload);
+          const updateResponse = await this.squareClient.bookings.update({
+            bookingId: entityId,
+            booking: payload as SquareBooking
+          });
           if (updateResponse.booking) {
             result.isUpdated = true;
           }
@@ -481,7 +484,7 @@ class BidirectionalSyncService {
 
         case 'delete':
           // Cancel booking in Square
-          await this.squareClient.bookings.cancel(entityId, { bookingId: entityId });
+          await this.squareClient.bookings.cancel({ bookingId: entityId });
           // Update sync metadata to mark as deleted
           await this.updateSyncMetadataStatus(entityId, 'deleted');
           break;
@@ -510,7 +513,7 @@ class BidirectionalSyncService {
         case 'create':
           // Create new customer in Square
           const createResponse = await this.squareClient.customers.create(payload);
-          if (createResponse.customer) {
+          if (createResponse.customer?.id) {
             result.isNew = true;
             // Update sync metadata with new Square ID
             await this.updateSyncMetadataAfterOutbound(entityId, createResponse.customer.id, 'customer');
@@ -519,7 +522,10 @@ class BidirectionalSyncService {
 
         case 'update':
           // Update existing customer in Square
-          const updateResponse = await this.squareClient.customers.update(entityId, payload);
+          const updateResponse = await this.squareClient.customers.update({
+            customerId: entityId,
+            ...payload
+          });
           if (updateResponse.customer) {
             result.isUpdated = true;
           }
@@ -527,7 +533,7 @@ class BidirectionalSyncService {
 
         case 'delete':
           // Delete customer in Square
-          await this.squareClient.customers.delete(entityId);
+          await this.squareClient.customers.delete({ customerId: entityId });
           // Update sync metadata to mark as deleted
           await this.updateSyncMetadataStatus(entityId, 'deleted');
           break;
@@ -838,19 +844,22 @@ class BidirectionalSyncService {
       if (conflict.entityType === 'booking') {
         // Update Square booking with local data
         const localBooking = conflict.localData;
-        await this.squareClient!.bookings.update(conflict.externalId, {
-          // Map local booking data to Square format
-          id: conflict.externalId,
-          startAt: localBooking.start_time,
-          locationId: localBooking.location,
-          // Add other relevant fields
+        await this.squareClient!.bookings.update({
+          bookingId: conflict.externalId,
+          booking: {
+            // Map local booking data to Square format
+            id: conflict.externalId,
+            startAt: localBooking.start_time,
+            locationId: localBooking.location,
+            // Add other relevant fields
+          }
         });
       } else if (conflict.entityType === 'customer') {
         // Update Square customer with local data
         const localCustomer = conflict.localData;
-        await this.squareClient!.customers.update(conflict.externalId, {
+        await this.squareClient!.customers.update({
+          customerId: conflict.externalId,
           // Map local customer data to Square format
-          id: conflict.externalId,
           givenName: localCustomer.full_name?.split(' ')[0],
           familyName: localCustomer.full_name?.split(' ').slice(1).join(' '),
           emailAddress: localCustomer.email,
@@ -926,11 +935,14 @@ class BidirectionalSyncService {
           .eq('id', conflict.localId);
 
         // Also update Square with merged data
-        await this.squareClient!.bookings.update(conflict.externalId, {
-          id: conflict.externalId,
-          startAt: externalBooking.startAt || localBooking.start_time,
-          locationId: externalBooking.locationId || localBooking.location,
-          // Add other merged fields as needed
+        await this.squareClient!.bookings.update({
+          bookingId: conflict.externalId,
+          booking: {
+            id: conflict.externalId,
+            startAt: externalBooking.startAt || localBooking.start_time,
+            locationId: externalBooking.locationId || localBooking.location,
+            // Add other merged fields as needed
+          }
         });
       } else if (conflict.entityType === 'customer') {
         // Merge customer data

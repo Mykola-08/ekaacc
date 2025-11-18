@@ -271,6 +271,7 @@ export type User = {
     personalityTraits?: string[]; // e.g., "introverted", "analytical", "creative"
     copingMechanisms?: string[]; // How they currently cope with challenges
     emotionalState?: 'stable' | 'fluctuating' | 'challenged';
+    mood?: number; // Current mood score (1-10)
     
     // Previous Experience
     previousTherapyExperience?: boolean;
@@ -579,6 +580,9 @@ export type CommunityPost = {
   replies: number;
   createdAt: string;
   tags?: string[];
+  isPublished?: boolean;
+  isAnonymous?: boolean;
+  metadata?: Record<string, any>;
 };
 
 export interface UserProfile {

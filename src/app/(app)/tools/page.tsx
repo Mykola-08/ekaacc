@@ -124,7 +124,7 @@ export default function ToolsPage() {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-4">Test Tools</h1>
-      <p className="mb-4 text-sm text-muted-foreground">Role: <strong>{typeof role === 'string' ? role : role?.name}</strong></p>
+      <p className="mb-4 text-sm text-muted-foreground">Role: <strong>{role}</strong></p>
 
       {role === 'Therapist' && (
         <div className="space-y-3">

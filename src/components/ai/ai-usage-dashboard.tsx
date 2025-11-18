@@ -334,7 +334,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
         {showAlerts && alerts.length > 0 && (
           <div className="mb-6 space-y-2">
             {alerts.map((alert, index) => (
-              <Alert key={index} variant="warning">
+              <Alert key={index}>
                 <AlertTriangle className="h-4 w-4" />
                 <AlertDescription>{alert}</AlertDescription>
               </Alert>

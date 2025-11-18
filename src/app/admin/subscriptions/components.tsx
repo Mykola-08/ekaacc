@@ -143,7 +143,7 @@ export function SubscriptionsTable({
                                                 <div className="flex gap-2">
                                                     {loyalSub && <SubscriptionBadge type="loyalty" size="sm" />}
                                                     {vipSub && <SubscriptionBadge type="vip" size="sm" />}
-                                                    {!loyalSub && !vipSub && <Badge variant="border" className="text-muted-foreground">None</Badge>}
+                                                    {!loyalSub && !vipSub && <Badge variant="secondary" className="text-muted-foreground">None</Badge>}
                                                 </div>
                                             </TableCell>
                                             <TableCell>€{user.totalSpent.toFixed(2)}</TableCell>

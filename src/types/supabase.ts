@@ -870,6 +870,276 @@ export interface Database {
           updated_at?: string
         }
       }
+      sync_metadata: {
+        Row: {
+          id: string
+          entity_type: string
+          local_id: string
+          external_id: string
+          external_system: string
+          entity_status: 'active' | 'deleted' | 'archived'
+          sync_status: 'pending' | 'synced' | 'error' | 'conflict'
+          last_sync_at: string | null
+          last_sync_error: string | null
+          sync_version: number
+          external_data: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          entity_type: string
+          local_id: string
+          external_id: string
+          external_system?: string
+          entity_status?: 'active' | 'deleted' | 'archived'
+          sync_status?: 'pending' | 'synced' | 'error' | 'conflict'
+          last_sync_at?: string | null
+          last_sync_error?: string | null
+          sync_version?: number
+          external_data?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          entity_type?: string
+          local_id?: string
+          external_id?: string
+          external_system?: string
+          entity_status?: 'active' | 'deleted' | 'archived'
+          sync_status?: 'pending' | 'synced' | 'error' | 'conflict'
+          last_sync_at?: string | null
+          last_sync_error?: string | null
+          sync_version?: number
+          external_data?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      sync_conflicts: {
+        Row: {
+          id: string
+          entity_type: string
+          local_id: string
+          external_id: string
+          external_system: string
+          conflict_type: 'data_mismatch' | 'deleted_remotely' | 'deleted_locally'
+          local_data: Json
+          external_data: Json
+          resolution_strategy: 'local_wins' | 'external_wins' | 'merge' | null
+          resolved_data: Json | null
+          resolved_at: string | null
+          resolved_by: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          entity_type: string
+          local_id: string
+          external_id: string
+          external_system?: string
+          conflict_type: 'data_mismatch' | 'deleted_remotely' | 'deleted_locally'
+          local_data: Json
+          external_data: Json
+          resolution_strategy?: 'local_wins' | 'external_wins' | 'merge' | null
+          resolved_data?: Json | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          entity_type?: string
+          local_id?: string
+          external_id?: string
+          external_system?: string
+          conflict_type?: 'data_mismatch' | 'deleted_remotely' | 'deleted_locally'
+          local_data?: Json
+          external_data?: Json
+          resolution_strategy?: 'local_wins' | 'external_wins' | 'merge' | null
+          resolved_data?: Json | null
+          resolved_at?: string | null
+          resolved_by?: string | null
+          created_at?: string
+        }
+      }
+      sync_queue: {
+        Row: {
+          id: string
+          entity_type: string
+          entity_id: string
+          operation: 'create' | 'update' | 'delete'
+          direction: 'to_external' | 'from_external'
+          external_system: string
+          payload: Json
+          status: 'pending' | 'processing' | 'completed' | 'failed'
+          retry_count: number
+          max_retries: number
+          error_message: string | null
+          scheduled_at: string
+          processed_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          entity_type: string
+          entity_id: string
+          operation: 'create' | 'update' | 'delete'
+          direction: 'to_external' | 'from_external'
+          external_system?: string
+          payload: Json
+          status?: 'pending' | 'processing' | 'completed' | 'failed'
+          retry_count?: number
+          max_retries?: number
+          error_message?: string | null
+          scheduled_at?: string
+          processed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          entity_type?: string
+          entity_id?: string
+          operation?: 'create' | 'update' | 'delete'
+          direction?: 'to_external' | 'from_external'
+          external_system?: string
+          payload?: Json
+          status?: 'pending' | 'processing' | 'completed' | 'failed'
+          retry_count?: number
+          max_retries?: number
+          error_message?: string | null
+          scheduled_at?: string
+          processed_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      sync_statistics: {
+        Row: {
+          id: string
+          external_system: string
+          entity_type: string
+          sync_direction: 'inbound' | 'outbound'
+          operation: 'create' | 'update' | 'delete'
+          success_count: number
+          error_count: number
+          conflict_count: number
+          avg_sync_time_ms: number | null
+          last_sync_at: string | null
+          date: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          external_system?: string
+          entity_type: string
+          sync_direction: 'inbound' | 'outbound'
+          operation: 'create' | 'update' | 'delete'
+          success_count?: number
+          error_count?: number
+          conflict_count?: number
+          avg_sync_time_ms?: number | null
+          last_sync_at?: string | null
+          date?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          external_system?: string
+          entity_type?: string
+          sync_direction?: 'inbound' | 'outbound'
+          operation?: 'create' | 'update' | 'delete'
+          success_count?: number
+          error_count?: number
+          conflict_count?: number
+          avg_sync_time_ms?: number | null
+          last_sync_at?: string | null
+          date?: string
+          created_at?: string
+        }
+      }
+      appointments: {
+        Row: {
+          id: string
+          user_id: string | null
+          therapist_id: string | null
+          start_time: string
+          end_time: string | null
+          status: string
+          notes: string | null
+          location: string | null
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          therapist_id?: string | null
+          start_time: string
+          end_time?: string | null
+          status?: string
+          notes?: string | null
+          location?: string | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          therapist_id?: string | null
+          start_time?: string
+          end_time?: string | null
+          status?: string
+          notes?: string | null
+          location?: string | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      user_profiles: {
+        Row: {
+          id: string
+          user_id: string
+          full_name: string | null
+          email: string | null
+          phone: string | null
+          address: Json | null
+          emergency_contact: Json | null
+          metadata: Json | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          full_name?: string | null
+          email?: string | null
+          phone?: string | null
+          address?: Json | null
+          emergency_contact?: Json | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          full_name?: string | null
+          email?: string | null
+          phone?: string | null
+          address?: Json | null
+          emergency_contact?: Json | null
+          metadata?: Json | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

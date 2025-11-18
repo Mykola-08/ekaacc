@@ -185,7 +185,7 @@ export default function VerificatorPage() {
         selectedPayment.id,
         currentUser.id,
         currentUser.name || 'Unknown',
-        currentUser.role as 'Admin' | 'Therapist',
+        currentUser.role?.name as 'Admin' | 'Therapist',
         rejectionReason
       );
 
@@ -302,7 +302,7 @@ export default function VerificatorPage() {
           <p className="text-muted-foreground">Verify transactions, donations, and applications</p>
         </div>
         <Badge color="primary" className="text-sm">
-          {currentUser.role}
+          {currentUser.role?.name}
         </Badge>
       </div>
 
@@ -388,7 +388,7 @@ export default function VerificatorPage() {
                       {paymentRequests.map((request) => (
                         <TableRow key={request.id}>
                           <TableCell className="text-sm">
-                            {format(toDate(request.createdAt), 'MMM dd, yyyy HH:mm')}
+                            {format(toDate(request.createdAt as string), 'MMM dd, yyyy HH:mm')}
                           </TableCell>
                           <TableCell className="text-sm">
                             <div className="flex items-center gap-2">
@@ -551,7 +551,7 @@ export default function VerificatorPage() {
                 <div className="flex gap-2">
                   <AlertCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
                   <div className="text-sm">
-                    <p className="font-medium">Date: {format(toDate(selectedPayment.createdAt), 'MMM dd, yyyy HH:mm')}</p>
+                    <p className="font-medium">Date: {format(toDate(selectedPayment.createdAt as string), 'MMM dd, yyyy HH:mm')}</p>
                     <p className="text-muted-foreground mt-1">{selectedPayment.description}</p>
                   </div>
                 </div>

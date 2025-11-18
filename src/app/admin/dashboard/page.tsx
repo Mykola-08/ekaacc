@@ -29,13 +29,13 @@ import { useAuth } from '@/context/auth-context'
 import { useRouter } from 'next/navigation'
 
 export default function AdminDashboard() {
-  const { user, userRole, isImpersonating, startImpersonation, endImpersonation } = useAuth()
+  const { user, isImpersonating, startImpersonation, endImpersonation } = useAuth()
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
   const [showImpersonationDialog, setShowImpersonationDialog] = useState(false)
 
   // Check if user has admin access
-  if (!user || userRole !== 'admin') {
+  if (!user || user.role.name !== 'admin') {
     router.push('/login')
     return null
   }
@@ -66,7 +66,7 @@ export default function AdminDashboard() {
             <Button
               variant="outline"
               size="sm"
-              onClick={endImpersonation}
+              onClick={() => endImpersonation()}
               className="border-yellow-300 text-yellow-700 hover:bg-yellow-200"
             >
               End Impersonation

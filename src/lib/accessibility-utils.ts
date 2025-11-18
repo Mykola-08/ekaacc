@@ -206,56 +206,7 @@ export const TEXT_SIZING = {
   maxLineLength: '65ch' // Maximum line length for readability
 };
 
-/**
- * Calculate relative luminance of a color
- */
-function getLuminance(color: string): number {
-  // Convert hex to RGB if needed
-  let r, g, b;
-  
-  if (color.startsWith('#')) {
-    const hex = color.slice(1);
-    r = parseInt(hex.slice(0, 2), 16) / 255;
-    g = parseInt(hex.slice(2, 4), 16) / 255;
-    b = parseInt(hex.slice(4, 6), 16) / 255;
-  } else if (color.startsWith('rgb')) {
-    const matches = color.match(/\d+/g);
-    if (matches) {
-      r = parseInt(matches[0], 10) / 255;
-      g = parseInt(matches[1], 10) / 255;
-      b = parseInt(matches[2], 10) / 255;
-    } else {
-      return 0.5; // Default fallback
-    }
-  } else {
-    return 0.5; // Default fallback for unknown formats
-  }
-  
-  // Apply gamma correction
-  const toLinear = (c: number) => {
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-  };
-  
-  r = toLinear(r);
-  g = toLinear(g);
-  b = toLinear(b);
-  
-  // Calculate relative luminance
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
 
-/**
- * Calculate contrast ratio between two colors
- */
-function getContrastRatio(color1: string, color2: string): number {
-  const lum1 = getLuminance(color1);
-  const lum2 = getLuminance(color2);
-  
-  const lighter = Math.max(lum1, lum2);
-  const darker = Math.min(lum1, lum2);
-  
-  return (lighter + 0.05) / (darker + 0.05);
-}
 
 /**
  * Parse color from computed style

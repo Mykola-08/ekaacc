@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { getCurrentUser } from '@/context/auth-context'
+import { getCurrentUser } from '@/lib/server-auth'
 
 // GET /api/admin/notifications - Get all notifications
 export async function GET(request: NextRequest) {
@@ -146,7 +146,7 @@ export async function POST(request: NextRequest) {
 // Helper function to send notifications
 async function sendNotifications(notification: any) {
   try {
-    let targetUsers = []
+    let targetUsers: Array<{ id: string; email: string }> = []
 
     switch (notification.recipients) {
       case 'all':

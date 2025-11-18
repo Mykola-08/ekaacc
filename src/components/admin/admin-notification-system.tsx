@@ -19,7 +19,8 @@ import {
   Trash2,
   Filter,
   Search,
-  RefreshCw
+  RefreshCw,
+  FileText
 } from 'lucide-react'
 import { format } from 'date-fns'
 

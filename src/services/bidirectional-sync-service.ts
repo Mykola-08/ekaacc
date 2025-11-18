@@ -66,6 +66,110 @@ class BidirectionalSyncService {
     this.initializeClients();
   }
 
+  /**
+   * Public methods for API routes to access sync metadata and perform updates
+   */
+  public async getSyncMetadataByExternalId(externalId: string, entityType: string): Promise<any> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { data, error } = await (this.supabaseClient as any)
+      .from('sync_metadata')
+      .select('*')
+      .eq('entity_type', entityType)
+      .eq('external_id', externalId)
+      .eq('external_system', 'square')
+      .single();
+
+    if (error) {
+      throw new Error(`Failed to fetch sync metadata: ${error.message}`);
+    }
+
+    return data;
+  }
+
+  public async updateAppointmentStatus(appointmentId: string, status: string): Promise<void> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { error } = await (this.supabaseClient as any)
+      .from('appointments')
+      .update({ status })
+      .eq('id', appointmentId);
+
+    if (error) {
+      throw new Error(`Failed to update appointment status: ${error.message}`);
+    }
+  }
+
+  public async updateSyncMetadataStatus(localId: string, status: 'active' | 'deleted' | 'archived'): Promise<void> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { error } = await (this.supabaseClient as any)
+      .from('sync_metadata')
+      .update({
+        entity_status: status,
+        last_sync_at: new Date().toISOString(),
+      })
+      .eq('local_id', localId)
+      .eq('external_system', 'square');
+
+    if (error) {
+      throw new Error(`Failed to update sync metadata status: ${error.message}`);
+    }
+  }
+
+  public async updateUserProfileTimestamp(userId: string): Promise<void> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { error } = await (this.supabaseClient as any)
+      .from('user_profiles')
+      .update({
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', userId);
+
+    if (error) {
+      throw new Error(`Failed to update user profile: ${error.message}`);
+    }
+  }
+
+  public async recordSyncStatistics(params: {
+    externalSystem: string;
+    entityType: string;
+    syncDirection: string;
+    operation: string;
+    success: boolean;
+    conflict: boolean;
+    syncTimeMs?: number | null;
+  }): Promise<void> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    try {
+      await (this.supabaseClient as any)
+        ?.rpc('record_sync_stat', {
+          p_external_system: params.externalSystem,
+          p_entity_type: params.entityType,
+          p_sync_direction: params.syncDirection,
+          p_operation: params.operation,
+          p_success: params.success,
+          p_conflict: params.conflict,
+          p_sync_time_ms: params.syncTimeMs ?? null
+        });
+    } catch (error) {
+      console.error('Failed to record sync statistics:', error);
+      // Don't throw - statistics failure shouldn't break the sync
+    }
+  }
+
   private initializeClients() {
     // Initialize Square client
     const squareToken = process.env.SQUARE_ACCESS_TOKEN;
@@ -242,7 +346,7 @@ class BidirectionalSyncService {
         throw new Error(`Failed to fetch sync queue: ${error.message}`);
       }
 
-      for (const item of pendingItems || []) {
+      for (const item of (pendingItems as any[]) || []) {
         try {
           const processed = await this.processOutboundItem(item, options);
           if (processed.isNew) {
@@ -258,7 +362,7 @@ class BidirectionalSyncService {
           result.errors.push(`Queue item ${item.id}: ${error instanceof Error ? error.message : 'Unknown error'}`);
           
           // Update queue item status to failed
-          await this.supabaseClient!
+          await (this.supabaseClient! as any)
             .from('sync_queue')
             .update({ 
               status: 'failed', 
@@ -280,7 +384,7 @@ class BidirectionalSyncService {
   /**
    * Process inbound booking from Square
    */
-  private async processInboundBooking(squareBooking: SquareBooking, options: SyncOptions) {
+  public async processInboundBooking(squareBooking: SquareBooking, options: SyncOptions) {
     let result = { isNew: false, isUpdated: false, conflict: null as SyncConflict | null };
 
     try {
@@ -291,7 +395,7 @@ class BidirectionalSyncService {
         .eq('entity_type', 'booking')
         .eq('external_id', squareBooking.id!)
         .eq('external_system', 'square')
-        .single();
+        .single() as any;
 
       if (existingSync) {
         // Check for conflicts
@@ -345,7 +449,7 @@ class BidirectionalSyncService {
   /**
    * Process inbound customer from Square
    */
-  private async processInboundCustomer(squareCustomer: SquareCustomer, options: SyncOptions) {
+  public async processInboundCustomer(squareCustomer: SquareCustomer, options: SyncOptions) {
     let result = { isNew: false, isUpdated: false, conflict: null as SyncConflict | null };
 
     try {
@@ -356,7 +460,7 @@ class BidirectionalSyncService {
         .eq('entity_type', 'customer')
         .eq('external_id', squareCustomer.id!)
         .eq('external_system', 'square')
-        .single();
+        .single() as any;
 
       if (existingSync) {
         // Check for conflicts
@@ -426,24 +530,24 @@ class BidirectionalSyncService {
       }
 
       // Update queue item status
-      await this.supabaseClient!
+      await (this.supabaseClient! as any)
         .from('sync_queue')
         .update({ 
           status: 'completed',
           processed_at: new Date().toISOString()
         })
-        .eq('id', queueItem.id);
+        .eq('id', (queueItem as any).id);
 
     } catch (error) {
       // Update queue item with error
-      await this.supabaseClient!
+      await (this.supabaseClient! as any)
         .from('sync_queue')
         .update({ 
           status: 'failed',
           error_message: error instanceof Error ? error.message : 'Unknown error',
           processed_at: new Date().toISOString()
         })
-        .eq('id', queueItem.id);
+        .eq('id', (queueItem as any).id);
 
       throw error;
     }
@@ -555,7 +659,7 @@ class BidirectionalSyncService {
   private async createSyncMetadata(metadata: SyncMetadata): Promise<void> {
     const { error } = await this.supabaseClient!
       .from('sync_metadata')
-      .insert(metadata);
+      .insert(metadata as any);
 
     if (error) {
       throw new Error(`Failed to create sync metadata: ${error.message}`);
@@ -563,7 +667,7 @@ class BidirectionalSyncService {
   }
 
   private async updateSyncMetadata(id: string, updates: Partial<SyncMetadata>): Promise<void> {
-    const { error } = await this.supabaseClient!
+    const { error } = await (this.supabaseClient! as any)
       .from('sync_metadata')
       .update(updates)
       .eq('id', id);
@@ -574,7 +678,7 @@ class BidirectionalSyncService {
   }
 
   private async updateSyncMetadataAfterOutbound(localId: string, externalId: string, entityType: string): Promise<void> {
-    const { error } = await this.supabaseClient!
+    const { error } = await (this.supabaseClient! as any)
       .from('sync_metadata')
       .update({
         external_id: externalId,
@@ -590,19 +694,98 @@ class BidirectionalSyncService {
     }
   }
 
-  private async updateSyncMetadataStatus(localId: string, status: 'active' | 'deleted' | 'archived'): Promise<void> {
-    const { error } = await this.supabaseClient!
-      .from('sync_metadata')
-      .update({
-        entity_status: status,
-        sync_status: 'synced',
-        last_sync_at: new Date().toISOString(),
-      })
-      .eq('local_id', localId)
-      .eq('external_system', 'square');
+  // Private method removed - using public version instead
+
+  // Public methods for dashboard access
+  public async getSyncQueue(limit = 20): Promise<any[]> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { data, error } = await this.supabaseClient
+      .from('sync_queue')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(limit);
 
     if (error) {
-      throw new Error(`Failed to update sync metadata status: ${error.message}`);
+      throw new Error(`Failed to fetch sync queue: ${error.message}`);
+    }
+
+    return data || [];
+  }
+
+  public async getSyncStatistics(limit = 100): Promise<any[]> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { data, error } = await this.supabaseClient
+      .from('sync_statistics')
+      .select('*')
+      .order('date', { ascending: false })
+      .limit(limit);
+
+    if (error) {
+      throw new Error(`Failed to fetch sync statistics: ${error.message}`);
+    }
+
+    return data || [];
+  }
+
+  public async getPendingConflicts(): Promise<any[]> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { data, error } = await this.supabaseClient
+      .from('sync_conflicts')
+      .select('*')
+      .is('resolved_at', null)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      throw new Error(`Failed to fetch pending conflicts: ${error.message}`);
+    }
+
+    return data || [];
+  }
+
+  public async resolveConflict(conflictId: string, strategy: 'local_wins' | 'external_wins' | 'merge'): Promise<void> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { error } = await (this.supabaseClient as any)
+      .from('sync_conflicts')
+      .update({
+        resolved_at: new Date().toISOString(),
+        resolution_strategy: strategy,
+      })
+      .eq('id', conflictId);
+
+    if (error) {
+      throw new Error(`Failed to resolve conflict: ${error.message}`);
+    }
+  }
+
+  public async retryQueueItem(queueId: string): Promise<void> {
+    if (!this.supabaseClient) {
+      throw new Error('Supabase client not initialized');
+    }
+
+    const { error } = await (this.supabaseClient as any)
+      .from('sync_queue')
+      .update({
+        status: 'pending',
+        error_message: null,
+        retry_count: 0,
+        scheduled_at: new Date().toISOString(),
+      })
+      .eq('id', queueId);
+
+    if (error) {
+      throw new Error(`Failed to retry queue item: ${error.message}`);
     }
   }
 
@@ -617,7 +800,7 @@ class BidirectionalSyncService {
         start_time: normalizedBooking.date,
         status: normalizedBooking.status,
         // Add other fields as needed
-      })
+      } as any)
       .select('id')
       .single();
 
@@ -625,11 +808,11 @@ class BidirectionalSyncService {
       throw new Error(`Failed to create booking: ${error.message}`);
     }
 
-    return data.id;
+    return (data as any).id;
   }
 
   private async updateSupabaseBooking(bookingId: string, normalizedBooking: NormalizedBooking): Promise<void> {
-    const { error } = await this.supabaseClient!
+    const { error } = await (this.supabaseClient! as any)
       .from('appointments')
       .update({
         start_time: normalizedBooking.date,
@@ -650,7 +833,7 @@ class BidirectionalSyncService {
       .from('user_profiles')
       .insert({
         // Map Square customer data to your user profile structure
-      })
+      } as any)
       .select('id')
       .single();
 
@@ -658,11 +841,11 @@ class BidirectionalSyncService {
       throw new Error(`Failed to create customer: ${error.message}`);
     }
 
-    return data.id;
+    return (data as any).id;
   }
 
   private async updateSupabaseCustomer(customerId: string, squareCustomer: SquareCustomer): Promise<void> {
-    const { error } = await this.supabaseClient!
+    const { error } = await (this.supabaseClient! as any)
       .from('user_profiles')
       .update({
         // Map Square customer data to your user profile structure
@@ -710,7 +893,7 @@ class BidirectionalSyncService {
       }
 
       // Compare last modified timestamps
-      const localUpdatedAt = new Date(localBooking.data.updated_at || localBooking.data.created_at);
+      const localUpdatedAt = new Date((localBooking.data as any).updated_at || (localBooking.data as any).created_at);
       const externalUpdatedAt = new Date(squareBooking.updatedAt || squareBooking.createdAt || Date.now());
       const timeDiff = Math.abs(localUpdatedAt.getTime() - externalUpdatedAt.getTime());
 
@@ -721,7 +904,7 @@ class BidirectionalSyncService {
           localId: existingSync.local_id,
           externalId: squareBooking.id!,
           conflictType: 'data_mismatch',
-          localData: localBooking.data,
+          localData: localBooking.data as any,
           externalData: squareBooking,
         };
       }
@@ -766,7 +949,7 @@ class BidirectionalSyncService {
       }
 
       // Compare last modified timestamps
-      const localUpdatedAt = new Date(localCustomer.data.updated_at || localCustomer.data.created_at);
+      const localUpdatedAt = new Date((localCustomer.data as any).updated_at || (localCustomer.data as any).created_at);
       const externalUpdatedAt = new Date(squareCustomer.updatedAt || squareCustomer.createdAt || Date.now());
       const timeDiff = Math.abs(localUpdatedAt.getTime() - externalUpdatedAt.getTime());
 
@@ -777,7 +960,7 @@ class BidirectionalSyncService {
           localId: existingSync.local_id,
           externalId: squareCustomer.id!,
           conflictType: 'data_mismatch',
-          localData: localCustomer.data,
+          localData: localCustomer.data as any,
           externalData: squareCustomer,
         };
       }
@@ -804,7 +987,7 @@ class BidirectionalSyncService {
         local_data: conflict.localData,
         external_data: conflict.externalData,
         resolution_strategy: strategy === 'manual' ? null : strategy,
-      })
+      } as any)
       .select('id')
       .single();
 
@@ -828,13 +1011,13 @@ class BidirectionalSyncService {
 
     // Update conflict record with resolution
     if (conflictRecord && strategy !== 'manual') {
-      await this.supabaseClient!
+      await (this.supabaseClient as any)
         .from('sync_conflicts')
         .update({
           resolved_at: new Date().toISOString(),
           resolution_strategy: strategy,
         })
-        .eq('id', conflictRecord.id);
+        .eq('id', (conflictRecord as any).id);
     }
   }
 
@@ -879,7 +1062,7 @@ class BidirectionalSyncService {
       if (conflict.entityType === 'booking') {
         // Update local booking with Square data
         const externalBooking = conflict.externalData;
-        await this.supabaseClient!
+        await (this.supabaseClient! as any)
           .from('appointments')
           .update({
             start_time: externalBooking.startAt,
@@ -892,7 +1075,7 @@ class BidirectionalSyncService {
       } else if (conflict.entityType === 'customer') {
         // Update local customer with Square data
         const externalCustomer = conflict.externalData;
-        await this.supabaseClient!
+        await (this.supabaseClient! as any)
           .from('user_profiles')
           .update({
             full_name: `${externalCustomer.givenName || ''} ${externalCustomer.familyName || ''}`.trim(),
@@ -917,7 +1100,7 @@ class BidirectionalSyncService {
         
         // Use external data for scheduling (Square is authoritative for appointments)
         // Use local data for notes and metadata (local system has more context)
-        await this.supabaseClient!
+        await (this.supabaseClient! as any)
           .from('appointments')
           .update({
             start_time: externalBooking.startAt || localBooking.start_time,
@@ -951,7 +1134,7 @@ class BidirectionalSyncService {
         
         // Merge contact info - prefer external for email/phone (more authoritative)
         // Keep local for profile data and preferences
-        await this.supabaseClient!
+        await (this.supabaseClient! as any)
           .from('user_profiles')
           .update({
             full_name: externalCustomer.givenName && externalCustomer.familyName 
@@ -1082,40 +1265,8 @@ class BidirectionalSyncService {
 
   /**
    * Statistics and monitoring
+   * Note: Use the public methods getSyncStatistics() and getPendingConflicts() above
    */
-  async getSyncStatistics() {
-    if (!this.supabaseClient) throw new Error('Supabase client not initialized');
-
-    const { data, error } = await (this.supabaseClient as any)
-      .from('sync_statistics')
-      .select('*')
-      .eq('external_system', 'square')
-      .order('date', { ascending: false })
-      .limit(30);
-
-    if (error) {
-      throw new Error(`Failed to fetch sync statistics: ${error.message}`);
-    }
-
-    return data;
-  }
-
-  async getPendingConflicts() {
-    if (!this.supabaseClient) throw new Error('Supabase client not initialized');
-
-    const { data, error } = await (this.supabaseClient as any)
-      .from('sync_conflicts')
-      .select('*')
-      .eq('external_system', 'square')
-      .is('resolved_at', null)
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      throw new Error(`Failed to fetch conflicts: ${error.message}`);
-    }
-
-    return data;
-  }
 
   /**
    * Health check

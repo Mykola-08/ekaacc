@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
 
       const totalSessions = sessionStats.data?.length || 0
       const completedSessions = sessionStats.data?.filter(s => s.status === 'completed').length || 0
-      const avgDuration = sessionStats.data?.reduce((acc, s) => acc + (s.duration || 0), 0) / totalSessions || 0
+      const avgDuration = sessionStats.data ? sessionStats.data.reduce((acc, s) => acc + (s.duration || 0), 0) / (totalSessions || 1) : 0
 
       results.sessions = {
         total: totalSessions,

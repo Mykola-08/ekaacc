@@ -40,8 +40,9 @@ export async function POST(req: NextRequest) {
       const streamResponse = new ReadableStream({
         async start(controller) {
           try {
-            if (response.stream) {
-              for await (const chunk of response.stream) {
+            // Handle streaming response if available
+            if ('stream' in response && response.stream) {
+              for await (const chunk of (response as any).stream) {
                 controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`));
               }
             }

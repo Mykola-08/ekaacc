@@ -212,7 +212,7 @@ export function ClientActivityTimeline({ client }: ClientActivityTimelineProps) 
                         <h4 className="font-semibold">{event.title}</h4>
                         {event.status && (
                           <Badge 
-                            variant={event.status === 'completed' ? 'background' : 'border'}
+                            variant={event.status === 'completed' ? 'default' : 'outline'}
                             className={cn('text-xs', 
                               event.status === 'completed' ? 'text-success border-success/20 bg-success/5' :
                               event.status === 'pending' ? 'text-warning border-warning/20 bg-warning/5' :

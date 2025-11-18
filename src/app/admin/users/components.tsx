@@ -95,19 +95,19 @@ export function UserFilters({
 
 const getRoleBadgeVariant = (role: string) => {
     switch (role) {
-        case 'Admin': return 'border';
-        case 'Therapist': return 'background';
-        default: return 'background';
+        case 'Admin': return 'outline';
+        case 'Therapist': return 'secondary';
+        default: return 'secondary';
     }
 };
 
 const getStatusBadgeVariant = (status?: string) => {
     switch (status) {
-        case 'active': return 'background';
-        case 'suspended': return 'border';
-        case 'pending': return 'background';
-        case 'deactivated': return 'border';
-        default: return 'background';
+        case 'active': return 'secondary';
+        case 'suspended': return 'outline';
+        case 'pending': return 'secondary';
+        case 'deactivated': return 'outline';
+        default: return 'secondary';
     }
 };
 

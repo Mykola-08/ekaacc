@@ -453,18 +453,18 @@ export class AIPersonalizationService {
     };
 
     try {
-      const aiResponse = await this.aiService.generateWellnessInsights({
+      const aiResponse = await this.aiService.generatePersonalizedInsights(request.userId, {
         userData: {
-          name: profile.name || 'User',
-          sessionsCompleted: profile.sessionsCompleted || 0,
+          name: (profile as any).name || 'User',
+          sessionsCompleted: (profile as any).sessionsCompleted || 0,
           mood: 'neutral',
-          goals: profile.goals || 'Wellness improvement'
+          goals: (profile as any).goals || 'Wellness improvement'
         },
         context: aiContext
       });
       
       // Convert string insights to AIInsight format
-      const insights: AIInsight[] = aiResponse.map((insight, index) => ({
+      const insights: AIInsight[] = (aiResponse as any[]).map((insight: any, index: number) => ({
         id: `insight-${Date.now()}-${index}`,
         userId: request.userId,
         type: 'recommendation',

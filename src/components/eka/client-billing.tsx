@@ -337,7 +337,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
                 <TableRow key={transaction.id}>
                   <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
                   <TableCell>
-                    <Badge variant={transaction.type === 'credit' ? 'background' : 'border'} className={
+                    <Badge variant={transaction.type === 'credit' ? 'default' : 'outline'} className={
                       transaction.type === 'credit' 
                         ? 'text-success border-success/20 bg-success/5' 
                         : 'text-muted-foreground border-muted/30 bg-muted/10'

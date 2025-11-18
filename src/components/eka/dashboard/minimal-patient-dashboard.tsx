@@ -190,7 +190,7 @@ function MinimalQuickActions({ onToggleAI }: { onToggleAI: () => void }) {
           <Button
             key={index}
             variant="outline"
-            size="md"
+            size="default"
             className="w-full justify-start text-left"
             onClick={() => action.onClick ? action.onClick() : window.location.href = action.href}
           >
@@ -272,7 +272,7 @@ export default function MinimalPatientDashboard() {
             </p>
             <Button 
               variant="default" 
-              size="md"
+              size="default"
               onClick={() => window.location.href = '/onboarding'}
             >
               Get Started

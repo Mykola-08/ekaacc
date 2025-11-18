@@ -377,7 +377,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                     return (
                       <Badge
                         key={motivation.id}
-                        variant={isSelected ? 'background' : 'border'}
+                        variant={isSelected ? 'default' : 'outline'}
                         className={`cursor-pointer p-3 justify-start hover:scale-105 transition-all ${
                           isSelected ? 'bg-gradient-to-r from-blue-500 to-purple-500' : ''
                         }`}
@@ -417,7 +417,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                     return (
                       <Badge
                         key={stressor}
-                        variant={isSelected ? 'background' : 'border'}
+                        variant={isSelected ? 'default' : 'outline'}
                         className={`cursor-pointer hover:scale-105 transition-all ${
                           isSelected ? 'bg-orange-500' : ''
                         }`}
@@ -444,7 +444,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                     return (
                       <Badge
                         key={coping}
-                        variant={isSelected ? 'background' : 'border'}
+                        variant={isSelected ? 'default' : 'outline'}
                         className={`cursor-pointer hover:scale-105 transition-all ${
                           isSelected ? 'bg-green-500' : ''
                         }`}

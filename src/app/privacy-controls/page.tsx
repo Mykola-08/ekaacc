@@ -155,11 +155,16 @@ export default function PrivacyControlsPage() {
       // Track page visit
       const aiPersonalization = new AIPersonalizationService();
       aiPersonalization.trackUserInteraction({
+        id: `interaction_${Date.now()}`,
         userId: user.id,
         type: 'page_view',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date(),
         metadata: { 
           action: 'privacy_settings_accessed',
+          section: 'privacy_controls'
+        },
+        context: {
+          page: 'privacy-controls',
           section: 'privacy_controls'
         }
       });
@@ -225,14 +230,10 @@ export default function PrivacyControlsPage() {
         },
         {
           id: '2',
-          timestamp: new Date(Date.now() - 7200000).toISOString(),
+          timestamp: Date.now() - 7200000,
           accessor: 'ai_service',
           action: 'data_access',
-          metadata: { 
-            purpose: 'personalization', 
-            duration: '2min',
-            section: 'wellness_data'
-          }
+          section: 'wellness_data'
         }
       ];
       setAccessLogs(logs);
@@ -250,14 +251,19 @@ export default function PrivacyControlsPage() {
       if (user?.id) {
         const aiPersonalization = new AIPersonalizationService();
         aiPersonalization.trackUserInteraction({
+          id: `interaction_${Date.now()}`,
           userId: user.id,
           type: 'form_submit',
-          timestamp: new Date().toISOString(),
+          timestamp: new Date(),
           metadata: {
             section: 'privacy_controls',
             ai_training: privacySettings.dataSharing.aiTraining,
             profile_visibility: privacySettings.visibility.profileVisibility,
             data_retention: privacySettings.dataRetention
+          },
+          context: {
+            page: 'privacy-controls',
+            section: 'privacy_controls'
           }
         });
       }
@@ -280,13 +286,18 @@ export default function PrivacyControlsPage() {
       if (user?.id) {
         const aiPersonalization = new AIPersonalizationService();
         aiPersonalization.trackUserInteraction({
+          id: `interaction_${Date.now()}`,
           userId: user.id,
           type: 'form_submit',
-          timestamp: new Date().toISOString(),
+          timestamp: new Date(),
           metadata: {
             section: 'privacy_controls',
             action: 'data_export',
             ...dataExportRequest
+          },
+          context: {
+            page: 'privacy-controls',
+            section: 'privacy_controls'
           }
         });
       }

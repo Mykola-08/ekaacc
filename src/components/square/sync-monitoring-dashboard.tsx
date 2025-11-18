@@ -121,12 +121,7 @@ export default function SyncMonitoringDashboard() {
       setConflicts(pendingConflicts || []);
 
       // Fetch queue items (recent ones)
-      const { data: queueData } = await bidirectionalSyncService.supabaseClient
-        ?.from('sync_queue')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20);
-      
+      const queueData = await bidirectionalSyncService.getSyncQueue(20);
       setQueueItems(queueData || []);
 
       // Calculate health metrics
@@ -224,13 +219,7 @@ export default function SyncMonitoringDashboard() {
   // Resolve conflict
   const handleResolveConflict = async (conflictId: string, strategy: string) => {
     try {
-      await bidirectionalSyncService.supabaseClient
-        ?.from('sync_conflicts')
-        .update({
-          resolved_at: new Date().toISOString(),
-          resolution_strategy: strategy,
-        })
-        .eq('id', conflictId);
+      await bidirectionalSyncService.resolveConflict(conflictId, strategy as 'local_wins' | 'external_wins' | 'merge');
 
       // Refresh data after resolution
       await fetchSyncData();
@@ -242,15 +231,7 @@ export default function SyncMonitoringDashboard() {
   // Retry failed queue item
   const handleRetryQueueItem = async (itemId: string) => {
     try {
-      await bidirectionalSyncService.supabaseClient
-        ?.from('sync_queue')
-        .update({
-          status: 'pending',
-          error_message: null,
-          retry_count: 0,
-          scheduled_at: new Date().toISOString(),
-        })
-        .eq('id', itemId);
+      await bidirectionalSyncService.retryQueueItem(itemId);
 
       // Refresh data after retry
       await fetchSyncData();

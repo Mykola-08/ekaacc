@@ -171,7 +171,7 @@ export default function AIInsightsPage() {
         }
       ];
 
-      setInsights([...insights, ...mockInsights]);
+      setInsights([...insights, ...(mockInsights as any[])]);
       
       // Load personalization data
       const personalization = await aiPersonalization.getPersonalizationProfile(user!.id);
@@ -188,20 +188,25 @@ export default function AIInsightsPage() {
           engagement: [],
           wellness: []
         },
-        insights: insights.slice(0, 5),
+        insights: (insights as any[]).slice(0, 5),
         lastUpdated: Date.now()
       });
 
       // Track page visit
       aiPersonalization.trackUserInteraction({
+        id: `interaction_${Date.now()}`,
         userId: user!.id,
         type: 'page_view',
-        timestamp: new Date().toISOString(),
+        timestamp: new Date(),
         metadata: { 
           action: 'ai_dashboard_accessed', 
           section: 'ai_insights',
           page: 'ai_insights',
           section_detail: 'dashboard'
+        },
+        context: {
+          page: 'ai_insights',
+          section: 'dashboard'
         }
       });
 

@@ -146,7 +146,7 @@ export default function CommunitySetupPage() {
                 <CardContent className="space-y-4">
                     {nextStepsContent.map(item => (
                         <div key={item.step} className="flex items-start gap-3">
-                            <Badge variant="border" className="mt-1">{item.step}</Badge>
+                            <Badge variant="outline" className="mt-1">{item.step}</Badge>
                             <div>
                                 <h4 className="font-semibold text-sm">{item.title}</h4>
                                 <p className="text-sm text-muted-foreground">{item.description}</p>
@@ -161,7 +161,7 @@ export default function CommunitySetupPage() {
                 <Card>
                     <CardHeader><CardTitle>✅ Created Collections</CardTitle></CardHeader>
                     <CardContent>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">{createdCollections.map(c => <Badge key={c} variant="background" className="justify-center text-xs">{c}</Badge>)}</div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">{createdCollections.map(c => <Badge key={c} variant="secondary" className="justify-center text-xs">{c}</Badge>)}</div>
                     </CardContent>
                 </Card>
             )}

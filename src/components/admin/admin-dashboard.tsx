@@ -8,7 +8,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RoleManagementPanel } from '@/components/admin/role-management-panel';
 import { ProductManagementPanel } from '@/components/admin/product-management-panel';
-import { RoleGuard } from '@/components/role-guard';
+import { UnifiedRoleGuard } from '@/components/unified-role-guard';
 import { useAuth } from '@/context/auth-context';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
@@ -83,7 +83,7 @@ export function AdminDashboard() {
   };
 
   return (
-    <RoleGuard allowedRoles={['Admin']}>
+    <UnifiedRoleGuard allowedRoles={['Admin']}>
       <div className="space-y-6">
         {/* Header */}
         <div className="flex justify-between items-center">
@@ -394,7 +394,7 @@ export function AdminDashboard() {
           </TabsContent>
         </Tabs>
       </div>
-    </RoleGuard>
+    </UnifiedRoleGuard>
   );
 }
 

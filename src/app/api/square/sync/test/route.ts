@@ -33,11 +33,7 @@ export async function GET(req: NextRequest) {
     const conflicts = await bidirectionalSyncService.getPendingConflicts();
 
     // Get recent queue items
-    const { data: queueItems } = await bidirectionalSyncService.supabaseClient
-      ?.from('sync_queue')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(10) || { data: [] };
+    const queueItems = await bidirectionalSyncService.getSyncQueue(10);
 
     return NextResponse.json({
       success: true,

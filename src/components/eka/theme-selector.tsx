@@ -133,9 +133,9 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
               : undefined;
 
           const statusBadge = isCurrent
-            ? { label: 'Active', variant: 'background' as const, className: 'text-success border-success/20' }
+            ? { label: 'Active', variant: 'default' as const, className: 'text-success border-success/20' }
             : isSelected
-              ? { label: 'Selected', variant: 'background' as const, className: 'text-primary border-primary/20' }
+              ? { label: 'Selected', variant: 'default' as const, className: 'text-primary border-primary/20' }
               : null;
 
           return (

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { getCurrentUser } from '@/context/auth-context'
+import { getCurrentUser } from '@/lib/server-auth'
 
 // POST /api/admin/notifications/templates - Create notification template
 export async function POST(request: NextRequest) {

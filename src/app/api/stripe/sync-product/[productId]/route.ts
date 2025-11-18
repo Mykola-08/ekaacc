@@ -14,9 +14,9 @@ function getStripeClient() {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { productId: string } }
+  { params }: { params: Promise<{ productId: string }> }
 ) {
-  const { productId } = params;
+  const { productId } = await params;
   
   try {
     const stripe = getStripeClient();

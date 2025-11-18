@@ -215,37 +215,34 @@ async function handleBookingCancelled(data: any): Promise<void> {
 
   try {
     // Find the corresponding local booking
-    const { data: syncMetadata, error: syncError } = await bidirectionalSyncService.supabaseClient
-      ?.from('sync_metadata')
-      .select('local_id')
-      .eq('entity_type', 'booking')
-      .eq('external_id', data.id)
-      .eq('external_system', 'square')
-      .single();
+    let syncMetadata;
+    try {
+      syncMetadata = await bidirectionalSyncService.getSyncMetadataByExternalId(data.id, 'booking');
+    } catch (error) {
+      console.warn(`No local booking found for cancelled Square booking ${data.id}`);
+      return;
+    }
 
-    if (syncError || !syncMetadata) {
+    if (!syncMetadata) {
       console.warn(`No local booking found for cancelled Square booking ${data.id}`);
       return;
     }
 
     // Update local booking status to cancelled
-    const { error: updateError } = await bidirectionalSyncService.supabaseClient
-      ?.from('appointments')
-      .update({ status: 'cancelled' })
-      .eq('id', syncMetadata.local_id);
-
-    if (updateError) {
-      throw new Error(`Failed to update local booking status: ${updateError.message}`);
+    try {
+      await bidirectionalSyncService.updateAppointmentStatus(syncMetadata.local_id, 'cancelled');
+    } catch (error) {
+      console.error(`Failed to update appointment status: ${error}`);
+      throw error;
     }
 
     // Update sync metadata
-    await bidirectionalSyncService.supabaseClient
-      ?.from('sync_metadata')
-      .update({ 
-        entity_status: 'deleted',
-        last_sync_at: new Date().toISOString()
-      })
-      .eq('id', syncMetadata.id);
+    try {
+      await bidirectionalSyncService.updateSyncMetadataStatus(syncMetadata.local_id, 'deleted');
+    } catch (error) {
+      console.error(`Failed to update sync metadata status: ${error}`);
+      throw error;
+    }
 
     console.log(`Successfully processed cancelled booking from Square: ${data.id}`);
 
@@ -335,40 +332,33 @@ async function handleCustomerDeleted(data: any): Promise<void> {
 
   try {
     // Find the corresponding local customer
-    const { data: syncMetadata, error: syncError } = await bidirectionalSyncService.supabaseClient
-      ?.from('sync_metadata')
-      .select('local_id')
-      .eq('entity_type', 'customer')
-      .eq('external_id', data.id)
-      .eq('external_system', 'square')
-      .single();
+    let syncMetadata;
+    try {
+      syncMetadata = await bidirectionalSyncService.getSyncMetadataByExternalId(data.id, 'customer');
+    } catch (error) {
+      console.warn(`No local customer found for deleted Square customer ${data.id}`);
+      return;
+    }
 
-    if (syncError || !syncMetadata) {
+    if (!syncMetadata) {
       console.warn(`No local customer found for deleted Square customer ${data.id}`);
       return;
     }
 
     // Soft delete local customer (don't actually delete, just mark as inactive)
-    const { error: updateError } = await bidirectionalSyncService.supabaseClient
-      ?.from('user_profiles')
-      .update({ 
-        updated_at: new Date().toISOString()
-        // Add a deleted flag if you have one, or handle this in your application logic
-      })
-      .eq('id', syncMetadata.local_id);
-
-    if (updateError) {
-      throw new Error(`Failed to update local customer: ${updateError.message}`);
+    try {
+      await bidirectionalSyncService.updateUserProfileTimestamp(syncMetadata.local_id);
+    } catch (error) {
+      throw new Error(`Failed to update local customer: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
 
     // Update sync metadata
-    await bidirectionalSyncService.supabaseClient
-      ?.from('sync_metadata')
-      .update({ 
-        entity_status: 'deleted',
-        last_sync_at: new Date().toISOString()
-      })
-      .eq('id', syncMetadata.id);
+    try {
+      await bidirectionalSyncService.updateSyncMetadataStatus(syncMetadata.local_id, 'deleted');
+    } catch (error) {
+      console.error(`Failed to update sync metadata status: ${error}`);
+      throw error;
+    }
 
     console.log(`Successfully processed deleted customer from Square: ${data.id}`);
 
@@ -393,16 +383,15 @@ async function recordSyncStatistics(
 ): Promise<void> {
   try {
     // Use the bidirectional sync service to record statistics
-    await bidirectionalSyncService.supabaseClient
-      ?.rpc('record_sync_stat', {
-        p_external_system: 'square',
-        p_entity_type: entityType,
-        p_sync_direction: direction,
-        p_operation: operation,
-        p_success: success,
-        p_conflict: conflict,
-        p_sync_time_ms: null // Will be calculated by the function
-      });
+    await bidirectionalSyncService.recordSyncStatistics({
+      externalSystem: 'square',
+      entityType,
+      syncDirection: direction,
+      operation,
+      success,
+      conflict,
+      syncTimeMs: null // Will be calculated by the function
+    });
   } catch (error) {
     console.error('Failed to record sync statistics:', error);
     // Don't throw - statistics failure shouldn't break the sync

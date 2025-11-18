@@ -281,7 +281,7 @@ export default function AdminCreateUserPage() {
                 <SelectContent>
                   <SelectItem value="Patient">Patient</SelectItem>
                   <SelectItem value="Therapist">Therapist</SelectItem>
-                  {currentUser.role === 'Admin' && (
+                  {currentUser.role?.name === 'Admin' && (
                     <SelectItem value="Admin">Admin</SelectItem>
                   )}
                 </SelectContent>

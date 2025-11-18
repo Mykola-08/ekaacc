@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { getCurrentUser } from '@/context/auth-context'
+import { getCurrentUser } from '@/lib/server-auth'
 
 // PATCH /api/admin/notifications/[id] - Update notification
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser()
@@ -18,7 +18,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    const { id } = params
+    const { id } = await params
     const updateData = await request.json()
 
     const { data: notification, error } = await supabase
@@ -60,7 +60,7 @@ export async function PATCH(
 // DELETE /api/admin/notifications/[id] - Delete notification
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser()
@@ -73,7 +73,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    const { id } = params
+    const { id } = await params
 
     const { error } = await supabase
       .from('admin_notifications')
@@ -107,7 +107,7 @@ export async function DELETE(
 // POST /api/admin/notifications/[id]/test - Send test notification
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const currentUser = await getCurrentUser()
@@ -120,7 +120,7 @@ export async function POST(
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    const { id } = params
+    const { id } = await params
 
     // Get the notification
     const { data: notification, error: notificationError } = await supabase

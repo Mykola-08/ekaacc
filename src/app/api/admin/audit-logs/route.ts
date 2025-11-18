@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Get summary statistics
-    const summary = await getAuditSummary(startDate, endDate)
+    const summary = await getAuditSummary(dateFrom || undefined, dateTo || undefined)
 
     return NextResponse.json({
       logs: filteredLogs,

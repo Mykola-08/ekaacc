@@ -2,16 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createProtectedRoute, ROUTE_CONFIGS } from '@/lib/route-middleware';
 import { logSecurityEvent } from '@/lib/security-monitoring';
 import { supabase } from '@/lib/supabase';
-import type { SystemRole } from '@/lib/role-permissions';
+import type { SystemRole, PermissionGroup, PermissionAction } from '@/lib/role-permissions';
 
 // Define the route configuration for this API endpoint
 const routeConfig = {
   path: '/api/navigation/validate',
   permissions: [
-    { group: 'system_settings', action: 'read' }
+    { group: 'system_settings' as PermissionGroup, action: 'read' as PermissionAction }
   ],
   requireAuth: true,
-  allowRoles: ['Admin', 'Therapist', 'Content Manager'],
+  allowRoles: ['Admin', 'Therapist', 'Content Manager'] as SystemRole[],
   metadata: { api: true, navigationValidation: true }
 };
 
@@ -134,7 +134,8 @@ const validateNavigationAccess = createProtectedRoute(
  * GET handler - Validate navigation access for a specific route
  */
 export async function GET(request: NextRequest) {
-  return validateNavigationAccess(request);
+  const handler = await validateNavigationAccess;
+  return handler(request);
 }
 
 /**
@@ -164,8 +165,8 @@ export async function POST(request: NextRequest) {
       headers: request.headers
     });
 
-    const handler = await validateNavigationAccess(modifiedRequest);
-    return handler;
+    const handler = await validateNavigationAccess;
+    return handler(modifiedRequest);
 
   } catch (error) {
     console.error('POST navigation validation error:', error);
@@ -206,10 +207,10 @@ export async function PUT(request: NextRequest) {
   const config = {
     path: '/api/navigation/validate/bulk',
     permissions: [
-      { group: 'system_settings', action: 'manage' }
+      { group: 'system_settings' as PermissionGroup, action: 'manage' as PermissionAction }
     ],
     requireAuth: true,
-    allowRoles: ['Admin'],
+    allowRoles: ['Admin'] as SystemRole[],
     metadata: { api: true, bulkValidation: true }
   };
 
@@ -288,5 +289,6 @@ export async function PUT(request: NextRequest) {
     }
   );
 
-  return bulkHandler(request);
+  const handler = await bulkHandler;
+  return handler(request);
 }

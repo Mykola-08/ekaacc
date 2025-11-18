@@ -49,11 +49,11 @@ async function canImpersonate(userId: string) {
     .select('permissions!inner(name)')
     .eq('role_id', roleAssignment.role_id)
 
-  const permissionNames = permissions?.map(p => p.permissions?.name).filter(Boolean) || []
+  const permissionNames = permissions?.map(p => (p as any).permissions?.name).filter(Boolean) || []
   
   return permissionNames.includes('admin.impersonate') || 
          permissionNames.includes('admin.full_access') ||
-         roleAssignment.user_roles?.name === 'admin'
+         (roleAssignment.user_roles as any)?.name === 'admin'
 }
 
 export async function POST(request: NextRequest) {

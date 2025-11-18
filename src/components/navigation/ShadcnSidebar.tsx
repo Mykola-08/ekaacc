@@ -160,7 +160,8 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ className }: AppSidebarProps) {
-  const { isExpanded } = useSidebar();
+  const { state } = useSidebar();
+  const isExpanded = state === 'expanded';
   const { user, signOut } = useAuth();
   const router = useRouter();
 

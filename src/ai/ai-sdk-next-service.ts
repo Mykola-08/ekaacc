@@ -149,9 +149,9 @@ const reportTool = tool({
   }),
   execute: async (params: any) => {
     // Implementation for generating reports
-    return { success: true, reportId: 'generated-id', status: 'generated' };
+    return { success: true, reportId: 'generated-id', status: 'generated', data: null };
   },
-});
+} as any);
 
 /**
  * Enhanced AI Service using AI SDK Next

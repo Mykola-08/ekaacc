@@ -188,7 +188,7 @@ class SquareAppointmentsService {
   /**
    * Process a single booking - override this method to implement custom logic
    */
-  private async processBooking(booking: SquareBooking): Promise<void> {
+  public async processBooking(booking: SquareBooking): Promise<void> {
     // This is where you would implement your custom booking processing logic
     // For example, save to your database, create local records, etc.
     console.log(`Processing booking: ${booking.id}`);
@@ -203,7 +203,7 @@ class SquareAppointmentsService {
   /**
    * Process a single customer - override this method to implement custom logic
    */
-  private async processCustomer(customer: SquareCustomer): Promise<void> {
+  public async processCustomer(customer: SquareCustomer): Promise<void> {
     // This is where you would implement your custom customer processing logic
     console.log(`Processing customer: ${customer.id}`);
     

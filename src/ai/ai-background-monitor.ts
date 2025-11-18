@@ -577,7 +577,7 @@ export class AIBackgroundMonitor {
         requiresIntervention: false,
         context: {
           page: snapshot.currentPage,
-          recentActivity: snapshot.recentActivity,
+          recentActivity: snapshot.recentActivity || [],
           relevantMetrics: rec.metrics || {}
         }
       }));

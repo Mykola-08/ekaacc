@@ -98,12 +98,16 @@ export class AIService {
       return {
         output: result.text,
         confidence: 0.85, // Default confidence for AI responses
-        usage: result.usage,
+        usage: result.usage ? {
+          promptTokens: (result.usage as any).promptTokens || (result.usage as any).inputTokens || 0,
+          completionTokens: (result.usage as any).completionTokens || (result.usage as any).outputTokens || 0,
+          totalTokens: (result.usage as any).totalTokens || 0
+        } : undefined,
         model: result.response?.modelId || model,
         timestamp: new Date().toISOString(),
         userId,
         metadata: {
-          finishReason: result.response?.finishReason,
+          finishReason: (result.response as any)?.finishReason,
         }
       };
     } catch (error) {

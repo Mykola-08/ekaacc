@@ -236,7 +236,8 @@ export function AppSidebar07() {
   const pathname = usePathname()
   const router = useRouter()
   const { user, signOut } = useAuth()
-  const { isExpanded } = useSidebar()
+  const { state } = useSidebar()
+  const isExpanded = state === 'expanded'
 
   // Determine which navigation to show based on current path
   const getNavigationGroups = () => {

@@ -41,8 +41,8 @@ export function SessionRecommendationsCard({ sessions, delay = 200 }: Recommenda
                   <div className="flex items-center gap-2 mb-1">
                     <h4 className="font-semibold">{session.title}</h4>
                     <Badge variant={
-                      session.priority === 'high' ? 'border' :
-                      session.priority === 'medium' ? 'background' : 'base'
+                      session.priority === 'high' ? 'destructive' :
+                      session.priority === 'medium' ? 'default' : 'outline'
                     } className={
                       session.priority === 'high' ? 'text-destructive border-destructive/20' :
                       session.priority === 'medium' ? 'text-warning border-warning/20' : 'text-muted-foreground'

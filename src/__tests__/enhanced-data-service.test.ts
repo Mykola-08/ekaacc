@@ -341,7 +341,7 @@ describe('EnhancedDataService', () => {
           delete: jest.fn<any>()
         } as any)
 
-        const result = await enhancedDataService.createUserPreferences('user-1', newPreferences)
+        const result = await enhancedDataService.createUserPreferences('user-1', newPreferences as any)
         
         expect(result).toMatchObject(newPreferences)
         expect(mockInsert).toHaveBeenCalledWith([{ user_id: 'user-1', ...newPreferences }])
@@ -425,7 +425,7 @@ describe('EnhancedDataService', () => {
           delete: jest.fn<any>()
         } as any)
 
-        const result = await enhancedDataService.createSubscriptionWithValidation(newSubscription)
+        const result = await enhancedDataService.createSubscriptionWithValidation(newSubscription as any)
         
         expect(result).toMatchObject(newSubscription)
         expect(mockInsert).toHaveBeenCalledWith([newSubscription])
@@ -456,7 +456,7 @@ describe('EnhancedDataService', () => {
           end_date: '2024-02-01T00:00:00Z'
         }
 
-        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription))
+        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription as any))
           .rejects.toThrow('Valid subscription type is required')
       })
 
@@ -471,7 +471,7 @@ describe('EnhancedDataService', () => {
           end_date: '2024-02-01T00:00:00Z'
         }
 
-        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription))
+        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription as any))
           .rejects.toThrow('Subscription price cannot be negative')
       })
     })

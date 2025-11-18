@@ -1,12 +1,8 @@
 import { SquareClient, SquareEnvironment } from 'square';
+import type { Booking as SquareBooking, Customer as SquareCustomer } from 'square';
+import type { SearchCustomersRequest, ListBookingsRequest } from 'square';
 import { createClient } from '@supabase/supabase-js';
-import type {
-  SquareBooking,
-  SquareCustomer,
-  NormalizedBooking,
-  ListBookingsRequest,
-  SearchCustomersRequest,
-} from '@/types/square';
+import type { NormalizedBooking } from '@/types/square';
 import type { Database } from '@/types/supabase';
 
 /**
@@ -973,9 +969,9 @@ class BidirectionalSyncService {
    */
   private normalizeSquareBooking(squareBooking: SquareBooking): NormalizedBooking {
     const appointment = Array.isArray(squareBooking?.appointmentSegments) ? squareBooking.appointmentSegments[0] : undefined;
-    const locationId = squareBooking?.locationId ?? appointment?.locationId;
+    const locationId = squareBooking?.locationId;
     const customer = squareBooking?.customerId;
-    const startAt = squareBooking?.startAt ?? appointment?.startAt;
+    const startAt = squareBooking?.startAt;
     const serviceName = appointment?.serviceVariationId;
     const therapistId = appointment?.teamMemberId;
 
@@ -1055,7 +1051,7 @@ class BidirectionalSyncService {
   async queueOutboundSync(entityType: string, entityId: string, operation: string, payload: any): Promise<void> {
     if (!this.supabaseClient) throw new Error('Supabase client not initialized');
 
-    const { error } = await this.supabaseClient
+    const { error } = await (this.supabaseClient as any)
       .from('sync_queue')
       .insert({
         entity_type: entityType,
@@ -1078,7 +1074,7 @@ class BidirectionalSyncService {
   async getSyncStatistics() {
     if (!this.supabaseClient) throw new Error('Supabase client not initialized');
 
-    const { data, error } = await this.supabaseClient
+    const { data, error } = await (this.supabaseClient as any)
       .from('sync_statistics')
       .select('*')
       .eq('external_system', 'square')
@@ -1095,7 +1091,7 @@ class BidirectionalSyncService {
   async getPendingConflicts() {
     if (!this.supabaseClient) throw new Error('Supabase client not initialized');
 
-    const { data, error } = await this.supabaseClient
+    const { data, error } = await (this.supabaseClient as any)
       .from('sync_conflicts')
       .select('*')
       .eq('external_system', 'square')
@@ -1124,7 +1120,7 @@ class BidirectionalSyncService {
 
       // Test Supabase connection
       if (this.supabaseClient) {
-        const { data, error } = await this.supabaseClient
+        const { data, error } = await (this.supabaseClient as any)
           .from('sync_metadata')
           .select('id')
           .limit(1);

@@ -17,6 +17,7 @@ const customJestConfig = {
     '**/__tests__/**/*.test.tsx',
     '**/?(*.)+(spec|test).ts',
     '**/?(*.)+(spec|test).tsx',
+    '!**/e2e/**', // Exclude e2e tests (run with Playwright)
   ],
   transform: {
     '^.+\\.(ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],

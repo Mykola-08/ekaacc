@@ -66,10 +66,10 @@ export default function AIInsightsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState(Date.now());
 
-  const wellnessInsights = insights.filter(i => i.type === 'wellness');
-  const behaviorInsights = insights.filter(i => i.type === 'behavior');
-  const therapyInsights = insights.filter(i => i.type === 'therapy');
-  const goalInsights = insights.filter(i => i.type === 'goal');
+  const wellnessInsights = insights.filter((i: any) => i.type === 'wellness');
+  const behaviorInsights = insights.filter((i: any) => i.type === 'behavior');
+  const therapyInsights = insights.filter((i: any) => i.type === 'therapy');
+  const goalInsights = insights.filter((i: any) => i.type === 'goal');
 
   // Initialize AI services and load data
   useEffect(() => {
@@ -321,7 +321,7 @@ export default function AIInsightsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-green-900">
-                  {insights.filter(i => i.trend === 'improving').length}
+                  {insights.filter((i: any) => i.trend === 'improving').length}
                 </div>
                 <p className="text-sm text-green-700 mt-1">Positive developments</p>
               </CardContent>
@@ -339,7 +339,7 @@ export default function AIInsightsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-purple-900">
-                  {insights.length > 0 ? Math.round(insights.reduce((acc, i) => acc + i.confidence, 0) / insights.length) : 0}%
+                  {insights.length > 0 ? Math.round(insights.reduce((acc: any, i: any) => acc + i.confidence, 0) / insights.length) : 0}%
                 </div>
                 <p className="text-sm text-purple-700 mt-1">AI prediction accuracy</p>
               </CardContent>
@@ -357,7 +357,7 @@ export default function AIInsightsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-orange-900">
-                  {insights.filter(i => i.actionable).length}
+                  {insights.filter((i: any) => i.actionable).length}
                 </div>
                 <p className="text-sm text-orange-700 mt-1">Recommended actions</p>
               </CardContent>
@@ -398,7 +398,7 @@ export default function AIInsightsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {wellnessInsights.slice(0, 3).map((insight) => (
+                  {wellnessInsights.slice(0, 3).map((insight: any) => (
                     <motion.div
                       key={insight.id}
                       initial={{ opacity: 0, x: -20 }}
@@ -445,7 +445,7 @@ export default function AIInsightsPage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {behaviorInsights.slice(0, 3).map((insight) => (
+                  {behaviorInsights.slice(0, 3).map((insight: any) => (
                     <motion.div
                       key={insight.id}
                       initial={{ opacity: 0, x: -20 }}
@@ -486,7 +486,7 @@ export default function AIInsightsPage() {
 
           <TabsContent value="insights" className="space-y-6">
             <div className="grid gap-6">
-              {insights.map((insight, index) => (
+              {insights.map((insight: any, index: number) => (
                 <motion.div
                   key={insight.id}
                   initial={{ opacity: 0, y: 20 }}

@@ -62,8 +62,8 @@ export class VercelAIService {
   async generateText(request: VercelAIRequest): Promise<VercelAIResponse> {
     try {
       const modelKey = request.model || this.defaultModel;
-      const provider = this.providers[modelKey];
-      const modelVariant = request.modelVariant || this.modelVariants[modelKey];
+      const provider = this.providers[modelKey as keyof typeof this.providers];
+      const modelVariant = request.modelVariant || this.modelVariants[modelKey as keyof typeof this.modelVariants];
       const maxTokens = request.maxTokens || this.defaultMaxTokens;
       const temperature = request.temperature || this.defaultTemperature;
 
@@ -102,8 +102,8 @@ export class VercelAIService {
   async generateObject<T>(request: VercelAIObjectRequest<T>): Promise<VercelAIObjectResponse<T>> {
     try {
       const modelKey = request.model || this.defaultModel;
-      const provider = this.providers[modelKey];
-      const modelVariant = request.modelVariant || this.modelVariants[modelKey];
+      const provider = this.providers[modelKey as keyof typeof this.providers];
+      const modelVariant = request.modelVariant || this.modelVariants[modelKey as keyof typeof this.modelVariants];
       const maxTokens = request.maxTokens || this.defaultMaxTokens;
       const temperature = request.temperature || this.defaultTemperature;
 
@@ -143,7 +143,7 @@ export class VercelAIService {
    */
   async *streamText(request: VercelAIRequest): AsyncGenerator<string, void, unknown> {
     try {
-      const model = this.providers[request.model || this.defaultModel];
+      const model = this.providers[(request.model || this.defaultModel) as keyof typeof this.providers];
       const maxTokens = request.maxTokens || this.defaultMaxTokens;
       const temperature = request.temperature || this.defaultTemperature;
 

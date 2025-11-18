@@ -671,7 +671,7 @@ export class AIVerificationSystem {
     }
 
     return {
-      urgencyScore: Math.min(100, urgencyScore),
+      urgencyScore: Math.min(100, urgencyScoreValue),
       keyFactors,
       timelineRisk,
       supportingEvidence

@@ -489,7 +489,6 @@ Focus on being helpful, supportive, and professional.`;
         model: 'fallback',
         confidence: 0.5,
         subscriptionTier: request.subscriptionTier,
-        error: error?.message,
       },
     };
 

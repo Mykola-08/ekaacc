@@ -68,7 +68,7 @@ interface RoleAssignmentLog {
 }
 
 export function RoleManagementPanel() {
-  const { user: currentUser, hasPermission } = useAuth();
+  const { user: currentUser, canAccessResource } = useAuth();
   const { toast } = useToast();
   const [users, setUsers] = useState<UserWithRole[]>([]);
   const [roleLogs, setRoleLogs] = useState<RoleAssignmentLog[]>([]);

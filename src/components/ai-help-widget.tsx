@@ -56,7 +56,7 @@ export function AIHelpWidget({
 
     setIsLoading(true);
     try {
-      const request: AIHelpRequest = {
+      const request = {
         query: query.trim(),
         context,
         page

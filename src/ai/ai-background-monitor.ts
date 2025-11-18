@@ -344,7 +344,7 @@ export class AIBackgroundMonitor {
           requiresIntervention: false,
           context: {
             page: current.currentPage,
-            recentActivity: current.recentActivity,
+            recentActivity: (current.recentActivity || []) as string[],
             relevantMetrics: { moodVariance: variance }
           }
         });
@@ -381,7 +381,7 @@ export class AIBackgroundMonitor {
           requiresIntervention: false,
           context: {
             page: current.currentPage,
-            recentActivity: current.recentActivity,
+            recentActivity: (current.recentActivity || []) as string[],
             relevantMetrics: {
               recentEngagement,
               previousEngagement,
@@ -412,7 +412,7 @@ export class AIBackgroundMonitor {
         requiresIntervention: false,
         context: {
           page: current.currentPage,
-          recentActivity: current.recentActivity,
+          recentActivity: (current.recentActivity || []) as string[],
           relevantMetrics: { sessionDuration: current.sessionDuration }
         }
       });
@@ -456,7 +456,7 @@ export class AIBackgroundMonitor {
           requiresIntervention: false,
           context: {
             page: current.currentPage,
-            recentActivity: current.recentActivity,
+            recentActivity: (current.recentActivity || []) as string[],
             relevantMetrics: {
               recent: recentWellness.journalEntries,
               average: avgHistoricalWellness.journalEntries
@@ -489,7 +489,7 @@ export class AIBackgroundMonitor {
         timestamp: new Date(),
         context: {
           page: current.currentPage,
-          recentActivity: current.recentActivity,
+          recentActivity: (current.recentActivity || []) as string[],
           relevantMetrics: insight.context?.relevantMetrics || {}
         }
       }));

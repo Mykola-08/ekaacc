@@ -422,7 +422,7 @@ export class SupabaseDataService implements IDataService {
   async updateService(serviceId: string, updates: Partial<any>): Promise<void> {
     const { error } = await supabase
       .from('services')
-      .update(updates)
+      .update(updates as any)
       .eq('id', serviceId)
     
     if (error) throw error

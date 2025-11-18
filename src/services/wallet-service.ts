@@ -52,7 +52,7 @@ class SupabaseWalletService implements IWalletService {
     }
 
     return {
-      id: data.id,
+      id: (data as any).id,
       userId: data.user_id,
       balance: data.balance,
       currency: data.currency,

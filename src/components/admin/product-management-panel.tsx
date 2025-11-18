@@ -445,7 +445,7 @@ export function ProductManagementPanel() {
                         <Badge 
                           variant={
                             product.availability === 'active' ? 'default' :
-                            product.availability === 'vip_only' ? 'premium' :
+                            product.availability === 'vip_only' ? 'secondary' :
                             product.availability === 'corporate_only' ? 'secondary' :
                             'outline'
                           }
@@ -525,7 +525,7 @@ export function ProductManagementPanel() {
             <form onSubmit={form.handleSubmit(handleProductSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
@@ -539,7 +539,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="price"
                   render={({ field }) => (
                     <FormItem>
@@ -559,7 +559,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="duration"
                   render={({ field }) => (
                     <FormItem>
@@ -578,7 +578,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="difficulty"
                   render={({ field }) => (
                     <FormItem>
@@ -601,7 +601,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="category"
                   render={({ field }) => (
                     <FormItem>
@@ -615,7 +615,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="type"
                   render={({ field }) => (
                     <FormItem>
@@ -638,7 +638,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="availability"
                   render={({ field }) => (
                     <FormItem>
@@ -662,7 +662,7 @@ export function ProductManagementPanel() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={form.control as any}
                   name="isActive"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
@@ -684,7 +684,7 @@ export function ProductManagementPanel() {
               </div>
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="shortDescription"
                 render={({ field }) => (
                   <FormItem>
@@ -706,7 +706,7 @@ export function ProductManagementPanel() {
               />
 
               <FormField
-                control={form.control}
+                control={form.control as any}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
@@ -734,7 +734,7 @@ export function ProductManagementPanel() {
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="stripeProductId"
                       render={({ field }) => (
                         <FormItem>
@@ -751,7 +751,7 @@ export function ProductManagementPanel() {
                     />
 
                     <FormField
-                      control={form.control}
+                      control={form.control as any}
                       name="stripePriceId"
                       render={({ field }) => (
                         <FormItem>

@@ -155,7 +155,7 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       if (error) throw error;
       
       // Initialize usage tracking
-      await this.initializeUsage(data.id, userId, tier.type);
+      await this.initializeUsage((data as any).id, userId, tier.type);
       
       console.log(`✅ Created ${tier.type} subscription for user ${userId}`);
       return this.mapDbSubscriptionToApp(data);

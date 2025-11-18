@@ -28,6 +28,11 @@ interface TierData {
     sessionsRemaining: number;
     storageUsed: number;
     storageRemaining: number;
+    loyalty?: {
+      pointsEarned: number;
+      pointsMultiplier: number;
+      discountAvailable: number;
+    };
   };
   benefits: {
     hasPriorityBooking: boolean;

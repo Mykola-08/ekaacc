@@ -620,7 +620,7 @@ export class AIVerificationSystem {
   }
 
   private async assessUrgency(application: DonationApplication): Promise<UrgencyAssessment> {
-    const urgencyScore = this.calculateUrgencyScore(application);
+    let urgencyScore = this.calculateUrgencyScore(application);
     const keyFactors: string[] = [];
     let timelineRisk: UrgencyAssessment['timelineRisk'] = 'low';
     const supportingEvidence: string[] = [];
@@ -671,7 +671,7 @@ export class AIVerificationSystem {
     }
 
     return {
-      urgencyScore: Math.min(100, urgencyScoreValue),
+      urgencyScore: Math.min(100, urgencyScore),
       keyFactors,
       timelineRisk,
       supportingEvidence

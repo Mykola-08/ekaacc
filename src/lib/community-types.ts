@@ -3,7 +3,8 @@
  * Comprehensive type definitions for community features, groups, posts, and interactions
  */
 
-import type { Timestamp } from 'firebase/firestore';
+// Using Supabase - Date type instead of Firebase Timestamp
+type Timestamp = Date;
 
 // ============================================
 // POST TYPES

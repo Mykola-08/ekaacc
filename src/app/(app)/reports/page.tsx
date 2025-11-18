@@ -6,7 +6,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
-import type { Timestamp } from 'firebase/firestore';
+// Using Supabase - Date type instead of Firebase Timestamp
+type Timestamp = Date;
 import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -23,8 +24,8 @@ import { SettingsHeader } from '@/components/eka/settings/settings-header';
 function toDate(timestamp: Timestamp | Date | string): Date {
     if (timestamp instanceof Date) return timestamp;
     if (typeof timestamp === 'string') return new Date(timestamp);
-    if (timestamp && typeof timestamp.toDate === 'function') {
-        return timestamp.toDate();
+    if (timestamp && typeof (timestamp as any).toDate === 'function') {
+        return (timestamp as any).toDate();
     }
     return new Date();
 }

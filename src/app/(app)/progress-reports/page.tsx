@@ -265,9 +265,9 @@ export default function ProgressReportsPage() {
                         </CardHeader>
                         <CardContent>
                           {ach.earned ? (
-                            <Badge variant="base">Earned</Badge>
+                            <Badge variant="default">Earned</Badge>
                           ) : (
-                            <Badge variant="base">Locked</Badge>
+                            <Badge variant="default">Locked</Badge>
                           )}
                           {ach.date && <div className="text-xs text-muted-foreground mt-2">{new Date(ach.date).toLocaleDateString()}</div>}
                         </CardContent>
@@ -312,7 +312,7 @@ export default function ProgressReportsPage() {
                           <div className="flex-1 overflow-hidden">
                             <div className="flex justify-between items-center">
                               <p className="font-semibold truncate">{report.title}</p>
-                              <Badge variant="base" className="ml-2 shrink-0">{report.type}</Badge>
+                              <Badge variant="default" className="ml-2 shrink-0">{report.type}</Badge>
                             </div>
                             <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                             <p className="text-sm mt-1 break-words">{report.summary}</p>
@@ -345,15 +345,15 @@ export default function ProgressReportsPage() {
                   <div className="grid gap-4">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Pain</span>
-                      <Badge variant="base">{progressData.painReduction.current}</Badge>
+                      <Badge variant="default">{progressData.painReduction.current}</Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Mobility</span>
-                      <Badge variant="base">{progressData.mobility.current}%</Badge>
+                      <Badge variant="default">{progressData.mobility.current}%</Badge>
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="font-medium">Streak</span>
-                      <Badge variant="base">{progressData.streakDays} days</Badge>
+                      <Badge variant="default">{progressData.streakDays} days</Badge>
                     </div>
                   </div>
                 </CardContent>

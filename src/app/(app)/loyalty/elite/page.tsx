@@ -211,7 +211,7 @@ export default function LoyaltyElitePage() {
               <p className="text-red-100">Points Multiplier</p>
             </div>
             <div>
-              <NumberTicker value={15} className="text-4xl font-bold mb-2" suffix="%" />
+              <NumberTicker value={15} className="text-4xl font-bold mb-2" />
               <p className="text-red-100">Discount Rate</p>
             </div>
             <div>

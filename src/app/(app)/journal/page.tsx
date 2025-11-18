@@ -15,7 +15,7 @@ import { useAppStore } from '@/store/app-store';
 import { Plus, BookOpen, Smile, Meh, Frown, X, Search, Tag, Heart, Sparkles, Edit3, Save, TrendingUp, Calendar } from 'lucide-react';
 import { format, isSameDay } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import type { JournalEntry } from '@/lib/types';
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
@@ -132,7 +132,7 @@ export default function JournalPage() {
 		}
 	};
 
-	const itemVariants = {
+	const itemVariants: Variants = {
 		hidden: { opacity: 0, y: 20 },
 		visible: {
 			opacity: 1,

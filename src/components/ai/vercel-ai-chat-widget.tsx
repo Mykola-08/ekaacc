@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { vercelAIService, type VercelAIRequest } from '@/ai/vercel-ai-service';
 import { useAuth } from '@/lib/supabase-auth';
 import { Sparkles, Send, Loader2, Brain, Heart, MessageSquare } from 'lucide-react';
@@ -14,7 +14,7 @@ interface AIChatWidgetProps {
   model?: 'openai' | 'anthropic' | 'google';
 }
 
-const glowVariants = {
+const glowVariants: Variants = {
   initial: { opacity: 0, scale: 0.8 },
   animate: { 
     opacity: 1, 
@@ -25,7 +25,7 @@ const glowVariants = {
   tap: { scale: 0.98 }
 };
 
-const messageVariants = {
+const messageVariants: Variants = {
   initial: { opacity: 0, y: 20, scale: 0.9 },
   animate: { 
     opacity: 1, 
@@ -36,7 +36,7 @@ const messageVariants = {
   exit: { opacity: 0, y: -10, scale: 0.9 }
 };
 
-const typingVariants = {
+const typingVariants: Variants = {
   animate: {
     opacity: [0.4, 1, 0.4],
     transition: {

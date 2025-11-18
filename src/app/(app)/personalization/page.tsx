@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { ArrowLeft, Sparkles, User, Settings, Heart, Brain, Palette, Bell, Shield, Zap, Target, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -13,7 +13,7 @@ import { useAdaptiveInterface } from '@/hooks/use-adaptive-interface';
 import PersonalizationEngine from '@/components/eka/personalization-engine';
 import { InView } from '@/components/motion-primitives/in-view';
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -24,7 +24,7 @@ const containerVariants = {
   }
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
@@ -33,7 +33,7 @@ const itemVariants = {
   }
 };
 
-const floatingVariants = {
+const floatingVariants: Variants = {
   animate: {
     y: [0, -10, 0],
     transition: {
@@ -190,7 +190,7 @@ export default function PersonalizationPage() {
                   </div>
                 </div>
                 
-                <Progress value={overallProgress} size="md" color="primary" className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
+                <Progress value={overallProgress} className="h-4 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" />
                 
                 <div className="grid md:grid-cols-2 gap-6 mt-6">
                   {personalizationSections.map((section) => (
@@ -204,7 +204,7 @@ export default function PersonalizationPage() {
                           {section.progress}%
                         </Badge>
                       </div>
-                      <Progress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
+                      <Progress value={section.progress} className="h-2 rounded-full" />
                     </div>
                   ))}
                 </div>
@@ -317,7 +317,7 @@ export default function PersonalizationPage() {
                             <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
                           </div>
                         </div>
-                        <Progress value={section.progress} size="sm" color="primary" className="h-2 rounded-full" />
+                        <Progress value={section.progress} className="h-2 rounded-full" />
                       </div>
                     </motion.div>
                   );

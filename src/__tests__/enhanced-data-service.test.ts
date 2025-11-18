@@ -13,24 +13,24 @@ jest.mock('@/lib/supabase', () => ({
     from: jest.fn(() => ({
       select: jest.fn(() => ({
         eq: jest.fn(() => ({
-          single: jest.fn(),
+          single: jest.fn<any>(),
           order: jest.fn(() => ({ data: null, error: null })),
           range: jest.fn(() => ({ data: null, error: null }))
         })),
         in: jest.fn(() => ({
-          single: jest.fn()
+          single: jest.fn<any>()
         })),
         order: jest.fn(() => ({ data: null, error: null }))
       })),
       insert: jest.fn(() => ({
         select: jest.fn(() => ({
-          single: jest.fn()
+          single: jest.fn<any>()
         }))
       })),
       update: jest.fn(() => ({
         eq: jest.fn(() => ({
           select: jest.fn(() => ({
-            single: jest.fn()
+            single: jest.fn<any>()
           }))
         }))
       })),
@@ -99,12 +99,12 @@ describe('EnhancedDataService', () => {
 
     describe('getServiceById', () => {
       it('should fetch service by ID successfully', async () => {
-        const mockSingle = jest.fn().mockResolvedValue({ data: mockService, error: null })
-        const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
-        const mockInsert = jest.fn()
-        const mockUpdate = jest.fn()
-        const mockDelete = jest.fn()
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: mockService, error: null })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
+        const mockInsert: any = jest.fn<any>()
+        const mockUpdate: any = jest.fn<any>()
+        const mockDelete: any = jest.fn<any>()
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
@@ -124,12 +124,12 @@ describe('EnhancedDataService', () => {
 
       it('should handle error when fetching service', async () => {
         const mockError = new Error('Service not found')
-        const mockSingle = jest.fn().mockResolvedValue({ data: null, error: mockError })
-        const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
-        const mockInsert = jest.fn()
-        const mockUpdate = jest.fn()
-        const mockDelete = jest.fn()
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: null, error: mockError })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
+        const mockInsert: any = jest.fn<any>()
+        const mockUpdate: any = jest.fn<any>()
+        const mockDelete: any = jest.fn<any>()
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
@@ -145,15 +145,15 @@ describe('EnhancedDataService', () => {
     describe('getServicesByCategory', () => {
       it('should fetch services by category successfully', async () => {
         const mockData = [mockService]
-        const mockOrder = jest.fn().mockReturnValue({ data: mockData, error: null })
-        const mockEq = jest.fn().mockReturnValue({ order: mockOrder })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockOrder: any = jest.fn<any>().mockReturnValue({ data: mockData, error: null })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ order: mockOrder })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
-          insert: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn()
+          insert: jest.fn<any>(),
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.getServicesByCategory('Therapy')
@@ -175,15 +175,15 @@ describe('EnhancedDataService', () => {
           category: 'Therapy'
         }
 
-        const mockSingle = jest.fn().mockResolvedValue({ data: { ...mockService, ...newService }, error: null })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockInsert = jest.fn().mockReturnValue({ select: mockSelect })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: { ...mockService, ...newService }, error: null })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockInsert: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
+          select: jest.fn<any>(),
           insert: mockInsert,
-          update: jest.fn(),
-          delete: jest.fn()
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.createServiceWithValidation(newService as any)
@@ -218,16 +218,16 @@ describe('EnhancedDataService', () => {
     describe('updateServiceWithValidation', () => {
       it('should update service with validation successfully', async () => {
         const updates = { price: 200, name: 'Updated Service' }
-        const mockSingle = jest.fn().mockResolvedValue({ data: { ...mockService, ...updates }, error: null })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockEq = jest.fn().mockReturnValue({ select: mockSelect })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: { ...mockService, ...updates }, error: null })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
-          insert: jest.fn(),
+          select: jest.fn<any>(),
+          insert: jest.fn<any>(),
           update: mockUpdate,
-          delete: jest.fn()
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.updateServiceWithValidation('service-1', updates)
@@ -247,13 +247,13 @@ describe('EnhancedDataService', () => {
 
     describe('deleteService', () => {
       it('should delete service successfully', async () => {
-        const mockEq = jest.fn().mockReturnValue({ error: null })
-        const mockDelete = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ error: null })
+        const mockDelete: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
-          insert: jest.fn(),
-          update: jest.fn(),
+          select: jest.fn<any>(),
+          insert: jest.fn<any>(),
+          update: jest.fn<any>(),
           delete: mockDelete
         } as any)
 
@@ -282,15 +282,15 @@ describe('EnhancedDataService', () => {
 
     describe('getUserPreferences', () => {
       it('should fetch user preferences successfully', async () => {
-        const mockSingle = jest.fn().mockResolvedValue({ data: mockUserPreferences, error: null })
-        const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: mockUserPreferences, error: null })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
-          insert: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn()
+          insert: jest.fn<any>(),
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.getUserPreferences('user-1')
@@ -303,15 +303,15 @@ describe('EnhancedDataService', () => {
 
       it('should return null when no preferences found', async () => {
         const mockError = { code: 'PGRST116' }
-        const mockSingle = jest.fn().mockResolvedValue({ data: null, error: mockError })
-        const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: null, error: mockError })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
-          insert: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn()
+          insert: jest.fn<any>(),
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.getUserPreferences('user-1')
@@ -327,21 +327,21 @@ describe('EnhancedDataService', () => {
           practitioner_preferences: { gender: 'male' }
         }
 
-        const mockSingle = jest.fn().mockResolvedValue({ 
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ 
           data: { ...mockUserPreferences, ...newPreferences }, 
           error: null 
         })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockInsert = jest.fn().mockReturnValue({ select: mockSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockInsert: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
+          select: jest.fn<any>(),
           insert: mockInsert,
-          update: jest.fn(),
-          delete: jest.fn()
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
-        const result = await enhancedDataService.createUserPreferences('user-1', newPreferences)
+        const result = await enhancedDataService.createUserPreferences('user-1', newPreferences as any)
         
         expect(result).toMatchObject(newPreferences)
         expect(mockInsert).toHaveBeenCalledWith([{ user_id: 'user-1', ...newPreferences }])
@@ -352,19 +352,19 @@ describe('EnhancedDataService', () => {
       it('should update user preferences successfully', async () => {
         const updates = { preferred_time: 'evening', intensity_preference: 'high' }
 
-        const mockSingle = jest.fn().mockResolvedValue({ 
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ 
           data: { ...mockUserPreferences, ...updates }, 
           error: null 
         })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockEq = jest.fn().mockReturnValue({ select: mockSelect })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
-          insert: jest.fn(),
+          select: jest.fn<any>(),
+          insert: jest.fn<any>(),
           update: mockUpdate,
-          delete: jest.fn()
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.updateUserPreferences('user-1', updates)
@@ -379,15 +379,15 @@ describe('EnhancedDataService', () => {
   describe('Subscription Management', () => {
     describe('getSubscriptionById', () => {
       it('should fetch subscription by ID successfully', async () => {
-        const mockSingle = jest.fn().mockResolvedValue({ data: mockSubscription, error: null })
-        const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: mockSubscription, error: null })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
           select: mockSelect,
-          insert: jest.fn(),
-          update: jest.fn(),
-          delete: jest.fn()
+          insert: jest.fn<any>(),
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.getSubscriptionById('sub-1')
@@ -411,21 +411,21 @@ describe('EnhancedDataService', () => {
           end_date: '2024-02-01T00:00:00Z'
         }
 
-        const mockSingle = jest.fn().mockResolvedValue({ 
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ 
           data: { ...mockSubscription, ...newSubscription }, 
           error: null 
         })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockInsert = jest.fn().mockReturnValue({ select: mockSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockInsert: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
+          select: jest.fn<any>(),
           insert: mockInsert,
-          update: jest.fn(),
-          delete: jest.fn()
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
-        const result = await enhancedDataService.createSubscriptionWithValidation(newSubscription)
+        const result = await enhancedDataService.createSubscriptionWithValidation(newSubscription as any)
         
         expect(result).toMatchObject(newSubscription)
         expect(mockInsert).toHaveBeenCalledWith([newSubscription])
@@ -456,7 +456,7 @@ describe('EnhancedDataService', () => {
           end_date: '2024-02-01T00:00:00Z'
         }
 
-        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription))
+        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription as any))
           .rejects.toThrow('Valid subscription type is required')
       })
 
@@ -471,7 +471,7 @@ describe('EnhancedDataService', () => {
           end_date: '2024-02-01T00:00:00Z'
         }
 
-        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription))
+        await expect(enhancedDataService.createSubscriptionWithValidation(invalidSubscription as any))
           .rejects.toThrow('Subscription price cannot be negative')
       })
     })
@@ -479,16 +479,16 @@ describe('EnhancedDataService', () => {
     describe('cancelSubscription', () => {
       it('should cancel subscription successfully', async () => {
         const cancelledSubscription = { ...mockSubscription, status: 'cancelled' as const, cancelled_at: '2024-01-15T00:00:00Z' }
-        const mockSingle = jest.fn().mockResolvedValue({ data: cancelledSubscription, error: null })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockEq = jest.fn().mockReturnValue({ select: mockSelect })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: cancelledSubscription, error: null })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
-          insert: jest.fn(),
+          select: jest.fn<any>(),
+          insert: jest.fn<any>(),
           update: mockUpdate,
-          delete: jest.fn()
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.cancelSubscription('sub-1')
@@ -529,18 +529,18 @@ describe('EnhancedDataService', () => {
           category: 'General'
         }
 
-        const mockSingle = jest.fn().mockResolvedValue({ 
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ 
           data: { ...mockCommunityPost, ...newPost }, 
           error: null 
         })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockInsert = jest.fn().mockReturnValue({ select: mockSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockInsert: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
+          select: jest.fn<any>(),
           insert: mockInsert,
-          update: jest.fn(),
-          delete: jest.fn()
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.createCommunityPostWithValidation(newPost)
@@ -588,20 +588,20 @@ describe('EnhancedDataService', () => {
 
     describe('incrementPostViews', () => {
       it('should increment post views successfully', async () => {
-        const mockSingleSelect = jest.fn().mockResolvedValue({ data: { views_count: 5 }, error: null })
-        const mockEqSelect = jest.fn().mockReturnValue({ single: mockSingleSelect })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEqSelect })
+        const mockSingleSelect: any = jest.fn<any>().mockResolvedValue({ data: { views_count: 5 }, error: null })
+        const mockEqSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingleSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEqSelect })
 
-        const mockEqUpdate = jest.fn().mockReturnValue({ error: null })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEqUpdate })
+        const mockEqUpdate: any = jest.fn<any>().mockReturnValue({ error: null })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEqUpdate })
 
         (supabase.from as jest.Mock).mockImplementation((table: string) => {
           if (table === 'community_posts') {
             return {
               select: mockSelect,
-              insert: jest.fn(),
+              insert: jest.fn<any>(),
               update: mockUpdate,
-              delete: jest.fn(),
+              delete: jest.fn<any>(),
             } as any
           }
           return {} as any
@@ -620,20 +620,20 @@ describe('EnhancedDataService', () => {
 
     describe('incrementPostLikes', () => {
       it('should increment post likes successfully', async () => {
-        const mockSingleSelect = jest.fn().mockResolvedValue({ data: { likes_count: 2 }, error: null })
-        const mockEqSelect = jest.fn().mockReturnValue({ single: mockSingleSelect })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEqSelect })
+        const mockSingleSelect: any = jest.fn<any>().mockResolvedValue({ data: { likes_count: 2 }, error: null })
+        const mockEqSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingleSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEqSelect })
 
-        const mockEqUpdate = jest.fn().mockReturnValue({ error: null })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEqUpdate })
+        const mockEqUpdate: any = jest.fn<any>().mockReturnValue({ error: null })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEqUpdate })
 
         (supabase.from as jest.Mock).mockImplementation((table: string) => {
           if (table === 'community_posts') {
             return {
               select: mockSelect,
-              insert: jest.fn(),
+              insert: jest.fn<any>(),
               update: mockUpdate,
-              delete: jest.fn(),
+              delete: jest.fn<any>(),
             } as any
           }
           return {} as any
@@ -652,20 +652,20 @@ describe('EnhancedDataService', () => {
 
     describe('decrementPostLikes', () => {
       it('should decrement post likes successfully', async () => {
-        const mockSingleSelect = jest.fn().mockResolvedValue({ data: { likes_count: 1 }, error: null })
-        const mockEqSelect = jest.fn().mockReturnValue({ single: mockSingleSelect })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEqSelect })
+        const mockSingleSelect: any = jest.fn<any>().mockResolvedValue({ data: { likes_count: 1 }, error: null })
+        const mockEqSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingleSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEqSelect })
 
-        const mockEqUpdate = jest.fn().mockReturnValue({ error: null })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEqUpdate })
+        const mockEqUpdate: any = jest.fn<any>().mockReturnValue({ error: null })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEqUpdate })
 
         (supabase.from as jest.Mock).mockImplementation((table: string) => {
           if (table === 'community_posts') {
             return {
               select: mockSelect,
-              insert: jest.fn(),
+              insert: jest.fn<any>(),
               update: mockUpdate,
-              delete: jest.fn(),
+              delete: jest.fn<any>(),
             } as any
           }
           return {} as any
@@ -686,7 +686,7 @@ describe('EnhancedDataService', () => {
   describe('Transaction Support', () => {
     describe('executeTransaction', () => {
       it('should execute transaction successfully', async () => {
-        const mockOperation = jest.fn().mockResolvedValue('success')
+        const mockOperation: any = jest.fn<any>().mockResolvedValue('success')
         
         const result = await enhancedDataService.executeTransaction(mockOperation)
         
@@ -696,7 +696,7 @@ describe('EnhancedDataService', () => {
 
       it('should handle transaction failure', async () => {
         const mockError = new Error('Transaction failed')
-        const mockOperation = jest.fn().mockRejectedValue(mockError)
+        const mockOperation: any = jest.fn<any>().mockRejectedValue(mockError)
         
         await expect(enhancedDataService.executeTransaction(mockOperation))
           .rejects.toThrow('Transaction failed')
@@ -710,16 +710,16 @@ describe('EnhancedDataService', () => {
           { id: 'service-2', data: { price: 200 } }
         ]
 
-        const mockSingle = jest.fn().mockResolvedValue({ data: mockService, error: null })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockEq = jest.fn().mockReturnValue({ select: mockSelect })
-        const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq })
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: mockService, error: null })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockEq: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
+        const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
-          insert: jest.fn(),
+          select: jest.fn<any>(),
+          insert: jest.fn<any>(),
           update: mockUpdate,
-          delete: jest.fn()
+          delete: jest.fn<any>()
         } as any)
 
         await enhancedDataService.batchUpdateServices(updates)
@@ -746,18 +746,18 @@ describe('EnhancedDataService', () => {
           }
         ]
 
-        const mockSingle = jest.fn().mockResolvedValue({ 
+        const mockSingle: any = jest.fn<any>().mockResolvedValue({ 
           data: { id: 'post-1', ...posts[0], likes_count: 0, comments_count: 0, views_count: 0 }, 
           error: null 
         })
-        const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-        const mockInsert = jest.fn().mockReturnValue({ select: mockSelect })
+        const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+        const mockInsert: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
         
         (supabase.from as jest.Mock).mockReturnValue({
-          select: jest.fn(),
+          select: jest.fn<any>(),
           insert: mockInsert,
-          update: jest.fn(),
-          delete: jest.fn()
+          update: jest.fn<any>(),
+          delete: jest.fn<any>()
         } as any)
 
         const result = await enhancedDataService.batchCreateCommunityPosts(posts)
@@ -771,15 +771,15 @@ describe('EnhancedDataService', () => {
   describe('Error Handling', () => {
     it('should handle database connection errors gracefully', async () => {
       const connectionError = new Error('Database connection failed')
-      const mockSingle = jest.fn().mockResolvedValue({ data: null, error: connectionError })
-      const mockEq = jest.fn().mockReturnValue({ single: mockSingle })
-      const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
+      const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: null, error: connectionError })
+      const mockEq: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+      const mockSelect: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
       
       (supabase.from as jest.Mock).mockReturnValue({
         select: mockSelect,
-        insert: jest.fn(),
-        update: jest.fn(),
-        delete: jest.fn()
+        insert: jest.fn<any>(),
+        update: jest.fn<any>(),
+        delete: jest.fn<any>()
       } as any)
 
       await expect(enhancedDataService.getServiceById('service-1'))
@@ -804,16 +804,16 @@ describe('EnhancedDataService', () => {
         data: { price: 100 + i }
       }))
 
-      const mockSingle = jest.fn().mockResolvedValue({ data: mockService, error: null })
-      const mockSelect = jest.fn().mockReturnValue({ single: mockSingle })
-      const mockEq = jest.fn().mockReturnValue({ select: mockSelect })
-      const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq })
+      const mockSingle: any = jest.fn<any>().mockResolvedValue({ data: mockService, error: null })
+      const mockSelect: any = jest.fn<any>().mockReturnValue({ single: mockSingle })
+      const mockEq: any = jest.fn<any>().mockReturnValue({ select: mockSelect })
+      const mockUpdate: any = jest.fn<any>().mockReturnValue({ eq: mockEq })
       
       (supabase.from as jest.Mock).mockReturnValue({
-        select: jest.fn(),
-        insert: jest.fn(),
+        select: jest.fn<any>(),
+        insert: jest.fn<any>(),
         update: mockUpdate,
-        delete: jest.fn()
+        delete: jest.fn<any>()
       } as any)
 
       const startTime = Date.now()

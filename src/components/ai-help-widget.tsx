@@ -6,7 +6,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { HelpCircle, X, Sparkles, MessageCircle, Lightbulb } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { 
@@ -108,7 +108,7 @@ export function AIHelpWidget({
   };
 
   // Glow effect variants
-  const glowVariants = {
+  const glowVariants: Variants = {
     initial: { opacity: 0, scale: 0.8 },
     animate: { 
       opacity: 1, 
@@ -128,7 +128,7 @@ export function AIHelpWidget({
   };
 
   // Widget variants
-  const widgetVariants = {
+  const widgetVariants: Variants = {
     hidden: { 
       opacity: 0, 
       scale: 0.8, 
@@ -159,7 +159,7 @@ export function AIHelpWidget({
   };
 
   // Recommendation item variants
-  const recommendationVariants = {
+  const recommendationVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i: number) => ({
       opacity: 1,

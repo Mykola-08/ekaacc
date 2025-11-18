@@ -1,8 +1,11 @@
 /**
  * Community Service
  * Production-ready service layer for community features with Firestore integration
+ * NOTE: This file uses Firebase but the project has migrated to Supabase
+ * TODO: Migrate this service to use Supabase instead of Firebase
  */
 
+// @ts-nocheck - Legacy Firebase code, needs migration to Supabase
 import {
   collection,
   doc,

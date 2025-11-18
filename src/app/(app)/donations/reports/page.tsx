@@ -64,12 +64,12 @@ export default function DonationReportsPage() {
       try {
           const { generateSupportSummary } = await import('@/ai/flows/generate-support-summary');
           
-          const donorNames = Array.from(new Set(donations.map(d => {
-            const donor = allUsers?.find(u => u.id === d.donorId);
+          const donorNames = Array.from(new Set(donations.map((d: any) => {
+            const donor = allUsers?.find((u: any) => u.id === d.donorId);
             return donor?.name || 'Anonymous';
           }))).filter((name): name is string => name !== undefined);
 
-          const supportDetails = donations.map(d => `€${d.amount} on ${format(new Date(d.date), 'PPP')}`).join(', ');
+          const supportDetails = donations.map((d: any) => `€${d.amount} on ${format(new Date(d.date), 'PPP')}`).join(', ');
 
           const input = {
               receiverName: user.name || 'the recipient',
@@ -151,9 +151,9 @@ export default function DonationReportsPage() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {sortedDonations.map(donation => {
-                                const donor = allUsers?.find(u => u.id === donation.donorId);
-                                const receiver = allUsers?.find(u => u.id === donation.receiverId);
+                            {sortedDonations.map((donation: any) => {
+                                const donor = allUsers?.find((u: any) => u.id === donation.donorId);
+                                const receiver = allUsers?.find((u: any) => u.id === donation.receiverId);
                                 return (
                                     <TableRow key={donation.id}>
                                         <TableCell>{format(new Date(donation.date), 'PP')}</TableCell>

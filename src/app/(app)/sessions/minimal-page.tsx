@@ -150,7 +150,7 @@ function NoSessionsFound({ error, onBookClick }: { error: Error | null; onBookCl
         </p>
         <Button 
           variant="default" 
-          size="md"
+          size="default"
           onClick={onBookClick}
           className="rounded-squircle"
         >
@@ -241,7 +241,7 @@ export default function MinimalSessionsPage() {
           </div>
           <Button 
             variant="default" 
-            size="md"
+            size="default"
             onClick={handleBookClick}
             className="rounded-squircle"
           >

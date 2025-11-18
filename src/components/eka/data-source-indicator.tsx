@@ -26,7 +26,7 @@ export function DataSourceIndicator({
   // Since we removed mock data, always show Supabase
   return (
     <Badge 
-      variant="background"
+      variant="secondary"
       className={cn('text-xs', className)}
     >
       {showIcon && (

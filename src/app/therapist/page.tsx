@@ -188,7 +188,7 @@ export default function TherapistDashboard() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Badge variant="base">
+                        <Badge variant="default">
                           {session.status || 'Scheduled'}
                         </Badge>
                         <Button size="sm" variant="outline" onClick={() => handleViewSession(session.id)}>

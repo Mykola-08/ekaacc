@@ -13,9 +13,9 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const reportType = searchParams.get('type') || 'users'
     const format = searchParams.get('format') || 'json'
-    const dateFrom = searchParams.get('dateFrom')
-    const dateTo = searchParams.get('dateTo')
-    const groupBy = searchParams.get('groupBy')
+    const dateFrom = searchParams.get('dateFrom') ?? undefined
+    const dateTo = searchParams.get('dateTo') ?? undefined
+    const groupBy = searchParams.get('groupBy') ?? undefined
 
     let data: any = null
     let reportTitle = ''
@@ -143,7 +143,7 @@ async function generateSessionReport(dateFrom?: string, dateTo?: string, groupBy
     .select(`
       *,
       user_profiles!inner(email, full_name),
-      therapist_profiles!inner(full_name as therapist_name)
+      therapist_profiles!inner(full_name)
     `)
 
   if (dateFrom) query = query.gte('created_at', dateFrom)
@@ -157,7 +157,7 @@ async function generateSessionReport(dateFrom?: string, dateTo?: string, groupBy
     sessionId: session.id,
     userId: session.user_id,
     userEmail: session.user_profiles.email,
-    therapist: session.therapist_profiles.therapist_name,
+    therapist: session.therapist_profiles.full_name,
     date: session.created_at,
     duration: session.duration,
     status: session.status,

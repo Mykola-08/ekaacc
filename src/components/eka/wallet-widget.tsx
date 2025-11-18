@@ -127,7 +127,7 @@ export function WalletWidget({ showInlinePoints = false }: { showInlinePoints?: 
                   <TrendingUp className="h-4 w-4" />
                 </p>
               </div>
-              <Badge variant="border" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
+              <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20">
                 Active
               </Badge>
             </div>

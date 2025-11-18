@@ -182,7 +182,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
                     </div>
                     {!theme.isPublic && subscriptionLabel && (
                       <Badge
-                        variant="background"
+                        variant="secondary"
                         className={cn(
                           theme.requiredSubscription === 'loyalty' && 'bg-amber-500 text-white',
                           theme.requiredSubscription === 'vip' && 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
@@ -239,7 +239,7 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
 
                 {isLocked && (
                   <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 rounded-lg bg-background/90 backdrop-blur-sm">
-                    <Badge variant="border" className="flex items-center gap-1 text-xs uppercase">
+                    <Badge variant="outline" className="flex items-center gap-1 text-xs uppercase">
                       <Timer className="h-3.5 w-3.5" />
                       Coming Soon
                     </Badge>

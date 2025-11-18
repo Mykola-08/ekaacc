@@ -66,7 +66,6 @@
     "@udecode/plate-heading": "^48.0.0",
     "@udecode/plate-list": "^48.0.0",
     "@udecode/plate-paragraph": "^36.0.0",
-    "aceternity-ui": "^0.2.2",
     "ai": "^5.0.93",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

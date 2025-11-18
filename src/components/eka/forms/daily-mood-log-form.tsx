@@ -380,7 +380,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                             <Brain className="h-4 w-4" />
                             Overall Mood
                           </span>
-                          <Badge variant="background">{field.value}/10</Badge>
+                          <Badge variant="secondary">{field.value}/10</Badge>
                         </FormLabel>
                         <FormControl>
                           <Slider
@@ -410,7 +410,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                             <Battery className="h-4 w-4" />
                             Energy Level
                           </span>
-                          <Badge variant="background">{field.value}/10</Badge>
+                          <Badge variant="secondary">{field.value}/10</Badge>
                         </FormLabel>
                         <FormControl>
                           <Slider
@@ -440,7 +440,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                             <Activity className="h-4 w-4" />
                             Stress Level
                           </span>
-                          <Badge variant="background">{field.value}/10</Badge>
+                          <Badge variant="secondary">{field.value}/10</Badge>
                         </FormLabel>
                         <FormControl>
                           <Slider
@@ -470,7 +470,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                             <Moon className="h-4 w-4" />
                             Sleep Quality
                           </span>
-                          <Badge variant="background">{field.value}/10</Badge>
+                          <Badge variant="secondary">{field.value}/10</Badge>
                         </FormLabel>
                         <FormControl>
                           <Slider
@@ -500,7 +500,7 @@ export function DailyMoodLogForm({ open, onClose, onSubmit }: DailyMoodLogFormPr
                             <Heart className="h-4 w-4" />
                             Physical Health
                           </span>
-                          <Badge variant="background">{field.value}/10</Badge>
+                          <Badge variant="secondary">{field.value}/10</Badge>
                         </FormLabel>
                         <FormControl>
                           <Slider

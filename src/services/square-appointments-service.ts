@@ -1,11 +1,7 @@
 import { SquareClient, SquareEnvironment } from 'square';
-import type {
-  SquareBooking,
-  SquareCustomer,
-  NormalizedBooking,
-  ListBookingsRequest,
-  SearchCustomersRequest,
-} from '@/types/square';
+import type { Booking as SquareBooking, Customer as SquareCustomer } from 'square';
+import type { SearchCustomersRequest, ListBookingsRequest } from 'square';
+import type { NormalizedBooking } from '@/types/square';
 
 /**
  * Enhanced Square Appointments service with sync capabilities
@@ -220,9 +216,9 @@ class SquareAppointmentsService {
    */
   private normalizeBooking(raw: SquareBooking): NormalizedBooking {
     const appointment = Array.isArray(raw?.appointmentSegments) ? raw.appointmentSegments[0] : undefined;
-    const locationId = raw?.locationId ?? appointment?.locationId;
+    const locationId = raw?.locationId;
     const customer = raw?.customerId;
-    const startAt = raw?.startAt ?? appointment?.startAt;
+    const startAt = raw?.startAt;
     const serviceName = appointment?.serviceVariationId;
     const therapistId = appointment?.teamMemberId;
 

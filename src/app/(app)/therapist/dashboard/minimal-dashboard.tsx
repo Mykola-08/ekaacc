@@ -255,7 +255,7 @@ export default function MinimalTherapistDashboard() {
           <div className="flex gap-2">
             <Button 
               variant="outline" 
-              size="md"
+              size="default"
               onClick={() => window.location.href = '/sessions/booking'}
             >
               <Calendar className="w-4 h-4 mr-2" />
@@ -263,7 +263,7 @@ export default function MinimalTherapistDashboard() {
             </Button>
             <Button 
               variant="default" 
-              size="md"
+              size="default"
               onClick={() => window.location.href = '/therapist/templates'}
             >
               <FileText className="w-4 h-4 mr-2" />
@@ -306,7 +306,7 @@ export default function MinimalTherapistDashboard() {
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Button 
               variant="outline" 
-              size="md"
+              size="default"
               className="w-full"
               onClick={() => window.location.href = '/sessions'}
             >
@@ -315,7 +315,7 @@ export default function MinimalTherapistDashboard() {
             </Button>
             <Button 
               variant="outline" 
-              size="md"
+              size="default"
               className="w-full"
               onClick={() => window.location.href = '/therapists'}
             >
@@ -324,7 +324,7 @@ export default function MinimalTherapistDashboard() {
             </Button>
             <Button 
               variant="outline" 
-              size="md"
+              size="default"
               className="w-full"
               onClick={() => window.location.href = '/progress-reports'}
             >
@@ -333,7 +333,7 @@ export default function MinimalTherapistDashboard() {
             </Button>
             <Button 
               variant="outline" 
-              size="md"
+              size="default"
               className="w-full"
               onClick={() => window.location.href = '/messages'}
             >

@@ -38,10 +38,10 @@ const chartConfig = {
     }
 };
 
-function toDate(timestamp: Timestamp | Date | string): Date {
+function toDate(timestamp: any): Date {
     if (timestamp instanceof Date) return timestamp;
     if (typeof timestamp === 'string') return new Date(timestamp);
-    return (timestamp as Timestamp).toDate();
+    return timestamp.toDate();
 }
 
 export default function ReportsPage() {
@@ -169,7 +169,7 @@ export default function ReportsPage() {
                                         <div className="flex-1 overflow-hidden">
                                             <div className="flex justify-between items-center">
                                                 <p className="font-semibold truncate">{report.title}</p>
-                                                <Badge variant="base" className="ml-2 shrink-0">{report.type}</Badge>
+                                                <Badge variant="default" className="ml-2 shrink-0">{report.type}</Badge>
                                             </div>
                                             <p className="text-sm text-muted-foreground">{report.author} - {report.date ? format(toDate(report.date), 'MMMM d, yyyy') : 'No date'}</p>
                                             <p className="text-sm mt-1 break-words">{report.summary}</p>

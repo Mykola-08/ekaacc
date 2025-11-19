@@ -10,6 +10,8 @@ import { safeSupabaseSelectSingle, safeSupabaseUpdate } from '@/lib/supabase-uti
 
 const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== 'false';
 
+import { stripeService } from './stripe-service';
+
 /**
  * Wallet Service Interface
  */
@@ -26,6 +28,8 @@ export interface IWalletService {
   createPurchase(userId: string, itemId: string, quantity?: number, discountPercentage?: number): Promise<Purchase>;
   canAfford(userId: string, amount: number): Promise<boolean>;
   isWalletActive(userId: string): Promise<boolean>;
+  buyCredits(userId: string, amountEUR: number): Promise<{ clientSecret: string; paymentIntentId: string; price: number }>;
+  processStripeTopUp(userId: string, amountCredits: number, paymentIntentId: string, amountPaid: number): Promise<void>;
 }
 
 /**
@@ -217,6 +221,17 @@ class SupabaseWalletService implements IWalletService {
     const wallet = await this.getWallet(userId);
     return wallet ? wallet.isActive && !wallet.isPaused : false;
   }
+
+  async buyCredits(userId: string, amountEUR: number): Promise<{ clientSecret: string; paymentIntentId: string; price: number }> {
+    return stripeService.createWalletTopUpIntent(userId, amountEUR);
+  }
+
+  async processStripeTopUp(userId: string, amountCredits: number, paymentIntentId: string, amountPaid: number): Promise<void> {
+    await this.addCredit(userId, amountCredits, `Wallet Top-up via Stripe (${amountPaid} EUR paid)`, {
+      stripePaymentIntentId: paymentIntentId,
+      amountPaid,
+    });
+  }
 }
 
 /**
@@ -348,6 +363,22 @@ class MockWalletService implements IWalletService {
     const wallet = await this.getWallet(userId);
     return wallet ? wallet.isActive && !wallet.isPaused : false;
   }
+
+  async buyCredits(userId: string, amountEUR: number): Promise<{ clientSecret: string; paymentIntentId: string; price: number }> {
+    // Mock implementation
+    return {
+      clientSecret: 'mock_client_secret',
+      paymentIntentId: 'mock_pi_123',
+      price: amountEUR
+    };
+  }
+
+  async processStripeTopUp(userId: string, amountCredits: number, paymentIntentId: string, amountPaid: number): Promise<void> {
+    await this.addCredit(userId, amountCredits, `Mock Stripe Top-up (${amountPaid} EUR)`, {
+      stripePaymentIntentId: paymentIntentId,
+      amountPaid,
+    });
+  }
 }
 
 /**
@@ -362,7 +393,7 @@ export async function getWalletService(): Promise<IWalletService> {
 }
 
 // Export default for convenience
-const walletService = USE_MOCK_DATA
+export const walletService = USE_MOCK_DATA
   ? MockWalletService.getInstance()
   : SupabaseWalletService.getInstance();
 

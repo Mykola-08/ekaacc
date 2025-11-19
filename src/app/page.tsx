@@ -7,15 +7,13 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Sparkles, Heart, Shield, Zap } from 'lucide-react'
-import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
-import { BlurIn } from '@/components/magicui/blur-in'
 
 export default function HomePage() {
   const { isAuthenticated, user } = useSimpleAuth()
 
   if (isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background via-purple-50/20 to-blue-50/20">
+      <div className="min-h-screen bg-background">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-6">
             <motion.div
@@ -23,10 +21,10 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <AnimatedGradientText className="mb-4">
+              <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 mb-4">
                 <Sparkles className="w-3 h-3 mr-1" />
                 Welcome back!
-              </AnimatedGradientText>
+              </div>
             </motion.div>
             
             <motion.div
@@ -34,7 +32,7 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+              <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
                 Welcome to EKA Account
               </h1>
             </motion.div>
@@ -77,10 +75,10 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <AnimatedGradientText className="mb-4">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 mb-4">
               <Sparkles className="w-3 h-3 mr-1" />
               AI-Powered Wellness Platform
-            </AnimatedGradientText>
+            </div>
           </motion.div>
           
           <motion.div
@@ -88,9 +86,9 @@ export default function HomePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            <BlurIn className="text-4xl sm:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-foreground">
               Welcome to EKA Account
-            </BlurIn>
+            </h1>
           </motion.div>
           
           <motion.div

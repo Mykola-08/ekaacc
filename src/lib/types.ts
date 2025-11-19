@@ -147,6 +147,7 @@ export type User = {
       soundEffects?: boolean;
       autoSave?: boolean;
       compactView?: boolean;
+      layoutMode?: 'responsive' | 'desktop' | 'mobile';
     };
   };
 

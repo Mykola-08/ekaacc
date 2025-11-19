@@ -6,8 +6,6 @@ import { DashboardLayout } from '@/components/layout/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { NumberTicker } from '@/components/ui/number-ticker'
-import { BlurIn } from '@/components/ui/blur-in'
 import { motion } from 'framer-motion'
 
 export default function PatientDashboardPage() {
@@ -80,25 +78,25 @@ export default function PatientDashboardPage() {
           
           <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
             <div className="mx-auto max-w-3xl text-center space-y-8">
-              <BlurIn>
-                <div className="inline-flex items-center gap-2 rounded-full bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 px-4 py-2">
-                  <Sparkles className="h-4 w-4 text-yellow-500" />
+              <div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-border px-4 py-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
                   <span className="text-sm font-medium text-muted-foreground">Your Wellness Journey</span>
                 </div>
-              </BlurIn>
+              </div>
               
-              <BlurIn delay={0.1}>
+              <div>
                 <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
                   {welcomeMessage}
                 </h1>
-              </BlurIn>
+              </div>
               
-              <BlurIn delay={0.2}>
+              <div>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                   Take control of your mental wellness with personalized tools, progress tracking, 
                   and professional support tailored to your needs.
                 </p>
-              </BlurIn>
+              </div>
             </div>
           </div>
         </section>
@@ -106,7 +104,11 @@ export default function PatientDashboardPage() {
         {/* Enhanced Quick Actions with shadcn blocks */}
         <section className="py-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <BlurIn delay={0.3}>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold mb-4 text-foreground">
                   Quick Actions
@@ -115,7 +117,7 @@ export default function PatientDashboardPage() {
                   Access your most important wellness tools and features
                 </p>
               </div>
-            </BlurIn>
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {quickActions.map((action, index) => (
@@ -154,7 +156,11 @@ export default function PatientDashboardPage() {
         {/* Enhanced Wellness Stats with NumberTicker */}
         <section className="py-16 bg-muted/30">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <BlurIn delay={0.8}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+            >
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold mb-4 text-foreground">
                   Your Progress
@@ -163,7 +169,7 @@ export default function PatientDashboardPage() {
                   Track your wellness journey with real-time insights
                 </p>
               </div>
-            </BlurIn>
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {wellnessStats.map((stat, index) => (
@@ -180,8 +186,7 @@ export default function PatientDashboardPage() {
                         <stat.icon className="h-12 w-12 text-primary opacity-80" />
                       </div>
                       <div className="text-4xl font-bold text-foreground mb-2">
-                        <NumberTicker value={parseInt(stat.value)} />
-                        {stat.value.includes('%') && '%'}
+                        {stat.value}
                       </div>
                       <h3 className="font-semibold text-foreground mb-1">{stat.title}</h3>
                       <p className="text-sm text-muted-foreground">{stat.change}</p>
@@ -196,7 +201,11 @@ export default function PatientDashboardPage() {
         {/* Enhanced Wellness Features */}
         <section className="py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
-            <BlurIn delay={1.2}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 1.2 }}
+            >
               <div className="text-center mb-16">
                 <h2 className="text-4xl font-bold mb-6 text-foreground">
                   Your Wellness Toolkit
@@ -205,7 +214,7 @@ export default function PatientDashboardPage() {
                   Discover powerful tools and resources designed to support your mental health journey
                 </p>
               </div>
-            </BlurIn>
+            </motion.div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[

@@ -8,6 +8,41 @@ import { AppHeader } from '@/components/eka/app-header';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
+import { LayoutProvider, useLayout } from '@/context/layout-context';
+import { MobileNav } from '@/components/navigation/mobile-nav';
+
+function AppLayoutInner({ children }: { children: React.ReactNode }) {
+  const { activeLayout } = useLayout();
+
+  if (activeLayout === 'mobile') {
+    return (
+      <div className="flex min-h-screen flex-col bg-background pb-16">
+        <AppHeader />
+        <main className="flex-1 overflow-auto">
+          <div className="container mx-auto p-4">
+            {children}
+          </div>
+        </main>
+        <MobileNav />
+      </div>
+    );
+  }
+
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <AppHeader />
+        <main className="flex-1 overflow-auto">
+          <div className="container mx-auto p-6">
+            {children}
+          </div>
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
+
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const router = useRouter();
@@ -36,17 +71,9 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <AppHeader />
-        <main className="flex-1 overflow-auto">
-          <div className="container mx-auto p-6">
-            {children}
-          </div>
-        </main>
-      </SidebarInset>
-    </SidebarProvider>
+    <LayoutProvider>
+      <AppLayoutInner>{children}</AppLayoutInner>
+    </LayoutProvider>
   );
 }
 

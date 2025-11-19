@@ -10,6 +10,7 @@ import { google } from '@ai-sdk/google';
 import { z } from 'zod';
 import type { User } from '@/lib/types';
 import { supabase } from '@/lib/supabase';
+import { AgentService } from './agent-service';
 
 // Enhanced interfaces for AI SDK Next
 export interface AIChatMessage {
@@ -159,9 +160,11 @@ const reportTool = tool({
 export class AISDKNextService {
   private static instance: AISDKNextService;
   private subscriptionConfigs: Map<string, AISubscriptionConfig> = new Map();
+  private agentService: AgentService;
   
   private constructor() {
     this.initializeSubscriptionConfigs();
+    this.agentService = new AgentService();
   }
 
   static getInstance(): AISDKNextService {
@@ -212,63 +215,7 @@ export class AISDKNextService {
     ]);
   }
 
-  /**
-   * Enhanced chat with AI SDK Next useChat hook integration
-   */
-  async processChatRequest(request: AIAgentRequest): Promise<AIAgentResponse> {
-    const config = this.subscriptionConfigs.get(request.subscriptionTier);
-    if (!config) {
-      throw new Error('Invalid subscription tier');
-    }
 
-    // Check rate limits
-    await this.checkRateLimits(request.userId, config);
-
-    // Build system prompt based on context
-    const systemPrompt = this.buildSystemPrompt(request);
-
-    // Select appropriate model
-    const model = this.selectModel(config, request);
-
-    // Prepare tools if enabled
-    const tools = this.prepareTools(config, request);
-
-    try {
-      if (request.stream) {
-        // Streaming response
-        const result = await streamText({
-          model,
-          system: systemPrompt,
-          messages: request.messages.map(msg => ({
-            role: msg.role,
-            content: msg.content,
-          })),
-          tools,
-          temperature: 0.7,
-        } as any);
-
-        // Handle streaming response
-        return this.handleStreamingResponse(result, request, config);
-      } else {
-        // Regular response
-        const result = await generateText({
-          model,
-          system: systemPrompt,
-          messages: request.messages.map(msg => ({
-            role: msg.role,
-            content: msg.content,
-          })),
-          tools,
-          temperature: 0.7,
-        } as any);
-
-        return this.handleRegularResponse(result, request, config);
-      }
-    } catch (error) {
-      console.error('AI SDK Next error:', error);
-      return this.generateFallbackResponse(request, error);
-    }
-  }
 
   /**
    * Proactive AI agent that analyzes user data and suggests actions
@@ -383,19 +330,83 @@ Focus on being helpful, supportive, and professional.`;
     const tools: any = {};
     
     if (config.toolsEnabled.includes('booking')) {
-      tools.booking = bookingTool;
+      const bookingParameters = z.object({
+        userId: z.string(),
+        therapistId: z.string(),
+        date: z.string(),
+        time: z.string(),
+        type: z.enum(['individual', 'group', 'couples']),
+        notes: z.string().optional(),
+      });
+
+      tools.booking = tool({
+        description: 'Book therapy sessions for users',
+        parameters: bookingParameters,
+        execute: async (params: z.infer<typeof bookingParameters>) => {
+          await this.agentService.logAction(params.userId, 'book_session', params, null, 'success');
+          return { success: true, bookingId: 'generated-id-agent', status: 'confirmed' };
+        },
+      } as any);
     }
     
     if (config.toolsEnabled.includes('goal')) {
-      tools.goal = goalTool;
+      const goalParameters = z.object({
+        userId: z.string(),
+        goalId: z.string().optional(),
+        title: z.string(),
+        description: z.string(),
+        category: z.enum(['mental_health', 'physical_health', 'relationships', 'career', 'personal_growth']),
+        targetDate: z.string().optional(),
+        milestones: z.array(z.string()).optional(),
+      });
+
+      tools.goal = tool({
+        description: 'Update user wellness goals',
+        parameters: goalParameters,
+        execute: async (params: z.infer<typeof goalParameters>) => {
+          await this.agentService.logAction(params.userId, 'update_goal', params, null, 'success');
+          return { success: true, goalId: 'generated-id', status: 'created' };
+        },
+      } as any);
     }
     
     if (config.toolsEnabled.includes('reminder')) {
-      tools.reminder = reminderTool;
+      const reminderParameters = z.object({
+        userId: z.string(),
+        type: z.enum(['session', 'goal', 'medication', 'exercise', 'journal']),
+        message: z.string(),
+        scheduledFor: z.string(),
+        recurring: z.boolean().optional(),
+      });
+
+      tools.reminder = tool({
+        description: 'Send reminders to users',
+        parameters: reminderParameters,
+        execute: async (params: z.infer<typeof reminderParameters>) => {
+          await this.agentService.logAction(params.userId, 'send_reminder', params, null, 'success');
+          return { success: true, reminderId: 'generated-id', status: 'scheduled' };
+        },
+      } as any);
     }
     
     if (config.toolsEnabled.includes('report')) {
-      tools.report = reportTool;
+      const reportParameters = z.object({
+        userId: z.string(),
+        type: z.enum(['weekly', 'monthly', 'quarterly', 'annual']),
+        includeGoals: z.boolean().optional(),
+        includeSessions: z.boolean().optional(),
+        includeMood: z.boolean().optional(),
+        includeRecommendations: z.boolean().optional(),
+      });
+
+      tools.report = tool({
+        description: 'Generate wellness reports for users',
+        parameters: reportParameters,
+        execute: async (params: z.infer<typeof reportParameters>) => {
+          await this.agentService.logAction(params.userId, 'generate_report', params, null, 'success');
+          return { success: true, reportId: 'generated-id', status: 'generated', data: null };
+        },
+      } as any);
     }
 
     return Object.keys(tools).length > 0 ? tools : undefined;
@@ -686,6 +697,159 @@ Focus on being helpful, supportive, and professional.`;
     // This is a placeholder for the AI personalization feature
     console.log('generatePersonalizedInsights called for user:', userId, 'with context:', context);
     return {};
+  }
+
+  /**
+   * Save conversation to database
+   */
+  async createConversation(userId: string, title: string = 'New Conversation'): Promise<string | null> {
+    try {
+      const { data, error } = await supabase
+        .from('ai_conversations')
+        .insert({ user_id: userId, title })
+        .select('id')
+        .single();
+      
+      if (error) throw error;
+      return data.id;
+    } catch (error) {
+      console.error('Error creating conversation:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Save message to database
+   */
+  async saveMessage(conversationId: string, role: 'user' | 'assistant' | 'system', content: string, metadata?: any): Promise<void> {
+    try {
+      await supabase
+        .from('ai_messages')
+        .insert({
+          conversation_id: conversationId,
+          role,
+          content,
+          metadata
+        });
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+  }
+
+  /**
+   * Enhanced chat with AI SDK Next useChat hook integration
+   */
+  async processChatRequest(request: AIAgentRequest): Promise<AIAgentResponse | ReadableStream> {
+    try {
+      // Check subscription and rate limits
+      const config = this.subscriptionConfigs.get(request.subscriptionTier);
+      if (!config) {
+        throw new Error(`Invalid subscription tier: ${request.subscriptionTier}`);
+      }
+
+      await this.checkRateLimits(request.userId, config);
+
+      // Select model and prepare tools
+      const model = this.selectModel(config, request);
+      const tools = this.prepareTools(config, request);
+      let systemPrompt = this.buildSystemPrompt(request);
+
+      // Retrieve relevant memories and knowledge
+      const lastMessage = request.messages[request.messages.length - 1];
+      if (lastMessage && lastMessage.role === 'user') {
+        try {
+          const memories = await this.agentService.recall(request.userId, lastMessage.content);
+          const knowledge = await this.agentService.searchKnowledge(lastMessage.content);
+          
+          if (memories.length > 0) {
+            systemPrompt += `\n\nRelevant User Memories:\n${memories.map((m: any) => `- ${m.content}`).join('\n')}`;
+          }
+          
+          if (knowledge.length > 0) {
+            systemPrompt += `\n\nRelevant Knowledge Base:\n${knowledge.map((k: any) => `- ${k.content}`).join('\n')}`;
+          }
+        } catch (e) {
+          console.error('Error retrieving agent context:', e);
+        }
+      }
+
+      // Save user message if conversation ID is available (assuming it's passed in context or we need to create one)
+      // For now, we'll assume the client handles conversation creation or we extract it from context
+      const conversationId = request.context?.sessionData?.conversationId;
+      if (conversationId) {
+        const lastMessage = request.messages[request.messages.length - 1];
+        if (lastMessage && lastMessage.role === 'user') {
+          await this.saveMessage(conversationId, 'user', lastMessage.content);
+        }
+      }
+
+      if (request.stream && config.streamingEnabled) {
+        const result = await streamText({
+          model,
+          system: systemPrompt,
+          messages: request.messages.map(msg => ({
+            role: msg.role,
+            content: msg.content,
+          })),
+          tools,
+          temperature: 0.7,
+          onFinish: async (event: any) => {
+            if (conversationId) {
+              await this.saveMessage(conversationId, 'assistant', event.text, {
+                model: event.usage?.promptTokens ? 'unknown' : 'unknown', // usage might not be fully available in event depending on version
+                tokens: event.usage?.totalTokens
+              });
+            }
+            // Store interaction in agent memory
+            if (lastMessage && lastMessage.role === 'user') {
+               await this.agentService.remember(
+                  request.userId, 
+                  `User: ${lastMessage.content}\nAssistant: ${event.text}`, 
+                  'interaction',
+                  { conversationId }
+               );
+            }
+          }
+        } as any);
+
+        // Handle streaming response
+        return this.handleStreamingResponse(result, request, config);
+      } else {
+        // Regular response
+        const result = await generateText({
+          model,
+          system: systemPrompt,
+          messages: request.messages.map(msg => ({
+            role: msg.role,
+            content: msg.content,
+          })),
+          tools,
+          temperature: 0.7,
+        } as any);
+
+        const response = this.handleRegularResponse(result, request, config);
+        
+        // Save assistant response
+        if (conversationId) {
+          await this.saveMessage(conversationId, 'assistant', response.message.content, response.message.metadata);
+        }
+
+        // Store interaction in agent memory
+        if (lastMessage && lastMessage.role === 'user') {
+           await this.agentService.remember(
+              request.userId, 
+              `User: ${lastMessage.content}\nAssistant: ${response.message.content}`, 
+              'interaction',
+              { conversationId }
+           );
+        }
+
+        return response;
+      }
+    } catch (error) {
+      console.error('AI SDK Next error:', error);
+      return this.generateFallbackResponse(request, error);
+    }
   }
 }
 

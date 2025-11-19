@@ -42,6 +42,7 @@ interface OnboardingData {
   preferredApproaches: string[];
   communicationStyle: string;
   primaryMotivation: string;
+  layoutPreference: 'responsive' | 'desktop' | 'mobile';
 }
 
 interface ComprehensiveOnboardingProps {
@@ -50,6 +51,12 @@ interface ComprehensiveOnboardingProps {
 }
 
 // Minimal, essential options
+const LAYOUT_PREFERENCES = [
+  { value: 'responsive', label: 'Auto (Recommended)', description: 'Adapts to your device', icon: '📱' },
+  { value: 'desktop', label: 'Desktop View', description: 'Always show sidebar', icon: '💻' },
+  { value: 'mobile', label: 'Mobile View', description: 'Simplified bottom menu', icon: '🤳' }
+];
+
 const OCCUPATION_TYPES = [
   { value: 'student', label: '🎓 Student', description: 'Currently studying' },
   { value: 'employed', label: '💼 Employed', description: 'Working full or part-time' },
@@ -172,10 +179,11 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
     leisureTime: '',
     preferredApproaches: [],
     communicationStyle: '',
-    primaryMotivation: ''
+    primaryMotivation: '',
+    layoutPreference: 'responsive'
   });
 
-  const totalSteps = 6; // 0=welcome, 1-5=questions
+  const totalSteps = 7; // 0=welcome, 1-6=questions
   const [analysisProgress, setAnalysisProgress] = useState(0);
   const [analysisMessage, setAnalysisMessage] = useState('');
   const progress = (step / totalSteps) * 100;
@@ -194,7 +202,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
       try {
         const { step: savedStep, data: savedData } = JSON.parse(saved);
         setStep(savedStep);
-        setData(savedData);
+        setData(prev => ({ ...prev, ...savedData })); // Merge to ensure new fields exist
         toast({
           title: "Welcome back! 👋",
           description: "We've saved your progress. Let's continue where you left off."
@@ -225,6 +233,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
       case 3: return data.workStressLevel && data.sleepQuality; // Lifestyle
       case 4: return data.sportsActivities.length > 0 || data.hobbies.length > 0; // Activities
       case 5: return data.preferredApproaches.length > 0 && data.communicationStyle && data.primaryMotivation; // Preferences
+      case 6: return !!data.layoutPreference; // App Experience
       default: return true;
     }
   };
@@ -238,9 +247,10 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
         2: "Tell us about your daily life...",
         3: "What keeps you active?",
         4: "Finally, your therapy preferences...",
+        5: "One last thing...",
       };
       
-      if (step < 5 && messages[step as keyof typeof messages]) {
+      if (step < 6 && messages[step as keyof typeof messages]) {
         setTransitionMessage(messages[step as keyof typeof messages]);
         setShowTransition(true);
         

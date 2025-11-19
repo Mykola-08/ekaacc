@@ -4,11 +4,7 @@
  * Replaces simple-ai-service, tiered-ai-service, and premium-features
  */
 
-import { generateText, generateObject, streamText, streamObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
-import { anthropic } from '@ai-sdk/anthropic';
-import { google } from '@ai-sdk/google';
-import type { User } from '@/lib/types';
+import { VercelAIService } from './vercel-ai-service';
 
 export interface AIRequest {
   input: string;
@@ -62,8 +58,11 @@ export interface TherapyRecommendation {
  */
 export class AIService {
   private static instance: AIService;
+  private vercelAIService: VercelAIService;
   
-  private constructor() {}
+  private constructor() {
+    this.vercelAIService = new VercelAIService();
+  }
   
   static getInstance(): AIService {
     if (!AIService.instance) {
@@ -79,36 +78,28 @@ export class AIService {
     try {
       const { input, context, userId, model = 'openai', maxTokens = 1000, temperature = 0.7 } = request;
       
-      // Select the AI provider based on the model
-      const provider = this.getProvider(model);
-      
-      // Build the prompt with context
-      let fullPrompt = input;
+      // Build context string
+      let contextStr = '';
       if (context && Object.keys(context).length > 0) {
-        fullPrompt = `Context: ${JSON.stringify(context, null, 2)}\n\nUser Input: ${input}`;
+        contextStr = JSON.stringify(context, null, 2);
       }
       
-      const result = await generateText({
-        model: provider,
-        prompt: fullPrompt,
-        maxTokens: maxTokens,
-        temperature: temperature
-      } as any);
+      const result = await this.vercelAIService.generateText({
+        prompt: input,
+        context: contextStr,
+        userId,
+        model: model as any,
+        maxTokens,
+        temperature
+      });
       
       return {
-        output: result.text,
+        output: result.content,
         confidence: 0.85, // Default confidence for AI responses
-        usage: result.usage ? {
-          promptTokens: (result.usage as any).promptTokens || (result.usage as any).inputTokens || 0,
-          completionTokens: (result.usage as any).completionTokens || (result.usage as any).outputTokens || 0,
-          totalTokens: (result.usage as any).totalTokens || 0
-        } : undefined,
-        model: result.response?.modelId || model,
-        timestamp: new Date().toISOString(),
-        userId,
-        metadata: {
-          finishReason: (result.response as any)?.finishReason,
-        }
+        usage: result.usage,
+        model: result.model,
+        timestamp: result.timestamp,
+        userId: result.userId,
       };
     } catch (error) {
       console.error('AI Service Error:', error);
@@ -191,20 +182,7 @@ export class AIService {
     }
   }
 
-  /**
-   * Get the appropriate AI provider based on model selection
-   */
-  private getProvider(model: string) {
-    switch (model) {
-      case 'anthropic':
-        return anthropic('claude-3-haiku-20240307');
-      case 'google':
-        return google('models/gemini-pro');
-      case 'openai':
-      default:
-        return openai('gpt-3.5-turbo');
-    }
-  }
+
 
   /**
    * Generate fallback response when AI service fails

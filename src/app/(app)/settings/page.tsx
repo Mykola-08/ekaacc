@@ -11,7 +11,7 @@ import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User as UserIcon, Smartphone, Globe, Lock, Eye, EyeOff
+  Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User as UserIcon, Smartphone, Globe, Lock, Eye, EyeOff, RefreshCw
 } from "lucide-react";
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { ThemeSelector } from '@/components/eka/settings/theme-selector';
@@ -30,6 +30,31 @@ export default function SettingsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasChanges, setHasChanges] = useState(false);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  const handleSync = async () => {
+    setIsSyncing(true);
+    try {
+      const response = await fetch('/api/square/sync', { method: 'POST' });
+      const result = await response.json();
+      if (result.success) {
+        toast({
+          title: "Sync Completed",
+          description: `Imported: ${result.imported}, Updated: ${result.updated}`,
+        });
+      } else {
+        throw new Error(result.error || 'Sync failed');
+      }
+    } catch (error) {
+      toast({
+        title: "Sync Failed",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSyncing(false);
+    }
+  };
 
   useEffect(() => {
     if (currentUser) {
@@ -333,6 +358,55 @@ export default function SettingsPage() {
                       Coming Soon
                     </Button>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Integrations Section */}
+          <motion.div
+            variants={itemVariants}
+            className="space-y-6"
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <RefreshCw className="w-6 h-6 text-orange-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">Integrations</h2>
+                <p className="text-slate-600">Manage external service connections</p>
+              </div>
+            </div>
+
+            <Card className="border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
+              <CardHeader className="border-b border-slate-100 bg-slate-50/50">
+                <h3 className="text-lg font-semibold text-slate-900">Connected Services</h3>
+              </CardHeader>
+              <CardContent className="p-6 space-y-6">
+                <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200">
+                  <div className="space-y-1">
+                    <h4 className="font-semibold text-slate-900 flex items-center gap-2">
+                      <RefreshCw className="w-4 h-4 text-orange-600" />
+                      Square & Stripe Sync
+                    </h4>
+                    <p className="text-sm text-slate-600">
+                      Manually trigger synchronization of services and appointments
+                    </p>
+                  </div>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleSync}
+                    disabled={isSyncing}
+                  >
+                    {isSyncing ? (
+                      <>
+                        <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                        Syncing...
+                      </>
+                    ) : (
+                      'Sync Now'
+                    )}
+                  </Button>
                 </div>
               </CardContent>
             </Card>

@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'development' && !process.env.STRIPE_SECRET_KEY) {
   console.warn('⚠️  STRIPE_SECRET_KEY not set. Using placeholder. Stripe features will not work.');
 }
 
-const stripe = new Stripe(stripeSecretKey, {
+export const stripe = new Stripe(stripeSecretKey, {
   apiVersion: '2025-10-29.clover',
 });
 
@@ -144,7 +144,7 @@ export async function updateSubscriptionPrice(
 }
 
 /**
- * Retrieve subscription details from Stripe
+ * Retrieve a Stripe subscription
  */
 export async function getStripeSubscription(subscriptionId: string): Promise<Stripe.Subscription> {
   try {
@@ -152,6 +152,30 @@ export async function getStripeSubscription(subscriptionId: string): Promise<Str
   } catch (error) {
     console.error('Failed to retrieve subscription:', error);
     throw new Error('Failed to retrieve subscription');
+  }
+}
+
+/**
+ * Retrieve a Stripe payment method
+ */
+export async function getStripePaymentMethod(paymentMethodId: string): Promise<Stripe.PaymentMethod> {
+  try {
+    return await stripe.paymentMethods.retrieve(paymentMethodId);
+  } catch (error) {
+    console.error('Failed to retrieve payment method:', error);
+    throw new Error('Failed to retrieve payment method');
+  }
+}
+
+/**
+ * Construct a Stripe webhook event (for Next.js API routes)
+ */
+export function constructStripeWebhookEvent(body: string | Buffer, signature: string, secret: string): Stripe.Event {
+  try {
+    return stripe.webhooks.constructEvent(body, signature, secret);
+  } catch (error) {
+    console.error('Failed to construct webhook event:', error);
+    throw new Error('Failed to construct webhook event');
   }
 }
 
@@ -193,4 +217,3 @@ export async function createStripeCustomer(
   }
 }
 
-export { stripe };

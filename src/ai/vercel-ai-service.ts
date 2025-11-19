@@ -1,13 +1,15 @@
-import { generateText, generateObject, streamText, streamObject } from 'ai';
+import { generateText, generateObject, streamText, streamObject, embed } from 'ai';
 import { openai } from '@ai-sdk/openai';
 import { anthropic } from '@ai-sdk/anthropic';
 import { google } from '@ai-sdk/google';
+import { createClient } from '@supabase/supabase-js';
 import type { User } from '@/lib/types';
 
 export interface VercelAIRequest {
   prompt: string;
   context?: string;
   userId?: string;
+  conversationId?: string;
   model?: 'openai' | 'anthropic' | 'google' | 'o1' | 'o3-mini';
   modelVariant?: 'gpt-4-turbo' | 'gpt-4' | 'gpt-3.5-turbo' | 'o1-preview' | 'o1-mini' | 'o3-mini' | 'claude-3-opus' | 'claude-3-sonnet' | 'claude-3-haiku' | 'gemini-pro';
   maxTokens?: number;
@@ -36,6 +38,7 @@ export interface VercelAIObjectResponse<T> extends VercelAIResponse {
 }
 
 export class VercelAIService {
+  private supabase: any;
   private providers = {
     openai,
     anthropic,
@@ -56,6 +59,13 @@ export class VercelAIService {
   private defaultMaxTokens = 1000;
   private defaultTemperature = 0.7;
 
+  constructor() {
+    this.supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
+  }
+
   /**
    * Generate text response using Vercel AI SDK
    */
@@ -71,6 +81,11 @@ export class VercelAIService {
         ? `You are a helpful AI assistant for a mental health therapy platform. ${request.context}`
         : 'You are a helpful AI assistant for a mental health therapy platform. Provide supportive, empathetic, and professional responses.';
 
+      // Save user message if conversationId is provided
+      if (request.conversationId && request.userId) {
+        await this.saveMessage(request.conversationId, 'user', request.prompt);
+      }
+
       const result = await generateText({
         model: provider(modelVariant),
         system: systemPrompt,
@@ -79,8 +94,15 @@ export class VercelAIService {
         temperature: temperature
       } as any);
 
+      const responseContent = result.text;
+
+      // Save assistant message if conversationId is provided
+      if (request.conversationId && request.userId) {
+        await this.saveMessage(request.conversationId, 'assistant', responseContent);
+      }
+
       return {
-        content: result.text,
+        content: responseContent,
         usage: result.usage ? {
           promptTokens: (result.usage as any).promptTokens || result.usage.inputTokens || 0,
           completionTokens: (result.usage as any).completionTokens || result.usage.outputTokens || 0,
@@ -93,6 +115,52 @@ export class VercelAIService {
     } catch (error) {
       console.error('Vercel AI text generation error:', error);
       throw new Error(`Failed to generate AI response: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  async createConversation(userId: string, title: string = 'New Conversation'): Promise<string | null> {
+    try {
+      const { data, error } = await this.supabase
+        .from('ai_conversations')
+        .insert({ user_id: userId, title })
+        .select('id')
+        .single();
+      
+      if (error) throw error;
+      return data.id;
+    } catch (error) {
+      console.error('Error creating conversation:', error);
+      return null;
+    }
+  }
+
+  async saveMessage(conversationId: string, role: 'user' | 'assistant' | 'system', content: string): Promise<void> {
+    try {
+      await this.supabase
+        .from('ai_messages')
+        .insert({
+          conversation_id: conversationId,
+          role,
+          content
+        });
+    } catch (error) {
+      console.error('Error saving message:', error);
+    }
+  }
+
+  async getConversationHistory(conversationId: string): Promise<any[]> {
+    try {
+      const { data, error } = await this.supabase
+        .from('ai_messages')
+        .select('*')
+        .eq('conversation_id', conversationId)
+        .order('created_at', { ascending: true });
+      
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching conversation history:', error);
+      return [];
     }
   }
 
@@ -306,6 +374,22 @@ Keep it warm, supportive, and actionable.`;
     // Rough estimation: ~4 characters per token
     const estimatedTokens = Math.ceil(prompt.length / 4);
     return estimatedTokens * selectedModel.costPerToken;
+  }
+
+  /**
+   * Generate embedding for text
+   */
+  async generateEmbedding(text: string): Promise<number[]> {
+    try {
+      const { embedding } = await embed({
+        model: openai.embedding('text-embedding-3-small'),
+        value: text,
+      });
+      return embedding;
+    } catch (error) {
+      console.error('Error generating embedding:', error);
+      throw error;
+    }
   }
 }
 

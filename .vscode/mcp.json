@@ -7,6 +7,14 @@
         "mcp"
       ]
     }
+    {
+    "mcp_square_api": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.squareup.com/sse"
+      ]
+    }
   },
   "servers": {
     "shadcn": {

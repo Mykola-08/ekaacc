@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import './globals-minimal.css';
 import { Toaster } from 'sonner';
 import { cn } from '@/lib/utils';
 import { AuthProvider } from '@/context/auth-context';

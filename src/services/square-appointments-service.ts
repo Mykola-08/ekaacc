@@ -2,6 +2,7 @@ import { SquareClient, SquareEnvironment } from 'square';
 import type { Booking as SquareBooking, Customer as SquareCustomer } from 'square';
 import type { SearchCustomersRequest, ListBookingsRequest } from 'square';
 import type { NormalizedBooking } from '@/types/square';
+import { supabaseAdmin } from '@/lib/supabase';
 
 /**
  * Enhanced Square Appointments service with sync capabilities
@@ -45,6 +46,7 @@ class SquareAppointmentsService {
     try {
       this.client = new SquareClient({
         environment: env,
+        token: token,
       });
       this.isConnected = true;
     } catch (error) {
@@ -189,26 +191,141 @@ class SquareAppointmentsService {
    * Process a single booking - override this method to implement custom logic
    */
   public async processBooking(booking: SquareBooking): Promise<void> {
-    // This is where you would implement your custom booking processing logic
-    // For example, save to your database, create local records, etc.
     console.log(`Processing booking: ${booking.id}`);
     
-    // Normalize the booking data
     const normalizedBooking = this.normalizeBooking(booking);
     
-    // TODO: Implement your database storage logic here
-    // await saveBookingToDatabase(normalizedBooking);
+    // 1. Check if booking already exists in sync_metadata
+    const { data: existingSync } = await supabaseAdmin
+      .from('sync_metadata')
+      .select('local_id')
+      .eq('external_id', normalizedBooking.id)
+      .eq('entity_type', 'booking')
+      .eq('external_system', 'square')
+      .single();
+
+    if (existingSync) {
+      // Update existing session
+      const { error } = await supabaseAdmin
+        .from('sessions')
+        .update({
+          scheduled_start_time: normalizedBooking.date,
+          // Calculate end time based on duration
+          scheduled_end_time: new Date(new Date(normalizedBooking.date).getTime() + (normalizedBooking.durationMinutes || 60) * 60000).toISOString(),
+          status: normalizedBooking.status === 'accepted' ? 'scheduled' : normalizedBooking.status,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', existingSync.local_id);
+
+      if (error) throw new Error(`Failed to update session: ${error.message}`);
+    } else {
+      // Create new session
+      // Note: We need a valid user_id. If normalizedBooking.userId (Square Customer ID) 
+      // doesn't map to a Supabase user, we might need to create a placeholder or skip.
+      // For now, we'll try to find a user via sync_metadata or skip if not found.
+      
+      let userId = null;
+      if (normalizedBooking.userId) {
+        const { data: customerSync } = await supabaseAdmin
+          .from('sync_metadata')
+          .select('local_id')
+          .eq('external_id', normalizedBooking.userId)
+          .eq('entity_type', 'customer')
+          .eq('external_system', 'square')
+          .single();
+        
+        userId = customerSync?.local_id;
+      }
+
+      if (!userId) {
+        console.warn(`Skipping booking ${booking.id}: No matching local user found for Square customer ${normalizedBooking.userId}`);
+        return;
+      }
+
+      const { data: newSession, error: createError } = await supabaseAdmin
+        .from('sessions')
+        .insert({
+          user_id: userId,
+          session_type: normalizedBooking.serviceName || 'General Session',
+          scheduled_start_time: normalizedBooking.date,
+          scheduled_end_time: new Date(new Date(normalizedBooking.date).getTime() + (normalizedBooking.durationMinutes || 60) * 60000).toISOString(),
+          status: normalizedBooking.status === 'accepted' ? 'scheduled' : normalizedBooking.status,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+        .select('id')
+        .single();
+
+      if (createError) throw new Error(`Failed to create session: ${createError.message}`);
+
+      // Create sync metadata
+      await supabaseAdmin.from('sync_metadata').insert({
+        entity_type: 'booking',
+        local_id: newSession.id,
+        external_id: normalizedBooking.id,
+        external_system: 'square',
+        sync_status: 'synced',
+        last_sync_at: new Date().toISOString(),
+      });
+    }
   }
 
   /**
    * Process a single customer - override this method to implement custom logic
    */
   public async processCustomer(customer: SquareCustomer): Promise<void> {
-    // This is where you would implement your custom customer processing logic
     console.log(`Processing customer: ${customer.id}`);
     
-    // TODO: Implement your database storage logic here
-    // await saveCustomerToDatabase(customer);
+    if (!customer.id) return;
+
+    // Check if customer already exists in sync_metadata
+    const { data: existingSync } = await supabaseAdmin
+      .from('sync_metadata')
+      .select('local_id')
+      .eq('external_id', customer.id)
+      .eq('entity_type', 'customer')
+      .eq('external_system', 'square')
+      .single();
+
+    if (existingSync) {
+      // Update existing user profile if needed
+      // For now, we assume Supabase is the source of truth for user profiles
+      // and we don't overwrite local changes with Square data automatically
+      return;
+    }
+
+    // Try to match by email
+    if (customer.emailAddress) {
+      const { data: existingUser } = await supabaseAdmin
+        .from('auth.users') // Note: Direct access to auth schema might be restricted depending on permissions
+        .select('id')
+        .eq('email', customer.emailAddress)
+        .single();
+
+      // Alternatively, check public profiles table if you have one
+      // const { data: existingProfile } = await supabaseAdmin
+      //   .from('profiles')
+      //   .select('id')
+      //   .eq('email', customer.emailAddress)
+      //   .single();
+
+      if (existingUser) {
+        // Link existing user
+        await supabaseAdmin.from('sync_metadata').insert({
+          entity_type: 'customer',
+          local_id: existingUser.id,
+          external_id: customer.id,
+          external_system: 'square',
+          sync_status: 'synced',
+          last_sync_at: new Date().toISOString(),
+        });
+      } else {
+        // Create new user? 
+        // Creating auth users requires admin API. 
+        // For now, we'll log that we found a new customer.
+        console.log(`Found new Square customer ${customer.emailAddress} not in Supabase.`);
+      }
+    }
   }
 
   /**

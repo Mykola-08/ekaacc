@@ -161,11 +161,11 @@ export class AIPersonalizationService {
     try {
       // Store interaction in database
       await this.supabase
-        .from('user_interactions')
+        .from('ai_interactions')
         .insert({
           user_id: interaction.userId,
-          interaction_type: interaction.type,
-          timestamp: interaction.timestamp,
+          type: interaction.type,
+          created_at: interaction.timestamp,
           metadata: interaction.metadata,
           context: interaction.context
         });
@@ -570,7 +570,7 @@ export class AIPersonalizationService {
     // Load from database
     try {
       const { data, error } = await this.supabase
-        .from('ai_personalization_profiles')
+        .from('ai_user_profiles')
         .select('*')
         .eq('user_id', userId)
         .single();
@@ -604,7 +604,7 @@ export class AIPersonalizationService {
     // Save to database
     try {
       await this.supabase
-        .from('ai_personalization_profiles')
+        .from('ai_user_profiles')
         .upsert({
           user_id: profile.userId,
           behavior_patterns: profile.behaviorPatterns,
@@ -624,16 +624,22 @@ export class AIPersonalizationService {
 
     // Analyze recent interactions
     const { data: interactions } = await this.supabase
-      .from('user_interactions')
+      .from('ai_interactions')
       .select('*')
       .eq('user_id', userId)
-      .order('timestamp', { ascending: false })
+      .order('created_at', { ascending: false })
       .limit(100);
 
     if (!interactions || interactions.length === 0) return;
 
     // Update patterns based on recent data
-    const updatedProfile = await this.updatePatternsFromData(profile, interactions);
+    // Map DB fields back to UserInteraction format if needed
+    const mappedInteractions = interactions.map((i: any) => ({
+      ...i,
+      timestamp: new Date(i.created_at)
+    }));
+
+    const updatedProfile = await this.updatePatternsFromData(profile, mappedInteractions);
     
     // Generate new insights if patterns have changed significantly
     if (this.hasSignificantChanges(profile, updatedProfile)) {

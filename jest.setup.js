@@ -14,3 +14,18 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 })
+
+// Polyfill TextEncoder/TextDecoder
+import { TextEncoder, TextDecoder } from 'util';
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+// Polyfill TransformStream for AI SDK
+if (typeof TransformStream === 'undefined') {
+  global.TransformStream = class TransformStream {
+    constructor() {
+      this.readable = {};
+      this.writable = {};
+    }
+  };
+}

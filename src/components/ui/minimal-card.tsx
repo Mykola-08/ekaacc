@@ -8,11 +8,11 @@ export interface MinimalCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const MinimalCard = React.forwardRef<HTMLDivElement, MinimalCardProps>(
   ({ className, variant = 'default', interactive = false, children, ...props }, ref) => {
-    const baseClasses = 'rounded-squircle transition-all duration-200';
+    const baseClasses = 'rounded-lg transition-all duration-200';
     
     const variantClasses = {
-      default: 'bg-white border border-gray-200 shadow-sm',
-      outline: 'border border-gray-200 bg-white',
+      default: 'bg-card border border-border shadow-sm',
+      outline: 'border border-border bg-card',
       ghost: 'bg-transparent'
     };
     

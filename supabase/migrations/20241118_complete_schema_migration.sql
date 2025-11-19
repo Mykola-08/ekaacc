@@ -19,9 +19,18 @@ CREATE TABLE IF NOT EXISTS "public"."donations" (
     "payment_method" TEXT,
     "transaction_id" TEXT,
     "processed_at" TIMESTAMPTZ,
+    "metadata" JSONB DEFAULT '{}',
     "created_at" TIMESTAMPTZ DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Ensure metadata column exists (in case table was created in previous failed run)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'donations' AND column_name = 'metadata') THEN
+        ALTER TABLE "public"."donations" ADD COLUMN "metadata" JSONB DEFAULT '{}';
+    END IF;
+END $$;
 
 -- Reports table (referenced in supabase-data-service.ts:371-381)
 CREATE TABLE IF NOT EXISTS "public"."reports" (
@@ -45,6 +54,7 @@ CREATE TABLE IF NOT EXISTS "public"."reports" (
 CREATE TABLE IF NOT EXISTS "public"."sessions" (
     "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     "user_id" UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+    "therapist_id" UUID REFERENCES auth.users(id),
     "therapist_name" TEXT,
     "appointment_id" UUID REFERENCES appointments(id) ON DELETE CASCADE,
     "session_type" TEXT NOT NULL,
@@ -69,6 +79,14 @@ CREATE TABLE IF NOT EXISTS "public"."sessions" (
     "updated_at" TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- Ensure therapist_id column exists (in case table was created in previous failed run)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'sessions' AND column_name = 'therapist_id') THEN
+        ALTER TABLE "public"."sessions" ADD COLUMN "therapist_id" UUID REFERENCES auth.users(id);
+    END IF;
+END $$;
+
 -- Mood logs table (referenced in ai-sdk-next-service.ts:559)
 CREATE TABLE IF NOT EXISTS "public"."mood_logs" (
     "id" UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -83,6 +101,14 @@ CREATE TABLE IF NOT EXISTS "public"."mood_logs" (
     "created_at" TIMESTAMPTZ DEFAULT NOW(),
     "updated_at" TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Ensure logged_at column exists (in case table was created in previous failed run)
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'mood_logs' AND column_name = 'logged_at') THEN
+        ALTER TABLE "public"."mood_logs" ADD COLUMN "logged_at" TIMESTAMPTZ DEFAULT NOW();
+    END IF;
+END $$;
 
 -- Products table (referenced in admin components and Stripe sync)
 CREATE TABLE IF NOT EXISTS "public"."products" (
@@ -260,6 +286,7 @@ CREATE OR REPLACE VIEW "public"."bookings" AS
 SELECT 
     a.id,
     a.user_id,
+    a.practitioner_id as therapist_id,
     a.practitioner as therapist_name,
     a.date as booking_date,
     a.time as booking_time,
@@ -866,8 +893,8 @@ CREATE OR REPLACE VIEW "public"."user_dashboard_summary" AS
 SELECT 
     u.id as user_id,
     u.email,
-    up.first_name,
-    up.last_name,
+    up.full_name,
+    up.avatar_url,
     -- Session stats
     COALESCE(s.total_sessions, 0) as total_sessions,
     COALESCE(s.completed_sessions, 0) as completed_sessions,
@@ -886,7 +913,7 @@ SELECT
     lp.tier_level as loyalty_tier,
     -- Subscriptions
     sub.status as subscription_status,
-    sub.tier as subscription_tier,
+    sub.type as subscription_tier,
     -- Wallet
     COALESCE(w.balance, 0) as wallet_balance,
     -- Recent activity
@@ -898,7 +925,7 @@ SELECT
         ELSE 'free'
     END as account_tier
 FROM auth.users u
-LEFT JOIN user_profiles up ON u.id = up.user_id
+LEFT JOIN user_profiles up ON u.id = up.id
 LEFT JOIN (
     SELECT user_id, 
            COUNT(*) as total_sessions,
@@ -934,7 +961,7 @@ LEFT JOIN (
 ) cm ON u.id = cm.user_id
 LEFT JOIN loyalty_points lp ON u.id = lp.user_id
 LEFT JOIN (
-    SELECT user_id, status, tier, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at DESC) as rn
+    SELECT user_id, status, type, ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY created_at DESC) as rn
     FROM subscriptions 
     WHERE status IN ('active', 'trial')
 ) sub ON u.id = sub.user_id AND sub.rn = 1
@@ -957,8 +984,8 @@ SELECT
     COUNT(*) FILTER (WHERE created_at >= DATE_TRUNC('day', created_at)) as donations_count,
     SUM(amount) FILTER (WHERE created_at >= DATE_TRUNC('day', created_at)) as donations_total,
     -- Mood tracking
-    AVG(mood_rating) FILTER (WHERE logged_at >= DATE_TRUNC('day', created_at)) as avg_mood,
-    COUNT(*) FILTER (WHERE logged_at >= DATE_TRUNC('day', created_at)) as mood_entries,
+    AVG(mood_rating) FILTER (WHERE mood_rating IS NOT NULL AND created_at >= DATE_TRUNC('day', created_at)) as avg_mood,
+    COUNT(*) FILTER (WHERE mood_rating IS NOT NULL AND created_at >= DATE_TRUNC('day', created_at)) as mood_entries,
     -- Community activity
     COUNT(*) FILTER (WHERE created_at >= DATE_TRUNC('day', created_at)) as community_posts,
     COUNT(*) FILTER (WHERE created_at >= DATE_TRUNC('day', created_at)) as community_comments,
@@ -975,7 +1002,7 @@ FROM (
     UNION ALL
     SELECT created_at, null::integer as mood_rating, null::decimal as amount FROM post_comments
     UNION ALL
-    SELECT created_at, null::integer as mood_rating, amount FROM subscriptions WHERE status = 'completed'
+    SELECT created_at, null::integer as mood_rating, price as amount FROM subscriptions WHERE status = 'completed'
 ) combined
 GROUP BY DATE_TRUNC('day', created_at)
 ORDER BY date DESC;
@@ -984,8 +1011,8 @@ ORDER BY date DESC;
 CREATE OR REPLACE VIEW "public"."therapist_availability" AS
 SELECT 
     tp.user_id as therapist_id,
-    up.first_name,
-    up.last_name,
+    up.full_name,
+    up.avatar_url,
     tp.specializations,
     tp.therapy_types,
     tp.hourly_rate,
@@ -1010,7 +1037,7 @@ SELECT
     COALESCE(rs.recent_sessions, 0) as recent_sessions,
     COALESCE(rs.avg_recent_rating, 0) as avg_recent_rating
 FROM therapist_profiles tp
-LEFT JOIN user_profiles up ON tp.user_id = up.user_id
+LEFT JOIN user_profiles up ON tp.user_id = up.id
 LEFT JOIN (
     SELECT therapist_id, 
            COUNT(*) as recent_sessions,

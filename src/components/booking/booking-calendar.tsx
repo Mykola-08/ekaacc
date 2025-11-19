@@ -155,7 +155,7 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
               >
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
-                    <div className={cn('p-2 rounded-lg text-white', therapy.color)}>
+                    <div className="p-2 rounded-lg bg-primary/10 text-primary">
                       <Icon className="h-6 w-6" />
                     </div>
                     <div className="flex-1">

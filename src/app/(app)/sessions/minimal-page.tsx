@@ -50,10 +50,10 @@ function MinimalSessionCard({ session }: { session: AppSession }) {
   
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Upcoming': return 'bg-gray-100 text-gray-800 border border-gray-200';
-      case 'Completed': return 'bg-gray-100 text-gray-800 border border-gray-200';
-      case 'Canceled': return 'bg-gray-100 text-gray-800 border border-gray-200';
-      default: return 'bg-gray-100 text-gray-800 border border-gray-200';
+      case 'Upcoming': return 'bg-muted text-foreground border border-border';
+      case 'Completed': return 'bg-muted text-foreground border border-border';
+      case 'Canceled': return 'bg-muted text-foreground border border-border';
+      default: return 'bg-muted text-foreground border border-border';
     }
   };
 
@@ -61,19 +61,19 @@ function MinimalSessionCard({ session }: { session: AppSession }) {
     <Card className="p-6 rounded-lg">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 bg-gray-100 rounded-squircle flex items-center justify-center">
-            <UserIcon className="w-6 h-6 text-gray-600" />
+          <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+            <UserIcon className="w-6 h-6 text-muted-foreground" />
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-foreground">
                 {session.therapist}
               </h3>
-              <span className={`px-3 py-1 rounded-squircle text-xs font-medium ${getStatusColor(session.status)}`}>
+              <span className={`px-3 py-1 rounded-lg text-xs font-medium ${getStatusColor(session.status)}`}>
                 {session.status}
               </span>
             </div>
-            <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
               <div className="flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
                 <span>{formattedDate}</span>
@@ -122,12 +122,12 @@ function SessionsLoadingSkeleton() {
       {[1, 2, 3].map((i) => (
         <Card key={i} className="p-6 rounded-lg">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gray-200 rounded-squircle"></div>
+            <div className="w-12 h-12 bg-muted rounded-lg"></div>
             <div className="flex-1 space-y-2">
-              <div className="h-4 bg-gray-200 rounded w-32"></div>
-              <div className="h-3 bg-gray-200 rounded w-24"></div>
+              <div className="h-4 bg-muted rounded w-32"></div>
+              <div className="h-3 bg-muted rounded w-24"></div>
             </div>
-            <div className="h-6 bg-gray-200 rounded w-16"></div>
+            <div className="h-6 bg-muted rounded w-16"></div>
           </div>
         </Card>
       ))}
@@ -139,20 +139,20 @@ function NoSessionsFound({ error, onBookClick }: { error: Error | null; onBookCl
   return (
     <Card className="p-12 text-center rounded-lg">
       <div className="max-w-md mx-auto">
-        <div className="w-16 h-16 bg-gray-100 rounded-squircle flex items-center justify-center mx-auto mb-4">
-          <CalendarOff className="w-8 h-8 text-gray-400" />
+        <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center mx-auto mb-4">
+          <CalendarOff className="w-8 h-8 text-muted-foreground" />
         </div>
-        <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        <h3 className="text-xl font-semibold text-foreground mb-2">
           {error ? "Something went wrong" : "No sessions found"}
         </h3>
-        <p className="text-gray-600 mb-6">
+        <p className="text-muted-foreground mb-6">
           {error ? error.message : "Ready to start your wellness journey? Book your first session."}
         </p>
         <Button 
           variant="default" 
           size="default"
           onClick={onBookClick}
-          className="rounded-squircle"
+          className="rounded-lg"
         >
           <Plus className="w-4 h-4 mr-2" />
           Book Your First Session
@@ -229,13 +229,13 @@ export default function MinimalSessionsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-background dark:bg-gray-900">
       <div className="space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Your Sessions</h1>
-            <p className="text-gray-600">
+            <h1 className="text-3xl font-bold text-foreground mb-2">Your Sessions</h1>
+            <p className="text-muted-foreground">
               Manage your therapy sessions and track your progress
             </p>
           </div>
@@ -243,7 +243,7 @@ export default function MinimalSessionsPage() {
             variant="default" 
             size="default"
             onClick={handleBookClick}
-            className="rounded-squircle"
+            className="rounded-lg"
           >
             <Plus className="w-4 h-4 mr-2" />
             Book Session
@@ -255,11 +255,11 @@ export default function MinimalSessionsPage() {
           <Card className="p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Total</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.total}</p>
+                <p className="text-sm text-muted-foreground mb-1">Total</p>
+                <p className="text-2xl font-semibold text-foreground">{stats.total}</p>
               </div>
-              <div className="w-10 h-10 bg-gray-100 rounded-squircle flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-gray-600" />
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-muted-foreground" />
               </div>
             </div>
           </Card>
@@ -267,35 +267,35 @@ export default function MinimalSessionsPage() {
           <Card className="p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Upcoming</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.upcoming}</p>
+                <p className="text-sm text-muted-foreground mb-1">Upcoming</p>
+                <p className="text-2xl font-semibold text-foreground">{stats.upcoming}</p>
               </div>
-              <div className="w-10 h-10 bg-gray-100 rounded-squircle flex items-center justify-center">
-                <Clock className="w-5 h-5 text-gray-600" />
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-4 rounded-squircle">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 mb-1">Completed</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.completed}</p>
-              </div>
-              <div className="w-10 h-10 bg-gray-100 rounded-squircle flex items-center justify-center">
-                <Video className="w-5 h-5 text-gray-600" />
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                <Clock className="w-5 h-5 text-muted-foreground" />
               </div>
             </div>
           </Card>
 
-          <Card className="p-4 rounded-squircle">
+          <Card className="p-4 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Canceled</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.canceled}</p>
+                <p className="text-sm text-muted-foreground mb-1">Completed</p>
+                <p className="text-2xl font-semibold text-foreground">{stats.completed}</p>
               </div>
-              <div className="w-10 h-10 bg-gray-100 rounded-squircle flex items-center justify-center">
-                <CalendarOff className="w-5 h-5 text-gray-600" />
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                <Video className="w-5 h-5 text-muted-foreground" />
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-4 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-muted-foreground mb-1">Canceled</p>
+                <p className="text-2xl font-semibold text-foreground">{stats.canceled}</p>
+              </div>
+              <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                <CalendarOff className="w-5 h-5 text-muted-foreground" />
               </div>
             </div>
           </Card>
@@ -309,7 +309,7 @@ export default function MinimalSessionsPage() {
               variant={filterStatus === option.value ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilterStatus(option.value)}
-              className="rounded-squircle"
+              className="rounded-lg"
             >
               {option.label}
             </Button>

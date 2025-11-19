@@ -1,8 +1,8 @@
 'use client'
 
 import { ReactNode } from 'react'
-import { AppSidebar } from '@/components/navigation/ShadcnSidebar'
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/navigation/app-sidebar'
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar'
 import { AppHeader } from '@/components/eka/app-header'
 import { cn } from '@/lib/utils'
 
@@ -14,24 +14,16 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children, className }: DashboardLayoutProps) {
   return (
     <SidebarProvider>
-      <div className="flex h-screen bg-background">
-        {/* Shadc Sidebar - Only sidebar that remains */}
-        <AppSidebar />
-        
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col">
-          {/* Header with sidebar trigger */}
-          <AppHeader />
-          
-          {/* Main Content */}
-          <main className={cn(
-            "flex-1 overflow-y-auto",
-            className
-          )}>
-            {children}
-          </main>
-        </div>
-      </div>
+      <AppSidebar />
+      <SidebarInset>
+        <AppHeader />
+        <main className={cn(
+          "flex-1 overflow-y-auto p-6",
+          className
+        )}>
+          {children}
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   )
 }

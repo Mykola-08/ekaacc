@@ -622,8 +622,8 @@ export const DEFAULT_SUBSCRIPTION_TIERS: Omit<SubscriptionTier, 'id' | 'createdA
     },
     badge: {
       text: 'LOYAL',
-      bgColor: 'bg-amber-500',
-      textColor: 'text-white',
+      bgColor: 'bg-primary',
+      textColor: 'text-primary-foreground',
       icon: 'star',
       gradient: false,
       pulse: false,
@@ -925,13 +925,13 @@ export const EXTENDED_LOYALTY_TIERS: Omit<LoyaltyTierDetails, 'id' | 'createdAt'
     },
     badge: {
       text: 'MEMBER',
-      bgColor: 'bg-blue-500',
-      textColor: 'text-white',
+      bgColor: 'bg-secondary',
+      textColor: 'text-secondary-foreground',
       icon: 'heart',
       gradient: false,
       pulse: false,
     },
-    color: '#3b82f6',
+    color: '#71717a', // zinc-500
     isActive: true,
     order: 1,
     popularBadge: false,

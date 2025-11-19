@@ -6,7 +6,6 @@ import { DashboardLayout } from '@/components/layout/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { AnimatedGradientText } from '@/components/ui/animated-gradient-text'
 import { NumberTicker } from '@/components/ui/number-ticker'
 import { BlurIn } from '@/components/ui/blur-in'
 import { motion } from 'framer-motion'
@@ -75,10 +74,9 @@ export default function PatientDashboardPage() {
 
   return (
     <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-900 dark:via-blue-950 dark:to-purple-950">
-        {/* Enhanced Hero Section with AceternityUI */}
-        <section className="relative overflow-hidden py-16 sm:py-20">
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+      <div className="min-h-screen bg-background">
+        {/* Enhanced Hero Section */}
+        <section className="relative overflow-hidden py-12 sm:py-16">
           
           <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
             <div className="mx-auto max-w-3xl text-center space-y-8">
@@ -90,9 +88,9 @@ export default function PatientDashboardPage() {
               </BlurIn>
               
               <BlurIn delay={0.1}>
-                <AnimatedGradientText className="text-5xl md:text-6xl font-bold leading-tight">
+                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
                   {welcomeMessage}
-                </AnimatedGradientText>
+                </h1>
               </BlurIn>
               
               <BlurIn delay={0.2}>
@@ -110,9 +108,9 @@ export default function PatientDashboardPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <BlurIn delay={0.3}>
               <div className="text-center mb-12">
-                <AnimatedGradientText className="text-3xl font-bold mb-4">
+                <h2 className="text-3xl font-bold mb-4 text-foreground">
                   Quick Actions
-                </AnimatedGradientText>
+                </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Access your most important wellness tools and features
                 </p>
@@ -126,13 +124,13 @@ export default function PatientDashboardPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.02 }}
                   className="group"
                 >
-                  <Card className="h-full hover:shadow-2xl transition-all duration-300 border-0 bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm group-hover:bg-white/80 dark:group-hover:bg-slate-800/80">
+                  <Card className="h-full hover:shadow-lg transition-all duration-300">
                     <CardHeader className="pb-3">
-                      <div className={`w-12 h-12 ${action.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                        <action.icon className="h-6 w-6 text-white" />
+                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                        <action.icon className="h-6 w-6 text-primary" />
                       </div>
                       <CardTitle className="text-lg font-semibold">{action.title}</CardTitle>
                       <CardDescription className="text-sm">{action.description}</CardDescription>
@@ -140,7 +138,7 @@ export default function PatientDashboardPage() {
                     <CardContent>
                       <Button 
                         variant="outline" 
-                        className="w-full group-hover:bg-gradient-to-r group-hover:from-blue-600 group-hover:to-purple-600 group-hover:text-white transition-all duration-300 border-2 group-hover:border-0 group-hover:shadow-lg"
+                        className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
                         onClick={() => window.location.href = action.href}
                       >
                         Get Started
@@ -154,13 +152,13 @@ export default function PatientDashboardPage() {
         </section>
 
         {/* Enhanced Wellness Stats with NumberTicker */}
-        <section className="py-16 bg-white/30 dark:bg-slate-900/30 backdrop-blur-sm">
+        <section className="py-16 bg-muted/30">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <BlurIn delay={0.8}>
               <div className="text-center mb-12">
-                <AnimatedGradientText className="text-3xl font-bold mb-4">
+                <h2 className="text-3xl font-bold mb-4 text-foreground">
                   Your Progress
-                </AnimatedGradientText>
+                </h2>
                 <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   Track your wellness journey with real-time insights
                 </p>
@@ -176,10 +174,10 @@ export default function PatientDashboardPage() {
                   transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
                   whileHover={{ scale: 1.02 }}
                 >
-                  <Card className="hover:shadow-xl transition-all duration-300 border-0 bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+                  <Card className="hover:shadow-lg transition-all duration-300">
                     <CardContent className="p-6 text-center">
                       <div className="flex items-center justify-center mb-4">
-                        <stat.icon className={`h-12 w-12 ${stat.color} opacity-80`} />
+                        <stat.icon className="h-12 w-12 text-primary opacity-80" />
                       </div>
                       <div className="text-4xl font-bold text-foreground mb-2">
                         <NumberTicker value={parseInt(stat.value)} />
@@ -200,9 +198,9 @@ export default function PatientDashboardPage() {
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <BlurIn delay={1.2}>
               <div className="text-center mb-16">
-                <AnimatedGradientText className="text-4xl font-bold mb-6">
+                <h2 className="text-4xl font-bold mb-6 text-foreground">
                   Your Wellness Toolkit
-                </AnimatedGradientText>
+                </h2>
                 <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
                   Discover powerful tools and resources designed to support your mental health journey
                 </p>

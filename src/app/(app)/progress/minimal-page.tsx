@@ -31,12 +31,12 @@ function MinimalStatCard({
   return (
     <Card className="p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-gray-600">{title}</h3>
+        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
         {icon}
       </div>
       <div className="space-y-2">
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
-        <p className="text-sm text-gray-600">{description}</p>
+        <p className="text-2xl font-bold text-foreground">{value}</p>
+        <p className="text-sm text-muted-foreground">{description}</p>
         {trend && trend !== 'neutral' && (
           <div className={`flex items-center text-sm ${trendInfo.color}`}>
             {trendInfo.icon}
@@ -79,21 +79,21 @@ function ProgressPageSkeleton() {
 function MinimalProgressChart({ data }: { data: any[] }) {
   return (
     <Card className="p-6">
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">Progress Over Time</h3>
+      <h3 className="text-lg font-semibold text-foreground mb-4">Progress Over Time</h3>
       <div className="space-y-4">
         {data.map((point, index) => (
           <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
             <div>
-              <p className="font-medium text-gray-900">{format(new Date(point.date), 'MMM d, yyyy')}</p>
-              <p className="text-sm text-gray-600">{point.notes || 'Session completed'}</p>
+              <p className="font-medium text-foreground">{format(new Date(point.date), 'MMM d, yyyy')}</p>
+              <p className="text-sm text-muted-foreground">{point.notes || 'Session completed'}</p>
             </div>
             <div className="text-right">
-              <p className="font-semibold text-gray-900">{point.score || point.mood || 8}/10</p>
+              <p className="font-semibold text-foreground">{point.score || point.mood || 8}/10</p>
               <div className="flex items-center gap-1">
                 {point.trend === 'up' && <TrendingUp className="w-4 h-4 text-green-600" />}
                 {point.trend === 'down' && <TrendingDown className="w-4 h-4 text-red-600" />}
                 {point.trend === 'stable' && <div className="w-4 h-4 bg-gray-400 rounded-full"></div>}
-                <span className="text-sm text-gray-600">{point.trend || 'stable'}</span>
+                <span className="text-sm text-muted-foreground">{point.trend || 'stable'}</span>
               </div>
             </div>
           </div>
@@ -172,8 +172,8 @@ export default function MinimalProgressPage() {
       <div className="space-y-8">
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Progress Overview</h1>
-          <p className="text-gray-600">Track your wellness journey over time</p>
+          <h1 className="text-3xl font-bold text-foreground mb-2">Progress Overview</h1>
+          <p className="text-muted-foreground">Track your wellness journey over time</p>
         </div>
 
         {/* Stats Grid */}
@@ -181,26 +181,26 @@ export default function MinimalProgressPage() {
           <MinimalStatCard
             title="Total Sessions"
             value={stats.totalSessions.toString()}
-            icon={<Activity className="h-5 w-5 text-gray-600" />}
+            icon={<Activity className="h-5 w-5 text-muted-foreground" />}
             description="Completed therapy sessions"
           />
           <MinimalStatCard
             title="Average Mood"
             value={`${stats.avgMood}/10`}
-            icon={<HeartPulse className="h-5 w-5 text-gray-600" />}
+            icon={<HeartPulse className="h-5 w-5 text-muted-foreground" />}
             description="Overall mood rating"
             trend={stats.recentTrend}
           />
           <MinimalStatCard
             title="Goals Completed"
             value={stats.completedGoals.toString()}
-            icon={<Award className="h-5 w-5 text-gray-600" />}
+            icon={<Award className="h-5 w-5 text-muted-foreground" />}
             description="Therapy goals achieved"
           />
           <MinimalStatCard
             title="Progress Trend"
             value={stats.recentTrend === 'improving' ? 'Improving' : stats.recentTrend === 'declining' ? 'Declining' : 'Stable'}
-            icon={<Target className="h-5 w-5 text-gray-600" />}
+            icon={<Target className="h-5 w-5 text-muted-foreground" />}
             description="Recent session trend"
           />
         </div>
@@ -215,8 +215,8 @@ export default function MinimalProgressPage() {
               <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target className="w-8 h-8 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">No Progress Data Yet</h3>
-              <p className="text-gray-600 mb-6">
+              <h3 className="text-xl font-semibold text-foreground mb-2">No Progress Data Yet</h3>
+              <p className="text-muted-foreground mb-6">
                 Start your wellness journey by completing sessions. Your progress will appear here as you continue.
               </p>
               <Button 

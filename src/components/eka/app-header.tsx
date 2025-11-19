@@ -29,23 +29,22 @@ export function AppHeader() {
       <div className="flex items-center gap-6 flex-1 min-w-0">
         <div className="md:hidden">
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="squircle-button hover-enhanced"
             onClick={() => setOpenMobile(true)}
           >
             <Menu className="h-5 w-5" />
           </Button>
         </div>
         <div className="hidden md:flex">
-          <SidebarTrigger className="squircle-button hover-enhanced" />
+          <SidebarTrigger />
         </div>
         <div className="relative w-full max-w-lg">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search everything..."
-            className="squircle-input pl-12 pr-4 bg-muted/30 border-0 focus:ring-1 focus:ring-primary/20 focus:bg-background/50 transition-all duration-200"
+            className="pl-10 bg-muted/50 border-none focus-visible:ring-1"
           />
         </div>
       </div>

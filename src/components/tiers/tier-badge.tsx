@@ -16,44 +16,44 @@ const tierConfig = {
   vip: {
     silver: {
       icon: Crown,
-      color: 'text-gray-400',
-      bgColor: 'bg-gray-100',
-      borderColor: 'border-gray-300',
-      gradient: 'from-gray-400 to-gray-600',
+      color: 'text-muted-foreground',
+      bgColor: 'bg-muted',
+      borderColor: 'border-border',
+      gradient: 'from-muted to-muted/80',
       label: 'VIP Silver'
     },
     gold: {
       icon: Crown,
-      color: 'text-yellow-500',
-      bgColor: 'bg-yellow-50',
-      borderColor: 'border-yellow-400',
-      gradient: 'from-yellow-400 to-yellow-600',
+      color: 'text-foreground',
+      bgColor: 'bg-secondary',
+      borderColor: 'border-primary/20',
+      gradient: 'from-secondary to-secondary/80',
       label: 'VIP Gold'
     },
     platinum: {
       icon: Crown,
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-400',
-      gradient: 'from-purple-400 to-purple-600',
+      color: 'text-primary-foreground',
+      bgColor: 'bg-primary',
+      borderColor: 'border-primary',
+      gradient: 'from-primary to-primary/90',
       label: 'VIP Platinum'
     }
   },
   loyalty: {
     member: {
       icon: Star,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-400',
-      gradient: 'from-blue-400 to-blue-600',
+      color: 'text-muted-foreground',
+      bgColor: 'bg-background',
+      borderColor: 'border-border',
+      gradient: 'from-background to-muted',
       label: 'Loyalty Member'
     },
     elite: {
       icon: Award,
-      color: 'text-red-500',
-      bgColor: 'bg-red-50',
-      borderColor: 'border-red-400',
-      gradient: 'from-red-400 to-red-600',
+      color: 'text-foreground',
+      bgColor: 'bg-muted',
+      borderColor: 'border-foreground',
+      gradient: 'from-muted to-muted/80',
       label: 'Loyalty Elite'
     }
   }

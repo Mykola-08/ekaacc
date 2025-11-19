@@ -254,7 +254,7 @@ export function AccessibilityToolbar() {
       >
         <Button
           size="lg"
-          className="rounded-full w-14 h-14 shadow-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white"
+          className="rounded-full w-14 h-14 shadow-lg bg-primary text-primary-foreground"
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Accessibility options"
         >
@@ -311,18 +311,18 @@ export function AccessibilityToolbar() {
                           className={cn(
                             "flex items-center justify-between p-3 rounded-lg border-2 transition-all duration-200",
                             feature.enabled 
-                              ? `bg-${feature.color}-50 border-${feature.color}-200` 
-                              : "bg-gray-50 border-gray-200"
+                              ? "bg-muted border-primary" 
+                              : "bg-card border-border"
                           )}
                         >
                           <div className="flex items-center gap-3">
                             <Icon className={cn(
                               "w-5 h-5",
-                              feature.enabled ? `text-${feature.color}-600` : "text-gray-400"
+                              feature.enabled ? "text-primary" : "text-muted-foreground"
                             )} />
                             <div>
                               <h4 className="font-medium text-sm">{feature.title}</h4>
-                              <p className="text-xs text-gray-600">{feature.description}</p>
+                              <p className="text-xs text-muted-foreground">{feature.description}</p>
                             </div>
                           </div>
                           <Button
@@ -331,7 +331,7 @@ export function AccessibilityToolbar() {
                             onClick={feature.toggle}
                             className={cn(
                               "text-xs",
-                              feature.enabled && `bg-${feature.color}-500 hover:bg-${feature.color}-600`
+                              feature.enabled && "bg-primary hover:bg-primary/90"
                             )}
                           >
                             {feature.enabled ? "On" : "Off"}
@@ -356,9 +356,9 @@ export function AccessibilityToolbar() {
                       >
                         <ZoomOut className="w-4 h-4" />
                       </Button>
-                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
                         <div 
-                          className="h-full bg-gradient-to-r from-blue-500 to-purple-600 transition-all duration-300"
+                          className="h-full bg-primary transition-all duration-300"
                           style={{ width: `${((fontSize - 12) / 8) * 100}%` }}
                         />
                       </div>
@@ -379,7 +379,7 @@ export function AccessibilityToolbar() {
                     <select
                       value={colorBlindMode}
                       onChange={(e) => setColorBlindMode(e.target.value)}
-                      className="w-full p-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-2 text-sm border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
                       aria-label="Color vision mode"
                     >
                       {colorBlindOptions.map((option) => (
@@ -429,7 +429,7 @@ export function AccessibleButton({
   return (
     <button
       className={cn(
-        "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
         "hover:opacity-80 transition-opacity duration-200",
         className
       )}
@@ -464,9 +464,9 @@ export function AccessibleInput({
 }) {
   return (
     <div className="space-y-2">
-      <label htmlFor={id} className="block text-sm font-medium text-gray-700">
+      <label htmlFor={id} className="block text-sm font-medium text-foreground">
         {label}
-        {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
+        {required && <span className="text-destructive ml-1" aria-label="required">*</span>}
       </label>
       <input
         id={id}
@@ -474,8 +474,8 @@ export function AccessibleInput({
         required={required}
         aria-describedby={ariaDescribedBy}
         className={cn(
-          "w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm",
-          "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500",
+          "w-full px-3 py-2 border border-input rounded-md shadow-sm",
+          "focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary",
           "disabled:opacity-50 disabled:cursor-not-allowed",
           className
         )}
@@ -490,7 +490,7 @@ export function SkipLink({ href, text }: { href: string; text: string }) {
   return (
     <a
       href={href}
-      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded-md shadow-lg z-50"
+      className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-primary-foreground px-4 py-2 rounded-md shadow-lg z-50"
     >
       {text}
     </a>

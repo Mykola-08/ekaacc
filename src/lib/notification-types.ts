@@ -315,15 +315,15 @@ export function getNotificationConfigForRole(role: 'Patient' | 'Therapist' | 'Ad
 
 export function getCategoryColor(category: NotificationCategory): string {
   const colors = {
-    sessions: 'text-blue-500',
-    reports: 'text-purple-500',
-    donations: 'text-pink-500',
-    messages: 'text-green-500',
-    payments: 'text-yellow-500',
-    system: 'text-gray-500',
-    admin: 'text-red-500',
+    sessions: 'text-foreground',
+    reports: 'text-foreground',
+    donations: 'text-foreground',
+    messages: 'text-foreground',
+    payments: 'text-foreground',
+    system: 'text-muted-foreground',
+    admin: 'text-foreground',
   };
-  return colors[category] || 'text-gray-500';
+  return colors[category] || 'text-muted-foreground';
 }
 
 export function getPriorityBadgeVariant(priority: NotificationPriority): 'default' | 'secondary' | 'destructive' | 'outline' {

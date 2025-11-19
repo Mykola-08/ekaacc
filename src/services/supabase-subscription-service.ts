@@ -498,13 +498,13 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
       features,
       badge: (db.badge as any) ?? {
         text: 'TIER',
-        bgColor: 'bg-blue-500',
-        textColor: 'text-white',
+        bgColor: 'bg-primary',
+        textColor: 'text-primary-foreground',
         icon: 'star',
         gradient: false,
         pulse: false,
       },
-      color: features.color || 'blue', // Default color
+      color: features.color || 'zinc', // Default color
       isActive: db.is_active,
       order: features.order || 0, // Default order
       createdAt: db.created_at,

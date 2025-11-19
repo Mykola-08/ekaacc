@@ -110,10 +110,10 @@ export function AnalyticsDashboard() {
 
   const getHealthStatusColor = (status: string) => {
     switch (status) {
-      case 'healthy': return 'text-green-600 bg-green-100'
-      case 'warning': return 'text-yellow-600 bg-yellow-100'
-      case 'critical': return 'text-red-600 bg-red-100'
-      default: return 'text-gray-600 bg-gray-100'
+      case 'healthy': return 'text-foreground bg-muted'
+      case 'warning': return 'text-foreground bg-muted'
+      case 'critical': return 'text-destructive-foreground bg-destructive'
+      default: return 'text-muted-foreground bg-muted'
     }
   }
 
@@ -129,7 +129,7 @@ export function AnalyticsDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
       </div>
     )
   }
@@ -207,8 +207,8 @@ export function AnalyticsDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{analytics.overview.totalUsers.toLocaleString()}</div>
             <div className="flex items-center text-sm text-muted-foreground">
-              <TrendingUp className="h-4 w-4 mr-1 text-green-600" />
-              <span className="text-green-600">+{analytics.overview.newUsers}</span> this period
+              <TrendingUp className="h-4 w-4 mr-1 text-muted-foreground" />
+              <span className="text-muted-foreground">+{analytics.overview.newUsers}</span> this period
             </div>
           </CardContent>
         </Card>

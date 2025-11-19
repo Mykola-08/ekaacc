@@ -1,69 +1,9 @@
 import * as React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
-import { Search, Eye, EyeOff, Check, AlertCircle, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
 
-const premiumInputVariants = cva(
-  'peer relative w-full appearance-none rounded-xl border bg-white/5 backdrop-blur-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
-  {
-    variants: {
-      variant: {
-        default: 'border-neutral-200 hover:border-neutral-300 focus:border-primary-500 focus:ring-primary-500/20 text-neutral-900 placeholder:text-neutral-400',
-        outlined: 'border-2 border-neutral-300 hover:border-neutral-400 focus:border-primary-500 focus:ring-primary-500/20 bg-transparent',
-        filled: 'border-0 bg-neutral-100 hover:bg-neutral-200 focus:bg-neutral-100 focus:ring-primary-500/20',
-        glass: 'border-white/20 bg-white/10 backdrop-blur-md hover:bg-white/15 focus:bg-white/10 focus:border-white/40 text-white placeholder:text-white/60',
-        minimal: 'border-0 border-b-2 border-neutral-300 rounded-none bg-transparent hover:border-neutral-400 focus:border-primary-500 focus:ring-0 focus:ring-offset-0',
-        premium: 'border-neutral-200 bg-gradient-to-br from-white/90 to-white/70 hover:from-white/95 hover:to-white/80 focus:border-primary-500 focus:ring-primary-500/30 shadow-sm',
-      },
-      size: {
-        sm: 'px-3 py-2 text-sm',
-        md: 'px-4 py-3 text-base',
-        lg: 'px-6 py-4 text-lg',
-        xl: 'px-8 py-5 text-xl',
-      },
-      validationState: {
-        default: '',
-        success: 'border-green-500 focus:border-green-500 focus:ring-green-500/20',
-        error: 'border-red-500 focus:border-red-500 focus:ring-red-500/20',
-        warning: 'border-amber-500 focus:border-amber-500 focus:ring-amber-500/20',
-      },
-      shape: {
-        default: 'rounded-xl',
-        pill: 'rounded-full',
-        square: 'rounded-none',
-      },
-    },
-    defaultVariants: {
-      variant: 'default',
-      size: 'md',
-      validationState: 'default',
-      shape: 'default',
-    },
-  }
-)
-
-const premiumInputGroupVariants = cva(
-  'relative group',
-  {
-    variants: {
-      attached: {
-        true: 'flex',
-        false: 'block',
-      },
-      orientation: {
-        horizontal: 'flex-row',
-        vertical: 'flex-col',
-      },
-    },
-    defaultVariants: {
-      attached: false,
-      orientation: 'horizontal',
-    },
-  }
-)
-
-export interface PremiumInputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'state' | 'variant' | 'size'> {
+export interface PremiumInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
   variant?: 'default' | 'outlined' | 'filled' | 'glass' | 'minimal' | 'premium'
   size?: 'sm' | 'md' | 'lg' | 'xl'
   validationState?: 'default' | 'success' | 'error' | 'warning'
@@ -77,249 +17,147 @@ export interface PremiumInputProps
   loading?: boolean
   clearable?: boolean
   passwordToggle?: boolean
-  search?: boolean
   floatingLabel?: boolean
   characterCount?: boolean
   maxLength?: number
   showStates?: boolean
-  autoComplete?: string
 }
 
 const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
-  ({ 
-    className, 
-    variant, 
-    size, 
-    validationState,
-    shape,
-    label,
-    helperText,
-    errorMessage,
-    successMessage,
-    leftIcon,
-    rightIcon,
-    loading,
-    clearable,
-    passwordToggle,
-    search,
-    floatingLabel,
-    characterCount,
-    maxLength,
-    showStates,
-    disabled,
-    value,
-    onChange,
-    placeholder,
-    type = 'text',
-    ...props 
-  }, ref) => {
-    const [inputValue, setInputValue] = React.useState(value || '')
+  (
+    {
+      className,
+      variant,
+      size,
+      validationState,
+      shape,
+      label,
+      helperText,
+      errorMessage,
+      successMessage,
+      leftIcon,
+      rightIcon,
+      loading,
+      clearable,
+      passwordToggle,
+      floatingLabel,
+      characterCount,
+      maxLength,
+      showStates,
+      disabled,
+      value,
+      onChange,
+      placeholder,
+      type = 'text',
+      ...props
+    },
+    ref
+  ) => {
+    const [inputValue, setInputValue] = React.useState<string>((value as string) || '')
     const [showPassword, setShowPassword] = React.useState(false)
     const [isFocused, setIsFocused] = React.useState(false)
-    const [isHovered, setIsHovered] = React.useState(false)
     const [characterCountValue, setCharacterCountValue] = React.useState(0)
-    const inputRef = React.useRef<HTMLInputElement>(null)
 
-    // Combine refs
-    React.useImperativeHandle(ref, () => inputRef.current!)
-
-    // Handle value changes
     React.useEffect(() => {
-      setInputValue(value || '')
-      if (characterCount && value) {
-        setCharacterCountValue(value.toString().length)
-      }
+      const v = (value as string) || ''
+      setInputValue(v)
+      if (characterCount) setCharacterCountValue(v.length)
     }, [value, characterCount])
 
     const handleClear = () => {
       setInputValue('')
-      inputRef.current?.focus()
       onChange?.({ target: { value: '' } } as React.ChangeEvent<HTMLInputElement>)
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = e.target.value
-      setInputValue(newValue)
-      if (characterCount) {
-        setCharacterCountValue(newValue.length)
-      }
+      const v = e.target.value
+      setInputValue(v)
+      if (characterCount) setCharacterCountValue(v.length)
       onChange?.(e)
     }
 
-    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(true)
-      props.onFocus?.(e)
-    }
-
-    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-      setIsFocused(false)
-      props.onBlur?.(e)
-    }
-
-    const handleMouseEnter = () => setIsHovered(true)
-    const handleMouseLeave = () => setIsHovered(false)
-
-    // Determine current state
-    const currentState = validationState === 'default' && errorMessage ? 'error' : 
-                        validationState === 'default' && successMessage ? 'success' : validationState
-
-    // Icon components
-    const SearchIcon = search ? <Search className="w-4 h-4" /> : null
-    const PasswordToggleIcon = passwordToggle ? (
-      <button
-        type="button"
-        onClick={() => setShowPassword(!showPassword)}
-        className="p-1 hover:bg-neutral-100 rounded-lg transition-colors"
-        tabIndex={-1}
-      >
-        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-      </button>
-    ) : null
-
-    const ClearIcon = clearable && inputValue && !disabled ? (
-      <button
-        type="button"
-        onClick={handleClear}
-        className="p-1 hover:bg-neutral-100 rounded-lg transition-colors"
-        tabIndex={-1}
-      >
-        <div className="w-4 h-4 rounded-full bg-neutral-400 flex items-center justify-center">
-          <div className="w-2 h-0.5 bg-white rounded-full" />
-        </div>
-      </button>
-    ) : null
-
-    const LoadingIcon = loading ? <Loader2 className="w-4 h-4 animate-spin" /> : null
-
-    const StateIcon = showStates && currentState !== 'default' ? (
-      currentState === 'success' ? <Check className="w-4 h-4 text-green-500" /> :
-      currentState === 'error' ? <AlertCircle className="w-4 h-4 text-red-500" /> : null
-    ) : null
-
-    // Combine all right icons
-    const rightIcons = [
-      StateIcon,
-      LoadingIcon,
-      ClearIcon,
-      PasswordToggleIcon,
-      rightIcon,
-      SearchIcon
-    ].filter(Boolean)
+    const hasError = !!errorMessage
+    const hasSuccess = !!successMessage
+    const radiusClass = shape === 'pill' ? 'rounded-full' : shape === 'square' ? 'rounded-none' : undefined
 
     return (
       <div className="space-y-2">
-        {/* Label */}
         {label && !floatingLabel && (
-          <label className={cn(
-            "block text-sm font-medium transition-colors",
-            disabled ? "text-neutral-400" : "text-neutral-700",
-            currentState === 'error' && "text-red-600",
-            currentState === 'success' && "text-green-600"
-          )}>
-            {label}
-          </label>
+          <label className="block text-sm font-medium text-foreground">{label}</label>
         )}
 
-        {/* Input Container */}
-        <div 
-          className={cn(
-            "relative group",
-            isFocused && "z-10"
-          )}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        >
-          {/* Left Icon */}
+        <div className="relative">
           {leftIcon && (
-            <div className={cn(
-              "absolute left-3 top-1/2 -translate-y-1/2 transition-colors",
-              disabled ? "text-neutral-300" : "text-neutral-400 group-hover:text-neutral-500",
-              currentState === 'error' && "text-red-400",
-              currentState === 'success' && "text-green-400"
-            )}>
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
               {leftIcon}
             </div>
           )}
 
-          {/* Floating Label */}
           {label && floatingLabel && (
-            <label className={cn(
-              "absolute left-4 transition-all duration-200 pointer-events-none",
-              "bg-white px-1 -translate-y-1/2",
-              (isFocused || inputValue) 
-                ? "top-2 text-xs text-primary-600" 
-                : "top-1/2 text-base text-neutral-400 -translate-y-1/2",
-              leftIcon && "left-10",
-              currentState === 'error' && (isFocused || inputValue) && "text-red-600",
-              currentState === 'success' && (isFocused || inputValue) && "text-green-600"
-            )}>
+            <label
+              className={cn(
+                'pointer-events-none absolute left-3 transition-all',
+                isFocused || inputValue ? 'top-1 text-xs text-muted-foreground' : 'top-1/2 -translate-y-1/2 text-muted-foreground'
+              )}
+            >
               {label}
             </label>
           )}
 
-          {/* Input */}
-          <input
-            ref={inputRef}
+          <Input
+            ref={ref}
             type={passwordToggle ? (showPassword ? 'text' : 'password') : type}
             value={inputValue}
             onChange={handleChange}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={(e) => {
+              setIsFocused(true)
+              props.onFocus?.(e)
+            }}
+            onBlur={(e) => {
+              setIsFocused(false)
+              props.onBlur?.(e)
+            }}
             disabled={disabled || loading}
             maxLength={maxLength}
-            className={cn(
-              premiumInputVariants({ variant, size: size as any, validationState: currentState, shape }),
-              leftIcon && "pl-10",
-              rightIcons.length > 0 && "pr-10",
-              floatingLabel && "pt-6",
-              className
-            )}
             placeholder={floatingLabel ? (isFocused ? placeholder : '') : placeholder}
+            aria-invalid={hasError}
+            className={cn(leftIcon && 'pl-10', (rightIcon || clearable || passwordToggle || loading) && 'pr-10', radiusClass, className)}
             {...props}
           />
 
-          {/* Right Icons */}
-          {rightIcons.length > 0 && (
-            <div className={cn(
-              "absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1",
-              disabled ? "text-neutral-300" : "text-neutral-400"
-            )}>
-              {rightIcons}
+          {(rightIcon || clearable || passwordToggle || loading) && (
+            <div className="absolute inset-y-0 right-0 flex items-center gap-1 pr-3 text-muted-foreground">
+              {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              {clearable && inputValue && !disabled ? (
+                <button type="button" onClick={handleClear} className="rounded p-1 hover:bg-accent" tabIndex={-1} aria-label="Clear input">
+                  <span className="block h-3 w-3 rotate-45">+</span>
+                </button>
+              ) : null}
+              {passwordToggle ? (
+                <button type="button" onClick={() => setShowPassword((p) => !p)} className="rounded p-1 hover:bg-accent" tabIndex={-1} aria-label="Toggle password visibility">
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              ) : null}
+              {rightIcon}
             </div>
           )}
-
-          {/* Focus Ring Animation */}
-          <div className={cn(
-            "absolute inset-0 rounded-xl ring-2 ring-offset-2 transition-all duration-200 pointer-events-none",
-            isFocused ? "ring-primary-500/20 ring-offset-2" : "ring-transparent ring-offset-0"
-          )} />
         </div>
 
-        {/* Helper/Error/Success Text */}
         <div className="space-y-1">
-          {helperText && currentState === 'default' && (
-            <p className="text-sm text-neutral-500">{helperText}</p>
-          )}
-          {errorMessage && currentState === 'error' && (
-            <p className="text-sm text-red-600 flex items-center gap-1">
-              <AlertCircle className="w-3 h-3" />
-              {errorMessage}
-            </p>
-          )}
-          {successMessage && currentState === 'success' && (
-            <p className="text-sm text-green-600 flex items-center gap-1">
-              <Check className="w-3 h-3" />
-              {successMessage}
-            </p>
-          )}
-          {characterCount && maxLength && (
-            <p className={cn(
-              "text-xs text-right transition-colors",
-              characterCountValue > maxLength * 0.9 ? "text-red-500" : "text-neutral-400"
-            )}>
+          {helperText && !hasError && !hasSuccess ? (
+            <p className="text-sm text-muted-foreground">{helperText}</p>
+          ) : null}
+          {hasError ? (
+            <p className="text-sm text-destructive">{errorMessage}</p>
+          ) : null}
+          {hasSuccess ? (
+            <p className="text-sm text-green-600">{successMessage}</p>
+          ) : null}
+          {characterCount && maxLength ? (
+            <p className={cn('text-right text-xs', characterCountValue > maxLength * 0.9 ? 'text-destructive' : 'text-muted-foreground')}>
               {characterCountValue}/{maxLength}
             </p>
-          )}
+          ) : null}
         </div>
       </div>
     )
@@ -328,4 +166,4 @@ const PremiumInput = React.forwardRef<HTMLInputElement, PremiumInputProps>(
 
 PremiumInput.displayName = 'PremiumInput'
 
-export { PremiumInput, premiumInputVariants }
+export { PremiumInput }

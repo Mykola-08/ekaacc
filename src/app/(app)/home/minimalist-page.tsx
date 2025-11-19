@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Heart, Brain, Shield, Zap } from 'lucide-react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';

@@ -87,7 +87,7 @@ export function PromotionalShowcase() {
           </AnimatedGradientText>
           
           <motion.h1 
-            className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6"
+            className="text-4xl md:text-6xl font-bold text-primary mb-6"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -96,7 +96,7 @@ export function PromotionalShowcase() {
           </motion.h1>
           
           <motion.p 
-            className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8"
+            className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
@@ -112,7 +112,7 @@ export function PromotionalShowcase() {
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <ShimmerButton 
-              className="shadow-blue-500/20"
+              className="shadow-primary/20"
               onClick={() => router.push('#programs')}
             >
               Explore All Programs
@@ -130,7 +130,7 @@ export function PromotionalShowcase() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-white/50 dark:bg-slate-800/50">
+      <section className="py-16 px-4 bg-muted/50">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
@@ -148,13 +148,13 @@ export function PromotionalShowcase() {
                 viewport={{ once: true }}
                 className="text-center"
               >
-                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="w-6 h-6 text-white" />
+                <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center mx-auto mb-4">
+                  <stat.icon className="w-6 h-6 text-primary-foreground" />
                 </div>
-                <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
                   {stat.value}
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-300">{stat.label}</p>
+                <p className="text-sm text-muted-foreground">{stat.label}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -171,10 +171,10 @@ export function PromotionalShowcase() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-slate-900 dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
               Choose Your Transformation Path
             </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Each program is carefully designed to provide maximum value and lasting impact 
               through evidence-based approaches and cutting-edge technology.
             </p>

@@ -1,9 +1,9 @@
 // Premium UI Components
-export { PremiumButton, premiumButtonVariants } from './premium-button'
-export { PremiumCard, premiumCardVariants } from './premium-card'
-export { PremiumInput, premiumInputVariants } from './premium-input'
+export { PremiumButton } from './premium-button'
+export { PremiumCard } from './premium-card'
+export { PremiumInput } from './premium-input'
 export { PremiumNav, premiumNavVariants, premiumNavItemVariants, premiumNavLogoVariants } from './premium-nav'
-export { PremiumHero, premiumHeroVariants, premiumHeroContentVariants, premiumHeroTitleVariants } from './premium-hero'
+export { PremiumHero } from './premium-hero'
 
 // Re-export types for convenience
 export type { PremiumButtonProps } from './premium-button'

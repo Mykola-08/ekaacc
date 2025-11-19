@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Menu, X, User, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';

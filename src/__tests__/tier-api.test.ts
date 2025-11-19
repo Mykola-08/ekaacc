@@ -9,37 +9,62 @@ jest.mock('../lib/supabase');
 jest.mock('../services/tier-validation-service');
 
 // Mock NextResponse
-jest.mock('next/server', () => ({
-  NextRequest: class MockNextRequest {
+jest.mock('next/server', () => {
+  class MockResponse {
+    status: number;
+    body: string;
     headers: Map<string, string>;
-    body: any;
-    
-    constructor(input: RequestInfo | URL, init?: RequestInit) {
+
+    constructor(body: any, init?: any) {
+      this.body = body;
+      this.status = init?.status || 200;
       this.headers = new Map();
       if (init?.headers) {
-        Object.entries(init.headers).forEach(([key, value]) => {
-          this.headers.set(key, value as string);
-        });
+         Object.entries(init.headers).forEach(([key, value]) => {
+            this.headers.set(key, value as string);
+         });
       }
-      this.body = init?.body;
     }
-    
+
     async json() {
-      return JSON.parse(this.body as string);
+      return JSON.parse(this.body);
     }
-  },
-  NextResponse: {
-    json: (data: any, init?: ResponseInit) => {
-      return new global.Response(JSON.stringify(data), {
-        ...init,
-        headers: {
-          ...init?.headers,
-          'content-type': 'application/json',
-        },
-      });
+  }
+
+  return {
+    NextRequest: class MockNextRequest {
+      headers: Map<string, string>;
+      body: any;
+      url: string;
+      
+      constructor(input: any, init?: any) {
+        this.url = input.toString();
+        this.headers = new Map();
+        if (init?.headers) {
+          Object.entries(init.headers).forEach(([key, value]) => {
+            this.headers.set(key, value as string);
+          });
+        }
+        this.body = init?.body;
+      }
+      
+      async json() {
+        return JSON.parse(this.body as string);
+      }
     },
-  },
-}));
+    NextResponse: {
+      json: (data: any, init?: any) => {
+        return new MockResponse(JSON.stringify(data), {
+          ...init,
+          headers: {
+            ...init?.headers,
+            'content-type': 'application/json',
+          },
+        });
+      },
+    },
+  };
+});
 
 describe('Tier Assignment API', () => {
   let mockValidationService: jest.Mocked<any>;
@@ -106,23 +131,24 @@ describe('Tier Assignment API', () => {
 
       // Mock authentication
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: mockAdminUser }, error: null });
-      mockSupabase.single.mockResolvedValue({ data: mockUserRole, error: null });
 
       // Mock validation
       mockValidationService.validateVIPTierEligibility.mockResolvedValue(mockValidationResult);
 
       // Mock database operations
-      mockSupabase.single.mockResolvedValueOnce({ data: null, error: null }); // No existing tier
-      mockSupabase.single.mockResolvedValueOnce({ 
-        data: { 
-          id: 'new-tier-123',
-          user_id: 'user-456',
-          tier_type: 'vip',
-          tier_name: 'silver',
-          is_active: true,
-        }, 
-        error: null 
-      }); // Insert new tier
+      mockSupabase.single
+        .mockResolvedValueOnce({ data: mockUserRole, error: null }) // Admin check
+        .mockResolvedValueOnce({ data: null, error: null }) // No existing tier
+        .mockResolvedValueOnce({ 
+          data: { 
+            id: 'new-tier-123',
+            user_id: 'user-456',
+            tier_type: 'vip',
+            tier_name: 'silver',
+            is_active: true,
+          }, 
+          error: null 
+        }); // Insert new tier
 
       const request = createMockRequest({
         userId: 'user-456',
@@ -213,7 +239,7 @@ describe('Tier Assignment API', () => {
       const mockUserRole = { role: 'Admin' };
       const mockValidationResult = {
         isEligible: false,
-        requirements: ['Need more sessions', 'Higher rating required'],
+        missingRequirements: ['Need more sessions', 'Higher rating required'],
         progress: 45,
       };
 
@@ -232,7 +258,7 @@ describe('Tier Assignment API', () => {
 
       expect(response.status).toBe(400);
       expect(data.error).toBe('User does not meet tier requirements');
-      expect(data.requirements).toEqual(mockValidationResult.requirements);
+      expect(data.requirements).toEqual(mockValidationResult.missingRequirements);
       expect(data.progress).toBe(mockValidationResult.progress);
     });
 
@@ -249,11 +275,18 @@ describe('Tier Assignment API', () => {
       };
 
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: mockAdminUser }, error: null });
-      mockSupabase.single.mockResolvedValue({ data: mockUserRole, error: null });
       mockValidationService.validateVIPTierEligibility.mockResolvedValue(mockValidationResult);
-      mockSupabase.single.mockResolvedValue({ data: existingTier, error: null });
+      
+      mockSupabase.single
+        .mockResolvedValueOnce({ data: mockUserRole, error: null }) // Admin check
+        .mockResolvedValueOnce({ data: existingTier, error: null }); // Existing tier check
 
-      const request = createMockGetRequest('user-456');
+      const request = createMockRequest({
+        userId: 'user-456',
+        tierType: 'vip',
+        tierName: 'silver',
+        reason: 'Test assignment',
+      });
 
       const response = await POST(request);
       const data = await response.json();
@@ -268,22 +301,25 @@ describe('Tier Assignment API', () => {
       const mockValidationResult = { isEligible: true, requirements: [], progress: 100 };
 
       mockSupabase.auth.getUser.mockResolvedValue({ data: { user: mockAdminUser }, error: null });
-      mockSupabase.single.mockResolvedValue({ data: mockUserRole, error: null });
       mockValidationService.validateVIPTierEligibility.mockResolvedValue(mockValidationResult);
-      mockSupabase.single.mockResolvedValueOnce({ data: null, error: null });
-      mockSupabase.single.mockRejectedValueOnce(new Error('Database error'));
+      
+      mockSupabase.single
+        .mockResolvedValueOnce({ data: mockUserRole, error: null }) // Admin check
+        .mockResolvedValueOnce({ data: null, error: null }) // Existing tier check
+        .mockRejectedValueOnce(new Error('Database error')); // Insert error
 
       const request = createMockRequest({
         userId: 'user-456',
         tierType: 'vip',
         tierName: 'silver',
+        reason: 'Test assignment',
       });
 
       const response = await POST(request);
       const data = await response.json();
 
       expect(response.status).toBe(500);
-      expect(data.error).toBe('Failed to assign tier');
+      expect(data.error).toBe('Internal server error');
     });
   });
 

@@ -16,7 +16,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('VIP Silver');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-gray-100', 'border-gray-300', 'text-gray-400');
+      expect(badge.closest('div')).toHaveClass('bg-muted', 'border-border', 'text-muted-foreground');
     });
 
     it('should render VIP Gold badge correctly', () => {
@@ -24,7 +24,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('VIP Gold');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-yellow-50', 'border-yellow-400', 'text-yellow-500');
+      expect(badge.closest('div')).toHaveClass('bg-secondary', 'border-primary/20', 'text-foreground');
     });
 
     it('should render VIP Platinum badge correctly', () => {
@@ -32,7 +32,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('VIP Platinum');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-purple-50', 'border-purple-400', 'text-purple-500');
+      expect(badge.closest('div')).toHaveClass('bg-primary', 'border-primary', 'text-primary-foreground');
     });
 
     it('should render Loyalty Member badge correctly', () => {
@@ -40,7 +40,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('Loyalty Member');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-blue-50', 'border-blue-400', 'text-blue-500');
+      expect(badge.closest('div')).toHaveClass('bg-background', 'border-border', 'text-muted-foreground');
     });
 
     it('should render Loyalty Elite badge correctly', () => {
@@ -48,7 +48,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('Loyalty Elite');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-red-50', 'border-red-400', 'text-red-500');
+      expect(badge.closest('div')).toHaveClass('bg-muted', 'border-foreground', 'text-foreground');
     });
 
     it('should render with different sizes', () => {
@@ -92,7 +92,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('VIP Silver');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-gradient-to-r', 'from-gray-400', 'to-gray-600', 'text-white');
+      expect(badge.closest('div')).toHaveClass('bg-gradient-to-r', 'from-muted', 'to-muted/80', 'text-white');
     });
 
     it('should render gradient VIP Gold badge correctly', () => {
@@ -100,7 +100,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('VIP Gold');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-gradient-to-r', 'from-yellow-400', 'to-yellow-600', 'text-white');
+      expect(badge.closest('div')).toHaveClass('bg-gradient-to-r', 'from-secondary', 'to-secondary/80', 'text-white');
     });
 
     it('should render gradient Loyalty Elite badge correctly', () => {
@@ -108,7 +108,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('Loyalty Elite');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-gradient-to-r', 'from-red-400', 'to-red-600', 'text-white');
+      expect(badge.closest('div')).toHaveClass('bg-gradient-to-r', 'from-muted', 'to-muted/80', 'text-white');
     });
 
     it('should apply gradient animation classes by default', () => {
@@ -132,7 +132,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('Silver');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-gray-100', 'border-gray-300', 'text-gray-400');
+      expect(badge.closest('div')).toHaveClass('bg-muted', 'border-border', 'text-muted-foreground');
     });
 
     it('should render minimal Loyalty Elite badge correctly', () => {
@@ -140,7 +140,7 @@ describe('TierBadge Components', () => {
       
       const badge = screen.getByText('Elite');
       expect(badge).toBeInTheDocument();
-      expect(badge.closest('div')).toHaveClass('bg-red-50', 'border-red-400', 'text-red-500');
+      expect(badge.closest('div')).toHaveClass('bg-muted', 'border-foreground', 'text-foreground');
     });
 
     it('should capitalize tier name correctly', () => {
@@ -302,25 +302,25 @@ describe('TierBadge Components', () => {
     it('should have proper contrast ratios for VIP badges', () => {
       const { rerender } = render(<TierBadge tierType="vip" tierName="silver" />);
       const silverBadge = screen.getByText('VIP Silver').closest('div');
-      expect(silverBadge).toHaveClass('text-gray-400');
+      expect(silverBadge).toHaveClass('text-muted-foreground');
 
       rerender(<TierBadge tierType="vip" tierName="gold" />);
       const goldBadge = screen.getByText('VIP Gold').closest('div');
-      expect(goldBadge).toHaveClass('text-yellow-500');
+      expect(goldBadge).toHaveClass('text-foreground');
 
       rerender(<TierBadge tierType="vip" tierName="platinum" />);
       const platinumBadge = screen.getByText('VIP Platinum').closest('div');
-      expect(platinumBadge).toHaveClass('text-purple-500');
+      expect(platinumBadge).toHaveClass('text-primary-foreground');
     });
 
     it('should have proper contrast ratios for Loyalty badges', () => {
       const { rerender } = render(<TierBadge tierType="loyalty" tierName="member" />);
       const memberBadge = screen.getByText('Loyalty Member').closest('div');
-      expect(memberBadge).toHaveClass('text-blue-500');
+      expect(memberBadge).toHaveClass('text-muted-foreground');
 
       rerender(<TierBadge tierType="loyalty" tierName="elite" />);
       const eliteBadge = screen.getByText('Loyalty Elite').closest('div');
-      expect(eliteBadge).toHaveClass('text-red-500');
+      expect(eliteBadge).toHaveClass('text-foreground');
     });
   });
 });

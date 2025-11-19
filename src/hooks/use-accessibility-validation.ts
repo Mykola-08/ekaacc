@@ -164,9 +164,9 @@ export function AccessibilityIndicator({
   if (!validation) return null;
 
   const getScoreColor = (score: number) => {
-    if (score >= 90) return 'text-green-600';
-    if (score >= 70) return 'text-yellow-600';
-    return 'text-red-600';
+    if (score >= 90) return 'text-foreground';
+    if (score >= 70) return 'text-muted-foreground';
+    return 'text-destructive-foreground';
   };
 
   const getScoreIcon = (score: number) => {
@@ -176,7 +176,7 @@ export function AccessibilityIndicator({
   };
 
   return React.createElement('div', {
-    className: "fixed bottom-4 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-sm z-50"
+    className: "fixed bottom-4 right-4 bg-card border border-border rounded-lg shadow-lg p-4 max-w-sm z-50"
   }, [
     React.createElement('div', {
       key: 'header',
@@ -197,18 +197,18 @@ export function AccessibilityIndicator({
     }, [
       React.createElement('p', {
         key: 'issues-title',
-        className: "text-sm font-medium text-gray-700"
+        className: "text-sm font-medium text-foreground"
       }, 'Issues:'),
       React.createElement('ul', {
         key: 'issues-list',
-        className: "text-xs text-gray-600 space-y-1"
+        className: "text-xs text-muted-foreground space-y-1"
       }, validation.issues.map((issue, index) => 
         React.createElement('li', { key: index }, `• ${issue}`)
       ))
     ]),
     React.createElement('div', {
       key: 'details',
-      className: "mt-3 text-xs text-gray-500"
+      className: "mt-3 text-xs text-muted-foreground"
     }, [
       React.createElement('p', { key: 'contrast' }, `Contrast: ${validation.contrast.ratio}:1 (${validation.contrast.level})`),
       React.createElement('p', { key: 'touch' }, `Touch target: ${validation.touchTarget.size}`),

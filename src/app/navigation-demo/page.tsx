@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AppSidebar } from '@/components/navigation/ShadcnSidebar';
-import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/navigation/app-sidebar';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppHeader } from '@/components/eka/app-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -48,19 +48,11 @@ export default function NavigationSystemDemo() {
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen bg-background">
-        <div className="flex h-screen">
-          {/* Shadc Sidebar - Only sidebar that remains */}
-          <AppSidebar />
-
-          {/* Main Content */}
-          <div className="flex-1 flex flex-col">
-            {/* Header */}
-            <AppHeader />
-
-            {/* Demo Content */}
-            <div className="flex-1 overflow-auto p-6">
-              <div className="max-w-6xl mx-auto space-y-6">
+      <AppSidebar />
+      <SidebarInset>
+        <AppHeader />
+        <div className="flex-1 overflow-auto p-6">
+          <div className="max-w-6xl mx-auto space-y-6">
                 {/* User Info Card */}
                 {user && (
                   <Card>
@@ -203,9 +195,7 @@ export default function NavigationSystemDemo() {
                 </Tabs>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+      </SidebarInset>
     </SidebarProvider>
   );
 }

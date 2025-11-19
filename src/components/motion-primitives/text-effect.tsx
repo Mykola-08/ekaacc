@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, Transition, Variants } from 'motion/react';
+import { motion, type Transition, type Variants } from 'framer-motion';
 import { ReactElement, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 

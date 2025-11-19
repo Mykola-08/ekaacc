@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { ReactNode, useState, createContext, useContext, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 

@@ -1,43 +1,48 @@
 import * as React from 'react'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-export interface MinimalButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
-  loading?: boolean;
+export interface MinimalButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
+  size?: 'sm' | 'md' | 'lg'
+  loading?: boolean
+}
+
+function mapVariant(v: MinimalButtonProps['variant']): React.ComponentProps<typeof Button>['variant'] {
+  switch (v) {
+    case 'secondary':
+      return 'secondary'
+    case 'outline':
+      return 'outline'
+    case 'ghost':
+      return 'ghost'
+    case 'primary':
+    default:
+      return 'default'
+  }
+}
+
+function mapSize(s: MinimalButtonProps['size']): React.ComponentProps<typeof Button>['size'] {
+  switch (s) {
+    case 'sm':
+      return 'sm'
+    case 'lg':
+      return 'lg'
+    case 'md':
+    default:
+      return 'default'
+  }
 }
 
 const MinimalButton = React.forwardRef<HTMLButtonElement, MinimalButtonProps>(
   ({ className, variant = 'primary', size = 'md', loading = false, children, disabled, ...props }, ref) => {
-    const baseClasses = 'inline-flex items-center justify-center font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
-    
-    const variantClasses = {
-      primary: 'bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-900 shadow-sm',
-      secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500',
-      outline: 'border border-gray-300 bg-white hover:bg-gray-50 focus:ring-gray-500',
-      ghost: 'bg-transparent hover:bg-gray-100 focus:ring-gray-500'
-    };
-    
-    const sizeClasses = {
-      sm: 'px-4 py-2 text-sm',
-      md: 'px-5 py-2.5 text-base',
-      lg: 'px-6 py-3 text-lg'
-    };
-    
     return (
-      <button
-        className={cn(
-          baseClasses,
-          variantClasses[variant],
-          sizeClasses[size],
-          'rounded-squircle',
-          (loading || disabled) && 'opacity-60 cursor-not-allowed transform-none',
-          'hover:scale-[1.02] active:scale-[0.98]',
-          className
-        )}
+      <Button
         ref={ref}
-        disabled={loading || disabled}
+        variant={mapVariant(variant)}
+        size={mapSize(size)}
+        className={cn(className)}
+        disabled={disabled || loading}
         {...props}
       >
         {loading && (
@@ -47,11 +52,11 @@ const MinimalButton = React.forwardRef<HTMLButtonElement, MinimalButtonProps>(
           </svg>
         )}
         {children}
-      </button>
-    );
+      </Button>
+    )
   }
-);
+)
 
-MinimalButton.displayName = 'MinimalButton';
+MinimalButton.displayName = 'MinimalButton'
 
-export { MinimalButton };
+export { MinimalButton }

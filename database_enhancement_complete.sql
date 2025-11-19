@@ -25,7 +25,26 @@ CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 -- =====================================================
--- STEP 2: Create Core Functions
+-- STEP 2: Drop Existing Functions (to avoid conflicts)
+-- =====================================================
+
+-- Drop advanced functions if they exist
+DROP FUNCTION IF EXISTS public.calculate_user_engagement_score(UUID);
+DROP FUNCTION IF EXISTS public.generate_personalized_recommendations(UUID);
+-- DROP FUNCTION IF EXISTS public.analyze_behavioral_patterns(UUID);
+DROP FUNCTION IF EXISTS public.monitor_wellness_alerts(UUID);
+DROP FUNCTION IF EXISTS public.process_real_time_mood_analysis(UUID);
+DROP FUNCTION IF EXISTS public.export_user_data_secure(UUID, TEXT);
+DROP FUNCTION IF EXISTS public.trigger_real_time_notification(TEXT, UUID, JSONB, TEXT);
+DROP FUNCTION IF EXISTS public.manage_user_session(UUID, TEXT, JSONB);
+
+-- Drop core functions if they exist
+-- DROP FUNCTION IF EXISTS public.update_updated_at_column();
+-- DROP FUNCTION IF EXISTS public.handle_new_user();
+DROP FUNCTION IF EXISTS public.check_user_permission(UUID, TEXT);
+
+-- =====================================================
+-- STEP 3: Create Core Functions
 -- =====================================================
 
 -- Function: Update updated_at timestamp
@@ -117,7 +136,7 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- =====================================================
--- STEP 3: Create Advanced Analytics Functions
+-- STEP 4: Create Advanced Analytics Functions
 -- =====================================================
 
 -- Function: Calculate user engagement score
@@ -143,9 +162,9 @@ BEGIN
     
     -- Calculate average session duration (in minutes)
     SELECT 
-        COALESCE(AVG(EXTRACT(EPOCH FROM (end_time - start_time))/60), 0)::INTEGER INTO avg_session_duration
+        COALESCE(AVG(duration), 0)::INTEGER INTO avg_session_duration
     FROM appointments 
-    WHERE user_id = p_user_id AND status = 'completed' AND end_time IS NOT NULL;
+    WHERE user_id = p_user_id AND status = 'completed' AND duration IS NOT NULL;
     
     -- Feature usage breakdown
     SELECT jsonb_build_object(
@@ -263,95 +282,6 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Function: Analyze behavioral patterns with ML insights
-CREATE OR REPLACE FUNCTION analyze_behavioral_patterns(p_user_id UUID)
-RETURNS JSONB AS $$
-DECLARE
-    analysis_data JSONB;
-    pattern_insights JSONB := '[]'::jsonb;
-    mood_trend JSONB;
-    activity_correlation JSONB;
-    risk_factors JSONB := '[]'::jsonb;
-BEGIN
-    -- Analyze mood trends over time
-    SELECT jsonb_build_object(
-        'trend', CASE 
-            WHEN AVG(mood_score) FILTER (WHERE logged_at > NOW() - INTERVAL '7 days') > 
-                 AVG(mood_score) FILTER (WHERE logged_at BETWEEN NOW() - INTERVAL '14 days' AND NOW() - INTERVAL '7 days') THEN 'improving'
-            WHEN AVG(mood_score) FILTER (WHERE logged_at > NOW() - INTERVAL '7 days') < 
-                 AVG(mood_score) FILTER (WHERE logged_at BETWEEN NOW() - INTERVAL '14 days' AND NOW() - INTERVAL '7 days') THEN 'declining'
-            ELSE 'stable'
-        END,
-        'volatility', STDDEV(mood_score)::DECIMAL(10,2),
-        'avg_recent', AVG(mood_score) FILTER (WHERE logged_at > NOW() - INTERVAL '7 days'),
-        'avg_previous', AVG(mood_score) FILTER (WHERE logged_at BETWEEN NOW() - INTERVAL '14 days' AND NOW() - INTERVAL '7 days'))
-    INTO mood_trend
-    FROM mood_logs WHERE user_id = p_user_id;
-    
-    -- Analyze activity correlations
-    SELECT jsonb_build_object(
-        'exercise_mood_correlation', 
-        CASE WHEN COUNT(*) FILTER (WHERE ue.completed_at IS NOT NULL) > 0 THEN
-            CORR(ue.mood_score_after, ml.mood_score)
-        ELSE 0 END,
-        'journal_frequency', COUNT(*) FILTER (WHERE je.created_at > NOW() - INTERVAL '7 days')::DECIMAL / 7,
-        'appointment_attendance_rate',
-        CASE WHEN COUNT(*) > 0 THEN 
-            COUNT(*) FILTER (WHERE a.status = 'completed')::DECIMAL / COUNT(*) * 100
-        ELSE 0 END)
-    INTO activity_correlation
-    FROM appointments a
-    LEFT JOIN user_exercise_completions ue ON ue.user_id = a.user_id
-    LEFT JOIN mood_logs ml ON ml.user_id = a.user_id
-    LEFT JOIN journal_entries je ON je.user_id = a.user_id
-    WHERE a.user_id = p_user_id;
-    
-    -- Identify risk factors
-    IF mood_trend->>'trend' = 'declining' AND (mood_trend->>'volatility')::DECIMAL > 2 THEN
-        risk_factors := risk_factors || jsonb_build_object(
-            'type', 'mood_instability',
-            'severity', 'moderate',
-            'description', 'Significant mood decline with high volatility detected'
-        );
-    END IF;
-    
-    IF (activity_correlation->>'appointment_attendance_rate')::DECIMAL < 50 THEN
-        risk_factors := risk_factors || jsonb_build_object(
-            'type', 'low_engagement',
-            'severity', 'mild',
-            'description', 'Low appointment attendance may indicate engagement issues'
-        );
-    END IF;
-    
-    -- Generate pattern insights
-    pattern_insights := pattern_insights || jsonb_build_object(
-        'type', 'mood_trend_analysis',
-        'data', mood_trend,
-        'confidence', 0.85
-    );
-    
-    pattern_insights := pattern_insights || jsonb_build_object(
-        'type', 'activity_correlation',
-        'data', activity_correlation,
-        'confidence', 0.75
-    );
-    
-    RETURN jsonb_build_object(
-        'user_id', p_user_id,
-        'analysis_timestamp', NOW(),
-        'mood_trend', mood_trend,
-        'activity_correlation', activity_correlation,
-        'risk_factors', risk_factors,
-        'pattern_insights', pattern_insights,
-        'recommendations', CASE 
-            WHEN risk_factors != '[]'::jsonb THEN 
-                ARRAY['Schedule check-in session', 'Increase monitoring frequency', 'Consider intervention']
-            ELSE ARRAY['Continue current routine', 'Maintain regular check-ins']
-        END
-    );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
 -- Function: Real-time wellness monitoring
 CREATE OR REPLACE FUNCTION monitor_wellness_alerts(p_user_id UUID)
 RETURNS JSONB AS $$
@@ -393,8 +323,8 @@ BEGIN
     -- Check for long gaps between appointments
     SELECT 
         CASE 
-            WHEN MAX(start_time) IS NULL THEN 999
-            ELSE DATE_PART('day', NOW() - MAX(start_time))
+            WHEN MAX(date) IS NULL THEN 999
+            ELSE DATE_PART('day', NOW() - MAX(date)::timestamp)
         END INTO appointment_gap_days
     FROM appointments 
     WHERE user_id = p_user_id AND status = 'completed';
@@ -516,21 +446,21 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- =====================================================
--- STEP 4: Create Advanced Performance Indexes
+-- STEP 5: Create Advanced Performance Indexes
 -- =====================================================
 
 -- Basic performance indexes
 CREATE INDEX IF NOT EXISTS idx_user_interactions_user_timestamp_desc ON public.user_interactions(user_id, timestamp DESC);
 CREATE INDEX IF NOT EXISTS idx_mood_logs_user_logged_at_desc ON public.mood_logs(user_id, logged_at DESC);
 CREATE INDEX IF NOT EXISTS idx_journal_entries_user_created_desc ON public.journal_entries(user_id, created_at DESC);
-CREATE INDEX IF NOT EXISTS idx_appointments_user_start_time_asc ON public.appointments(user_id, start_time ASC);
-CREATE INDEX IF NOT EXISTS idx_wallet_transactions_user_created_desc ON public.wallet_transactions(user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_appointments_user_date_asc ON public.appointments(user_id, date ASC);
+CREATE INDEX IF NOT EXISTS idx_wallet_transactions_wallet_created_desc ON public.wallet_transactions(wallet_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_notifications_user_read_created_desc ON public.notifications(user_id, is_read, created_at DESC);
 
 -- Analytics-optimized indexes
-CREATE INDEX IF NOT EXISTS idx_mood_logs_date_score ON public.mood_logs(DATE(logged_at), mood_score);
-CREATE INDEX IF NOT EXISTS idx_user_interactions_date_type ON public.user_interactions(DATE(timestamp), interaction_type);
-CREATE INDEX IF NOT EXISTS idx_appointments_date_status ON public.appointments(DATE(start_time), status);
+CREATE INDEX IF NOT EXISTS idx_mood_logs_date_score ON public.mood_logs(logged_at, mood_score);
+CREATE INDEX IF NOT EXISTS idx_user_interactions_date_type ON public.user_interactions(timestamp, interaction_type);
+CREATE INDEX IF NOT EXISTS idx_appointments_date_status ON public.appointments(date, status);
 
 -- Partial indexes for common filtered queries
 CREATE INDEX IF NOT EXISTS idx_appointments_scheduled ON public.appointments(status) WHERE status = 'scheduled';
@@ -541,8 +471,8 @@ CREATE INDEX IF NOT EXISTS idx_ai_insights_active ON public.ai_insights(is_activ
 -- Full-text search indexes with custom configurations
 CREATE INDEX IF NOT EXISTS idx_journal_entries_content_english ON public.journal_entries USING gin(to_tsvector('english', content));
 CREATE INDEX IF NOT EXISTS idx_journal_entries_title_english ON public.journal_entries USING gin(to_tsvector('english', title));
-CREATE INDEX IF NOT EXISTS idx_messages_content_english ON public.messages USING gin(to_tsvector('english', content));
-CREATE INDEX IF NOT EXISTS idx_messages_subject_english ON public.messages USING gin(to_tsvector('english', subject));
+CREATE INDEX IF NOT EXISTS idx_messages_content_english ON public.direct_messages USING gin(to_tsvector('english', content));
+CREATE INDEX IF NOT EXISTS idx_messages_subject_english ON public.direct_messages USING gin(to_tsvector('english', subject));
 
 -- JSONB indexes for metadata queries
 CREATE INDEX IF NOT EXISTS idx_user_settings_preferences_gin ON public.user_settings USING gin(preferences);
@@ -550,105 +480,7 @@ CREATE INDEX IF NOT EXISTS idx_ai_insights_metadata_gin ON public.ai_insights US
 CREATE INDEX IF NOT EXISTS user_interactions_metadata_gin ON public.user_interactions USING gin(metadata);
 
 -- =====================================================
--- STEP 5: Create Essential Tables (if they don't exist)
--- =====================================================
-
--- Create user_profiles table if it doesn't exist
-CREATE TABLE IF NOT EXISTS public.user_profiles (
-    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    avatar_url TEXT,
-    bio TEXT,
-    date_of_birth DATE,
-    gender VARCHAR(20),
-    location VARCHAR(100),
-    phone VARCHAR(20),
-    is_verified BOOLEAN DEFAULT false,
-    verification_level INTEGER DEFAULT 0,
-    last_login_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Create mood_logs table if it doesn't exist
-CREATE TABLE IF NOT EXISTS public.mood_logs (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES public.user_profiles(id) ON DELETE CASCADE,
-    mood VARCHAR(50) NOT NULL,
-    mood_score INTEGER NOT NULL CHECK (mood_score >= 1 AND mood_score <= 10),
-    energy_level INTEGER CHECK (energy_level >= 1 AND energy_level <= 10),
-    stress_level INTEGER CHECK (stress_level >= 1 AND stress_level <= 10),
-    sleep_quality INTEGER CHECK (sleep_quality >= 1 AND sleep_quality <= 10),
-    notes TEXT,
-    factors TEXT[],
-    tags TEXT[],
-    metadata JSONB DEFAULT '{}'::jsonb,
-    logged_at TIMESTAMPTZ DEFAULT NOW(),
-    created_at TIMESTAMPTZ DEFAULT NOW(),
-    updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Create user_interactions table if it doesn't exist
-CREATE TABLE IF NOT EXISTS public.user_interactions (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES public.user_profiles(id) ON DELETE CASCADE,
-    interaction_type VARCHAR(50) NOT NULL,
-    page_path TEXT,
-    element_id TEXT,
-    element_text TEXT,
-    metadata JSONB DEFAULT '{}'::jsonb,
-    session_id TEXT,
-    device_type TEXT,
-    user_agent TEXT,
-    referrer TEXT,
-    timestamp TIMESTAMPTZ DEFAULT NOW(),
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Create notifications table if it doesn't exist
-CREATE TABLE IF NOT EXISTS public.notifications (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    user_id UUID NOT NULL REFERENCES public.user_profiles(id) ON DELETE CASCADE,
-    type VARCHAR(50) NOT NULL,
-    title VARCHAR(200) NOT NULL,
-    message TEXT NOT NULL,
-    payload JSONB DEFAULT '{}'::jsonb,
-    priority VARCHAR(20) DEFAULT 'medium',
-    is_read BOOLEAN DEFAULT false,
-    read_at TIMESTAMPTZ,
-    expires_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- =====================================================
--- STEP 6: Create Triggers
--- =====================================================
-
--- Trigger: Handle new user creation
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-CREATE TRIGGER on_auth_user_created
-    AFTER INSERT ON auth.users
-    FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
-
--- Trigger: Update timestamps on user_profiles
-CREATE TRIGGER update_user_profiles_updated_at BEFORE UPDATE ON public.user_profiles
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
--- Trigger: Update timestamps on mood_logs
-CREATE TRIGGER update_mood_logs_updated_at BEFORE UPDATE ON public.mood_logs
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
--- Trigger: Update timestamps on user_interactions
-CREATE TRIGGER update_user_interactions_updated_at BEFORE UPDATE ON public.user_interactions
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
--- Trigger: Update timestamps on notifications
-CREATE TRIGGER update_notifications_updated_at BEFORE UPDATE ON public.notifications
-    FOR EACH ROW EXECUTE FUNCTION public.update_updated_at_column();
-
--- =====================================================
--- STEP 7: Grant Permissions
+-- STEP 6: Grant Permissions
 -- =====================================================
 
 -- Grant usage on schema
@@ -675,19 +507,19 @@ GRANT EXECUTE ON FUNCTION public.handle_new_user() TO authenticated;
 GRANT EXECUTE ON FUNCTION public.check_user_permission(UUID, TEXT) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.calculate_user_engagement_score(UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.generate_personalized_recommendations(UUID) TO authenticated;
-GRANT EXECUTE ON FUNCTION public.analyze_behavioral_patterns(UUID) TO authenticated;
+-- GRANT EXECUTE ON FUNCTION public.analyze_behavioral_patterns(UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.monitor_wellness_alerts(UUID) TO authenticated;
 GRANT EXECUTE ON FUNCTION public.process_real_time_mood_analysis(UUID) TO authenticated;
 
 -- =====================================================
--- STEP 8: Final Optimization
+-- STEP 7: Final Optimization
 -- =====================================================
 
 -- Run VACUUM ANALYZE for optimal performance
-VACUUM ANALYZE;
+-- VACUUM ANALYZE;
 
 -- =====================================================
--- STEP 9: Verification Queries
+-- STEP 8: Verification Queries
 -- =====================================================
 
 -- Test the functions with sample queries:

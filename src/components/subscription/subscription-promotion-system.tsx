@@ -8,8 +8,17 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
-  Heart, 
+  Heart,  
   Gift, 
   Star, 
   TrendingUp, 
@@ -391,27 +400,30 @@ export default function SubscriptionPromotionSystem() {
                           </div>
                           
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Employment Status</label>
-                            <select
-                              className="w-full px-3 py-2 border rounded-md"
+                            <Label>Employment Status</Label>
+                            <Select
                               value={donationApplication.employmentStatus || ''}
-                              onChange={(e) => setDonationApplication(prev => ({ ...prev, employmentStatus: e.target.value }))}
+                              onValueChange={(value) => setDonationApplication(prev => ({ ...prev, employmentStatus: value }))}
                             >
-                              <option value="">Select status</option>
-                              <option value="unemployed">Unemployed</option>
-                              <option value="part-time">Part-time</option>
-                              <option value="full-time">Full-time</option>
-                              <option value="self-employed">Self-employed</option>
-                              <option value="student">Student</option>
-                              <option value="disabled">Disabled</option>
-                              <option value="retired">Retired</option>
-                            </select>
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="unemployed">Unemployed</SelectItem>
+                                <SelectItem value="part-time">Part-time</SelectItem>
+                                <SelectItem value="full-time">Full-time</SelectItem>
+                                <SelectItem value="self-employed">Self-employed</SelectItem>
+                                <SelectItem value="student">Student</SelectItem>
+                                <SelectItem value="disabled">Disabled</SelectItem>
+                                <SelectItem value="retired">Retired</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                           
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Reason for Application</label>
-                            <textarea
-                              className="w-full px-3 py-2 border rounded-md min-h-[100px]"
+                            <Label>Reason for Application</Label>
+                            <Textarea
+                              className="min-h-[100px]"
                               placeholder="Please describe your financial situation and why you need assistance..."
                               value={donationApplication.reasonForApplication || ''}
                               onChange={(e) => setDonationApplication(prev => ({ ...prev, reasonForApplication: e.target.value }))}
@@ -419,17 +431,20 @@ export default function SubscriptionPromotionSystem() {
                           </div>
                           
                           <div className="space-y-2">
-                            <label className="text-sm font-medium">Urgency Level</label>
-                            <select
-                              className="w-full px-3 py-2 border rounded-md"
+                            <Label>Urgency Level</Label>
+                            <Select
                               value={donationApplication.urgencyLevel || ''}
-                              onChange={(e) => setDonationApplication(prev => ({ ...prev, urgencyLevel: e.target.value as 'low' | 'medium' | 'high' }))}
+                              onValueChange={(value) => setDonationApplication(prev => ({ ...prev, urgencyLevel: value as 'low' | 'medium' | 'high' }))}
                             >
-                              <option value="">Select urgency</option>
-                              <option value="low">Low - Can wait 2-4 weeks</option>
-                              <option value="medium">Medium - Need help within 1-2 weeks</option>
-                              <option value="high">High - Need immediate assistance</option>
-                            </select>
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Select urgency" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="low">Low - Can wait 2-4 weeks</SelectItem>
+                                <SelectItem value="medium">Medium - Need help within 1-2 weeks</SelectItem>
+                                <SelectItem value="high">High - Need immediate assistance</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
                           
                           <div className="flex justify-end space-x-3 pt-4">

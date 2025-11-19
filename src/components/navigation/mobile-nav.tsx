@@ -58,14 +58,15 @@ export function MobileNav() {
 
         <Dialog open={showFullVersionDialog} onOpenChange={setShowFullVersionDialog}>
           <DialogTrigger asChild>
-            <button
+            <Button
+              variant="ghost"
               className={cn(
-                "flex flex-col items-center justify-center gap-1 rounded-md p-2 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                "flex flex-col items-center justify-center gap-1 rounded-md p-2 h-auto text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-muted-foreground"
               )}
             >
               <Monitor className="h-5 w-5" />
               <span>Full Ver</span>
-            </button>
+            </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>

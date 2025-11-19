@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
@@ -67,9 +68,12 @@ export function RoleChanger() {
         </Button>
       ))}
       {selectedRole === "Patient" && (
-        <label className="ml-4 flex items-center gap-2">
-          <input type="checkbox" checked={isDonationSeeker} onChange={e => handleDonationSeeker(e.target.checked)} />
-          <span>Donation Seeker</span>
+        <label className="ml-4 flex items-center gap-2 cursor-pointer">
+          <Checkbox 
+            checked={isDonationSeeker} 
+            onCheckedChange={(checked) => handleDonationSeeker(checked as boolean)} 
+          />
+          <span className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Donation Seeker</span>
         </label>
       )}
     </div>

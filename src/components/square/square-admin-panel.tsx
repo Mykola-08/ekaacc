@@ -8,6 +8,13 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { 
   Loader2, 
   RefreshCw, 
@@ -297,15 +304,18 @@ export function SquareAdminPanel({ className }: SquareAdminPanelProps) {
 
               <div className="space-y-2">
                 <Label htmlFor="environment">Environment</Label>
-                <select
-                  id="environment"
+                <Select
                   value={config.environment}
-                  onChange={(e) => setConfig(prev => ({ ...prev, environment: e.target.value as 'Sandbox' | 'Production' }))}
-                  className="w-full px-3 py-2 border rounded-md bg-background"
+                  onValueChange={(value) => setConfig(prev => ({ ...prev, environment: value as 'Sandbox' | 'Production' }))}
                 >
-                  <option value="Sandbox">Sandbox</option>
-                  <option value="Production">Production</option>
-                </select>
+                  <SelectTrigger id="environment" className="w-full">
+                    <SelectValue placeholder="Select environment" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Sandbox">Sandbox</SelectItem>
+                    <SelectItem value="Production">Production</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">

@@ -11,14 +11,16 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { subject, content, groupId } = await request.json();
+  const { subject, content, groupId, topic, templateData } = await request.json();
 
   try {
     const result = await BroadcastService.sendBroadcast(
       subject,
       content,
+      topic || 'general',
       groupId,
-      user.id
+      user.id,
+      templateData
     );
     return NextResponse.json(result);
   } catch (error: any) {

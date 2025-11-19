@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Heart, Users, Shield, Sparkles, TrendingUp, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 const features = [
   {
@@ -113,10 +114,10 @@ export default function PremiumFeatures() {
               <h3 className="text-lg font-semibold text-foreground">Ready to begin your journey?</h3>
               <p className="text-muted-foreground">Join thousands who have transformed their mental wellness</p>
             </div>
-            <button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-primary-foreground font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
+            <Button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-primary-foreground font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
               Get Started Now
               <ArrowRight className="h-5 w-5" />
-            </button>
+            </Button>
           </div>
         </motion.div>
       </div>

@@ -9,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "pg_trgm";
 -- ==================== WALLET AND PAYMENT SYSTEM ====================
 
 -- Wallets table for user financial accounts
-CREATE TABLE wallets (
+CREATE TABLE IF NOT EXISTS wallets (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     balance DECIMAL(10,2) NOT NULL DEFAULT 0.00 CHECK (balance >= 0),
@@ -25,7 +25,7 @@ CREATE TABLE wallets (
 );
 
 -- Wallet transactions for tracking all financial movements
-CREATE TABLE wallet_transactions (
+CREATE TABLE IF NOT EXISTS wallet_transactions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     wallet_id UUID NOT NULL REFERENCES wallets(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -39,7 +39,7 @@ CREATE TABLE wallet_transactions (
 );
 
 -- Purchasable items catalog
-CREATE TABLE purchasable_items (
+CREATE TABLE IF NOT EXISTS purchasable_items (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     type VARCHAR(50) NOT NULL CHECK (type IN ('session', 'subscription', 'resource', 'tool', 'course')),
     name VARCHAR(200) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE purchasable_items (
 );
 
 -- User purchases tracking
-CREATE TABLE purchases (
+CREATE TABLE IF NOT EXISTS purchases (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     item_id UUID NOT NULL REFERENCES purchasable_items(id),
@@ -71,7 +71,7 @@ CREATE TABLE purchases (
 );
 
 -- Payment requests for manual payment processing (Bizum, Cash)
-CREATE TABLE payment_requests (
+CREATE TABLE IF NOT EXISTS payment_requests (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     user_name VARCHAR(200) NOT NULL,
@@ -97,14 +97,14 @@ CREATE TABLE payment_requests (
 -- ==================== USER PROFILES AND ROLES ====================
 
 -- User profiles extension
-CREATE TABLE user_profiles (
+CREATE TABLE IF NOT EXISTS user_profiles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     full_name VARCHAR(200) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(20),
     date_of_birth DATE,
-    gender VARCHAR(10) CHECK (gender IN ('male', 'female', 'other', 'prefer_not_to_say')),
+    gender VARCHAR(20) CHECK (gender IN ('male', 'female', 'other', 'prefer_not_to_say')),
     avatar_url TEXT,
     bio TEXT,
     location VARCHAR(200),
@@ -126,7 +126,7 @@ CREATE TABLE user_profiles (
 );
 
 -- User roles system
-CREATE TABLE user_roles (
+CREATE TABLE IF NOT EXISTS user_roles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     role VARCHAR(50) NOT NULL CHECK (role IN ('patient', 'therapist', 'admin', 'super_admin')),
@@ -142,7 +142,7 @@ CREATE TABLE user_roles (
 );
 
 -- Custom roles for flexible permission system
-CREATE TABLE custom_roles (
+CREATE TABLE IF NOT EXISTS custom_roles (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(100) NOT NULL UNIQUE,
     description TEXT,
@@ -154,7 +154,7 @@ CREATE TABLE custom_roles (
 );
 
 -- Role assignment audit log
-CREATE TABLE role_assignments_log (
+CREATE TABLE IF NOT EXISTS role_assignments_log (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     action VARCHAR(20) NOT NULL CHECK (action IN ('assigned', 'revoked', 'updated')),
@@ -169,7 +169,7 @@ CREATE TABLE role_assignments_log (
 -- ==================== TIER AND SUBSCRIPTION SYSTEM ====================
 
 -- User tiers for loyalty/VIP programs
-CREATE TABLE user_tiers (
+CREATE TABLE IF NOT EXISTS user_tiers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     tier_type VARCHAR(20) NOT NULL CHECK (tier_type IN ('free', 'loyal', 'vip')),
@@ -187,7 +187,7 @@ CREATE TABLE user_tiers (
 );
 
 -- Tier assignment audit log
-CREATE TABLE tier_audit_logs (
+CREATE TABLE IF NOT EXISTS tier_audit_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     action VARCHAR(20) NOT NULL CHECK (action IN ('assigned', 'revoked', 'updated')),
@@ -200,7 +200,7 @@ CREATE TABLE tier_audit_logs (
 );
 
 -- Subscription tiers configuration
-CREATE TABLE subscription_tiers (
+CREATE TABLE IF NOT EXISTS subscription_tiers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(100) NOT NULL UNIQUE,
     type VARCHAR(20) NOT NULL CHECK (type IN ('free', 'loyal', 'vip')),
@@ -216,7 +216,7 @@ CREATE TABLE subscription_tiers (
 );
 
 -- Subscription usage tracking
-CREATE TABLE subscription_usage (
+CREATE TABLE IF NOT EXISTS subscription_usage (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     subscription_id UUID NOT NULL REFERENCES subscriptions(id) ON DELETE CASCADE,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -235,7 +235,7 @@ CREATE TABLE subscription_usage (
 -- ==================== BEHAVIORAL TRACKING AND ANALYTICS ====================
 
 -- User interactions tracking
-CREATE TABLE user_interactions (
+CREATE TABLE IF NOT EXISTS user_interactions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     interaction_type VARCHAR(50) NOT NULL CHECK (interaction_type IN ('page_view', 'click', 'scroll', 'form_submit', 'video_play', 'download', 'share')),
@@ -252,7 +252,7 @@ CREATE TABLE user_interactions (
 );
 
 -- Behavioral patterns analysis
-CREATE TABLE behavioral_patterns (
+CREATE TABLE IF NOT EXISTS behavioral_patterns (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     pattern_type VARCHAR(50) NOT NULL CHECK (pattern_type IN ('engagement_decline', 'high_activity', 'session_abandonment', 'feature_adoption', 'retention_risk')),
@@ -267,7 +267,7 @@ CREATE TABLE behavioral_patterns (
 );
 
 -- Predictive insights for user behavior
-CREATE TABLE predictive_insights (
+CREATE TABLE IF NOT EXISTS predictive_insights (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     insight_type VARCHAR(50) NOT NULL CHECK (insight_type IN ('churn_risk', 'upgrade_likelihood', 'engagement_boost', 'wellness_decline', 'therapy_progress')),
@@ -285,7 +285,7 @@ CREATE TABLE predictive_insights (
 -- ==================== AI PERSONALIZATION ====================
 
 -- AI personalization profiles
-CREATE TABLE ai_personalization_profiles (
+CREATE TABLE IF NOT EXISTS ai_personalization_profiles (
     user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     behavior_patterns JSONB NOT NULL DEFAULT '{}',
     preferences JSONB NOT NULL DEFAULT '{}',
@@ -296,7 +296,7 @@ CREATE TABLE ai_personalization_profiles (
 );
 
 -- AI generated insights
-CREATE TABLE ai_insights (
+CREATE TABLE IF NOT EXISTS ai_insights (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     insight_id VARCHAR(100) NOT NULL,
@@ -315,7 +315,7 @@ CREATE TABLE ai_insights (
 -- ==================== BILLING AND INVOICING ====================
 
 -- Billing transactions
-CREATE TABLE billing_transactions (
+CREATE TABLE IF NOT EXISTS billing_transactions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     amount DECIMAL(10,2) NOT NULL CHECK (amount != 0),
@@ -332,7 +332,7 @@ CREATE TABLE billing_transactions (
 );
 
 -- Billing invoices
-CREATE TABLE billing_invoices (
+CREATE TABLE IF NOT EXISTS billing_invoices (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     invoice_number VARCHAR(50) NOT NULL UNIQUE,
@@ -352,7 +352,7 @@ CREATE TABLE billing_invoices (
 -- ==================== NOTIFICATIONS AND SETTINGS ====================
 
 -- Notifications system
-CREATE TABLE notifications (
+CREATE TABLE IF NOT EXISTS notifications (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     type VARCHAR(50) NOT NULL CHECK (type IN ('info', 'warning', 'error', 'success', 'reminder')),
@@ -368,7 +368,7 @@ CREATE TABLE notifications (
 );
 
 -- User settings
-CREATE TABLE user_settings (
+CREATE TABLE IF NOT EXISTS user_settings (
     user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
     preferences JSONB NOT NULL DEFAULT '{}', -- User preferences object
     privacy_settings JSONB NOT NULL DEFAULT '{}',
@@ -382,7 +382,7 @@ CREATE TABLE user_settings (
 -- ==================== CONTENT AND ACTIVITY TABLES ====================
 
 -- Appointments system
-CREATE TABLE appointments (
+CREATE TABLE IF NOT EXISTS appointments (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     therapist_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
@@ -404,7 +404,7 @@ CREATE TABLE appointments (
 );
 
 -- User reports and assessments
-CREATE TABLE reports (
+CREATE TABLE IF NOT EXISTS reports (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     type VARCHAR(50) NOT NULL CHECK (type IN ('progress', 'assessment', 'summary', 'discharge')),
@@ -419,7 +419,7 @@ CREATE TABLE reports (
 );
 
 -- Journal entries
-CREATE TABLE journal_entries (
+CREATE TABLE IF NOT EXISTS journal_entries (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     title VARCHAR(200),
@@ -435,7 +435,7 @@ CREATE TABLE journal_entries (
 );
 
 -- User goals
-CREATE TABLE goals (
+CREATE TABLE IF NOT EXISTS goals (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     title VARCHAR(200) NOT NULL,
@@ -452,12 +452,12 @@ CREATE TABLE goals (
 );
 
 -- Exercises and activities
-CREATE TABLE exercises (
+CREATE TABLE IF NOT EXISTS exercises (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     title VARCHAR(200) NOT NULL,
     description TEXT,
     category VARCHAR(50) DEFAULT 'general' CHECK (category IN ('mindfulness', 'cognitive', 'physical', 'breathing', 'journaling', 'general')),
-    difficulty_level VARCHAR(10) DEFAULT 'beginner' CHECK (difficulty_level IN ('beginner', 'intermediate', 'advanced')),
+    difficulty_level VARCHAR(20) DEFAULT 'beginner' CHECK (difficulty_level IN ('beginner', 'intermediate', 'advanced')),
     duration_minutes INTEGER CHECK (duration_minutes > 0),
     instructions TEXT,
     media_urls JSONB DEFAULT '[]', -- Array of media URLs
@@ -468,7 +468,7 @@ CREATE TABLE exercises (
 );
 
 -- User exercise completions
-CREATE TABLE user_exercise_completions (
+CREATE TABLE IF NOT EXISTS user_exercise_completions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     exercise_id UUID NOT NULL REFERENCES exercises(id),
@@ -483,7 +483,7 @@ CREATE TABLE user_exercise_completions (
 );
 
 -- Messages and communications
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS direct_messages (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     sender_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     recipient_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -500,7 +500,7 @@ CREATE TABLE messages (
 );
 
 -- Donations tracking
-CREATE TABLE donations (
+CREATE TABLE IF NOT EXISTS donations (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     donor_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     recipient_id UUID REFERENCES auth.users(id) ON DELETE SET NULL, -- Optional recipient
@@ -516,7 +516,7 @@ CREATE TABLE donations (
 );
 
 -- Assessments and evaluations
-CREATE TABLE assessments (
+CREATE TABLE IF NOT EXISTS assessments (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     title VARCHAR(200) NOT NULL,
@@ -534,7 +534,7 @@ CREATE TABLE assessments (
 );
 
 -- Templates for various content types
-CREATE TABLE templates (
+CREATE TABLE IF NOT EXISTS templates (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(200) NOT NULL,
     type VARCHAR(50) NOT NULL CHECK (type IN ('assessment', 'report', 'exercise', 'message', 'form')),
@@ -550,7 +550,7 @@ CREATE TABLE templates (
 );
 
 -- Products for e-commerce integration
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(200) NOT NULL,
     description TEXT,
@@ -566,7 +566,7 @@ CREATE TABLE products (
 );
 
 -- Mood tracking
-CREATE TABLE mood_logs (
+CREATE TABLE IF NOT EXISTS mood_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     mood VARCHAR(20) NOT NULL CHECK (mood IN ('excellent', 'good', 'neutral', 'bad', 'terrible')),
@@ -585,7 +585,7 @@ CREATE TABLE mood_logs (
 -- ==================== AUDIT AND SYSTEM LOGGING ====================
 
 -- Audit logs for compliance and tracking
-CREATE TABLE audit_logs (
+CREATE TABLE IF NOT EXISTS audit_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     action VARCHAR(100) NOT NULL,
@@ -602,7 +602,7 @@ CREATE TABLE audit_logs (
 );
 
 -- System logs for application monitoring
-CREATE TABLE system_logs (
+CREATE TABLE IF NOT EXISTS system_logs (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     level VARCHAR(10) NOT NULL CHECK (level IN ('debug', 'info', 'warn', 'error', 'fatal')),
     message TEXT NOT NULL,
@@ -619,68 +619,68 @@ CREATE TABLE system_logs (
 -- ==================== INDEXES FOR PERFORMANCE ====================
 
 -- Wallet indexes
-CREATE INDEX idx_wallets_user_id ON wallets(user_id);
-CREATE INDEX idx_wallets_is_active ON wallets(is_active);
-CREATE INDEX idx_wallet_transactions_wallet_id ON wallet_transactions(wallet_id);
-CREATE INDEX idx_wallet_transactions_user_id ON wallet_transactions(user_id);
-CREATE INDEX idx_wallet_transactions_created_at ON wallet_transactions(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_wallets_user_id ON wallets(user_id);
+CREATE INDEX IF NOT EXISTS idx_wallets_is_active ON wallets(is_active);
+CREATE INDEX IF NOT EXISTS idx_wallet_transactions_wallet_id ON wallet_transactions(wallet_id);
+-- CREATE INDEX IF NOT EXISTS idx_wallet_transactions_user_id ON wallet_transactions(user_id);
+CREATE INDEX IF NOT EXISTS idx_wallet_transactions_created_at ON wallet_transactions(created_at DESC);
 
 -- Payment indexes
-CREATE INDEX idx_payment_requests_user_id ON payment_requests(user_id);
-CREATE INDEX idx_payment_requests_status ON payment_requests(status);
-CREATE INDEX idx_payment_requests_created_at ON payment_requests(created_at DESC);
-CREATE INDEX idx_purchases_user_id ON purchases(user_id);
-CREATE INDEX idx_purchases_status ON purchases(status);
+CREATE INDEX IF NOT EXISTS idx_payment_requests_user_id ON payment_requests(user_id);
+CREATE INDEX IF NOT EXISTS idx_payment_requests_status ON payment_requests(status);
+CREATE INDEX IF NOT EXISTS idx_payment_requests_created_at ON payment_requests(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_purchases_user_id ON purchases(user_id);
+CREATE INDEX IF NOT EXISTS idx_purchases_status ON purchases(status);
 
 -- User management indexes
-CREATE INDEX idx_user_profiles_user_id ON user_profiles(user_id);
-CREATE INDEX idx_user_profiles_email ON user_profiles(email);
-CREATE INDEX idx_user_roles_user_id ON user_roles(user_id);
-CREATE INDEX idx_user_roles_role ON user_roles(role);
-CREATE INDEX idx_role_assignments_log_user_id ON role_assignments_log(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_user_id ON user_profiles(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles(email);
+CREATE INDEX IF NOT EXISTS idx_user_roles_user_id ON user_roles(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_roles_role ON user_roles(role);
+CREATE INDEX IF NOT EXISTS idx_role_assignments_log_user_id ON role_assignments_log(user_id);
 
 -- Tier and subscription indexes
-CREATE INDEX idx_user_tiers_user_id ON user_tiers(user_id);
-CREATE INDEX idx_user_tiers_tier_type ON user_tiers(tier_type);
-CREATE INDEX idx_tier_audit_logs_user_id ON tier_audit_logs(user_id);
-CREATE INDEX idx_subscription_usage_user_id ON subscription_usage(user_id);
-CREATE INDEX idx_subscription_usage_period ON subscription_usage(period_start, period_end);
+CREATE INDEX IF NOT EXISTS idx_user_tiers_user_id ON user_tiers(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_tiers_tier_type ON user_tiers(tier_type);
+CREATE INDEX IF NOT EXISTS idx_tier_audit_logs_user_id ON tier_audit_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_subscription_usage_user_id ON subscription_usage(user_id);
+CREATE INDEX IF NOT EXISTS idx_subscription_usage_period ON subscription_usage(period_start, period_end);
 
 -- Behavioral tracking indexes
-CREATE INDEX idx_user_interactions_user_id ON user_interactions(user_id);
-CREATE INDEX idx_user_interactions_timestamp ON user_interactions(timestamp DESC);
-CREATE INDEX idx_user_interactions_type ON user_interactions(interaction_type);
-CREATE INDEX idx_behavioral_patterns_user_id ON behavioral_patterns(user_id);
-CREATE INDEX idx_behavioral_patterns_type ON behavioral_patterns(pattern_type);
-CREATE INDEX idx_predictive_insights_user_id ON predictive_insights(user_id);
-CREATE INDEX idx_predictive_insights_type ON predictive_insights(insight_type);
+CREATE INDEX IF NOT EXISTS idx_user_interactions_user_id ON user_interactions(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_interactions_timestamp ON user_interactions(timestamp DESC);
+CREATE INDEX IF NOT EXISTS idx_user_interactions_type ON user_interactions(interaction_type);
+CREATE INDEX IF NOT EXISTS idx_behavioral_patterns_user_id ON behavioral_patterns(user_id);
+CREATE INDEX IF NOT EXISTS idx_behavioral_patterns_type ON behavioral_patterns(pattern_type);
+CREATE INDEX IF NOT EXISTS idx_predictive_insights_user_id ON predictive_insights(user_id);
+CREATE INDEX IF NOT EXISTS idx_predictive_insights_type ON predictive_insights(insight_type);
 
 -- AI personalization indexes
-CREATE INDEX idx_ai_insights_user_id ON ai_insights(user_id);
-CREATE INDEX idx_ai_insights_type ON ai_insights(type);
+CREATE INDEX IF NOT EXISTS idx_ai_insights_user_id ON ai_insights(user_id);
+CREATE INDEX IF NOT EXISTS idx_ai_insights_type ON ai_insights(type);
 
 -- Content and activity indexes
-CREATE INDEX idx_appointments_user_id ON appointments(user_id);
-CREATE INDEX idx_appointments_therapist_id ON appointments(therapist_id);
-CREATE INDEX idx_appointments_start_time ON appointments(start_time);
-CREATE INDEX idx_appointments_status ON appointments(status);
-CREATE INDEX idx_journal_entries_user_id ON journal_entries(user_id);
-CREATE INDEX idx_journal_entries_created_at ON journal_entries(created_at DESC);
-CREATE INDEX idx_goals_user_id ON goals(user_id);
-CREATE INDEX idx_goals_status ON goals(status);
-CREATE INDEX idx_messages_sender_id ON messages(sender_id);
-CREATE INDEX idx_messages_recipient_id ON messages(recipient_id);
-CREATE INDEX idx_messages_created_at ON messages(created_at DESC);
-CREATE INDEX idx_mood_logs_user_id ON mood_logs(user_id);
-CREATE INDEX idx_mood_logs_logged_at ON mood_logs(logged_at DESC);
+CREATE INDEX IF NOT EXISTS idx_appointments_user_id ON appointments(user_id);
+-- CREATE INDEX IF NOT EXISTS idx_appointments_therapist_id ON appointments(therapist_id);
+-- CREATE INDEX IF NOT EXISTS idx_appointments_start_time ON appointments(start_time);
+CREATE INDEX IF NOT EXISTS idx_appointments_status ON appointments(status);
+CREATE INDEX IF NOT EXISTS idx_journal_entries_user_id ON journal_entries(user_id);
+CREATE INDEX IF NOT EXISTS idx_journal_entries_created_at ON journal_entries(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_goals_user_id ON goals(user_id);
+CREATE INDEX IF NOT EXISTS idx_goals_status ON goals(status);
+CREATE INDEX IF NOT EXISTS idx_messages_sender_id ON direct_messages(sender_id);
+CREATE INDEX IF NOT EXISTS idx_messages_recipient_id ON direct_messages(recipient_id);
+CREATE INDEX IF NOT EXISTS idx_messages_created_at ON direct_messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_mood_logs_user_id ON mood_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_mood_logs_logged_at ON mood_logs(logged_at DESC);
 
 -- Audit and system log indexes
-CREATE INDEX idx_audit_logs_user_id ON audit_logs(user_id);
-CREATE INDEX idx_audit_logs_timestamp ON audit_logs(timestamp DESC);
-CREATE INDEX idx_audit_logs_action ON audit_logs(action);
-CREATE INDEX idx_system_logs_level ON system_logs(level);
-CREATE INDEX idx_system_logs_timestamp ON system_logs(timestamp DESC);
-CREATE INDEX idx_system_logs_user_id ON system_logs(user_id);
+-- CREATE INDEX IF NOT EXISTS idx_audit_logs_user_id ON audit_logs(user_id);
+-- CREATE INDEX IF NOT EXISTS idx_audit_logs_timestamp ON audit_logs(timestamp DESC);
+-- CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);
+CREATE INDEX IF NOT EXISTS idx_system_logs_level ON system_logs(level);
+CREATE INDEX IF NOT EXISTS idx_system_logs_timestamp ON system_logs(timestamp DESC);
+CREATE INDEX IF NOT EXISTS idx_system_logs_user_id ON system_logs(user_id);
 
 -- ==================== TRIGGERS FOR UPDATED_AT ====================
 
@@ -757,7 +757,7 @@ CREATE TRIGGER update_goals_updated_at BEFORE UPDATE ON goals
 CREATE TRIGGER update_exercises_updated_at BEFORE UPDATE ON exercises
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_messages_updated_at BEFORE UPDATE ON messages
+CREATE TRIGGER update_messages_updated_at BEFORE UPDATE ON direct_messages
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_donations_updated_at BEFORE UPDATE ON donations
@@ -806,7 +806,7 @@ ALTER TABLE journal_entries ENABLE ROW LEVEL SECURITY;
 ALTER TABLE goals ENABLE ROW LEVEL SECURITY;
 ALTER TABLE exercises ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_exercise_completions ENABLE ROW LEVEL SECURITY;
-ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE direct_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE donations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE assessments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE templates ENABLE ROW LEVEL SECURITY;

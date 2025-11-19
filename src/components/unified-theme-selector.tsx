@@ -142,11 +142,12 @@ export function UnifiedThemeSelector({
             const isSelected = systemTheme === themeOption.id;
             
             return (
-              <button
+              <Button
                 key={themeOption.id}
                 onClick={() => handleSystemThemeChange(themeOption.id)}
+                variant="ghost"
                 className={cn(
-                  "relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105",
+                  "relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 h-auto flex flex-col items-stretch",
                   isSelected
                     ? 'border-blue-500 bg-blue-50/50 dark:border-blue-400 dark:bg-blue-950/20'
                     : 'border-slate-200 hover:border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-800'
@@ -165,7 +166,7 @@ export function UnifiedThemeSelector({
                     <Check className="h-4 w-4 text-blue-500" />
                   )}
                 </div>
-              </button>
+              </Button>
             );
           })}
         </div>

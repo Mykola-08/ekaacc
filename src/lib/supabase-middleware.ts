@@ -21,6 +21,7 @@ export function createClient(request: NextRequest) {
             name,
             value,
             ...options,
+            domain: process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined,
           })
           response = NextResponse.next({
             request: {
@@ -31,6 +32,7 @@ export function createClient(request: NextRequest) {
             name,
             value,
             ...options,
+            domain: process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined,
           })
         },
         remove(name: string, options: any) {
@@ -38,6 +40,7 @@ export function createClient(request: NextRequest) {
             name,
             value: '',
             ...options,
+            domain: process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined,
           })
           response = NextResponse.next({
             request: {
@@ -48,6 +51,7 @@ export function createClient(request: NextRequest) {
             name,
             value: '',
             ...options,
+            domain: process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined,
           })
         },
       },

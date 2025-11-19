@@ -61,10 +61,10 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
 
   if (!mounted || loading || !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-primary mx-auto mb-4" />
-          <p className="text-sm text-gray-600">Loading...</p>
+          <p className="text-sm text-muted-foreground">Loading...</p>
         </div>
       </div>
     );

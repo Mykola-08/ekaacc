@@ -15,9 +15,10 @@ import {
 interface EmailLayoutProps {
   preview?: string;
   children: React.ReactNode;
+  unsubscribeUrl?: string;
 }
 
-export const EmailLayout = ({ preview, children }: EmailLayoutProps) => {
+export const EmailLayout = ({ preview, children, unsubscribeUrl }: EmailLayoutProps) => {
   return (
     <Html>
       <Head />
@@ -49,6 +50,14 @@ export const EmailLayout = ({ preview, children }: EmailLayoutProps) => {
               <Link href="https://ekaacc-1.vercel.app" style={footerLink}>
                 Visit our website
               </Link>
+              {unsubscribeUrl && (
+                <>
+                  {' • '}
+                  <Link href={unsubscribeUrl} style={footerLink}>
+                    Unsubscribe
+                  </Link>
+                </>
+              )}
             </Text>
           </Section>
         </Container>

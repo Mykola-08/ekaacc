@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
           const amountPaid = amount / 100; // Convert cents to EUR
 
           if (amountCredits > 0) {
-            await walletService.processStripeTopUp(userId, amountPaid, amountCredits, paymentIntent.id);
+            await walletService.processStripeTopUp(userId, amountCredits, paymentIntent.id, amountPaid);
             console.log(`Processed wallet top-up for user ${userId}: ${amountCredits} credits`);
           }
         } else if (type === 'session_prepayment' && metadata.bookingId) {

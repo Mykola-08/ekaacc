@@ -16,7 +16,13 @@ import { useState, useEffect } from 'react';
 ;
 ;
 ;
-import { Loader2, ArrowRight, ArrowLeft, Check, Shield, Lock, Info, Heart, Sparkles } from 'lucide-react';
+import { 
+  Loader2, ArrowRight, ArrowLeft, Check, Shield, Lock, Info, Heart, Sparkles,
+  Smartphone, Monitor, Tablet, GraduationCap, Briefcase, Rocket, Search, Coffee,
+  Moon, Activity, Smile, Zap, Scale, Sprout, Bone, User as UserIcon, Dumbbell, Waves, Bike,
+  Footprints, Users, Music, Book, Palette, Camera, Gamepad, Utensils, Plane, Globe,
+  MessageCircle, Mic, Video, Target, Star, Trophy, Lightbulb, Meh, Frown, AlertCircle, Battery, Sofa
+} from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 ;
 ;
@@ -46,81 +52,81 @@ interface OnboardingData {
 }
 
 interface ComprehensiveOnboardingProps {
-  onComplete: (data: Partial<User['personalization']>) => void;
+  onComplete: (data: Partial<User['personalization']> & { layoutPreference?: string }) => void;
   onSkip?: () => void;
 }
 
 // Minimal, essential options
 const LAYOUT_PREFERENCES = [
-  { value: 'responsive', label: 'Auto (Recommended)', description: 'Adapts to your device', icon: '📱' },
-  { value: 'desktop', label: 'Desktop View', description: 'Always show sidebar', icon: '💻' },
-  { value: 'mobile', label: 'Mobile View', description: 'Simplified bottom menu', icon: '🤳' }
+  { value: 'responsive', label: 'Auto (Recommended)', description: 'Adapts to your device', icon: <Smartphone className="w-6 h-6" /> },
+  { value: 'desktop', label: 'Desktop View', description: 'Always show sidebar', icon: <Monitor className="w-6 h-6" /> },
+  { value: 'mobile', label: 'Mobile View', description: 'Simplified bottom menu', icon: <Tablet className="w-6 h-6" /> }
 ];
 
 const OCCUPATION_TYPES = [
-  { value: 'student', label: '🎓 Student', description: 'Currently studying' },
-  { value: 'employed', label: '💼 Employed', description: 'Working full or part-time' },
-  { value: 'self-employed', label: '🚀 Self-employed', description: 'Running own business' },
-  { value: 'unemployed', label: '🔍 Between jobs', description: 'Looking for opportunities' },
-  { value: 'retired', label: '🌴 Retired', description: 'Enjoying retirement' },
-  { value: 'other', label: '✨ Other', description: 'Something else' }
+  { value: 'student', label: 'Student', description: 'Currently studying', icon: <GraduationCap className="w-5 h-5" /> },
+  { value: 'employed', label: 'Employed', description: 'Working full or part-time', icon: <Briefcase className="w-5 h-5" /> },
+  { value: 'self-employed', label: 'Self-employed', description: 'Running own business', icon: <Rocket className="w-5 h-5" /> },
+  { value: 'unemployed', label: 'Between jobs', description: 'Looking for opportunities', icon: <Search className="w-5 h-5" /> },
+  { value: 'retired', label: 'Retired', description: 'Enjoying retirement', icon: <Coffee className="w-5 h-5" /> },
+  { value: 'other', label: 'Other', description: 'Something else', icon: <UserIcon className="w-5 h-5" /> }
 ];
 
 const THERAPEUTIC_GOALS = [
-  { value: 'stress', label: 'Reduce stress', icon: '🧘', why: 'Helps us focus on relaxation techniques' },
-  { value: 'sleep', label: 'Better sleep', icon: '😴', why: "We'll tailor sessions for rest and recovery" },
-  { value: 'pain', label: 'Manage pain', icon: '💪', why: 'Targets physical therapy methods' },
-  { value: 'anxiety', label: 'Ease anxiety', icon: '🌸', why: 'Focuses on calming practices' },
-  { value: 'mood', label: 'Improve mood', icon: '☀️', why: 'Enhances emotional well-being' },
-  { value: 'energy', label: 'Boost energy', icon: '⚡', why: 'Activating exercises and routines' },
-  { value: 'balance', label: 'Work-life balance', icon: '⚖️', why: 'Helps prioritize self-care' },
-  { value: 'growth', label: 'Personal growth', icon: '🌱', why: 'Supports your development journey' }
+  { value: 'stress', label: 'Reduce stress', icon: <Waves className="w-6 h-6" />, why: 'Helps us focus on relaxation techniques' },
+  { value: 'sleep', label: 'Better sleep', icon: <Moon className="w-6 h-6" />, why: "We'll tailor sessions for rest and recovery" },
+  { value: 'pain', label: 'Manage pain', icon: <Activity className="w-6 h-6" />, why: 'Targets physical therapy methods' },
+  { value: 'anxiety', label: 'Ease anxiety', icon: <Smile className="w-6 h-6" />, why: 'Focuses on calming practices' },
+  { value: 'mood', label: 'Improve mood', icon: <Sparkles className="w-6 h-6" />, why: 'Enhances emotional well-being' },
+  { value: 'energy', label: 'Boost energy', icon: <Zap className="w-6 h-6" />, why: 'Activating exercises and routines' },
+  { value: 'balance', label: 'Work-life balance', icon: <Scale className="w-6 h-6" />, why: 'Helps prioritize self-care' },
+  { value: 'growth', label: 'Personal growth', icon: <Sprout className="w-6 h-6" />, why: 'Supports your development journey' }
 ];
 
 const PAIN_AREAS = [
-  { value: 'neck', label: 'Neck', icon: '🦴' },
-  { value: 'shoulders', label: 'Shoulders', icon: '💪' },
-  { value: 'back-upper', label: 'Upper back', icon: '🧍' },
-  { value: 'back-lower', label: 'Lower back', icon: '🧎' },
-  { value: 'hips', label: 'Hips', icon: '🦵' },
-  { value: 'knees', label: 'Knees', icon: '🏃' },
-  { value: 'headaches', label: 'Headaches', icon: '🤕' },
-  { value: 'full-body', label: 'Full body tension', icon: '😣' },
-  { value: 'none', label: 'No physical pain', icon: '✨' }
+  { value: 'neck', label: 'Neck', icon: <Bone className="w-5 h-5" /> },
+  { value: 'shoulders', label: 'Shoulders', icon: <Dumbbell className="w-5 h-5" /> },
+  { value: 'back-upper', label: 'Upper back', icon: <UserIcon className="w-5 h-5" /> },
+  { value: 'back-lower', label: 'Lower back', icon: <UserIcon className="w-5 h-5" /> },
+  { value: 'hips', label: 'Hips', icon: <Activity className="w-5 h-5" /> },
+  { value: 'knees', label: 'Knees', icon: <Activity className="w-5 h-5" /> },
+  { value: 'headaches', label: 'Headaches', icon: <Activity className="w-5 h-5" /> },
+  { value: 'full-body', label: 'Full body tension', icon: <Activity className="w-5 h-5" /> },
+  { value: 'none', label: 'No physical pain', icon: <Sparkles className="w-5 h-5" /> }
 ];
 
 const SPORTS_ACTIVITIES = [
-  { value: 'yoga', label: 'Yoga', icon: '🧘' },
-  { value: 'running', label: 'Running', icon: '🏃' },
-  { value: 'gym', label: 'Gym', icon: '💪' },
-  { value: 'swimming', label: 'Swimming', icon: '🏊' },
-  { value: 'cycling', label: 'Cycling', icon: '🚴' },
-  { value: 'walking', label: 'Walking', icon: '🚶' },
-  { value: 'sports', label: 'Team sports', icon: '⚽' },
-  { value: 'dance', label: 'Dancing', icon: '💃' },
-  { value: 'martial-arts', label: 'Martial arts', icon: '🥋' },
-  { value: 'none', label: 'None currently', icon: '🛋️' }
+  { value: 'yoga', label: 'Yoga', icon: <Activity className="w-5 h-5" /> },
+  { value: 'running', label: 'Running', icon: <Activity className="w-5 h-5" /> },
+  { value: 'gym', label: 'Gym', icon: <Dumbbell className="w-5 h-5" /> },
+  { value: 'swimming', label: 'Swimming', icon: <Waves className="w-5 h-5" /> },
+  { value: 'cycling', label: 'Cycling', icon: <Bike className="w-5 h-5" /> },
+  { value: 'walking', label: 'Walking', icon: <Footprints className="w-5 h-5" /> },
+  { value: 'sports', label: 'Team sports', icon: <Users className="w-5 h-5" /> },
+  { value: 'dance', label: 'Dancing', icon: <Music className="w-5 h-5" /> },
+  { value: 'martial-arts', label: 'Martial arts', icon: <Activity className="w-5 h-5" /> },
+  { value: 'none', label: 'None currently', icon: <Coffee className="w-5 h-5" /> }
 ];
 
 const HOBBIES = [
-  { value: 'reading', label: 'Reading', icon: '📚' },
-  { value: 'music', label: 'Music', icon: '🎵' },
-  { value: 'art', label: 'Art/Crafts', icon: '🎨' },
-  { value: 'gaming', label: 'Gaming', icon: '🎮' },
-  { value: 'cooking', label: 'Cooking', icon: '👨‍🍳' },
-  { value: 'nature', label: 'Nature/Outdoors', icon: '🌳' },
-  { value: 'tech', label: 'Technology', icon: '💻' },
-  { value: 'social', label: 'Socializing', icon: '👥' },
-  { value: 'learning', label: 'Learning new things', icon: '📖' },
-  { value: 'pets', label: 'Pet care', icon: '🐾' }
+  { value: 'reading', label: 'Reading', icon: <Book className="w-5 h-5" /> },
+  { value: 'music', label: 'Music', icon: <Music className="w-5 h-5" /> },
+  { value: 'art', label: 'Art/Crafts', icon: <Palette className="w-5 h-5" /> },
+  { value: 'gaming', label: 'Gaming', icon: <Gamepad className="w-5 h-5" /> },
+  { value: 'cooking', label: 'Cooking', icon: <Utensils className="w-5 h-5" /> },
+  { value: 'nature', label: 'Nature/Outdoors', icon: <Sprout className="w-5 h-5" /> },
+  { value: 'tech', label: 'Technology', icon: <Monitor className="w-5 h-5" /> },
+  { value: 'social', label: 'Socializing', icon: <Users className="w-5 h-5" /> },
+  { value: 'learning', label: 'Learning new things', icon: <GraduationCap className="w-5 h-5" /> },
+  { value: 'pets', label: 'Pet care', icon: <Heart className="w-5 h-5" /> }
 ];
 
 const APPROACHES = [
-  { value: 'physical', label: 'Physical therapy', icon: '💆', why: 'Body-focused healing' },
-  { value: 'talk', label: 'Talk therapy', icon: '💬', why: 'Emotional support through conversation' },
-  { value: 'mindfulness', label: 'Mindfulness', icon: '🧘', why: 'Present moment awareness' },
-  { value: 'movement', label: 'Movement/Exercise', icon: '🏃', why: 'Active healing through motion' },
-  { value: 'holistic', label: 'Holistic methods', icon: '🌿', why: 'Whole-person approach' }
+  { value: 'physical', label: 'Physical therapy', icon: <Activity className="w-6 h-6" />, why: 'Body-focused healing' },
+  { value: 'talk', label: 'Talk therapy', icon: <MessageCircle className="w-6 h-6" />, why: 'Emotional support through conversation' },
+  { value: 'mindfulness', label: 'Mindfulness', icon: <Sparkles className="w-6 h-6" />, why: 'Present moment awareness' },
+  { value: 'movement', label: 'Movement/Exercise', icon: <Dumbbell className="w-6 h-6" />, why: 'Active healing through motion' },
+  { value: 'holistic', label: 'Holistic methods', icon: <Sprout className="w-6 h-6" />, why: 'Whole-person approach' }
 ];
 
 const COMMUNICATION_STYLES = [
@@ -152,7 +158,7 @@ const WhyWeAsk = ({ reason }: { reason: string }) => (
         <Info className="w-4 h-4 text-muted-foreground cursor-help" />
       </TooltipTrigger>
       <TooltipContent>
-        <p className="text-sm">💡 {reason}</p>
+        <p className="text-sm flex items-center gap-2"><Info className="w-3 h-3" /> {reason}</p>
       </TooltipContent>
     </Tooltip>
 );
@@ -204,7 +210,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
         setStep(savedStep);
         setData(prev => ({ ...prev, ...savedData })); // Merge to ensure new fields exist
         toast({
-          title: "Welcome back! 👋",
+          title: "Welcome back!",
           description: "We've saved your progress. Let's continue where you left off."
         });
       } catch (e) {
@@ -278,7 +284,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const generateAIInsights = async (): Promise<Partial<User['personalization']>> => {
+  const generateAIInsights = async (): Promise<Partial<User['personalization']> & { layoutPreference?: string }> => {
     // Simulate AI processing with Labor Illusion
     await new Promise(resolve => setTimeout(resolve, 2500));
     
@@ -305,12 +311,13 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
       aiPersonaProfile,
       aiRecommendedApproaches: data.preferredApproaches,
       aiPersonalizationScore: 85,
+      layoutPreference: data.layoutPreference,
     };
   };
 
   const handleComplete = async () => {
-    // Move to analysis screen (step 6)
-    setStep(6);
+    // Move to analysis screen (step 8)
+    setStep(8);
     setIsGeneratingInsights(true);
     
     // Simulate AI analysis with realistic progress updates
@@ -345,7 +352,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
       
       // Peak-End Rule: End on high note
       toast({
-        title: '🎉 You are all set!',
+        title: 'You are all set!',
         description: 'We understand how to help you feel lighter and freer.',
         duration: 5000
       });
@@ -609,9 +616,10 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                     </CardContent>
                   </Card>
 
-                  <div className="bg-muted/50 border border-border rounded-lg p-4">
+                  <div className="bg-muted/50 border border-border rounded-lg p-4 flex items-start gap-3">
+                    <Heart className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
                     <p className="text-sm text-foreground">
-                      💙 Most clients find it helpful to select 2-3 main goals to focus on first.
+                      Most clients find it helpful to select 2-3 main goals to focus on first.
                     </p>
                   </div>
                 </motion.div>
@@ -652,7 +660,11 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                               onClick={() => updateData('workStressLevel', level.toString())}
                             >
                               <span className="text-2xl">
-                                {level === 1 ? '😌' : level === 2 ? '🙂' : level === 3 ? '😐' : level === 4 ? '😰' : '😫'}
+                                {level === 1 ? <Sparkles className="w-6 h-6" /> : 
+                                 level === 2 ? <Smile className="w-6 h-6" /> : 
+                                 level === 3 ? <Meh className="w-6 h-6" /> : 
+                                 level === 4 ? <Frown className="w-6 h-6" /> : 
+                                 <Zap className="w-6 h-6" />}
                               </span>
                               <span className="text-xs">{level}</span>
                             </Button>
@@ -675,7 +687,11 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                               onClick={() => updateData('sleepQuality', level.toString())}
                             >
                               <span className="text-2xl">
-                                {level === 1 ? '😴' : level === 2 ? '😪' : level === 3 ? '😐' : level === 4 ? '😊' : '✨'}
+                                {level === 1 ? <AlertCircle className="w-6 h-6" /> : 
+                                 level === 2 ? <Frown className="w-6 h-6" /> : 
+                                 level === 3 ? <Meh className="w-6 h-6" /> : 
+                                 level === 4 ? <Smile className="w-6 h-6" /> : 
+                                 <Sparkles className="w-6 h-6" />}
                               </span>
                               <span className="text-xs">{level}</span>
                             </Button>
@@ -688,9 +704,10 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                     </CardContent>
                   </Card>
 
-                  <div className="bg-muted/50 border border-border rounded-lg p-4">
+                  <div className="bg-muted/50 border border-border rounded-lg p-4 flex items-start gap-3">
+                    <Lightbulb className="w-5 h-5 text-yellow-500 mt-0.5 flex-shrink-0" />
                     <p className="text-sm text-foreground">
-                      💡 Your answers help us adjust session timing and intensity to match your energy levels.
+                      Your answers help us adjust session timing and intensity to match your energy levels.
                     </p>
                   </div>
                 </motion.div>
@@ -775,16 +792,19 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                           </SelectTrigger>
                           <SelectContent>
                             {[
-                              { value: 'sedentary', label: '🛋️ Mostly sedentary', description: 'Little exercise' },
-                              { value: 'light', label: '🚶 Lightly active', description: '1-2 days/week' },
-                              { value: 'moderate', label: '🏃 Moderately active', description: '3-4 days/week' },
-                              { value: 'active', label: '💪 Very active', description: '5-6 days/week' },
-                              { value: 'very-active', label: '⚡ Extremely active', description: 'Daily exercise' }
+                              { value: 'sedentary', label: 'Mostly sedentary', icon: <Sofa className="w-4 h-4" />, description: 'Little exercise' },
+                              { value: 'light', label: 'Lightly active', icon: <Footprints className="w-4 h-4" />, description: '1-2 days/week' },
+                              { value: 'moderate', label: 'Moderately active', icon: <Activity className="w-4 h-4" />, description: '3-4 days/week' },
+                              { value: 'active', label: 'Very active', icon: <Dumbbell className="w-4 h-4" />, description: '5-6 days/week' },
+                              { value: 'very-active', label: 'Extremely active', icon: <Zap className="w-4 h-4" />, description: 'Daily exercise' }
                             ].map((level) => (
                               <SelectItem key={level.value} value={level.value}>
-                                <div>
-                                  <div>{level.label}</div>
-                                  <div className="text-xs text-muted-foreground">{level.description}</div>
+                                <div className="flex items-center gap-2">
+                                  {level.icon}
+                                  <div>
+                                    <div>{level.label}</div>
+                                    <div className="text-xs text-muted-foreground">{level.description}</div>
+                                  </div>
                                 </div>
                               </SelectItem>
                             ))}
@@ -816,8 +836,8 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                   </Card>
 
                   <div className="bg-muted/50 border border-border rounded-lg p-4">
-                    <p className="text-sm text-foreground">
-                      🌟 Great! We'll build on what you already enjoy to create sustainable wellness habits.
+                    <p className="text-sm text-foreground flex items-center gap-2">
+                      <Star className="w-4 h-4 text-primary" /> Great! We'll build on what you already enjoy to create sustainable wellness habits.
                     </p>
                   </div>
                 </motion.div>
@@ -944,6 +964,60 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                 </motion.div>
               )}
 
+              {/* Step 6: App Experience */}
+              {step === 6 && (
+                <motion.div
+                  key="step6"
+                  variants={pageVariants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ duration: 0.3 }}
+                  className="space-y-6"
+                >
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <h2 className="text-2xl font-bold">App Experience</h2>
+                      <WhyWeAsk reason="Choose how you want to interact with the app" />
+                    </div>
+                    <p className="text-muted-foreground">
+                      Select your preferred layout style. You can change this later in settings.
+                    </p>
+                  </div>
+
+                  <Card>
+                    <CardContent className="pt-6 space-y-6">
+                      <div className="space-y-3">
+                        <Label className="text-base font-semibold">Preferred Layout *</Label>
+                        <div className="grid gap-3">
+                          {LAYOUT_PREFERENCES.map((pref) => (
+                            <div
+                              key={pref.value}
+                              onClick={() => updateData('layoutPreference', pref.value)}
+                              className={cn(
+                                "flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-all",
+                                data.layoutPreference === pref.value
+                                  ? "border-foreground bg-foreground/5"
+                                  : "border-border hover:border-foreground/50"
+                              )}
+                            >
+                              <span className="text-2xl">{pref.icon}</span>
+                              <div className="flex-1 text-left">
+                                <div className="font-medium">{pref.label}</div>
+                                <div className="text-xs text-muted-foreground">{pref.description}</div>
+                              </div>
+                              {data.layoutPreference === pref.value && (
+                                <Check className="w-5 h-5 text-foreground" />
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              )}
+
               {/* Completion Step */}
               {step === totalSteps && (
                 <motion.div
@@ -960,7 +1034,7 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                   </div>
                   
                   <div className="space-y-3">
-                    <h1 className="text-3xl font-bold">You're all set! 🎉</h1>
+                    <h1 className="text-3xl font-bold">You're all set!</h1>
                     <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                       We understand how to help you feel lighter and freer.
                     </p>
@@ -994,8 +1068,8 @@ export function ComprehensiveOnboarding({ onComplete, onSkip }: ComprehensiveOnb
                 </motion.div>
               )}
 
-              {/* Step 6: Analysis & Loading Screen */}
-              {step === 6 && (
+              {/* Step 8: Analysis & Loading Screen */}
+              {step === 8 && (
                 <motion.div
                   key="analysis"
                   variants={pageVariants}

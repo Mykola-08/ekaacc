@@ -40,13 +40,24 @@ export default function OnboardingPage() {
     try {
       const { getDataService } = await import('@/services/data-service');
       const dataService = await getDataService();
+      
+      // Extract layout preference
+      const { layoutPreference, ...otherPersonalization } = personalizationData;
+      
       await dataService.updateUser(user.id, {
         personalizationCompleted: true,
-        personalization: personalizationData,
+        personalization: otherPersonalization,
+        settings: {
+          ...user.settings,
+          appPreferences: {
+            ...user.settings?.appPreferences,
+            layoutMode: layoutPreference
+          }
+        }
       });
       
       toast({
-        title: '🎉 Welcome aboard!',
+        title: 'Welcome aboard!',
         description: 'Your personalized wellness journey begins now.',
         duration: 5000,
       });

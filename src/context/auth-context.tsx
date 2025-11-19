@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { User } from '@supabase/supabase-js'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@/lib/supabase/client'
 import { safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/supabase-utils'
 import type { 
   AuthUser, 
@@ -18,6 +18,8 @@ import type {
   ImpersonationData
 } from '@/types/auth'
 import type { PermissionGroup, PermissionAction } from '@/lib/role-permissions'
+
+const supabase = createClient()
 
 interface AuthContextType extends AuthState {
   // Authentication methods

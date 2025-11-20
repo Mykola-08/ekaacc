@@ -43,17 +43,17 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="eka-container eka-section-spacing">
+      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <Badge variant="secondary" className="mb-4">
+            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 mb-4">
               <Sparkles className="w-3 h-3 mr-1" />
               AI-Powered Wellness Platform
-            </Badge>
+            </div>
           </motion.div>
           
           <motion.div
@@ -63,7 +63,7 @@ export default function HomePage() {
           >
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-foreground">
               Your Complete Wellness
-              <span className="block text-primary mt-2">Management Platform</span>
+              <span className="block text-primary">Management Platform</span>
             </h1>
           </motion.div>
           
@@ -85,12 +85,12 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="flex flex-wrap justify-center gap-4 pt-4"
           >
-            <Button asChild size="lg" className="eka-transition">
+            <Button asChild size="lg">
               <Link href="/login">
                 Sign In
               </Link>
             </Button>
-            <Button asChild variant="outline" size="lg" className="eka-transition">
+            <Button asChild variant="outline" size="lg">
               <Link href="/signup">
                 Create Account
               </Link>
@@ -100,22 +100,22 @@ export default function HomePage() {
       </div>
 
       {/* Features Section */}
-      <div className="eka-container eka-section-spacing">
+      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="eka-page-header text-center"
+          className="text-center mb-12"
         >
-          <h2 className="eka-page-title">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
             Everything You Need for Wellness
           </h2>
-          <p className="eka-page-description text-lg max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Comprehensive tools designed to support your mental and physical health journey
           </p>
         </motion.div>
         
-        <div className="eka-grid-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             {
               icon: Brain,
@@ -163,12 +163,11 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.02 }}
-              className="eka-transition"
+              whileHover={{ scale: 1.05 }}
             >
-              <Card className="eka-card-hover h-full">
+              <Card className="border-muted hover:border-border transition-all duration-300">
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 eka-transition group-hover:bg-primary/20">
+                  <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-4">
                     <feature.icon className="h-6 w-6 text-primary" />
                   </div>
                   <CardTitle className="text-lg">
@@ -176,7 +175,7 @@ export default function HomePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>
+                  <CardDescription className="text-gray-600">
                     {feature.description}
                   </CardDescription>
                 </CardContent>
@@ -187,24 +186,24 @@ export default function HomePage() {
       </div>
 
       {/* How It Works Section */}
-      <div className="bg-muted/30 eka-section-spacing">
-        <div className="eka-container">
+      <div className="bg-muted/50 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="eka-page-header text-center"
+            className="text-center mb-12"
           >
-            <h2 className="eka-page-title">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               How It Works
             </h2>
-            <p className="eka-page-description text-lg max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Get started with your wellness journey in three simple steps
             </p>
           </motion.div>
 
-          <div className="eka-grid-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
                 step: '1',
@@ -232,10 +231,10 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
-                <Card className="eka-card-elevated h-full">
+                <Card className="relative h-full">
                   <CardHeader>
                     <div className="flex items-start gap-4">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground text-xl font-bold shrink-0">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground text-xl font-bold">
                         {item.step}
                       </div>
                       <div className="flex-1">
@@ -245,8 +244,8 @@ export default function HomePage() {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex justify-center opacity-20">
-                      <item.icon className="h-20 w-20 text-muted-foreground" />
+                    <div className="flex justify-center">
+                      <item.icon className="h-16 w-16 text-muted-foreground/20" />
                     </div>
                   </CardContent>
                 </Card>
@@ -257,7 +256,7 @@ export default function HomePage() {
       </div>
 
       {/* CTA Section */}
-      <div className="eka-container eka-section-spacing">
+      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -265,11 +264,11 @@ export default function HomePage() {
           transition={{ duration: 0.6 }}
           className="text-center space-y-8"
         >
-          <Card className="eka-card-elevated border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-background to-background">
+          <Card className="border-2 border-primary/20 bg-primary/5">
             <CardHeader className="space-y-4 pb-8 pt-12">
               <div className="inline-flex items-center justify-center">
-                <Badge variant="secondary" className="px-4 py-1.5 text-sm">
-                  <Sparkles className="w-4 h-4 mr-2" />
+                <Badge variant="secondary" className="px-4 py-1">
+                  <Sparkles className="w-3 h-3 mr-2" />
                   Start Your Wellness Journey Today
                 </Badge>
               </div>
@@ -282,12 +281,12 @@ export default function HomePage() {
             </CardHeader>
             <CardContent className="pb-12">
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild size="lg" className="text-base eka-transition">
+                <Button asChild size="lg" className="text-base">
                   <Link href="/signup">
                     Get Started Free
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="text-base eka-transition">
+                <Button asChild variant="outline" size="lg" className="text-base">
                   <Link href="/login">
                     Sign In
                   </Link>

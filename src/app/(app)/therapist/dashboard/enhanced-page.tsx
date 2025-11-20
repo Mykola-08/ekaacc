@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-
+import { motion } from 'framer-motion'
 import { Users, Calendar, TrendingUp, MessageSquare, Clock, FileText, Award, Settings, Bell } from 'lucide-react'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -24,28 +24,28 @@ export default function TherapistDashboardPage() {
       value: '24',
       change: '+3 this month',
       icon: Users,
-      color: 'text-blue-600'
+      color: 'text-primary'
     },
     {
       title: 'Sessions This Week',
       value: '18',
       change: '4 completed today',
       icon: Calendar,
-      color: 'text-green-600'
+      color: 'text-primary'
     },
     {
       title: 'Client Satisfaction',
       value: '4.9/5',
       change: '+0.2 this month',
       icon: Award,
-      color: 'text-purple-600'
+      color: 'text-primary'
     },
     {
       title: 'Response Rate',
       value: '98%',
       change: 'Excellent',
       icon: MessageSquare,
-      color: 'text-orange-600'
+      color: 'text-primary'
     }
   ]
 
@@ -113,78 +113,85 @@ export default function TherapistDashboardPage() {
       description: 'Manage your client list and profiles',
       icon: Users,
       href: '/therapist/clients',
-      color: 'bg-blue-500'
+      color: 'bg-primary/10'
     },
     {
       title: 'Schedule Session',
       description: 'Book a new therapy session',
       icon: Calendar,
       href: '/sessions/booking',
-      color: 'bg-green-500'
+      color: 'bg-primary/10'
     },
     {
       title: 'Client Messages',
       description: 'Check and respond to messages',
       icon: MessageSquare,
       href: '/messages',
-      color: 'bg-purple-500'
+      color: 'bg-primary/10'
     },
     {
       title: 'Reports',
       description: 'View progress reports and analytics',
       icon: FileText,
       href: '/progress-reports',
-      color: 'bg-orange-500'
+      color: 'bg-primary/10'
     }
   ]
 
     return (
       <div className="min-h-screen bg-background">
-        {/* Header Section */}
-        <section className="py-8 sm:py-12 border-b">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+          {/* Header Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-8"
+          >
             <div className="flex items-center justify-between">
               <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-muted-foreground">
-                  <Award className="h-4 w-4" />
-                  Therapist Dashboard
+                <div className="flex items-center gap-3 mb-2">
+                  <Award className="w-8 h-8 text-primary" />
+                  <h1 className="text-4xl font-bold tracking-tight text-foreground">
+                    {welcomeMessage}
+                  </h1>
                 </div>
-                <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                  {welcomeMessage}
-                </h1>
-                <p className="mt-2 text-sm text-muted-foreground max-w-xl">
-                  Manage your practice, track client progress, and deliver exceptional care.
+                <p className="text-xl text-muted-foreground">
+                  Manage your practice, track client progress, and deliver exceptional care
                 </p>
               </div>
               
               <div className="flex items-center gap-4">
-                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
+                <Button variant="outline" size="sm">
                   <Bell className="h-4 w-4 mr-2" />
                   Notifications
                 </Button>
-                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
+                <Button variant="outline" size="sm">
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </Button>
               </div>
             </div>
-          </div>
-        </section>
+          </motion.div>
 
-        {/* Stats Overview */}
-        <section className="py-8">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8">
-            <div>
-              <h2 className="text-xl font-semibold text-foreground mb-4">Practice Overview</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {therapistStats.map((stat) => (
-                  <Card key={stat.title} className="border hover:bg-accent/40 transition-colors">
+          {/* Stats Overview */}
+          <div className="mb-8">
+            <h2 className="text-2xl font-semibold text-foreground mb-4">Practice Overview</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {therapistStats.map((stat, index) => (
+                <motion.div
+                  key={stat.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <Card className="border-muted hover:border-border transition-all duration-300">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`w-10 h-10 rounded-md bg-muted flex items-center justify-center ${stat.color}`}>
+                        <div className={`w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center ${stat.color}`}>
                           <stat.icon className="h-6 w-6" />
                         </div>
-                        <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                        <span className="text-3xl font-bold text-primary">{stat.value}</span>
                       </div>
                       <h3 className="font-semibold text-foreground mb-1">{stat.title}</h3>
                       <p className="text-sm text-muted-foreground">{stat.change}</p>
@@ -193,11 +200,10 @@ export default function TherapistDashboardPage() {
                       </div>
                     </CardContent>
                   </Card>
-                ))}
-              </div>
+                </motion.div>
+              ))}
             </div>
           </div>
-        </section>
 
         {/* Quick Actions */}
         <section className="py-8">

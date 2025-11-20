@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,8 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Paperclip, Send } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Paperclip, Send, MessageSquare } from 'lucide-react';
 import type { Message, User } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
@@ -64,40 +66,59 @@ export default function MessagesPage() {
   };
 
   return (
-    <div>
-      <div className="flex h-[calc(100vh-80px)] bg-background">
-        {/* Conversation List */}
-        <aside className="w-1/4 border-r border-border">
-          <header className="p-6 border-b border-border">
-            <h2 className="text-2xl font-semibold">Messages</h2>
-          </header>
-          <Card className="h-full overflow-y-auto border-0 shadow-none">
-            <CardContent className="p-0">
-              {isLoading ? (
-                <div className="p-6 space-y-4">
-                  {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
-                </div>
-              ) : (
-                conversations.map(convoUser => (
-                  <ConversationItem
-                    key={convoUser.id}
-                    user={convoUser}
-                    isActive={activeConversation?.id === convoUser.id}
-                    onClick={() => setActiveConversation(convoUser)}
-                  />
-                ))
-              )}
-            </CardContent>
-          </Card>
-        </aside>
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <MessageSquare className="w-8 h-8 text-primary" />
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">Messages</h1>
+          </div>
+          <p className="text-xl text-muted-foreground">Communicate securely with your care team</p>
+        </motion.div>
 
-        {/* Message View */}
-        <main className="w-3/4 flex flex-col bg-background">
-          {activeConversation ? (
-            <>
-              <header className="p-6 border-b border-border flex items-center gap-4">
-                <Avatar>
-                  <AvatarImage src={activeConversation.avatarUrl} />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <Card className="border-muted hover:border-border transition-all duration-300">
+            <CardContent className="p-0">
+              <div className="flex h-[calc(100vh-300px)]">
+                {/* Conversation List */}
+                <aside className="w-1/3 border-r border-muted">
+                  <div className="p-4 border-b border-muted">
+                    <h2 className="text-lg font-semibold">Conversations</h2>
+                  </div>
+                  <div className="overflow-y-auto">
+                    {isLoading ? (
+                      <div className="p-4 space-y-4">
+                        {[...Array(3)].map((_, i) => <ConversationSkeleton key={i} />)}
+                      </div>
+                    ) : (
+                      conversations.map(convoUser => (
+                        <ConversationItem
+                          key={convoUser.id}
+                          user={convoUser}
+                          isActive={activeConversation?.id === convoUser.id}
+                          onClick={() => setActiveConversation(convoUser)}
+                        />
+                      ))
+                    )}
+                  </div>
+                </aside>
+
+                {/* Message View */}
+                <main className="w-2/3 flex flex-col bg-background">
+                  {activeConversation ? (
+                    <>
+                      <header className="p-4 border-b border-muted flex items-center gap-4">
+                        <Avatar>
+                          <AvatarImage src={activeConversation.avatarUrl} />
                   <AvatarFallback>{activeConversation.initials}</AvatarFallback>
                 </Avatar>
                 <div>

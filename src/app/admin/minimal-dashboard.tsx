@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { Users, Calendar, DollarSign, Activity, TrendingUp, UserCheck, UserX, Shield, Eye } from 'lucide-react';
 import { UserImpersonationDialog } from '@/components/admin/user-impersonation';
@@ -25,14 +26,14 @@ function MinimalStatCard({
   icon: React.ElementType 
 }) {
   return (
-    <Card className="p-6">
+    <Card className="p-6 border-muted hover:border-border transition-all duration-300">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-gray-600">{title}</h3>
-        <Icon className="h-5 w-5 text-gray-600" />
+        <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+        <Icon className="h-5 w-5 text-primary" />
       </div>
       <div className="space-y-2">
-        <p className="text-2xl font-bold text-gray-900">{value}</p>
-        <p className="text-sm text-gray-600">{change}</p>
+        <p className="text-3xl font-bold text-primary">{value}</p>
+        <p className="text-sm text-muted-foreground">{change}</p>
       </div>
     </Card>
   );
@@ -40,9 +41,9 @@ function MinimalStatCard({
 
 function MinimalRecentUsers({ users }: { users: User[] }) {
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Recent Users</h3>
+    <Card className="p-6 border-muted hover:border-border transition-all duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-semibold">Recent Users</h3>
         <Button 
           variant="outline" 
           size="sm"
@@ -52,23 +53,29 @@ function MinimalRecentUsers({ users }: { users: User[] }) {
         </Button>
       </div>
       <div className="space-y-3">
-        {users.slice(0, 5).map((user) => (
-          <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+        {users.slice(0, 5).map((user, idx) => (
+          <motion.div 
+            key={user.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            className="flex items-center justify-between p-3 rounded-lg border border-muted hover:border-border transition-all duration-300"
+          >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
-                <Users className="w-4 h-4 text-gray-600" />
+              <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                <Users className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <p className="font-medium text-gray-900">{user.name || user.email}</p>
-                <p className="text-sm text-gray-600">{user.role}</p>
+                <p className="font-medium">{user.name || user.email}</p>
+                <Badge variant="secondary" className="text-xs mt-1">{user.role}</Badge>
               </div>
             </div>
             <div className="text-right">
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 {user.createdAt ? format(new Date(user.createdAt), 'MMM d, yyyy') : 'N/A'}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Card>
@@ -77,9 +84,9 @@ function MinimalRecentUsers({ users }: { users: User[] }) {
 
 function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
   return (
-    <Card className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Recent Sessions</h3>
+    <Card className="p-6 border-muted hover:border-border transition-all duration-300">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-semibold">Recent Sessions</h3>
         <Button 
           variant="outline" 
           size="sm"
@@ -89,14 +96,20 @@ function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
         </Button>
       </div>
       <div className="space-y-3">
-        {sessions.slice(0, 5).map((session) => (
-          <div key={session.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+        {sessions.slice(0, 5).map((session, idx) => (
+          <motion.div 
+            key={session.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: idx * 0.1 }}
+            className="flex items-center justify-between p-3 rounded-lg border border-muted hover:border-border transition-all duration-300"
+          >
             <div>
-              <p className="font-medium text-gray-900">{session.therapist}</p>
-              <p className="text-sm text-gray-600">{session.type}</p>
+              <p className="font-medium">{session.therapist}</p>
+              <p className="text-sm text-muted-foreground">{session.type}</p>
             </div>
             <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">
+              <p className="text-sm font-medium">
                 {session.date ? format(new Date(session.date), 'MMM d, yyyy') : 'N/A'}
               </p>
               <p className="text-sm text-gray-600">{session.status}</p>
@@ -194,106 +207,124 @@ export default function MinimalAdminDashboard() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading dashboard...</p>
+        <div className="text-center space-y-4">
+          <div className="eka-spinner w-12 h-12 mx-auto"></div>
+          <p className="text-muted-foreground">Loading dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 space-y-8 p-4 sm:p-6 lg:p-8">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-          <p className="text-gray-600">Overview of platform activity and user management</p>
-        </div>
-        <div className="flex gap-2">
-          {canImpersonate && (
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
+        >
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <Shield className="w-8 h-8 text-primary" />
+              <h1 className="text-4xl font-bold tracking-tight text-foreground">Admin Dashboard</h1>
+            </div>
+            <p className="text-xl text-muted-foreground">Overview of platform activity and user management</p>
+          </div>
+          <div className="flex gap-2">
+            {canImpersonate && (
+              <Button 
+                variant="outline" 
+                size="default"
+                onClick={() => setShowImpersonationDialog(true)}
+              >
+                <Eye className="w-4 h-4 mr-2" />
+                Impersonate User
+              </Button>
+            )}
             <Button 
               variant="outline" 
               size="default"
-              onClick={() => setShowImpersonationDialog(true)}
+              onClick={() => window.location.href = '/admin/create-user'}
             >
-              <Eye className="w-4 h-4 mr-2" />
-              Impersonate User
+              <Users className="w-4 h-4 mr-2" />
+              Create User
             </Button>
-          )}
-          <Button 
-            variant="outline" 
-            size="default"
-            onClick={() => window.location.href = '/admin/create-user'}
-          >
-            <Users className="w-4 h-4 mr-2" />
-            Create User
-          </Button>
-          <Button 
-            variant="default" 
-            size="default"
-            onClick={() => window.location.href = '/admin/settings'}
-          >
-            Settings
-          </Button>
+            <Button 
+              variant="default" 
+              size="default"
+              onClick={() => window.location.href = '/admin/settings'}
+            >
+              Settings
+            </Button>
+          </div>
+        </motion.div>
+
+        {/* Stats Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          {[
+            { title: "Total Users", value: stats.totalUsers.toString(), change: "All registered users", icon: Users },
+            { title: "Active Users", value: stats.activeUsers.toString(), change: "Active in last 7 days", icon: UserCheck },
+            { title: "Total Sessions", value: stats.totalSessions.toString(), change: "All completed sessions", icon: Calendar },
+            { title: "Revenue", value: `$${stats.totalRevenue.toLocaleString()}`, change: "Total platform revenue", icon: DollarSign }
+          ].map((stat, index) => (
+            <motion.div
+              key={stat.title}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+            >
+              <MinimalStatCard {...stat} />
+            </motion.div>
+          ))}
         </div>
-      </div>
+        </div>
 
-      {/* Stats Grid */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <MinimalStatCard
-          title="Total Users"
-          value={stats.totalUsers.toString()}
-          change="All registered users"
-          icon={Users}
-        />
-        <MinimalStatCard
-          title="Active Users"
-          value={stats.activeUsers.toString()}
-          change="Active in last 7 days"
-          icon={UserCheck}
-        />
-        <MinimalStatCard
-          title="Total Sessions"
-          value={stats.totalSessions.toString()}
-          change="All completed sessions"
-          icon={Calendar}
-        />
-        <MinimalStatCard
-          title="Revenue"
-          value={`$${stats.totalRevenue.toLocaleString()}`}
-          change="Total platform revenue"
-          icon={DollarSign}
-        />
-      </div>
-
-      {/* Recent Activity */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        <MinimalRecentUsers users={stats.recentUsers} />
-        <MinimalRecentSessions sessions={stats.recentSessions} />
-      </div>
-
-      {/* Quick Actions */}
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Button 
-            variant="outline" 
-            size="default"
-            className="w-full"
-            onClick={() => window.location.href = '/admin/users'}
+        {/* Recent Activity */}
+        <div className="grid gap-6 lg:grid-cols-2 mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
           >
-            <Users className="w-4 h-4 mr-2" />
-            Manage Users
-          </Button>
-          <Button 
-            variant="outline" 
-            size="default"
-            className="w-full"
-            onClick={() => window.location.href = '/admin/subscriptions'}
+            <MinimalRecentUsers users={stats.recentUsers} />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
           >
-            <Activity className="w-4 h-4 mr-2" />
-            Subscriptions
+            <MinimalRecentSessions sessions={stats.recentSessions} />
+          </motion.div>
+        </div>
+
+        {/* Quick Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+        >
+          <Card className="p-6 border-muted hover:border-border transition-all duration-300">
+            <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <Button 
+                variant="outline" 
+                size="default"
+                className="w-full"
+                onClick={() => window.location.href = '/admin/users'}
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Manage Users
+              </Button>
+              <Button 
+                variant="outline" 
+                size="default"
+                className="w-full"
+                onClick={() => window.location.href = '/admin/subscriptions'}
+              >
+                <Activity className="w-4 h-4 mr-2" />
+                Subscriptions
           </Button>
           <Button 
             variant="outline" 

@@ -152,12 +152,19 @@ export default function SettingsPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <SettingsHeader
-          eyebrow="Settings"
-          title="Settings"
-          description="Customize your experience and manage your preferences."
-        />
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <UserIcon className="w-8 h-8 text-primary" />
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">Settings</h1>
+          </div>
+          <p className="text-xl text-muted-foreground">Customize your experience and manage your preferences</p>
+        </motion.div>
 
         <SettingsShell className="mt-6">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
@@ -225,7 +232,7 @@ export default function SettingsPage() {
             <motion.div variants={itemVariants}>
               <SettingsCard title="Security" description="Account protection">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 rounded-lg border">
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border transition-all duration-300">
                     <div className="space-y-1">
                       <h4 className="font-medium flex items-center gap-2">
                         <Lock className="w-4 h-4" />
@@ -237,7 +244,7 @@ export default function SettingsPage() {
                       Reset Password
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between p-4 rounded-lg border">
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border transition-all duration-300">
                     <div className="space-y-1">
                       <h4 className="font-medium flex items-center gap-2">
                         <Shield className="w-4 h-4" />

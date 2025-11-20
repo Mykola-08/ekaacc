@@ -1,0 +1,107 @@
+name: "Copilot Setup Steps"
+
+# Automatically run the setup steps when they are changed to allow for easy validation,
+# and allow manual testing through the repository's "Actions" tab
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
+  copilot-setup-steps:
+    # For larger runners, replace with the label of your larger runner (e.g., ubuntu-4-core)
+    # Copilot coding agent supports only Ubuntu x64 Linux runners.
+    runs-on: ubuntu-latest
+
+    # Keep within 59 minutes (Copilot requirement)
+    timeout-minutes: 30
+
+    # Lowest permissions needed for these steps.
+    permissions:
+      contents: read
+
+    # NOTE: Only these fields are honored by Copilot for this job: steps, permissions, runs-on, services, snapshot, timeout-minutes
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          # Set to true if you use Git LFS
+          lfs: false
+
+      # Install Supabase CLI and start local stack (emulator) for tests
+      - name: Install Supabase CLI
+        run: |
+          curl -L https://github.com/supabase/cli/releases/latest/download/supabase_linux_amd64.tar.gz | tar xz
+          sudo mv supabase /usr/local/bin/supabase
+          supabase --version
+
+      - name: Start Supabase local stack
+        run: |
+          supabase start
+          supabase status --output json > supabase-status.json
+          echo "Parsed Supabase status:" && cat supabase-status.json
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(jq -r '.apiUrl' supabase-status.json)" >> $GITHUB_ENV
+          echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=$(jq -r '.anonKey' supabase-status.json)" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_ROLE_KEY=$(jq -r '.serviceRoleKey' supabase-status.json)" >> $GITHUB_ENV
+        # Optional: If you set SUPABASE_ACCESS_TOKEN in repository/environment secrets, uncomment below.
+        # env:
+        #   SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+
+      - name: Create CI .env.local defaults (only if emulator vars missing)
+        run: |
+          touch .env.local
+          if [ -z "${NEXT_PUBLIC_SUPABASE_URL}" ]; then echo "NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321" >> .env.local; fi
+          if [ -z "${NEXT_PUBLIC_SUPABASE_ANON_KEY}" ]; then echo "NEXT_PUBLIC_SUPABASE_ANON_KEY=local-anon-key" >> .env.local; fi
+          echo "DISABLE_EXTERNAL_SERVICES=1" >> .env.local
+
+      - name: Show environment summary (redacted keys)
+        run: |
+          echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL"
+          echo "Anon key length=${#NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+          echo "Service role key length=${#SUPABASE_SERVICE_ROLE_KEY}"
+        shell: bash
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies (npm ci)
+        run: npm ci
+
+      # Detect if Playwright is present (helper)
+      - name: Detect Playwright dependency
+        id: detect_pkgs
+        run: |
+          if grep -q '"@playwright/test"' package.json || grep -q '"playwright"' package.json; then
+            echo "has_playwright=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_playwright=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Install jq (for parsing JSON if not present)
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      # Optional: Pre-install Playwright browsers to speed up e2e runs the agent may execute
+      - name: Install Playwright browsers
+        if: ${{ steps.detect_pkgs.outputs.has_playwright == 'true' }}
+        run: npx playwright install --with-deps
+
+      - name: Print tool versions
+        run: |
+          node -v
+          npm -v
+          npx --yes playwright --version || true
+
+      # If you need Git LFS, enable lfs: true above and optionally fetch LFS objects explicitly:
+      # - name: Pull LFS objects
+      #   run: git lfs pull
+
+      # If you need larger runners, set runs-on above to your larger runner label.
+      # If using ARC-managed self-hosted runners, set runs-on to your scale set label.

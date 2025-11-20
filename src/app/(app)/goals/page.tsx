@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
@@ -9,7 +10,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { Plus, Trash } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Plus, Trash, Target } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import type { Goal } from '@/lib/types';
 
@@ -56,43 +58,80 @@ export default function GoalsPage() {
   };
 
   return (
-    <div>
-      <div className="container mx-auto">
-        <div className="flex items-center justify-between mb-12">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center justify-between mb-8"
+        >
           <div>
-            <h1 className="text-2xl font-semibold">My Goals</h1>
-            <p className="text-muted-foreground">Set and track your therapy goals.</p>
+            <div className="flex items-center gap-3 mb-2">
+              <Target className="w-8 h-8 text-primary" />
+              <h1 className="text-4xl font-bold tracking-tight text-foreground">My Goals</h1>
+            </div>
+            <p className="text-xl text-muted-foreground">Set and track your therapy goals.</p>
           </div>
           {!isCreating && (
             <Button 
               onClick={() => setIsCreating(true)}
+              size="lg"
             >
               <Plus className="w-4 h-4 mr-2" />
               New Goal
             </Button>
           )}
-        </div>
+        </motion.div>
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           {isCreating && (
-            <NewGoalCard
-              onSave={handleSaveGoal}
-              onCancel={() => setIsCreating(false)}
-            />
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <NewGoalCard
+                onSave={handleSaveGoal}
+                onCancel={() => setIsCreating(false)}
+              />
+            </motion.div>
           )}
 
           {isLoading ? (
             <GoalSkeleton />
           ) : goals.length > 0 ? (
-            goals.map((goal) => <GoalCard key={goal.id} goal={goal} onDelete={handleDeleteGoal} />)
+            goals.map((goal, index) => (
+              <motion.div
+                key={goal.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <GoalCard goal={goal} onDelete={handleDeleteGoal} />
+              </motion.div>
+            ))
           ) : (
             !isCreating && (
-              <Card className="border-dashed flex flex-col items-center justify-center text-center p-12">
-                <h3 className="font-semibold text-lg mb-2">No goals yet</h3>
-                <p className="text-muted-foreground">
-                  Create a new goal to start tracking your progress.
-                </p>
-              </Card>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <Card className="border-dashed border-2 border-muted hover:border-border transition-all duration-300">
+                  <CardContent className="flex flex-col items-center justify-center text-center p-12">
+                    <Target className="w-12 h-12 text-muted-foreground mb-4" />
+                    <h3 className="font-semibold text-xl mb-2">No goals yet</h3>
+                    <p className="text-muted-foreground mb-6">
+                      Create a new goal to start tracking your progress and achieving your wellness objectives.
+                    </p>
+                    <Button onClick={() => setIsCreating(true)} size="lg">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Your First Goal
+                    </Button>
+                  </CardContent>
+                </Card>
+              </motion.div>
             )
           )}
         </div>
@@ -126,35 +165,34 @@ function NewGoalCard({
   };
 
   return (
-    <Card>
+    <Card className="border-muted hover:border-border transition-all duration-300">
       <CardHeader>
-        <CardTitle className="font-semibold text-lg">New Goal</CardTitle>
+        <CardTitle className="text-2xl font-bold">New Goal</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="space-y-3">
-          <Label htmlFor="description" className="text-sm font-medium">Description</Label>
+        <div className="grid gap-2">
+          <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="What do you want to achieve?"
-            className=""
+            rows={4}
           />
         </div>
-        <div className="space-y-3">
-          <Label htmlFor="targetDate" className="text-sm font-medium">Target Date</Label>
+        <div className="grid gap-2">
+          <Label htmlFor="targetDate">Target Date</Label>
           <Input
             id="targetDate"
             type="date"
             value={targetDate}
             onChange={(e) => setTargetDate(e.target.value)}
-            className=""
           />
         </div>
       </CardContent>
       <CardFooter className="flex justify-end gap-3">
         <Button variant="outline" onClick={onCancel}>Cancel</Button>
-        <Button onClick={handleSave}>Save</Button>
+        <Button onClick={handleSave}>Save Goal</Button>
       </CardFooter>
     </Card>
   );
@@ -162,34 +200,45 @@ function NewGoalCard({
 
 function GoalCard({ goal, onDelete }: { goal: Goal; onDelete: (id: string) => void }) {
   return (
-    <Card>
+    <Card className="border-muted hover:border-border transition-all duration-300">
       <CardContent className="p-6">
-        <p>{goal.description}</p>
-        <p className="text-sm text-muted-foreground">
-          Target Date: {new Date(goal.targetDate).toLocaleDateString()}
-        </p>
+        <div className="flex items-start justify-between">
+          <div className="flex-1">
+            <p className="text-lg font-medium mb-2">{goal.description}</p>
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary">
+                Target: {new Date(goal.targetDate).toLocaleDateString()}
+              </Badge>
+              {goal.isCompleted && (
+                <Badge variant="default">Completed</Badge>
+              )}
+            </div>
+          </div>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => onDelete(goal.id)}
+            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button variant="outline" size="sm" onClick={() => onDelete(goal.id)}>
-          <Trash className="h-4 w-4" />
-        </Button>
-      </CardFooter>
     </Card>
   );
 }
 
 function GoalSkeleton() {
   return (
-    <div className="space-y-8">
-      <Card>
-        <CardHeader>
-          <Skeleton className="h-6 w-1/2" />
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
-        </CardContent>
-      </Card>
+    <div className="space-y-6">
+      {[1, 2, 3].map((i) => (
+        <Card key={i} className="border-muted">
+          <CardContent className="p-6">
+            <Skeleton className="h-6 w-3/4 mb-4" />
+            <Skeleton className="h-4 w-1/2" />
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
 }

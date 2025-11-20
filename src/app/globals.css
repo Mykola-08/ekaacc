@@ -85,5 +85,214 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  /* Consistent Card Styles */
+  .eka-card {
+    @apply bg-card text-card-foreground rounded-lg border shadow-sm transition-all duration-200;
+  }
+  
+  .eka-card-hover {
+    @apply eka-card hover:shadow-md hover:border-primary/20;
+  }
+  
+  .eka-card-elevated {
+    @apply eka-card shadow-md;
+  }
+  
+  /* Consistent Button Enhancements */
+  .eka-btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 font-medium transition-all duration-200;
+  }
+  
+  .eka-btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 rounded-md px-4 py-2 font-medium transition-all duration-200;
+  }
+  
+  .eka-btn-outline {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md px-4 py-2 font-medium transition-all duration-200;
+  }
+  
+  /* Consistent Input Styles */
+  .eka-input {
+    @apply flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background transition-colors duration-200;
+    @apply file:border-0 file:bg-transparent file:text-sm file:font-medium;
+    @apply placeholder:text-muted-foreground;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  
+  /* Dashboard Layout Consistency */
+  .eka-dashboard-container {
+    @apply min-h-screen bg-background;
+  }
+  
+  .eka-dashboard-header {
+    @apply sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+  }
+  
+  .eka-dashboard-main {
+    @apply flex-1 space-y-4 p-4 md:p-6 lg:p-8;
+  }
+  
+  /* Section Headers */
+  .eka-section-header {
+    @apply flex items-center justify-between pb-4 border-b;
+  }
+  
+  .eka-section-title {
+    @apply text-2xl font-bold tracking-tight;
+  }
+  
+  .eka-section-description {
+    @apply text-sm text-muted-foreground;
+  }
+  
+  /* Consistent Grid Layouts */
+  .eka-grid-1 {
+    @apply grid gap-4;
+  }
+  
+  .eka-grid-2 {
+    @apply grid gap-4 md:grid-cols-2;
+  }
+  
+  .eka-grid-3 {
+    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-3;
+  }
+  
+  .eka-grid-4 {
+    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-4;
+  }
+  
+  /* Stat Card Styles */
+  .eka-stat-card {
+    @apply eka-card p-6 space-y-2;
+  }
+  
+  .eka-stat-label {
+    @apply text-sm font-medium text-muted-foreground;
+  }
+  
+  .eka-stat-value {
+    @apply text-3xl font-bold;
+  }
+  
+  .eka-stat-change {
+    @apply text-xs text-muted-foreground;
+  }
+  
+  /* Navigation Styles */
+  .eka-nav-link {
+    @apply flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-all duration-200;
+    @apply hover:bg-accent hover:text-accent-foreground;
+  }
+  
+  .eka-nav-link-active {
+    @apply eka-nav-link bg-accent text-accent-foreground;
+  }
+  
+  /* Form Layouts */
+  .eka-form-group {
+    @apply space-y-2;
+  }
+  
+  .eka-form-label {
+    @apply text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70;
+  }
+  
+  .eka-form-error {
+    @apply text-sm font-medium text-destructive;
+  }
+  
+  /* Page Headers */
+  .eka-page-header {
+    @apply space-y-2 pb-4 md:pb-6;
+  }
+  
+  .eka-page-title {
+    @apply text-3xl font-bold tracking-tight;
+  }
+  
+  .eka-page-description {
+    @apply text-muted-foreground;
+  }
+  
+  /* Responsive Spacing */
+  .eka-container {
+    @apply container mx-auto px-4 md:px-6 lg:px-8;
+  }
+  
+  .eka-section-spacing {
+    @apply py-6 md:py-8 lg:py-12;
+  }
+  
+  /* Loading States */
+  .eka-skeleton {
+    @apply animate-pulse rounded-md bg-muted;
+  }
+  
+  .eka-spinner {
+    @apply animate-spin rounded-full border-2 border-current border-t-transparent;
+  }
+  
+  /* Empty States */
+  .eka-empty-state {
+    @apply flex flex-col items-center justify-center py-12 text-center;
+  }
+  
+  .eka-empty-state-icon {
+    @apply h-12 w-12 text-muted-foreground mb-4;
+  }
+  
+  .eka-empty-state-title {
+    @apply text-lg font-semibold mb-2;
+  }
+  
+  .eka-empty-state-description {
+    @apply text-sm text-muted-foreground mb-4;
+  }
+  
+  /* Badges */
+  .eka-badge {
+    @apply inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors;
+  }
+  
+  .eka-badge-primary {
+    @apply eka-badge border-transparent bg-primary text-primary-foreground hover:bg-primary/80;
+  }
+  
+  .eka-badge-secondary {
+    @apply eka-badge border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80;
+  }
+  
+  .eka-badge-outline {
+    @apply eka-badge text-foreground;
+  }
+  
+  /* Alerts */
+  .eka-alert {
+    @apply relative w-full rounded-lg border p-4;
+  }
+  
+  .eka-alert-destructive {
+    @apply eka-alert border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive;
+  }
+  
+  .eka-alert-success {
+    @apply eka-alert border-green-500/50 text-green-700 dark:text-green-400 [&>svg]:text-green-600;
+  }
+  
+  /* Smooth Transitions */
+  .eka-transition {
+    @apply transition-all duration-200 ease-in-out;
+  }
+  
+  /* Focus States */
+  .eka-focus {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 }

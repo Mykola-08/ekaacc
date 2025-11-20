@@ -5,6 +5,7 @@ import { motion, type Variants } from 'framer-motion';
 import { ArrowRight, Sparkles, Heart, Users, Shield, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 
 export default function PremiumHero() {
   const router = useRouter();
@@ -76,7 +77,7 @@ export default function PremiumHero() {
             <Button
               size="lg"
               className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 text-lg font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105"
-              onClick={() => router.push('/login?tab=signup')}
+              onClick={() => router.push(ROUTES.signupParam)}
             >
               Start Your Journey
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -85,7 +86,7 @@ export default function PremiumHero() {
               size="lg"
               variant="outline"
               className="px-8 py-3 text-lg font-semibold border-2 border-gray-300 hover:border-gray-400 transition-all duration-300"
-              onClick={() => router.push('/ai-demo')}
+              onClick={() => router.push(ROUTES.aiInsights)}
             >
               Try AI Demo
             </Button>

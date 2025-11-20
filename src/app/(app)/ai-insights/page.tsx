@@ -249,7 +249,7 @@ export default function AIInsightsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-8">
+      <div className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
           <div className="animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-64 mb-8"></div>
@@ -271,7 +271,7 @@ export default function AIInsightsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -320,7 +320,7 @@ export default function AIInsightsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <Card className="border-slate-200 shadow-lg bg-gradient-to-br from-blue-50 to-blue-100">
+            <Card className="border-muted shadow-lg">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-blue-900">Total Insights</CardTitle>
               </CardHeader>
@@ -336,7 +336,7 @@ export default function AIInsightsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
           >
-            <Card className="border-slate-200 shadow-lg bg-gradient-to-br from-green-50 to-green-100">
+            <Card className="border-muted shadow-lg">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-green-900">Improving Trends</CardTitle>
               </CardHeader>
@@ -354,7 +354,7 @@ export default function AIInsightsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Card className="border-slate-200 shadow-lg bg-gradient-to-br from-purple-50 to-purple-100">
+            <Card className="border-muted shadow-lg">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-purple-900">Avg. Confidence</CardTitle>
               </CardHeader>
@@ -372,7 +372,7 @@ export default function AIInsightsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
           >
-            <Card className="border-slate-200 shadow-lg bg-gradient-to-br from-orange-50 to-orange-100">
+            <Card className="border-muted shadow-lg">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm font-medium text-orange-900">Actionable Items</CardTitle>
               </CardHeader>

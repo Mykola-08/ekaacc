@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/context/auth-context';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -173,10 +174,15 @@ export default function PrivacyControlsPage() {
   
   const loadPrivacySettings = async () => {
     try {
-      // Simulate API call to load settings
-      const settings = await new Promise<PrivacySettings>(resolve => 
-        setTimeout(() => resolve(privacySettings), 500)
-      );
+      if (user?.id) {
+        const raw = typeof window !== 'undefined' ? localStorage.getItem(`privacy_settings_${user.id}`) : null;
+        if (raw) {
+          setPrivacySettings(JSON.parse(raw));
+          return;
+        }
+      }
+      // Fallback simulated load
+      const settings = await new Promise<PrivacySettings>(resolve => setTimeout(() => resolve(privacySettings), 300));
       setPrivacySettings(settings);
     } catch (error) {
       toast.error('Failed to load privacy settings');
@@ -246,6 +252,9 @@ export default function PrivacyControlsPage() {
     setIsLoading(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
+      if (user?.id) {
+        localStorage.setItem(`privacy_settings_${user.id}` , JSON.stringify(privacySettings));
+      }
       
       // Track privacy setting changes
       if (user?.id) {
@@ -337,8 +346,8 @@ export default function PrivacyControlsPage() {
   };
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -357,7 +366,7 @@ export default function PrivacyControlsPage() {
           transition={{ duration: 0.5, delay: 0.1 }}
           className="mb-8"
         >
-          <Card className="border-slate-200 shadow-lg bg-gradient-to-r from-blue-50 to-indigo-50">
+          <Card className="border-muted">
             <CardHeader>
               <CardTitle className="flex items-center text-xl">
                 <Shield className="w-6 h-6 mr-3 text-blue-600" />
@@ -806,170 +815,119 @@ export default function PrivacyControlsPage() {
         </motion.div>
       </div>
       
-      {/* Data Export Modal */}
-      <AnimatePresence>
-        {showDataExport && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            onClick={() => setShowDataExport(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h3 className="text-lg font-semibold mb-4">Export Your Data</h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <Label>Export Format</Label>
-                  <Select
-                    value={dataExportRequest.format}
-                    onValueChange={(value) => setDataExportRequest({ ...dataExportRequest, format: value as any })}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="json">JSON</SelectItem>
-                      <SelectItem value="csv">CSV</SelectItem>
-                      <SelectItem value="pdf">PDF</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div>
-                  <Label>Date Range</Label>
-                  <Select
-                    value={dataExportRequest.dateRange}
-                    onValueChange={(value) => setDataExportRequest({ ...dataExportRequest, dateRange: value as any })}
-                  >
-                    <SelectTrigger className="mt-1">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="30d">Last 30 days</SelectItem>
-                      <SelectItem value="90d">Last 90 days</SelectItem>
-                      <SelectItem value="1y">Last year</SelectItem>
-                      <SelectItem value="all">All time</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      checked={dataExportRequest.includePersonal}
-                      onCheckedChange={(checked) => setDataExportRequest({ ...dataExportRequest, includePersonal: checked })}
-                    />
-                    <Label>Include Personal Information</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      checked={dataExportRequest.includeActivity}
-                      onCheckedChange={(checked) => setDataExportRequest({ ...dataExportRequest, includeActivity: checked })}
-                    />
-                    <Label>Include Activity Logs</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      checked={dataExportRequest.includeAI}
-                      onCheckedChange={(checked) => setDataExportRequest({ ...dataExportRequest, includeAI: checked })}
-                    />
-                    <Label>Include AI Insights</Label>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex space-x-3 mt-6">
-                <Button
-                  className="flex-1"
-                  onClick={handleDataExport}
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Processing...' : 'Export Data'}
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setShowDataExport(false)}
-                  disabled={isLoading}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-      
-      {/* Account Deletion Modal */}
-      <AnimatePresence>
-        {showDeleteConfirm && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            onClick={() => setShowDeleteConfirm(false)}
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="flex items-center mb-4">
-                <AlertTriangle className="w-6 h-6 text-red-500 mr-2" />
-                <h3 className="text-lg font-semibold text-red-600">Delete Account</h3>
-              </div>
-              
-              <Alert className="mb-4">
-                <AlertDescription>
-                  This action is irreversible. All your data will be permanently deleted and cannot be recovered.
-                </AlertDescription>
-              </Alert>
-              
-              <div className="space-y-4">
-                <p className="text-sm text-slate-600">
-                  To confirm account deletion, please type: <strong>DELETE MY ACCOUNT</strong>
-                </p>
-                <Input
-                  placeholder="Type DELETE MY ACCOUNT"
-                  value={deleteConfirmation}
-                  onChange={(e) => setDeleteConfirmation(e.target.value)}
-                  className="border-red-300 focus:border-red-500 focus:ring-red-500"
+      {/* Data Export Dialog */}
+      <Dialog open={showDataExport} onOpenChange={setShowDataExport}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Export Your Data</DialogTitle>
+            <DialogDescription>
+              Choose format, range, and what to include.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <Label>Export Format</Label>
+              <Select
+                value={dataExportRequest.format}
+                onValueChange={(value) => setDataExportRequest({ ...dataExportRequest, format: value as any })}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="json">JSON</SelectItem>
+                  <SelectItem value="csv">CSV</SelectItem>
+                  <SelectItem value="pdf">PDF</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div>
+              <Label>Date Range</Label>
+              <Select
+                value={dataExportRequest.dateRange}
+                onValueChange={(value) => setDataExportRequest({ ...dataExportRequest, dateRange: value as any })}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="30d">Last 30 days</SelectItem>
+                  <SelectItem value="90d">Last 90 days</SelectItem>
+                  <SelectItem value="1y">Last year</SelectItem>
+                  <SelectItem value="all">All time</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={dataExportRequest.includePersonal}
+                  onCheckedChange={(checked) => setDataExportRequest({ ...dataExportRequest, includePersonal: checked })}
                 />
+                <Label>Include Personal Information</Label>
               </div>
-              
-              <div className="flex space-x-3 mt-6">
-                <Button
-                  variant="destructive"
-                  className="flex-1"
-                  onClick={handleAccountDeletion}
-                  disabled={isLoading}
-                >
-                  {isLoading ? 'Processing...' : 'Delete Account'}
-                </Button>
-                <Button
-                  variant="outline"
-                  className="flex-1"
-                  onClick={() => setShowDeleteConfirm(false)}
-                  disabled={isLoading}
-                >
-                  Cancel
-                </Button>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={dataExportRequest.includeActivity}
+                  onCheckedChange={(checked) => setDataExportRequest({ ...dataExportRequest, includeActivity: checked })}
+                />
+                <Label>Include Activity Logs</Label>
               </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  checked={dataExportRequest.includeAI}
+                  onCheckedChange={(checked) => setDataExportRequest({ ...dataExportRequest, includeAI: checked })}
+                />
+                <Label>Include AI Insights</Label>
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="gap-3 sm:gap-0">
+            <Button className="flex-1 sm:flex-none" onClick={handleDataExport} disabled={isLoading}>
+              {isLoading ? 'Processing...' : 'Export Data'}
+            </Button>
+            <Button variant="outline" className="flex-1 sm:flex-none" onClick={() => setShowDataExport(false)} disabled={isLoading}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Account Deletion Dialog */}
+      <Dialog open={showDeleteConfirm} onOpenChange={setShowDeleteConfirm}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600">
+              <AlertTriangle className="w-5 h-5 text-red-500" />
+              Delete Account
+            </DialogTitle>
+            <DialogDescription>
+              This action is irreversible. All your data will be permanently deleted and cannot be recovered.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-slate-600">
+              To confirm account deletion, please type: <strong>DELETE MY ACCOUNT</strong>
+            </p>
+            <Input
+              placeholder="Type DELETE MY ACCOUNT"
+              value={deleteConfirmation}
+              onChange={(e) => setDeleteConfirmation(e.target.value)}
+              className="border-red-300 focus:border-red-500 focus:ring-red-500"
+            />
+          </div>
+          <DialogFooter className="gap-3 sm:gap-0">
+            <Button variant="destructive" className="flex-1 sm:flex-none" onClick={handleAccountDeletion} disabled={isLoading}>
+              {isLoading ? 'Processing...' : 'Delete Account'}
+            </Button>
+            <Button variant="outline" className="flex-1 sm:flex-none" onClick={() => setShowDeleteConfirm(false)} disabled={isLoading}>
+              Cancel
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

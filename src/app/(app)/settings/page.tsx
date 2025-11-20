@@ -5,17 +5,20 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
 import { useState, useEffect, useMemo } from 'react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { useToast } from '@/hooks/use-toast';
 import { 
-  Bell, Mail, MessageSquare, Calendar, Save, Shield, Palette, User as UserIcon, Smartphone, Globe, Lock, Eye, EyeOff, RefreshCw
-} from "lucide-react";
+  Bell, Mail, MessageSquare, Calendar, Save, Shield, User as UserIcon, Smartphone, Lock, RefreshCw
+} from 'lucide-react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { ThemeSelector } from '@/components/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/eka/settings/notification-switch';
+import { SettingsHeader } from '@/components/eka/settings/settings-header';
+import { SettingsShell } from '@/components/eka/settings/settings-shell';
+import { SettingsCard } from '@/components/eka/settings/settings-card';
 import type { User } from '@/lib/types';
 
 type UserSettings = NonNullable<User['settings']>;
@@ -148,129 +151,44 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30">
+    <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Premium Header */}
-        <motion.div 
-          className="mb-8"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-blue-700 bg-clip-text text-transparent mb-2">
-                Settings
-              </h1>
-              <p className="text-lg text-slate-600 max-w-2xl">
-                Customize your experience and manage your account preferences
-              </p>
-            </div>
-            <AnimatePresence>
-              {hasChanges && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Button 
-                    onClick={handleSave} 
-                    disabled={isLoading}
-                    className="premium-button-primary group"
-                  >
-                    <Save className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-                    {isLoading ? 'Saving...' : 'Save Changes'}
-                  </Button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+        <SettingsHeader
+          eyebrow="Settings"
+          title="Settings"
+          description="Customize your experience and manage your preferences."
+        />
 
-        <motion.div 
-          className="space-y-8"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {/* Profile Settings */}
-          <motion.div variants={itemVariants}>
-            <Card className="premium-card">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 rounded-xl flex items-center justify-center">
-                    <UserIcon className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-slate-900">Profile Information</h2>
-                    <p className="text-sm text-slate-600">Manage your personal information and account details</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-6">
+        <SettingsShell className="mt-6">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
+            <motion.div variants={itemVariants}>
+              <SettingsCard title="Profile" description="Basic account information">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-slate-700">Full Name</Label>
-                    <Input 
-                      value={currentUser?.fullName || ''} 
-                      disabled 
-                      className="premium-input bg-slate-50"
-                    />
+                    <Label className="text-sm">Full Name</Label>
+                    <Input value={currentUser?.fullName || ''} disabled />
                   </div>
                   <div className="space-y-2">
-                    <Label className="text-sm font-medium text-slate-700">Email Address</Label>
-                    <Input 
-                      value={currentUser?.email || ''} 
-                      disabled 
-                      className="premium-input bg-slate-50"
-                    />
+                    <Label className="text-sm">Email Address</Label>
+                    <Input value={currentUser?.email || ''} disabled />
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </SettingsCard>
+            </motion.div>
 
-          {/* Appearance Settings */}
-          <motion.div variants={itemVariants}>
-            <Card className="premium-card">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center">
-                    <Palette className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-slate-900">Appearance</h2>
-                    <p className="text-sm text-slate-600">Customize the look and feel of your application</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
+            <motion.div variants={itemVariants}>
+              <SettingsCard title="Appearance" description="Choose your theme">
                 <ThemeSelector />
-              </CardContent>
-            </Card>
-          </motion.div>
+              </SettingsCard>
+            </motion.div>
 
-          {/* Notifications Settings */}
-          <motion.div variants={itemVariants}>
-            <Card className="premium-card">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-100 to-blue-100 rounded-xl flex items-center justify-center">
-                    <Bell className="w-6 h-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-slate-900">Notifications</h2>
-                    <p className="text-sm text-slate-600">Choose how you want to be notified about important events</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
+            <motion.div variants={itemVariants}>
+              <SettingsCard title="Notifications" description="Email and push preferences">
                 <div className="space-y-6">
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Mail className="w-5 h-5 text-blue-600" />
-                      <h3 className="text-lg font-semibold text-slate-900">Email Notifications</h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Mail className="w-4 h-4" />
+                      <h3 className="text-sm font-medium">Email</h3>
                     </div>
                     {notificationSettings.filter(s => s.subcategory === 'email').map(setting => (
                       <NotificationSwitch
@@ -283,11 +201,11 @@ export default function SettingsPage() {
                       />
                     ))}
                   </div>
-                  
-                  <div className="border-t border-slate-200 pt-6">
-                    <div className="flex items-center gap-2 mb-4">
-                      <Smartphone className="w-5 h-5 text-purple-600" />
-                      <h3 className="text-lg font-semibold text-slate-900">Push Notifications</h3>
+
+                  <div className="pt-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Smartphone className="w-4 h-4" />
+                      <h3 className="text-sm font-medium">Push</h3>
                     </div>
                     {notificationSettings.filter(s => s.subcategory === 'push').map(setting => (
                       <NotificationSwitch
@@ -301,103 +219,51 @@ export default function SettingsPage() {
                     ))}
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </SettingsCard>
+            </motion.div>
 
-          {/* Security Settings */}
-          <motion.div variants={itemVariants}>
-            <Card className="premium-card">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-red-100 rounded-xl flex items-center justify-center">
-                    <Shield className="w-6 h-6 text-orange-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-xl font-semibold text-slate-900">Security</h2>
-                    <p className="text-sm text-slate-600">Manage your account security and privacy settings</p>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl border border-slate-200">
+            <motion.div variants={itemVariants}>
+              <SettingsCard title="Security" description="Account protection">
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 rounded-lg border">
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-slate-900 flex items-center gap-2">
-                        <Lock className="w-4 h-4 text-blue-600" />
+                      <h4 className="font-medium flex items-center gap-2">
+                        <Lock className="w-4 h-4" />
                         Password
                       </h4>
-                      <p className="text-sm text-slate-600">
-                        For security, password changes are handled via email reset
-                      </p>
+                      <p className="text-sm text-muted-foreground">Reset your password via email</p>
                     </div>
-                    <Button 
-                      variant="outline" 
-                      className="premium-button-outline"
-                      onClick={() => setShowPasswordReset(true)}
-                    >
+                    <Button variant="outline" onClick={() => setShowPasswordReset(true)}>
                       Reset Password
                     </Button>
                   </div>
-                  
-                  <div className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-purple-50 rounded-xl border border-slate-200">
+                  <div className="flex items-center justify-between p-4 rounded-lg border">
                     <div className="space-y-1">
-                      <h4 className="font-semibold text-slate-900 flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-purple-600" />
+                      <h4 className="font-medium flex items-center gap-2">
+                        <Shield className="w-4 h-4" />
                         Two-Factor Authentication
                       </h4>
-                      <p className="text-sm text-slate-600">
-                        Add an extra layer of security to your account
-                      </p>
+                      <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
                     </div>
-                    <Button 
-                      variant="outline" 
-                      disabled
-                      className="premium-button-outline-disabled"
-                    >
+                    <Button variant="outline" disabled>
                       Coming Soon
                     </Button>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+              </SettingsCard>
+            </motion.div>
 
-          {/* Integrations Section */}
-          <motion.div
-            variants={itemVariants}
-            className="space-y-6"
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-orange-100 rounded-lg">
-                <RefreshCw className="w-6 h-6 text-orange-600" />
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold text-slate-900">Integrations</h2>
-                <p className="text-slate-600">Manage external service connections</p>
-              </div>
-            </div>
-
-            <Card className="border-slate-200 shadow-sm hover:shadow-md transition-all duration-300">
-              <CardHeader className="border-b border-slate-100 bg-slate-50/50">
-                <h3 className="text-lg font-semibold text-slate-900">Connected Services</h3>
-              </CardHeader>
-              <CardContent className="p-6 space-y-6">
-                <div className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200">
+            <motion.div variants={itemVariants}>
+              <SettingsCard title="Integrations" description="Manage external services">
+                <div className="flex items-center justify-between p-4 rounded-lg border">
                   <div className="space-y-1">
-                    <h4 className="font-semibold text-slate-900 flex items-center gap-2">
-                      <RefreshCw className="w-4 h-4 text-orange-600" />
+                    <h4 className="font-medium flex items-center gap-2">
+                      <RefreshCw className="w-4 h-4" />
                       Square & Stripe Sync
                     </h4>
-                    <p className="text-sm text-slate-600">
-                      Manually trigger synchronization of services and appointments
-                    </p>
+                    <p className="text-sm text-muted-foreground">Trigger a sync of services and appointments</p>
                   </div>
-                  <Button 
-                    variant="outline" 
-                    onClick={handleSync}
-                    disabled={isSyncing}
-                  >
+                  <Button variant="outline" onClick={handleSync} disabled={isSyncing}>
                     {isSyncing ? (
                       <>
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -408,63 +274,62 @@ export default function SettingsPage() {
                     )}
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </motion.div>
-
-        {/* Password Reset Modal */}
-        <AnimatePresence>
-          {showPasswordReset && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
-              onClick={() => setShowPasswordReset(false)}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="bg-white rounded-2xl p-8 max-w-md mx-4"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Mail className="w-8 h-8 text-blue-600" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-900 mb-2">Password Reset</h3>
-                  <p className="text-slate-600 mb-6">
-                    A password reset link will be sent to your email address.
-                  </p>
-                  <div className="flex gap-3">
-                    <Button 
-                      variant="outline" 
-                      className="flex-1 premium-button-outline"
-                      onClick={() => setShowPasswordReset(false)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button 
-                      className="flex-1 premium-button-primary"
-                      onClick={() => {
-                        // Handle password reset logic here
-                        toast({
-                          title: "Password Reset Sent",
-                          description: "Check your email for the reset link.",
-                        });
-                        setShowPasswordReset(false);
-                      }}
-                    >
-                      Send Reset Link
-                    </Button>
-                  </div>
-                </div>
-              </motion.div>
+              </SettingsCard>
             </motion.div>
-          )}
-        </AnimatePresence>
+          </motion.div>
+
+          <AnimatePresence>
+            {hasChanges && (
+              <motion.div
+                className="sticky bottom-4 flex justify-end"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+              >
+                <Button onClick={handleSave} disabled={isLoading} data-testid="save-settings">
+                  <Save className="w-4 h-4 mr-2" />
+                  {isLoading ? 'Saving...' : 'Save Changes'}
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </SettingsShell>
+
+        {/* Password Reset Dialog (shadcn) */}
+        <Dialog open={showPasswordReset} onOpenChange={setShowPasswordReset}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Password Reset</DialogTitle>
+              <DialogDescription>
+                A password reset link will be sent to your email address.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="flex items-center justify-center py-2">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
+                <Mail className="w-8 h-8 text-blue-600" />
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-0">
+              <Button 
+                variant="outline"
+                onClick={() => setShowPasswordReset(false)}
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={() => {
+                  toast({
+                    title: 'Password Reset Sent',
+                    description: 'Check your email for the reset link.',
+                  });
+                  setShowPasswordReset(false);
+                }}
+              >
+                Send Reset Link
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import { saveProviderTokens } from '@/services/provider-tokens-service'
 
 export default function AuthCallback() {
   const router = useRouter()
@@ -17,7 +18,7 @@ export default function AuthCallback() {
 
         if (code) {
           // Exchange code for session
-          const { error } = await supabase.auth.exchangeCodeForSession(code)
+          const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
           if (error) {
             console.error('Error exchanging code for session:', error)
@@ -25,13 +26,42 @@ export default function AuthCallback() {
             return
           }
 
+          // Extract provider tokens if available (especially for Google OAuth)
+          // See: https://supabase.com/docs/guides/auth/social-login/auth-google#saving-google-tokens
+          if (data?.session) {
+            const { user, provider_token, provider_refresh_token } = data.session
+            
+            // Determine which OAuth provider was used
+            const identities = user?.identities || []
+            const oauthIdentity = identities.find(identity => 
+              ['google', 'github', 'twitter', 'linkedin', 'apple', 'facebook'].includes(identity.provider)
+            )
+
+            // Save provider tokens if we have them
+            if (oauthIdentity && (provider_token || provider_refresh_token)) {
+              const provider = oauthIdentity.provider as 'google' | 'github' | 'twitter' | 'linkedin' | 'apple' | 'facebook'
+              
+              await saveProviderTokens({
+                userId: user.id,
+                provider,
+                providerToken: provider_token || null,
+                providerRefreshToken: provider_refresh_token || null,
+                expiresIn: 3600, // Google tokens typically expire in 1 hour
+              })
+
+              console.log(`Saved ${provider} tokens for user ${user.id}`)
+            }
+          }
+
           // Successfully authenticated
-          router.push('/dashboard')
+          const returnTo = params.get('returnTo') || '/dashboard'
+          router.push(returnTo)
         } else {
           // No code provided, check if there's already a session
           const { data: { session } } = await supabase.auth.getSession()
           if (session) {
-            router.push('/dashboard')
+            const returnTo = params.get('returnTo') || '/dashboard'
+            router.push(returnTo)
           } else {
             router.push('/login')
           }

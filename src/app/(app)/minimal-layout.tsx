@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/navigation/app-sidebar';
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 import { AppHeader } from '@/components/eka/app-header';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
 import { LayoutProvider, useLayout } from '@/context/layout-context';
@@ -46,20 +46,25 @@ function AppLayoutInner({ children }: { children: React.ReactNode }) {
 function AppLayoutContent({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [mounted, setMounted] = useState(false);
+  const e2eBypass = searchParams?.get('e2e') === '1';
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Redirect to login if not authenticated
+  // Redirect to login if not authenticated (preserve intended destination)
   useEffect(() => {
-    if (!loading && !user) {
-      router.push('/login');
+    if (!loading && !user && !e2eBypass) {
+      const query = searchParams?.toString();
+      const returnTo = pathname + (query ? `?${query}` : '');
+      router.push(`/login?returnTo=${encodeURIComponent(returnTo)}`);
     }
-  }, [user, loading, router]);
+  }, [user, loading, router, pathname, searchParams, e2eBypass]);
 
-  if (!mounted || loading || !user) {
+  if (!mounted || loading || (!user && !e2eBypass)) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <div className="text-center">

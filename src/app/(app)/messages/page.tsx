@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
@@ -149,10 +149,11 @@ export default function MessagesPage() {
 
 function ConversationItem({ user, isActive, onClick }: { user: User, isActive: boolean, onClick: () => void }) {
   return (
-    <button
+    <Button
       onClick={onClick}
+      variant="ghost"
       className={cn(
-        "flex items-center gap-4 p-6 w-full text-left hover:bg-muted/50 transition-colors",
+        "flex items-center gap-4 p-6 w-full justify-start text-left hover:bg-muted/50 transition-colors",
         isActive && "bg-muted"
       )}
     >
@@ -167,7 +168,7 @@ function ConversationItem({ user, isActive, onClick }: { user: User, isActive: b
         </p>
       </div>
       <span className="text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>2m ago</span>
-    </button>
+    </Button>
   );
 }
 

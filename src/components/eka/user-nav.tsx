@@ -76,14 +76,9 @@ export function UserNav() {
           </div>
         </div>
         <div className="border-t my-1"></div>
+        {/* Removed Supabase data source tag for minimalist design */}
         <div>
-          <div className="px-2 py-1.5">
-            <DataSourceIndicator />
-          </div>
-        </div>
-        <div className="border-t my-1"></div>
-        <div>
-          <Link href="/account">
+          <Link href="/myaccount">
             <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>

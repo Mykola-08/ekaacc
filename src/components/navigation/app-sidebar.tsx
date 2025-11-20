@@ -52,13 +52,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         title: "Dashboard",
         url: "/dashboard",
         icon: LayoutDashboard,
-        isActive: pathname === "/dashboard",
+        isActive: pathname === "/dashboard" || pathname === "/home",
       },
       {
         title: "Profile",
-        url: "/profile",
+        url: "/myaccount",
         icon: UserCircle,
-        isActive: pathname === "/profile",
+        isActive: pathname === "/myaccount",
       },
     ]
 
@@ -79,10 +79,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           isActive: pathname === "/admin/users",
         },
         {
-          title: "Tier Management",
-          url: "/admin/tiers",
+          title: "Subscriptions",
+          url: "/admin/subscriptions",
           icon: CreditCard,
-          isActive: pathname === "/admin/tiers",
+          isActive: pathname === "/admin/subscriptions",
         },
         {
           title: "Analytics",
@@ -116,15 +116,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         },
         {
           title: "Schedule",
-          url: "/therapist/schedule",
+          url: "/therapist/bookings",
           icon: Calendar,
-          isActive: pathname === "/therapist/schedule",
+          isActive: pathname === "/therapist/bookings",
         },
         {
           title: "Reports",
-          url: "/therapist/reports",
+          url: "/reports",
           icon: FileText,
-          isActive: pathname === "/therapist/reports",
+          isActive: pathname === "/reports",
         },
         ...baseItems
       ]
@@ -173,25 +173,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: "Wellness",
-        url: "/wellness",
+        url: "/journal",
         icon: Heart,
-        isActive: pathname.startsWith("/wellness"),
+        isActive: pathname.startsWith("/journal") || pathname === "/privacy-controls",
         items: [
           {
             title: "Journal",
             url: "/journal",
           },
           {
-            title: "Mood Tracker",
-            url: "/mood",
+            title: "Privacy Controls",
+            url: "/privacy-controls",
           },
         ],
       },
       {
-        title: "Tiers",
-        url: "/tiers",
+        title: "Subscriptions",
+        url: "/subscriptions",
         icon: CreditCard,
-        isActive: pathname === "/tiers",
+        isActive: pathname === "/subscriptions",
       },
       {
         title: "Settings",

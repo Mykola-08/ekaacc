@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/lib/supabase-auth';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/routes';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface PremiumHeaderProps {
   user?: any;
@@ -17,6 +19,7 @@ interface PremiumHeaderProps {
 export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { signOut } = useAuth();
   const router = useRouter();
 
@@ -33,12 +36,27 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
     router.push('/login');
   };
 
+  const isTherapist = user?.role?.name === 'therapist';
+  const dashboardItem = isTherapist
+    ? { name: 'Therapist Dashboard', href: ROUTES.therapistDashboard }
+    : { name: 'Dashboard', href: ROUTES.dashboard };
+
   const navItems = [
-    { name: 'Dashboard', href: '/home' },
-    { name: 'AI Demo', href: '/ai-demo' },
-    { name: 'Sessions', href: '/sessions' },
-    { name: 'Journal', href: '/journal' },
-    { name: 'Settings', href: '/settings' },
+    dashboardItem,
+    { name: 'AI Insights', href: ROUTES.aiInsights },
+    { name: 'Sessions', href: ROUTES.sessions },
+    { name: 'Journal', href: ROUTES.journal },
+    { name: 'Subscriptions', href: ROUTES.subscriptions },
+    { name: 'Privacy Controls', href: ROUTES.privacyControls },
+    { name: 'Settings', href: ROUTES.settings },
+  ];
+
+  // Mobile keeps a simpler, touch-friendly subset
+  const mobileNavItems = [
+    isTherapist ? { name: 'Therapist Dashboard', href: ROUTES.therapistDashboard } : { name: 'Dashboard', href: ROUTES.dashboard },
+    { name: 'Sessions', href: ROUTES.sessions },
+    { name: 'AI Insights', href: ROUTES.aiInsights },
+    { name: 'Settings', href: ROUTES.settings },
   ];
 
   return (
@@ -51,11 +69,8 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/home" className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary shadow-lg">
-                <span className="text-primary-foreground font-bold text-lg">E</span>
-              </div>
-              <span className="text-xl font-bold text-foreground">EKA</span>
+            <Link href={ROUTES.home} className="flex items-center">
+              <Image src="/eka_logo.png" alt="EKA" width={120} height={32} priority />
             </Link>
           </div>
 
@@ -141,14 +156,14 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => router.push('/login')}
+                  onClick={() => router.push(ROUTES.login)}
                   className="text-gray-600 hover:text-gray-900 transition-colors"
                 >
                   Sign In
                 </Button>
                 <Button
                   size="sm"
-                  onClick={() => router.push('/login?tab=signup')}
+                  onClick={() => router.push(ROUTES.signupParam)}
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg transition-all duration-300 hover:scale-105"
                 >
                   Get Started
@@ -160,8 +175,11 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
             <Button
               variant="outline"
               size="sm"
-              onClick={onMenuClick}
+              onClick={() => setMobileOpen((v) => !v)}
               className="md:hidden rounded-full hover:bg-gray-100/50 transition-all duration-200"
+              aria-label="Open menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-nav"
             >
               <Menu className="h-5 w-5 text-gray-600" />
             </Button>
@@ -171,25 +189,32 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
 
       {/* Mobile Navigation */}
       <AnimatePresence>
-        {userMenuOpen && (
+        {mobileOpen && (
           <motion.div
+            key="mobile-nav"
+            id="mobile-nav"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden border-t border-gray-200 bg-white/95 backdrop-blur-lg"
+            className="md:hidden border-t border-border bg-background/95 backdrop-blur"
           >
-            <div className="px-4 py-4 space-y-1">
-              {navItems.map((item) => (
+            <div className="px-4 py-3 space-y-2">
+              {mobileNavItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100/50 rounded-lg transition-all duration-200"
-                  onClick={() => setUserMenuOpen(false)}
+                  className="block rounded-lg px-4 py-3 text-base font-medium text-foreground/90 hover:bg-muted/60"
+                  onClick={() => setMobileOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
+              <div className="pt-2 mt-2 border-t border-border/60 text-sm text-muted-foreground flex flex-wrap gap-4">
+                <Link href={ROUTES.terms} onClick={() => setMobileOpen(false)} className="hover:text-foreground">Terms</Link>
+                <Link href={ROUTES.privacy} onClick={() => setMobileOpen(false)} className="hover:text-foreground">Privacy</Link>
+                <Link href={ROUTES.cookies} onClick={() => setMobileOpen(false)} className="hover:text-foreground">Cookies</Link>
+              </div>
             </div>
           </motion.div>
         )}

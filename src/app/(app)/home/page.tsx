@@ -1,7 +1,7 @@
 'use client';
 
-import EnhancedPatientDashboard from './enhanced-page';
+import SimplePatientDashboard from './simple-page';
 
 export default function HomePage() {
-  return <EnhancedPatientDashboard />;
+  return <SimplePatientDashboard />;
 }

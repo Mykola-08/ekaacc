@@ -259,11 +259,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signInWithOAuth = async (provider: OAuthProvider) => {
     try {
+      // Preserve intended destination across OAuth redirects
+      const params = new URLSearchParams(window.location.search)
+      const returnTo = params.get('returnTo') || '/dashboard'
+      
+      // Configure OAuth options based on provider
+      // For Google: request offline access and force consent to get refresh token
+      const options: any = {
+        redirectTo: `${window.location.origin}/auth/callback?returnTo=${encodeURIComponent(returnTo)}`,
+      }
+
+      // Google-specific configuration for saving tokens
+      // See: https://supabase.com/docs/guides/auth/social-login/auth-google#saving-google-tokens
+      if (provider === 'google') {
+        options.queryParams = {
+          access_type: 'offline', // Request refresh token
+          prompt: 'consent', // Force consent screen to ensure refresh token is returned
+        }
+        // Optional: Request additional scopes beyond the default openid, email, profile
+        // options.scopes = 'openid email profile https://www.googleapis.com/auth/calendar.readonly'
+      }
+
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
+        options,
       })
 
       if (error) {

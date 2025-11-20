@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@
 import { Skeleton } from '@/components/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { forwardRef } from 'react';
+import { Checkbox } from '@/components/ui/checkbox';
 import type { User } from '@/lib/types';
 import { Search, Eye, Edit, UserX, UserCheck, Filter, Users, User as UserIcon, Shield, Activity } from 'lucide-react';
 
@@ -142,7 +143,7 @@ export const UserTable = forwardRef<HTMLInputElement, UserTableProps>(({
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="w-[50px]">
-                                        <input type="checkbox" ref={ref} checked={allSelected} onChange={e => onSelectAll(e.target.checked)} />
+                                        <Checkbox ref={ref as any} checked={allSelected} onCheckedChange={(checked) => onSelectAll(!!checked)} />
                                     </TableHead>
                                     <TableHead>User</TableHead>
                                     <TableHead>Role</TableHead>
@@ -155,7 +156,7 @@ export const UserTable = forwardRef<HTMLInputElement, UserTableProps>(({
                                 {users.map((user) => (
                                     <TableRow key={user.id}>
                                         <TableCell>
-                                            <input type="checkbox" checked={selectedUserIds.includes(user.id)} onChange={e => onSelectUser(user.id, e.target.checked)} />
+                                            <Checkbox checked={selectedUserIds.includes(user.id)} onCheckedChange={(checked) => onSelectUser(user.id, !!checked)} />
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center gap-3">

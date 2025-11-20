@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { Crown, Shield, Users, TrendingUp, Award, Clock, Heart, Zap, Sparkles, Target, Gem, Wifi, Briefcase } from 'lucide-react';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
+import { Button } from '@/components/ui/button';
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text';
 import { NumberTicker } from '@/components/ui/number-ticker';
 import { BlurIn } from '@/components/ui/blur-in';
@@ -134,9 +135,9 @@ export default function VIPPlatinumPage() {
                 <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-pink-600">
                   Request Platinum Access - €149.99/month
                 </ShimmerButton>
-                <button className="px-8 py-4 text-lg border-2 border-purple-500 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors">
+                <Button variant="outline" className="px-8 py-4 text-lg border-2 border-purple-500 text-purple-600 hover:bg-purple-50">
                   Schedule Elite Consultation
-                </button>
+                </Button>
               </div>
             </BlurIn>
             <BlurIn>
@@ -277,9 +278,9 @@ export default function VIPPlatinumPage() {
               <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-purple-600 to-pink-600">
                 Apply for Platinum Access
               </ShimmerButton>
-              <button className="px-8 py-4 text-lg border-2 border-purple-500 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors">
+              <Button variant="outline" className="px-8 py-4 text-lg border-2 border-purple-500 text-purple-600 hover:bg-purple-50">
                 Elite Consultation Call
-              </button>
+              </Button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
               Application review within 24 hours • Premium onboarding • Exclusive benefits

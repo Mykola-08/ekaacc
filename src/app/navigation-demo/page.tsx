@@ -1,12 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { AppSidebar } from '@/components/navigation/app-sidebar';
-import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
-import { AppHeader } from '@/components/eka/app-header';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { 
@@ -47,12 +46,9 @@ export default function NavigationSystemDemo() {
   const alerts = user ? getSecurityAlerts({ acknowledged: false, limit: 5 }) : [];
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <AppHeader />
-        <div className="flex-1 overflow-auto p-6">
-          <div className="max-w-6xl mx-auto space-y-6">
+    <DashboardLayout>
+      <div className="flex-1 overflow-auto p-6">
+        <div className="max-w-6xl mx-auto space-y-6">
                 {/* User Info Card */}
                 {user && (
                   <Card>
@@ -195,8 +191,7 @@ export default function NavigationSystemDemo() {
                 </Tabs>
               </div>
             </div>
-      </SidebarInset>
-    </SidebarProvider>
+    </DashboardLayout>
   );
 }
 
@@ -311,30 +306,30 @@ function PermissionMatrix() {
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left p-2">Route</th>
-                {roles.map(role => (
-                  <th key={role} className="text-center p-2 text-xs">
+          <Table className="w-full text-sm">
+            <TableHeader>
+              <TableRow className="border-b">
+                <TableHead className="text-left p-2">Route</TableHead>
+                {roles.map((role) => (
+                  <TableHead key={role} className="text-center p-2 text-xs">
                     {role}
-                  </th>
+                  </TableHead>
                 ))}
-              </tr>
-            </thead>
-            <tbody>
-              {sampleRoutes.map(route => (
-                <tr key={route} className="border-b">
-                  <td className="p-2 font-mono text-xs">{route}</td>
-                  {roles.map(role => (
-                    <td key={`${route}-${role}`} className="text-center p-2">
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sampleRoutes.map((route) => (
+                <TableRow key={route} className="border-b">
+                  <TableCell className="p-2 font-mono text-xs">{route}</TableCell>
+                  {roles.map((role) => (
+                    <TableCell key={`${route}-${role}`} className="text-center p-2">
                       <PermissionIndicator route={route} role={role} />
-                    </td>
+                    </TableCell>
                   ))}
-                </tr>
+                </TableRow>
               ))}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       </CardContent>
     </Card>

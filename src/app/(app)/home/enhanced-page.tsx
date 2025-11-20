@@ -1,8 +1,9 @@
 'use client'
 
+import React from 'react'
+
 import { Sparkles, Heart, Brain, Shield, Zap, Calendar, Target, MessageSquare, TrendingUp } from 'lucide-react'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -71,7 +72,6 @@ export default function PatientDashboardPage() {
   ]
 
   return (
-    <DashboardLayout>
       <div className="min-h-screen bg-background">
         {/* Enhanced Hero Section */}
         <section className="relative overflow-hidden py-12 sm:py-16">
@@ -276,6 +276,5 @@ export default function PatientDashboardPage() {
           </div>
         </section>
       </div>
-    </DashboardLayout>
   )
 }

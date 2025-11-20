@@ -25,7 +25,7 @@ export default function Loading() {
         animate={{ opacity: 1, y: 0 }}
         className="fixed top-0 left-0 right-0 z-50 bg-primary/10 backdrop-blur-sm"
       >
-        <div className="h-1 bg-gradient-to-r from-primary via-purple-500 to-primary bg-[length:200%_100%] animate-shimmer" 
+        <div className="h-1 bg-primary animate-pulse" 
              style={{ width: `${Math.min(progress, 100)}%` }} 
         />
       </motion.div>

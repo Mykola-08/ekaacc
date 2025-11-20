@@ -108,9 +108,11 @@ export default function MinimalistLoginPage() {
                   placeholder="Enter your password"
                   className="squircle-input pr-12"
                 />
-                <button
+                <Button
                   type="button"
-                  className="squircle-button absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
@@ -119,7 +121,7 @@ export default function MinimalistLoginPage() {
                   ) : (
                     <Eye className="h-4 w-4 text-muted-foreground" />
                   )}
-                </button>
+                </Button>
               </div>
             </div>
 

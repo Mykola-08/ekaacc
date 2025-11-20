@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { Star, Shield, Users, TrendingUp, Award, Clock, Heart, Zap } from 'lucide-react';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
+import { Button } from '@/components/ui/button';
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text';
 import { NumberTicker } from '@/components/ui/number-ticker';
 import { BlurIn } from '@/components/ui/blur-in';
@@ -104,9 +105,9 @@ export default function VIPSilverPage() {
                 <ShimmerButton className="px-8 py-4 text-lg">
                   Upgrade to Silver - €29.99/month
                 </ShimmerButton>
-                <button className="px-8 py-4 text-lg border-2 border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                <Button variant="outline" className="px-8 py-4 text-lg border-2 border-blue-500 text-blue-600 hover:bg-blue-50">
                   Compare All Tiers
-                </button>
+                </Button>
               </div>
             </BlurIn>
           </div>
@@ -214,9 +215,9 @@ export default function VIPSilverPage() {
               <ShimmerButton className="px-8 py-4 text-lg">
                 Start Free Trial
               </ShimmerButton>
-              <button className="px-8 py-4 text-lg border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+              <Button variant="outline" className="px-8 py-4 text-lg border-2 border-gray-300 text-gray-700 hover:bg-gray-50">
                 Learn More
-              </button>
+              </Button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
               No commitment • Cancel anytime • 7-day free trial

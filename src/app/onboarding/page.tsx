@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
 import { OnboardingShell } from '@/components/eka/onboarding/onboarding-shell';
 import { motion } from 'framer-motion';
+import MedicalDisclaimer from '@/components/medical-disclaimer';
 import { useEffect, useState } from 'react';
 
 export default function OnboardingPage() {
@@ -78,12 +79,31 @@ export default function OnboardingPage() {
     }
   };
 
-  const handleSkip = () => {
-    toast({
-      title: 'Onboarding skipped',
-      description: 'You can complete this later in your settings.',
-    });
-    router.push('/home');
+  const handleSkip = async () => {
+    if (!user) {
+      router.push('/login')
+      return
+    }
+
+    try {
+      const { getDataService } = await import('@/services/data-service')
+      const dataService = await getDataService()
+      
+      // Mark as completed even if skipped
+      await dataService.updateUser(user.id, {
+        personalizationCompleted: true
+      })
+      
+      toast({
+        title: 'Onboarding skipped',
+        description: 'You can customize your preferences anytime in settings.',
+      })
+      
+      router.push('/home')
+    } catch (error) {
+      console.error('Skip onboarding error:', error)
+      router.push('/home')
+    }
   };
 
   return (
@@ -98,6 +118,9 @@ export default function OnboardingPage() {
           onSkip={handleSkip}
         />
       </motion.div>
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
+        <MedicalDisclaimer />
+      </div>
     </OnboardingShell>
   );
 }

@@ -17,6 +17,7 @@ export function NotificationSwitch({ id, label, icon, checked, onCheckedChange }
   return (
     <motion.div
       className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 hover:border-slate-300 transition-colors"
+      data-testid={`switch-${id}`}
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
     >
@@ -28,6 +29,8 @@ export function NotificationSwitch({ id, label, icon, checked, onCheckedChange }
         id={id}
         checked={checked}
         onCheckedChange={onCheckedChange}
+        aria-label={label}
+        data-testid={id}
         className="data-[state=checked]:bg-blue-600"
       />
     </motion.div>

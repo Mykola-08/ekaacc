@@ -27,7 +27,7 @@ export const EmailLayout = ({ preview, children, unsubscribeUrl }: EmailLayoutPr
         <Container style={container}>
           <Section style={header}>
             <Img
-              src="https://ekaacc-1.vercel.app/logo.png" // Replace with actual logo URL
+              src="https://ekaacc-1.vercel.app/eka_logo.png"
               width="40"
               height="40"
               alt="Ekaacc"

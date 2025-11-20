@@ -152,7 +152,7 @@ export default function JournalPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50/30">
+		<div className="min-h-screen bg-background">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 				{/* Premium Header */}
 				<motion.div 
@@ -163,7 +163,7 @@ export default function JournalPage() {
 				>
 					<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 						<div>
-							<h1 className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-purple-700 bg-clip-text text-transparent mb-2">
+							<h1 className="text-4xl font-bold mb-2 text-foreground">
 								My Wellness Journal
 							</h1>
 							<p className="text-lg text-slate-600 max-w-2xl">

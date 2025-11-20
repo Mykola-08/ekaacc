@@ -1,8 +1,9 @@
 'use client'
 
+import React from 'react'
+
 import { Users, Calendar, TrendingUp, MessageSquare, Clock, FileText, Award, Settings, Bell } from 'lucide-react'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
-import { DashboardLayout } from '@/components/layout/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -137,22 +138,21 @@ export default function TherapistDashboardPage() {
     }
   ]
 
-  return (
-    <DashboardLayout>
-      <div className="min-h-screen bg-gradient-to-br from-background via-purple-50/10 to-blue-50/10">
+    return (
+      <div className="min-h-screen bg-background">
         {/* Header Section */}
-        <section className="relative overflow-hidden py-8 sm:py-12">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <section className="py-8 sm:py-12 border-b">
+          <div className="mx-auto max-w-5xl px-6 lg:px-8">
             <div className="flex items-center justify-between">
               <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-100 to-blue-100 px-4 py-2 text-sm font-medium text-purple-700">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs font-medium text-muted-foreground">
                   <Award className="h-4 w-4" />
-                  Professional Therapist Dashboard
+                  Therapist Dashboard
                 </div>
-                <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+                <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
                   {welcomeMessage}
                 </h1>
-                <p className="mt-4 text-lg text-muted-foreground">
+                <p className="mt-2 text-sm text-muted-foreground max-w-xl">
                   Manage your practice, track client progress, and deliver exceptional care.
                 </p>
               </div>
@@ -173,15 +173,15 @@ export default function TherapistDashboardPage() {
 
         {/* Stats Overview */}
         <section className="py-8">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl px-6 lg:px-8">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-8">Practice Overview</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">Practice Overview</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {therapistStats.map((stat, index) => (
-                  <Card key={stat.title} className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
+                {therapistStats.map((stat) => (
+                  <Card key={stat.title} className="border hover:bg-accent/40 transition-colors">
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-4">
-                        <div className={`w-12 h-12 rounded-lg bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center ${stat.color}`}>
+                        <div className={`w-10 h-10 rounded-md bg-muted flex items-center justify-center ${stat.color}`}>
                           <stat.icon className="h-6 w-6" />
                         </div>
                         <span className="text-2xl font-bold text-foreground">{stat.value}</span>
@@ -201,15 +201,15 @@ export default function TherapistDashboardPage() {
 
         {/* Quick Actions */}
         <section className="py-8">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mx-auto max-w-5xl px-6 lg:px-8">
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-8">Quick Actions</h2>
+              <h2 className="text-xl font-semibold text-foreground mb-4">Quick Actions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {quickActions.map((action, index) => (
-                  <Card key={action.title} className="h-full bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300 cursor-pointer group">
+                {quickActions.map((action) => (
+                  <Card key={action.title} className="h-full border hover:bg-accent/40 transition-colors cursor-pointer group">
                     <CardHeader className="pb-3">
-                      <div className={`w-12 h-12 ${action.color} rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                        <action.icon className="h-6 w-6 text-white" />
+                      <div className="w-10 h-10 rounded-md flex items-center justify-center mb-4 group-hover:scale-110 transition-transform bg-muted">
+                        <action.icon className="h-5 w-5" />
                       </div>
                       <CardTitle className="text-lg">{action.title}</CardTitle>
                       <CardDescription>{action.description}</CardDescription>
@@ -217,7 +217,7 @@ export default function TherapistDashboardPage() {
                     <CardContent>
                       <Button 
                         variant="outline" 
-                        className="w-full group-hover:bg-purple-600 group-hover:text-white transition-colors border-purple-200"
+                        className="w-full"
                         onClick={() => window.location.href = action.href}
                       >
                         Open
@@ -231,11 +231,11 @@ export default function TherapistDashboardPage() {
         </section>
 
         {/* Upcoming Sessions */}
-        <section className="py-8 bg-gradient-to-r from-purple-50/20 to-blue-50/20">
-          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <section className="py-8">
+          <div className="mx-auto max-w-5xl px-6 lg:px-8">
             <div>
               <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold text-foreground">Today's Schedule</h2>
+                <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
                 <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
                   <Calendar className="h-4 w-4 mr-2" />
                   View All
@@ -247,12 +247,12 @@ export default function TherapistDashboardPage() {
                   <h3 className="text-lg font-semibold text-foreground mb-4">Upcoming Sessions</h3>
                   <div className="space-y-4">
                     {upcomingSessions.map((session, index) => (
-                      <Card key={index} className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-md transition-all duration-300">
+                      <Card key={index} className="border hover:bg-accent/40 transition-colors">
                         <CardContent className="p-4">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
-                                <Clock className="h-5 w-5 text-purple-600" />
+                              <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
+                                <Clock className="h-4 w-4" />
                               </div>
                               <div>
                                 <h4 className="font-semibold text-foreground">{session.client}</h4>
@@ -276,11 +276,11 @@ export default function TherapistDashboardPage() {
                   <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activities</h3>
                   <div className="space-y-4">
                     {recentActivities.map((activity, index) => (
-                      <Card key={index} className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-md transition-all duration-300">
+                      <Card key={index} className="border hover:bg-accent/40 transition-colors">
                         <CardContent className="p-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-purple-100 to-blue-100 rounded-full flex items-center justify-center">
-                              <Users className="h-5 w-5 text-purple-600" />
+                            <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
+                              <Users className="h-4 w-4" />
                             </div>
                             <div className="flex-1">
                               <p className="text-sm text-foreground">
@@ -299,6 +299,5 @@ export default function TherapistDashboardPage() {
           </div>
         </section>
       </div>
-    </DashboardLayout>
   )
 }

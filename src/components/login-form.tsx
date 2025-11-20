@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { useSimpleAuth } from "@/hooks/use-simple-auth"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2 } from "lucide-react"
+import Image from "next/image"
 
 interface LoginFormProps extends React.ComponentProps<"div"> {
   enabledProviders?: {
@@ -25,6 +26,7 @@ export function LoginForm({
   ...props
 }: LoginFormProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { signIn, signInWithOAuth } = useSimpleAuth()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -47,11 +49,19 @@ export function LoginForm({
       if (error) {
         if (error.message.includes("captcha")) {
           setError("Captcha verification failed. Please try again or contact support if the issue persists.")
+        } else if (error.message.includes("Invalid login credentials")) {
+          setError("Invalid email or password. Please try again.")
         } else {
           setError(error.message)
         }
       } else {
-        router.push("/dashboard")
+        // Small delay to ensure auth state is updated
+        setTimeout(() => {
+          const returnTo = searchParams?.get("returnTo") || "/dashboard"
+          // Avoid redirecting back to login
+          const safeReturn = returnTo.startsWith('/login') ? '/dashboard' : returnTo
+          router.push(safeReturn)
+        }, 100)
       }
     } catch (err) {
       setError("An unexpected error occurred. Please try again.")
@@ -73,7 +83,8 @@ export function LoginForm({
         <CardContent className="grid p-0 md:grid-cols-2">
           <form onSubmit={handleSubmit} className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
-              <div className="flex flex-col items-center text-center">
+              <div className="flex flex-col items-center text-center gap-3">
+                <Image src="/eka_logo.png" alt="EKA" width={56} height={56} className="rounded-md" />
                 <h1 className="text-2xl font-bold">Welcome back</h1>
                 <p className="text-balance text-muted-foreground">
                   Login to your EKA Account
@@ -160,7 +171,7 @@ export function LoginForm({
                       fill="#EA4335"
                     />
                   </svg>
-                  <span className="sr-only">Login with Google</span>
+                  <span className="ml-2">Google</span>
                 </Button>
                 )}
                 {enabledProviders.x && (
@@ -168,7 +179,7 @@ export function LoginForm({
                   <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                   </svg>
-                  <span className="sr-only">Login with X</span>
+                  <span className="ml-2">X</span>
                 </Button>
                 )}
                 {enabledProviders.linkedin && (
@@ -176,7 +187,7 @@ export function LoginForm({
                   <svg className="h-5 w-5" viewBox="0 0 24 24" fill="#0077B5">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
-                  <span className="sr-only">Login with LinkedIn</span>
+                  <span className="ml-2">LinkedIn</span>
                 </Button>
                 )}
               </div>

@@ -57,10 +57,10 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50/10 to-blue-50/10">
+    <div className="min-h-screen bg-background">
       {/* Impersonation Banner */}
       {isImpersonating && (
-        <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-b border-yellow-200 px-4 py-3">
+        <div className="bg-yellow-100 border-b border-yellow-200 px-4 py-3">
           <div className="flex items-center justify-between max-w-7xl mx-auto">
             <div className="flex items-center gap-3">
               <AlertTriangle className="h-5 w-5 text-yellow-700" />
@@ -81,23 +81,23 @@ export default function AdminDashboard() {
       )}
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 border-b">
+      <div className="bg-muted/30 border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between py-6">
             <div>
-              <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">Admin Dashboard</h1>
+              <h1 className="text-3xl font-bold">Admin Dashboard</h1>
               <p className="text-muted-foreground mt-1">Manage users, monitor system performance, and configure settings</p>
             </div>
             <div className="flex items-center gap-3">
               <Button
                 variant="outline"
                 onClick={() => setShowImpersonationDialog(true)}
-                className="flex items-center gap-2 border-purple-200 hover:bg-purple-50"
+                className="flex items-center gap-2"
               >
                 <UserCheck className="h-4 w-4" />
                 Impersonate User
               </Button>
-              <Badge variant="outline" className="text-sm bg-purple-100 text-purple-700 border-purple-200">
+              <Badge variant="outline" className="text-sm">
                 Admin Access
               </Badge>
             </div>
@@ -108,28 +108,28 @@ export default function AdminDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2 bg-white/50 backdrop-blur-sm border-purple-100">
-            <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
+          <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2">
+            <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               Overview
             </TabsTrigger>
-            <TabsTrigger value="users" className="flex items-center gap-2 data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
+            <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
               Users
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2 data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
+            <TabsTrigger value="analytics" className="flex items-center gap-2">
               <TrendingUp className="h-4 w-4" />
               Analytics
             </TabsTrigger>
-            <TabsTrigger value="security" className="flex items-center gap-2 data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
+            <TabsTrigger value="security" className="flex items-center gap-2">
               <Shield className="h-4 w-4" />
               Security
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2 data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
+            <TabsTrigger value="settings" className="flex items-center gap-2">
             <Settings className="h-4 w-4" />
             Settings
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2 data-[state=active]:bg-purple-100 data-[state=active]:text-purple-700">
+          <TabsTrigger value="notifications" className="flex items-center gap-2">
             <MessageSquare className="h-4 w-4" />
             Notifications
           </TabsTrigger>
@@ -137,54 +137,54 @@ export default function AdminDashboard() {
 
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Card className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
+              <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                  <div className="w-8 h-8 bg-gradient-to-br from-purple-100 to-blue-100 rounded-lg flex items-center justify-center">
-                    <Users className="h-4 w-4 text-purple-600" />
+                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Users className="h-4 w-4 text-primary" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-purple-600">1,234</div>
+                  <div className="text-2xl font-bold">1,234</div>
                   <p className="text-xs text-muted-foreground">+12% from last month</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
+              <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
-                  <div className="w-8 h-8 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg flex items-center justify-center">
-                    <Activity className="h-4 w-4 text-green-600" />
+                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Activity className="h-4 w-4 text-primary" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">89</div>
+                  <div className="text-2xl font-bold">89</div>
                   <p className="text-xs text-muted-foreground">Currently online</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
+              <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">Security Alerts</CardTitle>
-                  <div className="w-8 h-8 bg-gradient-to-br from-orange-100 to-red-100 rounded-lg flex items-center justify-center">
-                    <Shield className="h-4 w-4 text-orange-600" />
+                  <div className="w-8 h-8 bg-destructive/10 rounded-lg flex items-center justify-center">
+                    <Shield className="h-4 w-4 text-destructive" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-orange-600">3</div>
+                  <div className="text-2xl font-bold text-destructive">3</div>
                   <p className="text-xs text-muted-foreground">Requires attention</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
+              <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">System Health</CardTitle>
-                  <div className="w-8 h-8 bg-gradient-to-br from-green-100 to-emerald-100 rounded-lg flex items-center justify-center">
-                    <CheckCircle className="h-4 w-4 text-green-600" />
+                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <CheckCircle className="h-4 w-4 text-primary" />
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-green-600">Healthy</div>
+                  <div className="text-2xl font-bold">Healthy</div>
                   <p className="text-xs text-muted-foreground">All systems operational</p>
                 </CardContent>
               </Card>

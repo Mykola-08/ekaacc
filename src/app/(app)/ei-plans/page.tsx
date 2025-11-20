@@ -87,10 +87,9 @@ export default function EIPlansPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-900 dark:to-blue-900">
+    <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20 dark:from-blue-600/10 dark:to-purple-600/10" />
+      <section className="py-16 px-4">
         <motion.div 
           className="relative max-w-6xl mx-auto text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -107,7 +106,7 @@ export default function EIPlansPage() {
             <span className="text-sm font-medium">Transform Your Emotional Intelligence</span>
           </motion.div>
           
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">
             Master Your Emotions
           </h1>
           <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-8">
@@ -117,7 +116,7 @@ export default function EIPlansPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className=""
               onClick={() => router.push('#plans')}
             >
               Explore Plans
@@ -181,7 +180,7 @@ export default function EIPlansPage() {
       </section>
 
       {/* Pricing Plans Section */}
-      <section id="plans" className="py-16 px-4 bg-white/50 dark:bg-slate-800/50">
+      <section id="plans" className="py-16 px-4">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -217,7 +216,7 @@ export default function EIPlansPage() {
                   )}
                   
                   <CardHeader className="text-center">
-                    <div className={`w-16 h-16 bg-gradient-to-br ${plan.color} rounded-xl flex items-center justify-center mx-auto mb-4`}>
+                    <div className={`w-16 h-16 bg-muted rounded-xl flex items-center justify-center mx-auto mb-4`}>
                       <plan.icon className="w-8 h-8 text-white" />
                     </div>
                     <CardTitle className="text-xl">{plan.title}</CardTitle>
@@ -238,7 +237,7 @@ export default function EIPlansPage() {
                   
                   <CardFooter>
                     <Button 
-                      className={`w-full ${plan.popular ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600' : ''}`}
+                      className={`w-full ${plan.popular ? '' : ''}`}
                       onClick={() => router.push(`/checkout?plan=ei-${plan.title.toLowerCase().replace(' ', '-')}`)}
                     >
                       Get Started
@@ -269,7 +268,7 @@ export default function EIPlansPage() {
             </p>
             <Button 
               size="lg"
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              className=""
               onClick={() => router.push('/onboarding')}
             >
               Start Your Journey Today

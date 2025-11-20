@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { Heart, Gift, Star, TrendingUp, Users, Calendar, Award, Zap } from 'lucide-react';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
+import { Button } from '@/components/ui/button';
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text';
 import { NumberTicker } from '@/components/ui/number-ticker';
 import { BlurIn } from '@/components/ui/blur-in';
@@ -125,9 +126,9 @@ export default function LoyaltyMemberPage() {
                 <ShimmerButton className="px-8 py-4 text-lg">
                   Join Free - No Cost
                 </ShimmerButton>
-                <button className="px-8 py-4 text-lg border-2 border-blue-500 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors">
+                <Button variant="outline" className="px-8 py-4 text-lg border-2 border-blue-500 text-blue-600 hover:bg-blue-50">
                   Learn More
-                </button>
+                </Button>
               </div>
             </BlurIn>
           </div>
@@ -269,9 +270,9 @@ export default function LoyaltyMemberPage() {
               <ShimmerButton className="px-8 py-4 text-lg bg-white text-blue-600 hover:bg-gray-100">
                 Join Now - It's Free
               </ShimmerButton>
-              <button className="px-8 py-4 text-lg border-2 border-white text-white rounded-lg hover:bg-white hover:text-blue-600 transition-colors">
+              <Button variant="outline" className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-blue-600">
                 View Full Benefits
-              </button>
+              </Button>
             </div>
             <p className="text-sm text-blue-100 mt-4">
               No commitment • Cancel anytime • Free forever

@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { Crown, Shield, Users, TrendingUp, Award, Clock, Heart, Zap, Sparkles, Target } from 'lucide-react';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
+import { Button } from '@/components/ui/button';
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text';
 import { NumberTicker } from '@/components/ui/number-ticker';
 import { BlurIn } from '@/components/ui/blur-in';
@@ -116,9 +117,9 @@ export default function VIPGoldPage() {
                 <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-yellow-400 to-orange-500">
                   Upgrade to Gold - €79.99/month
                 </ShimmerButton>
-                <button className="px-8 py-4 text-lg border-2 border-yellow-500 text-yellow-600 rounded-lg hover:bg-yellow-50 transition-colors">
+                <Button variant="outline" className="px-8 py-4 text-lg border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50">
                   Compare All Tiers
-                </button>
+                </Button>
               </div>
             </BlurIn>
           </div>
@@ -226,9 +227,9 @@ export default function VIPGoldPage() {
               <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-yellow-400 to-orange-500">
                 Start Gold Experience
               </ShimmerButton>
-              <button className="px-8 py-4 text-lg border-2 border-yellow-500 text-yellow-600 rounded-lg hover:bg-yellow-50 transition-colors">
+              <Button variant="outline" className="px-8 py-4 text-lg border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50">
                 Schedule Consultation
-              </button>
+              </Button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
               14-day satisfaction guarantee • Upgrade from Silver anytime • No commitment

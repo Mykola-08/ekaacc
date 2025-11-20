@@ -21,8 +21,7 @@ import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 import { format } from "date-fns";
 import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
-import { SettingsShell } from "@/components/eka/settings/settings-shell";
-import { SettingsHeader } from "@/components/eka/settings/settings-header";
+import { PageContainer } from '@/components/layout/page-container';
 
 import type { User } from "@/lib/types";
 import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/wallet-types";
@@ -61,12 +60,8 @@ export default function MyAccountPage() {
   };
 
   return (
-    <SettingsShell>
-      <SettingsHeader
-        title="My Account"
-        description="Manage your profile, wallet, and personal information."
-      />
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+    <PageContainer title="My Account" description="Manage your profile, wallet, and personal information.">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-2">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="wallet">Wallet</TabsTrigger>
@@ -78,7 +73,7 @@ export default function MyAccountPage() {
           <WalletSection currentUser={currentUser as any} authLoading={authLoading || false} />
         </TabsContent>
       </Tabs>
-    </SettingsShell>
+    </PageContainer>
   );
 }
 

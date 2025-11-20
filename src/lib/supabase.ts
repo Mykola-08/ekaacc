@@ -17,9 +17,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     autoRefreshToken: true,
     detectSessionInUrl: true,
     flowType: 'pkce',
-    cookieOptions: {
-      domain: process.env.NODE_ENV === 'production' ? '.ekabalance.com' : undefined,
-    },
   },
   global: {
     headers: {

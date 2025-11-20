@@ -2,8 +2,10 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useState, useEffect } from 'react';
 ;
 ;
@@ -157,16 +159,10 @@ export default function LoyalSubscriptionPage() {
           <span className={`text-sm ${billingCycle === 'monthly' ? 'font-semibold' : 'text-muted-foreground'}`}>
             Monthly
           </span>
-          <button
-            className="relative inline-flex h-6 w-11 items-center rounded-full bg-amber-200 dark:bg-amber-800 transition-colors"
-            onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
-          >
-            <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-amber-600 transition-transform ${
-                billingCycle === 'yearly' ? 'translate-x-6' : 'translate-x-1'
-              }`}
-            />
-          </button>
+          <Switch
+            checked={billingCycle === 'yearly'}
+            onCheckedChange={(checked) => setBillingCycle(checked ? 'yearly' : 'monthly')}
+          />
           <span className={`text-sm ${billingCycle === 'yearly' ? 'font-semibold' : 'text-muted-foreground'}`}>
             Yearly
           </span>
@@ -251,68 +247,68 @@ export default function LoyalSubscriptionPage() {
         <Card>
           <CardContent className="p-6">
             <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-4 px-4">Feature</th>
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b">
+                    <TableHead className="text-left py-4 px-4">Feature</TableHead>
                     {plans.map(plan => (
-                      <th key={plan.id} className="text-center py-4 px-4">
+                      <TableHead key={plan.id} className="text-center py-4 px-4">
                         {plan.name.replace('Loyal ', '')}
-                      </th>
+                      </TableHead>
                     ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b">
-                    <td className="py-4 px-4 font-medium">Loyalty Points Multiplier</td>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow className="border-b">
+                    <TableCell className="py-4 px-4 font-medium">Loyalty Points Multiplier</TableCell>
                     {plans.map(plan => (
-                      <td key={plan.id} className="text-center py-4 px-4">
+                      <TableCell key={plan.id} className="text-center py-4 px-4">
                         {plan.benefits?.loyaltyPointsMultiplier || 1}x
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-4 px-4 font-medium">Discount on Sessions</td>
+                  </TableRow>
+                  <TableRow className="border-b">
+                    <TableCell className="py-4 px-4 font-medium">Discount on Sessions</TableCell>
                     {plans.map(plan => (
-                      <td key={plan.id} className="text-center py-4 px-4">
+                      <TableCell key={plan.id} className="text-center py-4 px-4">
                         {plan.benefits?.discountPercentage || 0}%
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-4 px-4 font-medium">Free Sessions/Month</td>
+                  </TableRow>
+                  <TableRow className="border-b">
+                    <TableCell className="py-4 px-4 font-medium">Free Sessions/Month</TableCell>
                     {plans.map(plan => (
-                      <td key={plan.id} className="text-center py-4 px-4">
+                      <TableCell key={plan.id} className="text-center py-4 px-4">
                         {plan.benefits?.freeSessionsPerMonth || 0}
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-4 px-4 font-medium">Exclusive Themes</td>
+                  </TableRow>
+                  <TableRow className="border-b">
+                    <TableCell className="py-4 px-4 font-medium">Exclusive Themes</TableCell>
                     {plans.map(plan => (
-                      <td key={plan.id} className="text-center py-4 px-4">
+                      <TableCell key={plan.id} className="text-center py-4 px-4">
                         {plan.benefits?.exclusiveThemes ? <Check className="w-5 h-5 text-green-600 mx-auto" /> : '-'}
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-4 px-4 font-medium">AI Insights</td>
+                  </TableRow>
+                  <TableRow className="border-b">
+                    <TableCell className="py-4 px-4 font-medium">AI Insights</TableCell>
                     {plans.map(plan => (
-                      <td key={plan.id} className="text-center py-4 px-4">
+                      <TableCell key={plan.id} className="text-center py-4 px-4">
                         {plan.benefits?.aiInsights ? <Check className="w-5 h-5 text-green-600 mx-auto" /> : '-'}
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
-                  <tr>
-                    <td className="py-4 px-4 font-medium">Custom Workouts</td>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="py-4 px-4 font-medium">Custom Workouts</TableCell>
                     {plans.map(plan => (
-                      <td key={plan.id} className="text-center py-4 px-4">
+                      <TableCell key={plan.id} className="text-center py-4 px-4">
                         {plan.benefits?.customWorkouts ? <Check className="w-5 h-5 text-green-600 mx-auto" /> : '-'}
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
-                </tbody>
-              </table>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </div>
           </CardContent>
         </Card>

@@ -20,37 +20,37 @@ describe('Login Configuration', () => {
     it('should render all providers when enabled', () => {
       render(
         <LoginForm 
-          enabledProviders={{ google: true, apple: true, meta: true }} 
+          enabledProviders={{ google: true, x: true, linkedin: true }} 
         />
       );
 
       expect(screen.getByText('Login with Google')).toBeInTheDocument();
-      expect(screen.getByText('Login with Apple')).toBeInTheDocument();
-      expect(screen.getByText('Login with Meta')).toBeInTheDocument();
+      expect(screen.getByText('Login with X')).toBeInTheDocument();
+      expect(screen.getByText('Login with LinkedIn')).toBeInTheDocument();
     });
 
     it('should hide providers when disabled', () => {
       render(
         <LoginForm 
-          enabledProviders={{ google: false, apple: false, meta: false }} 
+          enabledProviders={{ google: false, x: false, linkedin: false }} 
         />
       );
 
       expect(screen.queryByText('Login with Google')).not.toBeInTheDocument();
-      expect(screen.queryByText('Login with Apple')).not.toBeInTheDocument();
-      expect(screen.queryByText('Login with Meta')).not.toBeInTheDocument();
+      expect(screen.queryByText('Login with X')).not.toBeInTheDocument();
+      expect(screen.queryByText('Login with LinkedIn')).not.toBeInTheDocument();
     });
 
     it('should render mixed configuration', () => {
       render(
         <LoginForm 
-          enabledProviders={{ google: true, apple: false, meta: true }} 
+          enabledProviders={{ google: true, x: false, linkedin: true }} 
         />
       );
 
       expect(screen.getByText('Login with Google')).toBeInTheDocument();
-      expect(screen.queryByText('Login with Apple')).not.toBeInTheDocument();
-      expect(screen.getByText('Login with Meta')).toBeInTheDocument();
+      expect(screen.queryByText('Login with X')).not.toBeInTheDocument();
+      expect(screen.getByText('Login with LinkedIn')).toBeInTheDocument();
     });
   });
 
@@ -58,8 +58,8 @@ describe('Login Configuration', () => {
     // This tests the logic used in LoginPage to map features to enabledProviders
     const mapFeaturesToProviders = (features: any[]) => ({
       google: features.some(f => f.key === 'auth_google'),
-      apple: features.some(f => f.key === 'auth_apple'),
-      meta: features.some(f => f.key === 'auth_meta'),
+      x: features.some(f => f.key === 'auth_x'),
+      linkedin: features.some(f => f.key === 'auth_linkedin'),
     });
 
     it('should correctly map features to providers', () => {
@@ -71,8 +71,8 @@ describe('Login Configuration', () => {
       const result = mapFeaturesToProviders(features);
 
       expect(result.google).toBe(true);
-      expect(result.apple).toBe(false);
-      expect(result.meta).toBe(false);
+      expect(result.x).toBe(false);
+      expect(result.linkedin).toBe(false);
     });
 
     it('should handle empty features list', () => {
@@ -80,8 +80,8 @@ describe('Login Configuration', () => {
       const result = mapFeaturesToProviders(features);
 
       expect(result.google).toBe(false);
-      expect(result.apple).toBe(false);
-      expect(result.meta).toBe(false);
+      expect(result.x).toBe(false);
+      expect(result.linkedin).toBe(false);
     });
   });
 });

@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { Gem, Gift, Star, TrendingUp, Users, Calendar, Award, Zap, Crown, Sparkles, Target, Shield } from 'lucide-react';
 import { ShimmerButton } from '@/components/ui/shimmer-button';
+import { Button } from '@/components/ui/button';
 import { AnimatedGradientText } from '@/components/ui/animated-gradient-text';
 import { NumberTicker } from '@/components/ui/number-ticker';
 import { BlurIn } from '@/components/ui/blur-in';
@@ -134,9 +135,9 @@ export default function LoyaltyElitePage() {
                 <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-red-500 to-orange-500">
                   Upgrade to Elite - €14.99/month
                 </ShimmerButton>
-                <button className="px-8 py-4 text-lg border-2 border-red-500 text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+                <Button variant="outline" className="px-8 py-4 text-lg border-2 border-red-500 text-red-600 hover:bg-red-50">
                   Compare Tiers
-                </button>
+                </Button>
               </div>
             </BlurIn>
           </div>
@@ -272,9 +273,9 @@ export default function LoyaltyElitePage() {
               <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-red-500 to-orange-500">
                 Upgrade to Elite Now
               </ShimmerButton>
-              <button className="px-8 py-4 text-lg border-2 border-red-500 text-red-600 rounded-lg hover:bg-red-50 transition-colors">
+              <Button variant="outline" className="px-8 py-4 text-lg border-2 border-red-500 text-red-600 hover:bg-red-50">
                 View Elite Events Calendar
-              </button>
+              </Button>
             </div>
             <p className="text-sm text-gray-500 mt-4">
               14-day Elite trial • Upgrade from Member anytime • Exclusive benefits

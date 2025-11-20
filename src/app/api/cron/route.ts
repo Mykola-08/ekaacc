@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 
+type TaskStatus = 'success' | 'failed'
+
 export async function GET(request: NextRequest) {
   // Verify the request is authorized
   const authHeader = request.headers.get('authorization');
@@ -10,7 +12,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const results = {
+    const results: {
+      cleanup_expired_insights: TaskStatus | null,
+      cleanup_expired_payment_requests: TaskStatus | null,
+      cleanup_old_analytics_data: TaskStatus | null,
+    } = {
       cleanup_expired_insights: null,
       cleanup_expired_payment_requests: null,
       cleanup_old_analytics_data: null,

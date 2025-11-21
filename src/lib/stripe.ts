@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development' && !process.env.STRIPE_SECRET_KEY) {
 }
 
 export const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: '2025-10-29.clover',
+  apiVersion: '2025-11-17.clover',
 });
 
 export interface CreateCheckoutSessionParams {

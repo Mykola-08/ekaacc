@@ -51,6 +51,7 @@ NEXT_PUBLIC_API_URL=             # Usually ${NEXT_PUBLIC_APP_URL}/api
 OPENAI_API_KEY=                  # For GPT models
 ANTHROPIC_API_KEY=               # For Claude models
 GOOGLE_GENERATIVE_AI_API_KEY=    # For Gemini models
+STATSIG_API_KEY=                 # For feature flags & experimentation (console-*)
 ```
 
 ## 📦 Optional Integrations
@@ -216,6 +217,7 @@ Use this to track which variables you've configured:
 - [ ] OPENAI_API_KEY
 - [ ] ANTHROPIC_API_KEY
 - [ ] GOOGLE_GENERATIVE_AI_API_KEY
+- [ ] STATSIG_API_KEY
 - [ ] NEXT_PUBLIC_GA_MEASUREMENT_ID
 - [ ] SENTRY_DSN
 - [ ] Square integration keys (if needed)

@@ -1,24 +1,5 @@
 "use client"
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Loader2, Eye, EyeOff, CheckCircle2, XCircle } from "lucide-react"
-import { useSimpleAuth } from "@/hooks/use-simple-auth"
-
-interface SignupFormProps extends React.ComponentProps<"div"> {}
-
-interface PasswordStrength {
-  score: number
-  label: string
-  color: string
-"use client"
-
 import { useAuth0 } from "@auth0/auth0-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -61,4 +42,3 @@ export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
     </div>
   )
 }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {

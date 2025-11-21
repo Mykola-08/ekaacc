@@ -282,5 +282,4 @@ export default function TherapistDashboardPage() {
         </SurfacePanel>
       </PageContainer>
     )
-  )
 }

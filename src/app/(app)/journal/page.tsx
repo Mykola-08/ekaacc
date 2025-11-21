@@ -371,7 +371,6 @@ export default function JournalPage() {
 						</Card>
 					</div>
 				</div>
-			</div>
 		</PageContainer>
 	);
 }

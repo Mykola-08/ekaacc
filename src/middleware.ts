@@ -1,9 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
-import { ipRateLimit } from '@/lib/rate-limit-redis'
 
 // Global enforcement: redirects unauthenticated requests except whitelisted public/legal pages.
-// Uses server-side Auth0 session via @auth0/nextjs-auth0; legacy logged_in cookie removed.
+// Uses server-side Auth0 session via @auth0/nextjs-auth0
 
 const DEFAULT_PUBLIC_PATHS = [
   '/login',
@@ -22,43 +21,9 @@ function loadPublicPaths(): string[] {
   return [...new Set([...DEFAULT_PUBLIC_PATHS, ...envList.split(',').map(p => p.trim()).filter(Boolean)])]
 }
 
-// Basic in-memory rate limiting (single instance). For production use a distributed store (Redis/Upstash).
-const RATE_LIMIT_WINDOW_MS = 60_000
-const RATE_LIMIT_MAX_REQUESTS = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '120', 10)
-const ipHits: Record<string, { count: number; windowStart: number }> = {}
-
-function applyRateLimit(ip: string): boolean {
-  const now = Date.now()
-  const entry = ipHits[ip]
-  if (!entry || now - entry.windowStart > RATE_LIMIT_WINDOW_MS) {
-    ipHits[ip] = { count: 1, windowStart: now }
-    return true
-  }
-const GLOBAL_RATE_LIMIT = parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '300', 10)
-const GLOBAL_RATE_WINDOW_SECONDS = parseInt(process.env.RATE_LIMIT_WINDOW_SECONDS || '60', 10)
-  // Rate limit (skip for assets)
-  const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown'
-  if (!pathname.startsWith('/_next')) {
-    if (!applyRateLimit(ip)) {
-      return new NextResponse('Rate limit exceeded', { status: 429 })
-    }
-  }
-
-  // Basic User-Agent bot protection (optional; complement with WAF/Edge)
-  if (botProtectionEnabled) {
-    return ipRateLimit(ip, 'global', GLOBAL_RATE_LIMIT, GLOBAL_RATE_WINDOW_SECONDS)
-      .then(result => {
-        if (!result.allowed) {
-          return new NextResponse('Rate limit exceeded', { status: 429 })
-        }
-        return null
-      })
-      .then(blockResponse => {
-        if (blockResponse) return blockResponse
-        return continueFlow()
-      })
-    }
-  }
+export async function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname
+  const publicPaths = loadPublicPaths()
 
   // Allow Next.js static assets & _next paths
   if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
@@ -73,7 +38,7 @@ const GLOBAL_RATE_WINDOW_SECONDS = parseInt(process.env.RATE_LIMIT_WINDOW_SECOND
   }
 
   // Server-side Auth0 session check
-  const session = await getSession(req as any) // edge helper
+  const session = await getSession(req as any)
   if (!session) {
     const loginUrl = req.nextUrl.clone()
     loginUrl.pathname = '/login'
@@ -82,6 +47,7 @@ const GLOBAL_RATE_WINDOW_SECONDS = parseInt(process.env.RATE_LIMIT_WINDOW_SECOND
     addSecurityHeaders(redirect)
     return redirect
   }
+  
   const res = NextResponse.next()
   addSecurityHeaders(res)
   return res

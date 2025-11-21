@@ -303,6 +303,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
         </motion.div>
+      </div>
       </SurfacePanel>
     </PageContainer>
   )

@@ -133,8 +133,37 @@ Add these to `.env.local` (or project secrets) as needed:
 | `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL for distributed rate limiting |
 | `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
 | `RATE_LIMIT_WINDOW_SECONDS` | Global request rate limit window size (default 60) |
+| `STATSIG_API_KEY` | Statsig console API key for feature flags/experiments |
 
 Secrets for production should be pushed to Vercel (`vercel env add ...`) and Supabase (`supabase secrets set ...`). Refer to `wiki/RESEND_INTEGRATION.md` and security docs for details.
+
+### Statsig Setup
+
+1. Obtain a console API key from Statsig (format `console-xxxx`).
+2. Add to local dev: append to `.env.local`:
+	```bash
+	STATSIG_API_KEY=console-your-key
+	```
+3. Add to Vercel:
+	```powershell
+	vercel env add STATSIG_API_KEY production
+	vercel env add STATSIG_API_KEY preview
+	vercel env add STATSIG_API_KEY development
+	```
+4. Add to Supabase secrets (for Edge Functions / server usage):
+	```powershell
+	supabase secrets set STATSIG_API_KEY=console-your-key
+	```
+5. Rotate every 90 days; update all scopes and redeploy.
+
+Automated setup (script):
+```powershell
+./scripts/setup-statsig.ps1 -StatsigKey console-your-key
+# or
+$env:STATSIG_API_KEY="console-your-key"; ./scripts/setup-statsig.ps1
+```
+
+MCP Limitation: Current MCP tooling in this repo cannot directly write Vercel or Supabase secrets; the script wraps the respective CLIs.
 
 ## 🔐 Authentication & Security
 

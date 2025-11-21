@@ -16,6 +16,8 @@ jobs:
     name: Build & Test
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -42,15 +44,17 @@ jobs:
         env:
           CI: true
 
-      - name: Upload test coverage
-        uses: codecov/codecov-action@v4
-        if: always()
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/coverage-final.json
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: false
+      - name: Upload test coverage (conditional)
+        run: |
+          if [ -n "${CODECOV_TOKEN}" ]; then
+            echo "Uploading coverage to Codecov";
+            npm install -g codecov || echo "Failed installing codecov CLI";
+            codecov -f ./coverage/coverage-final.json || echo "Codecov upload failed";
+          else
+            echo "No CODECOV_TOKEN secret configured; skipping coverage upload.";
+          fi
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -80,6 +84,8 @@ jobs:
     name: Resend Health Check
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -92,9 +98,14 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --omit=dev
-
-      - name: Check Resend configuration
-        run: npm run check:resend
+      - name: Check Resend configuration (conditional)
+        run: |
+          if [ -n "${RESEND_API_KEY}" ]; then
+            echo "Running Resend health check";
+            npm run check:resend;
+          else
+            echo "RESEND_API_KEY not set; skipping Resend health check.";
+          fi
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
@@ -103,6 +114,8 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -137,6 +150,8 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -153,10 +168,14 @@ jobs:
       - name: Build app
         run: npm run build
 
-      - name: Run Lighthouse CI
+      - name: Run Lighthouse CI (conditional)
         run: |
-          npm install -g @lhci/cli
-          lhci autorun || echo "Lighthouse CI completed"
+          if [ -n "${LHCI_GITHUB_APP_TOKEN}" ]; then
+            npm install -g @lhci/cli;
+            lhci autorun || echo "Lighthouse CI completed";
+          else
+            echo "LHCI_GITHUB_APP_TOKEN not set; skipping authenticated Lighthouse run.";
+          fi
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 

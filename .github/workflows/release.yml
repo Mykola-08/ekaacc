@@ -22,6 +22,7 @@ jobs:
     outputs:
       changelog: ${{ steps.changelog.outputs.changelog }}
       version: ${{ steps.version.outputs.version }}
+      previous: ${{ steps.previous.outputs.previous }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -37,12 +38,22 @@ jobs:
             echo "version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Get previous tag
+        id: previous
+        run: |
+          prev=$(git tag --sort=-creatordate | grep '^v' | sed -n '2p')
+          if [ -z "$prev" ]; then
+            echo "previous=" >> $GITHUB_OUTPUT
+          else
+            echo "previous=$prev" >> $GITHUB_OUTPUT
+          fi
+
       - name: Generate changelog
         id: changelog
         uses: mikepenz/release-changelog-builder-action@v4
         with:
           configuration: '.github/release-config.json'
-          fromTag: ${{ steps.version.outputs.previous }}
+          fromTag: ${{ steps.previous.outputs.previous }}
           toTag: ${{ steps.version.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -8,64 +8,45 @@ on:
 jobs:
   preview-comment:
     name: Preview Deployment Comment
+    outputs:
+      preview_url: ${{ steps.wait-for-vercel.outputs.preview_url }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
     steps:
       - name: Wait for Vercel deployment
+        id: wait-for-vercel
         uses: actions/github-script@v7
         with:
           script: |
             const maxAttempts = 30;
             const delayMs = 10000; // 10 seconds
-            
+            let previewUrl = '';
             for (let i = 0; i < maxAttempts; i++) {
               const { data: statuses } = await github.rest.repos.listCommitStatusesForRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 ref: context.payload.pull_request.head.sha
               });
-              
               const vercelStatus = statuses.find(s => s.context.includes('Vercel'));
-              
               if (vercelStatus && vercelStatus.state === 'success') {
-                const previewUrl = vercelStatus.target_url;
-                
-                const comment = `## 🚀 Vercel Preview Deployment
-                
-                ✅ **Preview deployed successfully!**
-                
-                🔗 **Preview URL**: ${previewUrl}
-                
-                ### Quick Links
-                - 🌐 [Visit Preview](${previewUrl})
-                - 📊 [View Deployment Logs](${previewUrl}/_logs)
-                - 🔍 [Inspect Build](https://vercel.com/${context.repo.owner}/${context.repo.repo})
-                
-                ### Testing Checklist
-                - [ ] UI looks correct
-                - [ ] Authentication works
-                - [ ] API endpoints respond
-                - [ ] No console errors
-                - [ ] Mobile responsive
-                
-                ---
-                *This preview will be available until this PR is closed.*`;
-                
-                await github.rest.issues.createComment({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  body: comment
-                });
-                
-                return;
+                previewUrl = vercelStatus.target_url;
+                break;
               }
-              
               await new Promise(resolve => setTimeout(resolve, delayMs));
             }
-            
-            console.log('Vercel deployment status not found after maximum attempts');
+            if (previewUrl) {
+              core.setOutput('preview_url', previewUrl);
+              const comment = `## 🚀 Vercel Preview Deployment\n\n✅ **Preview deployed successfully!**\n\n🔗 **Preview URL**: ${previewUrl}\n\n### Quick Links\n- 🌐 [Visit Preview](${previewUrl})\n- 📊 [View Deployment Logs](${previewUrl}/_logs)\n- 🔍 [Inspect Build](https://vercel.com/${context.repo.owner}/${context.repo.repo})\n\n### Testing Checklist\n- [ ] UI looks correct\n- [ ] Authentication works\n- [ ] API endpoints respond\n- [ ] No console errors\n- [ ] Mobile responsive\n\n---\n*This preview will be available until this PR is closed.*`;
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: comment
+              });
+            } else {
+              console.log('Vercel deployment status not found after maximum attempts');
+            }
 
   lighthouse-preview:
     name: Lighthouse on Preview
@@ -74,27 +55,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Wait for Vercel deployment URL
-        id: vercel-url
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { data: statuses } = await github.rest.repos.listCommitStatusesForRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: context.payload.pull_request.head.sha
-            });
-            
-            const vercelStatus = statuses.find(s => s.context.includes('Vercel'));
-            if (vercelStatus && vercelStatus.target_url) {
-              core.setOutput('url', vercelStatus.target_url);
-            }
-
       - name: Run Lighthouse
-        if: steps.vercel-url.outputs.url
+        if: needs.preview-comment.outputs.preview_url != ''
         uses: treosh/lighthouse-ci-action@v10
         with:
-          urls: ${{ steps.vercel-url.outputs.url }}
+          urls: ${{ needs.preview-comment.outputs.preview_url }}
           uploadArtifacts: true
           temporaryPublicStorage: true

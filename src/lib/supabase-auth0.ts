@@ -27,7 +27,6 @@ export async function fetchUserProfile(auth0AccessToken: string) {
   const supabase = createSupabaseAuth0Client({ auth0AccessToken })
   return supabase.from('users').select('*').limit(1)
 }
-import { createClient } from '@supabase/supabase-js'
 import type Auth0ClientType from '@auth0/auth0-spa-js'
 
 /**

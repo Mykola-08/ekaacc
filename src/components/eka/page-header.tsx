@@ -9,7 +9,8 @@ interface PageHeaderProps {
   icon?: LucideIcon
   title: string
   description?: string
-  badge?: string
+  // Allow badge to be any renderable ReactNode (tests sometimes pass elements/objects)
+  badge?: ReactNode
   actions?: ReactNode
   className?: string
 }

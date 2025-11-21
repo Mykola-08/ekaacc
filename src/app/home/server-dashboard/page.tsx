@@ -4,7 +4,7 @@ import { headers } from 'next/headers'
 export const runtime = 'edge'
 
 export default async function ServerDashboardPage() {
-  const h = headers()
+  const h = await headers()
   const req = new Request('https://internal.local/home/server-dashboard', { headers: new Headers({ cookie: h.get('cookie') || '' }) })
   let profile: any = null
   let error: string | null = null

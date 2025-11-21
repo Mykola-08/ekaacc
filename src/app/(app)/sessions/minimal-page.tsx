@@ -10,6 +10,7 @@ import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import fxService from '@/lib/fx-service';
 
 // Helper to map appointment to session type
@@ -236,10 +237,9 @@ export default function MinimalSessionsPage() {
         icon={Calendar}
         title="Your Sessions"
         description="Manage your therapy sessions and track your progress"
-        badge={stats.upcoming > 0 ? {
-          variant: "default",
-          children: `${stats.upcoming} upcoming`
-        } : undefined}
+        badge={stats.upcoming > 0 ? (
+          <Badge variant="default">{stats.upcoming} upcoming</Badge>
+        ) as React.ReactNode : undefined}
         actions={
           <Button 
             variant="default" 

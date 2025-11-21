@@ -159,10 +159,9 @@ export default function JournalPage() {
 				icon={BookOpen}
 				title="My Wellness Journal"
 				description="Track your mood, symptoms, and progress on your journey to better mental health"
-				badge={moodStats.streak > 0 ? {
-					variant: "default",
-					children: `${moodStats.streak} day streak! 🔥`
-				} : undefined}
+				badge={moodStats.streak > 0 ? (
+					<Badge variant="default">{moodStats.streak} day streak! 🔥</Badge>
+				) as React.ReactNode : undefined}
 				actions={
 					!isCreating && (
 						<Button 

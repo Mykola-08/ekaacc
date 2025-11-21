@@ -188,7 +188,7 @@ export default function EIPlansPage() {
       </SurfacePanel>
 
       {/* Pricing Plans Section */}
-      <SurfacePanel id="plans" className="py-12">
+      <SurfacePanel className="py-12">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-12"

@@ -29,3 +29,14 @@ if (typeof TransformStream === 'undefined') {
     }
   };
 }
+
+// Minimal fetch polyfill for libraries (e.g., Stripe) expecting global fetch in Jest/jsdom.
+// Provides a jest mock so tests can override implementation per suite when needed.
+if (typeof global.fetch === 'undefined') {
+  global.fetch = jest.fn(async () => ({
+    ok: true,
+    status: 200,
+    json: async () => ({}),
+    text: async () => '',
+  }));
+}

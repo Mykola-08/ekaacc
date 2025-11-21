@@ -7,6 +7,7 @@ import { format } from 'date-fns';
 import type { Report } from '@/lib/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, HeartPulse, Award, Activity, Target } from 'lucide-react';
 import { PageContainer } from '@/components/eka/page-container';
 import { PageHeader } from '@/components/eka/page-header';
@@ -175,10 +176,9 @@ export default function MinimalProgressPage() {
         icon={Activity}
         title="Progress Overview"
         description="Track your wellness journey over time"
-        badge={stats.totalSessions > 0 ? {
-          variant: "secondary",
-          children: `${stats.totalSessions} session${stats.totalSessions > 1 ? 's' : ''}`
-        } : undefined}
+        badge={stats.totalSessions > 0 ? (
+          <Badge variant="secondary">{stats.totalSessions} session{stats.totalSessions > 1 ? 's' : ''}</Badge>
+        ) as React.ReactNode : undefined}
       />
 
         {/* Stats Grid */}

@@ -7,7 +7,7 @@ export const runtime = 'edge'
 
 export default async function ServerProfilePage() {
   // Construct a Request passing through cookies for getSession.
-  const h = headers()
+  const h = await headers()
   const req = new Request('https://internal.local/dashboard/server-profile', {
     headers: new Headers({ cookie: h.get('cookie') || '' })
   })

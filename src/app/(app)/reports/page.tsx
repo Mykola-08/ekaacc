@@ -207,10 +207,9 @@ export default function ReportsPage() {
                 icon={FileText}
                 title="Reports"
                 description="View your wellness journey reports and insights"
-                badge={reports && reports.length > 0 ? {
-                    variant: "secondary",
-                    children: `${reports.length} report${reports.length > 1 ? 's' : ''}`
-                } : undefined}
+                badge={reports && reports.length > 0 ? (
+                    <Badge variant="secondary">{reports.length} report{reports.length > 1 ? 's' : ''}</Badge>
+                ) as React.ReactNode : undefined}
                 actions={
                     <Button onClick={handleGenerateReport} disabled={isGenerating}>
                         {isGenerating ? (

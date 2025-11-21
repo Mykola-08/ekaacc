@@ -165,6 +165,82 @@ $env:STATSIG_API_KEY="console-your-key"; ./scripts/setup-statsig.ps1
 
 MCP Limitation: Current MCP tooling in this repo cannot directly write Vercel or Supabase secrets; the script wraps the respective CLIs.
 
+#### Server vs Client Keys
+
+| Key | Purpose | Exposure |
+|-----|---------|----------|
+| `STATSIG_API_KEY` | Console operations / MCP remote | Server only |
+| `STATSIG_SERVER_SECRET` | Server-side gate/config evaluation | Server only (NEVER bundle) |
+| `NEXT_PUBLIC_STATSIG_CLIENT_KEY` | Client-side gating (optional) | Public |
+
+#### Basic Usage (Server)
+```ts
+import { isFlagEnabled, getAllFlags } from './src/services/featureFlags';
+
+const flags = await getAllFlags({ userId: 'user_123' });
+if (flags.ai_insights_enabled) {
+	// load AI insights module
+}
+```
+
+#### Client Usage (Optional)
+If you add `NEXT_PUBLIC_STATSIG_CLIENT_KEY`, you can evaluate gates client-side with `statsig-js`:
+```ts
+import Statsig from 'statsig-js';
+await Statsig.initialize(process.env.NEXT_PUBLIC_STATSIG_CLIENT_KEY!, { userID: 'user_123' });
+const enabled = Statsig.checkGate('ai_insights_enabled');
+```
+
+Provide graceful fallbacks for any client gating to avoid UI flicker.
+
+#### API Route Prefetch
+Flags are available at `GET /api/flags`:
+```bash
+curl https://your-app-domain/api/flags
+```
+Returns:
+```json
+{ "flags": { "ai_insights_enabled": true, "wallet_enabled": false, ... } }
+```
+
+#### Provider Integration
+Use server component prefetch + client hydration:
+```tsx
+import { PrefetchedFlags } from '@/components/examples/FlagsStatus';
+
+export default async function DashboardPage() {
+	return <PrefetchedFlags userId="user_123" />;
+}
+```
+
+#### Comprehensive Flag List
+| Flag | Purpose | Default Fallback |
+|------|---------|------------------|
+| ai_insights_enabled | AI recommendations | true |
+| ai_chat_enabled | Conversational AI chat | true |
+| journal_enabled | Mood & journal tracking | true |
+| goals_enabled | Goal management UI | true |
+| messaging_enabled | Secure user/provider messaging | true |
+| community_enabled | Forums & community threads | true |
+| therapist_portal_enabled | Therapist dashboard access | true |
+| therapist_booking_enabled | Booking flow & scheduling | true |
+| admin_dashboard_enabled | Administrative panels | true |
+| analytics_enabled | Analytics dashboards | true |
+| subscription_tiers_enabled | Tier gating logic | true |
+| wallet_enabled | User wallet / stored value | false |
+| loyalty_program_enabled | Engagement rewards program | true |
+| referrals_enabled | Referral / invitations | true |
+| square_integration_enabled | Square scheduling/payments | true |
+| stripe_billing_enabled | Stripe billing flows | true |
+| onboarding_flow_v2_enabled | New onboarding experiment | false |
+| impersonation_enabled | Admin user impersonation | true |
+| feature_flags_ui_enabled | Flag management UI surface | false |
+
+Use `FeatureGate` for client-only sections:
+```tsx
+<FeatureGate flag="wallet_enabled" fallback={<div>Wallet coming soon" />}> <WalletPanel /> </FeatureGate>
+```
+
 ## 🔐 Authentication & Security
 
 ### Authentication Flow

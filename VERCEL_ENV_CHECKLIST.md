@@ -52,6 +52,8 @@ OPENAI_API_KEY=                  # For GPT models
 ANTHROPIC_API_KEY=               # For Claude models
 GOOGLE_GENERATIVE_AI_API_KEY=    # For Gemini models
 STATSIG_API_KEY=                 # For feature flags & experimentation (console-*)
+STATSIG_SERVER_SECRET=           # Server-side evaluation secret (secret-*)
+NEXT_PUBLIC_STATSIG_CLIENT_KEY=  # Client SDK key (client-*)
 ```
 
 ## 📦 Optional Integrations
@@ -218,6 +220,8 @@ Use this to track which variables you've configured:
 - [ ] ANTHROPIC_API_KEY
 - [ ] GOOGLE_GENERATIVE_AI_API_KEY
 - [ ] STATSIG_API_KEY
+- [ ] STATSIG_SERVER_SECRET
+- [ ] NEXT_PUBLIC_STATSIG_CLIENT_KEY
 - [ ] NEXT_PUBLIC_GA_MEASUREMENT_ID
 - [ ] SENTRY_DSN
 - [ ] Square integration keys (if needed)

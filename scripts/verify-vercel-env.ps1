@@ -38,7 +38,9 @@ $recommendedVars = @(
     "NEXT_PUBLIC_APP_URL",
     "OPENAI_API_KEY",
     "ANTHROPIC_API_KEY",
-    "STATSIG_API_KEY"
+    "STATSIG_API_KEY",
+    "STATSIG_SERVER_SECRET",
+    "NEXT_PUBLIC_STATSIG_CLIENT_KEY"
 )
 
 $optionalVars = @(

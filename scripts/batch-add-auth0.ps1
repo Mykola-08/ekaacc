@@ -69,12 +69,11 @@ foreach ($key in $variables.Keys) {
 }
 
 Write-Host "`n==========================================" -ForegroundColor Cyan
-Write-Host "✅ Auth0 variables configuration complete!" -ForegroundColor Green
+Write-Host "Done! Auth0 variables configuration complete!" -ForegroundColor Green
 Write-Host "`nGenerated AUTH0_SECRET:" -ForegroundColor Cyan
 Write-Host "  $AUTH0_SECRET" -ForegroundColor Yellow
-Write-Host "`n⚠️  IMPORTANT: Save this secret! You may need it later." -ForegroundColor Yellow
+Write-Host "`nIMPORTANT: Save this secret!" -ForegroundColor Yellow
 Write-Host "`nNext steps:" -ForegroundColor Cyan
-Write-Host "  1. Verify variables: vercel env ls" -ForegroundColor White
-Write-Host "  2. Pull to .env: vercel env pull" -ForegroundColor White  
+Write-Host "  1. Verify: vercel env ls" -ForegroundColor White
+Write-Host "  2. Pull: vercel env pull" -ForegroundColor White  
 Write-Host "  3. Deploy: vercel --prod" -ForegroundColor White
-Write-Host "  4. Test login at: https://app.ekabalance.com" -ForegroundColor White

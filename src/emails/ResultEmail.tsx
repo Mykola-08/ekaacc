@@ -138,39 +138,3 @@ const button = {
   padding: '14px 32px',
   boxShadow: '0 4px 6px -1px rgba(79, 124, 255, 0.3)',
 };
-  marginBottom: '24px',
-};
-
-const resultRow = {
-  borderBottom: '1px solid #e5e7eb',
-  padding: '12px 16px',
-};
-
-const resultLabel = {
-  color: '#4b5563',
-  fontSize: '16px',
-  margin: 0,
-};
-
-const resultValue = {
-  fontSize: '16px',
-  fontWeight: '600',
-  margin: 0,
-};
-
-const btnContainer = {
-  textAlign: 'center' as const,
-  marginBottom: '24px',
-};
-
-const button = {
-  backgroundColor: '#000000',
-  borderRadius: '6px',
-  color: '#ffffff',
-  fontSize: '16px',
-  fontWeight: '600',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'inline-block',
-  padding: '12px 24px',
-};

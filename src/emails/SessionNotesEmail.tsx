@@ -118,22 +118,3 @@ const highlightText = {
   fontSize: '16px',
   margin: '0',
 };
-  color: '#4a4a4a',
-  fontSize: '16px',
-  lineHeight: '1.5',
-  marginBottom: '8px',
-};
-
-const highlightBox = {
-  backgroundColor: '#f3f4f6',
-  borderRadius: '8px',
-  padding: '16px',
-  textAlign: 'center' as const,
-  marginBottom: '24px',
-};
-
-const highlightText = {
-  color: '#1a1a1a',
-  fontSize: '16px',
-  margin: 0,
-};

@@ -114,17 +114,3 @@ const button = {
   padding: '14px 32px',
   boxShadow: '0 4px 6px -1px rgba(79, 124, 255, 0.3)',
 };
-  marginBottom: '24px',
-};
-
-const button = {
-  backgroundColor: '#0284c7',
-  borderRadius: '6px',
-  color: '#ffffff',
-  fontSize: '16px',
-  fontWeight: '600',
-  textDecoration: 'none',
-  textAlign: 'center' as const,
-  display: 'inline-block',
-  padding: '12px 24px',
-};

@@ -4,6 +4,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Crown, Sparkles } from "lucide-react";
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 import { useRouter } from "next/navigation";
 
 const plans = [
@@ -62,8 +64,12 @@ const plans = [
 export default function SubscriptionsPage() {
   const router = useRouter();
   return (
-    <div className="container mx-auto py-12 space-y-8">
-      <h1 className="text-4xl font-bold text-center mb-8">Choose Your Plan</h1>
+    <PageContainer>
+      <PageHeader
+        icon={Crown}
+        title="Choose Your Plan"
+        description="Unlock premium features and exclusive benefits with our subscription plans"
+      />
       <div className="grid md:grid-cols-4 gap-8">
         {plans.map((plan) => (
           <Card key={plan.id} className="relative">
@@ -91,6 +97,6 @@ export default function SubscriptionsPage() {
           </Card>
         ))}
       </div>
-    </div>
+    </PageContainer>
   );
 }

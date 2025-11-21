@@ -3,6 +3,13 @@
  * @description Unit tests for the Wallet Service
  */
 
+// Add fetch polyfill for Stripe
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({}),
+  })
+) as jest.Mock;
+
 import { getWalletService } from '../services/wallet-service';
 
 describe('WalletService', () => {

@@ -4,18 +4,18 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Sparkles, Heart, Shield, Zap } from 'lucide-react'
-import { PageContainer } from '@/components/layout/page-container'
+import { PageContainer } from '@/components/eka/page-container'
+import { PageHeader } from '@/components/eka/page-header'
+import { SurfacePanel } from '@/components/eka/surface-panel'
 
 export default function DefaultBlocksPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto py-8">
-        <PageContainer
-          title="shadcn/ui Components Showcase"
-          description="Reusable components with minimalist styling and consistent rounded corners"
-          className="mb-8"
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <PageContainer>
+      <PageHeader
+        title="shadcn/ui Components Showcase"
+        description="Reusable components with minimalist styling and consistent rounded corners"
+      />
+      <SurfacePanel className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <Card className="bg-white/50 backdrop-blur-sm border-purple-100 hover:shadow-lg hover:shadow-purple-100 transition-all duration-300">
             <CardHeader>
               <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center mb-4">
@@ -81,8 +81,7 @@ export default function DefaultBlocksPage() {
               </Button>
             </CardContent>
           </Card>
-        </div>
-      </div>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   )
 }

@@ -245,7 +245,7 @@ const PersonalizationEngine: React.FC<PersonalizationEngineProps> = ({ className
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ y: -2, opacity: 0.95 }}
         className="relative group"
       >
         {/* Glow effect */}
@@ -269,7 +269,7 @@ const PersonalizationEngine: React.FC<PersonalizationEngineProps> = ({ className
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileHover={{ rotate: 5, opacity: 0.9 }}
                   className="p-2 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20"
                 >
                   <Icon className="w-5 h-5 text-blue-600" />
@@ -309,7 +309,7 @@ const PersonalizationEngine: React.FC<PersonalizationEngineProps> = ({ className
           return (
             <motion.button
               key={key}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -2, opacity: 0.95 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => updateSetting('colorScheme', key)}
               className={cn(
@@ -404,7 +404,7 @@ const PersonalizationEngine: React.FC<PersonalizationEngineProps> = ({ className
           return (
             <motion.button
               key={key}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -2, opacity: 0.95 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => updateSetting('therapyStyle', key)}
               className={cn(

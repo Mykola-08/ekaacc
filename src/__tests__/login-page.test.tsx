@@ -35,46 +35,30 @@ describe('LoginForm Component', () => {
   it('should render login form correctly', () => {
     render(<LoginForm />);
 
-    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    // Use exact match for the main login button to distinguish from social login buttons
-    expect(screen.getByRole('button', { name: /^login$/i })).toBeInTheDocument();
-    expect(screen.getByText(/welcome back/i)).toBeInTheDocument();
+    // Auth0 Universal Login form
+    expect(screen.getByRole('button', { name: /sign in.*sign up/i })).toBeInTheDocument();
+    expect(screen.getByText(/welcome/i)).toBeInTheDocument();
+    expect(screen.getByText(/sign in with auth0/i)).toBeInTheDocument();
   });
 
-  it('should handle form submission successfully', async () => {
-    mockSignIn.mockResolvedValue({ error: null });
-
+  it('should handle auth0 sign in button click', async () => {
     render(<LoginForm />);
 
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
-    
-    fireEvent.click(screen.getByRole('button', { name: /^login$/i }));
+    const authButton = screen.getByRole('button', { name: /sign in.*sign up/i });
+    fireEvent.click(authButton);
 
     await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        password: 'password123'
-      });
-      expect(mockPush).toHaveBeenCalledWith('/dashboard');
+      expect(mockSignIn).toHaveBeenCalled();
     });
   });
 
-  it('should display error message on failure', async () => {
-    mockSignIn.mockResolvedValue({ error: { message: 'Invalid credentials' } });
-
+  it('should render social login providers', async () => {
     render(<LoginForm />);
 
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'wrongpassword' } });
-    
-    fireEvent.click(screen.getByRole('button', { name: /^login$/i }));
-
-    await waitFor(() => {
-      expect(screen.getByText('Invalid credentials')).toBeInTheDocument();
-      expect(mockPush).not.toHaveBeenCalled();
-    });
+    // Check for social login buttons
+    expect(screen.getByText('Google')).toBeInTheDocument();
+    expect(screen.getByText('X')).toBeInTheDocument();
+    expect(screen.getByText('LinkedIn')).toBeInTheDocument();
   });
 
   it('should disable button while loading', async () => {
@@ -88,10 +72,9 @@ describe('LoginForm Component', () => {
 
     render(<LoginForm />);
 
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
-    
-    fireEvent.click(screen.getByRole('button', { name: /^login$/i }));
+    // Auth0 Universal Login - click the main auth button
+    const authButton = screen.getByRole('button', { name: /sign in.*sign up/i });
+    fireEvent.click(authButton);
 
     expect(screen.getByRole('button', { name: /logging in/i })).toBeDisabled();
 

@@ -8,6 +8,8 @@ import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 
 export default function MinimalistLoginPage() {
   const [email, setEmail] = useState('');
@@ -42,7 +44,8 @@ export default function MinimalistLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <PageContainer>
+      <SurfacePanel className="flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <motion.div
         className="sm:mx-auto sm:w-full sm:max-w-md"
         initial={{ opacity: 0, y: 20 }}
@@ -185,6 +188,7 @@ export default function MinimalistLoginPage() {
           </div>
         </Card>
       </motion.div>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   );
 }

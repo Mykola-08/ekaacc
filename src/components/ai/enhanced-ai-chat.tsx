@@ -481,28 +481,28 @@ export function EnhancedAIChat({ userId, subscriptionTier, onClose, className }:
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
               <div className="grid grid-cols-2 gap-3">
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div whileHover={{ y: -2, opacity: 0.95 }} whileTap={{ scale: 0.98 }}>
                   <Card className="p-4 cursor-pointer hover:bg-slate-50 transition-colors">
                     <Calendar className="w-8 h-8 text-blue-500 mb-2" />
                     <h4 className="font-medium mb-1">Book Session</h4>
                     <p className="text-xs text-slate-600">Schedule a therapy session</p>
                   </Card>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div whileHover={{ y: -2, opacity: 0.95 }} whileTap={{ scale: 0.98 }}>
                   <Card className="p-4 cursor-pointer hover:bg-slate-50 transition-colors">
                     <Target className="w-8 h-8 text-green-500 mb-2" />
                     <h4 className="font-medium mb-1">Set Goal</h4>
                     <p className="text-xs text-slate-600">Create a wellness goal</p>
                   </Card>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div whileHover={{ y: -2, opacity: 0.95 }} whileTap={{ scale: 0.98 }}>
                   <Card className="p-4 cursor-pointer hover:bg-slate-50 transition-colors">
                     <BarChart3 className="w-8 h-8 text-purple-500 mb-2" />
                     <h4 className="font-medium mb-1">View Reports</h4>
                     <p className="text-xs text-slate-600">Check your progress</p>
                   </Card>
                 </motion.div>
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <motion.div whileHover={{ y: -2, opacity: 0.95 }} whileTap={{ scale: 0.98 }}>
                   <Card className="p-4 cursor-pointer hover:bg-slate-50 transition-colors">
                     <Settings className="w-8 h-8 text-slate-500 mb-2" />
                     <h4 className="font-medium mb-1">AI Settings</h4>
@@ -622,7 +622,7 @@ export function FloatingAIAssistant({ userId, subscriptionTier }: { userId: stri
 
       <motion.div
         className="fixed bottom-6 right-6 z-40"
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ y: -2, opacity: 0.95 }}
         whileTap={{ scale: 0.95 }}
       >
         <RainbowButton

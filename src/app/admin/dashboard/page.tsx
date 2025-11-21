@@ -27,6 +27,9 @@ import { UserImpersonationDialog } from '@/components/admin/user-impersonation'
 import { AdminNotificationSystem } from '@/components/admin/admin-notification-system'
 import { useAuth } from '@/context/auth-context'
 import { useRouter } from 'next/navigation'
+import { PageContainer } from '@/components/eka/page-container'
+import { PageHeader } from '@/components/eka/page-header'
+import { SurfacePanel } from '@/components/eka/surface-panel'
 
 export default function AdminDashboard() {
   const { user, isImpersonating, startImpersonation, endImpersonation } = useAuth()
@@ -57,56 +60,44 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Impersonation Banner */}
+    <PageContainer>
       {isImpersonating && (
-        <div className="bg-yellow-100 border-b border-yellow-200 px-4 py-3">
-          <div className="flex items-center justify-between max-w-7xl mx-auto">
-            <div className="flex items-center gap-3">
-              <AlertTriangle className="h-5 w-5 text-yellow-700" />
-              <span className="text-yellow-700 font-medium">
-                You are currently impersonating a user. Some features may be limited.
-              </span>
-            </div>
+        <SurfacePanel className="flex items-center justify-between bg-yellow-50 border border-yellow-200">
+          <div className="flex items-center gap-3">
+            <AlertTriangle className="h-5 w-5 text-yellow-700" />
+            <span className="text-yellow-700 font-medium">
+              You are currently impersonating a user. Some features may be limited.
+            </span>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => endImpersonation()}
+            className="border-yellow-300 text-yellow-700 hover:bg-yellow-200"
+          >
+            End Impersonation
+          </Button>
+        </SurfacePanel>
+      )}
+      <PageHeader
+        icon={Shield}
+        title="Admin Dashboard"
+        description="Manage users, monitor system performance, and configure settings"
+        actions={(
+          <div className="flex items-center gap-3">
             <Button
               variant="outline"
-              size="sm"
-              onClick={() => endImpersonation()}
-              className="border-yellow-300 text-yellow-700 hover:bg-yellow-200"
+              onClick={() => setShowImpersonationDialog(true)}
+              className="flex items-center gap-2"
             >
-              End Impersonation
+              <UserCheck className="h-4 w-4" />
+              Impersonate User
             </Button>
+            <Badge variant="outline" className="text-sm">Admin Access</Badge>
           </div>
-        </div>
-      )}
-
-      {/* Header */}
-      <div className="bg-muted/30 border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-6">
-            <div>
-              <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-              <p className="text-muted-foreground mt-1">Manage users, monitor system performance, and configure settings</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setShowImpersonationDialog(true)}
-                className="flex items-center gap-2"
-              >
-                <UserCheck className="h-4 w-4" />
-                Impersonate User
-              </Button>
-              <Badge variant="outline" className="text-sm">
-                Admin Access
-              </Badge>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        )}
+      />
+      <SurfacePanel className="space-y-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2">
             <TabsTrigger value="overview" className="flex items-center gap-2">
@@ -292,7 +283,7 @@ export default function AdminDashboard() {
             <AdminNotificationSystem />
           </TabsContent>
         </Tabs>
-      </div>
+      </SurfacePanel>
 
       {/* Impersonation Dialog */}
       <UserImpersonationDialog
@@ -300,6 +291,6 @@ export default function AdminDashboard() {
         onOpenChange={setShowImpersonationDialog}
         onImpersonate={handleImpersonate}
       />
-    </div>
+    </PageContainer>
   )
 }

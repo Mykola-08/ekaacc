@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals-minimal.css';
+import './eka-theme.css';
 import { Toaster } from 'sonner';
 import { cn } from '@/lib/utils';
 import { AuthProvider } from '@/context/auth-context';
@@ -7,7 +8,9 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
 import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
+// Removed SPA Auth0ClientProvider in favor of server-side sessions.
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 
 export const metadata: Metadata = {
@@ -54,6 +57,7 @@ export default function RootLayout({
                 <ImpersonationWrapper>
                   {children}
                   <Analytics />
+                  <SpeedInsights />
                 </ImpersonationWrapper>
                 <Toaster />
               </TooltipProvider>

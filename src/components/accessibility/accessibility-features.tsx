@@ -249,7 +249,7 @@ export function AccessibilityToolbar() {
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ y: -2, opacity: 0.95 }}
         whileTap={{ scale: 0.9 }}
       >
         <Button
@@ -307,7 +307,7 @@ export function AccessibilityToolbar() {
                       return (
                         <motion.div
                           key={feature.id}
-                          whileHover={{ scale: 1.02 }}
+                          whileHover={{ y: -2, opacity: 0.95 }}
                           className={cn(
                             "flex items-center justify-between p-3 rounded-lg border-2 transition-all duration-200",
                             feature.enabled 

@@ -29,7 +29,7 @@ export function ReasonStep({ onNext }: ReasonStepProps) {
           {reasonOptions.map((option) => (
             <Label
               key={option.value}
-              className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
                 reasonForSeeking === option.value
                   ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950 shadow-md'
                   : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300'

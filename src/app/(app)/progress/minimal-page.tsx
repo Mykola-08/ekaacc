@@ -8,6 +8,8 @@ import type { Report } from '@/lib/types';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, TrendingDown, HeartPulse, Award, Activity, Target } from 'lucide-react';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 
 function MinimalStatCard({ 
   title, 
@@ -168,13 +170,16 @@ export default function MinimalProgressPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Progress Overview</h1>
-          <p className="text-muted-foreground">Track your wellness journey over time</p>
-        </div>
+    <PageContainer>
+      <PageHeader
+        icon={Activity}
+        title="Progress Overview"
+        description="Track your wellness journey over time"
+        badge={stats.totalSessions > 0 ? {
+          variant: "secondary",
+          children: `${stats.totalSessions} session${stats.totalSessions > 1 ? 's' : ''}`
+        } : undefined}
+      />
 
         {/* Stats Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -247,7 +252,6 @@ export default function MinimalProgressPage() {
             Manage Goals
           </Button>
         </div>
-      </div>
-    </div>
+    </PageContainer>
   );
 }

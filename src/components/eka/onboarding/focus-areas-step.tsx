@@ -41,7 +41,7 @@ export function FocusAreasStep({ onNext }: FocusAreasStepProps) {
                 handleGoalToggle(goal);
               }}
               disabled={goals.length >= 3 && !goals.includes(goal)}
-              className={`p-4 rounded-xl border-2 transition-all text-left hover:scale-[1.02] ${
+              className={`p-4 rounded-xl border-2 transition-all text-left hover:shadow-md ${
                 goals.includes(goal)
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-md'
                   : goals.length >= 3

@@ -235,7 +235,7 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
       
       const effects = {
         lift: 'hover:-translate-y-1',
-        scale: 'hover:scale-[1.02]',
+        scale: 'hover:shadow-xl',
         glow: 'hover:shadow-2xl hover:shadow-blue-500/10',
         shadow: 'hover:shadow-2xl'
       };

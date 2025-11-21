@@ -25,7 +25,7 @@ export function ShimmerButton({
   return (
     <button
       className={cn(
-        'relative overflow-hidden px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105',
+        'relative overflow-hidden px-6 py-3 font-semibold text-white transition-all duration-300 hover:shadow-lg',
         className
       )}
       style={{

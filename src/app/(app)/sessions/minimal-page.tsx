@@ -3,6 +3,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { format } from "date-fns";
 import { CalendarOff, Clock, Calendar, Video, User as UserIcon, Plus, Filter } from "lucide-react";
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 import type { Session as AppSession, User } from '@/lib/types';
 import { useAuth } from "@/lib/supabase-auth";
 import { useAppStore } from "@/store/app-store";
@@ -229,16 +231,16 @@ export default function MinimalSessionsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background dark:bg-gray-900">
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">Your Sessions</h1>
-            <p className="text-muted-foreground">
-              Manage your therapy sessions and track your progress
-            </p>
-          </div>
+    <PageContainer>
+      <PageHeader
+        icon={Calendar}
+        title="Your Sessions"
+        description="Manage your therapy sessions and track your progress"
+        badge={stats.upcoming > 0 ? {
+          variant: "default",
+          children: `${stats.upcoming} upcoming`
+        } : undefined}
+        actions={
           <Button 
             variant="default" 
             size="default"
@@ -248,7 +250,8 @@ export default function MinimalSessionsPage() {
             <Plus className="w-4 h-4 mr-2" />
             Book Session
           </Button>
-        </div>
+        }
+      />
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -330,7 +333,6 @@ export default function MinimalSessionsPage() {
         {!isLoading && !isUserLoading && (!filteredSessions || filteredSessions.length === 0) && (
           <NoSessionsFound error={error} onBookClick={handleBookClick} />
         )}
-      </div>
-    </div>
+    </PageContainer>
   );
 }

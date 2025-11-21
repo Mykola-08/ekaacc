@@ -130,7 +130,7 @@ export function MinimalistDashboard() {
                 <div className="space-y-3">
                   <motion.button
                     className="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -2, opacity: 0.95 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center space-x-3">
@@ -141,7 +141,7 @@ export function MinimalistDashboard() {
                   
                   <motion.button
                     className="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -2, opacity: 0.95 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center space-x-3">
@@ -152,7 +152,7 @@ export function MinimalistDashboard() {
                   
                   <motion.button
                     className="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -2, opacity: 0.95 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center space-x-3">
@@ -163,7 +163,7 @@ export function MinimalistDashboard() {
                   
                   <motion.button
                     className="w-full text-left p-3 rounded-lg border border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all"
-                    whileHover={{ scale: 1.02 }}
+                    whileHover={{ y: -2, opacity: 0.95 }}
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center space-x-3">

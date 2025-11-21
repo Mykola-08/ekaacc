@@ -100,7 +100,7 @@ describe('Sidebar and Navigation Components', () => {
       expect(screen.getByRole('link', { name: /profile/i })).toBeInTheDocument();
 
       // Check user-specific items are present
-      expect(screen.getByText('Tiers')).toBeInTheDocument();
+      expect(screen.getByText('Subscriptions')).toBeInTheDocument();
       expect(screen.getByText('Sessions')).toBeInTheDocument();
 
       // Check therapist-specific items are NOT present
@@ -156,7 +156,6 @@ describe('Sidebar and Navigation Components', () => {
       // Check admin-specific items
       expect(screen.getByText('Admin Dashboard')).toBeInTheDocument();
       expect(screen.getByText('User Management')).toBeInTheDocument();
-      expect(screen.getByText('Tier Management')).toBeInTheDocument();
       expect(screen.getByText('Analytics')).toBeInTheDocument();
       expect(screen.getByText('System Settings')).toBeInTheDocument();
 

@@ -1,6 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Label } from '@/components/ui/label';
@@ -151,20 +153,24 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="mb-8"
-        >
-          <div className="flex items-center gap-3 mb-2">
-            <UserIcon className="w-8 h-8 text-primary" />
-            <h1 className="text-4xl font-bold tracking-tight text-foreground">Settings</h1>
-          </div>
-          <p className="text-xl text-muted-foreground">Customize your experience and manage your preferences</p>
-        </motion.div>
+    <PageContainer>
+      <PageHeader
+        icon={UserIcon}
+        title="Settings"
+        description="Customize your experience and manage your preferences"
+        actions={
+          hasChanges && (
+            <Button 
+              onClick={handleSave} 
+              disabled={isLoading}
+              className="gap-2"
+            >
+              <Save className="h-4 w-4" />
+              Save Changes
+            </Button>
+          )
+        }
+      />
 
         <SettingsShell className="mt-6">
           <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-6">
@@ -337,8 +343,7 @@ export default function SettingsPage() {
             </DialogFooter>
           </DialogContent>
         </Dialog>
-      </div>
-    </div>
+    </PageContainer>
   );
 }
 

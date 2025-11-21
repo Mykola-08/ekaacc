@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, CreditCard } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 
 const navItems = [
 	{ href: '/admin', label: 'Dashboard', icon: BarChart3 },
@@ -68,10 +70,12 @@ function AdminSidebar() {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="flex min-h-screen bg-background">
+		<div className="flex">
 			<AdminSidebar />
 			<main className="flex-1 overflow-y-auto">
-				<div className="p-4 sm:p-6 lg:p-8">{children}</div>
+				<PageContainer>
+					<SurfacePanel className="p-4 sm:p-6 lg:p-8">{children}</SurfacePanel>
+				</PageContainer>
 			</main>
 		</div>
 	);

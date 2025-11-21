@@ -1,0 +1,77 @@
+# Auto-labeler configuration
+# Labels PRs based on changed files
+
+# Authentication & Auth0
+'auth':
+  - 'src/app/api/auth/**/*'
+  - 'src/middleware.ts'
+  - 'wiki/AUTH*.md'
+
+# Database
+'database':
+  - 'supabase/**/*'
+  - 'wiki/DATABASE*.md'
+  - '**/*.sql'
+
+# API
+'api':
+  - 'src/app/api/**/*'
+  - 'src/server/**/*'
+
+# UI/Components
+'ui':
+  - 'src/components/**/*'
+  - 'src/app/**/page.tsx'
+  - 'src/app/**/layout.tsx'
+
+# Styling
+'styling':
+  - '**/*.css'
+  - 'tailwind.config.*'
+  - 'postcss.config.*'
+
+# Testing
+'testing':
+  - 'e2e/**/*'
+  - 'load-tests/**/*'
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
+  - '**/*.spec.ts'
+  - 'jest.config.js'
+  - 'playwright.config.ts'
+
+# CI/CD
+'ci':
+  - '.github/workflows/**/*'
+  - 'vercel.json'
+  - '.github/**/*'
+
+# Dependencies
+'dependencies':
+  - 'package.json'
+  - 'package-lock.json'
+
+# Documentation
+'documentation':
+  - 'wiki/**/*'
+  - 'README.md'
+  - '**/*.md'
+
+# Configuration
+'configuration':
+  - 'next.config.*'
+  - 'tsconfig.json'
+  - '.env.*'
+  - '*.config.js'
+  - '*.config.ts'
+
+# Email
+'email':
+  - 'src/emails/**/*'
+  - 'scripts/*resend*'
+  - 'RESEND*.md'
+
+# AI
+'ai':
+  - 'src/ai/**/*'
+  - 'wiki/AI*.md'

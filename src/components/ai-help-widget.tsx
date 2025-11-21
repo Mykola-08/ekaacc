@@ -217,7 +217,7 @@ export function AIHelpWidget({
             "flex items-center justify-center text-white",
             "border-2 border-white/20 backdrop-blur-sm"
           )}
-          whileHover={{ scale: 1.1 }}
+          whileHover={{ y: -2, opacity: 0.95 }}
           whileTap={{ scale: 0.95 }}
           animate={isOpen ? { rotate: 180 } : { rotate: 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -480,7 +480,7 @@ export function AIHelpButton({
         className={cn(
           "relative p-2 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 text-white",
           "shadow-lg hover:shadow-xl transition-shadow duration-300",
-          "hover:scale-110 transition-transform duration-200",
+          "hover:opacity-80 transition-opacity duration-200",
           className
         )}
         whileTap={{ scale: 0.95 }}

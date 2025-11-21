@@ -16,7 +16,7 @@ const MinimalCard = React.forwardRef<HTMLDivElement, MinimalCardProps>(
       ghost: 'bg-transparent'
     };
     
-    const interactiveClasses = interactive ? 'hover:shadow-md hover:scale-[1.01] cursor-pointer' : '';
+    const interactiveClasses = interactive ? 'hover:shadow-md cursor-pointer' : '';
     
     return (
       <div

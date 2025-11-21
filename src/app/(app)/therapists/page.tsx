@@ -1,6 +1,10 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
+import { motion } from 'framer-motion';
+import { Users } from 'lucide-react';
 import { useAppStore } from '@/store/app-store';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/ui/select';
@@ -53,15 +57,19 @@ export default function TherapistsPage() {
   }, [therapists]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold">Find Your Therapist</h1>
-        <p className="text-muted-foreground">
-          Browse our network of qualified therapists to find the right fit for you.
-        </p>
-      </header>
+    <PageContainer>
+      <PageHeader
+        icon={Users}
+        title="Find Your Therapist"
+        description="Browse our network of qualified therapists to find the right fit for you"
+      />
 
-      <div className="flex gap-4 mb-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="flex gap-4 mb-8"
+      >
         <Input
           placeholder="Search by name..."
           value={searchTerm}
@@ -79,20 +87,30 @@ export default function TherapistsPage() {
             ))}
           </SelectContent>
         </Select>
-      </div>
+      </motion.div>
 
-      {isLoading ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {[...Array(6)].map((_, i) => <TherapistSkeleton key={i} />)}
-        </div>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredTherapists.map((therapist) => (
-            <TherapistCard key={therapist.id} therapist={therapist} />
-          ))}
-        </div>
-      )}
-    </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+      >
+        {isLoading ? (
+          [...Array(6)].map((_, i) => <TherapistSkeleton key={i} />)
+        ) : (
+          filteredTherapists.map((therapist, index) => (
+            <motion.div
+              key={therapist.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.4 + index * 0.1 }}
+            >
+              <TherapistCard therapist={therapist} />
+            </motion.div>
+          ))
+        )}
+      </motion.div>
+    </PageContainer>
   );
 }
 

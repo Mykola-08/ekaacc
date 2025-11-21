@@ -43,7 +43,7 @@ export function ScheduleStep({ onNext }: ScheduleStepProps) {
               key={day}
               type="button"
               onClick={() => handleDayToggle(weekDays[index])}
-              className={`p-3 rounded-xl border-2 transition-all text-sm font-semibold hover:scale-105 ${
+              className={`p-3 rounded-xl border-2 transition-all text-sm font-semibold hover:shadow-md ${
                 preferredDays.includes(weekDays[index])
                   ? 'border-blue-500 bg-blue-500 text-white shadow-md'
                   : 'border-slate-300 dark:border-slate-600 hover:border-blue-400'
@@ -60,7 +60,7 @@ export function ScheduleStep({ onNext }: ScheduleStepProps) {
           {timeOptions.map((option) => (
             <Label
               key={option.value}
-              className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+              className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
                 preferredTime === option.value
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-lg'
                   : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'
@@ -90,7 +90,7 @@ export function ScheduleStep({ onNext }: ScheduleStepProps) {
           {frequencyOptions.map((option) => (
             <Label
               key={option.value}
-              className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+              className={`relative flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
                 sessionFrequency === option.value
                   ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950 shadow-lg'
                   : 'border-slate-200 dark:border-slate-700 hover:border-indigo-300'

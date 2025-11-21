@@ -51,7 +51,7 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ y: -2, opacity: 0.95 }}
         className={cn(
           "relative overflow-hidden rounded-xl border p-6 backdrop-blur-sm",
           severityColors[pattern.severity]
@@ -98,8 +98,8 @@ const BehavioralInsightCard: React.FC<BehavioralInsightCardProps> = ({ pattern, 
             </div>
             {onResolve && pattern.status === 'active' && (
               <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ y: -2, opacity: 0.9 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => onResolve(pattern.id!)}
                 className="p-2 rounded-full hover:bg-white/20 transition-colors"
               >
@@ -221,8 +221,8 @@ const PredictiveInsightCard: React.FC<PredictiveInsightCardProps> = ({ insight, 
             </div>
             {onDismiss && (
               <motion.button
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
+                whileHover={{ rotate: 90, opacity: 0.9 }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => onDismiss(insight.id!)}
                 className="p-2 rounded-full hover:bg-white/20 transition-colors"
               >
@@ -396,7 +396,7 @@ const AIBehavioralInsights: React.FC = () => {
               key={tab}
               variants={tabVariants}
               animate={activeTab === tab ? 'active' : 'inactive'}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -1, opacity: 0.95 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setActiveTab(tab as 'patterns' | 'insights')}
               className={cn(

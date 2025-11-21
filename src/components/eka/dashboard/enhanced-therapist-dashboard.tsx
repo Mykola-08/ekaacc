@@ -194,7 +194,7 @@ function EnhancedStatCard({
 
   return (
     <motion.div
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ y: -2, opacity: 0.95 }}
       className={cn(
         "p-6 rounded-xl border-2 bg-gradient-to-br transition-all duration-300",
         colorClasses[color]
@@ -270,7 +270,7 @@ function TherapistQuickActions({ onAction }: { onAction: (action: string) => voi
           {actions.map((action) => (
             <motion.div
               key={action.id}
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ y: -2, opacity: 0.95 }}
               whileTap={{ scale: 0.98 }}
               className={cn(
                 "p-4 rounded-lg border-2 cursor-pointer transition-all duration-300",

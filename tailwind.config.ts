@@ -11,7 +11,12 @@ export default {
   ],
 
   theme: {
-  	extend: {
+		container: {
+			center: true,
+			padding: '1.5rem',
+			screens: { '2xl': '1200px' }
+		},
+		extend: {
   		fontFamily: {
   			sans: [
   				'Inter',
@@ -41,7 +46,7 @@ export default {
   				'sans-serif'
   			]
   		},
-  		colors: {
+			colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -53,8 +58,10 @@ export default {
   				foreground: 'hsl(var(--popover-foreground))'
   			},
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: 'hsl(var(--primary))',
+					foreground: 'hsl(var(--primary-foreground))',
+					hover: 'hsl(var(--primary-hover))',
+					active: 'hsl(var(--primary-active))'
   			},
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
@@ -69,19 +76,21 @@ export default {
   				foreground: 'hsl(var(--accent-foreground))'
   			},
   			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
+					DEFAULT: 'hsl(var(--destructive))',
+					foreground: 'hsl(var(--destructive-foreground))',
+					hover: 'hsl(var(--destructive-hover))',
+					active: 'hsl(var(--destructive-active))'
   			},
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
-  			gradient: {
+				gradient: {
   				primary: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
   				secondary: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
   				accent: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
   				glow: 'linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%)'
   			},
-  			glow: {
+				glow: {
   				pink: '#ff6b6b',
   				yellow: '#feca57',
   				blue: '#48dbfb',
@@ -99,7 +108,7 @@ export default {
   				ring: 'hsl(var(--sidebar-ring))'
   			}
   		},
-  		borderRadius: {
+				borderRadius: {
   			xl: 'calc(var(--radius) + 8px)',
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
@@ -118,7 +127,17 @@ export default {
   				}
   			}
   		},
-  		keyframes: {
+				boxShadow: {
+					card: '0 16px 40px rgba(15,23,42,0.04)',
+					soft: '0 4px 16px rgba(15,23,42,0.06)'
+				},
+				transitionDuration: {
+					soft: '150ms'
+				},
+				transitionTimingFunction: {
+					soft: 'cubic-bezier(0.24, 0.22, 0.015, 1)'
+				},
+				keyframes: {
   			'accordion-down': {
   				from: {
   					height: '0'

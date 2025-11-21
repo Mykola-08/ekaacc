@@ -339,7 +339,7 @@ export default function SyncMonitoringDashboard() {
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Sync Health</CardTitle>
               <div className={cn(
-                "p-2 rounded-full transition-all duration-300 group-hover:scale-110",
+                "p-2 rounded-full transition-all duration-300 group-hover:opacity-80",
                 syncHealth.overall === 'healthy' ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' :
                 syncHealth.overall === 'warning' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400' :
                 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400'
@@ -371,7 +371,7 @@ export default function SyncMonitoringDashboard() {
           <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Pending Items</CardTitle>
-              <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 transition-all duration-300 group-hover:scale-110">
+              <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 transition-all duration-300 group-hover:opacity-80">
                 <Clock className="h-5 w-5" />
               </div>
             </CardHeader>
@@ -392,7 +392,7 @@ export default function SyncMonitoringDashboard() {
           <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Failed Items</CardTitle>
-              <div className="p-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 transition-all duration-300 group-hover:scale-110">
+              <div className="p-2 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 transition-all duration-300 group-hover:opacity-80">
                 <AlertTriangle className="h-5 w-5" />
               </div>
             </CardHeader>
@@ -413,7 +413,7 @@ export default function SyncMonitoringDashboard() {
           <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">Conflicts</CardTitle>
-              <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 transition-all duration-300 group-hover:scale-110">
+              <div className="p-2 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 transition-all duration-300 group-hover:opacity-80">
                 <Users className="h-5 w-5" />
               </div>
             </CardHeader>

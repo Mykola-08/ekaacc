@@ -35,7 +35,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
           {/* Logo */}
           <motion.div
             className="flex items-center"
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ y: -2, opacity: 0.95 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
             <a href="/home" className="text-xl font-semibold text-gray-900">

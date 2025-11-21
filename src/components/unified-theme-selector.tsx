@@ -147,7 +147,7 @@ export function UnifiedThemeSelector({
                 onClick={() => handleSystemThemeChange(themeOption.id)}
                 variant="ghost"
                 className={cn(
-                  "relative p-4 rounded-xl border-2 transition-all duration-200 hover:scale-105 h-auto flex flex-col items-stretch",
+                  "relative p-4 rounded-xl border-2 transition-all duration-200 h-auto flex flex-col items-stretch hover:bg-muted/80",
                   isSelected
                     ? 'border-blue-500 bg-blue-50/50 dark:border-blue-400 dark:bg-blue-950/20'
                     : 'border-slate-200 hover:border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-800'
@@ -208,7 +208,7 @@ export function UnifiedThemeSelector({
           <Card 
             key={theme.id} 
             className={cn(
-              "cursor-pointer transition-all hover:scale-105",
+              "cursor-pointer transition-all hover:bg-muted/80 hover:shadow-md",
               isSelected && "ring-2 ring-blue-500",
               isLocked && "opacity-60 cursor-not-allowed"
             )}

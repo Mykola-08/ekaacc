@@ -3,6 +3,9 @@
 import React from 'react'
 
 import { Sparkles, Heart, Brain, Shield, Zap, Calendar, Target, MessageSquare, TrendingUp } from 'lucide-react'
+import { PageContainer } from '@/components/eka/page-container'
+import { PageHeader } from '@/components/eka/page-header'
+import { SurfacePanel } from '@/components/eka/surface-panel'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -72,9 +75,13 @@ export default function PatientDashboardPage() {
   ]
 
   return (
-      <div className="min-h-screen bg-background">
-        {/* Enhanced Hero Section */}
-        <section className="relative overflow-hidden py-12 sm:py-16">
+    <PageContainer>
+      <PageHeader
+        title={welcomeMessage}
+        description="Personalized tools, tracking, and professional support"
+        badge="Wellness"
+      />
+        <SurfacePanel className="relative overflow-hidden py-12 sm:py-16">
           
           <div className="mx-auto max-w-7xl px-6 lg:px-8 relative">
             <div className="mx-auto max-w-3xl text-center space-y-8">
@@ -99,10 +106,9 @@ export default function PatientDashboardPage() {
               </div>
             </div>
           </div>
-        </section>
+        </SurfacePanel>
 
-        {/* Enhanced Quick Actions with shadcn blocks */}
-        <section className="py-16">
+        <SurfacePanel className="py-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
@@ -126,12 +132,12 @@ export default function PatientDashboardPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ y: -2, opacity: 0.95 }}
                   className="group"
                 >
                   <Card className="h-full hover:shadow-lg transition-all duration-300">
                     <CardHeader className="pb-3">
-                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+                      <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4 transition-colors group-hover:bg-primary/20">
                         <action.icon className="h-6 w-6 text-primary" />
                       </div>
                       <CardTitle className="text-lg font-semibold">{action.title}</CardTitle>
@@ -151,10 +157,9 @@ export default function PatientDashboardPage() {
               ))}
             </div>
           </div>
-        </section>
+        </SurfacePanel>
 
-        {/* Enhanced Wellness Stats with NumberTicker */}
-        <section className="py-16 bg-muted/30">
+        <SurfacePanel className="py-16">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -178,7 +183,7 @@ export default function PatientDashboardPage() {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ y: -2, opacity: 0.95 }}
                 >
                   <Card className="hover:shadow-lg transition-all duration-300">
                     <CardContent className="p-6 text-center">
@@ -196,10 +201,9 @@ export default function PatientDashboardPage() {
               ))}
             </div>
           </div>
-        </section>
+        </SurfacePanel>
 
-        {/* Enhanced Wellness Features */}
-        <section className="py-20">
+        <SurfacePanel className="py-20">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -264,7 +268,7 @@ export default function PatientDashboardPage() {
                   className="group"
                 >
                   <div className="text-center p-8 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all duration-300 group-hover:shadow-2xl">
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform shadow-lg`}>
+                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mx-auto mb-6 group-hover:opacity-90 transition-opacity shadow-lg`}>
                       <feature.icon className="h-8 w-8 text-white" />
                     </div>
                     <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
@@ -274,7 +278,7 @@ export default function PatientDashboardPage() {
               ))}
             </div>
           </div>
-        </section>
-      </div>
+        </SurfacePanel>
+    </PageContainer>
   )
 }

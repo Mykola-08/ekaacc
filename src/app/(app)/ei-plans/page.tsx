@@ -5,6 +5,9 @@ import { Brain, Heart, Users, Sparkles, ArrowRight, Check, Star } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 import { useRouter } from 'next/navigation';
 
 export default function EIPlansPage() {
@@ -87,9 +90,14 @@ export default function EIPlansPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <PageContainer>
+      <PageHeader
+        title="Emotional Intelligence Plans"
+        description="AI-powered programs for personal and professional growth"
+        badge="EI Programs"
+      />
       {/* Hero Section */}
-      <section className="py-16 px-4">
+      <SurfacePanel className="py-12">
         <motion.div 
           className="relative max-w-6xl mx-auto text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -131,10 +139,10 @@ export default function EIPlansPage() {
             </Button>
           </div>
         </motion.div>
-      </section>
+      </SurfacePanel>
 
       {/* Benefits Section */}
-      <section className="py-16 px-4">
+      <SurfacePanel className="py-12">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -177,10 +185,10 @@ export default function EIPlansPage() {
             ))}
           </div>
         </div>
-      </section>
+      </SurfacePanel>
 
       {/* Pricing Plans Section */}
-      <section id="plans" className="py-16 px-4">
+      <SurfacePanel id="plans" className="py-12">
         <div className="max-w-6xl mx-auto">
           <motion.div
             className="text-center mb-12"
@@ -249,10 +257,10 @@ export default function EIPlansPage() {
             ))}
           </div>
         </div>
-      </section>
+      </SurfacePanel>
 
       {/* CTA Section */}
-      <section className="py-16 px-4">
+      <SurfacePanel className="py-12">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -276,7 +284,7 @@ export default function EIPlansPage() {
             </Button>
           </motion.div>
         </div>
-      </section>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   );
 }

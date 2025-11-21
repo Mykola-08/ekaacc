@@ -270,7 +270,7 @@ export default function SubscriptionPromotionSystem() {
 
         <div className="grid gap-6 md:grid-cols-3">
           {SUBSCRIPTION_TIERS.map((tier) => (
-            <Card key={tier.id} className={`relative ${tier.popular ? 'border-purple-300 shadow-lg scale-105' : 'border-gray-200'}`}>
+            <Card key={tier.id} className={`relative ${tier.popular ? 'border-purple-300 shadow-lg' : 'border-gray-200'}`}>
               {tier.popular && (
                 <Badge className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-purple-500 to-pink-500">
                   <Star className="h-3 w-3 mr-1" />

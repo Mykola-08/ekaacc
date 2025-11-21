@@ -10,6 +10,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
+import { PageContainer } from '@/components/eka/page-container'
+import { PageHeader } from '@/components/eka/page-header'
+import { SurfacePanel } from '@/components/eka/surface-panel'
 
 export default function TherapistDashboardPage() {
   const { user } = useSimpleAuth()
@@ -139,43 +142,27 @@ export default function TherapistDashboardPage() {
   ]
 
     return (
-      <div className="min-h-screen bg-background">
-        <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-          {/* Header Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <Award className="w-8 h-8 text-primary" />
-                  <h1 className="text-4xl font-bold tracking-tight text-foreground">
-                    {welcomeMessage}
-                  </h1>
-                </div>
-                <p className="text-xl text-muted-foreground">
-                  Manage your practice, track client progress, and deliver exceptional care
-                </p>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                <Button variant="outline" size="sm">
-                  <Bell className="h-4 w-4 mr-2" />
-                  Notifications
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Settings
-                </Button>
-              </div>
+      <PageContainer>
+        <PageHeader
+          icon={Award}
+          title={welcomeMessage}
+          description="Manage your practice, track client progress, and deliver exceptional care"
+          actions={(
+            <div className="flex items-center gap-4">
+              <Button variant="outline" size="sm">
+                <Bell className="h-4 w-4 mr-2" />
+                Notifications
+              </Button>
+              <Button variant="outline" size="sm">
+                <Settings className="h-4 w-4 mr-2" />
+                Settings
+              </Button>
             </div>
-          </motion.div>
+          )}
+        />
 
-          {/* Stats Overview */}
-          <div className="mb-8">
+        <SurfacePanel className="space-y-8">
+          <div>
             <h2 className="text-2xl font-semibold text-foreground mb-4">Practice Overview</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {therapistStats.map((stat, index) => (
@@ -205,105 +192,95 @@ export default function TherapistDashboardPage() {
             </div>
           </div>
 
-        {/* Quick Actions */}
-        <section className="py-8">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8">
-            <div>
-              <h2 className="text-xl font-semibold text-foreground mb-4">Quick Actions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {quickActions.map((action) => (
-                  <Card key={action.title} className="h-full border hover:bg-accent/40 transition-colors cursor-pointer group">
-                    <CardHeader className="pb-3">
-                      <div className="w-10 h-10 rounded-md flex items-center justify-center mb-4 group-hover:scale-110 transition-transform bg-muted">
-                        <action.icon className="h-5 w-5" />
-                      </div>
-                      <CardTitle className="text-lg">{action.title}</CardTitle>
-                      <CardDescription>{action.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <Button 
-                        variant="outline" 
-                        className="w-full"
-                        onClick={() => window.location.href = action.href}
-                      >
-                        Open
-                      </Button>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
+          <div>
+            <h2 className="text-xl font-semibold text-foreground mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {quickActions.map((action) => (
+                <Card key={action.title} className="h-full border hover:bg-accent/40 transition-colors cursor-pointer group">
+                  <CardHeader className="pb-3">
+                    <div className="w-10 h-10 rounded-md flex items-center justify-center mb-4 group-hover:opacity-80 transition-opacity bg-muted">
+                      <action.icon className="h-5 w-5" />
+                    </div>
+                    <CardTitle className="text-lg">{action.title}</CardTitle>
+                    <CardDescription>{action.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <Button 
+                      variant="outline" 
+                      className="w-full"
+                      onClick={() => window.location.href = action.href}
+                    >
+                      Open
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
-        </section>
 
-        {/* Upcoming Sessions */}
-        <section className="py-8">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8">
-            <div>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
-                <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  View All
-                </Button>
-              </div>
-              
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Upcoming Sessions</h3>
-                  <div className="space-y-4">
-                    {upcomingSessions.map((session, index) => (
-                      <Card key={index} className="border hover:bg-accent/40 transition-colors">
-                        <CardContent className="p-4">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
-                                <Clock className="h-4 w-4" />
-                              </div>
-                              <div>
-                                <h4 className="font-semibold text-foreground">{session.client}</h4>
-                                <p className="text-sm text-muted-foreground">{session.type} • {session.duration}</p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-semibold text-foreground">{session.time}</p>
-                              <Badge variant={session.status === 'confirmed' ? 'default' : 'secondary'} className="bg-purple-100 text-purple-700">
-                                {session.status}
-                              </Badge>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activities</h3>
-                  <div className="space-y-4">
-                    {recentActivities.map((activity, index) => (
-                      <Card key={index} className="border hover:bg-accent/40 transition-colors">
-                        <CardContent className="p-4">
+          <div>
+            <div className="flex items-center justify-between mb-8">
+              <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
+              <Button variant="outline" size="sm" className="border-purple-200 hover:bg-purple-50">
+                <Calendar className="h-4 w-4 mr-2" />
+                View All
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-4">Upcoming Sessions</h3>
+                <div className="space-y-4">
+                  {upcomingSessions.map((session, index) => (
+                    <Card key={index} className="border hover:bg-accent/40 transition-colors">
+                      <CardContent className="p-4">
+                        <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
-                              <Users className="h-4 w-4" />
+                              <Clock className="h-4 w-4" />
                             </div>
-                            <div className="flex-1">
-                              <p className="text-sm text-foreground">
-                                <span className="font-semibold">{activity.client}</span> {activity.action}
-                              </p>
-                              <p className="text-xs text-muted-foreground">{activity.time}</p>
+                            <div>
+                              <h4 className="font-semibold text-foreground">{session.client}</h4>
+                              <p className="text-sm text-muted-foreground">{session.type} • {session.duration}</p>
                             </div>
                           </div>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
+                          <div className="text-right">
+                            <p className="font-semibold text-foreground">{session.time}</p>
+                            <Badge variant={session.status === 'confirmed' ? 'default' : 'secondary'} className="bg-purple-100 text-purple-700">
+                              {session.status}
+                            </Badge>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-foreground mb-4">Recent Activities</h3>
+                <div className="space-y-4">
+                  {recentActivities.map((activity, index) => (
+                    <Card key={index} className="border hover:bg-accent/40 transition-colors">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-muted rounded flex items-center justify-center">
+                            <Users className="h-4 w-4" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm text-foreground">
+                              <span className="font-semibold">{activity.client}</span> {activity.action}
+                            </p>
+                            <p className="text-xs text-muted-foreground">{activity.time}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </SurfacePanel>
+      </PageContainer>
+    )
   )
 }

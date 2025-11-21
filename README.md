@@ -115,6 +115,27 @@ ekaacc/
 └── docs/                        # Additional documentation
 ```
 
+## 🔧 Extended Environment Variables
+
+Add these to `.env.local` (or project secrets) as needed:
+
+| Variable | Purpose |
+|----------|---------|
+| `PUBLIC_ROUTES` | Comma-separated list of additional unauthenticated routes |
+| `RATE_LIMIT_MAX_REQUESTS` | Override per-minute in-memory rate limit (default 120) |
+| `BOT_PROTECTION_ENABLED` | Set to `true` to enable UA-based bot blocking in middleware |
+| `BOT_PROTECTION_BLOCK_LIST` | Comma list of substrings to match against `User-Agent` |
+| `VERCEL_ANALYTICS_ENABLED` | Future flag for conditional analytics loading |
+| `RESEND_API_KEY` | API key for Resend email service (required for email sending) |
+| `RESEND_AUDIENCE_ID` | Optional audience ID for contact sync |
+| `ACCESS_TOKEN_RATE_LIMIT` | Max requests per-minute to /api/auth/access-token (default 40) |
+| `ACCESS_TOKEN_REFRESH_THRESHOLD_SECONDS` | Seconds before expiry to trigger automatic refresh (default 60) |
+| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL for distributed rate limiting |
+| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
+| `RATE_LIMIT_WINDOW_SECONDS` | Global request rate limit window size (default 60) |
+
+Secrets for production should be pushed to Vercel (`vercel env add ...`) and Supabase (`supabase secrets set ...`). Refer to `wiki/RESEND_INTEGRATION.md` and security docs for details.
+
 ## 🔐 Authentication & Security
 
 ### Authentication Flow

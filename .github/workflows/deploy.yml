@@ -1,0 +1,88 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: false
+
+jobs:
+  pre-deploy-checks:
+    name: Pre-deployment Checks
+    runs-on: ubuntu-latest
+    outputs:
+      should-deploy: ${{ steps.check.outputs.deploy }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check for deployment markers
+        id: check
+        run: |
+          # Check if commit message contains [skip deploy]
+          if git log -1 --pretty=%B | grep -q "\[skip deploy\]"; then
+            echo "deploy=false" >> $GITHUB_OUTPUT
+          else
+            echo "deploy=true" >> $GITHUB_OUTPUT
+          fi
+
+  deploy-production:
+    name: Deploy to Vercel Production
+    needs: pre-deploy-checks
+    if: needs.pre-deploy-checks.outputs.should-deploy == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Vercel
+        id: deploy
+        run: |
+          # Vercel will auto-deploy on push to main
+          # This is a placeholder for additional deployment logic
+          echo "url=https://your-app.vercel.app" >> $GITHUB_OUTPUT
+
+      - name: Create deployment summary
+        run: |
+          echo "## 🚀 Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Deployed successfully!" >> $GITHUB_STEP_SUMMARY
+          echo "🔗 URL: ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "📝 Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+  post-deploy:
+    name: Post-deployment Tests
+    needs: deploy-production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Smoke tests
+        run: |
+          echo "Running smoke tests on production..."
+          # Add your production smoke tests here
+          # curl -f https://your-app.vercel.app/api/health || exit 1
+
+      - name: Notify on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 Production Deployment Failed',
+              body: `Production deployment or post-deployment tests failed.\n\nCommit: ${context.sha}\nWorkflow: ${context.workflow}\n\nPlease investigate immediately.`,
+              labels: ['deployment', 'critical']
+            });

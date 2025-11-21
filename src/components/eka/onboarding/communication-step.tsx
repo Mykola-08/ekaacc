@@ -25,7 +25,7 @@ export function CommunicationStep({ onNext }: CommunicationStepProps) {
           {communicationStyles.map((style) => (
             <Label
               key={style.value}
-              className={`relative flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all hover:scale-[1.01] ${
+              className={`relative flex items-center gap-4 p-5 rounded-xl border-2 cursor-pointer transition-all hover:shadow-md ${
                 communicationStyle === style.value
                   ? 'border-blue-500 bg-blue-50 dark:bg-blue-950 shadow-lg'
                   : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'

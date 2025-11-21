@@ -27,7 +27,7 @@ export function WelcomeStep({ onNext }: WelcomeStepProps) {
             ⭐ Most Popular
           </div>
           <div className="flex items-start gap-4">
-            <Zap className="w-7 h-7 text-blue-600 mt-1 group-hover:scale-110 transition-transform" />
+            <Zap className="w-7 h-7 text-blue-600 mt-1 group-hover:opacity-80 transition-opacity" />
             <div>
               <div className="font-bold text-xl mb-1 text-blue-700 dark:text-blue-300">Quick Start</div>
               <div className="text-sm text-slate-600 dark:text-slate-400 mb-2">

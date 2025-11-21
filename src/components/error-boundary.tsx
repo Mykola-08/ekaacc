@@ -1,6 +1,8 @@
 'use client';
 
 import { Component, ReactNode } from 'react';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
@@ -89,8 +91,9 @@ export class ErrorBoundary extends Component<Props, State> {
 
       // Default error UI
       return (
-        <div className="min-h-screen bg-background flex items-center justify-center p-4">
-          <Card className="max-w-lg w-full">
+        <PageContainer>
+          <SurfacePanel className="flex items-center justify-center p-4">
+            <Card className="max-w-lg w-full">
             <CardHeader>
               <div className="flex items-center gap-2 text-destructive mb-4">
                 <AlertTriangle className="h-6 w-6" />
@@ -140,8 +143,9 @@ export class ErrorBoundary extends Component<Props, State> {
                 Go Home
               </Button>
             </CardFooter>
-          </Card>
-        </div>
+            </Card>
+          </SurfacePanel>
+        </PageContainer>
       );
     }
 

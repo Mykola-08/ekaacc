@@ -284,7 +284,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                   return (
                     <Card
                       key={category.id}
-                      className={`cursor-pointer transition-all hover:scale-105 ${
+                      className={`cursor-pointer transition-all hover:shadow-md ${
                         isSelected ? 'border-2 border-blue-500 bg-blue-50 dark:bg-blue-950' : ''
                       }`}
                       onClick={() => handleGoalCategoryToggle(category.id)}
@@ -341,7 +341,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                   {communicationStyles.map((style) => (
                     <Card
                       key={style.value}
-                      className={`cursor-pointer transition-all hover:scale-105 ${
+                      className={`cursor-pointer transition-all hover:shadow-md ${
                         communicationStyle === style.value ? 'border-2 border-purple-500 bg-purple-50 dark:bg-purple-950' : ''
                       }`}
                       onClick={() => setCommunicationStyle(style.value as any)}
@@ -378,7 +378,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Badge
                         key={motivation.id}
                         variant={isSelected ? 'default' : 'outline'}
-                        className={`cursor-pointer p-3 justify-start hover:scale-105 transition-all ${
+                        className={`cursor-pointer p-3 justify-start hover:bg-muted/80 transition-all ${
                           isSelected ? 'bg-gradient-to-r from-blue-500 to-purple-500' : ''
                         }`}
                         onClick={() => handleMotivationToggle(motivation.id)}
@@ -418,7 +418,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Badge
                         key={stressor}
                         variant={isSelected ? 'default' : 'outline'}
-                        className={`cursor-pointer hover:scale-105 transition-all ${
+                        className={`cursor-pointer hover:bg-muted/80 transition-all ${
                           isSelected ? 'bg-orange-500' : ''
                         }`}
                         onClick={() => handleStressorToggle(stressor)}
@@ -445,7 +445,7 @@ export function WelcomePersonalizationForm({ open, onClose, onSubmit, onSkip }: 
                       <Badge
                         key={coping}
                         variant={isSelected ? 'default' : 'outline'}
-                        className={`cursor-pointer hover:scale-105 transition-all ${
+                        className={`cursor-pointer hover:bg-muted/80 transition-all ${
                           isSelected ? 'bg-green-500' : ''
                         }`}
                         onClick={() => handleCopingToggle(coping)}

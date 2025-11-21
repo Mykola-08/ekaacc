@@ -11,6 +11,8 @@ import { Sparkles, Heart, Shield, Zap, Brain, Users, BookOpen, TrendingUp, Calen
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
+import { PageContainer } from '@/components/eka/page-container'
+import { SurfacePanel } from '@/components/eka/surface-panel'
 const MedicalDisclaimer = dynamic(() => import('@/components/medical-disclaimer'), { ssr: false })
 
 export default function HomePage() {
@@ -31,17 +33,20 @@ export default function HomePage() {
 
   if (isAuthenticated) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">Redirecting to your dashboard...</p>
-        </div>
-      </div>
+      <PageContainer>
+        <SurfacePanel className="flex items-center justify-center">
+          <div className="text-center space-y-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+            <p className="text-muted-foreground">Redirecting to your dashboard...</p>
+          </div>
+        </SurfacePanel>
+      </PageContainer>
     )
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <PageContainer>
+      <SurfacePanel>
       {/* Hero Section */}
       <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-8">
@@ -163,7 +168,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ y: -4, opacity: 0.95 }}
             >
               <Card className="border-muted hover:border-border transition-all duration-300">
                 <CardHeader>
@@ -298,7 +303,7 @@ export default function HomePage() {
             </CardContent>
           </Card>
         </motion.div>
-      </div>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   )
 }

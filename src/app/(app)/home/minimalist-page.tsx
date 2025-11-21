@@ -82,8 +82,8 @@ export default function MinimalistHomePage() {
               transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
             >
               <motion.button
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium transition-all duration-200 hover:bg-blue-700 hover:scale-105"
-                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium transition-all duration-200 hover:bg-blue-700"
+                whileHover={{ y: -2, opacity: 0.95 }}
                 whileTap={{ scale: 0.95 }}
               >
                 Continue journey
@@ -196,8 +196,8 @@ export default function MinimalistHomePage() {
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <motion.button
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium transition-all duration-200 hover:bg-blue-700 hover:scale-105"
-                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-white font-medium transition-all duration-200 hover:bg-blue-700"
+                whileHover={{ y: -2, opacity: 0.95 }}
                 whileTap={{ scale: 0.95 }}
               >
                 Go to dashboard
@@ -206,7 +206,7 @@ export default function MinimalistHomePage() {
               
               <motion.button
                 className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-6 py-3 text-gray-700 font-medium transition-all duration-200 hover:bg-gray-100 hover:border-gray-400"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ y: -2, opacity: 0.95 }}
                 whileTap={{ scale: 0.95 }}
               >
                 View progress

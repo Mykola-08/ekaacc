@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 
 /**
  * Global Error Page
@@ -45,8 +47,9 @@ export default function GlobalError({
   return (
     <html>
       <body>
-        <div className="min-h-screen bg-background flex items-center justify-center p-4">
-          <Card className="max-w-lg w-full">
+        <PageContainer>
+          <SurfacePanel className="flex items-center justify-center p-4">
+            <Card className="max-w-lg w-full">
             <CardHeader>
               <div className="flex items-center gap-2 text-destructive mb-4">
                 <AlertTriangle className="h-6 w-6" />
@@ -107,8 +110,9 @@ export default function GlobalError({
                 Go Home
               </Button>
             </CardFooter>
-          </Card>
-        </div>
+            </Card>
+          </SurfacePanel>
+        </PageContainer>
       </body>
     </html>
   );

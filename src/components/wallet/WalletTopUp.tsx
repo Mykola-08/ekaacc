@@ -116,7 +116,7 @@ export function WalletTopUp() {
             </div>
           ) : (
             <div className="space-y-4">
-              <Button variant="ghost" onClick={() => setClientSecret(null)} className="mb-4">
+              <Button variant="ghost" onClick={() => setClientSecret(null)}>
                 ← Back to options
               </Button>
               <StripeWrapper clientSecret={clientSecret}>

@@ -236,8 +236,8 @@ export function BookingCalendar({ onSelectSlot, selectedDate: propSelectedDate, 
                       disabled={isPastDate}
                       className={cn(
                         'flex flex-col items-center justify-center p-4 rounded-lg border transition-all',
-                        'hover:shadow-md hover:scale-105',
-                        isPastDate && 'opacity-40 cursor-not-allowed hover:scale-100',
+                        'hover:shadow-md hover:bg-muted/50',
+                        isPastDate && 'opacity-40 cursor-not-allowed',
                         selected && 'bg-primary text-primary-foreground border-primary shadow-lg',
                         today && !selected && 'border-primary border-2',
                         !selected && !today && 'hover:border-primary/50'

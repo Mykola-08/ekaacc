@@ -82,7 +82,7 @@ describe('TierBadge Components', () => {
       render(<TierBadge tierType="vip" tierName="silver" animated={true} />);
       
       const badge = screen.getByText('VIP Silver').closest('div');
-      expect(badge).toHaveClass('hover:scale-105', 'hover:shadow-md');
+      expect(badge).toHaveClass('hover:bg-muted/90', 'hover:shadow-md');
     });
   });
 
@@ -115,7 +115,7 @@ describe('TierBadge Components', () => {
       render(<TierBadgeGradient tierType="vip" tierName="silver" />);
       
       const badge = screen.getByText('VIP Silver').closest('div');
-      expect(badge).toHaveClass('hover:scale-105', 'hover:shadow-xl', 'animate-pulse');
+      expect(badge).toHaveClass('hover:bg-primary/90', 'hover:shadow-2xl', 'animate-pulse');
     });
 
     it('should not apply animation classes when animated is false', () => {
@@ -153,7 +153,7 @@ describe('TierBadge Components', () => {
       render(<TierBadgeMinimal tierType="vip" tierName="silver" animated={true} />);
       
       const badge = screen.getByText('Silver').closest('div');
-      expect(badge).toHaveClass('hover:scale-105', 'transition-transform', 'duration-200');
+      expect(badge).toHaveClass('hover:bg-muted/90', 'duration-200');
     });
   });
 

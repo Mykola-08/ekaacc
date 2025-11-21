@@ -3,7 +3,7 @@ import { WelcomeEmail } from '@/emails/WelcomeEmail';
 import { render } from '@react-email/render';
 
 export class EmailService {
-  private static fromEmail = 'Ekaacc <onboarding@resend.dev>'; // Update this with your verified domain
+  private static fromEmail = process.env.RESEND_FROM_EMAIL || 'Ekaacc <noreply@ekaacc.com>';
 
   static async sendWelcomeEmail(to: string, name: string, actionUrl: string) {
     try {

@@ -31,13 +31,13 @@ function FeatureCard({ icon, title, description, color, delay = 0 }: FeatureCard
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ y: -4, opacity: 0.95 }}
       className="group"
     >
       <Card className="border-0 shadow-xl bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm hover:shadow-2xl transition-all duration-500 h-full">
         <CardHeader>
           <div className={cn(
-            "w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:scale-110",
+            "w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300 group-hover:opacity-90",
             color
           )}>
             {icon}

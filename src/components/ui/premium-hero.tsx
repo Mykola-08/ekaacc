@@ -414,7 +414,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
                     onClick={onPrimaryAction}
                     disabled={primaryAction.disabled || primaryAction.loading}
                     className={cn(
-                      "inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105",
+                      "inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform",
                       "bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:shadow-xl",
                       "focus:outline-none focus:ring-4 focus:ring-primary-500/30",
                       (primaryAction.disabled || primaryAction.loading) && "opacity-50 cursor-not-allowed"
@@ -433,7 +433,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
                     onClick={onSecondaryAction}
                     disabled={secondaryAction.disabled || secondaryAction.loading}
                     className={cn(
-                      "inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105",
+                      "inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform",
                       "border-2 border-neutral-300 text-neutral-700 hover:border-neutral-400 hover:bg-white/50",
                       "focus:outline-none focus:ring-4 focus:ring-neutral-500/20",
                       (secondaryAction.disabled || secondaryAction.loading) && "opacity-50 cursor-not-allowed",

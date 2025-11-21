@@ -21,6 +21,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { generateWellnessInsights } from '@/ai/ai-service';
 import { cn } from '@/lib/utils';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 
 // Enhanced calming color palette for mental health
 const calmingColors = {
@@ -176,7 +178,7 @@ function QuickActionCard({
 
   return (
     <motion.div
-      whileHover={{ scale: 1.01 }}
+      whileHover={{ y: -2, opacity: 0.95 }}
       whileTap={{ scale: 0.99 }}
       className={cn(
         "p-8 rounded-2xl cursor-pointer transition-all duration-200 bg-muted/20 hover:bg-muted/30",
@@ -279,8 +281,8 @@ export default function EnhancedPatientDashboard() {
 
   if (authLoading || dataLoading) {
     return (
-      <div className="min-h-screen bg-background p-4 sm:p-6 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
+      <PageContainer>
+        <SurfacePanel className="space-y-8">
           <Skeleton className="h-24 w-full rounded-xl" />
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <Skeleton className="h-36 w-full rounded-xl" />
@@ -292,8 +294,8 @@ export default function EnhancedPatientDashboard() {
             <Skeleton className="h-80 w-full lg:col-span-2 rounded-xl" />
             <Skeleton className="h-80 w-full rounded-xl" />
           </div>
-        </div>
-      </div>
+        </SurfacePanel>
+      </PageContainer>
     );
   }
 
@@ -309,28 +311,30 @@ export default function EnhancedPatientDashboard() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-8">
-        <div className="text-center p-8 rounded-2xl max-w-md bg-muted/30">
-          <UserIcon className="w-16 h-16 text-muted-foreground mb-6" />
-          <h2 className="text-3xl font-semibold text-foreground mb-4">Welcome to Your Wellness Journey</h2>
-          <p className="text-muted-foreground mb-8">
-            It looks like your profile is not fully set up yet. Let's personalize your experience.
-          </p>
-          <Button 
-            onClick={() => setShowOnboarding(true)} 
-            variant="default"
-            size="lg"
-          >
-            Personalize My Experience
-          </Button>
-        </div>
-      </div>
+      <PageContainer>
+        <SurfacePanel className="flex items-center justify-center">
+          <div className="text-center p-8 rounded-2xl max-w-md bg-muted/30">
+            <UserIcon className="w-16 h-16 text-muted-foreground mb-6" />
+            <h2 className="text-3xl font-semibold text-foreground mb-4">Welcome to Your Wellness Journey</h2>
+            <p className="text-muted-foreground mb-8">
+              It looks like your profile is not fully set up yet. Let's personalize your experience.
+            </p>
+            <Button 
+              onClick={() => setShowOnboarding(true)} 
+              variant="default"
+              size="lg"
+            >
+              Personalize My Experience
+            </Button>
+          </div>
+        </SurfacePanel>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="space-y-12">
+    <PageContainer>
+      <SurfacePanel className="space-y-12">
         {/* Enhanced Welcome Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -419,7 +423,7 @@ export default function EnhancedPatientDashboard() {
 
         {/* AI Help Widget - Floating */}
         <AIHelpWidget />
-      </div>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   );
 }

@@ -28,6 +28,9 @@ import { EnhancedAIChat } from '@/components/ai/enhanced-ai-chat';
 import { AIPersonalizationService } from '@/ai/ai-personalization-service';
 import { AIBackgroundMonitor } from '@/ai/ai-background-monitor';
 import { useRouter } from 'next/navigation';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 
 interface AIInsight {
   id: string;
@@ -249,72 +252,64 @@ export default function AIInsightsPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse">
-            <div className="h-8 bg-gray-200 rounded w-64 mb-8"></div>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <Card key={i} className="p-6">
-                  <div className="space-y-4">
-                    <div className="h-4 bg-gray-200 rounded w-32"></div>
-                    <div className="h-3 bg-gray-200 rounded w-full"></div>
-                    <div className="h-3 bg-gray-200 rounded w-24"></div>
-                  </div>
-                </Card>
-              ))}
-            </div>
+      <PageContainer>
+        <PageHeader
+          icon={Brain}
+          title="AI Insights"
+          description="Personalized wellness intelligence"
+          badge="AI Powered"
+          actions={(
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              className="flex items-center space-x-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span>Refresh</span>
+            </Button>
+          )}
+        />
+        <SurfacePanel className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-64 mb-8"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i} className="p-6">
+                <div className="space-y-4">
+                  <div className="h-4 bg-gray-200 rounded w-32"></div>
+                  <div className="h-3 bg-gray-200 rounded w-full"></div>
+                  <div className="h-3 bg-gray-200 rounded w-24"></div>
+                </div>
+              </Card>
+            ))}
           </div>
-        </div>
-      </div>
+        </SurfacePanel>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between py-4">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => router.back()}
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold text-slate-900">AI Insights</h1>
-                <p className="text-sm text-slate-600">Personalized wellness intelligence</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-3">
-              <Badge variant="outline" className="flex items-center space-x-1">
-                <Brain className="w-3 h-3" />
-                <span>AI Powered</span>
-              </Badge>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleRefresh}
-                className="flex items-center space-x-2"
-              >
-                <RefreshCw className="w-4 h-4" />
-                <span>Refresh</span>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Overview Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <PageContainer>
+      <PageHeader
+        icon={Brain}
+        title="AI Insights"
+        description="Personalized wellness intelligence"
+        badge="AI Powered"
+        actions={(
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleRefresh}
+            className="flex items-center space-x-2"
+          >
+            <RefreshCw className="w-4 h-4" />
+            <span>Refresh</span>
+          </Button>
+        )}
+        className="mt-2"
+      />
+      <SurfacePanel className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -385,8 +380,6 @@ export default function AIInsightsPage() {
             </Card>
           </motion.div>
         </div>
-
-        {/* Main Content Tabs */}
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4 lg:grid-cols-4">
             <TabsTrigger value="overview" className="flex items-center space-x-2">
@@ -682,7 +675,7 @@ export default function AIInsightsPage() {
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   );
 }

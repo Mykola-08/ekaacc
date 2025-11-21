@@ -46,7 +46,7 @@ export function GlowCard({
   return (
     <Card 
       className={cn(
-        "transition-all duration-300 hover:scale-[1.02] hover:shadow-xl",
+        "transition-all duration-300 hover:shadow-xl",
         glowColors[glowColor],
         className
       )}

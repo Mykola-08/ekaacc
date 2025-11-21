@@ -9,6 +9,8 @@ import { format } from 'date-fns';
 // Using Supabase - Date type instead of Firebase Timestamp
 type Timestamp = Date;
 import { FileText, Bot, ArrowUp, Loader2 } from "lucide-react";
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from "recharts";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 
@@ -200,18 +202,16 @@ export default function ReportsPage() {
     };
 
     return (
-        <SettingsShell>
-            <SettingsHeader
+        <PageContainer>
+            <PageHeader
+                icon={FileText}
                 title="Reports"
-                description="View your wellness journey reports and insights."
-            />
-
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between">
-                    <div>
-                        <CardTitle>Your Reports</CardTitle>
-                        <CardDescription>AI-powered insights into your mental health progress</CardDescription>
-                    </div>
+                description="View your wellness journey reports and insights"
+                badge={reports && reports.length > 0 ? {
+                    variant: "secondary",
+                    children: `${reports.length} report${reports.length > 1 ? 's' : ''}`
+                } : undefined}
+                actions={
                     <Button onClick={handleGenerateReport} disabled={isGenerating}>
                         {isGenerating ? (
                             <>
@@ -225,6 +225,13 @@ export default function ReportsPage() {
                             </>
                         )}
                     </Button>
+                }
+            />
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Your Reports</CardTitle>
+                    <CardDescription>AI-powered insights into your mental health progress</CardDescription>
                 </CardHeader>
                 <CardContent>
                     {isLoadingReports ? (
@@ -253,6 +260,6 @@ export default function ReportsPage() {
                     )}
                 </CardContent>
             </Card>
-        </SettingsShell>
+        </PageContainer>
     );
 }

@@ -18,7 +18,7 @@ export function NotificationSwitch({ id, label, icon, checked, onCheckedChange }
     <motion.div
       className="flex items-center justify-between p-4 bg-white rounded-xl border border-slate-200 hover:border-slate-300 transition-colors"
       data-testid={`switch-${id}`}
-      whileHover={{ scale: 1.01 }}
+      whileHover={{ y: -2, opacity: 0.95 }}
       transition={{ type: "spring", stiffness: 400, damping: 17 }}
     >
       <div className="flex items-center gap-3">

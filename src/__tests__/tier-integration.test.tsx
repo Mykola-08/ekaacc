@@ -143,7 +143,9 @@ describe('Tier Management Integration Tests', () => {
       // Check Loyalty status
       expect(screen.getByText('Loyalty Status')).toBeInTheDocument();
       expect(screen.getByText('Current tier: Member')).toBeInTheDocument();
-      expect(screen.getByText('1,250')).toBeInTheDocument(); // Points earned
+      expect(screen.getByText((content, element) => {
+        return element?.textContent === '1,250';
+      })).toBeInTheDocument(); // Points earned
       expect(screen.getByText('1.5x')).toBeInTheDocument(); // Points multiplier
     });
 

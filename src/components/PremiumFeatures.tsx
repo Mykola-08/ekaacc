@@ -81,7 +81,7 @@ export default function PremiumFeatures() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="group"
               >
-                <Card className="h-full border-border shadow-lg hover:shadow-xl transition-all duration-300 bg-card group-hover:scale-105">
+                <Card className="h-full border-border shadow-lg hover:shadow-xl transition-all duration-300 bg-card hover:bg-muted/50">
                   <CardHeader className="pb-4">
                     <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg mb-4">
                       <Icon className="h-6 w-6" />
@@ -114,7 +114,7 @@ export default function PremiumFeatures() {
               <h3 className="text-lg font-semibold text-foreground">Ready to begin your journey?</h3>
               <p className="text-muted-foreground">Join thousands who have transformed their mental wellness</p>
             </div>
-            <Button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-primary-foreground font-semibold hover:shadow-lg transition-all duration-300 hover:scale-105">
+            <Button className="inline-flex items-center gap-2 rounded-lg bg-primary px-6 py-3 text-primary-foreground font-semibold hover:shadow-lg transition-all duration-300">
               Get Started Now
               <ArrowRight className="h-5 w-5" />
             </Button>

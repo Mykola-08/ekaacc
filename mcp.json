@@ -10,6 +10,10 @@
         "mcp-remote",
         "https://mcp.squareup.com/sse"
       ]
+    },
+    "auth0": {
+      "command": "node",
+      "args": ["./mcp-auth0/index.js"]
     }
   }
 }

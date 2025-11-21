@@ -35,7 +35,7 @@ export function AnimatedListItem({ children, className, delay = 0 }: AnimatedLis
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3, delay }}
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ y: -2, opacity: 0.95 }}
       whileTap={{ scale: 0.98 }}
     >
       {children}

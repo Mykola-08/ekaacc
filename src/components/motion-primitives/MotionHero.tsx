@@ -92,7 +92,7 @@ export function MotionHero() {
           >
             <motion.button
               className="motion-button-primary group"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ y: -2, opacity: 0.95 }}
               whileTap={{ scale: 0.95 }}
             >
               Get Started
@@ -101,7 +101,7 @@ export function MotionHero() {
             
             <motion.button
               className="motion-button-outline group"
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ y: -2, opacity: 0.95 }}
               whileTap={{ scale: 0.95 }}
             >
               View Components
@@ -123,7 +123,7 @@ export function MotionHero() {
               <motion.div
                 key={stat.label}
                 className="group"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ y: -2, opacity: 0.95 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="text-3xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">

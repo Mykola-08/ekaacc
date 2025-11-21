@@ -189,7 +189,7 @@ export function PromotionalShowcase() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className={`h-full relative hover:shadow-xl transition-all duration-300 hover:scale-105 ${page.gradient}`}>
+                <Card className={`h-full relative hover:shadow-xl transition-all duration-300 hover:bg-muted/50 ${page.gradient}`}>
                   <CardHeader>
                     <div className="flex items-center justify-between mb-4">
                       <div className={`w-12 h-12 bg-gradient-to-br ${page.color} rounded-xl flex items-center justify-center`}>

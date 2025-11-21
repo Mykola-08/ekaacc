@@ -35,6 +35,9 @@ import {
   Mail
 } from 'lucide-react';
 import { AIPersonalizationService } from '@/ai/ai-personalization-service';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
+import { PageHeader } from '@/components/eka/page-header';
 
 interface DataExportRequest {
   format: 'json' | 'csv' | 'pdf';
@@ -346,25 +349,20 @@ export default function PrivacyControlsPage() {
   };
   
   return (
-    <div className="min-h-screen bg-background p-8">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-8"
-        >
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Privacy & Data Controls</h1>
-          <p className="text-slate-600">Manage your data, privacy settings, and account security</p>
-        </motion.div>
+    <PageContainer>
+      <SurfacePanel className="p-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+          <PageHeader
+            icon={Shield}
+            title="Privacy & Data Controls"
+            description="Manage your data, privacy settings, and account security"
+          />
         
         {/* Privacy Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
         >
           <Card className="border-muted">
             <CardHeader>
@@ -928,6 +926,7 @@ export default function PrivacyControlsPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
+      </SurfacePanel>
+    </PageContainer>
   );
 }

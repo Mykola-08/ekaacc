@@ -76,7 +76,7 @@ export default function PremiumHero() {
           <motion.div variants={itemVariants} className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
-              className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 text-lg font-semibold hover:shadow-xl transition-all duration-300 hover:scale-105"
+              className="group bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 text-lg font-semibold hover:shadow-xl transition-all duration-300"
               onClick={() => router.push(ROUTES.signupParam)}
             >
               Start Your Journey

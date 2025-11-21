@@ -225,7 +225,7 @@ export function AIChatWidget({
           {quickPrompts.map((prompt, index) => (
             <motion.button
               key={index}
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ y: -2, opacity: 0.95 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setInput(prompt)}
               disabled={isLoading}
@@ -252,7 +252,7 @@ export function AIChatWidget({
           <motion.button
             type="submit"
             disabled={!input.trim() || isLoading || !user}
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ y: -2, opacity: 0.95 }}
             whileTap={{ scale: 0.9 }}
             className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full text-white disabled:opacity-50 disabled:cursor-not-allowed"
           >

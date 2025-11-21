@@ -248,7 +248,7 @@ export function ResponsiveButton({
   };
 
   const variantClasses = {
-    default: 'bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg transform hover:scale-105 transition-all duration-200',
+    default: 'bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg transition-all duration-200',
     outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200',
     ghost: 'bg-transparent text-primary hover:bg-primary/10 transition-all duration-200',
     elevated: 'bg-white text-gray-900 shadow-lg hover:shadow-xl border border-gray-200 transition-all duration-200'
@@ -256,7 +256,7 @@ export function ResponsiveButton({
 
   return (
     <motion.button
-      whileHover={{ scale: 1.02 }}
+      whileHover={{ y: -2, opacity: 0.95 }}
       whileTap={{ scale: 0.98 }}
       className={cn(
         'rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2',

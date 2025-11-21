@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { Button } from '@/components/ui/button';
@@ -58,22 +60,12 @@ export default function GoalsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="flex items-center justify-between mb-8"
-        >
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <Target className="w-8 h-8 text-primary" />
-              <h1 className="text-4xl font-bold tracking-tight text-foreground">My Goals</h1>
-            </div>
-            <p className="text-xl text-muted-foreground">Set and track your therapy goals.</p>
-          </div>
-          {!isCreating && (
+    <PageContainer>
+      <PageHeader
+        icon={Target}
+        title="My Goals"
+        description="Set and track your therapy goals"
+        actions={!isCreating && (
             <Button 
               onClick={() => setIsCreating(true)}
               size="lg"
@@ -81,10 +73,10 @@ export default function GoalsPage() {
               <Plus className="w-4 h-4 mr-2" />
               New Goal
             </Button>
-          )}
-        </motion.div>
+        )}
+      />
 
-        <div className="space-y-6">
+      <div className="space-y-6">
           {isCreating && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -134,9 +126,8 @@ export default function GoalsPage() {
               </motion.div>
             )
           )}
-        </div>
       </div>
-    </div>
+    </PageContainer>
   );
 }
 

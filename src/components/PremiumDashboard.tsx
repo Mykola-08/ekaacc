@@ -104,7 +104,7 @@ export default function PremiumDashboard({ sessions = [], user }: PremiumDashboa
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 group hover:scale-105">
+              <Card className="h-full border-0 shadow-lg hover:shadow-xl transition-all duration-300 group hover:bg-muted/50">
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
                     <div className={`p-2 rounded-lg ${stat.bgColor}`}>

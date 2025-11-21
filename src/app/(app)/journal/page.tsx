@@ -13,6 +13,8 @@ import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuth } from '@/lib/supabase-auth';
 import { useAppStore } from '@/store/app-store';
 import { Plus, BookOpen, Smile, Meh, Frown, X, Search, Tag, Heart, Sparkles, Edit3, Save, TrendingUp, Calendar } from 'lucide-react';
+import { PageContainer } from '@/components/eka/page-container';
+import { PageHeader } from '@/components/eka/page-header';
 import { format, isSameDay } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
@@ -152,35 +154,27 @@ export default function JournalPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-background">
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				{/* Premium Header */}
-				<motion.div 
-					className="mb-8"
-					initial={{ opacity: 0, y: 30 }}
-					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 0.6, ease: "easeOut" }}
-				>
-					<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-						<div>
-							<h1 className="text-4xl font-bold mb-2 text-foreground">
-								My Wellness Journal
-							</h1>
-							<p className="text-lg text-slate-600 max-w-2xl">
-								Track your mood, symptoms, and progress on your journey to better mental health
-							</p>
-						</div>
-						{!isCreating && (
-							<Button 
-								onClick={() => setIsCreating(true)} 
-								className="premium-button-primary group"
-							>
-								<Plus className="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" />
-								New Entry
-							</Button>
-						)}
-					</div>
-				</motion.div>
+		<PageContainer>
+			<PageHeader
+				icon={BookOpen}
+				title="My Wellness Journal"
+				description="Track your mood, symptoms, and progress on your journey to better mental health"
+				badge={moodStats.streak > 0 ? {
+					variant: "default",
+					children: `${moodStats.streak} day streak! 🔥`
+				} : undefined}
+				actions={
+					!isCreating && (
+						<Button 
+							onClick={() => setIsCreating(true)} 
+							className="premium-button-primary group"
+						>
+							<Plus className="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" />
+							New Entry
+						</Button>
+					)
+				}
+			/>
 
 				{/* Wellness Stats */}
 				<motion.div 
@@ -378,7 +372,7 @@ export default function JournalPage() {
 					</div>
 				</div>
 			</div>
-		</div>
+		</PageContainer>
 	);
 }
 
@@ -472,7 +466,7 @@ function NewEntryCard({
 								variant={mood === parseInt(level) ? 'default' : 'outline'}
 								className={`h-12 w-12 rounded-xl transition-all duration-200 ${
 									mood === parseInt(level) 
-										? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg transform scale-105' 
+										? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg' 
 										: 'bg-white border-slate-200 hover:border-blue-300 hover:bg-blue-50'
 								}`}
 								onClick={() => setMood(parseInt(level))}
@@ -559,7 +553,7 @@ function NewEntryCard({
 							</>
 						) : (
 							<>
-								<Save className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+								<Save className="w-4 h-4 mr-2 group-hover:opacity-80 transition-opacity" />
 								Save Entry
 							</>
 						)}
@@ -584,7 +578,7 @@ function JournalEntryCard({ entry }: { entry: JournalEntry }) {
 							<span className="font-medium">{moodDescriptions[entry.mood]}</span>
 						</CardDescription>
 					</div>
-					<div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+					<div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center group-hover:opacity-90 transition-opacity">
 						{moodIcons[entry.mood]}
 					</div>
 				</div>

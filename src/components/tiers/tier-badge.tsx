@@ -97,7 +97,7 @@ export function TierBadge({
   return (
     <div
       className={cn(
-        'inline-flex items-center justify-center rounded-full font-medium transition-all duration-200',
+        'inline-flex items-center justify-center rounded-full font-medium transition-all duration-200 hover:bg-muted/80 hover:shadow-sm',
         config.bgColor,
         config.borderColor,
         sizeClasses.padding,
@@ -105,7 +105,7 @@ export function TierBadge({
         sizeClasses.text,
         config.color,
         'border',
-        animated && 'hover:scale-105 hover:shadow-md',
+        animated && 'hover:bg-muted/90 hover:shadow-md',
         className
       )}
     >
@@ -138,13 +138,13 @@ export function TierBadgeGradient({
   return (
     <div
       className={cn(
-        'inline-flex items-center justify-center rounded-full font-bold text-white shadow-lg transition-all duration-300',
+        'inline-flex items-center justify-center rounded-full font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl',
         'bg-gradient-to-r',
         config.gradient,
         sizeClasses.padding,
         sizeClasses.gap,
         sizeClasses.text,
-        animated && 'hover:scale-105 hover:shadow-xl animate-pulse',
+        animated && 'hover:bg-primary/90 hover:shadow-2xl animate-pulse',
         className
       )}
     >
@@ -175,13 +175,13 @@ export function TierBadgeMinimal({
   return (
     <div
       className={cn(
-        'inline-flex items-center justify-center rounded-full',
+        'inline-flex items-center justify-center rounded-full transition-colors hover:bg-muted/80',
         config.bgColor,
         config.borderColor,
         sizeClasses.padding,
         'border',
         config.color,
-        animated && 'hover:scale-105 transition-transform duration-200',
+        animated && 'hover:bg-muted/90 duration-200',
         className
       )}
     >

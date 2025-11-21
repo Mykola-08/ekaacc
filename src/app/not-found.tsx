@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Home, ArrowLeft, Search } from 'lucide-react';
+import { PageContainer } from '@/components/eka/page-container';
+import { SurfacePanel } from '@/components/eka/surface-panel';
 
 /**
  * 404 Not Found Page
@@ -13,8 +15,9 @@ import { Home, ArrowLeft, Search } from 'lucide-react';
  */
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="max-w-lg w-full">
+    <PageContainer>
+      <SurfacePanel className="flex items-center justify-center p-4">
+        <Card className="max-w-lg w-full">
         <CardHeader className="text-center">
           <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
             <Search className="h-10 w-10 text-muted-foreground" />
@@ -53,7 +56,8 @@ export default function NotFound() {
             Go Back
           </Button>
         </CardFooter>
-      </Card>
-    </div>
+        </Card>
+      </SurfacePanel>
+    </PageContainer>
   );
 }

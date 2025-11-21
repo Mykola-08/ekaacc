@@ -164,7 +164,7 @@ export default function PremiumHeader({ user, onMenuClick }: PremiumHeaderProps)
                 <Button
                   size="sm"
                   onClick={() => router.push(ROUTES.signupParam)}
-                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg transition-all duration-300 hover:scale-105"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:shadow-lg transition-all duration-300"
                 >
                   Get Started
                 </Button>

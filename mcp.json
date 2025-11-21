@@ -10,6 +10,13 @@
         "mcp-remote",
         "https://mcp.squareup.com/sse"
       ]
+    },
+    "mcp_supabase": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.supabase.com/mcp?project_ref=rbnfyxhewsivofvwdpuk&features=storage%2Cdevelopment%2Cfunctions%2Cbranching%2Cdebugging%2Cdatabase%2Caccount%2Cdocs"
+      ]
     }
   }
 }

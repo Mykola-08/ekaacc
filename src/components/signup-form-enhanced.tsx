@@ -125,15 +125,23 @@ export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Create your account</CardTitle>
-          <CardDescription>
-            Join EKA Account to start your wellness journey
+      <Card className="overflow-hidden">
+        <div className="relative h-40 w-full overflow-hidden">
+          <img
+            src="https://images.pexels.com/photos/3997986/pexels-photo-3997986.jpeg?auto=compress&cs=tinysrgb&w=1600&h=900&dpr=1"
+            alt="Calm wellness"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/35" />
+        </div>
+        <CardHeader className="text-center space-y-2">
+          <CardTitle className="text-3xl font-bold">Create your account</CardTitle>
+          <CardDescription className="text-base">
+            Join EKA to personalize your wellness journey with a few quick steps.
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
+        <CardContent className="pt-0">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid gap-6">
               {error && (
                 <Alert variant="destructive">
@@ -195,7 +203,7 @@ export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
                 </div>
                 {formData.password && (
                   <div className="flex items-center gap-2 text-sm">
-                    <div className="flex-1 bg-muted rounded-full h-1.5">
+                    <div className="flex-1 bg-muted rounded-full h-2">
                       <div
                         className={cn("h-full rounded-full transition-all", {
                           "bg-red-500 w-1/4": passwordStrength.score === 1,
@@ -205,7 +213,7 @@ export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
                         })}
                       />
                     </div>
-                    <span className={passwordStrength.color}>{passwordStrength.label}</span>
+                    <span className={cn("font-medium", passwordStrength.color)}>{passwordStrength.label}</span>
                   </div>
                 )}
               </div>

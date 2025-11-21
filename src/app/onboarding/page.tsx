@@ -22,7 +22,7 @@ export default function OnboardingPage() {
         title: 'Already onboarded!',
         description: 'Redirecting to your dashboard...',
       });
-      router.push('/home');
+      router.push('/dashboard');
     }
   }, [user, router, toast]);
 
@@ -65,7 +65,7 @@ export default function OnboardingPage() {
       
       // Redirect to home with a small delay to show the success toast
       setTimeout(() => {
-        router.push('/home');
+        router.push('/dashboard');
       }, 1000);
     } catch (error) {
       console.error('Onboarding error:', error);
@@ -99,10 +99,10 @@ export default function OnboardingPage() {
         description: 'You can customize your preferences anytime in settings.',
       })
       
-      router.push('/home')
+      router.push('/dashboard')
     } catch (error) {
       console.error('Skip onboarding error:', error)
-      router.push('/home')
+      router.push('/dashboard')
     }
   };
 

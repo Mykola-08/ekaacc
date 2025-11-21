@@ -16,9 +16,9 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-svh flex-col items-center justify-center bg-muted p-6 md:p-10">
+    <div className="flex min-h-svh flex-col items-center justify-center bg-[#f4f7fb] p-6 md:p-10 bg-[radial-gradient(circle_at_top_left,#e7f0ff,transparent_35%),radial-gradient(circle_at_bottom_right,#dbeafe,transparent_30%)]">
       <RedirectIfAuthenticated />
-      <div className="w-full max-w-sm md:max-w-3xl">
+      <div className="w-full max-w-xl">
         <LoginForm enabledProviders={enabledProviders} />
       </div>
       <SiteFooter />

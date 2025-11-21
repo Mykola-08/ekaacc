@@ -7,6 +7,29 @@ import { SidebarProvider } from '../components/ui/sidebar';
 import { useAuth } from '../context/auth-context';
 import { useSidebar } from '../components/ui/sidebar';
 
+const originalLocation = window.location;
+
+beforeAll(() => {
+  Object.defineProperty(window, 'location', {
+    value: {
+      ...originalLocation,
+      assign: jest.fn(),
+      replace: jest.fn(),
+      href: 'http://localhost/',
+    },
+    writable: true,
+  });
+});
+
+afterEach(() => {
+  (window.location.assign as jest.Mock).mockReset();
+  (window.location.replace as jest.Mock).mockReset();
+});
+
+afterAll(() => {
+  Object.defineProperty(window, 'location', { value: originalLocation, writable: true });
+});
+
 // Mock the auth hook
 jest.mock('../context/auth-context', () => ({
   ...jest.requireActual('../context/auth-context'),
@@ -100,8 +123,9 @@ describe('Sidebar and Navigation Components', () => {
       expect(screen.getByRole('link', { name: /profile/i })).toBeInTheDocument();
 
       // Check user-specific items are present
-      expect(screen.getByText('Tiers')).toBeInTheDocument();
       expect(screen.getByText('Sessions')).toBeInTheDocument();
+      expect(screen.getByText('Progress')).toBeInTheDocument();
+      expect(screen.getByText('Messages')).toBeInTheDocument();
 
       // Check therapist-specific items are NOT present
       expect(screen.queryByText('Therapist Dashboard')).not.toBeInTheDocument();
@@ -156,7 +180,7 @@ describe('Sidebar and Navigation Components', () => {
       // Check admin-specific items
       expect(screen.getByText('Admin Dashboard')).toBeInTheDocument();
       expect(screen.getByText('User Management')).toBeInTheDocument();
-      expect(screen.getByText('Tier Management')).toBeInTheDocument();
+      expect(screen.getByText('Subscriptions')).toBeInTheDocument();
       expect(screen.getByText('Analytics')).toBeInTheDocument();
       expect(screen.getByText('System Settings')).toBeInTheDocument();
 

@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import React from 'react';
 import { LoginForm } from '../components/login-form';
 import { useSimpleAuth } from '../hooks/use-simple-auth';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 // Mock the auth hook
 jest.mock('../hooks/use-simple-auth', () => ({
@@ -12,7 +12,8 @@ jest.mock('../hooks/use-simple-auth', () => ({
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
-  useRouter: jest.fn()
+  useRouter: jest.fn(),
+  useSearchParams: jest.fn()
 }));
 
 describe('LoginForm Component', () => {
@@ -29,6 +30,10 @@ describe('LoginForm Component', () => {
 
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush
+    });
+
+    (useSearchParams as jest.Mock).mockReturnValue({
+      get: jest.fn().mockReturnValue(null),
     });
   });
 

@@ -1,12 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { POST } from '../app/api/admin/tiers/assign/route';
 import { GET } from '../app/api/admin/tiers/assign/route';
-import * as supabaseModule from '../lib/supabase';
 import { getTierValidationService } from '../services/tier-validation-service';
 
 // Mock dependencies
-jest.mock('../lib/supabase');
+jest.mock('../lib/supabase', () => {
+  const supabaseMock = {
+    auth: {
+      getUser: jest.fn(),
+    },
+    from: jest.fn().mockReturnThis(),
+    eq: jest.fn().mockReturnThis(),
+    single: jest.fn(),
+    select: jest.fn().mockReturnThis(),
+    update: jest.fn().mockReturnThis(),
+    insert: jest.fn().mockReturnThis(),
+    order: jest.fn().mockReturnThis(),
+  } as any;
+
+  return {
+    supabase: supabaseMock,
+  };
+});
 jest.mock('../services/tier-validation-service');
+
+const { supabase: mockSupabase } = jest.requireMock('../lib/supabase');
 
 // Mock NextResponse
 jest.mock('next/server', () => {
@@ -68,29 +86,16 @@ jest.mock('next/server', () => {
 
 describe('Tier Assignment API', () => {
   let mockValidationService: jest.Mocked<any>;
-  let mockSupabase: jest.Mocked<any>;
 
   beforeEach(() => {
+    jest.clearAllMocks();
+
     mockValidationService = {
       validateVIPTierEligibility: jest.fn(),
       validateLoyaltyTierEligibility: jest.fn(),
     };
 
-    mockSupabase = {
-      auth: {
-        getUser: jest.fn(),
-      },
-      from: jest.fn().mockReturnThis(),
-      eq: jest.fn().mockReturnThis(),
-      single: jest.fn(),
-      select: jest.fn().mockReturnThis(),
-      update: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      order: jest.fn().mockReturnThis(),
-    };
-
     (getTierValidationService as jest.Mock).mockResolvedValue(mockValidationService);
-    (supabaseModule.supabase as any) = mockSupabase;
   });
 
   afterEach(() => {

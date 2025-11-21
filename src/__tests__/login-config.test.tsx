@@ -7,6 +7,9 @@ jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
   }),
+  useSearchParams: () => ({
+    get: jest.fn().mockReturnValue(null),
+  }),
 }));
 
 jest.mock('../hooks/use-simple-auth', () => ({
@@ -24,9 +27,9 @@ describe('Login Configuration', () => {
         />
       );
 
-      expect(screen.getByText('Login with Google')).toBeInTheDocument();
-      expect(screen.getByText('Login with X')).toBeInTheDocument();
-      expect(screen.getByText('Login with LinkedIn')).toBeInTheDocument();
+      expect(screen.getByText('Google')).toBeInTheDocument();
+      expect(screen.getByText('X')).toBeInTheDocument();
+      expect(screen.getByText('LinkedIn')).toBeInTheDocument();
     });
 
     it('should hide providers when disabled', () => {
@@ -36,9 +39,9 @@ describe('Login Configuration', () => {
         />
       );
 
-      expect(screen.queryByText('Login with Google')).not.toBeInTheDocument();
-      expect(screen.queryByText('Login with X')).not.toBeInTheDocument();
-      expect(screen.queryByText('Login with LinkedIn')).not.toBeInTheDocument();
+      expect(screen.queryByText('Google')).not.toBeInTheDocument();
+      expect(screen.queryByText('X')).not.toBeInTheDocument();
+      expect(screen.queryByText('LinkedIn')).not.toBeInTheDocument();
     });
 
     it('should render mixed configuration', () => {
@@ -48,9 +51,9 @@ describe('Login Configuration', () => {
         />
       );
 
-      expect(screen.getByText('Login with Google')).toBeInTheDocument();
-      expect(screen.queryByText('Login with X')).not.toBeInTheDocument();
-      expect(screen.getByText('Login with LinkedIn')).toBeInTheDocument();
+      expect(screen.getByText('Google')).toBeInTheDocument();
+      expect(screen.queryByText('X')).not.toBeInTheDocument();
+      expect(screen.getByText('LinkedIn')).toBeInTheDocument();
     });
   });
 

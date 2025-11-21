@@ -6,11 +6,14 @@ export class StripeService {
   private static instance: StripeService;
 
   private constructor() {
+    const apiKey = process.env.STRIPE_SECRET_KEY || (process.env.NODE_ENV === 'test' ? 'sk_test_mock_key' : '');
+
     if (!process.env.STRIPE_SECRET_KEY) {
       console.warn('StripeService: STRIPE_SECRET_KEY not configured');
     }
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-      apiVersion: '2025-10-29.clover', // Use latest available version
+
+    this.stripe = new Stripe(apiKey, {
+      apiVersion: '2025-11-17.clover', // Use latest available version
     });
   }
 

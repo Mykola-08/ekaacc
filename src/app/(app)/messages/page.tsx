@@ -119,50 +119,54 @@ export default function MessagesPage() {
                       <header className="p-4 border-b border-muted flex items-center gap-4">
                         <Avatar>
                           <AvatarImage src={activeConversation.avatarUrl} />
-                  <AvatarFallback>{activeConversation.initials}</AvatarFallback>
-                </Avatar>
-                <div>
-                  <h3 className="font-semibold text-lg">{activeConversation.name}</h3>
-                  <p className="text-xs" style={{color: 'hsl(var(--muted-foreground))'}}>Online</p>
-                </div>
-              </header>
+                          <AvatarFallback>{activeConversation.initials}</AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <h3 className="font-semibold text-lg">{activeConversation.name}</h3>
+                          <p className="text-xs" style={{ color: 'hsl(var(--muted-foreground))' }}>Online</p>
+                        </div>
+                      </header>
 
-              <Card className="flex-1 overflow-y-auto border-0 shadow-none">
-                <CardContent className="p-6">
-                  <div className="space-y-6">
-                    {messages.map((msg) => (
-                      <MessageItem key={msg.id} message={msg} />
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                      <Card className="flex-1 overflow-y-auto border-0 shadow-none">
+                        <CardContent className="p-6">
+                          <div className="space-y-6">
+                            {messages.map((msg) => (
+                              <MessageItem key={msg.id} message={msg} />
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
 
-              <footer className="p-6 border-t border-border">
-                <div className="relative">
-                  <Input
-                    placeholder="Type a message..."
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                    className="pr-24"
-                  />
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                    <Button variant="outline" size="icon">
-                      <Paperclip className="w-5 h-5" />
-                    </Button>
-                    <Button onClick={handleSendMessage} className="p-2">
-                      <Send className="w-5 h-5" />
-                    </Button>
-                  </div>
-                </div>
-              </footer>
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center" style={{color: 'hsl(var(--muted-foreground))'}}>
-              <p>Select a conversation to start messaging.</p>
-            </div>
-          )}
-        </main>
+                      <footer className="p-6 border-t border-border">
+                        <div className="relative">
+                          <Input
+                            placeholder="Type a message..."
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+                            className="pr-24"
+                          />
+                          <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                            <Button variant="outline" size="icon">
+                              <Paperclip className="w-5 h-5" />
+                            </Button>
+                            <Button onClick={handleSendMessage} className="p-2">
+                              <Send className="w-5 h-5" />
+                            </Button>
+                          </div>
+                        </div>
+                      </footer>
+                    </>
+                  ) : (
+                    <div className="flex-1 flex items-center justify-center" style={{ color: 'hsl(var(--muted-foreground))' }}>
+                      <p>Select a conversation to start messaging.</p>
+                    </div>
+                  )}
+                </main>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     </div>
   );
@@ -220,5 +224,5 @@ function ConversationSkeleton() {
         <Skeleton className="h-4 w-1/2" />
       </div>
     </div>
-  )
+  );
 }

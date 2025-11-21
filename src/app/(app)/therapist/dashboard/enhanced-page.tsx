@@ -305,5 +305,6 @@ export default function TherapistDashboardPage() {
           </div>
         </section>
       </div>
-  )
+    </div>
+  );
 }

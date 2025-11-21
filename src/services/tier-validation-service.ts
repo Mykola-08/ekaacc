@@ -108,12 +108,34 @@ export class TierValidationService implements ITierValidationService {
   
   async getVIPTierProgress(userId: string, targetTier: VIPTier): Promise<{ progress: number; nextRequirements: string[] }> {
     const validationResult = await this.validateVIPTierEligibility(userId, targetTier);
-    
-    // Calculate progress based on requirements met
-    const totalRequirements = Object.keys(validationResult.requiredMetrics).length;
-    const metRequirements = totalRequirements - validationResult.missingRequirements.length;
-    const progress = totalRequirements > 0 ? (metRequirements / totalRequirements) * 100 : 0;
-    
+
+    // Calculate progress using the ratio of current metrics to required metrics for a smoother progression
+    const requirementKeys = Object.keys(validationResult.requiredMetrics) as (keyof typeof validationResult.requiredMetrics)[];
+
+    const ratios = requirementKeys.map((key) => {
+      const requiredValue = validationResult.requiredMetrics[key];
+
+      // Map requirement keys to their corresponding current metrics
+      const currentValue = {
+        minimumSpend: validationResult.currentMetrics.totalSpend,
+        minimumSessions: validationResult.currentMetrics.totalSessions,
+        minimumDuration: validationResult.currentMetrics.subscriptionDuration,
+        referralCount: validationResult.currentMetrics.referralCount,
+        minimumPoints: validationResult.currentMetrics.loyaltyPoints,
+        loginStreak: validationResult.currentMetrics.loginStreak,
+      }[key as keyof typeof validationResult.requiredMetrics];
+
+      if (typeof requiredValue !== 'number' || requiredValue <= 0 || typeof currentValue !== 'number') {
+        return 0;
+      }
+
+      return Math.min(currentValue / requiredValue, 1);
+    });
+
+    const progress = ratios.length > 0
+      ? (ratios.reduce((sum, ratio) => sum + ratio, 0) / ratios.length) * 100
+      : 0;
+
     return {
       progress: Math.round(progress),
       nextRequirements: validationResult.missingRequirements

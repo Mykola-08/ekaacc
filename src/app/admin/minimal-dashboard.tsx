@@ -97,7 +97,7 @@ function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
       </div>
       <div className="space-y-3">
         {sessions.slice(0, 5).map((session, idx) => (
-          <motion.div 
+          <motion.div
             key={session.id}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -114,7 +114,7 @@ function MinimalRecentSessions({ sessions }: { sessions: Session[] }) {
               </p>
               <p className="text-sm text-gray-600">{session.status}</p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Card>
@@ -234,8 +234,8 @@ export default function MinimalAdminDashboard() {
           </div>
           <div className="flex gap-2">
             {canImpersonate && (
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="default"
                 onClick={() => setShowImpersonationDialog(true)}
               >
@@ -243,16 +243,16 @@ export default function MinimalAdminDashboard() {
                 Impersonate User
               </Button>
             )}
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="default"
               onClick={() => window.location.href = '/admin/create-user'}
             >
               <Users className="w-4 h-4 mr-2" />
               Create User
             </Button>
-            <Button 
-              variant="default" 
+            <Button
+              variant="default"
               size="default"
               onClick={() => window.location.href = '/admin/settings'}
             >
@@ -278,7 +278,6 @@ export default function MinimalAdminDashboard() {
               <MinimalStatCard {...stat} />
             </motion.div>
           ))}
-        </div>
         </div>
 
         {/* Recent Activity */}
@@ -308,8 +307,8 @@ export default function MinimalAdminDashboard() {
           <Card className="p-6 border-muted hover:border-border transition-all duration-300">
             <h3 className="text-xl font-semibold mb-4">Quick Actions</h3>
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="default"
                 className="w-full"
                 onClick={() => window.location.href = '/admin/users'}
@@ -317,35 +316,37 @@ export default function MinimalAdminDashboard() {
                 <Users className="w-4 h-4 mr-2" />
                 Manage Users
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="default"
                 className="w-full"
                 onClick={() => window.location.href = '/admin/subscriptions'}
               >
                 <Activity className="w-4 h-4 mr-2" />
                 Subscriptions
-          </Button>
-          <Button 
-            variant="outline" 
-            size="default"
-            className="w-full"
-            onClick={() => window.location.href = '/admin/payments'}
-          >
-            <DollarSign className="w-4 h-4 mr-2" />
-            Payments
-          </Button>
-          <Button 
-            variant="outline" 
-            size="default"
-            className="w-full"
-            onClick={() => window.location.href = '/admin/settings'}
-          >
-            <Shield className="w-4 h-4 mr-2" />
-            Security
-          </Button>
-        </div>
-      </Card>
+              </Button>
+              <Button
+                variant="outline"
+                size="default"
+                className="w-full"
+                onClick={() => window.location.href = '/admin/payments'}
+              >
+                <DollarSign className="w-4 h-4 mr-2" />
+                Payments
+              </Button>
+              <Button
+                variant="outline"
+                size="default"
+                className="w-full"
+                onClick={() => window.location.href = '/admin/settings'}
+              >
+                <Shield className="w-4 h-4 mr-2" />
+                Security
+              </Button>
+            </div>
+          </Card>
+        </motion.div>
+      </div>
 
       {/* Impersonation Dialog */}
       {canImpersonate && (

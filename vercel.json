@@ -65,14 +65,6 @@
     }
   ],
   "regions": ["iad1"],
-  "functions": {
-    "api/**/*.ts": {
-      "maxDuration": 10
-    },
-    "api/long-running/**/*.ts": {
-      "maxDuration": 60
-    }
-  },
   "github": {
     "enabled": true,
     "autoAlias": true,

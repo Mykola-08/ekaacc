@@ -48,34 +48,36 @@ export const NotificationEmail = ({
 export default NotificationEmail;
 
 const h1 = {
-  color: '#1a1a1a',
-  fontSize: '24px',
-  fontWeight: '600',
-  lineHeight: '1.25',
-  marginBottom: '24px',
+  color: '#1F2937',
+  fontSize: '26px',
+  fontWeight: '700',
+  lineHeight: '1.3',
+  marginBottom: '20px',
+  letterSpacing: '-0.02em',
 };
 
 const text = {
-  color: '#4a4a4a',
+  color: '#374151',
   fontSize: '16px',
-  lineHeight: '1.5',
+  lineHeight: '1.6',
   marginBottom: '16px',
 };
 
 const btnContainer = {
   textAlign: 'center' as const,
-  marginTop: '24px',
-  marginBottom: '24px',
+  marginTop: '28px',
+  marginBottom: '28px',
 };
 
 const button = {
-  backgroundColor: '#000000',
-  borderRadius: '6px',
+  backgroundColor: '#4F7CFF',
+  borderRadius: '8px',
   color: '#ffffff',
   fontSize: '16px',
   fontWeight: '600',
   textDecoration: 'none',
   textAlign: 'center' as const,
   display: 'inline-block',
-  padding: '12px 24px',
+  padding: '14px 32px',
+  boxShadow: '0 4px 6px -1px rgba(79, 124, 255, 0.3)',
 };

@@ -33,18 +33,19 @@ export const BroadcastEmail = ({ subject, content, userName, unsubscribeUrl }: B
 };
 
 const h1 = {
-  color: '#111827',
-  fontSize: '24px',
-  fontWeight: '600',
-  lineHeight: '1.25',
+  color: '#1F2937',
+  fontSize: '28px',
+  fontWeight: '700',
+  lineHeight: '1.3',
   margin: '0 0 24px',
+  letterSpacing: '-0.02em',
 };
 
 const text = {
   color: '#374151',
   fontSize: '16px',
-  lineHeight: '24px',
-  margin: '0 0 24px',
+  lineHeight: '1.6',
+  margin: '0 0 20px',
 };
 
 export default BroadcastEmail;

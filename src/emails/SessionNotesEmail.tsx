@@ -67,37 +67,57 @@ export const SessionNotesEmail = ({
 export default SessionNotesEmail;
 
 const h1 = {
-  color: '#1a1a1a',
-  fontSize: '24px',
-  fontWeight: '600',
-  lineHeight: '1.25',
-  marginBottom: '24px',
+  color: '#1F2937',
+  fontSize: '26px',
+  fontWeight: '700',
+  lineHeight: '1.3',
+  marginBottom: '20px',
+  letterSpacing: '-0.02em',
 };
 
 const h3 = {
-  color: '#1a1a1a',
+  color: '#1F2937',
   fontSize: '18px',
-  fontWeight: '600',
+  fontWeight: '700',
   marginBottom: '12px',
 };
 
 const text = {
-  color: '#4a4a4a',
+  color: '#374151',
   fontSize: '16px',
-  lineHeight: '1.5',
+  lineHeight: '1.6',
   marginBottom: '16px',
 };
 
 const section = {
-  marginBottom: '24px',
+  marginBottom: '28px',
 };
 
 const list = {
   paddingLeft: '20px',
-  marginBottom: '24px',
+  marginBottom: '20px',
 };
 
 const listItem = {
+  color: '#374151',
+  fontSize: '16px',
+  lineHeight: '1.6',
+  marginBottom: '8px',
+};
+
+const highlightBox = {
+  backgroundColor: '#F0F5FF',
+  border: '2px solid #4F7CFF',
+  borderRadius: '8px',
+  padding: '16px 20px',
+  marginTop: '24px',
+};
+
+const highlightText = {
+  color: '#1F2937',
+  fontSize: '16px',
+  margin: '0',
+};
   color: '#4a4a4a',
   fontSize: '16px',
   lineHeight: '1.5',

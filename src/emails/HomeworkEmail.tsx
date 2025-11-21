@@ -61,43 +61,59 @@ export const HomeworkEmail = ({
 export default HomeworkEmail;
 
 const h1 = {
-  color: '#1a1a1a',
-  fontSize: '24px',
-  fontWeight: '600',
-  lineHeight: '1.25',
-  marginBottom: '24px',
+  color: '#1F2937',
+  fontSize: '26px',
+  fontWeight: '700',
+  lineHeight: '1.3',
+  marginBottom: '20px',
+  letterSpacing: '-0.02em',
 };
 
 const text = {
-  color: '#4a4a4a',
+  color: '#374151',
   fontSize: '16px',
-  lineHeight: '1.5',
+  lineHeight: '1.6',
   marginBottom: '16px',
 };
 
 const card = {
-  backgroundColor: '#f0f9ff',
-  border: '1px solid #bae6fd',
-  borderRadius: '8px',
+  backgroundColor: '#F0F5FF',
+  border: '2px solid #BAE6FD',
+  borderRadius: '10px',
   padding: '24px',
   marginBottom: '24px',
 };
 
 const titleText = {
-  color: '#0369a1',
-  fontSize: '18px',
-  fontWeight: '600',
+  color: '#4F7CFF',
+  fontSize: '20px',
+  fontWeight: '700',
   marginBottom: '12px',
 };
 
 const metaText = {
-  color: '#4b5563',
+  color: '#6B7280',
   fontSize: '14px',
   marginTop: '12px',
 };
 
 const btnContainer = {
   textAlign: 'center' as const,
+  marginTop: '24px',
+};
+
+const button = {
+  backgroundColor: '#4F7CFF',
+  borderRadius: '8px',
+  color: '#ffffff',
+  fontSize: '16px',
+  fontWeight: '600',
+  textDecoration: 'none',
+  textAlign: 'center' as const,
+  display: 'inline-block',
+  padding: '14px 32px',
+  boxShadow: '0 4px 6px -1px rgba(79, 124, 255, 0.3)',
+};
   marginBottom: '24px',
 };
 

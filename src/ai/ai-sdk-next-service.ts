@@ -1,3 +1,5 @@
+import '@/lib/env-init'
+
 /**
  * @file AI SDK Next Service - Enhanced AI System with AI SDK Next
  * @description Advanced AI service using AI SDK Next with streaming, tools, and proactive capabilities

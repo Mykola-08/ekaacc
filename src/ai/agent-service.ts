@@ -1,5 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { VercelAIService } from './vercel-ai-service';
+import '@/lib/env-init'
 
 export interface AgentMemory {
   id: string;

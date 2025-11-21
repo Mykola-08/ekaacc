@@ -1,3 +1,4 @@
+import './env-init'
 import { createClient } from '@supabase/supabase-js'
 
 // Get environment variables with fallbacks

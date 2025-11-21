@@ -5,8 +5,13 @@ import { ProductLaunchEmail } from '@/emails/ProductLaunchEmail';
 import { PromotionalEmail } from '@/emails/PromotionalEmail';
 import { render } from '@react-email/render';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'service-role-placeholder';
+
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  console.warn('Supabase environment variables are not fully set; using placeholder credentials.');
+}
+
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 export type BroadcastTopic = 'general' | 'marketing' | 'product_launch' | 'promotional';
@@ -49,6 +54,18 @@ export class BroadcastService {
     adminUserId: string,
     templateData?: any // Extra data for specific templates
   ) {
+    if (
+      supabaseUrl === 'https://placeholder.supabase.co' ||
+      supabaseServiceKey === 'service-role-placeholder'
+    ) {
+      throw new Error('Supabase credentials are not configured for broadcast service.');
+    }
+
+    if (!process.env.RESEND_API_KEY) {
+      console.warn('RESEND_API_KEY is not configured; skipping broadcast send.');
+      return { count: 0, errors: ['Resend API key is missing'] };
+    }
+
     // 1. Get users in the group
     let query = supabase
       .from('user_group_members')

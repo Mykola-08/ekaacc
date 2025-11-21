@@ -15,7 +15,7 @@ if (!supabaseUrl || !supabaseServiceKey || !stripeSecretKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
-const stripe = new Stripe(stripeSecretKey, { apiVersion: '2025-11-17.clover' });
+const stripe = new Stripe(stripeSecretKey, { apiVersion: '2025-10-29.clover' });
 
 async function setupStripe() {
   console.log('Starting Stripe setup...');

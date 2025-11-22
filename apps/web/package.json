@@ -22,8 +22,6 @@
     "test:load:spike": "k6 run ../../load-tests/spike-test.js",
     "test:vercel": "bash ../../vercel-tests/deployment-test.sh",
     "test:vercel:env": "bash ../../vercel-tests/env-check.sh",
-    "verify:auth0": "node ../../scripts/verify-auth0-setup.js",
-    "verify:auth0:connections": "node ../../scripts/verify-auth0-connections.js",
     "check:resend": "npx tsx ../../scripts/check-resend.ts",
     "test:resend": "npx tsx ../../scripts/test-resend-emails.ts"
   },

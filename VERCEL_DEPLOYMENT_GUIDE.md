@@ -1,5 +1,28 @@
 # Vercel Deployment Guide
 
+## Overview
+
+This guide covers deploying the EKA Account application to Vercel with Auth0 authentication.
+
+### Authentication Flow
+The application uses a hybrid authentication approach:
+- **Server-side**: `@auth0/nextjs-auth0` for secure session management via edge middleware
+- **Client-side**: `@auth0/auth0-react` for seamless user experience in React components
+- **Login Flow**: 
+  1. User visits `/login` or `/signup` 
+  2. Client-side Auth0 SDK initiates Universal Login
+  3. Auth0 redirects to `/api/auth/callback`
+  4. Server-side SDK establishes secure session
+  5. User redirected to `/dashboard` or specified `returnTo` URL
+
+### Key Routes
+- `/login` - Login page with Auth0 integration
+- `/signup` - Signup page with Auth0 integration
+- `/api/auth/login` - Auth0 login initiation endpoint
+- `/api/auth/callback` - Auth0 callback handler
+- `/api/auth/logout` - Logout endpoint
+- `/api/auth/me` - Get current user session
+
 ## Prerequisites
 - Vercel account with project connected to GitHub repository
 - Auth0 tenant configured with production application
@@ -112,25 +135,25 @@ PUBLIC_ROUTES=/custom-route,/another-route
 2. **Allowed Callback URLs**:
    ```
    https://your-domain.vercel.app/api/auth/callback
-   http://localhost:3000/api/auth/callback
+   http://localhost:9002/api/auth/callback
    ```
 
 3. **Allowed Logout URLs**:
    ```
    https://your-domain.vercel.app
-   http://localhost:3000
+   http://localhost:9002
    ```
 
 4. **Allowed Web Origins**:
    ```
    https://your-domain.vercel.app
-   http://localhost:3000
+   http://localhost:9002
    ```
 
 5. **Allowed Origins (CORS)**:
    ```
    https://your-domain.vercel.app
-   http://localhost:3000
+   http://localhost:9002
    ```
 
 ### Advanced Settings

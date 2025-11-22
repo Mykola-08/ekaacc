@@ -2,6 +2,10 @@ import webpush from 'web-push';
 import { createClient } from '@supabase/supabase-js';
 import { EmailService } from './email-service';
 
+/**
+ * Safely initialize Supabase client for notification service
+ * @returns Supabase client or null if credentials are missing
+ */
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
@@ -24,18 +28,56 @@ if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
 export type NotificationType = 'info' | 'success' | 'warning' | 'error';
 export type NotificationCategory = 'marketing' | 'security' | 'updates';
 
+/**
+ * Payload for sending a notification
+ */
 export interface NotificationPayload {
+  /** Target user ID */
   userId: string;
+  /** Notification severity/type */
   type: NotificationType;
+  /** Category for preference filtering */
   category: NotificationCategory;
+  /** Notification title */
   title: string;
+  /** Notification message body */
   message: string;
+  /** Optional link for user action */
   link?: string;
+  /** Additional metadata */
   metadata?: any;
-  force?: boolean; // Bypass preferences (e.g. for critical security alerts)
+  /** Bypass user preferences (for critical alerts) */
+  force?: boolean;
 }
 
+/**
+ * Multi-channel notification service
+ * 
+ * Handles delivery of notifications through:
+ * - In-app notifications (database)
+ * - Email notifications
+ * - Push notifications (web push)
+ * 
+ * Respects user preferences unless force=true
+ * 
+ * @example
+ * ```typescript
+ * await NotificationService.send({
+ *   userId: 'user-123',
+ *   type: 'info',
+ *   category: 'updates',
+ *   title: 'New Feature',
+ *   message: 'Check out our new AI insights!',
+ *   link: '/ai-insights'
+ * });
+ * ```
+ */
 export class NotificationService {
+  /**
+   * Send a notification through all enabled channels
+   * @param payload - Notification details and preferences
+   * @returns Result object indicating success/failure for each channel
+   */
   static async send(payload: NotificationPayload) {
     const results = {
       db: false,

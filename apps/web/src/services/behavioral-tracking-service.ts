@@ -1,6 +1,9 @@
 import { supabase } from '@/lib/supabase';
 import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from '@/lib/supabase-utils';
 
+/**
+ * User interaction event captured by the tracking system
+ */
 export interface UserInteraction {
   id?: string;
   user_id: string;
@@ -14,6 +17,9 @@ export interface UserInteraction {
   user_agent: string;
 }
 
+/**
+ * Behavioral pattern detected from user interactions
+ */
 export interface BehavioralPattern {
   id?: string;
   user_id: string;
@@ -26,6 +32,9 @@ export interface BehavioralPattern {
   status: 'active' | 'resolved' | 'archived';
 }
 
+/**
+ * Predictive insight generated from behavioral patterns
+ */
 export interface PredictiveInsight {
   id?: string;
   user_id: string;
@@ -38,6 +47,30 @@ export interface PredictiveInsight {
   expires_at: Date;
 }
 
+/**
+ * Service for tracking and analyzing user behavior patterns
+ * 
+ * This singleton service provides:
+ * - User interaction tracking across the application
+ * - Real-time behavioral pattern analysis
+ * - Predictive insights for intervention opportunities
+ * - Crisis detection and early warning systems
+ * 
+ * @example
+ * ```typescript
+ * const tracker = BehavioralTrackingService.getInstance();
+ * 
+ * // Track user interaction
+ * await tracker.trackInteraction({
+ *   user_id: 'user-123',
+ *   interaction_type: 'mood_logged',
+ *   metadata: { mood: 'anxious', intensity: 7 }
+ * });
+ * 
+ * // Get behavioral insights
+ * const insights = await tracker.getUserBehavioralInsights('user-123');
+ * ```
+ */
 export class BehavioralTrackingService {
   private static instance: BehavioralTrackingService;
   private sessionId: string;

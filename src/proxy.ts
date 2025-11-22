@@ -1,5 +1,17 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import { getSession } from '@auth0/nextjs-auth0/edge'
+
+const AUTH_DOMAIN = process.env.AUTH_DOMAIN || 'auth.ekabalance.com'
+
+// Public paths that don't require authentication
+const PUBLIC_PATHS = [
+	'/privacy',
+	'/terms',
+	'/cookies',
+	'/manifest.json',
+	'/favicon.ico'
+]
 
 export async function proxy(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
@@ -8,7 +20,31 @@ export async function proxy(req: NextRequest) {
 		return NextResponse.next()
 	}
 
-	// Apply security headers to all requests
+	// Allow access to public paths
+	if (PUBLIC_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) {
+		const res = NextResponse.next()
+		addSecurityHeaders(res)
+		return res
+	}
+
+	// Check for Auth0 session
+	let session = null
+	try {
+		session = await getSession(req, NextResponse.next())
+	} catch (err) {
+		console.error('Auth0 edge session retrieval failed:', (err as Error)?.message)
+	}
+
+	if (!session) {
+		// Redirect to Auth0 domain with return URL
+		const returnTo = encodeURIComponent(`${req.nextUrl.origin}${pathname}`)
+		const redirectUrl = `https://${AUTH_DOMAIN}/login?returnTo=${returnTo}`
+		const redirect = NextResponse.redirect(redirectUrl)
+		addSecurityHeaders(redirect)
+		return redirect
+	}
+
+	// Apply security headers to authenticated requests
 	const res = NextResponse.next()
 	addSecurityHeaders(res)
 	return res

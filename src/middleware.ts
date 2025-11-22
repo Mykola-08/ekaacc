@@ -1,6 +1,9 @@
 import { NextResponse, NextRequest } from 'next/server'
 
-// Security headers and CSP enforcement for all routes
+// Global enforcement: redirect unauthenticated users to Auth0 domain
+const SESSION_COOKIE = process.env.AUTH0_SESSION_COOKIE || 'appSession'
+const AUTH_DOMAIN = process.env.AUTH_DOMAIN || 'auth.ekabalance.com'
+
 // Paths to skip (callback/logout needed for flows; static/build assets; service worker)
 const EXCLUDED_PREFIXES = [
   '/api/auth/', // allow library auth routes
@@ -20,7 +23,15 @@ export function middleware(req: NextRequest) {
     return NextResponse.next()
   }
 
-  // No redirect logic - allow all routes
+  // Check for Auth0 session
+  const hasSession = !!req.cookies.get(SESSION_COOKIE)
+  if (!hasSession) {
+    // Redirect to Auth0 domain with return URL
+    const returnTo = encodeURIComponent(`${req.nextUrl.origin}${pathname}`)
+    const redirectUrl = `https://${AUTH_DOMAIN}/login?returnTo=${returnTo}`
+    return NextResponse.redirect(redirectUrl)
+  }
+
   return NextResponse.next()
 }
 

@@ -1,53 +1,14 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { getSession } from '@auth0/nextjs-auth0/edge'
-
-const DEFAULT_PUBLIC_PATHS = [
-	'/login',
-	'/signup',
-	'/privacy',
-	'/terms',
-	'/cookies',
-	'/unsubscribe',
-	'/manifest.json',
-	'/favicon.ico'
-]
-
-function loadPublicPaths(): string[] {
-	const envList = process.env.PUBLIC_ROUTES
-	if (!envList) return DEFAULT_PUBLIC_PATHS
-	return [...new Set([...DEFAULT_PUBLIC_PATHS, ...envList.split(',').map(p => p.trim()).filter(Boolean)])]
-}
 
 export async function proxy(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
-	const publicPaths = loadPublicPaths()
 
 	if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
 		return NextResponse.next()
 	}
 
-	if (publicPaths.some(p => pathname === p || pathname.startsWith(p + '/'))) {
-		const res = NextResponse.next()
-		addSecurityHeaders(res)
-		return res
-	}
-
-	let session = null
-	try {
-		session = await getSession(req, NextResponse.next())
-	} catch (err) {
-		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
-	}
-	if (!session) {
-		const loginUrl = req.nextUrl.clone()
-		loginUrl.pathname = '/login'
-		loginUrl.searchParams.set('returnTo', pathname)
-		const redirect = NextResponse.redirect(loginUrl)
-		addSecurityHeaders(redirect)
-		return redirect
-	}
-
+	// Apply security headers to all requests
 	const res = NextResponse.next()
 	addSecurityHeaders(res)
 	return res

@@ -5,9 +5,14 @@ import { ProductLaunchEmail } from '@/emails/ProductLaunchEmail';
 import { PromotionalEmail } from '@/emails/PromotionalEmail';
 import { render } from '@react-email/render';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    throw new Error('Supabase credentials missing (URL or Key).');
+  }
+  return createClient(url, key);
+}
 
 export type BroadcastTopic = 'general' | 'marketing' | 'product_launch' | 'promotional';
 
@@ -56,6 +61,7 @@ export class BroadcastService {
     templateData?: any // Extra data for specific templates
   ) {
     // 1. Get users in the group
+    const supabase = getSupabase();
     let query = supabase
       .from('user_group_members')
       .select('user_id, auth:users(email, raw_user_meta_data)')

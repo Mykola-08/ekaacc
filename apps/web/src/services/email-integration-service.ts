@@ -2,9 +2,15 @@ import { EmailService } from './email-service';
 import { TransactionalEmailService } from './transactional-email-service';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    console.warn('EmailIntegrationService: Supabase credentials missing; skipping DB lookups.');
+    return null;
+  }
+  return createClient(url, key);
+}
 
 /**
  * Integration service for sending emails on various user events
@@ -41,6 +47,8 @@ export class EmailIntegrationService {
     }
   ) {
     try {
+      const supabase = getSupabase();
+      if (!supabase) return; // Skip if not configured
       const { data: user } = await supabase
         .from('users')
         .select('email, raw_user_meta_data')
@@ -176,6 +184,8 @@ export class EmailIntegrationService {
       const resetUrl = `${appUrl}/reset-password?token=${resetToken}`;
 
       // Using notification email template for password reset
+      const supabase = getSupabase();
+      if (!supabase) return; // Skip if not configured
       const { data: user } = await supabase
         .from('users')
         .select('id, raw_user_meta_data')

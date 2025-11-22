@@ -2,10 +2,15 @@ import webpush from 'web-push';
 import { createClient } from '@supabase/supabase-js';
 import { EmailService } from './email-service';
 
-// Initialize Supabase Admin Client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) {
+    console.warn('NotificationService: Supabase credentials missing; notification DB operations disabled.');
+    return null;
+  }
+  return createClient(url, key);
+}
 
 // Initialize Web Push
 if (process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
@@ -46,8 +51,9 @@ export class NotificationService {
         updates_email: true, updates_push: true, updates_in_app: true
     };
 
-    if (!payload.force) {
-        const { data: userPrefs } = await supabase
+    const supabase = getSupabase();
+    if (!payload.force && supabase) {
+      const { data: userPrefs } = await supabase
             .from('user_notification_settings')
             .select('*')
             .eq('user_id', payload.userId)
@@ -66,6 +72,7 @@ export class NotificationService {
     // 1. Save to Database (In-App Notification)
     if (sendInApp) {
         try {
+        if (supabase) {
         const { error } = await supabase.rpc('create_notification', {
             p_user_id: payload.userId,
             p_type: payload.type,
@@ -78,6 +85,7 @@ export class NotificationService {
 
         if (error) throw error;
         results.db = true;
+        }
         } catch (error) {
         console.error('Error creating in-app notification:', error);
         results.errors.push({ source: 'db', error });
@@ -88,6 +96,8 @@ export class NotificationService {
     if (sendEmail) {
       try {
         // Fetch user email
+        const supabase = getSupabase();
+        if (!supabase) throw new Error('Supabase not configured');
         const { data: { user }, error: userError } = await supabase.auth.admin.getUserById(payload.userId);
         
         if (userError || !user || !user.email) {
@@ -113,6 +123,8 @@ export class NotificationService {
     if (sendPush) {
       try {
         // Fetch user subscriptions
+        const supabase = getSupabase();
+        if (!supabase) throw new Error('Supabase not configured');
         const { data: subscriptions, error: subError } = await supabase
           .from('push_subscriptions')
           .select('*')

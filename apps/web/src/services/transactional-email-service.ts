@@ -8,9 +8,15 @@ import { HomeworkEmail } from '@/emails/HomeworkEmail';
 import { SessionNotesEmail } from '@/emails/SessionNotesEmail';
 import { CheckInEmail } from '@/emails/CheckInEmail';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+    if (!url || !key) {
+        console.warn('TransactionalEmailService: Supabase credentials missing; email preference checks disabled.');
+        return null;
+    }
+    return createClient(url, key);
+}
 
 export type TransactionalEmailType = 'notification' | 'reminder' | 'result' | 'homework' | 'session_notes' | 'check_in';
 
@@ -45,7 +51,8 @@ export class TransactionalEmailService {
 
   static async send({ userId, type, subject, data, force = false }: SendOptions) {
     // 1. Fetch user email and preferences
-    const { data: user, error: userError } = await supabase
+    const supabase = getSupabase();
+    const { data: user, error: userError } = supabase
       .from('users') // Assuming 'users' view or table exists wrapping auth.users, or use auth.admin
       .select('email, raw_user_meta_data')
       .eq('id', userId)
@@ -68,7 +75,7 @@ export class TransactionalEmailService {
     }
 
     // 2. Check preferences
-    if (!force) {
+    if (!force && supabase) {
         const { data: prefs } = await supabase
             .from('user_notification_settings')
             .select('*')

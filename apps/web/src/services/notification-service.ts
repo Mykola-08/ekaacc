@@ -1,6 +1,8 @@
 import webpush from 'web-push';
 import { createClient } from '@supabase/supabase-js';
 import { EmailService } from './email-service';
+import { Result } from '@/lib/result';
+import { logger } from '@/lib/logger';
 
 /**
  * Safely initialize Supabase client for notification service
@@ -10,7 +12,7 @@ function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
   if (!url || !key) {
-    console.warn('NotificationService: Supabase credentials missing; notification DB operations disabled.');
+    logger.warn('NotificationService: Supabase credentials missing; notification DB operations disabled.');
     return null;
   }
   return createClient(url, key);
@@ -48,6 +50,27 @@ export interface NotificationPayload {
   metadata?: any;
   /** Bypass user preferences (for critical alerts) */
   force?: boolean;
+}
+
+/**
+ * Result of notification send operation
+ */
+export interface NotificationResult {
+  /** Number of channels that successfully delivered */
+  successCount: number;
+  /** Number of channels that failed */
+  failureCount: number;
+  /** Success status for each channel */
+  channels: {
+    inApp: boolean;
+    email: boolean;
+    push: boolean;
+  };
+  /** Errors encountered per channel */
+  errors: Array<{
+    channel: 'inApp' | 'email' | 'push';
+    error: Error;
+  }>;
 }
 
 /**

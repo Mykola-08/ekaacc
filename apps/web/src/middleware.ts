@@ -1,6 +1,6 @@
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
-import { getSession } from '@auth0/nextjs-auth0/edge'
+import { getSession } from '@auth0/nextjs-auth0'
 
 // Internal login page disabled; we no longer serve a local /login route.
 // Any attempt to access /login or unauthenticated protected content will redirect
@@ -22,7 +22,7 @@ function loadPublicPaths(): string[] {
 	return [...new Set([...DEFAULT_PUBLIC_PATHS, ...envList.split(',').map(p => p.trim()).filter(Boolean)])]
 }
 
-export async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
 	const publicPaths = loadPublicPaths()
 
@@ -45,7 +45,7 @@ export async function middleware(req: NextRequest) {
 	try {
 		session = await getSession(req, NextResponse.next())
 	} catch (err) {
-		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
+		console.error('Auth0 session retrieval failed in proxy:', (err as Error)?.message)
 	}
 	if (!session) {
 		return redirectToAuth0Login(req, pathname)

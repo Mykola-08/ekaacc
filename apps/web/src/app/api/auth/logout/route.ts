@@ -1,11 +1,6 @@
-import { handleLogout, type AppRouteHandlerFnContext } from '@auth0/nextjs-auth0/edge'
+import { handleLogout } from '@auth0/nextjs-auth0'
 import type { NextRequest } from 'next/server'
 
-export const runtime = 'edge'
-
-export async function GET(req: NextRequest, context: { params: Promise<{}> }) {
-  const params = await context.params
-  const ctx: AppRouteHandlerFnContext = { params }
-  const handler = handleLogout()
-  return handler(req, ctx)
+export async function GET(req: NextRequest) {
+  return handleLogout(req)
 }

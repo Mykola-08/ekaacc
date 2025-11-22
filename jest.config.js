@@ -1,8 +1,8 @@
 const nextJest = require('next/jest')
 
 const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
-  dir: './',
+  // Point to the web app directory inside monorepo
+  dir: './apps/web',
 })
 
 // Add any custom config to be passed to Jest
@@ -10,8 +10,8 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-    '^uncrypto$': '<rootDir>/src/__mocks__/uncrypto.js',
+    '^@/(.*)$': '<rootDir>/apps/web/src/$1',
+    '^uncrypto$': '<rootDir>/apps/web/src/__mocks__/uncrypto.js',
   },
   testMatch: [
     '**/__tests__/**/*.test.ts',
@@ -28,10 +28,10 @@ const customJestConfig = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/__tests__/**',
-    '!src/**/*.test.{ts,tsx}',
+    'apps/web/src/**/*.{ts,tsx}',
+    '!apps/web/src/**/*.d.ts',
+    '!apps/web/src/**/__tests__/**',
+    '!apps/web/src/**/*.test.{ts,tsx}',
   ],
 }
 

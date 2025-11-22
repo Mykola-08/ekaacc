@@ -21,6 +21,8 @@
 # next.js
 /.next/
 /out/
+apps/web/.next/
+apps/*/.next/
 
 # production
 /build
@@ -52,6 +54,8 @@ next-env.d.ts
 .env.test.local
 .env.production.local
 .env*.local
+apps/web/.env.local
+apps/*/.env.local
 
 # firebase
 firebase-debug.log

@@ -2,6 +2,21 @@
 
 A comprehensive Next.js application for mental health and wellness management with AI-powered insights, therapist booking, and personalized care.
 
+## Table of Contents
+
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Project Structure](#project-structure)
+- [Environment Variables](#environment-variables)
+- [Development](#development)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [API Documentation](#api-documentation)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Features
 
 ### For Users/Patients
@@ -28,97 +43,142 @@ A comprehensive Next.js application for mental health and wellness management wi
 - **Content Moderation**: Community post management
 - **System Configuration**: Feature flags and settings
 
-## Quick Start
+## Tech Stack
 
-### Prerequisites
-- Node.js 20.x or higher (22.x recommended)
-- npm 10.x or higher
-- Supabase account (for database)
-- Auth0 account (for authentication)
-- Stripe account (for payments)
-- Square account (for bookings, optional)
+### Frontend
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui (Radix UI primitives)
+- **State Management**: Zustand
+- **Forms**: React Hook Form + Zod validation
+- **Animations**: Framer Motion
 
-### Installation
+### Backend & Infrastructure
+- **Database**: PostgreSQL (Supabase)
+- **Authentication**: Auth0
+- **Payments**: Stripe
+- **Booking System**: Square
+- **Email**: Resend
+- **File Storage**: Supabase Storage
+- **Feature Flags**: Statsig
 
-1. **Clone the repository:**
+### AI Services
+- **OpenAI**: GPT-4 for insights and chat
+- **Anthropic**: Claude for advanced analysis
+- **Google AI**: Gemini for multimodal capabilities
+
+### Testing & Quality
+- **Unit Testing**: Jest + React Testing Library
+- **E2E Testing**: Playwright
+- **Load Testing**: k6
+- **Linting**: ESLint + Prettier
+
+### Deployment
+- **Hosting**: Vercel
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Vercel Analytics
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** 20.x or higher (22.x recommended) - [Download](https://nodejs.org/)
+- **npm** 10.x or higher (comes with Node.js)
+- **Git** - [Download](https://git-scm.com/)
+
+You'll also need accounts for the following services:
+
+- **Supabase** - [Sign up](https://supabase.com/) for database and authentication
+- **Auth0** - [Sign up](https://auth0.com/) for advanced authentication
+- **Stripe** - [Sign up](https://stripe.com/) for payment processing
+- **Resend** - [Sign up](https://resend.com/) for transactional emails
+- **Square** (Optional) - [Sign up](https://squareup.com/) for booking management
+
+## Installation
+
+Follow these steps to get the project running locally:
+
+### 1. Clone the repository
+
 ```bash
 git clone https://github.com/Mykola-08/ekaacc.git
 cd ekaacc
 ```
 
-2. **Install dependencies:**
+### 2. Install dependencies
+
 ```bash
 npm install
-
-This installs dependencies for the entire monorepo (root + all workspaces).
 ```
 
-3. **Set up environment variables:**
+This installs all dependencies for the monorepo workspaces.
+
+### 3. Configure environment variables
+
 ```bash
 cd apps/web
 cp .env.example .env.local
 ```
 
-Edit `apps/web/.env.local` with your credentials:
-- Auth0 domain, client ID, secret, and configuration
-- Supabase URL and keys
-- Stripe API keys
-- Resend API key (for emails)
-- Optional: Square, AI service APIs
+Edit `apps/web/.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
 
-4. **Set up the database:**
+### 4. Set up the database
 
 Run Supabase migrations:
+
 ```bash
-# If using local Supabase
+# For local development (recommended)
 npx supabase start
 npx supabase db reset
 
-# If using hosted Supabase
+# For hosted Supabase
 npx supabase link --project-ref your-project-ref
 npx supabase db push
 ```
 
-5. **Start the development server:**
+### 5. Start the development server
+
 ```bash
 npm run dev
 ```
 
-Visit [http://localhost:9002](http://localhost:9002) to see the application.
-
-**Note:** This is a Turborepo monorepo. The main web app is in `apps/web/` and shared packages are in `packages/`.
+The application will be available at [http://localhost:9002](http://localhost:9002).
 
 ## Project Structure
 
+This is a Turborepo monorepo with the following structure:
+
 ```
 ekaacc/
-├── src/
-│   ├── app/                      # Next.js 13+ App Router
-│   │   ├── (app)/               # Protected app routes
-│   │   │   ├── home/            # User dashboard
-│   │   │   ├── sessions/        # Booking management
-│   │   │   ├── journal/         # Journal entries
-│   │   │   ├── goals/           # Goal tracking
-│   │   │   ├── messages/        # Messaging
-│   │   │   ├── therapist/       # Therapist portal
-│   │   │   └── ...              # Other features
-│   │   ├── admin/               # Admin panel
-│   │   ├── api/                 # API routes
-│   │   ├── auth/                # Auth pages
-│   │   └── layout.tsx           # Root layout
-│   ├── components/              # React components
-│   │   ├── ui/                  # shadcn/ui components
-│   │   ├── eka/                 # Custom components
-│   │   ├── navigation/          # Navigation components
-│   │   └── layout/              # Layout components
-│   ├── lib/                     # Utilities and helpers
-│   │   ├── supabase.ts          # Supabase client
-│   │   ├── stripe.ts            # Stripe integration
-│   │   └── utils.ts             # General utilities
-│   ├── hooks/                   # Custom React hooks
-│   ├── services/                # Business logic services
-│   ├── context/                 # React context providers
-│   ├── store/                   # State management (Zustand)
+├── apps/
+│   └── web/                     # Main Next.js application
+│       ├── src/
+│       │   ├── app/            # Next.js App Router pages
+│       │   │   ├── (app)/      # Protected routes (home, sessions, journal, etc.)
+│       │   │   ├── admin/      # Admin panel
+│       │   │   ├── api/        # API routes
+│       │   │   └── auth/       # Authentication pages
+│       │   ├── components/     # React components
+│       │   │   ├── ui/         # shadcn/ui base components
+│       │   │   └── eka/        # Custom feature components
+│       │   ├── lib/            # Utilities and helpers
+│       │   ├── services/       # Business logic layer
+│       │   ├── ai/             # AI integration services
+│       │   ├── hooks/          # Custom React hooks
+│       │   ├── context/        # React context providers
+│       │   └── types/          # TypeScript definitions
+│       ├── public/             # Static assets
+│       └── e2e/                # Playwright tests
+├── packages/
+│   └── shared/                  # Shared utilities (if needed)
+├── supabase/
+│   ├── migrations/             # Database migration files
+│   ├── functions/              # Edge functions
+│   └── templates/              # Email templates
+├── scripts/                     # Utility scripts
+├── wiki/                        # Documentation
+└── load-tests/                  # k6 load testing
 │   └── types/                   # TypeScript type definitions
 ├── supabase/
 │   └── migrations/              # Database migration files

@@ -1,8 +1,8 @@
 # EKA Account - Mental Health & Wellness Platform
 
-> A comprehensive Next.js application for mental health and wellness management with AI-powered insights, therapist booking, and personalized care.
+A comprehensive Next.js application for mental health and wellness management with AI-powered insights, therapist booking, and personalized care.
 
-## 🌟 Features
+## Features
 
 ### For Users/Patients
 - **AI-Powered Insights**: Personalized wellness recommendations using GPT, Claude, and Gemini
@@ -28,12 +28,13 @@
 - **Content Moderation**: Community post management
 - **System Configuration**: Feature flags and settings
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Node.js 20.x or higher
-- npm or yarn
+- Node.js 20.x or higher (22.x recommended)
+- npm 10.x or higher
 - Supabase account (for database)
+- Auth0 account (for authentication)
 - Stripe account (for payments)
 - Square account (for bookings, optional)
 
@@ -48,25 +49,35 @@ cd ekaacc
 2. **Install dependencies:**
 ```bash
 npm install
+
+This installs dependencies for the entire monorepo (root + all workspaces).
 ```
 
 3. **Set up environment variables:**
 ```bash
+cd apps/web
 cp .env.example .env.local
 ```
 
-Edit `.env.local` with your actual credentials:
+Edit `apps/web/.env.local` with your credentials:
+- Auth0 domain, client ID, secret, and configuration
 - Supabase URL and keys
 - Stripe API keys
-- AI service API keys (OpenAI, Anthropic, Google AI)
-- Optional: Square, email, monitoring services
+- Resend API key (for emails)
+- Optional: Square, AI service APIs
 
 4. **Set up the database:**
 
-Follow the [Database Setup Guide](./DATABASE_SETUP_GUIDE.md) to:
-- Run migrations
-- Seed initial data
-- Configure Row Level Security (RLS)
+Run Supabase migrations:
+```bash
+# If using local Supabase
+npx supabase start
+npx supabase db reset
+
+# If using hosted Supabase
+npx supabase link --project-ref your-project-ref
+npx supabase db push
+```
 
 5. **Start the development server:**
 ```bash
@@ -75,7 +86,9 @@ npm run dev
 
 Visit [http://localhost:9002](http://localhost:9002) to see the application.
 
-## 📁 Project Structure
+**Note:** This is a Turborepo monorepo. The main web app is in `apps/web/` and shared packages are in `packages/`.
+
+## Project Structure
 
 ```
 ekaacc/
@@ -115,7 +128,7 @@ ekaacc/
 └── docs/                        # Additional documentation
 ```
 
-## 🔧 Extended Environment Variables
+## Extended Environment Variables
 
 Add these to `.env.local` (or project secrets) as needed:
 
@@ -193,7 +206,7 @@ const enabled = Statsig.checkGate('ai_insights_enabled');
 
 Provide graceful fallbacks for any client gating to avoid UI flicker.
 
-#### API Route Prefetch
+### API Route Prefetch
 Flags are available at `GET /api/flags`:
 ```bash
 curl https://your-app-domain/api/flags
@@ -203,7 +216,7 @@ Returns:
 { "flags": { "ai_insights_enabled": true, "wallet_enabled": false, ... } }
 ```
 
-#### Provider Integration
+### Provider Integration
 Use server component prefetch + client hydration:
 ```tsx
 import { PrefetchedFlags } from '@/components/examples/FlagsStatus';
@@ -213,7 +226,7 @@ export default async function DashboardPage() {
 }
 ```
 
-#### Comprehensive Flag List
+### Comprehensive Flag List
 | Flag | Purpose | Default Fallback |
 |------|---------|------------------|
 | ai_insights_enabled | AI recommendations | true |
@@ -241,7 +254,7 @@ Use `FeatureGate` for client-only sections:
 <FeatureGate flag="wallet_enabled" fallback={<div>Wallet coming soon" />}> <WalletPanel /> </FeatureGate>
 ```
 
-## 🔐 Authentication & Security
+## Authentication & Security
 
 ### Authentication Flow
 1. User signs up via `/signup` (email/password)
@@ -259,7 +272,7 @@ Use `FeatureGate` for client-only sections:
 - Input validation with Zod
 - Secure session management
 
-## 🎨 UI/UX
+## UI/UX
 
 ### Design System
 - **Component Library**: shadcn/ui (Radix UI + Tailwind)
@@ -274,7 +287,7 @@ Use `FeatureGate` for client-only sections:
 - Touch-optimized for mobile devices
 - Accessible navigation patterns
 
-## 🧪 Testing
+## Testing
 
 ### Unit Tests
 ```bash
@@ -297,7 +310,7 @@ npm run test:load:api   # API stress test
 npm run test:load:spike # Spike test
 ```
 
-## 📦 Building for Production
+## Building for Production
 
 ### Build the application:
 ```bash
@@ -314,25 +327,66 @@ npm run typecheck
 npm run lint
 ```
 
-## 🚢 Deployment
+## Deployment
 
-See the [Production Deployment Guide](./PRODUCTION_DEPLOYMENT_GUIDE.md) for detailed instructions.
+### Vercel Deployment (Recommended)
 
-### Quick Deploy to Vercel:
+This is a Turborepo monorepo optimized for Vercel deployment. See the [Vercel Deployment Guide](./VERCEL_DEPLOYMENT_GUIDE.md) for comprehensive step-by-step instructions.
+
+**Quick Deploy:**
 ```bash
+# Install Vercel CLI
 npm i -g vercel
+
+# Login to Vercel
 vercel login
+
+# Deploy to production
 vercel --prod
 ```
 
-### Environment Setup:
-1. Set all environment variables in your hosting platform
-2. Run database migrations
-3. Configure custom domain and SSL
-4. Set up monitoring and error tracking
-5. Configure webhooks for Stripe and Square
+**Important:** Before deploying, ensure you have:
+- ✅ All environment variables configured in Vercel dashboard
+- ✅ Auth0 callback URLs updated with production domain
+- ✅ Supabase RLS policies configured
+- ✅ Stripe/Square webhooks configured
 
-## 🔌 API Integrations
+### Environment Variables for Production
+
+Required variables (see [VERCEL_DEPLOYMENT_GUIDE.md](./VERCEL_DEPLOYMENT_GUIDE.md) for complete list):
+
+**Auth0:**
+- `AUTH0_SECRET` - Generate with: `openssl rand -base64 32`
+- `AUTH0_BASE_URL` - Your production URL
+- `AUTH0_ISSUER_BASE_URL` - Your Auth0 tenant URL
+- `AUTH0_CLIENT_ID` / `AUTH0_CLIENT_SECRET`
+- `AUTH0_AUDIENCE` / `AUTH0_SCOPE`
+
+**Supabase:**
+- `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`
+
+**Stripe:**
+- `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET`
+
+**Other:**
+- `RESEND_API_KEY` - Email service
+- `NEXT_PUBLIC_APP_URL` - Your app URL
+
+### Deployment Verification
+
+After deployment, run the health check:
+```bash
+node scripts/verify-deployment.js your-domain.vercel.app
+```
+
+### Manual Deployment Steps:
+1. Set all environment variables in your hosting platform
+2. Run database migrations (Supabase handles this automatically)
+3. Configure custom domain and SSL in Vercel dashboard
+4. Set up monitoring via Vercel Analytics
+5. Configure webhooks for Stripe and Square with production URLs
+
+## API Integrations
 
 ### Configured Services
 - **Supabase**: Database, authentication, storage
@@ -346,7 +400,7 @@ vercel --prod
 - `/api/webhooks/stripe` - Stripe events
 - `/api/webhooks/square` - Square booking events
 
-## 📊 Database Schema
+## Database Schema
 
 ### Core Tables
 - `user_profiles` - Extended user information
@@ -366,7 +420,7 @@ vercel --prod
 
 See [DATABASE_REQUIREMENTS.md](./DATABASE_REQUIREMENTS.md) for complete schema documentation.
 
-## 🔧 Configuration
+## Configuration
 
 ### Feature Flags
 Enable or disable features via environment variables:
@@ -380,16 +434,16 @@ FEATURE_FLAG_SUBSCRIPTIONS=true
 ### AI Service Selection
 Configure which AI service to use for different features in your app logic.
 
-## 🛣️ Roadmap
+## Roadmap
 
 ### Current Version: 0.1.0
-- ✅ Core authentication and user management
-- ✅ Basic dashboard and navigation
-- ✅ Therapist booking system
-- ✅ Journal and mood tracking
-- ✅ Goal setting and progress tracking
-- ✅ Subscription management
-- ✅ Admin panel
+- Core authentication and user management
+- Basic dashboard and navigation
+- Therapist booking system
+- Journal and mood tracking
+- Goal setting and progress tracking
+- Subscription management
+- Admin panel
 
 ### Upcoming Features
 - [ ] Mobile app (React Native)
@@ -399,9 +453,9 @@ Configure which AI service to use for different features in your app logic.
 - [ ] Offline mode
 - [ ] Wearable device integration
 - [ ] Group therapy sessions
-- [ ] Insurance integration
+- Insurance integration
 
-## 👥 Contributing
+## Contributing
 
 Contributions are welcome! Please follow these steps:
 
@@ -418,7 +472,7 @@ Contributions are welcome! Please follow these steps:
 - Write tests for new features
 - Document complex logic
 
-## 📝 Documentation
+## Documentation
 
 - [Database Setup Guide](./DATABASE_SETUP_GUIDE.md) - Complete database setup instructions
 - [Production Deployment Guide](./PRODUCTION_DEPLOYMENT_GUIDE.md) - Deploy to production
@@ -426,24 +480,24 @@ Contributions are welcome! Please follow these steps:
 - [Migration Guide](./MIGRATION_GUIDE.md) - Component migration to shadcn/ui
 - [Implementation Progress](./IMPLEMENTATION_PROGRESS.md) - Current project status
 
-## 🐛 Known Issues
+## Known Issues
 
 - TypeScript warnings in some component files (non-blocking)
 - Some pages still using legacy keep-react components
 - AI service needs rate limiting for production
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
+## Support
 
 For support and questions:
 - Check the [documentation](./docs)
 - Review [closed issues](https://github.com/Mykola-08/ekaacc/issues?q=is%3Aissue+is%3Aclosed)
 - Open a [new issue](https://github.com/Mykola-08/ekaacc/issues/new)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - [Next.js](https://nextjs.org/) - React framework
 - [Supabase](https://supabase.com/) - Backend infrastructure
@@ -454,6 +508,6 @@ For support and questions:
 
 ---
 
-**Built with ❤️ for mental health and wellness**
+Built for mental health and wellness
 
-Last Updated: 2024-11-17
+Last Updated: 2024-11-22

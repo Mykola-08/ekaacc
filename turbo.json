@@ -31,7 +31,7 @@
     },
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["apps/web/.next/**"]
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {},
     "lint:fix": {},

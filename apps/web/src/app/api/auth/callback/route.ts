@@ -40,15 +40,22 @@ export async function GET(req: NextRequest) {
     const validReturnTo = isValidReturnToUrl(returnToParam)
     
     // Handle the Auth0 callback and establish session
-    return handleCallback(req, {
+    // The handleCallback function automatically redirects after callback
+    const response = await handleCallback(req, {
       afterCallback: async (req, session) => {
         // Session established successfully
         // You can add custom logic here (e.g., sync user to Supabase)
         return session
-      },
-      // Redirect to the validated returnTo URL
-      redirectUri: validReturnTo
+      }
     })
+    
+    // If a custom returnTo was validated, redirect to it
+    // Otherwise, use the default Auth0 redirect
+    if (returnToParam && validReturnTo !== '/dashboard') {
+      return NextResponse.redirect(new URL(validReturnTo, req.url))
+    }
+    
+    return response
   } catch (error) {
     console.error('Auth0 callback error:', error)
     // Redirect to home with error parameter on failure

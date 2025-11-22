@@ -2,6 +2,9 @@
 import React from 'react';
 import { Auth0Provider } from '@auth0/auth0-react';
 
+// Auth0 callback route path - centralized for consistency
+const AUTH0_CALLBACK_PATH = '/api/auth/callback';
+
 const Auth0ClientProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Support both NEXT_PUBLIC and VITE prefixes to be flexible across environments
   const domain = (process.env.NEXT_PUBLIC_AUTH0_DOMAIN || process.env.VITE_AUTH0_DOMAIN || '') as string;
@@ -19,7 +22,7 @@ const Auth0ClientProvider: React.FC<{ children: React.ReactNode }> = ({ children
       domain={domain}
       clientId={clientId}
       authorizationParams={{ 
-        redirect_uri: typeof window !== 'undefined' ? `${window.location.origin}/api/auth/callback` : '',
+        redirect_uri: typeof window !== 'undefined' ? `${window.location.origin}${AUTH0_CALLBACK_PATH}` : '',
         // Only include audience if it's defined
         ...(audience ? { audience } : {}),
         scope: 'openid profile email'

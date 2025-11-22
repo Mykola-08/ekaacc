@@ -27,19 +27,18 @@ export async function fetchUserProfile(auth0AccessToken: string) {
   const supabase = createSupabaseAuth0Client({ auth0AccessToken })
   return supabase.from('users').select('*').limit(1)
 }
-import type Auth0ClientType from '@auth0/auth0-spa-js'
+import type { Auth0Client as Auth0ClientType } from '@auth0/auth0-spa-js'
 
 /**
  * Create a Supabase client that will obtain access tokens from Auth0 when making requests.
  *
  * Usage (example):
- *   import Auth0Client from '@auth0/auth0-spa-js'
+ *   import { Auth0Client } from '@auth0/auth0-spa-js'
  *   const auth0 = new Auth0Client({ domain, clientId, authorizationParams: { redirect_uri } })
  *   const supabase = createSupabaseWithAuth0(auth0)
  *
  * Notes:
- * - This helper sets `auth.accessToken` to an async function which Supabase will call to
- *   obtain the bearer token for requests. The function uses `auth0.getTokenSilently()`.
+ * - This helper uses auth0.getTokenSilently() to obtain bearer tokens.
  * - Ensure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` are set.
  */
 
@@ -51,25 +50,13 @@ export function createSupabaseWithAuth0(auth0Client: Auth0ClientType) {
     throw new Error('Supabase URL and ANON key must be defined in NEXT_PUBLIC_SUPABASE_URL/NEXT_PUBLIC_SUPABASE_ANON_KEY')
   }
 
+  // Note: Supabase JS v2 doesn't support async header functions in the way Auth0 tokens require.
+  // For server-side Auth0 + Supabase integration, use createSupabaseAuth0Client instead.
   return createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      // Supabase will call this function to get an up-to-date access token for the current user.
-      accessToken: async () => {
-        try {
-          const token = await auth0Client.getTokenSilently()
-          return token
-        } catch (err) {
-          console.error('Failed to get Auth0 token silently:', err)
-          return null
-        }
-      },
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      flowType: 'pkce',
-    },
     global: {
-      headers: { 'x-application-name': 'ekaacc-app' },
+      headers: {
+        'x-client-info': 'auth0-integration'
+      }
     },
     db: { schema: 'public' },
   })

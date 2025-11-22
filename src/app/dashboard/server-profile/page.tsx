@@ -1,14 +1,15 @@
 import { fetchUserProfile } from '@/lib/supabase-server'
 import { headers } from 'next/headers'
+import { NextRequest } from 'next/server'
 
 // Server Component Example: Uses server-side Supabase with Auth0 session access token.
 // Demonstrates SSR user profile retrieval under RLS policies.
 export const runtime = 'edge'
 
 export default async function ServerProfilePage() {
-  // Construct a Request passing through cookies for getSession.
+  // Construct a NextRequest passing through cookies for getSession.
   const h = await headers()
-  const req = new Request('https://internal.local/dashboard/server-profile', {
+  const req = new NextRequest('https://internal.local/dashboard/server-profile', {
     headers: new Headers({ cookie: h.get('cookie') || '' })
   })
 

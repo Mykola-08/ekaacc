@@ -31,8 +31,11 @@ export async function checkFeature(key: string, user: { userID?: string; custom?
   if (cached && cached.expires > now) return cached.value;
   await initStatsig();
   if (!initialized) return false;
-  const statsigUser = { userID: user.userID || 'anonymous', custom: user.custom };
-  const value = Statsig.checkGate(statsigUser, key);
+  const statsigUser = { 
+    userID: user.userID || 'anonymous', 
+    customIDs: {} as Record<string, string>
+  };
+  const value = await Statsig.checkGateWithExposureLoggingDisabled(statsigUser, key);
   gateCache.set(cacheKey, { value, expires: now + CACHE_TTL_MS });
   exposureCounts.set(key, (exposureCounts.get(key) || 0) + 1);
   return value;
@@ -41,8 +44,11 @@ export async function checkFeature(key: string, user: { userID?: string; custom?
 export async function getConfig<T extends Record<string, unknown>>(key: string, user: { userID?: string; custom?: Record<string, unknown> } = {}): Promise<T | null> {
   await initStatsig();
   if (!initialized) return null;
-  const statsigUser = { userID: user.userID || 'anonymous', custom: user.custom };
-  const config = Statsig.getConfig(statsigUser, key);
+  const statsigUser = { 
+    userID: user.userID || 'anonymous', 
+    customIDs: {} as Record<string, string>
+  };
+  const config = await Statsig.getConfigWithExposureLoggingDisabled(statsigUser, key);
   return (config?.value as T) ?? null;
 }
 

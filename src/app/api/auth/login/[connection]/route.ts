@@ -1,20 +1,11 @@
-import { handleLogin } from '@auth0/nextjs-auth0/edge'
+import { handleLogin, type AppRouteHandlerFnContext } from '@auth0/nextjs-auth0/edge'
+import type { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
-export async function GET(request: Request, context: { params: Promise<{ connection: string }> }) {
-  const resolvedParams = await context.params
-  const { connection } = resolvedParams
-  const url = new URL(request.url)
-  const returnTo = url.searchParams.get('returnTo') || '/'
-  const audience = process.env.PROD_AUTH0_AUDIENCE || process.env.NEXT_PUBLIC_AUTH0_AUDIENCE
-  const scope = process.env.AUTH0_SCOPE || 'openid profile email offline_access'
-  return handleLogin(request, {
-    returnTo,
-    authorizationParams: {
-      audience,
-      scope,
-      connection,
-    }
-  })
+export async function GET(req: NextRequest, context: { params: Promise<{ connection: string }> }) {
+  const params = await context.params
+  const ctx: AppRouteHandlerFnContext = { params }
+  const handler = handleLogin()
+  return handler(req, ctx)
 }

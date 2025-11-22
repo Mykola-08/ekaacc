@@ -1,13 +1,11 @@
-import { handleCallback } from '@auth0/nextjs-auth0/edge'
+import { handleCallback, type AppRouteHandlerFnContext } from '@auth0/nextjs-auth0/edge'
+import type { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
-export async function GET(request: Request) {
-  // Use afterCallback to maintain temporary compatibility cookie until middleware updated.
-  return handleCallback(request, {
-    afterCallback: async (_req, session) => {
-      // session.user available; we could sync additional data here if needed.
-      return session
-    }
-  })
+export async function GET(req: NextRequest, context: { params: Promise<{}> }) {
+  const params = await context.params
+  const ctx: AppRouteHandlerFnContext = { params }
+  const handler = handleCallback()
+  return handler(req, ctx)
 }

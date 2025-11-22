@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { resend } from '@/lib/email';
+import { safeResend } from '@/lib/email';
 import { render } from '@react-email/render';
 import { NotificationEmail } from '@/emails/NotificationEmail';
 import { ReminderEmail } from '@/emails/ReminderEmail';
@@ -177,7 +177,12 @@ export class TransactionalEmailService {
 
     // 4. Send via Resend
     try {
-        const { data: resendData, error } = await resend.emails.send({
+        const client = safeResend();
+        if (!client) {
+            console.warn('Resend not configured; skipping transactional email send.');
+            return { success: false, skipped: true, reason: 'Resend not configured' };
+        }
+        const { data: resendData, error } = await client.emails.send({
             from: 'Ekaacc Notifications <notifications@ekaacc.com>',
             to: email,
             subject: subject,

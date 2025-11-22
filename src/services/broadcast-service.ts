@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { resend } from '@/lib/email';
+import { safeResend } from '@/lib/email';
 import { BroadcastEmail } from '@/emails/BroadcastEmail';
 import { ProductLaunchEmail } from '@/emails/ProductLaunchEmail';
 import { PromotionalEmail } from '@/emails/PromotionalEmail';
@@ -29,7 +29,13 @@ export class BroadcastService {
         return;
       }
 
-      await resend.contacts.create({
+      const client = safeResend();
+      if (!client) {
+        console.warn('Resend not configured; skipping contact sync.');
+        return;
+      }
+
+      await client.contacts.create({
         email,
         firstName,
         lastName,
@@ -161,7 +167,12 @@ export class BroadcastService {
       if (emailBatch.length > 0) {
         try {
             // @ts-ignore - Resend batch types might need strict checking
-            const { data, error } = await resend.emails.batch.send(emailBatch);
+            const client = safeResend();
+            if (!client) {
+              console.warn('Resend not configured; skipping batch email send.');
+              return;
+            }
+            const { data, error } = await client.emails.batch.send(emailBatch as any);
             if (error) {
                 console.error('Batch send error:', error);
                 errors.push(error);

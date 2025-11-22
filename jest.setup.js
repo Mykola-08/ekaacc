@@ -1,4 +1,13 @@
 import '@testing-library/jest-dom'
+import { Request, Response } from 'node-fetch'
+
+// Polyfill Request and Response for Next.js server components
+global.Request = Request
+global.Response = Response
+
+// Set test environment variables
+process.env.STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY || 'sk_test_mock_key_for_testing'
+process.env.NEXT_PUBLIC_USE_MOCK_DATA = 'true'
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {

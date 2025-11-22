@@ -1,11 +1,12 @@
 import { fetchUserProfile } from '@/lib/supabase-server'
 import { headers } from 'next/headers'
+import { NextRequest } from 'next/server'
 
 export const runtime = 'edge'
 
 export default async function ServerDashboardPage() {
   const h = await headers()
-  const req = new Request('https://internal.local/home/server-dashboard', { headers: new Headers({ cookie: h.get('cookie') || '' }) })
+  const req = new NextRequest('https://internal.local/home/server-dashboard', { headers: new Headers({ cookie: h.get('cookie') || '' }) })
   let profile: any = null
   let error: string | null = null
   try {

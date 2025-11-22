@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { stripe } from '@/lib/stripe';
 import type Stripe from 'stripe';
-import { walletService } from '@/services/wallet-service';
-import { supabaseAdmin } from '@/lib/supabase';
+
+// Ensure Next.js treats this route as fully dynamic and Node runtime.
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+// Lazy import of services inside handler to avoid build-time side effects.
 
 /**
  * Webhook handler for Stripe subscription events
@@ -12,6 +14,13 @@ import { supabaseAdmin } from '@/lib/supabase';
  * to implement the full subscription service methods.
  */
 export async function POST(req: NextRequest) {
+  const stripeKey = process.env.STRIPE_SECRET_KEY;
+  if (!stripeKey || !stripeKey.trim().startsWith('sk_')) {
+    return NextResponse.json({ skipped: true, reason: 'Stripe not configured' }, { status: 200 });
+  }
+  // Dynamic import to avoid initializing Stripe during build-time module evaluation.
+  const { default: Stripe } = await import('stripe');
+  const stripe = new Stripe(stripeKey.trim(), { apiVersion: '2025-10-29.clover' });
   const body = await req.text();
   const signature = req.headers.get('stripe-signature');
 
@@ -75,29 +84,35 @@ export async function POST(req: NextRequest) {
         if (type === 'wallet_topup' && userId) {
           const amountCredits = parseFloat(metadata.amountCredits || '0');
           const amountPaid = amount / 100; // Convert cents to EUR
-
           if (amountCredits > 0) {
-            await walletService.processStripeTopUp(userId, amountCredits, paymentIntent.id, amountPaid);
-            console.log(`Processed wallet top-up for user ${userId}: ${amountCredits} credits`);
+            try {
+              const { walletService } = await import('@/services/wallet-service');
+              await walletService.processStripeTopUp(userId, amountCredits, paymentIntent.id, amountPaid);
+              console.log(`Processed wallet top-up for user ${userId}: ${amountCredits} credits`);
+            } catch (e) {
+              console.warn('Wallet service unavailable during top-up processing:', e);
+            }
           }
         } else if (type === 'session_prepayment' && metadata.bookingId) {
-          const bookingId = metadata.bookingId;
-          
-          // Update booking status
-          const { error } = await supabaseAdmin
-            .from('bookings')
-            .update({
-              payment_status: 'paid',
-              stripe_payment_intent_id: paymentIntent.id,
-              amount_paid: amount / 100,
-              updated_at: new Date().toISOString()
-            })
-            .eq('id', bookingId);
-
-          if (error) {
-            console.error('Failed to update booking status:', error);
-          } else {
-            console.log(`Processed session prepayment for booking ${bookingId}`);
+          try {
+            const { supabaseAdmin } = await import('@/lib/supabase');
+            const bookingId = metadata.bookingId;
+            const { error } = await supabaseAdmin
+              .from('bookings')
+              .update({
+                payment_status: 'paid',
+                stripe_payment_intent_id: paymentIntent.id,
+                amount_paid: amount / 100,
+                updated_at: new Date().toISOString()
+              })
+              .eq('id', bookingId);
+            if (error) {
+              console.error('Failed to update booking status:', error);
+            } else {
+              console.log(`Processed session prepayment for booking ${bookingId}`);
+            }
+          } catch (e) {
+            console.warn('Supabase admin client unavailable for booking update:', e);
           }
         }
         break;

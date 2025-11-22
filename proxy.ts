@@ -33,9 +33,9 @@ export async function proxy(req: NextRequest) {
 		return res
 	}
 
-	let session: any = null
+	let session = null
 	try {
-		session = await getSession(req as any)
+		session = await getSession(req, NextResponse.next())
 	} catch (err) {
 		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
 	}
@@ -59,7 +59,7 @@ export const config = {
 	]
 }
 
-function addSecurityHeaders(res: NextResponse) {
+export function addSecurityHeaders(res: NextResponse) {
 	const cspNonce = Math.random().toString(36).substring(2, 12)
 	const auth0Domain = (process.env.PROD_AUTH0_DOMAIN || process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '').trim()
 	const supabaseHost = (process.env.NEXT_PUBLIC_SUPABASE_URL?.replace('https://', '') || '').trim()

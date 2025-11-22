@@ -6,7 +6,7 @@ import { getAllFlags } from '@/services/featureFlags';
 export async function PrefetchedFlags({ userId }: { userId?: string }) {
   const flags = await getAllFlags({ userId: userId || 'anonymous' });
   return (
-    <StatsigProvider userID={userId} initialFlags={flags}>
+    <StatsigProvider userID={userId} initialFlags={flags as unknown as Record<string, boolean>}>
       <FlagsStatus />
     </StatsigProvider>
   );

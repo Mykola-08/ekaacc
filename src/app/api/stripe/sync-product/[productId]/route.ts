@@ -1,15 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 import { supabase } from '@/lib/supabase';
 
-function getStripeClient() {
-  const apiKey = process.env.STRIPE_SECRET_KEY;
-  if (!apiKey) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
+function getStripeClient(): Stripe | null {
+  const apiKey = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!apiKey || !apiKey.startsWith('sk_')) {
+    return null;
   }
-  return new Stripe(apiKey, {
-    apiVersion: '2025-10-29.clover',
-  });
+  try {
+    return new Stripe(apiKey, { apiVersion: '2025-10-29.clover' });
+  } catch (e) {
+    console.warn('Stripe initialization failed in sync-product route:', e);
+    return null;
+  }
 }
 
 export async function POST(
@@ -18,9 +23,11 @@ export async function POST(
 ) {
   const { productId } = await params;
   
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return NextResponse.json({ success: false, error: 'Stripe not configured' }, { status: 400 });
+  }
   try {
-    const stripe = getStripeClient();
-
     // Fetch product from database
     const { data: product, error: dbError } = await supabase
       .from('products')
@@ -134,12 +141,6 @@ export async function POST(
       })
       .eq('id', productId);
 
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to sync product with Stripe' 
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to sync product with Stripe' }, { status: 500 });
   }
 }

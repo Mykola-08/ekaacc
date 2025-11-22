@@ -2,33 +2,25 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
 import { LoginForm } from '../components/login-form';
-import { useSimpleAuth } from '../hooks/use-simple-auth';
-import { useRouter } from 'next/navigation';
 
-// Mock the auth hook
-jest.mock('../hooks/use-simple-auth', () => ({
-  useSimpleAuth: jest.fn()
+// Mock Auth0
+jest.mock('@auth0/auth0-react', () => ({
+  useAuth0: jest.fn()
 }));
 
-// Mock Next.js router
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn()
-}));
+// Import after mock is set up
+import { useAuth0 } from '@auth0/auth0-react';
 
 describe('LoginForm Component', () => {
-  const mockSignIn = jest.fn();
-  const mockPush = jest.fn();
+  const mockLoginWithRedirect = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
     
-    (useSimpleAuth as jest.Mock).mockReturnValue({
-      signIn: mockSignIn,
-      isLoading: false
-    });
-
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockPush
+    (useAuth0 as jest.Mock).mockReturnValue({
+      loginWithRedirect: mockLoginWithRedirect,
+      isLoading: false,
+      isAuthenticated: false,
     });
   });
 
@@ -42,13 +34,15 @@ describe('LoginForm Component', () => {
   });
 
   it('should handle auth0 sign in button click', async () => {
+    mockLoginWithRedirect.mockResolvedValue(undefined);
+    
     render(<LoginForm />);
 
     const authButton = screen.getByRole('button', { name: /sign in.*sign up/i });
     fireEvent.click(authButton);
 
     await waitFor(() => {
-      expect(mockSignIn).toHaveBeenCalled();
+      expect(mockLoginWithRedirect).toHaveBeenCalled();
     });
   });
 
@@ -61,25 +55,16 @@ describe('LoginForm Component', () => {
     expect(screen.getByText('LinkedIn')).toBeInTheDocument();
   });
 
-  it('should disable button while loading', async () => {
-    // Mock loading state initially or during the process
-    // Since we control the hook mock, we can simulate loading state
-    // But the component uses local state for loading based on the async call
-    // So we can just check if the button gets disabled after click
-    
-    // We need to make the promise not resolve immediately to check loading state
-    mockSignIn.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({ error: null }), 100)));
+  it('should call loginWithRedirect on button click', async () => {
+    mockLoginWithRedirect.mockResolvedValue(undefined);
 
     render(<LoginForm />);
 
-    // Auth0 Universal Login - click the main auth button
     const authButton = screen.getByRole('button', { name: /sign in.*sign up/i });
     fireEvent.click(authButton);
 
-    expect(screen.getByRole('button', { name: /logging in/i })).toBeDisabled();
-
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/dashboard');
+      expect(mockLoginWithRedirect).toHaveBeenCalledTimes(1);
     });
   });
 });

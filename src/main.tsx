@@ -4,8 +4,8 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import App from "./App";
 import "./index.css";
 
-const domain = import.meta?.env?.VITE_AUTH0_DOMAIN || process.env?.VITE_AUTH0_DOMAIN;
-const clientId = import.meta?.env?.VITE_AUTH0_CLIENT_ID || process.env?.VITE_AUTH0_CLIENT_ID;
+const domain = process.env.VITE_AUTH0_DOMAIN;
+const clientId = process.env.VITE_AUTH0_CLIENT_ID;
 
 if (!domain || !clientId) {
   console.error("Auth0 configuration missing. Please check your .env file.");

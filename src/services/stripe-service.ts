@@ -6,10 +6,25 @@ export class StripeService {
   private static instance: StripeService;
 
   private constructor() {
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.warn('StripeService: STRIPE_SECRET_KEY not configured');
+    const key = process.env.STRIPE_SECRET_KEY;
+    if (!key || !key.trim().startsWith('sk_')) {
+      console.warn('StripeService: STRIPE_SECRET_KEY not configured; using noop client');
+      // Provide a minimal noop implementation to avoid runtime/build errors when Stripe is unavailable.
+      // Methods will throw if called, signaling misconfiguration without breaking module evaluation.
+      // Only the subset of methods used by this service are stubbed.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      this.stripe = {
+        customers: { create: async () => { throw new Error('Stripe not configured'); } },
+        paymentIntents: {
+          create: async () => { throw new Error('Stripe not configured'); },
+          retrieve: async () => { throw new Error('Stripe not configured'); }
+        },
+        refunds: { create: async () => { throw new Error('Stripe not configured'); } },
+        webhooks: { constructEvent: () => { throw new Error('Stripe not configured'); } }
+      } as any as Stripe;
+      return;
     }
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+    this.stripe = new Stripe(key.trim(), {
       apiVersion: '2025-10-29.clover', // Use latest available version
     });
   }
@@ -173,4 +188,5 @@ export class StripeService {
   }
 }
 
+// Lazy singleton accessor exported as a function to encourage guarded usage if needed elsewhere.
 export const stripeService = StripeService.getInstance();

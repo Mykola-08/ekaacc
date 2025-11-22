@@ -1,75 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-function getStripeClient() {
-  const apiKey = process.env.STRIPE_SECRET_KEY;
-  if (!apiKey) {
-    throw new Error('STRIPE_SECRET_KEY is not configured');
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
+function getStripeClient(): Stripe | null {
+  const apiKey = process.env.STRIPE_SECRET_KEY?.trim();
+  if (!apiKey || !apiKey.startsWith('sk_')) {
+    return null;
   }
-  return new Stripe(apiKey, {
-    apiVersion: '2025-10-29.clover',
-  });
+  try {
+    return new Stripe(apiKey, { apiVersion: '2025-10-29.clover' });
+  } catch (e) {
+    console.warn('Stripe initialization failed in products route:', e);
+    return null;
+  }
 }
 
 export async function GET() {
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return NextResponse.json({ success: true, stripeConfigured: false, products: [], prices: [] });
+  }
   try {
-    const stripe = getStripeClient();
-    
-    // Fetch all products
-    const products = await stripe.products.list({
-      limit: 100,
-      active: true,
-    });
-
-    // Fetch all prices
-    const prices = await stripe.prices.list({
-      limit: 100,
-      active: true,
-    });
-
-    return NextResponse.json({
-      success: true,
-      products: products.data,
-      prices: prices.data,
-    });
+    const products = await stripe.products.list({ limit: 100, active: true });
+    const prices = await stripe.prices.list({ limit: 100, active: true });
+    return NextResponse.json({ success: true, stripeConfigured: true, products: products.data, prices: prices.data });
   } catch (error) {
     console.error('Error fetching Stripe products:', error);
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to fetch Stripe products' 
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to fetch Stripe products' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return NextResponse.json({ success: false, error: 'Stripe not configured' }, { status: 400 });
+  }
   try {
-    const stripe = getStripeClient();
     const body = await request.json();
     const { name, description, images, metadata } = body;
-
-    // Create product
-    const product = await stripe.products.create({
-      name,
-      description,
-      images,
-      metadata: metadata || {},
-    });
-
-    return NextResponse.json({
-      success: true,
-      product,
-    });
+    const product = await stripe.products.create({ name, description, images, metadata: metadata || {} });
+    return NextResponse.json({ success: true, product });
   } catch (error) {
     console.error('Error creating Stripe product:', error);
-    return NextResponse.json(
-      { 
-        success: false, 
-        error: error instanceof Error ? error.message : 'Failed to create Stripe product' 
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to create Stripe product' }, { status: 500 });
   }
 }

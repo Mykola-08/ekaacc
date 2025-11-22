@@ -1,9 +1,11 @@
 import { getSession } from '@auth0/nextjs-auth0/edge'
+import type { NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 
 export const runtime = 'edge'
 
-export async function GET(request: Request) {
-  const session = await getSession(request as any)
+export async function GET(request: NextRequest) {
+  const session = await getSession(request, NextResponse.next())
   if (!session) {
     return new Response(JSON.stringify({ user: null }), { status: 200 })
   }

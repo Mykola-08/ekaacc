@@ -1,17 +1,39 @@
 import Stripe from 'stripe';
 import type { SubscriptionType, SubscriptionInterval } from '@/lib/subscription-types';
 
-// Initialize Stripe with a placeholder or actual key
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+// Safe initialization: avoid build-time crash if key missing/invalid.
+const rawStripeKey = process.env.STRIPE_SECRET_KEY;
+const stripeSecretKey = rawStripeKey && rawStripeKey.trim() ? rawStripeKey.trim() : null;
 
-// Log warning if using placeholder (only in development)
-if (process.env.NODE_ENV === 'development' && !process.env.STRIPE_SECRET_KEY) {
-  console.warn('⚠️  STRIPE_SECRET_KEY not set. Using placeholder. Stripe features will not work.');
+function createNoopStripe(): Stripe {
+  // Minimal stub that throws on usage, preventing accidental silent failures.
+  const errorFn = () => { throw new Error('Stripe client not configured'); };
+  return {
+    webhooks: { constructEvent: errorFn } as any,
+    checkout: { sessions: { create: errorFn } } as any,
+    billingPortal: { sessions: { create: errorFn } } as any,
+    subscriptions: { cancel: errorFn, update: errorFn, retrieve: errorFn, list: errorFn } as any,
+    paymentMethods: { retrieve: errorFn } as any,
+    customers: { create: errorFn } as any,
+  } as Stripe;
 }
 
-export const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: '2025-10-29.clover',
-});
+export const stripe: Stripe = (() => {
+  if (!stripeSecretKey) {
+    if (process.env.NODE_ENV === 'production') {
+      console.warn('Stripe secret key missing; Stripe features disabled.');
+    } else {
+      console.warn('⚠️ STRIPE_SECRET_KEY not set; using noop Stripe client.');
+    }
+    return createNoopStripe();
+  }
+  try {
+    return new Stripe(stripeSecretKey, { apiVersion: '2025-10-29.clover' });
+  } catch (e) {
+    console.warn('Stripe initialization failed; using noop client:', e);
+    return createNoopStripe();
+  }
+})();
 
 export interface CreateCheckoutSessionParams {
   userId: string;

@@ -11,6 +11,7 @@ const customJestConfig = {
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^uncrypto$': '<rootDir>/src/__mocks__/uncrypto.js',
   },
   testMatch: [
     '**/__tests__/**/*.test.ts',
@@ -18,6 +19,9 @@ const customJestConfig = {
     '**/?(*.)+(spec|test).ts',
     '**/?(*.)+(spec|test).tsx',
     '!**/e2e/**', // Exclude e2e tests (run with Playwright)
+  ],
+  transformIgnorePatterns: [
+    'node_modules/(?!(uncrypto|@upstash|uuid)/)',
   ],
   transform: {
     '^.+\\.(ts|tsx)$': ['babel-jest', { presets: ['next/babel'] }],

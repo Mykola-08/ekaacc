@@ -41,7 +41,7 @@ export async function getAllFlags(opts: FlagEvaluationOptions = {}): Promise<Fla
       return [k, r.value] as const;
     })
   );
-  return Object.fromEntries(entries) as FlagDefinitions;
+  return Object.fromEntries(entries) as unknown as FlagDefinitions;
 }
 
 export async function getExperiment<T extends Record<string, unknown>>(key: string, opts: FlagEvaluationOptions = {}): Promise<ExperimentConfig<T>> {

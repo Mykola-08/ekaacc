@@ -2,11 +2,11 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
 
-// Internal login page disabled; we no longer serve a local /login route.
-// Any attempt to access /login or unauthenticated protected content will redirect
-// to the external authentication domain (e.g. auth.ekabalance.com).
+// Public paths that don't require authentication
+// /login and /signup are allowed to support Auth0 authentication flow
 const DEFAULT_PUBLIC_PATHS = [
-	// '/login' intentionally omitted
+	'/',
+	'/login',
 	'/signup',
 	'/privacy',
 	'/terms',
@@ -26,15 +26,12 @@ export async function proxy(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
 	const publicPaths = loadPublicPaths()
 
-	if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
+	// Allow static assets and Next.js internals
+	if (pathname.startsWith('/_next') || pathname.startsWith('/static') || pathname.startsWith('/api/auth')) {
 		return NextResponse.next()
 	}
 
-	// If explicitly requesting /login, force external redirect immediately.
-	if (pathname === '/login') {
-		return redirectToAuth0Login(req, pathname)
-	}
-
+	// Allow public paths without authentication
 	if (publicPaths.some(p => pathname === p || pathname.startsWith(p + '/'))) {
 		const res = NextResponse.next()
 		addSecurityHeaders(res)

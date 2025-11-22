@@ -17,7 +17,13 @@ const Auth0ClientProvider: React.FC<{ children: React.ReactNode }> = ({ children
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      authorizationParams={{ redirect_uri: typeof window !== 'undefined' ? window.location.origin : '' }}
+      authorizationParams={{ 
+        redirect_uri: typeof window !== 'undefined' ? `${window.location.origin}/api/auth/callback` : '',
+        audience: process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
+        scope: 'openid profile email'
+      }}
+      cacheLocation="localstorage"
+      useRefreshTokens={true}
     >
       {children}
     </Auth0Provider>

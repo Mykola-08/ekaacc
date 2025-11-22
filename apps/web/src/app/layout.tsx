@@ -8,7 +8,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
 import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
-// Removed SPA Auth0ClientProvider in favor of server-side sessions.
+import Auth0ClientProvider from '@/components/Auth0ClientProvider';
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -45,25 +45,27 @@ export default function RootLayout({
         `}} />
       </head>
       <body className={cn('antialiased font-sans')}>
-        <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ProgressProvider>
-              <TooltipProvider>
-                <ImpersonationWrapper>
-                  {children}
-                  <Analytics />
-                  <SpeedInsights />
-                </ImpersonationWrapper>
-                <Toaster />
-              </TooltipProvider>
-            </ProgressProvider>
-          </ThemeProvider>
-        </AuthProvider>
+        <Auth0ClientProvider>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ProgressProvider>
+                <TooltipProvider>
+                  <ImpersonationWrapper>
+                    {children}
+                    <Analytics />
+                    <SpeedInsights />
+                  </ImpersonationWrapper>
+                  <Toaster />
+                </TooltipProvider>
+              </ProgressProvider>
+            </ThemeProvider>
+          </AuthProvider>
+        </Auth0ClientProvider>
       </body>
     </html>
   );

@@ -16,7 +16,14 @@ const PUBLIC_PATHS = [
 export async function proxy(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
 
-	if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
+	// Skip Next.js internals, static assets, and Auth0 callback routes
+	if (pathname.startsWith('/_next') || 
+	    pathname.startsWith('/static') ||
+	    pathname.startsWith('/api/auth/') ||
+	    pathname === '/favicon.ico' ||
+	    pathname === '/robots.txt' ||
+	    pathname === '/manifest.webmanifest' ||
+	    pathname === '/sw.js') {
 		return NextResponse.next()
 	}
 
@@ -51,9 +58,7 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-	matcher: [
-		'/((?!api/auth/callback|api/auth/logout|favicon.ico|_next|static).*)'
-	]
+	matcher: ['/((?!_next|static).*)']
 }
 
 function addSecurityHeaders(res: NextResponse) {

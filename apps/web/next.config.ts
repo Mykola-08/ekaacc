@@ -127,7 +127,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   
   // Output configuration
-  output: 'standalone',
+  // output: 'standalone',
 };
 
 export default nextConfig;

@@ -53,12 +53,6 @@ export async function proxy(req: NextRequest) {
 	return res
 }
 
-export const config = {
-	matcher: [
-		'/((?!api/auth/callback|api/auth/logout|favicon.ico|_next|static).*)'
-	]
-}
-
 export function addSecurityHeaders(res: NextResponse) {
 	const cspNonce = Math.random().toString(36).substring(2, 12)
 	const auth0Domain = (process.env.PROD_AUTH0_DOMAIN || process.env.NEXT_PUBLIC_AUTH0_DOMAIN || '').trim()

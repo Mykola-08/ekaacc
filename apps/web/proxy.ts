@@ -32,7 +32,7 @@ export async function proxy(req: NextRequest) {
 
 	// If explicitly requesting /login, force external redirect immediately.
 	if (pathname === '/login') {
-		return redirectToExternalAuth(req, pathname)
+		return redirectToAuth0Login(req, pathname)
 	}
 
 	if (publicPaths.some(p => pathname === p || pathname.startsWith(p + '/'))) {
@@ -48,7 +48,7 @@ export async function proxy(req: NextRequest) {
 		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
 	}
 	if (!session) {
-		return redirectToExternalAuth(req, pathname)
+		return redirectToAuth0Login(req, pathname)
 	}
 
 	const res = NextResponse.next()
@@ -88,11 +88,16 @@ export function addSecurityHeaders(res: NextResponse) {
 	res.cookies.set({ name: 'csp-nonce', value: cspNonce, path: '/', httpOnly: true, sameSite: 'lax', secure: true, maxAge: 300 })
 }
 
-function redirectToExternalAuth(req: NextRequest, returnTo: string) {
-	const externalBase = (process.env.EXTERNAL_AUTH_BASE_URL || 'https://auth.ekabalance.com').replace(/\/$/, '')
-	const authUrl = new URL(externalBase + '/login')
-	if (returnTo) authUrl.searchParams.set('returnTo', returnTo)
-	const redirect = NextResponse.redirect(authUrl)
+/**
+ * Redirect to Auth0 login via the API route
+ * This triggers the Auth0 Universal Login flow automatically
+ */
+function redirectToAuth0Login(req: NextRequest, returnTo: string) {
+	const loginUrl = new URL('/api/auth/login', req.url)
+	if (returnTo && returnTo !== '/login') {
+		loginUrl.searchParams.set('returnTo', returnTo)
+	}
+	const redirect = NextResponse.redirect(loginUrl)
 	addSecurityHeaders(redirect)
 	return redirect
 }

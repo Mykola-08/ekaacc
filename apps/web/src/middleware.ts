@@ -2,8 +2,11 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
 
+// Internal login page disabled; we no longer serve a local /login route.
+// Any attempt to access /login or unauthenticated protected content will redirect
+// to the external authentication domain (e.g. auth.ekabalance.com).
 const DEFAULT_PUBLIC_PATHS = [
-	'/login',
+	// '/login' intentionally omitted
 	'/signup',
 	'/privacy',
 	'/terms',
@@ -19,12 +22,17 @@ function loadPublicPaths(): string[] {
 	return [...new Set([...DEFAULT_PUBLIC_PATHS, ...envList.split(',').map(p => p.trim()).filter(Boolean)])]
 }
 
-export async function proxy(req: NextRequest) {
+export async function middleware(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
 	const publicPaths = loadPublicPaths()
 
 	if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
 		return NextResponse.next()
+	}
+
+	// If explicitly requesting /login, force external redirect immediately.
+	if (pathname === '/login') {
+		return redirectToAuth0Login(req, pathname)
 	}
 
 	if (publicPaths.some(p => pathname === p || pathname.startsWith(p + '/'))) {
@@ -40,12 +48,7 @@ export async function proxy(req: NextRequest) {
 		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
 	}
 	if (!session) {
-		const loginUrl = req.nextUrl.clone()
-		loginUrl.pathname = '/login'
-		loginUrl.searchParams.set('returnTo', pathname)
-		const redirect = NextResponse.redirect(loginUrl)
-		addSecurityHeaders(redirect)
-		return redirect
+		return redirectToAuth0Login(req, pathname)
 	}
 
 	const res = NextResponse.next()
@@ -83,4 +86,18 @@ export function addSecurityHeaders(res: NextResponse) {
 	res.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
 	res.headers.set('X-XSS-Protection', '0')
 	res.cookies.set({ name: 'csp-nonce', value: cspNonce, path: '/', httpOnly: true, sameSite: 'lax', secure: true, maxAge: 300 })
+}
+
+/**
+ * Redirect to Auth0 login via the API route
+ * This triggers the Auth0 Universal Login flow automatically
+ */
+function redirectToAuth0Login(req: NextRequest, returnTo: string) {
+	const loginUrl = new URL('/api/auth/login', req.url)
+	if (returnTo && returnTo !== '/login') {
+		loginUrl.searchParams.set('returnTo', returnTo)
+	}
+	const redirect = NextResponse.redirect(loginUrl)
+	addSecurityHeaders(redirect)
+	return redirect
 }

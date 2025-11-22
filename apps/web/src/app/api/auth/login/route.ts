@@ -6,7 +6,18 @@ export const runtime = 'edge'
 export async function GET(req: NextRequest, context: { params: Promise<{}> }) {
   const params = await context.params
   const ctx: AppRouteHandlerFnContext = { params }
-  // Initialize handler lazily to avoid build-time header access
-  const handler = handleLogin()
+  
+  // Extract returnTo from query parameters
+  const returnTo = req.nextUrl.searchParams.get('returnTo')
+  
+  // Initialize handler with returnTo option
+  const handler = handleLogin({
+    returnTo: returnTo || undefined,
+    authorizationParams: {
+      audience: process.env.AUTH0_AUDIENCE,
+      scope: process.env.AUTH0_SCOPE || 'openid profile email',
+    }
+  })
+  
   return handler(req, ctx)
 }

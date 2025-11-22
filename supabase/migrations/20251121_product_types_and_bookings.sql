@@ -145,26 +145,26 @@ CREATE TRIGGER product_type_mappings_updated_at
 
 -- Insert standard product types
 INSERT INTO product_types (type_code, type_name, description, category, icon, color, is_bookable, display_order) VALUES
-    ('kinesiology', 'Kinesiology Session', 'Integrative therapy combining body, mind, and emotions', 'therapy', '🧘', '#4F46E5', true, 1),
-    ('massage-basic', 'Basic Massage', 'Traditional massage therapy for relaxation and muscle relief', 'therapy', '💆', '#06B6D4', true, 2),
-    ('massage-full', 'Full Massage', 'Comprehensive massage treatment including multiple techniques', 'therapy', '💆‍♂️', '#0EA5E9', true, 3),
-    ('massage-premium', 'Premium Massage', 'Premium massage experience with extended time and advanced techniques', 'therapy', '✨', '#8B5CF6', true, 4),
-    ('massage-vip', 'VIP Massage', 'Exclusive VIP massage service with personalized attention', 'wellness', '👑', '#F59E0B', true, 5),
-    ('constellations', 'Systemic Constellations', 'Family and systemic constellation therapy session', 'therapy', '🌟', '#EC4899', true, 6),
-    ('360-review', '360° Review', 'Comprehensive health assessment at physical, biochemical, and emotional levels', 'consultation', '🔍', '#10B981', true, 7),
-    ('muscle-relief', 'Muscle Tension Relief', 'Specialized 4-in-1 approach for muscle tension and pain relief', 'therapy', '💪', '#EF4444', true, 8),
-    ('movement-lesson', 'Movement Lesson', 'Specialized movement education sessions', 'specialty', '🤸', '#14B8A6', true, 9),
-    ('feldenkrais', 'Feldenkrais Method', 'Awareness through movement - Feldenkrais technique', 'specialty', '🌊', '#6366F1', true, 10),
-    ('nutrition', 'Integrative Nutrition', 'Holistic approach to nutrition and wellness', 'wellness', '🥗', '#84CC16', true, 11),
-    ('corporate', 'Corporate Services', 'Business and corporate wellness services', 'specialty', '🏢', '#64748B', true, 12),
-    ('session-pack', 'Session Package', 'Multi-session package with savings', 'package', '📦', '#F97316', true, 13),
-    ('subscription-bronze', 'Bronze Subscription', 'Entry-level monthly subscription with sessions and online consultations', 'subscription', '🥉', '#CD7F32', false, 14),
-    ('subscription-silver', 'Silver Subscription', 'Mid-level monthly subscription with more sessions and priority booking', 'subscription', '🥈', '#C0C0C0', false, 15),
-    ('subscription-gold', 'Gold Subscription', 'Premium monthly subscription with preferential attention and extended services', 'subscription', '🥇', '#FFD700', false, 16),
-    ('subscription-diamond', 'Diamond Subscription', 'Ultimate tier with all services included', 'subscription', '💎', '#B9F2FF', false, 17),
-    ('vip-prive', 'EKA Privé VIP', 'Top tier VIP service with 24h support and home visits', 'subscription', '🌟', '#FFD700', false, 18),
-    ('free-consultation', 'Free Consultation', 'Complimentary initial consultation', 'consultation', '💬', '#22C55E', true, 19),
-    ('individual-session', 'Individual Session', 'Base individual therapy session (massage, kinesiology, osteobalance, emotions)', 'therapy', '👤', '#3B82F6', true, 20)
+    ('kinesiology', 'Kinesiology Session', 'Integrative therapy combining body, mind, and emotions', 'therapy', 'user', '#4F46E5', true, 1),
+    ('massage-basic', 'Basic Massage', 'Traditional massage therapy for relaxation and muscle relief', 'therapy', 'activity', '#06B6D4', true, 2),
+    ('massage-full', 'Full Massage', 'Comprehensive massage treatment including multiple techniques', 'therapy', 'activity', '#0EA5E9', true, 3),
+    ('massage-premium', 'Premium Massage', 'Premium massage experience with extended time and advanced techniques', 'therapy', 'star', '#8B5CF6', true, 4),
+    ('massage-vip', 'VIP Massage', 'Exclusive VIP massage service with personalized attention', 'wellness', 'crown', '#F59E0B', true, 5),
+    ('constellations', 'Systemic Constellations', 'Family and systemic constellation therapy session', 'therapy', 'star', '#EC4899', true, 6),
+    ('360-review', '360° Review', 'Comprehensive health assessment at physical, biochemical, and emotional levels', 'consultation', 'search', '#10B981', true, 7),
+    ('muscle-relief', 'Muscle Tension Relief', 'Specialized 4-in-1 approach for muscle tension and pain relief', 'therapy', 'zap', '#EF4444', true, 8),
+    ('movement-lesson', 'Movement Lesson', 'Specialized movement education sessions', 'specialty', 'move', '#14B8A6', true, 9),
+    ('feldenkrais', 'Feldenkrais Method', 'Awareness through movement - Feldenkrais technique', 'specialty', 'waves', '#6366F1', true, 10),
+    ('nutrition', 'Integrative Nutrition', 'Holistic approach to nutrition and wellness', 'wellness', 'apple', '#84CC16', true, 11),
+    ('corporate', 'Corporate Services', 'Business and corporate wellness services', 'specialty', 'briefcase', '#64748B', true, 12),
+    ('session-pack', 'Session Package', 'Multi-session package with savings', 'package', 'package', '#F97316', true, 13),
+    ('subscription-bronze', 'Bronze Subscription', 'Entry-level monthly subscription with sessions and online consultations', 'subscription', 'medal', '#CD7F32', false, 14),
+    ('subscription-silver', 'Silver Subscription', 'Mid-level monthly subscription with more sessions and priority booking', 'subscription', 'medal', '#C0C0C0', false, 15),
+    ('subscription-gold', 'Gold Subscription', 'Premium monthly subscription with preferential attention and extended services', 'subscription', 'medal', '#FFD700', false, 16),
+    ('subscription-diamond', 'Diamond Subscription', 'Ultimate tier with all services included', 'subscription', 'gem', '#B9F2FF', false, 17),
+    ('vip-prive', 'EKA Privé VIP', 'Top tier VIP service with 24h support and home visits', 'subscription', 'star', '#FFD700', false, 18),
+    ('free-consultation', 'Free Consultation', 'Complimentary initial consultation', 'consultation', 'message-circle', '#22C55E', true, 19),
+    ('individual-session', 'Individual Session', 'Base individual therapy session (massage, kinesiology, osteobalance, emotions)', 'therapy', 'user', '#3B82F6', true, 20)
 ON CONFLICT (type_code) DO NOTHING;
 
 -- Insert booking explanations for key service types

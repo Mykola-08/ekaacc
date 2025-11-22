@@ -17,18 +17,18 @@ export class PersonalizationEngine {
     const primaryGoal = user.personalization?.therapeuticGoals?.[0];
 
     if (occupation === 'student' && primaryGoal) {
-      return `Good ${timeOfDay}, ${firstName}! Ready to work on ${primaryGoal.toLowerCase()}? Let's make today count! 📚✨`;
+      return `Good ${timeOfDay}, ${firstName}! Ready to work on ${primaryGoal.toLowerCase()}? Let's make today count!`;
     }
 
     if (user.activityData?.loginStreak && user.activityData.loginStreak > 3) {
-      return `🔥 ${user.activityData.loginStreak} day streak, ${firstName}! You're on fire! Keep up the amazing work!`;
+      return `${user.activityData.loginStreak} day streak, ${firstName}! You're on fire! Keep up the amazing work!`;
     }
 
     if (primaryGoal) {
-      return `Welcome back, ${firstName}! Let's continue your journey toward ${primaryGoal.toLowerCase()} 🌟`;
+      return `Welcome back, ${firstName}! Let's continue your journey toward ${primaryGoal.toLowerCase()}`;
     }
 
-    return `Good ${timeOfDay}, ${firstName}! Great to see you back! 💙`;
+    return `Good ${timeOfDay}, ${firstName}! Great to see you back!`;
   }
 
   /**
@@ -41,37 +41,37 @@ export class PersonalizationEngine {
     // Based on goals
     if (personalization?.therapeuticGoals) {
       personalization.therapeuticGoals.forEach(goal => {
-        messages.push(`Every small step toward ${goal.toLowerCase()} is progress. You're doing great! 🌱`);
+        messages.push(`Every small step toward ${goal.toLowerCase()} is progress. You're doing great!`);
       });
     }
 
     // Based on sports/activity
     if (personalization?.sportsActivities && personalization.sportsActivities.length > 0) {
       const sport = personalization.sportsActivities[0];
-      messages.push(`Your ${sport} practice shows your commitment to wellness. Keep it up! 💪`);
+      messages.push(`Your ${sport} practice shows your commitment to wellness. Keep it up!`);
     }
 
     // Based on occupation
     if (personalization?.occupationType === 'student') {
-      messages.push(`Balancing studies and self-care shows real strength. You're doing amazing! 📖`);
+      messages.push(`Balancing studies and self-care shows real strength. You're doing amazing!`);
     }
 
     // Based on progress
     if (activityData?.progressTrend === 'improving') {
-      messages.push(`Your progress is inspiring! You're moving in the right direction! ⬆️`);
+      messages.push(`Your progress is inspiring! You're moving in the right direction!`);
     }
 
     // Based on engagement
     if (activityData?.loginStreak && activityData.loginStreak > 7) {
-      messages.push(`${activityData.loginStreak} days of commitment! Your dedication is remarkable! 🏆`);
+      messages.push(`${activityData.loginStreak} days of commitment! Your dedication is remarkable!`);
     }
 
     // Default motivational messages
     if (messages.length === 0) {
       messages.push(
-        "You're stronger than you think! 💪",
-        "Every day is a new opportunity to grow 🌱",
-        "Your wellbeing journey matters. Keep going! ✨"
+        "You're stronger than you think!",
+        "Every day is a new opportunity to grow",
+        "Your wellbeing journey matters. Keep going!"
       );
     }
 
@@ -247,7 +247,7 @@ export class PersonalizationEngine {
     // Celebration for milestones
     if (activityData?.completedSessions === 1) {
       messages.push({
-        message: `🎉 Congratulations on completing your first session! This is just the beginning of your wellness journey.`,
+        message: `Congratulations on completing your first session! This is just the beginning of your wellness journey.`,
         type: 'celebration',
         date: new Date().toISOString(),
         read: false,
@@ -256,7 +256,7 @@ export class PersonalizationEngine {
 
     if (activityData?.loginStreak === 7) {
       messages.push({
-        message: `🔥 One week streak! You're building a powerful habit. Keep it going!`,
+        message: `One week streak! You're building a powerful habit. Keep it going!`,
         type: 'celebration',
         date: new Date().toISOString(),
         read: false,
@@ -266,7 +266,7 @@ export class PersonalizationEngine {
     // Tips based on activity
     if (activityData?.featureUsage?.journal === 0 && activityData?.totalLogins && activityData.totalLogins > 3) {
       messages.push({
-        message: `💡 Tip: Try the journal feature! Reflection can deepen your self-awareness and track your progress.`,
+        message: `Tip: Try the journal feature! Reflection can deepen your self-awareness and track your progress.`,
         type: 'tip',
         date: new Date().toISOString(),
         read: false,
@@ -276,7 +276,7 @@ export class PersonalizationEngine {
     // Encouragement for progress
     if (activityData?.progressTrend === 'improving') {
       messages.push({
-        message: `📈 Your wellness score is improving! Your consistent efforts are paying off.`,
+        message: `Your wellness score is improving! Your consistent efforts are paying off.`,
         type: 'encouragement',
         date: new Date().toISOString(),
         read: false,

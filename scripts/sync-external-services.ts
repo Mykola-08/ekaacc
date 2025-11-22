@@ -310,7 +310,7 @@ async function main() {
     }
 
     // Get sync status
-    console.log('\n📊 Sync Status:');
+    console.log('\nSync Status:');
     const status = await ExternalServicesSync.getSyncStatus('stripe');
     if (status) {
       console.log(`   Last Sync: ${status.last_sync_at || 'Never'}`);
@@ -320,7 +320,7 @@ async function main() {
       }
     }
 
-    console.log('\n✨ Sync completed successfully!');
+    console.log('\nSync completed successfully!');
   } catch (error) {
     console.error('\n❌ Sync failed:', error);
     process.exit(1);

@@ -318,7 +318,7 @@ export class SupabaseSubscriptionService implements ISubscriptionService {
         );
       }
       
-      console.log(`📊 Updated usage for subscription ${subscriptionId}`);
+      console.log(`Updated usage for subscription ${subscriptionId}`);
     } catch (error) {
       console.error('Error updating usage:', error);
       throw error;

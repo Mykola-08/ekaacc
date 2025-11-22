@@ -13,7 +13,7 @@ const TEST_EMAIL = 'test@example.com';
 const TEST_NAME = 'Test User';
 
 async function testTransactionalEmails() {
-  console.log('🧪 Testing Transactional Emails...\n');
+  console.log('Testing Transactional Emails...\n');
 
   // 1. Test Notification Email
   console.log('1. Testing notification email...');
@@ -120,7 +120,7 @@ async function testTransactionalEmails() {
 }
 
 async function testIntegrationEmails() {
-  console.log('🧪 Testing Integration Emails...\n');
+  console.log('Testing Integration Emails...\n');
 
   // 1. Test Booking Confirmation
   console.log('1. Testing booking confirmation...');
@@ -201,7 +201,7 @@ async function testPreview() {
 }
 
 async function main() {
-  console.log('🚀 Starting Resend Email Tests\n');
+  console.log('Starting Resend Email Tests\n');
   console.log('================================================\n');
 
   // Check environment variables

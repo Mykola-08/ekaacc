@@ -310,7 +310,7 @@ export class MockSubscriptionService implements ISubscriptionService {
     };
 
     this.usageData.set(subscriptionId, updated);
-    console.log(`📊 Updated usage for subscription ${subscriptionId}`);
+    console.log(`Updated usage for subscription ${subscriptionId}`);
   }
 
   async grantSubscription(

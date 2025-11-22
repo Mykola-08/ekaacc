@@ -29,7 +29,7 @@ export const SessionNotesEmail = ({
 }: SessionNotesEmailProps) => {
   return (
     <EmailLayout preview={`Notes from your session on ${sessionDate}`} unsubscribeUrl={unsubscribeUrl}>
-      <Heading style={h1}>📝 Session Notes</Heading>
+      <Heading style={h1}>Session Notes</Heading>
       <Text style={text}>
         Hi {userName || 'there'},
       </Text>

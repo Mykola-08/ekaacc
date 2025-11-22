@@ -10,7 +10,7 @@ interface WelcomeEmailProps {
 export const WelcomeEmail = ({ name, actionUrl }: WelcomeEmailProps) => {
   return (
     <EmailLayout preview="Welcome to EKA Account - Your Mental Health Journey Begins!">
-      <Heading style={h1}>Welcome to EKA Account, {name}! 🌟</Heading>
+      <Heading style={h1}>Welcome to EKA Account, {name}!</Heading>
       <Text style={text}>
         We're thrilled to have you join our mental health and wellness community. You've taken an important step toward better mental well-being, and we're here to support you every step of the way.
       </Text>

@@ -36,7 +36,7 @@ export const ResultEmail = ({
 }: ResultEmailProps) => {
   return (
     <EmailLayout preview={title} unsubscribeUrl={unsubscribeUrl}>
-      <Heading style={h1}>📊 {title}</Heading>
+      <Heading style={h1}>{title}</Heading>
       <Text style={text}>
         Hi {userName || 'there'},
       </Text>

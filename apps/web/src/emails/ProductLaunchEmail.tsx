@@ -35,7 +35,7 @@ export const ProductLaunchEmail = ({
 }: ProductLaunchEmailProps) => {
   return (
     <EmailLayout preview={`Introducing ${productName}`} unsubscribeUrl={unsubscribeUrl}>
-      <Heading style={h1}>🚀 Introducing {productName}</Heading>
+      <Heading style={h1}>Introducing {productName}</Heading>
       <Text style={text}>
         Hi {userName || 'there'},
       </Text>

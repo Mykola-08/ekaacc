@@ -26,28 +26,38 @@ export async function proxy(req: NextRequest) {
 	const pathname = req.nextUrl.pathname
 	const publicPaths = loadPublicPaths()
 
-	// Allow static assets and Next.js internals
-	if (pathname.startsWith('/_next') || pathname.startsWith('/static') || pathname.startsWith('/api/auth')) {
+	// Allow Next.js internals and static assets to pass through
+	if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
 		return NextResponse.next()
 	}
 
-	// Allow public paths without authentication
+	// Allow all Auth0 authentication routes to pass through
+	// (handled by @auth0/nextjs-auth0)
+	if (pathname.startsWith('/api/auth')) {
+		return NextResponse.next()
+	}
+
+	// Allow configured public paths without authentication
 	if (publicPaths.some(p => pathname === p || pathname.startsWith(p + '/'))) {
 		const res = NextResponse.next()
 		addSecurityHeaders(res)
 		return res
 	}
 
+	// Check for valid Auth0 session
 	let session = null
 	try {
 		session = await getSession(req, NextResponse.next())
 	} catch (err) {
 		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
 	}
+	
+	// Redirect to Auth0 login if no valid session
 	if (!session) {
 		return redirectToAuth0Login(req, pathname)
 	}
 
+	// Session exists, allow request to proceed
 	const res = NextResponse.next()
 	addSecurityHeaders(res)
 	return res

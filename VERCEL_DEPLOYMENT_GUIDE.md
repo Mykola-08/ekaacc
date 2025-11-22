@@ -4,6 +4,9 @@
 
 This guide covers deploying the EKA Account application to Vercel with Auth0 authentication.
 
+### Development Setup Note
+This project uses **port 9002** for local development (instead of Next.js default port 3000) to avoid conflicts with other services. This is configured in `apps/web/package.json` dev script: `next dev --turbopack -p 9002`.
+
 ### Authentication Flow
 The application uses a hybrid authentication approach:
 - **Server-side**: `@auth0/nextjs-auth0` for secure session management via edge middleware
@@ -19,7 +22,7 @@ The application uses a hybrid authentication approach:
 - `/login` - Login page with Auth0 integration
 - `/signup` - Signup page with Auth0 integration
 - `/api/auth/login` - Auth0 login initiation endpoint
-- `/api/auth/callback` - Auth0 callback handler
+- `/api/auth/callback` - Auth0 callback handler (validates returnTo for security)
 - `/api/auth/logout` - Logout endpoint
 - `/api/auth/me` - Get current user session
 

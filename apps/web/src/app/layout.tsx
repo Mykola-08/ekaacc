@@ -45,6 +45,12 @@ export default function RootLayout({
         `}} />
       </head>
       <body className={cn('antialiased font-sans')}>
+        {/* 
+          Dual Auth Provider Setup:
+          - Auth0ClientProvider: Client-side Auth0 React SDK for seamless login/signup UX
+          - AuthProvider: Supabase-based auth context for server-side session management
+          Both work together: Auth0 handles authentication, Supabase manages user data
+        */}
         <Auth0ClientProvider>
           <AuthProvider>
             <ThemeProvider

@@ -2,8 +2,11 @@ import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
 
+// Internal login page disabled; we no longer serve a local /login route.
+// Any attempt to access /login or unauthenticated protected content will redirect
+// to the external authentication domain (e.g. auth.ekabalance.com).
 const DEFAULT_PUBLIC_PATHS = [
-	'/login',
+	// '/login' intentionally omitted
 	'/signup',
 	'/privacy',
 	'/terms',
@@ -27,6 +30,11 @@ export async function proxy(req: NextRequest) {
 		return NextResponse.next()
 	}
 
+	// If explicitly requesting /login, force external redirect immediately.
+	if (pathname === '/login') {
+		return redirectToExternalAuth(req, pathname)
+	}
+
 	if (publicPaths.some(p => pathname === p || pathname.startsWith(p + '/'))) {
 		const res = NextResponse.next()
 		addSecurityHeaders(res)
@@ -40,12 +48,7 @@ export async function proxy(req: NextRequest) {
 		console.error('Auth0 edge session retrieval failed in proxy:', (err as Error)?.message)
 	}
 	if (!session) {
-		const loginUrl = req.nextUrl.clone()
-		loginUrl.pathname = '/login'
-		loginUrl.searchParams.set('returnTo', pathname)
-		const redirect = NextResponse.redirect(loginUrl)
-		addSecurityHeaders(redirect)
-		return redirect
+		return redirectToExternalAuth(req, pathname)
 	}
 
 	const res = NextResponse.next()
@@ -83,4 +86,13 @@ export function addSecurityHeaders(res: NextResponse) {
 	res.headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
 	res.headers.set('X-XSS-Protection', '0')
 	res.cookies.set({ name: 'csp-nonce', value: cspNonce, path: '/', httpOnly: true, sameSite: 'lax', secure: true, maxAge: 300 })
+}
+
+function redirectToExternalAuth(req: NextRequest, returnTo: string) {
+	const externalBase = (process.env.EXTERNAL_AUTH_BASE_URL || 'https://auth.ekabalance.com').replace(/\/$/, '')
+	const authUrl = new URL(externalBase + '/login')
+	if (returnTo) authUrl.searchParams.set('returnTo', returnTo)
+	const redirect = NextResponse.redirect(authUrl)
+	addSecurityHeaders(redirect)
+	return redirect
 }

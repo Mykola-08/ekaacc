@@ -1,6 +1,9 @@
 import { safeResend } from '@/lib/email';
 import { WelcomeEmail } from '@/emails/WelcomeEmail';
 import { render } from '@react-email/render';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger({ service: 'EmailService' });
 
 export class EmailService {
   private static fromEmail = process.env.RESEND_FROM_EMAIL || 'Ekaacc <noreply@ekaacc.com>';
@@ -11,7 +14,7 @@ export class EmailService {
 
       const client = safeResend();
       if (!client) {
-        console.warn('Resend not configured; skipping welcome email.');
+        logger.warn('Resend not configured; skipping welcome email');
         return { success: false, skipped: true, reason: 'Resend not configured' };
       }
       const data = await client.emails.send({
@@ -23,7 +26,7 @@ export class EmailService {
 
       return { success: true, data };
     } catch (error) {
-      console.error('Error sending welcome email:', error);
+      logger.error('Error sending welcome email', { error, to });
       return { success: false, error };
     }
   }
@@ -35,7 +38,7 @@ export class EmailService {
         // Placeholder for generic notification
         const client = safeResend();
         if (!client) {
-          console.warn('Resend not configured; skipping notification email.');
+          logger.warn('Resend not configured; skipping notification email');
           return { success: false, skipped: true, reason: 'Resend not configured' };
         }
         const data = await client.emails.send({
@@ -46,7 +49,7 @@ export class EmailService {
         });
         return { success: true, data };
     } catch (error) {
-        console.error('Error sending notification email:', error);
+        logger.error('Error sending notification email', { error, to, subject });
         return { success: false, error };
     }
   }

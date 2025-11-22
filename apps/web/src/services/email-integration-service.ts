@@ -1,12 +1,15 @@
 import { EmailService } from './email-service';
 import { TransactionalEmailService } from './transactional-email-service';
 import { createClient } from '@supabase/supabase-js';
+import { createLogger } from '@/lib/logger';
+
+const logger = createLogger({ service: 'EmailIntegrationService' });
 
 function getSupabase() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
   if (!url || !key) {
-    console.warn('EmailIntegrationService: Supabase credentials missing; skipping DB lookups.');
+    logger.warn('Supabase credentials missing; skipping DB lookups.');
     return null;
   }
   return createClient(url, key);
@@ -27,9 +30,9 @@ export class EmailIntegrationService {
       
       await EmailService.sendWelcomeEmail(email, name, actionUrl);
       
-      console.log(`Welcome email sent to ${email}`);
+      logger.info('Welcome email sent', { email, userId });
     } catch (error) {
-      console.error('Failed to send registration email:', error);
+      logger.error('Failed to send registration email', { error, email, userId });
     }
   }
 
@@ -74,9 +77,9 @@ export class EmailIntegrationService {
         }
       });
 
-      console.log(`Booking confirmation sent to ${user.email}`);
+      logger.info('Booking confirmation sent', { email: user.email, userId });
     } catch (error) {
-      console.error('Failed to send booking confirmation:', error);
+      logger.error('Failed to send booking confirmation', { error, userId });
     }
   }
 
@@ -111,9 +114,9 @@ export class EmailIntegrationService {
         }
       });
 
-      console.log(`Appointment reminder sent for user ${userId}`);
+      logger.info('Appointment reminder sent', { userId });
     } catch (error) {
-      console.error('Failed to send appointment reminder:', error);
+      logger.error('Failed to send appointment reminder', { error, userId });
     }
   }
 
@@ -169,9 +172,9 @@ export class EmailIntegrationService {
         });
       }
 
-      console.log(`Session notes sent for user ${userId}`);
+      logger.info('Session notes sent', { userId });
     } catch (error) {
-      console.error('Failed to send session notes:', error);
+      logger.error('Failed to send session notes', { error, userId });
     }
   }
 
@@ -209,9 +212,9 @@ export class EmailIntegrationService {
         force: true // Password resets should always be sent
       });
 
-      console.log(`Password reset email sent to ${email}`);
+      logger.info('Password reset email sent', { email });
     } catch (error) {
-      console.error('Failed to send password reset email:', error);
+      logger.error('Failed to send password reset email', { error, email });
     }
   }
 
@@ -243,9 +246,9 @@ export class EmailIntegrationService {
         }
       });
 
-      console.log(`Payment confirmation sent for user ${userId}`);
+      logger.info('Payment confirmation sent', { userId, amount: paymentDetails.amount });
     } catch (error) {
-      console.error('Failed to send payment confirmation:', error);
+      logger.error('Failed to send payment confirmation', { error, userId });
     }
   }
 
@@ -268,9 +271,9 @@ export class EmailIntegrationService {
         }
       });
 
-      console.log(`Weekly check-in sent for user ${userId}`);
+      logger.info('Weekly check-in sent', { userId });
     } catch (error) {
-      console.error('Failed to send weekly check-in:', error);
+      logger.error('Failed to send weekly check-in', { error, userId });
     }
   }
 
@@ -300,9 +303,9 @@ export class EmailIntegrationService {
         }
       });
 
-      console.log(`Assessment results sent for user ${userId}`);
+      logger.info('Assessment results sent', { userId });
     } catch (error) {
-      console.error('Failed to send assessment results:', error);
+      logger.error('Failed to send assessment results', { error, userId });
     }
   }
 }

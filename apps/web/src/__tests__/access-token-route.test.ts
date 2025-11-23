@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+ */
 import { GET } from '@/app/api/auth/access-token/route'
 import { NextRequest } from 'next/server'
 

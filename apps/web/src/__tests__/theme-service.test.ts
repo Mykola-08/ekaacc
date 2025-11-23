@@ -5,10 +5,56 @@
 
 import { getThemeService } from '../services/theme-service';
 
+// Mock Supabase client
+const mockSelect = jest.fn();
+const mockEq = jest.fn();
+const mockOrder = jest.fn();
+const mockSingle = jest.fn();
+const mockFrom = jest.fn();
+
+const mockSupabase = {
+  from: mockFrom,
+};
+
+jest.mock('@/lib/supabase', () => ({
+  supabase: mockSupabase,
+  supabaseAdmin: mockSupabase,
+}));
+
 describe('ThemeService', () => {
   let themeService: any;
 
   beforeEach(async () => {
+    // Setup mock chain
+    mockFrom.mockReturnValue({
+      select: mockSelect,
+      insert: jest.fn().mockResolvedValue({ data: [], error: null }),
+      update: jest.fn().mockResolvedValue({ data: [], error: null }),
+      delete: jest.fn().mockResolvedValue({ data: [], error: null }),
+    });
+    
+    mockSelect.mockReturnValue({
+      eq: mockEq,
+      order: mockOrder,
+      single: mockSingle,
+    });
+
+    mockEq.mockReturnValue({
+      eq: mockEq,
+      order: mockOrder,
+      single: mockSingle,
+    });
+
+    mockOrder.mockReturnValue({
+      data: [],
+      error: null,
+    });
+
+    // Default responses
+    mockSelect.mockResolvedValue({ data: [], error: null });
+    mockEq.mockResolvedValue({ data: [], error: null });
+    mockSingle.mockResolvedValue({ data: null, error: null });
+
     // Using mock data mode for testing
     process.env.NEXT_PUBLIC_USE_MOCK_DATA = 'true';
     themeService = await getThemeService();

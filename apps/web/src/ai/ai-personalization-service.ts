@@ -409,10 +409,12 @@ export class AIPersonalizationService {
       this.therapyPatternsCache.set(profile.userId, therapyPatterns);
     }
     
-    // Optimized: Extract recent moods from cached therapy patterns
+    // Optimized: Extract recent moods using slice for cleaner code
+    const recentPatterns = therapyPatterns.slice(-10); // Last 10 entries
     const recentMoods: number[] = [];
-    for (let i = Math.max(0, therapyPatterns.length - 10); i < therapyPatterns.length; i++) {
-      const mood = therapyPatterns[i].pattern.characteristics.moodLevel;
+    
+    for (const pattern of recentPatterns) {
+      const mood = pattern.pattern.characteristics.moodLevel;
       if (mood !== undefined) {
         recentMoods.push(mood);
       }

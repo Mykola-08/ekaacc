@@ -243,13 +243,15 @@ export function mapFilter<T, U>(
 /**
  * Async batch processor with concurrency control
  * Processes items in parallel but limits concurrency
+ * Collects all errors and returns successful results
  */
 export async function asyncBatch<T, R>(
   items: T[],
   processFn: (item: T) => Promise<R>,
   concurrency: number = 5
-): Promise<R[]> {
+): Promise<{ results: R[]; errors: Error[] }> {
   const results: R[] = [];
+  const errors: Error[] = [];
   const queue = [...items];
   const processing: Promise<void>[] = [];
 
@@ -263,7 +265,8 @@ export async function asyncBatch<T, R>(
         results.push(result);
       } catch (error) {
         console.error('Async batch item processing error:', error);
-        throw error;
+        errors.push(error as Error);
+        // Continue processing instead of throwing
       }
     }
   };
@@ -274,7 +277,7 @@ export async function asyncBatch<T, R>(
   }
 
   await Promise.all(processing);
-  return results;
+  return { results, errors };
 }
 
 /**

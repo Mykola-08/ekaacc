@@ -2,6 +2,13 @@
 
 A comprehensive Next.js application for mental health and wellness management with AI-powered insights, therapist booking, and personalized care.
 
+## Architecture
+
+This project is a monorepo managed with **TurboRepo**, consisting of two main applications:
+
+1.  **Marketing Site** (`apps/marketing`): The public-facing landing page.
+2.  **Web Application** (`apps/web`): The main SaaS platform (Dashboard, Auth, etc.).
+
 ## Table of Contents
 
 - [Features](#features)
@@ -143,7 +150,10 @@ npx supabase db push
 npm run dev
 ```
 
-The application will be available at [http://localhost:9002](http://localhost:9002).
+This will start all applications in parallel:
+- **Marketing Site**: [http://localhost:9003](http://localhost:9003)
+- **Web App**: [http://localhost:9002](http://localhost:9002)
+- **Booking App**: [http://localhost:9004](http://localhost:9004)
 
 ## Project Structure
 
@@ -152,6 +162,11 @@ This is a Turborepo monorepo with the following structure:
 ```
 ekaacc/
 ├── apps/
+│   ├── booking/                 # Booking microfrontend (Next.js)
+│   ├── marketing/               # Public landing page (Next.js)
+│   │   ├── src/
+│   │   │   ├── app/             # Landing page routes
+│   │   │   └── components/      # Marketing UI components
 │   └── web/                     # Main Next.js application
 │       ├── src/
 │       │   ├── app/            # Next.js App Router pages

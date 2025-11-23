@@ -1,5 +1,11 @@
 # Vercel Deployment Guide
 
+> **Note:** We have split the application into two microfrontends. Please refer to [DEPLOYMENT_ARCHITECTURE.md](./DEPLOYMENT_ARCHITECTURE.md) for the latest deployment strategy involving two separate Vercel projects.
+
+## Legacy / Single Project Deployment
+
+If you are deploying only the main web application, follow the instructions below.
+
 ## Prerequisites
 - Vercel account with project connected to GitHub repository
 - Auth0 tenant configured with production application

@@ -76,18 +76,16 @@ export function throttle<T extends (...args: any[]) => any>(
 }
 
 /**
- * Simple LRU Cache implementation
- * Useful for caching expensive computations or API calls
+ * Simple LRU Cache implementation with O(1) operations
+ * Uses Map's insertion order for efficient access tracking
  */
 export class LRUCache<K, V> {
   private maxSize: number;
   private cache: Map<K, V>;
-  private accessOrder: K[];
 
   constructor(maxSize: number = 100) {
     this.maxSize = maxSize;
     this.cache = new Map();
-    this.accessOrder = [];
   }
 
   get(key: K): V | undefined {
@@ -95,30 +93,27 @@ export class LRUCache<K, V> {
       return undefined;
     }
 
-    // Move to end (most recently used)
-    this.accessOrder = this.accessOrder.filter(k => k !== key);
-    this.accessOrder.push(key);
+    // Move to end (most recently used) - O(1) using Map's delete+set
+    const value = this.cache.get(key)!;
+    this.cache.delete(key);
+    this.cache.set(key, value);
 
-    return this.cache.get(key);
+    return value;
   }
 
   set(key: K, value: V): void {
+    // Delete existing key to update position
     if (this.cache.has(key)) {
-      // Update existing
-      this.cache.set(key, value);
-      this.accessOrder = this.accessOrder.filter(k => k !== key);
-      this.accessOrder.push(key);
-    } else {
-      // Add new
-      if (this.cache.size >= this.maxSize) {
-        // Remove least recently used
-        const lru = this.accessOrder.shift();
-        if (lru !== undefined) {
-          this.cache.delete(lru);
-        }
-      }
-      this.cache.set(key, value);
-      this.accessOrder.push(key);
+      this.cache.delete(key);
+    }
+
+    // Add to end (most recently used)
+    this.cache.set(key, value);
+
+    // Remove least recently used if over capacity
+    if (this.cache.size > this.maxSize) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
     }
   }
 
@@ -128,7 +123,6 @@ export class LRUCache<K, V> {
 
   clear(): void {
     this.cache.clear();
-    this.accessOrder = [];
   }
 
   get size(): number {

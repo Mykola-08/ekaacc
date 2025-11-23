@@ -95,6 +95,8 @@ export class AIPersonalizationService {
   private userProfiles: Map<string, AIPersonalizationProfile>;
   private profileCacheTTL: number = 15 * 60 * 1000; // 15 minutes
   private profileCacheTimestamps: Map<string, number>;
+  // Cache for filtered therapy patterns to avoid repeated filtering
+  private therapyPatternsCache: Map<string, UserBehaviorPattern[]>;
 
   getSupabaseClient(): any {
     return this.supabase;
@@ -109,6 +111,7 @@ export class AIPersonalizationService {
     this.learningModels = new Map();
     this.userProfiles = new Map();
     this.profileCacheTimestamps = new Map();
+    this.therapyPatternsCache = new Map();
   }
 
   async initializeUserProfile(userId: string): Promise<AIPersonalizationProfile> {
@@ -397,11 +400,17 @@ export class AIPersonalizationService {
   }
 
   private calculateMoodStability(profile: AIPersonalizationProfile, currentMood: number): number {
-    // Optimized: Extract recent moods in a single pass
-    const recentMoods: number[] = [];
-    const therapyPatterns = profile.behaviorPatterns.filter(p => p.patternType === 'therapy_response');
+    // Check cache first for therapy patterns
+    let therapyPatterns = this.therapyPatternsCache.get(profile.userId);
     
-    // Only take last 10 entries
+    if (!therapyPatterns) {
+      // Filter and cache therapy patterns
+      therapyPatterns = profile.behaviorPatterns.filter(p => p.patternType === 'therapy_response');
+      this.therapyPatternsCache.set(profile.userId, therapyPatterns);
+    }
+    
+    // Optimized: Extract recent moods from cached therapy patterns
+    const recentMoods: number[] = [];
     for (let i = Math.max(0, therapyPatterns.length - 10); i < therapyPatterns.length; i++) {
       const mood = therapyPatterns[i].pattern.characteristics.moodLevel;
       if (mood !== undefined) {
@@ -623,6 +632,9 @@ export class AIPersonalizationService {
     // Update cache with new timestamp
     this.userProfiles.set(profile.userId, profile);
     this.profileCacheTimestamps.set(profile.userId, Date.now());
+    
+    // Invalidate therapy patterns cache since profile changed
+    this.therapyPatternsCache.delete(profile.userId);
 
     // Save to database
     try {
@@ -837,6 +849,7 @@ export class AIPersonalizationService {
   clearUserCache(userId: string): void {
     this.userProfiles.delete(userId);
     this.profileCacheTimestamps.delete(userId);
+    this.therapyPatternsCache.delete(userId);
   }
 
   /**
@@ -846,6 +859,7 @@ export class AIPersonalizationService {
     this.userProfiles.clear();
     this.profileCacheTimestamps.clear();
     this.learningModels.clear();
+    this.therapyPatternsCache.clear();
   }
 
   /**

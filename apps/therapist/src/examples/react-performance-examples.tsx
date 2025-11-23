@@ -240,8 +240,20 @@ export function VirtualList({ items, itemHeight, containerHeight, renderItem }: 
 // Example 6: Code Splitting with React.lazy
 // ============================================================================
 
+// Placeholder for heavy component (in real app, this would be in separate file)
+const HeavyChartComponent = () => {
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc' }}>
+      <h3>Heavy Chart Component</h3>
+      <p>This would be a large charting library like Chart.js or D3</p>
+    </div>
+  );
+};
+
 // ✅ Only load heavy component when needed
-const HeavyChart = React.lazy(() => import('./HeavyChartComponent'));
+const HeavyChart = React.lazy(() => 
+  Promise.resolve({ default: HeavyChartComponent })
+);
 
 export function DashboardOptimized() {
   const [showChart, setShowChart] = useState(false);

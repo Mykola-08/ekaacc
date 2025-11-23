@@ -61,6 +61,8 @@ export class AIBackgroundMonitor {
   private monitoringIntervals: Map<string, NodeJS.Timeout>;
   private activeInsights: Map<string, BackgroundAIInsight[]>;
   private alertCallbacks: Map<string, (insight: BackgroundAIInsight) => void>;
+  private errorCounts: Map<string, number>;
+  private readonly MAX_ERROR_COUNT = 5; // Stop after 5 consecutive errors
 
   constructor() {
     this.personalizationService = new AIPersonalizationService();
@@ -70,6 +72,7 @@ export class AIBackgroundMonitor {
     this.monitoringIntervals = new Map();
     this.activeInsights = new Map();
     this.alertCallbacks = new Map();
+    this.errorCounts = new Map();
   }
 
   async initializeMonitoring(userId: string, config?: Partial<MonitoringConfig>): Promise<void> {
@@ -103,14 +106,27 @@ export class AIBackgroundMonitor {
       clearInterval(existingInterval);
     }
 
-    // Create new monitoring interval with error handling to prevent memory leaks
+    // Reset error count when starting/restarting monitoring
+    this.errorCounts.set(userId, 0);
+
+    // Create new monitoring interval with error handling and retry logic
     const interval = setInterval(async () => {
       try {
         await this.performBackgroundAnalysis(userId);
+        // Reset error count on success
+        this.errorCounts.set(userId, 0);
       } catch (error) {
-        console.error(`Critical error in monitoring for user ${userId}, stopping monitoring:`, error);
-        // Stop monitoring on critical errors to prevent memory leaks
-        this.stopMonitoring(userId);
+        const errorCount = (this.errorCounts.get(userId) || 0) + 1;
+        this.errorCounts.set(userId, errorCount);
+
+        console.error(`Error in monitoring for user ${userId} (attempt ${errorCount}/${this.MAX_ERROR_COUNT}):`, error);
+        
+        // Stop monitoring only after consecutive errors
+        if (errorCount >= this.MAX_ERROR_COUNT) {
+          console.error(`Critical: Stopping monitoring for user ${userId} after ${errorCount} consecutive errors`);
+          this.stopMonitoring(userId);
+        }
+        // Otherwise, retry on next interval
       }
     }, config.updateInterval);
 
@@ -644,6 +660,7 @@ export class AIBackgroundMonitor {
     this.userActivitySnapshots.delete(userId);
     this.activeInsights.delete(userId);
     this.alertCallbacks.delete(userId);
+    this.errorCounts.delete(userId);
     
     console.log(`AI Background Monitor stopped and cleaned up for user ${userId}`);
   }

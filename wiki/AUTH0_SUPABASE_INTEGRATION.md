@@ -15,17 +15,18 @@ User → Auth0 (Login) → JWT Token → Supabase (Database Access)
 ## Configuration Complete
 
 ### 1. Auth0 Application Created
-- **Application Name**: EKAACC Next.js App
-- **Type**: Single Page Application (SPA)
-- **Client ID**: C4ATaeg2x3LELazJY4rMmxlbsQtIpt3n
-- **Domain**: ekabalance.eu.auth0.com
+- **Application Name**: EKA Balance Web App
+- **Type**: Regular Web Application
+- **Client ID**: BxIHsLzhzXlyM6RNbavObTrYIhTgGTq2
+- **Domain**: dev-adijdczrcqg13gp8.eu.auth0.com
 
 ### 2. Callback URLs Configured
 - Development: `http://localhost:3000/api/auth/callback`
-- Production: `https://ekaacc.vercel.app/api/auth/callback`
+- Production: `https://app.ekabalance.com/api/auth/callback`
 
 ### 3. Auth0 Action Deployed
 - **Name**: Sync User to Supabase
+- **ID**: 6c80106b-7cd1-4f4f-95e9-41b5d8e370a9
 - **Trigger**: Post-Login
 - **Purpose**: Automatically syncs user data to Supabase after successful login
 
@@ -35,9 +36,9 @@ The following environment variables have been configured:
 
 ```bash
 # Auth0 Configuration
-NEXT_PUBLIC_AUTH0_DOMAIN=ekabalance.eu.auth0.com
-NEXT_PUBLIC_AUTH0_CLIENT_ID=C4ATaeg2x3LELazJY4rMmxlbsQtIpt3n
-AUTH0_CLIENT_SECRET=z6ozyNNaE-x2FdeSZpTZYlaftphg0u9Y4hZzKM-XK_SUrccUyBuYw5NNi5DH-uhV
+NEXT_PUBLIC_AUTH0_DOMAIN=dev-adijdczrcqg13gp8.eu.auth0.com
+NEXT_PUBLIC_AUTH0_CLIENT_ID=BxIHsLzhzXlyM6RNbavObTrYIhTgGTq2
+AUTH0_CLIENT_SECRET=[Redacted]
 AUTH0_AUDIENCE=https://rbnfyxhewsivofvwdpuk.supabase.co
 AUTH0_SCOPE=openid profile email
 
@@ -52,7 +53,7 @@ SUPABASE_SERVICE_ROLE_KEY=[your-key]
 You need to configure Supabase to accept Auth0 JWT tokens. Follow these steps:
 
 ### 1. Get Auth0 JWKS URI
-Your JWKS URI is: `https://ekabalance.eu.auth0.com/.well-known/jwks.json`
+Your JWKS URI is: `https://dev-adijdczrcqg13gp8.eu.auth0.com/.well-known/jwks.json`
 
 ### 2. Update Supabase JWT Settings
 
@@ -72,7 +73,7 @@ Add Auth0 as an additional JWT provider:
   "jwt_aud": "https://rbnfyxhewsivofvwdpuk.supabase.co",
   "jwt_secret": "Use RS256 verification with JWKS",
   "jwt_exp": 36000,
-  "jwks_uri": "https://ekabalance.eu.auth0.com/.well-known/jwks.json"
+  "jwks_uri": "https://dev-adijdczrcqg13gp8.eu.auth0.com/.well-known/jwks.json"
 }
 ```
 

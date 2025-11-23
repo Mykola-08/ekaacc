@@ -12,9 +12,11 @@ export async function GET(req: NextRequest, ctx: any) {
         return session
       }
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Auth0 callback error:', error)
-    // Redirect to home on error
-    return NextResponse.redirect(new URL('/', req.url))
+    return NextResponse.json(
+      { error: error.message || 'An error occurred during callback processing' },
+      { status: 500 }
+    );
   }
 }

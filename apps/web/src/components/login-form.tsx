@@ -1,6 +1,6 @@
 "use client"
 
-import { useAuth0 } from "@auth0/auth0-react"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,19 +15,15 @@ interface LoginFormProps extends React.ComponentProps<"div"> {
 }
 
 export function LoginForm({ className, enabledProviders = { google: true, x: true, linkedin: true }, ...props }: LoginFormProps) {
-  const { loginWithRedirect } = useAuth0()
+  const router = useRouter()
 
-  const handleLogin = async () => {
-    try {
-      await loginWithRedirect()
-    } catch (err) {
-      console.error('Auth0 login failed', err)
-    }
+  const handleLogin = () => {
+    router.push('/api/auth/login')
   }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden glass-premium border-white/20 dark:border-white/10">
         <CardContent className="grid p-0 md:grid-cols-2">
           <div className="p-6 md:p-8">
             <div className="flex flex-col gap-6">
@@ -56,17 +52,17 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
                 }
               )}>
                 {enabledProviders.google && (
-                  <Button variant="outline" className="w-full" type="button" onClick={() => loginWithRedirect()}>
+                  <Button variant="outline" className="w-full" type="button" onClick={handleLogin}>
                     <span className="ml-2">Google</span>
                   </Button>
                 )}
                 {enabledProviders.x && (
-                  <Button variant="outline" className="w-full" type="button" onClick={() => loginWithRedirect()}>
+                  <Button variant="outline" className="w-full" type="button" onClick={handleLogin}>
                     <span className="ml-2">X</span>
                   </Button>
                 )}
                 {enabledProviders.linkedin && (
-                  <Button variant="outline" className="w-full" type="button" onClick={() => loginWithRedirect()}>
+                  <Button variant="outline" className="w-full" type="button" onClick={handleLogin}>
                     <span className="ml-2">LinkedIn</span>
                   </Button>
                 )}

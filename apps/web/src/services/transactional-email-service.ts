@@ -52,7 +52,13 @@ export class TransactionalEmailService {
   static async send({ userId, type, subject, data, force = false }: SendOptions) {
     // 1. Fetch user email and preferences
     const supabase = getSupabase();
-    const { data: user, error: userError } = supabase
+    
+    if (!supabase) {
+        console.error('TransactionalEmailService: Supabase client not initialized');
+        return { success: false, error: 'Supabase configuration missing' };
+    }
+
+    const { data: user, error: userError } = await supabase
       .from('users') // Assuming 'users' view or table exists wrapping auth.users, or use auth.admin
       .select('email, raw_user_meta_data')
       .eq('id', userId)

@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import './globals-minimal.css';
-import './eka-theme.css';
+import './globals.css';
 import { Toaster } from 'sonner';
 import { cn } from '@/lib/utils';
 import { AuthProvider } from '@/context/auth-context';
@@ -8,6 +7,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
 import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 // Removed SPA Auth0ClientProvider in favor of server-side sessions.
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -33,37 +33,40 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="dns-prefetch" href="https://picsum.photos" />
         <link rel="dns-prefetch" href="https://i.pravatar.cc" />
-        
+
         {/* Inter font for clean, modern aesthetic */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-        <style dangerouslySetInnerHTML={{__html: `
+        <style dangerouslySetInnerHTML={{
+          __html: `
           body {
             font-family: 'Inter', system-ui, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
           }
         `}} />
       </head>
       <body className={cn('antialiased font-sans')}>
-        <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <ProgressProvider>
-              <TooltipProvider>
-                <ImpersonationWrapper>
-                  {children}
-                  <Analytics />
-                  <SpeedInsights />
-                </ImpersonationWrapper>
-                <Toaster />
-              </TooltipProvider>
-            </ProgressProvider>
-          </ThemeProvider>
-        </AuthProvider>
+        <UserProvider>
+          <AuthProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <ProgressProvider>
+                <TooltipProvider>
+                  <ImpersonationWrapper>
+                    {children}
+                    <Analytics />
+                    <SpeedInsights />
+                  </ImpersonationWrapper>
+                  <Toaster />
+                </TooltipProvider>
+              </ProgressProvider>
+            </ThemeProvider>
+          </AuthProvider>
+        </UserProvider>
       </body>
     </html>
   );

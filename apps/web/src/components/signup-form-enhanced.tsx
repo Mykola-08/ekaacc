@@ -1,21 +1,17 @@
 "use client"
 
-import { useAuth0 } from "@auth0/auth0-react"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 
-interface SignupFormProps extends React.ComponentProps<"div"> {}
+interface SignupFormProps extends React.ComponentProps<"div"> { }
 
 export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
-  const { loginWithRedirect } = useAuth0()
+  const router = useRouter()
 
-  const handleSignup = async () => {
-    try {
-      await loginWithRedirect({ authorizationParams: { screen_hint: 'signup' } })
-    } catch (err) {
-      console.error('Auth0 signup failed', err)
-    }
+  const handleSignup = () => {
+    router.push('/api/auth/login?screen_hint=signup')
   }
 
   return (

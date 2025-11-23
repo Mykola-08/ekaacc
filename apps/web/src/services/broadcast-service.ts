@@ -176,9 +176,9 @@ export class BroadcastService {
             const client = safeResend();
             if (!client) {
               console.warn('Resend not configured; skipping batch email send.');
-              return;
+              return { count: sentCount, errors: [...errors, 'Resend not configured'] };
             }
-            const { data, error } = await client.emails.batch.send(emailBatch as any);
+            const { data, error } = await client.batch.send(emailBatch as any);
             if (error) {
                 console.error('Batch send error:', error);
                 errors.push(error);

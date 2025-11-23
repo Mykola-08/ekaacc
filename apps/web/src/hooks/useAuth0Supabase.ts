@@ -1,6 +1,7 @@
 'use client'
 
-import { useAuth0 } from '@auth0/auth0-react'
+import { useUser } from '@auth0/nextjs-auth0/client'
+import { useRouter } from 'next/navigation'
 import { createSupabaseWithAuth0 } from '@/lib/supabase-auth0'
 import { useMemo } from 'react'
 
@@ -9,29 +10,40 @@ import { useMemo } from 'react'
  * Returns both Auth0 auth state and a Supabase client configured with Auth0 tokens
  */
 export function useAuth0Supabase() {
-  const auth0 = useAuth0()
+  const { user, error, isLoading } = useUser()
+  const router = useRouter()
   
-  // Create Supabase client with Auth0 token provider
+  // Create Supabase client (currently anon as we can't easily get token client-side with this SDK)
   const supabase = useMemo(() => {
     if (typeof window === 'undefined') return null
-    return createSupabaseWithAuth0(auth0 as any)
-  }, [auth0.isAuthenticated, auth0.user])
+    return createSupabaseWithAuth0({} as any)
+  }, [])
+
+  const loginWithRedirect = (options?: any) => {
+    const returnTo = options?.appState?.returnTo || window.location.pathname
+    router.push(`/api/auth/login?returnTo=${encodeURIComponent(returnTo)}`)
+  }
+
+  const logout = (options?: any) => {
+    const returnTo = options?.logoutParams?.returnTo || window.location.origin
+    router.push(`/api/auth/logout?returnTo=${encodeURIComponent(returnTo)}`)
+  }
 
   return {
     // Auth0 state
-    isAuthenticated: auth0.isAuthenticated,
-    isLoading: auth0.isLoading,
-    user: auth0.user,
-    error: auth0.error,
+    isAuthenticated: !!user,
+    isLoading,
+    user,
+    error,
     
     // Auth0 methods
-    loginWithRedirect: auth0.loginWithRedirect,
-    loginWithPopup: auth0.loginWithPopup,
-    logout: auth0.logout,
-    getAccessTokenSilently: auth0.getAccessTokenSilently,
-    getIdTokenClaims: auth0.getIdTokenClaims,
+    loginWithRedirect,
+    loginWithPopup: () => console.warn('loginWithPopup not supported in Next.js Auth0 SDK'),
+    logout,
+    getAccessTokenSilently: async () => '', // No-op for now
+    getIdTokenClaims: async () => null, // No-op for now
     
-    // Supabase client with Auth0 tokens
+    // Supabase client
     supabase,
   }
 }

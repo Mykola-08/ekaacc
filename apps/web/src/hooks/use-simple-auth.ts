@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/auth-context'
+import { useUser } from '@auth0/nextjs-auth0/client'
 
 /**
  * Simple auth hook that provides essential auth functionality
@@ -6,12 +7,52 @@ import { useAuth } from '@/context/auth-context'
  */
 export function useSimpleAuth() {
   const auth = useAuth()
+  const { user: auth0User, isLoading: isAuth0Loading } = useUser()
+
+  // Map Auth0 user to AuthUser interface if Supabase user is missing
+  const user = auth.user || (auth0User ? {
+    id: auth0User.sub || '',
+    email: auth0User.email || '',
+    name: auth0User.name || '',
+    avatarUrl: auth0User.picture || '',
+    role: {
+      id: 'default',
+      name: 'user',
+      description: 'Default user role',
+      is_active: true,
+      created_at: new Date().toISOString()
+    },
+    permissions: [],
+    profile: {
+      id: auth0User.sub || '',
+      username: auth0User.nickname || null,
+      full_name: auth0User.name || null,
+      avatar_url: auth0User.picture || null,
+      bio: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    },
+    preferences: {
+      id: 'default',
+      user_id: auth0User.sub || '',
+      theme: 'system',
+      language: 'en',
+      timezone: 'UTC',
+      email_notifications: true,
+      push_notifications: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    }
+  } as any : null)
+
+  const isLoading = auth.isLoading || isAuth0Loading
+  const isAuthenticated = auth.isAuthenticated || !!auth0User
 
   return {
     // User data
-    user: auth.user,
-    isLoading: auth.isLoading,
-    isAuthenticated: auth.isAuthenticated,
+    user,
+    isLoading,
+    isAuthenticated,
 
     // Authentication actions
     signIn: auth.signIn,
@@ -29,10 +70,10 @@ export function useSimpleAuth() {
     hasPermission: auth.hasPermission,
 
     // Check if user has admin role
-    isAdmin: auth.user?.role.name === 'admin',
+    isAdmin: user?.role?.name === 'admin',
 
     // Check if user has moderator role
-    isModerator: auth.user?.role.name === 'moderator',
+    isModerator: user?.role?.name === 'moderator',
 
     // Refresh user data
     refreshUser: auth.refreshUser,

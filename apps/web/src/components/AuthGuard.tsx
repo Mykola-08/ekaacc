@@ -1,6 +1,6 @@
 "use client"
 import { ReactNode, useEffect } from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
+import { useUser } from '@auth0/nextjs-auth0/client'
 import { useRouter } from 'next/navigation'
 
 interface AuthGuardProps {
@@ -23,17 +23,17 @@ export function AuthGuard({
   loadingFallback = <div className="p-4 text-sm">Loading session...</div>,
   unauthorizedFallback = <div className="p-4 text-sm text-red-600">Not authorized.</div>,
 }: AuthGuardProps) {
-  const { isLoading, isAuthenticated, loginWithRedirect, user, getAccessTokenSilently } = useAuth0()
+  const { user, isLoading } = useUser()
   const router = useRouter()
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      loginWithRedirect({ appState: { returnTo: window.location.pathname } })
+    if (!isLoading && !user) {
+      router.push('/api/auth/login?returnTo=' + encodeURIComponent(window.location.pathname))
     }
-  }, [isLoading, isAuthenticated, loginWithRedirect])
+  }, [isLoading, user, router])
 
   if (isLoading) return <>{loadingFallback}</>
-  if (!isAuthenticated) return <>{loadingFallback}</>
+  if (!user) return <>{loadingFallback}</>
 
   // Scope check (async fetch token if needed)
   const scopeString = (user as any)?.scope as string | undefined

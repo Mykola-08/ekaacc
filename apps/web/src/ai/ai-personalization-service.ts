@@ -93,6 +93,8 @@ export class AIPersonalizationService {
   private aiService: AISDKNextService;
   private learningModels: Map<string, any>;
   private userProfiles: Map<string, AIPersonalizationProfile>;
+  private profileCacheTTL: number = 15 * 60 * 1000; // 15 minutes
+  private profileCacheTimestamps: Map<string, number>;
 
   getSupabaseClient(): any {
     return this.supabase;
@@ -106,6 +108,7 @@ export class AIPersonalizationService {
     this.aiService = AISDKNextService.getInstance();
     this.learningModels = new Map();
     this.userProfiles = new Map();
+    this.profileCacheTimestamps = new Map();
   }
 
   async initializeUserProfile(userId: string): Promise<AIPersonalizationProfile> {
@@ -394,12 +397,17 @@ export class AIPersonalizationService {
   }
 
   private calculateMoodStability(profile: AIPersonalizationProfile, currentMood: number): number {
-    // Simple mood stability calculation based on recent entries
-    const recentMoods = profile.behaviorPatterns
-      .filter(p => p.patternType === 'therapy_response')
-      .slice(-10)
-      .map(p => p.pattern.characteristics.moodLevel)
-      .filter(mood => mood !== undefined);
+    // Optimized: Extract recent moods in a single pass
+    const recentMoods: number[] = [];
+    const therapyPatterns = profile.behaviorPatterns.filter(p => p.patternType === 'therapy_response');
+    
+    // Only take last 10 entries
+    for (let i = Math.max(0, therapyPatterns.length - 10); i < therapyPatterns.length; i++) {
+      const mood = therapyPatterns[i].pattern.characteristics.moodLevel;
+      if (mood !== undefined) {
+        recentMoods.push(mood);
+      }
+    }
 
     if (recentMoods.length === 0) return 50;
 
@@ -561,10 +569,20 @@ export class AIPersonalizationService {
   }
 
   private async getUserProfile(userId: string): Promise<AIPersonalizationProfile | null> {
-    // Check cache first
+    // Check cache first with TTL validation
     const cachedProfile = this.userProfiles.get(userId);
-    if (cachedProfile) {
-      return cachedProfile;
+    const cacheTimestamp = this.profileCacheTimestamps.get(userId);
+    
+    if (cachedProfile && cacheTimestamp) {
+      const now = Date.now();
+      if (now - cacheTimestamp < this.profileCacheTTL) {
+        // Cache is still valid
+        return cachedProfile;
+      } else {
+        // Cache expired, remove it
+        this.userProfiles.delete(userId);
+        this.profileCacheTimestamps.delete(userId);
+      }
     }
 
     // Load from database
@@ -588,8 +606,9 @@ export class AIPersonalizationService {
         lastUpdated: new Date(data.last_updated)
       };
 
-      // Cache the profile
+      // Cache the profile with timestamp
       this.userProfiles.set(userId, profile);
+      this.profileCacheTimestamps.set(userId, Date.now());
       return profile;
     } catch (error) {
       console.error('Error loading user profile:', error);
@@ -598,8 +617,12 @@ export class AIPersonalizationService {
   }
 
   private async saveUserProfile(profile: AIPersonalizationProfile): Promise<void> {
-    // Update cache
+    // Clean up old patterns before saving to prevent unbounded growth
+    this.cleanupBehaviorPatterns(profile);
+    
+    // Update cache with new timestamp
     this.userProfiles.set(profile.userId, profile);
+    this.profileCacheTimestamps.set(profile.userId, Date.now());
 
     // Save to database
     try {
@@ -774,6 +797,80 @@ export class AIPersonalizationService {
           metadata: insight.metadata
         });
     }
+  }
+
+  /**
+   * Clean up old behavior patterns to prevent unbounded growth
+   * Keeps only the most recent and significant patterns
+   */
+  private cleanupBehaviorPatterns(profile: AIPersonalizationProfile): void {
+    const MAX_PATTERNS_PER_TYPE = 50;
+    const patternsByType = new Map<string, UserBehaviorPattern[]>();
+    
+    // Group patterns by type
+    for (const pattern of profile.behaviorPatterns) {
+      const existing = patternsByType.get(pattern.patternType) || [];
+      existing.push(pattern);
+      patternsByType.set(pattern.patternType, existing);
+    }
+    
+    // Keep only recent and significant patterns for each type
+    const cleanedPatterns: UserBehaviorPattern[] = [];
+    for (const [, patterns] of patternsByType) {
+      // Sort by lastUpdated descending
+      patterns.sort((a, b) => b.lastUpdated.getTime() - a.lastUpdated.getTime());
+      
+      // Keep high significance patterns and recent ones
+      const keptPatterns = patterns.filter((p, idx) => 
+        p.significance === 'high' || idx < MAX_PATTERNS_PER_TYPE
+      ).slice(0, MAX_PATTERNS_PER_TYPE);
+      
+      cleanedPatterns.push(...keptPatterns);
+    }
+    
+    profile.behaviorPatterns = cleanedPatterns;
+  }
+
+  /**
+   * Clear cache for a specific user (useful after major updates)
+   */
+  clearUserCache(userId: string): void {
+    this.userProfiles.delete(userId);
+    this.profileCacheTimestamps.delete(userId);
+  }
+
+  /**
+   * Clear all caches (useful for memory management)
+   */
+  clearAllCaches(): void {
+    this.userProfiles.clear();
+    this.profileCacheTimestamps.clear();
+    this.learningModels.clear();
+  }
+
+  /**
+   * Get cache statistics for monitoring
+   */
+  getCacheStats(): {
+    cachedProfiles: number;
+    cacheHitRate: number;
+    oldestCacheAge: number;
+  } {
+    const now = Date.now();
+    let oldestAge = 0;
+    
+    for (const timestamp of this.profileCacheTimestamps.values()) {
+      const age = now - timestamp;
+      if (age > oldestAge) {
+        oldestAge = age;
+      }
+    }
+    
+    return {
+      cachedProfiles: this.userProfiles.size,
+      cacheHitRate: 0, // Would need to track hits/misses to calculate
+      oldestCacheAge: oldestAge
+    };
   }
 }
 

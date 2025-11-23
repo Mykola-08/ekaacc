@@ -103,9 +103,15 @@ export class AIBackgroundMonitor {
       clearInterval(existingInterval);
     }
 
-    // Create new monitoring interval
+    // Create new monitoring interval with error handling to prevent memory leaks
     const interval = setInterval(async () => {
-      await this.performBackgroundAnalysis(userId);
+      try {
+        await this.performBackgroundAnalysis(userId);
+      } catch (error) {
+        console.error(`Critical error in monitoring for user ${userId}, stopping monitoring:`, error);
+        // Stop monitoring on critical errors to prevent memory leaks
+        this.stopMonitoring(userId);
+      }
     }, config.updateInterval);
 
     this.monitoringIntervals.set(userId, interval);
@@ -201,10 +207,17 @@ export class AIBackgroundMonitor {
   }
 
   private extractMoodData(interactions: any[]): number[] {
-    return interactions
-      .filter(i => i.interaction_type === 'mood_entry')
-      .map(i => i.metadata?.moodLevel || 5)
-      .filter(mood => mood >= 1 && mood <= 10);
+    // Optimized: Single pass instead of multiple filter/map chains
+    const moodData: number[] = [];
+    for (const interaction of interactions) {
+      if (interaction.interaction_type === 'mood_entry') {
+        const mood = interaction.metadata?.moodLevel || 5;
+        if (mood >= 1 && mood <= 10) {
+          moodData.push(mood);
+        }
+      }
+    }
+    return moodData;
   }
 
   private calculateEngagementMetrics(interactions: any[]): UserActivitySnapshot['engagementMetrics'] {
@@ -626,10 +639,13 @@ export class AIBackgroundMonitor {
       this.monitoringIntervals.delete(userId);
     }
     
+    // Clean up all resources for this user to prevent memory leaks
     this.monitoringConfigs.delete(userId);
     this.userActivitySnapshots.delete(userId);
     this.activeInsights.delete(userId);
     this.alertCallbacks.delete(userId);
+    
+    console.log(`AI Background Monitor stopped and cleaned up for user ${userId}`);
   }
 
   isMonitoring(userId: string): boolean {
@@ -638,5 +654,45 @@ export class AIBackgroundMonitor {
 
   getMonitoringConfig(userId: string): MonitoringConfig | undefined {
     return this.monitoringConfigs.get(userId);
+  }
+
+  /**
+   * Cleanup all monitoring for all users (for graceful shutdown)
+   */
+  stopAllMonitoring(): void {
+    const userIds = Array.from(this.monitoringIntervals.keys());
+    for (const userId of userIds) {
+      this.stopMonitoring(userId);
+    }
+    console.log(`AI Background Monitor: All monitoring stopped, ${userIds.length} users cleaned up`);
+  }
+
+  /**
+   * Get memory usage statistics for monitoring health
+   */
+  getMemoryStats(): {
+    monitoredUsers: number;
+    totalSnapshots: number;
+    totalInsights: number;
+    averageSnapshotsPerUser: number;
+  } {
+    const monitoredUsers = this.monitoringIntervals.size;
+    let totalSnapshots = 0;
+    let totalInsights = 0;
+
+    for (const snapshots of this.userActivitySnapshots.values()) {
+      totalSnapshots += snapshots.length;
+    }
+
+    for (const insights of this.activeInsights.values()) {
+      totalInsights += insights.length;
+    }
+
+    return {
+      monitoredUsers,
+      totalSnapshots,
+      totalInsights,
+      averageSnapshotsPerUser: monitoredUsers > 0 ? totalSnapshots / monitoredUsers : 0
+    };
   }
 }

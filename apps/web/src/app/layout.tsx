@@ -12,6 +12,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 // Removed SPA Auth0ClientProvider in favor of server-side sessions.
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CookieBanner } from '@/components/layout/CookieBanner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -80,6 +81,7 @@ export default function RootLayout({
                 <TooltipProvider>
                   <ImpersonationWrapper>
                     {children}
+                    <CookieBanner />
                     <Analytics />
                     <SpeedInsights />
                   </ImpersonationWrapper>

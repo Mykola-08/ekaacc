@@ -12,7 +12,7 @@ export const GET = async (req: NextRequest) => {
       
       // Initialize handler with returnTo option
       return {
-        returnTo: returnTo || undefined,
+        returnTo: returnTo || 'http://localhost:9002/auth-dispatch',
         authorizationParams: {
           audience: process.env.AUTH0_AUDIENCE,
           scope: process.env.AUTH0_SCOPE || 'openid profile email',

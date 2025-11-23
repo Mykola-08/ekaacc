@@ -26,7 +26,8 @@ export default function HomePage() {
       if (!user.personalizationCompleted) {
         router.push('/onboarding')
       } else {
-        router.push('/dashboard')
+        // Use auth-dispatch to handle role-based routing
+        router.push('/auth-dispatch')
       }
     }
   }, [isAuthenticated, user, router])

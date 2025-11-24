@@ -212,7 +212,8 @@ Existing tests should continue to pass since we're using re-exports.
 - [x] Create index files with exports
 - [x] Create README documentation
 - [x] Create backward-compatible re-exports
-- [ ] Run `npm install` to link workspace packages
+- [x] Run `npm install` to link workspace packages
+- [x] Verify workspace packages are properly linked
 - [ ] Verify typechecking passes
 - [ ] Update import statements (gradual)
 - [ ] Remove re-export files (after imports updated)

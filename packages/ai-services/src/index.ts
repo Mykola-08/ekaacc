@@ -10,6 +10,7 @@ export { AIServiceOptimizer, aiOptimizer } from './ai-optimizer';
 export { AIWellnessCoach, wellnessCoach } from './ai-wellness-coach';
 export { AIJournalAnalyzer, journalAnalyzer } from './ai-journal-analyzer';
 export { AIMoodPredictor, moodPredictor } from './ai-mood-predictor';
+export { AILearningPathGenerator, learningPathGenerator } from './ai-learning-path-generator';
 
 // Re-export types
 export type {
@@ -38,3 +39,8 @@ export type {
   MoodTrigger,
   EarlyWarningSign
 } from './ai-mood-predictor';
+
+export type {
+  LearningPathRecommendation,
+  CourseRecommendation
+} from './ai-learning-path-generator';

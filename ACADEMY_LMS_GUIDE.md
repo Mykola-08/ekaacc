@@ -660,3 +660,28 @@ app.get('/api/academy/health', async (req, res) => {
 ## Conclusion
 
 The Academy LMS provides a comprehensive learning platform that integrates seamlessly with the existing EKA Account ecosystem. With AI-powered features, consistent design, and robust architecture, it enhances the mental health and wellness journey for users while providing valuable educational resources.
+
+## Implementation Status (Current)
+
+### Completed Features
+- **Course Catalog**: `/academy/catalog` - Browse and filter courses.
+- **Course Details**: `/academy/catalog/[courseId]` - View curriculum and enroll.
+- **Student Dashboard**: `/academy/my-courses` - Track enrolled courses and progress.
+- **Learning Environment**: `/academy/learn/[courseId]` - Sidebar navigation and lesson player.
+- **Content Types**:
+  - **Video**: Embeddable player.
+  - **Text**: Markdown rendering.
+  - **Quiz**: Interactive component with scoring.
+- **Progress Tracking**: Database-backed lesson completion.
+
+### Technical Components
+- **Service Layer**: `apps/web/src/services/academy-service.ts`
+- **Types**: `apps/web/src/types/academy.ts`
+- **Components**:
+  - `QuizComponent`: `apps/web/src/components/academy/quiz-component.tsx`
+  - `CourseCard`: `apps/web/src/components/academy/course-card.tsx`
+
+### How to Use
+1. **Enrollment**: Users can enroll in courses via the catalog.
+2. **Learning**: The learning interface supports sequential lesson progression.
+3. **Quizzes**: Add JSON content to `content_body` with `content_type='quiz'` to enable quizzes.

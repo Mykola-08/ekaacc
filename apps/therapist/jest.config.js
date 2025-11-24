@@ -12,6 +12,9 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^uncrypto$': '<rootDir>/src/__mocks__/uncrypto.js',
+    '^jose$': require.resolve('jose'),
+    '^@auth0/nextjs-auth0/edge$': '<rootDir>/src/__mocks__/auth0-edge.js',
+    '^next/server$': '<rootDir>/src/__mocks__/next-server.js',
   },
   testMatch: [
     '**/__tests__/**/*.test.ts',
@@ -21,7 +24,7 @@ const customJestConfig = {
     '!**/e2e/**',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(uncrypto|@upstash|uuid)/)',
+    'node_modules/(?!(uncrypto|@upstash|uuid|jose|@auth0)/)',
   ],
 }
 

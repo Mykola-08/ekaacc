@@ -36,6 +36,6 @@ describe('IntegrationManager', () => {
     
     const auth0Status = statuses.find((s: any) => s.id === 'auth0');
     expect(auth0Status).toBeDefined();
-    expect(auth0Status.connected).toBe(true); // Since we provided keys
+    expect(auth0Status!.connected).toBe(true); // Since we provided keys
   });
 });

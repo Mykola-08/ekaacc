@@ -517,7 +517,7 @@ export class AIBackgroundMonitor {
       };
 
       const aiInsights = await this.aiService.generateBackgroundInsights(aiContext);
-      return aiInsights.map(insight => ({
+      return aiInsights.map((insight: any) => ({
         ...insight,
         userId,
         timestamp: new Date(),
@@ -598,7 +598,7 @@ export class AIBackgroundMonitor {
       });
 
       // Store recommendations as insights
-      const recommendationInsights: BackgroundAIInsight[] = recommendations.map(rec => ({
+      const recommendationInsights: BackgroundAIInsight[] = recommendations.map((rec: any) => ({
         id: `recommendation_${Date.now()}_${Math.random()}`,
         userId,
         type: 'recommendation',

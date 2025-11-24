@@ -403,6 +403,7 @@ class AuditTrailService {
         Reception: 0,
         'Content Manager': 0,
         Marketing: 0,
+        Educator: 0,
         Accountant: 0,
         'Corporate Client': 0,
         Custom: 0

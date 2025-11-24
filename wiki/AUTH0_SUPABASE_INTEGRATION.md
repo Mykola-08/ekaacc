@@ -39,7 +39,7 @@ The following environment variables have been configured:
 NEXT_PUBLIC_AUTH0_DOMAIN=dev-adijdczrcqg13gp8.eu.auth0.com
 NEXT_PUBLIC_AUTH0_CLIENT_ID=BxIHsLzhzXlyM6RNbavObTrYIhTgGTq2
 AUTH0_CLIENT_SECRET=[Redacted]
-AUTH0_AUDIENCE=https://rbnfyxhewsivofvwdpuk.supabase.co
+AUTH0_AUDIENCE=https://api.ekabalance.com
 AUTH0_SCOPE=openid profile email
 
 # Supabase Configuration

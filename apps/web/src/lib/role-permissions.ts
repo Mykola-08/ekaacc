@@ -1,6 +1,7 @@
 export type SystemRole = 
   | 'Admin'
   | 'Therapist'
+  | 'Educator'
   | 'Reception'
   | 'Patient'
   | 'VIP Patient'
@@ -14,6 +15,7 @@ export type PermissionGroup =
   | 'user_management'
   | 'content_management'
   | 'product_management'
+  | 'academy_management'
   | 'appointment_management'
   | 'financial_management'
   | 'system_settings'
@@ -56,6 +58,7 @@ export const ROLE_HIERARCHY: Record<SystemRole, number> = {
   'Content Manager': 8,
   'Marketing': 7,
   'Accountant': 7,
+  'Educator': 6,
   'Therapist': 6,
   'Reception': 5,
   'Corporate Client': 4,
@@ -86,6 +89,14 @@ export const SYSTEM_ROLES: Record<SystemRole, RoleDefinition> = {
       { group: 'content_management', action: 'delete' },
       { group: 'content_management', action: 'publish' },
       { group: 'content_management', action: 'manage' },
+
+      // Academy Management
+      { group: 'academy_management', action: 'create' },
+      { group: 'academy_management', action: 'read' },
+      { group: 'academy_management', action: 'update' },
+      { group: 'academy_management', action: 'delete' },
+      { group: 'academy_management', action: 'publish' },
+      { group: 'academy_management', action: 'manage' },
       
       // Product Management
       { group: 'product_management', action: 'create' },
@@ -364,6 +375,29 @@ export const SYSTEM_ROLES: Record<SystemRole, RoleDefinition> = {
     isSystemRole: false,
     canBeModified: true,
     permissions: []
+  },
+  
+  Educator: {
+    name: 'Educator',
+    description: 'Educator with access to create and manage Academy courses',
+    hierarchyLevel: 6,
+    isSystemRole: true,
+    canBeModified: false,
+    permissions: [
+      // Academy Management
+      { group: 'academy_management', action: 'create' },
+      { group: 'academy_management', action: 'read' },
+      { group: 'academy_management', action: 'update', conditions: { author: 'self' } },
+      { group: 'academy_management', action: 'delete', conditions: { author: 'self' } },
+      { group: 'academy_management', action: 'publish' },
+      { group: 'academy_management', action: 'manage', conditions: { author: 'self' } },
+      
+      // Content Management - Read only for general content
+      { group: 'content_management', action: 'read' },
+      
+      // User Management - Read only
+      { group: 'user_management', action: 'read' }
+    ]
   }
 };
 

@@ -14,7 +14,9 @@ import {
   CreditCard,
   UserCircle,
   FileText,
-  Briefcase
+  Briefcase,
+  BookOpen,
+  PlusCircle
 } from "lucide-react"
 
 import { NavMain } from "@/components/navigation/sidebar-components/nav-main"
@@ -130,9 +132,49 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       ]
     }
 
+    if (user.role?.name === 'educator') {
+      return [
+        {
+          title: "Educator Dashboard",
+          url: "/educator",
+          icon: LayoutDashboard,
+          isActive: pathname === "/educator",
+        },
+        {
+          title: "My Courses",
+          url: "/educator",
+          icon: BookOpen,
+          isActive: pathname === "/educator",
+        },
+        {
+          title: "Create Course",
+          url: "/educator/courses/new",
+          icon: PlusCircle,
+          isActive: pathname === "/educator/courses/new",
+        },
+        ...baseItems
+      ]
+    }
+
     // Regular user items
     return [
       ...baseItems,
+      {
+        title: "Academy",
+        url: "/academy",
+        icon: BookOpen,
+        isActive: pathname.startsWith("/academy"),
+        items: [
+          {
+            title: "Course Catalog",
+            url: "/academy",
+          },
+          {
+            title: "My Certificates",
+            url: "/academy/certificates",
+          }
+        ]
+      },
       {
         title: "Sessions",
         url: "/sessions",

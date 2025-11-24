@@ -35,3 +35,37 @@ export interface AcademyStatistics {
   avg_rating: number;
   certificates_issued: number;
 }
+
+export interface Module {
+  id: string;
+  course_id: string;
+  title: string;
+  description?: string;
+  order_index: number;
+  is_published: boolean;
+  lessons?: Lesson[];
+}
+
+export interface Lesson {
+  id: string;
+  module_id: string;
+  title: string;
+  description?: string;
+  content_type: 'video' | 'article' | 'quiz' | 'assignment' | 'exercise';
+  content: any; // JSONB
+  duration_minutes?: number;
+  order_index: number;
+  is_required: boolean;
+  is_published: boolean;
+}
+
+export interface LessonProgress {
+  user_id: string;
+  lesson_id: string;
+  status: 'not_started' | 'in_progress' | 'completed';
+  started_at?: string;
+  completed_at?: string;
+  time_spent_seconds: number;
+  quiz_score?: number;
+  last_accessed_at: string;
+}

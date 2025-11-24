@@ -4,61 +4,63 @@
  */
 
 import { getSubscriptionService } from '../services/subscription-service';
+import { supabase } from '@/lib/supabase';
 
 // Mock Supabase client
-const mockSelect = jest.fn();
-const mockEq = jest.fn();
-const mockOrder = jest.fn();
-const mockSingle = jest.fn();
-const mockFrom = jest.fn();
-
-const mockSupabase = {
-  from: mockFrom,
-};
-
 jest.mock('@/lib/supabase', () => ({
-  supabase: mockSupabase,
-  supabaseAdmin: mockSupabase,
+  supabase: {
+    from: jest.fn(),
+  },
+  supabaseAdmin: {
+    from: jest.fn(),
+  },
 }));
 
 describe('SubscriptionService', () => {
   let subscriptionService: any;
+  
+  // Mock functions
+  const mockSelect = jest.fn();
+  const mockEq = jest.fn();
+  const mockOrder = jest.fn();
+  const mockSingle = jest.fn();
+  const mockInsert = jest.fn();
+  const mockUpdate = jest.fn();
+  const mockDelete = jest.fn();
 
   beforeEach(async () => {
+    jest.clearAllMocks();
+
     // Setup mock chain
-    mockFrom.mockReturnValue({
+    const mockChain = {
       select: mockSelect,
-      insert: jest.fn().mockResolvedValue({ data: [], error: null }),
-      update: jest.fn().mockResolvedValue({ data: [], error: null }),
-      delete: jest.fn().mockResolvedValue({ data: [], error: null }),
-    });
-    
-    mockSelect.mockReturnValue({
+      insert: mockInsert,
+      update: mockUpdate,
+      delete: mockDelete,
       eq: mockEq,
       order: mockOrder,
       single: mockSingle,
-    });
-
-    mockEq.mockReturnValue({
-      eq: mockEq,
-      order: mockOrder,
-      single: mockSingle,
-    });
-
-    mockOrder.mockReturnValue({
       data: [],
       error: null,
-    });
+      then: (resolve: any) => resolve({ data: [], error: null }),
+    };
 
+    // Configure return values to support chaining
+    (supabase.from as jest.Mock).mockReturnValue(mockChain);
+    
+    mockSelect.mockReturnValue(mockChain);
+    mockEq.mockReturnValue(mockChain);
+    mockOrder.mockReturnValue(mockChain);
+    
     // Default responses
-    mockSelect.mockResolvedValue({ data: [], error: null });
-    mockEq.mockResolvedValue({ data: [], error: null });
     mockSingle.mockResolvedValue({ data: null, error: null });
+    mockInsert.mockResolvedValue({ data: [], error: null });
+    mockUpdate.mockResolvedValue({ data: [], error: null });
+    mockDelete.mockResolvedValue({ data: [], error: null });
 
-    // Using mock data mode for testing
-    process.env.NEXT_PUBLIC_USE_MOCK_DATA = 'true';
     subscriptionService = await getSubscriptionService();
   });
+
 
   afterEach(() => {
     jest.clearAllMocks();

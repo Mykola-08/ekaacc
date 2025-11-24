@@ -29,7 +29,7 @@ You must manually configure Supabase to accept the Auth0 JWTs.
 2.  **Add Provider**:
     ```json
     {
-      "jwt_aud": "https://rbnfyxhewsivofvwdpuk.supabase.co",
+      "jwt_aud": "https://api.ekabalance.com",
       "jwt_secret": "Use RS256 verification with JWKS",
       "jwt_exp": 36000,
       "jwks_uri": "https://dev-adijdczrcqg13gp8.eu.auth0.com/.well-known/jwks.json"

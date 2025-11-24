@@ -16,6 +16,27 @@
 -- - Integration with existing user profiles
 -- =====================================================
 
+-- =====================================================
+-- CLEANUP: Drop existing objects to ensure clean setup
+-- =====================================================
+DROP VIEW IF EXISTS academy_user_dashboard;
+DROP VIEW IF EXISTS academy_course_statistics;
+
+DROP TABLE IF EXISTS academy_analytics_events CASCADE;
+DROP TABLE IF EXISTS academy_course_reviews CASCADE;
+DROP TABLE IF EXISTS academy_learning_paths CASCADE;
+DROP TABLE IF EXISTS academy_certificates CASCADE;
+DROP TABLE IF EXISTS academy_lesson_progress CASCADE;
+DROP TABLE IF EXISTS academy_enrollments CASCADE;
+DROP TABLE IF EXISTS academy_lessons CASCADE;
+DROP TABLE IF EXISTS academy_course_modules CASCADE;
+DROP TABLE IF EXISTS academy_courses CASCADE;
+
+DROP FUNCTION IF EXISTS issue_certificate;
+-- Trigger will be dropped with the table
+DROP FUNCTION IF EXISTS update_enrollment_progress;
+DROP FUNCTION IF EXISTS calculate_course_progress;
+
 -- Enable UUID extension if not already enabled
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
@@ -58,14 +79,14 @@ CREATE POLICY "Admins can manage all courses" ON academy_courses
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role IN ('Admin', 'SuperAdmin')
+      WHERE id = auth.uid() AND role = 'admin'
     )
   );
 
 -- =====================================================
--- TABLE 2: ACADEMY_MODULES
+-- TABLE 2: academy_course_modules
 -- =====================================================
-CREATE TABLE IF NOT EXISTS academy_modules (
+CREATE TABLE IF NOT EXISTS academy_course_modules (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   course_id UUID REFERENCES academy_courses(id) ON DELETE CASCADE NOT NULL,
   title VARCHAR(255) NOT NULL,
@@ -77,12 +98,12 @@ CREATE TABLE IF NOT EXISTS academy_modules (
 );
 
 -- Index for performance
-CREATE INDEX IF NOT EXISTS idx_academy_modules_course ON academy_modules(course_id, order_index);
+CREATE INDEX IF NOT EXISTS idx_academy_course_modules_course ON academy_course_modules(course_id, order_index);
 
 -- RLS Policies
-ALTER TABLE academy_modules ENABLE ROW LEVEL SECURITY;
+ALTER TABLE academy_course_modules ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Modules viewable if course is published" ON academy_modules
+CREATE POLICY "Modules viewable if course is published" ON academy_course_modules
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM academy_courses 
@@ -90,7 +111,7 @@ CREATE POLICY "Modules viewable if course is published" ON academy_modules
     )
   );
 
-CREATE POLICY "Course instructors can manage modules" ON academy_modules
+CREATE POLICY "Course instructors can manage modules" ON academy_course_modules
   FOR ALL USING (
     EXISTS (
       SELECT 1 FROM academy_courses 
@@ -103,7 +124,7 @@ CREATE POLICY "Course instructors can manage modules" ON academy_modules
 -- =====================================================
 CREATE TABLE IF NOT EXISTS academy_lessons (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  module_id UUID REFERENCES academy_modules(id) ON DELETE CASCADE NOT NULL,
+  module_id UUID REFERENCES academy_course_modules(id) ON DELETE CASCADE NOT NULL,
   title VARCHAR(255) NOT NULL,
   content_type VARCHAR(50) CHECK (content_type IN ('video', 'article', 'quiz', 'assignment', 'exercise')),
   content JSONB NOT NULL,  -- {video_url, article_text, quiz_data, etc.}
@@ -128,7 +149,7 @@ CREATE POLICY "Lessons viewable if published" ON academy_lessons
 CREATE POLICY "Module instructors can manage lessons" ON academy_lessons
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM academy_modules m
+      SELECT 1 FROM academy_course_modules m
       JOIN academy_courses c ON c.id = m.course_id
       WHERE m.id = module_id AND c.instructor_id = auth.uid()
     )
@@ -170,7 +191,7 @@ CREATE POLICY "Therapists can view patient enrollments" ON academy_enrollments
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM appointments 
-      WHERE therapist_id = auth.uid() AND user_id = academy_enrollments.user_id
+      WHERE practitioner_id = auth.uid() AND user_id = academy_enrollments.user_id
     )
   );
 
@@ -312,7 +333,7 @@ CREATE POLICY "Admins can view all events" ON academy_analytics_events
   FOR SELECT USING (
     EXISTS (
       SELECT 1 FROM profiles 
-      WHERE id = auth.uid() AND role IN ('Admin', 'SuperAdmin')
+      WHERE id = auth.uid() AND role = 'admin'
     )
   );
 
@@ -332,7 +353,7 @@ BEGIN
   SELECT COUNT(*)
   INTO total_lessons
   FROM academy_lessons l
-  JOIN academy_modules m ON m.id = l.module_id
+  JOIN academy_course_modules m ON m.id = l.module_id
   WHERE m.course_id = p_course_id AND l.is_required = true;
   
   -- Count completed lessons
@@ -340,7 +361,7 @@ BEGIN
   INTO completed_lessons
   FROM academy_lesson_progress lp
   JOIN academy_lessons l ON l.id = lp.lesson_id
-  JOIN academy_modules m ON m.id = l.module_id
+  JOIN academy_course_modules m ON m.id = l.module_id
   WHERE m.course_id = p_course_id 
     AND lp.user_id = p_user_id 
     AND lp.status = 'completed'
@@ -368,7 +389,7 @@ BEGIN
   SELECT m.course_id
   INTO v_course_id
   FROM academy_lessons l
-  JOIN academy_modules m ON m.id = l.module_id
+  JOIN academy_course_modules m ON m.id = l.module_id
   WHERE l.id = NEW.lesson_id;
   
   -- Calculate new progress
@@ -461,7 +482,7 @@ GROUP BY e.user_id;
 -- For this migration, we'll use a placeholder that can be replaced
 DO $$
 DECLARE
-  v_instructor_id UUID := '00000000-0000-0000-0000-000000000001'; -- Replace with actual instructor ID
+  v_instructor_id UUID := 'aff2159a-d312-434c-9f59-345fc2ea6281'; -- Replace with actual instructor ID
   v_course1_id UUID;
   v_course2_id UUID;
   v_course3_id UUID;
@@ -495,7 +516,7 @@ VALUES (
 RETURNING id INTO v_course1_id;
 
 -- Module 1: Introduction to Feldenkrais
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course1_id, 'Introduction to Feldenkrais', 'Understanding the foundations and principles', 1)
 RETURNING id INTO v_module_id;
 
@@ -508,7 +529,7 @@ VALUES
   (v_module_id, 'Your First Awareness Through Movement Lesson', 'exercise', '{"instructions": "Lie on your back comfortably. Notice how your body contacts the floor...", "duration": 20, "audio_guide": "https://example.com/atm1.mp3"}', 30, v_lesson_order + 3);
 
 -- Module 2: Body Awareness for Stress Relief
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course1_id, 'Body Awareness for Stress Relief', 'Using movement to reduce stress and anxiety', 2)
 RETURNING id INTO v_module_id;
 
@@ -518,10 +539,10 @@ VALUES
   (v_module_id, 'Recognizing Tension Patterns', 'video', '{"video_url": "https://example.com/tension-patterns.mp4"}', 18, v_lesson_order),
   (v_module_id, 'The Pelvic Clock Exercise', 'exercise', '{"instructions": "This fundamental Feldenkrais exercise helps release lower back tension...", "audio_guide": "https://example.com/pelvic-clock.mp3"}', 25, v_lesson_order + 1),
   (v_module_id, 'Breathing and Movement Integration', 'article', '{"text": "Conscious breathing paired with gentle movement can significantly reduce stress..."}', 15, v_lesson_order + 2),
-  (v_lesson_order + 3, 'Stress Relief Practice Check', 'quiz', '{"questions": [{"question": "How does the pelvic clock exercise help with stress?", "options": ["Strengthens muscles", "Releases lower back tension", "Burns calories", "Improves posture"], "correct": 1}]}', 10, v_lesson_order + 3);
+  (v_module_id, 'Stress Relief Practice Check', 'quiz', '{"questions": [{"question": "How does the pelvic clock exercise help with stress?", "options": ["Strengthens muscles", "Releases lower back tension", "Burns calories", "Improves posture"], "correct": 1}]}', 10, v_lesson_order + 3);
 
 -- Module 3: Movement Patterns for Emotional Regulation
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course1_id, 'Movement Patterns for Emotional Regulation', 'Exploring the connection between movement and emotions', 3)
 RETURNING id INTO v_module_id;
 
@@ -534,7 +555,7 @@ VALUES
   (v_module_id, 'Self-Compassion in Movement', 'video', '{"video_url": "https://example.com/self-compassion.mp4"}', 15, v_lesson_order + 3);
 
 -- Module 4: Integration with Daily Life
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course1_id, 'Integration with Daily Life', 'Applying Feldenkrais principles to everyday activities', 4)
 RETURNING id INTO v_module_id;
 
@@ -547,7 +568,7 @@ VALUES
   (v_module_id, 'Integration Assessment', 'quiz', '{"questions": [{"question": "What is the key to integrating Feldenkrais into daily life?", "options": ["Perfect form", "Regular awareness", "Intense practice", "Special equipment"], "correct": 1}]}', 10, v_lesson_order + 3);
 
 -- Module 5: Advanced Techniques
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course1_id, 'Advanced Techniques', 'Deepening your practice', 5)
 RETURNING id INTO v_module_id;
 
@@ -584,7 +605,7 @@ VALUES (
 RETURNING id INTO v_course2_id;
 
 -- Module 1: Introduction to Mindfulness
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course2_id, 'Introduction to Mindfulness', 'Understanding mindfulness and its benefits', 1)
 RETURNING id INTO v_module_id;
 
@@ -596,7 +617,7 @@ VALUES
   (v_module_id, 'Knowledge Check', 'quiz', '{"questions": [{"question": "What is mindfulness?", "options": ["Emptying the mind", "Present moment awareness", "Positive thinking", "Relaxation"], "correct": 1}]}', 5, 4);
 
 -- Module 2: Breathing and Relaxation
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course2_id, 'Breathing and Relaxation', 'Master breathing techniques for stress relief', 2)
 RETURNING id INTO v_module_id;
 
@@ -608,7 +629,7 @@ VALUES
   (v_module_id, 'Progressive Muscle Relaxation', 'exercise', '{"instructions": "Systematically tense and release muscle groups..."}', 20, 4);
 
 -- Module 3: Daily Mindfulness Practices
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course2_id, 'Daily Mindfulness Practices', 'Incorporating mindfulness into everyday life', 3)
 RETURNING id INTO v_module_id;
 
@@ -620,7 +641,7 @@ VALUES
   (v_module_id, 'Mindful Communication', 'article', '{"text": "Applying mindfulness to conversations and relationships..."}', 15, 4);
 
 -- Module 4: Stress Management Strategies
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course2_id, 'Stress Management Strategies', 'Comprehensive approaches to managing stress', 4)
 RETURNING id INTO v_module_id;
 
@@ -656,7 +677,7 @@ VALUES (
 RETURNING id INTO v_course3_id;
 
 -- Module 1: Understanding Thoughts and Emotions
-INSERT INTO academy_modules (course_id, title, description, order_index)
+INSERT INTO academy_course_modules (course_id, title, description, order_index)
 VALUES (v_course3_id, 'Understanding Thoughts and Emotions', 'The CBT model and thought-emotion connection', 1)
 RETURNING id INTO v_module_id;
 

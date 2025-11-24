@@ -571,7 +571,7 @@ export class AIJournalAnalyzer {
     // Aggregate themes
     const themeMap = new Map<string, { frequency: number; sentiment: number }>();
     analyses.forEach(a => {
-      a.themes.forEach(theme => {
+      a.themes.forEach((theme: any) => {
         const existing = themeMap.get(theme.theme);
         if (existing) {
           existing.frequency += theme.frequency;
@@ -596,7 +596,7 @@ export class AIJournalAnalyzer {
     // Common distortions
     const distortionMap = new Map<string, number>();
     analyses.forEach(a => {
-      a.cognitiveDistortions.forEach(d => {
+      a.cognitiveDistortions.forEach((d: any) => {
         distortionMap.set(d.type, (distortionMap.get(d.type) || 0) + 1);
       });
     });

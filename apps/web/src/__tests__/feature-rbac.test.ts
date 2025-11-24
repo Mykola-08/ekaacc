@@ -101,10 +101,35 @@ describe('Feature & RBAC System', () => {
 
     it('should update user role', async () => {
       mockSupabase.auth.admin.updateUserById.mockResolvedValue({ data: { id: '1' }, error: null });
+      
+      // Mock for user_roles query
+      const mockSingle = jest.fn().mockResolvedValue({ data: { id: 'role-1' }, error: null });
+      const mockIlike = { single: mockSingle };
+      const mockSelect = { ilike: jest.fn().mockReturnValue(mockIlike) };
+      
+      // Mock for user_role_assignments upsert
+      const mockUpsert = jest.fn().mockResolvedValue({ error: null });
+      
+      mockSupabase.from.mockImplementation((table: string) => {
+        if (table === 'user_roles') {
+          return { select: jest.fn().mockReturnValue(mockSelect) };
+        }
+        if (table === 'user_role_assignments') {
+          return { upsert: mockUpsert };
+        }
+        return { select: jest.fn(), upsert: jest.fn() };
+      });
 
       await adminService.updateUserRole('user-123', 'Admin');
 
       expect(mockSupabase.auth.admin.updateUserById).toHaveBeenCalledWith('user-123', { user_metadata: { role: 'Admin' } });
+      expect(mockSupabase.from).toHaveBeenCalledWith('user_roles');
+      expect(mockSelect.ilike).toHaveBeenCalledWith('name', 'Admin');
+      expect(mockSupabase.from).toHaveBeenCalledWith('user_role_assignments');
+      expect(mockUpsert).toHaveBeenCalledWith(
+        { user_id: 'user-123', role_id: 'role-1' },
+        { onConflict: 'user_id' }
+      );
     });
 
     it('should create feature', async () => {

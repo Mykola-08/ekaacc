@@ -4,10 +4,10 @@ export class AdminService {
   private supabaseAdmin: any;
 
   constructor() {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
     
-    if (!supabaseServiceKey) {
+    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
         console.warn('AdminService: SUPABASE_SERVICE_ROLE_KEY is not set. Admin operations will fail.');
     }
 
@@ -40,15 +40,48 @@ export class AdminService {
   /**
    * Update user role
    */
-  async updateUserRole(userId: string, role: string) {
+  async updateUserRole(userId: string, roleName: string) {
     try {
-      const { data, error } = await this.supabaseAdmin.auth.admin.updateUserById(
+      // 1. Update Auth Metadata
+      const { error: authError } = await this.supabaseAdmin.auth.admin.updateUserById(
         userId,
-        { user_metadata: { role } }
+        { user_metadata: { role: roleName } }
       );
+      if (authError) throw authError;
 
-      if (error) throw error;
-      return data;
+      // 2. Get Role ID (case-insensitive search)
+      let { data: roleData, error: roleError } = await this.supabaseAdmin
+        .from('user_roles')
+        .select('id')
+        .ilike('name', roleName)
+        .single();
+
+      // If role doesn't exist, create it (for new system roles like Educator)
+      if (!roleData) {
+        const { data: newRole, error: createError } = await this.supabaseAdmin
+          .from('user_roles')
+          .insert({ 
+            name: roleName.charAt(0).toUpperCase() + roleName.slice(1).toLowerCase(), // Capitalize
+            description: `System role for ${roleName}`
+          })
+          .select('id')
+          .single();
+        
+        if (createError) throw createError;
+        roleData = newRole;
+      }
+
+      // 3. Update assignment
+      const { error: assignError } = await this.supabaseAdmin
+        .from('user_role_assignments')
+        .upsert({ 
+            user_id: userId, 
+            role_id: roleData.id 
+        }, { onConflict: 'user_id' });
+
+      if (assignError) throw assignError;
+
+      return { success: true };
     } catch (error) {
       console.error('Error updating user role:', error);
       throw error;

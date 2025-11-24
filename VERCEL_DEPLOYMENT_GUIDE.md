@@ -52,7 +52,7 @@ AUTH0_BASE_URL=https://your-production-domain.vercel.app
 AUTH0_ISSUER_BASE_URL=https://ekabalance.eu.auth0.com
 
 # Auth0 API Configuration
-AUTH0_AUDIENCE=https://your-supabase-project.supabase.co
+AUTH0_AUDIENCE=https://api.ekabalance.com
 AUTH0_SCOPE=openid profile email
 ```
 

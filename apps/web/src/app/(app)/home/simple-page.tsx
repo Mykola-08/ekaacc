@@ -16,6 +16,7 @@ export default function SimplePatientDashboard() {
     { label: 'View Progress', href: '/progress', icon: TrendingUp },
     { label: 'Set Goals', href: '/goals', icon: Target },
     { label: 'Messages', href: '/messages', icon: MessageSquare },
+    { label: 'Academy', href: '/academy', icon: BookOpen },
   ]
 
   const stats = [

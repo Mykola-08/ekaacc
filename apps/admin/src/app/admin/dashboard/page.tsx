@@ -17,7 +17,8 @@ import {
   TrendingUp,
   AlertTriangle,
   MessageSquare,
-  CheckCircle
+  CheckCircle,
+  BookOpen
 } from 'lucide-react'
 import { EnhancedUserManagement } from '@/components/admin/enhanced-user-management'
 import { AnalyticsDashboard } from '@/components/admin/analytics-dashboard'
@@ -25,6 +26,8 @@ import { AuditLogViewer } from '@/components/admin/audit-log-viewer'
 import { SystemConfiguration } from '@/components/admin/system-configuration'
 import { UserImpersonationDialog } from '@/components/admin/user-impersonation'
 import { AdminNotificationSystem } from '@/components/admin/admin-notification-system'
+import { AcademyAdminPanel } from '@/components/academy/admin-panel'
+import { getAcademyStatistics, AcademyStatistics } from '@/lib/academy/admin'
 import { useAuth } from '@/context/auth-context'
 import { useRouter } from 'next/navigation'
 import { PageContainer } from '@/components/eka/page-container'
@@ -36,6 +39,15 @@ export default function AdminDashboard() {
   const router = useRouter()
   const [activeTab, setActiveTab] = useState('overview')
   const [showImpersonationDialog, setShowImpersonationDialog] = useState(false)
+  const [academyStats, setAcademyStats] = useState<AcademyStatistics | null>(null)
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const stats = await getAcademyStatistics()
+      setAcademyStats(stats)
+    }
+    fetchStats()
+  }, [])
 
   // Check if user has admin access
   useEffect(() => {
@@ -99,7 +111,7 @@ export default function AdminDashboard() {
       />
       <SurfacePanel className="space-y-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-2 md:grid-cols-6 gap-2">
+          <TabsList className="grid grid-cols-2 md:grid-cols-7 gap-2">
             <TabsTrigger value="overview" className="flex items-center gap-2">
               <BarChart3 className="h-4 w-4" />
               Overview
@@ -123,6 +135,10 @@ export default function AdminDashboard() {
           <TabsTrigger value="notifications" className="flex items-center gap-2">
             <MessageSquare className="h-4 w-4" />
             Notifications
+          </TabsTrigger>
+          <TabsTrigger value="academy" className="flex items-center gap-2">
+            <BookOpen className="h-4 w-4" />
+            Academy
           </TabsTrigger>
           </TabsList>
 
@@ -281,6 +297,14 @@ export default function AdminDashboard() {
 
           <TabsContent value="notifications" className="space-y-6">
             <AdminNotificationSystem />
+          </TabsContent>
+
+          <TabsContent value="academy" className="space-y-6">
+            {academyStats ? (
+              <AcademyAdminPanel statistics={academyStats} />
+            ) : (
+              <div>Loading Academy Statistics...</div>
+            )}
           </TabsContent>
         </Tabs>
       </SurfacePanel>

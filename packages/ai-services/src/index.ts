@@ -1,12 +1,15 @@
 /**
  * @ekaacc/ai-services
  * 
- * Shared AI services for personalization and background monitoring.
+ * Shared AI services for personalization, monitoring, and wellness features.
  */
 
 export { AIPersonalizationService } from './ai-personalization-service';
 export { AIBackgroundMonitor } from './ai-background-monitor';
 export { AIServiceOptimizer, aiOptimizer } from './ai-optimizer';
+export { AIWellnessCoach, wellnessCoach } from './ai-wellness-coach';
+export { AIJournalAnalyzer, journalAnalyzer } from './ai-journal-analyzer';
+export { AIMoodPredictor, moodPredictor } from './ai-mood-predictor';
 
 // Re-export types
 export type {
@@ -14,3 +17,24 @@ export type {
   CachedResponse,
   OptimizedModelSelection
 } from './ai-optimizer';
+
+export type {
+  WellnessMetrics,
+  WellnessRecommendation,
+  CheckInMessage
+} from './ai-wellness-coach';
+
+export type {
+  JournalSentiment,
+  JournalTheme,
+  CognitiveDistortion,
+  JournalInsight,
+  JournalAnalysis
+} from './ai-journal-analyzer';
+
+export type {
+  MoodPattern,
+  MoodPrediction,
+  MoodTrigger,
+  EarlyWarningSign
+} from './ai-mood-predictor';

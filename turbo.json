@@ -39,7 +39,7 @@
     "format:check": {},
     "typecheck": {},
     "test": {
-      "dependsOn": ["build"],
+      "dependsOn": [],
       "outputs": ["apps/web/coverage/**"]
     },
     "test:watch": {},

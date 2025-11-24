@@ -1,19 +1,18 @@
-import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 import { getSession } from '@auth0/nextjs-auth0/edge'
+import { createClient } from '@/lib/supabase-middleware'
 
-// Internal login page disabled; we no longer serve a local /login route.
-// Any attempt to access /login or unauthenticated protected content will redirect
-// to the external authentication domain (e.g. auth.ekabalance.com).
 const DEFAULT_PUBLIC_PATHS = [
-	// '/login' intentionally omitted
 	'/signup',
 	'/privacy',
 	'/terms',
 	'/cookies',
 	'/unsubscribe',
 	'/manifest.json',
-	'/favicon.ico'
+	'/favicon.ico',
+    '/api/status',
+    '/status'
 ]
 
 function loadPublicPaths(): string[] {
@@ -22,36 +21,67 @@ function loadPublicPaths(): string[] {
 	return [...new Set([...DEFAULT_PUBLIC_PATHS, ...envList.split(',').map(p => p.trim()).filter(Boolean)])]
 }
 
-export async function proxy(req: NextRequest) {
-	const pathname = req.nextUrl.pathname
-	const publicPaths = loadPublicPaths()
+export async function proxy(request: NextRequest) {
+  const hostname = request.headers.get('host') || ''
+  const { pathname } = request.nextUrl
 
-	if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
-		return NextResponse.next()
-	}
+  // 1. Handle Status Subdomain
+  if (hostname === 'status.ekabalance.com' || hostname.startsWith('status.localhost')) {
+    // Allow API requests to pass through
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.next()
+    }
+    
+    // Allow static files to pass through
+    if (pathname.startsWith('/_next') || pathname.startsWith('/static') || pathname.includes('.')) {
+      return NextResponse.next()
+    }
 
-	const isPublic = publicPaths.some(p => pathname.startsWith(p))
-	if (isPublic) {
-		return NextResponse.next()
-	}
+    // Rewrite root to /status
+    if (pathname === '/') {
+      return NextResponse.rewrite(new URL('/status', request.url))
+    }
+    
+    // Rewrite any other path to /status (SPA behavior)
+    return NextResponse.rewrite(new URL('/status', request.url))
+  }
 
-	const res = NextResponse.next()
-	const session = await getSession(req, res)
+  // 2. Handle Supabase Auth (Refresh Session)
+  // We do this first to ensure cookies are set on the response we build up
+  let { response } = createClient(request)
 
-	if (!session?.user) {
-		return redirectToAuth0Login(req)
-	}
+  // 3. Handle Auth0 Protection
+  const publicPaths = loadPublicPaths()
+  if (pathname.startsWith('/_next') || pathname.startsWith('/static')) {
+    return response
+  }
 
-	return res
-}
+  const isPublic = publicPaths.some(p => pathname.startsWith(p))
+  if (isPublic) {
+    return response
+  }
 
-function redirectToAuth0Login(req: NextRequest) {
-    const returnTo = req.nextUrl.pathname + req.nextUrl.search;
-    const loginUrl = new URL('/api/auth/login', req.url);
-    loginUrl.searchParams.set('returnTo', returnTo);
-    return NextResponse.redirect(loginUrl);
+  // Check Auth0 Session
+  const session = await getSession(request, response)
+
+  if (!session?.user) {
+     const returnTo = request.nextUrl.pathname + request.nextUrl.search;
+     const loginUrl = new URL('/api/auth/login', request.url);
+     loginUrl.searchParams.set('returnTo', returnTo);
+     return NextResponse.redirect(loginUrl);
+  }
+
+  return response
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico).*)'],
-};
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
+}

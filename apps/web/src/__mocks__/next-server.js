@@ -1,5 +1,10 @@
 const next = jest.fn(() => ({
-  headers: new Headers(),
+  headers: new Headers({ 'x-middleware-next': '1' }),
+  cookies: { set: jest.fn() },
+}));
+
+const rewrite = jest.fn((url) => ({
+  headers: new Headers({ 'x-middleware-rewrite': url.toString() }),
   cookies: { set: jest.fn() },
 }));
 
@@ -32,6 +37,7 @@ class NextRequest {
 module.exports = {
   NextResponse: {
     next,
+    rewrite,
     redirect,
   },
   NextRequest,

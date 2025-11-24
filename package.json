@@ -2,7 +2,14 @@
   "name": "ekaacc-monorepo",
   "private": true,
   "workspaces": [
-    "apps/*",
+    "apps/academy",
+    "apps/admin",
+    "apps/api",
+    "apps/booking",
+    "apps/legal",
+    "apps/marketing",
+    "apps/therapist",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {

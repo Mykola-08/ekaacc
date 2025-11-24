@@ -97,4 +97,4 @@ dist/
 .sentryclirc
 
 # Turbo
-.turbo
+.turbopackages/*/node_modules/

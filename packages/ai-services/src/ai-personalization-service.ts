@@ -1,5 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
-import { AISDKNextService } from './ai-sdk-next-service';
+
+// Type definition for AISDKNextService (to avoid hard dependency)
+interface IAISDKNextService {
+  getInstance(): any;
+  generateBackgroundInsights(context: any): Promise<any[]>;
+  generateProactiveRecommendations(context: any): Promise<any[]>;
+}
 
 interface UserInteraction {
   id: string;
@@ -90,7 +96,7 @@ interface PersonalizationRequest {
 
 export class AIPersonalizationService {
   private supabase: any;
-  private aiService: AISDKNextService;
+  private aiService: any;
   private learningModels: Map<string, any>;
   private userProfiles: Map<string, AIPersonalizationProfile>;
   private profileCacheTTL: number = 15 * 60 * 1000; // 15 minutes
@@ -102,12 +108,12 @@ export class AIPersonalizationService {
     return this.supabase;
   }
 
-  constructor() {
+  constructor(aiService?: any) {
     this.supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
     );
-    this.aiService = AISDKNextService.getInstance();
+    this.aiService = aiService;
     this.learningModels = new Map();
     this.userProfiles = new Map();
     this.profileCacheTimestamps = new Map();

@@ -1,5 +1,15 @@
 /**
  * Re-export AI personalization service from shared package
- * @deprecated Import directly from '@ekaacc/ai-services' instead
+ * This wrapper ensures proper dependency injection for AISDKNextService
  */
-export { AIPersonalizationService } from '@ekaacc/ai-services';
+import { AIPersonalizationService as BaseAIPersonalizationService } from '@ekaacc/ai-services';
+import { AISDKNextService } from './ai-sdk-next-service';
+
+export class AIPersonalizationService extends BaseAIPersonalizationService {
+  constructor() {
+    super(AISDKNextService.getInstance());
+  }
+}
+
+// For direct import compatibility
+export { AIPersonalizationService as default };

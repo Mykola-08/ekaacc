@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useMemo, useCallback, memo } from 'react';
-import { debounce, LRUCache, PerformanceTracker } from '@/lib/performance-utils';
+import { debounce, LRUCache, PerformanceTracker } from '@ekaacc/performance-utils';
 
 // ============================================================================
 // Example 1: Memoized Component to Prevent Unnecessary Re-renders

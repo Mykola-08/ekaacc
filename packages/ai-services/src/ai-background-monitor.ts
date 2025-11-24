@@ -1,5 +1,10 @@
 import { AIPersonalizationService } from './ai-personalization-service';
-import { AISDKNextService } from './ai-sdk-next-service';
+
+// Type definition for AISDKNextService (to avoid hard dependency)
+interface IAISDKNextService {
+  generateBackgroundInsights(context: any): Promise<any[]>;
+  generateProactiveRecommendations(context: any): Promise<any[]>;
+}
 
 interface MonitoringConfig {
   enabled: boolean;
@@ -55,7 +60,7 @@ interface UserActivitySnapshot {
 
 export class AIBackgroundMonitor {
   private personalizationService: AIPersonalizationService;
-  private aiService: AISDKNextService;
+  private aiService: any;
   private monitoringConfigs: Map<string, MonitoringConfig>;
   private userActivitySnapshots: Map<string, UserActivitySnapshot[]>;
   private monitoringIntervals: Map<string, NodeJS.Timeout>;
@@ -64,9 +69,9 @@ export class AIBackgroundMonitor {
   private errorCounts: Map<string, number>;
   private readonly MAX_ERROR_COUNT = 5; // Stop after 5 consecutive errors
 
-  constructor() {
-    this.personalizationService = new AIPersonalizationService();
-    this.aiService = AISDKNextService.getInstance();
+  constructor(aiService?: any, personalizationService?: AIPersonalizationService) {
+    this.personalizationService = personalizationService || new AIPersonalizationService(aiService);
+    this.aiService = aiService;
     this.monitoringConfigs = new Map();
     this.userActivitySnapshots = new Map();
     this.monitoringIntervals = new Map();

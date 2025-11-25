@@ -10,6 +10,7 @@
     "apps/marketing",
     "apps/therapist",
     "apps/web",
+    "apps/auth",
     "packages/*"
   ],
   "scripts": {

@@ -184,6 +184,14 @@ export default function CookiesPage() {
               <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}
               </div>
+              {(section as any).id === 'control-cookies' && (
+                <button
+                  onClick={() => window.dispatchEvent(new Event('open-cookie-settings'))}
+                  className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors text-sm font-medium"
+                >
+                  Open Cookie Preferences
+                </button>
+              )}
             </section>
           ))}
         </div>

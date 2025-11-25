@@ -24,6 +24,18 @@ export default function CookieConsent() {
     }
   }, [isLoading, status]);
 
+  // Listen for custom event to open settings
+  useEffect(() => {
+    const handleOpenSettings = () => {
+      setIsVisible(true);
+      setIsReopenVisible(false);
+      setShowDetails(true); // Open directly to details view
+    };
+    
+    window.addEventListener('open-cookie-settings', handleOpenSettings);
+    return () => window.removeEventListener('open-cookie-settings', handleOpenSettings);
+  }, []);
+
   // Update temp preferences when loaded
   useEffect(() => {
     setTempPreferences(preferences);

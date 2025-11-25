@@ -10,7 +10,7 @@ param(
     [switch]$Production = $false
 )
 
-$apps = @('web', 'api', 'booking', 'admin', 'marketing', 'legal', 'therapist', 'docs')
+$apps = @('web', 'api', 'booking', 'admin', 'marketing', 'legal', 'therapist', 'docs', 'auth')
 
 # Mapping of app names to Vercel project names
 # Assumes project names are ekaacc-1-$appName
@@ -24,6 +24,7 @@ $projectMapping = @{
     "legal" = "ekaacc-1-legal"
     "therapist" = "ekaacc-1-therapist"
     "docs" = "ekaacc-1-docs"
+    "auth" = "ekaacc-1-auth"
 }
 
 function Deploy-App {

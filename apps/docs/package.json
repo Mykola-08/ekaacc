@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@zod/core": "^0.9.0",
     "next": "^16.0.3",
     "nextra": "^4.6.0",
     "nextra-theme-docs": "^4.6.0",

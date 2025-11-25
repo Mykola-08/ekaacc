@@ -86,7 +86,7 @@ const initialFormState: ProductFormState = {
 
 export default function ProductsManagementPage() {
   const { toast } = useToast();
-  const { canAccessResource } = useAuth();
+  useAuth(); // Ensure authentication
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -534,7 +534,7 @@ export default function ProductsManagementPage() {
               </div>
               <div>
                 <Label htmlFor="type">Type</Label>
-                <Select value={formData.type} onValueChange={(value: any) => setFormData({ ...formData, type: value })}>
+                <Select value={formData.type} onValueChange={(value: ProductType) => setFormData({ ...formData, type: value })}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="service">Service</SelectItem>
@@ -548,7 +548,7 @@ export default function ProductsManagementPage() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label htmlFor="availability">Availability</Label>
-                <Select value={formData.availability} onValueChange={(value: any) => setFormData({ ...formData, availability: value })}>
+                <Select value={formData.availability} onValueChange={(value: ProductAvailability) => setFormData({ ...formData, availability: value })}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="active">Active (Public)</SelectItem>

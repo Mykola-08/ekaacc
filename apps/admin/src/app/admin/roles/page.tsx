@@ -186,7 +186,7 @@ const initialFormState = {
 
 export default function RolesManagementPage() {
   const { toast } = useToast();
-  const { user, canAccessResource } = useAuth();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('roles');
   const [roles, setRoles] = useState<Role[]>([]);
   const [permissions] = useState<Permission[]>(defaultPermissions);

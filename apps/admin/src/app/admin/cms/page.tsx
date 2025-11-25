@@ -78,7 +78,7 @@ interface CMSCategory {
 
 export default function CMSManagementPage() {
   const { toast } = useToast();
-  const { user, canAccessResource } = useAuth();
+  const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('pages');
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');

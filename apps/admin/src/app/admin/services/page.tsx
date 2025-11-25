@@ -47,11 +47,25 @@ interface Service {
   updatedAt: string;
 }
 
-const categories = ['Core', 'Personalized', '360° Component', 'Workshop', 'Wellness'];
+const categories = ['Core', 'Personalized', '360° Component', 'Workshop', 'Wellness'] as const;
+type ServiceCategory = typeof categories[number];
 
-const initialFormState = {
+interface ServiceFormState {
+  name: string;
+  category: ServiceCategory;
+  descriptionShort: string;
+  descriptionLong: string;
+  durationMinutes: number;
+  priceEUR: number;
+  benefits: string;
+  tags: string;
+  active: boolean;
+  featured: boolean;
+}
+
+const initialFormState: ServiceFormState = {
   name: '',
-  category: 'Core' as const,
+  category: 'Core',
   descriptionShort: '',
   descriptionLong: '',
   durationMinutes: 60,
@@ -70,7 +84,7 @@ export default function ServicesManagementPage() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [showDialog, setShowDialog] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState<ServiceFormState>(initialFormState);
   const [isSaving, setIsSaving] = useState(false);
 
   const loadServices = useCallback(async () => {
@@ -491,7 +505,7 @@ export default function ServicesManagementPage() {
                             setSelectedService(service);
                             setFormData({
                               name: service.name,
-                              category: service.category as any,
+                              category: service.category as ServiceCategory,
                               descriptionShort: service.descriptionShort,
                               descriptionLong: service.descriptionLong,
                               durationMinutes: service.durationMinutes,
@@ -536,7 +550,7 @@ export default function ServicesManagementPage() {
               </div>
               <div>
                 <Label htmlFor="category">Category</Label>
-                <Select value={formData.category} onValueChange={(value: any) => setFormData({ ...formData, category: value })}>
+                <Select value={formData.category} onValueChange={(value: ServiceCategory) => setFormData({ ...formData, category: value })}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {categories.map(cat => (

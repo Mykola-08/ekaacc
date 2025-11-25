@@ -44,6 +44,9 @@ interface RecordData {
   [key: string]: any;
 }
 
+// Constants for display formatting
+const MAX_CELL_LENGTH = 50;
+
 const availableTables = [
   { name: 'users', displayName: 'Users', description: 'User accounts and profiles' },
   { name: 'sessions', displayName: 'Sessions', description: 'Therapy sessions' },
@@ -232,8 +235,8 @@ export default function DatabaseManagementPage() {
   const formatCellValue = (value: any): string => {
     if (value === null || value === undefined) return '-';
     if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-    if (typeof value === 'object') return JSON.stringify(value).slice(0, 50) + '...';
-    if (typeof value === 'string' && value.length > 50) return value.slice(0, 50) + '...';
+    if (typeof value === 'object') return JSON.stringify(value).slice(0, MAX_CELL_LENGTH) + '...';
+    if (typeof value === 'string' && value.length > MAX_CELL_LENGTH) return value.slice(0, MAX_CELL_LENGTH) + '...';
     return String(value);
   };
 

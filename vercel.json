@@ -1,13 +1,5 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "turbo run build --filter=web",
-  "devCommand": "turbo run dev --filter=web",
-  "installCommand": "npm install",
-  "outputDirectory": "apps/web/.next",
-  "crons": [
-    {
-      "path": "/api/cron",
-      "schedule": "0 0 * * *"
-    }
-  ]
+  "buildCommand": "turbo run build --filter=admin",
+  "outputDirectory": "apps/admin/.next",
+  "framework": "nextjs"
 }

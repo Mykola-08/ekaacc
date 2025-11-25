@@ -3,7 +3,8 @@
   "framework": "nextjs",
   "buildCommand": "npx turbo run build --filter=api",
   "devCommand": "npx turbo run dev --filter=api",
-  "installCommand": "npm install",
+  "installCommand": "npm install --prefix ../.. --legacy-peer-deps",
+  "outputDirectory": ".next",
   "regions": ["iad1"],
   "headers": [
     {

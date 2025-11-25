@@ -1,7 +1,8 @@
 {
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npx turbo run build --filter=web",
+  "devCommand": "npx turbo run dev --filter=web",
+  "installCommand": "npm install --prefix ../.. --legacy-peer-deps",
+  "outputDirectory": ".next",
   "framework": "nextjs",
   "headers": [
     {

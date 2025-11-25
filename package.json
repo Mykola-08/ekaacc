@@ -2,10 +2,10 @@
   "name": "ekaacc-monorepo",
   "private": true,
   "workspaces": [
-    "apps/academy",
     "apps/admin",
     "apps/api",
     "apps/booking",
+    "apps/docs",
     "apps/legal",
     "apps/marketing",
     "apps/therapist",

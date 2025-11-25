@@ -1,11 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, CreditCard } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, CreditCard, FileText, Briefcase, HardDrive } from 'lucide-react';
 import { PageContainer } from '@/components/eka/page-container';
 import { SurfacePanel } from '@/components/eka/surface-panel';
 import { AuthGuard } from '@/components/AuthGuard';
@@ -13,8 +12,11 @@ import { AuthGuard } from '@/components/AuthGuard';
 const navItems = [
 	{ href: '/admin', label: 'Dashboard', icon: BarChart3 },
 	{ href: '/admin/users', label: 'Users', icon: Users },
+	{ href: '/admin/cms', label: 'CMS', icon: FileText },
+	{ href: '/admin/services', label: 'Services', icon: Briefcase },
 	{ href: '/admin/subscriptions', label: 'Subscriptions', icon: DollarSign },
 	{ href: '/admin/payments', label: 'Payments', icon: CreditCard },
+	{ href: '/admin/database', label: 'Database', icon: HardDrive },
 	{ href: '/admin/community-setup', label: 'Community', icon: Database },
 	{ href: '/admin/settings', label: 'Settings', icon: Settings },
 ];

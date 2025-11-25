@@ -20,26 +20,30 @@ const content = {
       },
       {
         title: "3. Sharing Your Information",
-        text: "We may share your information in the following situations:\n\n• **Service Providers:** We may share your information with third-party vendors, service providers, contractors, or agents who perform services for us or on our behalf and require access to such information to do that work (e.g., payment processing, data analysis, email delivery, hosting services).\n• **Business Transfers:** We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.\n• **Legal Requirements:** We may disclose your information where we are legally required to do so in order to comply with applicable law, governmental requests, a judicial proceeding, court order, or legal process."
+        text: "We may share your information in the following situations:\n\n• **Service Providers:** We may share your information with third-party vendors, service providers, contractors, or agents who perform services for us or on our behalf and require access to such information to do that work (e.g., payment processing, data analysis, email delivery, hosting services). We sign Data Processing Agreements (DPAs) with all such processors to ensure they protect your data.\n• **Business Transfers:** We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.\n• **Legal Requirements:** We may disclose your information where we are legally required to do so in order to comply with applicable law, governmental requests, a judicial proceeding, court order, or legal process."
       },
       {
-        title: "4. Data Retention",
-        text: "We will only keep your personal information for as long as it is necessary for the purposes set out in this privacy policy, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements). No purpose in this policy will require us keeping your personal information for longer than the period of time in which users have an account with us."
+        title: "4. Data Minimization & Retention",
+        text: "We adhere to the principle of data minimization, collecting only the data necessary for the purposes specified. We maintain a Record of Processing Activities (RoPA) to track our data handling practices.\n\nWe will only keep your personal information for as long as it is necessary for the purposes set out in this privacy policy, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements). No purpose in this policy will require us keeping your personal information for longer than the period of time in which users have an account with us."
       },
       {
-        title: "5. Security of Your Information",
-        text: "We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse."
+        title: "5. Security & Compliance",
+        text: "We use administrative, technical, and physical security measures to help protect your personal information. We are ISO 27001 and ISO 27701 certified, SOC 2 Type II compliant, and HIPAA compliant. We conduct regular Data Protection Impact Assessments (DPIAs) for high-risk processing activities.\n\nWhile we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse."
       },
       {
-        title: "6. Your Privacy Rights (GDPR)",
-        text: "If you are located in the European Economic Area (EEA), you have certain data protection rights. EKA Balance aims to take reasonable steps to allow you to correct, amend, delete, or limit the use of your Personal Data.\n\nIf you wish to be informed what Personal Data we hold about you and if you want it to be removed from our systems, please contact us.\n\nIn certain circumstances, you have the following data protection rights:\n\n• **The right to access, update or to delete the information we have on you.**\n• **The right of rectification.** You have the right to have your information rectified if that information is inaccurate or incomplete.\n• **The right to object.** You have the right to object to our processing of your Personal Data.\n• **The right of restriction.** You have the right to request that we restrict the processing of your personal information.\n• **The right to data portability.** You have the right to be provided with a copy of the information we have on you in a structured, machine-readable and commonly used format.\n• **The right to withdraw consent.** You also have the right to withdraw your consent at any time where EKA Balance relied on your consent to process your personal information."
+        title: "6. Your Privacy Rights (GDPR & CCPA)",
+        text: "Depending on your location, you may have the following rights:\n\n**GDPR (EEA/UK):**\n• **Access:** Request copies of your personal data.\n• **Rectification:** Request correction of inaccurate data.\n• **Erasure:** Request deletion of your data ('Right to be Forgotten').\n• **Restriction:** Request restriction of processing.\n• **Portability:** Request transfer of your data to another organization.\n• **Objection:** Object to processing based on legitimate interests or direct marketing.\n\n**CCPA/CPRA (California):**\n• **Right to Know:** Request details about categories and specific pieces of personal information we collect.\n• **Right to Delete:** Request deletion of your personal information.\n• **Right to Opt-Out:** We do not sell your personal information. However, you have the right to opt-out of the sale or sharing of personal information if we did.\n• **Non-Discrimination:** We will not discriminate against you for exercising your privacy rights.\n\nTo exercise these rights, please contact us or use the privacy settings in your account."
       },
       {
-        title: "7. Children's Privacy",
+        title: "7. Data Protection Officer (DPO)",
+        text: "We have appointed a Data Protection Officer to oversee our data privacy compliance. You can contact our DPO at:\n\n**Email:** dpo@ekabalance.com\n**Address:** EKA Balance, Attn: DPO, Carrer de [Street Name], [Number], 08001 Barcelona, Spain"
+      },
+      {
+        title: "8. Children's Privacy",
         text: "Our services are not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we learn we have collected or received personal information from a child under 13 without verification of parental consent, we will delete that information."
       },
       {
-        title: "8. Contact Us",
+        title: "9. Contact Us",
         text: "If you have questions or comments about this policy, you may email us at privacy@ekabalance.com or by post to:\n\nEKA Balance\nCarrer de [Street Name], [Number]\n08001 Barcelona\nSpain"
       }
     ]

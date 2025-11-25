@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
+import { CookieConsent } from "@/components/cookie-consent";
+import { SiteFooter } from "@/components/site-footer";
 
 export const metadata: Metadata = {
   title: "EKA Balance",
@@ -15,8 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        {children}
+      <body className="min-h-screen flex flex-col">
+        <div className="flex-1">
+          {children}
+        </div>
+        <SiteFooter />
+        <CookieConsent />
         <Analytics />
         <SpeedInsights />
       </body>

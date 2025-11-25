@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createBrowserClient } from '@supabase/ssr';
 
 export type ConsentPreferences = {
   essential: boolean;
@@ -21,7 +21,11 @@ export function useConsent() {
   const [status, setStatus] = useState<ConsentStatus>('undecided');
   const [preferences, setPreferences] = useState<ConsentPreferences>(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClientComponentClient();
+  
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibmZ5eGhld3Npdm9mdndkcHVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNTYzNDQsImV4cCI6MjA3ODYzMjM0NH0.beEFcpqzV7obLX0McrR-lK7V37RE0RbRTpVEKcub_Ko'
+  );
 
   useEffect(() => {
     checkConsent();
@@ -46,7 +50,6 @@ export function useConsent() {
           const gpcPreferences = { ...DEFAULT_PREFERENCES };
           setStatus('denied');
           setPreferences(gpcPreferences);
-          // We don't auto-save to DB to avoid creating records without explicit interaction
         }
       }
 
@@ -95,26 +98,52 @@ export function useConsent() {
           status: newStatus,
           preferences: newPreferences,
           user_agent: navigator.userAgent,
-          version: '1.0' // You can manage versions here
+          version: '1.0'
         });
-      }
-      
-      // 3. Apply consent (e.g., enable/disable scripts)
-      // This is where you'd integrate with GTM or other tools
-      if (newPreferences.analytics) {
-        // Enable analytics
-        console.log('Analytics enabled');
       }
     } catch (error) {
       console.error('Error saving consent:', error);
     }
   };
 
+  const acceptAll = () => {
+    const allGranted: ConsentPreferences = {
+      essential: true,
+      analytics: true,
+      marketing: true,
+      functional: true,
+    };
+    saveConsent('granted', allGranted);
+  };
+
+  const denyAll = () => {
+    const allDenied: ConsentPreferences = {
+      essential: true,
+      analytics: false,
+      marketing: false,
+      functional: false,
+    };
+    saveConsent('denied', allDenied);
+  };
+
+  const savePreferences = (newPreferences: ConsentPreferences) => {
+    // Determine status based on preferences
+    const isAllGranted = Object.values(newPreferences).every(v => v);
+    const isAllDenied = !newPreferences.analytics && !newPreferences.marketing && !newPreferences.functional;
+    
+    let newStatus: ConsentStatus = 'partial';
+    if (isAllGranted) newStatus = 'granted';
+    if (isAllDenied) newStatus = 'denied';
+
+    saveConsent(newStatus, newPreferences);
+  };
+
   return {
     status,
     preferences,
     isLoading,
-    saveConsent,
-    checkConsent
+    acceptAll,
+    denyAll,
+    savePreferences,
   };
 }

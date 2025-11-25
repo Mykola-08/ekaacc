@@ -469,6 +469,54 @@ export default function Home() {
         </Link>
       </div>
 
+      <div className="py-12 border-t border-b">
+        <h2 className="text-2xl font-bold text-center mb-8">Compliance & Certifications</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-blue-50 rounded-full text-blue-600">
+              <Shield className="w-8 h-8" />
+            </div>
+            <h3 className="font-semibold text-sm">GDPR Compliant</h3>
+            <p className="text-xs text-gray-500">EU Data Protection</p>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-green-50 rounded-full text-green-600">
+              <Lock className="w-8 h-8" />
+            </div>
+            <h3 className="font-semibold text-sm">CCPA Compliant</h3>
+            <p className="text-xs text-gray-500">California Privacy</p>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-purple-50 rounded-full text-purple-600">
+              <Database className="w-8 h-8" />
+            </div>
+            <h3 className="font-semibold text-sm">ISO 27001</h3>
+            <p className="text-xs text-gray-500">Information Security</p>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-indigo-50 rounded-full text-indigo-600">
+              <FileSignature className="w-8 h-8" />
+            </div>
+            <h3 className="font-semibold text-sm">ISO 27701</h3>
+            <p className="text-xs text-gray-500">Privacy Management</p>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-teal-50 rounded-full text-teal-600">
+              <Activity className="w-8 h-8" />
+            </div>
+            <h3 className="font-semibold text-sm">HIPAA Compliant</h3>
+            <p className="text-xs text-gray-500">Healthcare Data</p>
+          </div>
+          <div className="flex flex-col items-center space-y-2">
+            <div className="p-4 bg-orange-50 rounded-full text-orange-600">
+              <CheckCircle className="w-8 h-8" />
+            </div>
+            <h3 className="font-semibold text-sm">SOC 2 Type II</h3>
+            <p className="text-xs text-gray-500">Security & Availability</p>
+          </div>
+        </div>
+      </div>
+
       <div className="mt-12 p-6 bg-gray-50 rounded-lg border text-center">
         <h3 className="font-semibold mb-2">Questions about our legal policies?</h3>
         <p className="text-gray-600 mb-4">

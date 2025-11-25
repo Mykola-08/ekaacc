@@ -69,12 +69,14 @@ export default function RootLayout({
                     <li><Link href="/terms" className="hover:underline">Terms of Service</Link></li>
                     <li><Link href="/cookies" className="hover:underline">Cookie Policy</Link></li>
                     <li><Link href="/disclaimer" className="hover:underline">Disclaimer</Link></li>
+                    <li><Link href="/privacy#ccpa" className="hover:underline text-xs text-gray-500">Do Not Sell My Personal Information</Link></li>
                   </ul>
                 </div>
                 <div>
                   <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Contact</h4>
                   <ul className="space-y-2 text-sm text-gray-600">
                     <li>legal@ekabalance.com</li>
+                    <li>dpo@ekabalance.com</li>
                     <li>support@ekabalance.com</li>
                   </ul>
                 </div>
@@ -82,7 +84,7 @@ export default function RootLayout({
                   <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Updates</h4>
                   <p className="text-sm text-gray-500">
                     Legal documents last updated: <br/>
-                    <span className="font-medium text-gray-900">November 23, 2025</span>
+                    <span className="font-medium text-gray-900">November 25, 2025</span>
                   </p>
                 </div>
               </div>

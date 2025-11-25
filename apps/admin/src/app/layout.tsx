@@ -11,6 +11,7 @@ import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
 // Removed SPA Auth0ClientProvider in favor of server-side sessions.
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CookieConsent } from '@/components/cookie-consent';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -82,6 +83,7 @@ export default function RootLayout({
                     <SpeedInsights />
                   </ImpersonationWrapper>
                   <Toaster />
+                  <CookieConsent />
                 </TooltipProvider>
               </ProgressProvider>
             </ThemeProvider>

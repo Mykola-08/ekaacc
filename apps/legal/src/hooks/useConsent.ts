@@ -36,6 +36,18 @@ export function useConsent() {
       if (storedConsent && storedPreferences) {
         setStatus(storedConsent as ConsentStatus);
         setPreferences(JSON.parse(storedPreferences));
+      } else {
+        // Check for Global Privacy Control (GPC)
+        // @ts-ignore
+        if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
+          console.log('Global Privacy Control (GPC) signal detected.');
+          const gpcPreferences = { ...DEFAULT_PREFERENCES };
+          // GPC primarily signals "Do Not Sell", which maps to denying marketing/analytics
+          setStatus('denied');
+          setPreferences(gpcPreferences);
+          // We don't auto-save to DB to avoid creating records without explicit interaction,
+          // but we respect the signal for the session.
+        }
       }
 
       // 2. Check Supabase (if logged in)

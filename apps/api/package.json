@@ -11,6 +11,13 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.72",
+    "@ai-sdk/react": "^2.0.101",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/blob": "^2.0.0",
+    "@vercel/edge-config": "^1.4.3",
+    "@vercel/speed-insights": "^1.2.0",
+    "ai": "^5.0.101",
     "jose": "^6.1.2",
     "next": "^16.0.3",
     "react": "^19.0.0",

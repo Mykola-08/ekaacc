@@ -122,7 +122,7 @@ export default function DatabaseManagementPage() {
     table.table_name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const isAdmin = user?.role?.name === 'admin' || user?.role?.name === 'Admin';
+  const isAdmin = user?.role?.name?.toLowerCase() === 'admin';
 
   if (!isAdmin) {
     return (

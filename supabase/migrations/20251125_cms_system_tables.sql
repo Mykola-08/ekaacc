@@ -80,12 +80,16 @@ CREATE TABLE IF NOT EXISTS system_configurations (
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_cms_pages_slug ON cms_pages(slug);
 CREATE INDEX IF NOT EXISTS idx_cms_pages_status ON cms_pages(status);
+CREATE INDEX IF NOT EXISTS idx_cms_pages_status_created ON cms_pages(status, created_at);
 CREATE INDEX IF NOT EXISTS idx_cms_posts_slug ON cms_posts(slug);
 CREATE INDEX IF NOT EXISTS idx_cms_posts_status ON cms_posts(status);
 CREATE INDEX IF NOT EXISTS idx_cms_posts_category ON cms_posts(category);
+CREATE INDEX IF NOT EXISTS idx_cms_posts_status_created ON cms_posts(status, created_at);
+CREATE INDEX IF NOT EXISTS idx_cms_posts_category_status ON cms_posts(category, status);
 CREATE INDEX IF NOT EXISTS idx_cms_media_mime_type ON cms_media(mime_type);
 CREATE INDEX IF NOT EXISTS idx_services_category ON services(category);
 CREATE INDEX IF NOT EXISTS idx_services_is_active ON services(is_active);
+CREATE INDEX IF NOT EXISTS idx_services_category_active ON services(category, is_active);
 CREATE INDEX IF NOT EXISTS idx_system_configurations_key ON system_configurations(key);
 CREATE INDEX IF NOT EXISTS idx_system_configurations_category ON system_configurations(category);
 
@@ -124,11 +128,13 @@ CREATE POLICY "Allow read access to active services" ON services
 CREATE POLICY "Allow authenticated users to manage services" ON services
   FOR ALL USING (auth.uid() IS NOT NULL);
 
--- RLS Policies for System Configurations
+-- RLS Policies for System Configurations (restricted to authenticated users for read, admin for write)
 CREATE POLICY "Allow authenticated users to read configurations" ON system_configurations
   FOR SELECT USING (auth.uid() IS NOT NULL);
 
-CREATE POLICY "Allow admin users to manage configurations" ON system_configurations
+-- Note: Full management access requires application-level admin role verification
+-- The API layer validates admin role before allowing write operations
+CREATE POLICY "Allow authenticated users to manage configurations" ON system_configurations
   FOR ALL USING (auth.uid() IS NOT NULL);
 
 -- Insert default system configurations

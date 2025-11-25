@@ -480,7 +480,12 @@ export default function PostsManagementPage() {
                   value={tagInput}
                   onChange={(e) => setTagInput(e.target.value)}
                   placeholder="Add a tag"
-                  onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addTag();
+                    }
+                  }}
                 />
                 <Button type="button" variant="outline" onClick={addTag}>
                   <Tag className="h-4 w-4" />

@@ -137,9 +137,15 @@ export default function MediaManagementPage() {
         if (uploadError) throw uploadError;
 
         // Get public URL
-        const { data: { publicUrl } } = supabase.storage
+        const { data: urlData } = supabase.storage
           .from('media')
           .getPublicUrl(filename);
+
+        if (!urlData?.publicUrl) {
+          throw new Error('Failed to get public URL for uploaded file');
+        }
+
+        const publicUrl = urlData.publicUrl;
 
         // Save metadata to database
         const { error: dbError } = await supabase

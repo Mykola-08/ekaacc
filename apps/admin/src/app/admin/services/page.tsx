@@ -128,7 +128,7 @@ export default function ServicesManagementPage() {
     try {
       const now = new Date().toISOString();
 
-      if (selectedService) {
+      if (selectedService && selectedService.id) {
         const { error } = await supabase
           .from('services')
           .update({

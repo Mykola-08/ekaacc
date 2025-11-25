@@ -1,11 +1,11 @@
 import { GET } from '@/app/api/status/route';
-import { getSession } from '@auth0/nextjs-auth0';
+import { createClient } from '@/lib/supabase/server';
 import { getPayloadClient } from '@/lib/payload';
 import { NextResponse, NextRequest } from 'next/server';
 
 // Mock dependencies
-jest.mock('@auth0/nextjs-auth0', () => ({
-  getSession: jest.fn(),
+jest.mock('@/lib/supabase/server', () => ({
+  createClient: jest.fn(),
 }));
 
 jest.mock('@/lib/payload', () => ({

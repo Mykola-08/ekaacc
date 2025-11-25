@@ -1,9 +1,9 @@
-import { getSession } from '@auth0/nextjs-auth0';
+import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import AuthDispatchPage from '../app/auth-dispatch/page';
 
-jest.mock('@auth0/nextjs-auth0', () => ({
-  getSession: jest.fn(),
+jest.mock('@/lib/supabase/server', () => ({
+  createClient: jest.fn(),
 }));
 jest.mock('next/navigation');
 
@@ -13,7 +13,11 @@ describe('AuthDispatchPage', () => {
   });
 
   it('redirects to login if no session', async () => {
-    (getSession as jest.Mock).mockResolvedValue(null);
+    (createClient as jest.Mock).mockResolvedValue({
+      auth: {
+        getUser: jest.fn().mockResolvedValue({ data: { user: null } })
+      }
+    });
     
     try {
       await AuthDispatchPage();
@@ -21,15 +25,20 @@ describe('AuthDispatchPage', () => {
       // redirect throws an error in Next.js
     }
     
-    expect(redirect).toHaveBeenCalledWith('/api/auth/login');
+    expect(redirect).toHaveBeenCalledWith('/login');
   });
 
   it('redirects to admin app if user has Admin role', async () => {
-    (getSession as jest.Mock).mockResolvedValue({
-      user: {
-        roles: ['Admin']
-      }
-    });
+    const mockSupabase = {
+      auth: {
+        getUser: jest.fn().mockResolvedValue({ data: { user: { id: '123' } } })
+      },
+      from: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({ data: { user_roles: { name: 'admin' } } })
+    };
+    (createClient as jest.Mock).mockResolvedValue(mockSupabase);
 
     try {
       await AuthDispatchPage();
@@ -39,44 +48,41 @@ describe('AuthDispatchPage', () => {
   });
 
   it('redirects to therapist app if user has Therapist role', async () => {
-    (getSession as jest.Mock).mockResolvedValue({
-      user: {
-        roles: ['Therapist']
-      }
-    });
+    const mockSupabase = {
+      auth: {
+        getUser: jest.fn().mockResolvedValue({ data: { user: { id: '123' } } })
+      },
+      from: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({ data: { user_roles: { name: 'therapist' } } })
+    };
+    (createClient as jest.Mock).mockResolvedValue(mockSupabase);
 
     try {
       await AuthDispatchPage();
     } catch (e) {}
 
+
     expect(redirect).toHaveBeenCalledWith('http://localhost:9004');
   });
 
   it('redirects to dashboard if user has no special role', async () => {
-    (getSession as jest.Mock).mockResolvedValue({
-      user: {
-        roles: ['Patient']
-      }
-    });
+    const mockSupabase = {
+      auth: {
+        getUser: jest.fn().mockResolvedValue({ data: { user: { id: '123' } } })
+      },
+      from: jest.fn().mockReturnThis(),
+      select: jest.fn().mockReturnThis(),
+      eq: jest.fn().mockReturnThis(),
+      single: jest.fn().mockResolvedValue({ data: { user_roles: { name: 'patient' } } })
+    };
+    (createClient as jest.Mock).mockResolvedValue(mockSupabase);
 
     try {
       await AuthDispatchPage();
     } catch (e) {}
 
     expect(redirect).toHaveBeenCalledWith('/dashboard');
-  });
-  
-  it('handles namespaced roles', async () => {
-    (getSession as jest.Mock).mockResolvedValue({
-      user: {
-        'https://ekabalance.com/roles': ['Admin']
-      }
-    });
-
-    try {
-      await AuthDispatchPage();
-    } catch (e) {}
-
-    expect(redirect).toHaveBeenCalledWith('http://localhost:9003');
   });
 });

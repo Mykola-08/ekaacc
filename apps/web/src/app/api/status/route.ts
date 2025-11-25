@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSession } from '@auth0/nextjs-auth0';
+import { createClient } from '@/lib/supabase/server';
 import { getPayloadClient } from '@/lib/payload';
 
 export const dynamic = 'force-dynamic';
@@ -34,8 +34,8 @@ async function checkExternalService(url: string) {
 }
 
 export async function GET(req: Request) {
-  const session = await getSession();
-  const user = session?.user;
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
   
   // Simple role check: If user is logged in, they see more details.
   // In a real app, check for 'Admin' role specifically.

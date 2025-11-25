@@ -1,21 +1,28 @@
-import { getSession } from '@auth0/nextjs-auth0';
+import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
 export default async function AuthDispatchPage() {
-  const session = await getSession();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
-  if (!session?.user) {
-    redirect('/api/auth/login');
+  if (!user) {
+    redirect('/login');
   }
 
-  const user = session.user;
-  // Check for roles in various possible locations
-  // Note: Ensure your Auth0 Action adds these claims to the ID Token
-  const roles = user['https://ekabalance.com/roles'] || user.roles || [];
+  // Fetch user roles from Supabase
+  const { data: roleAssignment } = await supabase
+    .from('user_role_assignments')
+    .select(`
+      user_roles!inner(name)
+    `)
+    .eq('user_id', user.id)
+    .single();
 
-  if (roles.includes('Admin')) {
+  const roleName = roleAssignment?.user_roles?.name;
+
+  if (roleName === 'admin') {
     redirect('http://localhost:9003');
-  } else if (roles.includes('Therapist')) {
+  } else if (roleName === 'therapist') {
     redirect('http://localhost:9004');
   } else {
     // Default to patient dashboard

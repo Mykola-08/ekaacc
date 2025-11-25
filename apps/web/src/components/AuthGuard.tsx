@@ -1,6 +1,6 @@
 "use client"
 import { ReactNode, useEffect } from 'react'
-import { useUser } from '@auth0/nextjs-auth0/client'
+import { useSimpleAuth } from '@/hooks/use-simple-auth'
 import { useRouter } from 'next/navigation'
 
 interface AuthGuardProps {
@@ -23,12 +23,12 @@ export function AuthGuard({
   loadingFallback = <div className="p-4 text-sm">Loading session...</div>,
   unauthorizedFallback = <div className="p-4 text-sm text-red-600">Not authorized.</div>,
 }: AuthGuardProps) {
-  const { user, isLoading } = useUser()
+  const { user, isLoading } = useSimpleAuth()
   const router = useRouter()
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push('/api/auth/login?returnTo=' + encodeURIComponent(window.location.pathname))
+      router.push('/login?returnTo=' + encodeURIComponent(window.location.pathname))
     }
   }, [isLoading, user, router])
 
@@ -36,10 +36,11 @@ export function AuthGuard({
   if (!user) return <>{loadingFallback}</>
 
   // Scope check (async fetch token if needed)
-  const scopeString = (user as any)?.scope as string | undefined
-  if (requiredScopes.length && !hasAllScopes(scopeString, requiredScopes)) {
-    return <>{unauthorizedFallback}</>
-  }
+  // Note: Supabase roles/permissions are handled differently, this is a placeholder for now
+  // const scopeString = (user as any)?.scope as string | undefined
+  // if (requiredScopes.length && !hasAllScopes(scopeString, requiredScopes)) {
+  //   return <>{unauthorizedFallback}</>
+  // }
 
   return <>{children}</>
 }

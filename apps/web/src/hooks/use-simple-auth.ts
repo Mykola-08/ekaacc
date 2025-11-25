@@ -1,5 +1,4 @@
 import { useAuth } from '@/context/auth-context'
-import { useUser } from '@auth0/nextjs-auth0/client'
 
 /**
  * Simple auth hook that provides essential auth functionality
@@ -7,46 +6,12 @@ import { useUser } from '@auth0/nextjs-auth0/client'
  */
 export function useSimpleAuth() {
   const auth = useAuth()
-  const { user: auth0User, isLoading: isAuth0Loading } = useUser()
 
   // Map Auth0 user to AuthUser interface if Supabase user is missing
-  const user = auth.user || (auth0User ? {
-    id: auth0User.sub || '',
-    email: auth0User.email || '',
-    name: auth0User.name || '',
-    avatarUrl: auth0User.picture || '',
-    role: {
-      id: 'default',
-      name: 'user',
-      description: 'Default user role',
-      is_active: true,
-      created_at: new Date().toISOString()
-    },
-    permissions: [],
-    profile: {
-      id: auth0User.sub || '',
-      username: auth0User.nickname || null,
-      full_name: auth0User.name || null,
-      avatar_url: auth0User.picture || null,
-      bio: null,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    },
-    preferences: {
-      id: 'default',
-      user_id: auth0User.sub || '',
-      theme: 'system',
-      language: 'en',
-      timezone: 'UTC',
-      email_notifications: true,
-      push_notifications: true,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }
-  } as any : null)
+  const user = auth.user
 
-  const isLoading = auth.isLoading || isAuth0Loading
-  const isAuthenticated = auth.isAuthenticated || !!auth0User
+  const isLoading = auth.isLoading
+  const isAuthenticated = auth.isAuthenticated
 
   return {
     // User data
@@ -59,6 +24,8 @@ export function useSimpleAuth() {
     signUp: auth.signUp,
     signOut: auth.signOut,
     signInWithOAuth: auth.signInWithOAuth,
+    signInWithPasskey: auth.signInWithPasskey,
+    registerPasskey: auth.registerPasskey,
 
     // User management
     updateProfile: auth.updateProfile,

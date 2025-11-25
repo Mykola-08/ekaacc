@@ -1,6 +1,6 @@
 "use client"
 import { ReactNode, useEffect } from 'react'
-import { useUser } from '@auth0/nextjs-auth0/client'
+import { useAuth } from '@/context/auth-context'
 import { useRouter } from 'next/navigation'
 
 interface AuthGuardProps {
@@ -10,36 +10,26 @@ interface AuthGuardProps {
   unauthorizedFallback?: ReactNode
 }
 
-function hasAllScopes(scopeString: string | undefined, needed: string[]) {
-  if (!needed.length) return true
-  if (!scopeString) return false
-  const granted = scopeString.split(' ')
-  return needed.every(s => granted.includes(s))
-}
-
 export function AuthGuard({
   children,
   requiredScopes = [],
   loadingFallback = <div className="p-4 text-sm">Loading session...</div>,
   unauthorizedFallback = <div className="p-4 text-sm text-red-600">Not authorized.</div>,
 }: AuthGuardProps) {
-  const { user, isLoading } = useUser()
+  const { user, isLoading, isAuthenticated } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (!isLoading && !user) {
-      router.push('/api/auth/login?returnTo=' + encodeURIComponent(window.location.pathname))
+    if (!isLoading && !isAuthenticated) {
+      // Redirect to the centralized auth app
+      window.location.href = `http://localhost:9005/login?returnTo=${encodeURIComponent(window.location.href)}`
     }
-  }, [isLoading, user, router])
+  }, [isLoading, isAuthenticated, router])
 
   if (isLoading) return <>{loadingFallback}</>
-  if (!user) return <>{loadingFallback}</>
+  if (!isAuthenticated) return <>{loadingFallback}</>
 
-  // Scope check (async fetch token if needed)
-  const scopeString = (user as any)?.scope as string | undefined
-  if (requiredScopes.length && !hasAllScopes(scopeString, requiredScopes)) {
-    return <>{unauthorizedFallback}</>
-  }
-
+  // TODO: Implement scope/permission check if needed using user.permissions or user.role
+  
   return <>{children}</>
 }

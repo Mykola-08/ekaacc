@@ -1,19 +1,26 @@
-import { fetchUserProfile } from '@/lib/supabase-server'
-import { headers } from 'next/headers'
-import { NextRequest } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 
 export const runtime = 'nodejs'
 
 export default async function ServerDashboardPage() {
-  const h = await headers()
-  const req = new NextRequest('https://internal.local/home/server-dashboard', { headers: new Headers({ cookie: h.get('cookie') || '' }) })
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  
   let profile: any = null
   let error: string | null = null
-  try {
-    profile = await fetchUserProfile(req)
-  } catch (e: any) {
-    error = e.message
+  
+  if (user) {
+    try {
+      const { data, error: dbError } = await supabase.from('users').select('id, email, role, tenant_id').single()
+      if (dbError) throw dbError
+      profile = data
+    } catch (e: any) {
+      error = e.message
+    }
+  } else {
+    error = 'Unauthenticated'
   }
+
   return (
     <div className="p-6 space-y-6 max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold tracking-tight">Server Dashboard (SSR)</h1>
@@ -25,7 +32,7 @@ export default async function ServerDashboardPage() {
           <div><span className="font-medium">Tenant:</span> {profile.tenant_id}</div>
         </div>
       )}
-      <p className="text-muted-foreground text-sm">This page is server-rendered using the Auth0 session cookie and a Supabase client authorized via access token.</p>
+      <p className="text-muted-foreground text-sm">This page is server-rendered using the Supabase session cookie and a Supabase client.</p>
     </div>
   )
 }

@@ -1,24 +1,29 @@
-import { fetchUserProfile } from '@/lib/supabase-server'
-import { headers } from 'next/headers'
-import { NextRequest } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 
 // Server Component Example: Uses server-side Supabase with Auth0 session access token.
 // Demonstrates SSR user profile retrieval under RLS policies.
 export const runtime = 'nodejs'
 
 export default async function ServerProfilePage() {
-  // Construct a NextRequest passing through cookies for getSession.
-  const h = await headers()
-  const req = new NextRequest('https://internal.local/dashboard/server-profile', {
-    headers: new Headers({ cookie: h.get('cookie') || '' })
-  })
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
 
   let profile: any = null
   let error: string | null = null
-  try {
-    profile = await fetchUserProfile(req)
-  } catch (e: any) {
-    error = e.message || 'Failed to load profile'
+  
+  if (user) {
+    try {
+      // Assuming 'users' table exists and is linked to auth.users
+      // Or maybe we just display user info from auth
+      // But the original code queried 'users' table.
+      const { data, error: dbError } = await supabase.from('users').select('id, email, role, tenant_id').single()
+      if (dbError) throw dbError
+      profile = data
+    } catch (e: any) {
+      error = e.message || 'Failed to load profile'
+    }
+  } else {
+    error = 'Unauthenticated'
   }
 
   return (
@@ -35,7 +40,7 @@ export default async function ServerProfilePage() {
           <div><span className="font-medium">Tenant:</span> {profile.tenant_id}</div>
         </div>
       )}
-      <p className="text-sm text-muted-foreground">This page is rendered on the server using the Auth0 session cookie and a user-scoped Supabase client.</p>
+      <p className="text-sm text-muted-foreground">This page is rendered on the server using the Supabase session cookie and a user-scoped Supabase client.</p>
     </div>
   )
 }

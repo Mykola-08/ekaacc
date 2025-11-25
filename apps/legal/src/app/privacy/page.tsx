@@ -7,7 +7,7 @@ type Language = 'en' | 'es' | 'ca' | 'ru';
 const content = {
   en: {
     title: "Privacy Policy",
-    updated: "Last Updated: November 23, 2025",
+    updated: "Last Updated: November 25, 2025",
     intro: "At EKA Balance, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.",
     sections: [
       {
@@ -31,8 +31,8 @@ const content = {
         text: "We use administrative, technical, and physical security measures to help protect your personal information. While we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse."
       },
       {
-        title: "6. Your Privacy Rights",
-        text: "Depending on your location, you may have the following rights regarding your personal data:\n\n• **Right to Access:** You have the right to request copies of your personal data.\n• **Right to Rectification:** You have the right to request that we correct any information you believe is inaccurate.\n• **Right to Erasure:** You have the right to request that we erase your personal data, under certain conditions.\n• **Right to Restrict Processing:** You have the right to request that we restrict the processing of your personal data.\n• **Right to Object to Processing:** You have the right to object to our processing of your personal data.\n• **Right to Data Portability:** You have the right to request that we transfer the data that we have collected to another organization, or directly to you."
+        title: "6. Your Privacy Rights (GDPR)",
+        text: "If you are located in the European Economic Area (EEA), you have certain data protection rights. EKA Balance aims to take reasonable steps to allow you to correct, amend, delete, or limit the use of your Personal Data.\n\nIf you wish to be informed what Personal Data we hold about you and if you want it to be removed from our systems, please contact us.\n\nIn certain circumstances, you have the following data protection rights:\n\n• **The right to access, update or to delete the information we have on you.**\n• **The right of rectification.** You have the right to have your information rectified if that information is inaccurate or incomplete.\n• **The right to object.** You have the right to object to our processing of your Personal Data.\n• **The right of restriction.** You have the right to request that we restrict the processing of your personal information.\n• **The right to data portability.** You have the right to be provided with a copy of the information we have on you in a structured, machine-readable and commonly used format.\n• **The right to withdraw consent.** You also have the right to withdraw your consent at any time where EKA Balance relied on your consent to process your personal information."
       },
       {
         title: "7. Children's Privacy",
@@ -40,13 +40,13 @@ const content = {
       },
       {
         title: "8. Contact Us",
-        text: "If you have questions or comments about this policy, you may email us at privacy@ekabalance.com or by post to:\n\nEKA Balance\n[Address Line 1]\n[City, State, Zip Code]\n[Country]"
+        text: "If you have questions or comments about this policy, you may email us at privacy@ekabalance.com or by post to:\n\nEKA Balance\nCarrer de [Street Name], [Number]\n08001 Barcelona\nSpain"
       }
     ]
   },
   es: {
     title: "Política de Privacidad",
-    updated: "Última actualización: 23 de noviembre de 2025",
+    updated: "Última actualización: 25 de noviembre de 2025",
     intro: "En EKA Balance, nos tomamos muy en serio su privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos su información cuando visita nuestro sitio web y utiliza nuestros servicios. Lea atentamente esta política de privacidad. Si no está de acuerdo con los términos de esta política de privacidad, no acceda al sitio.",
     sections: [
       {
@@ -70,8 +70,8 @@ const content = {
         text: "Utilizamos medidas de seguridad administrativas, técnicas y físicas para ayudar a proteger su información personal. Si bien hemos tomado medidas razonables para proteger la información personal que nos proporciona, tenga en cuenta que, a pesar de nuestros esfuerzos, ninguna medida de seguridad es perfecta o impenetrable, y ningún método de transmisión de datos puede garantizarse contra cualquier intercepción u otro tipo de uso indebido."
       },
       {
-        title: "6. Sus Derechos de Privacidad",
-        text: "Dependiendo de su ubicación, puede tener los siguientes derechos con respecto a sus datos personales:\n\n• **Derecho de Acceso:** Tiene derecho a solicitar copias de sus datos personales.\n• **Derecho de Rectificación:** Tiene derecho a solicitar que corrijamos cualquier información que crea que es inexacta.\n• **Derecho de Supresión:** Tiene derecho a solicitar que eliminemos sus datos personales, bajo ciertas condiciones.\n• **Derecho a Restringir el Procesamiento:** Tiene derecho a solicitar que restrinjamos el procesamiento de sus datos personales.\n• **Derecho a Oponerse al Procesamiento:** Tiene derecho a oponerse a nuestro procesamiento de sus datos personales.\n• **Derecho a la Portabilidad de Datos:** Tiene derecho a solicitar que transfiramos los datos que hemos recopilado a otra organización, o directamente a usted."
+        title: "6. Sus Derechos de Privacidad (RGPD)",
+        text: "Si se encuentra en el Espacio Económico Europeo (EEE), tiene ciertos derechos de protección de datos. EKA Balance tiene como objetivo tomar medidas razonables para permitirle corregir, enmendar, eliminar o limitar el uso de sus Datos Personales.\n\nSi desea ser informado sobre qué Datos Personales tenemos sobre usted y si desea que se eliminen de nuestros sistemas, contáctenos.\n\nEn determinadas circunstancias, tiene los siguientes derechos de protección de datos:\n\n• **El derecho a acceder, actualizar o eliminar la información que tenemos sobre usted.**\n• **El derecho de rectificación.** Tiene derecho a que se rectifique su información si esa información es inexacta o incompleta.\n• **El derecho a oponerse.** Tiene derecho a oponerse a nuestro procesamiento de sus Datos Personales.\n• **El derecho de restricción.** Tiene derecho a solicitar que restrinjamos el procesamiento de su información personal.\n• **El derecho a la portabilidad de datos.** Tiene derecho a recibir una copia de la información que tenemos sobre usted en un formato estructurado, legible por máquina y de uso común.\n• **El derecho a retirar el consentimiento.** También tiene derecho a retirar su consentimiento en cualquier momento en que EKA Balance haya confiado en su consentimiento para procesar su información personal."
       },
       {
         title: "7. Privacidad de los Niños",
@@ -79,13 +79,13 @@ const content = {
       },
       {
         title: "8. Contáctenos",
-        text: "Si tiene preguntas o comentarios sobre esta política, puede enviarnos un correo electrónico a privacy@ekabalance.com o por correo postal a:\n\nEKA Balance\n[Dirección Línea 1]\n[Ciudad, Estado, Código Postal]\n[País]"
+        text: "Si tiene preguntas o comentarios sobre esta política, puede enviarnos un correo electrónico a privacy@ekabalance.com o por correo postal a:\n\nEKA Balance\nCarrer de [Nombre de la Calle], [Número]\n08001 Barcelona\nEspaña"
       }
     ]
   },
   ca: {
     title: "Política de Privacitat",
-    updated: "Última actualització: 23 de novembre de 2025",
+    updated: "Última actualització: 25 de novembre de 2025",
     intro: "A EKA Balance, ens prenem molt seriosament la vostra privacitat. Aquesta Política de Privacitat explica com recopilem, utilitzem, divulguem i protegim la vostra informació quan visiteu el nostre lloc web i utilitzeu els nostres serveis. Llegiu atentament aquesta política de privacitat. Si no esteu d'acord amb els termes d'aquesta política de privacitat, no accediu al lloc.",
     sections: [
       {
@@ -109,8 +109,8 @@ const content = {
         text: "Utilitzem mesures de seguretat administratives, tècniques i físiques per ajudar a protegir la vostra informació personal. Tot i que hem pres mesures raonables per protegir la informació personal que ens proporcioneu, tingueu en compte que, malgrat els nostres esforços, cap mesura de seguretat és perfecta o impenetrable, i cap mètode de transmissió de dades pot garantir-se contra qualsevol intercepció o altre tipus d'ús indegut."
       },
       {
-        title: "6. Els Vostres Drets de Privacitat",
-        text: "Depenent de la vostra ubicació, podeu tenir els següents drets respecte a les vostres dades personals:\n\n• **Dret d'Accés:** Teniu dret a sol·licitar còpies de les vostres dades personals.\n• **Dret de Rectificació:** Teniu dret a sol·licitar que corregim qualsevol informació que creieu que és inexacta.\n• **Dret de Supressió:** Teniu dret a sol·licitar que eliminem les vostres dades personals, sota certes condicions.\n• **Dret a Restringir el Processament:** Teniu dret a sol·licitar que restringim el processament de les vostres dades personals.\n• **Dret a Oposar-se al Processament:** Teniu dret a oposar-vos al nostre processament de les vostres dades personals.\n• **Dret a la Portabilitat de Dades:** Teniu dret a sol·licitar que transferim les dades que hem recopilat a una altra organització, o directament a vosaltres."
+        title: "6. Els Vostres Drets de Privacitat (RGPD)",
+        text: "Si us trobeu a l'Espai Econòmic Europeu (EEE), teniu certs drets de protecció de dades. EKA Balance té com a objectiu prendre mesures raonables per permetre-us corregir, esmenar, eliminar o limitar l'ús de les vostres Dades Personals.\n\nSi voleu ser informat sobre quines Dades Personals tenim sobre vosaltres i si voleu que s'eliminin dels nostres sistemes, contacteu-nos.\n\nEn determinades circumstàncies, teniu els següents drets de protecció de dades:\n\n• **El dret a accedir, actualitzar o eliminar la informació que tenim sobre vosaltres.**\n• **El dret de rectificació.** Teniu dret a que es rectifiqui la vostra informació si aquesta informació és inexacta o incompleta.\n• **El dret a oposar-se.** Teniu dret a oposar-vos al nostre processament de les vostres Dades Personals.\n• **El dret de restricció.** Teniu dret a sol·licitar que restringim el processament de la vostra informació personal.\n• **El dret a la portabilitat de dades.** Teniu dret a rebre una còpia de la informació que tenim sobre vosaltres en un format estructurat, llegible per màquina i d'ús comú.\n• **El dret a retirar el consentiment.** També teniu dret a retirar el vostre consentiment en qualsevol moment en què EKA Balance hagi confiat en el vostre consentiment per processar la vostra informació personal."
       },
       {
         title: "7. Privacitat dels Nens",
@@ -118,13 +118,13 @@ const content = {
       },
       {
         title: "8. Contacteu-nos",
-        text: "Si teniu preguntes o comentaris sobre aquesta política, podeu enviar-nos un correu electrònic a privacy@ekabalance.com o per correu postal a:\n\nEKA Balance\n[Adreça Línia 1]\n[Ciutat, Estat, Codi Postal]\n[País]"
+        text: "Si teniu preguntes o comentaris sobre aquesta política, podeu enviar-nos un correu electrònic a privacy@ekabalance.com o per correu postal a:\n\nEKA Balance\nCarrer de [Nom del Carrer], [Número]\n08001 Barcelona\nEspanya"
       }
     ]
   },
   ru: {
     title: "Политика конфиденциальности",
-    updated: "Последнее обновление: 23 ноября 2025 г.",
+    updated: "Последнее обновление: 25 ноября 2025 г.",
     intro: "В EKA Balance мы серьезно относимся к вашей конфиденциальности. Эта Политика конфиденциальности объясняет, как мы собираем, используем, раскрываем и защищаем вашу информацию, когда вы посещаете наш веб-сайт и пользуетесь нашими услугами. Пожалуйста, внимательно прочитайте эту политику конфиденциальности. Если вы не согласны с условиями этой политики конфиденциальности, пожалуйста, не заходите на сайт.",
     sections: [
       {
@@ -148,7 +148,7 @@ const content = {
         text: "Мы используем административные, технические и физические меры безопасности для защиты вашей личной информации. Хотя мы предприняли разумные шаги для защиты личной информации, которую вы нам предоставляете, имейте в виду, что, несмотря на наши усилия, никакие меры безопасности не являются совершенными или непроницаемыми, и никакой метод передачи данных не может быть гарантирован от любого перехвата или другого типа неправомерного использования."
       },
       {
-        title: "6. Ваши права на конфиденциальность",
+        title: "6. Ваши права на конфиденциальность (GDPR)",
         text: "В зависимости от вашего местоположения у вас могут быть следующие права в отношении ваших персональных данных:\n\n• **Право на доступ:** Вы имеете право запрашивать копии ваших персональных данных.\n• **Право на исправление:** Вы имеете право требовать, чтобы мы исправили любую информацию, которую вы считаете неточной.\n• **Право на удаление:** Вы имеете право требовать, чтобы мы удалили ваши персональные данные при определенных условиях.\n• **Право на ограничение обработки:** Вы имеете право требовать, чтобы мы ограничили обработку ваших персональных данных.\n• **Право на возражение против обработки:** Вы имеете право возражать против нашей обработки ваших персональных данных.\n• **Право на переносимость данных:** Вы имеете право требовать, чтобы мы передали данные, которые мы собрали, другой организации или непосредственно вам."
       },
       {
@@ -157,7 +157,7 @@ const content = {
       },
       {
         title: "8. Свяжитесь с нами",
-        text: "Если у вас есть вопросы или комментарии по поводу этой политики, вы можете написать нам по адресу privacy@ekabalance.com или по почте:\n\nEKA Balance\n[Адрес, строка 1]\n[Город, Штат, Почтовый индекс]\n[Страна]"
+        text: "Если у вас есть вопросы или комментарии по поводу этой политики, вы можете написать нам по адресу privacy@ekabalance.com или по почте:\n\nEKA Balance\nCarrer de [Street Name], [Number]\n08001 Barcelona\nSpain"
       }
     ]
   }
@@ -205,9 +205,9 @@ export default function PrivacyPage() {
 
         <div className="space-y-8">
           {content[lang].sections.map((section, index) => (
-            <section key={index} className="bg-card p-6 rounded-lg border shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 text-card-foreground">{section.title}</h2>
-              <div className="text-card-foreground/80 leading-relaxed whitespace-pre-wrap">
+            <section key={index} className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
+              <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}
               </div>
             </section>

@@ -7,7 +7,7 @@ type Language = 'en' | 'es' | 'ca' | 'ru';
 const content = {
   en: {
     title: "Cookie Policy",
-    updated: "Last Updated: November 23, 2025",
+    updated: "Last Updated: November 25, 2025",
     intro: "This Cookie Policy explains how EKA Balance uses cookies and similar technologies to recognize you when you visit our website. It explains what these technologies are and why we use them, as well as your rights to control our use of them.",
     sections: [
       {
@@ -32,13 +32,13 @@ const content = {
       },
       {
         title: "6. Contact Us",
-        text: "If you have any questions about our use of cookies or other technologies, please email us at privacy@ekabalance.com."
+        text: "If you have any questions about our use of cookies or other technologies, please email us at privacy@ekabalance.com or by post to:\n\nEKA Balance\nCarrer de [Street Name], [Number]\n08001 Barcelona\nSpain"
       }
     ]
   },
   es: {
     title: "Política de Cookies",
-    updated: "Última actualización: 23 de noviembre de 2025",
+    updated: "Última actualización: 25 de noviembre de 2025",
     intro: "Esta Política de Cookies explica cómo EKA Balance utiliza cookies y tecnologías similares para reconocerlo cuando visita nuestro sitio web. Explica qué son estas tecnologías y por qué las usamos, así como sus derechos para controlar nuestro uso de ellas.",
     sections: [
       {
@@ -51,7 +51,7 @@ const content = {
       },
       {
         title: "3. Tipos de Cookies que Utilizamos",
-        text: "• **Cookies Esenciales:** Estas cookies son estrictamente necesarias para brindarle los servicios disponibles a través de nuestro sitio web y para utilizar algunas de sus funciones, como el acceso a áreas seguras.\n• **Cookies de Rendimiento y Funcionalidad:** Estas cookies se utilizan para mejorar el rendimiento y la funcionalidad de nuestro sitio web, pero no son esenciales para su uso. Sin embargo, sin estas cookies, ciertas funciones (como videos) pueden no estar disponibles.\n• **Cookies de Análisis y Personalización:** Estas cookies recopilan información que se utiliza en forma agregada para ayudarnos a comprender cómo se utiliza nuestro sitio web o qué tan efectivas son nuestras campañas de marketing, o para ayudarnos a personalizar nuestro sitio web para usted.\n• **Cookies Publicitarias:** Estas cookies se utilizan para hacer que los mensajes publicitarios sean más relevantes para usted. Realizan funciones como evitar que el mismo anuncio reaparezca continuamente, garantizar que los anuncios se muestren correctamente para los anunciantes y, en algunos casos, seleccionar anuncios basados en sus intereses."
+        text: "• **Cookies Esenciales:** Estas cookies son estrictamente necesarias para brindarle los servicios disponibles a través de nuestro sitio web y para utilizar algunas de sus funciones, como el acceso a áreas seguras.\n• **Cookies de Rendimiento y Funcionalidad:** Estas cookies se utilizan para mejorar el rendimiento y la funcionalidad de nuestro sitio web, pero no son esenciales para su uso. Sin embargo, sin estas cookies, ciertas funciones (como videos) pueden no estar disponibles.\n• **Cookies de Análisis y Personalización:** Estas cookies recopilan información que se utiliza en forma agregada para ayudarnos a comprender cómo se utiliza nuestro sitio web o qué tan efectivas son nuestras campañas de marketing, o para ayudarnos a personalizar nuestro sitio web para usted.\n• **Cookies Publicitarias:** Estas cookies se utilizan para hacer que los mensajes publicitarios sean más relevantes para usted. Realizan funciones como evitar que el mismo anuncio reaparezca continuamente, garantizar que los anuncios es muestren correctamente para los anunciantes y, en algunos casos, seleccionar anuncios basados en sus intereses."
       },
       {
         title: "4. ¿Cómo puedo controlar las cookies?",
@@ -63,13 +63,13 @@ const content = {
       },
       {
         title: "6. Contáctenos",
-        text: "Si tiene alguna pregunta sobre nuestro uso de cookies u otras tecnologías, envíenos un correo electrónico a privacy@ekabalance.com."
+        text: "Si tiene alguna pregunta sobre nuestro uso de cookies u otras tecnologías, envíenos un correo electrónico a privacy@ekabalance.com o por correo postal a:\n\nEKA Balance\nCarrer de [Nombre de la Calle], [Número]\n08001 Barcelona\nEspaña"
       }
     ]
   },
   ca: {
     title: "Política de Cookies",
-    updated: "Última actualització: 23 de novembre de 2025",
+    updated: "Última actualització: 25 de novembre de 2025",
     intro: "Aquesta Política de Cookies explica com EKA Balance utilitza cookies i tecnologies similars per reconèixer-vos quan visiteu el nostre lloc web. Explica què són aquestes tecnologies i per què les utilitzem, així com els vostres drets per controlar el nostre ús d'elles.",
     sections: [
       {
@@ -94,13 +94,13 @@ const content = {
       },
       {
         title: "6. Contacteu-nos",
-        text: "Si teniu alguna pregunta sobre el nostre ús de cookies o altres tecnologies, envieu-nos un correu electrònic a privacy@ekabalance.com."
+        text: "Si teniu alguna pregunta sobre el nostre ús de cookies o altres tecnologies, envieu-nos un correu electrònic a privacy@ekabalance.com o per correu postal a:\n\nEKA Balance\nCarrer de [Nom del Carrer], [Número]\n08001 Barcelona\nEspanya"
       }
     ]
   },
   ru: {
     title: "Политика использования файлов cookie",
-    updated: "Последнее обновление: 23 ноября 2025 г.",
+    updated: "Последнее обновление: 25 ноября 2025 г.",
     intro: "Эта Политика использования файлов cookie объясняет, как EKA Balance использует файлы cookie и аналогичные технологии, чтобы распознавать вас, когда вы посещаете наш веб-сайт. В ней объясняется, что это за технологии и почему мы их используем, а также ваши права контролировать их использование нами.",
     sections: [
       {
@@ -125,7 +125,7 @@ const content = {
       },
       {
         title: "6. Свяжитесь с нами",
-        text: "Если у вас есть какие-либо вопросы о нашем использовании файлов cookie или других технологий, напишите нам по адресу privacy@ekabalance.com."
+        text: "Если у вас есть какие-либо вопросы о нашем использовании файлов cookie или других технологий, напишите нам по адресу privacy@ekabalance.com или по почте:\n\nEKA Balance\nCarrer de [Street Name], [Number]\n08001 Barcelona\nSpain"
       }
     ]
   }
@@ -173,9 +173,9 @@ export default function CookiesPage() {
 
         <div className="space-y-8">
           {content[lang].sections.map((section, index) => (
-            <section key={index} className="bg-card p-6 rounded-lg border shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 text-card-foreground">{section.title}</h2>
-              <div className="text-card-foreground/80 leading-relaxed whitespace-pre-wrap">
+            <section key={index} className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
+              <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}
               </div>
             </section>

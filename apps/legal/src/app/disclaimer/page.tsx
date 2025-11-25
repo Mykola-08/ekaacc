@@ -7,7 +7,7 @@ type Language = 'en' | 'es' | 'ca' | 'ru';
 const content = {
   en: {
     title: "Disclaimer & Legal Notice",
-    updated: "Last Updated: November 23, 2025",
+    updated: "Last Updated: November 25, 2025",
     sections: [
       {
         title: "1. Medical Disclaimer",
@@ -39,13 +39,13 @@ const content = {
       },
       {
         title: "8. Jurisdiction and Governing Law",
-        text: "This disclaimer shall be governed by and construed in accordance with the laws of the jurisdiction in which the Company is registered, without regard to its conflict of law provisions. Any disputes arising out of or in connection with this disclaimer shall be subject to the exclusive jurisdiction of the courts in that jurisdiction."
+        text: "This disclaimer shall be governed by and construed in accordance with the laws of Spain, without regard to its conflict of law provisions. Any disputes arising out of or in connection with this disclaimer shall be subject to the exclusive jurisdiction of the courts of Barcelona, Spain."
       }
     ]
   },
   es: {
     title: "Descargo de Responsabilidad y Aviso Legal",
-    updated: "Última actualización: 23 de noviembre de 2025",
+    updated: "Última actualización: 25 de noviembre de 2025",
     sections: [
       {
         title: "1. Descargo Médico",
@@ -77,13 +77,13 @@ const content = {
       },
       {
         title: "8. Jurisdicción y Ley Aplicable",
-        text: "Este descargo de responsabilidad se regirá e interpretará de acuerdo con las leyes de la jurisdicción en la que está registrada la Compañía, sin tener en cuenta sus disposiciones sobre conflictos de leyes. Cualquier disputa que surja de o en relación con este descargo de responsabilidad estará sujeta a la jurisdicción exclusiva de los tribunales de dicha jurisdicción."
+        text: "Este descargo de responsabilidad se regirá e interpretará de acuerdo con las leyes de España, sin tener en cuenta sus disposiciones sobre conflictos de leyes. Cualquier disputa que surja de o en relación con este descargo de responsabilidad estará sujeta a la jurisdicción exclusiva de los tribunales de Barcelona, España."
       }
     ]
   },
   ca: {
     title: "Descàrrec de Responsabilitat i Avís Legal",
-    updated: "Última actualització: 23 de novembre de 2025",
+    updated: "Última actualització: 25 de novembre de 2025",
     sections: [
       {
         title: "1. Descàrrec Mèdic",
@@ -115,13 +115,13 @@ const content = {
       },
       {
         title: "8. Jurisdicció i Llei Aplicable",
-        text: "Aquest descàrrec de responsabilitat es regirà i interpretarà d'acord amb les lleis de la jurisdicció en què està registrada la Companyia, sense tenir en compte les seves disposicions sobre conflictes de lleis. Qualsevol disputa que sorgeixi de o en relació amb aquest descàrrec de responsabilitat estarà subjecta a la jurisdicció exclusiva dels tribunals d'aquesta jurisdicció."
+        text: "Aquest descàrrec de responsabilitat es regirà i interpretarà d'acord amb les lleis d'Espanya, sense tenir en compte les seves disposicions sobre conflictes de lleis. Qualsevol disputa que sorgeixi de o en relació amb aquest descàrrec de responsabilitat estarà subjecta a la jurisdicció exclusiva dels tribunals de Barcelona, Espanya."
       }
     ]
   },
   ru: {
     title: "Отказ от ответственности и Юридическое уведомление",
-    updated: "Последнее обновление: 23 ноября 2025 г.",
+    updated: "Последнее обновление: 25 ноября 2025 г.",
     sections: [
       {
         title: "1. Медицинский отказ",
@@ -153,7 +153,7 @@ const content = {
       },
       {
         title: "8. Юрисдикция и применимое право",
-        text: "Этот отказ от ответственности регулируется и толкуется в соответствии с законами юрисдикции, в которой зарегистрирована Компания, без учета ее коллизионных норм. Любые споры, возникающие из или в связи с этим отказом от ответственности, подлежат исключительной юрисдикции судов этой юрисдикции."
+        text: "Этот отказ от ответственности регулируется и толкуется в соответствии с законами Испании, без учета ее коллизионных норм. Любые споры, возникающие из или в связи с этим отказом от ответственности, подлежат исключительной юрисдикции судов Барселоны, Испания."
       }
     ]
   }
@@ -197,9 +197,9 @@ export default function DisclaimerPage() {
 
         <div className="space-y-8">
           {content[lang].sections.map((section, index) => (
-            <section key={index} className="bg-card p-6 rounded-lg border shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 text-card-foreground">{section.title}</h2>
-              <p className="text-card-foreground/80 leading-relaxed whitespace-pre-wrap">
+            <section key={index} className="mb-8">
+              <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
+              <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}
               </p>
             </section>

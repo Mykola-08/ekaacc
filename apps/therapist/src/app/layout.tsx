@@ -8,7 +8,6 @@ import { ThemeProvider } from '@/components/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/progress-context';
 import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
-import { UserProvider } from '@auth0/nextjs-auth0/client';
 // Removed SPA Auth0ClientProvider in favor of server-side sessions.
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -68,7 +67,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://i.pravatar.cc" />
       </head>
       <body className={cn('antialiased font-sans', inter.variable)}>
-        <UserProvider>
           <AuthProvider>
             <ThemeProvider
               attribute="class"
@@ -88,7 +86,6 @@ export default function RootLayout({
               </ProgressProvider>
             </ThemeProvider>
           </AuthProvider>
-        </UserProvider>
       </body>
     </html>
   );

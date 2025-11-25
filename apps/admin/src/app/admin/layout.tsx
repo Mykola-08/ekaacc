@@ -8,6 +8,7 @@ import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, Cr
 import { cn } from '@/lib/utils';
 import { PageContainer } from '@/components/eka/page-container';
 import { SurfacePanel } from '@/components/eka/surface-panel';
+import { AuthGuard } from '@/components/AuthGuard';
 
 const navItems = [
 	{ href: '/admin', label: 'Dashboard', icon: BarChart3 },
@@ -70,13 +71,15 @@ function AdminSidebar() {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
 	return (
-		<div className="flex">
-			<AdminSidebar />
-			<main className="flex-1 overflow-y-auto">
-				<PageContainer>
-					<SurfacePanel className="p-4 sm:p-6 lg:p-8">{children}</SurfacePanel>
-				</PageContainer>
-			</main>
-		</div>
+		<AuthGuard>
+			<div className="flex">
+				<AdminSidebar />
+				<main className="flex-1 overflow-y-auto">
+					<PageContainer>
+						<SurfacePanel className="p-4 sm:p-6 lg:p-8">{children}</SurfacePanel>
+					</PageContainer>
+				</main>
+			</div>
+		</AuthGuard>
 	);
 }

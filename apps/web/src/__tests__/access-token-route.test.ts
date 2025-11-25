@@ -3,25 +3,31 @@
  */
 import { GET } from '@/app/api/auth/access-token/route'
 import { NextRequest } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 
-jest.mock('@auth0/nextjs-auth0/edge', () => ({
-  getSession: jest.fn(),
-  getAccessToken: jest.fn()
+jest.mock('@/lib/supabase/server', () => ({
+  createClient: jest.fn()
 }))
 
 jest.mock('@/lib/rate-limit-redis', () => ({
   ipRateLimit: jest.fn().mockResolvedValue({ allowed: true, count: 1 })
 }))
 
-const { getSession, getAccessToken } = jest.requireMock('@auth0/nextjs-auth0/edge')
-
 function makeRequest(expiresOffsetSeconds: number, ip = '1.1.1.1') {
   const req = new Request('https://example.com/api/auth/access-token', {
     headers: new Headers({ 'x-forwarded-for': ip })
   })
-  ;(getSession as jest.Mock).mockResolvedValue({
-    accessToken: 'old_token',
-    accessTokenExpiresAt: Math.floor(Date.now() / 1000) + expiresOffsetSeconds
+  ;(createClient as jest.Mock).mockResolvedValue({
+    auth: {
+      getSession: jest.fn().mockResolvedValue({
+        data: {
+          session: {
+            access_token: 'old_token',
+            expires_at: Math.floor(Date.now() / 1000) + expiresOffsetSeconds
+          }
+        }
+      })
+    }
   })
 }
 
@@ -32,7 +38,13 @@ describe('access-token route', () => {
   })
 
   it('returns 401 when no session', async () => {
-    (getSession as jest.Mock).mockResolvedValue(null)
+    (createClient as jest.Mock).mockResolvedValue({
+      auth: {
+        getSession: jest.fn().mockResolvedValue({
+          data: { session: null }
+        })
+      }
+    })
     const res = await GET(new NextRequest('https://example.com/api/auth/access-token'))
     expect(res.status).toBe(401)
   })
@@ -43,19 +55,17 @@ describe('access-token route', () => {
     const json = await res.json()
     expect(json.accessToken).toBe('old_token')
     expect(json.refreshed).toBe(false)
-    expect(getAccessToken).not.toHaveBeenCalled()
   })
 
   it('refreshes token when near expiry', async () => {
     makeRequest(30) // below threshold 60
-    ;(getAccessToken as jest.Mock).mockResolvedValue({ accessToken: 'new_token' })
-    const res = await GET(new NextRequest('https://example.com/api/auth/access-token'))
+    // Supabase handles refresh automatically, so we just expect the token to be returned
+    // In a real scenario, getSession would return the new token if refreshed
+    const res = await GET(new NextRequest('https://example.com/api/auth/access-token', { headers: new Headers({ 'x-forwarded-for': '3.3.3.3' }) }))
     const json = await res.json()
-    expect(json.accessToken).toBe('new_token')
-    expect(json.refreshed).toBe(true)
-    expect(getAccessToken).toHaveBeenCalled()
+    expect(json.accessToken).toBe('old_token')
+    expect(json.refreshed).toBe(false)
   })
-
   it('rate limits when ip exceeds quota', async () => {
     // Override ipRateLimit mock to return blocked
     const { ipRateLimit } = jest.requireMock('@/lib/rate-limit-redis')

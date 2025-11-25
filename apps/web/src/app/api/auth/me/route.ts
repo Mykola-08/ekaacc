@@ -1,13 +1,14 @@
-import { getSession } from '@auth0/nextjs-auth0'
+import { createClient } from '@/lib/supabase/server'
 import type { NextRequest } from 'next/server'
 import { NextResponse } from 'next/server'
 
 export async function GET(request: NextRequest) {
-  const session = await getSession(request, NextResponse.next())
-  if (!session) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  
+  if (!user) {
     return new Response(JSON.stringify({ user: null }), { status: 200 })
   }
-  // Strip tokens, return claims only
-  const { user } = session
+  
   return new Response(JSON.stringify({ user }), { headers: { 'Content-Type': 'application/json' } })
 }

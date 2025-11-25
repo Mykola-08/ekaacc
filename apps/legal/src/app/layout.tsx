@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import CookieConsent from "../components/consent/CookieConsent";
 import "./globals.css";
 import Link from "next/link";
 
@@ -32,6 +33,7 @@ export default function RootLayout({
                   <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
                   <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
                   <Link href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</Link>
+                  <Link href="/imprint" className="hover:text-primary transition-colors">Imprint</Link>
                 </nav>
               </div>
               <div className="flex items-center space-x-4">
@@ -92,6 +94,7 @@ export default function RootLayout({
         </div>
         <Analytics />
         <SpeedInsights />
+        <CookieConsent />
       </body>
     </html>
   );

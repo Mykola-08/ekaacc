@@ -26,6 +26,8 @@ interface AuthContextType extends AuthState {
   signIn: (credentials: LoginCredentials) => Promise<{ error: AuthError | null }>
   signUp: (credentials: SignUpCredentials) => Promise<{ error: AuthError | null }>
   signInWithOAuth: (provider: OAuthProvider) => Promise<{ error: AuthError | null }>
+  signInWithPasskey: (email?: string) => Promise<{ error: AuthError | null }>
+  registerPasskey: () => Promise<{ error: AuthError | null }>
   signOut: () => Promise<{ error: AuthError | null }>
   
   // User management
@@ -295,6 +297,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const signInWithPasskey = async (email?: string) => {
+    try {
+      const { error } = await (supabase.auth as any).signInWithWebAuthn({
+        email,
+      })
+
+      if (error) {
+        return { error: { message: error.message, code: error.code } }
+      }
+
+      return { error: null }
+    } catch (error) {
+      return { error: { message: 'An unexpected error occurred' } }
+    }
+  }
+
+  const registerPasskey = async () => {
+    try {
+      const { data, error } = await (supabase.auth.mfa as any).enroll({
+        factorType: 'webauthn',
+      })
+
+      if (error) {
+        return { error: { message: error.message, code: error.code } }
+      }
+
+      return { error: null }
+    } catch (error) {
+      return { error: { message: 'An unexpected error occurred' } }
+    }
+  }
+
   const signOut = async () => {
     try {
       const { error } = await supabase.auth.signOut()
@@ -471,6 +505,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     signIn,
     signUp,
     signInWithOAuth,
+    signInWithPasskey,
+    registerPasskey,
     signOut,
     updateProfile,
     updatePreferences,

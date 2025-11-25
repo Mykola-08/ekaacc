@@ -15,26 +15,31 @@ export default function CcpaNotice() {
       intro: "This Privacy Notice for California Residents supplements the information contained in EKA Balance's general Privacy Policy and applies solely to visitors, users, and others who reside in the State of California.",
       sections: [
         {
+          id: "rights",
           title: "1. Your Rights Under CCPA",
           icon: <Shield className="w-6 h-6 text-blue-600" />,
           text: "The California Consumer Privacy Act (CCPA) provides consumers (California residents) with specific rights regarding their personal information. This includes the right to know what personal information we collect, use, disclose, and sell."
         },
         {
+          id: "access",
           title: "2. Right to Know and Access",
           icon: <MapPin className="w-6 h-6 text-green-600" />,
           text: "You have the right to request that we disclose certain information to you about our collection and use of your personal information over the past 12 months. Once we receive and confirm your verifiable consumer request, we will disclose it to you."
         },
         {
+          id: "delete",
           title: "3. Right to Delete",
           icon: <FileX className="w-6 h-6 text-red-600" />,
           text: "You have the right to request that we delete any of your personal information that we collected from you and retained, subject to certain exceptions. Once we receive and confirm your verifiable consumer request, we will delete your personal information from our records."
         },
         {
+          id: "do-not-sell",
           title: "4. Do Not Sell My Personal Information",
           icon: <EyeOff className="w-6 h-6 text-purple-600" />,
           text: "You have the right to opt-out of the sale of your personal information. EKA Balance does not sell personal information. However, if we did, you would have the right to direct us to not sell your personal information at any time."
         },
         {
+          id: "non-discrimination",
           title: "5. Non-Discrimination",
           icon: <Phone className="w-6 h-6 text-orange-600" />,
           text: "We will not discriminate against you for exercising any of your CCPA rights. Unless permitted by the CCPA, we will not deny you goods or services, charge you different prices or rates, or provide you with a different level or quality of goods or services."
@@ -174,7 +179,7 @@ export default function CcpaNotice() {
 
         <div className="p-8 space-y-8">
           {t.sections.map((section, index) => (
-            <div key={index} className="flex gap-4 p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+            <div key={index} id={(section as any).id} className="flex gap-4 p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors scroll-mt-24">
               <div className="flex-shrink-0 mt-1">{section.icon}</div>
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{section.title}</h2>

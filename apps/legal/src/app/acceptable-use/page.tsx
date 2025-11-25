@@ -11,38 +11,47 @@ const content = {
     intro: "This Acceptable Use Policy (\"AUP\") outlines the examples of prohibited conduct in connection with our services. This policy is an integral part of our Terms of Service and applies to all users, visitors, and customers of EKA Balance. Our goal is to maintain a safe, secure, and respectful environment for all users globally.",
     sections: [
       {
+        id: "general-principles",
         title: "1. General Principles",
         text: "You agree to use the Services only for lawful purposes and in accordance with this Policy. You are responsible for your conduct and communications while using our Services and for any consequences thereof. We expect all users to uphold the highest standards of courtesy, respect, and legal compliance."
       },
       {
+        id: "compliance",
         title: "2. Compliance with Laws",
         text: "You may not use our Services to violate any applicable local, state, national, or international law or regulation. This includes, but is not limited to, laws regarding data privacy, intellectual property, export control, consumer protection, and criminal statutes. It is your responsibility to know and adhere to the laws of your jurisdiction and the jurisdiction of Spain."
       },
       {
+        id: "security",
         title: "3. System Security and Integrity",
         text: "You must not violate or attempt to violate the security of the Services. Prohibited actions include, but are not limited to:\n\n• Accessing data not intended for you or logging into a server or account which you are not authorized to access.\n• Attempting to probe, scan, or test the vulnerability of a system or network or to breach security or authentication measures without proper authorization.\n• Interfering with service to any user, host, or network, including, without limitation, via means of submitting a virus to the Services, overloading, \"flooding,\" \"spamming,\" \"mailbombing,\" or \"crashing.\"\n• Forging any TCP/IP packet header or any part of the header information in any email or posting.\n• Using any device, software, or routine to interfere or attempt to interfere with the proper working of the Services."
       },
       {
+        id: "content-standards",
         title: "4. Content Standards",
         text: "You are strictly prohibited from posting, transmitting, or storing any material that:\n\n• Is unlawful, harmful, threatening, abusive, harassing, tortious, defamatory, vulgar, obscene, libelous, invasive of another's privacy, hateful, or racially, ethnically, or otherwise objectionable.\n• Exploits or harms minors in any way, including by exposing them to inappropriate content.\n• Impersonates any person or entity or falsely states or otherwise misrepresents your affiliation with a person or entity.\n• Contains software viruses or any other computer code, files, or programs designed to interrupt, destroy, or limit the functionality of any computer software or hardware or telecommunications equipment."
       },
       {
+        id: "ip-rights",
         title: "5. Intellectual Property Rights",
         text: "You may not use the Services to infringe upon or misappropriate the intellectual property rights of others, including copyrights, trademarks, trade secrets, patents, or other proprietary rights. We reserve the right to terminate the accounts of users who are repeat infringers."
       },
       {
+        id: "spam",
         title: "6. Spam and Unsolicited Communications",
         text: "The Services may not be used to send unsolicited commercial messages or communications in any form (spam). You may not use the Services to collect responses from unsolicited email sent from accounts on other Internet service providers or organizations. You may not harvest or collect email addresses or other contact information of other users from the Services by electronic or other means."
       },
       {
+        id: "scraping",
         title: "7. Data Mining and Scraping",
         text: "Use of any robot, spider, site search/retrieval application, or other manual or automatic device or process to retrieve, index, \"data mine,\" or in any way reproduce or circumvent the navigational structure or presentation of the Services or its contents is strictly prohibited."
       },
       {
+        id: "enforcement",
         title: "8. Enforcement",
         text: "We reserve the right, but do not assume the obligation, to investigate any violation of this Policy or misuse of the Services. We may:\n\n• Investigate violations of this Policy or misuse of the Services.\n• Remove, disable access to, or modify any content or resource that violates this Policy.\n• Suspend or terminate your access to the Services for any reason, including violation of this Policy.\n• Report any activity that we suspect violates any law or regulation to appropriate law enforcement officials, regulators, or other appropriate third parties."
       },
       {
+        id: "reporting",
         title: "9. Reporting Violations",
         text: "If you become aware of any violation of this Policy, you are requested to report it to us immediately at legal@ekabalance.com. When reporting, please provide as much detail as possible, including the nature of the violation and any supporting evidence."
       }
@@ -223,7 +232,7 @@ export default function AcceptableUsePage() {
         </p>
 
         {t.sections.map((section, index) => (
-          <section key={index} className="mb-8">
+          <section key={index} id={(section as any).id} className="mb-8 scroll-mt-24">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">
               {section.title}
             </h2>

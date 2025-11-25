@@ -11,34 +11,42 @@ const content = {
     intro: "In compliance with Article 10 of Law 34/2002, of July 11, on Information Society Services and Electronic Commerce (LSSI-CE), the identifying data of the owner of the website are set out below.",
     sections: [
       {
+        id: "identity",
         title: "1. Identity of the Website Owner",
         text: "Owner: EKA Balance\nRegistered Office: [Insert Address], Barcelona, Spain\nNIF/CIF: [Insert Tax ID]\nEmail: legal@ekabalance.com\n\nRegistered in the Commercial Registry of Barcelona: [Insert Registry Data, e.g., Volume X, Folio Y, Sheet Z]."
       },
       {
+        id: "purpose",
         title: "2. Purpose of the Website",
         text: "The purpose of this website is to provide information about therapy services, facilitate booking of appointments, and offer resources related to mental health and well-being."
       },
       {
+        id: "terms",
         title: "3. Terms of Use",
         text: "Access to and use of this website attributes the condition of USER, who accepts, from said access and/or use, the General Terms of Use reflected here. The aforementioned Terms will apply regardless of the General Terms of Contracting that, if applicable, are mandatory."
       },
       {
+        id: "data-protection",
         title: "4. Data Protection",
         text: "EKA Balance complies with the guidelines of the Organic Law 3/2018 on Personal Data Protection and Guarantee of Digital Rights (LOPDGDD) and the General Data Protection Regulation (GDPR) (EU) 2016/679. For more information, please refer to our Privacy Policy."
       },
       {
+        id: "ip",
         title: "5. Intellectual and Industrial Property",
         text: "EKA Balance, by itself or as an assignee, is the owner of all intellectual and industrial property rights of its website, as well as the elements contained therein (including but not limited to images, sound, audio, video, software or texts; trademarks or logos, color combinations, structure and design, selection of materials used, computer programs necessary for its operation, access and use, etc.). All rights reserved."
       },
       {
+        id: "liability",
         title: "6. Exclusion of Guarantees and Liability",
         text: "EKA Balance is not responsible, in any case, for damages of any nature that may cause, by way of example: errors or omissions in the content, lack of availability of the portal or the transmission of viruses or malicious or harmful programs in the content, despite having adopted all the necessary technological measures to prevent it."
       },
       {
+        id: "modifications",
         title: "7. Modifications",
         text: "EKA Balance reserves the right to make unannounced changes it deems appropriate to its portal, being able to change, delete or add both the content and services provided through it and the way in which they are presented or located on its portal."
       },
       {
+        id: "jurisdiction",
         title: "8. Applicable Law and Jurisdiction",
         text: "The relationship between EKA Balance and the USER shall be governed by current Spanish regulations and any controversy shall be submitted to the Courts and Tribunals of the city of Barcelona."
       }
@@ -207,7 +215,7 @@ export default function ImprintPage() {
         </p>
 
         {t.sections.map((section, index) => (
-          <section key={index} className="mb-8">
+          <section key={index} id={(section as any).id} className="mb-8 scroll-mt-24">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">
               {section.title}
             </h2>

@@ -11,38 +11,47 @@ const content = {
     intro: "At EKA Balance, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.",
     sections: [
       {
+        id: "collection",
         title: "1. Information We Collect",
         text: "We collect information that identifies, relates to, describes, references, is capable of being associated with, or could reasonably be linked, directly or indirectly, with a particular consumer or device. This includes:\n\n• **Personal Identifiers:** Name, email address, phone number, postal address, unique personal identifier, online identifier, IP address.\n• **Protected Classification Characteristics:** Age, gender, medical condition (when voluntarily provided for therapy purposes).\n• **Commercial Information:** Records of products or services purchased, obtained, or considered.\n• **Internet/Network Activity:** Browsing history, search history, information on a consumer's interaction with a website, application, or advertisement.\n• **Sensory Data:** Audio, electronic, visual, or similar information (e.g., during video consultations, if recorded with consent).\n• **Professional/Employment Information:** Current or past job history (for therapists)."
       },
       {
+        id: "usage",
         title: "2. How We Use Your Information",
         text: "We use the information we collect for the following purposes:\n\n• **To Provide Services:** To facilitate account creation, manage your orders, deliver services, and process payments.\n• **To Improve Our Platform:** To understand and analyze how you use our website and services to improve functionality and user experience.\n• **To Communicate:** To send you administrative information, such as updates to our terms, conditions, and policies, and to respond to your inquiries.\n• **Marketing:** To send you marketing and promotional communications (you can opt-out at any time).\n• **Security:** To protect our Site and your account from fraud and unauthorized access.\n• **Legal Compliance:** To comply with applicable laws, regulations, and legal processes."
       },
       {
+        id: "sharing",
         title: "3. Sharing Your Information",
         text: "We may share your information in the following situations:\n\n• **Service Providers:** We may share your information with third-party vendors, service providers, contractors, or agents who perform services for us or on our behalf and require access to such information to do that work (e.g., payment processing, data analysis, email delivery, hosting services). We sign Data Processing Agreements (DPAs) with all such processors to ensure they protect your data.\n• **Business Transfers:** We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.\n• **Legal Requirements:** We may disclose your information where we are legally required to do so in order to comply with applicable law, governmental requests, a judicial proceeding, court order, or legal process."
       },
       {
+        id: "retention",
         title: "4. Data Minimization & Retention",
         text: "We adhere to the principle of data minimization, collecting only the data necessary for the purposes specified. We maintain a Record of Processing Activities (RoPA) to track our data handling practices.\n\nWe will only keep your personal information for as long as it is necessary for the purposes set out in this privacy policy, unless a longer retention period is required or permitted by law (such as tax, accounting, or other legal requirements). No purpose in this policy will require us keeping your personal information for longer than the period of time in which users have an account with us."
       },
       {
+        id: "security",
         title: "5. Security & Compliance",
         text: "We use administrative, technical, and physical security measures to help protect your personal information. We are ISO 27001 and ISO 27701 certified, SOC 2 Type II compliant, and HIPAA compliant. We conduct regular Data Protection Impact Assessments (DPIAs) for high-risk processing activities.\n\nWhile we have taken reasonable steps to secure the personal information you provide to us, please be aware that despite our efforts, no security measures are perfect or impenetrable, and no method of data transmission can be guaranteed against any interception or other type of misuse."
       },
       {
+        id: "ccpa",
         title: "6. Your Privacy Rights (GDPR & CCPA)",
         text: "Depending on your location, you may have the following rights:\n\n**GDPR (EEA/UK):**\n• **Access:** Request copies of your personal data.\n• **Rectification:** Request correction of inaccurate data.\n• **Erasure:** Request deletion of your data ('Right to be Forgotten').\n• **Restriction:** Request restriction of processing.\n• **Portability:** Request transfer of your data to another organization.\n• **Objection:** Object to processing based on legitimate interests or direct marketing.\n\n**CCPA/CPRA (California):**\n• **Right to Know:** Request details about categories and specific pieces of personal information we collect.\n• **Right to Delete:** Request deletion of your personal information.\n• **Right to Opt-Out:** We do not sell your personal information. However, you have the right to opt-out of the sale or sharing of personal information if we did.\n• **Non-Discrimination:** We will not discriminate against you for exercising your privacy rights.\n\nTo exercise these rights, please contact us or use the privacy settings in your account."
       },
       {
+        id: "dpo",
         title: "7. Data Protection Officer (DPO)",
         text: "We have appointed a Data Protection Officer to oversee our data privacy compliance. You can contact our DPO at:\n\n**Email:** dpo@ekabalance.com\n**Address:** EKA Balance, Attn: DPO, Carrer de [Street Name], [Number], 08001 Barcelona, Spain"
       },
       {
+        id: "children",
         title: "8. Children's Privacy",
         text: "Our services are not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If we learn we have collected or received personal information from a child under 13 without verification of parental consent, we will delete that information."
       },
       {
+        id: "contact",
         title: "9. Contact Us",
         text: "If you have questions or comments about this policy, you may email us at privacy@ekabalance.com or by post to:\n\nEKA Balance\nCarrer de [Street Name], [Number]\n08001 Barcelona\nSpain"
       }
@@ -209,7 +218,7 @@ export default function PrivacyPage() {
 
         <div className="space-y-8">
           {content[lang].sections.map((section, index) => (
-            <section key={index} className="mb-8">
+            <section key={index} id={section.id} className="mb-8 scroll-mt-24">
               <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
               <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}

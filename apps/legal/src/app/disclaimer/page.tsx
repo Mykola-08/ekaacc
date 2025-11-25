@@ -10,34 +10,42 @@ const content = {
     updated: "Last Updated: November 25, 2025",
     sections: [
       {
+        id: "medical-disclaimer",
         title: "1. Medical Disclaimer",
         text: "The content, products, and services offered by EKA Balance (\"Company\", \"we\", \"us\", or \"our\") are strictly for informational, educational, and self-help purposes only. Nothing on this website, including text, graphics, images, audio, video, and other material, constitutes medical advice, diagnosis, or treatment. The information provided is not intended to be a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician, psychotherapist, or other qualified health provider with any questions you may have regarding a medical condition or mental health concern. Never disregard professional medical advice or delay in seeking it because of something you have read on this website."
       },
       {
+        id: "emergency-warning",
         title: "2. Emergency Warning",
         text: "If you are experiencing a medical emergency, a mental health crisis, are thinking about suicide, or feel that you may be a danger to yourself or others, do not use this website or our services. Call your local emergency services immediately (e.g., 911 in the US, 112 in Europe, 999 in the UK) or go to the nearest hospital emergency room. EKA Balance is not a crisis intervention service and does not provide emergency support."
       },
       {
+        id: "no-relationship",
         title: "3. No Professional Relationship",
         text: "Your use of this website, including the purchase of any courses, products, or participation in any programs, does not establish a doctor-patient, therapist-client, or any other professional relationship between you and EKA Balance or any of its professionals, employees, or contractors. Such a relationship is only established through a signed written agreement and specific professional engagement where an assessment has been completed."
       },
       {
+        id: "personal-responsibility",
         title: "4. Personal Responsibility",
         text: "You acknowledge that you are participating voluntarily in using our website and services and that you are solely and personally responsible for your choices, actions, and results, now and in the future. You accept full responsibility for the consequences of your use, or non-use, of any information provided on or through this website, and you agree to use your own judgment and due diligence before implementing any idea, suggestion, or recommendation from this website to your life, family, or business."
       },
       {
+        id: "testimonials",
         title: "5. Testimonials and Results",
         text: "Testimonials, case studies, and examples found on this website are actual results from users of our products and/or services, but they are not intended to represent or guarantee that anyone will achieve the same or similar results. Individual results vary depending on personal history, motivation, commitment, background, and other factors. We do not guarantee any specific results or outcomes."
       },
       {
+        id: "liability",
         title: "6. Limitation of Liability",
         text: "To the fullest extent permitted by law, EKA Balance shall not be liable for any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to, damages for loss of profits, goodwill, use, data, or other intangible losses resulting from the use of or inability to use the service. We expressly exclude any liability for any action you may take or loss or injury you may suffer (direct or indirect including loss of pay, profit, opportunity or time, pain and suffering, any nature of loss) as a result of relying on any information on this website."
       },
       {
+        id: "external-links",
         title: "7. External Links",
         text: "This website may contain links to third-party websites. These links are provided solely as a convenience to you and not as an endorsement by us of the contents on such third-party websites. We are not responsible for the content of linked third-party sites and do not make any representations regarding the content or accuracy of materials on such third-party websites. If you decide to access linked third-party websites, you do so at your own risk."
       },
       {
+        id: "jurisdiction",
         title: "8. Jurisdiction and Governing Law",
         text: "This disclaimer shall be governed by and construed in accordance with the laws of Spain, without regard to its conflict of law provisions. Any disputes arising out of or in connection with this disclaimer shall be subject to the exclusive jurisdiction of the courts of Barcelona, Spain."
       }
@@ -197,7 +205,7 @@ export default function DisclaimerPage() {
 
         <div className="space-y-8">
           {content[lang].sections.map((section, index) => (
-            <section key={index} className="mb-8">
+            <section key={index} id={(section as any).id} className="mb-8 scroll-mt-24">
               <h2 className="text-xl font-semibold mb-4">{section.title}</h2>
               <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}

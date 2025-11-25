@@ -11,26 +11,32 @@ const content = {
     intro: "At EKA Balance, we strive to provide high-quality therapy and wellness services. We understand that circumstances may change, and you may need to cancel or reschedule your appointments. This policy outlines the terms for refunds and cancellations.",
     sections: [
       {
+        id: "cancellation",
         title: "1. Appointment Cancellation",
         text: "You may cancel or reschedule your appointment up to 24 hours before the scheduled start time without any penalty. In this case, you will receive a full refund of any fees paid."
       },
       {
+        id: "late-cancellation",
         title: "2. Late Cancellations and No-Shows",
         text: "Cancellations made less than 24 hours before the scheduled appointment time are considered \"Late Cancellations\". Late Cancellations and failure to attend a scheduled appointment (\"No-Shows\") are not eligible for a refund. The full fee for the session will be charged."
       },
       {
+        id: "withdrawal",
         title: "3. Right of Withdrawal (EU Consumers)",
         text: "If you are a consumer in the European Union, you have a statutory right to withdraw from a contract for digital services within 14 days without giving any reason. However, by booking a session to take place within this 14-day period, you expressly request that the service performance begins during the withdrawal period. If the service is fully performed (i.e., the session takes place), you lose your right of withdrawal."
       },
       {
+        id: "process",
         title: "4. Refund Process",
         text: "Approved refunds will be processed within 5-10 business days to the original payment method used for the booking. Please note that your bank or credit card provider may take additional time to post the refund to your account."
       },
       {
+        id: "technical-issues",
         title: "5. Technical Issues",
         text: "If a session cannot be completed due to technical issues on our end (e.g., platform outage), we will offer you the choice of a full refund or rescheduling the session at no additional cost. If the technical issue is on your end (e.g., internet connection failure), the standard cancellation policy applies, but we may offer rescheduling at our discretion."
       },
       {
+        id: "contact",
         title: "6. Contact Us",
         text: "If you have any questions about our Refund & Cancellation Policy, please contact us at support@ekabalance.com."
       }
@@ -175,7 +181,7 @@ export default function RefundPolicyPage() {
         </p>
 
         {t.sections.map((section, index) => (
-          <section key={index} className="mb-8">
+          <section key={index} id={(section as any).id} className="mb-8 scroll-mt-24">
             <h2 className="text-xl font-semibold mb-4 text-gray-900">
               {section.title}
             </h2>

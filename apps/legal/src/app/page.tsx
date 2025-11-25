@@ -348,6 +348,18 @@ export default function Home() {
           <span className="text-sm font-medium text-primary">Read Statement &rarr;</span>
         </Link>
 
+        <Link href="/compliance/ropa" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
+          <div className="flex items-start justify-between mb-4">
+            <div className="p-3 bg-slate-100 rounded-lg text-slate-700 group-hover:bg-slate-200 transition-colors">
+              <FileText className="w-6 h-6" />
+            </div>
+            <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">Record of Processing Activities</h3>
+          <p className="text-gray-600 mb-4">Overview of our data processing activities as required by Article 30 GDPR.</p>
+          <span className="text-sm font-medium text-primary">View Records &rarr;</span>
+        </Link>
+
         <Link href="/childrens-privacy-policy" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 bg-pink-100 rounded-lg text-pink-700 group-hover:bg-pink-200 transition-colors">
@@ -466,6 +478,18 @@ export default function Home() {
           <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">Insurance Policy</h3>
           <p className="text-gray-600 mb-4">Information on insurance coverage, claims, and liability.</p>
           <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
+        </Link>
+
+        <Link href="/data-request" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
+          <div className="flex items-start justify-between mb-4">
+            <div className="p-3 bg-blue-50 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors">
+              <Database className="w-6 h-6" />
+            </div>
+            <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">Data Rights Request</h3>
+          <p className="text-gray-600 mb-4">Exercise your rights to access, correct, or delete your personal data.</p>
+          <span className="text-sm font-medium text-primary">Submit Request &rarr;</span>
         </Link>
       </div>
 

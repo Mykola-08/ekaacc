@@ -15,26 +15,31 @@ export default function GdprCompliance() {
       intro: "EKA Balance is committed to complying with the General Data Protection Regulation (GDPR). This statement outlines our approach to data protection and the rights of individuals within the European Economic Area (EEA).",
       sections: [
         {
+          id: "principles",
           title: "1. Data Processing Principles",
           icon: <Globe className="w-6 h-6 text-blue-600" />,
           text: "We process personal data lawfully, fairly, and in a transparent manner. Data is collected for specified, explicit, and legitimate purposes and not further processed in a manner that is incompatible with those purposes."
         },
         {
+          id: "lawful-basis",
           title: "2. Lawful Basis for Processing",
           icon: <FileText className="w-6 h-6 text-green-600" />,
           text: "We only process personal data when we have a lawful basis to do so. This includes processing necessary for the performance of a contract, compliance with a legal obligation, protection of vital interests, or based on your consent."
         },
         {
+          id: "rights",
           title: "3. Data Subject Rights",
           icon: <UserCheck className="w-6 h-6 text-purple-600" />,
           text: "Under GDPR, you have the right to access, rectify, erase, restrict processing, object to processing, and data portability. We have established procedures to respond to your requests regarding these rights."
         },
         {
+          id: "security",
           title: "4. Data Security",
           icon: <Lock className="w-6 h-6 text-orange-600" />,
           text: "We implement appropriate technical and organizational measures to ensure a level of security appropriate to the risk. This includes encryption, pseudonymization, and regular testing of our security controls."
         },
         {
+          id: "transfers",
           title: "5. International Data Transfers",
           icon: <Database className="w-6 h-6 text-red-600" />,
           text: "When we transfer personal data outside the EEA, we ensure that appropriate safeguards are in place, such as Standard Contractual Clauses (SCCs) or adequacy decisions by the European Commission."
@@ -174,7 +179,7 @@ export default function GdprCompliance() {
 
         <div className="p-8 space-y-8">
           {t.sections.map((section, index) => (
-            <div key={index} className="flex gap-4 p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
+            <div key={index} id={(section as any).id} className="flex gap-4 p-6 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors scroll-mt-24">
               <div className="flex-shrink-0 mt-1">{section.icon}</div>
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">{section.title}</h2>

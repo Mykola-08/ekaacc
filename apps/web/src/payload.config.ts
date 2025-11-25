@@ -132,9 +132,9 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || 'YOUR_SECRET_HERE',
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
+      connectionString: (process.env.DATABASE_URL || process.env.POSTGRES_URL || '').replace(/[?&]sslmode=require/, ''),
       ssl: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: false, // Explicitly allow self-signed certs for Supabase Pooler
       },
     },
     push: true, // Force schema push to create tables

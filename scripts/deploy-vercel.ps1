@@ -1,5 +1,5 @@
 # Deploy script for monorepo apps to Vercel
-# This script allows you to deploy each app separately
+# This script uses Remote Build (vercel deploy) to ensure security compliance and environment consistency.
 
 param(
     [Parameter(Mandatory=$false)]
@@ -12,66 +12,74 @@ param(
 
 $apps = @('web', 'api', 'booking', 'admin', 'marketing', 'legal', 'therapist', 'docs')
 
+# Mapping of app names to Vercel project names
+# Assumes project names are ekaacc-1-$appName
+# You can customize this mapping if needed
+$projectMapping = @{
+    "web" = "ekaacc-1-web"
+    "admin" = "ekaacc-1-admin"
+    "api" = "ekaacc-1-api"
+    "booking" = "ekaacc-1-booking"
+    "marketing" = "ekaacc-1-marketing"
+    "legal" = "ekaacc-1-legal"
+    "therapist" = "ekaacc-1-therapist"
+    "docs" = "ekaacc-1-docs"
+}
+
 function Deploy-App {
     param([string]$appName)
     
-    $appPath = "apps\$appName"
+    $projectName = $projectMapping[$appName]
+    if (-not $projectName) {
+        $projectName = "ekaacc-1-$appName"
+    }
+
+    Write-Host "`n[*] Deploying $appName (Project: $projectName)..." -ForegroundColor Cyan
     
-    if (-not (Test-Path $appPath)) {
-        Write-Host "❌ App '$appName' not found at $appPath" -ForegroundColor Red
-        return $false
+    # Generate vercel.json for this app
+    $vercelConfig = @{
+        "buildCommand" = "npx turbo run build --filter=$appName"
+        "outputDirectory" = "apps/$appName/.next"
+        "framework" = "nextjs"
+        "installCommand" = "npm install --legacy-peer-deps"
     }
     
-    Write-Host "`n🚀 Deploying $appName..." -ForegroundColor Cyan
-    Write-Host "📁 Path: $appPath" -ForegroundColor Gray
-    
-    Push-Location $appPath
+    $vercelJsonContent = $vercelConfig | ConvertTo-Json -Depth 2
+    Set-Content -Path "vercel.json" -Value $vercelJsonContent
     
     try {
-        # Check if project is linked
-        if (-not (Test-Path ".vercel/project.json")) {
-            Write-Host "⚠️  Project not linked. Running 'vercel link'..." -ForegroundColor Yellow
-            # This requires interaction if not linked
-            vercel link
-            if ($LASTEXITCODE -ne 0) {
-                throw "Failed to link Vercel project"
-            }
+        # Link to the project
+        Write-Host "[*] Linking to Vercel project..." -ForegroundColor Gray
+        # We use --yes to skip confirmation, assuming the user has access
+        # We set NODE_TLS_REJECT_UNAUTHORIZED=1 to ensure security during CLI operations
+        $env:NODE_TLS_REJECT_UNAUTHORIZED = '1'
+        
+        # Run vercel link
+        $linkOutput = vercel link --project $projectName --yes 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            throw "Failed to link project: $linkOutput"
         }
 
+        # Deploy
         if ($Production) {
-            Write-Host "🏗️  Building for PRODUCTION..." -ForegroundColor Yellow
-            vercel build --prod
-            
-            if ($LASTEXITCODE -eq 0) {
-                Write-Host "🌍 Deploying to PRODUCTION..." -ForegroundColor Yellow
-                vercel deploy --prebuilt --prod
-            } else {
-                throw "Build failed"
-            }
+            Write-Host "[*] Triggering Remote Build for PRODUCTION..." -ForegroundColor Yellow
+            vercel deploy --prod
         } else {
-            Write-Host "🏗️  Building for PREVIEW..." -ForegroundColor Blue
-            vercel build
-            
-            if ($LASTEXITCODE -eq 0) {
-                Write-Host "🔧 Deploying to PREVIEW..." -ForegroundColor Blue
-                vercel deploy --prebuilt
-            } else {
-                throw "Build failed"
-            }
+            Write-Host "[*] Triggering Remote Build for PREVIEW..." -ForegroundColor Blue
+            vercel deploy
         }
         
         if ($LASTEXITCODE -eq 0) {
-            Write-Host "✅ $appName deployed successfully!" -ForegroundColor Green
+            Write-Host "[+] $appName deployed successfully!" -ForegroundColor Green
             $result = $true
         } else {
-            Write-Host "❌ Failed to deploy $appName" -ForegroundColor Red
+            Write-Host "[-] Failed to deploy $appName" -ForegroundColor Red
             $result = $false
         }
     } catch {
-        Write-Host "❌ Error deploying $appName: $_" -ForegroundColor Red
+        $err = $_.Exception.Message
+        Write-Host "[-] Error deploying ${appName}: $err" -ForegroundColor Red
         $result = $false
-    } finally {
-        Pop-Location
     }
     
     return $result
@@ -79,10 +87,11 @@ function Deploy-App {
 
 Write-Host "========================================" -ForegroundColor Magenta
 Write-Host "   Vercel Monorepo Deployment Script   " -ForegroundColor Magenta
+Write-Host "   (Remote Build Mode)                 " -ForegroundColor Magenta
 Write-Host "========================================" -ForegroundColor Magenta
 
 if ($App -eq 'all') {
-    Write-Host "`n📦 Deploying all apps..." -ForegroundColor Cyan
+    Write-Host "`n[*] Deploying all apps..." -ForegroundColor Cyan
     
     $results = @{}
     foreach ($appName in $apps) {
@@ -94,7 +103,7 @@ if ($App -eq 'all') {
     Write-Host "========================================" -ForegroundColor Magenta
     
     foreach ($appName in $apps) {
-        $status = if ($results[$appName]) { "✅ Success" } else { "❌ Failed" }
+        $status = if ($results[$appName]) { "Success" } else { "Failed" }
         $color = if ($results[$appName]) { "Green" } else { "Red" }
         Write-Host "$appName : $status" -ForegroundColor $color
     }

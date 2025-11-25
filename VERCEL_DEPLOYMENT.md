@@ -141,3 +141,17 @@ vercel inspect [deployment-url]
 # Remove a deployment
 vercel rm [deployment-url]
 ```
+
+## Payload CMS (Web App)
+
+The `web` app uses Payload CMS. Ensure the following:
+
+1.  **Database Connection**: Payload requires a database connection during the build process to generate types and schema.
+    *   Ensure `POSTGRES_URL` (or your database connection string) is set in the Vercel project environment variables.
+    *   If using Supabase, ensure the connection string is correct (Transaction Pooler for serverless).
+
+2.  **Payload Secret**: Ensure `PAYLOAD_SECRET` is set in Vercel environment variables.
+
+3.  **Vercel Blob**: If using Vercel Blob for storage, ensure `BLOB_READ_WRITE_TOKEN` is set.
+
+4.  **Build Settings**: The `vercel.json` is configured to handle the build, but if you encounter issues, check the Vercel logs for database connection errors.

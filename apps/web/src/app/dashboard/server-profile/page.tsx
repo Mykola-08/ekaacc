@@ -4,7 +4,7 @@ import { NextRequest } from 'next/server'
 
 // Server Component Example: Uses server-side Supabase with Auth0 session access token.
 // Demonstrates SSR user profile retrieval under RLS policies.
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export default async function ServerProfilePage() {
   // Construct a NextRequest passing through cookies for getSession.

@@ -2,7 +2,7 @@ import { fetchUserProfile } from '@/lib/supabase-server'
 import { headers } from 'next/headers'
 import { NextRequest } from 'next/server'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export default async function ServerDashboardPage() {
   const h = await headers()

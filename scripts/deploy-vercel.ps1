@@ -16,15 +16,15 @@ $apps = @('web', 'api', 'booking', 'admin', 'marketing', 'legal', 'therapist', '
 # Assumes project names are ekaacc-1-$appName
 # You can customize this mapping if needed
 $projectMapping = @{
-    "web" = "ekaacc-1-web"
-    "admin" = "ekaacc-1-admin"
-    "api" = "ekaacc-1-api"
-    "booking" = "ekaacc-1-booking"
-    "marketing" = "ekaacc-1-marketing"
-    "legal" = "ekaacc-1-legal"
-    "therapist" = "ekaacc-1-therapist"
-    "docs" = "ekaacc-1-docs"
-    "auth" = "ekaacc-1-auth"
+    "web" = "ekaacc-web"
+    "admin" = "ekaacc-admin"
+    "api" = "ekaacc-api"
+    "booking" = "ekaacc-booking"
+    "marketing" = "ekaacc-marketing"
+    "legal" = "ekaacc-legal"
+    "therapist" = "ekaacc-therapist"
+    "docs" = "ekaacc-docs"
+    "auth" = "ekaacc-auth"
 }
 
 function Deploy-App {
@@ -32,7 +32,7 @@ function Deploy-App {
     
     $projectName = $projectMapping[$appName]
     if (-not $projectName) {
-        $projectName = "ekaacc-1-$appName"
+        $projectName = "ekaacc-$appName"
     }
 
     Write-Host "`n[*] Deploying $appName (Project: $projectName)..." -ForegroundColor Cyan

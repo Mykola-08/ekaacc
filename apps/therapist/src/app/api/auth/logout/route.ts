@@ -1,17 +1,9 @@
-import { handleLogout } from '@auth0/nextjs-auth0'
 import { NextRequest, NextResponse } from 'next/server'
 
 export const GET = async (req: NextRequest) => {
-  try {
-    const handler = handleLogout({
-      returnTo: '/logout'
-    });
-    return await handler(req, { params: {} });
-  } catch (error: any) {
-    console.error('Auth0 logout error:', error);
-    return NextResponse.json(
-      { error: error.message || 'An error occurred during logout' },
-      { status: 500 }
-    );
-  }
+  const authAppUrl = process.env.NEXT_PUBLIC_AUTH_APP_URL || (process.env.NODE_ENV === 'production' ? 'https://auth.ekabalance.com' : 'http://localhost:9005')
+  const logoutUrl = new URL(`${authAppUrl}/logout`)
+  logoutUrl.searchParams.set('returnTo', new URL('/', req.url).toString())
+  
+  return NextResponse.redirect(logoutUrl)
 }

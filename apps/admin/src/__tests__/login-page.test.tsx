@@ -8,17 +8,9 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-// Mock Auth0
-jest.mock('@auth0/auth0-react', () => ({
-  useAuth0: jest.fn()
-}));
-
-// Import after mock is set up
-import { useAuth0 } from '@auth0/auth0-react';
 import { useRouter } from 'next/navigation';
 
 describe('LoginForm Component', () => {
-  const mockLoginWithRedirect = jest.fn();
   const mockPush = jest.fn();
 
   beforeEach(() => {
@@ -26,12 +18,6 @@ describe('LoginForm Component', () => {
     
     (useRouter as jest.Mock).mockReturnValue({
       push: mockPush,
-    });
-
-    (useAuth0 as jest.Mock).mockReturnValue({
-      loginWithRedirect: mockLoginWithRedirect,
-      isLoading: false,
-      isAuthenticated: false,
     });
   });
 

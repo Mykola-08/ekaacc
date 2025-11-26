@@ -1,53 +1,23 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/auth-context';
-import { useToast } from '@/hooks/use-toast';
-import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
-import { OnboardingShell } from '@/components/eka/onboarding/onboarding-shell';
-import { motion } from 'framer-motion';
-import MedicalDisclaimer from '@/components/medical-disclaimer';
-import { useEffect, useState } from 'react';
 
 export default function OnboardingPage() {
-  const { user } = useAuth();
   const router = useRouter();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    // Check if user is already onboarded
-    if (user?.personalizationCompleted) {
-      toast({
-        title: 'Already onboarded!',
-        description: 'Redirecting to your dashboard...',
-      });
-      router.push('/home');
-    }
-  }, [user, router, toast]);
+    // Redirect to the auth app's onboarding page
+    const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'https://auth.ekaacc.com';
+    window.location.href = `${authUrl}/onboarding`;
+  }, []);
 
-  const handleComplete = async (personalizationData: any) => {
-    if (!user) {
-      toast({
-        variant: 'destructive',
-        title: 'Error',
-        description: 'You must be logged in to complete onboarding.',
-      });
-      router.push('/login');
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const { getDataService } = await import('@/services/data-service');
-      const dataService = await getDataService();
-      
-      // Extract layout preference
-      const { layoutPreference, ...otherPersonalization } = personalizationData;
-      
-      await dataService.updateUser(user.id, {
-        personalizationCompleted: true,
-        personalization: otherPersonalization,
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-pulse">Redirecting to onboarding...</div>
+    </div>
+  );
+}
         settings: {
           ...user.settings,
           appPreferences: {

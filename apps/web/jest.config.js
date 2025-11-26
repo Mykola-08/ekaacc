@@ -24,6 +24,11 @@ const customJestConfig = {
     '**/?(*.)+(spec|test).tsx',
     '!**/e2e/**',
   ],
+  modulePathIgnorePatterns: [
+    '<rootDir>/.next/',
+    '<rootDir>/node_modules_trash/',
+    '<rootDir>/../../node_modules_trash/',
+  ],
   transformIgnorePatterns: [
     'node_modules/(?!(uncrypto|@upstash|uuid|jose|@auth0|@panva)/)',
   ],

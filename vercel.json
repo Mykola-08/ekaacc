@@ -1,6 +1,6 @@
 {
-    "outputDirectory":  "apps/docs/.next",
-    "buildCommand":  "npx turbo run build --filter=docs",
+    "outputDirectory":  "apps/web/.next",
+    "buildCommand":  "npx turbo run build --filter=web",
     "installCommand":  "npm install --legacy-peer-deps",
     "framework":  "nextjs"
 }

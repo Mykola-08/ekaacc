@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Media } from '@/payload-types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Blog | EKA Account',
   description: 'Latest updates and articles from EKA.',

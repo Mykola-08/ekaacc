@@ -65,7 +65,7 @@
     "@stripe/react-stripe-js": "^5.4.0",
     "@stripe/stripe-js": "^8.5.2",
     "@supabase/ssr": "^0.7.0",
-    "@supabase/supabase-js": "^2.81.1",
+    "@supabase/supabase-js": "^2.84.0",
     "@tabler/icons-react": "^3.35.0",
     "@udecode/plate-basic-marks": "^48.0.0",
     "@udecode/plate-block-quote": "^48.0.0",

@@ -4,8 +4,15 @@ import { getPayloadClient } from '@/lib/payload';
 import { NextResponse, NextRequest } from 'next/server';
 
 // Mock dependencies
+const mockGetUser = jest.fn();
+const mockSupabase = {
+  auth: {
+    getUser: mockGetUser,
+  },
+};
+
 jest.mock('@/lib/supabase/server', () => ({
-  createClient: jest.fn(),
+  createClient: jest.fn(() => Promise.resolve(mockSupabase)),
 }));
 
 jest.mock('@/lib/payload', () => ({
@@ -59,7 +66,7 @@ describe('Status API', () => {
 
   it('returns status data for unauthenticated user', async () => {
     // Mock session as null (unauthenticated)
-    (getSession as jest.Mock).mockResolvedValue(null);
+    mockGetUser.mockResolvedValue({ data: { user: null } });
 
     // Mock Payload client
     const mockPayload = {
@@ -90,8 +97,8 @@ describe('Status API', () => {
 
   it('returns detailed status data for authenticated user', async () => {
     // Mock session with user (authenticated)
-    (getSession as jest.Mock).mockResolvedValue({
-      user: { sub: 'user123' },
+    mockGetUser.mockResolvedValue({
+      data: { user: { id: 'user123' } },
     });
 
     // Mock Payload client
@@ -120,7 +127,7 @@ describe('Status API', () => {
   });
 
   it('handles database connection failure', async () => {
-    (getSession as jest.Mock).mockResolvedValue(null);
+    mockGetUser.mockResolvedValue({ data: { user: null } });
 
     // Mock Payload client failure
     (getPayloadClient as jest.Mock).mockRejectedValue(new Error('DB Connection Failed'));
@@ -138,7 +145,7 @@ describe('Status API', () => {
   });
 
   it('handles external service failure', async () => {
-    (getSession as jest.Mock).mockResolvedValue(null);
+    mockGetUser.mockResolvedValue({ data: { user: null } });
 
     const mockPayload = {
       find: jest.fn().mockResolvedValue({ docs: [] }),

@@ -15,7 +15,7 @@ describe('Legal Center Page', () => {
     const termsLink = screen.getByRole('heading', { level: 3, name: /Terms of Service/i })
     expect(termsLink).toBeInTheDocument()
 
-    const privacyLink = screen.getByRole('heading', { level: 3, name: /Privacy Policy/i })
+    const privacyLink = screen.getByRole('heading', { level: 3, name: /^Privacy Policy$/i })
     expect(privacyLink).toBeInTheDocument()
 
     const cookieLink = screen.getByRole('heading', { level: 3, name: /Cookie Policy/i })

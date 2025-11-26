@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import React from 'react';
 import { SignupFormEnhanced } from '../components/signup-form-enhanced';
@@ -11,6 +11,15 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
+// Mock useSimpleAuth
+const mockSignUp = jest.fn();
+jest.mock('@/hooks/use-simple-auth', () => ({
+  useSimpleAuth: () => ({
+    signUp: mockSignUp,
+    isLoading: false,
+  }),
+}));
+
 describe('SignupFormEnhanced Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -19,20 +28,34 @@ describe('SignupFormEnhanced Component', () => {
   it('should render signup form correctly', () => {
     render(<SignupFormEnhanced />);
 
-    expect(screen.getByText('Create your account')).toBeInTheDocument();
-    expect(screen.getByText('Join EKA Account using Auth0')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /create account with auth0/i })).toBeInTheDocument();
-    expect(screen.getByText(/already have an account/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /sign in/i })).toHaveAttribute('href', '/login');
+    expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /create account/i })).toBeInTheDocument();
   });
 
-  it('should handle signup button click', () => {
+  it('should handle signup submission', async () => {
+    mockSignUp.mockResolvedValue({ error: null });
     render(<SignupFormEnhanced />);
 
-    const signupButton = screen.getByRole('button', { name: /create account with auth0/i });
+    fireEvent.change(screen.getByLabelText(/full name/i), { target: { value: 'Test User' } });
+    fireEvent.change(screen.getByLabelText(/username/i), { target: { value: 'testuser' } });
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
+
+    const signupButton = screen.getByRole('button', { name: /create account/i });
     fireEvent.click(signupButton);
 
-    expect(mockPush).toHaveBeenCalledWith('/api/auth/login?screen_hint=signup');
+    await waitFor(() => {
+      expect(mockSignUp).toHaveBeenCalledWith({
+        fullName: 'Test User',
+        username: 'testuser',
+        email: 'test@example.com',
+        password: 'password123'
+      });
+      expect(mockPush).toHaveBeenCalledWith('/login?message=Account created. Please sign in.');
+    });
   });
 
   it('should render terms and privacy links', () => {

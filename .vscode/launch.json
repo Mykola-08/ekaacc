@@ -12,11 +12,11 @@
             "webRoot": "${workspaceFolder}"
         },
         {
-            "name": "SWA: Run ekaacc-1",
+            "name": "SWA: Run ekaacc",
             "request": "launch",
             "type": "chrome",
             "url": "http://localhost:4280",
-            "preLaunchTask": "swa: start ekaacc-1",
+            "preLaunchTask": "swa: start ekaacc",
             "webRoot": "${workspaceFolder}/",
             "timeout": 30000
         }

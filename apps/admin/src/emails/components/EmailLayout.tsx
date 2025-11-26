@@ -39,7 +39,7 @@ export const EmailLayout = ({ preview, children, unsubscribeUrl }: EmailLayoutPr
           <Section style={headerAccent} />
           <Section style={header}>
             <Img
-              src="https://ekaacc-1.vercel.app/eka_logo.png"
+              src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
               width="48"
               height="48"
               alt="EKA Account"

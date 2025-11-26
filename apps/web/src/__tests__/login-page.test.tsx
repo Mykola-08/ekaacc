@@ -8,17 +8,16 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-// Mock Auth0
-jest.mock('@auth0/auth0-react', () => ({
-  useAuth0: jest.fn()
+// Mock useSimpleAuth
+jest.mock('@/hooks/use-simple-auth', () => ({
+  useSimpleAuth: jest.fn()
 }));
 
-// Import after mock is set up
-import { useAuth0 } from '@auth0/auth0-react';
+import { useSimpleAuth } from '@/hooks/use-simple-auth';
 import { useRouter } from 'next/navigation';
 
 describe('LoginForm Component', () => {
-  const mockLoginWithRedirect = jest.fn();
+  const mockSignIn = jest.fn();
   const mockPush = jest.fn();
 
   beforeEach(() => {
@@ -28,39 +27,37 @@ describe('LoginForm Component', () => {
       push: mockPush,
     });
 
-    (useAuth0 as jest.Mock).mockReturnValue({
-      loginWithRedirect: mockLoginWithRedirect,
+    (useSimpleAuth as jest.Mock).mockReturnValue({
+      signIn: mockSignIn,
       isLoading: false,
-      isAuthenticated: false,
+      user: null,
     });
   });
 
   it('should render login form correctly', () => {
     render(<LoginForm />);
 
-    // Auth0 Universal Login form
-    expect(screen.getByRole('button', { name: /sign in.*sign up/i })).toBeInTheDocument();
-    expect(screen.getByText(/welcome/i)).toBeInTheDocument();
-    expect(screen.getByText(/sign in with auth0/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /^sign in$/i })).toBeInTheDocument();
   });
 
-  it('should handle auth0 sign in button click', async () => {
+  it('should handle sign in', async () => {
+    mockSignIn.mockResolvedValue({ error: null });
     render(<LoginForm />);
 
-    const authButton = screen.getByRole('button', { name: /sign in.*sign up/i });
-    fireEvent.click(authButton);
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
+    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password' } });
+    
+    const signInButton = screen.getByRole('button', { name: /^sign in$/i });
+    fireEvent.click(signInButton);
 
     await waitFor(() => {
-      expect(mockPush).toHaveBeenCalledWith('/api/auth/login');
+      expect(mockSignIn).toHaveBeenCalledWith({
+        email: 'test@example.com',
+        password: 'password'
+      });
+      expect(mockPush).toHaveBeenCalledWith('/');
     });
-  });
-
-  it('should render social login providers', async () => {
-    render(<LoginForm />);
-
-    // Check for social login buttons
-    expect(screen.getByText('Google')).toBeInTheDocument();
-    expect(screen.getByText('X')).toBeInTheDocument();
-    expect(screen.getByText('LinkedIn')).toBeInTheDocument();
   });
 });

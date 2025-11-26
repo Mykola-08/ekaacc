@@ -1,4 +1,3 @@
-import { Auth0Integration } from './auth0';
 import { StripeIntegration } from './stripe';
 import { ResendIntegration } from './resend';
 import { SupabaseIntegration } from './supabase';
@@ -14,13 +13,6 @@ export class IntegrationManager {
   }
 
   private initializeIntegrations() {
-    // Auth0
-    this.integrations.set('auth0', new Auth0Integration({
-      enabled: true,
-      baseUrl: process.env.AUTH0_ISSUER_BASE_URL,
-      apiKey: process.env.AUTH0_CLIENT_ID
-    }));
-
     // Stripe
     this.integrations.set('stripe', new StripeIntegration({
       enabled: true,

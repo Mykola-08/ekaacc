@@ -14,7 +14,6 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^uncrypto$': '<rootDir>/src/__mocks__/uncrypto.js',
     '^jose$': require.resolve('jose'),
-    '^@auth0/nextjs-auth0/edge$': '<rootDir>/src/__mocks__/auth0-edge.js',
     '^next/server$': '<rootDir>/src/__mocks__/next-server.js',
   },
   testMatch: [
@@ -30,7 +29,7 @@ const customJestConfig = {
     '<rootDir>/../../node_modules_trash/',
   ],
   transformIgnorePatterns: [
-    'node_modules/(?!(uncrypto|@upstash|uuid|jose|@auth0|@panva)/)',
+    'node_modules/(?!(uncrypto|@upstash|uuid|jose|@panva)/)',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverageFrom: [

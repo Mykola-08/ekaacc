@@ -1,5 +1,6 @@
 
 import { describe, it, expect, jest, beforeEach } from '@jest/globals';
+import type { Mock } from 'jest-mock';
 import { AIBackgroundMonitor } from '../ai-background-monitor';
 import { AIPersonalizationService } from '../ai-personalization-service';
 
@@ -8,18 +9,37 @@ jest.mock('../ai-personalization-service');
 
 describe('AIBackgroundMonitor', () => {
   let monitor: AIBackgroundMonitor;
-  let mockAiService: any;
-  let mockPersonalizationService: any;
+  let mockAiService: {
+    generateBackgroundInsights: Mock<() => Promise<never[]>>;
+    generateProactiveRecommendations: Mock<() => Promise<never[]>>;
+  };
+  let mockPersonalizationService: AIPersonalizationService & {
+    initializeUserProfile: Mock<() => Promise<void>>;
+    getPersonalizationProfile: Mock<() => Promise<{
+      userId: string;
+      behaviorPatterns: never[];
+      preferences: Record<string, never>;
+      wellnessInsights: Record<string, never>;
+    }>>;
+    getSupabaseClient: Mock<() => {
+      from: Mock;
+      select: Mock;
+      eq: Mock;
+      gte: Mock;
+      order: Mock;
+      limit: Mock<() => Promise<{ data: never[]; error: null }>>;
+    }>;
+  };
 
   beforeEach(() => {
     mockAiService = {
-      generateBackgroundInsights: jest.fn().mockResolvedValue([]),
-      generateProactiveRecommendations: jest.fn().mockResolvedValue([])
+      generateBackgroundInsights: jest.fn<() => Promise<never[]>>().mockResolvedValue([]),
+      generateProactiveRecommendations: jest.fn<() => Promise<never[]>>().mockResolvedValue([])
     };
 
-    mockPersonalizationService = new AIPersonalizationService(mockAiService);
-    (mockPersonalizationService.initializeUserProfile as jest.Mock).mockResolvedValue(undefined);
-    (mockPersonalizationService.getPersonalizationProfile as jest.Mock).mockResolvedValue({
+    mockPersonalizationService = new AIPersonalizationService(mockAiService) as typeof mockPersonalizationService;
+    (mockPersonalizationService.initializeUserProfile as Mock<() => Promise<void>>).mockResolvedValue(undefined);
+    (mockPersonalizationService.getPersonalizationProfile as Mock<() => Promise<unknown>>).mockResolvedValue({
       userId: 'test-user',
       behaviorPatterns: [],
       preferences: {},
@@ -32,9 +52,9 @@ describe('AIBackgroundMonitor', () => {
       eq: jest.fn().mockReturnThis(),
       gte: jest.fn().mockReturnThis(),
       order: jest.fn().mockReturnThis(),
-      limit: jest.fn().mockResolvedValue({ data: [], error: null })
+      limit: jest.fn<() => Promise<{ data: never[]; error: null }>>().mockResolvedValue({ data: [], error: null })
     };
-    (mockPersonalizationService.getSupabaseClient as jest.Mock) = jest.fn().mockReturnValue(mockSupabase);
+    (mockPersonalizationService as { getSupabaseClient: Mock }).getSupabaseClient = jest.fn().mockReturnValue(mockSupabase);
 
     monitor = new AIBackgroundMonitor(mockAiService, mockPersonalizationService);
   });
@@ -49,7 +69,7 @@ describe('AIBackgroundMonitor', () => {
     
     await monitor.performBackgroundAnalysis('test-user');
     
-    expect(mockPersonalizationService.getSupabaseClient).toHaveBeenCalled();
+    expect((mockPersonalizationService as { getSupabaseClient: Mock }).getSupabaseClient).toHaveBeenCalled();
     expect(mockAiService.generateBackgroundInsights).toHaveBeenCalled();
   });
 });

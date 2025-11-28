@@ -89,7 +89,7 @@ describe('Performance Utils', () => {
     });
 
     it('should retry failed items', async () => {
-      const processFn = jest.fn()
+      const processFn = jest.fn<(items: number[]) => Promise<void>>()
         .mockRejectedValueOnce(new Error('Fail'))
         .mockResolvedValue(undefined);
       

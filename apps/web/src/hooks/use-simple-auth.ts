@@ -7,7 +7,7 @@ import { useAuth } from '@/context/auth-context'
 export function useSimpleAuth() {
   const auth = useAuth()
 
-  // Map Auth0 user to AuthUser interface if Supabase user is missing
+  // Map Supabase user to AuthUser interface
   const user = auth.user
 
   const isLoading = auth.isLoading

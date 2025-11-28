@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 
-// Server Component Example: Uses server-side Supabase with Auth0 session access token.
+// Server Component Example: Uses server-side Supabase session.
 // Demonstrates SSR user profile retrieval under RLS policies.
 export const runtime = 'nodejs'
 

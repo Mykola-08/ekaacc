@@ -148,10 +148,9 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
   const [activeTab, setActiveTab] = useState<'overview' | 'benefits' | 'progress' | 'history'>('overview');
 
   useEffect(() => {
-    if (userId) {
-      fetchUserTiers(userId);
-    }
-  }, [fetchUserTiers, userId]);
+    // Note: userId prop is for display purposes only; fetchUserTiers uses the authenticated user from context
+    fetchUserTiers();
+  }, [fetchUserTiers]);
 
   // Move benefits arrays inside the component to avoid null access
   const getVipBenefits = (data: typeof tierData) => data ? [

@@ -1,14 +1,15 @@
 import { fxUsers } from '@/lib/fx-users';
-import { supabase } from '@/lib/supabase';
 import { safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/supabase-utils';
 
-// Mock dependencies
+// Mock Supabase client with proper chainable mock
+const mockSupabaseChain = {
+  from: jest.fn().mockReturnThis(),
+  select: jest.fn().mockReturnThis(),
+  order: jest.fn().mockReturnThis(),
+};
+
 jest.mock('@/lib/supabase', () => ({
-  supabase: {
-    from: jest.fn().mockReturnThis(),
-    select: jest.fn().mockReturnThis(),
-    order: jest.fn().mockReturnThis(),
-  },
+  supabase: mockSupabaseChain,
 }));
 
 jest.mock('@/lib/supabase-utils', () => ({
@@ -19,6 +20,9 @@ jest.mock('@/lib/supabase-utils', () => ({
 describe('fxUsers', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Reset chain mocks
+    mockSupabaseChain.from.mockReturnThis();
+    mockSupabaseChain.select.mockReturnThis();
   });
 
   describe('getUsers', () => {
@@ -29,9 +33,9 @@ describe('fxUsers', () => {
       const result = await fxUsers.getUsers();
 
       expect(result).toEqual(mockUsers);
-      expect(supabase.from).toHaveBeenCalledWith('users');
-      expect(supabase.select).toHaveBeenCalledWith('*');
-      expect(supabase.order).toHaveBeenCalledWith('created_at', { ascending: false });
+      expect(mockSupabaseChain.from).toHaveBeenCalledWith('users');
+      expect(mockSupabaseChain.select).toHaveBeenCalledWith('*');
+      expect(mockSupabaseChain.order).toHaveBeenCalledWith('created_at', { ascending: false });
     });
 
     it('should throw error when fetch fails', async () => {

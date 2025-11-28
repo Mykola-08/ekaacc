@@ -9,11 +9,9 @@ import type {NextConfig} from 'next';
 const nextConfig: NextConfig = {
   serverExternalPackages: ['pino', 'pino-pretty', 'payload'],
   /* config options here */
-  // TypeScript configuration
-  // TODO: Fix TypeScript errors and remove ignoreBuildErrors
-  // For now, ignoring to allow builds to complete
+  // TypeScript configuration - all errors are now fixed
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   
   // ESLint configuration

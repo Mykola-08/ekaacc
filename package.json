@@ -2,14 +2,11 @@
   "name": "ekaacc-monorepo",
   "private": true,
   "workspaces": [
-    "apps/admin",
     "apps/booking",
     "apps/docs",
     "apps/legal",
     "apps/marketing",
-    "apps/therapist",
     "apps/web",
-    "apps/auth",
     "packages/*"
   ],
   "scripts": {
@@ -33,8 +30,6 @@
     "test:vercel": "turbo run test:vercel",
     "test:vercel:env": "turbo run test:vercel:env",
     "test:all": "turbo run test && turbo run test:e2e",
-    "verify:auth0": "turbo run verify:auth0",
-    "verify:auth0:connections": "turbo run verify:auth0:connections",
     "security:audit": "npm audit --audit-level=high || echo 'Audit completed with findings'",
     "security:secrets": "npx gitleaks detect --no-banner --redact || echo 'Gitleaks scan finished'",
     "check:resend": "turbo run check:resend",

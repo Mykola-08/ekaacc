@@ -3,6 +3,7 @@ import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import type { VIPTier, LoyaltyTier } from '@/lib/subscription-types';
+import type { PermissionGroup, PermissionAction } from '@/lib/role-permissions';
 
 export interface UserTierData {
   currentTiers: {
@@ -248,7 +249,7 @@ export function useAdminTiers(): UseAdminTiersReturn {
 
   // Verify admin permissions
   const verifyAdminAccess = useCallback(() => {
-    if (!user || !hasPermission('user_management', 'manage')) {
+    if (!user || !hasPermission({ group: 'user_management', action: 'manage' })) {
       throw new Error('Insufficient permissions');
     }
   }, [user, hasPermission]);

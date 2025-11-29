@@ -3,7 +3,6 @@
   "private": true,
   "workspaces": [
     "apps/booking",
-    "apps/docs",
     "apps/legal",
     "apps/marketing",
     "apps/web",
@@ -38,19 +37,7 @@
     "prepare": "husky install || echo 'Husky not installed'"
   },
   "devDependencies": {
-    "turbo": "^2.0.0",
-    "nextra": "^4.6.0",
-    "nextra-theme-docs": "^4.6.0",
-    "next-themes": "0.3.0",
-    "@headlessui/react": "2.2.0",
-    "@floating-ui/react-dom": "2.1.0",
-    "@react-aria/focus": "*",
-    "@react-aria/interactions": "*",
-    "@react-aria/utils": "3.0.0",
-    "@react-aria/ssr": "3.0.0",
-    "@tanstack/react-virtual": "*",
-    "use-sync-external-store": "1.2.0",
-    "whatwg-fetch": "^3.6.20"
+    "turbo": "^2.0.0"
   },
   "packageManager": "npm@10.9.0",
   "dependencies": {

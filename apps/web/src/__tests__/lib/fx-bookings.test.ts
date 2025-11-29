@@ -1,15 +1,16 @@
 import { fxBookings } from '@/lib/fx-bookings';
-import { supabase } from '@/lib/supabase';
 import { safeSupabaseInsert, safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/supabase-utils';
 
-// Mock dependencies
+// Mock Supabase client with proper chainable mock
+const mockSupabaseChain = {
+  from: jest.fn().mockReturnThis(),
+  select: jest.fn().mockReturnThis(),
+  eq: jest.fn().mockReturnThis(),
+  order: jest.fn().mockReturnThis(),
+};
+
 jest.mock('@/lib/supabase', () => ({
-  supabase: {
-    from: jest.fn().mockReturnThis(),
-    select: jest.fn().mockReturnThis(),
-    eq: jest.fn().mockReturnThis(),
-    order: jest.fn().mockReturnThis(),
-  },
+  supabase: mockSupabaseChain,
 }));
 
 jest.mock('@/lib/supabase-utils', () => ({
@@ -21,6 +22,10 @@ jest.mock('@/lib/supabase-utils', () => ({
 describe('fxBookings', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Reset chain mocks
+    mockSupabaseChain.from.mockReturnThis();
+    mockSupabaseChain.select.mockReturnThis();
+    mockSupabaseChain.eq.mockReturnThis();
   });
 
   describe('createBooking', () => {
@@ -64,9 +69,9 @@ describe('fxBookings', () => {
       const result = await fxBookings.getBookingsForUser(userId);
 
       expect(result).toEqual(mockBookings);
-      expect(supabase.from).toHaveBeenCalledWith('appointments');
-      expect(supabase.select).toHaveBeenCalledWith('*');
-      expect(supabase.eq).toHaveBeenCalledWith('user_id', userId);
+      expect(mockSupabaseChain.from).toHaveBeenCalledWith('appointments');
+      expect(mockSupabaseChain.select).toHaveBeenCalledWith('*');
+      expect(mockSupabaseChain.eq).toHaveBeenCalledWith('user_id', userId);
     });
 
     it('should throw error when fetch fails', async () => {

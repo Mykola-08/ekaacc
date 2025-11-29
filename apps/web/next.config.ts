@@ -8,17 +8,10 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   serverExternalPackages: ['pino', 'pino-pretty', 'payload'],
-  experimental: {
-    serverActions: {
-      bodySizeLimit: '10mb',
-    },
-  },
   /* config options here */
-  // TypeScript configuration
-  // TODO: Fix TypeScript errors and remove ignoreBuildErrors
-  // For now, ignoring to allow builds to complete
+  // TypeScript configuration - all errors are now fixed
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   
   // ESLint configuration
@@ -77,6 +70,9 @@ const nextConfig: NextConfig = {
   
   // Experimental features for performance
   experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb',
+    },
     optimizePackageImports: [
       'lucide-react',
       '@radix-ui/react-icons',

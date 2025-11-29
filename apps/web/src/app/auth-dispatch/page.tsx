@@ -18,7 +18,9 @@ export default async function AuthDispatchPage() {
     .eq('user_id', user.id)
     .single();
 
-  const roleName = roleAssignment?.user_roles?.name;
+  // Type assertion for the nested role object
+  const userRoles = roleAssignment?.user_roles as { name: string } | { name: string }[] | undefined;
+  const roleName = Array.isArray(userRoles) ? userRoles[0]?.name : userRoles?.name;
 
   if (roleName === 'admin') {
     redirect('http://localhost:9003');

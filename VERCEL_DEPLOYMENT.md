@@ -4,35 +4,22 @@ This monorepo contains multiple Next.js applications that can be deployed separa
 
 ## Apps Available for Deployment
 
-- **web** - Main web application
-- **api** - API endpoints
+- **web** - Main web application (includes Payload CMS)
 - **booking** - Booking system
-- **admin** - Admin dashboard
 - **marketing** - Marketing site
 - **legal** - Legal pages
-- **therapist** - Therapist portal
-- **docs** - Documentation site
 
 ## Quick Deployment
 
-### Deploy a Single App
+### Deploy the Main Web App
 
-```powershell
-# Deploy to preview (staging)
-.\scripts\deploy-vercel.ps1 -App web
+```bash
+# From the repository root
+cd apps/web
+vercel
 
 # Deploy to production
-.\scripts\deploy-vercel.ps1 -App web -Production
-```
-
-### Deploy All Apps
-
-```powershell
-# Deploy all apps to preview
-.\scripts\deploy-vercel.ps1 -App all
-
-# Deploy all apps to production
-.\scripts\deploy-vercel.ps1 -App all -Production
+vercel --prod
 ```
 
 ## Manual Deployment

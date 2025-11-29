@@ -129,7 +129,7 @@ describe('BillingSettings', () => {
       expect(window.location.href).toBe('https://stripe.com/portal');
     });
 
-    // Cleanup
-    window.location = originalLocation;
+    // Cleanup - use Object.defineProperty for proper restoration
+    Object.defineProperty(window, 'location', { value: originalLocation, writable: true });
   });
 });

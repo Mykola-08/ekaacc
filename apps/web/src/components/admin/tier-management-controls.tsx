@@ -11,6 +11,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useAdminTiers } from '@/hooks/use-tiers';
+import type { VIPTier, LoyaltyTier } from '@/lib/subscription-types';
 import { 
   User, 
   Crown, 
@@ -70,10 +71,10 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
   };
 
   const handleRevokeTier = async () => {
-    if (!reason) return;
+    if (!selectedTier || !reason) return;
     
     try {
-      await revokeTier(userId || 'user-123', tierType, reason);
+      await revokeTier(userId || 'user-123', tierType, selectedTier as VIPTier | LoyaltyTier, reason);
       setReason('');
       if (onTierUpdate) {
         onTierUpdate(userId || 'user-123', tierType, '');

@@ -5,6 +5,7 @@
   "devCommand": "npx turbo run dev --filter=booking",
   "installCommand": "npm install --prefix ../.. --legacy-peer-deps",
   "outputDirectory": ".next",
+  "ignoreCommand": "npx turbo-ignore",
   "headers": [
     {
       "source": "/(.*)",

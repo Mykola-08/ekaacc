@@ -5,6 +5,7 @@
   "devCommand": "npm run dev",
   "installCommand": "npm install --prefix ../.. --legacy-peer-deps",
   "outputDirectory": ".next",
+  "ignoreCommand": "npx turbo-ignore",
   "headers": [
     {
       "source": "/(.*)",

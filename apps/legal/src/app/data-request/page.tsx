@@ -14,14 +14,18 @@ export default function DataRequestPage() {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const supabase = createClient();
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
     try {
+      const supabase = createClient();
+      
+      if (!supabase) {
+        throw new Error('Service is temporarily unavailable. Please try again later.');
+      }
+
       const { error: insertError } = await supabase
         .from('data_requests')
         .insert([

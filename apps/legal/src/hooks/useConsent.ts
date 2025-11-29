@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createClient } from '../lib/supabase';
 
 export type ConsentPreferences = {
@@ -21,7 +21,9 @@ export function useConsent() {
   const [status, setStatus] = useState<ConsentStatus>('undecided');
   const [preferences, setPreferences] = useState<ConsentPreferences>(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClient();
+  
+  // Memoize Supabase client to avoid recreating on every render
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     checkConsent();
@@ -50,26 +52,28 @@ export function useConsent() {
         }
       }
 
-      // 2. Check Supabase (if logged in)
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session?.user) {
-        const { data, error } = await supabase
-          .from('user_consents')
-          .select('status, preferences')
-          .eq('user_id', session.user.id)
-          .eq('consent_type', 'cookies')
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
+      // 2. Check Supabase (if logged in and client is available)
+      if (supabase) {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          const { data, error } = await supabase
+            .from('user_consents')
+            .select('status, preferences')
+            .eq('user_id', session.user.id)
+            .eq('consent_type', 'cookies')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
 
-        if (data && !error) {
-          setStatus(data.status as ConsentStatus);
-          setPreferences(data.preferences as ConsentPreferences);
-          
-          // Sync back to local storage to keep them in sync
-          localStorage.setItem('eka_consent_status', data.status);
-          localStorage.setItem('eka_consent_preferences', JSON.stringify(data.preferences));
+          if (data && !error) {
+            setStatus(data.status as ConsentStatus);
+            setPreferences(data.preferences as ConsentPreferences);
+            
+            // Sync back to local storage to keep them in sync
+            localStorage.setItem('eka_consent_status', data.status);
+            localStorage.setItem('eka_consent_preferences', JSON.stringify(data.preferences));
+          }
         }
       }
     } catch (error) {
@@ -88,23 +92,25 @@ export function useConsent() {
       setStatus(newStatus);
       setPreferences(newPreferences);
 
-      // 2. Save to Supabase (if logged in)
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (session?.user) {
-        const { error } = await supabase
-          .from('user_consents')
-          .insert({
-            user_id: session.user.id,
-            consent_type: 'cookies',
-            status: newStatus,
-            preferences: newPreferences,
-            user_agent: navigator.userAgent,
-            version: '1.0' // Could be dynamic
-          });
+      // 2. Save to Supabase (if logged in and client is available)
+      if (supabase) {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session?.user) {
+          const { error } = await supabase
+            .from('user_consents')
+            .insert({
+              user_id: session.user.id,
+              consent_type: 'cookies',
+              status: newStatus,
+              preferences: newPreferences,
+              user_agent: navigator.userAgent,
+              version: '1.0' // Could be dynamic
+            });
 
-        if (error) {
-          console.error('Error saving consent to DB:', error);
+          if (error) {
+            console.error('Error saving consent to DB:', error);
+          }
         }
       }
 

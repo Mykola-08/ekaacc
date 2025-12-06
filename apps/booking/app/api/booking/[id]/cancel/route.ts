@@ -4,7 +4,7 @@ import { verifyManageToken, signManageToken, hashToken } from '@/lib/bookingToke
 import Stripe from 'stripe';
 import { emitEvent } from '@/lib/events';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-11-17.clover',
 });
 

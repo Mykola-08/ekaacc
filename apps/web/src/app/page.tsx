@@ -8,11 +8,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Sparkles, Heart, Shield, Zap, Brain, Users, BookOpen, TrendingUp, Calendar, MessageSquare, Target, Award } from 'lucide-react'
+import { FeatureGrid } from '@/components/landing/feature-card'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import { PageContainer } from '@/components/eka/page-container'
 import { SurfacePanel } from '@/components/eka/surface-panel'
+import { HeroSection } from '@/components/landing/hero-section'
 const MedicalDisclaimer = dynamic(() => import('@/components/medical-disclaimer'), { ssr: false })
 
 export default function HomePage() {
@@ -49,61 +51,7 @@ export default function HomePage() {
     <PageContainer>
       <SurfacePanel>
       {/* Hero Section */}
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80 mb-4">
-              <Sparkles className="w-3 h-3 mr-1" />
-              AI-Powered Wellness Platform
-            </div>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <h1 className="text-4xl sm:text-6xl font-bold tracking-tight text-foreground">
-              Your Complete Wellness
-              <span className="block text-primary">Management Platform</span>
-            </h1>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              EKA Account is your centralized wellness platform combining therapy management, 
-              mood tracking, AI-powered insights, and personalized health guidance all in one place. 
-              Track progress, connect with therapists, and transform your mental and physical wellbeing.
-            </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap justify-center gap-4 pt-4"
-          >
-            <Button asChild size="lg">
-              <Link href="/login">
-                Sign In
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/signup">
-                Create Account
-              </Link>
-            </Button>
-          </motion.div>
-        </div>
-      </div>
+      <HeroSection />
 
       {/* Features Section */}
       <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
@@ -121,8 +69,8 @@ export default function HomePage() {
           </p>
         </motion.div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
+        <FeatureGrid
+          features={[
             {
               icon: Brain,
               title: 'AI-Powered Insights',
@@ -163,32 +111,9 @@ export default function HomePage() {
               title: 'Privacy First',
               description: 'Bank-level encryption and HIPAA compliance ensure your data stays private and secure.',
             },
-          ].map((feature, index) => (
-            <motion.div
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              whileHover={{ y: -4, opacity: 0.95 }}
-            >
-              <Card className="border-muted hover:border-border transition-all duration-300">
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle className="text-lg">
-                    {feature.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
+          ]}
+          columns={{ sm: 2, md: 2, lg: 4 }}
+        />
       </div>
 
       {/* How It Works Section */}

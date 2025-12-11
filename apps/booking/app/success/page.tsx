@@ -1,26 +1,12 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { Suspense } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
 
 function SuccessContent() {
-  const searchParams = useSearchParams();
-  const sessionId = searchParams.get('session_id');
-  const [status, setStatus] = useState('loading');
-
-  useEffect(() => {
-    if (sessionId) {
-      setStatus('success');
-      // In a real app, you might verify the session here
-    } else {
-      setStatus('error');
-    }
-  }, [sessionId]);
-
   return (
     <Card className="w-full max-w-md text-center">
       <CardHeader>

@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabaseClient';
-import type { Service } from '@/types/database';
 import { v4 as uuid } from 'uuid';
 import { signManageToken, hashToken } from '@/lib/bookingToken';
 import { emitEvent } from '@/lib/events';

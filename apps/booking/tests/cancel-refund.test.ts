@@ -1,6 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { POST as cancelBooking } from '@/app/api/booking/[id]/cancel/route';
-import Stripe from 'stripe';
 
 const mockFrom = vi.fn();
 const mockSupabase = {
@@ -35,7 +34,7 @@ describe('cancel booking endpoint', () => {
   });
 
   it('refunds when policy allows', async () => {
-    mockFrom.mockImplementation((table: string) => {
+    mockFrom.mockImplementation(() => {
       const chain: any = {
         select: vi.fn().mockReturnThis(),
         eq: vi.fn().mockReturnThis(),

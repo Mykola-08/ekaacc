@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabaseClient';
-import type { Service } from '@/types/database';
 
 // GET /api/services
 // Returns minimal list of active services available for anonymous users

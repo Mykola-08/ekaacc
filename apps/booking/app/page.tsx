@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabaseClient';
 import { Service } from '@/types/database';
 import { BookingModal } from '@/components/BookingModal';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import Image from 'next/image';
 
 export const revalidate = 0;
 
@@ -51,7 +52,9 @@ export default async function Home() {
                 {services.map((service) => (
                   <Card key={service.id} className="overflow-hidden">
                     {service.image_url && (
-                      <img className="h-48 w-full object-cover" src={service.image_url} alt={service.name} />
+                      <div className="relative h-48 w-full">
+                        <Image className="object-cover" src={service.image_url} alt={service.name} fill />
+                      </div>
                     )}
                     <CardHeader>
                       <CardTitle>{service.name}</CardTitle>

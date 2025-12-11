@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabaseClient';
-import type { Service } from '@/types/database';
 import type { AvailabilityResponse, AvailabilitySlot } from '@/types/booking';
 
 // Simple mock availability generation: working hours 09:00-17:00 local, slots aligned to service duration.

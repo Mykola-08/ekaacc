@@ -16,10 +16,10 @@ const nextConfig: NextConfig = {
   },
   
   // ESLint configuration
-  // eslint: {
-  //   // TODO: Fix ESLint errors before production
-  //   ignoreDuringBuilds: true,
-  // },
+  eslint: {
+    // TODO: Fix ESLint errors before production
+    ignoreDuringBuilds: true,
+  },
   
   // Image optimization
   images: {

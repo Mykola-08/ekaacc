@@ -28,57 +28,57 @@ export function useConsent() {
   );
 
   useEffect(() => {
-    checkConsent();
-  }, []);
+    const checkConsent = async () => {
+      try {
+        // 1. Check Local Storage first (fastest)
+        const storedConsent = localStorage.getItem('eka_consent_status');
+        const storedPreferences = localStorage.getItem('eka_consent_preferences');
 
-  const checkConsent = async () => {
-    try {
-      // 1. Check Local Storage first (fastest)
-      const storedConsent = localStorage.getItem('eka_consent_status');
-      const storedPreferences = localStorage.getItem('eka_consent_preferences');
+        if (storedConsent && storedPreferences) {
+          setStatus(storedConsent as ConsentStatus);
+          setPreferences(JSON.parse(storedPreferences));
+          setIsLoading(false);
+          return;
+        } else {
+          // Check for Global Privacy Control (GPC)
+          // @ts-expect-error Navigator.globalPrivacyControl is not yet in standard types
+          if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
+            console.log('Global Privacy Control (GPC) signal detected.');
+            const gpcPreferences = { ...DEFAULT_PREFERENCES };
+            setStatus('denied');
+            setPreferences(gpcPreferences);
+          }
+        }
 
-      if (storedConsent && storedPreferences) {
-        setStatus(storedConsent as ConsentStatus);
-        setPreferences(JSON.parse(storedPreferences));
+        // 2. If not in local storage, check DB if user is logged in
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          const { data, error } = await supabase
+            .from('user_consents')
+            .select('status, preferences')
+            .eq('user_id', session.user.id)
+            .eq('consent_type', 'cookies')
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
+
+          if (data && !error) {
+            setStatus(data.status as ConsentStatus);
+            setPreferences(data.preferences as ConsentPreferences);
+            // Sync back to local storage
+            localStorage.setItem('eka_consent_status', data.status);
+            localStorage.setItem('eka_consent_preferences', JSON.stringify(data.preferences));
+          }
+        }
+      } catch (error) {
+        console.error('Error checking consent:', error);
+      } finally {
         setIsLoading(false);
-        return;
-      } else {
-        // Check for Global Privacy Control (GPC)
-        // @ts-ignore
-        if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
-          console.log('Global Privacy Control (GPC) signal detected.');
-          const gpcPreferences = { ...DEFAULT_PREFERENCES };
-          setStatus('denied');
-          setPreferences(gpcPreferences);
-        }
       }
+    };
 
-      // 2. If not in local storage, check DB if user is logged in
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
-        const { data, error } = await supabase
-          .from('user_consents')
-          .select('status, preferences')
-          .eq('user_id', session.user.id)
-          .eq('consent_type', 'cookies')
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
-
-        if (data && !error) {
-          setStatus(data.status as ConsentStatus);
-          setPreferences(data.preferences as ConsentPreferences);
-          // Sync back to local storage
-          localStorage.setItem('eka_consent_status', data.status);
-          localStorage.setItem('eka_consent_preferences', JSON.stringify(data.preferences));
-        }
-      }
-    } catch (error) {
-      console.error('Error checking consent:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    checkConsent();
+  }, [supabase]);
 
   const saveConsent = async (newStatus: ConsentStatus, newPreferences: ConsentPreferences) => {
     try {

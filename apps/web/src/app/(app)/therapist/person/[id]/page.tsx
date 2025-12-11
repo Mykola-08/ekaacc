@@ -3,8 +3,8 @@ import PersonProfile from '@/components/eka/person-profile';
 import { SettingsShell } from '@/components/eka/settings/settings-shell';
 import { SettingsHeader } from '@/components/eka/settings/settings-header';
 
-export default function PersonPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+export default async function PersonPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   return (
     <SettingsShell>
       <SettingsHeader

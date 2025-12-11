@@ -1,5 +1,4 @@
 import { supabaseServer } from '@/lib/supabaseServerClient';
-import type { Service } from '@/types/database';
 
 export async function fetchService(serviceId: string) {
   return supabaseServer.from('service').select('id,name,price,duration').eq('id', serviceId).single();

@@ -1,6 +1,6 @@
 'use client';
 
-;
+import * as React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from "@/lib/utils";
 import { InView } from "@/components/motion-primitives";
@@ -8,6 +8,7 @@ import { InView } from "@/components/motion-primitives";
 interface SettingsCardProps extends React.ComponentProps<typeof Card> {
   title: string;
   description?: string;
+  children?: React.ReactNode;
 }
 
 export function SettingsCard({ title, description, className, children, ...props }: SettingsCardProps) {

@@ -110,7 +110,7 @@ export function useFormValidation<T extends Record<string, any>>(
       if (rule.required && (sanitizedValue === null || sanitizedValue === undefined || sanitizedValue === '')) {
         fieldErrors.push({
           field: field as string,
-          message: rule.message || `${field} is required`,
+          message: rule.message || `${String(field)} is required`,
           type: 'required',
           value: sanitizedValue,
         });
@@ -127,7 +127,7 @@ export function useFormValidation<T extends Record<string, any>>(
         if (rule.minLength && sanitizedValue.length < rule.minLength) {
           fieldErrors.push({
             field: field as string,
-            message: rule.message || `${field} must be at least ${rule.minLength} characters`,
+            message: rule.message || `${String(field)} must be at least ${rule.minLength} characters`,
             type: 'minLength',
             value: sanitizedValue,
           });
@@ -136,7 +136,7 @@ export function useFormValidation<T extends Record<string, any>>(
         if (rule.maxLength && sanitizedValue.length > rule.maxLength) {
           fieldErrors.push({
             field: field as string,
-            message: rule.message || `${field} must be no more than ${rule.maxLength} characters`,
+            message: rule.message || `${String(field)} must be no more than ${rule.maxLength} characters`,
             type: 'maxLength',
             value: sanitizedValue,
           });
@@ -146,7 +146,7 @@ export function useFormValidation<T extends Record<string, any>>(
         if (rule.pattern && !rule.pattern.test(sanitizedValue)) {
           fieldErrors.push({
             field: field as string,
-            message: rule.message || `${field} format is invalid`,
+            message: rule.message || `${String(field)} format is invalid`,
             type: 'pattern',
             value: sanitizedValue,
           });
@@ -158,7 +158,7 @@ export function useFormValidation<T extends Record<string, any>>(
         if (rule.min !== undefined && sanitizedValue < rule.min) {
           fieldErrors.push({
             field: field as string,
-            message: rule.message || `${field} must be at least ${rule.min}`,
+            message: rule.message || `${String(field)} must be at least ${rule.min}`,
             type: 'min',
             value: sanitizedValue,
           });
@@ -167,7 +167,7 @@ export function useFormValidation<T extends Record<string, any>>(
         if (rule.max !== undefined && sanitizedValue > rule.max) {
           fieldErrors.push({
             field: field as string,
-            message: rule.message || `${field} must be no more than ${rule.max}`,
+            message: rule.message || `${String(field)} must be no more than ${rule.max}`,
             type: 'max',
             value: sanitizedValue,
           });
@@ -181,7 +181,7 @@ export function useFormValidation<T extends Record<string, any>>(
           if (customResult !== true) {
             fieldErrors.push({
               field: field as string,
-              message: typeof customResult === 'string' ? customResult : rule.message || `${field} is invalid`,
+              message: typeof customResult === 'string' ? customResult : rule.message || `${String(field)} is invalid`,
               type: 'custom',
               value: sanitizedValue,
             });
@@ -222,9 +222,9 @@ export function useFormValidation<T extends Record<string, any>>(
       setErrors(prev => {
         const newErrors = { ...prev };
         if (fieldHasErrors) {
-          newErrors[field] = fieldErrors[0].message;
+          newErrors[field as string] = fieldErrors[0].message;
         } else {
-          delete newErrors[field];
+          delete newErrors[field as string];
         }
         return newErrors;
       });
@@ -236,7 +236,7 @@ export function useFormValidation<T extends Record<string, any>>(
 
       if (fieldHasErrors) {
         if (logValidationErrors) {
-          logger.warn(`Validation failed for field ${String(field)}`, undefined, {
+          logger.warn(`Validation failed for field ${String(field)}`, {
             field,
             value: data[field],
             errors: fieldErrors,
@@ -280,7 +280,7 @@ export function useFormValidation<T extends Record<string, any>>(
 
       if (hasErrors) {
         if (logValidationErrors) {
-          logger.warn('Form validation failed', undefined, {
+          logger.warn('Form validation failed', {
             errors: allErrors,
             data,
           });
@@ -317,7 +317,7 @@ export function useFormValidation<T extends Record<string, any>>(
   const clearFieldError = useCallback((field: keyof T) => {
     setErrors(prev => {
       const newErrors = { ...prev };
-      delete newErrors[field];
+      delete newErrors[field as string];
       return newErrors;
     });
     setValidationErrors(prev => prev.filter(e => e.field !== field));

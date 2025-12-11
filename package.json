@@ -6,6 +6,7 @@
     "apps/legal",
     "apps/marketing",
     "apps/web",
+    "apps/api",
     "packages/*"
   ],
   "scripts": {

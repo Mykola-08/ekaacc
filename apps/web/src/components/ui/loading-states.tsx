@@ -90,13 +90,13 @@ interface ErrorStateProps {
   className?: string;
 }
 
-export function ErrorState({ 
+export function ErrorState({
   title = 'Something went wrong',
   message = 'We encountered an unexpected error. Please try again.',
   error,
   onRetry,
   onGoHome,
-  className 
+  className
 }: ErrorStateProps) {
   return (
     <Card className={cn('max-w-lg w-full', className)}>
@@ -107,7 +107,7 @@ export function ErrorState({
         </div>
         <CardDescription>{message}</CardDescription>
       </CardHeader>
-      
+
       {error && process.env.NODE_ENV === 'development' && (
         <CardContent>
           <div className="rounded-lg bg-muted p-4 text-sm">
@@ -123,7 +123,7 @@ export function ErrorState({
           </div>
         </CardContent>
       )}
-      
+
       <CardFooter className="flex gap-2 flex-wrap">
         {onRetry && (
           <Button onClick={onRetry} variant="default" className="flex-1 sm:flex-none">
@@ -149,7 +149,7 @@ interface LoadingContainerProps {
   loadingMessage?: string;
   errorTitle?: string;
   errorMessage?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 }
 
@@ -210,7 +210,7 @@ export function AsyncContent({
   children,
 }: AsyncContentProps) {
   if (isLoading) {
-    return loadingComponent || <LoadingContainer isLoading={true} />;
+    return (loadingComponent as React.ReactElement) || <LoadingContainer isLoading={true} />;
   }
 
   if (isError) {

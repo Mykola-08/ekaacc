@@ -1,17 +1,19 @@
 import { fxBilling } from '@/lib/fx-billing';
 import { safeSupabaseInsert } from '@/lib/supabase-utils';
+import { supabase } from '@/lib/supabase';
 
-// Mock Supabase client with proper chainable mock
-const mockSupabaseChain = {
-  from: jest.fn().mockReturnThis(),
-  select: jest.fn().mockReturnThis(),
-  eq: jest.fn().mockReturnThis(),
-  order: jest.fn().mockReturnThis(),
-};
-
-jest.mock('@/lib/supabase', () => ({
-  supabase: mockSupabaseChain,
-}));
+// Mock Supabase client
+jest.mock('@/lib/supabase', () => {
+  const mockChain = {
+    from: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    eq: jest.fn().mockReturnThis(),
+    order: jest.fn().mockReturnThis(),
+  };
+  return {
+    supabase: mockChain,
+  };
+});
 
 jest.mock('@/lib/supabase-utils', () => ({
   safeSupabaseInsert: jest.fn(),
@@ -20,6 +22,8 @@ jest.mock('@/lib/supabase-utils', () => ({
 }));
 
 describe('fxBilling', () => {
+  const mockSupabaseChain = supabase as any;
+
   beforeEach(() => {
     jest.clearAllMocks();
     // Reset chain mocks

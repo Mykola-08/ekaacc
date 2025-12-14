@@ -21,7 +21,7 @@ export function LoadingSpinner({ size = 'md', className, message }: LoadingSpinn
 
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2', className)}>
-      <Loader2 className={cn('animate-spin text-primary', sizeClasses[size])} />
+      <Loader2 role="status" className={cn('animate-spin text-primary', sizeClasses[size])} />
       {message && (
         <p className="text-sm text-muted-foreground animate-pulse">{message}</p>
       )}
@@ -37,7 +37,7 @@ interface LoadingSkeletonProps {
 
 export function LoadingSkeleton({ className, lines = 3, height = 'h-4' }: LoadingSkeletonProps) {
   return (
-    <div className={cn('space-y-2', className)}>
+    <div data-testid="loading-skeleton" className={cn('space-y-2', className)}>
       {Array.from({ length: lines }).map((_, i) => (
         <motion.div
           key={i}
@@ -62,7 +62,7 @@ interface CardSkeletonProps {
 
 export function CardSkeleton({ className, showHeader = true, showFooter = true }: CardSkeletonProps) {
   return (
-    <Card className={cn('animate-pulse', className)}>
+    <Card role="article" className={cn('animate-pulse', className)}>
       {showHeader && (
         <CardHeader>
           <div className="h-6 bg-muted rounded w-3/4 mb-2" />
@@ -113,7 +113,7 @@ export function ErrorState({
           <div className="rounded-lg bg-muted p-4 text-sm">
             <p className="font-semibold text-destructive mb-2">Error Details:</p>
             <pre className="whitespace-pre-wrap text-xs overflow-auto max-h-40">
-              {error.toString()}
+              {error.message}
             </pre>
             {error.stack && (
               <pre className="whitespace-pre-wrap text-xs overflow-auto max-h-40 mt-2 text-muted-foreground">
@@ -230,18 +230,18 @@ export function AsyncContent({
 // Specialized loading components for different content types
 export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; columns?: number }) {
   return (
-    <div className="space-y-2">
+    <div data-testid="table-skeleton" className="space-y-2">
       {/* Header */}
       <div className="flex gap-2 pb-2 border-b">
         {Array.from({ length: columns }).map((_, i) => (
-          <div key={i} className="h-4 bg-muted rounded flex-1" />
+          <span key={i} className="h-4 bg-muted rounded flex-1" />
         ))}
       </div>
       {/* Rows */}
       {Array.from({ length: rows }).map((_, i) => (
         <div key={i} className="flex gap-2 py-2">
           {Array.from({ length: columns }).map((_, j) => (
-            <div key={j} className="h-4 bg-muted rounded flex-1" />
+            <span key={j} className="h-4 bg-muted rounded flex-1" />
           ))}
         </div>
       ))}
@@ -251,11 +251,11 @@ export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; column
 
 export function FormSkeleton({ fields = 3 }: { fields?: number }) {
   return (
-    <div className="space-y-4">
+    <div data-testid="form-skeleton" className="space-y-4">
       {Array.from({ length: fields }).map((_, i) => (
         <div key={i} className="space-y-2">
-          <div className="h-4 bg-muted rounded w-24" />
-          <div className="h-10 bg-muted rounded" />
+          <span className="h-4 bg-muted rounded w-24 block" />
+          <span className="h-10 bg-muted rounded block" />
         </div>
       ))}
       <div className="h-10 bg-muted rounded w-24" />
@@ -265,7 +265,7 @@ export function FormSkeleton({ fields = 3 }: { fields?: number }) {
 
 export function ChartSkeleton() {
   return (
-    <div className="space-y-4">
+    <div data-testid="chart-skeleton" className="space-y-4">
       <div className="h-6 bg-muted rounded w-32" />
       <div className="h-64 bg-muted rounded" />
     </div>

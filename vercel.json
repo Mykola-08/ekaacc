@@ -1,9 +1,4 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "builds": [
-    { "src": "apps/web/next.config.ts", "use": "@vercel/next" }
-  ],
-  "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "npx turbo run build --filter=web",
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "installCommand": "npm install --legacy-peer-deps"
 }

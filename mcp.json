@@ -11,10 +11,6 @@
         "https://mcp.squareup.com/sse"
       ]
     },
-    "auth0": {
-      "command": "node",
-      "args": ["./mcp-auth0/index.js"]
-    },
     "statsig-local": {
       "command": "npx",
       "args": [

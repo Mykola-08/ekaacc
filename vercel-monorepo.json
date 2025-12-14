@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "builds": [
+    { "src": "apps/api/next.config.ts", "use": "@vercel/next" },
+    { "src": "apps/booking-app/next.config.ts", "use": "@vercel/next" },
+    { "src": "apps/legal-app/next.config.ts", "use": "@vercel/next" },
+    { "src": "apps/marketing-app/next.config.ts", "use": "@vercel/next" },
+    { "src": "apps/web/next.config.ts", "use": "@vercel/next" }
+  ],
+  "installCommand": "npm install --legacy-peer-deps",
+  "buildCommand": "npx turbo run build"
+}

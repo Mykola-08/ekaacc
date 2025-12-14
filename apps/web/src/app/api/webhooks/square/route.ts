@@ -552,14 +552,14 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
 /**
  * Export handler functions for testing
  */
-export const handlers = {
-  processBookingEvent,
-  processCustomerEvent,
-  handleBookingCreated,
-  handleBookingUpdated,
-  handleBookingCancelled,
-  handleCustomerCreated,
-  handleCustomerUpdated,
-  handleCustomerDeleted,
-  recordSyncStatistics,
-};
+// export const handlers = {
+//   processBookingEvent,
+//   processCustomerEvent,
+//   handleBookingCreated,
+//   handleBookingUpdated,
+//   handleBookingCancelled,
+//   handleCustomerCreated,
+//   handleCustomerUpdated,
+//   handleCustomerDeleted,
+//   recordSyncStatistics,
+// };

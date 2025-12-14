@@ -1,0 +1,103 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import CookieConsent from "../components/consent/CookieConsent";
+import "./globals.css";
+import Link from "next/link";
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "EKA Balance - Legal Center",
+  description: "Legal documents, policies, and compliance information for EKA Balance",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+        <div className="min-h-screen flex flex-col">
+          <header className="bg-white border-b sticky top-0 z-50 shadow-sm">
+            <div className="container mx-auto px-4 h-16 flex justify-between items-center">
+              <div className="flex items-center space-x-8">
+                <Link href="/" className="text-xl font-bold tracking-tight text-primary">
+                  EKA Balance <span className="text-gray-400 font-normal">| Legal</span>
+                </Link>
+                <nav className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
+                  <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
+                  <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
+                  <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
+                  <Link href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</Link>
+                  <Link href="/imprint" className="hover:text-primary transition-colors">Imprint</Link>
+                </nav>
+              </div>
+              <div className="flex items-center space-x-4">
+                <a 
+                  href="http://localhost:9002" 
+                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+                >
+                  Back to Main Site
+                </a>
+              </div>
+            </div>
+          </header>
+          
+          <main className="flex-grow container mx-auto px-4 py-12 max-w-5xl">
+            <div className="bg-white rounded-xl shadow-sm border p-8 md:p-12">
+              {children}
+            </div>
+          </main>
+
+          <footer className="bg-white border-t py-12">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                  <h3 className="font-bold mb-4">EKA Balance</h3>
+                  <p className="text-sm text-gray-500">
+                    Empowering your journey to mental wellness through technology and professional care.
+                  </p>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Legal</h4>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li><Link href="/privacy" className="hover:underline">Privacy Policy</Link></li>
+                    <li><Link href="/terms" className="hover:underline">Terms of Service</Link></li>
+                    <li><Link href="/cookies" className="hover:underline">Cookie Policy</Link></li>
+                    <li><Link href="/disclaimer" className="hover:underline">Disclaimer</Link></li>
+                    <li><Link href="/privacy#ccpa" className="hover:underline text-xs text-gray-500">Do Not Sell My Personal Information</Link></li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Contact</h4>
+                  <ul className="space-y-2 text-sm text-gray-600">
+                    <li>legal@ekabalance.com</li>
+                    <li>dpo@ekabalance.com</li>
+                    <li>support@ekabalance.com</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Updates</h4>
+                  <p className="text-sm text-gray-500">
+                    Legal documents last updated: <br/>
+                    <span className="font-medium text-gray-900">November 25, 2025</span>
+                  </p>
+                </div>
+              </div>
+              <div className="border-t pt-8 text-center text-sm text-gray-400">
+                &copy; {new Date().getFullYear()} EKA Balance. All rights reserved.
+              </div>
+            </div>
+          </footer>
+        </div>
+        <Analytics />
+        <SpeedInsights />
+        <CookieConsent />
+      </body>
+    </html>
+  );
+}

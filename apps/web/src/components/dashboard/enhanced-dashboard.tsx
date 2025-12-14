@@ -18,13 +18,15 @@ import {
   Users,
   Award,
   ArrowRight,
-  RefreshCw
+  RefreshCw,
+  type LucideIcon
 } from 'lucide-react';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { useAsyncOperation } from '@/hooks/use-async-operation';
 import { LoadingContainer, CardSkeleton, TableSkeleton } from '@/components/ui/loading-states';
 import { SectionErrorBoundary } from '@/components/ui/enhanced-error-boundary';
+import { Skeleton } from '@/components/ui/skeleton';
 import { logger } from '@/lib/logging';
 
 interface ActivityItem {

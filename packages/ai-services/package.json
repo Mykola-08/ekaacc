@@ -10,7 +10,6 @@
     "./ai-background-monitor": "./src/ai-background-monitor.ts"
   },
   "scripts": {
-    "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
     "test": "jest"
   },

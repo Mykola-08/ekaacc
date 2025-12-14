@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { EnhancedErrorBoundary } from '../../components/ui/enhanced-error-boundary';
+import { EnhancedErrorBoundary } from '@/components/ui/enhanced-error-boundary';
 
 // Mock child component that throws errors
 const ThrowError = ({ shouldThrow = false }: { shouldThrow?: boolean }) => {

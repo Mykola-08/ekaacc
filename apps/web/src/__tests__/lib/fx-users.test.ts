@@ -1,16 +1,18 @@
 import { fxUsers } from '@/lib/fx-users';
 import { safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/supabase-utils';
+import { supabase } from '@/lib/supabase';
 
-// Mock Supabase client with proper chainable mock
-const mockSupabaseChain = {
-  from: jest.fn().mockReturnThis(),
-  select: jest.fn().mockReturnThis(),
-  order: jest.fn().mockReturnThis(),
-};
-
-jest.mock('@/lib/supabase', () => ({
-  supabase: mockSupabaseChain,
-}));
+// Mock Supabase client
+jest.mock('@/lib/supabase', () => {
+  const mockChain = {
+    from: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    order: jest.fn().mockReturnThis(),
+  };
+  return {
+    supabase: mockChain,
+  };
+});
 
 jest.mock('@/lib/supabase-utils', () => ({
   safeSupabaseQuery: jest.fn(),
@@ -18,6 +20,8 @@ jest.mock('@/lib/supabase-utils', () => ({
 }));
 
 describe('fxUsers', () => {
+  const mockSupabaseChain = supabase as any;
+
   beforeEach(() => {
     jest.clearAllMocks();
     // Reset chain mocks

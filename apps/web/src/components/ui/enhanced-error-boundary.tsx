@@ -10,15 +10,19 @@ import { AlertTriangle, RefreshCw, Home, Bug, Mail } from 'lucide-react';
 import { PageContainer } from '@/components/eka/page-container';
 import { SurfacePanel } from '@/components/eka/surface-panel';
 
+import { cn } from '@/lib/utils';
+
 interface EnhancedErrorBoundaryProps {
   children: ReactNode;
   fallback?: ReactNode;
   fallbackComponent?: React.ComponentType<{ error: Error; resetError: () => void }>;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
+  onFeedbackSubmit?: (feedback: string, errorId: string) => Promise<void>;
   errorContext?: ErrorContext;
   showErrorReport?: boolean;
   resetOnPropsChange?: boolean;
   resetKeys?: Array<string | number>;
+  className?: string;
 }
 
 interface EnhancedErrorBoundaryState {
@@ -28,6 +32,7 @@ interface EnhancedErrorBoundaryState {
   errorId: string;
   userFeedback: string;
   showFeedbackForm: boolean;
+  feedbackError: string | null;
 }
 
 /**
@@ -42,9 +47,10 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
       hasError: false,
       error: null,
       errorInfo: null,
-      errorId: this.generateErrorId(),
+      errorId: EnhancedErrorBoundary.generateErrorId(),
       userFeedback: '',
       showFeedbackForm: false,
+      feedbackError: null,
     };
   }
 
@@ -52,7 +58,7 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
     return {
       hasError: true,
       error,
-      errorId: this.generateErrorId(),
+      errorId: EnhancedErrorBoundary.generateErrorId(),
     };
   }
 
@@ -132,20 +138,25 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
 
   private handleFeedbackSubmit = async () => {
     try {
-      await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'error_report',
-          errorId: this.state.errorId,
-          feedback: this.state.userFeedback,
-          timestamp: new Date().toISOString(),
-        }),
-      });
+      if (this.props.onFeedbackSubmit) {
+        await this.props.onFeedbackSubmit(this.state.userFeedback, this.state.errorId);
+      } else {
+        await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'error_report',
+            errorId: this.state.errorId,
+            feedback: this.state.userFeedback,
+            timestamp: new Date().toISOString(),
+          }),
+        });
+      }
 
-      this.setState({ showFeedbackForm: false, userFeedback: '' });
+      this.setState({ showFeedbackForm: false, userFeedback: '', feedbackError: null });
     } catch (error) {
       logger.error('Failed to submit feedback', error as Error);
+      this.setState({ feedbackError: 'Failed to submit feedback. Please try again.' });
     }
   };
 
@@ -156,6 +167,7 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
       errorInfo: null,
       userFeedback: '',
       showFeedbackForm: false,
+      feedbackError: null,
     });
   };
 
@@ -170,11 +182,11 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
     return (
       <PageContainer>
         <SurfacePanel className="flex items-center justify-center p-4">
-          <Card className="max-w-2xl w-full">
+          <Card className={cn("max-w-2xl w-full", this.props.className)} role="alert">
             <CardHeader>
               <div className="flex items-center gap-2 text-destructive mb-4">
                 <AlertTriangle className="h-6 w-6" />
-                <CardTitle>Something went wrong</CardTitle>
+                <h1 className="text-2xl font-semibold leading-none tracking-tight">Something went wrong</h1>
               </div>
               <CardDescription>
                 We apologize for the inconvenience. This error has been automatically reported to our team.
@@ -218,6 +230,11 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
                     </Button>
                   ) : (
                     <div className="space-y-4">
+                      {this.state.feedbackError && (
+                        <div className="text-sm text-destructive font-medium">
+                          {this.state.feedbackError}
+                        </div>
+                      )}
                       <div>
                         <label htmlFor="feedback" className="block text-sm font-medium mb-2">
                           What were you trying to do when this error occurred?
@@ -254,7 +271,7 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
             </CardContent>
 
             <CardFooter className="flex gap-2 flex-wrap">
-              <Button onClick={this.handleReset} variant="default" className="flex-1 sm:flex-none">
+              <Button onClick={this.handleReset} variant="default" className="flex-1 sm:flex-none" autoFocus>
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Try Again
               </Button>

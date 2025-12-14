@@ -6,7 +6,7 @@ A comprehensive Next.js application for mental health and wellness management wi
 
 This project is a monorepo managed with **TurboRepo**, consisting of two main applications:
 
-1.  **Marketing Site** (`apps/marketing`): The public-facing landing page.
+1.  **Marketing Site** (`apps/marketing-app`): The public-facing landing page.
 2.  **Web Application** (`apps/web`): The main SaaS platform (Dashboard, Auth, etc.).
 
 ## Table of Contents

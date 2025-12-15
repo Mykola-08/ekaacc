@@ -9,28 +9,19 @@ export const revalidate = 0;
 async function getServices() {
   const supabase = await createClient();
   
-  // Try fetching from anon_services first
-  let { data, error } = await supabase
-    .from('anon_services')
+  // Fetch from 'service' table (singular, from SUPABASE_BOOKING_SCHEMA.sql)
+  const { data, error } = await supabase
+    .from('service')
     .select('*')
-    .eq('is_active', true);
-
-  // Fallback to services if table missing
-  if (error && error.code === '42P01') {
-    const res = await supabase
-      .from('services')
-      .select('*')
-      .eq('is_active', true);
-    data = res.data;
-    error = res.error;
-  }
+    .eq('active', true);
 
   if (error) {
     console.error('Error fetching services:', error);
     return [];
   }
 
-  return data as Service[];
+  // Map 'active' to 'is_active' for compatibility if needed
+  return (data || []).map(s => ({ ...s, is_active: s.active })) as Service[];
 }
 
 export default async function Home() {

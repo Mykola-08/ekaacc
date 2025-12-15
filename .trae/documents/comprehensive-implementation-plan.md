@@ -9,7 +9,7 @@ This document presents a systematic approach to auditing, enhancing, and optimiz
 ### 1.1 Core Platform Features
 
 #### Authentication & User Management
-- **Current State**: Auth0 integration with Supabase profiles, role-based access control
+- **Current State**: Supabase Auth integration with profiles, role-based access control
 - **Strengths**: Secure JWT tokens, multi-role support (user, therapist, admin)
 - **Weaknesses**: Limited social login options, basic profile customization
 - **Performance**: Login response time ~800ms, token refresh every 60 minutes

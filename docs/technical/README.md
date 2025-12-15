@@ -282,7 +282,6 @@ export class MyService {
 
 - **Supabase** - Database and auth
 - **Resend** - Email delivery
-- **Auth0** - Authentication
 - **Stripe** - Payments
 - **Vercel** - Hosting
 
@@ -323,7 +322,6 @@ When contributing:
 
 ### Wiki Documentation
 
-- [AUTH0_SUPABASE_INTEGRATION.md](../wiki/AUTH0_SUPABASE_INTEGRATION.md) - Auth integration
 - [DATABASE_SETUP_GUIDE.md](../wiki/DATABASE_SETUP_GUIDE.md) - Database setup
 - [NOTIFICATIONS_SETUP.md](../wiki/NOTIFICATIONS_SETUP.md) - Notification setup
 - [TESTING.md](../wiki/TESTING.md) - Testing guide

@@ -1,13 +1,4 @@
 $envVars = @{
-    "NEXT_PUBLIC_AUTH0_DOMAIN" = "dev-adijdczrcqg13gp8.eu.auth0.com"
-    "NEXT_PUBLIC_AUTH0_CLIENT_ID" = "BxIHsLzhzXlyM6RNbavObTrYIhTgGTq2"
-    "AUTH0_CLIENT_SECRET" = "gKaQ-1mkaB4K6lFQ6iBAgrOcGaEj0vgHDPWqlRu7xE3EyM91RSzSP_BQezctN9XA"
-    "AUTH0_AUDIENCE" = "https://api.ekabalance.com"
-    "AUTH0_SCOPE" = "openid profile email"
-    "AUTH0_SECRET" = "a-very-long-random-string-that-should-be-at-least-32-characters-long-for-production"
-    "AUTH0_BASE_URL" = "https://app.ekabalance.com"
-    "AUTH0_ISSUER_BASE_URL" = "https://dev-adijdczrcqg13gp8.eu.auth0.com"
-    "AUTH0_CLIENT_ID" = "BxIHsLzhzXlyM6RNbavObTrYIhTgGTq2"
     "SQUARE_ACCESS_TOKEN" = "EAAAl0bQ5SWEXDtx7fpkOsQl922HI0vwD3BTyKWF-8W5dTyBtrf-6_oEJ1DkWkFr"
     "SQUARE_APP_ID" = "sandbox-sq0idb-S5dB2M3UZBbtySrULtdMMQ"
     "SQUARE_ENVIRONMENT" = "sandbox"
@@ -40,15 +31,15 @@ foreach ($key in $envVars.Keys) {
     
     # Add to Production
     Write-Host "  - Production"
-    $value | vercel env add $key production 2>$null
+    $value | vercel env add $key production --force 2>$null
     
     # Add to Preview
     Write-Host "  - Preview"
-    $value | vercel env add $key preview 2>$null
+    $value | vercel env add $key preview --force 2>$null
     
     # Add to Development
     Write-Host "  - Development"
-    $value | vercel env add $key development 2>$null
+    $value | vercel env add $key development --force 2>$null
 }
 
 Write-Host "Done."

@@ -15,6 +15,7 @@ import dynamic from 'next/dynamic'
 import { PageContainer } from '@/components/eka/page-container'
 import { SurfacePanel } from '@/components/eka/surface-panel'
 import { HeroSection } from '@/components/landing/hero-section'
+import { PredictiveLink } from '@/components/PredictiveLink'
 const MedicalDisclaimer = dynamic(() => import('@/components/medical-disclaimer'), { ssr: false })
 
 export default function HomePage() {
@@ -213,14 +214,14 @@ export default function HomePage() {
             <CardContent className="pb-12">
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="text-base">
-                  <Link href="/signup">
+                  <PredictiveLink href="/signup">
                     Get Started Free
-                  </Link>
+                  </PredictiveLink>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="text-base">
-                  <Link href="/login">
+                  <PredictiveLink href="/login">
                     Sign In
-                  </Link>
+                  </PredictiveLink>
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground mt-6">

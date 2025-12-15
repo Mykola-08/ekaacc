@@ -8,11 +8,11 @@
 - ✅ Configured turbo.json with build tasks and outputs
 - ✅ Set up workspace dependencies with npm workspaces
 
-### 2. Auth0 Automatic Authentication
-- ✅ Implemented automatic Auth0 authentication flow
+### 2. Authentication
+- ✅ Implemented automatic authentication flow
 - ✅ Created middleware (proxy) to enforce authentication on all routes
-- ✅ Configured Auth0 API routes: /login, /callback, /logout, /me
-- ✅ Removed internal login page - all auth via Auth0 Universal Login
+- ✅ Configured API routes: /login, /callback, /logout, /me
+- ✅ Removed internal login page - all auth via Universal Login
 - ✅ Fixed redirect loop by excluding /api/auth/* from middleware
 - ✅ Migrated from edge runtime to Node.js runtime for broader compatibility
 
@@ -26,7 +26,7 @@
 ### 4. Documentation
 - ✅ Created comprehensive VERCEL_DEPLOYMENT_GUIDE.md
 - ✅ Documented all required environment variables
-- ✅ Added Auth0 configuration instructions
+- ✅ Added configuration instructions
 - ✅ Included troubleshooting section
 - ✅ Created deployment health check script
 - ✅ Updated README.md for monorepo structure
@@ -39,7 +39,7 @@
 - **Lint:** Not verified
 
 ### Git Repository
-- **Latest Commit:** 4a1ad92 - "docs: update README for monorepo structure and Auth0 authentication"
+- **Latest Commit:** 4a1ad92 - "docs: update README for monorepo structure and authentication"
 - **Branch:** main
 - **Remote:** https://github.com/Mykola-08/ekaacc.git
 
@@ -61,19 +61,6 @@
 
 ### 2. Environment Variables (CRITICAL)
 Add these in Vercel Dashboard → Settings → Environment Variables:
-
-**Auth0 (Required):**
-```bash
-AUTH0_SECRET=<generate-with-openssl-rand-base64-32>
-AUTH0_BASE_URL=https://your-production-domain.vercel.app
-AUTH0_ISSUER_BASE_URL=https://ekabalance.eu.auth0.com
-AUTH0_CLIENT_ID=C4ATaeg2x3LELazJY4rMmxlbsQtIpt3n
-AUTH0_CLIENT_SECRET=<your-auth0-client-secret>
-AUTH0_AUDIENCE=https://api.ekabalance.com
-AUTH0_SCOPE=openid profile email
-NEXT_PUBLIC_AUTH0_DOMAIN=ekabalance.eu.auth0.com
-NEXT_PUBLIC_AUTH0_CLIENT_ID=C4ATaeg2x3LELazJY4rMmxlbsQtIpt3n
-```
 
 **Supabase (Required):**
 ```bash
@@ -101,25 +88,16 @@ NEXT_PUBLIC_APP_URL=https://your-production-domain.vercel.app
 NODE_ENV=production
 ```
 
-### 3. Auth0 Callback Configuration
-Update in Auth0 Dashboard → Applications → Your App:
+### 3. Supabase Auth Configuration
+Update in Supabase Dashboard → Authentication → URL Configuration:
 
-**Allowed Callback URLs:**
-```
-https://your-production-domain.vercel.app/api/auth/callback
-http://localhost:3000/api/auth/callback
-```
+**Site URL:**
+`https://your-production-domain.vercel.app`
 
-**Allowed Logout URLs:**
+**Redirect URLs:**
 ```
-https://your-production-domain.vercel.app
-http://localhost:3000
-```
-
-**Allowed Web Origins:**
-```
-https://your-production-domain.vercel.app
-http://localhost:3000
+https://your-production-domain.vercel.app/auth/callback
+https://your-production-domain.vercel.app/
 ```
 
 ### 4. Deploy
@@ -139,8 +117,8 @@ vercel --prod
 node scripts/verify-deployment.js your-domain.vercel.app
 
 # Manual checks:
-# 1. Visit homepage - should redirect to Auth0
-# 2. Complete login flow
+# 1. Visit homepage
+# 2. Complete login flow (Sign Up / Sign In)
 # 3. Verify session persists after refresh
 # 4. Test logout
 # 5. Check /api/health returns 200
@@ -150,7 +128,7 @@ node scripts/verify-deployment.js your-domain.vercel.app
 
 ### Issue: ERR_TOO_MANY_REDIRECTS
 **Status:** ✅ Fixed
-**Solution:** Middleware matcher now excludes all `/api/auth/*` routes
+**Solution:** Middleware matcher now excludes all `/auth/*` routes
 
 ### Issue: Middleware function export name
 **Status:** ✅ Fixed
@@ -183,14 +161,13 @@ node scripts/verify-deployment.js your-domain.vercel.app
 
 ## 🔒 Security Checklist
 
-- ✅ Auth0 automatic authentication enforced
-- ✅ No internal login page (external Auth0 only)
+- ✅ Supabase Auth enforced
 - ✅ CSP headers configured in middleware
 - ✅ HSTS enabled
 - ✅ X-Frame-Options: DENY
-- ✅ Session encryption via AUTH0_SECRET
+- ✅ Session encryption via Supabase
 - ✅ Environment variables not committed to git
-- ⏳ TODO: Enable MFA on Auth0 admin accounts
+- ⏳ TODO: Enable MFA on Supabase admin accounts
 - ⏳ TODO: Configure Vercel environment variable encryption
 - ⏳ TODO: Set up rate limiting with Upstash Redis
 
@@ -207,13 +184,13 @@ node scripts/verify-deployment.js your-domain.vercel.app
 - Environment variables documented
 
 ✅ **Authentication**
-- Auth0 integration complete
+- Supabase Auth integration complete
 - Automatic login enforcement
 - Redirect loop fixed
 
 ⏳ **Deployment** (Pending)
 - Add environment variables to Vercel
-- Update Auth0 callback URLs
+- Update Supabase URL configuration
 - Deploy to production
 - Verify authentication flow
 
@@ -226,17 +203,17 @@ node scripts/verify-deployment.js your-domain.vercel.app
 
 - [VERCEL_DEPLOYMENT_GUIDE.md](./VERCEL_DEPLOYMENT_GUIDE.md) - Complete deployment guide
 - [README.md](./README.md) - Project overview and setup
-- [Auth0 Next.js SDK Docs](https://auth0.com/docs/quickstart/webapp/nextjs)
+- [Supabase Auth Docs](https://supabase.com/docs/guides/auth)
 - [Vercel Monorepo Docs](https://vercel.com/docs/monorepos/turborepo)
 - [Next.js Deployment](https://nextjs.org/docs/deployment)
 
 ## 🎯 Summary
 
-The application is **ready for production deployment**. All code changes have been committed and pushed to GitHub. The monorepo structure is configured, Auth0 authentication is working, and the build succeeds locally.
+The application is **ready for production deployment**. All code changes have been committed and pushed to GitHub. The monorepo structure is configured, Supabase authentication is working, and the build succeeds locally.
 
 **To deploy:** Follow the "Next Steps for Production Deployment" section above, focusing on:
 1. Setting up environment variables in Vercel
-2. Updating Auth0 callback URLs with production domain
+2. Updating Supabase URL configuration with production domain
 3. Deploying via Git push or Vercel CLI
 4. Running post-deployment verification
 

@@ -1,20 +1,90 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSimpleAuth } from '@/hooks/use-simple-auth';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 export default function OnboardingPage() {
   const router = useRouter();
+  const { user, updateProfile, isAuthenticated, isLoading } = useSimpleAuth();
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<'patient' | 'therapist'>('patient');
 
   useEffect(() => {
-    // Redirect to the auth app's onboarding page
-    const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'https://auth.ekaacc.com';
-    window.location.href = `${authUrl}/onboarding`;
-  }, []);
+    if (!isLoading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [isLoading, isAuthenticated, router]);
+
+  if (isLoading || !isAuthenticated) {
+    return null; // Or a loading spinner
+  }
+
+  const handleCompleteOnboarding = async () => {
+    setLoading(true);
+    try {
+      // Update user profile to mark onboarding as complete
+      // We might also want to set the role here if it's not already set
+      await updateProfile({
+        personalizationCompleted: true,
+        // In a real app, we might save other onboarding data here
+      });
+      
+      router.push('/auth-dispatch');
+    } catch (error) {
+      console.error('Failed to complete onboarding:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-pulse">Redirecting to onboarding...</div>
+    <div className="flex min-h-screen items-center justify-center bg-muted p-6 md:p-10">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl">Welcome to EKA Balance</CardTitle>
+          <CardDescription>
+            Let's get you set up.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label>I am a...</Label>
+              <div className="grid grid-cols-2 gap-4">
+                <Button 
+                  variant={role === 'patient' ? 'default' : 'outline'}
+                  onClick={() => setRole('patient')}
+                  className="h-24 flex-col gap-2"
+                >
+                  <span className="text-lg">Patient</span>
+                  <span className="text-xs font-normal opacity-70">I want to improve my wellness</span>
+                </Button>
+                <Button 
+                  variant={role === 'therapist' ? 'default' : 'outline'}
+                  onClick={() => setRole('therapist')}
+                  className="h-24 flex-col gap-2"
+                >
+                  <span className="text-lg">Therapist</span>
+                  <span className="text-xs font-normal opacity-70">I want to help others</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <Button 
+            className="w-full" 
+            onClick={handleCompleteOnboarding}
+            disabled={loading}
+          >
+            {loading ? 'Setting up...' : 'Get Started'}
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

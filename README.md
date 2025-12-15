@@ -63,7 +63,6 @@ This project is a monorepo managed with **TurboRepo**, consisting of two main ap
 
 ### Backend & Infrastructure
 - **Database**: PostgreSQL (Supabase)
-- **Authentication**: Auth0
 - **Payments**: Stripe
 - **Booking System**: Square
 - **Email**: Resend
@@ -97,7 +96,6 @@ Before you begin, ensure you have the following installed:
 You'll also need accounts for the following services:
 
 - **Supabase** - [Sign up](https://supabase.com/) for database and authentication
-- **Auth0** - [Sign up](https://auth0.com/) for advanced authentication
 - **Stripe** - [Sign up](https://stripe.com/) for payment processing
 - **Resend** - [Sign up](https://resend.com/) for transactional emails
 - **Square** (Optional) - [Sign up](https://squareup.com/) for booking management
@@ -422,7 +420,7 @@ vercel --prod
 
 **Important:** Before deploying, ensure you have:
 - ✅ All environment variables configured in Vercel dashboard
-- ✅ Auth0 callback URLs updated with production domain
+
 - ✅ Supabase RLS policies configured
 - ✅ Stripe/Square webhooks configured
 
@@ -430,12 +428,8 @@ vercel --prod
 
 Required variables (see [VERCEL_DEPLOYMENT_GUIDE.md](./VERCEL_DEPLOYMENT_GUIDE.md) for complete list):
 
-**Auth0:**
-- `AUTH0_SECRET` - Generate with: `openssl rand -base64 32`
-- `AUTH0_BASE_URL` - Your production URL
-- `AUTH0_ISSUER_BASE_URL` - Your Auth0 tenant URL
-- `AUTH0_CLIENT_ID` / `AUTH0_CLIENT_SECRET`
-- `AUTH0_AUDIENCE` / `AUTH0_SCOPE`
+
+
 
 **Supabase:**
 - `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`

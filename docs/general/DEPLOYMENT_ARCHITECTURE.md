@@ -70,7 +70,7 @@ You should deploy these as **separate projects** in Vercel.
 2.  **Settings > General > Root Directory:** Ensure it is set to `apps/web`.
 3.  **Build Command:** `cd ../.. && npx turbo run build --filter=web`
 4.  **Domains:** Configure `app.ekabalance.com`.
-5.  **Environment Variables:** Ensure all Supabase, Auth0, and Stripe keys are present.
+5.  **Environment Variables:** Ensure all Supabase and Stripe keys are present.
 
 ## Shared Configuration
 

@@ -19,7 +19,7 @@ create table if not exists public.auth_events (
 create index if not exists auth_events_user_id_idx on public.auth_events (user_id);
 create index if not exists auth_events_timestamp_idx on public.auth_events (timestamp);
 
-comment on table public.auth_events is 'Security and login events captured post-auth (via Auth0 Action).';
+comment on table public.auth_events is 'Security and login events captured post-auth.';
 
 create table if not exists public.invites (
   code text primary key,

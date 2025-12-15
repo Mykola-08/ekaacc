@@ -6,7 +6,7 @@
 -- Tracks which external payment/booking platforms are integrated
 CREATE TABLE IF NOT EXISTS external_service_providers (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    provider_name VARCHAR(50) NOT NULL UNIQUE CHECK (provider_name IN ('square', 'stripe', 'auth0', 'other')),
+    provider_name VARCHAR(50) NOT NULL UNIQUE CHECK (provider_name IN ('square', 'stripe', 'other')),
     is_enabled BOOLEAN NOT NULL DEFAULT true,
     api_version VARCHAR(50),
     last_sync_at TIMESTAMPTZ,

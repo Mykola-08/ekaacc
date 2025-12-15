@@ -201,20 +201,20 @@ export class SquareStripeSyncService {
       serviceId = metadata.record_id;
       // Update Service
       await (supabase
-        .from('services') as any)
+        .from('service') as any)
         .update({
           name: fullName,
           price: amount / 100, // Supabase usually stores decimal/numeric
-          currency: currency,
+          // currency: currency, // service table does not have currency column
           duration: durationMinutes,
-          updated_at: new Date().toISOString(),
+          // updated_at: new Date().toISOString(), // service table might not have updated_at? Schema says created_at.
         })
         .eq('id', serviceId);
       console.log(`Updated Supabase Service: ${serviceId}`);
     } else {
       // Create Service
       const { data: newService, error } = await (supabase
-        .from('services') as any)
+        .from('service') as any)
         .insert({
           name: fullName,
           price: amount / 100,

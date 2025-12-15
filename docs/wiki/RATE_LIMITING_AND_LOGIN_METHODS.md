@@ -18,7 +18,7 @@ Environment Variables:
 Auto-refresh engages when remaining lifetime < `ACCESS_TOKEN_REFRESH_THRESHOLD_SECONDS`.
 
 ## Multi-Provider / Connection-Specific Login
-Dynamic route: `GET /api/auth/login/[connection]` allows initiating Auth0 login for a specified connection (e.g. `google-oauth2`, `github`, `linkedin`, passwordless email, etc.).
+Dynamic route: `GET /api/auth/login/[connection]` allows initiating login for a specified connection (e.g. `google-oauth2`, `github`, `linkedin`, passwordless email, etc.).
 
 Example:
 ```
@@ -27,21 +27,19 @@ Example:
 ```
 
 Parameters Passed:
-- `audience` = `PROD_AUTH0_AUDIENCE` or `NEXT_PUBLIC_AUTH0_AUDIENCE`
-- `scope` = `AUTH0_SCOPE` (defaults: `openid profile email offline_access`)
 - `connection` = dynamic segment
 
 ### Adding New Connections
-1. Enable provider in Auth0 Dashboard (Applications > Authentication > Social / Enterprise / Passwordless).
+1. Enable provider in Dashboard.
 2. Configure domain + credentials required by provider (client ID/secret).
 3. Test via the dynamic login route.
 
 ### Passwordless (Email / SMS)
-For passwordless email, create a passwordless connection in Auth0 and invoke:
+For passwordless email, create a passwordless connection and invoke:
 ```
 /api/auth/login/email?returnTo=/onboarding
 ```
-Auth0 surfaces a code or magic link depending on setup; ensure Action & Post-Login flows still attach custom claims (role, tenant).
+Ensure Action & Post-Login flows still attach custom claims (role, tenant).
 
 ## Security Considerations
 - Ensure rate limits reflect expected traffic patterns; over-restrict can impact legitimate sessions.
@@ -52,7 +50,7 @@ Auth0 surfaces a code or magic link depending on setup; ensure Action & Post-Log
 | Issue | Cause | Resolution |
 |-------|-------|------------|
 | 429 responses on most pages | Low `RATE_LIMIT_MAX_REQUESTS` value | Increase limit or extend window seconds |
-| 401 on provider login | Connection name mismatch | Verify connection slug in Auth0 dashboard |
+| 401 on provider login | Connection name mismatch | Verify connection slug in dashboard |
 | Refresh never triggers | Threshold too low vs token lifetime | Increase `ACCESS_TOKEN_REFRESH_THRESHOLD_SECONDS` |
 | Redis errors | Missing Upstash env vars | Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` |
 

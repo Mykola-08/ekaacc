@@ -34,7 +34,7 @@ function RecentUsers({ users }: { users: User[] }) {
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           Recent Users
-          <Button variant="outline" size="sm" onClick={() => window.location.href = '/admin/users'}>
+          <Button variant="outline" size="sm" onClick={() => window.location.href = '/console/users'}>
             View All
           </Button>
         </CardTitle>

@@ -58,7 +58,7 @@ function Deploy-App {
         $env:NODE_TLS_REJECT_UNAUTHORIZED = '1'
         
         # Run vercel link
-        $linkOutput = vercel link --project $projectName --scope eka-balance --yes 2>&1
+        $linkOutput = vercel link --project $projectName --yes 2>&1
         if ($LASTEXITCODE -ne 0) {
             throw "Failed to link project: $linkOutput"
         }
@@ -72,16 +72,16 @@ function Deploy-App {
         if ($Production) {
             Write-Host "[*] Triggering Remote Build for PRODUCTION..." -ForegroundColor Yellow
             if ($Force) {
-                vercel deploy --prod --force --scope eka-balance
+                vercel deploy --prod --force
             } else {
-                vercel deploy --prod --scope eka-balance
+                vercel deploy --prod
             }
         } else {
             Write-Host "[*] Triggering Remote Build for PREVIEW..." -ForegroundColor Blue
             if ($Force) {
-                vercel deploy --force --scope eka-balance
+                vercel deploy --force
             } else {
-                vercel deploy --scope eka-balance
+                vercel deploy
             }
         }
         

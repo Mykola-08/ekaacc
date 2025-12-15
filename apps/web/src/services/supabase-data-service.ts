@@ -394,7 +394,7 @@ export class SupabaseDataService implements IDataService {
   // Services/Therapies
   async getServices(): Promise<any[]> {
     const { data, error } = await supabase
-      .from('services')
+      .from('service')
       .select('*')
       .order('name')
     
@@ -407,7 +407,7 @@ export class SupabaseDataService implements IDataService {
 
   async createService(service: Omit<any, 'id'>): Promise<any> {
     const { data, error } = await safeSupabaseInsert<any>(
-      'services',
+      'service',
       [service]
     )
     

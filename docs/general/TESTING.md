@@ -20,7 +20,7 @@ npm test
 ```
 
 ### Key Test Files
-- `apps/api/src/__tests__/integrations.test.ts`: Verifies that the `IntegrationManager` correctly initializes all external services (Auth0, Stripe, Supabase, etc.) using environment variables.
+- `apps/api/src/__tests__/integrations.test.ts`: Verifies that the `IntegrationManager` correctly initializes all external services (Stripe, Supabase, etc.) using environment variables.
 
 ## End-to-End Tests (Playwright)
 

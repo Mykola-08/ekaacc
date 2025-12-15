@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide documents the updated email branding and design system for EKA Account, covering all email templates across Resend, Supabase, and Auth0 platforms.
+This guide documents the updated email branding and design system for EKA Account, covering all email templates across Resend and Supabase platforms.
 
 ## Brand Identity
 
@@ -103,19 +103,6 @@ const html = render(
 
 **Deployment**:
 Update in Supabase Dashboard → Authentication → Email Templates
-
-### Auth0 Templates (HTML)
-
-**Location**: `auth0/email-templates/`
-
-**Templates**:
-1. `verify-email.html` - Email verification
-2. `welcome-email.html` - Welcome message
-3. `change-password.html` - Password reset
-4. `blocked-account.html` - Account security alert
-
-**Deployment**:
-See [AUTH0_EMAIL_TEMPLATES_GUIDE.md](./AUTH0_EMAIL_TEMPLATES_GUIDE.md) for detailed deployment instructions.
 
 ## Button Styling
 
@@ -219,11 +206,6 @@ Test all emails across:
    - Upload via Supabase Dashboard
    - Test via the Auth flow
 
-3. **For Auth0**:
-   - Edit HTML files in `auth0/email-templates/`
-   - Update via Auth0 Dashboard or API
-   - See AUTH0_EMAIL_TEMPLATES_GUIDE.md
-
 ### Version Control
 - All templates are version-controlled in the repository
 - Document significant changes in commit messages
@@ -251,5 +233,4 @@ Standard footer links:
 
 - [RESEND_INTEGRATION.md](./RESEND_INTEGRATION.md) - Resend email service
 - [SUPABASE_EMAIL_SETUP.md](./SUPABASE_EMAIL_SETUP.md) - Supabase email configuration
-- [AUTH0_EMAIL_TEMPLATES_GUIDE.md](./AUTH0_EMAIL_TEMPLATES_GUIDE.md) - Auth0 deployment
 - [DESIGN_SYSTEM.md](./DESIGN_SYSTEM.md) - Overall design system

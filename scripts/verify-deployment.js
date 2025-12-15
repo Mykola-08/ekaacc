@@ -29,18 +29,6 @@ const checks = [
     critical: true
   },
   {
-    name: 'Auth Login Endpoint',
-    path: '/api/auth/login',
-    expectedStatus: [307, 302], // Should redirect to Auth0
-    critical: true
-  },
-  {
-    name: 'Auth Me Endpoint',
-    path: '/api/auth/me',
-    expectedStatus: [200, 401], // 401 if not authenticated
-    critical: true
-  },
-  {
     name: 'Public Route - Privacy',
     path: '/privacy',
     expectedStatus: [200],

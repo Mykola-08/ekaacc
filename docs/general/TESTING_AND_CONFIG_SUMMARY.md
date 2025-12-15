@@ -1,25 +1,5 @@
 # Testing and Configuration Summary
 
-## Auth0 Configuration
-- **Action**: Created a new Auth0 Application named "EKA Balance Web App".
-- **Client ID**: `BxIHsLzhzXlyM6RNbavObTrYIhTgGTq2`
-- **Configuration**:
-  - **Callbacks**:
-    - `https://app.ekabalance.com/api/auth/callback`
-    - `http://localhost:3000/api/auth/callback`
-    - `http://localhost:9002/api/auth/callback`
-    - `http://localhost:9004/api/auth/callback`
-    - `http://localhost:9005/api/auth/callback`
-  - **Allowed Logout URLs**:
-    - `https://app.ekabalance.com`
-    - `http://localhost:3000`
-    - `http://localhost:9002`
-    - `http://localhost:9003`
-    - `http://localhost:9004`
-    - `http://localhost:9005`
-  - **Allowed Origins**: Same as Logout URLs.
-- **Updates**: Updated `.env.local` in `apps/web` and `apps/booking-app` with the new Client ID and Secret.
-
 ## Testing Status
 
 ### apps/web
@@ -43,7 +23,6 @@
 - **Port**: 9005
 - **Scope**: Integrations and Backend API.
 - **Endpoints**: `/api/health`, `/api/integrations`.
-- **Auth0**: Configured with `http://localhost:9005` callback.
 
 ## Type Checking
 - **Status**: ✅ Passed
@@ -62,5 +41,4 @@ All edge functions are well within the 1MB limit.
 | sync-to-stripe | 5.29 KB | ✅ OK |
 
 ## Next Steps
-- Verify the Auth0 login flow locally by running the apps.
 - Deploy the changes to Vercel/Supabase.

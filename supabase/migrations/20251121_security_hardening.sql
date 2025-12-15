@@ -54,4 +54,4 @@ CREATE POLICY "Users can read own data"
   );
 
 -- Comment for auditing
-COMMENT ON FUNCTION public.current_user_role IS 'Extracts effective role from Auth0-enriched JWT claims.';
+COMMENT ON FUNCTION public.current_user_role IS 'Extracts effective role from JWT claims.';

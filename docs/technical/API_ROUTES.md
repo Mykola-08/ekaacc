@@ -436,12 +436,9 @@ headers: {
 
 ### Getting a Token
 
-Use Auth0 or Supabase authentication:
+Use Supabase authentication:
 
 ```typescript
-// Auth0
-const token = await auth0.getAccessTokenSilently();
-
 // Supabase
 const { data: { session } } = await supabase.auth.getSession();
 const token = session?.access_token;

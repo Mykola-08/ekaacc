@@ -8,7 +8,6 @@ If you are deploying only the main web application, follow the instructions belo
 
 ## Prerequisites
 - Vercel account with project connected to GitHub repository
-- Auth0 tenant configured with production application
 - Supabase project configured
 - Stripe account (production or test mode)
 - Resend account for email services
@@ -35,28 +34,7 @@ The `vercel.json` file configures these automatically:
 
 ## Step 2: Environment Variables
 
-### Required Auth0 Variables
-
-```bash
-# Auth0 Domain (NO https://)
-NEXT_PUBLIC_AUTH0_DOMAIN=ekabalance.eu.auth0.com
-
-# Auth0 Client Credentials
-NEXT_PUBLIC_AUTH0_CLIENT_ID=your_client_id
-AUTH0_CLIENT_ID=your_client_id
-AUTH0_CLIENT_SECRET=your_client_secret
-
-# Auth0 SDK Configuration
-AUTH0_SECRET=your_production_secret_min_32_chars
-AUTH0_BASE_URL=https://your-production-domain.vercel.app
-AUTH0_ISSUER_BASE_URL=https://ekabalance.eu.auth0.com
-
-# Auth0 API Configuration
-AUTH0_AUDIENCE=https://api.ekabalance.com
-AUTH0_SCOPE=openid profile email
-```
-
-**Generate AUTH0_SECRET:**
+### Required Variables
 ```bash
 openssl rand -base64 32
 ```
@@ -110,58 +88,27 @@ EXTERNAL_AUTH_BASE_URL=https://auth.yourdomain.com
 PUBLIC_ROUTES=/custom-route,/another-route
 ```
 
-## Step 3: Auth0 Configuration
+## Step 3: Supabase Auth Configuration
 
-### Application Settings
+### Authentication Settings
 
-1. **Application Type**: Regular Web Application
-2. **Allowed Callback URLs**:
+1. **Site URL**: Set to your production domain (e.g., `https://your-domain.vercel.app`)
+2. **Redirect URLs**:
    ```
-   https://your-domain.vercel.app/api/auth/callback
-   http://localhost:3000/api/auth/callback
-   ```
-
-3. **Allowed Logout URLs**:
-   ```
-   https://your-domain.vercel.app
-   http://localhost:3000
+   https://your-domain.vercel.app/auth/callback
+   https://your-domain.vercel.app/
    ```
 
-4. **Allowed Web Origins**:
-   ```
-   https://your-domain.vercel.app
-   http://localhost:3000
-   ```
+### Email Templates
 
-5. **Allowed Origins (CORS)**:
-   ```
-   https://your-domain.vercel.app
-   http://localhost:3000
-   ```
-
-### Advanced Settings
-
-- **Grant Types**: 
-  - Authorization Code
-  - Refresh Token
-  - Implicit (if needed)
-
-- **Token Endpoint Authentication Method**: Post
-
-- **OIDC Conformant**: Enabled (recommended)
-
-### API Configuration
-
-1. Create an API in Auth0 with identifier: `https://your-supabase-project.supabase.co`
-2. Enable RBAC and Add Permissions in Access Token
-3. Set Token Expiration as needed
+1. Customize email templates in Supabase Dashboard > Authentication > Email Templates
+2. Ensure "Confirm Email" and "Reset Password" links point to your production domain
 
 ## Step 4: Deployment Checklist
 
 ### Pre-Deployment
 - [ ] All environment variables added to Vercel project settings
-- [ ] Auth0 callback URLs updated with production domain
-- [ ] Auth0 logout URLs updated with production domain
+- [ ] Supabase Site URL and Redirect URLs updated with production domain
 - [ ] Supabase RLS policies configured
 - [ ] Stripe webhook endpoint configured (if using)
 - [ ] Resend domain verified (if using custom domain)
@@ -170,38 +117,23 @@ PUBLIC_ROUTES=/custom-route,/another-route
 - [ ] Local build successful: `npm run build`
 - [ ] No TypeScript errors: `npm run typecheck`
 - [ ] Tests passing: `npm run test`
-- [ ] Middleware configured correctly (proxy function exported)
 
 ### Post-Deployment
-- [ ] Visit production URL - should redirect to Auth0 login
-- [ ] Complete authentication flow
+- [ ] Visit production URL
+- [ ] Complete authentication flow (Sign Up / Sign In)
 - [ ] Verify session persistence after refresh
-- [ ] Check API routes: `/api/auth/me`, `/api/health`
+- [ ] Check API routes: `/api/health`
 - [ ] Test logout flow
-- [ ] Verify middleware protection on protected routes
+- [ ] Verify protection on protected routes
 - [ ] Check public routes accessible without auth
 
 ## Step 5: Troubleshooting
 
 ### Common Issues
 
-**"ERR_TOO_MANY_REDIRECTS"**
-- Check middleware matcher excludes `/api/auth/*`
-- Verify AUTH0_BASE_URL matches production domain
-- Ensure Auth0 callback URLs are correct
-
-**"Callback URL mismatch"**
-- Add production domain to Auth0 Allowed Callback URLs
-- Format: `https://your-domain.vercel.app/api/auth/callback`
-
-**"Invalid state"**
-- Generate new AUTH0_SECRET
-- Clear browser cookies and retry
-
-**"Session not found"**
-- Verify AUTH0_SECRET is set in production
-- Check AUTH0_ISSUER_BASE_URL is correct
-- Ensure cookies are not blocked
+**"AuthApiError: invalid_grant"**
+- Check if the user's email is confirmed
+- Verify Supabase project URL and Anon Key are correct
 
 **Build fails with "routes-manifest.json not found"**
 - Verify `vercel.json` outputDirectory points to `apps/web/.next`
@@ -229,7 +161,6 @@ PUBLIC_ROUTES=/custom-route,/another-route
 ### Environment Variables
 - Never commit `.env.local` to git
 - Use different secrets for production/staging
-- Rotate AUTH0_SECRET periodically
 - Use Vercel's encrypted environment variables
 
 ### Headers
@@ -238,11 +169,7 @@ PUBLIC_ROUTES=/custom-route,/another-route
 - X-Frame-Options set to DENY
 - Referrer-Policy configured
 
-### Auth0
-- Enable MFA for admin accounts
-- Configure brute-force protection
-- Enable suspicious IP throttling
-- Regular security log reviews
+
 
 ## Deployment Commands
 
@@ -265,8 +192,7 @@ vercel promote <deployment-url>
 
 ## Success Criteria
 
-✅ Production URL loads and redirects to Auth0  
-✅ Authentication completes and returns to app  
+✅ Production URL loads
 ✅ User session persists across page refreshes  
 ✅ Protected routes require authentication  
 ✅ Public routes accessible without auth  
@@ -280,5 +206,4 @@ vercel promote <deployment-url>
 
 - [Next.js Deployment Docs](https://nextjs.org/docs/deployment)
 - [Vercel Monorepo Guide](https://vercel.com/docs/monorepos)
-- [Auth0 Next.js SDK](https://auth0.com/docs/quickstart/webapp/nextjs)
 - [Turborepo Deployment](https://turbo.build/repo/docs/handbook/deploying-with-vercel)

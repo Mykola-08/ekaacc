@@ -41,7 +41,7 @@ async function seed() {
     }
   ];
 
-  const { data, error } = await supabase.from('services').insert(services).select();
+  const { data, error } = await supabase.from('service').insert(services).select();
 
   if (error) {
     console.error('Error seeding services:', error);

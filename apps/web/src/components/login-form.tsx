@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -20,11 +20,17 @@ interface LoginFormProps extends React.ComponentProps<"div"> {
 
 export function LoginForm({ className, enabledProviders = { google: true, x: true, linkedin: true }, ...props }: LoginFormProps) {
   const router = useRouter()
-  const { signIn, signInWithPasskey } = useSimpleAuth()
+  const { signIn, signInWithPasskey, isAuthenticated, isLoading } = useSimpleAuth()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.push("/")
+    }
+  }, [isLoading, isAuthenticated, router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

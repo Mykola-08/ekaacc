@@ -309,15 +309,6 @@ enabled = false
 enabled = false
 # project_id = "my-firebase-project"
 
-# Use Auth0 as a third-party provider alongside Supabase Auth.
-[auth.third_party.auth0]
-enabled = true
-# Set your Auth0 tenant identifier (tenant name) and region if applicable.
-# For example, if your Auth0 domain is "ekabalance.eu.auth0.com", the tenant
-# is "ekabalance" and tenant_region is "eu".
-tenant = "ekabalance"
-tenant_region = "eu"
-
 # Use AWS Cognito (Amplify) as a third-party provider alongside Supabase Auth.
 [auth.third_party.aws_cognito]
 enabled = false

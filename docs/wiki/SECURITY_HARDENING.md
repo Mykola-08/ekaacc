@@ -5,27 +5,21 @@
 - CSP, HSTS, frame, content-type, referrer, permissions headers injected universally.
 - CSP nonce per response (`csp-nonce` cookie) for script whitelisting.
 - In-memory rate limiting (single instance) with `RATE_LIMIT_MAX_REQUESTS` env control.
-- Production Auth0 provider uses in-memory cache (`cacheLocation='memory'`) to reduce token exposure.
 - Supabase migration revoked anonymous read access to `users` table; tightened RLS policies; added admin full access policy.
 - Role extraction helper `public.current_user_role()` for RLS decisions.
 
 ## Remaining High-Value Hardening (Next Phase)
 | Area | Action | Benefit |
 |------|--------|---------|
-| Session Handling | Migrate to Auth0 Next.js server-side sessions | Eliminates client-side token storage risk |
+| Session Handling | Migrate to server-side sessions | Eliminates client-side token storage risk |
 | Secrets Management | Use Vercel encrypted env + periodic rotation schedule | Reduces blast radius of key leakage |
-| Monitoring | Stream Auth0 and Supabase logs to SIEM (Datadog/ELK) | Early threat detection |
+| Monitoring | Stream logs to SIEM (Datadog/ELK) | Early threat detection |
 | Rate Limiting | Move to Redis / Upstash distributed store | Consistent enforcement across instances |
 | MFA | Enforce MFA for all admin & practitioner roles | Mitigates credential theft |
 | Email Verification | Deny access until verified | Reduces spam / fake accounts |
 | Token Lifetime | Shorten ID token to 3600s, rely on refresh rotation | Limits stolen token usability window |
 | Vulnerability Scans | SCA & secret scan in CI | Detect outdated libraries & committed secrets |
 | Dependency Policies | Enable npm audit + renovate PR gating | Patch vulnerabilities quickly |
-
-## Auth0 Recommendations
-- Enable Breached Password Detection & Brute-force Protection in dashboard.
-- Configure Attack Protection: Suspicious IP throttling.
-- Set up custom domain (already planned) with preloaded HSTS.
 
 ## Supabase Recommendations
 - Add RLS to all tables (not only `users`).
@@ -36,15 +30,13 @@
 Current CSP is strict but allows inline styles (unsafe-inline) for Tailwind preflight. Replace with hashed styles or move to external stylesheet for stricter policy.
 
 ## Migration to Server-Side Sessions (Outline)
-1. Install `@auth0/nextjs-auth0`.
-2. Replace SPA provider with server-side login/logout handlers.
-3. Remove temporary `logged_in` cookie & memory token storage.
-4. Middleware uses SDK session check rather than cookie flag.
-5. Adjust RLS claims injection via Action (unchanged).
+1. Replace SPA provider with server-side login/logout handlers.
+2. Remove temporary `logged_in` cookie & memory token storage.
+3. Middleware uses SDK session check rather than cookie flag.
+4. Adjust RLS claims injection via Action (unchanged).
 
 ## Rotation & Secrets
 Suggested rotation cadence:
-- Auth0 Client Secret: Quarterly.
 - Supabase service role key: Semi-annually (requires regenerating & updating action secret).
 - Stripe & other 3rd party keys: Quarterly.
 
@@ -60,6 +52,6 @@ Suggested rotation cadence:
 
 ## Next Steps Script Ideas
 - `scripts/rotate-supabase-service-key.ts`: Automate key replacement + action secret update.
-- `scripts/export-auth0-logs.ts`: Periodic log ingestion to SIEM.
+- `scripts/export-audit-logs.ts`: Periodic log ingestion to SIEM.
 
 **Status:** Core hardening applied; proceed with server-side session migration for stronger guarantees.

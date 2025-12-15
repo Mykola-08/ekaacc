@@ -1,11 +1,11 @@
 # Global Authentication Enforcement Strategy
 
-All application routes require authentication except a small set of legal/public pages. This is enforced via Next.js middleware plus a lightweight session cookie set after Auth0 callback.
+All application routes require authentication except a small set of legal/public pages. This is enforced via Next.js middleware plus a lightweight session cookie.
 
 ## Components
-1. `middleware.ts` – Redirects any request without a valid Auth0 server-side session to `/login` unless path is whitelisted.
-2. `api/auth/callback` – Establishes Auth0 session cookie (`appSession`).
-3. `api/auth/logout` – Clears Auth0 session and redirects to `/login`.
+1. `middleware.ts` – Redirects any request without a valid session to `/login` unless path is whitelisted.
+2. `api/auth/callback` – Establishes session cookie (`appSession`).
+3. `api/auth/logout` – Clears session and redirects to `/login`.
 4. `PUBLIC_ROUTES` env var – Comma-separated list of additional whitelisted paths.
 
 ## Whitelisted Paths (Default)
@@ -19,21 +19,18 @@ All application routes require authentication except a small set of legal/public
 - `/favicon.ico`
 
 ## Limitations / Security Notes
-- This cookie gate is not a full security boundary; tokens remain client-side (localStorage) via Auth0 SPA SDK.
-- All protected data relies on validated Auth0 session + JWT verification at the API / Supabase layer.
-- For stronger guarantees, migrate to a server-side session (Auth0 Node SDK / nextjs-auth0) issuing httpOnly, signed session cookies.
+- This cookie gate is not a full security boundary.
+- All protected data relies on validated session + JWT verification at the API / Supabase layer.
 
 ## Migration Path (Recommended)
-1. Replace SPA SDK with Auth0 Next.js SDK in route handlers to exchange code and store session.
-2. Removed temporary `logged_in` cookie logic (deprecated).
-3. Middleware validates session via SDK utilities instead of simple cookie existence.
+1. Middleware validates session via SDK utilities instead of simple cookie existence.
 
 ## Operational Checklist
 - [ ] `PUBLIC_ROUTES` matches legal compliance requirements.
 - [ ] Callback sets cookie; observe browser dev tools after login.
 - [ ] Logout clears cookie.
 - [ ] Access to `/dashboard` unauthenticated → redirect to `/login`.
-- [ ] API calls still validate Auth0 JWT (RLS / Supabase policies).
+- [ ] API calls still validate JWT (RLS / Supabase policies).
 
 ## Troubleshooting
 | Symptom | Cause | Fix |

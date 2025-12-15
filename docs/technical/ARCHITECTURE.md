@@ -42,11 +42,11 @@ This document outlines the architectural decisions, design patterns, and best pr
 └────────────────────┬────────────────────────────────────────┘
                      │
         ┌────────────┼────────────┐
-        ▼            ▼            ▼
-┌──────────┐  ┌──────────┐  ┌──────────┐
-│ Supabase │  │  Resend  │  │  Auth0   │
-│   (DB)   │  │ (Email)  │  │  (Auth)  │
-└──────────┘  └──────────┘  └──────────┘
+        ▼            ▼            
+┌──────────┐  ┌──────────┐  
+│ Supabase │  │  Resend  │  
+│   (DB)   │  │ (Email)  │  
+└──────────┘  └──────────┘  
 ```
 
 ### Key Components
@@ -55,7 +55,7 @@ This document outlines the architectural decisions, design patterns, and best pr
 2. **API Layer** - Next.js API routes and server actions
 3. **Service Layer** - Business logic and external integrations
 4. **Data Layer** - Supabase (PostgreSQL + Auth)
-5. **External Services** - Resend, Auth0, Stripe, Square
+5. **External Services** - Resend, Stripe, Square
 
 ---
 

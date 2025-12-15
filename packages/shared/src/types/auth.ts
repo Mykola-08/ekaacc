@@ -5,6 +5,7 @@ export interface UserProfile {
   full_name: string | null;
   avatar_url: string | null;
   bio: string | null;
+  personalizationCompleted?: boolean;
   created_at: string;
   updated_at: string;
 }

@@ -25,7 +25,7 @@ The application has been split into multiple micro-apps to ensure scalability, s
 ### 4. API Service (`apps/api`)
 - **Port**: 9005
 - **Audience**: Internal services, Webhooks.
-- **Features**: Centralized integrations (Stripe, Auth0, Zoom), Webhook handling, Backend logic.
+- **Features**: Centralized integrations (Stripe, Zoom), Webhook handling, Backend logic.
 - **URL**: `http://localhost:9005`
 
 ## Development

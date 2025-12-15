@@ -15,8 +15,8 @@ if (!supabaseUrl || !supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function check() {
-  console.log('Checking services table...');
-  const { data, error } = await supabase.from('services').select('*').limit(1);
+  console.log('Checking service table...');
+  const { data, error } = await supabase.from('service').select('*').limit(1);
   if (error) {
     console.error('Error:', error);
   } else {

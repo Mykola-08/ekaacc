@@ -74,7 +74,6 @@ Make sure to configure environment variables for each project in the Vercel dash
 - `NEXT_PUBLIC_*` - Public environment variables
 - API keys and secrets
 - Database connection strings
-- Auth0 configuration
 - Stripe keys
 - etc.
 

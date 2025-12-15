@@ -24,9 +24,6 @@ Welcome to the EKA Account Wiki. Here you can find documentation on architecture
 - [Square Bidirectional Sync](square-bidirectional-sync.md)
 
 ## Auth & Security
-- [Auth0 Integration](AUTH0_SUPABASE_INTEGRATION.md)
-- [Auth0 Server Session Model](AUTH0_SERVER_SESSION_MODEL.md)
-- [Auth0 RLS Policies](AUTH0_SUPABASE_RLS_POLICIES.md)
 - [Global Auth Enforcement](GLOBAL_AUTH_ENFORCEMENT.md)
 - [Google OAuth Setup](GOOGLE_OAUTH_SETUP.md)
 - [OAuth Disclosure](OAUTH_DISCLOSURE.md)

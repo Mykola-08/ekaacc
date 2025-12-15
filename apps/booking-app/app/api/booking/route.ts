@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 
     // Fetch service info
     const { data: service, error: serviceErr } = await supabase
-      .from('services')
+      .from('service')
       .select('id,name,price,duration')
       .eq('id', serviceId)
       .single();

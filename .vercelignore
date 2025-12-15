@@ -10,7 +10,4 @@ node_modules_trash
 apps/*/node_modules
 apps/*/.next
 apps/*/.turbo
-apps/booking/**
-apps/docs/**
-apps/legal/**
-apps/marketing/**
+

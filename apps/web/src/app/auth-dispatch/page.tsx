@@ -23,9 +23,9 @@ export default async function AuthDispatchPage() {
   const roleName = Array.isArray(userRoles) ? userRoles[0]?.name : userRoles?.name;
 
   if (roleName === 'admin') {
-    redirect('http://localhost:9003');
+    redirect('/dashboard');
   } else if (roleName === 'therapist') {
-    redirect('http://localhost:9004');
+    redirect(process.env.NEXT_PUBLIC_BOOKING_APP_URL || 'http://localhost:9004');
   } else {
     // Default to patient dashboard
     redirect('/dashboard');

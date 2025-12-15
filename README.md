@@ -151,9 +151,9 @@ npm run dev
 ```
 
 This will start all applications in parallel:
-- **Marketing Site**: [http://localhost:9003](http://localhost:9003)
 - **Web App**: [http://localhost:9002](http://localhost:9002)
 - **Booking App**: [http://localhost:9004](http://localhost:9004)
+- **Legal App**: [http://localhost:9006](http://localhost:9006)
 
 ## Project Structure
 

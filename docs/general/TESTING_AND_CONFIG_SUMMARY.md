@@ -18,7 +18,7 @@
     - `http://localhost:9004`
     - `http://localhost:9005`
   - **Allowed Origins**: Same as Logout URLs.
-- **Updates**: Updated `.env.local` in `apps/web` and `apps/booking` with the new Client ID and Secret.
+- **Updates**: Updated `.env.local` in `apps/web` and `apps/booking-app` with the new Client ID and Secret.
 
 ## Testing Status
 
@@ -27,14 +27,14 @@
 - **Scope**: Core web application features.
 - **Verification**: Ran `npx turbo run test --filter=web` successfully.
 
-### apps/marketing
+### apps/marketing-app
 - **Status**: ✅ Passed
 - **Fixes**:
   - Created `tests/setup.ts` to mock `IntersectionObserver` (required by Framer Motion).
   - Updated `vitest.config.ts` to include the setup file.
   - Updated `tests/page.test.tsx` to match the actual text content ("Your Complete Wellness").
 
-### apps/booking
+### apps/booking-app
 - **Status**: ✅ Passed
 - **Scope**: Booking API and service logic.
 
@@ -47,7 +47,7 @@
 
 ## Type Checking
 - **Status**: ✅ Passed
-- **Action**: Added `typecheck` script to `apps/marketing` and `apps/booking` to ensure full workspace coverage.
+- **Action**: Added `typecheck` script to `apps/marketing-app` and `apps/booking-app` to ensure full workspace coverage.
 - **Verification**: Ran `npm run typecheck` successfully for all apps.
 
 ## Edge Functions Size Check

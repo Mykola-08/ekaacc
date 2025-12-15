@@ -96,10 +96,6 @@ export default function PremiumHero() {
           <motion.div variants={itemVariants} className="mt-16">
             <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-500">
               <div className="flex items-center gap-2">
-                <Shield className="h-4 w-4 text-green-500" />
-                <span>HIPAA Compliant</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <Users className="h-4 w-4 text-blue-500" />
                 <span>10,000+ Users</span>
               </div>

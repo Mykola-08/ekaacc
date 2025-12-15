@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npm --prefix ../.. run build -- --filter=marketing-app",
-  "installCommand": "npm --prefix ../.. install --legacy-peer-deps"
-}

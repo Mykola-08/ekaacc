@@ -37,16 +37,16 @@ export default async function Home() {
   const services = await getServices();
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
+    <main className="min-h-screen bg-background">
+      <header className="bg-card shadow-sm border-b">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Eka Booking</h1>
+          <h1 className="text-3xl font-bold text-foreground">Eka Booking</h1>
         </div>
       </header>
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
           <div className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-4">Available Services</h2>
+            <h2 className="text-2xl font-semibold text-foreground mb-4">Available Services</h2>
             {services && services.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {services.map((service) => (

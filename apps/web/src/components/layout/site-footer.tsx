@@ -17,7 +17,6 @@ export default function SiteFooter() {
             <Link className="text-muted-foreground hover:text-foreground" href={ROUTES.privacy}>Privacy</Link>
             <Link className="text-muted-foreground hover:text-foreground" href={ROUTES.cookies}>Cookies</Link>
             <Link className="text-muted-foreground hover:text-foreground" href={ROUTES.privacyControls}>Privacy Controls</Link>
-            <Link className="text-muted-foreground hover:text-foreground" href={`${ROUTES.privacy}#ccpa`}>Do Not Sell or Share My Personal Information</Link>
           </nav>
         </div>
       </div>

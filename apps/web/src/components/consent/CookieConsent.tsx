@@ -76,9 +76,6 @@ export default function CookieConsent() {
               <p className="text-sm text-gray-600 max-w-3xl">
                 We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. Read our <Link href="/privacy" className="text-primary hover:underline">Privacy Policy</Link> and <Link href="/cookies" className="text-primary hover:underline">Cookie Policy</Link>.
               </p>
-              <p className="text-xs text-gray-500 mt-2 max-w-3xl italic">
-                Compliance Notice: We have implemented comprehensive measures to align with CCPA, GDPR, ISO 27001, SOC 2, and HIPAA standards. However, compliance is an ongoing process, and we cannot guarantee absolute adherence at all times. We are dedicated to maintaining the highest standards of data privacy and security.
-              </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               <button

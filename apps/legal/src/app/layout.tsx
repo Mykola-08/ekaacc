@@ -20,26 +20,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-gray-50 text-gray-900`}>
+      <body className={`${inter.className} antialiased bg-background text-foreground`}>
         <div className="min-h-screen flex flex-col">
-          <header className="bg-white border-b sticky top-0 z-50 shadow-sm">
+          <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-50">
             <div className="container mx-auto px-4 h-16 flex justify-between items-center">
               <div className="flex items-center space-x-8">
-                <Link href="/" className="text-xl font-bold tracking-tight text-primary">
-                  EKA Balance <span className="text-gray-400 font-normal">| Legal</span>
+                <Link href="/" className="text-xl font-bold tracking-tight text-foreground">
+                  EKA Balance <span className="text-muted-foreground font-normal">| Legal</span>
                 </Link>
-                <nav className="hidden md:flex space-x-6 text-sm font-medium text-gray-600">
-                  <Link href="/privacy" className="hover:text-primary transition-colors">Privacy</Link>
-                  <Link href="/terms" className="hover:text-primary transition-colors">Terms</Link>
-                  <Link href="/cookies" className="hover:text-primary transition-colors">Cookies</Link>
-                  <Link href="/disclaimer" className="hover:text-primary transition-colors">Disclaimer</Link>
-                  <Link href="/imprint" className="hover:text-primary transition-colors">Imprint</Link>
+                <nav className="hidden md:flex space-x-6 text-sm font-medium text-muted-foreground">
+                  <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy</Link>
+                  <Link href="/terms" className="hover:text-foreground transition-colors">Terms</Link>
+                  <Link href="/cookies" className="hover:text-foreground transition-colors">Cookies</Link>
+                  <Link href="/disclaimer" className="hover:text-foreground transition-colors">Disclaimer</Link>
+                  <Link href="/imprint" className="hover:text-foreground transition-colors">Imprint</Link>
                 </nav>
               </div>
               <div className="flex items-center space-x-4">
                 <a 
-                  href="http://localhost:9002" 
-                  className="text-sm font-medium text-gray-600 hover:text-primary transition-colors"
+                  href="https://app.ekabalance.com" 
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 >
                   Back to Main Site
                 </a>
@@ -69,7 +69,6 @@ export default function RootLayout({
                     <li><Link href="/terms" className="hover:underline">Terms of Service</Link></li>
                     <li><Link href="/cookies" className="hover:underline">Cookie Policy</Link></li>
                     <li><Link href="/disclaimer" className="hover:underline">Disclaimer</Link></li>
-                    <li><Link href="/privacy#ccpa" className="hover:underline text-xs text-gray-500">Do Not Sell My Personal Information</Link></li>
                   </ul>
                 </div>
                 <div>

@@ -109,7 +109,7 @@ export default function HomePage() {
             {
               icon: Shield,
               title: 'Privacy First',
-              description: 'Bank-level encryption and HIPAA compliance ensure your data stays private and secure.',
+              description: 'Bank-level encryption ensures your data stays private and secure.',
             },
           ]}
           columns={{ sm: 2, md: 2, lg: 4 }}

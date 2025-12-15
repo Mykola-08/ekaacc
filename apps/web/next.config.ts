@@ -8,7 +8,7 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   transpilePackages: ['@repo/shared'],
-  serverExternalPackages: ['pino', 'pino-pretty', 'payload'],
+  serverExternalPackages: ['pino', 'pino-pretty', 'payload', 'sharp'],
   /* config options here */
   // TypeScript configuration - all errors are now fixed
   typescript: {

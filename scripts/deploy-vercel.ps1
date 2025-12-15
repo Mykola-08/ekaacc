@@ -3,28 +3,30 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [ValidateSet('web', 'api', 'booking', 'admin', 'marketing', 'legal', 'therapist', 'docs', 'all')]
+    [ValidateSet('web', 'api', 'booking-app', 'legal', 'docs', 'all')]
     [string]$App = 'all',
     
     [Parameter(Mandatory=$false)]
-    [switch]$Production = $false
+    [switch]$Production = $false,
+
+    [Parameter(Mandatory=$false)]
+    [switch]$Force = $false,
+
+    [Parameter(Mandatory=$false)]
+    [switch]$SyncEnv = $false
 )
 
-$apps = @('web', 'api', 'booking', 'admin', 'marketing', 'legal', 'therapist', 'docs', 'auth')
+$apps = @('web', 'api', 'booking-app', 'legal', 'docs')
 
 # Mapping of app names to Vercel project names
 # Assumes project names are ekaacc-1-$appName
 # You can customize this mapping if needed
 $projectMapping = @{
-    "web" = "ekaacc-web"
-    "admin" = "ekaacc-admin"
-    "api" = "ekaacc-api"
-    "booking" = "ekaacc-booking"
-    "marketing" = "ekaacc-marketing"
-    "legal" = "ekaacc-legal"
-    "therapist" = "ekaacc-therapist"
-    "docs" = "ekaacc-docs"
-    "auth" = "ekaacc-auth"
+    "web" = "web"
+    "api" = "api"
+    "booking-app" = "booking"
+    "legal" = "legal"
+    "docs" = "docs"
 }
 
 function Deploy-App {
@@ -56,18 +58,31 @@ function Deploy-App {
         $env:NODE_TLS_REJECT_UNAUTHORIZED = '1'
         
         # Run vercel link
-        $linkOutput = vercel link --project $projectName --yes 2>&1
+        $linkOutput = vercel link --project $projectName --scope eka-balance --yes 2>&1
         if ($LASTEXITCODE -ne 0) {
             throw "Failed to link project: $linkOutput"
+        }
+
+        if ($SyncEnv) {
+            Write-Host "[*] Syncing Environment Variables..." -ForegroundColor Cyan
+            ./scripts/sync-env-to-vercel.ps1
         }
 
         # Deploy
         if ($Production) {
             Write-Host "[*] Triggering Remote Build for PRODUCTION..." -ForegroundColor Yellow
-            vercel deploy --prod
+            if ($Force) {
+                vercel deploy --prod --force --scope eka-balance
+            } else {
+                vercel deploy --prod --scope eka-balance
+            }
         } else {
             Write-Host "[*] Triggering Remote Build for PREVIEW..." -ForegroundColor Blue
-            vercel deploy
+            if ($Force) {
+                vercel deploy --force --scope eka-balance
+            } else {
+                vercel deploy --scope eka-balance
+            }
         }
         
         if ($LASTEXITCODE -eq 0) {

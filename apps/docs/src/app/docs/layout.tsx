@@ -1,0 +1,41 @@
+import Link from 'next/link';
+
+export default function DocsLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-screen flex-col md:flex-row">
+      <aside className="w-full md:w-64 bg-gray-50 dark:bg-zinc-900 border-r border-gray-200 dark:border-zinc-800">
+        <div className="p-4">
+          <h2 className="text-lg font-semibold mb-4">Documentation</h2>
+          <nav className="space-y-2">
+            <Link href="/docs/getting-started" className="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-zinc-800">
+              Getting Started
+            </Link>
+            <Link href="/docs/tutorials" className="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-zinc-800">
+              Tutorials
+            </Link>
+            <Link href="/docs/api-reference" className="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-zinc-800">
+              API Reference
+            </Link>
+            <Link href="/docs/faq" className="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-zinc-800">
+              FAQ
+            </Link>
+            <div className="pt-4 mt-4 border-t border-gray-200 dark:border-zinc-800">
+              <Link href="/" className="block px-4 py-2 text-sm text-gray-500 hover:text-gray-900 dark:hover:text-gray-100">
+                &larr; Back to Home
+              </Link>
+            </div>
+          </nav>
+        </div>
+      </aside>
+      <main className="flex-1 p-8 overflow-y-auto">
+        <div className="max-w-4xl mx-auto prose dark:prose-invert">
+          {children}
+        </div>
+      </main>
+    </div>
+  );
+}

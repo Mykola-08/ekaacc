@@ -4,7 +4,7 @@ We have split the application into three distinct microfrontends to separate con
 
 ## Structure
 
-- **Marketing Site** (`apps/marketing`)
+- **Marketing Site** (`apps/marketing-app`)
   - **URL:** `https://www.ekabalance.com`
   - **Port:** 9003
   - **Purpose:** Public landing page.
@@ -14,7 +14,7 @@ We have split the application into three distinct microfrontends to separate con
   - **Port:** 9002
   - **Purpose:** Core SaaS platform (Dashboard, Auth).
 
-- **Booking System** (`apps/booking`)
+- **Booking System** (`apps/booking-app`)
   - **URL:** `https://booking.ekabalance.com`
   - **Port:** 9004
   - **Tech:** Next.js, Supabase, Stripe
@@ -48,16 +48,16 @@ You should deploy these as **separate projects** in Vercel.
 
 1.  **Create New Project** in Vercel.
 2.  **Import** the `ekaacc` repository.
-3.  **Root Directory:** `apps/booking`.
-4.  **Build Command:** `cd ../.. && npx turbo run build --filter=booking`
+3.  **Root Directory:** `apps/booking-app`.
+4.  **Build Command:** `cd ../.. && npx turbo run build --filter=booking-app`
 5.  **Domains:** Configure `booking.ekabalance.com`.
 6.  **Environment Variables:** Copy from `apps/web` or configure Supabase/Stripe keys.
 
 1.  **Create New Project** in Vercel.
 2.  **Import** the `ekaacc` repository.
 3.  **Framework Preset:** Next.js
-4.  **Root Directory:** Edit and select `apps/marketing`.
-5.  **Build Command:** `cd ../.. && npx turbo run build --filter=marketing`
+4.  **Root Directory:** Edit and select `apps/marketing-app`.
+5.  **Build Command:** `cd ../.. && npx turbo run build --filter=marketing-app`
     *   *Note: Vercel might auto-detect `next build`, but using turbo is recommended for caching.*
 6.  **Output Directory:** `.next` (default)
 7.  **Environment Variables:**

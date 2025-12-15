@@ -252,18 +252,6 @@ export default function Home() {
           <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
         </Link>
 
-        <Link href="/information-security-policy" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
-          <div className="flex items-start justify-between mb-4">
-            <div className="p-3 bg-slate-100 rounded-lg text-slate-700 group-hover:bg-slate-200 transition-colors">
-              <Lock className="w-6 h-6" />
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
-          </div>
-          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">Information Security Policy</h3>
-          <p className="text-gray-600 mb-4">Our commitment to protecting the confidentiality, integrity, and availability of data.</p>
-          <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
-        </Link>
-
         <Link href="/business-continuity-plan" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
           <div className="flex items-start justify-between mb-4">
             <div className="p-3 bg-indigo-100 rounded-lg text-indigo-700 group-hover:bg-indigo-200 transition-colors">
@@ -322,18 +310,6 @@ export default function Home() {
           <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">Affiliate Program Terms</h3>
           <p className="text-gray-600 mb-4">Conditions for participating in our affiliate marketing program.</p>
           <span className="text-sm font-medium text-primary">Read Terms &rarr;</span>
-        </Link>
-
-        <Link href="/ccpa-notice" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
-          <div className="flex items-start justify-between mb-4">
-            <div className="p-3 bg-blue-100 rounded-lg text-blue-700 group-hover:bg-blue-200 transition-colors">
-              <MapPin className="w-6 h-6" />
-            </div>
-            <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
-          </div>
-          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">CCPA Notice</h3>
-          <p className="text-gray-600 mb-4">Privacy rights and disclosures for California residents.</p>
-          <span className="text-sm font-medium text-primary">Read Notice &rarr;</span>
         </Link>
 
         <Link href="/gdpr-compliance" className="group block p-8 border rounded-xl hover:border-primary/50 hover:shadow-md transition-all bg-white">
@@ -503,41 +479,7 @@ export default function Home() {
             <h3 className="font-semibold text-sm">GDPR Compliant</h3>
             <p className="text-xs text-gray-500">EU Data Protection</p>
           </div>
-          <div className="flex flex-col items-center space-y-2">
-            <div className="p-4 bg-green-50 rounded-full text-green-600">
-              <Lock className="w-8 h-8" />
-            </div>
-            <h3 className="font-semibold text-sm">CCPA Compliant</h3>
-            <p className="text-xs text-gray-500">California Privacy</p>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <div className="p-4 bg-purple-50 rounded-full text-purple-600">
-              <Database className="w-8 h-8" />
-            </div>
-            <h3 className="font-semibold text-sm">ISO 27001</h3>
-            <p className="text-xs text-gray-500">Information Security</p>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <div className="p-4 bg-indigo-50 rounded-full text-indigo-600">
-              <FileSignature className="w-8 h-8" />
-            </div>
-            <h3 className="font-semibold text-sm">ISO 27701</h3>
-            <p className="text-xs text-gray-500">Privacy Management</p>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <div className="p-4 bg-teal-50 rounded-full text-teal-600">
-              <Activity className="w-8 h-8" />
-            </div>
-            <h3 className="font-semibold text-sm">HIPAA Compliant</h3>
-            <p className="text-xs text-gray-500">Healthcare Data</p>
-          </div>
-          <div className="flex flex-col items-center space-y-2">
-            <div className="p-4 bg-orange-50 rounded-full text-orange-600">
-              <CheckCircle className="w-8 h-8" />
-            </div>
-            <h3 className="font-semibold text-sm">SOC 2 Type II</h3>
-            <p className="text-xs text-gray-500">Security & Availability</p>
-          </div>
+
         </div>
       </div>
 

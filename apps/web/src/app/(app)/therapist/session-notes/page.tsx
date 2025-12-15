@@ -267,7 +267,6 @@ export default function SessionNotesPage() {
               <h4 className="font-semibold mb-2">🔒 Privacy & Security</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>• Notes are encrypted</li>
-                <li>• HIPAA compliant storage</li>
                 <li>• Automatic backups</li>
               </ul>
             </div>

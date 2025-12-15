@@ -122,15 +122,6 @@ export default function TermsPage() {
         </section>
 
         <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">14. Healthcare & HIPAA</h2>
-          <p>
-            We do not provide medical or clinical services and are not a covered entity under HIPAA. If you are a covered entity or
-            otherwise require HIPAA compliance for handling Protected Health Information (PHI), you must enter into a Business Associate
-            Agreement (BAA) with us before using the Service for PHI. Absent a signed BAA, you agree not to upload or process PHI in the Service.
-          </p>
-        </section>
-
-        <section className="mb-8">
           <h2 className="text-2xl font-semibold mb-4">14a. OAuth Integrations and Data Access</h2>
           <h3 className="text-xl font-semibold mt-4 mb-2">Authorization and Permissions</h3>
           <p>

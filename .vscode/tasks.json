@@ -1,0 +1,36 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build API",
+			"type": "shell",
+			"command": "npx turbo",
+			"args": [
+				"run",
+				"build",
+				"--filter=api"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build API Correct",
+			"type": "shell",
+			"command": "npx",
+			"args": [
+				"turbo",
+				"run",
+				"build",
+				"--filter=api"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		}
+	]
+}

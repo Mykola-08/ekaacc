@@ -1,12 +1,15 @@
 {
   "name": "ekaacc-monorepo",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
   "workspaces": [
     "apps/booking-app",
-    "apps/legal-app",
-    "apps/marketing-app",
+    "apps/legal",
     "apps/web",
     "apps/api",
+    "apps/docs",
     "packages/*"
   ],
   "scripts": {

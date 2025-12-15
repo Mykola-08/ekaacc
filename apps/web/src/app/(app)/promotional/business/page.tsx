@@ -335,7 +335,7 @@ export default function BusinessPromotionalPage() {
           
           <InView transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}>
             <p className="text-sm text-blue-100 mt-6">
-              ✓ No credit card required ✓ Cancel anytime ✓ HIPAA compliant
+              ✓ No credit card required ✓ Cancel anytime
             </p>
           </InView>
         </div>

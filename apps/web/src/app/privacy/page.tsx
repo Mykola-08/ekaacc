@@ -179,20 +179,6 @@ export default function PrivacyPage() {
             we will publish their contact details here.
           </p>
         </section>
-
-        <section className="mb-8">
-          <h2 className="text-2xl font-semibold mb-4">12. HIPAA Notice (U.S. Healthcare)</h2>
-          <p>
-            We are not a covered entity under HIPAA. If you are a covered entity or your use involves Protected Health Information (PHI),
-            you must execute a Business Associate Agreement (BAA) with us before using the Service for PHI. Without a BAA in place, you
-            agree not to upload, store, or process PHI in the Service.
-          </p>
-          <p className="mt-3">
-            When a BAA is executed, we act as a Business Associate and apply appropriate administrative, technical, and physical safeguards
-            (e.g., encryption in transit and at rest where applicable, access controls, logging). We will provide breach notifications as
-            required by law. Contact us at <a className="underline" href="mailto:support@ekabalance.com">support@ekabalance.com</a> to request a BAA.
-          </p>
-        </section>
       </div>
     </div>
   );

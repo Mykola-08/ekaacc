@@ -16,3 +16,30 @@ export {
   PerformanceTracker,
   ResourceManager
 } from './performance-utils';
+
+export {
+  logger,
+  logDatabaseQuery,
+  logPerformance,
+  type LogLevel,
+  type LogContext,
+  type LogEntry
+} from './logger';
+
+export {
+  queryBatcher,
+  queryCache,
+  QueryBatcher,
+  QueryCache,
+  cachedQuery,
+  batchLoadByIds,
+  prefetchRelated,
+  optimizeSelect,
+  buildFilterQuery,
+  chunkArray,
+  processBatches,
+  parallelBatches,
+  type BatchQuery,
+  type CacheOptions
+} from './query-optimizer';
+

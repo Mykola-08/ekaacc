@@ -320,7 +320,7 @@ export class AIConversationService {
   createContext(userId: string, userProfile?: ConversationContext['userProfile']): ConversationContext {
     return {
       userId,
-      sessionId: `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      sessionId: `session_${Date.now()}_${Math.random().toString(36).slice(2, 11)}`,
       messages: [],
       userProfile,
       conversationState: {

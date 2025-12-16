@@ -85,25 +85,25 @@ class Logger {
     fn: () => Promise<T>,
     context?: LogContext
   ): Promise<T> {
-    const start = performance.now();
+    const start = Date.now();
     
     try {
       const result = await fn();
-      const duration = performance.now() - start;
+      const duration = Date.now() - start;
       
       this.info(`${operation} completed`, {
         ...context,
-        duration: `${duration.toFixed(2)}ms`,
+        duration: `${duration}ms`,
         success: true
       });
       
       return result;
     } catch (error) {
-      const duration = performance.now() - start;
+      const duration = Date.now() - start;
       
       this.error(`${operation} failed`, error as Error, {
         ...context,
-        duration: `${duration.toFixed(2)}ms`,
+        duration: `${duration}ms`,
         success: false
       });
       

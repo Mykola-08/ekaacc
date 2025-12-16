@@ -37,11 +37,12 @@ export class QueryBatcher {
 
     const queryPromise = query();
     
-    if (!this.batches.has(key)) {
-      this.batches.set(key, []);
+    const currentBatch = this.batches.get(key);
+    if (currentBatch) {
+      currentBatch.push(queryPromise);
+    } else {
+      this.batches.set(key, [queryPromise]);
     }
-    
-    this.batches.get(key)!.push(queryPromise);
 
     // Schedule batch execution
     if (!this.batchTimeout) {

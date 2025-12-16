@@ -13,3 +13,23 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
     .filter('start_time', 'lt', endIso)
     .filter('end_time', 'gt', startIso);
 }
+
+export async function listServices() {
+  return supabaseServer
+    .from('service')
+    .select('id,name,price,duration,description,image_url,location,version')
+    .eq('active', true)
+    .order('name');
+}
+
+export async function getBookingById(bookingId: string) {
+  return supabaseServer
+    .from('booking')
+    .select(`
+      *,
+      service:service_id (name, duration, price, description),
+      staff:staff_id (name, display_name, bio, photo_url, specialties)
+    `)
+    .eq('id', bookingId)
+    .single();
+}

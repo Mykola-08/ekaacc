@@ -76,7 +76,7 @@ serve(async (req) => {
     // ----------------------------------------------------------------------
     // SERVICES -> STRIPE PRODUCTS & PRICES
     // ----------------------------------------------------------------------
-    if (table === 'services') {
+    if (table === 'service') {
       if (type === 'INSERT' || type === 'UPDATE') {
         const { id, name, description, price, stripe_product_id, stripe_price_id, active } = record
         
@@ -101,7 +101,7 @@ serve(async (req) => {
           productId = product.id
           
           // Update local record with Stripe ID (without triggering loop)
-          await supabase.from('services').update({ 
+          await supabase.from('service').update({ 
             stripe_product_id: productId,
             last_updated_by_system: 'stripe' // Prevent loop
           }).eq('id', id)
@@ -122,12 +122,12 @@ serve(async (req) => {
         if (priceChanged && price !== null) {
           const newPrice = await stripe.prices.create({
             product: productId,
-            unit_amount: Math.round(price * 100), // Convert to cents
+            unit_amount: price, // Already in cents
             currency: 'usd', // Default to USD, or fetch from config
           })
           
           // Update local record
-          await supabase.from('services').update({ 
+          await supabase.from('service').update({ 
             stripe_price_id: newPrice.id,
             last_updated_by_system: 'stripe'
           }).eq('id', id)

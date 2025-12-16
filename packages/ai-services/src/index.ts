@@ -11,6 +11,7 @@ export { AIWellnessCoach, wellnessCoach } from './ai-wellness-coach';
 export { AIJournalAnalyzer, journalAnalyzer } from './ai-journal-analyzer';
 export { AIMoodPredictor, moodPredictor } from './ai-mood-predictor';
 export { AILearningPathGenerator, learningPathGenerator } from './ai-learning-path-generator';
+export { AIMemoryService } from './ai-memory-service';
 
 // Re-export types
 export type {

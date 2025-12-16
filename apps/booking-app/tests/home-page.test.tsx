@@ -1,21 +1,11 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
-import Home from '@/app/page'
+import Home from '@/app/(main)/page'
+import * as serviceLayer from '@/server/booking/service'
 
-// Mock the supabase client
-vi.mock('@/lib/supabaseClient', () => ({
-  createClient: vi.fn(() => ({
-    from: vi.fn(() => ({
-      select: vi.fn(() => ({
-        eq: vi.fn(() => Promise.resolve({
-          data: [
-            { id: '1', name: 'Test Service', description: 'Test Description', price: 100, duration: 60, is_active: true }
-          ],
-          error: null
-        }))
-      }))
-    }))
-  }))
+// Mock the service layer
+vi.mock('@/server/booking/service', () => ({
+  listServices: vi.fn()
 }))
 
 // Mock BookingModal component since it might have complex logic
@@ -25,6 +15,13 @@ vi.mock('@/components/BookingModal', () => ({
 
 describe('Home Page', () => {
   it('renders available services', async () => {
+    vi.mocked(serviceLayer.listServices).mockResolvedValue({
+      data: [
+        { id: '1', name: 'Test Service', description: 'Test Description', price: 100, duration: 60, active: true }
+      ],
+      error: null
+    } as any)
+
     const page = await Home()
     render(page)
     

@@ -10,9 +10,9 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
-           <Link href="http://localhost:9006/privacy" className="hover:underline">Privacy Policy</Link>
-           <Link href="http://localhost:9006/terms" className="hover:underline">Terms of Service</Link>
-           <Link href="http://localhost:9006/privacy#ccpa" className="hover:underline">Do Not Sell or Share My Personal Information</Link>
+           <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
+           <Link href="/terms" className="hover:underline">Terms of Service</Link>
+           <Link href="/privacy#ccpa" className="hover:underline">Do Not Sell or Share My Personal Information</Link>
         </div>
       </div>
     </footer>

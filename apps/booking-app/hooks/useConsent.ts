@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { createClient } from '@supabase/supabase-js';
 
 export type ConsentPreferences = {
   essential: boolean;
@@ -22,7 +22,7 @@ export function useConsent() {
   const [preferences, setPreferences] = useState<ConsentPreferences>(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
   
-  const supabase = createBrowserClient(
+  const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibmZ5eGhld3Npdm9mdndkcHVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNTYzNDQsImV4cCI6MjA3ODYzMjM0NH0.beEFcpqzV7obLX0McrR-lK7V37RE0RbRTpVEKcub_Ko'
   );
@@ -51,8 +51,8 @@ export function useConsent() {
         }
 
         // 2. If not in local storage, check DB if user is logged in
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
+        const session = supabase.auth.session();
+        if (session && session.user) {
           const { data, error } = await supabase
             .from('user_consents')
             .select('status, preferences')
@@ -90,8 +90,8 @@ export function useConsent() {
       setPreferences(newPreferences);
 
       // 2. Save to DB if logged in
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session) {
+      const session = supabase.auth.session();
+      if (session && session.user) {
         await supabase.from('user_consents').insert({
           user_id: session.user.id,
           consent_type: 'cookies',

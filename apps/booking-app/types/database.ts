@@ -15,3 +15,15 @@ export interface Service {
 export interface AnonService extends Service {
   original_service_id?: string | null;
 }
+
+export interface Staff {
+  id: string;
+  created_at: string;
+  name: string;
+  display_name: string | null;
+  email: string | null;
+  bio: string | null;
+  photo_url: string | null;
+  specialties: string[] | null;
+  active: boolean;
+}

@@ -15,6 +15,11 @@ Shared AI services for personalization and background monitoring across the ekaa
   - Retry logic with configurable attempts
   - Resource tracking and statistics
 
+- **AIMemoryService**: Long-term memory and RAG capabilities
+  - Store and retrieve user memories using Vector Search
+  - Integrate with Supabase Edge Functions for secure embedding generation
+  - Semantic search for journal entries and user context
+
 ## Installation
 
 This package is part of the ekaacc monorepo and is automatically available to all apps via workspace dependencies.

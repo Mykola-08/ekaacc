@@ -15,7 +15,7 @@ if (bot) {
             const { id, first_name, last_name, username } = ctx.from;
             // Upsert user
             try {
-                await supabase.from('telegram_users').upsert({
+                await supabase.from('users').upsert({
                     telegram_user_id: id,
                     first_name,
                     last_name,

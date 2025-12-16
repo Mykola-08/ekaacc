@@ -22,6 +22,9 @@ create table if not exists staff (
   name text not null,
   display_name text,
   email text,
+  bio text,
+  photo_url text,
+  specialties text[],
   active boolean default true
 );
 

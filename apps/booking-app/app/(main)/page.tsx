@@ -13,8 +13,8 @@ async function getServices() {
     return [];
   }
 
-  // Map 'active' to 'is_active' for compatibility if needed
-  return (data || []).map(s => ({ ...s, is_active: s.active })) as Service[];
+  // Return data directly - now includes 'active' and 'created_at'
+  return (data || []) as Service[];
 }
 
 export default async function Home() {

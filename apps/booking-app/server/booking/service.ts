@@ -17,7 +17,7 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
 export async function listServices() {
   return supabaseServer
     .from('service')
-    .select('id,name,price,duration,description,image_url,location,version')
+    .select('id,name,price,duration,description,image_url,location,version,active,created_at')
     .eq('active', true)
     .order('name');
 }

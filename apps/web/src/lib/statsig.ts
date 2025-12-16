@@ -1,4 +1,5 @@
 import Statsig from 'statsig-node';
+import type { StatsigUser } from 'statsig-node';
 
 let initPromise: Promise<void> | null = null;
 let initialized = false;
@@ -31,11 +32,11 @@ export async function checkFeature(key: string, user: { userID?: string; custom?
   if (cached && cached.expires > now) return cached.value;
   await initStatsig();
   if (!initialized) return false;
-  const statsigUser = { 
+  const statsigUser: StatsigUser = { 
     userID: user.userID || 'anonymous', 
     customIDs: {} as Record<string, string>
   };
-  const value = await Statsig.checkGateWithExposureLoggingDisabled(statsigUser, key);
+  const value = Statsig.checkGateSync(statsigUser, key);
   gateCache.set(cacheKey, { value, expires: now + CACHE_TTL_MS });
   exposureCounts.set(key, (exposureCounts.get(key) || 0) + 1);
   return value;
@@ -44,11 +45,11 @@ export async function checkFeature(key: string, user: { userID?: string; custom?
 export async function getConfig<T extends Record<string, unknown>>(key: string, user: { userID?: string; custom?: Record<string, unknown> } = {}): Promise<T | null> {
   await initStatsig();
   if (!initialized) return null;
-  const statsigUser = { 
+  const statsigUser: StatsigUser = { 
     userID: user.userID || 'anonymous', 
     customIDs: {} as Record<string, string>
   };
-  const config = await Statsig.getConfigWithExposureLoggingDisabled(statsigUser, key);
+  const config = Statsig.getConfigSync(statsigUser, key);
   return (config?.value as T) ?? null;
 }
 

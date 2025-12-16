@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Menu, X, User, Settings, LogOut } from 'lucide-react';
@@ -38,9 +39,9 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
             whileHover={{ y: -2, opacity: 0.95 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <a href="/home" className="text-xl font-semibold text-gray-900">
+            <Link href="/home" className="text-xl font-semibold text-gray-900">
               EKA
-            </a>
+            </Link>
           </motion.div>
 
           {/* Desktop Navigation */}

@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -10,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { useSimpleAuth } from "@/hooks/use-simple-auth"
 import Image from "next/image"
 
-interface SignupFormProps extends React.ComponentProps<"div"> { }
+type SignupFormProps = React.ComponentProps<"div">;
 
 export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
   const router = useRouter()
@@ -115,7 +116,7 @@ export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
               </div>
 
               <div className="text-center text-sm">
-                Already have an account? <a href="/login" className="font-medium underline underline-offset-4 hover:text-primary">Sign in</a>
+                Already have an account? <Link href="/login" className="font-medium underline underline-offset-4 hover:text-primary">Sign in</Link>
               </div>
             </form>
           </div>
@@ -125,7 +126,7 @@ export function SignupFormEnhanced({ className, ...props }: SignupFormProps) {
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By continuing, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.
+        By continuing, you agree to our <Link href="/terms">Terms of Service</Link> and <Link href="/privacy">Privacy Policy</Link>.
       </div>
     </div>
   )

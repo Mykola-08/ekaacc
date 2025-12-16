@@ -90,15 +90,15 @@ export function AccordionContent({ children, className }: AccordionContentProps)
   const contentRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState(0);
 
-  if (!context || !itemContext) return null;
-
-  const isExpanded = context.expandedValue === itemContext.value;
-
   useEffect(() => {
     if (contentRef.current) {
       setHeight(contentRef.current.scrollHeight);
     }
   }, [children]);
+
+  if (!context || !itemContext) return null;
+
+  const isExpanded = context.expandedValue === itemContext.value;
 
   return (
     <motion.div

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,7 +11,7 @@ import { Label } from "@/components/ui/label"
 import { useSimpleAuth } from "@/hooks/use-simple-auth"
 import Image from "next/image"
 
-interface LoginFormProps extends React.ComponentProps<"div"> {
+type LoginFormProps = React.ComponentProps<"div"> & {
   enabledProviders?: {
     google: boolean
     x: boolean
@@ -94,12 +95,12 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <a
+                  <Link
                     href="/forgot-password"
                     className="ml-auto text-sm underline-offset-4 hover:underline"
                   >
                     Forgot your password?
-                  </a>
+                  </Link>
                 </div>
                 <Input
                   id="password"
@@ -152,7 +153,7 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
 
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/signup" className="underline underline-offset-4">Sign up</a>
+                <Link href="/signup" className="underline underline-offset-4">Sign up</Link>
               </div>
             </form>
           </div>
@@ -162,7 +163,7 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By continuing, you agree to our <a href="/terms">Terms of Service</a> and <a href="/privacy">Privacy Policy</a>.
+        By continuing, you agree to our <Link href="/terms">Terms of Service</Link> and <Link href="/privacy">Privacy Policy</Link>.
       </div>
     </div>
   )

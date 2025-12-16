@@ -11,6 +11,10 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  // Fix for client reference manifest issues in Next.js 15
+  outputFileTracingIncludes: {
+    '/': ['./app/**/*'],
+  },
 };
 
 export default nextConfig;

@@ -12,7 +12,8 @@ export interface MinimalInputProps extends React.InputHTMLAttributes<HTMLInputEl
 
 const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
   ({ className, label, error, helperText, leftIcon, rightIcon, id, ...props }, ref) => {
-    const inputId = id || `input-${React.useId()}`
+    const generatedId = React.useId();
+    const inputId = id || `input-${generatedId}`;
     return (
       <div className="space-y-2">
         {label && (

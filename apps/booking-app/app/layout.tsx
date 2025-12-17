@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
-import ChatBot from "@/components/ChatBot";
 import { CookieConsent } from "@/components/cookie-consent";
 import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
@@ -33,7 +32,6 @@ export default function RootLayout({
         </div>
         <SiteFooter />
         <CookieConsent />
-        <ChatBot />
         <Toaster />
         <Analytics />
         <SpeedInsights />

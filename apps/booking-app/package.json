@@ -10,7 +10,9 @@
     "typecheck": "tsc --noEmit",
     "deploy": "vercel",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "db:check": "tsx scripts/check-db-connection.ts",
+    "db:seed": "tsx scripts/seed-services.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.71",

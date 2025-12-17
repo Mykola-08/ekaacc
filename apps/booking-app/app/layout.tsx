@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
+import ChatBot from "@/components/ChatBot";
+import { CookieConsent } from "@/components/cookie-consent";
+import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,7 +28,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
+        <SiteFooter />
+        <CookieConsent />
+        <ChatBot />
         <Toaster />
         <Analytics />
         <SpeedInsights />

@@ -1010,7 +1010,7 @@ export const DEFAULT_THEMES: Omit<Theme, 'id' | 'createdAt' | 'updatedAt'>[] = [
   {
     name: 'default',
     displayName: 'Default',
-    description: 'Classic Eka theme',
+    description: 'Classic EKA theme',
     category: 'default',
     isPublic: true,
     colors: {

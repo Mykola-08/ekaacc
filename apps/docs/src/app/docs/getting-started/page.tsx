@@ -4,9 +4,9 @@ export default function GettingStarted() {
   return (
     <RoleGuard allowedRoles={['user', 'admin', 'developer']} fallback={<div>You do not have permission to view this page.</div>}>
       <div className="prose dark:prose-invert max-w-none">
-        <h1>Getting Started with Eka Booking</h1>
+        <h1>Getting Started with EKA Booking</h1>
         <p>
-          Eka Booking is a production-ready frictionless prepaid booking micro-app built on Next.js + Supabase + Stripe.
+          EKA Booking is a production-ready frictionless prepaid booking micro-app built on Next.js + Supabase + Stripe.
         </p>
 
         <h2>Features</h2>

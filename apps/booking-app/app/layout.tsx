@@ -14,8 +14,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Eka Booking",
-  description: "Booking application for Eka Balance",
+  title: "EKA Booking",
+  description: "Booking application for EKA Balance",
 };
 
 export default function RootLayout({

@@ -8,7 +8,7 @@ export const maxDuration = 30;
 export async function POST(req: Request) {
   const { messages, userId } = await req.json();
 
-  let systemPrompt = `You are a helpful assistant for Eka Booking. 
+  let systemPrompt = `You are a helpful assistant for EKA Booking. 
     You help users find services and answer questions about the booking app.
     The available services are generally: Haircut ($25, 30min), Massage ($80, 60min), and Manicure ($35, 45min).
     Be polite and concise.`;

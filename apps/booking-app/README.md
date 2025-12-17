@@ -1,4 +1,4 @@
-## Eka Booking
+## EKA Booking
 
 Production-ready frictionless prepaid booking micro-app built on Next.js + Supabase + Stripe.
 

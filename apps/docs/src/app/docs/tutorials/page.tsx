@@ -7,7 +7,7 @@ export default function Tutorials() {
         <h1>Tutorials</h1>
 
         <h2>Setting up the Booking System</h2>
-        <p>This tutorial guides you through setting up the Eka Booking system from scratch.</p>
+        <p>This tutorial guides you through setting up the EKA Booking system from scratch.</p>
 
         <h3>Prerequisites</h3>
         <ul>

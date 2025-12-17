@@ -25,14 +25,14 @@ describe('ChatBot', () => {
     render(<ChatBot />);
     const button = screen.getByRole('button');
     fireEvent.click(button);
-    expect(screen.getByText('Eka Assistant')).toBeDefined();
+    expect(screen.getByText('EKA Assistant')).toBeDefined();
   });
 
   it('closes chat window on close button click', () => {
     render(<ChatBot />);
     // Open it
     fireEvent.click(screen.getByRole('button'));
-    expect(screen.getByText('Eka Assistant')).toBeDefined();
+    expect(screen.getByText('EKA Assistant')).toBeDefined();
 
     // Close it - the close button is inside the header
     // There are two buttons now (submit and close)
@@ -48,6 +48,6 @@ describe('ChatBot', () => {
     fireEvent.click(closeButton);
     
     // Should be closed
-    expect(screen.queryByText('Eka Assistant')).toBeNull();
+    expect(screen.queryByText('EKA Assistant')).toBeNull();
   });
 });

@@ -4,9 +4,9 @@ export default function GettingStarted() {
   return (
     <RoleGuard allowedRoles={['user', 'admin', 'developer']} fallback={<div>You do not have permission to view this page.</div>}>
       <div className="prose dark:prose-invert max-w-none">
-        <h1>Getting Started with Eka Booking</h1>
+        <h1>Getting Started with EKA Booking</h1>
         <p>
-          Eka Booking is a production-ready frictionless prepaid booking micro-app built on Next.js + Supabase + Stripe.
+          EKA Booking is a production-ready frictionless prepaid booking micro-app built on Next.js + Supabase + Stripe.
         </p>
 
         <h2>Features</h2>
@@ -45,9 +45,9 @@ BOOKING_TOKEN_SECRET=... (optional if stored in app_config)</code></pre>
         <h2>Supabase Schema</h2>
         <p>Apply <code>SUPABASE_BOOKING_SCHEMA.sql</code> then insert secrets:</p>
         <pre><code>insert into app_config(key,value) values
- ('BOOKING_TOKEN_SECRET','your-long-random'),
- ('STRIPE_SECRET_KEY','sk_live_...'),
- ('STRIPE_WEBHOOK_SECRET','whsec_...');</code></pre>
+ (&apos;BOOKING_TOKEN_SECRET&apos;,&apos;your-long-random&apos;),
+ (&apos;STRIPE_SECRET_KEY&apos;,&apos;sk_live_...&apos;),
+ (&apos;STRIPE_WEBHOOK_SECRET&apos;,&apos;whsec_...&apos;);</code></pre>
         <p>Protect <code>app_config</code> with RLS for service role only.</p>
 
         <h2>Run Tests</h2>

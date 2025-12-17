@@ -11,7 +11,6 @@ function SuccessContent() {
     <Card className="w-full max-w-md text-center">
       <CardHeader>
         <div className="flex justify-center mb-4">
-          {/* @ts-ignore */}
           <CheckCircle2 className="h-16 w-16 text-green-500" />
         </div>
         <CardTitle className="text-2xl font-bold text-green-700">Booking Confirmed!</CardTitle>

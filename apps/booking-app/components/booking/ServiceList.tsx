@@ -28,58 +28,52 @@ export function ServiceList({ services }: ServiceListProps) {
     <div>
       <ServiceMatcher onMatch={handleMatch} />
       
-      {services && services.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service) => (
-            <div 
-              key={service.id} 
-              ref={(el) => { serviceRefs.current[service.id] = el; }}
-              className="transition-all duration-300"
-            >
-              <Card className="overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow border-border/50">
-                {service.image_url && (
-                  <div className="relative h-48 w-full bg-muted">
-                    <Image className="object-cover" src={service.image_url} alt={service.name} fill />
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((service) => (
+          <div 
+            key={service.id} 
+            ref={(el) => { serviceRefs.current[service.id] = el; }}
+            className="transition-all duration-300"
+          >
+            <Card className="overflow-hidden h-full flex flex-col hover:shadow-md transition-shadow border-border/50">
+              {service.image_url && (
+                <div className="relative h-48 w-full bg-muted">
+                  <Image className="object-cover" src={service.image_url} alt={service.name} fill />
+                </div>
+              )}
+              <CardHeader>
+                <CardTitle className="text-xl text-primary">{service.name}</CardTitle>
+                <CardDescription className="line-clamp-2">
+                  {service.description}
+                </CardDescription>
+                {(service.location || service.version) && (
+                  <div className="mt-2 flex gap-2 text-xs text-muted-foreground">
+                    {service.location && (
+                      <span className="inline-flex items-center px-2 py-1 rounded-full bg-secondary">
+                        📍 {service.location}
+                      </span>
+                    )}
+                    {service.version && (
+                      <span className="inline-flex items-center px-2 py-1 rounded-full bg-secondary">
+                        🏷️ {service.version}
+                      </span>
+                    )}
                   </div>
                 )}
-                <CardHeader>
-                  <CardTitle className="text-xl text-primary">{service.name}</CardTitle>
-                  <CardDescription className="line-clamp-2">
-                    {service.description}
-                  </CardDescription>
-                  {(service.location || service.version) && (
-                    <div className="mt-2 flex gap-2 text-xs text-muted-foreground">
-                      {service.location && (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full bg-secondary">
-                          📍 {service.location}
-                        </span>
-                      )}
-                      {service.version && (
-                        <span className="inline-flex items-center px-2 py-1 rounded-full bg-secondary">
-                          🏷️ {service.version}
-                        </span>
-                      )}
-                    </div>
-                  )}
-                </CardHeader>
-                <CardContent className="mt-auto">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xl font-bold text-foreground">${service.price}</span>
-                    <span className="text-sm text-muted-foreground">{service.duration} mins</span>
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <BookingModal service={service} />
-                </CardFooter>
-              </Card>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12 bg-card rounded-lg shadow-sm border border-border/50">
-          <p className="text-muted-foreground">No services found. Please check your connection or add services to the database.</p>
-        </div>
-      )}
+              </CardHeader>
+              <CardContent className="mt-auto">
+                <div className="flex items-center justify-between">
+                  <span className="text-xl font-bold text-foreground">${service.price}</span>
+                  <span className="text-sm text-muted-foreground">{service.duration} mins</span>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <BookingModal service={service} />
+              </CardFooter>
+            </Card>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

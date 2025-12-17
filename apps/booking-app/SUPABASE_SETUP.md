@@ -1,4 +1,4 @@
-# Supabase Setup for Eka Booking
+# Supabase Setup for EKA Booking
 
 1.  **Create a new project** in Supabase.
 2.  **Go to the SQL Editor** and run the following query to create the `services` table:

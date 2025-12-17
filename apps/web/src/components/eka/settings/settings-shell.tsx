@@ -1,7 +1,7 @@
 
 import { cn } from "@/lib/utils";
 
-interface SettingsShellProps extends React.HTMLAttributes<HTMLDivElement> {}
+type SettingsShellProps = React.HTMLAttributes<HTMLDivElement>;
 
 export function SettingsShell({ className, children, ...props }: SettingsShellProps) {
   return (

@@ -12,6 +12,8 @@ export { AIJournalAnalyzer, journalAnalyzer } from './ai-journal-analyzer';
 export { AIMoodPredictor, moodPredictor } from './ai-mood-predictor';
 export { AILearningPathGenerator, learningPathGenerator } from './ai-learning-path-generator';
 export { AIMemoryService } from './ai-memory-service';
+export { AIContentModerator, contentModerator } from './ai-content-moderator';
+export { AIConversationService, conversationService } from './ai-conversation-service';
 
 // Re-export types
 export type {
@@ -45,3 +47,16 @@ export type {
   LearningPathRecommendation,
   CourseRecommendation
 } from './ai-learning-path-generator';
+
+export type {
+  ModerationResult,
+  ModerationCategory,
+  CrisisIndicator
+} from './ai-content-moderator';
+
+export type {
+  ConversationMessage,
+  ConversationContext,
+  ConversationResponse
+} from './ai-conversation-service';
+

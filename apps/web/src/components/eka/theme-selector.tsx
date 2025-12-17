@@ -50,6 +50,12 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
     loadThemes();
   }, [currentUser?.id]);
 
+  // Apply theme when currentTheme changes
+  useEffect(() => {
+    if (!currentTheme) return;
+    applyThemeToDocument(themes.find(theme => theme.id === currentTheme));
+  }, [currentTheme, themes]);
+
   const canAccessTheme = (theme: Theme): boolean => {
     if (theme.isPublic) return true;
     if (theme.requiredSubscription === 'loyalty') return hasLoyalty || hasVip;
@@ -113,11 +119,6 @@ export function ThemeSelector({ onThemeChange, className }: ThemeSelectorProps) 
   }
 
   const hasChanges = selectedTheme !== currentTheme;
-
-  useEffect(() => {
-    if (!currentTheme) return;
-    applyThemeToDocument(themes.find(theme => theme.id === currentTheme));
-  }, [currentTheme, themes]);
 
   return (
     <div className={cn('space-y-6', className)}>

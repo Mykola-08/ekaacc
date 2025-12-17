@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
+import { CookieConsent } from "@/components/cookie-consent";
+import { SiteFooter } from "@/components/site-footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Eka Booking",
-  description: "Booking application for Eka Balance",
+  title: "EKA Booking",
+  description: "Booking application for EKA Balance",
 };
 
 export default function RootLayout({
@@ -25,7 +27,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
-        {children}
+        <div className="flex-1">
+          {children}
+        </div>
+        <SiteFooter />
+        <CookieConsent />
         <Toaster />
         <Analytics />
         <SpeedInsights />

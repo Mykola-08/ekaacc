@@ -51,12 +51,12 @@ export function useConsent() {
         }
 
         // 2. If not in local storage, check DB if user is logged in
-        const session = supabase.auth.session();
-        if (session && session.user) {
+        const { data: sessionData } = await supabase.auth.getSession();
+        if (sessionData?.session && sessionData.session.user) {
           const { data, error } = await supabase
             .from('user_consents')
             .select('status, preferences')
-            .eq('user_id', session.user.id)
+            .eq('user_id', sessionData.session.user.id)
             .eq('consent_type', 'cookies')
             .order('created_at', { ascending: false })
             .limit(1)
@@ -90,10 +90,10 @@ export function useConsent() {
       setPreferences(newPreferences);
 
       // 2. Save to DB if logged in
-      const session = supabase.auth.session();
-      if (session && session.user) {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData?.session && sessionData.session.user) {
         await supabase.from('user_consents').insert({
-          user_id: session.user.id,
+          user_id: sessionData.session.user.id,
           consent_type: 'cookies',
           status: newStatus,
           preferences: newPreferences,

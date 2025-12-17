@@ -13,8 +13,8 @@ async function getServices() {
     return [];
   }
 
-  // Map 'active' to 'is_active' for compatibility if needed
-  return (data || []).map(s => ({ ...s, is_active: s.active })) as Service[];
+  // Return data directly - now includes 'active' and 'created_at'
+  return (data || []) as Service[];
 }
 
 export default async function Home() {
@@ -23,11 +23,8 @@ export default async function Home() {
   return (
     <main className="min-h-screen bg-background flex flex-col">
       <header className="bg-card shadow-sm border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary">Eka Booking</h1>
-          <nav>
-            <Button variant="ghost">Sign In</Button>
-          </nav>
+        <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+          <h1 className="text-2xl font-bold text-primary">EKA Booking</h1>
         </div>
       </header>
 

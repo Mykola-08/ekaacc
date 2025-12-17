@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, createContext, useContext } from 'react';
-import Statsig from 'statsig-js';
+import { StatsigClient } from '@statsig/js-client';
 
 interface StatsigContextValue {
   flags: Record<string, boolean>;
@@ -28,14 +28,16 @@ export function StatsigProvider({ userID = 'anonymous', initialFlags = {}, child
       return;
     }
     let cancelled = false;
+    let client: StatsigClient | null = null;
     (async () => {
       try {
-        await Statsig.initialize(clientKey, { userID });
+        client = new StatsigClient(clientKey, { userID });
+        await client.initializeAsync();
         if (cancelled) return;
         // Hydrate known gates from initial list if present
         const merged = { ...initialFlags };
         Object.keys(merged).forEach(k => {
-          merged[k] = Statsig.checkGate(k);
+          merged[k] = client!.checkGate(k);
         });
         setFlags(merged);
       } catch {
@@ -44,7 +46,12 @@ export function StatsigProvider({ userID = 'anonymous', initialFlags = {}, child
         if (!cancelled) setReady(true);
       }
     })();
-    return () => { cancelled = true; Statsig.shutdown(); };
+    return () => { 
+      cancelled = true; 
+      if (client) {
+        client.shutdown();
+      }
+    };
   }, [userID, initialFlags]);
 
   const value: StatsigContextValue = {

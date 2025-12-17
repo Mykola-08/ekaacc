@@ -1,7 +1,7 @@
 # Architecture
 
 ## Overview
-The Eka Booking micro-app is structured for maintainability, separating concerns between route handlers, service logic, shared types, and infrastructure utilities.
+The EKA Booking micro-app is structured for maintainability, separating concerns between route handlers, service logic, shared types, and infrastructure utilities.
 
 ## Layers
 1. API Routes (`app/api/*`): Minimal request parsing + response shaping.

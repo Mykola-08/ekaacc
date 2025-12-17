@@ -38,7 +38,7 @@ const MinimalCard = React.forwardRef<HTMLDivElement, MinimalCardProps>(
 MinimalCard.displayName = 'MinimalCard';
 
 /* Card Header */
-export interface MinimalCardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {}
+type MinimalCardHeaderProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimalCardHeader = React.forwardRef<HTMLDivElement, MinimalCardHeaderProps>(
   ({ className, children, ...props }, ref) => {
@@ -57,7 +57,7 @@ const MinimalCardHeader = React.forwardRef<HTMLDivElement, MinimalCardHeaderProp
 MinimalCardHeader.displayName = 'MinimalCardHeader';
 
 /* Card Title */
-export interface MinimalCardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+type MinimalCardTitleProps = React.HTMLAttributes<HTMLHeadingElement>;
 
 const MinimalCardTitle = React.forwardRef<HTMLParagraphElement, MinimalCardTitleProps>(
   ({ className, children, ...props }, ref) => {
@@ -76,7 +76,7 @@ const MinimalCardTitle = React.forwardRef<HTMLParagraphElement, MinimalCardTitle
 MinimalCardTitle.displayName = 'MinimalCardTitle';
 
 /* Card Description */
-export interface MinimalCardDescriptionProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+type MinimalCardDescriptionProps = React.HTMLAttributes<HTMLParagraphElement>;
 
 const MinimalCardDescription = React.forwardRef<HTMLParagraphElement, MinimalCardDescriptionProps>(
   ({ className, children, ...props }, ref) => {
@@ -95,7 +95,7 @@ const MinimalCardDescription = React.forwardRef<HTMLParagraphElement, MinimalCar
 MinimalCardDescription.displayName = 'MinimalCardDescription';
 
 /* Card Content */
-export interface MinimalCardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+type MinimalCardContentProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimalCardContent = React.forwardRef<HTMLDivElement, MinimalCardContentProps>(
   ({ className, children, ...props }, ref) => {
@@ -110,7 +110,7 @@ const MinimalCardContent = React.forwardRef<HTMLDivElement, MinimalCardContentPr
 MinimalCardContent.displayName = 'MinimalCardContent';
 
 /* Card Footer */
-export interface MinimalCardFooterProps extends React.HTMLAttributes<HTMLDivElement> {}
+type MinimalCardFooterProps = React.HTMLAttributes<HTMLDivElement>;
 
 const MinimalCardFooter = React.forwardRef<HTMLDivElement, MinimalCardFooterProps>(
   ({ className, children, ...props }, ref) => {

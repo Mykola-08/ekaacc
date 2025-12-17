@@ -17,7 +17,7 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
 export async function listServices() {
   return supabaseServer
     .from('service')
-    .select('id,name,price,duration,description,image_url,location,version')
+    .select('id,name,price,duration,description,image_url,location,version,active,created_at')
     .eq('active', true)
     .order('name');
 }
@@ -32,4 +32,53 @@ export async function getBookingById(bookingId: string) {
     `)
     .eq('id', bookingId)
     .single();
+}
+
+// Database health and monitoring utilities
+export async function getBookingStats() {
+  const { data, error } = await supabaseServer
+    .from('booking')
+    .select('status, payment_status');
+  
+  if (error) return { error };
+  
+  const stats = {
+    total: data?.length || 0,
+    byStatus: data?.reduce((acc: any, b: any) => {
+      acc[b.status] = (acc[b.status] || 0) + 1;
+      return acc;
+    }, {}),
+    byPaymentStatus: data?.reduce((acc: any, b: any) => {
+      acc[b.payment_status] = (acc[b.payment_status] || 0) + 1;
+      return acc;
+    }, {})
+  };
+  
+  return { data: stats };
+}
+
+export async function checkDatabaseHealth() {
+  try {
+    const startTime = Date.now();
+    const { data, error } = await supabaseServer
+      .from('service')
+      .select('count')
+      .limit(1)
+      .single();
+    
+    const responseTime = Date.now() - startTime;
+    
+    return { 
+      healthy: !error, 
+      timestamp: new Date().toISOString(),
+      responseTimeMs: responseTime,
+      error: error?.message 
+    };
+  } catch (err) {
+    return { 
+      healthy: false, 
+      error: String(err),
+      timestamp: new Date().toISOString()
+    };
+  }
 }

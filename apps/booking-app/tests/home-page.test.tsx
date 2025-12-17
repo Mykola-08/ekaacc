@@ -25,7 +25,7 @@ describe('Home Page', () => {
     const page = await Home()
     render(page)
     
-    expect(screen.getByText('Eka Booking')).toBeInTheDocument()
+    expect(screen.getByText('EKA Booking')).toBeInTheDocument()
     expect(screen.getByText('Available Services')).toBeInTheDocument()
     expect(screen.getByText('Test Service')).toBeInTheDocument()
     expect(screen.getByText('Test Description')).toBeInTheDocument()

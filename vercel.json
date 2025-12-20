@@ -1,6 +1,6 @@
 {
-    "outputDirectory":  "apps/booking-app/.next",
-    "buildCommand":  "npx turbo run build --filter=booking-app",
+    "outputDirectory":  "apps/legal/.next",
+    "buildCommand":  "npx turbo run build --filter=legal",
     "installCommand":  "npm install --legacy-peer-deps",
     "framework":  "nextjs"
 }

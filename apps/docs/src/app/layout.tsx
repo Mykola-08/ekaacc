@@ -7,8 +7,8 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ekaacc Documentation",
-  description: "Detailed documentation for Ekaacc platform",
+  title: "EKA Documentation",
+  description: "Detailed documentation for EKA platform",
 };
 
 export default function RootLayout({

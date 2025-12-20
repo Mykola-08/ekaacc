@@ -13,7 +13,8 @@
     "zod": "^3.22.4",
     "@vercel/blob": "^2.0.0",
     "@vercel/edge-config": "^1.4.3",
-    "@supabase/supabase-js": "^2.84.0"
+    "@supabase/supabase-js": "^2.84.0",
+    "@supabase/ssr": "^0.7.0"
   },
   "devDependencies": {
     "@types/node": "^20",

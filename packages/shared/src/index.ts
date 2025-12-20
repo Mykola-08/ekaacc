@@ -4,4 +4,5 @@ export * from './vercel-blob';
 export * from './supabase-analytics';
 export * from './supabase/client';
 export * from './supabase/server';
+export * from './supabase/service-role';
 export * from './supabase/utils';

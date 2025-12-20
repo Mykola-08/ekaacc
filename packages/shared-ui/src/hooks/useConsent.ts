@@ -113,11 +113,46 @@ export function useConsent() {
     }
   };
 
+  const acceptAll = () => {
+    const allGranted: ConsentPreferences = {
+      essential: true,
+      analytics: true,
+      marketing: true,
+      functional: true,
+    };
+    saveConsent('granted', allGranted);
+  };
+
+  const denyAll = () => {
+    const allDenied: ConsentPreferences = {
+      essential: true,
+      analytics: false,
+      marketing: false,
+      functional: false,
+    };
+    saveConsent('denied', allDenied);
+  };
+
+  const savePreferences = (newPreferences: ConsentPreferences) => {
+    // Determine status based on preferences
+    const isAllGranted = Object.values(newPreferences).every(v => v);
+    const isAllDenied = !newPreferences.analytics && !newPreferences.marketing && !newPreferences.functional;
+    
+    let newStatus: ConsentStatus = 'partial';
+    if (isAllGranted) newStatus = 'granted';
+    if (isAllDenied) newStatus = 'denied';
+
+    saveConsent(newStatus, newPreferences);
+  };
+
   return {
     status,
     preferences,
     isLoading,
     saveConsent,
-    checkConsent
+    checkConsent,
+    acceptAll,
+    denyAll,
+    savePreferences,
   };
 }

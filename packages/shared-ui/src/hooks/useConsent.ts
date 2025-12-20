@@ -46,7 +46,8 @@ export function useConsent() {
         return;
       } else {
         // Check for Global Privacy Control (GPC)
-        if (typeof navigator !== 'undefined' && (navigator as any).globalPrivacyControl) {
+        // @ts-expect-error - Navigator.globalPrivacyControl is not yet in TypeScript lib types
+        if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
           console.log('Global Privacy Control (GPC) signal detected.');
           const gpcPreferences = { ...DEFAULT_PREFERENCES };
           setStatus('denied');
@@ -100,7 +101,7 @@ export function useConsent() {
           status: newStatus,
           preferences: newPreferences,
           user_agent: navigator.userAgent,
-          version: '1.0'
+          version: '1.0' // Version for tracking consent schema changes
         });
       }
       

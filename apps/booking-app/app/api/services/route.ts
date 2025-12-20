@@ -7,7 +7,8 @@ export async function GET() {
   const { data, error } = await listServices();
 
   if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
   return NextResponse.json({ services: data });
 }

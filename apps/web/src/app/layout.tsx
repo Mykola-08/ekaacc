@@ -11,6 +11,7 @@ import { ImpersonationWrapper } from '@/components/admin/impersonation-wrapper';
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import CookieConsent from '@/components/consent/CookieConsent';
+import { DebugStatus } from "@ekaacc/shared-ui";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -84,6 +85,7 @@ export default function RootLayout({
                     <SpeedInsights />
                   </ImpersonationWrapper>
                   <Toaster />
+                  <DebugStatus />
                 </TooltipProvider>
               </ProgressProvider>
             </ThemeProvider>

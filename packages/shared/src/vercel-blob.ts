@@ -6,7 +6,7 @@ import { put, list, del, type PutBlobResult, type ListBlobResult } from '@vercel
  */
 
 export interface UploadOptions {
-  access?: 'public' | 'private';
+  access?: 'public';
   cacheControlMaxAge?: number;
 }
 
@@ -156,7 +156,7 @@ export async function uploadDocument(
   const filename = `documents/${metadata.userId}/${metadata.documentType}/${timestamp}.${fileExtension}`;
   
   return await uploadFile(filename, document, {
-    access: 'private', // Documents should be private by default
+    access: 'public', // TODO: Change to private when supported by Vercel Blob
   });
 }
 

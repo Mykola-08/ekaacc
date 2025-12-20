@@ -41,12 +41,14 @@
     "prepare": "husky install || echo 'Husky not installed'"
   },
   "devDependencies": {
+    "@types/pg": "^8.16.0",
     "turbo": "^2.6.3"
   },
   "packageManager": "npm@10.9.0",
   "dependencies": {
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.84.0",
+    "pg": "^8.16.3",
     "telegraf": "^4.16.3"
   }
 }

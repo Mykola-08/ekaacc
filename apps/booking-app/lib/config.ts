@@ -1,4 +1,4 @@
-import { supabaseServer } from '@/lib/supabaseServerClient';
+import { db } from '@/lib/db';
 
 type ConfigCache = { [k: string]: string };
 const cache: ConfigCache = {};
@@ -8,15 +8,23 @@ const CACHE_TTL_MS = 60_000; // 1 minute
 export async function getConfig(key: string): Promise<string | undefined> {
   const now = Date.now();
   if (cache[key] && now - lastLoad < CACHE_TTL_MS) return cache[key];
-  const { data, error } = await supabaseServer
-    .from('app_config')
-    .select('key,value')
-    .eq('key', key)
-    .single();
-  if (error) return undefined;
-  cache[key] = data.value;
-  lastLoad = now;
-  return data.value;
+  
+  try {
+    const { rows } = await db.query(
+      'SELECT value FROM system_configurations WHERE key = $1',
+      [key]
+    );
+    
+    if (rows.length === 0) return undefined;
+    
+    const value = rows[0].value;
+    cache[key] = value;
+    lastLoad = now;
+    return value;
+  } catch (error) {
+    console.error('Error fetching config:', error);
+    return undefined;
+  }
 }
 
 export async function getBookingTokenSecret() {

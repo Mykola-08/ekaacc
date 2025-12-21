@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from '@repo/shared';
+import { createServerSupabaseClient } from '@repo/shared/server';
 
 export async function createClient() {
   return createServerSupabaseClient({

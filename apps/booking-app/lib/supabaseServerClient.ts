@@ -1,4 +1,4 @@
-import { createServiceRoleClient, withRetry } from '@repo/shared';
+import { createServiceRoleClient, withRetry } from '@repo/shared/server';
 
 // Service role client (server-side only). DO NOT expose service key to client bundles.
 // Uses API key authentication (not JWT)

@@ -5,39 +5,36 @@ This monorepo contains multiple Next.js applications that can be deployed separa
 ## Apps Available for Deployment
 
 - **web** - Main web application (includes Payload CMS)
-- **booking** - Booking system
-- **marketing** - Marketing site
+- **booking-app** - Booking system
 - **legal** - Legal pages
+- **api** - API endpoints
 
-## Quick Deployment
+## Important: Multi-Project Setup
 
-### Deploy the Main Web App
+Each app in this monorepo should be deployed as a **separate Vercel project**. This ensures:
+- Independent deployments for each app
+- Isolated environment variables per app
+- Separate production URLs for each service
+- Better resource isolation and scaling
 
-```bash
-# From the repository root
-cd apps/web
-vercel
+## Setting Up Vercel Projects via Dashboard
 
-# Deploy to production
-vercel --prod
-```
+The recommended approach is to create separate projects via the Vercel dashboard:
 
-## Manual Deployment
+1. **Go to Vercel Dashboard** (https://vercel.com/dashboard)
+2. **Click "Add New Project"**
+3. **Import your Git repository**
+4. **Configure the project**:
+   - **Framework Preset**: Next.js
+   - **Root Directory**: Set to the specific app directory (e.g., `apps/web`, `apps/booking-app`, `apps/legal`)
+   - **Build Command**: Will be auto-detected from the app's `vercel.json`
+   - **Install Command**: Will be auto-detected from the app's `vercel.json`
+5. **Add Environment Variables**: Configure all required environment variables for the specific app
+6. **Deploy**
 
-If you prefer to deploy manually:
+Repeat this process for each app you want to deploy.
 
-```powershell
-# Navigate to the app directory
-cd apps/web
-
-# Deploy to preview
-vercel
-
-# Deploy to production
-vercel --prod
-```
-
-## Setting Up Vercel Projects
+## Setting Up Vercel Projects via CLI
 
 For each app, you'll need to:
 
@@ -62,10 +59,31 @@ For each app, you'll need to:
 
 ## Vercel Configuration
 
-Each app has its own `vercel.json` configuration file that:
-- Uses Turbo to build only the specific app and its dependencies
-- Configures security headers
-- Sets up the correct build and output directories
+### Individual App Configuration
+
+Each app has its own `vercel.json` configuration file in its directory (e.g., `apps/web/vercel.json`):
+
+```json
+{
+  "buildCommand": "npm --prefix ../.. run build -- --filter=web",
+  "installCommand": "npm --prefix ../.. install --legacy-peer-deps"
+}
+```
+
+These configurations:
+- Use `--prefix ../..` to run commands from the monorepo root
+- Use Turbo's `--filter` flag to build only the specific app and its dependencies
+- Handle monorepo dependencies correctly
+
+### No Root Configuration
+
+**Important**: There is intentionally no `vercel.json` at the repository root. This is by design to ensure:
+- Each app deploys independently to its own Vercel project
+- No single app is favored as the "default" deployment
+- Each project can have its own environment variables and settings
+- You must explicitly choose which app to deploy
+
+If you need to deploy all apps, create separate Vercel projects for each one via the dashboard or CLI.
 
 ## Environment Variables
 

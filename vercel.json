@@ -1,6 +1,0 @@
-{
-    "outputDirectory":  "apps/legal/.next",
-    "buildCommand":  "npx turbo run build --filter=legal",
-    "installCommand":  "npm install --legacy-peer-deps",
-    "framework":  "nextjs"
-}

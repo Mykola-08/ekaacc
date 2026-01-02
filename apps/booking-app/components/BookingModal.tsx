@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -24,21 +24,54 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Service } from '@/types/database';
+import { AvailabilitySlot } from '@/types/booking';
 
 interface BookingModalProps {
   service: Service;
+  trigger?: React.ReactNode;
 }
 
-export function BookingModal({ service }: BookingModalProps) {
+export function BookingModal({ service, trigger }: BookingModalProps) {
   const [date, setDate] = useState<Date>();
+  const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
+  const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | undefined>();
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    if (date) {
+      setLoadingSlots(true);
+      setSelectedSlot(undefined);
+      const dateStr = format(date, 'yyyy-MM-dd');
+      
+      fetch(`/api/services/${service.id}/availability?date=${dateStr}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.slots) {
+            setSlots(data.slots);
+          } else {
+            setSlots([]);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          toast.error('Failed to load availability');
+          setSlots([]);
+        })
+        .finally(() => setLoadingSlots(false));
+    } else {
+      setSlots([]);
+      setSelectedSlot(undefined);
+    }
+  }, [date, service.id]);
+
   const handleBooking = async () => {
-    if (!date || !name || !email) {
-      toast.error('Please fill in all fields');
+    if (!date || !selectedSlot || !name || !email) {
+      toast.error('Please fill in all fields and select a time');
       return;
     }
 
@@ -53,7 +86,7 @@ export function BookingModal({ service }: BookingModalProps) {
         },
         body: JSON.stringify({
           serviceId: service.id,
-          startTime: date.toISOString(),
+          startTime: selectedSlot.startTime,
           email,
           displayName: name,
           paymentMode: 'deposit',
@@ -79,7 +112,7 @@ export function BookingModal({ service }: BookingModalProps) {
           price: 20, // 20 EUR deposit
           customerName: name,
           customerEmail: email,
-          date: date.toISOString(),
+          date: selectedSlot.startTime,
           bookingId: bookingData.bookingId, // Pass booking ID to checkout
         }),
       });
@@ -100,42 +133,36 @@ export function BookingModal({ service }: BookingModalProps) {
   };
 
   return (
-    <>
-      {/* @ts-ignore */}
-      <Dialog open={open} onOpenChange={setOpen}>
-      {/* @ts-ignore */}
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
-          Book Now
-        </Button>
+        {trigger || (
+          <Button className="w-full bg-primary hover:bg-primary-hover text-primary-foreground">
+            Book Now
+          </Button>
+        )}
       </DialogTrigger>
-      {/* @ts-ignore */}
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-md bg-surface border-border-subtle text-slate-200 max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          {/* @ts-ignore */}
-          <DialogTitle>Book {service.name}</DialogTitle>
-          {/* @ts-ignore */}
-          <DialogDescription>
-            Enter your details to book this service. Price: ${service.price}
+          <DialogTitle className="text-slate-100 font-serif">Book {service.name}</DialogTitle>
+          <DialogDescription className="text-slate-400">
+            Enter your details to book this service. Price: €{service.price}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            {/* @ts-ignore */}
-            <Label htmlFor="name" className="text-right">
+            <Label htmlFor="name" className="text-right text-slate-300">
               Name
             </Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="col-span-3"
+              className="col-span-3 bg-surface-highlight border-border-subtle text-slate-200 focus:border-primary"
               placeholder="John Doe"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            {/* @ts-ignore */}
-            <Label htmlFor="email" className="text-right">
+            <Label htmlFor="email" className="text-right text-slate-300">
               Email
             </Label>
             <Input
@@ -143,46 +170,80 @@ export function BookingModal({ service }: BookingModalProps) {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="col-span-3"
+              className="col-span-3 bg-surface-highlight border-border-subtle text-slate-200 focus:border-primary"
               placeholder="john@example.com"
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            {/* @ts-ignore */}
-            <Label className="text-right">Date</Label>
-            {/* @ts-ignore */}
+            <Label className="text-right text-slate-300">Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
                   className={cn(
-                    "col-span-3 justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
+                    "col-span-3 justify-start text-left font-normal bg-surface-highlight border-border-subtle text-slate-200 hover:bg-surface hover:text-white",
+                    !date && "text-slate-500"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date ? format(date, "PPP") : <span>Pick a date</span>}
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className="w-auto p-0">
+              <PopoverContent className="w-auto p-0 bg-surface border-border-subtle">
                 <Calendar
                   mode="single"
                   selected={date}
                   onSelect={setDate}
                   initialFocus
                   disabled={(date) => date < new Date()}
+                  className="bg-surface text-slate-200 rounded-md border border-border-subtle"
                 />
               </PopoverContent>
             </Popover>
           </div>
+
+          {date && (
+            <div className="grid grid-cols-4 items-start gap-4">
+              <Label className="text-right text-slate-300 pt-2">Time</Label>
+              <div className="col-span-3">
+                {loadingSlots ? (
+                  <div className="text-sm text-slate-400 py-2">Loading available slots...</div>
+                ) : slots.length > 0 ? (
+                  <div className="grid grid-cols-3 gap-2">
+                    {slots.map((slot, i) => (
+                      <Button
+                        key={i}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setSelectedSlot(slot)}
+                        className={cn(
+                          "text-xs border-border-subtle hover:bg-primary hover:text-primary-foreground hover:border-primary transition-colors",
+                          selectedSlot === slot 
+                            ? "bg-primary text-primary-foreground border-primary" 
+                            : "bg-surface-highlight text-slate-300"
+                        )}
+                      >
+                        {format(new Date(slot.startTime), 'HH:mm')}
+                      </Button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-sm text-slate-400 py-2">No slots available for this date.</div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
         <DialogFooter>
-          <Button onClick={handleBooking} disabled={loading}>
+          <Button 
+            onClick={handleBooking} 
+            disabled={loading || !selectedSlot || !name || !email} 
+            className="bg-primary text-primary-foreground hover:bg-primary-hover w-full sm:w-auto"
+          >
             {loading ? 'Processing...' : 'Pay €20 Deposit & Book'}
           </Button>
         </DialogFooter>
       </DialogContent>
-      </Dialog>
-    </>
+    </Dialog>
   );
 }

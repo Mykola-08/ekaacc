@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope, Playfair_Display } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
@@ -8,14 +8,19 @@ import { SiteFooter } from "@/components/site-footer";
 import { DebugStatus } from "@ekaacc/shared-ui";
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
 });
 
 export const metadata: Metadata = {
-  title: "EKA Booking",
-  description: "Booking application for EKA Balance",
+  title: "Integrative Massage Booking - Elena V.",
+  description: "Restoring balance through structural integration",
 };
 
 export default function RootLayout({
@@ -24,9 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${inter.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}
+        className={`${manrope.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col bg-[#0f0f11] text-slate-200`}
       >
         <div className="flex-1">
           {children}

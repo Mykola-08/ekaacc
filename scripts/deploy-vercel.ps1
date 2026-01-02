@@ -13,7 +13,10 @@ param(
     [switch]$Force = $false,
 
     [Parameter(Mandatory=$false)]
-    [switch]$SyncEnv = $false
+    [switch]$SyncEnv = $false,
+
+    [Parameter(Mandatory=$false)]
+    [string]$Scope = 'eka-balance'
 )
 
 $apps = @('web', 'api', 'booking-app', 'legal', 'docs')
@@ -58,7 +61,7 @@ function Deploy-App {
         $env:NODE_TLS_REJECT_UNAUTHORIZED = '1'
         
         # Run vercel link
-        $linkOutput = vercel link --project $projectName --yes 2>&1
+        $linkOutput = vercel link --project $projectName --scope $Scope --yes 2>&1
         if ($LASTEXITCODE -ne 0) {
             throw "Failed to link project: $linkOutput"
         }
@@ -72,16 +75,16 @@ function Deploy-App {
         if ($Production) {
             Write-Host "[*] Triggering Remote Build for PRODUCTION..." -ForegroundColor Yellow
             if ($Force) {
-                vercel deploy --prod --force
+                vercel deploy --prod --force --scope $Scope
             } else {
-                vercel deploy --prod
+                vercel deploy --prod --scope $Scope
             }
         } else {
             Write-Host "[*] Triggering Remote Build for PREVIEW..." -ForegroundColor Blue
             if ($Force) {
-                vercel deploy --force
+                vercel deploy --force --scope $Scope
             } else {
-                vercel deploy
+                vercel deploy --scope $Scope
             }
         }
         

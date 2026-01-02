@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 export async function fetchService(serviceId: string) {
   try {
     const { rows } = await db.query(
-      'SELECT id, name, price, duration FROM services WHERE id = $1',
+      'SELECT id, name, price, duration, description FROM services WHERE id = $1',
       [serviceId]
     );
     

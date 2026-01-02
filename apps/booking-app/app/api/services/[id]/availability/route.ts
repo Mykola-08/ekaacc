@@ -46,7 +46,7 @@ export async function GET(
   const { data: bookings, error: bookErr } = await supabase
     .from('booking')
     .select('id,start_time,end_time,staff_id,payment_status')
-    .eq('service_id', service.id)
+    // .eq('service_id', service.id) // REMOVED: Check all bookings for staff availability, not just this service
     .gte('start_time', dayStart.toISOString())
     .lt('end_time', dayEnd.toISOString());
   if (bookErr) return NextResponse.json({ error: bookErr.message }, { status: 500 });

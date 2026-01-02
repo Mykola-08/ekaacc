@@ -43,19 +43,16 @@ export async function POST(req: Request) {
     }
     const end = new Date(start.getTime() + service.duration * 60000);
 
-    // Basic overlap check (pending + confirmed)
+    // Fetch all bookings in this time range to check for staff availability
     const { data: overlapping, error: overlapErr } = await supabase
       .from('booking')
       .select('id,start_time,end_time,payment_status,staff_id')
-      .eq('service_id', service.id)
       .or(`payment_status.eq.pending,payment_status.eq.captured,payment_status.eq.authorized`)
       .filter('start_time', 'lt', end.toISOString())
       .filter('end_time', 'gt', start.toISOString());
+    
     if (overlapErr) {
       return NextResponse.json({ error: overlapErr.message }, { status: 500 });
-    }
-    if (overlapping && overlapping.length > 0) {
-      return NextResponse.json({ error: 'Slot just taken', alternatives: [] }, { status: 409 });
     }
 
     // Auto-assign staff if not provided
@@ -68,10 +65,15 @@ export async function POST(req: Request) {
         .select('staff_id,start_hour,end_hour,active')
         .eq('weekday', weekday)
         .eq('active', true);
+      
       if (schedules) {
         for (const s of schedules) {
           const durationHours = service.duration / 60;
+          // Check if staff is working during the requested time
+          // Note: This simple check assumes startHour is an integer. 
+          // Real implementation should handle minutes more precisely.
           if (startHour >= s.start_hour && (startHour + durationHours) <= s.end_hour) {
+            // Check if this staff member has any overlapping bookings
             const staffOverlap = (overlapping || []).some(b => b.staff_id === s.staff_id);
             if (!staffOverlap) {
               finalStaffId = s.staff_id;
@@ -80,6 +82,10 @@ export async function POST(req: Request) {
           }
         }
       }
+    }
+
+    if (!finalStaffId) {
+      return NextResponse.json({ error: 'No staff available for this slot', alternatives: [] }, { status: 409 });
     }
 
     const reservationTTLMinutes = 5;

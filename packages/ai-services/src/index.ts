@@ -14,6 +14,7 @@ export { AILearningPathGenerator, learningPathGenerator } from './ai-learning-pa
 export { AIMemoryService } from './ai-memory-service';
 export { AIContentModerator, contentModerator } from './ai-content-moderator';
 export { AIConversationService, conversationService } from './ai-conversation-service';
+export { HuggingFaceAgent, hfAgent } from './hf-agent';
 
 // Re-export types
 export type {

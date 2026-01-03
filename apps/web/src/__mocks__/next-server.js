@@ -1,3 +1,4 @@
+/* eslint-env jest */
 const next = jest.fn(() => ({
   headers: new Headers({ 'x-middleware-next': '1' }),
   cookies: { set: jest.fn() },

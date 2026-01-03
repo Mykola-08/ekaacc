@@ -44,7 +44,7 @@ describe('AuthDispatchPage', () => {
       await AuthDispatchPage();
     } catch (e) {}
 
-    expect(redirect).toHaveBeenCalledWith('/dashboard');
+    expect(redirect).toHaveBeenCalledWith('/console');
   });
 
   it('redirects to therapist app if user has Therapist role', async () => {
@@ -64,7 +64,7 @@ describe('AuthDispatchPage', () => {
     } catch (e) {}
 
 
-    expect(redirect).toHaveBeenCalledWith('http://localhost:9004');
+    expect(redirect).toHaveBeenCalledWith('/therapist/dashboard');
   });
 
   it('redirects to dashboard if user has no special role', async () => {

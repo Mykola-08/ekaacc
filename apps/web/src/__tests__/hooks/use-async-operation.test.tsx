@@ -205,8 +205,13 @@ describe('useAsyncOperation', () => {
     const staleTime = 100; // 100ms for faster test
 
     const { result } = renderHook(() => 
-      useAsyncOperation(operation, { staleTime })
+      useAsyncOperation(operation, { staleTime, enabled: false })
     );
+
+    // Initial execution
+    await act(async () => {
+      await result.current.execute();
+    });
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);

@@ -34,10 +34,10 @@ export async function middleware(request: NextRequest) {
 
   // 3. Verify Token
   try {
-    // We need SUPABASE_URL and SUPABASE_ANON_KEY (or SERVICE_ROLE_KEY if doing admin tasks)
+    // We need SUPABASE_URL and SUPABASE_PUBLISHABLE_KEY (or SECRET_KEY if doing admin tasks)
     // to initialize the client.
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
-    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+    const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
 
     if (!supabaseUrl || !supabaseKey) {
       console.error('Missing Supabase environment variables');

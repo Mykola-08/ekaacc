@@ -16,13 +16,13 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
     : [];
 
   return (
-    <div className={`flex flex-1 flex-col gap-6 rounded-[2.5rem] border p-10 transition-all shadow-xl hover:shadow-2xl relative overflow-hidden group ${
+    <div className={`flex flex-1 flex-col gap-6 rounded-3xl border p-10 transition-all shadow-xl hover:shadow-2xl relative overflow-hidden group ${
       isHighlight 
         ? 'border-2 border-primary/30 bg-surface-highlight shadow-[0_0_40px_-10px_rgba(230,210,196,0.1)]' 
         : 'border-border-subtle bg-surface hover:border-primary/40'
     }`}>
       <div className={`absolute -right-10 -top-10 opacity-[0.03] ${!isHighlight && 'group-hover:opacity-[0.07] transition-opacity duration-700'}`}>
-        <Timer className="w-[240px] h-[240px]" />
+        <Timer className="w-60 h-60" />
       </div>
       
       <div className="flex flex-col gap-2 relative z-10">
@@ -45,7 +45,7 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
           features.map((item, i) => (
             <div key={i} className="text-sm font-medium flex gap-4 text-slate-300 items-center">
               <div className={`size-6 rounded-full flex items-center justify-center shrink-0 ${isHighlight ? 'bg-primary' : 'bg-primary/20'}`}>
-                <Check className={`w-[14px] h-[14px] ${isHighlight ? 'text-primary-foreground' : 'text-primary'}`} />
+                <Check className={`w-3.5 h-3.5 ${isHighlight ? 'text-primary-foreground' : 'text-primary'}`} />
               </div>
               {item}
             </div>

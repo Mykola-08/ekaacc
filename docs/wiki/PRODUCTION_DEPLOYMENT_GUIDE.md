@@ -52,8 +52,8 @@ NEXT_PUBLIC_API_URL=https://your-domain.com/api
 
 # Supabase
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_production_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_production_service_role_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_production_publishable_key
+SUPABASE_SECRET_KEY=your_production_secret_key
 SUPABASE_JWT_SECRET=your_jwt_secret
 
 # Stripe (Production Keys)
@@ -466,8 +466,8 @@ export const env = {
   
   // Supabase
   supabaseUrl: getEnvVar('NEXT_PUBLIC_SUPABASE_URL'),
-  supabaseAnonKey: getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY'),
-  supabaseServiceKey: getEnvVar('SUPABASE_SERVICE_ROLE_KEY'),
+  supabaseAnonKey: getEnvVar('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY'),
+  supabaseServiceKey: getEnvVar('SUPABASE_SECRET_KEY'),
   
   // Payment
   stripeSecretKey: getEnvVar('STRIPE_SECRET_KEY'),

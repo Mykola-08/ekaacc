@@ -226,7 +226,7 @@ CREATE TABLE audit_logs (
 #### Sensitive Variables
 ```bash
 # Never commit these:
-SUPABASE_SERVICE_ROLE_KEY=super_secret_key
+SUPABASE_SECRET_KEY=super_secret_key
 STRIPE_SECRET_KEY=sk_live_...
 OPENAI_API_KEY=sk-...
 NEXTAUTH_SECRET=very_long_random_string
@@ -239,8 +239,8 @@ Create `src/lib/env.ts`:
 function validateEnv() {
   const required = [
     'NEXT_PUBLIC_SUPABASE_URL',
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-    'SUPABASE_SERVICE_ROLE_KEY',
+    'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY',
+    'SUPABASE_SECRET_KEY',
   ];
   
   for (const key of required) {

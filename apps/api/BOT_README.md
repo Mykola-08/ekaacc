@@ -8,7 +8,7 @@
     ```
     TELEGRAM_BOT_TOKEN=your_bot_token
     SUPABASE_URL=your_supabase_url
-    SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+    SUPABASE_SECRET_KEY=your_secret_key
     WEBAPP_BASE_URL=https://your-app.vercel.app
     ```
 

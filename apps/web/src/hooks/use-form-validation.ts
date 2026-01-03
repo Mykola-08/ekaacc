@@ -49,7 +49,7 @@ export interface UseFormValidationReturn<T extends Record<string, any>> {
   setFieldError: (field: keyof T, error: string) => void;
   clearFieldError: (field: keyof T) => void;
   clearAllErrors: () => void;
-  validateField: (field: keyof T) => Promise<boolean>;
+  validateField: (field: keyof T, valueOverride?: any, dataOverride?: T) => Promise<boolean>;
   validateForm: () => Promise<boolean>;
   handleChange: (field: keyof T) => (value: any) => void;
   handleBlur: (field: keyof T) => () => void;
@@ -201,7 +201,7 @@ export function useFormValidation<T extends Record<string, any>>(
     return fieldErrors;
   }, [config.fields, sanitizeBeforeValidation, sanitizeValue]);
 
-  const validateField = useCallback(async (field: keyof T): Promise<boolean> => {
+  const validateField = useCallback(async (field: keyof T, valueOverride?: any, dataOverride?: T): Promise<boolean> => {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -211,7 +211,9 @@ export function useFormValidation<T extends Record<string, any>>(
     setTouched(prev => ({ ...prev, [field as string]: true }));
 
     try {
-      const fieldErrors = await validateFieldValue(field, data[field], data);
+      const valueToValidate = valueOverride !== undefined ? valueOverride : data[field];
+      const dataToUse = dataOverride || data;
+      const fieldErrors = await validateFieldValue(field, valueToValidate, dataToUse);
       
       if (abortControllerRef.current.signal.aborted) {
         return false;
@@ -238,7 +240,7 @@ export function useFormValidation<T extends Record<string, any>>(
         if (logValidationErrors) {
           logger.warn(`Validation failed for field ${String(field)}`, {
             field,
-            value: data[field],
+            value: valueToValidate,
             errors: fieldErrors,
           });
         }
@@ -306,9 +308,10 @@ export function useFormValidation<T extends Record<string, any>>(
     // Auto-validate on change if configured
     const fieldConfig = config.fields[field as string];
     if (fieldConfig?.validateOnChange ?? config.validateOnChange) {
-      validateField(field);
+      const newData = { ...data, [field]: sanitizedValue };
+      validateField(field, sanitizedValue, newData);
     }
-  }, [config.fields, config.validateOnChange, sanitizeValue, validateField]);
+  }, [config.fields, config.validateOnChange, sanitizeValue, validateField, data]);
 
   const setFieldError = useCallback((field: keyof T, error: string) => {
     setErrors(prev => ({ ...prev, [field]: error }));

@@ -216,8 +216,8 @@ supabase migration new your_migration_name
 ```bash
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+SUPABASE_SECRET_KEY=your_secret_key
 
 # Payment Integrations
 STRIPE_SECRET_KEY=your_stripe_secret_key

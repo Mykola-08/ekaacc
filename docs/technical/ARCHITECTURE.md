@@ -726,7 +726,7 @@ test('user can send notification', async ({ page }) => {
 ```env
 # Required
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-key
+SUPABASE_SECRET_KEY=your-secret-key
 RESEND_API_KEY=re_xxx
 
 # Optional

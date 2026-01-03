@@ -43,8 +43,8 @@ openssl rand -base64 32
 
 ```bash
 SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_publishable_key
+SUPABASE_SECRET_KEY=your_secret_key
 SUPABASE_JWT_SECRET=your_jwt_secret
 
 # Public Supabase URL

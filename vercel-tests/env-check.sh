@@ -107,8 +107,8 @@ else
     echo -e "\n${RED}Some environment checks failed!${NC}"
     echo -e "${YELLOW}Note:${NC} Configure environment variables in Vercel dashboard:"
     echo "  - NEXT_PUBLIC_SUPABASE_URL"
-    echo "  - NEXT_PUBLIC_SUPABASE_ANON_KEY"
-    echo "  - SUPABASE_SERVICE_ROLE_KEY"
+    echo "  - NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"
+    echo "  - SUPABASE_SECRET_KEY"
     echo "  - Other application-specific variables"
     exit 1
 fi

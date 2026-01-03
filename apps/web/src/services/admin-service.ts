@@ -5,10 +5,10 @@ export class AdminService {
 
   constructor() {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
+    const supabaseServiceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
     
-    if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-        console.warn('AdminService: SUPABASE_SERVICE_ROLE_KEY is not set. Admin operations will fail.');
+    if (!process.env.SUPABASE_SECRET_KEY && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        console.warn('AdminService: SUPABASE_SECRET_KEY is not set. Admin operations will fail.');
     }
 
     this.supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey, {

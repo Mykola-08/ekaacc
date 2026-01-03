@@ -3,7 +3,7 @@ import { db } from '@/lib/db';
 export async function fetchService(serviceId: string) {
   try {
     const { rows } = await db.query(
-      'SELECT id, name, price, duration, description FROM services WHERE id = $1',
+      'SELECT id, name, price, duration, description FROM service WHERE id = $1',
       [serviceId]
     );
     
@@ -21,28 +21,26 @@ export async function fetchService(serviceId: string) {
 export async function listServiceBookings(serviceId: string, startIso: string, endIso: string) {
   try {
     // Extract dates from ISO strings
-    const startDate = startIso.split('T')[0];
-    const endDate = endIso.split('T')[0];
+    const startDate = startIso; // Assuming ISO strings are passed
+    const endDate = endIso;
 
     const { rows } = await db.query(
-      `SELECT id, date, time, duration, payment_status, practitioner_id as staff_id
-       FROM appointments
+      `SELECT id, start_time, end_time, duration_minutes as duration, payment_status, staff_id
+       FROM booking
        WHERE service_id = $1
        AND (payment_status = 'pending' OR payment_status = 'captured' OR payment_status = 'authorized')
-       AND date >= $2 AND date <= $3`,
+       AND start_time >= $2 AND start_time <= $3`,
       [serviceId, startDate, endDate]
     );
 
     // Map to expected format if needed, or return as is
-    // The UI likely expects start_time/end_time, so we might need to construct them
-    // But for now let's return what we have and see if we need to adapt
     const mappedRows = rows.map(row => {
-      // Construct simplified start/end for blocking
-      // This is a simplification; real implementation needs proper time parsing
       return {
         ...row,
-        start_time: `${row.date}T${row.time}`, // Approximate
-        end_time: `${row.date}T${row.time}` // Needs duration math
+        date: new Date(row.start_time).toISOString().split('T')[0],
+        time: new Date(row.start_time).toISOString().split('T')[1].substring(0, 5),
+        start_time: row.start_time,
+        end_time: row.end_time
       };
     });
 
@@ -56,15 +54,15 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
 export async function listServices() {
   try {
     const { rows } = await db.query(
-      `SELECT id, name, price, duration, description, is_active, created_at 
-       FROM services 
-       WHERE is_active = true 
+      `SELECT id, name, price, duration, description, active, created_at 
+       FROM service 
+       WHERE active = true 
        ORDER BY name`
     );
     
     const mappedData = rows.map((s: any) => ({
       ...s,
-      active: s.is_active,
+      is_active: s.active,
       image_url: null,
       location: null,
       version: null
@@ -82,8 +80,8 @@ export async function getBookingById(bookingId: string) {
     const { rows } = await db.query(
       `SELECT a.*, 
               s.name as service_name, s.duration as service_duration, s.price as service_price, s.description as service_description
-       FROM appointments a
-       LEFT JOIN services s ON a.service_id = s.id
+       FROM booking a
+       LEFT JOIN service s ON a.service_id = s.id
        WHERE a.id = $1`,
       [bookingId]
     );

@@ -12,7 +12,7 @@ const squareClient = new SquareClient({
 
 const supabase = createClient<Database>(
   process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
+  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key'
 );
 
 export class SquareStripeSyncService {

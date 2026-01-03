@@ -13,9 +13,9 @@ RESEND_API_KEY=re_123456789
 NEXT_PUBLIC_VAPID_PUBLIC_KEY=your_public_key
 VAPID_PRIVATE_KEY=your_private_key
 
-# Supabase (Already likely configured, but ensure Service Role Key is present for backend operations)
+# Supabase (Already likely configured, but ensure Secret Key is present for backend operations)
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+SUPABASE_SECRET_KEY=your_secret_key
 ```
 
 ## 2. Database Migrations

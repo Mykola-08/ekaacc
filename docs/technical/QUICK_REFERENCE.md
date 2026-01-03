@@ -423,7 +423,7 @@ async function withRetry<T>(
 ### Required
 ```env
 NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=xxx
+SUPABASE_SECRET_KEY=xxx
 RESEND_API_KEY=re_xxx
 ```
 

@@ -178,4 +178,4 @@ export function FeatureGrid({
 }
 
 // Re-export for convenience
-export { Sparkles };
+// export { Sparkles };

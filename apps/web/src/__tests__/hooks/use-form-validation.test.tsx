@@ -605,14 +605,14 @@ describe('useFormValidation', () => {
       let firstValidation;
       act(() => {
         result.current.setFieldValue('username', 'first');
-        firstValidation = result.current.validateField('username');
+        firstValidation = result.current.validateField('username', 'first', { username: 'first' });
       });
 
       // Start second validation before first completes
       let secondValidation;
       act(() => {
         result.current.setFieldValue('username', 'second');
-        secondValidation = result.current.validateField('username');
+        secondValidation = result.current.validateField('username', 'second', { username: 'second' });
       });
 
       // Complete first validation (should be ignored)

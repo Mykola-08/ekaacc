@@ -139,7 +139,7 @@ describe('EnhancedDataService', () => {
         const result = await enhancedDataService.getServiceById('service-1')
         
         expect(result).toEqual(mockService)
-        expect(supabase.from).toHaveBeenCalledWith('services')
+        expect(supabase.from).toHaveBeenCalledWith('service')
         expect(mockSelect).toHaveBeenCalledWith('*')
         expect(mockEq).toHaveBeenCalledWith('id', 'service-1')
         expect(mockSingle).toHaveBeenCalled()
@@ -172,9 +172,8 @@ describe('EnhancedDataService', () => {
     describe('getServicesByCategory', () => {
       it('should fetch services by category successfully', async () => {
         const mockOrder = jest.fn().mockReturnValue({ data: [mockService], error: null })
-        const mockEq2 = jest.fn().mockReturnValue({ order: mockOrder })
-        const mockEq1 = jest.fn().mockReturnValue({ eq: mockEq2 })
-        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq1 })
+        const mockEq = jest.fn().mockReturnValue({ order: mockOrder })
+        const mockSelect = jest.fn().mockReturnValue({ eq: mockEq })
         
         const mockFrom = supabase.from as jest.Mock;
         mockFrom.mockReturnValue({
@@ -187,9 +186,10 @@ describe('EnhancedDataService', () => {
         const result = await enhancedDataService.getServicesByCategory('Therapy')
         
         expect(result).toEqual([mockService])
-        expect(supabase.from).toHaveBeenCalledWith('services')
+        expect(supabase.from).toHaveBeenCalledWith('service')
         expect(mockSelect).toHaveBeenCalledWith('*')
-        expect(mockEq1).toHaveBeenCalledWith('category', 'Therapy')
+        expect(mockEq).toHaveBeenCalledWith('active', true)
+        expect(mockOrder).toHaveBeenCalledWith('name')
       })
     })
 

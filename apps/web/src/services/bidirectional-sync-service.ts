@@ -95,7 +95,7 @@ class BidirectionalSyncService {
     }
 
     const { error } = await (this.supabaseClient as any)
-      .from('appointments')
+      .from('booking')
       .update({ status })
       .eq('id', appointmentId);
 
@@ -187,7 +187,7 @@ class BidirectionalSyncService {
 
     // Initialize Supabase client
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const supabaseServiceKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (supabaseUrl && supabaseServiceKey) {
       try {
@@ -793,10 +793,10 @@ class BidirectionalSyncService {
     // Implementation depends on your database schema
     // This is a placeholder - adapt to your actual booking table structure
     const { data, error } = await this.supabaseClient!
-      .from('appointments')
+      .from('booking')
       .insert({
         user_id: normalizedBooking.userId,
-        therapist_id: normalizedBooking.therapistId,
+        staff_id: normalizedBooking.therapistId,
         start_time: normalizedBooking.date,
         status: normalizedBooking.status,
         // Add other fields as needed
@@ -813,7 +813,7 @@ class BidirectionalSyncService {
 
   private async updateSupabaseBooking(bookingId: string, normalizedBooking: NormalizedBooking): Promise<void> {
     const { error } = await (this.supabaseClient! as any)
-      .from('appointments')
+      .from('booking')
       .update({
         start_time: normalizedBooking.date,
         status: normalizedBooking.status,
@@ -830,7 +830,7 @@ class BidirectionalSyncService {
     // Implementation depends on your user/customer table structure
     // This is a placeholder - adapt to your actual schema
     const { data, error } = await this.supabaseClient!
-      .from('user_profiles')
+      .from('profiles')
       .insert({
         // Map Square customer data to your user profile structure
       } as any)
@@ -846,7 +846,7 @@ class BidirectionalSyncService {
 
   private async updateSupabaseCustomer(customerId: string, squareCustomer: SquareCustomer): Promise<void> {
     const { error } = await (this.supabaseClient! as any)
-      .from('user_profiles')
+      .from('profiles')
       .update({
         // Map Square customer data to your user profile structure
       })
@@ -876,7 +876,7 @@ class BidirectionalSyncService {
 
       // Check for version conflicts using sync_version and updated timestamps
       const localBooking = await this.supabaseClient!
-        .from('appointments')
+        .from('booking')
         .select('*')
         .eq('id', existingSync.local_id)
         .single();

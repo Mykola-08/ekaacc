@@ -12,6 +12,9 @@ if (!supabaseUrl || !supabaseKey) {
   process.exit(1);
 }
 
+console.log('Using URL:', supabaseUrl);
+console.log('Using Key (first 10 chars):', supabaseKey.substring(0, 10));
+
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function check() {

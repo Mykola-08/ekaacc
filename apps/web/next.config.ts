@@ -7,7 +7,7 @@ import type {NextConfig} from 'next';
 // }
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@repo/shared'],
+  transpilePackages: ['@repo/shared', '@ekaacc/shared-ui'],
   serverExternalPackages: ['pino', 'pino-pretty', 'payload', 'sharp'],
   /* config options here */
   // TypeScript configuration - all errors are now fixed

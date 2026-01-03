@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { RoleSelector } from '@/components/RoleSelector';
 
 export default function DocsLayout({
   children,
@@ -56,8 +57,11 @@ export default function DocsLayout({
         </div>
       </aside>
       <main className="flex-1 p-8 overflow-y-auto">
-        <div className="max-w-4xl mx-auto prose dark:prose-invert">
-          {children}
+        <div className="max-w-4xl mx-auto">
+          <RoleSelector />
+          <div className="prose dark:prose-invert max-w-none">
+            {children}
+          </div>
         </div>
       </main>
     </div>

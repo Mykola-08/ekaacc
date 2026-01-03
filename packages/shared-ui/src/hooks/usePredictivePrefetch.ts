@@ -31,7 +31,6 @@ export function usePredictivePrefetch(href: string, options: UsePredictivePrefet
       );
 
       if (distance < threshold) {
-        console.log(`Predictive prefetch triggered for ${href}`);
         router.prefetch(href);
         setPrefetched(true);
         document.removeEventListener('mousemove', handleMouseMove);

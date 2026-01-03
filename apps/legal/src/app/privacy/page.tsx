@@ -247,6 +247,14 @@ export default function PrivacyPage() {
               <div className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {section.text}
               </div>
+              {section.id === 'ccpa' && (
+                <button
+                  onClick={() => window.dispatchEvent(new Event('open-cookie-settings'))}
+                  className="mt-4 px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/90 transition-colors text-sm font-medium"
+                >
+                  Manage Cookie Preferences
+                </button>
+              )}
             </section>
           ))}
         </div>

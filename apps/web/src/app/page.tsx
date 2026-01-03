@@ -3,8 +3,7 @@
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useSimpleAuth } from '@/hooks/use-simple-auth'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button, PredictiveLink, Card, CardContent, CardDescription, CardHeader, CardTitle } from '@ekaacc/shared-ui'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { Sparkles, Heart, Shield, Zap, Brain, Users, BookOpen, TrendingUp, Calendar, MessageSquare, Target, Award } from 'lucide-react'
@@ -15,7 +14,7 @@ import dynamic from 'next/dynamic'
 import { PageContainer } from '@/components/eka/page-container'
 import { SurfacePanel } from '@/components/eka/surface-panel'
 import { HeroSection } from '@/components/landing/hero-section'
-import { PredictiveLink } from '@/components/PredictiveLink'
+
 const MedicalDisclaimer = dynamic(() => import('@/components/medical-disclaimer'), { ssr: false })
 
 export default function HomePage() {

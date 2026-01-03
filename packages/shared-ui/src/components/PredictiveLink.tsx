@@ -2,7 +2,7 @@
 
 import Link, { LinkProps } from 'next/link';
 import { ReactNode } from 'react';
-import { usePredictivePrefetch } from '@/hooks/usePredictivePrefetch';
+import { usePredictivePrefetch } from '../hooks/usePredictivePrefetch';
 
 interface PredictiveLinkProps extends LinkProps {
   children: ReactNode;

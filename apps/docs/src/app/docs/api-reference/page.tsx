@@ -1,8 +1,8 @@
-import RoleGuard from '@/components/RoleGuard';
+import { RoleProtected } from '@/components/RoleProtected';
 
 export default function ApiReference() {
   return (
-    <RoleGuard allowedRoles={['developer', 'admin']} fallback={<div>You need Developer or Admin access to view API Reference.</div>}>
+    <RoleProtected allowedRoles={['developer', 'admin']}>
       <div className="prose dark:prose-invert max-w-none">
         <h1>Booking API Schema</h1>
         <p>This document outlines the public booking micro-app endpoints and their request/response bodies.</p>
@@ -48,41 +48,10 @@ export default function ApiReference() {
         <h4>Response:</h4>
         <pre><code>{`{
   bookingId,
-  manageToken,
-  totalCents,
-  basePriceCents,
-  addonsTotalCents,
-  depositCents?,
-  reservationExpiresAt
-  staffId,
+  clientSecret, // Stripe PaymentIntent client_secret
+  expiresAt     // ISO timestamp when reservation expires
 }`}</code></pre>
-
-        <h3>POST /api/booking/{`{id}`}/pay</h3>
-        <p>Initiates Stripe Checkout for full or deposit amount.</p>
-        <h4>Request:</h4>
-        <pre><code>{`{ manageToken }`}</code></pre>
-        <h4>Response:</h4>
-        <pre><code>{`{ sessionId, url }`}</code></pre>
-
-        <h3>POST /api/booking/{`{id}`}/cancel</h3>
-        <p>Applies cancellation policy; may issue refund.</p>
-        <h4>Request:</h4>
-        <pre><code>{`{ manageToken }`}</code></pre>
-        <h4>Response:</h4>
-        <pre><code>{`{ bookingId, status: 'canceled', refundCents, manageToken }`}</code></pre>
-
-        <h3>POST /api/booking/{`{id}`}/reschedule</h3>
-        <p>Reschedules booking if within policy window.</p>
-        <h4>Request:</h4>
-        <pre><code>{`{ manageToken, newStartTime: ISO }`}</code></pre>
-        <h4>Response:</h4>
-        <pre><code>{`{ bookingId, newStartTime, newEndTime, priceDeltaCents, manageToken }`}</code></pre>
-
-        <h3>POST /api/booking/{`{id}`}/request-manage-link</h3>
-        <p>Issues a new manage token if email matches.</p>
-        <h4>Request:</h4>
-        <pre><code>{`{ email }`}</code></pre>
       </div>
-    </RoleGuard>
+    </RoleProtected>
   );
 }

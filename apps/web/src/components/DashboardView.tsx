@@ -11,6 +11,7 @@ import { GoalProgress } from './eka/dashboard/goal-progress';
 import AIGoalSuggestions from './AIGoalSuggestions';
 import PersonalBlock from './PersonalBlock';
 import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
+import { PersonalizationLoader } from '@/components/eka/onboarding/personalization-loader';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { User as UserIcon } from 'lucide-react';
@@ -25,6 +26,7 @@ export default function DashboardView() {
   const [reports, setReports] = useState<Report[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [isPersonalizing, setIsPersonalizing] = useState(false);
   const [userData, setUserData] = useState<User | null>(null);
 
   useEffect(() => {
@@ -58,12 +60,47 @@ export default function DashboardView() {
     }
   }, [userData, authLoading]);
 
-  const handleOnboardingComplete = (personalizationData: Partial<User['personalization']>) => {
-    updateUser({
-      personalizationCompleted: true,
-      personalization: personalizationData,
-    });
-    setShowOnboarding(false);
+  const handleOnboardingComplete = async (personalizationData: Partial<User['personalization']>) => {
+    setIsPersonalizing(true);
+    
+    try {
+      // Call AI service
+      const response = await fetch('/api/ai/generate-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ onboardingData: personalizationData }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to generate profile');
+      
+      const { profile } = await response.json();
+      
+      // Merge AI profile with personalization data
+      const finalData = {
+        ...personalizationData,
+        aiProfile: profile
+      };
+
+      await updateUser({
+        personalizationCompleted: true,
+        personalization: finalData,
+      });
+      
+      // Add a small delay to let the user see the "Finalizing" step
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setShowOnboarding(false);
+    } catch (error) {
+      console.error('Personalization failed:', error);
+      // Fallback: just save the data without AI profile
+      await updateUser({
+        personalizationCompleted: true,
+        personalization: personalizationData,
+      });
+      setShowOnboarding(false);
+    } finally {
+      setIsPersonalizing(false);
+    }
   };
 
   const upcomingSessions = useMemo(
@@ -92,6 +129,10 @@ export default function DashboardView() {
         </div>
       </div>
     );
+  }
+
+  if (isPersonalizing) {
+    return <PersonalizationLoader />;
   }
 
   if (showOnboarding) {

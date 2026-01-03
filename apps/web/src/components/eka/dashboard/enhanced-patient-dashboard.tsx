@@ -13,6 +13,7 @@ import { AIHelpWidget } from '@/components/ai-help-widget';
 import BehavioralInsightsWidget from '@/components/eka/behavioral-insights-widget';
 import PersonalBlock from '@/components/PersonalBlock';
 import { ComprehensiveOnboarding } from '@/components/eka/comprehensive-onboarding';
+import { PersonalizationLoader } from '@/components/eka/onboarding/personalization-loader';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { User as UserIcon, Heart, Brain, Calendar, TrendingUp, Sparkles, ArrowRight } from 'lucide-react';
@@ -213,6 +214,7 @@ export default function EnhancedPatientDashboard() {
   const [reports, setReports] = useState<Report[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [isPersonalizing, setIsPersonalizing] = useState(false);
   const [userData, setUserData] = useState<User | null>(null);
   const [showAIWidget, setShowAIWidget] = useState(false);
 
@@ -246,6 +248,45 @@ export default function EnhancedPatientDashboard() {
       setShowOnboarding(true);
     }
   }, [userData, authLoading]);
+
+  const handleOnboardingComplete = async (personalizationData: Partial<User['personalization']>) => {
+    setIsPersonalizing(true);
+    
+    try {
+      const response = await fetch('/api/ai/generate-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ onboardingData: personalizationData }),
+      });
+      
+      if (!response.ok) throw new Error('Failed to generate profile');
+      
+      const { profile } = await response.json();
+      
+      const finalData = {
+        ...personalizationData,
+        aiProfile: profile
+      };
+
+      await updateUser({
+        personalizationCompleted: true,
+        personalization: finalData,
+      });
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      setShowOnboarding(false);
+    } catch (error) {
+      console.error('Personalization failed:', error);
+      await updateUser({
+        personalizationCompleted: true,
+        personalization: personalizationData,
+      });
+      setShowOnboarding(false);
+    } finally {
+      setIsPersonalizing(false);
+    }
+  };
 
   const upcomingSessions = useMemo(
     () => sessions?.filter(s => new Date(s.date) >= new Date()).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()) || [],
@@ -299,14 +340,12 @@ export default function EnhancedPatientDashboard() {
     );
   }
 
+  if (isPersonalizing) {
+    return <PersonalizationLoader />;
+  }
+
   if (showOnboarding) {
-    return <ComprehensiveOnboarding onComplete={(data) => {
-      updateUser({
-        personalizationCompleted: true,
-        personalization: data,
-      });
-      setShowOnboarding(false);
-    }} />;
+    return <ComprehensiveOnboarding onComplete={handleOnboardingComplete} />;
   }
 
   if (!currentUser) {

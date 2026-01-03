@@ -120,6 +120,50 @@ export class AIPersonalizationService {
     this.therapyPatternsCache = new Map();
   }
 
+  async generateInitialProfile(userId: string, onboardingData: any): Promise<AIPersonalizationProfile> {
+    // Simulate AI processing delay
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const profile: AIPersonalizationProfile = {
+      userId,
+      behaviorPatterns: [],
+      preferences: {
+        communicationStyle: onboardingData.communicationStyle || 'supportive',
+        contentFormat: 'mixed',
+        interactionFrequency: 'moderate',
+        proactiveLevel: 'medium',
+        notificationTiming: 'digest'
+      },
+      wellnessInsights: {
+        moodPatterns: {
+          stability: 50,
+          triggers: onboardingData.currentChallenges || [],
+          improvements: [],
+          predictedTrend: 'stable'
+        },
+        therapyEffectiveness: {
+          techniques: [],
+          preferredModalities: onboardingData.preferredApproaches || [],
+          responseTime: 0
+        },
+        optimalConditions: {
+          sessionTiming: [onboardingData.leisureTime || 'evening'],
+          environment: [],
+          supportLevel: 'medium'
+        }
+      },
+      adaptiveSettings: {
+        learningRate: 0.1,
+        confidenceThreshold: 0.7,
+        updateFrequency: 24,
+        privacyLevel: 'balanced'
+      },
+      lastUpdated: new Date()
+    };
+
+    return profile;
+  }
+
   async initializeUserProfile(userId: string): Promise<AIPersonalizationProfile> {
     // Check if profile exists
     const existingProfile = await this.getUserProfile(userId);

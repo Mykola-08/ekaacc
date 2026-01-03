@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import CookieConsent from "../components/consent/CookieConsent";
+import ConsentAwareWrapper from "../components/consent/ConsentAwareWrapper";
 import "./globals.css";
 import Link from "next/link";
 
@@ -93,8 +94,10 @@ export default function RootLayout({
             </div>
           </footer>
         </div>
-        <Analytics />
-        <SpeedInsights />
+        <ConsentAwareWrapper category="analytics">
+          <Analytics />
+          <SpeedInsights />
+        </ConsentAwareWrapper>
         <CookieConsent />
       </body>
     </html>

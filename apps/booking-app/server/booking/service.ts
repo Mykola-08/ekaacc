@@ -6,7 +6,7 @@ import { emitEvent } from '@/lib/events';
 export async function fetchService(serviceId: string) {
   try {
     const { rows } = await db.query(
-      'SELECT id, name, price, duration, description FROM service WHERE id = $1',
+      'SELECT id, name, price, duration, description, stripe_product_id, stripe_price_id, metadata, location, image_url FROM service WHERE id = $1',
       [serviceId]
     );
     
@@ -57,7 +57,7 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
 export async function listServices() {
   try {
     const { rows } = await db.query(
-      `SELECT id, name, price, duration, description, active, created_at 
+      `SELECT id, name, price, duration, description, active, created_at, stripe_product_id, stripe_price_id, metadata, location, image_url
        FROM service 
        WHERE active = true 
        ORDER BY name`
@@ -66,9 +66,10 @@ export async function listServices() {
     const mappedData = rows.map((s: any) => ({
       ...s,
       is_active: s.active,
-      image_url: null,
-      location: null,
-      version: null
+      // Use DB values or falback
+      location: s.location || null,
+      image_url: s.image_url || null,
+      version: s.version || null
     }));
     
     return { data: mappedData, error: null };

@@ -10,6 +10,10 @@ export interface Service {
   category?: string | null;
   is_active: boolean;
   
+  stripe_product_id?: string | null;
+  stripe_price_id?: string | null;
+  metadata?: Record<string, any> | null;
+
   // Legacy/UI compatibility
   image_url?: string | null;
   location?: string | null;

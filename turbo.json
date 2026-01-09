@@ -38,21 +38,6 @@
     "format": {},
     "format:check": {},
     "typecheck": {},
-    "test": {
-      "dependsOn": [],
-      "outputs": ["apps/web/coverage/**"]
-    },
-    "test:watch": {},
-    "test:coverage": {},
-    "test:e2e": {},
-    "test:e2e:ui": {},
-    "test:e2e:debug": {},
-    "test:load": {},
-    "test:load:api": {},
-    "test:load:spike": {},
-    "test:vercel": {},
-    "test:vercel:env": {},
-    "check:resend": {},
-    "test:resend": {}
+    "check:resend": {}
   }
 }

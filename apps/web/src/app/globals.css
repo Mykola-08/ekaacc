@@ -1,3 +1,4 @@
+@config "../../tailwind.config.js";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -89,28 +90,26 @@
 }
 
 @layer base {
-  * {
+  /* * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground;
-  }
+  } */
 }
 
 /* Utilities for animations and specific premium effects */
-@layer utilities {
+/* @layer utilities {
   .animate-in {
     animation: fade-in 0.5s ease-out;
   }
 
-  /* Premium Glass Effect */
   .glass-premium {
     @apply bg-background/60 backdrop-blur-xl border border-white/10 shadow-2xl;
   }
 
-  /* Text gradient for headers if needed */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400;
   }
-}
+} */

@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
   // Dynamic import to avoid initializing Stripe during build-time module evaluation.
   const { default: Stripe } = await import('stripe');
-  const stripe = new Stripe(stripeKey.trim(), { apiVersion: '2025-10-29.clover' });
+  const stripe = new Stripe(stripeKey.trim(), { apiVersion: '2025-02-24.acacia' });
   const body = await req.text();
   const signature = req.headers.get('stripe-signature');
 

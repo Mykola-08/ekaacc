@@ -429,7 +429,7 @@ export function AnalyticsDashboard() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ segment, percentage }) => `${segment} (${percentage.toFixed(1)}%)`}
+                      label={({ payload }: any) => `${payload.segment} (${payload.percentage.toFixed(1)}%)`}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="count"

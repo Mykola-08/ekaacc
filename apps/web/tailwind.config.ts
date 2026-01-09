@@ -19,31 +19,17 @@ export default {
 		extend: {
   		fontFamily: {
   			sans: [
-  				'Inter',
+  				'var(--font-manrope)',
   				'system-ui',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica Neue',
-  				'Arial',
   				'sans-serif'
   			],
   			heading: [
-  				'Inter',
-  				'system-ui',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica Neue',
-  				'Arial',
-  				'sans-serif'
+  				'var(--font-playfair)',
+  				'serif'
   			],
   			display: [
-  				'Inter',
-  				'system-ui',
-  				'Segoe UI',
-  				'Roboto',
-  				'Helvetica Neue',
-  				'Arial',
-  				'sans-serif'
+  				'var(--font-playfair)',
+  				'serif'
   			]
   		},
 			colors: {

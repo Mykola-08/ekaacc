@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Manrope, Playfair_Display } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'sonner';
 import { cn } from '@/lib/utils';
@@ -13,10 +13,16 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import CookieConsent from '@/components/consent/CookieConsent';
 import { DebugStatus } from "@ekaacc/shared-ui";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
+  variable: '--font-manrope',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-playfair',
 });
 
 export const metadata: Metadata = {
@@ -67,7 +73,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://picsum.photos" />
         <link rel="dns-prefetch" href="https://i.pravatar.cc" />
       </head>
-      <body className={cn('antialiased font-sans', inter.variable)}>
+      <body className={cn('antialiased font-sans', manrope.variable, playfair.variable)}>
         {/* <UserProvider> */}
           <AuthProvider>
             <ThemeProvider

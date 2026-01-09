@@ -4,65 +4,87 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    /* Unified Light Mode (Earth Tones) */
+    --background: 30 20% 98%; /* #fcfaf8 Warm White */
+    --foreground: 22 18% 15%; /* #2d241f Dark Brown */
+    
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 22 18% 15%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 22 18% 15%;
+    
+    --primary: 22 18% 15%; /* #2d241f Dark Brown */
+    --primary-foreground: 30 20% 98%;
+    
+    --secondary: 35 30% 93%; /* #f5efe6 Light Beige */
+    --secondary-foreground: 22 18% 15%;
+    
+    --muted: 35 30% 93%;
+    --muted-foreground: 25 10% 45%; /* #857060 Medium Brown */
+    
+    --accent: 35 30% 93%;
+    --accent-foreground: 22 18% 15%;
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    
+    --border: 32 37% 84%; /* #e6d2c4 */
+    --input: 32 37% 84%;
+    --ring: 22 18% 15%;
+    
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    --sidebar-background: 30 20% 98%;
+    --sidebar-foreground: 22 18% 15%;
+    --sidebar-primary: 22 18% 15%;
+    --sidebar-primary-foreground: 30 20% 98%;
+    --sidebar-accent: 35 30% 93%;
+    --sidebar-accent-foreground: 22 18% 15%;
+    --sidebar-border: 32 37% 84%;
+    --sidebar-ring: 22 18% 15%;
+
+    --font-heading: var(--font-playfair);
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    /* Slightly lighter than bg? Or same? Standard is nice. */
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Unified Dark Mode (Booking App Earth Dark) */
+    --background: 240 6% 6%; /* #0f0f11 */
+    --foreground: 210 20% 98%; /* #e2e8f0 */
+    
+    --card: 240 6% 10%; /* #18181b */
+    --card-foreground: 210 20% 98%;
+    
+    --popover: 240 6% 10%;
+    --popover-foreground: 210 20% 98%;
+    
+    --primary: 32 37% 84%; /* #e6d2c4 Beige */
+    --primary-foreground: 22 18% 15%; /* #2d241f */
+    
+    --secondary: 240 6% 15%; /* #232328 */
+    --secondary-foreground: 210 20% 98%;
+    
+    --muted: 240 6% 15%;
+    --muted-foreground: 215 16% 65%; /* #94a3b8 */
+    
+    --accent: 240 6% 15%;
+    --accent-foreground: 210 20% 98%;
+    
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    --border: 0 0% 100% / 0.08;
+    --input: 0 0% 100% / 0.08;
+    --ring: 32 37% 84%;
+    
+    --sidebar-background: 240 6% 6%;
+    --sidebar-foreground: 210 20% 98%;
+    --sidebar-primary: 32 37% 84%;
+    --sidebar-primary-foreground: 22 18% 15%;
+    --sidebar-accent: 240 6% 15%;
+    --sidebar-accent-foreground: 210 20% 98%;
+    --sidebar-border: 0 0% 100% / 0.08;
+    --sidebar-ring: 32 37% 84%;
   }
 }
 

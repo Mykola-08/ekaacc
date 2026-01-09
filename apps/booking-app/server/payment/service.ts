@@ -1,8 +1,5 @@
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-  apiVersion: '2025-11-17.clover',
-});
+import { supabaseServer } from '@/lib/supabaseServerClient';
+import { emitEvent } from '@/lib/events';
 
 interface CreateCheckoutSessionParams {
   serviceId: string;
@@ -17,35 +14,32 @@ interface CreateCheckoutSessionParams {
 
 export async function createCheckoutSession(params: CreateCheckoutSessionParams) {
   try {
-    const { serviceId, serviceName, price, customerName, customerEmail, date, bookingId, origin } = params;
+    const { bookingId, origin } = params;
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: 'eur',
-            product_data: {
-              name: `${serviceName} (Deposit)`,
-            },
-            unit_amount: Math.round(price * 100), // Stripe expects amount in cents
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/`,
-      customer_email: customerEmail,
-      metadata: {
-        serviceId,
-        customerName,
-        bookingDate: date,
-        bookingId,
-      },
-    });
+    // Directly confirm booking in Supabase, bypassing Stripe
+    const { error } = await supabaseServer
+      .from('booking')
+      .update({ 
+        payment_status: 'captured', 
+        stripe_payment_intent: 'manual_bypass' 
+      })
+      .eq('id', bookingId);
 
-    return { data: { sessionId: session.id, url: session.url }, error: null };
+    if (error) {
+      console.error('Error confirming booking:', error);
+      await emitEvent('payment.capture.failed', { bookingId, reason: error.message });
+      return { data: null, error: { message: error.message } };
+    }
+
+    await emitEvent('payment.captured', { bookingId, paymentIntent: 'manual_bypass' });
+
+    return { 
+      data: { 
+        sessionId: 'manual_session_' + bookingId, 
+        url: `${origin}/success?session_id=manual_session_${bookingId}` 
+      }, 
+      error: null 
+    };
   } catch (error: any) {
     console.error('Error creating checkout session:', error);
     return { data: null, error: { message: error.message } };

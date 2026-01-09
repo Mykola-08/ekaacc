@@ -1,12 +1,12 @@
 import { Telegraf, Markup } from 'telegraf';
-import { supabase } from './supabase';
+import { supabaseAdmin } from './supabase-admin';
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 
 // Ensure we don't crash during build if token is missing
 export const bot = token ? new Telegraf(token) : null;
 
-const webAppUrl = process.env.WEBAPP_BASE_URL || 'https://your-app.vercel.app';
+const webAppUrl = process.env.WEBAPP_BASE_URL || 'https://eka-system-web.vercel.app'; // Default updated to project context if known, or generic
 
 if (bot) {
     // Middleware to log and check user
@@ -15,7 +15,8 @@ if (bot) {
             const { id, first_name, last_name, username } = ctx.from;
             // Upsert user
             try {
-                await supabase.from('users').upsert({
+                // Using supabaseAdmin to bypass RLS for bot operations
+                await supabaseAdmin.from('users').upsert({
                     telegram_user_id: id,
                     first_name,
                     last_name,

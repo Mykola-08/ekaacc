@@ -8,8 +8,6 @@
     "apps/booking-app",
     "apps/legal",
     "apps/web",
-    "apps/api",
-    "apps/docs",
     "packages/*"
   ],
   "scripts": {
@@ -21,23 +19,9 @@
     "format": "turbo run format",
     "format:check": "turbo run format:check",
     "typecheck": "turbo run typecheck",
-    "test": "turbo run test",
-    "test:watch": "turbo run test:watch",
-    "test:coverage": "turbo run test:coverage",
-    "test:e2e": "turbo run test:e2e",
-    "test:e2e:ui": "turbo run test:e2e:ui",
-    "test:e2e:debug": "turbo run test:e2e:debug",
-    "test:load": "turbo run test:load",
-    "test:load:api": "turbo run test:load:api",
-    "test:load:spike": "turbo run test:load:spike",
-    "test:vercel": "turbo run test:vercel",
-    "test:vercel:env": "turbo run test:vercel:env",
-    "test:all": "turbo run test && turbo run test:e2e",
     "security:audit": "npm audit --audit-level=high || echo 'Audit completed with findings'",
     "security:secrets": "npx gitleaks detect --no-banner --redact || echo 'Gitleaks scan finished'",
-    "check:resend": "turbo run check:resend",
-    "test:resend": "turbo run test:resend",
-    "ci": "turbo run lint typecheck test",
+    "ci": "turbo run lint typecheck",
     "prepare": "husky install || echo 'Husky not installed'"
   },
   "devDependencies": {

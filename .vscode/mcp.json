@@ -1,39 +1,19 @@
 {
-  "mcpServers": {
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
-    }
-    {
-    "mcp_square_api": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "https://mcp.squareup.com/sse"
-      ]
-    }
-  },
-  "servers": {
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
-    }
-  }
-}
-
-"servers": {
-  "gcloud": {
-    "command": "npx",
-    "args": ["-y", "@google-cloud/gcloud-mcp"]
-  },
-  "observability": {
-    "command": "npx",
-    "args": ["-y", "@google-cloud/observability-mcp"]
-  },
+	"servers": {
+		"supabase": {
+			"type": "http",
+			"url": "https://mcp.supabase.com/mcp?project_ref=dopkncrqutxnchwqxloa"
+		},
+		"Vercel": {
+			"url": "https://mcp.vercel.com",
+			"type": "http"
+		},
+		"com.stripe/mcp": {
+			"type": "http",
+			"url": "https://mcp.stripe.com",
+			"gallery": "https://api.mcp.github.com",
+			"version": "0.2.4"
+		}
+	},
+	"inputs": []
 }

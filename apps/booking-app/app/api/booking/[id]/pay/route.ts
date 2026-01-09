@@ -1,15 +1,11 @@
-import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabaseClient';
 import { verifyManageToken } from '@/lib/bookingToken';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-  apiVersion: '2025-11-17.clover',
-});
+import { emitEvent } from '@/lib/events';
 
 // POST /api/booking/:id/pay
 // Body: { manageToken }
-// Creates Stripe Checkout session for remaining amount (full or deposit already determined on booking)
+// Bypasses Stripe and directly confirms payment for the booking
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
@@ -32,37 +28,29 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if (booking.payment_status !== 'pending') {
       return NextResponse.json({ error: 'Payment already processed or not allowed' }, { status: 409 });
     }
-    // Amount logic
-    const base = booking.base_price_cents;
-    const addonsTotal = (booking.addons_json || []).reduce((sum: number, a: any) => sum + (a.priceCents || 0), 0);
-    const total = base + addonsTotal;
-    const amountToCharge = booking.payment_mode === 'deposit' ? booking.deposit_cents : total;
+    
+    // Simulate successful payment capture
+    const { error: updErr } = await supabase
+      .from('booking')
+      .update({ 
+        payment_status: 'captured', 
+        stripe_payment_intent: 'manual_bypass_pay_route' 
+      })
+      .eq('id', booking.id);
+      
+    if (updErr) {
+      console.error('Failed to update booking status:', updErr);
+      return NextResponse.json({ error: 'Failed to confirm payment' }, { status: 500 });
+    }
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: [
-        {
-          price_data: {
-            currency: booking.currency || 'usd',
-            product_data: { name: booking.display_name ? `${booking.display_name}'s booking` : 'Booking Payment' },
-            unit_amount: amountToCharge,
-          },
-          quantity: 1,
-        },
-      ],
-      mode: 'payment',
-      success_url: `${req.headers.get('origin')}/success?booking_id=${booking.id}`,
-      cancel_url: `${req.headers.get('origin')}/booking-cancelled?booking_id=${booking.id}`,
-      customer_email: booking.email,
-      metadata: {
-        bookingId: booking.id,
-        paymentMode: booking.payment_mode,
-      },
-    });
+    await emitEvent('payment.captured', { bookingId: booking.id, paymentIntent: 'manual_bypass_pay_route' });
 
-    // Optionally update status to authorized (Stripe will webhook capture) - keep pending until success
-    return NextResponse.json({ sessionId: session.id, url: session.url });
+    const origin = req.headers.get('origin') || '';
+    const successUrl = `${origin}/success?booking_id=${booking.id}&session_id=manual_pay_${booking.id}`;
+
+    return NextResponse.json({ sessionId: `manual_pay_${booking.id}`, url: successUrl });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
+

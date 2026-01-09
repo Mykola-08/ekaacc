@@ -29,9 +29,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${manrope.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col bg-[#0f0f11] text-slate-200`}
+        className={`${manrope.variable} ${playfair.variable} font-sans antialiased min-h-screen flex flex-col bg-background text-foreground`}
       >
         <div className="flex-1">
           {children}

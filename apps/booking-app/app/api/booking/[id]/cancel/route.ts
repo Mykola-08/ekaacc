@@ -1,16 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabaseClient';
 import { verifyManageToken, signManageToken, hashToken } from '@/lib/bookingToken';
-import Stripe from 'stripe';
 import { emitEvent } from '@/lib/events';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
-  apiVersion: '2025-11-17.clover',
-});
 
 // POST /api/booking/:id/cancel
 // Body: { manageToken }
-// Applies cancellation policy and sets status/payment_status accordingly (refund logic stub)
+// Applies cancellation policy and sets status/payment_status accordingly
 export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
@@ -41,18 +36,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     if (diffHours >= policy.deadlineOffsetHours) {
       refundablePercent = policy.refundPercent;
     }
-    // Refund stub: real implementation would call Stripe API to issue refund if captured.
+    // Logic for amount calculation remains for record keeping
     const amountBasis = booking.payment_mode === 'deposit' ? booking.deposit_cents : booking.base_price_cents + (booking.addons_json || []).reduce((s: number, a: any) => s + (a.priceCents || 0), 0);
     const refundCents = Math.round(amountBasis * (refundablePercent / 100));
 
-    // Attempt Stripe refund if captured
-    if (refundCents > 0 && booking.payment_status === 'captured' && booking.stripe_payment_intent) {
-      try {
-        await stripe.refunds.create({ payment_intent: booking.stripe_payment_intent, amount: refundCents });
-      } catch (err: any) {
-        return NextResponse.json({ error: 'Refund failed: ' + err.message }, { status: 500 });
-      }
-    }
+    // Stripe refund removed. 
+    // In a real scenario without Stripe, this would be a manual refund or store credit.
+    console.log(`Skipping automatic refund of ${refundCents} cents for booking ${booking.id}`);
 
     const newPaymentStatus = refundCents > 0 ? 'refunded' : booking.payment_status;
     const { error: updateErr } = await supabase

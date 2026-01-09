@@ -104,7 +104,7 @@ export default async function ServiceBookingPage({ params }: PageProps) {
                 />
                 
                 <p className="text-xs text-center text-slate-500 mt-4">
-                  Secure booking via Stripe. No payment required to reserve.
+                  Secure booking via Supabase. No payment required to reserve.
                 </p>
               </div>
             </div>

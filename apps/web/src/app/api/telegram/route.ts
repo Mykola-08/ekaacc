@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
+    const secretToken = req.headers.get('x-telegram-bot-api-secret-token');
+    if (secretToken !== process.env.TELEGRAM_SECRET_TOKEN) {
+      return NextResponse.json({ ok: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
     if (!bot) {
         return NextResponse.json({ ok: false, error: 'Bot not initialized' }, { status: 500 });
     }

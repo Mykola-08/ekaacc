@@ -3,6 +3,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
+import tsParser from "@typescript-eslint/parser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,15 +30,29 @@ const eslintConfig = [
       es6: true,
       jest: true
     },
-    parserOptions: {
-      ecmaVersion: 2020
-    },
     rules: {
       "no-unused-vars": "warn",
       "no-console": "warn",
-      "no-undef": "error"
+      "no-undef": "off" 
     }
   }),
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    languageOptions: {
+      parser: tsParser,
+      ecmaVersion: 2020,
+      sourceType: "module",
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    },
+    rules: {
+      "no-undef": "off", // TypeScript handles this
+      "no-unused-vars": "off" // TypeScript handles this usually, or use @typescript-eslint/no-unused-vars
+    }
+  }
 ];
 
 export default eslintConfig;

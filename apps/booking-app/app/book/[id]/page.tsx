@@ -16,7 +16,6 @@ export default async function ServiceBookingPage({ params }: PageProps) {
   const { data, error } = await fetchService(id);
 
   if (error || !data) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     if ((error as any)?.code === '404') {
       notFound();
     }

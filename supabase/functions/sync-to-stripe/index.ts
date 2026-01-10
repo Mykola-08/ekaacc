@@ -160,7 +160,7 @@ serve(async (req) => {
     // ----------------------------------------------------------------------
     if (table === 'service_variant') {
       if (type === 'INSERT' || type === 'UPDATE') {
-        const { id, service_id, name, price_amount, stripe_price_id, active } = record
+        const { id, service_id, name, price_amount, stripe_price_id, active, currency } = record
         
         // 1. Get Parent Service Product ID
         const { data: parentService } = await supabase
@@ -184,7 +184,7 @@ serve(async (req) => {
           const newPrice = await stripe.prices.create({
             product: productId,
             unit_amount: price_amount, 
-            currency: 'usd',
+            currency: (currency || 'eur').toLowerCase(),
             nickname: name, // Variant Name
             metadata: { supabase_variant_id: id }
           })

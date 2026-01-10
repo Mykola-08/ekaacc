@@ -115,6 +115,7 @@
   },
   "devDependencies": {
     "@repo/shared": "*",
+    "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^25.0.3",
     "@types/node-fetch": "^2.6.13",
     "@types/react": "^19",
@@ -124,7 +125,6 @@
     "eslint-config-next": "^16.1.1",
     "husky": "^9.1.7",
     "postcss": "^8.4.31",
-    "@tailwindcss/postcss": "^4.0.0",
     "shadcn": "^3.6.2",
     "supabase": "^2.70.5",
     "tsx": "^4.20.6",

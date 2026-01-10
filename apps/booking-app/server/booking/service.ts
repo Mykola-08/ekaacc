@@ -6,7 +6,7 @@ import { emitEvent } from '@/lib/events';
 export async function fetchService(serviceId: string) {
   try {
     const { rows } = await db.query(
-      'SELECT id, name, price, duration, description, stripe_product_id, stripe_price_id, metadata, location, image_url FROM service WHERE id = $1',
+      'SELECT id, name, price, duration, description, stripe_product_id, stripe_price_id, metadata, location, image_url, images FROM service WHERE id = $1',
       [serviceId]
     );
     
@@ -16,7 +16,7 @@ export async function fetchService(serviceId: string) {
     
     // Fetch variants
     const { rows: variantRows } = await db.query(
-      'SELECT id, name, description, duration_min, price_amount, currency, stripe_price_id FROM service_variant WHERE service_id = $1 AND active = true ORDER BY price_amount ASC',
+      'SELECT id, name, description, duration_min, price_amount, currency, stripe_price_id, features, comparison_label FROM service_variant WHERE service_id = $1 AND active = true ORDER BY price_amount ASC',
       [serviceId]
     );
 
@@ -29,7 +29,9 @@ export async function fetchService(serviceId: string) {
         duration: v.duration_min,
         price: v.price_amount / 100, // Convert cents to main unit for UI
         currency: v.currency,
-        stripe_price_id: v.stripe_price_id
+        stripe_price_id: v.stripe_price_id,
+        features: v.features || [],
+        comparison_label: v.comparison_label || null
       }))
     };
 

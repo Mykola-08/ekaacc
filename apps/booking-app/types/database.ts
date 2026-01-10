@@ -6,6 +6,8 @@ export interface ServiceVariant {
   price: number;
   currency: string;
   stripe_price_id?: string | null;
+  features?: string[] | null;
+  comparison_label?: string | null;
 }
 
 export interface Service {
@@ -24,6 +26,7 @@ export interface Service {
   stripe_price_id?: string | null;
   metadata?: Record<string, any> | null;
   variants?: ServiceVariant[];
+  images?: string[] | null;
 
   // Legacy/UI compatibility
   image_url?: string | null;

@@ -127,8 +127,11 @@ serve(async (req) => {
     // ----------------------------------------------------------------------
     if (table === 'service') {
       if (type === 'INSERT' || type === 'UPDATE') {
-        const { id, name, description, stripe_product_id, active } = record
+        const { id, name, description, stripe_product_id, active, images } = record
         
+        // Ensure images is an array of strings (Stripe expects valid URLs)
+        const productImages = Array.isArray(images) ? images.filter((url: any) => typeof url === 'string' && url.startsWith('http')) : []
+
         let productId = stripe_product_id
 
         if (productId) {
@@ -136,6 +139,7 @@ serve(async (req) => {
             name,
             description,
             active,
+            images: productImages,
             metadata: { supabase_id: id }
           })
         } else {
@@ -143,6 +147,7 @@ serve(async (req) => {
             name,
             description,
             active,
+            images: productImages,
             metadata: { supabase_id: id }
           })
           productId = product.id

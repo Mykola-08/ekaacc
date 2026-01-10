@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js'
 
 // Get environment variables with fallbacks
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabaseServiceRoleKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'placeholder-key-for-build'
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY
 
 // Log warning if using placeholder values (only in development)
 if (process.env.NODE_ENV === 'development' && (!process.env.NEXT_PUBLIC_SUPABASE_URL || (!process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY && !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY))) {
@@ -42,7 +42,17 @@ export const supabaseAdmin = supabaseServiceRoleKey
         },
       },
     })
-  : supabase // Fallback to regular client if service role key is not available
+  : createClient(supabaseUrl, 'placeholder-service-role-key', {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+      },
+      global: {
+        headers: {
+          'x-application-name': 'ekaacc-admin-fallback',
+        },
+      },
+    }) // Fallback client for build time
 
 // Helper function to get current user session
 export const getCurrentUser = async () => {

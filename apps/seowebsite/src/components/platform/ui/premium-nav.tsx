@@ -180,6 +180,7 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
       }
+      return () => {}; // Empty cleanup function
     }, [transparent])
 
     const handleSearch = (e: React.FormEvent) => {

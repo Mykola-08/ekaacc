@@ -91,6 +91,7 @@ export function AIDashboard({ userId, subscriptionTier }: AIDashboardProps) {
       const interval = setInterval(fetchDashboardData, 30000); // Refresh every 30 seconds
       return () => clearInterval(interval);
     }
+    return () => {}; // Empty cleanup function
   }, [timeRange, autoRefresh]);
 
   const fetchDashboardData = async () => {

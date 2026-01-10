@@ -28,27 +28,31 @@ import { AvailabilitySlot } from '@/types/booking';
 
 interface BookingModalProps {
   service: Service;
+  preselectedVariantId?: string;
+  originApp?: string;
   trigger?: React.ReactNode;
 }
 
-export function BookingModal({ service, trigger }: BookingModalProps) {
+export function BookingModal({ service, preselectedVariantId, originApp, trigger }: BookingModalProps) {
   const [date, setDate] = useState<Date>();
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | undefined>();
   const [loadingSlots, setLoadingSlots] = useState(false);
-  
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  
+  const [variantId, setVariantId] = useState(preselectedVariantId || service.variants?.[0]?.id);
 
   useEffect(() => {
     if (date) {
       setLoadingSlots(true);
       setSelectedSlot(undefined);
       const dateStr = format(date, 'yyyy-MM-dd');
+      const variantQuery = variantId ? `&variantId=${variantId}` : '';
       
-      fetch(`/api/services/${service.id}/availability?date=${dateStr}`)
+      fetch(`/api/services/${service.id}/availability?date=${dateStr}${variantQuery}`)
         .then(res => res.json())
         .then(data => {
           if (data.slots) {
@@ -67,7 +71,7 @@ export function BookingModal({ service, trigger }: BookingModalProps) {
       setSlots([]);
       setSelectedSlot(undefined);
     }
-  }, [date, service.id]);
+  }, [date, service.id, variantId]);
 
   const handleBooking = async () => {
     if (!date || !selectedSlot || !name || !email) {
@@ -86,6 +90,8 @@ export function BookingModal({ service, trigger }: BookingModalProps) {
         },
         body: JSON.stringify({
           serviceId: service.id,
+          serviceVariantId: variantId,
+          originApp,
           startTime: selectedSlot.startTime,
           email,
           displayName: name,

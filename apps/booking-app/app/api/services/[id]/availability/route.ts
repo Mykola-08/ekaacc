@@ -11,11 +11,13 @@ export async function GET(
   const { id } = await params;
   const url = new URL(req.url);
   const date = url.searchParams.get('date');
+  const variantId = url.searchParams.get('variantId') || undefined;
+
   if (!date) {
     return NextResponse.json({ error: 'Missing date (YYYY-MM-DD)' }, { status: 400 });
   }
 
-  const result = await getServiceAvailability(id, date);
+  const result = await getServiceAvailability(id, date, variantId);
 
   if (result.error) {
     return NextResponse.json({ error: result.error }, { status: result.status || 500 });

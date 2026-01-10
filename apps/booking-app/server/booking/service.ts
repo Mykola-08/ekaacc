@@ -14,7 +14,26 @@ export async function fetchService(serviceId: string) {
       return { data: null, error: { message: 'Service not found', code: '404' } };
     }
     
-    return { data: rows[0], error: null };
+    // Fetch variants
+    const { rows: variantRows } = await db.query(
+      'SELECT id, name, description, duration_min, price_amount, currency, stripe_price_id FROM service_variant WHERE service_id = $1 AND active = true ORDER BY price_amount ASC',
+      [serviceId]
+    );
+
+    const serviceData = {
+      ...rows[0],
+      variants: variantRows.map(v => ({
+        id: v.id,
+        name: v.name,
+        description: v.description,
+        duration: v.duration_min,
+        price: v.price_amount / 100, // Convert cents to main unit for UI
+        currency: v.currency,
+        stripe_price_id: v.stripe_price_id
+      }))
+    };
+
+    return { data: serviceData, error: null };
   } catch (error) {
     console.error('Error fetching service:', error);
     return { data: null, error };
@@ -161,6 +180,8 @@ export async function checkDatabaseHealth() {
 
 export async function createBooking(params: {
   serviceId: string;
+  serviceVariantId?: string;
+  originApp?: string; // NEW
   startTime: string;
   email: string;
   phone?: string;
@@ -173,6 +194,8 @@ export async function createBooking(params: {
   try {
     const {
       serviceId,
+      serviceVariantId,
+      originApp = 'web', // Default
       startTime,
       email,
       phone,
@@ -193,11 +216,40 @@ export async function createBooking(params: {
     }
     const service = serviceRows[0];
 
+    // 1b. Fetch Variant (if provided) or Default
+    let finalDuration = service.duration;
+    let finalPriceCents = Math.round(service.price * 100);
+    let finalVariantId = serviceVariantId || null;
+
+    if (serviceVariantId) {
+       const { rows: vRows } = await db.query(
+         'SELECT id, duration_min, price_amount FROM service_variant WHERE id = $1 AND service_id = $2',
+         [serviceVariantId, serviceId]
+       );
+       if (vRows.length === 0) {
+         return { error: 'Service variant not found', status: 404 };
+       }
+       finalDuration = vRows[0].duration_min;
+       finalPriceCents = vRows[0].price_amount;
+    } else {
+       // Attempt to find a "Standard" variant if none provided? 
+       // For now, respect legacy service params if no variant provided, but try to resolve to a variant ID for data consistency
+       const { rows: defaultV } = await db.query(
+         'SELECT id, duration_min, price_amount FROM service_variant WHERE service_id = $1 LIMIT 1', 
+         [serviceId]
+       );
+       if (defaultV.length > 0) {
+          finalVariantId = defaultV[0].id; // Backfill automatically
+          // Only override if the legacy service values are suspicious? No, trust DB logic.
+          // Let's rely on legacy service columns if explicit variant not requested, to handle "old" clients.
+       }
+    }
+
     const start = new Date(startTime);
     if (isNaN(start.getTime())) {
       return { error: 'Invalid startTime', status: 400 };
     }
-    const end = new Date(start.getTime() + service.duration * 60000);
+    const end = new Date(start.getTime() + finalDuration * 60000);
 
     // 2. Check overlaps
     const { rows: overlapping } = await db.query(
@@ -221,7 +273,7 @@ export async function createBooking(params: {
 
       if (schedules.length > 0) {
         for (const s of schedules) {
-          const durationHours = service.duration / 60;
+          const durationHours = finalDuration / 60;
           if (startHour >= s.start_hour && (startHour + durationHours) <= s.end_hour) {
             const staffOverlap = overlapping.some(b => b.staff_id === s.staff_id);
             if (!staffOverlap) {
@@ -244,9 +296,8 @@ export async function createBooking(params: {
     const manageToken = await signManageToken(id, 'manage', reservationTTLMinutes * 60);
     const manageTokenHash = hashToken(manageToken);
 
-    const basePriceCents = Math.round(service.price * 100);
     const addonsTotal = addons.reduce((sum: number, a: any) => sum + (a.priceCents || 0), 0);
-    const totalCents = basePriceCents + addonsTotal;
+    const totalCents = finalPriceCents + addonsTotal;
 
     if (paymentMode === 'deposit' && depositCents <= 0) {
       return { error: 'Deposit amount required for deposit mode', status: 400 };
@@ -261,14 +312,14 @@ export async function createBooking(params: {
     // 5. Insert booking
     await db.query(
       `INSERT INTO booking (
-        id, service_id, staff_id, start_time, end_time, duration_minutes,
+        id, service_id, service_variant_id, origin_app, staff_id, start_time, end_time, duration_minutes,
         base_price_cents, currency, email, phone, display_name,
         addons_json, payment_mode, deposit_cents, payment_status,
         status, cancellation_policy, reservation_expires_at, manage_token_hash
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)`,
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)`,
       [
-        id, service.id, finalStaffId, start.toISOString(), end.toISOString(), service.duration,
-        basePriceCents, 'EUR', email, phone, displayName,
+        id, service.id, finalVariantId, originApp, finalStaffId, start.toISOString(), end.toISOString(), finalDuration,
+        finalPriceCents, 'EUR', email, phone, displayName,
         JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? depositCents : 0, 'pending',
         'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash
       ]
@@ -296,7 +347,7 @@ export async function createBooking(params: {
   }
 }
 
-export async function getServiceAvailability(serviceId: string, date: string) {
+export async function getServiceAvailability(serviceId: string, date: string, serviceVariantId?: string) {
   try {
     // 1. Fetch service
     const { rows: serviceRows } = await db.query(
@@ -307,7 +358,17 @@ export async function getServiceAvailability(serviceId: string, date: string) {
       return { error: 'Service not found', status: 404 };
     }
     const service = serviceRows[0];
-    const durationMin = service.duration;
+    let durationMin = service.duration;
+
+    if (serviceVariantId) {
+       const { rows: vRows } = await db.query(
+         'SELECT duration_min FROM service_variant WHERE id = $1 AND service_id = $2',
+         [serviceVariantId, serviceId]
+       );
+       if (vRows.length > 0) {
+         durationMin = vRows[0].duration_min;
+       }
+    }
 
     const weekday = new Date(date + 'T00:00:00').getDay();
 

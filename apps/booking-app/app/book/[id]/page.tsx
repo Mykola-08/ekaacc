@@ -9,10 +9,14 @@ export const revalidate = 0;
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function ServiceBookingPage({ params }: PageProps) {
+export default async function ServiceBookingPage({ params, searchParams }: PageProps) {
   const { id } = await params;
+  const sp = await searchParams;
+  const selectedVariantId = typeof sp.variantId === 'string' ? sp.variantId : undefined;
+
   const { data, error } = await fetchService(id);
 
   if (error || !data) {
@@ -32,6 +36,16 @@ export default async function ServiceBookingPage({ params }: PageProps) {
   }
 
   const service = data as Service;
+  
+  // Resolve active variant
+  const activeVariant = service.variants?.find(v => v.id === selectedVariantId) 
+    || service.variants?.[0] 
+    || null;
+  
+  const originApp = typeof sp.originApp === 'string' ? sp.originApp : undefined;
+
+  const displayDuration = activeVariant ? activeVariant.duration : service.duration;
+  const displayPrice = activeVariant ? activeVariant.price : service.price;
 
   return (
     <div className="min-h-screen bg-background-dark text-slate-200 font-display">
@@ -45,20 +59,25 @@ export default async function ServiceBookingPage({ params }: PageProps) {
           <div className="flex flex-col md:flex-row gap-12">
             <div className="flex-1">
               <h1 className="text-4xl md:text-5xl font-serif text-slate-100 mb-6">{service.name}</h1>
+              {activeVariant && (
+                <div className="mb-4">
+                  <span className="text-lg text-slate-300 font-medium">{activeVariant.name}</span>
+                </div>
+              )}
               
               <div className="flex flex-wrap gap-6 mb-8">
                 <div className="flex items-center gap-3 text-slate-300 bg-surface-highlight px-4 py-2 rounded-full border border-border-subtle">
                   <Clock className="w-5 h-5 text-primary" />
-                  <span className="font-medium">{service.duration} Minutes</span>
+                  <span className="font-medium">{displayDuration} Minutes</span>
                 </div>
                 <div className="flex items-center gap-3 text-slate-300 bg-surface-highlight px-4 py-2 rounded-full border border-border-subtle">
                   <CreditCard className="w-5 h-5 text-primary" />
-                  <span className="font-medium">€{service.price}</span>
+                  <span className="font-medium">€{displayPrice}</span>
                 </div>
               </div>
 
               <div className="prose prose-invert prose-lg max-w-none text-slate-400 mb-10">
-                <p className="whitespace-pre-line">{service.description}</p>
+                <p className="whitespace-pre-line">{activeVariant?.description || service.description}</p>
               </div>
 
               <div className="flex flex-col gap-4">
@@ -83,18 +102,26 @@ export default async function ServiceBookingPage({ params }: PageProps) {
                     <span className="text-slate-400">Service</span>
                     <span className="text-slate-200 font-medium text-right">{service.name}</span>
                   </div>
+                  {activeVariant && (
+                    <div className="flex justify-between text-sm">
+                        <span className="text-slate-400">Type</span>
+                        <span className="text-slate-200 font-medium text-right">{activeVariant.name}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm">
                     <span className="text-slate-400">Duration</span>
-                    <span className="text-slate-200 font-medium">{service.duration} min</span>
+                    <span className="text-slate-200 font-medium">{displayDuration} min</span>
                   </div>
                   <div className="border-t border-border-subtle pt-4 flex justify-between items-baseline">
                     <span className="text-slate-200 font-medium">Total</span>
-                    <span className="text-2xl font-serif text-primary">€{service.price}</span>
+                    <span className="text-2xl font-serif text-primary">€{displayPrice}</span>
                   </div>
                 </div>
 
                 <BookingModal 
                   service={service} 
+                  preselectedVariantId={activeVariant?.id}
+                  originApp={originApp}
                   trigger={
                     <button className="w-full py-4 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary-hover transition-colors shadow-lg shadow-primary/20">
                       Continue to Calendar

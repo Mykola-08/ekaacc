@@ -422,7 +422,7 @@ export const validationRules = {
     message: 'Password must be at least 8 characters with uppercase, lowercase, and numbers',
   },
   phone: {
-    pattern: /^\+?[\d\s\-\(\)]+$/,
+    pattern: /^\+?[\d\s\-()]+$/,
     message: 'Please enter a valid phone number',
   },
   url: {

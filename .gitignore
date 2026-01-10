@@ -102,3 +102,5 @@ dist/
 # Turbo
 .turbopackages/*/node_modules/
 .turbo
+*.tmp
+temp_*.mjs

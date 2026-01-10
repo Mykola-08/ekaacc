@@ -12,7 +12,6 @@ export class StripeService {
       // Provide a minimal noop implementation to avoid runtime/build errors when Stripe is unavailable.
       // Methods will throw if called, signaling misconfiguration without breaking module evaluation.
       // Only the subset of methods used by this service are stubbed.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       this.stripe = {
         customers: { create: async () => { throw new Error('Stripe not configured'); } },
         paymentIntents: {
@@ -25,7 +24,7 @@ export class StripeService {
       return;
     }
     this.stripe = new Stripe(key.trim(), {
-      apiVersion: '2025-10-29.clover', // Use latest available version
+      apiVersion: '2025-02-24.acacia', // Use latest available version
     });
   }
 

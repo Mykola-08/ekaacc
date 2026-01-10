@@ -39,7 +39,6 @@ export async function listBookings(limit = 20) {
   // Page wrapper -> items
   // The SDK returns a Page<T> which has items in .items
   // Keep it defensive in case of shape differences.
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const page: any = res as any;
   return page?.items ?? [];
 }
@@ -51,7 +50,6 @@ export async function findCustomerByEmail(email: string) {
     query: { filter: { emailAddress: { exact: email } } },
   } as any);
   // SDK returns results in .customers
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const body: any = resp as any;
   return (body?.customers && body.customers[0]) || null;
 }

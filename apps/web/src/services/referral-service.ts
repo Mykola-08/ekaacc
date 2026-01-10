@@ -461,6 +461,7 @@ class FirestoreReferralService implements IReferralService {
         if (attempts > 10) {
           throw new Error('Failed to generate unique code');
         }
+      // eslint-disable-next-line no-constant-condition
       } while (true);
     }
 

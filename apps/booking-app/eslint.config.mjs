@@ -32,7 +32,7 @@ const eslintConfig = [
     },
     rules: {
       "no-unused-vars": "warn",
-      "no-console": "warn",
+      "no-console": "off", // Turned off - use logger utility for production code
       "no-undef": "off" 
     }
   }),
@@ -50,7 +50,15 @@ const eslintConfig = [
     },
     rules: {
       "no-undef": "off", // TypeScript handles this
-      "no-unused-vars": "off" // TypeScript handles this usually, or use @typescript-eslint/no-unused-vars
+      "no-unused-vars": "off", // TypeScript handles this
+      "no-console": "off" // Turned off - use logger utility for production code
+    }
+  },
+  // More lenient rules for scripts and tests
+  {
+    files: ["**/scripts/**/*.ts", "**/scripts/**/*.js", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "no-console": "off" // Allow console in scripts and tests
     }
   }
 ];

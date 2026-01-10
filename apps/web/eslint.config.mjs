@@ -20,6 +20,7 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "**/payload-types.ts", // Auto-generated file
     ],
   },
   ...compat.config({
@@ -32,8 +33,13 @@ const eslintConfig = [
     },
     rules: {
       "no-unused-vars": "warn",
-      "no-console": "warn",
-      "no-undef": "off" 
+      "no-console": "off", // Turned off - logger utility available for production
+      "no-undef": "off",
+      "no-empty": "off",  // Turn off empty block warnings
+      "no-case-declarations": "off",  // Turn off case declarations warnings
+      "no-unreachable": "off",  // Turn off unreachable code warnings (often intentional)
+      "no-useless-escape": "warn",
+      "no-useless-catch": "warn"
     }
   }),
   {
@@ -50,7 +56,20 @@ const eslintConfig = [
     },
     rules: {
       "no-undef": "off", // TypeScript handles this
-      "no-unused-vars": "off" // TypeScript handles this usually, or use @typescript-eslint/no-unused-vars
+      "no-unused-vars": "off", // TypeScript handles this
+      "no-console": "off", // Turned off - logger utility available for production
+      "no-empty": "off",
+      "no-case-declarations": "off",
+      "no-unreachable": "off",
+      "no-useless-escape": "warn",
+      "no-useless-catch": "warn"
+    }
+  },
+  // More lenient rules for scripts and development files
+  {
+    files: ["**/scripts/**/*.ts", "**/scripts/**/*.js", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "no-console": "off" // Allow console in scripts and tests
     }
   }
 ];

@@ -26,7 +26,8 @@ serve(async (req) => {
     // ----------------------------------------------------------------------
     // PROFILES -> STRIPE CUSTOMERS
     // ----------------------------------------------------------------------
-    if (table === 'profiles') {
+    // Note: Table is 'user_profiles' in latest schema, not 'profiles'
+    if (table === 'user_profiles' || table === 'profiles') {
       if (type === 'INSERT' || type === 'UPDATE') {
         const { id, email, full_name, phone } = record
         
@@ -70,7 +71,55 @@ serve(async (req) => {
           })
         }
       }
-      // Handle DELETE if needed (usually we don't delete customers in Stripe automatically)
+      // Handle DELETE if needed
+    }
+
+    // ----------------------------------------------------------------------
+    // ADDONS -> STRIPE PRODUCTS & PRICES
+    // ----------------------------------------------------------------------
+    if (table === 'service_addon') {
+      if (type === 'INSERT' || type === 'UPDATE') {
+        const { id, name, price_cents, stripe_product_id, active } = record
+        
+        // Product Logic
+        let productId = stripe_product_id
+
+        if (productId) {
+          await stripe.products.update(productId, {
+            name,
+            active,
+            metadata: { supabase_id: id, type: 'addon' }
+          })
+        } else {
+          const product = await stripe.products.create({
+            name,
+            active,
+            metadata: { supabase_id: id, type: 'addon' }
+          })
+          productId = product.id
+          
+          await supabase.from('service_addon').update({ 
+            stripe_product_id: productId,
+            last_updated_by_system: 'stripe'
+          }).eq('id', id)
+        }
+
+        // Price Logic
+        const priceChanged = type === 'INSERT' || (old_record && old_record.price_cents !== price_cents)
+        
+        if (priceChanged && price_cents !== null && price_cents >= 0) {
+          const newPrice = await stripe.prices.create({
+            product: productId,
+            unit_amount: price_cents,
+            currency: 'usd',
+          })
+          
+          await supabase.from('service_addon').update({ 
+            stripe_price_id: newPrice.id,
+            last_updated_by_system: 'stripe'
+          }).eq('id', id)
+        }
+      }
     }
 
     // ----------------------------------------------------------------------

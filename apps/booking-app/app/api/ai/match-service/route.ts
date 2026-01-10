@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server';
 
 // Initialize Supabase client with fallbacks
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // Lazy initialization to avoid build-time errors
 let supabase: ReturnType<typeof createClient> | null = null;

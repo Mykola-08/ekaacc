@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 // Service role client (server-side only). DO NOT expose service key to client bundles.
 // Uses API key authentication (not JWT)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co';
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
+const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // Create client with fallback for build time
 export const supabaseServer = createClient(
@@ -28,7 +28,7 @@ export const supabaseServer = createClient(
 // Validate at runtime (not build time)
 export function validateSupabaseConfig() {
   if (!serviceKey) {
-    throw new Error('SUPABASE_SERVICE_ROLE_KEY or SUPABASE_SECRET_KEY is required');
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is required');
   }
 }
 

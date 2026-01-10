@@ -20,7 +20,7 @@ export default function AdminUsersPage() {
   const loadUsers = async () => {
     setLoading(true);
     const result = await listUsers();
-    if (result.success) {
+    if (result.success && result.data) {
       setUsers(result.data);
     } else {
       toast.error('Failed to load users: ' + result.error);

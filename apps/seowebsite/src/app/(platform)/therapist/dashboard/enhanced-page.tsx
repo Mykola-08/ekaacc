@@ -17,7 +17,7 @@ import { SurfacePanel } from '@/components/platform/eka/surface-panel'
 export default function TherapistDashboardPage() {
   const { user } = useSimpleAuth()
 
-  const welcomeMessage = user?.profile.full_name 
+  const welcomeMessage = user?.profile?.full_name 
     ? `Welcome back, Dr. ${user.profile.full_name}!` 
     : 'Welcome to your therapist dashboard!'
 

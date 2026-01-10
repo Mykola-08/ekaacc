@@ -139,8 +139,8 @@ export function MobileNavigation({ className }: MobileNavigationProps) {
                   <User className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium">{user.profile.full_name || user.email}</p>
-                  <p className="text-sm text-muted-foreground capitalize">{user.role.name}</p>
+                  <p className="font-medium">{user.profile?.full_name || user.email}</p>
+                  <p className="text-sm text-muted-foreground capitalize">{user.role?.name}</p>
                 </div>
               </div>
             )}

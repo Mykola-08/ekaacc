@@ -229,8 +229,8 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
                               <p className="font-medium truncate">{user.full_name || user.username || user.email}</p>
-                              <Badge variant={getRoleBadgeColor(user.role.name)}>
-                                {user.role.name}
+                              <Badge variant={getRoleBadgeColor(user.role?.name)}>
+                                {user.role?.name}
                               </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground truncate">{user.email}</p>

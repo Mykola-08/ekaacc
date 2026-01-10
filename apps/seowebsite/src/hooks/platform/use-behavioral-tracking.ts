@@ -205,7 +205,7 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
 
   // Auto-track events based on options
   useEffect(() => {
-    if (!user) return;
+    if (!user) return () => {}; // Return cleanup function
 
     // Track session start
     if (trackSessions) {
@@ -220,6 +220,7 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
       window.addEventListener('beforeunload', handleBeforeUnload);
       return () => window.removeEventListener('beforeunload', handleBeforeUnload);
     }
+    return () => {}; // Empty cleanup function
   }, [user, trackSessions, trackSessionStart, trackSessionEnd]);
 
   // Auto-track page views
@@ -227,6 +228,7 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
     if (trackPageViews && user) {
       trackPageView();
     }
+    return () => {}; // Empty cleanup function
   }, [user, trackPageViews, trackPageView]);
 
   // Auto-track clicks
@@ -250,6 +252,7 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
       document.addEventListener('click', handleClick);
       return () => document.removeEventListener('click', handleClick);
     }
+    return () => {}; // Empty cleanup function
   }, [user, trackClicks, trackClick]);
 
   // Auto-track form submissions
@@ -273,6 +276,7 @@ export const useBehavioralTracking = (options: UseBehavioralTrackingOptions = {}
       document.addEventListener('submit', handleSubmit);
       return () => document.removeEventListener('submit', handleSubmit);
     }
+    return () => {}; // Empty cleanup function
   }, [user, trackFormSubmissions, trackFormSubmission]);
 
   return {

@@ -7,7 +7,11 @@ export const bidirectionalSyncService = {
     conflict: false, 
     isNew: false, 
     isUpdated: false, 
-    data: null 
+    data: null,
+    imported: 0,
+    exported: 0,
+    updated: 0,
+    errors: [] as string[]
   }),
   resolveConflict: async (id: string, resolution: any) => ({ success: true }),
   retryQueueItem: async (id: string) => ({ success: true }),
@@ -17,14 +21,22 @@ export const bidirectionalSyncService = {
     conflict: false, 
     isNew: false, 
     isUpdated: false, 
-    data: null 
+    data: null,
+    imported: 0,
+    exported: 0,
+    updated: 0,
+    errors: [] as string[]
   }),
   processInboundCustomer: async (_data: any, _options: any) => ({ 
     success: true, 
     conflict: false, 
     isNew: false, 
     isUpdated: false, 
-    data: null 
+    data: null,
+    imported: 0,
+    exported: 0,
+    updated: 0,
+    errors: [] as string[]
   }),
   getSyncMetadataByExternalId: async (_externalId: string, _type: string) => ({ local_id: '', external_id: '', type: '' }),
   updateAppointmentStatus: async (_localId: string, _status: string) => ({ success: true }),

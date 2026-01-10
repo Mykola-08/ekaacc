@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import CookieConsent from "../components/consent/CookieConsent";
 import ConsentAwareWrapper from "../components/consent/ConsentAwareWrapper";
 import "./globals.css";
 import Link from "next/link";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "EKA Balance - Legal Center",
@@ -21,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased bg-background text-foreground`}>
+      <body className="antialiased bg-background text-foreground font-sans">
         <div className="min-h-screen flex flex-col">
           <header className="bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b sticky top-0 z-50">
             <div className="container mx-auto px-4 h-16 flex justify-between items-center">

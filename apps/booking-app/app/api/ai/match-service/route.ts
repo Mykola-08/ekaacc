@@ -4,10 +4,22 @@ import { openai } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Initialize Supabase client with fallbacks
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY;
+
+// Lazy initialization to avoid build-time errors
+let supabase: ReturnType<typeof createClient> | null = null;
+
+function getSupabaseClient() {
+  if (!supabase) {
+    if (!supabaseServiceKey) {
+      throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for this API route');
+    }
+    supabase = createClient(supabaseUrl, supabaseServiceKey);
+  }
+  return supabase;
+}
 
 export async function POST(req: Request) {
   try {
@@ -17,8 +29,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Query is required' }, { status: 400 });
     }
 
+    // Get Supabase client with validation
+    const client = getSupabaseClient();
+
     // 1. Fetch active services
-    const { data: services, error } = await supabase
+    const { data: services, error } = await client
       .from('service')
       .select('id, name, description, price, duration')
       .eq('active', true);

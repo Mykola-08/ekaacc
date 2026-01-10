@@ -73,7 +73,6 @@ export function AITherapyRecommendations() {
 
   useEffect(() => {
     fetchRecommendations();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useAI]);
 
   const containerVariants: Variants = {

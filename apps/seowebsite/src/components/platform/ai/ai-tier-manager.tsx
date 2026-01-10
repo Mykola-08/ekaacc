@@ -1,0 +1,572 @@
+import React, { useState, useEffect } from 'react';
+import { AIService } from '@/ai/ai-service';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import { Button } from '@/components/platform/ui/button';
+import { Badge } from '@/components/platform/ui/badge';
+import { Progress } from '@/components/platform/ui/progress';
+import { Alert, AlertDescription, AlertTitle } from '@/components/platform/ui/alert';
+import { 
+  TrendingUp, 
+  TrendingDown, 
+  DollarSign, 
+  Clock, 
+  Activity, 
+  AlertTriangle,
+  CheckCircle,
+  ArrowUpCircle,
+  ArrowDownCircle,
+  Settings,
+  BarChart3,
+  Zap,
+  Star,
+  Crown
+} from 'lucide-react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/platform/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/platform/ui/select';
+
+interface AITierManagerProps {
+  className?: string;
+  currentTier?: 'basic' | 'premium' | 'vip';
+  onTierChange?: (newTier: 'basic' | 'premium' | 'vip') => void;
+  showUsageAnalytics?: boolean;
+  allowDowngrade?: boolean;
+}
+
+interface TierComparison {
+  tier: 'basic' | 'premium' | 'vip';
+  config: {
+    name: string;
+    maxRequestsPerDay: number;
+    costLimit: number;
+    features: string[];
+    costPerRequest: number;
+  };
+  currentUsage?: {
+    requests: number;
+    cost: number;
+    utilization: number;
+  };
+  recommendation?: 'upgrade' | 'downgrade' | 'maintain';
+  estimatedSavings?: number;
+  estimatedCostIncrease?: number;
+}
+
+export function AITierManager({ 
+  className = '',
+  currentTier = 'basic',
+  onTierChange,
+  showUsageAnalytics = true,
+  allowDowngrade = true
+}: AITierManagerProps) {
+  const [selectedTier, setSelectedTier] = useState<'basic' | 'premium' | 'vip'>(currentTier);
+  const [isLoading, setIsLoading] = useState(true);
+  const [tierComparisons, setTierComparisons] = useState<TierComparison[]>([]);
+  const [usageMetrics, setUsageMetrics] = useState<any>(null);
+  const [showUpgradeDialog, setShowUpgradeDialog] = useState(false);
+  const [pendingTierChange, setPendingTierChange] = useState<'basic' | 'premium' | 'vip' | null>(null);
+
+  useEffect(() => {
+    loadTierData();
+  }, [currentTier]);
+
+  const loadTierData = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Mock usage metrics - in real implementation this would come from analytics
+      const mockMetrics = {
+        totalRequests: 1250,
+        totalTokens: 45000,
+        requestsByProvider: {
+          openai: 800,
+          anthropic: 300,
+          google: 150
+        },
+        costByProvider: {
+          openai: 12.50,
+          anthropic: 8.75,
+          google: 3.25
+        },
+        averageResponseTime: 1.2,
+        successRate: 98.5
+      };
+      
+      setUsageMetrics(mockMetrics);
+      
+      // Build tier comparisons
+      const comparisons = buildTierComparisons(mockMetrics, currentTier);
+      setTierComparisons(comparisons);
+      
+    } catch (error) {
+      console.error('Failed to load tier data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const buildTierComparisons = (metrics: any, current: 'basic' | 'premium' | 'vip'): TierComparison[] => {
+    const tiers: ('basic' | 'premium' | 'vip')[] = ['basic', 'premium', 'vip'];
+    const comparisons: TierComparison[] = [];
+    
+    // Mock tier configurations
+    const tierConfigs = {
+      basic: {
+        name: 'Basic',
+        maxRequestsPerDay: 100,
+        costLimit: 10,
+        features: ['Basic AI Chat', 'Standard Support', 'Community Access'],
+        costPerRequest: 0.10
+      },
+      premium: {
+        name: 'Premium',
+        maxRequestsPerDay: 500,
+        costLimit: 50,
+        features: ['Advanced AI Chat', 'Priority Support', 'Advanced Analytics', 'Custom Integrations'],
+        costPerRequest: 0.08
+      },
+      vip: {
+        name: 'VIP',
+        maxRequestsPerDay: 2000,
+        costLimit: 200,
+        features: ['Unlimited AI Chat', '24/7 Support', 'Advanced Analytics', 'Custom Integrations', 'White Label'],
+        costPerRequest: 0.05
+      }
+    };
+    
+    tiers.forEach(tier => {
+      const config = tierConfigs[tier];
+      if (!config) return;
+      
+      // Mock current usage based on metrics
+      const currentRequests = Math.floor(metrics.totalRequests * (tier === 'basic' ? 0.6 : tier === 'premium' ? 0.3 : 0.1));
+      const currentCost = metrics?.costByProvider ? Object.values(metrics.costByProvider as Record<string, number>).reduce((sum: number, cost: number) => sum + cost, 0) * (tier === 'basic' ? 0.6 : tier === 'premium' ? 0.3 : 0.1) : 0;
+      const utilization = (currentRequests / config.maxRequestsPerDay) * 100;
+      
+      // Calculate recommendations based on usage patterns
+      let recommendation: 'upgrade' | 'downgrade' | 'maintain' = 'maintain';
+      let estimatedSavings = 0;
+      let estimatedCostIncrease = 0;
+      
+      if (tier === current) {
+        // Current tier analysis
+        if (utilization > 80) {
+          recommendation = 'upgrade';
+        } else if (utilization < 20 && tier !== 'basic') {
+          recommendation = 'downgrade';
+        }
+      }
+      
+      comparisons.push({
+        tier,
+        config,
+        currentUsage: {
+          requests: currentRequests,
+          cost: currentCost,
+          utilization
+        },
+        recommendation,
+        estimatedSavings,
+        estimatedCostIncrease
+      });
+    });
+    
+    return comparisons;
+  };
+
+  const handleTierChange = (newTier: 'basic' | 'premium' | 'vip') => {
+    if (newTier === currentTier) return;
+    
+    setPendingTierChange(newTier);
+    setShowUpgradeDialog(true);
+  };
+
+  const confirmTierChange = () => {
+    if (!pendingTierChange) return;
+    
+    setSelectedTier(pendingTierChange);
+    onTierChange?.(pendingTierChange);
+    setShowUpgradeDialog(false);
+    setPendingTierChange(null);
+  };
+
+  const getTierIcon = (tier: 'basic' | 'premium' | 'vip') => {
+    switch (tier) {
+      case 'basic':
+        return <Settings className="h-5 w-5" />;
+      case 'premium':
+        return <Star className="h-5 w-5" />;
+      case 'vip':
+        return <Crown className="h-5 w-5" />;
+      default:
+        return <Settings className="h-5 w-5" />;
+    }
+  };
+
+  const getTierColor = (tier: 'basic' | 'premium' | 'vip') => {
+    switch (tier) {
+      case 'basic':
+        return 'text-blue-600 bg-blue-50 border-blue-200';
+      case 'premium':
+        return 'text-purple-600 bg-purple-50 border-purple-200';
+      case 'vip':
+        return 'text-amber-600 bg-amber-50 border-amber-200';
+      default:
+        return 'text-gray-600 bg-gray-50 border-gray-200';
+    }
+  };
+
+  const getRecommendationColor = (recommendation?: string) => {
+    switch (recommendation) {
+      case 'upgrade':
+        return 'text-green-600 bg-green-50 border-green-200';
+      case 'downgrade':
+        return 'text-orange-600 bg-orange-50 border-orange-200';
+      case 'maintain':
+        return 'text-blue-600 bg-blue-50 border-blue-200';
+      default:
+        return 'text-gray-600 bg-gray-50 border-gray-200';
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Card className={className}>
+        <CardHeader>
+          <CardTitle>AI Tier Management</CardTitle>
+          <CardDescription>Loading tier information...</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const currentComparison = tierComparisons.find(c => c.tier === currentTier);
+  const recommendedTier = tierComparisons.find(c => c.recommendation && c.recommendation !== 'maintain');
+
+  return (
+    <>
+      <Card className={className}>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle>AI Tier Management</CardTitle>
+              <CardDescription>
+                Manage your AI service tiers and optimize costs
+              </CardDescription>
+            </div>
+            <Badge className={`${getTierColor(currentTier)} border`}>
+              {getTierIcon(currentTier)}
+              <span className="ml-1 capitalize">{currentTier}</span>
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Current Tier Status */}
+          {currentComparison && (
+            <Card className="border-2 border-primary">
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {getTierIcon(currentTier)}
+                    <div>
+                      <CardTitle className="text-lg">Current Tier: {currentTier}</CardTitle>
+                      <CardDescription>Your active AI service tier</CardDescription>
+                    </div>
+                  </div>
+                  {recommendedTier && recommendedTier.tier !== currentTier && (
+                    <Badge className={`${getRecommendationColor(recommendedTier.recommendation)} border`}>
+                      <TrendingUp className="h-3 w-3 mr-1" />
+                      Recommended: {recommendedTier.recommendation}
+                    </Badge>
+                  )}
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-3">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Daily Requests</p>
+                    <p className="text-2xl font-bold">{currentComparison.currentUsage?.requests.toLocaleString() || 0}</p>
+                    <Progress 
+                      value={currentComparison.currentUsage?.utilization || 0} 
+                      className="h-2 mt-2"
+                    />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {currentComparison.currentUsage?.utilization.toFixed(1)}% of limit
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Daily Cost</p>
+                    <p className="text-2xl font-bold">${currentComparison.currentUsage?.cost.toFixed(2) || '0.00'}</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Budget: ${currentComparison.config.costLimit.toFixed(2)}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Features Available</p>
+                    <p className="text-2xl font-bold">{currentComparison.config.features.length}</p>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      {Math.floor(currentComparison.config.maxRequestsPerDay / 24).toLocaleString()} req/hour
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Usage Analytics */}
+          {showUsageAnalytics && usageMetrics && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <BarChart3 className="h-5 w-5" />
+                  Usage Analytics
+                </CardTitle>
+                <CardDescription>Recent usage patterns and recommendations</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-green-600">
+                      {usageMetrics.totalRequests.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-muted-foreground">Total AI Requests</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-blue-600">
+                      ${usageMetrics.totalCost.toFixed(2)}
+                    </p>
+                    <p className="text-sm text-muted-foreground">Total Cost</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-purple-600">
+                      {(usageMetrics.cacheHitRate * 100).toFixed(1)}%
+                    </p>
+                    <p className="text-sm text-muted-foreground">Cache Efficiency</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-2xl font-bold text-orange-600">
+                      {(usageMetrics.averageLatency / 1000).toFixed(2)}s
+                    </p>
+                    <p className="text-sm text-muted-foreground">Avg Response Time</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Tier Comparison */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Available Tiers</h3>
+              {recommendedTier && recommendedTier.tier !== currentTier && (
+                <Badge className={`${getRecommendationColor(recommendedTier.recommendation)} border`}>
+                  <Zap className="h-3 w-3 mr-1" />
+                  Recommended: Switch to {recommendedTier.tier}
+                </Badge>
+              )}
+            </div>
+            
+            <div className="grid gap-4 md:grid-cols-3">
+              {tierComparisons.map((comparison) => (
+                <Card 
+                  key={comparison.tier} 
+                  className={`relative ${comparison.tier === currentTier ? 'border-2 border-primary' : ''}`}
+                >
+                  {comparison.tier === currentTier && (
+                    <Badge className="absolute -top-2 left-3 bg-primary text-primary-foreground">
+                      Current
+                    </Badge>
+                  )}
+                  
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className={`p-2 rounded-lg ${getTierColor(comparison.tier)}`}>
+                          {getTierIcon(comparison.tier)}
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg capitalize">{comparison.tier}</CardTitle>
+                          <CardDescription>
+                            {comparison.config.features.length} features
+                          </CardDescription>
+                        </div>
+                      </div>
+                      {comparison.recommendation && (
+                        <Badge className={`${getRecommendationColor(comparison.recommendation)} border`}>
+                          {comparison.recommendation}
+                        </Badge>
+                      )}
+                    </div>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Daily Requests</span>
+                        <span className="font-mono text-sm">
+                          {comparison.config.maxRequestsPerDay.toLocaleString()}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Daily Cost Limit</span>
+                        <span className="font-mono text-sm">
+                          ${comparison.config.costLimit.toFixed(2)}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-muted-foreground">Hourly Limit</span>
+                        <span className="font-mono text-sm">
+                          {Math.floor(comparison.config.maxRequestsPerDay / 24).toLocaleString()}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      <p className="text-sm font-medium">Key Features</p>
+                      <div className="space-y-1">
+                        {comparison.config.features.slice(0, 5).map((feature: string) => (
+                          <div key={feature} className="flex items-center gap-2">
+                            <CheckCircle className="h-3 w-3 text-green-500" />
+                            <span className="text-xs text-muted-foreground">
+                              {feature.replace('-', ' ')}
+                            </span>
+                          </div>
+                        ))}
+                        {comparison.config.features.length > 5 && (
+                          <p className="text-xs text-muted-foreground ml-5">
+                            +{comparison.config.features.length - 5} more
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {comparison.tier !== currentTier && (
+                      <Button
+                        onClick={() => handleTierChange(comparison.tier)}
+                        variant={comparison.tier === 'vip' ? 'default' : 'outline'}
+                        className="w-full"
+                        disabled={comparison.tier === 'basic' && !allowDowngrade && currentTier !== 'basic'}
+                      >
+                        {comparison.tier === 'basic' && currentTier !== 'basic' ? (
+                          <>
+                            <ArrowDownCircle className="h-4 w-4 mr-2" />
+                            Downgrade to Basic
+                          </>
+                        ) : (
+                          <>
+                            <ArrowUpCircle className="h-4 w-4 mr-2" />
+                            Upgrade to {comparison.tier.charAt(0).toUpperCase() + comparison.tier.slice(1)}
+                          </>
+                        )}
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Upgrade/Downgrade Confirmation Dialog */}
+      <Dialog open={showUpgradeDialog} onOpenChange={setShowUpgradeDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              {pendingTierChange === 'basic' ? 'Downgrade' : 'Upgrade'} AI Service Tier
+            </DialogTitle>
+            <DialogDescription>
+              {pendingTierChange === 'basic' 
+                ? 'You are about to downgrade to the Basic tier. This will reduce your available features and limits.'
+                : `You are about to upgrade to the ${pendingTierChange ? pendingTierChange.charAt(0).toUpperCase() + pendingTierChange.slice(1) : 'selected'} tier. This will provide enhanced features and increased limits.`
+              }
+            </DialogDescription>
+          </DialogHeader>
+          
+          {pendingTierChange && (
+            <div className="space-y-4 py-4">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="space-y-2">
+                  <h4 className="font-medium">Current: {currentTier}</h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    <p>• {currentComparison?.config.features.length || 0} features</p>
+                    <p>• {currentComparison?.config.maxRequestsPerDay.toLocaleString() || 0} daily requests</p>
+                    <p>• ${currentComparison?.config.costLimit.toFixed(2) || '0.00'} daily cost limit</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-2">
+                  <h4 className="font-medium">
+                    New: {pendingTierChange.charAt(0).toUpperCase() + pendingTierChange.slice(1)}
+                  </h4>
+                  <div className="text-sm text-muted-foreground space-y-1">
+                    {(() => {
+                      const tierConfigs = {
+                        basic: { name: 'Basic', maxRequestsPerDay: 100, costLimit: 10, features: ['Basic AI Chat', 'Standard Support', 'Community Access'], costPerRequest: 0.10 },
+                        premium: { name: 'Premium', maxRequestsPerDay: 500, costLimit: 50, features: ['Advanced AI Chat', 'Priority Support', 'Advanced Analytics', 'Custom Integrations'], costPerRequest: 0.08 },
+                        vip: { name: 'VIP', maxRequestsPerDay: 2000, costLimit: 200, features: ['Unlimited AI Chat', '24/7 Support', 'Advanced Analytics', 'Custom Integrations', 'White Label'], costPerRequest: 0.05 }
+                      };
+                      const newConfig = tierConfigs[pendingTierChange as keyof typeof tierConfigs];
+                      return newConfig ? (
+                        <>
+                          <p>• {newConfig.features.length} features</p>
+                          <p>• {newConfig.maxRequestsPerDay.toLocaleString()} daily requests</p>
+                          <p>• ${newConfig.costLimit.toFixed(2)} daily cost limit</p>
+                        </>
+                      ) : null;
+                    })()}
+                  </div>
+                </div>
+              </div>
+              
+              {pendingTierChange !== 'basic' && (
+                <Alert>
+                  <Zap className="h-4 w-4" />
+                  <AlertDescription>
+                    Upgrading will unlock advanced AI features including predictive analytics, 
+                    personalized recommendations, and enhanced processing capabilities.
+                  </AlertDescription>
+                </Alert>
+              )}
+            </div>
+          )}
+          
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowUpgradeDialog(false);
+                setPendingTierChange(null);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={confirmTierChange}>
+              {pendingTierChange === 'basic' ? 'Downgrade' : 'Upgrade'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}

@@ -276,25 +276,48 @@ serve(async (req) => {
       }
 
       // ----------------------------------------------------------------------
-      // SUBSCRIPTION EVENTS (Existing)
+      // BOOKING PAYMENT (Checkout Session)
       // ----------------------------------------------------------------------
       case 'checkout.session.completed': {
         const session = event.data.object
         const userId = session.client_reference_id
-        const subscriptionId = session.subscription
-        const customerId = session.customer
+        
+        // Handle Subscription
+        if (session.mode === 'subscription') {
+          const subscriptionId = session.subscription
+          const customerId = session.customer
 
-        if (userId && subscriptionId) {
-          await supabase
-            .from('subscriptions')
-            .upsert({
-              user_id: userId,
-              stripe_subscription_id: subscriptionId,
-              stripe_customer_id: customerId,
-              status: 'active',
-              plan_type: session.metadata?.tierId || 'loyal', // Default or from metadata
-              updated_at: new Date().toISOString(),
-            })
+          if (userId && subscriptionId) {
+            await supabase
+              .from('subscriptions')
+              .upsert({
+                user_id: userId,
+                stripe_subscription_id: subscriptionId,
+                stripe_customer_id: customerId,
+                status: 'active',
+                plan_type: session.metadata?.tierId || 'loyal', 
+                updated_at: new Date().toISOString(),
+              })
+          }
+        } 
+        // Handle One-time Booking
+        else if (session.mode === 'payment') {
+          const bookingId = session.metadata?.bookingId || session.client_reference_id;
+          
+          if (bookingId) {
+             // Update 'booking' table
+             const { error } = await supabase
+              .from('booking')
+              .update({
+                payment_status: 'captured',
+                stripe_payment_intent: session.payment_intent,
+                updated_at: new Date().toISOString(),
+                ...systemFlag
+              })
+              .eq('id', bookingId);
+             
+             if (error) console.error('Error updating booking:', error);
+          }
         }
         break
       }

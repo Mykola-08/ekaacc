@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npm --prefix ../.. run build -- --filter=web",
-  "installCommand": "npm --prefix ../.. install --legacy-peer-deps"
-}

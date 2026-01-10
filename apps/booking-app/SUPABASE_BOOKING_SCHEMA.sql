@@ -3,6 +3,7 @@
 
 -- Services table (Master catalog of bookable items)
 -- Updated 2026-01-10: Moved pricing/duration to service_variant
+-- Updated 2026-01-10: Added tags, metadata, cleaned up location to variants
 create table if not exists service (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz default now(),
@@ -10,8 +11,11 @@ create table if not exists service (
   description text,
   stripe_product_id text,
   image_url text,
-  location text, -- e.g. 'Downtown', 'Uptown'
+  tags text[] default '{}',
+  metadata jsonb default '{}'::jsonb, -- Flexible fields for specific service types
   active boolean default true,
+  is_public boolean default true, -- Replaces separate anon_services table
+  -- location text, -- DEPRECATED: Location is now a property of specific variants
   last_updated_by_system text
 );
 
@@ -26,6 +30,8 @@ create table if not exists service_variant (
   price_amount integer not null check (price_amount >= 0), -- Stored in Cents
   currency text default 'USD',
   stripe_price_id text,
+  location text, -- Grouping variants by location
+  metadata jsonb default '{}'::jsonb, -- Store specific variant data e.g. { "is_promo": true }
   active boolean default true,
   last_updated_by_system text
 );
@@ -92,6 +98,8 @@ create table if not exists booking (
   manage_token_hash text, -- hashed latest token for one-time manage link
   reservation_expires_at timestamptz, -- for pending payment TTL
   stripe_payment_intent text, -- payment intent id after successful Stripe checkout
+  metadata jsonb default '{}'::jsonb, -- Extensive booking data / context
+  customer_tags text[], -- Categorize customers
   constraint no_overlap_exclusive exclusion using gist (
     service_id with =, tstzrange(start_time, end_time) with &&
   )

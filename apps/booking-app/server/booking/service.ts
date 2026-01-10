@@ -6,7 +6,7 @@ import { emitEvent } from '@/lib/events';
 export async function fetchService(serviceId: string) {
   try {
     const { rows } = await db.query(
-      'SELECT id, name, price, duration, description, stripe_product_id, stripe_price_id, metadata, location, image_url, images FROM service WHERE id = $1',
+      'SELECT id, name, description, stripe_product_id, metadata, location, image_url, images FROM service WHERE id = $1',
       [serviceId]
     );
     
@@ -20,19 +20,26 @@ export async function fetchService(serviceId: string) {
       [serviceId]
     );
 
+    const variants = variantRows.map(v => ({
+      id: v.id,
+      name: v.name,
+      description: v.description,
+      duration: v.duration_min,
+      price: v.price_amount / 100, // Convert cents to main unit for UI
+      currency: v.currency,
+      stripe_price_id: v.stripe_price_id,
+      features: v.features || [],
+      comparison_label: v.comparison_label || null
+    }));
+
+    // Backfill top-level price/duration from first variant (lowest price)
+    const defaultVariant = variants[0] || { price: 0, duration: 60 };
+
     const serviceData = {
       ...rows[0],
-      variants: variantRows.map(v => ({
-        id: v.id,
-        name: v.name,
-        description: v.description,
-        duration: v.duration_min,
-        price: v.price_amount / 100, // Convert cents to main unit for UI
-        currency: v.currency,
-        stripe_price_id: v.stripe_price_id,
-        features: v.features || [],
-        comparison_label: v.comparison_label || null
-      }))
+      price: defaultVariant.price,
+      duration: defaultVariant.duration,
+      variants
     };
 
     return { data: serviceData, error: null };
@@ -78,16 +85,30 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
 export async function listServices() {
   try {
     const { rows } = await db.query(
-      `SELECT id, name, price, duration, description, active, created_at, stripe_product_id, stripe_price_id, metadata, location, image_url
-       FROM service 
-       WHERE active = true 
-       ORDER BY name`
+      `SELECT 
+        s.id, 
+        s.name, 
+        s.description, 
+        s.active, 
+        s.created_at, 
+        s.stripe_product_id, 
+        -- s.stripe_price_id removed from service
+        s.metadata, 
+        s.location, 
+        s.image_url,
+        -- Aggregate variant info for display
+        COALESCE(MIN(sv.price_amount), 0) / 100 as price,
+        COALESCE((ARRAY_AGG(sv.duration_min ORDER BY sv.price_amount ASC))[1], 0) as duration
+       FROM service s
+       LEFT JOIN service_variant sv ON s.id = sv.service_id AND sv.active = true
+       WHERE s.active = true 
+       GROUP BY s.id
+       ORDER BY s.name`
     );
     
     const mappedData = rows.map((s: any) => ({
       ...s,
       is_active: s.active,
-      // Use DB values or falback
       location: s.location || null,
       image_url: s.image_url || null,
       version: s.version || null
@@ -193,6 +214,8 @@ export async function createBooking(params: {
   depositCents?: number;
   addons?: any[];
   staffId?: string;
+  metadata?: any; // NEW: Extensive data support
+  customerTags?: string[]; // NEW: Extensive data support
 }) {
   try {
     const {
@@ -208,11 +231,13 @@ export async function createBooking(params: {
       depositCents = 0,
       addons = [],
       staffId,
+      metadata = {}, // NEW
+      customerTags = [], // NEW
     } = params;
 
     // 1. Fetch service
     const { rows: serviceRows } = await db.query(
-      'SELECT id, name, price, duration, requires_identity_verification, min_trust_score FROM service WHERE id = $1',
+      'SELECT id, name, requires_identity_verification, min_trust_score FROM service WHERE id = $1',
       [serviceId]
     );
     if (serviceRows.length === 0) {
@@ -223,9 +248,6 @@ export async function createBooking(params: {
     // RESTRICTION CHECK
     if (service.requires_identity_verification || (service.min_trust_score || 0) > 0) {
        // We must check the user's status.
-       // 1. If we have userId, check user_profiles? Or check booking history for this email?
-       // The 'calculate_trust_score' function works on email.
-       
        const { rows: scoreRows } = await db.query('SELECT calculate_trust_score($1) as score', [email]);
        const userScore = scoreRows[0]?.score || 50; // Default 50
 
@@ -234,22 +256,17 @@ export async function createBooking(params: {
           return { error: 'Booking restricted: Trust score requirement not met.', status: 403 };
        }
 
-       // Check Identity - For now, we assume simple booking doesn't enforce strict ID check unless we have a 'user_profile' linked.
-       // Ideally we'd join user_profiles here if userId exists.
+       // Check Identity 
        if (service.requires_identity_verification) {
-          // If no userId, we can't verify easily unless we check previous verified bookings? 
           if (!userId) {
-             // For guest checkout, maybe we just flag it? Or block? 
-             // Requirement says "add restrictions". Let's block if no userId prevents verification.
              return { error: 'This service requires identity verification. Please log in.', status: 403 };
           }
-          // logic to check user_profiles.is_verified would go here
        }
     }
 
     // 1b. Fetch Variant (if provided) or Default
-    let finalDuration = service.duration;
-    let finalPriceCents = Math.round(service.price * 100);
+    let finalDuration = 60; 
+    let finalPriceCents = 0;
     let finalVariantId = serviceVariantId || null;
 
     if (serviceVariantId) {
@@ -263,16 +280,17 @@ export async function createBooking(params: {
        finalDuration = vRows[0].duration_min;
        finalPriceCents = vRows[0].price_amount;
     } else {
-       // Attempt to find a "Standard" variant if none provided? 
-       // For now, respect legacy service params if no variant provided, but try to resolve to a variant ID for data consistency
+       // Attempt to find a default variant (lowest price)
        const { rows: defaultV } = await db.query(
-         'SELECT id, duration_min, price_amount FROM service_variant WHERE service_id = $1 LIMIT 1', 
+         'SELECT id, duration_min, price_amount FROM service_variant WHERE service_id = $1 ORDER BY price_amount ASC LIMIT 1', 
          [serviceId]
        );
        if (defaultV.length > 0) {
-          finalVariantId = defaultV[0].id; // Backfill automatically
-          // Only override if the legacy service values are suspicious? No, trust DB logic.
-          // Let's rely on legacy service columns if explicit variant not requested, to handle "old" clients.
+          finalVariantId = defaultV[0].id; 
+          finalDuration = defaultV[0].duration_min;
+          finalPriceCents = defaultV[0].price_amount;
+       } else {
+          return { error: 'Service has no bookable variants', status: 400 };
        }
     }
 
@@ -346,13 +364,15 @@ export async function createBooking(params: {
         id, service_id, service_variant_id, origin_app, customer_reference_id, staff_id, start_time, end_time, duration_minutes,
         base_price_cents, currency, email, phone, display_name,
         addons_json, payment_mode, deposit_cents, payment_status,
-        status, cancellation_policy, reservation_expires_at, manage_token_hash
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22)`,
+        status, cancellation_policy, reservation_expires_at, manage_token_hash,
+        metadata, customer_tags
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)`,
       [
         id, service.id, finalVariantId, originApp, userId || null, finalStaffId, start.toISOString(), end.toISOString(), finalDuration,
         finalPriceCents, 'EUR', email, phone, displayName,
         JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? depositCents : 0, 'pending',
-        'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash
+        'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash,
+        metadata, customerTags
       ]
     );
 

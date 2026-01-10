@@ -12,11 +12,13 @@ export async function POST(req: Request) {
       startTime,
       email,
       paymentMode,
+      displayName,
+      phone,
+      metadata, // Capture generic metadata
+      customerTags // Capture tags
     } = body;
-
-    if (!serviceId || !startTime || !email || !paymentMode) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
+    
+    // ... validation ...
 
     const result = await createBooking(body);
 

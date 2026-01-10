@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
+import nextPlugin from "@next/eslint-plugin-next";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,20 +23,19 @@ const eslintConfig = [
       "next-env.d.ts",
     ],
   },
-  ...compat.config({
-    extends: ["eslint:recommended"],
-    env: {
-      browser: true,
-      node: true,
-      es6: true,
-      jest: true
+  js.configs.recommended,
+  {
+    plugins: {
+      "@next/next": nextPlugin,
     },
     rules: {
+      ...nextPlugin.configs.recommended.rules,
+      ...nextPlugin.configs["core-web-vitals"].rules,
       "no-unused-vars": "warn",
       "no-console": "off", // Turned off - use logger utility for production code
-      "no-undef": "off" 
-    }
-  }),
+      "no-undef": "off",
+    },
+  },
   {
     files: ["**/*.ts", "**/*.tsx"],
     languageOptions: {

@@ -1,4 +1,4 @@
-import { supabaseServer } from '@/lib/supabaseServerClient';
+import Stripe from 'stripe';
 import { emitEvent } from '@/lib/events';
 
 interface CreateCheckoutSessionParams {
@@ -14,29 +14,59 @@ interface CreateCheckoutSessionParams {
 
 export async function createCheckoutSession(params: CreateCheckoutSessionParams) {
   try {
-    const { bookingId, origin } = params;
+    const { bookingId, origin, serviceName, price, customerEmail, customerName } = params;
 
-    // Directly confirm booking in Supabase, bypassing Stripe
-    const { error } = await supabaseServer
-      .from('booking')
-      .update({ 
-        payment_status: 'captured', 
-        stripe_payment_intent: 'manual_bypass' 
-      })
-      .eq('id', bookingId);
-
-    if (error) {
-      console.error('Error confirming booking:', error);
-      await emitEvent('payment.capture.failed', { bookingId, reason: error.message });
-      return { data: null, error: { message: error.message } };
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is missing');
+      return { data: null, error: { message: 'Payment configuration error' } };
     }
 
-    await emitEvent('payment.captured', { bookingId, paymentIntent: 'manual_bypass' });
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-12-18.acacia', // Use latest or pinned version
+    });
+
+    // Create Stripe Checkout Session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card', 'paypal'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'eur',
+            product_data: {
+              name: serviceName,
+              // images: [serviceImage] // Optional: Add service image if available
+            },
+            unit_amount: Math.round(price * 100), // Convert to cents
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/cancel`,
+      client_reference_id: bookingId,
+      customer_email: customerEmail,
+      metadata: {
+        bookingId: bookingId,
+        customerName: customerName,
+      },
+      payment_intent_data: {
+        metadata: {
+          bookingId: bookingId
+        }
+      }
+    });
+
+    if (!session.url) {
+       throw new Error('Failed to create session URL');
+    }
+
+    await emitEvent('payment.session_created', { bookingId, sessionId: session.id });
 
     return { 
       data: { 
-        sessionId: 'manual_session_' + bookingId, 
-        url: `${origin}/success?session_id=manual_session_${bookingId}` 
+        sessionId: session.id, 
+        url: session.url 
       }, 
       error: null 
     };

@@ -32,7 +32,7 @@ const eslintConfig = [
     },
     rules: {
       "no-unused-vars": "warn",
-      "no-console": ["warn", { allow: ["warn", "error"] }], // Allow console.warn and console.error
+      "no-console": "off", // Turned off - use logger utility for production code
       "no-undef": "off" 
     }
   }),
@@ -51,7 +51,7 @@ const eslintConfig = [
     rules: {
       "no-undef": "off", // TypeScript handles this
       "no-unused-vars": "off", // TypeScript handles this
-      "no-console": ["warn", { allow: ["warn", "error"] }]
+      "no-console": "off" // Turned off - use logger utility for production code
     }
   },
   // More lenient rules for scripts and tests

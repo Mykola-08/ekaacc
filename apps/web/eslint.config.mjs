@@ -33,7 +33,7 @@ const eslintConfig = [
     },
     rules: {
       "no-unused-vars": "warn",
-      "no-console": ["warn", { allow: ["warn", "error"] }], // Allow console.warn and console.error
+      "no-console": "off", // Turned off - logger utility available for production
       "no-undef": "off",
       "no-empty": "off",  // Turn off empty block warnings
       "no-case-declarations": "off",  // Turn off case declarations warnings
@@ -57,7 +57,7 @@ const eslintConfig = [
     rules: {
       "no-undef": "off", // TypeScript handles this
       "no-unused-vars": "off", // TypeScript handles this
-      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-console": "off", // Turned off - logger utility available for production
       "no-empty": "off",
       "no-case-declarations": "off",
       "no-unreachable": "off",

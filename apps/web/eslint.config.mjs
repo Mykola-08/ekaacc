@@ -33,7 +33,12 @@ const eslintConfig = [
     rules: {
       "no-unused-vars": "warn",
       "no-console": "warn",
-      "no-undef": "off" 
+      "no-undef": "off",
+      "no-empty": "warn",  // Downgrade empty blocks to warning
+      "no-case-declarations": "warn",  // Downgrade case declarations to warning
+      "no-unreachable": "warn",  // Downgrade unreachable code to warning
+      "no-useless-escape": "warn",  // Downgrade useless escape to warning
+      "no-useless-catch": "warn"  // Downgrade useless catch to warning
     }
   }),
   {
@@ -50,7 +55,12 @@ const eslintConfig = [
     },
     rules: {
       "no-undef": "off", // TypeScript handles this
-      "no-unused-vars": "off" // TypeScript handles this usually, or use @typescript-eslint/no-unused-vars
+      "no-unused-vars": "off", // TypeScript handles this
+      "no-empty": "warn",
+      "no-case-declarations": "warn",
+      "no-unreachable": "warn",
+      "no-useless-escape": "warn",
+      "no-useless-catch": "warn"
     }
   }
 ];

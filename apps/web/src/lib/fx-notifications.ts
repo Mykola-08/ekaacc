@@ -4,24 +4,19 @@ import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from '@/lib
 
 export const fxNotifications = {
   async listNotifications() {
-    try {
-      const { data, error } = await safeSupabaseQuery<any[]>(
-        supabase
-          .from('notifications')
-          .select('*')
-          .order('created_at', { ascending: false })
-      );
-      
-      if (error) {
-        // Suppress console error since we handle fallback in UI
-        throw new Error('Failed to fetch notifications');
-      }
-      
-      return data || [];
-    } catch (error) {
+    const { data, error } = await safeSupabaseQuery<any[]>(
+      supabase
+        .from('notifications')
+        .select('*')
+        .order('created_at', { ascending: false })
+    );
+    
+    if (error) {
       // Suppress console error since we handle fallback in UI
-      throw error;
+      throw new Error('Failed to fetch notifications');
     }
+    
+    return data || [];
   },
   async createNotification(n: { userId?: string; title: string; body?: string; type?: string }) {
     try {

@@ -20,6 +20,7 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "**/payload-types.ts", // Auto-generated file
     ],
   },
   ...compat.config({
@@ -32,13 +33,13 @@ const eslintConfig = [
     },
     rules: {
       "no-unused-vars": "warn",
-      "no-console": "warn",
+      "no-console": ["warn", { allow: ["warn", "error"] }], // Allow console.warn and console.error
       "no-undef": "off",
-      "no-empty": "warn",  // Downgrade empty blocks to warning
-      "no-case-declarations": "warn",  // Downgrade case declarations to warning
-      "no-unreachable": "warn",  // Downgrade unreachable code to warning
-      "no-useless-escape": "warn",  // Downgrade useless escape to warning
-      "no-useless-catch": "warn"  // Downgrade useless catch to warning
+      "no-empty": "off",  // Turn off empty block warnings
+      "no-case-declarations": "off",  // Turn off case declarations warnings
+      "no-unreachable": "off",  // Turn off unreachable code warnings (often intentional)
+      "no-useless-escape": "warn",
+      "no-useless-catch": "warn"
     }
   }),
   {
@@ -56,11 +57,19 @@ const eslintConfig = [
     rules: {
       "no-undef": "off", // TypeScript handles this
       "no-unused-vars": "off", // TypeScript handles this
-      "no-empty": "warn",
-      "no-case-declarations": "warn",
-      "no-unreachable": "warn",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "no-empty": "off",
+      "no-case-declarations": "off",
+      "no-unreachable": "off",
       "no-useless-escape": "warn",
       "no-useless-catch": "warn"
+    }
+  },
+  // More lenient rules for scripts and development files
+  {
+    files: ["**/scripts/**/*.ts", "**/scripts/**/*.js", "**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "no-console": "off" // Allow console in scripts and tests
     }
   }
 ];

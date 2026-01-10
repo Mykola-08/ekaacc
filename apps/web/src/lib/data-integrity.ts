@@ -438,7 +438,7 @@ export class DataValidator {
   }
 
   private static isValidPhoneNumber(phone: string): boolean {
-    const phoneRegex = /^\+?[\d\s\-\(\)]+$/;
+    const phoneRegex = /^\+?[\d\s\-()]+$/;
     return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
   }
 

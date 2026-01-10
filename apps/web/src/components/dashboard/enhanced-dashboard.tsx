@@ -289,7 +289,7 @@ export function EnhancedDashboard() {
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
       >
         {stats.map((stat, index) => (
-          <StatCard key={stat.label} stat={stat} delay={index * 0.1} />
+          <DashboardStatCard key={stat.label} stat={stat} delay={index * 0.1} />
         ))}
       </motion.div>
 
@@ -315,7 +315,7 @@ export function EnhancedDashboard() {
               <div className="space-y-4">
                 <AnimatePresence>
                   {activities.map((activity) => (
-                    <ActivityItem key={activity.id} activity={activity} />
+                    <DashboardActivityItem key={activity.id} activity={activity} />
                   ))}
                 </AnimatePresence>
                 {activities.length === 0 && (
@@ -392,7 +392,7 @@ export function EnhancedDashboard() {
   );
 }
 
-function StatCard({ stat, delay }: { stat: StatCard; delay: number }) {
+function DashboardStatCard({ stat, delay }: { stat: StatCard; delay: number }) {
   const Icon = stat.icon;
   
   return (
@@ -428,7 +428,7 @@ function StatCard({ stat, delay }: { stat: StatCard; delay: number }) {
   );
 }
 
-function ActivityItem({ activity }: { activity: ActivityItem }) {
+function DashboardActivityItem({ activity }: { activity: ActivityItem }) {
   const Icon = activity.icon;
   
   return (

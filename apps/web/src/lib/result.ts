@@ -30,6 +30,7 @@ export type Result<T, E = Error> =
 /**
  * Result utility class with helper methods
  */
+// eslint-disable-next-line no-redeclare
 export const Result = {
   /**
    * Create a successful result

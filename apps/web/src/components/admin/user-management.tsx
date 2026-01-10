@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
-import { User, Shield, Mail, Calendar } from 'lucide-react'
+import { User as UserIcon, Shield, Mail, Calendar } from 'lucide-react'
 
 interface User {
   id: string
@@ -148,7 +148,7 @@ export function UserManagement({ className }: UserManagementProps) {
     <Card className={className}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <User className="h-5 w-5" />
+          <UserIcon className="h-5 w-5" />
           User Management
         </CardTitle>
         <CardDescription>Manage system users and their roles</CardDescription>

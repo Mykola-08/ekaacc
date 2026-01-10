@@ -9,6 +9,9 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "EKA Balance - Legal Center",
   description: "Legal documents, policies, and compliance information for EKA Balance",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

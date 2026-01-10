@@ -10,6 +10,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Integrative Massage Booking - Elena V.",
   description: "Restoring balance through structural integration",
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({

@@ -2,17 +2,32 @@
 -- Ensure high-cardinality partitioning is handled by Supabase automatically across storage shards.
 
 -- Services table (Master catalog of bookable items)
+-- Updated 2026-01-10: Moved pricing/duration to service_variant
 create table if not exists service (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz default now(),
   name text not null,
   description text,
-  price integer not null check (price >= 0), -- stored in main currency units or cents? App seems to use dollars in UI but cents in logic. Let's assume standard units or consistent usage.
-  duration integer not null check (duration > 0), -- minutes
+  stripe_product_id text,
   image_url text,
   location text, -- e.g. 'Downtown', 'Uptown'
-  version text, -- e.g. 'Standard', 'Premium'
-  active boolean default true
+  active boolean default true,
+  last_updated_by_system text
+);
+
+create table if not exists service_variant (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  service_id uuid not null references service(id) on delete cascade,
+  name text not null, -- e.g. "60 Minutes", "Intro Session"
+  description text,
+  duration_min integer not null check (duration_min > 0),
+  price_amount integer not null check (price_amount >= 0), -- Stored in Cents
+  currency text default 'USD',
+  stripe_price_id text,
+  active boolean default true,
+  last_updated_by_system text
 );
 
 -- Staff table (basic)
@@ -43,11 +58,13 @@ create type if not exists booking_status as enum ('scheduled','completed','cance
 create type if not exists payment_status as enum ('pending','authorized','captured','refunded','canceled');
 
 -- Bookings table
+-- Updated 2026-01-10: Added Unified Booking Columns
 create table if not exists booking (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz default now(),
   updated_at timestamptz default now(),
   service_id uuid not null references service(id) on delete restrict,
+  service_variant_id uuid references service_variant(id), -- Specific variant (price/time)
   staff_id uuid references staff(id) on delete set null,
   start_time timestamptz not null,
   end_time timestamptz not null,
@@ -58,6 +75,12 @@ create table if not exists booking (
   email text not null,
   phone text,
   display_name text,
+  -- Unified Booking Fields
+  origin_app text default 'web',
+  is_identity_verified boolean default false,
+  confidence_score integer default 50,
+  deposit_requirement text default 'full', -- 'none', 'partial', 'full'
+  
   addons_json jsonb default '[]'::jsonb, -- array of {addonId,name,price_cents}
   payment_mode text not null check (payment_mode in ('full','deposit')),
   deposit_cents integer default 0,

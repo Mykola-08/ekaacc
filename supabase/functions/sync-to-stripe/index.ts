@@ -123,16 +123,14 @@ serve(async (req) => {
     }
 
     // ----------------------------------------------------------------------
-    // SERVICES -> STRIPE PRODUCTS & PRICES
+    // SERVICES (Product Only) -> STRIPE PRODUCTS
     // ----------------------------------------------------------------------
     if (table === 'service') {
       if (type === 'INSERT' || type === 'UPDATE') {
-        const { id, name, description, price, stripe_product_id, stripe_price_id, active } = record
+        const { id, name, description, stripe_product_id, active } = record
         
         let productId = stripe_product_id
-        let priceId = stripe_price_id
 
-        // 1. Sync Product
         if (productId) {
           await stripe.products.update(productId, {
             name,
@@ -149,39 +147,52 @@ serve(async (req) => {
           })
           productId = product.id
           
-          // Update local record with Stripe ID (without triggering loop)
           await supabase.from('service').update({ 
             stripe_product_id: productId,
-            last_updated_by_system: 'stripe' // Prevent loop
+            last_updated_by_system: 'stripe' 
           }).eq('id', id)
         }
+      }
+    }
 
-        // 2. Sync Price (if changed)
-        // Note: Stripe prices are immutable. We create a new one if it changes.
-        // For simplicity, we'll check if the price amount matches the current stripe price.
-        // But here we'll just create a new price if it's an update or insert and we want to ensure it exists.
+    // ----------------------------------------------------------------------
+    // SERVICE VARIANTS (Prices) -> STRIPE PRICES
+    // ----------------------------------------------------------------------
+    if (table === 'service_variant') {
+      if (type === 'INSERT' || type === 'UPDATE') {
+        const { id, service_id, name, price_amount, stripe_price_id, active } = record
         
-        // If we have a priceId, we should check if it matches. 
-        // But fetching is expensive. A simple strategy:
-        // If it's a new service or price changed, create a new price.
-        // Detecting "price changed" requires comparing with old_record.
+        // 1. Get Parent Service Product ID
+        const { data: parentService } = await supabase
+          .from('service')
+          .select('stripe_product_id')
+          .eq('id', service_id)
+          .single()
+
+        if (!parentService?.stripe_product_id) {
+          console.error(`Cannot sync variant ${id}: Parent service has no Stripe Product ID`)
+          return new Response('Missing Parent Product ID', { status: 400 })
+        }
+
+        const productId = parentService.stripe_product_id
         
-        const priceChanged = type === 'INSERT' || (old_record && old_record.price !== price)
+        // 2. Sync Price (If changed)
+        const priceChanged = type === 'INSERT' || (old_record && old_record.price_amount !== price_amount)
         
-        if (priceChanged && price !== null) {
+        if (priceChanged && price_amount !== null) {
+          // Stripe prices are immutable. Create new.
           const newPrice = await stripe.prices.create({
             product: productId,
-            unit_amount: price, // Already in cents
-            currency: 'usd', // Default to USD, or fetch from config
+            unit_amount: price_amount, 
+            currency: 'usd',
+            nickname: name, // Variant Name
+            metadata: { supabase_variant_id: id }
           })
           
-          // Update local record
-          await supabase.from('service').update({ 
+          await supabase.from('service_variant').update({ 
             stripe_price_id: newPrice.id,
             last_updated_by_system: 'stripe'
           }).eq('id', id)
-          
-          // If there was an old price, we might want to archive it, but that's optional.
         }
       }
     }

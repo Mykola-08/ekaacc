@@ -25,7 +25,7 @@ export class StripeService {
       return;
     }
     this.stripe = new Stripe(key.trim(), {
-      apiVersion: '2025-10-29.clover', // Use latest available version
+      apiVersion: '2025-02-24.acacia', // Use latest available version
     });
   }
 

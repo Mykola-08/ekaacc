@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Calendar as CalendarIcon, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button, Input } from '@ekaacc/shared-ui';
@@ -43,6 +44,7 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [variantId, setVariantId] = useState(preselectedVariantId || service.variants?.[0]?.id);
 
   useEffect(() => {

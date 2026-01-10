@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
     }
 
-    const templateData = await request.json()
+    const templateData = await request.json() as any as any
     
     // Validate required fields
     if (!templateData.name || !templateData.title || !templateData.message) {

@@ -46,7 +46,7 @@ import fxService from '@/lib/platform/fx-service';
 import { format } from "date-fns";
 
 // Dynamic imports for heavy components
-// @ts-ignore - test-tools module not yet implemented
+// @ts-expect-error - test-tools module not yet implemented
 const TestTools = dynamic(() => import("@/components/platform/eka/test-tools").then((mod) => mod.TestTools));
 const ClientBilling = dynamic(() => import("@/components/platform/eka/client-billing").then((mod) => mod.ClientBilling));
 const AdminPanel = dynamic(() => import('@/components/platform/eka/admin-panel').then((m) => m.AdminPanel));

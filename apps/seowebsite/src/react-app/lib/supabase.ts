@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '../..//platform/supabase';
+import { Database } from '../types/supabase';
 
 import { SupabaseClient } from '@supabase/supabase-js';
 

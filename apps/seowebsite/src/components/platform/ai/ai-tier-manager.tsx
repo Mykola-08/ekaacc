@@ -158,8 +158,8 @@ export function AITierManager({
       
       // Calculate recommendations based on usage patterns
       let recommendation: 'upgrade' | 'downgrade' | 'maintain' = 'maintain';
-      let estimatedSavings = 0;
-      let estimatedCostIncrease = 0;
+      const estimatedSavings = 0;
+      const estimatedCostIncrease = 0;
       
       if (tier === current) {
         // Current tier analysis

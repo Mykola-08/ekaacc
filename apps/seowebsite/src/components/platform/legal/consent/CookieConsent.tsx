@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useConsent, ConsentPreferences } from '../../..//platform/useConsent';
+import { useConsent, ConsentPreferences } from '@/hooks/platform/legal/useConsent';
 import { X, Shield, Cookie, Info } from 'lucide-react';
 import Link from 'next/link';
 

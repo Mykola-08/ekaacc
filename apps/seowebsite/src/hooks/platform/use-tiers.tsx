@@ -102,11 +102,11 @@ export function useTiers(): UseTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to fetch tier data');
       }
 
-      const data = await response.json();
+      const data = await response.json() as any;
       setTierData(data.data);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch tier data';
@@ -148,11 +148,11 @@ export function useTiers(): UseTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to validate tier upgrade');
       }
 
-      const data = await response.json();
+      const data = await response.json() as any;
       return data.data;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to validate tier upgrade';
@@ -281,7 +281,7 @@ export function useAdminTiers(): UseAdminTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to assign tier');
       }
 
@@ -333,7 +333,7 @@ export function useAdminTiers(): UseAdminTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to revoke tier');
       }
 
@@ -381,11 +381,11 @@ export function useAdminTiers(): UseAdminTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to validate tier eligibility');
       }
 
-      const data = await response.json();
+      const data = await response.json() as any;
       return data.data;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to validate tier eligibility';
@@ -415,11 +415,11 @@ export function useAdminTiers(): UseAdminTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to fetch audit logs');
       }
 
-      const data = await response.json();
+      const data = await response.json() as any;
       setAuditLogs(data.data.logs);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch audit logs';
@@ -450,11 +450,11 @@ export function useAdminTiers(): UseAdminTiersReturn {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json() as any;
         throw new Error(errorData.error || 'Failed to fetch analytics');
       }
 
-      const data = await response.json();
+      const data = await response.json() as any;
       setAnalytics(data.data);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch analytics';

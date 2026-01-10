@@ -5,6 +5,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
 import nextPlugin from "@next/eslint-plugin-next";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,6 +25,7 @@ const eslintConfig = [
     ],
   },
   js.configs.recommended,
+  ...compat.extends("plugin:@typescript-eslint/recommended"),
   {
     plugins: {
       "@next/next": nextPlugin,
@@ -38,11 +40,15 @@ const eslintConfig = [
   },
   {
     files: ["**/*.ts", "**/*.tsx"],
+    plugins: {
+      "@typescript-eslint": tsPlugin
+    },
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 2020,
       sourceType: "module",
       parserOptions: {
+        project: "./tsconfig.json",
         ecmaFeatures: {
           jsx: true
         }
@@ -51,7 +57,12 @@ const eslintConfig = [
     rules: {
       "no-undef": "off", // TypeScript handles this
       "no-unused-vars": "off", // TypeScript handles this
-      "no-console": "off" // Turned off - use logger utility for production code
+      "no-console": "off", // Turned off - use logger utility for production code
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-unnecessary-condition": "warn",
+      "@typescript-eslint/no-unsafe-assignment": "warn",
+      "@typescript-eslint/no-unsafe-member-access": "warn",
+      "@typescript-eslint/no-unsafe-call": "warn"
     }
   },
   // More lenient rules for scripts and tests

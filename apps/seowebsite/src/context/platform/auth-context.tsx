@@ -22,6 +22,7 @@ import type { PermissionGroup, PermissionAction } from '@/lib/platform/role-perm
 const supabase = createClient()
 
 interface AuthContextType extends AuthState {
+  user: AuthUser | null
   // Authentication methods
   signIn: (credentials: LoginCredentials) => Promise<{ error: AuthError | null }>
   signUp: (credentials: SignUpCredentials) => Promise<{ error: AuthError | null }>
@@ -446,7 +447,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify({ targetUserId, reason }),
       })
 
-      const data = await response.json()
+      const data = await response.json() as any
 
       if (!response.ok) {
         return { error: { message: data.error || 'Failed to start impersonation' } }
@@ -473,17 +474,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     try {
-      const params = new URLSearchParams({
-        targetUserId: state.impersonationData.targetUserId,
-        reason: reason || 'User ended impersonation'
-      })
+      const params = new URLSearchParams()
+      if (state.impersonationData?.targetUserId) {
+        params.append('targetUserId', state.impersonationData.targetUserId)
+      }
+      params.append('reason', reason || 'User ended impersonation')
 
       const response = await fetch(`/api/admin/impersonate?${params}`, {
         method: 'DELETE',
       })
 
       if (!response.ok) {
-        const data = await response.json()
+        const data = await response.json() as any
         return { error: { message: data.error || 'Failed to end impersonation' } }
       }
 

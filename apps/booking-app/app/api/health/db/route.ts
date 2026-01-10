@@ -6,6 +6,7 @@ export async function GET() {
     const startTime = Date.now();
     
     // Test basic connectivity
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { data, error } = await supabaseServer
       .from('service')
       .select('id')

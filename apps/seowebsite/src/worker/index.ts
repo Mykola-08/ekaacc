@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { zValidator } from '@hono/zod-validator';
@@ -512,7 +512,7 @@ app.get('/api/availability', async (c) => {
         }
 
         // High demand slots (evening hours or high occupancy)
-        const hour = parseInt(time.split(':')[0]);
+        const hour = parseInt(time.split(':')[0] || '0');
         const isEveningSlot = hour >= 18;
         const isPopularSlot = occupancyRate > 0.6 && (isEveningSlot || Math.random() > 0.7);
 

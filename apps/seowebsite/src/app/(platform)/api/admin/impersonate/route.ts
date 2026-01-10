@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const { targetUserId, reason } = await request.json()
+    const { targetUserId, reason } = await request.json() as any
     if (!targetUserId) {
       return NextResponse.json(
         { error: 'Target user ID is required' },

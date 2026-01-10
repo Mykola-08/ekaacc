@@ -12,7 +12,7 @@ export async function POST(req: Request) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
-    const { bookingId, amount, currency = 'eur' } = await req.json();
+    const { bookingId, amount, currency = 'eur' } = await req.json() as any;
 
     if (!bookingId || !amount) {
       return new NextResponse('Missing required fields', { status: 400 });

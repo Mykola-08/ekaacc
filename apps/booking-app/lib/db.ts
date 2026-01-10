@@ -3,8 +3,9 @@ import { Pool } from 'pg';
 // Ensure env vars are loaded in scripts/dev
 if (!process.env.POSTGRES_URL) {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('dotenv').config({ path: '.env.local' });
-  } catch (e) {
+  } catch (_e) { // eslint-disable-line @typescript-eslint/no-unused-vars
     // ignore
   }
 }

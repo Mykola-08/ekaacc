@@ -188,7 +188,11 @@ export function NotificationCenter() {
       prev.map((n) => (n.id === id ? { ...n, read: true } : n))
     );
     // persist seen state where available
-    try { fxService.markSeen && fxService.markSeen(id).catch(() => {}); } catch (e) { /* ignore */ }
+    try { 
+      if (fxService.markSeen) {
+        fxService.markSeen(id).catch(() => {}); 
+      }
+    } catch (e) { /* ignore */ }
   };
 
   const markAllAsRead = () => {

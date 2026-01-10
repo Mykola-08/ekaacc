@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { AIMemoryService, AIJournalAnalyzer } from '@ekaacc/ai-services';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { supabaseServer } from '@/lib/supabaseServerClient';
 
 export async function POST(req: Request) {

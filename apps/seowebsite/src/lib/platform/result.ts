@@ -30,7 +30,7 @@ export type Result<T, E = Error> =
 /**
  * Result utility class with helper methods
  */
-// eslint-disable-next-line no-redeclare
+ 
 export const Result = {
   /**
    * Create a successful result
@@ -179,7 +179,7 @@ export type Option<T> =
   | { some: true; value: T }
   | { some: false; value?: never };
 
-// eslint-disable-next-line no-redeclare
+ 
 export const Option = {
   /**
    * Create an Option with a value

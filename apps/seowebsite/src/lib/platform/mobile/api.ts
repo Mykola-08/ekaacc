@@ -6,7 +6,7 @@ const API_BASE = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/make-server-1ccf6811` 
   : `https://${projectId}.supabase.co/functions/v1/make-server-1ccf6811`;
 
-async function fetchAPI(endpoint: string, options: RequestInit = {}) {
+async function fetchAPI<T = any>(endpoint: string, options: RequestInit = {}): Promise<T> {
   try {
     // Get access token if user is authenticated
     const accessToken = getAccessToken();
@@ -22,12 +22,12 @@ async function fetchAPI(endpoint: string, options: RequestInit = {}) {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ error: 'Request failed' }));
+      const error = await response.json().catch(() => ({ error: 'Request failed' })) as any;
       console.error('API Error:', error);
       throw new Error(error.error || 'Request failed');
     }
 
-    return response.json();
+    return response.json() as Promise<T>;
   } catch (error) {
     console.error('Fetch API Error:', endpoint, error);
     throw error;

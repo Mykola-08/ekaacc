@@ -75,11 +75,11 @@ export function useUserPreferences() {
 
   return {
     preferences: auth.user?.preferences,
-    theme: auth.user?.preferences.theme || 'system',
-    language: auth.user?.preferences.language || 'en',
-    timezone: auth.user?.preferences.timezone || 'UTC',
-    emailNotifications: auth.user?.preferences.email_notifications ?? true,
-    pushNotifications: auth.user?.preferences.push_notifications ?? true,
+    theme: auth.user?.preferences?.theme || 'system',
+    language: auth.user?.preferences?.language || 'en',
+    timezone: auth.user?.preferences?.timezone || 'UTC',
+    emailNotifications: auth.user?.preferences?.email_notifications ?? true,
+    pushNotifications: auth.user?.preferences?.push_notifications ?? true,
     updatePreferences: auth.updatePreferences,
   }
 }

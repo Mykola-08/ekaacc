@@ -5,7 +5,7 @@ async function checkConnection() {
   
   try {
     // Test basic connectivity
-    const { data, error } = await supabaseServer
+    const { error } = await supabaseServer
       .from('service')
       .select('id')
       .limit(1);

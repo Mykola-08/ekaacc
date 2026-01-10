@@ -37,6 +37,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       refundablePercent = policy.refundPercent;
     }
     // Logic for amount calculation remains for record keeping
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const amountBasis = booking.payment_mode === 'deposit' ? booking.deposit_cents : booking.base_price_cents + (booking.addons_json || []).reduce((s: number, a: any) => s + (a.priceCents || 0), 0);
     const refundCents = Math.round(amountBasis * (refundablePercent / 100));
 

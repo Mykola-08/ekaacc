@@ -18,9 +18,10 @@ import { useToast } from '@/hooks/platform/use-toast';
 import { useAuth } from '@/lib/platform/supabase-auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { PersonalizationEngine } from '@/lib/platform/personalization-engine';
+import { useRouter } from 'next/navigation';
 
 export default function FormsPage() {
-  const router = require('next/navigation').useRouter?.() || (function(){return { push: (p:string)=>{ window.location.href = p } }})();
+  const router = useRouter();
   // Redirect to account since forms are contextual now
   if (typeof window !== 'undefined') {
     setTimeout(()=> router.push('/account'), 50);

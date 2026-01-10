@@ -1,0 +1,3 @@
+#!/bin/sh
+(cd apps/seowebsite && npx lint-staged)
+(cd apps/booking-app && npx lint-staged)

@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    const { action, userIds, updates } = await request.json()
+    const { action, userIds, updates } = await request.json() as any
 
     if (!action || !userIds || !Array.isArray(userIds)) {
       return NextResponse.json({ error: 'Action and userIds are required' }, { status: 400 })

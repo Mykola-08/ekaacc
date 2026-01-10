@@ -13,7 +13,7 @@ const authMiddleware = async (c: Context, next: Next) => {
   if (!auth) {
     return c.json({ error: 'Unauthorized' }, 401);
   }
-  await next();
+  return next();
 };
 
 // CORS middleware

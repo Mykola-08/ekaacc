@@ -37,7 +37,7 @@ export async function signUp(email: string, password: string, name?: string, pho
       body: JSON.stringify({ email, password, name, phone })
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
 
     if (!response.ok) {
       return { error: data.error || data.details || 'Failed to create account' };
@@ -65,7 +65,7 @@ export async function signIn(email: string, password: string): Promise<{ user?: 
       body: JSON.stringify({ email, password })
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
 
     if (!response.ok) {
       return { error: data.error || data.details || 'Invalid email or password' };
@@ -173,7 +173,7 @@ export async function refreshSession(refreshToken: string): Promise<boolean> {
       body: JSON.stringify({ refresh_token: refreshToken })
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
 
     if (!response.ok) {
       // Refresh failed, clear session
@@ -226,7 +226,7 @@ export async function verifySession(): Promise<User | null> {
       }
     });
 
-    const data = await response.json();
+    const data = await response.json() as any;
 
     if (!response.ok) {
       // Session invalid, clear storage

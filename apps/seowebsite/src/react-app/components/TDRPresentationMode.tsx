@@ -70,7 +70,7 @@ export const TDRPresentationMode = () => {
     // In Next.js App Router, searchParams can be null during SSG/SSR but since we are client component it should be fine.
     // However, explicit useSearchParams() is safer.
     if (searchParams && searchParams.get('tdr') === 'true' && !isActive) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+       
       setIsActive(true);
     }
 

@@ -2,11 +2,23 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [
-      'images.unsplash.com', 
-      'images.pexels.com', 
-      'mocha-cdn.com', 
-      '5tghbndjb61dnqaj.public.blob.vercel-storage.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.pexels.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'mocha-cdn.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '5tghbndjb61dnqaj.public.blob.vercel-storage.com',
+      },
     ],
   },
   // output: 'export', // Uncomment for static export if needed, but not for API routes

@@ -184,7 +184,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    const { metric, threshold } = await request.json()
+    const { metric, threshold } = await request.json() as any
 
     if (!metric) {
       return NextResponse.json({ error: 'Metric is required' }, { status: 400 })

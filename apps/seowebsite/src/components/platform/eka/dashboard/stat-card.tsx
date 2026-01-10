@@ -1,5 +1,5 @@
 'use client';
-1
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { InView, AnimatedNumber } from '@/components/platform/motion-primitives';
 import { TrendingUp } from 'lucide-react';

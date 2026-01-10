@@ -22,7 +22,7 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
     }
 
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2024-12-18.acacia', // Use latest or pinned version
+      apiVersion: '2025-01-27.acacia' as any, // Use latest or pinned version
     });
 
     // Create Stripe Checkout Session

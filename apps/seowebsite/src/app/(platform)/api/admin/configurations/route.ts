@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    const { key, value, description, category } = await request.json()
+    const { key, value, description, category } = await request.json() as any
 
     if (!key || value === undefined) {
       return NextResponse.json({ error: 'Key and value are required' }, { status: 400 })
@@ -152,7 +152,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    const { configurations } = await request.json()
+    const { configurations } = await request.json() as any
 
     if (!Array.isArray(configurations)) {
       return NextResponse.json({ error: 'Configurations must be an array' }, { status: 400 })

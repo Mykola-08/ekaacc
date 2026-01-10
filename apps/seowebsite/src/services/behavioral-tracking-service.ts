@@ -17,4 +17,8 @@ export class BehavioralTrackingService {
     async trackInteraction(interaction: UserInteraction): Promise<void> {
         // Stub
     }
+
+    async getUserBehavioralInsights(userId: string): Promise<{ patterns: any[], insights: any[], recentInteractions: any[] }> {
+        return { patterns: [], insights: [], recentInteractions: [] };
+    }
 }

@@ -39,11 +39,11 @@ export function useStripeCheckout(): UseStripeCheckoutResult {
       });
 
       if (!response.ok) {
-        const data = await response.json();
+        const data = await response.json() as any;
         throw new Error(data.error || 'Failed to create checkout session');
       }
 
-      const { url } = await response.json();
+      const { url } = await response.json() as any;
 
       if (url) {
         // Redirect to Stripe Checkout
@@ -74,11 +74,11 @@ export function useStripeCheckout(): UseStripeCheckoutResult {
       });
 
       if (!response.ok) {
-        const data = await response.json();
+        const data = await response.json() as any;
         throw new Error(data.error || 'Failed to open customer portal');
       }
 
-      const { url } = await response.json();
+      const { url } = await response.json() as any;
 
       if (url) {
         // Redirect to Stripe Customer Portal

@@ -43,25 +43,25 @@ export function useGoalMilestones(userId?: string) {
             id: 1,
             title: 'Complete initial assessment',
             completed: completedSessions.length >= 1,
-            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] ?? '',
           },
           {
             id: 2,
             title: `Attend ${Math.min(5, totalSessionsNeeded)} therapy sessions`,
             completed: completedSessions.length >= 5,
-            dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] ?? '',
           },
           {
             id: 3,
             title: 'Practice mindfulness daily',
             completed: completedSessions.length >= 7,
-            dueDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            dueDate: new Date(Date.now() + 45 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] ?? '',
           },
           {
             id: 4,
             title: `Complete ${totalSessionsNeeded} sessions`,
             completed: completedSessions.length >= totalSessionsNeeded,
-            dueDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            dueDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0] ?? '',
           },
         ];
 

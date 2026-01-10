@@ -69,7 +69,7 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
       return {
         ...row,
         date: new Date(row.start_time).toISOString().split('T')[0],
-        time: new Date(row.start_time).toISOString().split('T')[1].substring(0, 5),
+        time: (new Date(row.start_time).toISOString().split('T')[1] || '').substring(0, 5),
         start_time: row.start_time,
         end_time: row.end_time
       };
@@ -164,11 +164,13 @@ export async function getBookingStats() {
     
     const stats = {
       total: rows.length,
-      byStatus: rows.reduce((acc: any, b: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      byStatus: rows.reduce((acc: Record<string, number>, b: any) => {
         acc[b.status] = (acc[b.status] || 0) + 1;
         return acc;
       }, {}),
-      byPaymentStatus: rows.reduce((acc: any, b: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      byPaymentStatus: rows.reduce((acc: Record<string, number>, b: any) => {
         acc[b.payment_status] = (acc[b.payment_status] || 0) + 1;
         return acc;
       }, {})
@@ -277,8 +279,10 @@ export async function createBooking(params: {
        if (vRows.length === 0) {
          return { error: 'Service variant not found', status: 404 };
        }
-       finalDuration = vRows[0].duration_min;
-       finalPriceCents = vRows[0].price_amount;
+       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       const variant = vRows[0] as any;
+       finalDuration = variant.duration_min;
+       finalPriceCents = variant.price_amount;
     } else {
        // Attempt to find a default variant (lowest price)
        const { rows: defaultV } = await db.query(
@@ -286,9 +290,11 @@ export async function createBooking(params: {
          [serviceId]
        );
        if (defaultV.length > 0) {
-          finalVariantId = defaultV[0].id; 
-          finalDuration = defaultV[0].duration_min;
-          finalPriceCents = defaultV[0].price_amount;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const def = defaultV[0] as any;
+          finalVariantId = def.id; 
+          finalDuration = def.duration_min;
+          finalPriceCents = def.price_amount;
        } else {
           return { error: 'Service has no bookable variants', status: 400 };
        }
@@ -383,7 +389,7 @@ export async function createBooking(params: {
         bookingId: id,
         manageToken,
         totalCents,
-        basePriceCents,
+        basePriceCents: finalPriceCents,
         addonsTotalCents: addonsTotal,
         depositCents: paymentMode === 'deposit' ? depositCents : undefined,
         reservationExpiresAt: reservationExpiresAt.toISOString(),

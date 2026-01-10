@@ -324,7 +324,7 @@ export class AIMoodPredictor {
     }
 
     return {
-      date: date.toISOString().split('T')[0],
+      date: date.toISOString().split('T')[0] || '',
       predictedMood: Math.round(prediction * 10) / 10,
       confidence,
       factors,

@@ -182,7 +182,9 @@ export class AIConversationService {
       const indexToRemove = context.messages.findIndex(m => m.role !== 'system');
       if (indexToRemove !== -1) {
         const removed = context.messages.splice(indexToRemove, 1)[0];
-        totalLength -= removed.content.length;
+        if (removed) {
+          totalLength -= removed.content.length;
+        }
       } else {
         break;
       }
@@ -249,9 +251,9 @@ export class AIConversationService {
     // For now, return a structured template response
 
     const recentMessage = context.messages[context.messages.length - 1];
-    const sentiment = recentMessage.metadata?.sentiment || 'neutral';
-    const topics = recentMessage.metadata?.topics || [];
-    const intent = recentMessage.metadata?.intent || 'general-conversation';
+    const sentiment = recentMessage?.metadata?.sentiment || 'neutral';
+    const topics = recentMessage?.metadata?.topics || [];
+    const intent = recentMessage?.metadata?.intent || 'general-conversation';
 
     let response = '';
     const suggestions: string[] = [];
@@ -365,7 +367,7 @@ export class AIConversationService {
 
     const firstMessage = context.messages[0];
     const lastMessage = context.messages[context.messages.length - 1];
-    const duration = lastMessage ? lastMessage.timestamp - firstMessage.timestamp : 0;
+    const duration = (lastMessage && firstMessage) ? lastMessage.timestamp - firstMessage.timestamp : 0;
 
     return {
       messageCount: context.messages.length,

@@ -48,7 +48,6 @@ export function ServiceMatcher({ onMatch }: ServiceMatcherProps) {
     <div className="w-full max-w-2xl mx-auto mb-12">
       <div className="text-center mb-6">
         <h3 className="text-lg font-medium text-foreground mb-2 flex items-center justify-center gap-2">
-          {/* @ts-ignore */}
           <Sparkles className="w-5 h-5 text-primary" />
           Not sure what you need?
         </h3>
@@ -72,10 +71,8 @@ export function ServiceMatcher({ onMatch }: ServiceMatcherProps) {
           size="sm"
         >
           {loading ? (
-            // @ts-ignore
             <Loader2 className="w-4 h-4 animate-spin" />
           ) : (
-            // @ts-ignore
             <ArrowRight className="w-4 h-4" />
           )}
         </Button>

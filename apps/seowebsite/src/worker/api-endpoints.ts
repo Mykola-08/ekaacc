@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+ 
 // Additional API endpoints for enhanced dashboard functionality
 import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
@@ -556,8 +556,8 @@ export function addDashboardEndpoints(app: Hono<{ Bindings: Bindings; Variables:
       const finalPrice = final_price_cents || service.price_cents;
       
       // Calculate end time
-      const startHour = parseInt(start_time.split(':')[0]);
-      const startMinute = parseInt(start_time.split(':')[1]);
+      const startHour = parseInt(start_time.split(':')[0] || '0');
+      const startMinute = parseInt(start_time.split(':')[1] || '0');
       const endHour = Math.floor((startHour * 60 + startMinute + duration_minutes) / 60);
       const endMinute = (startHour * 60 + startMinute + duration_minutes) % 60;
       const end_time = `${endHour.toString().padStart(2, '0')}:${endMinute.toString().padStart(2, '0')}`;

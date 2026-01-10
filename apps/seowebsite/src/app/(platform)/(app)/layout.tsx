@@ -1,1 +1,1 @@
-export { default } from './minimal-layout';
+export { default } from '../minimal-layout';

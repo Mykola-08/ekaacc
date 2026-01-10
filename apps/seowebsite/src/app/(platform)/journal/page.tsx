@@ -47,7 +47,7 @@ function calculateStreak(entries: JournalEntry[]): number {
 	const sortedEntries = entries.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 	
 	let streak = 0;
-	let currentDate = new Date(today);
+	const currentDate = new Date(today);
 	
 	for (const entry of sortedEntries) {
 		const entryDate = new Date(entry.date);

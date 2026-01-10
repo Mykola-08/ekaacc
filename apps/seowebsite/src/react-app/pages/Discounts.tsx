@@ -3,6 +3,7 @@ import { useDiscount } from '@/react-app/contexts/DiscountContext';
 import SEOHead from '@/react-app/components/SEOHead';
 import { Tag, Users, Percent, Gift, Check, X } from 'lucide-react';
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Discounts() {
   const { t } = useLanguage();
@@ -235,18 +236,18 @@ export default function Discounts() {
                 {t('discounts.cta.subtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
+                <Link
                   href="/booking"
                   className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-2xl hover:bg-gray-50 transition-colors duration-200"
                 >
                   {t('discounts.cta.bookNow')}
-                </a>
-                <a
+                </Link>
+                <Link
                   href="/contact"
                   className="inline-flex items-center justify-center px-8 py-4 bg-blue-700 text-white font-semibold rounded-2xl hover:bg-blue-800 transition-colors duration-200"
                 >
                   {t('discounts.cta.contact')}
-                </a>
+                </Link>
               </div>
             </div>
           </div>

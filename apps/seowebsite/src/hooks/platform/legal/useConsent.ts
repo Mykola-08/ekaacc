@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createClient } from "@/lib/platform/legal/supabase';
+import { createClient } from "@/lib/platform/legal/supabase";
 
 export type ConsentPreferences = {
   essential: boolean;

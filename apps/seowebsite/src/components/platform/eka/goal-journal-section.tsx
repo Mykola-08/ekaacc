@@ -1,11 +1,8 @@
+"use client";
+
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Textarea } from '@/components/platform/ui/textarea';
-"use client";
-
-;
-;
-;
 
 export function GoalJournalSection({ userId, toast }: { userId?: string, toast: any }) {
     return (

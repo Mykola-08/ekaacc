@@ -59,9 +59,9 @@ export function UserProfile({ className }: UserProfileProps) {
   const profileForm = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      fullName: user?.profile.full_name || '',
-      username: user?.profile.username || '',
-      bio: user?.profile.bio || '',
+      fullName: user?.profile?.full_name || '',
+      username: user?.profile?.username || '',
+      bio: user?.profile?.bio || '',
     },
   })
 
@@ -150,15 +150,15 @@ export function UserProfile({ className }: UserProfileProps) {
           <TabsContent value="profile" className="space-y-4">
             <div className="flex items-center gap-4 mb-6">
               <Avatar className="h-16 w-16">
-                <AvatarImage src={user.profile.avatar_url || undefined} />
+                <AvatarImage src={user.profile?.avatar_url || undefined} />
                 <AvatarFallback>
-                  {user.profile.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
+                  {user.profile?.full_name?.charAt(0) || user.email.charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-lg font-semibold">{user.profile.full_name || 'Unknown User'}</h3>
+                <h3 className="text-lg font-semibold">{user.profile?.full_name || 'Unknown User'}</h3>
                 <p className="text-sm text-muted-foreground">{user.email}</p>
-                <Badge variant="outline" className="mt-1">{user.role.name}</Badge>
+                <Badge variant="outline" className="mt-1">{user.role?.name}</Badge>
               </div>
             </div>
 

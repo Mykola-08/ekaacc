@@ -24,6 +24,7 @@ export interface Service {
   
   stripe_product_id?: string | null;
   stripe_price_id?: string | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   metadata?: Record<string, any> | null;
   variants?: ServiceVariant[];
   images?: string[] | null;

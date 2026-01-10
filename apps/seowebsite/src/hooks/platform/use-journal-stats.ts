@@ -20,7 +20,7 @@ export function useJournalStats() {
 
   useEffect(() => {
     if (dataService && user?.id) {
-      dataService.getJournalEntries(user.id).then(entries => {
+      dataService.getJournalEntries(user.id).then((entries: any[]) => {
         setJournalEntries(entries || []);
       });
     }
@@ -97,14 +97,14 @@ export function useJournalStats() {
 
           let streak = 0;
           if (uniqueDates.length > 0) {
-            let currentDate = new Date(uniqueDates[0]);
+            let currentDate = new Date(uniqueDates[0] as string);
             if (
               currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ||
               currentDate.toISOString().split('T')[0] === new Date(Date.now() - 86400000).toISOString().split('T')[0]
             ) {
               streak = 1;
               for (let i = 1; i < uniqueDates.length; i++) {
-                const prevDate = new Date(uniqueDates[i]);
+                const prevDate = new Date(uniqueDates[i] as string);
                 const diff = (currentDate.getTime() - prevDate.getTime()) / (1000 * 3600 * 24);
                 if (diff === 1) {
                   streak++;

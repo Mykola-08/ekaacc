@@ -57,7 +57,7 @@ export function UnifiedRoleGuard({
     }
     
     if (!user) return [];
-    return [user.role.name];
+    return user.role?.name ? [user.role.name] : [];
   }, [user, allowedRoles]);
 
   const hasRoleAccess = useMemo(() => {
@@ -121,7 +121,7 @@ export function UnifiedRoleGuard({
                 <br />
                 Required roles: {allowedRoles.join(', ')}
                 <br />
-                Your role: {user.role.name}
+                Your role: {user.role?.name}
               </>
             )}
             {requiredPermission && (
@@ -242,7 +242,7 @@ export function useHasRole(role: SystemRole): boolean {
         // Ignore localStorage errors
       }
     }
-    return user ? [user.role.name] : [];
+    return user?.role?.name ? [user.role.name] : [];
   }, [user]);
   
   return effectiveRoles.includes(role);
@@ -276,7 +276,7 @@ export function useIsStaff(): boolean {
         // Ignore localStorage errors
       }
     }
-    return user ? [user.role.name] : [];
+    return user?.role?.name ? [user.role.name] : [];
   }, [user]);
   
   return effectiveRoles.includes('Admin') || effectiveRoles.includes('Therapist');

@@ -769,7 +769,9 @@ export class AIPersonalizationService {
     
     interactions.forEach(interaction => {
       const date = new Date(interaction.timestamp).toISOString().split('T')[0];
-      groups[date] = (groups[date] || 0) + 1;
+      if (date) {
+        groups[date] = (groups[date] || 0) + 1;
+      }
     });
 
     return Object.entries(groups).map(([date, count]) => ({ date, count }));

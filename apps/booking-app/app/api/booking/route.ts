@@ -7,19 +7,8 @@ import { createBooking } from '@/server/booking/service';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const {
-      serviceId,
-      startTime,
-      email,
-      paymentMode,
-      displayName,
-      phone,
-      metadata, // Capture generic metadata
-      customerTags // Capture tags
-    } = body;
-    
-    // ... validation ...
 
+    // Pass detailed body for validation in service layer
     const result = await createBooking(body);
 
     if (result.error) {

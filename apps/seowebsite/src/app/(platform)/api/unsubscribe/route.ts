@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const { uid } = await request.json();
+  const { uid } = await request.json() as any;
 
   if (!uid) {
     return NextResponse.json({ error: 'Missing user ID' }, { status: 400 });

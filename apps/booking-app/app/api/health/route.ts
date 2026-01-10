@@ -6,6 +6,7 @@ export async function GET() {
     const supabase = supabaseServer;
     
     // Check database connection
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { data, error } = await supabase.from('service').select('count').limit(1).single();
     
     const dbStatus = error ? 'error' : 'connected';

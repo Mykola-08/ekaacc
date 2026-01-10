@@ -159,7 +159,7 @@ export default function SyncMonitoringDashboard() {
     if (successRate < 0.8 || failedItems > 10) overall = 'error';
     else if (successRate < 0.95 || pendingItems > 50) overall = 'warning';
 
-    const lastSync = stats.length > 0 ? stats[0].date : null;
+    const lastSync = stats.length > 0 ? stats[0]?.date : null;
 
     setSyncHealth({
       overall,

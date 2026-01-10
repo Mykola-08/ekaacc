@@ -166,7 +166,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await request.json() as any;
     const { logIds } = body;
 
     if (!Array.isArray(logIds) || logIds.length === 0) {

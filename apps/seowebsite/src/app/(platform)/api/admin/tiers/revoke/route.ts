@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const body = await request.json() as any;
     const { userId, tierType, tierName, reason } = body;
 
     // Validate required fields

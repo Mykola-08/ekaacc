@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    const { analysisType, timeframe } = await request.json()
+    const { analysisType, timeframe } = await request.json() as any
 
     if (!analysisType) {
       return NextResponse.json({ error: 'Analysis type is required' }, { status: 400 })

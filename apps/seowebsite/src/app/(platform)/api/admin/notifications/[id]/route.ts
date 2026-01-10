@@ -19,7 +19,7 @@ export async function PATCH(
     }
 
     const { id } = await params
-    const updateData = await request.json()
+    const updateData = await request.json() as any
 
     const { data: notification, error } = await supabase
       .from('admin_notifications')

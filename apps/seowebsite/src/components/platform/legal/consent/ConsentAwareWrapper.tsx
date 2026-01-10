@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useConsent } from '../../..//platform/useConsent';
+import { useConsent } from '@/hooks/platform/legal/useConsent';
 
 interface ConsentAwareWrapperProps {
   children: React.ReactNode;

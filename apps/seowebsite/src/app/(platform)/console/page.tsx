@@ -133,7 +133,7 @@ export default function AdminDashboard() {
   const canImpersonate = user && (
     hasPermission('admin.impersonate') ||
     hasPermission('admin.full_access') ||
-    user.role.name?.toLowerCase() === 'admin'
+    user.role?.name?.toLowerCase() === 'admin'
   );
 
   const handleImpersonate = async (targetUserId: string, reason: string) => {

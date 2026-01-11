@@ -72,7 +72,7 @@ export default function NutritionPage() {
 
             <div className="flex flex-wrap gap-4">
               <Button 
-                onClick={() => navigateToBooking()}
+                onClick={() => navigateToBooking('nutrition')}
                 className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] border-none rounded-2xl px-8 h-14 text-lg"
               >
                 {t('common.bookNow')}
@@ -154,7 +154,7 @@ export default function NutritionPage() {
                 </p>
                 
                 <Button
-                  onClick={() => navigateToBooking()}
+                  onClick={() => navigateToBooking('nutrition')}
                   className="w-full bg-gray-900 hover:bg-gray-800 text-white rounded-xl h-12 border-none"
                 >
                   {t('common.bookNow')}
@@ -206,7 +206,7 @@ export default function NutritionPage() {
             {t('services.contactUsToBook')}
           </p>
           <Button
-            onClick={() => navigateToBooking()}
+            onClick={() => navigateToBooking('nutrition')}
             className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] border-none px-10 h-14 rounded-2xl text-lg font-bold"
           >
             {t('common.bookNow')}

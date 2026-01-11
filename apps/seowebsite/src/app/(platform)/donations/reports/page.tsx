@@ -11,6 +11,7 @@ import { getDataService } from '@/lib/platform/services/data-service';
 import { useUserContext } from '@/context/platform/user-context';
 import type { Donation } from '@/lib/platform/types/types';
 import { format } from 'date-fns';
+import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 interface GeneratedReport {
     summary: string;
@@ -20,6 +21,7 @@ interface GeneratedReport {
 export default function DonationReportsPage() {
   const { currentUser: user, allUsers } = useUserContext();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedReport, setGeneratedReport] = useState<GeneratedReport | null>(null);
   const [donations, setDonations] = useState<Donation[]>([]);
@@ -51,28 +53,28 @@ export default function DonationReportsPage() {
     if (!user || donations.length === 0 || !allUsers) {
         toast({
             variant: "destructive",
-            title: "Not enough data",
-            description: "There are no donations to report on."
+            title: t('donations.toast.notEnoughData.title'),
+            description: t('donations.toast.notEnoughData.desc')
         });
         return;
     }
       setIsGenerating(true);
       toast({
-          title: "Generating Support Summary...",
-          description: "The AI is analyzing your donation history.",
+          title: t('donations.toast.generating.title'),
+          description: t('donations.toast.generating.desc'),
       });
       try {
           const { generateSupportSummary } = await import('@/ai/flows/generate-support-summary');
           
           const donorNames = Array.from(new Set(donations.map((d: any) => {
             const donor = allUsers?.find((u: any) => u.id === d.donorId);
-            return donor?.name || 'Anonymous';
+            return donor?.name || t('donations.anonymous');
           }))).filter((name): name is string => name !== undefined);
 
           const supportDetails = donations.map((d: any) => `€${d.amount} on ${format(new Date(d.date), 'PPP')}`).join(', ');
 
           const input = {
-              receiverName: user.name || 'the recipient',
+              receiverName: user.name || t('donations.recipient'),
               donorNames: donorNames,
               supportDetails: supportDetails,
               progressDetails: "The recipient is making steady progress towards their therapy goals.",
@@ -82,15 +84,15 @@ export default function DonationReportsPage() {
           setGeneratedReport(result);
 
           toast({
-              title: "Summary Generated!",
-              description: "Your AI-powered donation summary is ready.",
+              title: t('donations.toast.success.title'),
+              description: t('donations.toast.success.desc'),
           });
       } catch (error) {
           console.error("Failed to generate summary:", error);
           toast({
               variant: "destructive",
-              title: "Generation Failed",
-              description: "There was an error generating your summary. Please try again."
+              title: t('donations.toast.failure.title'),
+              description: t('donations.toast.failure.desc')
           })
       } finally {
           setIsGenerating(false);
@@ -106,13 +108,13 @@ export default function DonationReportsPage() {
     <div className="space-y-8">
         <Card>
             <CardHeader>
-                <CardTitle>Donation Reports</CardTitle>
-                <CardDescription>Generate AI-powered summaries of donation activity or review your history.</CardDescription>
+                <CardTitle>{t('donations.title')}</CardTitle>
+                <CardDescription>{t('donations.description')}</CardDescription>
             </CardHeader>
             <CardContent>
                 <Button onClick={handleGenerateReport} disabled={isGenerating || isLoading}>
                     {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {isGenerating ? 'Generating...' : 'Generate Support Summary'}
+                    {isGenerating ? t('donations.generating') : t('donations.generate')}
                 </Button>
             </CardContent>
         </Card>
@@ -120,7 +122,7 @@ export default function DonationReportsPage() {
         {generatedReport && (
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2"><Bot className="text-primary"/> AI-Generated Summary</CardTitle>
+                    <CardTitle className="flex items-center gap-2"><Bot className="text-primary"/> {t('donations.summaryTitle')}</CardTitle>
                     <CardDescription>{generatedReport.progress}</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -131,8 +133,8 @@ export default function DonationReportsPage() {
 
         <Card>
             <CardHeader>
-                 <CardTitle>Donation History</CardTitle>
-                <CardDescription>A complete log of all donations you've made or received.</CardDescription>
+                 <CardTitle>{t('donations.historyTitle')}</CardTitle>
+                <CardDescription>{t('donations.historyDescription')}</CardDescription>
             </CardHeader>
             <CardContent>
                  {isLoading && (
@@ -144,10 +146,10 @@ export default function DonationReportsPage() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Date</TableHead>
-                                <TableHead>From</TableHead>
-                                <TableHead>To</TableHead>
-                                <TableHead className="text-right">Amount</TableHead>
+                                <TableHead>{t('donations.table.date')}</TableHead>
+                                <TableHead>{t('donations.table.from')}</TableHead>
+                                <TableHead>{t('donations.table.to')}</TableHead>
+                                <TableHead className="text-right">{t('donations.table.amount')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -157,10 +159,10 @@ export default function DonationReportsPage() {
                                 return (
                                     <TableRow key={donation.id}>
                                         <TableCell>{format(new Date(donation.date), 'PP')}</TableCell>
-                                        <TableCell>{donor?.name ?? 'Anonymous'}</TableCell>
-                                        <TableCell>{receiver?.name ?? 'A good cause'}</TableCell>
+                                        <TableCell>{donor?.name ?? t('donations.anonymous')}</TableCell>
+                                        <TableCell>{receiver?.name ?? t('donations.goodCause')}</TableCell>
                                         <TableCell className="text-right font-medium">€{donation.amount.toFixed(2)}</TableCell>
-                                    </TableRow>
+                                    </TableRow>>
                                 )
                             })}
                         </TableBody>
@@ -169,8 +171,8 @@ export default function DonationReportsPage() {
                     !isLoading && (
                     <div className="text-center py-12">
                         <Gift className="mx-auto h-12 w-12 text-muted-foreground" />
-                        <h3 className="mt-4 text-lg font-semibold">No Donations Yet</h3>
-                        <p className="mt-1 text-sm text-muted-foreground">Your donation history will appear here.</p>
+                        <h3 className="mt-4 text-lg font-semibold">{t('donations.noDonationsTitle')}</h3>
+                        <p className="mt-1 text-sm text-muted-foreground">{t('donations.noDonationsDesc')}</p>
                     </div>
                     )
                  )}

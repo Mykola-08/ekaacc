@@ -2,21 +2,24 @@
 
 import React from 'react';
 import { useAuth } from '@/context/platform/auth-context';
+import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from '@/components/platform/ui/card';
 import { 
   Users, 
   Calendar, 
-  FileText
+  FileText,
+  CheckCircle
 } from 'lucide-react';
 
 export function TherapistDashboard() {
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   // Mock Data for UI Structure
   const stats = [
-    { label: 'Total Patients', value: '0', icon: Users, desc: 'Active patients' },
-    { label: 'Today\'s Sessions', value: '0', icon: Calendar, desc: 'Scheduled today' },
-    { label: 'Pending Reviews', value: '0', icon: FileText, desc: 'Notes to complete' },
+    { label: t('dashboard.therapist.totalPatients'), value: '0', icon: Users, desc: t('dashboard.therapist.activePatients') },
+    { label: t('dashboard.therapist.todaysSessions'), value: '0', icon: Calendar, desc: t('dashboard.therapist.scheduledToday') },
+    { label: t('dashboard.therapist.pendingReviews'), value: '0', icon: FileText, desc: t('dashboard.therapist.notesToComplete') },
   ];
 
   return (
@@ -24,7 +27,7 @@ export function TherapistDashboard() {
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Therapist Portal</h1>
+          <h1 className="text-3xl font-bold tracking-tight">{t('dashboard.therapist.title')}</h1>
           <p className="text-muted-foreground mt-1">
             Dr. {user?.user_metadata?.name || user?.email?.split('@')[0]}
           </p>
@@ -64,26 +67,26 @@ export function TherapistDashboard() {
         <div className="md:col-span-2 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Today's Schedule</CardTitle>
+              <CardTitle>{t('dashboard.therapist.todaysSchedule')}</CardTitle>
               <CardDescription>
-                You have no sessions scheduled for today.
+                {t('dashboard.therapist.noSessionsToday')}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground border-dashed border-2 rounded-lg bg-muted/10">
                 <Calendar className="h-10 w-10 mb-4 opacity-25" />
-                <p>No appointments found</p>
+                <p>{t('dashboard.therapist.noAppointments')}</p>
               </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Recent Patients</CardTitle>
-              <CardDescription>Latest client interactions</CardDescription>
+              <CardTitle>{t('dashboard.therapist.recentPatients')}</CardTitle>
+              <CardDescription>{t('dashboard.therapist.latestInteractions')}</CardDescription>
             </CardHeader>
             <CardContent>
-               <div className="text-sm text-muted-foreground">No recent patients.</div>
+               <div className="text-sm text-muted-foreground">{t('dashboard.therapist.noRecentPatients')}</div>
             </CardContent>
           </Card>
         </div>
@@ -92,14 +95,14 @@ export function TherapistDashboard() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">Pending Tasks</CardTitle>
+              <CardTitle className="text-base">{t('dashboard.therapist.pendingTasks')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex items-start gap-4 p-3 bg-muted/40 rounded-lg">
                 <CheckCircle className="h-5 w-5 text-green-500 mt-0.5" />
                 <div>
-                  <p className="text-sm font-medium">Complete Setup</p>
-                  <p className="text-xs text-muted-foreground">Finalize your provider profile.</p>
+                  <p className="text-sm font-medium">{t('dashboard.therapist.completeSetup')}</p>
+                  <p className="text-xs text-muted-foreground">{t('dashboard.therapist.finalizeProfile')}</p>
                 </div>
               </div>
                {/* Example Empty State if everything is done */}
@@ -109,12 +112,12 @@ export function TherapistDashboard() {
           
            <Card>
             <CardHeader>
-              <CardTitle className="text-base">System Status</CardTitle>
+              <CardTitle className="text-base">{t('dashboard.therapist.systemStatus')}</CardTitle>
             </CardHeader>
              <CardContent>
                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                  <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                 Platform Operational
+                 {t('dashboard.therapist.platformOperational')}
                </div>
              </CardContent>
           </Card>

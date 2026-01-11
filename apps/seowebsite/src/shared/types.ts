@@ -10,6 +10,7 @@ export type OnboardingData = z.infer<typeof OnboardingDataSchema>;
 
 export interface ServiceItem {
   id: string;
+  slug?: string; // Added for booking integration
   titleKey: string;
   subtitleKey: string;
   descriptionKey: string;

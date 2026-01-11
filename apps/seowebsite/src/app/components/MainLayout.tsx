@@ -3,7 +3,8 @@
 import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ChevronDown, Globe } from 'lucide-react';
+import { Menu, X, ChevronDown, Globe, User as UserIcon, LogOut, UserCircle } from 'lucide-react';
+import { useAuth } from '@/context/platform/auth-context';
 
 import ToastContainer from '@/react-app/components/Toast';
 import { OfflineIndicator } from '@/react-app/components/OfflineIndicator';
@@ -23,8 +24,10 @@ export default function MainLayout({
 }) {
   const pathname = usePathname();
   const { t, language, setLanguage } = useLanguage();
+  const { user, signOut } = useAuth();
   const { logPageView } = useAnalytics();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Log page views
   useEffect(() => {
@@ -233,13 +236,75 @@ export default function MainLayout({
             {/* Right side actions */}
             <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
               
-              {/* Reserva Button */}
-              <Link
-                href="/booking"
-                className="hidden sm:inline-flex bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-6 py-3 rounded-full transition-colors duration-200"
-              >
-                {t('nav.bookNow')}
-              </Link>
+              {/* User Profile / Login */}
+              {user ? (
+                <div className="relative">
+                  <button 
+                    onClick={() => setIsProfileOpen(!isProfileOpen)}
+                    className="flex items-center space-x-2 text-[#000035] hover:text-[#FFB405] transition-colors duration-200"
+                  >
+                    {user.profile?.avatar_url ? (
+                      <img 
+                        src={user.profile.avatar_url} 
+                        alt={user.profile.full_name || 'User'} 
+                        className="w-10 h-10 rounded-full border-2 border-[#FFB405] object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-[#FFB405]/20 flex items-center justify-center border-2 border-[#FFB405]">
+                         <UserCircle className="w-6 h-6 text-[#000035]" />
+                      </div>
+                    )}
+                    <span className="hidden sm:inline font-medium max-w-[100px] truncate">
+                      {user.profile?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
+                    </span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+
+                  {/* Profile Dropdown */}
+                  {isProfileOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-1 border border-gray-100 ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+                      <div className="px-4 py-3 border-b border-gray-100">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {user.profile?.full_name || 'User'}
+                        </p>
+                        <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                      </div>
+                      <Link
+                        href="/dashboard"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                        onClick={() => setIsProfileOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={() => {
+                          signOut();
+                          setIsProfileOpen(false);
+                        }}
+                        className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
+                      >
+                        <LogOut className="w-4 h-4 mr-2" />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="hidden sm:flex items-center space-x-3">
+                    <Link
+                        href="/login"
+                        className="text-[#000035] hover:text-[#FFB405] font-medium transition-colors"
+                    >
+                        Log in
+                    </Link>
+                    <Link
+                        href="/signup"
+                        className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-5 py-2.5 rounded-full transition-colors duration-200"
+                    >
+                         Sign up
+                    </Link>
+                </div>
+              )}
 
               {/* Mobile menu button */}
               <button
@@ -303,15 +368,61 @@ export default function MainLayout({
                   </div>
                 ))}
 
-                {/* Mobile Reserva */}
+                {/* Mobile Auth / Profile */}
                 <div className="pt-2 border-t border-gray-100 mt-2 space-y-2">
-                  <Link
-                    href="/booking"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-4 py-3 rounded-xl text-center transition-colors duration-200"
-                  >
-                    {t('nav.bookNow')}
-                  </Link>
+                  {user ? (
+                    <>
+                      <div className="flex items-center px-4 py-2 space-x-3">
+                        {user.profile?.avatar_url ? (
+                          <img 
+                            src={user.profile.avatar_url} 
+                            alt={user.profile.full_name || 'User'} 
+                            className="w-10 h-10 rounded-full border border-gray-200"
+                          />
+                        ) : (
+                           <UserCircle className="w-10 h-10 text-gray-400" />
+                        )}
+                        <div>
+                          <p className="font-medium text-gray-900">{user.profile?.full_name || 'User'}</p>
+                          <p className="text-xs text-gray-500 truncate max-w-[200px]">{user.email}</p>
+                        </div>
+                      </div>
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="block px-4 py-3 rounded-xl font-medium text-base text-gray-700 hover:bg-gray-50"
+                      >
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={() => {
+                          signOut();
+                          setIsMenuOpen(false);
+                        }}
+                        className="w-full text-left block px-4 py-3 rounded-xl font-medium text-base text-red-600 hover:bg-red-50 flex items-center"
+                      >
+                        <LogOut className="w-5 h-5 mr-2" />
+                        Sign Out
+                      </button>
+                    </>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-3 px-4">
+                      <Link
+                        href="/login"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex justify-center items-center py-3 rounded-xl font-medium text-base text-[#000035] bg-gray-100 hover:bg-gray-200 transition-colors"
+                      >
+                        Log in
+                      </Link>
+                      <Link
+                        href="/signup"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="flex justify-center items-center py-3 rounded-xl font-medium text-[#000035] bg-[#FFB405] hover:bg-[#e8a204] transition-colors"
+                      >
+                        Sign up
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -334,7 +445,8 @@ export default function MainLayout({
         <TDRPresentationMode />
       </Suspense>
 
-      {/* Fixed Mobile Bottom CTA */}
+      {/* Fixed Mobile Bottom CTA - Removed as per integration request */}
+      {/* 
       <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
         <Link
           href="/booking"
@@ -343,6 +455,7 @@ export default function MainLayout({
           {t('nav.bookNow')}
         </Link>
       </div>
+      */}
 
       {/* Footer */}
       <footer className="py-12 sm:py-16 bg-gray-900 text-white mb-24 md:mb-0">

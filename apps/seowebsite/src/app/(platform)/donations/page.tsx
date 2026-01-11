@@ -14,11 +14,13 @@ import { useToast } from '@/hooks/platform/ui/use-toast';
 import type { Donation, User } from '@/lib/platform/types/types';
 import { DonationSeekerApplicationForm } from '@/components/platform/eka/forms/donation-seeker-application-form';
 import type { DonationSeekerData } from '@/components/platform/eka/forms/donation-seeker-application-form';
+import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 export default function DonationsPage() {
   const { user: currentUser } = useAuth();
   const dataService = useAppStore((state: any) => state.dataService);
   const { toast } = useToast();
+  const { t } = useLanguage();
 
   const [amount, setAmount] = useState<number | ''>('');
   const [recipient, setRecipient] = useState<string>('any');
@@ -66,11 +68,11 @@ export default function DonationsPage() {
 
   const handleDonate = async () => {
     if (!currentUser || !dataService || !amount) {
-      toast({ title: 'Please select an amount', variant: 'destructive' });
+      toast({ title: t('donations.page.pleaseSelectAmount'), variant: 'destructive' });
       return;
     }
 
-    toast({ title: 'Processing your donation...' });
+    toast({ title: t('donations.page.processing') });
 
     const newDonation: Omit<Donation, 'id'> = {
       donorId: currentUser.id,
@@ -85,14 +87,14 @@ export default function DonationsPage() {
     if (savedDonation) {
       setUserDonations((prev: any) => [...prev, savedDonation]);
       toast({
-        title: 'Thank you for your donation!',
-        description: `You successfully donated €${amount}.`,
+        title: t('donations.page.thankYouTitle'),
+        description: t('donations.page.thankYouDesc').replace('{amount}', amount.toString()),
       });
       setAmount('');
     } else {
       toast({
-        title: 'Donation Failed',
-        description: 'There was a problem processing your donation. Please try again.',
+        title: t('donations.page.failedTitle'),
+        description: t('donations.page.failedDesc'),
         variant: 'destructive',
       });
     }
@@ -112,8 +114,8 @@ export default function DonationsPage() {
     } as any);
 
     toast({
-      title: 'Application submitted!',
-      description: 'Your donation seeker application has been submitted for review.',
+      title: t('donations.page.applicationSubmittedTitle'),
+      description: t('donations.page.applicationSubmittedDesc'),
     });
     setShowApplicationForm(false);
   };
@@ -160,8 +162,8 @@ export default function DonationsPage() {
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
-                    <CardTitle>Make a Donation</CardTitle>
-                    <CardDescription>Support someone's journey to wellness. Your contribution makes a real difference.</CardDescription>
+                    <CardTitle>{t('donations.page.makeDonation')}</CardTitle>
+                    <CardDescription>{t('donations.page.makeDonationDesc')}</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-6">
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -178,7 +180,7 @@ export default function DonationsPage() {
                     </div>
                     <div className="grid sm:grid-cols-2 gap-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="custom-amount">Or Custom Amount (€)</Label>
+                            <Label htmlFor="custom-amount">{t('donations.page.customAmount')}</Label>
                             <Input 
                                 id="custom-amount" 
                                 type="number" 
@@ -188,11 +190,11 @@ export default function DonationsPage() {
                             />
                         </div>
                         <div className="grid gap-2">
-                            <Label htmlFor="recipient">Recipient</Label>
+                            <Label htmlFor="recipient">{t('donations.page.recipient')}</Label>
                             <Select value={recipient} onValueChange={setRecipient}>
-                                <SelectValue placeholder="Select a recipient"  />
+                                <SelectValue placeholder={t('donations.page.recipientPlaceholder')}  />
                                 <SelectContent>
-                                    <SelectItem value="any">Anyone in need</SelectItem>
+                                    <SelectItem value="any">{t('donations.page.recipientAny')}</SelectItem>
                                     {potentialRecipients.map((user: any) => (
                                         <SelectItem key={user.id} value={user.id}>
                                             {user.name}
@@ -208,7 +210,7 @@ export default function DonationsPage() {
                         onClick={handleDonate}
                         disabled={!amount || amount <= 0}
                     >
-                        <Heart className="mr-2 h-5 w-5" /> Donate €{amount || '...'}
+                        <Heart className="mr-2 h-5 w-5" /> {t('donations.page.donateButton').replace('€', '')}€{amount || '...'}
                     </Button>
                 </CardContent>
             </Card>
@@ -216,19 +218,19 @@ export default function DonationsPage() {
         <div className="space-y-8">
             <Card>
                 <CardHeader>
-                    <CardTitle>Your Impact</CardTitle>
+                    <CardTitle>{t('donations.page.yourImpact')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Total Donated</span>
+                        <span className="text-gray-600 dark:text-gray-400">{t('donations.page.totalDonated')}</span>
                         <span className="font-bold text-xl">€{donationStats.totalDonated.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Sessions Funded</span>
+                        <span className="text-gray-600 dark:text-gray-400">{t('donations.page.sessionsFunded')}</span>
                         <span className="font-bold text-xl">{donationStats.sessionsFunded}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                        <span className="text-gray-600 dark:text-gray-400">Lives Touched</span>
+                        <span className="text-gray-600 dark:text-gray-400">{t('donations.page.livesTouched')}</span>
                         <span className="font-bold text-xl">{donationStats.livesTouched}</span>
                     </div>
                 </CardContent>
@@ -244,17 +246,17 @@ export default function DonationsPage() {
             ) : (
               <Card className="bg-gray-50 dark:bg-gray-900/50">
                 <CardHeader>
-                  <CardTitle>Need Financial Assistance?</CardTitle>
+                  <CardTitle>{t('donations.page.needHelpTitle')}</CardTitle>
                   <CardDescription>
                     {isDonationSeeker 
-                      ? "Your profile is active to receive donations." 
-                      : "Apply to receive support from our community."}
+                      ? t('donations.page.seekerActive')
+                      : t('donations.page.applyDesc')}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   {!isDonationSeeker && (
                     <Button className="w-full" onClick={() => setShowApplicationForm(true)}>
-                      <HandHeart className="mr-2 h-4 w-4" /> Apply Now
+                      <HandHeart className="mr-2 h-4 w-4" /> {t('donations.page.applyButton')}
                     </Button>
                   )}
                 </CardContent>

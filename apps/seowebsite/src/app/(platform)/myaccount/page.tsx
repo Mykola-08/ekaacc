@@ -22,6 +22,7 @@ import { useAppStore } from "@/store/platform/app-store";
 import { format } from "date-fns";
 import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
 import { PageContainer } from '@/components/platform/layout/page-container';
+import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 import type { User } from "@/lib/platform/types/types";
 import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/platform/types/wallet-types";
@@ -49,6 +50,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function MyAccountPage() {
   const { user: currentUser, loading: authLoading } = useAuth();
+  const { t } = useLanguage();
   const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") ?? "profile");
 
@@ -60,11 +62,11 @@ export default function MyAccountPage() {
   };
 
   return (
-    <PageContainer title="My Account" description="Manage your profile, wallet, and personal information.">
+    <PageContainer title={t('myaccount.title')} description={t('myaccount.description')}>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-2">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="wallet">Wallet</TabsTrigger>
+          <TabsTrigger value="profile">{t('myaccount.tabs.profile')}</TabsTrigger>
+          <TabsTrigger value="wallet">{t('myaccount.tabs.wallet')}</TabsTrigger>
         </TabsList>
         <TabsContent value="profile">
           <ProfileSection currentUser={currentUser as any} refreshAppUser={refreshAppUser} authLoading={authLoading || false} />
@@ -81,6 +83,7 @@ export default function MyAccountPage() {
 function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { currentUser: User | null, refreshAppUser: () => Promise<void>, authLoading: boolean }) {
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isSaving, setIsSaving] = useState(false);
 
   const form = useForm<ProfileFormValues>({
@@ -111,10 +114,10 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
         bio: data.about,
       });
       
-      toast({ title: "Profile Updated", description: "Your information has been saved." });
+      toast({ title: t('myaccount.profile.success'), description: t('myaccount.profile.successDesc') });
       form.reset(data, { keepValues: true }); // keep the new values and reset dirty state
     } catch (error) {
-      toast({ title: "Error", description: "Failed to update profile.", variant: "destructive" });
+      toast({ title: "Error", description: t('myaccount.profile.error'), variant: "destructive" });
     } finally {
       setIsSaving(false);
     }
@@ -125,8 +128,8 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Personal Information</CardTitle>
-        <CardDescription>Update your personal details here.</CardDescription>
+        <CardTitle>{t('myaccount.profile.title')}</CardTitle>
+        <CardDescription>{t('myaccount.profile.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -137,9 +140,9 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Full Name</FormLabel>
+                    <FormLabel>{t('myaccount.profile.fullName')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your full name" {...field} />
+                      <Input placeholder={t('myaccount.profile.fullNamePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -150,9 +153,9 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email Address</FormLabel>
+                    <FormLabel>{t('myaccount.profile.email')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="your@email.com" {...field} readOnly className="cursor-not-allowed bg-muted/50" />
+                      <Input placeholder={t('myaccount.profile.emailPlaceholder')} {...field} readOnly className="cursor-not-allowed bg-muted/50" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -163,9 +166,9 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
                 name="phoneNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
+                    <FormLabel>{t('myaccount.profile.phone')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="(123) 456-7890" {...field} />
+                      <Input placeholder={t('myaccount.profile.phonePlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -176,9 +179,9 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
                 name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Location</FormLabel>
+                    <FormLabel>{t('myaccount.profile.location')}</FormLabel>
                     <FormControl>
-                      <Input placeholder="City, Country" {...field} />
+                      <Input placeholder={t('myaccount.profile.locationPlaceholder')} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -190,9 +193,9 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
               name="about"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>About You</FormLabel>
+                  <FormLabel>{t('myaccount.profile.about')}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Tell us a little bit about yourself" className="resize-none" {...field} />
+                    <Textarea placeholder={t('myaccount.profile.aboutPlaceholder')} className="resize-none" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -201,7 +204,7 @@ function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { curre
             <div className="flex justify-end">
               <Button type="submit" disabled={isSaving || !form.formState.isDirty}>
                 <Save className="mr-2 h-4 w-4" />
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? t('myaccount.profile.saving') : t('myaccount.profile.save')}
               </Button>
             </div>
           </form>
@@ -253,6 +256,7 @@ function ProfileSkeleton() {
 // #region Wallet Section
 function WalletSection({ currentUser, authLoading }: { currentUser: User | null, authLoading: boolean }) {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [wallet, setWallet] = useState<Wallet | null>(null);
   const [transactions, setTransactions] = useState<WalletTransaction[]>([]);
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
@@ -280,11 +284,11 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
       setPaymentRequests(paymentsData as any);
     } catch (e) {
       console.error("Error loading wallet data:", e);
-      toast({ title: "Error", description: "Could not load wallet data.", variant: "destructive" });
+      toast({ title: "Error", description: t('myaccount.wallet.loadError'), variant: "destructive" });
     } finally {
       setLoadingWallet(false);
     }
-  }, [currentUser, toast]);
+  }, [currentUser, toast, t]);
 
   useEffect(() => {
     loadWalletData();
@@ -294,7 +298,7 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
     if (!currentUser) return;
     const amount = parseFloat(topUpAmount);
     if (isNaN(amount) || amount <= 0) {
-      toast({ title: "Invalid Amount", description: "Please enter a valid positive number.", variant: "destructive" });
+      toast({ title: t('myaccount.wallet.invalidAmount'), description: t('myaccount.wallet.invalidAmountDesc'), variant: "destructive" });
       return;
     }
 
@@ -309,13 +313,13 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
         proofText,
         currentUser.name || "N/A",
       );
-      toast({ title: "Top-up Request Submitted", description: "Your request is pending approval." });
+      toast({ title: t('myaccount.wallet.submitted'), description: t('myaccount.wallet.submittedDesc') });
       setTopUpDialogOpen(false);
       setTopUpAmount("");
       setProofText("");
       loadWalletData();
     } catch (error) {
-      toast({ title: "Error", description: "Failed to submit top-up request.", variant: "destructive" });
+      toast({ title: "Error", description: t('myaccount.wallet.errorSubmit'), variant: "destructive" });
     }
   };
 
@@ -325,24 +329,24 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
     <div className="space-y-6">
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle className="text-sm font-medium">Current Balance</CardTitle>
+          <CardTitle className="text-sm font-medium">{t('myaccount.wallet.title')}</CardTitle>
           <WalletIcon className="h-4 w-4 text-muted-foreground" />
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">€{wallet?.balance.toFixed(2) ?? '0.00'}</div>
           <p className="text-xs text-muted-foreground">
-            Available funds for sessions and services.
+            {t('myaccount.wallet.availableFunds')}
           </p>
           <Button size="sm" className="mt-4" onClick={() => setTopUpDialogOpen(true)}>
-            <Plus className="mr-2 h-4 w-4" /> Top Up Wallet
+            <Plus className="mr-2 h-4 w-4" /> {t('myaccount.wallet.topUp')}
           </Button>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Recent Transactions</CardTitle>
-          <CardDescription>Your last 5 wallet movements.</CardDescription>
+          <CardTitle>{t('myaccount.wallet.recentTransactions')}</CardTitle>
+          <CardDescription>{t('myaccount.wallet.recentTransactionsDesc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <TransactionTable transactions={transactions} />
@@ -351,8 +355,8 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
 
       <Card>
         <CardHeader>
-          <CardTitle>Pending Payments</CardTitle>
-          <CardDescription>Top-up requests awaiting admin approval.</CardDescription>
+          <CardTitle>{t('myaccount.wallet.pendingPayments')}</CardTitle>
+          <CardDescription>{t('myaccount.wallet.pendingPaymentsDesc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <PaymentRequestTable requests={paymentRequests.filter(r => r.status === 'pending')} />
@@ -375,14 +379,15 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
 }
 
 function TransactionTable({ transactions }: { transactions: WalletTransaction[] }) {
-  if (transactions.length === 0) return <p className="text-sm text-muted-foreground">No transactions yet.</p>;
+  const { t } = useLanguage();
+  if (transactions.length === 0) return <p className="text-sm text-muted-foreground">{t('myaccount.wallet.noTransactions')}</p>;
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Date</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead>{t('myaccount.wallet.date')}</TableHead>
+          <TableHead>{t('myaccount.wallet.description')}</TableHead>
+          <TableHead className="text-right">{t('myaccount.wallet.amount')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -401,14 +406,15 @@ function TransactionTable({ transactions }: { transactions: WalletTransaction[] 
 }
 
 function PaymentRequestTable({ requests }: { requests: PaymentRequest[] }) {
-  if (requests.length === 0) return <p className="text-sm text-muted-foreground">No pending payments.</p>;
+  const { t } = useLanguage();
+  if (requests.length === 0) return <p className="text-sm text-muted-foreground">{t('myaccount.wallet.noPendingPayments')}</p>;
   return (
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Date</TableHead>
-          <TableHead>Method</TableHead>
-          <TableHead className="text-right">Amount</TableHead>
+          <TableHead>{t('myaccount.wallet.date')}</TableHead>
+          <TableHead>{t('myaccount.wallet.method')}</TableHead>
+          <TableHead className="text-right">{t('myaccount.wallet.amount')}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -435,41 +441,42 @@ function TopUpDialog({ open, onOpenChange, amount, setAmount, method, setMethod,
   setProof: (proof: string) => void;
   onSubmit: () => void;
 }) {
+  const { t } = useLanguage();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Request Wallet Top-up</DialogTitle>
+          <DialogTitle>{t('myaccount.wallet.requestTopUp')}</DialogTitle>
           <DialogDescription>
-            Submit a request for manual balance top-up. An admin will approve it shortly.
+            {t('myaccount.wallet.requestTopUpDesc')}
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-2">
           <div className="space-y-2">
-            <Label htmlFor="amount">Amount (€)</Label>
-            <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="e.g., 50" />
+            <Label htmlFor="amount">{t('myaccount.wallet.amountLabel')}</Label>
+            <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder={t('myaccount.wallet.amountPlaceholder')} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="method">Payment Method</Label>
+            <Label htmlFor="method">{t('myaccount.wallet.methodLabel')}</Label>
             <Select value={method} onValueChange={(value) => setMethod(value as PaymentMethod)}>
               <SelectTrigger>
-                <SelectValue placeholder="Select method"  />
+                <SelectValue placeholder={t('myaccount.wallet.methodPlaceholder')}  />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="bizum">Bizum</SelectItem>
-                <SelectItem value="cash">Cash</SelectItem>
-                <SelectItem value="transfer">Bank Transfer</SelectItem>
+                <SelectItem value="bizum">{t('myaccount.wallet.method.bizum')}</SelectItem>
+                <SelectItem value="cash">{t('myaccount.wallet.method.cash')}</SelectItem>
+                <SelectItem value="transfer">{t('myaccount.wallet.method.transfer')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="proof">Proof / Reference</Label>
-            <Textarea id="proof" value={proof} onChange={(e) => setProof(e.target.value)} placeholder="e.g., Transaction ID, or a note for the admin" />
+            <Label htmlFor="proof">{t('myaccount.wallet.proofLabel')}</Label>
+            <Textarea id="proof" value={proof} onChange={(e) => setProof(e.target.value)} placeholder={t('myaccount.wallet.proofPlaceholder')} />
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={onSubmit}>Submit Request</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>{t('myaccount.wallet.cancel')}</Button>
+          <Button onClick={onSubmit}>{t('myaccount.wallet.submit')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

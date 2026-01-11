@@ -3,6 +3,7 @@
 import { Button } from 'keep-react';
 import Link from 'next/link';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useBooking } from '@/react-app/hooks/useBooking';
 import { ServiceItem } from '@/shared/types';
 import LazyImage from '@/react-app/components/LazyImage';
 
@@ -12,6 +13,7 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useLanguage();
+  const { navigateToBooking } = useBooking();
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
@@ -61,13 +63,12 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                 {t('common.readMore') || 'Read More'}
             </Button>
           </Link>
-          <Link href="/booking" className="flex-1">
              <Button 
+                onClick={() => navigateToBooking(service.slug || service.id)}
                 className="w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] text-sm py-2.5 rounded-xl font-medium transition-colors border-none"
              >
               {t('nav.bookNow')}
             </Button>
-          </Link>
         </div>
       </div>
     </div>

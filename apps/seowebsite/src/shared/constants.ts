@@ -4,6 +4,7 @@ import { ServiceItem, PersonalizedServiceItem } from './types';
 export const SERVICES_DATA: ServiceItem[] = [
   {
     id: 'massatge',
+    slug: 'massage',
     titleKey: 'services.massage.title',
     subtitleKey: 'services.massage.subtitle',
     descriptionKey: 'services.massage.description',
@@ -16,6 +17,7 @@ export const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'kinesiologia',
+    slug: 'kinesiology',
     titleKey: 'services.kinesiology.title',
     subtitleKey: 'services.kinesiology.subtitle',
     descriptionKey: 'services.kinesiology.description',
@@ -28,6 +30,7 @@ export const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'nutritio',
+    slug: 'nutrition',
     titleKey: 'services.nutrition.title',
     subtitleKey: 'services.nutrition.subtitle', // Corrected key based on context
     descriptionKey: 'services.nutrition.description',
@@ -40,6 +43,7 @@ export const SERVICES_DATA: ServiceItem[] = [
   },
   {
     id: 'revisio360',
+    slug: 'revision-360',
     titleKey: 'services.revision360.title',
     subtitleKey: 'services.revision360.subtitle',
     descriptionKey: 'services.revision360.description',

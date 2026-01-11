@@ -13,6 +13,24 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
   const navigateToBooking = (serviceOrEvent?: string | React.MouseEvent) => {
     const service = typeof serviceOrEvent === 'string' ? serviceOrEvent : undefined;
     logEvent('initiate_booking', { source: 'provider', service });
+
+    if (service) {
+      // Integrated Booking App Redirection
+      // Uses slugs: nutrition, massage, kinesiology, etc.
+      const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_APP_URL 
+        ? `${process.env.NEXT_PUBLIC_BOOKING_APP_URL}/book/${service}`
+        : `/booking/book/${service}`; // Fallback to relative if rewrite exists, or assume localhost/dev behavior
+
+       // For now, let's assume we want to redirect to the separate app.
+       // Since I don't have the exact URL, I'll use a placeholder that can be configured.
+       // Or simpler: If we are in dev, localhost:3001. If prod, booking.eka-balance.com?
+       
+       const isDev = process.env.NODE_ENV === 'development';
+       const targetHost = isDev ? 'http://localhost:3001' : 'https://booking.ekabalance.com';
+       window.location.href = `${targetHost}/book/${service}`;
+       return;
+    }
+
     setPreselectedService(service);
     setIsPopupOpen(true);
   };

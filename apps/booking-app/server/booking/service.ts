@@ -40,13 +40,16 @@ export async function fetchService(serviceId: string) {
 
   try {
     // Use a single query with JOIN for better performance
+    // Updated to support lookup by UUID or Slug
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(serviceId);
+    
     const { rows } = await db.query(
-      `SELECT s.id, s.name, s.description, s.stripe_product_id, s.metadata, s.location, s.image_url, s.images,
+      `SELECT s.id, s.name, s.description, s.stripe_product_id, s.metadata, s.image_url, s.images, s.tags,
               sv.id as variant_id, sv.name as variant_name, sv.description as variant_description,
               sv.duration_min, sv.price_amount, sv.currency, sv.stripe_price_id, sv.features, sv.comparison_label
        FROM service s
        LEFT JOIN service_variant sv ON s.id = sv.service_id AND sv.active = true
-       WHERE s.id = $1
+       WHERE ${isUuid ? 's.id = $1' : 's.slug = $1'}
        ORDER BY sv.price_amount ASC`,
       [serviceId]
     );

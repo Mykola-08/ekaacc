@@ -25,15 +25,24 @@ import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { Service } from '@/types/database';
 import { AvailabilitySlot } from '@/types/booking';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface BookingModalProps {
   service: Service;
   preselectedVariantId?: string;
   originApp?: string;
   trigger?: React.ReactNode;
+  userProfile?: any;
+  familyMembers?: any[];
 }
 
-export function BookingModal({ service, preselectedVariantId, originApp, trigger }: BookingModalProps) {
+export function BookingModal({ service, preselectedVariantId, originApp, trigger, userProfile, familyMembers = [] }: BookingModalProps) {
   const [date, setDate] = useState<Date>();
   const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
   const [selectedSlot, setSelectedSlot] = useState<AvailabilitySlot | undefined>();
@@ -44,6 +53,23 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
   const [open, setOpen] = useState(false);
   
   const [variantId] = useState(preselectedVariantId || service.variants?.[0]?.id);
+
+  const [bookingFor, setBookingFor] = useState<'self' | 'dependent'>('self');
+  const [selectedDependentId, setSelectedDependentId] = useState<string>('none');
+
+  useEffect(() => {
+    if (bookingFor === 'self' && userProfile) {
+      setName(userProfile.full_name || '');
+      setEmail(userProfile.email || '');
+    } else if (bookingFor === 'dependent' && selectedDependentId !== 'none') {
+        const member = familyMembers?.find(m => m.id === selectedDependentId);
+        if (member) {
+            setName(member.full_name);
+            // Dependencies might not have emails, use parent's email for contact
+            if (userProfile?.email) setEmail(userProfile.email);
+        }
+    }
+  }, [bookingFor, selectedDependentId, userProfile, familyMembers]);
 
   // Memoized fetch function to prevent recreating on each render
   const fetchSlots = useCallback(async (selectedDate: Date) => {
@@ -96,6 +122,11 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
           startTime: selectedSlot.startTime,
           email,
           displayName: name,
+          metadata: {
+             attendeeType: bookingFor,
+             attendeeProfileId: bookingFor === 'dependent' ? selectedDependentId : userProfile?.id,
+          },
+          userId: userProfile?.id, // Link to parent account
           paymentMode: 'deposit',
           depositCents: 2000, // 20 EUR
         }),
@@ -157,6 +188,48 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {familyMembers && familyMembers.length > 0 && (
+             <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right text-slate-300">Book For</Label>
+                <div className="col-span-3 flex gap-2">
+                   <Button 
+                      variant={bookingFor === 'self' ? 'default' : 'outline'} 
+                      size="sm" 
+                      onClick={() => setBookingFor('self')}
+                      className="flex-1"
+                   >
+                     Myself
+                   </Button>
+                   <Button 
+                      variant={bookingFor === 'dependent' ? 'default' : 'outline'} 
+                      size="sm" 
+                      onClick={() => setBookingFor('dependent')}
+                      className="flex-1"
+                   >
+                     Family Member
+                   </Button>
+                </div>
+             </div>
+          )}
+
+          {bookingFor === 'dependent' && (
+             <div className="grid grid-cols-4 items-center gap-4 animate-in fade-in slide-in-from-top-2">
+                <Label className="text-right text-slate-300">Member</Label>
+                 <Select value={selectedDependentId} onValueChange={setSelectedDependentId}>
+                  <SelectTrigger className="col-span-3 bg-surface-highlight border-border-subtle text-slate-200">
+                    <SelectValue placeholder="Select family member" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {familyMembers?.map((member) => (
+                      <SelectItem key={member.id} value={member.id}>
+                        {member.full_name} ({member.relationship})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+             </div>
+          )}
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="name" className="text-right text-slate-300">
               Name
@@ -246,9 +319,16 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
           <Button 
             onClick={handleBooking} 
             disabled={loading || !selectedSlot || !name || !email} 
-            className="bg-primary text-primary-foreground hover:bg-primary-hover w-full sm:w-auto"
+            className="bg-primary text-primary-foreground hover:bg-primary-hover w-full sm:w-auto transition-transform active:scale-95 disabled:opacity-70 disabled:pointer-events-none"
           >
-            {loading ? 'Processing...' : 'Pay €20 Deposit & Book'}
+            {loading ? (
+               <div className="flex items-center gap-2">
+                 <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                 <span>Processing...</span>
+               </div>
+            ) : (
+                'Pay €20 Deposit & Book'
+            )}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -105,7 +105,7 @@ export default function Home() {
                 <Link href="/about-elena">
                   <Button 
                     size="xl"
-                    className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-medium px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border-none"
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border-none"
                   >
                     {t('elena.knowMore')}
                     <ArrowRight className="ml-2 w-5 h-5" />

@@ -300,9 +300,10 @@ serve(async (req) => {
               })
           }
         } 
-        // Handle One-time Booking
+        // Handle One-time Booking or Plan Purchase
         else if (session.mode === 'payment') {
           const bookingId = session.metadata?.bookingId || session.client_reference_id;
+          const planDefinitionId = session.metadata?.planDefinitionId;
           
           if (bookingId) {
              // Update 'booking' table
@@ -317,6 +318,17 @@ serve(async (req) => {
               .eq('id', bookingId);
              
              if (error) console.error('Error updating booking:', error);
+          }
+
+          if (planDefinitionId && userId) {
+             console.log(`Assigning plan ${planDefinitionId} to user ${userId}`);
+             const { error: planError } = await supabase.rpc('assign_plan_to_user', {
+                p_user_id: userId,
+                p_plan_id: planDefinitionId,
+                p_performed_by: null
+             });
+             
+             if (planError) console.error('Error assigning plan pack:', planError);
           }
         }
         break

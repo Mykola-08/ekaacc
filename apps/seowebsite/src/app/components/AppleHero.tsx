@@ -78,7 +78,7 @@ export default function AppleHero() {
           </Link>
 
           <Link href="/services" className="group" onClick={() => logEvent('hero_services_click')}>
-            <Button size="xl" className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
+            <Button size="xl" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
               {t('hero.discoverServices')}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>

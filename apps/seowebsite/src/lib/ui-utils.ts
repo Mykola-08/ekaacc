@@ -1,4 +1,4 @@
-// Apple-like UI Utilities
+// Apple-like UI Utilities (Shared)
 
 /**
  * Returns a smooth spring transition for framer-motion that mimics iOS interactions
@@ -21,6 +21,12 @@ export const glassEffect = "bg-white/70 dark:bg-black/70 backdrop-blur-xl border
 export const appleShadow = "shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-shadow duration-300";
 
 /**
+ * Premium Card Effect (High Contrast / Dark / Glassy)
+ * For use in "Premium Services"
+ */
+export const premiumCardEffect = "bg-slate-950 text-white shadow-[0_20px_50px_rgb(0,0,0,0.3)] border border-white/10 backdrop-blur-2xl";
+
+/**
  * Common motion variants for dashboard items
  */
 export const dashboardItemVariants = {
@@ -37,4 +43,3 @@ export const dashboardItemVariants = {
     transition: { duration: 0.2 } 
   }
 };
-

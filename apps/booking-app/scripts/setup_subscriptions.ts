@@ -18,7 +18,7 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !STRIPE_SECRET_KEY) {
 }
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-// @ts-ignore - Stripe version string mismatch in types
+// @ts-expect-error - Stripe version string mismatch in types
 const stripe = new Stripe(STRIPE_SECRET_KEY, { apiVersion: '2025-01-27.acacia' });
 
 const SUBSCRIPTIONS = [

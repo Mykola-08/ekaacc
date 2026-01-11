@@ -300,6 +300,7 @@ interface CreateBookingParams {
   staffId?: string;
   metadata?: Record<string, unknown>;
   customerTags?: string[];
+  usePlanUsageId?: string;
 }
 
 export async function createBooking(params: CreateBookingParams) {
@@ -319,6 +320,7 @@ export async function createBooking(params: CreateBookingParams) {
       staffId,
       metadata = {},
       customerTags = [],
+      usePlanUsageId,
     } = params;
 
     // 1. Fetch service
@@ -436,6 +438,26 @@ export async function createBooking(params: CreateBookingParams) {
       return { error: 'No staff available for this slot', status: 409 };
     }
 
+    // Check Plan logic
+    let initialPaymentStatus = 'pending';
+    if (usePlanUsageId) {
+        if (!userId) return { error: 'User ID required for plan usage', status: 400 };
+
+        // Verify Plan Validity
+        const { rows: planRows } = await db.query(
+            'SELECT credits_total, credits_used, user_id, status FROM user_plan_usage WHERE id = $1', 
+            [usePlanUsageId]
+        );
+        if (planRows.length === 0) return { error: 'Plan not found', status: 404 };
+        const plan = planRows[0];
+        
+        if (plan.user_id !== userId) return { error: 'Plan belongs to another user', status: 403 };
+        if (plan.status !== 'active') return { error: 'Plan is not active', status: 400 };
+        if ((plan.credits_total - plan.credits_used) < 1) return { error: 'Insufficient plan credits', status: 402 };
+        
+        initialPaymentStatus = 'captured';
+    }
+
     // 4. Prepare booking
     const reservationTTLMinutes = 5;
     const reservationExpiresAt = new Date(Date.now() + reservationTTLMinutes * 60000);
@@ -468,11 +490,22 @@ export async function createBooking(params: CreateBookingParams) {
       [
         id, service.id, finalVariantId, originApp, userId || null, finalStaffId, start.toISOString(), end.toISOString(), finalDuration,
         finalPriceCents, 'EUR', email, phone, displayName,
-        JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? depositCents : 0, 'pending',
+        JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? depositCents : 0, initialPaymentStatus,
         'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash,
         metadata, customerTags
       ]
     );
+
+    if (usePlanUsageId && initialPaymentStatus === 'captured') {
+        try {
+            await db.query('SELECT consume_plan_credit_for_booking($1, $2)', [id, usePlanUsageId]);
+        } catch (err) {
+             console.error('Failed to consume plan credit:', err);
+             // Rollback booking
+             await db.query("UPDATE booking SET status = 'canceled', payment_status = 'failed' WHERE id = $1", [id]);
+             return { error: 'Failed to process plan credit deduction', status: 500 };
+        }
+    }
 
     await emitEvent('booking.created', { bookingId: id, serviceId: service.id, startTime, staffId: finalStaffId });
 

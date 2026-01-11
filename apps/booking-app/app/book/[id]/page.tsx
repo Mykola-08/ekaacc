@@ -1,4 +1,6 @@
 import { fetchService } from '@/server/booking/service';
+import { getFamilyMembers } from '@/server/family/actions';
+import { createClient } from '@/lib/supabase/server';
 import { Service } from '@/types/database';
 import Link from 'next/link';
 import { ChevronLeft, Clock, CreditCard, CheckCircle, Star } from 'lucide-react';
@@ -48,6 +50,21 @@ export default async function ServiceBookingPage({ params, searchParams }: PageP
 
   const displayDuration = activeVariant ? activeVariant.duration : service.duration;
   const displayPrice = activeVariant ? activeVariant.price : service.price;
+
+  // Fetch user info for prefilling and family logic
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  let userProfile = null;
+  let familyMembers: any[] = [];
+
+  if (user) {
+      const { data: profile } = await supabase.from('profiles').select('*').eq('auth_id', user.id).single();
+      userProfile = profile;
+      if (profile) {
+          familyMembers = await getFamilyMembers();
+      }
+  }
 
   return (
     <div className="min-h-screen bg-background-dark text-slate-200 font-display">
@@ -199,6 +216,8 @@ export default async function ServiceBookingPage({ params, searchParams }: PageP
                   service={service} 
                   preselectedVariantId={activeVariant?.id}
                   originApp={originApp}
+                  userProfile={userProfile}
+                  familyMembers={familyMembers}
                   trigger={
                     <button className="w-full py-4 bg-primary text-primary-foreground rounded-xl font-bold hover:bg-primary-hover transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
                       <span>Schedule Session</span>

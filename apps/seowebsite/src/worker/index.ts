@@ -3,8 +3,8 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { zValidator } from '@hono/zod-validator';
 import { z } from 'zod';
+import { createClient } from '@supabase/supabase-js';
 import { addDashboardEndpoints } from './api-endpoints';
-
 
 type Bindings = {
   DB: D1Database;
@@ -12,6 +12,8 @@ type Bindings = {
   PERPLEXITY_API_KEY: string;
   STRIPE_SECRET_KEY: string;
   STRIPE_PUBLISHABLE_KEY: string;
+  SUPABASE_URL: string;
+  SUPABASE_ANON_KEY: string;
 };
 
 type Variables = {
@@ -174,46 +176,107 @@ app.post('/api/recommendations', authMiddleware, zValidator('json', z.object({
     // Simple recommendation logic
     const recommendations = [];
 
-    const sessionTypes = await c.env.DB.prepare(`
-      SELECT * FROM session_types WHERE is_active = 1
-    `).all();
+    // Use Supabase for unified services
+    const supabaseUrl = c.env.SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co';
+    const supabaseKey = c.env.SUPABASE_ANON_KEY;
 
-    // Feldenkrais for movement and posture issues
-    if (data.discomfort_areas.includes('neck_shoulders') ||
-      data.discomfort_areas.includes('back_lumbar') ||
-      data.goals.includes('improve_posture') ||
-      data.preferred_technique === 'feldenkrais') {
-      const feldenkrais = sessionTypes.results.find((s: any) => s.name.includes('Feldenkrais'));
-      if (feldenkrais) recommendations.push(feldenkrais);
+    let services: any[] = [];
+
+    if (supabaseKey) {
+      const supabase = createClient(supabaseUrl, supabaseKey);
+      const { data, error } = await supabase
+        .from('service')
+        .select('*')
+        .eq('is_public', true)
+        .eq('active', true);
+      
+      if (!error && data) {
+        services = data;
+      } else {
+        console.error('Error fetching services from Supabase:', error);
+      }
+    } else {
+      console.warn('Supabase credentials missing, skipping Unified Service fetch');
     }
 
-    // Massage for pain relief and relaxation
-    if (data.goals.includes('relieve_pain') ||
-      data.goals.includes('relax') ||
-      data.preferred_technique === 'therapeutic_massage') {
-      const massage = sessionTypes.results.find((s: any) => s.name.includes('Massatge'));
-      if (massage) recommendations.push(massage);
-    }
+    // Fallback or empty if connection failed, but try to use what we found
+    if (services.length > 0) {
+        // Feldenkrais for movement and posture issues
+        if (data.discomfort_areas.includes('neck_shoulders') ||
+          data.discomfort_areas.includes('back_lumbar') ||
+          data.goals.includes('improve_posture') ||
+          data.preferred_technique === 'feldenkrais') {
+          const feldenkrais = services.find((s: any) => s.name && s.name.includes('Feldenkrais'));
+          if (feldenkrais) recommendations.push(feldenkrais);
+        }
 
-    // Kinesiology for energy and stress
-    if (data.goals.includes('reduce_anxiety') ||
-      data.goals.includes('more_energy') ||
-      data.stress_level > 7 ||
-      data.preferred_technique === 'kinesiology') {
-      const kinesiology = sessionTypes.results.find((s: any) => s.name.includes('Kinesiologia'));
-      if (kinesiology) recommendations.push(kinesiology);
-    }
+        // Massage for pain relief and relaxation
+        if (data.goals.includes('relieve_pain') ||
+          data.goals.includes('relax') ||
+          data.preferred_technique === 'therapeutic_massage') {
+          const massage = services.find((s: any) => s.name && s.name.includes('Massatge'));
+          if (massage) recommendations.push(massage);
+        }
 
-    // If no specific match or user doesn't know, recommend combined session
-    if (recommendations.length === 0 || data.preferred_technique === 'dont_know') {
-      const combined = sessionTypes.results.find((s: any) => s.name.includes('Combinada'));
-      if (combined) recommendations.push(combined);
+        // Kinesiology for energy and stress
+        if (data.goals.includes('reduce_anxiety') ||
+          data.goals.includes('more_energy') ||
+          data.stress_level > 7 ||
+          data.preferred_technique === 'kinesiology') {
+          const kinesiology = services.find((s: any) => s.name && s.name.includes('Kinesiologia'));
+          if (kinesiology) recommendations.push(kinesiology);
+        }
+
+        // If no specific match or user doesn't know, recommend combined session
+        if (recommendations.length === 0 || data.preferred_technique === 'dont_know') {
+          const combined = services.find((s: any) => s.name && s.name.includes('Combinada'));
+          if (combined) recommendations.push(combined);
+        }
+    } else {
+        // Fallback to D1 if Supabase fails or returns nothing (legacy support during migration)
+        const sessionTypes = await c.env.DB.prepare(`
+          SELECT * FROM session_types WHERE is_active = 1
+        `).all();
+
+        // Feldenkrais for movement and posture issues
+        if (data.discomfort_areas.includes('neck_shoulders') ||
+          data.discomfort_areas.includes('back_lumbar') ||
+          data.goals.includes('improve_posture') ||
+          data.preferred_technique === 'feldenkrais') {
+          const feldenkrais = sessionTypes.results.find((s: any) => s.name.includes('Feldenkrais'));
+          if (feldenkrais) recommendations.push(feldenkrais);
+        }
+
+        // Massage for pain relief and relaxation
+        if (data.goals.includes('relieve_pain') ||
+          data.goals.includes('relax') ||
+          data.preferred_technique === 'therapeutic_massage') {
+          const massage = sessionTypes.results.find((s: any) => s.name.includes('Massatge'));
+          if (massage) recommendations.push(massage);
+        }
+
+        // Kinesiology for energy and stress
+        if (data.goals.includes('reduce_anxiety') ||
+          data.goals.includes('more_energy') ||
+          data.stress_level > 7 ||
+          data.preferred_technique === 'kinesiology') {
+          const kinesiology = sessionTypes.results.find((s: any) => s.name.includes('Kinesiologia'));
+          if (kinesiology) recommendations.push(kinesiology);
+        }
+
+        // If no specific match or user doesn't know, recommend combined session
+        if (recommendations.length === 0 || data.preferred_technique === 'dont_know') {
+          const combined = sessionTypes.results.find((s: any) => s.name.includes('Combinada'));
+          if (combined) recommendations.push(combined);
+        }
     }
 
     // Format recommendations
     const formattedRecommendations = recommendations.map((rec: any) => ({
       ...rec,
-      features: rec.features ? JSON.parse(rec.features) : [],
+      features: rec.metadata?.features // from Supabase jsonb
+        ? rec.metadata.features 
+        : (rec.features && typeof rec.features === 'string' ? JSON.parse(rec.features) : []), // Fallback for D1
       durations: [60, 90, 120]
     }));
 

@@ -143,7 +143,7 @@ function QuestionInput({ question, value, onChange }: {
         </div>
       );
     
-    case 'multi_choice':
+    case 'multi_choice': {
       const currentValues = (Array.isArray(value) ? value : []) as string[];
       return (
         <div className="grid grid-cols-2 gap-3">
@@ -171,8 +171,9 @@ function QuestionInput({ question, value, onChange }: {
           })}
         </div>
       );
+    }
 
-    case 'scale':
+    case 'scale': {
       const min = options?.min || 1;
       const max = options?.max || 10;
       return (
@@ -194,6 +195,7 @@ function QuestionInput({ question, value, onChange }: {
             </div>
         </div>
       );
+    }
 
     default:
       return (

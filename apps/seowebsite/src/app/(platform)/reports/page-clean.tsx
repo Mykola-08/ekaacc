@@ -51,7 +51,7 @@ export default function ReportsPage() {
     const [isLoadingReports, setIsLoadingReports] = useState(true);
 
     useEffect(() => {
-        initDataService();
+        initDataService?.();
     }, [initDataService]);
 
     useEffect(() => {

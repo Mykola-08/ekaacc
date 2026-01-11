@@ -24,7 +24,7 @@ export function RoleChanger() {
   const [isDonationSeeker, setIsDonationSeeker] = useState(false); // Removed donation seeker functionality
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   useEffect(() => {

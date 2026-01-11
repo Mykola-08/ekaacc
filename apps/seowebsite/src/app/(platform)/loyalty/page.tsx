@@ -36,7 +36,7 @@ export default function LoyaltyPage() {
   const [lifetimePoints, setLifetimePoints] = useState(0);
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   useEffect(() => {

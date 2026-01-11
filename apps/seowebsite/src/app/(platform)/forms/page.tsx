@@ -37,7 +37,7 @@ export default function FormsPage() {
   const { dataService, initDataService } = useAppStore();
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   const updateUser = async (userData: any) => {

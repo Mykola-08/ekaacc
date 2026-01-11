@@ -138,7 +138,7 @@ export function GoalInsights({ source: initialSource }: { source?: 'mock' | 'fir
   const source = initialSource || dataSource;
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   const waitingForUser = source === 'firebase' && !currentUser;

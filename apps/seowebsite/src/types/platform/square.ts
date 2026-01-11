@@ -1,38 +1,3 @@
-export interface SyncOptions {
-  fullSync?: boolean;
-  startDate?: string;
-  endDate?: string;
-  force?: boolean;
-}
-
-export interface SyncResult {
-  success: boolean;
-  syncedCount: number;
-  errors?: string[];
-  lastSync?: string;
-  details?: any;
-}
-
-export interface SquareConfig {
-  accessToken: string;
-  environment: 'sandbox' | 'production';
-  locationId: string;
-}
-
-export interface SquareBooking {
-  id: string;
-  [key: string]: any;
-}
-
-export interface SquareCustomer {
-  id: string;
-  [key: string]: any;
-}
-
-export interface NormalizedBooking {
-  id: string;
-  [key: string]: any;
-}
 
 export interface SquareWebhookEvent {
   merchant_id: string;
@@ -42,20 +7,29 @@ export interface SquareWebhookEvent {
   data: {
     type: string;
     id: string;
-    object: any;
+    object: any; // Using any for flexibility as Square objects vary
   };
 }
 
-export interface EnhancedSquareWebhookEvent {
-  type: string;
-  eventId: string;
-  event_id: string;
-  merchantId: string;
-  merchant_id: string;
+export interface EnhancedSquareWebhookEvent extends SquareWebhookEvent {
+  // Add any enhanced properties if needed, or just aliases
+  // The code seems to expect these properties directly on the event, 
+  // or maybe they were spread?
+  // Let's look at usage: "const { type, data } = event;" 
+  // This matches SquareWebhookEvent.
+  // "eventId: event.eventId" -> this is camelCase, but Square sends snake_case event_id.
+  
+  // It seems the code expects camelCase versions?
+  // Or the type definition was extending something else.
+  
+  eventId?: string;
+  merchantId?: string;
   locationId?: string;
-  data: any;
-  created_at?: string;
-  id?: string;
-  timestamp?: string;
-  source?: string;
 }
+
+// If the code is using snake_case properties from Square, but also tries to access camelCase
+// we might need to fix the code or the type.
+// Error: "Property 'eventId' does not exist on type 'EnhancedSquareWebhookEvent'."
+// Usage: event.eventId.
+
+// I'll add the camelCase properties to the interface.

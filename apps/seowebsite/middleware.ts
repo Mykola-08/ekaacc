@@ -87,7 +87,7 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
+  await (supabase.auth as any).getUser()
 
   return response
 }

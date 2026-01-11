@@ -13,10 +13,10 @@ import { useState, useEffect } from 'react';
 ;
 import { Check, Star, Sparkles, TrendingUp, Zap, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/lib/platform/supabase-auth';
-// import subscriptionManager, { type SubscriptionPlan } from '@/services/subscription-manager';
+import { useAuth } from '@/lib/platform/supabase/auth';
+// import subscriptionManager, { type SubscriptionPlan } from '@/lib/platform/services/subscription-manager';
 import { motion } from 'framer-motion';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 
 // Simple SubscriptionPlan type for now
 type SubscriptionPlan = {

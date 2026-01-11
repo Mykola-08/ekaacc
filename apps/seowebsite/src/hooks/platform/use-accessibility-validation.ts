@@ -8,7 +8,7 @@ import {
   validateComponentAccessibility,
   TEXT_SIZING,
   ANIMATION_SETTINGS 
-} from '@/lib/platform/accessibility-utils';
+} from '@/lib/platform/utils/accessibility-utils';
 
 export interface AccessibilityValidation {
   contrast: {

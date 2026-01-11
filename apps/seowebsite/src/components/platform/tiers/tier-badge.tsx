@@ -1,11 +1,11 @@
 import React from 'react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { Crown, Star, Award } from 'lucide-react';
-import type { VIPTier, LoyaltyTier } from '@/lib/platform/subscription-types';
+import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 
 export interface TierBadgeProps {
   tierType: 'vip' | 'loyalty';
-  tierName: VIPTier | LoyaltyTier;
+  tierName: VIPTier | LoyaltyTier | string;
   size?: 'sm' | 'md' | 'lg';
   showIcon?: boolean;
   className?: string;

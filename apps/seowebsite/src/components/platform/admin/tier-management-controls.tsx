@@ -11,23 +11,18 @@ import { Textarea } from '@/components/platform/ui/textarea';
 import { Label } from '@/components/platform/ui/label';
 import { Input } from '@/components/platform/ui/input';
 import { useAdminTiers } from '@/hooks/platform/use-tiers';
-import type { VIPTier, LoyaltyTier } from '@/lib/platform/subscription-types';
+import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 import { 
   User, 
   Crown, 
   Star, 
-  TrendingUp, 
   Users, 
   Shield, 
   AlertTriangle, 
   CheckCircle,
   Clock,
-  DollarSign,
-  Calendar,
-  Link2,
   Settings,
   Search,
-  Filter,
   History,
   BarChart3
 } from 'lucide-react';
@@ -50,8 +45,6 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
     assignTier,
     revokeTier,
     validateTierEligibility,
-    fetchAuditLogs,
-    fetchAnalytics,
     error
   } = useAdminTiers();
 

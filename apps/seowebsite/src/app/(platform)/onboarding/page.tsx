@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth';
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Label } from '@/components/platform/ui/label';

@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
     })
 
     // 1) Find user by email (simple scan; acceptable for temporary endpoint)
-    const { data: users, error: userErr } = await supabase.auth.admin.listUsers()
+    const { data: users, error: userErr } = await (supabase.auth as any).admin.listUsers()
     if (userErr) {
       return NextResponse.json({ error: `Failed to list users: ${userErr.message}` }, { status: 500 })
     }

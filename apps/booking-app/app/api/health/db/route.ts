@@ -1,58 +1,66 @@
 import { NextResponse } from 'next/server';
 import { supabaseServer } from '@/lib/supabaseServerClient';
 
+// Cache for 30 seconds
+export const revalidate = 30;
+
 export async function GET() {
+  const startTime = Date.now();
+  
   try {
-    const startTime = Date.now();
+    // Check critical tables in parallel for faster response
+    const tables = ['service', 'staff', 'booking', 'app_config'] as const;
     
-    // Test basic connectivity
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { data, error } = await supabaseServer
-      .from('service')
-      .select('id')
-      .limit(1);
+    const tableChecks = await Promise.allSettled(
+      tables.map(async (table) => {
+        const { error } = await supabaseServer
+          .from(table)
+          .select('id', { count: 'exact', head: true });
+        return { table, healthy: !error, error: error?.message };
+      })
+    );
+    
+    const tableStatus: Record<string, boolean> = {};
+    const errors: Record<string, string> = {};
+    
+    for (const result of tableChecks) {
+      if (result.status === 'fulfilled') {
+        tableStatus[result.value.table] = result.value.healthy;
+        if (result.value.error) {
+          errors[result.value.table] = result.value.error;
+        }
+      } else {
+        // Table check failed
+        const index = tableChecks.indexOf(result);
+        tableStatus[tables[index]] = false;
+        errors[tables[index]] = result.reason?.message || 'Unknown error';
+      }
+    }
     
     const responseTime = Date.now() - startTime;
-    
-    if (error) {
-      return NextResponse.json({
-        healthy: false,
-        timestamp: new Date().toISOString(),
-        error: error.message,
-        responseTimeMs: responseTime
-      }, { status: 503 });
-    }
-    
-    // Check critical tables
-    const tables = ['service', 'staff', 'booking', 'app_config'];
-    const tableStatus: Record<string, boolean> = {};
-    
-    for (const table of tables) {
-      const { error: tableError } = await supabaseServer
-        .from(table)
-        .select('id')
-        .limit(1);
-      
-      tableStatus[table] = !tableError;
-    }
-    
     const allTablesHealthy = Object.values(tableStatus).every(status => status);
     
-    return NextResponse.json({
-      healthy: true,
+    const response = NextResponse.json({
+      healthy: allTablesHealthy,
       timestamp: new Date().toISOString(),
       responseTimeMs: responseTime,
       database: {
         connected: true,
         tables: tableStatus,
-        allTablesAccessible: allTablesHealthy
+        allTablesAccessible: allTablesHealthy,
+        ...(Object.keys(errors).length > 0 && { errors })
       }
-    }, { status: 200 });
+    }, { status: allTablesHealthy ? 200 : 503 });
+    
+    response.headers.set('Cache-Control', 'public, s-maxage=30');
+    return response;
   } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
     return NextResponse.json({
       healthy: false,
       timestamp: new Date().toISOString(),
-      error: String(err)
+      responseTimeMs: Date.now() - startTime,
+      error: errorMessage
     }, { status: 503 });
   }
 }

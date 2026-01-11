@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { motion } from 'framer-motion';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/platform/ui/button';

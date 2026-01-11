@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getExposureSnapshot } from '@/lib/platform/statsig';
+import { getExposureSnapshot } from '@/lib/platform/services/statsig';
 
 export async function GET() {
   if (process.env.NODE_ENV === 'production' && process.env.EXPOSURE_DEBUG !== 'true') {

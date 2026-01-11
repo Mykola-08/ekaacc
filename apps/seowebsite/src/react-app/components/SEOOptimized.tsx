@@ -1,5 +1,4 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect } from 'react';
 
 interface SEOOptimizedProps {
   title?: string;
@@ -153,61 +152,92 @@ export default function SEOOptimized({
     ]
   };
 
-  return (
-    <>
-      <Helmet>
-        {/* Basic Meta Tags */}
-        <title>{title}</title>
-        <meta name="description" content={description} />
-        <meta name="keywords" content={keywords} />
-        <meta name="author" content="EKA Balance" />
-        <meta name="robots" content="index, follow" />
-        <meta name="language" content="Catalan" />
-        <meta name="revisit-after" content="7 days" />
-        
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
-        <meta property="og:url" content={url} />
-        <meta property="og:type" content={type} />
-        <meta property="og:site_name" content="EKA Balance" />
-        <meta property="og:locale" content="ca_ES" />
-        
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={title} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={image} />
-        
-        {/* Additional Meta Tags */}
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="theme-color" content="#F59E0B" />
-        
-        {/* Canonical URL */}
-        <link rel="canonical" href={url} />
-        
-        {/* Favicon */}
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        
-        {/* Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-        
-        {/* Preconnect to important domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://images.unsplash.com" />
-        
-        {/* DNS Prefetch */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-        <link rel="dns-prefetch" href="//images.unsplash.com" />
-      </Helmet>
-      {children}
-    </>
-  );
+  useEffect(() => {
+    // Helper to update or create meta tags
+    const setMetaTag = (name: string, content: string, property = false) => {
+      const attr = property ? 'property' : 'name';
+      let meta = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(attr, name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
+
+    // Helper to update or create link tags
+    const setLinkTag = (rel: string, href: string, attrs: Record<string, string> = {}) => {
+      let link = document.querySelector(`link[rel="${rel}"][href="${href}"]`);
+      if (!link) {
+        link = document.createElement('link');
+        link.setAttribute('rel', rel);
+        link.setAttribute('href', href);
+        Object.entries(attrs).forEach(([key, value]) => {
+          link!.setAttribute(key, value);
+        });
+        document.head.appendChild(link);
+      }
+    };
+
+    // Update title
+    document.title = title;
+
+    // Basic Meta Tags
+    setMetaTag('description', description);
+    setMetaTag('keywords', keywords);
+    setMetaTag('author', 'EKA Balance');
+    setMetaTag('robots', 'index, follow');
+    setMetaTag('language', 'Catalan');
+    setMetaTag('revisit-after', '7 days');
+    
+    // Open Graph Meta Tags
+    setMetaTag('og:title', title, true);
+    setMetaTag('og:description', description, true);
+    setMetaTag('og:image', image, true);
+    setMetaTag('og:url', url, true);
+    setMetaTag('og:type', type, true);
+    setMetaTag('og:site_name', 'EKA Balance', true);
+    setMetaTag('og:locale', 'ca_ES', true);
+    
+    // Twitter Card Meta Tags
+    setMetaTag('twitter:card', 'summary_large_image');
+    setMetaTag('twitter:title', title);
+    setMetaTag('twitter:description', description);
+    setMetaTag('twitter:image', image);
+    
+    // Additional Meta Tags
+    setMetaTag('viewport', 'width=device-width, initial-scale=1.0');
+    setMetaTag('theme-color', '#F59E0B');
+
+    // Canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
+
+    // Preconnect links
+    setLinkTag('preconnect', 'https://fonts.googleapis.com');
+    setLinkTag('preconnect', 'https://fonts.gstatic.com', { crossOrigin: 'anonymous' });
+    setLinkTag('preconnect', 'https://images.unsplash.com');
+
+    // DNS Prefetch
+    setLinkTag('dns-prefetch', '//fonts.googleapis.com');
+    setLinkTag('dns-prefetch', '//fonts.gstatic.com');
+    setLinkTag('dns-prefetch', '//images.unsplash.com');
+
+    // Structured Data JSON-LD
+    let script = document.querySelector('script[data-seo-structured]');
+    if (!script) {
+      script = document.createElement('script');
+      script.setAttribute('type', 'application/ld+json');
+      script.setAttribute('data-seo-structured', 'true');
+      document.head.appendChild(script);
+    }
+    script.textContent = JSON.stringify(structuredData);
+  }, [title, description, keywords, image, url, type, structuredData]);
+
+  return <>{children}</>;
 }

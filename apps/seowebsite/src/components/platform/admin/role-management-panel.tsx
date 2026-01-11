@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
 import { Alert, AlertDescription } from '@/components/platform/ui/alert';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/platform/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/platform/ui/dialog';
@@ -16,16 +15,12 @@ import { Label } from '@/components/platform/ui/label';
 import { RoleBadge } from '@/components/platform/role-guard';
 import { useAuth } from '@/context/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
-  Shield, 
-  Users, 
   UserPlus, 
   Edit, 
-  Trash2, 
   Search, 
-  Filter,
-  AlertTriangle,
+  AlertTriangle, 
   CheckCircle,
   XCircle
 } from 'lucide-react';

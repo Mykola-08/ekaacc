@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/platform/ui/dialog';
 import { sendTherapistEmail, previewTherapistEmail } from '@/app/actions/therapist-email';
-import { TransactionalEmailType } from '@/services/transactional-email-service';
+import { TransactionalEmailType } from '@/lib/platform/services/transactional-email-service';
 import { toast } from 'sonner'; // Assuming sonner or use-toast
 
 interface Patient {

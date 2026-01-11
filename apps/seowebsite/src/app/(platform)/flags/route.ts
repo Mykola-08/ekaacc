@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAllFlags } from '@/services/featureFlags';
+import { getAllFlags } from '@/lib/platform/services/featureFlags';
 
 export const revalidate = 30;
 

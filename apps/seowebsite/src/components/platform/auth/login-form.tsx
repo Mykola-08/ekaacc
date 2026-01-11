@@ -1,75 +1,170 @@
-'use client'
+"use client"
 
-import React, { useState } from 'react'
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth'
+import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
+import { cn } from "@/lib/platform/utils/css-utils"
+import { Button } from "@/components/platform/ui/button"
+import { Card, CardContent } from "@/components/platform/ui/card"
+import { Input } from "@/components/platform/ui/input"
+import { Label } from "@/components/platform/ui/label"
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
+import Image from "next/image"
 
-interface LoginFormProps {
-  onSuccess?: () => void
-  onError?: (error: string) => void
+type LoginFormProps = React.ComponentProps<"div"> & {
+  enabledProviders?: {
+    google: boolean
+    x: boolean
+    linkedin: boolean
+  }
 }
 
-export function LoginForm({ onSuccess, onError }: LoginFormProps) {
-  const { signIn, isLoading } = useSimpleAuth()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+export function LoginForm({ className, enabledProviders = { google: true, x: true, linkedin: true }, ...props }: LoginFormProps) {
+  const router = useRouter()
+  const { signIn, signInWithPasskey, isAuthenticated, isLoading } = useSimpleAuth()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      router.push("/")
+    }
+  }, [isLoading, isAuthenticated, router])
+
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
+    setLoading(true)
+    setError(null)
 
-    const { error } = await signIn({ email, password })
-    
-    if (error) {
-      const errorMessage = error.message || 'Login failed'
-      setError(errorMessage)
-      onError?.(errorMessage)
-    } else {
-      onSuccess?.()
+    try {
+      const { error } = await signIn({ email, password })
+      if (error) {
+        setError(error.message)
+      } else {
+        router.push("/")
+      }
+    } catch (err) {
+      setError("An unexpected error occurred")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handlePasskeyLogin = async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const { error } = await signInWithPasskey(email || undefined)
+      if (error) {
+        setError(error.message)
+      } else {
+        router.push("/")
+      }
+    } catch (err) {
+      setError("An unexpected error occurred")
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          required
-        />
-      </div>
-      
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          required
-        />
-      </div>
+    <div className={cn("flex flex-col gap-6", className)} {...props}>
+      <Card className="overflow-hidden glass-premium border-white/20 dark:border-white/10">
+        <CardContent className="grid p-0 md:grid-cols-2">
+          <div className="p-6 md:p-8">
+            <form onSubmit={handleLogin} className="flex flex-col gap-6">
+              <div className="flex flex-col items-center text-center gap-3">
+                <Image src="/eka_logo.png" alt="EKA" width={56} height={56} className="rounded-md" />
+                <h1 className="text-2xl font-bold">Welcome</h1>
+                <p className="text-balance text-muted-foreground">Sign in to your account</p>
+              </div>
 
-      {error && (
-        <div className="text-red-600 text-sm">{error}</div>
-      )}
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                  <Link
+                    href="/forgot-password"
+                    className="ml-auto text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </Link>
+                </div>
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isLoading ? 'Signing in...' : 'Sign In'}
-      </button>
-    </form>
+              {error && <div className="text-red-500 text-sm">{error}</div>}
+
+              <div className="grid gap-2">
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Signing in..." : "Sign in"}
+                </Button>
+                <Button type="button" variant="outline" className="w-full" onClick={handlePasskeyLogin} disabled={loading}>
+                  Sign in with Passkey
+                </Button>
+              </div>
+
+              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+                <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
+              </div>
+
+              <div className={cn(
+                "grid gap-4",
+                {
+                  "grid-cols-1": [enabledProviders.google, enabledProviders.x, enabledProviders.linkedin].filter(Boolean).length === 1,
+                  "grid-cols-2": [enabledProviders.google, enabledProviders.x, enabledProviders.linkedin].filter(Boolean).length === 2,
+                  "grid-cols-3": [enabledProviders.google, enabledProviders.x, enabledProviders.linkedin].filter(Boolean).length === 3,
+                }
+              )}>
+                {enabledProviders.google && (
+                  <Button variant="outline" className="w-full" type="button" disabled>
+                    <span className="ml-2">Google</span>
+                  </Button>
+                )}
+                {enabledProviders.x && (
+                  <Button variant="outline" className="w-full" type="button" disabled>
+                    <span className="ml-2">X</span>
+                  </Button>
+                )}
+                {enabledProviders.linkedin && (
+                  <Button variant="outline" className="w-full" type="button" disabled>
+                    <span className="ml-2">LinkedIn</span>
+                  </Button>
+                )}
+              </div>
+
+              <div className="text-center text-sm">
+                Don&apos;t have an account?{" "}
+                <Link href="/signup" className="underline underline-offset-4">Sign up</Link>
+              </div>
+            </form>
+          </div>
+          <div className="relative hidden bg-muted md:block">
+            <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=2070&auto=format&fit=crop" alt="Illustration" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.5]" />
+          </div>
+        </CardContent>
+      </Card>
+      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
+        By continuing, you agree to our <Link href="/legal/terms">Terms of Service</Link> and <Link href="/legal/privacy">Privacy Policy</Link>.
+      </div>
+    </div>
   )
 }

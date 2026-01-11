@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import { Manrope, Playfair_Display } from 'next/font/google';
 
 import { Toaster } from 'sonner';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { AuthProvider } from '@/context/platform/auth-context';
-import { ThemeProvider } from '@/components/platform/theme-provider';
+import { ThemeProvider } from '@/components/platform/providers/theme-provider';
 import { TooltipProvider } from '@/components/platform/ui/tooltip';
 import { ProgressProvider } from '@/context/platform/progress-context';
 import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-wrapper';

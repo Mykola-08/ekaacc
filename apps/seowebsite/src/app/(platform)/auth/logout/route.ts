@@ -5,7 +5,7 @@ export const GET = async (req: NextRequest) => {
   const supabase = await createClient()
   
   // Sign out from Supabase
-  await supabase.auth.signOut()
+  await (supabase.auth as any).signOut()
   
   // Redirect to home page after logout
   return NextResponse.redirect(new URL('/', req.url))

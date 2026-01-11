@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import type { JournalEntry } from '@/lib/platform/types';
+import type { JournalEntry } from '@/lib/platform/types/types';
 
 export interface JournalStats {
   totalEntries: number;

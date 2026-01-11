@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 import { supabase } from '@/lib/platform/supabase';
-import type { VIPTier, LoyaltyTier } from '@/lib/platform/subscription-types';
-import type { PermissionGroup, PermissionAction } from '@/lib/platform/role-permissions';
+import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
+import type { PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
 
 export interface UserTierData {
   currentTiers: {
@@ -172,7 +172,7 @@ export function useTiers(): UseTiersReturn {
   // Helper function to get auth token
   const getAuthToken = async (): Promise<string | null> => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await (supabase.auth as any).getSession();
       return session?.access_token || null;
     } catch {
       return null;
@@ -472,7 +472,7 @@ export function useAdminTiers(): UseAdminTiersReturn {
   // Helper function to get auth token
   const getAuthToken = async (): Promise<string> => {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await (supabase.auth as any).getSession();
       return session?.access_token || '';
     } catch {
       return '';

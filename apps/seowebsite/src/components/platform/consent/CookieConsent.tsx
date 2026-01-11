@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useConsent, ConsentPreferences } from '@/hooks/platform/useConsent';
-import { X, ChevronDown, ChevronUp, Shield, Cookie, Info } from 'lucide-react';
+import { X, Shield, Cookie, Info } from 'lucide-react';
 import Link from 'next/link';
 
 export default function CookieConsent() {

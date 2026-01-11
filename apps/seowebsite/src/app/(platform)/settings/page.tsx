@@ -9,9 +9,9 @@ import { Label } from '@/components/platform/ui/label';
 import { Input } from '@/components/platform/ui/input';
 import { useState, useEffect, useMemo } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/platform/ui/dialog';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
   Bell, Mail, MessageSquare, Calendar, Save, Shield, User as UserIcon, Smartphone, Lock, RefreshCw
 } from 'lucide-react';
@@ -21,7 +21,7 @@ import { NotificationSwitch } from '@/components/platform/eka/settings/notificat
 import { SettingsHeader } from '@/components/platform/eka/settings/settings-header';
 import { SettingsShell } from '@/components/platform/eka/settings/settings-shell';
 import { SettingsCard } from '@/components/platform/eka/settings/settings-card';
-import type { User } from '@/lib/platform/types';
+import type { User } from '@/lib/platform/types/types';
 
 type UserSettings = NonNullable<User['settings']>;
 type SettingsCategory = keyof UserSettings;

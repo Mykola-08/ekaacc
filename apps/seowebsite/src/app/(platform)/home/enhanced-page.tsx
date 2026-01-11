@@ -6,7 +6,7 @@ import { Sparkles, Heart, Brain, Shield, Zap, Calendar, Target, MessageSquare, T
 import { PageContainer } from '@/components/platform/eka/page-container'
 import { PageHeader } from '@/components/platform/eka/page-header'
 import { SurfacePanel } from '@/components/platform/eka/surface-panel'
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth'
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
 import { Button } from '@/components/platform/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'

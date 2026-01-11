@@ -15,15 +15,13 @@ import {
   Clock, 
   AlertCircle, 
   Info,
-  Eye,
-  EyeOff,
   DollarSign,
   Calendar,
   TrendingUp,
   Users
 } from 'lucide-react';
-import { useAuth } from '@/lib/platform/supabase-auth';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useAuth } from '@/lib/platform/supabase/auth';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 
 export default function DonationSeekerPage() {
   const { user: currentUser } = useAuth();

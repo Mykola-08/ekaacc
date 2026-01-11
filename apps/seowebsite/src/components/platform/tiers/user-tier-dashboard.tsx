@@ -23,9 +23,9 @@ import {
   CircularTierProgress,
   TierBenefitsList 
 } from '@/components/platform/tiers/tier-progress';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { useTiers } from '@/hooks/platform/use-tiers';
-import type { VIPTier, LoyaltyTier } from '@/lib/platform/subscription-types';
+import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 
 export interface UserTierDashboardProps {
   userId?: string;

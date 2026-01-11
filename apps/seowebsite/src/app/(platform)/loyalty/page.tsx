@@ -5,11 +5,11 @@ import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 import { useState, useEffect } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { Star, Gift, Trophy, TrendingUp, Sparkles, Crown, Zap, Award, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 type Reward = {
   id: string;

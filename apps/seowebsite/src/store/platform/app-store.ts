@@ -1,18 +1,13 @@
-import { create } from 'zustand';
+
+import { create } from 'zustand'
+import fxService from '@/lib/platform/services/platform-service'
 
 interface AppState {
-  dataService: any;
-  setDataService: (service: any) => void;
-  initDataService?: () => void;
-  dataSource?: any;
+  dataService: typeof fxService
+  initDataService: () => void
 }
 
 export const useAppStore = create<AppState>((set) => ({
-  dataService: null,
-  setDataService: (service) => set({ dataService: service }),
-  initDataService: () => {
-    // Stub implementation
-    console.warn("initDataService called (stub)");
-  },
-  dataSource: null,
-}));
+  dataService: fxService,
+  initDataService: () => {},
+}))

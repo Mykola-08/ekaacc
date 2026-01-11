@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 interface NumberTickerProps extends React.HTMLAttributes<HTMLSpanElement> {
   value: number;

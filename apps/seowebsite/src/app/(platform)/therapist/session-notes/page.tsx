@@ -8,7 +8,7 @@ import { Input } from '@/components/platform/ui/input'
 import { Label } from '@/components/platform/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs'
-import { useToast } from '@/hooks/platform/use-toast'
+import { useToast } from '@/hooks/platform/ui/use-toast'
 import {
   FileText,
   UserCircle,

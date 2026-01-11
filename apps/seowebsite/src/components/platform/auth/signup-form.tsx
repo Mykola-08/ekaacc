@@ -1,7 +1,35 @@
 'use client'
 
-import React, { useState } from 'react'
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { Button } from '@/components/platform/ui/button'
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/platform/ui/form'
+import { Input } from '@/components/platform/ui/input'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
+import Link from 'next/link'
+
+const signUpSchema = z.object({
+  fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
+  username: z.string().min(3, 'Username must be at least 3 characters').regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores').optional(),
+  email: z.string().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+})
+
+type SignUpFormValues = z.infer<typeof signUpSchema>
 
 interface SignUpFormProps {
   onSuccess?: () => void
@@ -10,142 +38,163 @@ interface SignUpFormProps {
 
 export function SignUpForm({ onSuccess, onError }: SignUpFormProps) {
   const { signUp, isLoading } = useSimpleAuth()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
-    username: '',
+
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      fullName: '',
+      username: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
   })
-  const [error, setError] = useState('')
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError('')
-
-    if (formData.password !== formData.confirmPassword) {
-      const errorMessage = 'Passwords do not match'
-      setError(errorMessage)
-      onError?.(errorMessage)
-      return
-    }
-
-    if (formData.password.length < 6) {
-      const errorMessage = 'Password must be at least 6 characters'
-      setError(errorMessage)
-      onError?.(errorMessage)
-      return
-    }
-
+  async function onSubmit(values: SignUpFormValues) {
     const { error } = await signUp({
-      email: formData.email,
-      password: formData.password,
-      fullName: formData.fullName,
-      username: formData.username,
+      email: values.email,
+      password: values.password,
+      fullName: values.fullName,
+      username: values.username,
     })
     
     if (error) {
-      const errorMessage = error.message || 'Sign up failed'
-      setError(errorMessage)
-      onError?.(errorMessage)
+      onError?.(error.message)
+      form.setError('root', {
+        message: error.message,
+      })
     } else {
       onSuccess?.()
     }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">
-          Full Name
-        </label>
-        <input
-          id="fullName"
-          name="fullName"
-          type="text"
-          value={formData.fullName}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
-      </div>
+    <Card className="w-full max-w-md mx-auto">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
+        <CardDescription className="text-center">
+          Enter your information to create your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="fullName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter your full name"
+                      autoComplete="name"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>This is optional and can be changed later</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <div>
-        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-          Username
-        </label>
-        <input
-          id="username"
-          name="username"
-          type="text"
-          value={formData.username}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        />
-      </div>
-      
-      <div>
-        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          required
-        />
-      </div>
-      
-      <div>
-        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-          Password
-        </label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          value={formData.password}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          required
-        />
-      </div>
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Choose a username"
+                      autoComplete="username"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>This is optional and can be changed later</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="Enter your email"
+                      autoComplete="email"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Create a password"
+                      autoComplete="new-password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <div>
-        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-          Confirm Password
-        </label>
-        <input
-          id="confirmPassword"
-          name="confirmPassword"
-          type="password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          required
-        />
-      </div>
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Confirm your password"
+                      autoComplete="new-password"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      {error && (
-        <div className="text-red-600 text-sm">{error}</div>
-      )}
+            {form.formState.errors.root && (
+              <FormMessage>{form.formState.errors.root.message}</FormMessage>
+            )}
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isLoading ? 'Creating account...' : 'Sign Up'}
-      </button>
-    </form>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Creating account...' : 'Create Account'}
+            </Button>
+          </form>
+        </Form>
+
+        <div className="mt-6 text-center text-sm">
+          <span className="text-muted-foreground">Already have an account? </span>
+          <Link href="/login" className="font-medium text-primary hover:underline">
+            Sign in
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
   )
 }

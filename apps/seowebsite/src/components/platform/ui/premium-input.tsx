@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Input } from '@/components/platform/ui/input'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'
 
 export interface PremiumInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {

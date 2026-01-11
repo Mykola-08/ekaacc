@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import type { SquareWebhookEvent } from '@/types/platform/square';
-import { squareAppointmentsService } from '@/services/square-appointments-service';
-import { isSquareAppointmentsEnabled } from '@/lib/platform/feature-flags';
+import { squareAppointmentsService } from '@/lib/platform/services/square-appointments-service';
+import { isSquareAppointmentsEnabled } from '@/lib/platform/config/feature-flags';
 
 /**
  * Enhanced Square Webhook Handler for Appointments
@@ -33,6 +33,10 @@ const SIGNATURE_KEY = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
  */
 interface EnhancedSquareWebhookEvent extends SquareWebhookEvent {
   timestamp?: string;
+  eventId?: string;
+  merchantId?: string;
+  locationId?: string;
+
   retryCount?: number;
 }
 

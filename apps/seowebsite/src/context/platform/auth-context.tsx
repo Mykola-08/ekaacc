@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { User } from '@supabase/supabase-js'
 import { createClient } from '@/lib/platform/supabase/client'
-import { safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/platform/supabase-utils'
+import { safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/platform/supabase/utils'
 import type { 
   AuthUser, 
   AuthState, 
@@ -16,8 +16,8 @@ import type {
   UserProfile,
   UserPreference,
   ImpersonationData
-} from '@/types/platform/auth'
-import type { PermissionGroup, PermissionAction } from '@/lib/platform/role-permissions'
+} from '@/lib/platform/types/auth-types'
+import type { PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions'
 
 const supabase = createClient()
 
@@ -157,7 +157,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const initializeAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession()
+        const { data: { session }, error } = await (supabase.auth as any).getSession()
         
         if (error) {
           console.error('Auth initialization error:', error)
@@ -196,7 +196,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     initializeAuth()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = (supabase.auth as any).onAuthStateChange(
       async (event, session) => {
         if (!mounted) return
 
@@ -222,7 +222,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Authentication methods
   const signIn = async (credentials: LoginCredentials) => {
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await (supabase.auth as any).signInWithPassword({
         email: credentials.email,
         password: credentials.password,
       })
@@ -239,7 +239,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (credentials: SignUpCredentials) => {
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error } = await (supabase.auth as any).signUp({
         email: credentials.email,
         password: credentials.password,
         options: {
@@ -283,7 +283,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // options.scopes = 'openid email profile https://www.googleapis.com/auth/calendar.readonly'
       }
 
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { error } = await (supabase.auth as any).signInWithOAuth({
         provider,
         options,
       })
@@ -316,7 +316,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const registerPasskey = async () => {
     try {
-      const { data, error } = await (supabase.auth.mfa as any).enroll({
+      const { data, error } = await ((supabase.auth as any).mfa as any).enroll({
         factorType: 'webauthn',
       })
 
@@ -332,7 +332,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     try {
-      const { error } = await supabase.auth.signOut()
+      const { error } = await (supabase.auth as any).signOut()
       
       if (error) {
         return { error: { message: error.message, code: error.code } }
@@ -427,7 +427,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!state.user) return
 
     try {
-      const { data: { user } } = await supabase.auth.getUser()
+      const { data: { user } } = await (supabase.auth as any).getUser()
       if (user) {
         await loadUser(user)
       }
@@ -490,7 +490,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       // Get the original user data back
-      const { data: { user } } = await supabase.auth.getUser()
+      const { data: { user } } = await (supabase.auth as any).getUser()
       if (user) {
         await loadUser(user)
       }

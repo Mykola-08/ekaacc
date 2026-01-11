@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState, use } from 'react';
-import { academyService } from '@/services/academy-service';
-import { Lesson } from '@/types/platform/academy';
+import { academyService } from '@/lib/platform/services/academy-service';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
 import { Textarea } from '@/components/platform/ui/textarea';
@@ -10,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Label } from '@/components/platform/ui/label';
 import { useRouter } from 'next/navigation';
-import { Plus, Trash2, GripVertical } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 
 interface QuizQuestion {
   id: string;
@@ -44,7 +43,7 @@ export default function EditLessonPage({ params }: { params: Promise<{ lessonId:
         setIsPublished(data.is_published);
         
         // Parse Content
-        const content = data.content || {};
+        const content = (data.content as any) || {};
         if (data.content_type === 'article') {
           setArticleContent(content.article_text || '');
         } else if (data.content_type === 'video') {
@@ -77,10 +76,10 @@ export default function EditLessonPage({ params }: { params: Promise<{ lessonId:
 
       await academyService.updateLesson(lessonId, {
         title,
-        content_type: contentType,
-        content: contentJson,
+        content_type: contentType as any,
+        content: contentJson as any,
         is_published: isPublished
-      });
+      } as any);
       router.back();
     } catch (error) {
       console.error('Failed to save lesson:', error);

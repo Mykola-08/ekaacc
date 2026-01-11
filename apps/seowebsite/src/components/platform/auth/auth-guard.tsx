@@ -1,26 +1,42 @@
 'use client'
 
-import React from 'react'
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth'
+import React, { useEffect } from 'react'
+import { useRouter, usePathname } from 'next/navigation'
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
 
 interface AuthGuardProps {
   children: React.ReactNode
   fallback?: React.ReactNode
   loadingComponent?: React.ReactNode
+  redirectToLogin?: boolean
 }
 
 /**
  * Component that only renders children if user is authenticated
  */
-export function AuthGuard({ children, fallback, loadingComponent }: AuthGuardProps) {
+export function AuthGuard({ 
+  children, 
+  fallback, 
+  loadingComponent,
+  redirectToLogin = true 
+}: AuthGuardProps) {
   const { isAuthenticated, isLoading } = useSimpleAuth()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated && redirectToLogin) {
+      router.push(`/login?returnTo=${encodeURIComponent(pathname || '/')}`)
+    }
+  }, [isLoading, isAuthenticated, redirectToLogin, router, pathname])
 
   if (isLoading) {
-    return <>{loadingComponent || <div>Loading...</div>}</>
+    return <>{loadingComponent || <div className="p-4 flex justify-center">Loading...</div>}</>
   }
 
   if (!isAuthenticated) {
-    return <>{fallback || <div>Please sign in to access this content.</div>}</>
+    if (redirectToLogin) return null
+    return <>{fallback || <div className="p-4 text-center">Please sign in to access this content.</div>}</>
   }
 
   return <>{children}</>
@@ -45,15 +61,15 @@ export function PermissionGuard({
   const { hasPermission, isLoading, isAuthenticated } = useSimpleAuth()
 
   if (isLoading) {
-    return <>{loadingComponent || <div>Loading...</div>}</>
+    return <>{loadingComponent || <div className="p-4 flex justify-center">Loading...</div>}</>
   }
 
   if (!isAuthenticated) {
-    return <>{fallback || <div>Please sign in to access this content.</div>}</>
+    return <>{fallback || <div className="p-4 text-center">Please sign in to access this content.</div>}</>
   }
 
   if (!hasPermission(permission)) {
-    return <>{fallback || <div>You don't have permission to access this content.</div>}</>
+    return <>{fallback || <div className="p-4 text-center text-red-500">You don't have permission to access this content.</div>}</>
   }
 
   return <>{children}</>
@@ -80,15 +96,15 @@ export function ResourceGuard({
   const { canAccessResource, isLoading, isAuthenticated } = useSimpleAuth()
 
   if (isLoading) {
-    return <>{loadingComponent || <div>Loading...</div>}</>
+    return <>{loadingComponent || <div className="p-4 flex justify-center">Loading...</div>}</>
   }
 
   if (!isAuthenticated) {
-    return <>{fallback || <div>Please sign in to access this content.</div>}</>
+    return <>{fallback || <div className="p-4 text-center">Please sign in to access this content.</div>}</>
   }
 
   if (!canAccessResource(resource, action)) {
-    return <>{fallback || <div>You don't have permission to access this content.</div>}</>
+    return <>{fallback || <div className="p-4 text-center text-red-500">You don't have permission to access this content.</div>}</>
   }
 
   return <>{children}</>
@@ -107,15 +123,15 @@ export function AdminGuard({ children, fallback, loadingComponent }: AdminGuardP
   const { isAdmin, isLoading, isAuthenticated } = useSimpleAuth()
 
   if (isLoading) {
-    return <>{loadingComponent || <div>Loading...</div>}</>
+    return <>{loadingComponent || <div className="p-4 flex justify-center">Loading...</div>}</>
   }
 
   if (!isAuthenticated) {
-    return <>{fallback || <div>Please sign in to access this content.</div>}</>
+    return <>{fallback || <div className="p-4 text-center">Please sign in to access this content.</div>}</>
   }
 
   if (!isAdmin) {
-    return <>{fallback || <div>Admin access required.</div>}</>
+    return <>{fallback || <div className="p-4 text-center text-red-500">Admin access required.</div>}</>
   }
 
   return <>{children}</>

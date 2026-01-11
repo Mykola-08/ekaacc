@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { ArrowUp, CheckCircle, Circle, Lock } from 'lucide-react';
 
 export interface TierProgressProps {

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
-import { useMediaQuery } from '@/hooks/platform/use-media-query';
+import { useAuth } from '@/lib/platform/supabase/auth';
+import { useMediaQuery } from '@/hooks/platform/ui/use-media-query';
 
 type LayoutMode = 'responsive' | 'desktop' | 'mobile';
 

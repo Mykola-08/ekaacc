@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth';
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
 
 export default function RedirectIfAuthenticated() {
   const { isAuthenticated, user } = useSimpleAuth();

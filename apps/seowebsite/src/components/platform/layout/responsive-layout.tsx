@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { MobileNavigation } from '@/components/platform/navigation/mobile-navigation';
 
 interface ResponsiveLayoutProps {

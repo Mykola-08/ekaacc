@@ -1,4 +1,4 @@
-import { BaseIntegration, IntegrationConfig } from './base';
+import { BaseIntegration, IntegrationConfig } from '@/lib/platform/integrations/base';
 
 export class StripeIntegration extends BaseIntegration {
   constructor(config: IntegrationConfig) {

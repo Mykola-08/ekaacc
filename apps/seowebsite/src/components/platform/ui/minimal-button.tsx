@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Button } from '@/components/platform/ui/button'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 
 export interface MinimalButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'size'> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost'

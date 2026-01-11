@@ -16,8 +16,6 @@ import { TDRPresentationMode } from '@/react-app/components/TDRPresentationMode'
 import { useClickOutside } from '@/react-app/hooks/useClickOutside';
 import { useAnalytics } from '@/react-app/hooks/useAnalytics';
 
-import { HelmetProvider } from 'react-helmet-async';
-
 export default function MainLayout({
   children
 }: {
@@ -121,7 +119,6 @@ export default function MainLayout({
   };
 
   return (
-    <HelmetProvider>
       <div className="min-h-screen bg-white">
       <OfflineIndicator />
 
@@ -432,7 +429,6 @@ export default function MainLayout({
         </div>
       </footer>
     </div>
-    </HelmetProvider>
   );
 }
 

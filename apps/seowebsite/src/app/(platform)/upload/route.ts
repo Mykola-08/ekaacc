@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
     // Use the existing supabase client
     
     // Get the current user to create user-specific folder structure
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
+    const { data: { user }, error: authError } = await (supabase.auth as any).getUser()
     
     if (authError || !user) {
       return NextResponse.json(

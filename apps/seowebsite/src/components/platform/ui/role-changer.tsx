@@ -3,9 +3,9 @@
 import { Button } from '@/components/platform/ui/button';
 import { Checkbox } from '@/components/platform/ui/checkbox';
 import { useState, useEffect } from "react";
-import { useAuth } from "@/lib/platform/supabase-auth";
+import { useAuth } from "@/lib/platform/supabase/auth";
 import { useAppStore } from "@/store/platform/app-store";
-import { User } from "@/lib/platform/types";
+import { User } from "@/lib/platform/types/types";
 
 const roles = [
   "Patient",

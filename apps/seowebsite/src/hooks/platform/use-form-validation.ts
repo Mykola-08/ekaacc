@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import { ValidationError, AppError } from '@/lib/platform/error-handling';
-import { logger } from '@/lib/platform/logging';
+import { ValidationError, AppError } from '@/lib/platform/utils/error-handling';
+import { logger } from '@/lib/platform/services/logging';
 
 export interface ValidationRule<T = any> {
   required?: boolean;

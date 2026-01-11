@@ -6,12 +6,12 @@ import { format } from 'date-fns';
 import { Users, Calendar, DollarSign, Activity, Shield, Eye } from 'lucide-react';
 import { UserImpersonationDialog } from '@/components/platform/admin/user-impersonation';
 import { useAuth } from '@/context/platform/auth-context';
-import { getDataService } from '@/services/data-service';
-import type { User, Session } from '@/lib/platform/types';
+import { getDataService } from '@/lib/platform/services/data-service';
+import type { User, Session } from '@/lib/platform/types/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
 import { Badge } from '@/components/platform/ui/badge';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 
 function StatCard({ title, value, change, icon: Icon }: { title: string; value: string; change: string; icon: React.ElementType }) {
   return (
@@ -161,7 +161,14 @@ export default function AdminDashboard() {
       const recentUsers = users.sort((a: any, b: any) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()).slice(0, 10);
       const recentSessions = sessions.sort((a: any, b: any) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()).slice(0, 10);
 
-      setStats({ totalUsers, activeUsers, totalSessions, totalRevenue, recentUsers, recentSessions });
+      setStats({ 
+        totalUsers, 
+        activeUsers, 
+        totalSessions, 
+        totalRevenue, 
+        recentUsers: recentUsers as any, 
+        recentSessions: recentSessions as any 
+      });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
       toast({ title: 'Error', description: 'Failed to load dashboard data', variant: 'destructive' });

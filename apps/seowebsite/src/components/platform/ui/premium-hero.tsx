@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 import { ArrowRight, Play, Pause, Volume2, VolumeX } from 'lucide-react'
 import Image from 'next/image'
 

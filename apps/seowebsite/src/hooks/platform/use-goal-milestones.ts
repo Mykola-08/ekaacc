@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import type { Session } from '@/lib/platform/types';
+import type { Session } from '@/lib/platform/types/types';
 
 export interface Milestone {
   id: number;

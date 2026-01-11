@@ -4,8 +4,16 @@ import { useEffect } from 'react';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
-import { PageContainer } from '@/components/platform/eka/page-container';
-import { SurfacePanel } from '@/components/platform/eka/surface-panel';
+// import { PageContainer } from '@/components/platform/eka/page-container';
+// import { SurfacePanel } from '@/components/platform/eka/surface-panel';
+
+const PageContainer = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={`container mx-auto p-4 md:p-8 ${className || ''}`}>{children}</div>
+);
+
+const SurfacePanel = ({ children, className }: { children: React.ReactNode; className?: string }) => (
+  <div className={`bg-card text-card-foreground rounded-lg border shadow-sm ${className || ''}`}>{children}</div>
+);
 
 /**
  * Global Error Page

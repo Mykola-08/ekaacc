@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import type { SquareWebhookEvent } from '@/types/platform/square';
-import { bidirectionalSyncService } from '@/services/bidirectional-sync-service';
-import { isSquareAppointmentsEnabled } from '@/lib/platform/feature-flags';
+import { bidirectionalSyncService } from '@/lib/platform/services/bidirectional-sync-service';
+import { isSquareAppointmentsEnabled } from '@/lib/platform/config/feature-flags';
 import { supabaseAdmin } from '@/lib/platform/supabase';
 
 /**
@@ -36,6 +36,10 @@ const SIGNATURE_KEY = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
  */
 interface EnhancedSquareWebhookEvent extends SquareWebhookEvent {
   timestamp?: string;
+  eventId?: string;
+  merchantId?: string;
+  locationId?: string;
+
   retryCount?: number;
   source?: string; // To prevent sync loops
 }

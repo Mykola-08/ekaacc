@@ -1,13 +1,13 @@
 'use server';
 
-import { walletService } from '@/services/wallet-service';
-import { stripeService } from '@/services/stripe-service';
+import { walletService } from '@/lib/platform/services/wallet-service';
+import { stripeService } from '@/lib/platform/services/stripe-logic';
 import { createClient } from '@/lib/platform/supabase/server';
 import { revalidatePath } from 'next/cache';
 
 export async function getWalletBalanceAction() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await (supabase.auth as any).getUser();
 
   if (!user) {
     return { error: 'Unauthorized' };
@@ -23,7 +23,7 @@ export async function getWalletBalanceAction() {
 
 export async function createWalletTopUpIntentAction(amount: number) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await (supabase.auth as any).getUser();
 
   if (!user) {
     return { error: 'Unauthorized' };

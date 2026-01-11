@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import type { SubscriptionType, SubscriptionInterval } from '@/lib/platform/subscription-types';
+import type { SubscriptionType, SubscriptionInterval } from '@/lib/platform/types/subscription-types';
 
 interface CheckoutParams {
   userId: string;

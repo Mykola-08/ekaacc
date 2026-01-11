@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EmailService } from '@/services/email-service';
+import { EmailService } from '@/lib/platform/services/email-logic';
 import { createClient } from '@supabase/supabase-js';
 import crypto from 'crypto';
 

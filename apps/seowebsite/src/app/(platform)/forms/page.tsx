@@ -14,10 +14,10 @@ import {
   SessionAssessmentData
 } from '@/components/platform/eka/forms';
 import { FileText, Heart, ClipboardCheck, Sparkles, Gift, Brain } from 'lucide-react';
-import { useToast } from '@/hooks/platform/use-toast';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useToast } from '@/hooks/platform/ui/use-toast';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import { PersonalizationEngine } from '@/lib/platform/personalization-engine';
+import { PersonalizationEngine } from '@/lib/platform/services/personalization-engine';
 import { useRouter } from 'next/navigation';
 
 export default function FormsPage() {

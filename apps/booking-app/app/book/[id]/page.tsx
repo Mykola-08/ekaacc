@@ -6,7 +6,8 @@ import { notFound } from 'next/navigation';
 import { BookingModal } from '@/components/BookingModal';
 import { cn } from '@/lib/utils';
 
-export const revalidate = 0;
+// Revalidate every 60 seconds for fresh availability data
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{ id: string }>;

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 interface BlurInProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;

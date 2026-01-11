@@ -2,9 +2,9 @@
 
 import { Button } from '@/components/platform/ui/button';
 import React, { useState } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
-import fxService from '@/lib/platform/fx-service';
-import { fxBilling } from '@/lib/platform/fx-billing';
+import { useAuth } from '@/lib/platform/supabase/auth';
+import fxService from '@/lib/platform/services/platform-service';
+import { fxBilling } from '@/lib/platform/services/billing-service';
 
 export default function ToolsPage() {
   const { user: currentUser } = useAuth();

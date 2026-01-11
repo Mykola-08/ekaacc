@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth'
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
 import { Button } from '@/components/platform/ui/button'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/platform/ui/sheet'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 import { 
   Menu,
   Home, 

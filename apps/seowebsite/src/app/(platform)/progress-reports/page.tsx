@@ -9,10 +9,10 @@ import { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp, Loader2 } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 // AI assistant removed from progress reports page
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import { useToast } from '@/hooks/platform/use-toast';
-import type { Report } from '@/lib/platform/types';
+import { useToast } from '@/hooks/platform/ui/use-toast';
+import type { Report } from '@/lib/platform/types/types';
 import { format } from 'date-fns';
 
 // Mock progress data (replace with real data)

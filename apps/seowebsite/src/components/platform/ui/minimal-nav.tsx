@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 import { Button } from '@/components/platform/ui/button'
 
 export interface MinimalNavProps {

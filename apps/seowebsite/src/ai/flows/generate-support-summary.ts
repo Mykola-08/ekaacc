@@ -1,3 +1,1 @@
-export async function generateSupportSummary(input: any) {
-    return { summary: 'Stub Summary' };
-}
+export const generateSupportSummary = async (input: any) => ({ summary: 'Support summary stub', progress: 'Progress stub' });

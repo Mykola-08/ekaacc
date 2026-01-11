@@ -6,10 +6,10 @@ import { Skeleton } from '@/components/platform/ui/skeleton';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/platform/ui/table';
 import { useState, useMemo, useEffect } from 'react';
 import { Loader2, Bot, Gift } from "lucide-react";
-import { useToast } from '@/hooks/platform/use-toast';
-import { getDataService } from '@/services/data-service';
+import { useToast } from '@/hooks/platform/ui/use-toast';
+import { getDataService } from '@/lib/platform/services/data-service';
 import { useUserContext } from '@/context/platform/user-context';
-import type { Donation, User } from '@/lib/platform/types';
+import type { Donation } from '@/lib/platform/types/types';
 import { format } from 'date-fns';
 
 interface GeneratedReport {
@@ -35,7 +35,7 @@ export default function DonationReportsPage() {
       try {
         const dataService = await getDataService();
         const userDonations = await dataService.getDonations(user.id);
-        setDonations(userDonations);
+        setDonations(userDonations as any);
       } catch (error) {
         console.error('Failed to load donations:', error);
         setDonations([]);

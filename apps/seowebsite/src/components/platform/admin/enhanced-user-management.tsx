@@ -9,18 +9,14 @@ import { Label } from '@/components/platform/ui/label'
 import { 
   Users, 
   Search, 
-  Filter, 
   Download,
   RefreshCw,
   Edit,
   Trash2,
   Shield,
   Mail,
-  Calendar,
   MoreHorizontal,
   CheckCircle,
-  XCircle,
-  UserPlus,
   UserMinus
 } from 'lucide-react'
 import { format } from 'date-fns'
@@ -38,12 +34,6 @@ interface User {
   preferences: any
 }
 
-interface BulkOperation {
-  type: 'suspend' | 'activate' | 'delete' | 'role_change'
-  userIds: string[]
-  details: any
-}
-
 export function EnhancedUserManagement() {
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -55,8 +45,6 @@ export function EnhancedUserManagement() {
   const [totalPages, setTotalPages] = useState(1)
   const [pageSize] = useState(50)
   const [bulkOperationLoading, setBulkOperationLoading] = useState(false)
-  const [showBulkModal, setShowBulkModal] = useState(false)
-  const [bulkAction, setBulkAction] = useState<string>('')
 
   const fetchUsers = async () => {
     try {
@@ -327,7 +315,10 @@ export function EnhancedUserManagement() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Users ({users.length})</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Users ({users.length})
+              </CardTitle>
               <CardDescription>User accounts and their current status</CardDescription>
             </div>
             <Badge variant="outline">{selectedUsers.length} selected</Badge>

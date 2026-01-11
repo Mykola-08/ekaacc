@@ -16,8 +16,9 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(result.data);
-  } catch (err: any) {
-    console.error('Error in checkout route:', err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    console.error('Error in checkout route:', errorMessage);
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

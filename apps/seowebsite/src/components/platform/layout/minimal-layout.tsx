@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 
 export interface MinimalLayoutProps {
   children: React.ReactNode;

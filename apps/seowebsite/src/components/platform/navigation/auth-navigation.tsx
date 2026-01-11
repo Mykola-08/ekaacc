@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useSimpleAuth } from '@/hooks/platform/use-simple-auth'
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
 import { Button } from '@/components/platform/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'
 import {
@@ -23,7 +23,7 @@ import {
   SheetTrigger,
 } from '@/components/platform/ui/sheet'
 import { Menu, User, Settings, Shield, LogOut, Home, BarChart3, Users } from 'lucide-react'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 
 interface NavigationProps {
   className?: string

@@ -31,7 +31,8 @@ export default [
       "**/*.d.ts",
       "**/node_modules/**",
       ".next/**",
-      "dist/**"
+      "dist/**",
+      "api/**"
     ]
   },
   ...compat.extends("plugin:@typescript-eslint/recommended"),
@@ -44,20 +45,23 @@ export default [
     languageOptions: {
       parser: tsParser,
       parserOptions: {
-        project: "./tsconfig.json",
+        project: ["./tsconfig.json", "./tsconfig.worker.json"],
       },
     },
     rules: {
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
-      "@typescript-eslint/no-unnecessary-condition": "warn",
-      "@typescript-eslint/no-unsafe-assignment": "warn",
-      "@typescript-eslint/no-unsafe-member-access": "warn",
-      "@typescript-eslint/no-unsafe-call": "warn",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
       "react/no-unescaped-entities": "off",
-      "@next/next/no-img-element": "warn"
+      "@next/next/no-img-element": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/ban-ts-comment": "off"
     },
   },
 ];

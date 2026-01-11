@@ -15,20 +15,15 @@ import { Switch } from '@/components/platform/ui/switch';
 import { Label } from '@/components/platform/ui/label';
 import { useAuth } from '@/context/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
-  Package, 
   Plus, 
   Edit, 
   Trash2, 
   Search, 
-  DollarSign,
-  Image,
-  Settings,
-  RefreshCw,
-  AlertTriangle,
-  CheckCircle,
-  Upload
+  RefreshCw, 
+  AlertTriangle, 
+  CheckCircle
 } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -104,7 +99,7 @@ interface StripePrice {
 }
 
 export function ProductManagementPanel() {
-  const { user, canAccessResource } = useAuth();
+  const { canAccessResource } = useAuth();
   const { toast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -113,9 +108,6 @@ export function ProductManagementPanel() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isSyncing, setIsSyncing] = useState(false);
-  const [stripeProducts, setStripeProducts] = useState<StripeProduct[]>([]);
-  const [stripePrices, setStripePrices] = useState<StripePrice[]>([]);
-
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -148,21 +140,6 @@ export function ProductManagementPanel() {
       });
     } finally {
       setLoading(false);
-    }
-  };
-
-  const fetchStripeData = async () => {
-    try {
-      // Fetch Stripe products and prices
-      const response = await fetch('/api/stripe/products');
-      const data = await response.json();
-      
-      if (data.success) {
-        setStripeProducts(data.products || []);
-        setStripePrices(data.prices || []);
-      }
-    } catch (error) {
-      console.error('Error fetching Stripe data:', error);
     }
   };
 
@@ -275,36 +252,6 @@ export function ProductManagementPanel() {
     }
   };
 
-  const handleImageUpload = async (file: File) => {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData
-      });
-      
-      const data = await response.json();
-      
-      if (data.success) {
-        const currentImages = form.getValues('images') || [];
-        form.setValue('images', [...currentImages, data.url]);
-        toast({
-          title: 'Success',
-          description: 'Image uploaded successfully'
-        });
-      }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to upload image',
-        variant: 'destructive'
-      });
-    }
-  };
-
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -316,7 +263,6 @@ export function ProductManagementPanel() {
 
   useEffect(() => {
     fetchProducts();
-    fetchStripeData();
   }, []);
 
   if (!canAccessResource('product_management', 'read')) {

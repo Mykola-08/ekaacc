@@ -1,6 +1,6 @@
 'use client';
 
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 interface PageContainerProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;

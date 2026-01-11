@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { BroadcastService } from '@/services/broadcast-service';
+import { BroadcastService } from '@/lib/platform/services/broadcast-service';
 import { supabase } from '@/lib/platform/supabase';
 
 // Helper function to verify user authentication
@@ -10,7 +10,7 @@ async function verifyUserAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
+  const { data: { user }, error } = await (supabase.auth as any).getUser(token);
   
   if (error || !user) {
     return { error: 'Invalid token', user: null };

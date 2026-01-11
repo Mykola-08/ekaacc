@@ -3,9 +3,14 @@ import { Service } from '@/types/database';
 import { ServiceCard } from '@/components/booking/ServiceCard';
 import { Flower } from "lucide-react";
 
-export const revalidate = 0;
+// Revalidate every 60 seconds - good balance of freshness and performance
+export const revalidate = 60;
 
-async function getServices() {
+// Generate static params for common services
+export const dynamic = 'force-static';
+export const dynamicParams = true;
+
+async function getServices(): Promise<Service[]> {
   const { data, error } = await listServices();
 
   if (error) {

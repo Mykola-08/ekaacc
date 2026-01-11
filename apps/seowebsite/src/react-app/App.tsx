@@ -1,6 +1,5 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router";
-import { HelmetProvider } from 'react-helmet-async';
 // import { SupabaseAuthProvider } from './contexts/SupabaseAuthContext.tsx';
 import { Cursor } from './components/MotionPrimitives';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -146,10 +145,8 @@ export default function App() {
   */
 
   return (
-    <HelmetProvider>
       <ErrorBoundary>
-        
-          <LanguageProvider>
+        <LanguageProvider>
             <DiscountProvider>
               <Cursor className="bg-blue-500" />
               <Router>
@@ -163,9 +160,7 @@ export default function App() {
                 </BookingProvider>
               </Router>
             </DiscountProvider>
-          </LanguageProvider>
-        
+        </LanguageProvider>
       </ErrorBoundary>
-    </HelmetProvider>
   );
 }

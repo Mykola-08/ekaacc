@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { AppError, errorHandler, ErrorContext, withRetry, RetryConfig } from '@/lib/platform/error-handling';
+import { AppError, errorHandler, ErrorContext, withRetry, RetryConfig } from '@/lib/platform/utils/error-handling';
 
 export interface AsyncState<T> {
   data: T | null;

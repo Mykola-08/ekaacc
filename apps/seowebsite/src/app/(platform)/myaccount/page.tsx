@@ -11,20 +11,20 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 import { Textarea } from '@/components/platform/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/platform/ui/form';
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useToast } from "@/hooks/platform/use-toast";
-import { useAuth } from "@/lib/platform/supabase-auth";
+import { useToast } from "@/hooks/platform/ui/use-toast";
+import { useAuth } from "@/lib/platform/supabase/auth";
 import { useAppStore } from "@/store/platform/app-store";
 import { format } from "date-fns";
 import { Wallet as WalletIcon, Plus, Save } from "lucide-react";
 import { PageContainer } from '@/components/platform/layout/page-container';
 
-import type { User } from "@/lib/platform/types";
-import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/platform/wallet-types";
+import type { User } from "@/lib/platform/types/types";
+import type { Wallet, WalletTransaction, PaymentRequest, PaymentMethod } from "@/lib/platform/types/wallet-types";
 
 // Helper function to convert string to Date
 function toDate(timestamp: string | Date | any): Date {
@@ -78,7 +78,7 @@ export default function MyAccountPage() {
 }
 
 // #region Profile Section
-function ProfileSection({ currentUser, refreshAppUser, authLoading }: { currentUser: User | null, refreshAppUser: () => Promise<void>, authLoading: boolean }) {
+function ProfileSection({ currentUser, refreshAppUser: _, authLoading }: { currentUser: User | null, refreshAppUser: () => Promise<void>, authLoading: boolean }) {
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
@@ -266,8 +266,8 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
     if (!currentUser) return;
     setLoadingWallet(true);
     try {
-      const { getWalletService } = await import("@/services/wallet-service");
-      const { getPaymentService } = await import("@/services/payment-service");
+      const { getWalletService } = await import("@/lib/platform/services/wallet-service");
+      const { getPaymentService } = await import("@/lib/platform/services/payment-service");
       const walletService = await getWalletService();
       const paymentService = await getPaymentService();
       const [walletData, transactionsData, paymentsData] = await Promise.all([
@@ -275,9 +275,9 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
         walletService.getTransactions(currentUser.id, 5),
         paymentService.getUserPaymentRequests(currentUser.id),
       ]);
-      setWallet(walletData);
-      setTransactions(transactionsData);
-      setPaymentRequests(paymentsData);
+      setWallet(walletData as any);
+      setTransactions(transactionsData as any);
+      setPaymentRequests(paymentsData as any);
     } catch (e) {
       console.error("Error loading wallet data:", e);
       toast({ title: "Error", description: "Could not load wallet data.", variant: "destructive" });
@@ -299,7 +299,7 @@ function WalletSection({ currentUser, authLoading }: { currentUser: User | null,
     }
 
     try {
-      const { getPaymentService } = await import("@/services/payment-service");
+      const { getPaymentService } = await import("@/lib/platform/services/payment-service");
       const paymentService = await getPaymentService();
       await paymentService.createPaymentRequest(
         currentUser.id,

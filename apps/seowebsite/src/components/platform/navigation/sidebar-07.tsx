@@ -3,7 +3,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 import { Button } from '@/components/platform/ui/button'
 
 import {
@@ -24,7 +24,7 @@ import {
 } from '@/components/platform/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/platform/ui/collapsible'
-import { useAuth } from '@/lib/platform/supabase-auth'
+import { useAuth } from '@/lib/platform/supabase/auth'
 import {
   LayoutDashboard,
   Calendar,

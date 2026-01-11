@@ -51,7 +51,7 @@ export function useConsent() {
         }
 
         // 2. If not in local storage, check DB if user is logged in
-        const { data: sessionData } = await supabase.auth.getSession();
+        const { data: sessionData } = await (supabase.auth as any).getSession();
         if (sessionData?.session && sessionData.session.user) {
           const { data, error } = await supabase
             .from('user_consents')
@@ -90,7 +90,7 @@ export function useConsent() {
       setPreferences(newPreferences);
 
       // 2. Save to DB if logged in
-      const { data: sessionData } = await supabase.auth.getSession();
+      const { data: sessionData } = await (supabase.auth as any).getSession();
       if (sessionData?.session && sessionData.session.user) {
         await supabase.from('user_consents').insert({
           user_id: sessionData.session.user.id,

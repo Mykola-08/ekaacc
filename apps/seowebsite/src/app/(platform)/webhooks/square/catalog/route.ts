@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
-import { squareStripeSyncService } from '@/services/square-stripe-sync-service';
+import { squareStripeSyncService } from '@/lib/platform/services/square-stripe-sync-service';
 
 const SIGNATURE_KEY = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
 

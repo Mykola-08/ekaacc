@@ -12,19 +12,40 @@ interface CreateCheckoutSessionParams {
   origin: string;
 }
 
-export async function createCheckoutSession(params: CreateCheckoutSessionParams) {
+interface CheckoutResult {
+  data: { sessionId: string; url: string } | null;
+  error: { message: string } | null;
+}
+
+// Singleton Stripe client
+let stripeClient: Stripe | null = null;
+
+function getStripeClient(): Stripe | null {
+  if (stripeClient) return stripeClient;
+  
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  if (!secretKey) {
+    console.error('STRIPE_SECRET_KEY is missing');
+    return null;
+  }
+  
+  stripeClient = new Stripe(secretKey, {
+    apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
+    maxNetworkRetries: 2,
+  });
+  
+  return stripeClient;
+}
+
+export async function createCheckoutSession(params: CreateCheckoutSessionParams): Promise<CheckoutResult> {
+  const { bookingId, origin, serviceName, price, customerEmail, customerName } = params;
+
+  const stripe = getStripeClient();
+  if (!stripe) {
+    return { data: null, error: { message: 'Payment configuration error' } };
+  }
+
   try {
-    const { bookingId, origin, serviceName, price, customerEmail, customerName } = params;
-
-    if (!process.env.STRIPE_SECRET_KEY) {
-      console.error('STRIPE_SECRET_KEY is missing');
-      return { data: null, error: { message: 'Payment configuration error' } };
-    }
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-      apiVersion: '2025-01-27.acacia' as any, // Use latest or pinned version
-    });
-
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card', 'paypal'],
@@ -34,7 +55,6 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
             currency: 'eur',
             product_data: {
               name: serviceName,
-              // images: [serviceImage] // Optional: Add service image if available
             },
             unit_amount: Math.round(price * 100), // Convert to cents
           },
@@ -47,18 +67,20 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
       client_reference_id: bookingId,
       customer_email: customerEmail,
       metadata: {
-        bookingId: bookingId,
-        customerName: customerName,
+        bookingId,
+        customerName,
       },
       payment_intent_data: {
         metadata: {
-          bookingId: bookingId
+          bookingId
         }
-      }
+      },
+      // Expire session after 30 minutes
+      expires_at: Math.floor(Date.now() / 1000) + (30 * 60),
     });
 
     if (!session.url) {
-       throw new Error('Failed to create session URL');
+      throw new Error('Failed to create session URL');
     }
 
     await emitEvent('payment.session_created', { bookingId, sessionId: session.id });
@@ -70,8 +92,9 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
       }, 
       error: null 
     };
-  } catch (error: any) {
-    console.error('Error creating checkout session:', error);
-    return { data: null, error: { message: error.message } };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown payment error';
+    console.error('Error creating checkout session:', errorMessage);
+    return { data: null, error: { message: errorMessage } };
   }
 }

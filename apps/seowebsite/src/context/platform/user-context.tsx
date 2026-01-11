@@ -1,10 +1,10 @@
 'use client';
 
 import React, { createContext, useContext, ReactNode } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
-import { getDataService } from '@/services/data-service';
+import { useAuth } from '@/lib/platform/supabase/auth';
+import { getDataService } from '@/lib/platform/services/data-service';
 import { useEffect, useState } from 'react';
-import type { User } from '@/lib/platform/types';
+import type { User } from '@/lib/platform/types/types';
 
 interface UserContextType {
   currentUser: User | null;
@@ -25,7 +25,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       try {
         const dataService = await getDataService();
         const users = await dataService.getAllUsers();
-        setAllUsers(users);
+        setAllUsers(users as any);
       } catch (error) {
         console.error('Failed to load users:', error);
         setAllUsers([]);

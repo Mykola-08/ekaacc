@@ -31,14 +31,14 @@ import {
   User as UserIcon,
   Sparkles
 } from 'lucide-react';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES } from '@/lib/platform/template-types';
-import type { User as UserType, Session } from '@/lib/platform/types';
-import { cn } from '@/lib/platform/utils';
+import { TherapistTemplate, AutofillData, DEFAULT_TEMPLATES } from '@/lib/platform/types/template-types';
+import type { User as UserType, Session } from '@/lib/platform/types/types';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 export default function TherapistTemplatesPage() {
   const { user: currentUser } = useAuth();

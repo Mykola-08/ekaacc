@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from 'react';
-import { BehavioralTrackingService, UserInteraction } from '@/services/behavioral-tracking-service';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { BehavioralTrackingService, UserInteraction } from '@/lib/platform/services/behavioral-tracking-service';
+import { useAuth } from '@/lib/platform/supabase/auth';
 
 export interface UseBehavioralTrackingOptions {
   trackPageViews?: boolean;

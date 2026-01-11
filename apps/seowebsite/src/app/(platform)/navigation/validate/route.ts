@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createProtectedRoute, ROUTE_CONFIGS } from '@/lib/platform/route-middleware';
-import { logSecurityEvent } from '@/lib/platform/security-monitoring';
+import { createProtectedRoute, ROUTE_CONFIGS } from '@/lib/platform/services/route-middleware';
+import { logSecurityEvent } from '@/lib/platform/services/security-service';
 import { supabase } from '@/lib/platform/supabase';
-import type { SystemRole, PermissionGroup, PermissionAction } from '@/lib/platform/role-permissions';
+import type { SystemRole, PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
 
 // Define the route configuration for this API endpoint
 const routeConfig = {
@@ -189,7 +189,7 @@ function getClientIP(request: NextRequest): string {
   const realIP = request.headers.get('x-real-ip');
   
   if (forwarded) {
-    return forwarded.split(',')[0].trim();
+    return (forwarded as string).split(',')[0].trim();
   }
   
   if (realIP) {

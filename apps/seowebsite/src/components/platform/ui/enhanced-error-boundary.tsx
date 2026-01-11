@@ -1,16 +1,16 @@
 'use client';
 
 import { Component, ReactNode, ErrorInfo } from 'react';
-import { ErrorBoundary } from '@/components/platform/error-boundary';
-import { logger } from '@/lib/platform/logging';
-import { errorHandler, AppError, ErrorContext } from '@/lib/platform/error-handling';
+import { ErrorBoundary } from '@/components/platform/providers/error-boundary';
+import { logger } from '@/lib/platform/services/logging';
+import { errorHandler, AppError, ErrorContext } from '@/lib/platform/utils/error-handling';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { AlertTriangle, RefreshCw, Home, Bug, Mail } from 'lucide-react';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { SurfacePanel } from '@/components/platform/eka/surface-panel';
 
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 interface EnhancedErrorBoundaryProps {
   children: ReactNode;

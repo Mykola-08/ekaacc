@@ -1,4 +1,4 @@
-import { BaseIntegration, IntegrationStatus } from './base';
+import { BaseIntegration, IntegrationStatus } from '@/lib/platform/integrations/base';
 
 export class SupabaseIntegration extends BaseIntegration {
   constructor(config: { enabled: boolean; url?: string; serviceKey?: string }) {

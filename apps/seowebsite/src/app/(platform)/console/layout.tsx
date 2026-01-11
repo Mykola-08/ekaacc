@@ -5,7 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/platform/u
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Users, Settings, BarChart3, Shield, ArrowLeft, DollarSign, Database, CreditCard, FileText, Briefcase, HardDrive } from 'lucide-react';
-import { UnifiedRoleGuard } from '@/components/platform/unified-role-guard';
+import { UnifiedRoleGuard } from '@/components/platform/auth/unified-role-guard';
 import { Card } from '@/components/platform/ui/card';
 
 const navItems = [

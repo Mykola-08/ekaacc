@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Input } from '@/components/platform/ui/input'
-import { cn } from '@/lib/platform/utils'
+import { cn } from '@/lib/platform/utils/css-utils'
 
 export interface MinimalInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string

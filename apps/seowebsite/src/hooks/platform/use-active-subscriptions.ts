@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getSubscriptionService } from '@/services/subscription-service';
-import type { Subscription, SubscriptionType } from '@/lib/platform/subscription-types';
+import { getSubscriptionService } from '@/lib/platform/services/subscription-service';
+import type { Subscription, SubscriptionType } from '@/lib/platform/types/subscription-types';
 
 interface UseActiveSubscriptionsResult {
   subscriptions: Subscription[];

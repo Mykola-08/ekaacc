@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ROUTES } from "@/lib/platform/routes";
+import { ROUTES } from "@/lib/platform/config/routes";
 
 export default function SiteFooter() {
   return (

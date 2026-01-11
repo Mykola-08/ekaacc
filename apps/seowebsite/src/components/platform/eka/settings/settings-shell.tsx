@@ -1,12 +1,5 @@
+import React from 'react';
 
-import { cn } from "@/lib/platform/utils";
-
-type SettingsShellProps = React.HTMLAttributes<HTMLDivElement>;
-
-export function SettingsShell({ className, children, ...props }: SettingsShellProps) {
-  return (
-    <div className={cn("space-y-8", className)} {...props}>
-      {children}
-    </div>
-  );
+export function SettingsShell({ children, title, description, className }: { children: React.ReactNode; title?: string; description?: string, className?: string }) {
+  return <div className={`space-y-6 ${className || ''}`}>{children}</div>;
 }

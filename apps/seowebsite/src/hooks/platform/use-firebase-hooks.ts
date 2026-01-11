@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 
 export function useUser() {
   const { user } = useAuth();

@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/platform/ui/button'
 import { Badge } from '@/components/platform/ui/badge'
 import { Switch } from '@/components/platform/ui/switch'
-import { Shield, Key, Plus, Edit, Trash2 } from 'lucide-react'
+import { Shield, Plus, Edit, Trash2 } from 'lucide-react'
 import {
   Table,
   TableBody,
@@ -43,25 +43,17 @@ interface Permission {
   description: string | null
 }
 
-interface RolePermission {
-  permission_id: string
-  permissions: Permission
-}
-
 interface RoleManagementProps {
   className?: string
 }
 
 export function RoleManagement({ className }: RoleManagementProps) {
   const [roles, setRoles] = useState<Role[]>([])
-  const [permissions, setPermissions] = useState<Permission[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedRole, setSelectedRole] = useState<Role | null>(null)
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
 
   useEffect(() => {
     fetchRoles()
-    fetchPermissions()
   }, [])
 
   const fetchRoles = async () => {
@@ -81,46 +73,6 @@ export function RoleManagement({ className }: RoleManagementProps) {
       console.error('Error fetching roles:', error)
     } finally {
       setLoading(false)
-    }
-  }
-
-  const fetchPermissions = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('permissions')
-        .select('*')
-        .order('name')
-
-      if (error) {
-        console.error('Error fetching permissions:', error)
-        return
-      }
-
-      setPermissions(data || [])
-    } catch (error) {
-      console.error('Error fetching permissions:', error)
-    }
-  }
-
-  const getRolePermissions = async (roleId: string) => {
-    try {
-      const { data, error } = await supabase
-        .from('role_permissions')
-        .select(`
-          permission_id,
-          permissions(*)
-        `)
-        .eq('role_id', roleId)
-
-      if (error) {
-        console.error('Error fetching role permissions:', error)
-        return []
-      }
-
-      return data || []
-    } catch (error) {
-      console.error('Error fetching role permissions:', error)
-      return []
     }
   }
 

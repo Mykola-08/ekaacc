@@ -1,12 +1,12 @@
 'use server';
 
 import { createClient } from '@/lib/platform/supabase/server';
-import { TransactionalEmailService, TransactionalEmailType } from '@/services/transactional-email-service';
+import { TransactionalEmailService, TransactionalEmailType } from '@/lib/platform/services/transactional-email-service';
 import { revalidatePath } from 'next/cache';
 
 export async function sendTherapistEmail(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const { data: { user }, error: authError } = await (supabase.auth as any).getUser();
 
   if (authError || !user) {
     return { success: false, error: 'Unauthorized' };
@@ -59,7 +59,7 @@ export async function sendTherapistEmail(formData: FormData) {
 
 export async function previewTherapistEmail(type: TransactionalEmailType, data: any) {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user } } = await (supabase.auth as any).getUser();
     
     if (!user) return { html: '' };
 

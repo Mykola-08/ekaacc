@@ -3,49 +3,99 @@ import { v4 as uuid } from 'uuid';
 import { signManageToken, hashToken } from '@/lib/bookingToken';
 import { emitEvent } from '@/lib/events';
 
+// Simple in-memory cache for frequently accessed data
+const serviceCache = new Map<string, { data: unknown; expiry: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
+function getCached<T>(key: string): T | null {
+  const cached = serviceCache.get(key);
+  if (!cached) return null;
+  if (Date.now() > cached.expiry) {
+    serviceCache.delete(key);
+    return null;
+  }
+  return cached.data as T;
+}
+
+function setCache<T>(key: string, data: T, ttl = CACHE_TTL): void {
+  serviceCache.set(key, { data, expiry: Date.now() + ttl });
+}
+
+export function invalidateServiceCache(serviceId?: string): void {
+  if (serviceId) {
+    serviceCache.delete(`service:${serviceId}`);
+  } else {
+    // Clear all service-related cache
+    for (const key of serviceCache.keys()) {
+      if (key.startsWith('service')) serviceCache.delete(key);
+    }
+  }
+}
+
 export async function fetchService(serviceId: string) {
+  // Check cache first
+  const cacheKey = `service:${serviceId}`;
+  const cached = getCached<{ data: unknown; error: null }>(cacheKey);
+  if (cached) return cached;
+
   try {
+    // Use a single query with JOIN for better performance
     const { rows } = await db.query(
-      'SELECT id, name, description, stripe_product_id, metadata, location, image_url, images FROM service WHERE id = $1',
+      `SELECT s.id, s.name, s.description, s.stripe_product_id, s.metadata, s.location, s.image_url, s.images,
+              sv.id as variant_id, sv.name as variant_name, sv.description as variant_description,
+              sv.duration_min, sv.price_amount, sv.currency, sv.stripe_price_id, sv.features, sv.comparison_label
+       FROM service s
+       LEFT JOIN service_variant sv ON s.id = sv.service_id AND sv.active = true
+       WHERE s.id = $1
+       ORDER BY sv.price_amount ASC`,
       [serviceId]
     );
     
     if (rows.length === 0) {
       return { data: null, error: { message: 'Service not found', code: '404' } };
     }
-    
-    // Fetch variants
-    const { rows: variantRows } = await db.query(
-      'SELECT id, name, description, duration_min, price_amount, currency, stripe_price_id, features, comparison_label FROM service_variant WHERE service_id = $1 AND active = true ORDER BY price_amount ASC',
-      [serviceId]
-    );
 
-    const variants = variantRows.map(v => ({
-      id: v.id,
-      name: v.name,
-      description: v.description,
-      duration: v.duration_min,
-      price: v.price_amount / 100, // Convert cents to main unit for UI
-      currency: v.currency,
-      stripe_price_id: v.stripe_price_id,
-      features: v.features || [],
-      comparison_label: v.comparison_label || null
-    }));
+    // Process joined results - first row has service data, all rows have variant data
+    const serviceRow = rows[0];
+    const variants = rows
+      .filter(r => r.variant_id) // Only rows with variant data
+      .map(v => ({
+        id: v.variant_id,
+        name: v.variant_name,
+        description: v.variant_description,
+        duration: v.duration_min,
+        price: v.price_amount / 100, // Convert cents to main unit for UI
+        currency: v.currency,
+        stripe_price_id: v.stripe_price_id,
+        features: v.features || [],
+        comparison_label: v.comparison_label || null
+      }));
 
     // Backfill top-level price/duration from first variant (lowest price)
     const defaultVariant = variants[0] || { price: 0, duration: 60 };
 
     const serviceData = {
-      ...rows[0],
+      id: serviceRow.id,
+      name: serviceRow.name,
+      description: serviceRow.description,
+      stripe_product_id: serviceRow.stripe_product_id,
+      metadata: serviceRow.metadata,
+      location: serviceRow.location,
+      image_url: serviceRow.image_url,
+      images: serviceRow.images,
       price: defaultVariant.price,
       duration: defaultVariant.duration,
       variants
     };
 
-    return { data: serviceData, error: null };
+    // Cache the result
+    const result = { data: serviceData, error: null as string | null };
+    setCache(cacheKey, result);
+
+    return result;
   } catch (error) {
     console.error('Error fetching service:', error);
-    return { data: null, error };
+    return { data: null as any, error };
   }
 }
 
@@ -75,14 +125,19 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
       };
     });
 
-    return { data: mappedRows, error: null };
+    return { data: mappedRows, error: null as string | null };
   } catch (error) {
     console.error('Error listing bookings:', error);
-    return { data: [], error };
+    return { data: [] as any[], error };
   }
 }
 
 export async function listServices() {
+  // Check cache first
+  const cacheKey = 'services:list';
+  const cached = getCached<{ data: unknown[]; error: null }>(cacheKey);
+  if (cached) return cached;
+
   try {
     const { rows } = await db.query(
       `SELECT 
@@ -92,11 +147,9 @@ export async function listServices() {
         s.active, 
         s.created_at, 
         s.stripe_product_id, 
-        -- s.stripe_price_id removed from service
         s.metadata, 
         s.location, 
         s.image_url,
-        -- Aggregate variant info for display
         COALESCE(MIN(sv.price_amount), 0) / 100 as price,
         COALESCE((ARRAY_AGG(sv.duration_min ORDER BY sv.price_amount ASC))[1], 0) as duration
        FROM service s
@@ -106,7 +159,22 @@ export async function listServices() {
        ORDER BY s.name`
     );
     
-    const mappedData = rows.map((s: any) => ({
+    interface ServiceRow {
+      id: string;
+      name: string;
+      description: string | null;
+      active: boolean;
+      created_at: string;
+      stripe_product_id: string | null;
+      metadata: Record<string, unknown> | null;
+      location: string | null;
+      image_url: string | null;
+      price: number;
+      duration: number;
+      version?: string | null;
+    }
+    
+    const mappedData = (rows as unknown as ServiceRow[]).map((s) => ({
       ...s,
       is_active: s.active,
       location: s.location || null,
@@ -114,10 +182,13 @@ export async function listServices() {
       version: s.version || null
     }));
     
-    return { data: mappedData, error: null };
+    const result = { data: mappedData, error: null as string | null };
+    setCache(cacheKey, result);
+    
+    return result;
   } catch (error) {
     console.error('Error listing services:', error);
-    return { data: null, error };
+    return { data: null as any, error };
   }
 }
 
@@ -147,13 +218,13 @@ export async function getBookingById(bookingId: string) {
         price: booking.service_price,
         description: booking.service_description
       },
-      staff: null // We don't have staff table join yet
+      staff: null as any // We don't have staff table join yet
     };
 
-    return { data: result, error: null };
+    return { data: result, error: null as string | null };
   } catch (error) {
     console.error('Error getting booking:', error);
-    return { data: null, error };
+    return { data: null as any, error };
   }
 }
 
@@ -164,12 +235,12 @@ export async function getBookingStats() {
     
     const stats = {
       total: rows.length,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       byStatus: rows.reduce((acc: Record<string, number>, b: any) => {
         acc[b.status] = (acc[b.status] || 0) + 1;
         return acc;
       }, {}),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+       
       byPaymentStatus: rows.reduce((acc: Record<string, number>, b: any) => {
         acc[b.payment_status] = (acc[b.payment_status] || 0) + 1;
         return acc;
@@ -192,7 +263,7 @@ export async function checkDatabaseHealth() {
       healthy: true, 
       timestamp: new Date().toISOString(),
       responseTimeMs: responseTime,
-      error: null
+      error: null as string | null
     };
   } catch (err) {
     return { 
@@ -203,27 +274,35 @@ export async function checkDatabaseHealth() {
   }
 }
 
-export async function createBooking(params: {
+interface BookingAddon {
+  addonId: string;
+  name: string;
+  priceCents: number;
+}
+
+interface CreateBookingParams {
   serviceId: string;
   serviceVariantId?: string;
-  originApp?: string; // NEW
-  userId?: string; // NEW: optional user ID
+  originApp?: string;
+  userId?: string;
   startTime: string;
   email: string;
   phone?: string;
   displayName?: string;
   paymentMode: 'full' | 'deposit';
   depositCents?: number;
-  addons?: any[];
+  addons?: BookingAddon[];
   staffId?: string;
-  metadata?: any; // NEW: Extensive data support
-  customerTags?: string[]; // NEW: Extensive data support
-}) {
+  metadata?: Record<string, unknown>;
+  customerTags?: string[];
+}
+
+export async function createBooking(params: CreateBookingParams) {
   try {
     const {
       serviceId,
       serviceVariantId,
-      originApp = 'web', // Default
+      originApp = 'web',
       userId,
       startTime,
       email,
@@ -233,8 +312,8 @@ export async function createBooking(params: {
       depositCents = 0,
       addons = [],
       staffId,
-      metadata = {}, // NEW
-      customerTags = [], // NEW
+      metadata = {},
+      customerTags = [],
     } = params;
 
     // 1. Fetch service
@@ -272,26 +351,34 @@ export async function createBooking(params: {
     let finalVariantId = serviceVariantId || null;
 
     if (serviceVariantId) {
-       const { rows: vRows } = await db.query(
+       interface VariantRow {
+         id: string;
+         duration_min: number;
+         price_amount: number;
+       }
+       const { rows: vRows } = await db.query<VariantRow>(
          'SELECT id, duration_min, price_amount FROM service_variant WHERE id = $1 AND service_id = $2',
          [serviceVariantId, serviceId]
        );
        if (vRows.length === 0) {
          return { error: 'Service variant not found', status: 404 };
        }
-       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-       const variant = vRows[0] as any;
+       const variant = vRows[0];
        finalDuration = variant.duration_min;
        finalPriceCents = variant.price_amount;
     } else {
        // Attempt to find a default variant (lowest price)
-       const { rows: defaultV } = await db.query(
+       interface DefaultVariantRow {
+         id: string;
+         duration_min: number;
+         price_amount: number;
+       }
+       const { rows: defaultV } = await db.query<DefaultVariantRow>(
          'SELECT id, duration_min, price_amount FROM service_variant WHERE service_id = $1 ORDER BY price_amount ASC LIMIT 1', 
          [serviceId]
        );
        if (defaultV.length > 0) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const def = defaultV[0] as any;
+          const def = defaultV[0];
           finalVariantId = def.id; 
           finalDuration = def.duration_min;
           finalPriceCents = def.price_amount;
@@ -395,12 +482,13 @@ export async function createBooking(params: {
         reservationExpiresAt: reservationExpiresAt.toISOString(),
         staffId: finalStaffId,
       },
-      error: null
+      error: null as string | null
     };
 
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
     console.error('Error creating booking:', error);
-    return { error: error.message || 'Internal Server Error', status: 500 };
+    return { error: errorMessage, status: 500 };
   }
 }
 
@@ -447,7 +535,12 @@ export async function getServiceAvailability(serviceId: string, date: string, se
     );
 
     // 4. Calculate slots
-    const slots: any[] = [];
+    interface AvailabilitySlot {
+      startTime: string;
+      endTime: string;
+      staffId: string;
+    }
+    const slots: AvailabilitySlot[] = [];
     for (const sched of schedules) {
       const staffId = sched.staff_id;
       // Simple hourly slots for now, can be improved to minute-level
@@ -461,7 +554,14 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         }
 
         // Overlap check
-        const overlapping = bookings.some((b: any) => {
+        interface BookingRow {
+          id: string;
+          start_time: string;
+          end_time: string;
+          staff_id: string;
+          payment_status: string;
+        }
+        const overlapping = (bookings as BookingRow[]).some((b) => {
           const bStart = new Date(b.start_time);
           const bEnd = new Date(b.end_time);
           return b.staff_id === staffId && 
@@ -484,11 +584,12 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         generatedAt: new Date().toISOString(),
         durationMinutes: durationMin,
       },
-      error: null
+      error: null as string | null
     };
 
-  } catch (error: any) {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
     console.error('Error getting availability:', error);
-    return { error: error.message || 'Internal Server Error', status: 500 };
+    return { error: errorMessage, status: 500 };
   }
 }

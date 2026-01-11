@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
   // Dynamic import to avoid initializing Stripe during build-time module evaluation.
   const { default: Stripe } = await import('stripe');
-  const stripe = new Stripe(stripeKey.trim(), { apiVersion: '2025-02-24.acacia' });
+  const stripe = new Stripe(stripeKey.trim(), { apiVersion: '2025-02-24.acacia' as any });
   const body = await req.text();
   const signature = req.headers.get('stripe-signature');
 
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
           const amountPaid = amount / 100; // Convert cents to EUR
           if (amountCredits > 0) {
             try {
-              const { walletService } = await import('@/services/wallet-service');
+              const { walletService } = await import('@/lib/platform/services/wallet-service');
               await walletService.processStripeTopUp(userId, amountCredits, paymentIntent.id, amountPaid);
               console.log(`Processed wallet top-up for user ${userId}: ${amountCredits} credits`);
             } catch (e) {

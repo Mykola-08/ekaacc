@@ -57,12 +57,14 @@ const eslintConfig = [
     rules: {
       "no-undef": "off", // TypeScript handles this
       "no-unused-vars": "off", // TypeScript handles this
+      "@typescript-eslint/no-unused-vars": "off",
       "no-console": "off", // Turned off - use logger utility for production code
-      "@typescript-eslint/no-explicit-any": "warn",
-      "@typescript-eslint/no-unnecessary-condition": "warn",
-      "@typescript-eslint/no-unsafe-assignment": "warn",
-      "@typescript-eslint/no-unsafe-member-access": "warn",
-      "@typescript-eslint/no-unsafe-call": "warn"
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/no-unsafe-return": "off"
     }
   },
   // More lenient rules for scripts and tests

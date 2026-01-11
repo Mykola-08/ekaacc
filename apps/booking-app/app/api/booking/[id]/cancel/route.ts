@@ -37,8 +37,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       refundablePercent = policy.refundPercent;
     }
     // Logic for amount calculation remains for record keeping
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const amountBasis = booking.payment_mode === 'deposit' ? booking.deposit_cents : booking.base_price_cents + (booking.addons_json || []).reduce((s: number, a: any) => s + (a.priceCents || 0), 0);
+    interface BookingAddon {
+      priceCents?: number;
+    }
+    const addons = (booking.addons_json || []) as BookingAddon[];
+    const amountBasis = booking.payment_mode === 'deposit' 
+      ? booking.deposit_cents 
+      : booking.base_price_cents + addons.reduce((s: number, a: BookingAddon) => s + (a.priceCents || 0), 0);
     const refundCents = Math.round(amountBasis * (refundablePercent / 100));
 
     // Stripe refund removed. 
@@ -62,9 +67,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       return NextResponse.json({ error: rotateErr.message }, { status: 500 });
     }
 
-    await emitEvent('booking.canceled', { bookingId: booking.id, refundCents });
+    await emitEvent('booking.cancelled', { bookingId: booking.id, refundCents });
     return NextResponse.json({ bookingId: booking.id, status: 'canceled', refundCents, manageToken: newToken });
-  } catch (e: any) {
-    return NextResponse.json({ error: e.message }, { status: 500 });
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : 'Unknown error';
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

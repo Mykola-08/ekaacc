@@ -1,13 +1,13 @@
 'use client';
 
 import { useEffect, useState, use } from 'react';
-import { academyService } from '@/services/academy-service';
-import { Course, Module } from '@/types/platform/academy';
+import { academyService } from '@/lib/platform/services/academy-service';
+import { Course, Module } from '@/lib/platform/types/academy';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/platform/ui/accordion';
-import { Plus, Trash2, Save, Edit2 } from 'lucide-react';
+import { Plus, Edit2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function EditCoursePage({ params }: { params: Promise<{ courseId: string }> }) {
@@ -43,7 +43,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ courseId:
         description: '',
         order_index: modules.length,
         is_published: true
-      });
+      } as any);
       setModules([...modules, newModule]);
     } catch (error) {
       console.error('Failed to create module:', error);
@@ -59,7 +59,7 @@ export default function EditCoursePage({ params }: { params: Promise<{ courseId:
         content: { article_text: '' },
         order_index: 999,
         is_published: false
-      });
+      } as any);
       // Refresh modules to see new lesson
       const updatedModules = await academyService.getCourseModules(courseId);
       setModules(updatedModules);

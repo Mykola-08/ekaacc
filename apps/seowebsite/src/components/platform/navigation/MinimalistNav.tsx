@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Menu, X, User, Settings, LogOut } from 'lucide-react';
 import { Button } from '@/components/platform/ui/button';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 interface MinimalistNavProps {
   className?: string;

@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Search, User as UserIcon, Shield, AlertTriangle, X, Eye, LogOut } from 'lucide-react'
+import { Search, Shield, AlertTriangle, Eye, LogOut } from 'lucide-react'
 import { Input } from '@/components/platform/ui/input'
 import { Button } from '@/components/platform/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
+import { Card, CardContent } from '@/components/platform/ui/card'
 import { Badge } from '@/components/platform/ui/badge'
 import { Alert, AlertDescription } from '@/components/platform/ui/alert'
 import { ScrollArea } from '@/components/platform/ui/scroll-area'
@@ -19,8 +19,7 @@ import {
 } from '@/components/platform/ui/dialog'
 import { Label } from '@/components/platform/ui/label'
 import { Textarea } from '@/components/platform/ui/textarea'
-import { useAuth } from '@/context/platform/auth-context'
-import { useToast } from '@/hooks/platform/use-toast'
+import { useToast } from '@/hooks/platform/ui/use-toast'
 import { supabase } from '@/lib/platform/supabase'
 
 interface User {
@@ -44,7 +43,7 @@ interface UserImpersonationDialogProps {
 }
 
 export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: UserImpersonationDialogProps) {
-  const { user: currentUser } = useAuth()
+
   const { toast } = useToast()
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -300,9 +299,11 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
 
 interface ImpersonationBannerProps {
   impersonation: {
-    originalUserEmail: string
-    targetUserEmail: string
-    reason: string
+    originalUserEmail?: string
+    targetUserEmail?: string
+    originalUserId?: string
+    targetUserId?: string
+    reason?: string
     startedAt: string
   }
   onEndImpersonation: () => void
@@ -329,14 +330,16 @@ export function ImpersonationBanner({ impersonation, onEndImpersonation }: Imper
           <Shield className="h-5 w-5 text-amber-600" />
           <div className="text-sm">
             <span className="font-medium text-amber-800">
-              Impersonating: {impersonation.targetUserEmail}
+              Impersonating: {impersonation.targetUserEmail || impersonation.targetUserId || 'User'}
             </span>
             <span className="text-amber-700 ml-2">
-              (Original: {impersonation.originalUserEmail})
+              (Original: {impersonation.originalUserEmail || 'Admin'})
             </span>
-            <span className="text-amber-600 ml-2">
-              • Reason: {impersonation.reason}
-            </span>
+            {impersonation.reason && (
+              <span className="text-amber-600 ml-2">
+                • Reason: {impersonation.reason}
+              </span>
+            )}
           </div>
         </div>
         <Button

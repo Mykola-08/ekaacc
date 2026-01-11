@@ -6,7 +6,7 @@ import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/platform/ui/table';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
-import { SYSTEM_ROLES, SystemRole } from '@/lib/platform/role-permissions';
+import { SYSTEM_ROLES } from '@/lib/platform/config/role-permissions';
 import { toast } from 'sonner';
 
 export default function AdminUsersPage() {

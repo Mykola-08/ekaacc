@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/context/platform/auth-context';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
@@ -21,13 +21,11 @@ import {
   Heart,
   Zap,
   Shield,
-  ArrowLeft,
   RefreshCw
 } from 'lucide-react';
 import { EnhancedAIChat } from '@/components/platform/ai/enhanced-ai-chat';
 import { AIPersonalizationService } from '@/ai/ai-personalization-service';
 import { AIBackgroundMonitor } from '@/ai/ai-background-monitor';
-import { useRouter } from 'next/navigation';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { PageHeader } from '@/components/platform/eka/page-header';
 import { SurfacePanel } from '@/components/platform/eka/surface-panel';
@@ -63,11 +61,10 @@ interface AIPersonalizationData {
 
 export default function AIInsightsPage() {
   const { user } = useAuth();
-  const router = useRouter();
-  const [insights, setInsights] = useState<AIInsight[]>([]);
   const [personalizationData, setPersonalizationData] = useState<AIPersonalizationData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState(Date.now());
+  const [insights, setInsights] = useState<AIInsight[]>([]);
 
   const wellnessInsights = insights.filter((i: any) => i.type === 'wellness');
   const behaviorInsights = insights.filter((i: any) => i.type === 'behavior');
@@ -492,6 +489,100 @@ export default function AIInsightsPage() {
                   ))}
                   {behaviorInsights.length === 0 && (
                     <p className="text-sm text-slate-500 text-center py-4">No behavior insights available</p>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Therapy Insights */}
+              <Card className="border-slate-200 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Brain className="w-5 h-5 text-indigo-500" />
+                    <span>Therapy Insights</span>
+                    <Badge variant="secondary">{therapyInsights.length}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {therapyInsights.slice(0, 3).map((insight: any) => (
+                    <motion.div
+                      key={insight.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="p-4 bg-slate-50 rounded-lg border border-slate-200"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          {getInsightIcon(insight.type)}
+                          <span className="font-medium text-slate-900">{insight.title}</span>
+                        </div>
+                        {getTrendIcon(insight.trend)}
+                      </div>
+                      <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full ${getConfidenceColor(insight.confidence)}`}
+                              style={{ width: `${insight.confidence}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-slate-500">{insight.confidence}%</span>
+                        </div>
+                        {insight.actionable && (
+                          <Badge variant="outline" className="text-xs">Actionable</Badge>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                  {therapyInsights.length === 0 && (
+                    <p className="text-sm text-slate-500 text-center py-4">No therapy insights available</p>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Goal Insights */}
+              <Card className="border-slate-200 shadow-lg">
+                <CardHeader>
+                  <CardTitle className="flex items-center space-x-2">
+                    <Target className="w-5 h-5 text-emerald-500" />
+                    <span>Goal Insights</span>
+                    <Badge variant="secondary">{goalInsights.length}</Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {goalInsights.slice(0, 3).map((insight: any) => (
+                    <motion.div
+                      key={insight.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="p-4 bg-slate-50 rounded-lg border border-slate-200"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          {getInsightIcon(insight.type)}
+                          <span className="font-medium text-slate-900">{insight.title}</span>
+                        </div>
+                        {getTrendIcon(insight.trend)}
+                      </div>
+                      <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full ${getConfidenceColor(insight.confidence)}`}
+                              style={{ width: `${insight.confidence}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-slate-500">{insight.confidence}%</span>
+                        </div>
+                        {insight.actionable && (
+                          <Badge variant="outline" className="text-xs">Actionable</Badge>
+                        )}
+                      </div>
+                    </motion.div>
+                  ))}
+                  {goalInsights.length === 0 && (
+                    <p className="text-sm text-slate-500 text-center py-4">No goal insights available</p>
                   )}
                 </CardContent>
               </Card>

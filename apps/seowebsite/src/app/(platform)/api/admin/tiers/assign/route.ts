@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/platform/supabase';
-import { getTierValidationService } from '@/services/tier-validation-service';
-import type { VIPTier, LoyaltyTier } from '@/lib/platform/subscription-types';
+import { getTierValidationService } from '@/lib/platform/services/tier-validation-service';
+import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 
 // Helper function to verify admin authentication and permissions
 async function verifyAdminAccess(request: NextRequest) {
@@ -11,7 +11,7 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
+  const { data: { user }, error } = await (supabase.auth as any).getUser(token);
   
   if (error || !user) {
     return { error: 'Invalid token', user: null };
@@ -182,7 +182,7 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     // Verify admin access
-    const { error: authError, user: adminUser } = await verifyAdminAccess(request);
+    const { error: authError } = await verifyAdminAccess(request);
     if (authError) {
       return NextResponse.json(
         { error: authError },

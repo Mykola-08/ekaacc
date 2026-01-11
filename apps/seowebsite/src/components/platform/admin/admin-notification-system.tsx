@@ -17,7 +17,6 @@ import {
   Plus,
   Edit,
   Trash2,
-  Filter,
   Search,
   RefreshCw,
   FileText
@@ -56,7 +55,6 @@ export function AdminNotificationSystem() {
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [showTemplateModal, setShowTemplateModal] = useState(false)
-  const [editingNotification, setEditingNotification] = useState<AdminNotification | null>(null)
   const [sending, setSending] = useState(false)
 
   const [newNotification, setNewNotification] = useState({
@@ -376,7 +374,7 @@ export function AdminNotificationSystem() {
                     variant="outline"
                     size="sm"
                     onClick={() => setEditingNotification(notification)}
-                  >
+                  >console.log('Edit not implemented', 
                     <Edit className="h-3 w-3 mr-1" />
                     Edit
                   </Button>
@@ -490,6 +488,96 @@ export function AdminNotificationSystem() {
                   className="flex-1"
                 >
                   {sending ? 'Creating...' : 'Create Notification'}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* Templates Modal */}
+      {showTemplateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <Card className="w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+            <CardHeader>
+              <CardTitle>Manage Templates</CardTitle>
+              <CardDescription>Create and manage notification templates</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="bg-slate-50 p-4 rounded-lg space-y-4">
+                <h4 className="font-medium">New Template</h4>
+                <div>
+                  <Label htmlFor="tpl-name">Template Name</Label>
+                  <Input
+                    id="tpl-name"
+                    value={newTemplate.name}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, name: e.target.value })}
+                    placeholder="e.g. System Maintenance"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="tpl-title">Title</Label>
+                    <Input
+                      id="tpl-title"
+                      value={newTemplate.title}
+                      onChange={(e) => setNewTemplate({ ...newTemplate, title: e.target.value })}
+                      placeholder="Default Title"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="tpl-type">Type</Label>
+                    <select
+                      id="tpl-type"
+                      value={newTemplate.type}
+                      onChange={(e) => setNewTemplate({ ...newTemplate, type: e.target.value as any })}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    >
+                      <option value="info">Info</option>
+                      <option value="warning">Warning</option>
+                      <option value="error">Error</option>
+                      <option value="success">Success</option>
+                    </select>
+                  </div>
+                </div>
+                <div>
+                  <Label htmlFor="tpl-message">Default Message</Label>
+                  <Textarea
+                    id="tpl-message"
+                    value={newTemplate.message}
+                    onChange={(e) => setNewTemplate({ ...newTemplate, message: e.target.value })}
+                    placeholder="Default Message content..."
+                    rows={3}
+                  />
+                </div>
+                <Button 
+                  onClick={handleCreateTemplate}
+                  disabled={sending || !newTemplate.name || !newTemplate.title}
+                  className="w-full"
+                >
+                  Save Template
+                </Button>
+              </div>
+              
+              <div>
+                <h4 className="font-medium mb-2">Existing Templates</h4>
+                {templates.length === 0 ? (
+                  <p className="text-gray-500 text-sm">No templates found.</p>
+                ) : (
+                  <div className="grid gap-2">
+                    {templates.map(tpl => (
+                      <div key={tpl.id} className="border p-3 rounded-md flex justify-between items-center">
+                        <span className="font-medium">{tpl.name}</span>
+                        <Badge variant="outline">{tpl.type}</Badge>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex justify-end pt-2">
+                <Button variant="outline" onClick={() => setShowTemplateModal(false)}>
+                  Close
                 </Button>
               </div>
             </CardContent>

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LayoutDashboard, UserCircle, Menu, Monitor } from 'lucide-react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { useLayout } from '@/context/platform/layout-context';
 import { Button } from '@/components/platform/ui/button';
 import {
@@ -30,7 +30,7 @@ export function MobileNav() {
     },
     {
       title: 'Profile',
-      url: '/profile',
+      url: '/myaccount',
       icon: UserCircle,
     },
   ];

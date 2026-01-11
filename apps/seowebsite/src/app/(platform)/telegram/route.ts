@@ -1,4 +1,4 @@
-import { bot } from '@/lib/platform/bot';
+import { bot } from '@/lib/platform/services/bot-service';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {

@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { format } from 'date-fns';
-import type { Report } from '@/lib/platform/types';
+import type { Report } from '@/lib/platform/types/types';
 import { Card } from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
 import { Badge } from '@/components/platform/ui/badge';

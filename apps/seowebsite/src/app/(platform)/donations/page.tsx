@@ -8,15 +8,15 @@ import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@
 import { Skeleton } from '@/components/platform/ui/skeleton';
 import { useState, useMemo, useEffect } from 'react';
 import { Heart, HandHeart } from "lucide-react";
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
-import { useToast } from '@/hooks/platform/use-toast';
-import type { Donation, User } from '@/lib/platform/types';
+import { useToast } from '@/hooks/platform/ui/use-toast';
+import type { Donation, User } from '@/lib/platform/types/types';
 import { DonationSeekerApplicationForm } from '@/components/platform/eka/forms/donation-seeker-application-form';
 import type { DonationSeekerData } from '@/components/platform/eka/forms/donation-seeker-application-form';
 
 export default function DonationsPage() {
-  const { user: currentUser, user } = useAuth();
+  const { user: currentUser } = useAuth();
   const dataService = useAppStore((state: any) => state.dataService);
   const { toast } = useToast();
 
@@ -28,10 +28,10 @@ export default function DonationsPage() {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   useEffect(() => {
-    if (dataService && user?.id) {
+    if (dataService && currentUser?.id) {
       setIsLoading(true);
       Promise.all([
-        dataService.getDonations(user.id),
+        dataService.getDonations(currentUser.id),
         dataService.getAllUsers(),
       ]).then(([donations, users]) => {
         setUserDonations(donations || []);
@@ -39,10 +39,10 @@ export default function DonationsPage() {
       }).finally(() => {
         setIsLoading(false);
       });
-    } else if (!user) {
+    } else if (!currentUser) {
       setIsLoading(false);
     }
-  }, [dataService, user]);
+  }, [dataService, currentUser]);
 
   const donationStats = useMemo(() => {
     if (!userDonations) {

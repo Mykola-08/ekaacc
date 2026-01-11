@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
-import { useSimpleAuth, useUserPreferences } from '@/hooks/platform/use-simple-auth'
+import { useSimpleAuth, useUserPreferences } from '@/hooks/platform/auth/use-simple-auth'
 import { Button } from '@/components/platform/ui/button'
 import { Badge } from '@/components/platform/ui/badge'
 import {

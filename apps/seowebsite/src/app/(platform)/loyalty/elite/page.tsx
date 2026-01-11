@@ -1,6 +1,6 @@
 import React from 'react';
 import { Metadata } from 'next';
-import { Gem, Gift, Star, TrendingUp, Users, Calendar, Award, Zap, Crown, Sparkles, Target, Shield } from 'lucide-react';
+import { Gem, Gift, Crown, Sparkles, Target, Shield } from 'lucide-react';
 import { ShimmerButton } from '@/components/platform/ui/shimmer-button';
 import { Button } from '@/components/platform/ui/button';
 import { AnimatedGradientText } from '@/components/platform/ui/animated-gradient-text';

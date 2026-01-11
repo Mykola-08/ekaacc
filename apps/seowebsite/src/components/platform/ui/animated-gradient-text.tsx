@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 interface AnimatedGradientTextProps extends React.HTMLAttributes<HTMLSpanElement> {
   children: React.ReactNode;

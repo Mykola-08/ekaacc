@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
 
 interface SEOHeadProps {
   title?: string;
@@ -20,34 +20,56 @@ export default function SEOHead({
   url = 'https://ekabalance.com',
   type = 'website'
 }: SEOHeadProps) {
-  return (
-    <Helmet>
-      {/* Basic Meta Tags */}
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <link rel="canonical" href={url} />
-      
-      {/* Open Graph Tags */}
-      <meta property="og:type" content={type} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      <meta property="og:url" content={url} />
-      <meta property="og:locale" content="ca_ES" />
-      <meta property="og:site_name" content="EKA Balance" />
-      
-      {/* Twitter Card Tags */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-      
-      {/* Additional SEO */}
-      <meta name="robots" content="index, follow" />
-      <meta name="author" content="EKA Balance" />
-      <meta name="geo.region" content="ES-CT" />
-      <meta name="geo.placename" content="Barcelona" />
-    </Helmet>
-  );
+  useEffect(() => {
+    // Update title
+    document.title = title;
+
+    // Helper to update or create meta tags
+    const setMetaTag = (name: string, content: string, property = false) => {
+      const attr = property ? 'property' : 'name';
+      let meta = document.querySelector(`meta[${attr}="${name}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute(attr, name);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
+
+    // Basic Meta Tags
+    setMetaTag('description', description);
+    setMetaTag('keywords', keywords);
+    
+    // Open Graph Tags
+    setMetaTag('og:type', type, true);
+    setMetaTag('og:title', title, true);
+    setMetaTag('og:description', description, true);
+    setMetaTag('og:image', image, true);
+    setMetaTag('og:url', url, true);
+    setMetaTag('og:locale', 'ca_ES', true);
+    setMetaTag('og:site_name', 'EKA Balance', true);
+    
+    // Twitter Card Tags
+    setMetaTag('twitter:card', 'summary_large_image');
+    setMetaTag('twitter:title', title);
+    setMetaTag('twitter:description', description);
+    setMetaTag('twitter:image', image);
+    
+    // Additional SEO
+    setMetaTag('robots', 'index, follow');
+    setMetaTag('author', 'EKA Balance');
+    setMetaTag('geo.region', 'ES-CT');
+    setMetaTag('geo.placename', 'Barcelona');
+
+    // Canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', url);
+  }, [title, description, keywords, image, url, type]);
+
+  return null;
 }

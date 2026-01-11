@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAuth } from '@/lib/platform/supabase-auth';
-import { BehavioralTrackingService } from '@/services/behavioral-tracking-service';
+import { useAuth } from '@/lib/platform/supabase/auth';
+import { BehavioralTrackingService } from '@/lib/platform/services/behavioral-tracking-service';
 
 export interface AdaptiveSettings {
   theme: 'light' | 'dark' | 'auto';
@@ -137,7 +137,7 @@ export const useAdaptiveInterface = () => {
       const moodCounts: Record<string, number> = {};
       recentMoodInteractions.forEach(interaction => {
         const mood = interaction.metadata?.mood || 'neutral';
-        moodCounts[mood] = (moodCounts[mood] || 0) + 1;
+        moodCounts[mood as string] = (moodCounts[mood as string] || 0) + 1;
       });
 
       const dominantMood = Object.entries(moodCounts)

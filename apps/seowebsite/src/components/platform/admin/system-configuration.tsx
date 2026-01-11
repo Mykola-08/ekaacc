@@ -10,15 +10,11 @@ import { Badge } from '@/components/platform/ui/badge'
 import { Switch } from '@/components/platform/ui/switch'
 import { 
   Settings, 
-  Save, 
   RefreshCw, 
   Plus,
   Edit,
   Trash2,
-  AlertTriangle,
-  CheckCircle,
-  Search,
-  Filter
+  Search
 } from 'lucide-react'
 import { format } from 'date-fns'
 
@@ -169,13 +165,6 @@ export function SystemConfiguration() {
       console.error('Error deleting configuration:', error)
     }
   }
-
-  const filteredConfigurations = configurations.filter(config => {
-    const matchesSearch = config.key.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         config.description.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = selectedCategory === 'all' || config.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
 
   const renderConfigValue = (config: Configuration) => {
     if (config.isEncrypted) {

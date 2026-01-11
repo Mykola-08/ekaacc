@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/platform/supabase'
-import { getCurrentUser } from '@/lib/platform/server-auth'
+import { getCurrentUser } from '@/lib/platform/services/auth-service'
 
 // PATCH /api/admin/notifications/[id] - Update notification
 export async function PATCH(

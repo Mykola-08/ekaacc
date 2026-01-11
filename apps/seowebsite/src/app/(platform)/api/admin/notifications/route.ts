@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/platform/supabase'
-import { getCurrentUser } from '@/lib/platform/server-auth'
+import { getCurrentUser } from '@/lib/platform/services/auth-service'
 
 // GET /api/admin/notifications - Get all notifications
 export async function GET(request: NextRequest) {

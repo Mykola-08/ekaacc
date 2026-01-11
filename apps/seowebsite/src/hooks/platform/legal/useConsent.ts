@@ -50,7 +50,7 @@ export function useConsent() {
       }
 
       // 2. Check Supabase (if logged in)
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await (supabase.auth as any).getSession();
       
       if (session?.user) {
         const { data, error } = await supabase
@@ -88,7 +88,7 @@ export function useConsent() {
       setPreferences(newPreferences);
 
       // 2. Save to Supabase (if logged in)
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: { session } } = await (supabase.auth as any).getSession();
       
       if (session?.user) {
         const { error } = await supabase

@@ -10,8 +10,8 @@ import { Avatar, AvatarFallback } from '@/components/platform/ui/avatar';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Loader2, RefreshCw, PlusCircle, DollarSign, Clock, CheckCircle } from 'lucide-react';
 
-import fxService from '@/lib/platform/fx-service';
-import { useToast } from '@/hooks/platform/use-toast';
+import fxService from '@/lib/platform/services/platform-service';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 ;
 ;
 ;

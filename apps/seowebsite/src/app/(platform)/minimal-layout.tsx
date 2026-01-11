@@ -1,12 +1,22 @@
 'use client';
-import { useAuth } from '@/lib/platform/supabase-auth';
-import { cn } from '@/lib/platform/utils';
+import { useAuth } from '@/lib/platform/supabase/auth';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/platform/navigation/app-sidebar';
 import { SidebarProvider, SidebarInset } from '@/components/platform/ui/sidebar';
-import { AppHeader } from '@/components/platform/eka/app-header';
+// import { AppHeader } from '@/components/platform/eka/app-header';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
+
+const AppHeader = () => (
+  <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="container flex h-14 items-center">
+      <div className="mr-4 hidden md:flex">
+        <span className="font-bold">EKA Platform</span>
+      </div>
+    </div>
+  </header>
+);
 
 import { LayoutProvider, useLayout } from '@/context/platform/layout-context';
 import { MobileNav } from '@/components/platform/navigation/mobile-nav';

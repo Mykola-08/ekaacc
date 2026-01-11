@@ -11,7 +11,7 @@ import {
   Info,
   AlertCircle
 } from 'lucide-react';
-import { cn } from '@/lib/platform/utils';
+import { cn } from '@/lib/platform/utils/css-utils';
 import { Badge } from '@/components/platform/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/platform/ui/tooltip';
 

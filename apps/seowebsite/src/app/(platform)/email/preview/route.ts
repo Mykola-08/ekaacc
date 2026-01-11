@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { TransactionalEmailService } from '@/services/transactional-email-service';
+import { TransactionalEmailService } from '@/lib/platform/services/transactional-email-service';
 
 /**
  * POST /api/email/preview

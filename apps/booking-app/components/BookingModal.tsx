@@ -1,9 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { format } from 'date-fns';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { Calendar as CalendarIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button, Input } from '@ekaacc/shared-ui';
 import { Calendar } from '@/components/ui/calendar';
@@ -44,36 +43,36 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [variantId, setVariantId] = useState(preselectedVariantId || service.variants?.[0]?.id);
+  const [variantId] = useState(preselectedVariantId || service.variants?.[0]?.id);
+
+  // Memoized fetch function to prevent recreating on each render
+  const fetchSlots = useCallback(async (selectedDate: Date) => {
+    setLoadingSlots(true);
+    setSelectedSlot(undefined);
+    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const variantQuery = variantId ? `&variantId=${variantId}` : '';
+    
+    try {
+      const res = await fetch(`/api/services/${service.id}/availability?date=${dateStr}${variantQuery}`);
+      const data = await res.json();
+      setSlots(data.slots || []);
+    } catch (err) {
+      console.error('Failed to load availability:', err);
+      toast.error('Failed to load availability');
+      setSlots([]);
+    } finally {
+      setLoadingSlots(false);
+    }
+  }, [service.id, variantId]);
 
   useEffect(() => {
     if (date) {
-      setLoadingSlots(true);
-      setSelectedSlot(undefined);
-      const dateStr = format(date, 'yyyy-MM-dd');
-      const variantQuery = variantId ? `&variantId=${variantId}` : '';
-      
-      fetch(`/api/services/${service.id}/availability?date=${dateStr}${variantQuery}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data.slots) {
-            setSlots(data.slots);
-          } else {
-            setSlots([]);
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          toast.error('Failed to load availability');
-          setSlots([]);
-        })
-        .finally(() => setLoadingSlots(false));
+      fetchSlots(date);
     } else {
       setSlots([]);
       setSelectedSlot(undefined);
     }
-  }, [date, service.id, variantId]);
+  }, [date, fetchSlots]);
 
   const handleBooking = async () => {
     if (!date || !selectedSlot || !name || !email) {
@@ -133,9 +132,10 @@ export function BookingModal({ service, preselectedVariantId, originApp, trigger
 
       // Redirect to Stripe Checkout
       window.location.href = checkoutData.url;
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
       console.error('Booking error:', error);
-      toast.error('Failed to initiate booking: ' + error.message);
+      toast.error('Failed to initiate booking: ' + errorMessage);
       setLoading(false);
     }
   };

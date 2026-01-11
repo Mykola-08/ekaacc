@@ -20,8 +20,18 @@ const nextConfig = {
         hostname: '5tghbndjb61dnqaj.public.blob.vercel-storage.com',
       },
     ],
+    // Optimize image loading
+    minimumCacheTTL: 60,
+    formats: ['image/avif', 'image/webp'],
   },
-  // output: 'export', // Uncomment for static export if needed, but not for API routes
+  // Bundle optimization
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'date-fns', '@supabase/supabase-js'],
+  },
+  // Compression
+  compress: true,
+  // Powered by header removal for security
+  poweredByHeader: false,
 };
 
 export default nextConfig;

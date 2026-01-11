@@ -8,25 +8,22 @@ import { Alert, AlertDescription } from '@/components/platform/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 import { RoleManagementPanel } from '@/components/platform/admin/role-management-panel';
 import { ProductManagementPanel } from '@/components/platform/admin/product-management-panel';
-import { UnifiedRoleGuard } from '@/components/platform/unified-role-guard';
+import { UnifiedRoleGuard } from '@/components/platform/auth/unified-role-guard';
 import { useAuth } from '@/context/platform/auth-context';
-import { supabase } from '@/lib/platform/supabase';
-import { useToast } from '@/hooks/platform/use-toast';
+import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
   Shield, 
   Users, 
   Package, 
-  Settings, 
   Activity,
   AlertTriangle,
   BarChart3,
   FileText,
   Key,
-  Lock,
   Eye,
   Edit,
-  Trash2,
-  CheckCircle
+  CheckCircle,
+  Settings
 } from 'lucide-react';
 
 interface SystemStats {
@@ -90,10 +87,13 @@ export function AdminDashboard() {
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
             <p className="text-muted-foreground">
-              System administration and role management
+              Welcome back, {user?.email || 'Admin'}. System administration and role management
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="icon">
+              <Settings className="h-4 w-4" />
+            </Button>
             <Badge variant="outline" className={getHealthColor(stats.systemHealth)}>
               <Activity className="mr-1 h-3 w-3" />
               System {stats.systemHealth}

@@ -106,27 +106,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       return [
         {
           title: "Therapist Dashboard",
-          url: "/therapist",
+          url: "/dashboard",
           icon: Briefcase,
-          isActive: pathname === "/therapist",
+          isActive: pathname === "/dashboard",
         },
         {
           title: "Client Management",
           url: "/therapist/clients",
           icon: Users,
           isActive: pathname === "/therapist/clients",
-        },
-        {
-          title: "Schedule",
-          url: "/therapist/bookings",
-          icon: Calendar,
-          isActive: pathname === "/therapist/bookings",
-        },
-        {
-          title: "Reports",
-          url: "/reports",
-          icon: FileText,
-          isActive: pathname === "/reports",
         },
         ...baseItems
       ]
@@ -175,60 +163,15 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }
         ]
       },
-      {
-        title: "Sessions",
-        url: "/sessions",
-        icon: Calendar,
-        isActive: pathname.startsWith("/sessions"),
-        items: [
-          {
-            title: "Book Session",
-            url: "/sessions/booking",
-          },
-          {
-            title: "My Sessions",
-            url: "/sessions",
-          },
-        ],
-      },
+
       {
         title: "Progress",
         url: "/progress",
         icon: TrendingUp,
         isActive: pathname.startsWith("/progress"),
-        items: [
-          {
-            title: "Goals",
-            url: "/progress",
-          },
-          {
-            title: "Reports",
-            url: "/progress-reports",
-          },
-        ],
       },
-      {
-        title: "Messages",
-        url: "/messages",
-        icon: MessageSquare,
-        isActive: pathname === "/messages",
-      },
-      {
-        title: "Wellness",
-        url: "/journal",
-        icon: Heart,
-        isActive: pathname.startsWith("/journal") || pathname === "/privacy-controls",
-        items: [
-          {
-            title: "Journal",
-            url: "/journal",
-          },
-          {
-            title: "Privacy Controls",
-            url: "/privacy-controls",
-          },
-        ],
-      },
+
+
       {
         title: "Subscriptions",
         url: "/subscriptions",

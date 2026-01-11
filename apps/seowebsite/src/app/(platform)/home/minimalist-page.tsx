@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Heart, Brain, Shield, Zap } from 'lucide-react';
-import { useAuth } from '@/lib/platform/supabase-auth';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 

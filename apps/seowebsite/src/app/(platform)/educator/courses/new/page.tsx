@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/platform/auth-context';
-import { academyService } from '@/services/academy-service';
+import { academyService } from '@/lib/platform/services/academy-service';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
 import { Textarea } from '@/components/platform/ui/textarea';
@@ -34,7 +34,7 @@ export default function CreateCoursePage() {
         instructor_id: user.id,
         is_published: false,
         difficulty: formData.difficulty as 'beginner' | 'intermediate' | 'advanced',
-      });
+      } as any);
       router.push(`/educator/courses/${newCourse.id}/edit`);
     } catch (error) {
       console.error('Failed to create course:', error);

@@ -1,12 +1,12 @@
 import { createClient } from '@/lib/platform/supabase/server';
-import { BroadcastService } from '@/services/broadcast-service';
+import { BroadcastService } from '@/lib/platform/services/broadcast-service';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   const supabase = await createClient();
   
   // Check admin role
-  const { data: { user } } = await supabase.auth.getUser();
+  const { data: { user } } = await (supabase.auth as any).getUser();
   if (!user || user.user_metadata?.role !== 'Admin') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

@@ -79,7 +79,11 @@ export function HeroSection() {
     setCurrentBanner((prev) => (prev - 1 + banners.length) % banners.length);
   };
 
-  const currentBannerData = banners[currentBanner];
+  const currentBannerData = banners[currentBanner] ?? banners[0];
+
+  if (!currentBannerData) {
+    return null; // Should never happen with the populated banners array
+  }
 
   return (
     <section 

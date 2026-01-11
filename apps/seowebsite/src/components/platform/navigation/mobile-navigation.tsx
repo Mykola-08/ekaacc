@@ -97,7 +97,7 @@ export function MobileNavigation({ className }: MobileNavigationProps) {
   const pathname = usePathname()
   const { user, signOut } = useSimpleAuth()
 
-  const userRole = user?.role.name || 'user'
+  const userRole = user?.role?.name || 'user'
 
   // Filter navigation items based on user role
   const filteredNavItems = navigationItems.filter(item => 

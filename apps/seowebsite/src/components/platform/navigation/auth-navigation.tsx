@@ -60,9 +60,9 @@ export function Navigation({ className }: NavigationProps) {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user?.profile.avatar_url || undefined} />
+            <AvatarImage src={user?.profile?.avatar_url || undefined} />
             <AvatarFallback>
-              {user?.profile.full_name?.charAt(0) || user?.email.charAt(0).toUpperCase()}
+              {user?.profile?.full_name?.charAt(0) || user?.email.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
         </Button>
@@ -71,14 +71,14 @@ export function Navigation({ className }: NavigationProps) {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">
-              {user?.profile.full_name || 'User'}
+              {user?.profile?.full_name || 'User'}
             </p>
             <p className="text-xs leading-none text-muted-foreground">
               {user?.email}
             </p>
             <div className="flex items-center gap-1 mt-1">
               <span className="text-xs text-muted-foreground">Role:</span>
-              <span className="text-xs font-medium capitalize">{user?.role.name}</span>
+              <span className="text-xs font-medium capitalize">{user?.role?.name}</span>
             </div>
           </div>
         </DropdownMenuLabel>
@@ -143,13 +143,13 @@ export function Navigation({ className }: NavigationProps) {
             <div className="border-t pt-4">
               <div className="flex items-center gap-3 px-3 py-2">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.profile.avatar_url || undefined} />
+                  <AvatarImage src={user?.profile?.avatar_url || undefined} />
                   <AvatarFallback>
-                    {user?.profile.full_name?.charAt(0) || user?.email.charAt(0).toUpperCase()}
+                    {user?.profile?.full_name?.charAt(0) || user?.email.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{user?.profile.full_name || 'User'}</p>
+                  <p className="text-sm font-medium">{user?.profile?.full_name || 'User'}</p>
                   <p className="text-xs text-muted-foreground">{user?.email}</p>
                 </div>
               </div>

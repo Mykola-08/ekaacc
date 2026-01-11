@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Manrope, Playfair_Display } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "@/components/ui/sonner";
 import { CookieConsent } from "@/components/cookie-consent";
 import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { DebugStatus } from "@ekaacc/shared-ui";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
-const manrope = Manrope({
+// Use Inter as the primary sans font (similar to Apple system fonts)
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-manrope',
+  variable: '--font-inter',
 });
 
 const playfair = Playfair_Display({
@@ -39,15 +41,17 @@ export default function RootLayout({
       <body
         className={cn(
           "font-sans antialiased min-h-screen flex flex-col bg-background text-foreground",
-          manrope.variable,
+          inter.variable,
           playfair.variable
         )}
       >
+        <SiteHeader />
         <div className="flex-1">
           {children}
         </div>
         <SiteFooter />
         <CookieConsent />
+
         <Toaster />
         <Analytics />
         <SpeedInsights />

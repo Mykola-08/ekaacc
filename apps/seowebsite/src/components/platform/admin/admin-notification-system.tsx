@@ -373,8 +373,8 @@ export function AdminNotificationSystem() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setEditingNotification(notification)}
-                  >console.log('Edit not implemented', 
+                    onClick={() => console.log('Edit not implemented')}
+                  >
                     <Edit className="h-3 w-3 mr-1" />
                     Edit
                   </Button>

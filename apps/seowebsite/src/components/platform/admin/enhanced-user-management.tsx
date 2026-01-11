@@ -105,7 +105,7 @@ export function EnhancedUserManagement() {
       alert('Failed to perform bulk operation')
     } finally {
       setBulkOperationLoading(false)
-      setShowBulkModal(false)
+      // setShowBulkModal(false) // Assuming modal state not implemented or needs to be removed
     }
   }
 

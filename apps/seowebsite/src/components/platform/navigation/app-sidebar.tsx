@@ -31,17 +31,19 @@ import {
 } from "@/components/platform/ui/sidebar"
 import { useAuth } from "@/context/platform/auth-context"
 import { usePathname } from "next/navigation"
+import { useLanguage } from "@/react-app/contexts/LanguageContext"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user, isLoading } = useAuth()
   const pathname = usePathname()
+  const { t } = useLanguage()
 
   if (isLoading) {
     return (
       <Sidebar collapsible="icon" {...props}>
         <SidebarContent>
           <div className="flex h-full items-center justify-center">
-            <span className="text-muted-foreground text-sm">Loading...</span>
+            <span className="text-muted-foreground text-sm">{t('common.loading')}</span>
           </div>
         </SidebarContent>
       </Sidebar>
@@ -51,13 +53,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const getNavItems = () => {
     const baseItems = [
       {
-        title: "Dashboard",
+        title: t('nav.dashboard'),
         url: "/dashboard",
         icon: LayoutDashboard,
         isActive: pathname === "/dashboard" || pathname === "/home",
       },
       {
-        title: "Profile",
+        title: t('nav.profile'),
         url: "/myaccount",
         icon: UserCircle,
         isActive: pathname === "/myaccount",
@@ -69,31 +71,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (user.role?.name === 'admin') {
       return [
         {
-          title: "Admin Dashboard",
+          title: t('nav.adminDashboard'),
           url: "/admin",
           icon: Shield,
           isActive: pathname === "/admin",
         },
         {
-          title: "User Management",
+          title: t('nav.userManagement'),
           url: "/admin/users",
           icon: Users,
           isActive: pathname === "/admin/users",
         },
         {
-          title: "Subscriptions",
+          title: t('nav.subscriptions'),
           url: "/admin/subscriptions",
           icon: CreditCard,
           isActive: pathname === "/admin/subscriptions",
         },
         {
-          title: "Analytics",
+          title: t('nav.analytics'),
           url: "/admin/analytics",
           icon: BarChart,
           isActive: pathname === "/admin/analytics",
         },
         {
-          title: "System Settings",
+          title: t('nav.systemSettings'),
           url: "/admin/settings",
           icon: Settings,
           isActive: pathname === "/admin/settings",
@@ -105,13 +107,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (user.role?.name === 'therapist') {
       return [
         {
-          title: "Therapist Dashboard",
+          title: t('nav.therapistDashboard'),
           url: "/dashboard",
           icon: Briefcase,
           isActive: pathname === "/dashboard",
         },
         {
-          title: "Client Management",
+          title: t('nav.clientManagement'),
           url: "/therapist/clients",
           icon: Users,
           isActive: pathname === "/therapist/clients",
@@ -123,19 +125,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     if (user.role?.name === 'educator') {
       return [
         {
-          title: "Educator Dashboard",
+          title: t('nav.educatorDashboard'),
           url: "/educator",
           icon: LayoutDashboard,
           isActive: pathname === "/educator",
         },
         {
-          title: "My Courses",
+          title: t('nav.myCourses'),
           url: "/educator",
           icon: BookOpen,
           isActive: pathname === "/educator",
         },
         {
-          title: "Create Course",
+          title: t('nav.createCourse'),
           url: "/educator/courses/new",
           icon: PlusCircle,
           isActive: pathname === "/educator/courses/new",

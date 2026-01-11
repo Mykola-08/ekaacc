@@ -7,10 +7,12 @@ import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Label } from '@/components/platform/ui/label';
 import { Input } from '@/components/platform/ui/input';
+import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 export default function OnboardingPage() {
   const router = useRouter();
   const { user, updateProfile, isAuthenticated, isLoading } = useSimpleAuth();
+  const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<'patient' | 'therapist'>('patient');
 
@@ -46,31 +48,31 @@ export default function OnboardingPage() {
     <div className="flex min-h-screen items-center justify-center bg-muted p-6 md:p-10">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Welcome to EKA Balance</CardTitle>
+          <CardTitle className="text-2xl">{t('onboarding.welcome')}</CardTitle>
           <CardDescription>
-            Let's get you set up.
+            {t('onboarding.subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label>I am a...</Label>
+              <Label>{t('onboarding.role.label')}</Label>
               <div className="grid grid-cols-2 gap-4">
                 <Button 
                   variant={role === 'patient' ? 'default' : 'outline'}
                   onClick={() => setRole('patient')}
                   className="h-24 flex-col gap-2"
                 >
-                  <span className="text-lg">Patient</span>
-                  <span className="text-xs font-normal opacity-70">I want to improve my wellness</span>
+                  <span className="text-lg">{t('onboarding.role.patient')}</span>
+                  <span className="text-xs font-normal opacity-70">{t('onboarding.role.patient.desc')}</span>
                 </Button>
                 <Button 
                   variant={role === 'therapist' ? 'default' : 'outline'}
                   onClick={() => setRole('therapist')}
                   className="h-24 flex-col gap-2"
                 >
-                  <span className="text-lg">Therapist</span>
-                  <span className="text-xs font-normal opacity-70">I want to help others</span>
+                  <span className="text-lg">{t('onboarding.role.therapist')}</span>
+                  <span className="text-xs font-normal opacity-70">{t('onboarding.role.therapist.desc')}</span>
                 </Button>
               </div>
             </div>
@@ -81,7 +83,7 @@ export default function OnboardingPage() {
             onClick={handleCompleteOnboarding}
             disabled={loading}
           >
-            {loading ? 'Setting up...' : 'Get Started'}
+            {loading ? t('onboarding.loading') : t('onboarding.getStarted')}
           </Button>
         </CardContent>
       </Card>

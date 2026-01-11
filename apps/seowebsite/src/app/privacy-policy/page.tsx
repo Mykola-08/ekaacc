@@ -6,46 +6,46 @@ export default function PrivacyPolicy() {
   const { t } = useLanguage();
   
   return (
-        <div className="min-h-screen bg-gray-50 py-16">
+        <div className="min-h-screen bg-white py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white">
               {/* Header */}
-              <div className="bg-gray-900 text-white px-12 py-10">
-                <h1 className="text-3xl font-light tracking-tight mb-3">
+              <div className="bg-white px-0 py-10 border-b border-gray-100 mb-8">
+                <h1 className="text-4xl font-bold tracking-tight mb-3 text-black">
                   {t('footer.privacyPolicy')}
                 </h1>
-                <div className="flex items-center text-gray-300 text-sm">
+                <div className="flex items-center text-gray-500 text-sm">
                   <span className="font-medium">{t('policy.lastUpdated')}</span>
                   <span className="ml-2">November 15, 2025</span>
                 </div>
               </div>
 
               {/* Content */}
-              <div className="px-12 py-10">
+              <div className="px-0 py-0 text-black">
                 {/* Introduction */}
                 <div className="mb-12">
-                  <p className="text-gray-700 leading-relaxed text-lg">
+                  <p className="text-black leading-relaxed text-lg font-light">
                     This Privacy Policy explains how we collect, use, process, store, protect, and share data when you access or use our website, applications, and services ("Services"). By using the Services, you agree to this Policy.
                   </p>
                 </div>
 
                 {/* Data Controller */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-gray-900 mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-2xl font-bold text-black mb-6">
                     Data Controller
                   </h2>
-                  <div className="bg-gray-50 rounded-lg p-6 space-y-4">
+                  <div className="space-y-4 text-black font-light text-lg">
                     <div className="flex">
-                      <span className="font-medium text-gray-900 w-32 flex-shrink-0">Name:</span>
-                      <span className="text-gray-700">Olena Kucherova Dryzhak (EKA Balance)</span>
+                      <span className="font-medium w-32 flex-shrink-0">Name:</span>
+                      <span>Olena Kucherova Dryzhak (EKA Balance)</span>
                     </div>
                     <div className="flex">
-                      <span className="font-medium text-gray-900 w-32 flex-shrink-0">Address:</span>
-                      <span className="text-gray-700">Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
+                      <span className="font-medium w-32 flex-shrink-0">Address:</span>
+                      <span>Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
                     </div>
                     <div className="flex">
-                      <span className="font-medium text-gray-900 w-32 flex-shrink-0">Phone:</span>
-                      <span className="text-gray-700">+34 658 867 133</span>
+                      <span className="font-medium w-32 flex-shrink-0">Phone:</span>
+                      <span>+34 658 867 133</span>
                     </div>
                     <div className="flex">
                       <span className="font-medium text-gray-900 w-32 flex-shrink-0">Email:</span>

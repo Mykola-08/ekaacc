@@ -146,6 +146,7 @@ export async function listServices() {
       `SELECT 
         s.id, 
         s.name, 
+        s.slug,
         s.description, 
         s.active, 
         s.created_at, 
@@ -165,6 +166,7 @@ export async function listServices() {
     interface ServiceRow {
       id: string;
       name: string;
+      slug?: string | null;
       description: string | null;
       active: boolean;
       created_at: string;

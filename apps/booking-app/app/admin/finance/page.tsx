@@ -10,7 +10,7 @@ export default async function AdminFinancePage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
             <h1 className="text-3xl font-serif text-primary">Finance & Verification</h1>
             <p className="text-muted-foreground">Manage payments and identity verification requests.</p>

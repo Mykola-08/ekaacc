@@ -1,17 +1,19 @@
-"use client"
+'use client'
 
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { cn } from "@/lib/platform/utils/css-utils"
-import { Button } from "@/components/platform/ui/button"
-import { Card, CardContent } from "@/components/platform/ui/card"
-import { Input } from "@/components/platform/ui/input"
-import { Label } from "@/components/platform/ui/label"
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { cn } from '@/lib/platform/utils/css-utils'
+import { Button } from '@/components/platform/ui/button'
+import { Card, CardContent } from '@/components/platform/ui/card'
+import { Input } from '@/components/platform/ui/input'
+import { Label } from '@/components/platform/ui/label'
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
-import Image from "next/image"
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Loader2 } from 'lucide-react'
 
-type LoginFormProps = React.ComponentProps<"div"> & {
+type LoginFormProps = React.ComponentProps<'div'> & {
   enabledProviders?: {
     google: boolean
     x: boolean
@@ -21,17 +23,17 @@ type LoginFormProps = React.ComponentProps<"div"> & {
 
 export function LoginForm({ className, enabledProviders = { google: true, x: true, linkedin: true }, ...props }: LoginFormProps) {
   const router = useRouter()
-  const { signIn, signInWithPasskey, isAuthenticated, isLoading } = useSimpleAuth()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const { signIn, signInWithPasskey, isAuthenticated, isLoading: authLoading } = useSimpleAuth()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.push("/")
+    if (!authLoading && isAuthenticated) {
+      router.push('/')
     }
-  }, [isLoading, isAuthenticated, router])
+  }, [authLoading, isAuthenticated, router])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -43,128 +45,145 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
       if (error) {
         setError(error.message)
       } else {
-        router.push("/")
+        router.push('/')
       }
     } catch (err) {
-      setError("An unexpected error occurred")
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  const handlePasskeyLogin = async () => {
-    setLoading(true)
-    setError(null)
-    try {
-      const { error } = await signInWithPasskey(email || undefined)
-      if (error) {
-        setError(error.message)
-      } else {
-        router.push("/")
-      }
-    } catch (err) {
-      setError("An unexpected error occurred")
+      setError('An unexpected error occurred')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card className="overflow-hidden glass-premium border-white/20 dark:border-white/10">
-        <CardContent className="grid p-0 md:grid-cols-2">
-          <div className="p-6 md:p-8">
-            <form onSubmit={handleLogin} className="flex flex-col gap-6">
-              <div className="flex flex-col items-center text-center gap-3">
-                <Image src="/eka_logo.png" alt="EKA" width={56} height={56} className="rounded-md" />
-                <h1 className="text-2xl font-bold">Welcome</h1>
-                <p className="text-balance text-muted-foreground">Sign in to your account</p>
-              </div>
-
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/forgot-password"
-                    className="ml-auto text-sm underline-offset-4 hover:underline"
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95, y: 10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{ duration: 0.4, type: 'spring', bounce: 0, stiffness: 100 }}
+      className={cn('flex flex-col gap-6 w-full max-w-sm mx-auto', className)} 
+      {...props}
+    >
+      <Card className='rounded-3xl border-0 shadow-2xl shadow-blue-900/5 overflow-hidden bg-white/80 backdrop-blur-xl'>
+        <CardContent className='p-8 md:p-10'>
+            <form onSubmit={handleLogin} className='flex flex-col gap-6'>
+              <div className='flex flex-col items-center text-center gap-4 mb-4'>
+                <motion.div
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <Image src='/eka_logo.png' alt='EKA' width={48} height={48} className='rounded-xl shadow-md' />
+                </motion.div>
+                <div className='space-y-1'>
+                  <motion.h1 
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className='text-2xl font-bold tracking-tight text-slate-900'
                   >
-                    Forgot your password?
-                  </Link>
+                    Welcome back
+                  </motion.h1>
+                  <motion.p 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.4 }}
+                    className='text-sm text-slate-500'
+                  >
+                    Enter your credentials to access your account
+                  </motion.p>
                 </div>
-                <Input
-                  id="password"
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
               </div>
 
-              {error && <div className="text-red-500 text-sm">{error}</div>}
+              <div className='space-y-4'>
+                <motion.div 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <Label htmlFor='email' className='sr-only'>Email</Label>
+                  <Input
+                    id='email'
+                    type='email'
+                    placeholder='name@example.com'
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className='rounded-xl bg-slate-50 border-slate-200 h-11 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium text-slate-900 placeholder:text-slate-400'
+                  />
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className='space-y-2'
+                >
+                  <Label htmlFor='password' className='sr-only'>Password</Label>
+                  <Input
+                    id='password'
+                    type='password'
+                    placeholder='Password'
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className='rounded-xl bg-slate-50 border-slate-200 h-11 focus:ring-2 focus:ring-blue-600/20 focus:border-blue-600 transition-all font-medium text-slate-900 placeholder:text-slate-400'
+                  />
+                  <div className='flex justify-end'>
+                    <Link
+                      href='/forgot-password'
+                      className='text-xs font-medium text-blue-600 hover:text-blue-500 transition-colors'
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
 
-              <div className="grid gap-2">
-                <Button type="submit" className="w-full" disabled={loading}>
-                  {loading ? "Signing in..." : "Sign in"}
+              <AnimatePresence>
+                {error && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className='text-sm text-red-500 text-center font-medium bg-red-50 p-2 rounded-lg'
+                  >
+                    {error}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                 initial={{ opacity: 0, y: 10 }}
+                 animate={{ opacity: 1, y: 0 }}
+                 transition={{ delay: 0.7 }}
+              >
+                <Button 
+                  type='submit' 
+                  className='w-full rounded-xl h-11 bg-slate-900 hover:bg-slate-800 text-white font-semibold shadow-lg shadow-slate-900/20 transition-all hover:scale-[1.02] active:scale-[0.98]'
+                  disabled={loading}
+                >
+                  {loading ? <Loader2 className='w-4 h-4 animate-spin' /> : 'Sign In'}
                 </Button>
-                <Button type="button" variant="outline" className="w-full" onClick={handlePasskeyLogin} disabled={loading}>
-                  Sign in with Passkey
-                </Button>
-              </div>
+              </motion.div>
 
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
-              </div>
-
-              <div className={cn(
-                "grid gap-4",
-                {
-                  "grid-cols-1": [enabledProviders.google, enabledProviders.x, enabledProviders.linkedin].filter(Boolean).length === 1,
-                  "grid-cols-2": [enabledProviders.google, enabledProviders.x, enabledProviders.linkedin].filter(Boolean).length === 2,
-                  "grid-cols-3": [enabledProviders.google, enabledProviders.x, enabledProviders.linkedin].filter(Boolean).length === 3,
-                }
-              )}>
-                {enabledProviders.google && (
-                  <Button variant="outline" className="w-full" type="button" disabled>
-                    <span className="ml-2">Google</span>
-                  </Button>
-                )}
-                {enabledProviders.x && (
-                  <Button variant="outline" className="w-full" type="button" disabled>
-                    <span className="ml-2">X</span>
-                  </Button>
-                )}
-                {enabledProviders.linkedin && (
-                  <Button variant="outline" className="w-full" type="button" disabled>
-                    <span className="ml-2">LinkedIn</span>
-                  </Button>
-                )}
-              </div>
-
-              <div className="text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link href="/signup" className="underline underline-offset-4">Sign up</Link>
-              </div>
+              
             </form>
-          </div>
-          <div className="relative hidden bg-muted md:block">
-            <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=2070&auto=format&fit=crop" alt="Illustration" className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.5]" />
-          </div>
         </CardContent>
       </Card>
-      <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
-        By continuing, you agree to our <Link href="/legal/terms">Terms of Service</Link> and <Link href="/legal/privacy">Privacy Policy</Link>.
-      </div>
-    </div>
+      
+      <motion.div 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        transition={{ delay: 0.8 }}
+        className='text-center'
+      >
+        <p className='text-sm text-slate-500'>
+          Don&apos;t have an account?{' '}
+          <Link href='/signup' className='font-semibold text-slate-900 hover:text-blue-600 transition-colors'>
+            Sign up
+          </Link>
+        </p>
+      </motion.div>
+    </motion.div>
   )
 }
+

@@ -87,8 +87,8 @@ export default async function AdminBookingsPage() {
   const data = await getAdminBookings()
 
   return (
-    <div className="h-full flex-1 flex-col space-y-8 p-8 md:flex">
-      <div className="flex items-center justify-between space-y-2">
+    <div className="h-full flex-1 flex-col space-y-6 md:space-y-8 p-4 md:p-8 md:flex">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 space-y-2 md:space-y-0">
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Bookings</h2>
           <p className="text-muted-foreground">

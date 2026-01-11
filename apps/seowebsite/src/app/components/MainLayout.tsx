@@ -37,8 +37,13 @@ export default function MainLayout({
   }, [pathname, logPageView]);
 
   const [showPersonalServices, setShowPersonalServices] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const personalServicesRef = useClickOutside<HTMLDivElement>(() => setShowPersonalServices(false));
+  const [isScrolled, setIsScrolled] = useState(false);
+  const isAuthPage = pathname?.startsWith('/login') || 
+                     pathname?.startsWith('/signup') || 
+                     pathname?.startsWith('/forgot-password') ||
+                     pathname?.startsWith('/reset-password') ||
+                     pathname?.startsWith('/auth');
 
   // Hover intent management for dropdown
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -126,6 +131,7 @@ export default function MainLayout({
       <OfflineIndicator />
 
       {/* Navigation with scroll effect */}
+      {!isAuthPage && (
       <nav className={`sticky top-0 z-50 transition-all duration-300`} style={{
         backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : '#F5F5F7'
       }}>
@@ -429,6 +435,7 @@ export default function MainLayout({
           )}
         </div>
       </nav>
+      )}
 
       {/* Main Content */}
       <main className="flex-1">
@@ -458,6 +465,7 @@ export default function MainLayout({
       */}
 
       {/* Footer */}
+      {!isAuthPage && (
       <footer className="py-12 sm:py-16 bg-gray-900 text-white mb-24 md:mb-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
           {/* Logo */}
@@ -541,6 +549,7 @@ export default function MainLayout({
           </div>
         </div>
       </footer>
+      )}
     </div>
   );
 }

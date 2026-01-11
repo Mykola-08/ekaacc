@@ -10,7 +10,7 @@ export default async function SettingsPage() {
   }
 
   return (
-    <div className="container max-w-4xl py-10 space-y-8">
+    <div className="container max-w-4xl py-6 md:py-10 space-y-8">
        <div>
          <h1 className="text-3xl font-serif text-primary">Settings</h1>
          <p className="text-muted-foreground">Manage your account and preferences.</p>

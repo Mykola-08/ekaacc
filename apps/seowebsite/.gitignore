@@ -6,3 +6,4 @@ worker-configuration.d.ts
 .vercel
 .next/
 out/
+.env*.local

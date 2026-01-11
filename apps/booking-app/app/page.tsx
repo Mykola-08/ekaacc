@@ -1,8 +1,8 @@
-﻿import { listServices } from '@/server/booking/service';
+import { listServices } from '@/server/booking/service';
 import { getWallet, getUpcomingBookings, getTherapistDailySchedule } from '@/server/dashboard/service';
 import { Service } from '@/types/database';
-import { ServiceCard } from '@/components/booking/ServiceCard';
-import { Flower } from "lucide-react";
+import { ServiceGrid } from '@/components/booking/ServiceGrid';
+import { Flower, Sparkles } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { ClientDashboard } from '@/components/dashboard/ClientDashboard';
 import { TherapistDashboard } from '@/components/dashboard/TherapistDashboard';
@@ -32,7 +32,7 @@ export default async function Home() {
 
   // 1. Therapist View
   if (profile?.role === 'therapist' || profile?.role === 'admin') {
-     const todaySchedule = await getTherapistDailySchedule(profile.id); // Assuming profile.id links correctly
+     const todaySchedule = await getTherapistDailySchedule(profile.id);
      return <TherapistDashboard schedule={todaySchedule} />;
   }
 
@@ -40,9 +40,6 @@ export default async function Home() {
   if (profile?.role === 'client') {
       const wallet = await getWallet(profile.id);
       const nextBooking = await getUpcomingBookings(profile.id);
-      
-      // If client has NO history and NO Onboarding, maybe show onboarding nudge?
-      // For now, standard dashboard.
       return <ClientDashboard profile={profile} wallet={wallet} nextBooking={nextBooking} />;
   }
 
@@ -50,34 +47,34 @@ export default async function Home() {
   const services = await getServices();
 
   return (
-    <div className="min-h-screen bg-background text-foreground font-display p-6 md:p-12 flex flex-col items-center">
-      <div className="w-full max-w-6xl flex flex-col gap-12">
+    <div className='flex flex-col items-center w-full px-4 md:px-8 pb-12'>
+      <div className='w-full max-w-7xl flex flex-col gap-12'>
         
         {/* Simple Header */}
-        <header className="flex flex-col items-center gap-4 text-center mt-12">
-          <div className="size-20 flex items-center justify-center text-primary rounded-full bg-primary/10 border border-primary/20 shadow-lg backdrop-blur-sm">
-            <Flower className="w-10 h-10" />
+        <header className='flex flex-col items-center gap-6 text-center max-w-2xl mx-auto'>
+          <div className='size-24 flex items-center justify-center text-slate-900 rounded-[2rem] bg-indigo-50/50 border border-indigo-100/50 shadow-xl shadow-indigo-900/5 backdrop-blur-sm rotate-3 hover:rotate-6 transition-transform duration-500'>
+            <Flower className='w-12 h-12 text-indigo-900' />
           </div>
-          <h1 className="text-4xl md:text-5xl font-serif text-foreground tracking-tight">Elena V. Bodywork</h1>
-          <p className="text-muted-foreground text-lg max-w-lg leading-relaxed">
-            Restoring balance through structural integration and intuitive therapy.
-          </p>
+          <div className='space-y-4'>
+             <h1 className='text-5xl md:text-7xl font-serif text-slate-900 tracking-tight leading-[0.9] text-transparent bg-clip-text bg-gradient-to-br from-slate-900 to-slate-700'>
+                Restoring<br/>Balance.
+             </h1>
+             <p className='text-slate-500 text-xl leading-relaxed max-w-lg mx-auto font-medium'>
+               Structural integration and intuitive therapy for a aligned mind and body.
+             </p>
+          </div>
+          
+          <div className='flex items-center gap-2 text-sm font-semibold text-indigo-900/60 uppercase tracking-widest bg-indigo-50 px-4 py-2 rounded-full'>
+             <Sparkles className='w-4 h-4' />
+             <span>Available Sessions below</span>
+          </div>
         </header>
 
         {/* Service Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.length > 0 ? (
-            services.map((service) => (
-              <ServiceCard key={service.id} service={service} />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-20 text-muted-foreground bg-muted/20 rounded-3xl">
-              No services available at the moment.
-            </div>
-          )}
-        </div>
+        <ServiceGrid services={services} />
 
       </div>
     </div>
   );
 }
+

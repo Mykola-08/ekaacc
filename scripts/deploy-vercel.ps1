@@ -3,7 +3,7 @@
 
 param(
     [Parameter(Mandatory=$false)]
-    [ValidateSet('web', 'api', 'booking-app', 'legal', 'docs', 'all')]
+    [ValidateSet('web', 'api', 'booking-app', 'legal', 'docs', 'seowebsite', 'all')]
     [string]$App = 'all',
     
     [Parameter(Mandatory=$false)]
@@ -19,7 +19,7 @@ param(
     [string]$Scope = 'eka-balance'
 )
 
-$apps = @('web', 'api', 'booking-app', 'legal', 'docs')
+$apps = @('web', 'api', 'booking-app', 'legal', 'docs', 'seowebsite')
 
 # Mapping of app names to Vercel project names
 # Assumes project names are ekaacc-1-$appName
@@ -30,6 +30,7 @@ $projectMapping = @{
     "booking-app" = "booking"
     "legal" = "legal"
     "docs" = "docs"
+    "seowebsite" = "seowebsite"
 }
 
 function Deploy-App {

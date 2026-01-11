@@ -57,11 +57,11 @@ const sidebarItems = [
   },
 ]
 
-export function AdminSidebar() {
+export function AdminSidebarContent({ onClick }: { onClick?: () => void }) {
   const pathname = usePathname()
 
   return (
-    <div className="w-64 border-r bg-card h-screen sticky top-0 flex flex-col">
+    <div className="flex flex-col h-full">
       <div className="p-6">
         <h2 className="text-xl font-bold tracking-tight px-2">EKA STUDIO</h2>
       </div>
@@ -70,6 +70,7 @@ export function AdminSidebar() {
           <Link
             key={item.href}
             href={item.href}
+            onClick={onClick}
             prefetch={true}
             className={cn(
               "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
@@ -94,6 +95,14 @@ export function AdminSidebar() {
             </div>
          </div>
       </div>
+    </div>
+  )
+}
+
+export function AdminSidebar({ className }: { className?: string }) {
+  return (
+    <div className={cn("w-64 border-r bg-card h-screen sticky top-0 hidden md:flex flex-col", className)}>
+      <AdminSidebarContent />
     </div>
   )
 }

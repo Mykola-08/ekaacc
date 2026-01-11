@@ -484,10 +484,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const rawEvent = JSON.parse(body);
     const event: EnhancedSquareWebhookEvent = {
       ...rawEvent,
-      eventId: rawEvent.event_id || rawEvent.eventId,
-      merchantId: rawEvent.merchant_id || rawEvent.merchantId,
-      event_id: rawEvent.event_id,
-      merchant_id: rawEvent.merchant_id,
+      eventId: rawEvent.event_id || rawEvent.eventId || 'unknown',
+      event_id: rawEvent.event_id || 'unknown',
+      merchantId: rawEvent.merchant_id || rawEvent.merchantId || 'unknown',
+      merchant_id: rawEvent.merchant_id || 'unknown',
     };
 
     // Log webhook receipt to database

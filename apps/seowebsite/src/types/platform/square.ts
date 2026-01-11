@@ -48,13 +48,14 @@ export interface SquareWebhookEvent {
 
 export interface EnhancedSquareWebhookEvent {
   type: string;
-  eventId?: string;
+  eventId: string;
   event_id: string;
-  merchantId?: string;
+  merchantId: string;
   merchant_id: string;
   locationId?: string;
   data: any;
   created_at?: string;
   id?: string;
   timestamp?: string;
+  source?: string;
 }

@@ -5,6 +5,8 @@ export interface ProviderToken {
     access_token: string;
     refresh_token?: string;
     expires_at?: string;
+    updated_at?: string;
+    token_expires_at?: string;
 }
 
 export async function getValidGoogleToken(_userId: string): Promise<string> {
@@ -15,10 +17,10 @@ export async function saveProviderTokens(..._args: any[]) {
     // Stub
 }
 
-export async function getAllProviderTokens(_userId: string): Promise<ProviderToken[]> {
-    return [];
+export async function getAllProviderTokens(_userId: string): Promise<{ data: ProviderToken[] | null, error: any }> {
+    return { data: [], error: null };
 }
 
-export async function deleteProviderTokens(_userId: string, _provider: string): Promise<void> {
-    // Stub
+export async function deleteProviderTokens(_userId: string, _provider: string): Promise<{ error: any }> {
+    return { error: null };
 }

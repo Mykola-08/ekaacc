@@ -1,3 +1,3 @@
-export async function generateMonthlyReport(input: any) {
-    return { content: 'Stub Report', insights: [] };
+export async function generateMonthlyReport(_input: any) {
+    return { content: 'Stub Report', insights: [], report: 'Stub Monthly Report' };
 }

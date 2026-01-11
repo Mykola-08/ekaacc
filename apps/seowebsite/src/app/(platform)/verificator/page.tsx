@@ -267,7 +267,7 @@ export default function VerificatorPage() {
       card: { color: 'bg-orange-500/10 text-orange-600 border-orange-500/20', label: 'Card' },
       wallet: { color: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20', label: 'Wallet' },
     };
-    const { color, label } = config[method] || config.cash;
+    const { color, label } = config[method] || config.cash || { color: '', label: 'Unknown' };
     return <Badge color="primary" className={color}>{label}</Badge>;
   };
 

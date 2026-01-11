@@ -80,18 +80,15 @@ export async function getAdminBookings(page = 1, limit = 10, status?: string, se
   };
 }
 
-export async function adminCancelBooking(bookingId: string) {
+export async function adminCancelBooking(bookingId: string, reason = 'Admin Cancelled') {
   const supabase = await ensureAdmin();
+  const { data: { user } } = await supabase.auth.getUser();
   
-  // Update status
-  const { error } = await supabase
-    .from('booking')
-    .update({ 
-       status: 'canceled', 
-       payment_status: 'refunded', // Should trigger logic elsewhere for actual refund
-       updated_at: new Date().toISOString()
-    })
-    .eq('id', bookingId);
+  const { error } = await supabase.rpc('admin_cancel_booking', {
+    p_booking_id: bookingId,
+    p_reason: reason,
+    p_performed_by: user?.id
+  });
 
   if (error) throw new Error(error.message);
   

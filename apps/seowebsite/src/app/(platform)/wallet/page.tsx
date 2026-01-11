@@ -8,7 +8,15 @@ import { PageHeader } from '@/components/platform/eka/page-header';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
-import { getWalletBalanceAction, createWalletTopUpIntentAction } from '@/app/actions/wallet';
+import { 
+  getWalletBalanceAction, 
+  createWalletTopUpIntentAction, 
+  getClientTransactions, 
+  Transaction 
+} from '@/app/actions/wallet';
+import { getUserPlanUsages, PlanUsage } from '@/app/actions/plans';
+import { WalletHistory } from '@/components/platform/wallet/WalletHistory';
+import { PlanUsageStats } from '@/components/platform/wallet/PlanUsageStats';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
@@ -96,11 +104,41 @@ export default function WalletPage() {
   const [balance, setBalance] = useState(0);
   const [topUpAmount, setTopUpAmount] = useState(50);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  
+  // New State for Plans & History
+  const [plans, setPlans] = useState<PlanUsage[]>([]);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(true);
+
   const { toast } = useToast();
 
   useEffect(() => {
     loadBalance();
+    loadExtraData();
   }, []);
+
+  const loadExtraData = async () => {
+    try {
+       setLoadingHistory(true);
+       // Fetch securely from server actions
+       const [plansData, txData] = await Promise.all([
+          getUserPlanUsages().catch((e) => {
+             console.error("Plans fetch error", e);
+             return [];
+          }),
+          getClientTransactions().catch((e) => {
+             console.error("Tx fetch error", e); 
+             return [];
+          })
+       ]);
+       setPlans(plansData as PlanUsage[]);
+       setTransactions(txData as Transaction[]);
+    } catch(e) {
+      console.error("Failed to load wallet data", e);
+    } finally {
+      setLoadingHistory(false);
+    }
+  };
 
   const loadBalance = async () => {
     try {
@@ -255,6 +293,26 @@ export default function WalletPage() {
             </div>
           </motion.div>
         </div>
+
+        {/* Plans and History Section */}
+        <div className="grid md:grid-cols-3 gap-8">
+           <div className="md:col-span-1">
+              <div className={cn(glassEffect, "rounded-3xl p-1 h-full")}>
+                  {/* Reuse card style wrapper if needed, or pass class to component */}
+                  <div className="p-4">
+                    <PlanUsageStats plans={plans} loading={loadingHistory} />
+                  </div>
+              </div>
+           </div>
+           <div className="md:col-span-2">
+               <div className={cn(glassEffect, "rounded-3xl p-1 h-full")}>
+                  <div className="p-4"> 
+                    <WalletHistory transactions={transactions} loading={loadingHistory} />
+                  </div>
+               </div>
+           </div>
+        </div>
+
       </motion.div>
     </PageContainer>
   );

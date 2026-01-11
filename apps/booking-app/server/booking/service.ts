@@ -50,6 +50,7 @@ export async function fetchService(serviceId: string) {
        FROM service s
        LEFT JOIN service_variant sv ON s.id = sv.service_id AND sv.active = true
        WHERE ${isUuid ? 's.id = $1' : 's.slug = $1'}
+       AND s.active = true
        ORDER BY sv.price_amount ASC`,
       [serviceId]
     );
@@ -320,8 +321,10 @@ export async function createBooking(params: CreateBookingParams) {
       staffId,
       metadata = {},
       customerTags = [],
-      usePlanUsageId,
+      usePlanUsageId: inputPlanId,
     } = params;
+
+    let usePlanUsageId = inputPlanId;
 
     // 1. Fetch service
     const { rows: serviceRows } = await db.query(
@@ -439,6 +442,23 @@ export async function createBooking(params: CreateBookingParams) {
     }
 
     // Check Plan logic
+    // Modification: Automatically check for available credits if not explicitly provided
+    if (userId && !usePlanUsageId) {
+        const { rows: autoPlanRows } = await db.query(
+            `SELECT id FROM user_plan_usage 
+             WHERE user_id = $1 
+               AND status = 'active' 
+               AND (credits_total - credits_used) > 0 
+               AND (expires_at IS NULL OR expires_at > NOW())
+             ORDER BY expires_at ASC NULLS LAST, created_at ASC 
+             LIMIT 1`,
+            [userId]
+        );
+        if (autoPlanRows.length > 0) {
+            usePlanUsageId = autoPlanRows[0].id;
+        }
+    }
+
     let initialPaymentStatus = 'pending';
     if (usePlanUsageId) {
         if (!userId) return { error: 'User ID required for plan usage', status: 400 };

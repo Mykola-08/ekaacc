@@ -597,6 +597,7 @@ export function FloatingAIAssistant({ userId, subscriptionTier }: { userId: stri
       }, 3000);
       return () => clearTimeout(timer);
     }
+    return () => {}; // Empty cleanup function
   }, [subscriptionTier]);
 
   return (

@@ -37,7 +37,7 @@ export default function FormsPage() {
   const { dataService, initDataService } = useAppStore();
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   const updateUser = async (userData: any) => {
@@ -298,7 +298,7 @@ export default function FormsPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Role:</span>
-                <span className="font-medium">{currentUser.role.name}</span>
+                <span className="font-medium">{currentUser.role?.name}</span>
               </div>
             </div>
           </CardContent>

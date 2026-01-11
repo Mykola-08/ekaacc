@@ -97,7 +97,7 @@ export function MobileNavigation({ className }: MobileNavigationProps) {
   const pathname = usePathname()
   const { user, signOut } = useSimpleAuth()
 
-  const userRole = user?.role.name || 'user'
+  const userRole = user?.role?.name || 'user'
 
   // Filter navigation items based on user role
   const filteredNavItems = navigationItems.filter(item => 
@@ -139,8 +139,8 @@ export function MobileNavigation({ className }: MobileNavigationProps) {
                   <User className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className="font-medium">{user.profile.full_name || user.email}</p>
-                  <p className="text-sm text-muted-foreground capitalize">{user.role.name}</p>
+                  <p className="font-medium">{user.profile?.full_name || user.email}</p>
+                  <p className="text-sm text-muted-foreground capitalize">{user.role?.name}</p>
                 </div>
               </div>
             )}

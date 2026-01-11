@@ -29,27 +29,6 @@ export interface SquareCustomer {
   [key: string]: any;
 }
 
-export interface SquareWebhookEvent {
-  type: string;
-  data: any;
-  [key: string]: any;
-}
-
-export interface NormalizedBooking {
-  id: string;
-  [key: string]: any;
-}
-
-export interface SquareBooking {
-  id: string;
-  [key: string]: any;
-}
-
-export interface SquareCustomer {
-  id: string;
-  [key: string]: any;
-}
-
 export interface NormalizedBooking {
   id: string;
   [key: string]: any;
@@ -70,10 +49,13 @@ export interface SquareWebhookEvent {
 export interface EnhancedSquareWebhookEvent {
   type: string;
   eventId: string;
+  event_id: string;
   merchantId: string;
+  merchant_id: string;
   locationId?: string;
   data: any;
   created_at?: string;
   id?: string;
+  timestamp?: string;
+  source?: string;
 }
-

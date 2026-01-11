@@ -27,6 +27,7 @@ export default function CookieBanner() {
         });
       }
     }
+    return () => {}; // Empty cleanup function
   }, []);
 
   const acceptCookies = () => {

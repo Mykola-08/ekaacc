@@ -17,7 +17,7 @@ export function PersonalizationBanner() {
   const { toast } = useToast();
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   if (isDismissed) return null;

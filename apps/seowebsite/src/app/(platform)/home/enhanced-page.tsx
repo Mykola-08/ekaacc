@@ -15,7 +15,7 @@ import { motion } from 'framer-motion'
 export default function PatientDashboardPage() {
   const { user } = useSimpleAuth()
 
-  const welcomeMessage = user?.profile.full_name 
+  const welcomeMessage = user?.profile?.full_name 
     ? `Welcome back, ${user.profile.full_name}!` 
     : 'Welcome to your wellness journey!'
 

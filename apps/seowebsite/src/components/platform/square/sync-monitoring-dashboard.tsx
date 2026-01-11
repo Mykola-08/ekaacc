@@ -184,6 +184,7 @@ export default function SyncMonitoringDashboard() {
       clearInterval(refreshInterval);
       setRefreshInterval(null);
     }
+    return () => {}; // Empty cleanup function
   }, [autoRefresh, isEnabled, syncEnabled]);
 
   // Initial fetch

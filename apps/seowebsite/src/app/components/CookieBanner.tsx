@@ -19,7 +19,9 @@ export default function CookieBanner() {
         setIsVisible(true);
       }, 1000);
       return () => clearTimeout(timer);
-    } else if (cookieConsent === 'accepted') {
+    }
+    
+    if (cookieConsent === 'accepted') {
       // Restore consent if already accepted
       if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
         (window as any).gtag('consent', 'update', {
@@ -30,6 +32,7 @@ export default function CookieBanner() {
         });
       }
     }
+    return () => {}; // Empty cleanup function
   }, []);
 
   const acceptCookies = () => {

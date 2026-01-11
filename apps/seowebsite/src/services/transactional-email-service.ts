@@ -20,6 +20,7 @@ export interface RenderOptions {
 export interface EmailResult {
   success: boolean;
   error?: any;
+  data?: any;
 }
 
 export class TransactionalEmailService {

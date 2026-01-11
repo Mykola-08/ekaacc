@@ -183,7 +183,7 @@ export const AIUsageDashboard: React.FC<AIUsageDashboardProps> = ({
     const totalCost = Object.values(metrics.costByProvider).reduce((sum, cost) => sum + cost, 0);
     
     tiers.forEach((tier, index) => {
-      const tierRatio = [0.6, 0.3, 0.1][index]; // Basic gets 60%, Premium 30%, VIP 10%
+      const tierRatio = [0.6, 0.3, 0.1][index] ?? 0; // Basic gets 60%, Premium 30%, VIP 10%
       const requests = Math.floor(metrics.totalRequests * tierRatio);
       const cost = totalCost * tierRatio;
       const utilization = (requests / (metrics.dailyLimit * tierRatio)) * 100;

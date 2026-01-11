@@ -15,7 +15,7 @@ export default function DashboardPage() {
   useEffect(() => {
     if (!isLoading && user) {
       // Redirect based on user role
-      if (user.role.name === 'therapist') {
+      if (user.role?.name === 'therapist') {
         router.push('/therapist/dashboard')
       } else {
         // Default to patient/home dashboard for regular users and patients

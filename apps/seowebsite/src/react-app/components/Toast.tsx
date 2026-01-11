@@ -50,6 +50,7 @@ function ToastComponent({ toast, onClose }: ToastProps) {
       const timer = setTimeout(() => handleClose(), toast.duration);
       return () => clearTimeout(timer);
     }
+    return () => {}; // Empty cleanup function
   }, [toast.duration, handleClose]);
 
   const getKeepColor = () => {

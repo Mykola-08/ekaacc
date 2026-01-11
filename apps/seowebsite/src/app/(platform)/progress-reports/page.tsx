@@ -84,7 +84,7 @@ export default function ProgressReportsPage() {
   const [isLoadingReports, setIsLoadingReports] = useState(true);
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   useEffect(() => {

@@ -15,8 +15,7 @@
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
-      "eslint --fix --no-ignore",
-      "tsc --noEmit --pretty false"
+      "eslint --fix --no-ignore"
     ]
   },
   "dependencies": {

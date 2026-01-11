@@ -134,7 +134,7 @@ export function JournalInsights({ source: initialSource }: { source?: 'mock' | '
   const source = initialSource || dataSource;
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   const waitingForUser = (source === 'firebase' || source === 'supabase') && !currentUser;

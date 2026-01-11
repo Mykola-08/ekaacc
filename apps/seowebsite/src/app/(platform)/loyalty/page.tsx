@@ -36,7 +36,7 @@ export default function LoyaltyPage() {
   const [lifetimePoints, setLifetimePoints] = useState(0);
 
   useEffect(() => {
-    initDataService();
+    initDataService?.();
   }, [initDataService]);
 
   useEffect(() => {
@@ -141,13 +141,13 @@ export default function LoyaltyPage() {
 
   const getNextTier = () => {
     const current = getCurrentTier();
-    const currentIndex = tiers.findIndex(t => t.name === current.name);
+    const currentIndex = tiers.findIndex(t => t.name === current?.name);
     return currentIndex < tiers.length - 1 ? tiers[currentIndex + 1] : null;
   };
 
   const currentTier = getCurrentTier();
   const nextTier = getNextTier();
-  const progressToNextTier = nextTier 
+  const progressToNextTier = nextTier && currentTier
     ? ((lifetimePoints - currentTier.minPoints) / (nextTier.minPoints - currentTier.minPoints)) * 100
     : 100;
 
@@ -210,8 +210,8 @@ export default function LoyaltyPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <currentTier.icon className={cn('h-6 w-6', currentTier.color)} />
-                {currentTier.name} Tier
+                {currentTier && <currentTier.icon className={cn('h-6 w-6', currentTier.color)} />}
+                {currentTier?.name} Tier
               </CardTitle>
               <CardDescription>
                 {nextTier 
@@ -227,7 +227,7 @@ export default function LoyaltyPage() {
                 />
               </div>
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>{currentTier.name}</span>
+                <span>{currentTier?.name}</span>
                 {nextTier && <span>{nextTier.name}</span>}
               </div>
             </CardContent>
@@ -302,7 +302,7 @@ export default function LoyaltyPage() {
         <TabsContent value="tiers" className="space-y-4 mt-6">
           <div className="grid gap-4">
             {tiers.map((tier, index) => {
-              const isCurrentTier = tier.name === currentTier.name;
+              const isCurrentTier = tier.name === currentTier?.name;
               const isUnlocked = lifetimePoints >= tier.minPoints;
 
               return (

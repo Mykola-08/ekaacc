@@ -34,6 +34,7 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }
+    return () => {}; // Empty cleanup function
   }, [isOpen, onClose]);
 
   

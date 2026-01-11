@@ -483,7 +483,7 @@ function NewEntryCard({
 					</Label>
 					<Slider
 						value={[painLevel]}
-						onValueChange={([val]) => setPainLevel(val)}
+						onValueChange={([val]) => setPainLevel(val ?? 0)}
 						max={10}
 						step={1}
 						className="w-full"
@@ -502,7 +502,7 @@ function NewEntryCard({
 					</Label>
 					<Slider
 						value={[energyLevel]}
-						onValueChange={([val]) => setEnergyLevel(val)}
+						onValueChange={([val]) => setEnergyLevel(val ?? 0)}
 						max={10}
 						step={1}
 						className="w-full"

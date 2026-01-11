@@ -480,8 +480,15 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Parse event
-    const event: EnhancedSquareWebhookEvent = JSON.parse(body);
+    // Parse and normalize event (Square uses snake_case, we use camelCase)
+    const rawEvent = JSON.parse(body);
+    const event: EnhancedSquareWebhookEvent = {
+      ...rawEvent,
+      eventId: rawEvent.event_id || rawEvent.eventId || 'unknown',
+      event_id: rawEvent.event_id || 'unknown',
+      merchantId: rawEvent.merchant_id || rawEvent.merchantId || 'unknown',
+      merchant_id: rawEvent.merchant_id || 'unknown',
+    };
 
     // Log webhook receipt to database
     try {

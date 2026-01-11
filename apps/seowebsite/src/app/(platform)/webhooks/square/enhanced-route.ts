@@ -330,9 +330,16 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Parse event
-    const event: EnhancedSquareWebhookEvent = JSON.parse(body);
-    event.timestamp = new Date().toISOString();
+    // Parse and normalize event (Square uses snake_case, we use camelCase)
+    const rawEvent = JSON.parse(body);
+    const event: EnhancedSquareWebhookEvent = {
+      ...rawEvent,
+      eventId: rawEvent.event_id || rawEvent.eventId,
+      merchantId: rawEvent.merchant_id || rawEvent.merchantId,
+      event_id: rawEvent.event_id,
+      merchant_id: rawEvent.merchant_id,
+      timestamp: new Date().toISOString(),
+    };
 
     // Log webhook receipt
     console.log('Received Square webhook:', {

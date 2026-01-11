@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
       imported: result.imported,
       exported: result.exported,
       updated: result.updated,
-      conflicts: result.conflicts,
+      conflicts: result.conflict ? 1 : 0,
       errors: result.errors.length,
       duration
     });

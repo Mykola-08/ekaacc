@@ -3,22 +3,19 @@
 import { Button } from '@/components/platform/ui/button';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { PageHeader } from '@/components/platform/eka/page-header';
-import { Card, CardContent, CardHeader } from '@/components/platform/ui/card';
 import { Skeleton } from '@/components/platform/ui/skeleton';
 import { Label } from '@/components/platform/ui/label';
 import { Input } from '@/components/platform/ui/input';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/platform/ui/dialog';
-import { useAuth } from '@/lib/platform/supabase/auth';
 import { useAppStore } from '@/store/platform/app-store';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
-  Bell, Mail, MessageSquare, Calendar, Save, Shield, User as UserIcon, Smartphone, Lock, RefreshCw
+  Bell, Mail, MessageSquare, Calendar, Save, Shield, User as UserIcon, Smartphone, Lock, RefreshCw, Loader2
 } from 'lucide-react';
 import { motion, type Variants, AnimatePresence } from 'framer-motion';
 import { ThemeSelector } from '@/components/platform/eka/settings/theme-selector';
 import { NotificationSwitch } from '@/components/platform/eka/settings/notification-switch';
-import { SettingsHeader } from '@/components/platform/eka/settings/settings-header';
 import { SettingsShell } from '@/components/platform/eka/settings/settings-shell';
 import { SettingsCard } from '@/components/platform/eka/settings/settings-card';
 import type { User } from '@/lib/platform/types/types';
@@ -26,13 +23,16 @@ import type { User } from '@/lib/platform/types/types';
 type UserSettings = NonNullable<User['settings']>;
 type SettingsCategory = keyof UserSettings;
 
-export default function SettingsPage() {
-  const { user: currentUser, loading: authLoading } = useAuth();
+interface SettingsContentProps {
+  currentUser: User;
+}
+
+export function SettingsContent({ currentUser }: SettingsContentProps) {
   const dataService = useAppStore((state) => state.dataService);
   const { toast } = useToast();
 
   const [settings, setSettings] = useState<UserSettings>(currentUser?.settings || {});
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [hasChanges, setHasChanges] = useState(false);
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const [isSyncing, setIsSyncing] = useState(false);
@@ -61,15 +61,6 @@ export default function SettingsPage() {
     }
   };
 
-  useEffect(() => {
-    if (currentUser) {
-      setSettings(currentUser.settings || {});
-      setIsLoading(false);
-    } else if (!authLoading) {
-      setIsLoading(false);
-    }
-  }, [currentUser, authLoading]);
-
   const handleSettingChange = (category: SettingsCategory, key: string, value: boolean) => {
     setSettings((prev: UserSettings) => {
       const newSettings = {
@@ -92,7 +83,7 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     if (!currentUser || !dataService) {
-      toast({ title: "Could not save settings. User not found.", variant: 'destructive' });
+      toast({ title: "Could not save settings. Service not ready.", variant: 'destructive' });
       return;
     }
 
@@ -130,27 +121,23 @@ export default function SettingsPage() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.2
+        delayChildren: 0.1
       }
     }
   };
 
   const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 10 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         type: "spring",
         stiffness: 100,
-        damping: 12
+        damping: 15
       }
     }
   };
-
-  if (isLoading || authLoading) {
-    return <SettingsSkeleton />;
-  }
 
   return (
     <PageContainer>
@@ -163,9 +150,9 @@ export default function SettingsPage() {
             <Button 
               onClick={handleSave} 
               disabled={isLoading}
-              className="gap-2"
+              className="gap-2 transition-all duration-200"
             >
-              <Save className="h-4 w-4" />
+              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
               Save Changes
             </Button>
           )
@@ -179,11 +166,11 @@ export default function SettingsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label className="text-sm">Full Name</Label>
-                    <Input value={currentUser?.fullName || ''} disabled />
+                    <Input value={currentUser?.name || currentUser?.displayName || ''} disabled className="bg-muted/50" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-sm">Email Address</Label>
-                    <Input value={currentUser?.email || ''} disabled />
+                    <Input value={currentUser?.email || ''} disabled className="bg-muted/50" />
                   </div>
                 </div>
               </SettingsCard>
@@ -200,7 +187,7 @@ export default function SettingsPage() {
                 <div className="space-y-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <Mail className="w-4 h-4" />
+                      <Mail className="w-4 h-4 text-primary" />
                       <h3 className="text-sm font-medium">Email</h3>
                     </div>
                     {notificationSettings.filter(s => s.subcategory === 'email').map(setting => (
@@ -217,7 +204,7 @@ export default function SettingsPage() {
 
                   <div className="pt-2">
                     <div className="flex items-center gap-2 mb-1">
-                      <Smartphone className="w-4 h-4" />
+                      <Smartphone className="w-4 h-4 text-primary" />
                       <h3 className="text-sm font-medium">Push</h3>
                     </div>
                     {notificationSettings.filter(s => s.subcategory === 'push').map(setting => (
@@ -238,27 +225,27 @@ export default function SettingsPage() {
             <motion.div variants={itemVariants}>
               <SettingsCard title="Security" description="Account protection">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border transition-all duration-300">
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-white/50 transition-all duration-200">
                     <div className="space-y-1">
                       <h4 className="font-medium flex items-center gap-2">
-                        <Lock className="w-4 h-4" />
+                        <Lock className="w-4 h-4 text-amber-500" />
                         Password
                       </h4>
                       <p className="text-sm text-muted-foreground">Reset your password via email</p>
                     </div>
-                    <Button variant="outline" onClick={() => setShowPasswordReset(true)}>
+                    <Button variant="outline" size="sm" onClick={() => setShowPasswordReset(true)}>
                       Reset Password
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border transition-all duration-300">
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-white/50 transition-all duration-200 opacity-60">
                     <div className="space-y-1">
                       <h4 className="font-medium flex items-center gap-2">
-                        <Shield className="w-4 h-4" />
+                        <Shield className="w-4 h-4 text-green-500" />
                         Two-Factor Authentication
                       </h4>
                       <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
                     </div>
-                    <Button variant="outline" disabled>
+                    <Button variant="outline" size="sm" disabled>
                       Coming Soon
                     </Button>
                   </div>
@@ -268,18 +255,18 @@ export default function SettingsPage() {
 
             <motion.div variants={itemVariants}>
               <SettingsCard title="Integrations" description="Manage external services">
-                <div className="flex items-center justify-between p-4 rounded-lg border">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-white/50 transition-all duration-200">
                   <div className="space-y-1">
                     <h4 className="font-medium flex items-center gap-2">
-                      <RefreshCw className="w-4 h-4" />
+                      <RefreshCw className={isSyncing ? "w-4 h-4 animate-spin text-blue-500" : "w-4 h-4 text-blue-500"} />
                       Square & Stripe Sync
                     </h4>
                     <p className="text-sm text-muted-foreground">Trigger a sync of services and appointments</p>
                   </div>
-                  <Button variant="outline" onClick={handleSync} disabled={isSyncing}>
+                  <Button variant="outline" size="sm" onClick={handleSync} disabled={isSyncing}>
                     {isSyncing ? (
                       <>
-                        <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
                         Syncing...
                       </>
                     ) : (
@@ -294,14 +281,15 @@ export default function SettingsPage() {
           <AnimatePresence>
             {hasChanges && (
               <motion.div
-                className="sticky bottom-4 flex justify-end"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
+                className="fixed bottom-8 right-8 z-50 shadow-lg"
+                initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
               >
-                <Button onClick={handleSave} disabled={isLoading} data-testid="save-settings">
-                  <Save className="w-4 h-4 mr-2" />
-                  {isLoading ? 'Saving...' : 'Save Changes'}
+                <Button onClick={handleSave} disabled={isLoading} size="lg" className="rounded-full shadow-xl">
+                  {isLoading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                  Save Changes
                 </Button>
               </motion.div>
             )}
@@ -317,8 +305,8 @@ export default function SettingsPage() {
                 A password reset link will be sent to your email address.
               </DialogDescription>
             </DialogHeader>
-            <div className="flex items-center justify-center py-2">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
+            <div className="flex items-center justify-center py-6">
+              <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center">
                 <Mail className="w-8 h-8 text-blue-600" />
               </div>
             </div>
@@ -344,45 +332,5 @@ export default function SettingsPage() {
           </DialogContent>
         </Dialog>
     </PageContainer>
-  );
-}
-
-function SettingsSkeleton() {
-  return (
-    <div className="settings-skeleton-page">
-      <div className="settings-skeleton-container">
-        <div className="settings-skeleton-section">
-          <div className="settings-skeleton-flex-between">
-            <div className="settings-skeleton-space-y-2">
-              <Skeleton className="h-8 w-32" />
-              <Skeleton className="h-4 w-72" />
-            </div>
-            <Skeleton className="h-10 w-32" />
-          </div>
-        </div>
-        
-        <div className="settings-skeleton-card">
-          <div className="settings-skeleton-card-header">
-            <Skeleton className="h-6 w-24" />
-            <Skeleton className="h-4 w-48" />
-          </div>
-          <div className="settings-skeleton-card-content">
-            <Skeleton className="h-20 w-full" />
-          </div>
-        </div>
-        
-        <div className="settings-skeleton-card">
-          <div className="settings-skeleton-card-header">
-            <Skeleton className="h-6 w-32" />
-            <Skeleton className="h-4 w-64" />
-          </div>
-          <div className="settings-skeleton-card-content settings-skeleton-space-y-4">
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-            <Skeleton className="h-12 w-full" />
-          </div>
-        </div>
-      </div>
-    </div>
   );
 }

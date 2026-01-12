@@ -93,14 +93,14 @@ export default function ServiceSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <motion.h2 
             className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 leading-tight tracking-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             {t('service.title')}
           </motion.h2>
@@ -181,7 +181,7 @@ export default function ServiceSection() {
                     height: expandedStep === index ? 'auto' : 0,
                     opacity: expandedStep === index ? 1 : 0
                   }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
                   {expandedStep === index && (
@@ -271,4 +271,5 @@ export default function ServiceSection() {
     </motion.section>
   );
 }
+
 

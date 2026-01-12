@@ -11,7 +11,7 @@ export default function HeroSection() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black pt-16 px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.4 }}
     >
       {/* Ethereal Energy Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -74,7 +74,7 @@ export default function HeroSection() {
             className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-medium text-gold-shine mb-8 tracking-tight leading-[1.1]"
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             {t('hero.title')}
           </motion.h1>
@@ -83,7 +83,7 @@ export default function HeroSection() {
             className="font-sans text-lg sm:text-xl md:text-2xl text-zinc-300/90 font-light leading-relaxed max-w-3xl mx-auto tracking-wide"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
           >
             {t('hero.subtitle')}
           </motion.p>
@@ -152,4 +152,5 @@ export default function HeroSection() {
     </motion.section>
   );
 }
+
 

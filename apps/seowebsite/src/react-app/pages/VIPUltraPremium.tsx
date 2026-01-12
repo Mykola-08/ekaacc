@@ -229,7 +229,7 @@ export default function VIPUltraPremium() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.4 }}
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-amber-200 shadow-sm mb-8">
               <Crown className="w-5 h-5 text-amber-500" />
@@ -396,4 +396,5 @@ export default function VIPUltraPremium() {
     </div>
   );
 }
+
 

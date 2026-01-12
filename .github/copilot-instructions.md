@@ -61,7 +61,23 @@ Follow these instructions to generate code that aligns with the project's archit
 - **Stripe/Square**: Payments & Booking. Use mocked clients for unit tests.
 - **AI**: OpenAI/Anthropic/Google via `packages/ai-services`.
 
-## 5. File Locations
-- **Booking Architecture**: `apps/booking-app/ARCHITECTURE.md`
-- **UI Guide**: `apps/booking-app/SHADCN_GUIDE.md`
-- **Global Env**: `turbo.json` (globalEnv)
+## 6. Animation Guidelines
+
+### Easing
+- **Enter/Exit**: Use `ease-out` variants (e.g., Quint, Expo) for natural entry.
+- **Movement**: Use `ease-in-out` for movement within screen.
+- **Avoid**: `ease-in` (feels sluggish).
+
+### Duration & Timing
+- **Micro-interactions**: `200ms ease` for hovers.
+- **Responsiveness**: <1s max duration.
+- **Origin-aware**: Animate from trigger source.
+
+### Tools (Motion/Framer Motion)
+- **Springs**: Prefer spring animations for natural feel.
+- **Performance**: Animate `transform`/`opacity` only. Use `will-change` sparingly.
+- **Radix UI**: Use `asChild` pattern with `motion.div`.
+
+### Code Samples & Full Spec
+Refer to `docs/DESIGN_SYSTEM_AND_ANIMATION.md` for exact cubic-bezier values and implementation details.
+

@@ -47,28 +47,33 @@ export default async function Home() {
   const services = await getServices();
 
   return (
-    <div className='flex flex-col items-center w-full px-4 md:px-8 pb-12'>
-      <div className='w-full max-w-7xl flex flex-col gap-12'>
+    <div className='flex flex-col items-center w-full px-4 md:px-8 pb-12 min-h-screen bg-background text-foreground'>
+      <div className='w-full max-w-7xl flex flex-col gap-12 pt-12'>
         
         {/* Simple Header */}
-        <header className='flex flex-col items-center gap-6 text-center max-w-2xl mx-auto'>
-          <div className='size-24 flex items-center justify-center text-slate-900 rounded-[2rem] bg-indigo-50/50 border border-indigo-100/50 shadow-xl shadow-indigo-900/5 backdrop-blur-sm rotate-3 hover:rotate-6 transition-transform duration-500'>
-            <Flower className='w-12 h-12 text-indigo-900' />
+        <div className='flex flex-col items-center gap-6 text-center max-w-2xl mx-auto animate-zoom-in'>
+          <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
+            <div className='size-24 flex items-center justify-center text-primary-foreground rounded-[2rem] bg-primary shadow-2xl rotate-3 hover:rotate-6 transition-transform duration-500'>
+              <Flower className='w-12 h-12' />
+            </div>
           </div>
-          <div className='space-y-4'>
-             <h1 className='text-5xl md:text-7xl font-serif text-slate-900 tracking-tight leading-[0.9] text-transparent bg-clip-text bg-gradient-to-br from-slate-900 to-slate-700'>
+          
+          <div className='space-y-4 animate-slide-up' style={{ animationDelay: '200ms' }}>
+             <h1 className='text-5xl md:text-7xl font-serif text-foreground tracking-tight leading-[0.9]'>
                 Restoring<br/>Balance.
              </h1>
-             <p className='text-slate-500 text-xl leading-relaxed max-w-lg mx-auto font-medium'>
+             <p className='text-muted-foreground text-xl leading-relaxed max-w-lg mx-auto font-medium'>
                Structural integration and intuitive therapy for a aligned mind and body.
              </p>
           </div>
           
-          <div className='flex items-center gap-2 text-sm font-semibold text-indigo-900/60 uppercase tracking-widest bg-indigo-50 px-4 py-2 rounded-full'>
-             <Sparkles className='w-4 h-4' />
-             <span>Available Sessions below</span>
+          <div className="animate-slide-up" style={{ animationDelay: '300ms' }}>
+            <div className='flex items-center gap-2 text-sm font-semibold text-primary uppercase tracking-widest bg-muted px-4 py-2 rounded-full'>
+               <Sparkles className='w-4 h-4' />
+               <span>Available Sessions below</span>
+            </div>
           </div>
-        </header>
+        </div>
 
         {/* Service Grid */}
         <ServiceGrid services={services} />
@@ -77,4 +82,3 @@ export default async function Home() {
     </div>
   );
 }
-

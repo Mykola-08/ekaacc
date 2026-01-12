@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ['@ekaacc/shared-ui'],
   reactStrictMode: true,
   images: {
     remotePatterns: [

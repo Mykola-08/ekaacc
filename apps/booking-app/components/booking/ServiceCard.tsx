@@ -1,75 +1,79 @@
+'use client';
+
 import { Service } from '@/types/database';
-import { Timer, Check } from 'lucide-react';
-import Link from 'next/link';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Clock, Users, ArrowRight, Euro } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
 
 interface ServiceCardProps {
   service: Service;
-  variant?: 'default' | 'highlight';
+  variant?: 'default' | 'compact';
 }
 
 export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) {
-  const isHighlight = variant === 'highlight';
-  
-  // Parse description into bullet points if possible
-  const features = service.description 
-    ? service.description.split('\n').filter(line => line.trim().length > 0)
-    : [];
+  const isCompact = variant === 'compact';
 
   return (
-    <div className={lex flex-col relative overflow-hidden rounded-[2.5rem] p-8 transition-all duration-300 group
-      
-    }>
-      {/* Background Pattern */}
-      <div className={bsolute top-0 right-0 p-12 opacity-[0.03] transition-transform duration-700 group-hover:scale-110 group-hover:rotate-12}>
-         <Timer className='w-48 h-48' />
-      </div>
-
-      <div className='relative z-10 flex flex-col h-full'>
-        <div className='flex justify-between items-start mb-6'>
-           <div className='space-y-1'>
-              <h3 className={	ext-2xl font-serif font-bold tracking-tight }>{service.name}</h3>
-              <p className={	ext-sm font-medium uppercase tracking-wider }>
-                {service.duration} Minutes
-              </p>
-           </div>
-           {isHighlight && (
-            <span className='inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm border border-white/10'>
-              Popular
-            </span>
-           )}
-        </div>
-
-        <div className='mb-8'>
-          <div className='flex items-baseline'>
-             <span className='text-4xl font-light'>€{service.price}</span>
+    <div className="h-full hover:scale-[1.02] transition-transform duration-300 ease-out origin-center">
+      <Card className={cn(
+        "h-full flex flex-col overflow-hidden transition-all duration-300 rounded-[1.5rem]", 
+        "border bg-card text-card-foreground shadow-sm hover:shadow-md"
+      )}>
+        {/* Image Placeholder or Header Gradient */}
+        <div className={cn(
+          "relative bg-gradient-to-br from-zinc-800 to-zinc-900 w-full",
+          isCompact ? "h-24" : "h-48"
+        )}>
+          {/* We could use service.image_url if it existed, for now a nice pattern */}
+          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+          
+          <div className="absolute bottom-4 left-4">
+             <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm border-0 shadow-sm rounded-full px-3">
+                {service.category || 'Therapy'}
+             </Badge>
           </div>
         </div>
 
-        <div className='flex-1 space-y-4 mb-8'>
-          {features.map((item, i) => (
-            <div key={i} className='flex items-start gap-3 text-sm'>
-              <div className={mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full }>
-                <Check className={h-3 w-3 } />
-              </div>
-              <span className={leading-tight }>
-                {item}
-              </span>
-            </div>
-          ))}
-        </div>
+        <CardHeader className={cn("space-y-2", isCompact ? "p-4" : "p-6")}>
+          <div className="flex justify-between items-start gap-2">
+            <CardTitle className={cn("font-serif line-clamp-2", isCompact ? "text-lg" : "text-2xl")}>
+              {service.name}
+            </CardTitle>
+          </div>
+          <CardDescription className="line-clamp-2 text-muted-foreground">
+             {service.description || "A transformative session focusing on restoring balance."}
+          </CardDescription>
+        </CardHeader>
 
-        <Button 
-          asChild 
-          className={w-full rounded-2xl h-12 text-base font-medium shadow-none transition-transform active:scale-[0.98] 
-            }
-        >
-          <Link href={/book/?service=}>
-            Book Session
-          </Link>
-        </Button>
-      </div>
+        <CardContent className={cn("flex-grow", isCompact ? "p-4 pt-0" : "p-6 pt-0")}>
+           <div className="flex flex-col gap-2 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                 <Clock className="w-4 h-4 text-primary" />
+                 <span>{service.duration} minutes</span>
+              </div>
+              <div className="flex items-center gap-2">
+                 <Euro className="w-4 h-4 text-primary" />
+                 <span>{service.price}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                 <Users className="w-4 h-4 text-primary" />
+                 <span>1-on-1 Session</span>
+              </div>
+           </div>
+        </CardContent>
+
+        <CardFooter className={cn("border-t border-border bg-muted/5", isCompact ? "p-3" : "p-4")}>
+           <Button asChild className="w-full gap-2 group rounded-full" size={isCompact ? "sm" : "default"}>
+              <Link href={`/book/${service.id}`}>
+                 Book Session
+                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+           </Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 }
-

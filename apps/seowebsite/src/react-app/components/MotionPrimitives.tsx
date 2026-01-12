@@ -17,7 +17,7 @@ interface InViewProps {
 export function InView({ 
   children, 
   variants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } },
-  transition = { duration: 0.6, ease: "easeOut" },
+  transition = { duration: 0.3, ease: "easeOut" },
   className 
 }: InViewProps) {
   const ref = useRef(null);
@@ -86,12 +86,12 @@ export function AnimatedNumber({ value, className }: AnimatedNumberProps) {
       className={className}
       initial={{ scale: 0.8 }}
       animate={{ scale: 1 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
     >
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 0.4 }}
       >
         {value}
       </motion.span>
@@ -117,8 +117,8 @@ export function Tilt({ children, className, onClick }: TiltProps) {
       whileTap={{ scale: 0.98 }}
       transition={{ 
         type: "spring", 
-        stiffness: 400, 
-        damping: 10 
+        stiffness: 500, 
+        damping: 30 
       }}
     >
       {children}
@@ -138,7 +138,7 @@ export function Magnetic({ children, className }: MagneticProps) {
       className={className}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+      transition={{ type: "spring", stiffness: 500, damping: 30 }}
     >
       {children}
     </motion.div>
@@ -266,3 +266,4 @@ export function Cursor({ className }: CursorProps) {
     />
   );
 }
+

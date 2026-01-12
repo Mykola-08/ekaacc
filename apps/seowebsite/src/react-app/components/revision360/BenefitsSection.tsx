@@ -106,7 +106,7 @@ export default function BenefitsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-6 tracking-tight">
             {t('benefits.title')}
@@ -124,7 +124,7 @@ export default function BenefitsSection() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.3, delay: index * 0.1 }}
               whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
             >
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
@@ -163,7 +163,7 @@ export default function BenefitsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
         >
           <div className="p-8 rounded-3xl bg-gradient-to-r from-amber-500/5 via-yellow-500/5 to-amber-500/5 border border-amber-500/10 backdrop-blur-sm">
             <p className="text-amber-200/80 text-lg italic font-light leading-relaxed">
@@ -175,4 +175,5 @@ export default function BenefitsSection() {
     </motion.section>
   );
 }
+
 

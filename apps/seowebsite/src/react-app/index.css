@@ -1,8 +1,9 @@
-﻿@import 'keep-react/css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "@ekaacc/shared-ui/styles/globals.css";
+@import 'keep-react/css';
+@source "../../../../packages/shared-ui";
+
+@plugin "tailwindcss-animate";
 
 :root {
   font-family: 'SF Pro Text', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -63,12 +64,12 @@
   }
   
   .squircle-image {
-    @apply overflow-hidden transition-all duration-500 ease-out;
+    @apply overflow-hidden transition-all duration-200 ease-out;
     border-radius: var(--apple-squircle-radius);
   }
   
   .squircle-card {
-    @apply bg-white shadow-lg transition-all duration-500 ease-out;
+    @apply bg-white shadow-lg transition-all duration-200 ease-out;
     border-radius: var(--apple-squircle-radius);
     box-shadow: var(--apple-shadow);
   }
@@ -103,7 +104,7 @@
 
   /* Service Category Pills */
   .service-pill {
-    @apply relative overflow-hidden transition-all duration-500 ease-out;
+    @apply relative overflow-hidden transition-all duration-200 ease-out;
     @apply hover:scale-105 hover:shadow-2xl;
     border-radius: var(--apple-squircle-radius-large);
     background-size: cover;
@@ -114,7 +115,7 @@
   .service-pill::before {
     content: '';
     @apply absolute inset-0 bg-gradient-to-b from-black/20 via-black/30 to-black/60;
-    transition: all 0.5s ease;
+    transition: all 0.3s ease;
   }
   
   .service-pill:hover::before {
@@ -123,7 +124,7 @@
 
   /* Apple-style buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200 ease-out;
     @apply bg-blue-600 hover:bg-blue-700 text-white;
     @apply px-6 py-3 sm:px-8 sm:py-4;
     @apply shadow-lg hover:shadow-xl hover:scale-[1.01] active:scale-[0.99];
@@ -143,7 +144,7 @@
   }
   
   .btn-secondary {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200 ease-out;
     @apply bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700;
     @apply text-gray-900 dark:text-gray-100;
     @apply px-6 py-3 sm:px-8 sm:py-4;
@@ -164,7 +165,7 @@
   }
   
   .btn-ghost {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
+    @apply inline-flex items-center justify-center font-medium transition-all duration-200 ease-out;
     @apply text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300;
     @apply px-6 py-3 hover:bg-blue-50 dark:hover:bg-blue-900/20;
     @apply hover:scale-[1.01] active:scale-[0.99];
@@ -180,7 +181,7 @@
   .apple-card {
     @apply bg-white dark:bg-gray-900;
     @apply border border-gray-200/50 dark:border-gray-800/50;
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-200 ease-out;
     border-radius: var(--apple-squircle-radius);
     box-shadow: var(--apple-shadow);
   }
@@ -198,7 +199,7 @@
   .apple-card-flat {
     @apply bg-white dark:bg-gray-900;
     @apply border border-gray-200/30 dark:border-gray-800/30;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-200 ease-out;
     border-radius: var(--apple-squircle-radius);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
   }
@@ -207,7 +208,7 @@
     @apply bg-white/80 dark:bg-gray-900/80;
     @apply border border-white/20 dark:border-gray-800/20;
     @apply backdrop-blur-xl;
-    @apply transition-all duration-500 ease-out;
+    @apply transition-all duration-200 ease-out;
     border-radius: var(--apple-squircle-radius);
     box-shadow: var(--apple-shadow);
   }
@@ -316,7 +317,7 @@
     @apply bg-white/60 backdrop-blur-2xl;
     @apply border-b border-gray-200/20;
     @apply sticky top-0 z-50;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-200 ease-out;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.6);
@@ -366,7 +367,7 @@
   }
   
   .testimonial-slide {
-    @apply transition-transform duration-500 ease-in-out;
+    @apply transition-transform duration-200 ease-in-out;
   }
   
   .testimonial-indicators {
@@ -374,7 +375,7 @@
   }
   
   .testimonial-dot {
-    @apply w-2 h-2 rounded-full transition-all duration-300;
+    @apply w-2 h-2 rounded-full transition-all duration-200;
     @apply bg-gray-300 hover:bg-gray-400;
   }
   
@@ -388,7 +389,7 @@
   }
   
   .faq-item {
-    @apply border border-gray-200/50 overflow-hidden transition-all duration-300;
+    @apply border border-gray-200/50 overflow-hidden transition-all duration-200;
     border-radius: var(--apple-border-radius);
   }
   
@@ -469,7 +470,7 @@
 .stagger-children > *:nth-child(2) { animation-delay: 0.2s; }
 .stagger-children > *:nth-child(3) { animation-delay: 0.3s; }
 .stagger-children > *:nth-child(4) { animation-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-children > *:nth-child(5) { animation-delay: 0.3s; }
 .stagger-children > *:nth-child(6) { animation-delay: 0.6s; }
 
 /* Smooth Scrolling */
@@ -531,7 +532,7 @@ html {
 .stagger-sections > section:nth-child(2) { animation-delay: 0.2s; }
 .stagger-sections > section:nth-child(3) { animation-delay: 0.3s; }
 .stagger-sections > section:nth-child(4) { animation-delay: 0.4s; }
-.stagger-sections > section:nth-child(5) { animation-delay: 0.5s; }
+.stagger-sections > section:nth-child(5) { animation-delay: 0.3s; }
 
 /* Navigation Dropdown - CSS-first solution for stable hover */
 .nav-item { 
@@ -634,22 +635,22 @@ html {
 
 /* Enhanced hover effects for interactive elements */
 .interactive-hover {
-  @apply transition-all duration-300 ease-out;
+  @apply transition-all duration-200 ease-out;
   @apply hover:scale-[1.02] hover:-translate-y-1;
   @apply hover:shadow-lg;
 }
 
 /* Revision 360 specific styles */
 .btn-360-primary {
-  @apply bg-gradient-to-r from-amber-500 to-yellow-400 text-zinc-900 font-semibold rounded-full shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 active:scale-95;
+  @apply bg-gradient-to-r from-amber-500 to-yellow-400 text-zinc-900 font-semibold rounded-full shadow-lg transition-all duration-200 hover:shadow-xl hover:scale-105 active:scale-95;
 }
 
 .btn-360-secondary {
-  @apply bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 border border-amber-500/30 text-amber-200 rounded-lg transition-all duration-300 hover:bg-zinc-700/70 hover:border-amber-500/50 hover:scale-105;
+  @apply bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 border border-amber-500/30 text-amber-200 rounded-lg transition-all duration-200 hover:bg-zinc-700/70 hover:border-amber-500/50 hover:scale-105;
 }
 
 .card-360-hover {
-  @apply transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/10 hover:-translate-y-2;
+  @apply transition-all duration-200 hover:shadow-xl hover:shadow-amber-500/10 hover:-translate-y-2;
 }
 
 /* VIP Gold Shimmer Effect */
@@ -699,4 +700,53 @@ html {
     background-position: 200% center;
   }
 }
+
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 1.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
 

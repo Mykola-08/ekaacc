@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { OnboardingQuestion } from '@/types/personalization';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { iosSpring, glassEffect } from '@/lib/ui-utils';
 import { toast } from 'sonner';
 import { submitOnboarding } from '@/server/personalization/actions';
 import { cn } from '@/lib/utils';
@@ -14,7 +13,7 @@ import { Input } from '@/components/ui/input';
 
 interface OnboardingWizardProps {
   questions: OnboardingQuestion[];
-  userProfileId: string; // Passed from server
+  userProfileId: string;
 }
 
 export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardProps) {
@@ -25,7 +24,6 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
   const currentQuestion = questions[currentIndex];
   const isLast = currentIndex === questions.length - 1;
 
-  // Handle value change
   const handleAnswer = (value: any) => {
     setAnswers(prev => ({
       ...prev,
@@ -62,8 +60,8 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-muted/20">
       <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl font-serif mb-2">Welcome</h1>
+        <div className="mb-8 text-center animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <h1 className="text-3xl font-serif mb-2 text-foreground">Welcome</h1>
           <div className="flex gap-1 justify-center">
             {questions.map((_, idx) => (
               <div 
@@ -83,11 +81,11 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
-            transition={iosSpring}
+            transition={{ type: "spring", stiffness: 200, damping: 25 }}
           >
-            <Card className={cn("border-0 shadow-lg", glassEffect)}>
+            <Card className="border shadow-lg bg-card text-card-foreground">
               <CardHeader>
-                <CardTitle className="text-xl text-center leading-relaxed">
+                <CardTitle className="text-xl text-center leading-relaxed font-semibold">
                   {currentQuestion.questionText}
                 </CardTitle>
               </CardHeader>
@@ -127,18 +125,21 @@ function QuestionInput({ question, value, onChange }: {
       return (
         <div className="flex flex-col gap-3">
           {Array.isArray(options) && options.map((opt: string) => (
-            <button
+            <motion.button
+              layout
               key={opt}
               onClick={() => onChange(opt)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
               className={cn(
-                "p-4 rounded-xl text-left transition-all border-2",
+                "p-4 rounded-xl text-left transition-colors border",
                 value === opt 
-                  ? "border-primary bg-primary/5 ring-2 ring-primary/20" 
-                  : "border-transparent bg-secondary/50 hover:bg-secondary"
+                  ? "border-primary bg-primary/5 ring-1 ring-primary/20" 
+                  : "border-border bg-secondary/30 hover:bg-secondary"
               )}
             >
-              <span className="font-medium">{opt}</span>
-            </button>
+              <span className="font-medium text-foreground">{opt}</span>
+            </motion.button>
           ))}
         </div>
       );
@@ -150,7 +151,8 @@ function QuestionInput({ question, value, onChange }: {
           {Array.isArray(options) && options.map((opt: string) => {
             const isSelected = currentValues.includes(opt);
             return (
-              <button
+              <motion.button
+                layout
                 key={opt}
                 onClick={() => {
                   const newValues = isSelected 
@@ -158,15 +160,17 @@ function QuestionInput({ question, value, onChange }: {
                     : [...currentValues, opt];
                   onChange(newValues);
                 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 className={cn(
-                  "p-3 rounded-xl text-center transition-all border-2 text-sm",
+                  "p-3 rounded-xl text-center transition-colors border text-sm",
                   isSelected
-                    ? "border-primary bg-primary/5" 
-                    : "border-transparent bg-secondary/50 hover:bg-secondary"
+                    ? "border-primary bg-primary/5 ring-1 ring-primary/20" 
+                    : "border-border bg-secondary/30 hover:bg-secondary"
                 )}
               >
-                {opt}
-              </button>
+                <span className="text-foreground">{opt}</span>
+              </motion.button>
             );
           })}
         </div>
@@ -190,7 +194,7 @@ function QuestionInput({ question, value, onChange }: {
                 onChange={(e) => onChange(Number(e.target.value))}
                 className="w-full accent-primary h-2 bg-secondary rounded-lg appearance-none cursor-pointer"
             />
-            <div className="text-center mt-4 text-2xl font-bold font-serif">
+            <div className="text-center mt-4 text-2xl font-bold font-serif text-foreground">
                 {value || Math.ceil((min + max)/2)}
             </div>
         </div>

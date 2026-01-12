@@ -66,14 +66,14 @@ export default function FinalInvitationSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <motion.h2 
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 tracking-tight leading-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
             {t('final.title')}
           </motion.h2>
@@ -83,7 +83,7 @@ export default function FinalInvitationSection() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
           >
             {t('final.subtitle')}
           </motion.p>
@@ -95,7 +95,7 @@ export default function FinalInvitationSection() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          transition={{ duration: 0.3, delay: 0.3 }}
         >
           <motion.div 
             className="absolute -inset-4 bg-gradient-to-r from-amber-500/30 via-yellow-400/30 to-amber-500/30 rounded-full blur-lg"
@@ -139,7 +139,7 @@ export default function FinalInvitationSection() {
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
         >
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 text-sm">
             {[t('labels.noInsuranceNeeded'), t('labels.flexibleSchedules'), t('labels.personalizedApproach')].map((text, index) => (
@@ -164,7 +164,7 @@ export default function FinalInvitationSection() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             "{t('final.healingQuote')}"
           </motion.p>
@@ -174,7 +174,7 @@ export default function FinalInvitationSection() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             <motion.img 
               src="/eka_logo.png"
@@ -185,7 +185,7 @@ export default function FinalInvitationSection() {
                 opacity: 0.4,
                 rotate: 180
               }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.3 }}
             />
             <span 
               className="text-amber-300/25 text-xs font-light"
@@ -201,7 +201,7 @@ export default function FinalInvitationSection() {
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.3, delay: 0.5 }}
         >
           <motion.a
             href="https://wa.me/34658867133?text=Hola%2C%20m%27agradaria%20programar%20una%20trucada%20de%20descobriment.%20Podr%C3%ADem%20parlar%3F"
@@ -239,7 +239,7 @@ export default function FinalInvitationSection() {
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
+          transition={{ duration: 0.3, delay: 0.6 }}
         >
           <div className="flex flex-col md:flex-row items-center justify-center gap-8 text-zinc-500 text-sm">
             {[
@@ -270,4 +270,5 @@ export default function FinalInvitationSection() {
     </section>
   );
 }
+
 

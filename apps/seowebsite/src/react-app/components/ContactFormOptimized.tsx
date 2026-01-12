@@ -230,7 +230,7 @@ export default function ContactFormOptimized() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.3 }}
           >
             <h2 className="text-4xl font-light text-gray-900 mb-6">
               {t('contact.info.title')}
@@ -587,4 +587,5 @@ export default function ContactFormOptimized() {
     </div>
   );
 }
+
 

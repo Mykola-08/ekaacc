@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const fs = require('fs');
-const path = require('path');
 
 const tsFilePath = 'c:\\ekaacc\\apps\\seowebsite\\src\\lib\\platform\\config\\role-permissions.ts';
 const outFilePath = 'c:\\ekaacc\\apps\\booking-app\\SUPABASE_MIGRATION_RBAC_SEED.sql';

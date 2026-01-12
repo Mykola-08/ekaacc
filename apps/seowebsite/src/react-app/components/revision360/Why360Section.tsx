@@ -95,7 +95,7 @@ export default function Why360Section() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
         >
           <motion.div 
             className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-amber-500/20 bg-amber-500/5 backdrop-blur-sm"
@@ -121,7 +121,7 @@ export default function Why360Section() {
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.4 }}
           >
             {/* Rotating Rings */}
             {layers.map((layer, index) => {
@@ -187,7 +187,7 @@ export default function Why360Section() {
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                   onMouseEnter={() => setHoveredLayer(index)}
                   onMouseLeave={() => setHoveredLayer(null)}
                 >
@@ -218,7 +218,7 @@ export default function Why360Section() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
+              transition={{ duration: 0.3, delay: 0.4 }}
             >
               <button
                 onClick={() => setShowModal(true)}
@@ -280,4 +280,5 @@ export default function Why360Section() {
     </motion.section>
   );
 }
+
 

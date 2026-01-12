@@ -78,7 +78,7 @@ export default function Services() {
           <motion.div
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             transition={{ duration: 0.6 }}
+             transition={{ duration: 0.3 }}
           >
             <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
               <Heart className="w-5 h-5 text-blue-600 mr-2" />
@@ -129,7 +129,7 @@ export default function Services() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.6 }}
+                    transition={{ duration: 0.3 }}
                     className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-8 items-center`}
                   >
                       {/* Image Side */}
@@ -204,4 +204,5 @@ export default function Services() {
     </>
   );
 }
+
 

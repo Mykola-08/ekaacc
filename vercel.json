@@ -1,6 +1,6 @@
 {
-    "outputDirectory":  "apps/seowebsite/.next",
-    "buildCommand":  "npx turbo run build --filter=seowebsite",
+    "outputDirectory":  "apps/booking-app/.next",
+    "buildCommand":  "npx turbo run build --filter=booking-app",
     "installCommand":  "npm install --legacy-peer-deps",
     "framework":  "nextjs"
 }

@@ -1,68 +1,44 @@
 'use client';
 
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { iosSpring } from '@/lib/ui-utils';
 import React from 'react';
-
-const fadeInUp = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0, transition: iosSpring }
-};
 
 export default function TermsOfService() {
   const { t } = useLanguage();
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
   
   return (
-    <div className="min-h-screen bg-white">
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-blue-600 origin-left z-50"
-        style={{ scaleX }}
-      />
-
+    <div className="dark min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
       <div className="max-w-3xl mx-auto px-6 sm:px-8 py-20">
-        <div className="bg-white">
+        <div className="bg-background">
           {/* Header */}
-          <motion.div 
-            variants={fadeInUp}
-            initial="initial"
-            animate="animate"
-            className="bg-white px-0 py-10 mb-8 border-b border-gray-100"
-          >
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-slate-900">
+          <div className="bg-background px-0 py-10 mb-8 border-b border-border animate-fade-in">
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-4 text-foreground">
               {t('footer.termsOfService')}
             </h1>
-            <div className="flex items-center text-slate-500 text-sm font-medium">
+            <div className="flex items-center text-muted-foreground text-sm font-medium">
               <span>{t('policy.lastUpdated')}</span>
-              <span className="ml-2 bg-slate-100 px-3 py-1 rounded-full text-slate-700">November 15, 2025</span>
+              <span className="ml-2 bg-muted px-3 py-1 rounded-full text-foreground">November 15, 2025</span>
             </div>
-          </motion.div>
+          </div>
 
           {/* Content */}
-          <div className="px-0 py-0 text-slate-900">
+          <div className="px-0 py-0 text-foreground space-y-16">
             {/* Introduction */}
-            <motion.div variants={fadeInUp} initial="initial" animate="animate" className="mb-16">
-              <p className="text-slate-600 leading-relaxed text-xl font-normal">
+            <div className="animate-slide-up">
+              <p className="text-muted-foreground leading-relaxed text-xl font-normal">
                 These Terms govern your access to and use of the EKA Balance website, applications, and services ("Services"). By using the Services, you agree to these Terms in full. If you do not agree, please discontinue use immediately.
               </p>
-            </motion.div>
+            </div>
 
             {/* Acceptance and Consent */}
-            <motion.div variants={fadeInUp} initial="initial" animate="animate" className="mb-16">
-              <h2 className="text-2xl font-semibold text-slate-900 mb-6 tracking-tight">
+            <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
+              <h2 className="text-2xl font-semibold text-foreground mb-6 tracking-tight">
                 1. Acceptance and Consent
               </h2>
-              <p className="text-slate-600 leading-relaxed mb-6 text-lg">
+              <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
                 By accessing or using our Services, you acknowledge that you have read, understood, and agree to be bound by these Terms and our Privacy Policy. Your use of the Services constitutes explicit consent to:
               </p>
-              <ul className="space-y-3 text-slate-700 mb-6">
+              <ul className="space-y-3 text-muted-foreground mb-6">
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   The collection, processing, and storage of your personal data as described in our Privacy Policy
@@ -80,20 +56,20 @@ export default function TermsOfService() {
                   Our data processing activities for the purposes described in our Privacy Policy
                 </li>
               </ul>
-              <p className="text-slate-600 leading-relaxed text-lg">
+              <p className="text-muted-foreground leading-relaxed text-lg">
                 If you do not agree to these Terms or our Privacy Policy, you must not access or use our Services.
               </p>
-            </motion.div>
+            </div>
 
             {/* Eligibility and Age Requirements */}
-            <motion.div variants={fadeInUp} initial="initial" animate="animate" className="mb-16">
-              <h2 className="text-2xl font-semibold text-slate-900 mb-6 tracking-tight">
+            <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
+              <h2 className="text-2xl font-semibold text-foreground mb-6 tracking-tight">
                 2. Eligibility and Age Requirements
               </h2>
-              <p className="text-slate-600 leading-relaxed mb-6 text-lg">
+              <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
                 By using the Services, you confirm that:
               </p>
-              <ul className="space-y-3 text-slate-700 mb-8">
+              <ul className="space-y-3 text-muted-foreground mb-8">
                 <li className="flex items-start">
                   <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   You are at least 18 years old, or if you are 16-18 years old, you have obtained parental consent to use our Services
@@ -119,121 +95,121 @@ export default function TermsOfService() {
                   You have the authority to provide any personal data you share with us and that such data does not infringe upon the rights of any third party
                 </li>
               </ul>
-              <div className="bg-amber-50/50 rounded-2xl p-6 border border-amber-100">
-                <p className="text-amber-800 text-lg">
+              <div className="bg-amber-900/10 rounded-2xl p-6 border border-amber-900/20">
+                <p className="text-amber-400 text-lg">
                   <strong>Parental Consent:</strong> If you are under 16 years of age, you may not use our Services. If you are between 16-18 years of age, you may only use our Services with the consent of your parent or legal guardian who must review and accept these Terms and our Privacy Policy on your behalf.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Nature of Services */}
-            <motion.div variants={fadeInUp} initial="initial" animate="animate" className="mb-16">
-              <h2 className="text-2xl font-semibold text-slate-900 mb-6 tracking-tight">
+            <div className="animate-slide-up" style={{ animationDelay: '300ms' }}>
+              <h2 className="text-2xl font-semibold text-foreground mb-6 tracking-tight">
                 3. Nature of Services
               </h2>
-              <p className="text-slate-600 leading-relaxed mb-6 text-lg">
+              <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
                 EKA Balance provides wellness and kinesiology services. Our services are:
               </p>
-              <ul className="space-y-3 text-slate-700 mb-6">
+              <ul className="space-y-3 text-muted-foreground mb-6">
                 <li className="flex items-start">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   Informational and educational in nature
                 </li>
                 <li className="flex items-start">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   Not intended as medical diagnosis or treatment
                 </li>
                 <li className="flex items-start">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   Not a substitute for professional medical advice
                 </li>
                 <li className="flex items-start">
-                  <span className="w-2 h-2 bg-emerald-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                  <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                   Provided as complementary wellness support
                 </li>
               </ul>
-              <div className="bg-blue-50/50 rounded-2xl p-6 border border-blue-100">
-                <p className="text-blue-800 text-lg">
+              <div className="bg-blue-900/10 rounded-2xl p-6 border border-blue-900/20">
+                <p className="text-blue-400 text-lg">
                   <strong>Important:</strong> You acknowledge that all decisions based on information from EKA Balance are made at your own risk.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Contact Information */}
-            <motion.div variants={fadeInUp} initial="initial" animate="animate" className="mb-16">
-              <h2 className="text-2xl font-semibold text-slate-900 mb-6 tracking-tight">
+            <div className="animate-slide-up" style={{ animationDelay: '400ms' }}>
+              <h2 className="text-2xl font-semibold text-foreground mb-6 tracking-tight">
                 18. Contact Information and Data Protection Inquiries
               </h2>
-              <p className="text-slate-600 leading-relaxed mb-6 text-lg">
+              <p className="text-muted-foreground leading-relaxed mb-6 text-lg">
                 For questions about these Terms, privacy matters, or data protection inquiries:
               </p>
 
               <div className="grid gap-6">
-                <div className="bg-slate-50/50 rounded-2xl p-6 border border-slate-200">
-                  <h3 className="text-xl font-semibold text-slate-900 mb-4">Data Protection Officer (DPO)</h3>
-                  <div className="space-y-3 text-slate-600 text-lg">
+                <div className="bg-muted/30 rounded-2xl p-6 border border-border">
+                  <h3 className="text-xl font-semibold text-foreground mb-4">Data Protection Officer (DPO)</h3>
+                  <div className="space-y-3 text-muted-foreground text-lg">
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Name:</span>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Name:</span>
                       <span>Olena Kucherova Dryzhak</span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Email:</span>
-                      <a href="mailto:dpo@ekabalance.com" className="text-blue-600 hover:text-blue-700">dpo@ekabalance.com</a>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Email:</span>
+                      <a href="mailto:dpo@ekabalance.com" className="text-blue-400 hover:text-blue-300">dpo@ekabalance.com</a>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Phone:</span>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Phone:</span>
                       <span>+34 658 867 133</span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Address:</span>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Address:</span>
                       <span>Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
                     </div>
                   </div>
-                  <p className="text-slate-500 mt-6 text-sm">
+                  <p className="text-muted-foreground mt-6 text-sm">
                     The DPO is your primary contact for all data protection matters, privacy inquiries, and exercising your data subject rights.
                   </p>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 border border-slate-200">
-                  <h3 className="text-xl font-semibold text-slate-900 mb-4">Legal and General Inquiries</h3>
-                  <div className="space-y-3 text-slate-600 text-lg">
+                <div className="bg-card rounded-2xl p-6 border border-border">
+                  <h3 className="text-xl font-semibold text-foreground mb-4">Legal and General Inquiries</h3>
+                  <div className="space-y-3 text-muted-foreground text-lg">
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Email:</span>
-                      <a href="mailto:legal@ekabalance.com" className="text-blue-600 hover:text-blue-700">legal@ekabalance.com</a>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Email:</span>
+                      <a href="mailto:legal@ekabalance.com" className="text-blue-400 hover:text-blue-300">legal@ekabalance.com</a>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Address:</span>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Address:</span>
                       <span>Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-                      <span className="font-semibold text-slate-900 w-32 flex-shrink-0">Phone:</span>
+                      <span className="font-semibold text-foreground w-32 flex-shrink-0">Phone:</span>
                       <span>+34 658 867 133</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-emerald-50/50 rounded-2xl p-6 mt-6 border border-emerald-100">
-                <h4 className="text-xl font-semibold text-emerald-900 mb-3">Response Times</h4>
-                <p className="text-emerald-800 text-lg mb-4">We aim to respond to all inquiries within:</p>
-                <ul className="space-y-2 text-emerald-700 text-lg">
+              <div className="bg-green-900/10 rounded-2xl p-6 mt-6 border border-green-900/20">
+                <h4 className="text-xl font-semibold text-green-400 mb-3">Response Times</h4>
+                <p className="text-green-200/80 text-lg mb-4">We aim to respond to all inquiries within:</p>
+                <ul className="space-y-2 text-green-200/70 text-lg">
                   <li>• <strong>Data protection inquiries:</strong> 30 days (as required by GDPR)</li>
                   <li>• <strong>General inquiries:</strong> 7 business days</li>
                   <li>• <strong>Legal matters:</strong> 14 business days</li>
                 </ul>
               </div>
 
-              <div className="bg-red-50/50 rounded-2xl p-6 mt-6 border border-red-100">
-                <h4 className="text-xl font-semibold text-red-900 mb-3">Complaints</h4>
-                <p className="text-red-800 text-lg">
+              <div className="bg-red-900/10 rounded-2xl p-6 mt-6 border border-red-900/20">
+                <h4 className="text-xl font-semibold text-red-400 mb-3">Complaints</h4>
+                <p className="text-red-200/80 text-lg">
                   If you have a complaint about our handling of your personal data or any other aspect of our Services, please contact our DPO first. If you are not satisfied with our response, you have the right to lodge a complaint with the relevant supervisory authority as outlined in Section 14.2.
                 </p>
               </div>
-            </motion.div>
+            </div>
 
             {/* Footer */}
-            <div className="border-t border-gray-100 pt-8 mt-12">
-              <p className="text-center text-slate-400 text-sm">
+            <div className="border-t border-border pt-8 mt-12 animate-fade-in">
+              <p className="text-center text-muted-foreground text-sm">
                 These Terms of Service are provided in compliance with applicable data protection regulations and consumer protection laws.
               </p>
             </div>

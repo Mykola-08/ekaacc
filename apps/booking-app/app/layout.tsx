@@ -39,7 +39,7 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={cn(
-          'font-sans antialiased min-h-screen flex flex-col bg-slate-50/50 dark:bg-slate-950 text-foreground selection:bg-blue-100 selection:text-blue-900',
+          'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-primary/30',
           inter.variable,
           playfair.variable
         )}
@@ -59,4 +59,3 @@ export default function RootLayout({
     </html>
   );
 }
-

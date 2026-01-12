@@ -37,6 +37,7 @@
     "@supabase/supabase-js": "^2.90.1",
     "@tanstack/react-table": "^8.21.3",
     "@types/node": "^25.0.5",
+    "framer-motion": "^12.25.0",
     "pg": "^8.16.3",
     "stripe": "^20.1.2",
     "telegraf": "^4.16.3",

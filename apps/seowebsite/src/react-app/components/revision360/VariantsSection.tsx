@@ -115,14 +115,14 @@ export default function VariantsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.3 }}
         >
           <motion.h2 
             className="text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-6 tracking-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
             {t('variants.title')}
           </motion.h2>
@@ -131,7 +131,7 @@ export default function VariantsSection() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
           >
             {t('variants.subtitle')}
           </motion.p>
@@ -146,7 +146,7 @@ export default function VariantsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ 
-                duration: 0.5, 
+                duration: 0.3, 
                 delay: index * 0.1
               }}
               onClick={() => setSelectedVariant(variant)}
@@ -313,4 +313,5 @@ export default function VariantsSection() {
     </section>
   );
 }
+
 

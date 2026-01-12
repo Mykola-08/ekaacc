@@ -6,7 +6,8 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./utils": "./src/utils.ts"
+    "./utils": "./src/utils.ts",
+    "./styles/globals.css": "./src/styles/globals.css"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

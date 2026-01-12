@@ -10,7 +10,6 @@ import Link from 'next/link'
 import { toast } from 'sonner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Loader2, Mail, ArrowLeft, CheckCircle2 } from 'lucide-react'
-import Image from 'next/image'
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
@@ -30,7 +29,7 @@ export default function ForgotPasswordPage() {
 
     try {
       const { error } = await (supabase.auth as any).resetPasswordForEmail(email, {
-        redirectTo: ${window.location.origin}/reset-password,
+        redirectTo: `${window.location.origin}/reset-password`,
       })
 
       if (error) {
@@ -69,7 +68,7 @@ export default function ForgotPasswordPage() {
             </CardTitle>
             <CardDescription className='mt-2 text-slate-500'>
                 {emailSent 
-                    ? We've sent password reset instructions to 
+                    ? `We've sent password reset instructions to`
                     : 'Enter your email address and we will send you a link to reset your password'
                 }
             </CardDescription>
@@ -143,4 +142,3 @@ export default function ForgotPasswordPage() {
     </div>
   )
 }
-

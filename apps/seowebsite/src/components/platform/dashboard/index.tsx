@@ -6,7 +6,7 @@ import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { UserDashboard } from './user-dashboard';
 import { TherapistDashboard } from './therapist-dashboard';
 
-export default function Dashboard() {
+export default function Dashboard({ upcomingSession, walletBalance }: { upcomingSession?: any, walletBalance?: number }) {
   const { user, isLoading } = useAuth();
   const { t } = useLanguage();
 
@@ -18,5 +18,5 @@ export default function Dashboard() {
     return <TherapistDashboard />;
   }
 
-  return <UserDashboard />;
+  return <UserDashboard upcomingSession={upcomingSession} walletBalance={walletBalance} />;
 }

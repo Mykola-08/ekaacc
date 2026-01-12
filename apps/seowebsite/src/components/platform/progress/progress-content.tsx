@@ -1,8 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useCallback } from 'react';
-import { useAuth } from '@/lib/platform/supabase/auth';
-import { useAppStore } from '@/store/platform/app-store';
+import { useMemo } from 'react';
 import { format } from 'date-fns';
 import type { Report } from '@/lib/platform/types/types';
 import { Card } from '@/components/platform/ui/card';
@@ -32,7 +30,7 @@ function MinimalStatCard({
   }[trend || 'neutral'];
 
   return (
-    <Card className="p-6">
+    <Card className="p-6 animate-slide-up bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
         {icon}
@@ -51,37 +49,9 @@ function MinimalStatCard({
   );
 }
 
-function ProgressPageSkeleton() {
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-      <div className="space-y-8">
-        <div className="text-center">
-          <div className="h-8 bg-gray-200 rounded w-48 mx-auto mb-2"></div>
-          <div className="h-4 bg-gray-200 rounded w-64 mx-auto"></div>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {[...Array(4)].map((_, i) => (
-            <Card key={i} className="p-6">
-              <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded w-24"></div>
-                <div className="h-8 bg-gray-200 rounded w-16"></div>
-                <div className="h-3 bg-gray-200 rounded w-32"></div>
-              </div>
-            </Card>
-          ))}
-        </div>
-        <Card className="p-6">
-          <div className="h-6 bg-gray-200 rounded w-48 mb-4"></div>
-          <div className="h-64 bg-gray-200 rounded"></div>
-        </Card>
-      </div>
-    </div>
-  );
-}
-
 function MinimalProgressChart({ data }: { data: any[] }) {
   return (
-    <Card className="p-6">
+    <Card className="p-6 animate-slide-up" style={{ animationDelay: '0.1s' }}>
       <h3 className="text-lg font-semibold text-foreground mb-4">Progress Over Time</h3>
       <div className="space-y-4">
         {data.map((point, index) => (
@@ -106,33 +76,11 @@ function MinimalProgressChart({ data }: { data: any[] }) {
   );
 }
 
-export default function MinimalProgressPage() {
-  const { user, loading: authLoading } = useAuth();
-  const dataService = useAppStore((state) => state.dataService);
-  
-  const [reports, setReports] = useState<Report[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+interface ProgressContentProps {
+  reports: Report[];
+}
 
-  const fetchReports = useCallback(async () => {
-    if (dataService && user?.id) {
-      setIsLoading(true);
-      try {
-        const userReports = await dataService.getReports(user.id);
-        setReports(userReports || []);
-      } catch (error) {
-        console.error('Error fetching reports:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      setIsLoading(false);
-    }
-  }, [dataService, user?.id]);
-
-  useEffect(() => {
-    fetchReports();
-  }, [fetchReports]);
-
+export function ProgressContent({ reports }: ProgressContentProps) {
   const progressData = useMemo(() => {
     return reports.map(report => ({
       date: report.createdAt || new Date(),
@@ -165,10 +113,6 @@ export default function MinimalProgressPage() {
       recentTrend
     };
   }, [reports]);
-
-  if (authLoading || isLoading) {
-    return <ProgressPageSkeleton />;
-  }
 
   return (
     <PageContainer>
@@ -215,9 +159,9 @@ export default function MinimalProgressPage() {
 
         {/* Empty State */}
         {progressData.length === 0 && (
-          <Card className="p-12 text-center">
+          <Card className="p-12 text-center animate-slide-up bg-white/50 backdrop-blur-sm border-dashed">
             <div className="max-w-md mx-auto">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-16 h-16 bg-gray-100/50 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target className="w-8 h-8 text-gray-400" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">No Progress Data Yet</h3>
@@ -236,10 +180,11 @@ export default function MinimalProgressPage() {
         )}
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap gap-4 justify-center">
+        <div className="flex flex-wrap gap-4 justify-center py-6 animate-slide-up" style={{ animationDelay: '0.2s' }}>
           <Button 
             variant="outline" 
             size="default"
+            className="hover:bg-white/60"
             onClick={() => window.location.href = '/progress-reports'}
           >
             View Detailed Reports
@@ -247,6 +192,7 @@ export default function MinimalProgressPage() {
           <Button 
             variant="outline" 
             size="default"
+             className="hover:bg-white/60"
             onClick={() => window.location.href = '/goals'}
           >
             Manage Goals

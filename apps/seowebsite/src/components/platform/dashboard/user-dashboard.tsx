@@ -2,187 +2,194 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useAuth } from '@/context/platform/auth-context';
-import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
 import { 
-  Calendar, 
-  Wallet, 
-  Target, 
-  ArrowRight, 
-  Plus, 
-  Activity,
-  Clock
+  Calendar, Clock, CreditCard, Star, ChevronRight, Activity, 
+  BookOpen, Heart, TrendingUp, Sparkles, MapPin 
 } from 'lucide-react';
+import { useAuth } from '@/context/platform/auth-context';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { Button } from '@/components/platform/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/platform/ui/card';
+import { Badge } from '@/components/platform/ui/badge';
+import { Progress } from '@/components/platform/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 
-export function UserDashboard() {
+interface UserDashboardProps {
+  upcomingSession?: {
+      start_time: string;
+      service?: { name: string };
+  } | null;
+  walletBalance?: number;
+}
+
+export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardProps) {
   const { user } = useAuth();
   const { t } = useLanguage();
   
-  // Mock Data - To be replaced with real data fetching
-  const nextSession = null; // { date: '2024-02-15T10:00:00', therapist: 'Dr. Smith', type: 'Therapy Session' }
-  const walletBalance = 0;
-  const activeGoals = 0;
+  const sessionDate = upcomingSession ? new Date(upcomingSession.start_time) : null;
+  const formattedDate = sessionDate ? sessionDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'None';
+  const formattedTime = sessionDate ? sessionDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '';
+  const serviceName = upcomingSession?.service?.name || 'Session';
 
   return (
-    <div className='space-y-6'>
-      {/* Header Section */}
-      <div className='flex flex-col md:flex-row justify-between items-start md:items-center gap-4'>
+    <div className="space-y-8 max-w-6xl mx-auto pb-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 animate-fade-in">
         <div>
-          <h1 className='text-3xl font-bold tracking-tight text-slate-900'>
-            {t('dashboard.user.welcomeBack', 'Welcome back')}, {user?.user_metadata?.name || user?.email?.split('@')[0] || 'Member'}
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            {t('dashboard.welcome', { name: user?.first_name || 'Guest' })}
           </h1>
-          <p className='text-slate-500 mt-1'>
-            {t('dashboard.user.welcomeSub', 'Track your wellness journey and manage your sessions.')}
+          <p className="text-muted-foreground mt-1">
+            {t('dashboard.subtitle') || 'Track your wellness journey and upcoming sessions.'}
           </p>
         </div>
-        <Button asChild className='bg-blue-600 hover:bg-blue-700 text-white'>
-          <Link href='/booking'>
-            <Plus className='mr-2 h-4 w-4' />
-            {t('dashboard.user.bookSession', 'Book New Session')}
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+           <Button asChild size="lg" className="rounded-full shadow-lg hover:shadow-primary/25 transition-all">
+              <Link href="/services">
+                 <Sparkles className="w-4 h-4 mr-2" />
+                 {t('common.bookNow')}
+              </Link>
+           </Button>
+        </div>
       </div>
 
-      {/* Overview Cards */}
-      <div className='grid gap-4 md:grid-cols-3'>
-        {/* Wallet Card */}
-        <Card className='border-slate-200 shadow-sm'>
-          <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-            <CardTitle className='text-sm font-medium text-slate-600'>
-              {t('dashboard.user.walletBalance', 'Wallet Balance')}
-            </CardTitle>
-            <Wallet className='h-4 w-4 text-blue-600' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold text-slate-900'>�{walletBalance.toFixed(2)}</div>
-            <p className='text-xs text-slate-500 mt-1'>
-              {t('dashboard.user.availableCredits', 'Available for future sessions')}
-            </p>
-            <div className='mt-4'>
-               <Button variant='outline' size='sm' asChild className='w-full text-blue-600 border-blue-200 hover:bg-blue-50'>
-                  <Link href='/subscriptions'>
-                    {t('dashboard.user.addFunds', 'Add Funds')}
-                  </Link>
-               </Button>
-            </div>
-          </CardContent>
-        </Card>
+      <Tabs defaultValue="overview" className="space-y-8">
+        <div className="animate-fade-in" style={{ animationDelay: '100ms' }}>
+            <TabsList className="bg-muted/50 p-1 rounded-full">
+              <TabsTrigger value="overview" className="rounded-full">{t('dashboard.tabs.overview') || 'Overview'}</TabsTrigger>
+              <TabsTrigger value="schedule" className="rounded-full">{t('dashboard.tabs.schedule') || 'Schedule'}</TabsTrigger>
+              <TabsTrigger value="wallet" className="rounded-full">{t('dashboard.tabs.wallet') || 'Wallet'}</TabsTrigger>
+            </TabsList>
+        </div>
 
-        {/* Next Session Card */}
-        <Card className='border-slate-200 shadow-sm relative overflow-hidden'>
-           {nextSession && <div className='absolute top-0 left-0 w-1 h-full bg-blue-600'></div>}
-          <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-            <CardTitle className='text-sm font-medium text-slate-600'>
-              {t('dashboard.user.nextSession', 'Next Session')}
-            </CardTitle>
-            <Calendar className='h-4 w-4 text-blue-600' />
-          </CardHeader>
-          <CardContent>
-            {nextSession ? (
-               <div className='space-y-1'>
-                 <div className='text-2xl font-bold text-slate-900'>Feb 15, 10:00 AM</div>
-                 <p className='text-sm text-slate-500'>Dr. Smith  Therapy Session</p>
-               </div>
-            ) : (
-               <div className='space-y-1'>
-                 <div className='text-lg font-medium text-slate-900'>{t('dashboard.user.notScheduled', 'No upcoming sessions')}</div>
-                 <p className='text-xs text-slate-500'>{t('dashboard.user.bookNextVisit', 'Schedule your next visit now')}</p>
-               </div>
-            )}
+        <TabsContent value="overview" className="space-y-8">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="animate-slide-up">
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{t('dashboard.stats.nextSession')}</CardTitle>
+                    <Calendar className="h-4 w-4 text-primary" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{formattedDate}</div>
+                    {upcomingSession ? (
+                      <p className="text-xs text-muted-foreground">{formattedTime} • {serviceName}</p>
+                    ) : (
+                      <p className="text-xs text-muted-foreground">Book your session</p>
+                    )}
+                  </CardContent>
+                </Card>
+            </div>
+            <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{t('dashboard.stats.credits')}</CardTitle>
+                    <CreditCard className="h-4 w-4 text-primary" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">{walletBalance !== undefined ? (walletBalance / 100).toFixed(2) : '0.00'} €</div>
+                    <p className="text-xs text-muted-foreground">Available balance</p>
+                  </CardContent>
+                </Card>
+            </div>
+            <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{t('dashboard.stats.wellnessScore')}</CardTitle>
+                    <Activity className="h-4 w-4 text-primary" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">85</div>
+                    <Progress value={85} className="mt-2 h-1.5" />
+                  </CardContent>
+                </Card>
+            </div>
+            <div className="animate-slide-up" style={{ animationDelay: '300ms' }}>
+                <Card className="hover:shadow-md transition-shadow">
+                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">{t('dashboard.stats.streak')}</CardTitle>
+                    <TrendingUp className="h-4 w-4 text-primary" />
+                  </CardHeader>
+                  <CardContent>
+                    <div className="text-2xl font-bold">3 {t('common.days')}</div>
+                    <p className="text-xs text-muted-foreground">Keep it up!</p>
+                  </CardContent>
+                </Card>
+            </div>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
+            <div className="col-span-4 animate-slide-up" style={{ animationDelay: '200ms' }}>
+              <Card className="h-full">
+                <CardHeader>
+                  <CardTitle>{t('dashboard.upcoming.title')}</CardTitle>
+                  <CardDescription>{t('dashboard.upcoming.subtitle')}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-8">
+                     {/* Mock Data Item */}
+                     <div className="flex items-center">
+                        <div className="ml-4 space-y-1">
+                          <p className="text-sm font-medium leading-none">Deep Tissue Massage</p>
+                          <p className="text-sm text-muted-foreground">Today at 4:00 PM</p>
+                        </div>
+                        <div className="ml-auto font-medium flex items-center gap-2">
+                            <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Confirmed</Badge>
+                        </div>
+                     </div>
+                     <div className="flex items-center">
+                        <div className="ml-4 space-y-1">
+                          <p className="text-sm font-medium leading-none">Kinesiology Session</p>
+                          <p className="text-sm text-muted-foreground">Oct 28 at 11:00 AM</p>
+                        </div>
+                        <div className="ml-auto font-medium flex items-center gap-2">
+                            <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Pending</Badge>
+                        </div>
+                     </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                    <Button variant="outline" className="w-full">
+                        {t('common.viewAll')}
+                    </Button>
+                </CardFooter>
+              </Card>
+            </div>
             
-            <div className='mt-4'>
-               <Button variant='ghost' size='sm' asChild className='w-full justify-start px-0 text-blue-600 hover:text-blue-700 hover:bg-transparent p-0 h-auto'>
-                  <Link href='/sessions' className='flex items-center gap-1'>
-                    {t('dashboard.user.viewAllSessions', 'View Schedule')} <ArrowRight className='h-3 w-3' />
-                  </Link>
-               </Button>
+            <div className="col-span-3 animate-slide-up" style={{ animationDelay: '300ms' }}>
+              <Card className="h-full bg-primary text-primary-foreground border-0 shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                <CardHeader>
+                  <CardTitle className="text-white">{t('dashboard.promo.title') || 'Premium Plan'}</CardTitle>
+                  <CardDescription className="text-primary-foreground/80">
+                    {t('dashboard.promo.description') || 'Upgrade to unlock exclusive benefits.'}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                   <ul className="space-y-2 text-sm">
+                      <li className="flex items-center gap-2">
+                        <Star className="w-4 h-4 fill-white text-white" />
+                        <span>10% off all sessions</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Star className="w-4 h-4 fill-white text-white" />
+                        <span>Priority booking</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Star className="w-4 h-4 fill-white text-white" />
+                        <span>Free cancellation</span>
+                      </li>
+                   </ul>
+                </CardContent>
+                <CardFooter>
+                    <Button variant="secondary" className="w-full font-semibold">
+                        {t('common.upgrade')}
+                    </Button>
+                </CardFooter>
+              </Card>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Goals Card */}
-        <Card className='border-slate-200 shadow-sm'>
-          <CardHeader className='flex flex-row items-center justify-between pb-2 space-y-0'>
-            <CardTitle className='text-sm font-medium text-slate-600'>
-              {t('dashboard.user.activeGoals', 'Active Goals')}
-            </CardTitle>
-            <Target className='h-4 w-4 text-blue-600' />
-          </CardHeader>
-          <CardContent>
-            <div className='text-2xl font-bold text-slate-900'>{activeGoals}</div>
-            <p className='text-xs text-slate-500 mt-1'>
-              {t('dashboard.user.wellnessObjectives', 'Objectives in progress')}
-            </p>
-             <div className='mt-4'>
-               <Button variant='outline' size='sm' asChild className='w-full'>
-                  <Link href='/progress'>
-                    {t('dashboard.user.viewProgress', 'View Progress')}
-                  </Link>
-               </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Secondary Content Area */}
-      <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-7'>
-        
-        {/* Recent Activity */}
-        <Card className='md:col-span-4 border-slate-200 shadow-sm'>
-          <CardHeader>
-            <CardTitle>{t('dashboard.user.recentActivity', 'Recent Activity')}</CardTitle>
-            <CardDescription>
-              {t('dashboard.user.recentActivitySub', 'Your latest interactions and updates.')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className='space-y-8'>
-               {/* Empty State */}
-               <div className='flex flex-col items-center justify-center py-8 text-center bg-slate-50 rounded-lg border border-dashed border-slate-200'>
-                  <Activity className='h-8 w-8 text-slate-300 mb-2' />
-                  <p className='text-sm text-slate-500'>{t('dashboard.user.noActivity', 'No recent activity recorded.')}</p>
-               </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Quick Actions / Tips */}
-        <Card className='md:col-span-3 border-slate-200 shadow-sm bg-slate-50/50'>
-          <CardHeader>
-            <CardTitle>{t('dashboard.user.gettingStarted', 'Getting Started')}</CardTitle>
-            <CardDescription>
-              {t('dashboard.user.gettingStartedSub', 'Complete these steps to get the most out of your experience.')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className='space-y-4'>
-              <div className='flex items-center gap-4 p-3 bg-white rounded-lg border border-slate-200 shadow-sm'>
-                <div className='h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0'>
-                  <span className='text-blue-700 font-semibold text-xs'>1</span>
-                </div>
-                <div className='space-y-1'>
-                  <p className='text-sm font-medium leading-none'>{t('dashboard.user.completeProfile', 'Complete your profile')}</p>
-                  <p className='text-xs text-slate-500'>{t('dashboard.user.completeProfileSub', 'Add your details and preferences')}</p>
-                </div>
-              </div>
-              
-               <div className='flex items-center gap-4 p-3 bg-white rounded-lg border border-slate-200 shadow-sm'>
-                <div className='h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center flex-shrink-0'>
-                   <Clock className='h-4 w-4 text-slate-500' />
-                </div>
-                <div className='space-y-1'>
-                  <p className='text-sm font-medium leading-none text-slate-500'>{t('dashboard.user.firstSession', 'Book your first session')}</p>
-                  <p className='text-xs text-slate-400'>{t('dashboard.user.firstSessionSub', 'Find a therapist that matches your needs')}</p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
-

@@ -5,7 +5,7 @@
  */
 export const iosSpring = {
   type: "spring",
-  stiffness: 400,
+  stiffness: 500,
   damping: 30
 };
 

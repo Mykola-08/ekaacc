@@ -38,7 +38,7 @@ export default function Footer() {
                   rotate: 360,
                   opacity: 1
                 }}
-                transition={{ duration: 0.6 }}
+                transition={{ duration: 0.3 }}
               />
               <div>
                 <h3 className="text-xl font-medium text-amber-100/90">
@@ -189,4 +189,5 @@ export default function Footer() {
     </motion.footer>
   );
 }
+
 

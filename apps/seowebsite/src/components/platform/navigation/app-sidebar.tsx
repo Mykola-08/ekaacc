@@ -150,6 +150,24 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return [
       ...baseItems,
       {
+        title: "Wallet",
+        url: "/wallet",
+        icon: CreditCard,
+        isActive: pathname === "/wallet",
+      },
+      {
+        title: "Progress",
+        url: "/progress",
+        icon: TrendingUp,
+        isActive: pathname.startsWith("/progress"),
+      },
+      {
+        title: "Community",
+        url: "/community",
+        icon: MessageSquare,
+        isActive: pathname === "/community",
+      },
+      {
         title: "Academy",
         url: "/academy",
         icon: BookOpen,
@@ -165,19 +183,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           }
         ]
       },
-
-      {
-        title: "Progress",
-        url: "/progress",
-        icon: TrendingUp,
-        isActive: pathname.startsWith("/progress"),
-      },
-
-
       {
         title: "Subscriptions",
         url: "/subscriptions",
-        icon: CreditCard,
+        icon: Heart,
         isActive: pathname === "/subscriptions",
       },
       {

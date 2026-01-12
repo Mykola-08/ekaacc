@@ -26,8 +26,8 @@ export function SimpleButton({
       whileTap={disabled ? {} : { scale: 0.95 }}
       transition={{ 
         type: "spring", 
-        stiffness: 400, 
-        damping: 10 
+        stiffness: 500, 
+        damping: 30 
       }}
     >
       {children}
@@ -65,11 +65,12 @@ export function SimpleLink({
       whileTap={{ scale: 0.95 }}
       transition={{ 
         type: "spring", 
-        stiffness: 400, 
-        damping: 10 
+        stiffness: 500, 
+        damping: 30 
       }}
     >
       {children}
     </motion.a>
   );
 }
+

@@ -105,7 +105,7 @@ export function DataTable<TData, TValue>({
         )}
         <DataTableViewOptions table={table} />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-[32px] border-none overflow-hidden">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -232,7 +232,7 @@ export function DataTablePagination<TData>({
           <p className="text-sm font-medium">Rows per page</p>
           {/* Use native select or just hardcode if shadcn select is missing or painful to import without checking */}
            <select
-            className="h-8 w-[70px] rounded-md border border-input bg-background px-2 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-8 w-[70px] rounded-xl border-none bg-secondary/50 px-2 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             value={`${table.getState().pagination.pageSize}`}
             onChange={(e) => {
               table.setPageSize(Number(e.target.value))

@@ -46,21 +46,23 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                 
                 {/* Next Session Card */}
                 <div className="h-full animate-slide-up" style={{ animationDelay: '100ms' }}>
-                    <Card className="h-full border-primary/10 bg-gradient-to-br from-card to-primary/5 shadow-md rounded-[2rem]">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Calendar className="w-5 h-5 text-primary" />
-                                Upcoming Session
+                    <Card className="h-full border-none shadow-sm rounded-[32px] bg-white transition-all hover:shadow-lg">
+                        <CardHeader className="p-8 pb-4">
+                            <CardTitle className="flex items-center gap-3 text-xl">
+                                <div className="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center">
+                                    <Calendar className="w-5 h-5 text-blue-600" />
+                                </div>
+                                <span className="text-gray-900">Upcoming Session</span>
                             </CardTitle>
                         </CardHeader>
-                        <CardContent>
+                        <CardContent className="p-8 pt-4">
                             {nextBooking ? (
-                                <div className="space-y-4">
-                                    <div>
-                                        <h3 className="text-2xl font-serif text-foreground">
+                                <div className="space-y-6">
+                                    <div className="bg-gray-50 rounded-2xl p-4">
+                                        <h3 className="text-xl font-semibold text-gray-900">
                                             {nextBooking.services?.title || 'Therapy Session'}
                                         </h3>
-                                        <div className="flex items-center gap-2 mt-2 text-muted-foreground">
+                                        <div className="flex items-center gap-2 mt-2 text-gray-500 font-medium">
                                             <Clock className="w-4 h-4" />
                                             <span>
                                                 {format(new Date(nextBooking.start_time), 'EEEE, MMMM do')} at {format(new Date(nextBooking.start_time), 'h:mm a')}
@@ -68,20 +70,25 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                         </div>
                                     </div>
                                     
-                                    <div className="flex items-center gap-2 text-sm bg-background/50 p-3 rounded-lg border">
-                                        <MapPin className="w-4 h-4 text-muted-foreground" />
-                                        <span>Main Studio, Room 3</span>
+                                    <div className="flex items-center gap-3 text-sm bg-gray-50 p-4 rounded-2xl border-0">
+                                        <div className="h-8 w-8 rounded-full bg-white flex items-center justify-center shadow-sm">
+                                            <MapPin className="w-4 h-4 text-gray-600" />
+                                        </div>
+                                        <span className="font-medium text-gray-700">Main Studio, Room 3</span>
                                     </div>
 
-                                    <div className="flex gap-2 pt-2">
-                                        <Button variant="outline" className="w-full rounded-full">Reschedule</Button>
-                                        <Button variant="secondary" className="w-full rounded-full">Get Directions</Button>
+                                    <div className="flex gap-3 pt-2">
+                                        <Button variant="outline" className="flex-1 rounded-xl h-12 border-gray-200 hover:bg-gray-50 text-gray-700">Reschedule</Button>
+                                        <Button variant="secondary" className="flex-1 rounded-xl h-12 bg-gray-100 hover:bg-gray-200 text-gray-900">Get Directions</Button>
                                     </div>
                                 </div>
                             ) : (
                                 <div className="text-center py-8 space-y-4">
-                                    <p className="text-muted-foreground">No upcoming sessions scheduled.</p>
-                                    <Button variant="link" asChild>
+                                    <div className="bg-gray-50 h-24 w-24 rounded-full flex items-center justify-center mx-auto mb-4">
+                                        <Calendar className="h-10 w-10 text-gray-300" />
+                                    </div>
+                                    <p className="text-gray-500 font-medium">No upcoming sessions scheduled.</p>
+                                    <Button variant="default" className="rounded-full px-8" asChild>
                                         <Link href="/book">Browse Schedule &rarr;</Link>
                                     </Button>
                                 </div>
@@ -92,35 +99,39 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
 
                 {/* Wallet / Balance Card */}
                 <div className="h-full animate-slide-up" style={{ animationDelay: '200ms' }}>
-                    <Card className="h-full rounded-[2rem]">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <CreditCard className="w-5 h-5 text-primary" />
-                                Your Balance
+                    <Card className="h-full rounded-[32px] border-none shadow-sm bg-white transition-all hover:shadow-lg">
+                        <CardHeader className="p-8 pb-4">
+                            <CardTitle className="flex items-center gap-3 text-xl">
+                                <div className="h-10 w-10 rounded-full bg-green-50 flex items-center justify-center">
+                                    <CreditCard className="w-5 h-5 text-green-600" />
+                                </div>
+                                <span className="text-gray-900">Your Balance</span>
                             </CardTitle>
-                            <CardDescription>Credits available for use</CardDescription>
+                            <CardDescription className="text-base text-gray-500 pl-[3.25rem]">Credits available for use</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-6">
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-4xl font-bold font-serif text-foreground">
-                                    {wallet?.balance || 0}
-                                </span>
-                                <span className="text-muted-foreground">credits</span>
+                        <CardContent className="space-y-8 p-8 pt-4">
+                            <div className="bg-gray-50 rounded-3xl p-6 text-center">
+                                <div className="flex items-baseline justify-center gap-2">
+                                    <span className="text-5xl font-bold text-gray-900">
+                                        {wallet?.balance || 0}
+                                    </span>
+                                    <span className="text-gray-500 font-medium text-lg">credits</span>
+                                </div>
                             </div>
 
-                            <div className="space-y-2">
-                                <div className="flex justify-between text-sm">
-                                    <span>Membership Status</span>
-                                    <span className="font-medium text-primary">Active</span>
+                            <div className="space-y-3 bg-gray-50 rounded-2xl p-5">
+                                <div className="flex justify-between text-sm font-medium">
+                                    <span className="text-gray-600">Membership Status</span>
+                                    <span className="text-green-600 bg-white px-2 py-0.5 rounded-md shadow-sm">Active</span>
                                 </div>
-                                <Progress value={75} className="h-2" />
-                                <p className="text-xs text-muted-foreground text-right">
+                                <Progress value={75} className="h-3 rounded-full bg-gray-200" />
+                                <p className="text-xs text-gray-400 text-right font-medium">
                                     Renews on {format(new Date(new Date().setDate(today.getDate() + 14)), 'MMM do')}
                                 </p>
                             </div>
                         </CardContent>
-                        <CardFooter>
-                            <Button variant="outline" className="w-full gap-2 rounded-full">
+                        <CardFooter className="p-8 pt-0">
+                            <Button className="w-full gap-2 rounded-xl h-12 text-base font-semibold" size="lg">
                                 Top Up Wallet <ArrowRight className="w-4 h-4" />
                             </Button>
                         </CardFooter>
@@ -130,17 +141,24 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
             </div>
 
             {/* Quick Actions / Recommendations */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <div className="animate-fade-in" style={{ animationDelay: '300ms' }}>
-                   <h2 className="text-xl font-semibold">Recommended for you</h2>
+                   <h2 className="text-xl font-semibold text-gray-900 ml-2">Recommended for you</h2>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     {['Deep Tissue', 'Reflexology', 'Aromatherapy'].map((item, i) => (
                         <div key={item} className="animate-slide-up" style={{ animationDelay: `${300 + (i * 100)}ms` }}>
-                            <Card className="hover:bg-muted/50 transition-colors cursor-pointer group rounded-[1.5rem]">
+                            <Card className="hover:shadow-lg transition-all duration-300 cursor-pointer group rounded-[24px] bg-white border-none shadow-sm h-full">
                                 <CardContent className="p-6 flex items-center justify-between">
-                                    <span className="font-medium">{item}</span>
-                                    <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity text-primary" />
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-12 w-12 rounded-2xl bg-gray-50 group-hover:bg-blue-50 transition-colors flex items-center justify-center">
+                                            <Sparkles className="w-5 h-5 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                                        </div>
+                                        <span className="font-medium text-lg text-gray-900">{item}</span>
+                                    </div>
+                                    <div className="h-8 w-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-blue-500 transition-colors">
+                                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-white transition-colors" />
+                                    </div>
                                 </CardContent>
                             </Card>
                         </div>

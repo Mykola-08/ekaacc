@@ -12,42 +12,42 @@ import SmoothScrolling from "@/app/components/SmoothScrolling";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "EKA Balance - Teràpies Integratives",
-  description: "Serveis premium de benestar amb teràpies integratives.",
-  icons: {
-    icon: '/images/eka_logo.png',
-    apple: '/images/eka_logo.png',
-  }
+ title: "EKA Balance - Teràpies Integratives",
+ description: "Serveis premium de benestar amb teràpies integratives.",
+ icons: {
+  icon: '/images/eka_logo.png',
+  apple: '/images/eka_logo.png',
+ }
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1
+ width: "device-width",
+ initialScale: 1,
+ maximumScale: 1
 };
 
 export default function RootLayout({
-  children,
+ children,
 }: Readonly<{
-  children: React.ReactNode;
+ children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <SmoothScrolling>
-          <AuthProvider>
-          <LanguageProvider>
-             <DiscountProvider>
-                <BookingProvider>
-                  <MainLayout>
-                    {children}
-                  </MainLayout>
-                </BookingProvider>
-              </DiscountProvider>
-          </LanguageProvider>
-          </AuthProvider>
-        </SmoothScrolling>
-      </body>
-    </html>
-  );
+ return (
+  <html lang="en">
+   <body className={inter.className}>
+    <SmoothScrolling>
+     <AuthProvider>
+     <LanguageProvider>
+       <DiscountProvider>
+        <BookingProvider>
+         <MainLayout>
+          {children}
+         </MainLayout>
+        </BookingProvider>
+       </DiscountProvider>
+     </LanguageProvider>
+     </AuthProvider>
+    </SmoothScrolling>
+   </body>
+  </html>
+ );
 }

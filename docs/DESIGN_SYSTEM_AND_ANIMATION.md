@@ -1,5 +1,7 @@
 # Animation Best Practices
 
+> **For a comprehensive guide on Animation Theory, CSS Animations, and Framer Motion, please refer to [docs/ANIMATION_THEORY_GUIDE.md](ANIMATION_THEORY_GUIDE.md).**
+
 ## 1. Easing
 
 Use custom easing functions over built-in CSS easings for more natural motion.

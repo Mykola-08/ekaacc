@@ -3,12 +3,12 @@
 import { use } from 'react';
 
 export default function TelegramActionPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = use(params);
+ const { slug } = use(params);
 
-  return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold capitalize">{slug.replace(/-/g, ' ')}</h1>
-      <p className="mt-4">This feature is under construction.</p>
-    </div>
-  );
+ return (
+  <div className="p-4">
+   <h1 className="text-xl font-bold capitalize">{slug.replace(/-/g, ' ')}</h1>
+   <p className="mt-4">This feature is under construction.</p>
+  </div>
+ );
 }

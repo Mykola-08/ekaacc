@@ -9,15 +9,15 @@ import FinalInvitationSection from '@/react-app/components/revision360/FinalInvi
 import Footer from '@/react-app/components/revision360/Footer';
 
 export default function Revision360Page() {
-  return (
-    <div className="min-h-screen bg-black">
-      <HeroSection />
-      <Why360Section />
-      <ServiceSection />
-      <VariantsSection />
-      <BenefitsSection />
-      <FinalInvitationSection />
-      <Footer />
-    </div>
-  );
+ return (
+  <div className="min-h-screen bg-black">
+   <HeroSection />
+   <Why360Section />
+   <ServiceSection />
+   <VariantsSection />
+   <BenefitsSection />
+   <FinalInvitationSection />
+   <Footer />
+  </div>
+ );
 }

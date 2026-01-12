@@ -79,5 +79,5 @@ Follow these instructions to generate code that aligns with the project's archit
 - **Radix UI**: Use `asChild` pattern with `motion.div`.
 
 ### Code Samples & Full Spec
-Refer to `docs/DESIGN_SYSTEM_AND_ANIMATION.md` for exact cubic-bezier values and implementation details.
+Refer to `docs/DESIGN_SYSTEM_AND_ANIMATION.md` and `docs/ANIMATION_THEORY_GUIDE.md` for comprehensive theory, exact cubic-bezier values, and implementation details.
 

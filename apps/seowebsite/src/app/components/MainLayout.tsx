@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ChevronDown, Globe, User as UserIcon, LogOut, UserCircle } from 'lucide-react';
 import { useAuth } from '@/context/platform/auth-context';
@@ -140,9 +141,11 @@ export default function MainLayout({
       }`}>
       {/* Logo Only - Left Side */}
       <Link href="/" className="flex items-center flex-shrink-0 group relative">
-       <img
+       <Image
         src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
         alt="EKA Balance Logo"
+        width={40}
+        height={40}
         className={`transition-all duration-300 ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'
          } object-contain`}
        />
@@ -250,10 +253,13 @@ export default function MainLayout({
           className="flex items-center space-x-2 text-[#000035] hover:text-[#FFB405] transition-colors duration-200"
          >
           {user.profile?.avatar_url ? (
-           <img 
+           <Image 
             src={user.profile.avatar_url} 
             alt={user.profile.full_name || 'User'} 
-            className="w-10 h-10 rounded-full border-2 border-[#FFB405] object-cover"
+            width={40}
+            height={40}
+            unoptimized
+            className="rounded-full border-2 border-[#FFB405] object-cover"
            />
           ) : (
            <div className="w-10 h-10 rounded-full bg-[#FFB405]/20 flex items-center justify-center border-2 border-[#FFB405]">
@@ -380,10 +386,13 @@ export default function MainLayout({
           <>
            <div className="flex items-center px-4 py-2 space-x-3">
             {user.profile?.avatar_url ? (
-             <img 
+             <Image 
               src={user.profile.avatar_url} 
               alt={user.profile.full_name || 'User'} 
-              className="w-10 h-10 rounded-full border border-gray-200"
+              width={40}
+              height={40}
+              unoptimized
+              className="rounded-full border border-gray-200"
              />
             ) : (
               <UserCircle className="w-10 h-10 text-gray-400" />
@@ -471,10 +480,12 @@ export default function MainLayout({
      {/* Logo */}
      <Link href="/" className="flex items-center justify-center space-x-3 mb-8 group w-fit mx-auto">
       <div className="relative w-10 h-10">
-       <img
+       <Image
         src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
         alt="EKA Balance Logo"
-        className="w-10 h-10 object-contain absolute inset-0 transition-transform duration-300 group-hover:scale-105"
+        fill
+        className="object-contain transition-transform duration-300 group-hover:scale-105"
+        sizes="40px"
        />
       </div>
       <span className="text-xl font-medium">EKA Balance</span>

@@ -27,10 +27,6 @@ export default async function AdminDashboardPage() {
 
  return (
   <div className="space-y-6">
-    {/* We can wrap it or just render it. TherapistDashboard has its own container. 
-      Inside the admin layout (which has padding), we might want to remove 'max-w-4xl mx-auto' 
-      OR keep it to center content. Keeping it maintains consistency.
-    */}
     <TherapistDashboard schedule={todaySchedule} />
   </div>
  );

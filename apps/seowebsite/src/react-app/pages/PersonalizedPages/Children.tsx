@@ -1,5 +1,6 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Link } from 'react-router';
+import Image from 'next/image';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 export default function Children() {
@@ -41,11 +42,13 @@ export default function Children() {
             </div>
 
             <div className="order-1 lg:order-2">
-              <div className="relative">
-                <img
+              <div className="relative h-[400px] sm:h-[500px]">
+                <Image
                   src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=1920&h=1080&fit=crop"
                   alt={t('elena.target.children.title')}
-                  className="w-full h-[400px] sm:h-[500px] object-cover rounded-3xl shadow-2xl"
+                  fill
+                  className="object-cover rounded-3xl shadow-2xl"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </div>

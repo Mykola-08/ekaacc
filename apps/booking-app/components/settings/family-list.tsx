@@ -45,54 +45,72 @@ export function FamilyList({ members }: { members: any[] }) {
     <>
     <div className="grid gap-4 md:grid-cols-2">
         {members.map(member => (
-            <Card key={member.id} className="relative group overflow-hidden transition-all hover:shadow-md hover:border-primary/20">
-                <CardHeader className="flex flex-row items-center gap-4 space-y-0 pb-2">
-                    <Avatar className="h-10 w-10 border border-border">
-                        <AvatarFallback className="bg-primary/10 text-primary">
-                            {member.full_name?.charAt(0) || <User className="h-4 w-4" />}
-                        </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                        <CardTitle className="text-base truncate">{member.full_name}</CardTitle>
-                        <CardDescription className="capitalize text-xs">
+            <div 
+                key={member.id} 
+                className="group relative flex items-start gap-4 p-5 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-lg hover:border-slate-200 hover:-translate-y-1"
+            >
+                <Avatar className="h-12 w-12 border border-slate-100 bg-slate-50">
+                    <AvatarFallback className="bg-slate-100/50 text-slate-600 font-serif text-lg">
+                        {member.full_name?.charAt(0) || <User className="h-5 w-5" />}
+                    </AvatarFallback>
+                </Avatar>
+                
+                <div className="flex-1 min-w-0 pt-0.5">
+                    <h3 className="font-semibold text-slate-900 truncate mb-1">{member.full_name}</h3>
+                    <div className="flex items-center gap-2 text-xs">
+                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium capitalize">
                             {member.metadata?.relationship || 'Dependent'}
-                        </CardDescription>
+                        </span>
+                        {member.dob && (
+                            <span className="text-slate-400">
+                                • Born {new Date(member.dob).getFullYear()}
+                            </span>
+                        )}
                     </div>
-                    <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        className="text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => setDeletingId(member.id)}
-                    >
-                        <Trash2 className="h-4 w-4" />
-                    </Button>
-                </CardHeader>
-                <CardContent className="text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                       <span className="text-xs bg-muted px-2 py-0.5 rounded-full">
-                         {member.dob ? `Born: ${new Date(member.dob).getFullYear()}` : 'Age unknown'}
-                       </span>
-                    </div>
-                </CardContent>
-            </Card>
+                </div>
+
+                <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-9 w-9 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl opacity-0 group-hover:opacity-100 transition-all absolute top-3 right-3"
+                    onClick={() => setDeletingId(member.id)}
+                >
+                    <Trash2 className="h-4 w-4" />
+                </Button>
+            </div>
         ))}
     </div>
 
     <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-        <DialogContent>
-            <DialogHeader>
-                <DialogTitle className="flex items-center gap-2 text-destructive">
-                    <AlertCircle className="w-5 h-5" />
-                    Remove Family Member?
+        <DialogContent className="sm:max-w-100 bg-white border-none shadow-2xl rounded-4xl p-0 overflow-hidden">
+             <div className="p-8 pb-6 flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-6">
+                    <AlertCircle className="w-8 h-8 text-red-500" />
+                </div>
+                <DialogTitle className="text-xl font-serif text-slate-900 mb-2">
+                   Remove Family Member?
                 </DialogTitle>
-                <DialogDescription>
-                    Are you sure you want to remove this family member? This action cannot be undone and will unlink their booking history.
+                <DialogDescription className="text-slate-500">
+                    Are you sure you want to remove this family member? This action cannot be undone.
                 </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-                <Button variant="outline" onClick={() => setDeletingId(null)}>Cancel</Button>
-                <Button variant="destructive" onClick={handleDelete}>Remove Member</Button>
-            </DialogFooter>
+             </div>
+             
+             <div className="bg-slate-50 p-6 flex gap-3">
+                <Button 
+                    variant="outline" 
+                    onClick={() => setDeletingId(null)}
+                    className="flex-1 rounded-xl h-11 border-slate-200 hover:bg-white hover:text-slate-900"
+                >
+                    Cancel
+                </Button>
+                <Button 
+                    variant="destructive" 
+                    onClick={handleDelete}
+                    className="flex-1 rounded-xl h-11 bg-red-500 hover:bg-red-600 shadow-md shadow-red-200"
+                >
+                    Remove Member
+                </Button>
+             </div>
         </DialogContent>
     </Dialog>
     </>

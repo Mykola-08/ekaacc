@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
 import { Button } from 'keep-react';
+import Image from 'next/image';
 import SEOHead from '@/react-app/components/SEOHead';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Heart, Star } from 'lucide-react';
@@ -43,12 +44,14 @@ export default function AboutElena() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4 }}
             >
-              <div className="relative group">
+              <div className="relative group aspect-square">
                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                <img
+                <Image
                   src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
                   alt="Elena Kuchera"
-                  className="relative w-full h-auto rounded-full object-cover aspect-square shadow-2xl border-4 border-white"
+                  fill
+                  className="rounded-full object-cover shadow-2xl border-4 border-white"
+                  sizes="(max-width: 768px) 100vw, 320px"
                 />
               </div>
             </motion.div>

@@ -1,6 +1,7 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Clock } from 'lucide-react';
 import { Link } from 'react-router';
+import Image from 'next/image';
 import { Button } from 'keep-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import LazyImage from '@/react-app/components/LazyImage';
@@ -158,11 +159,13 @@ export default function OfficeWorkers() {
       <section className="apple-section bg-white">
         <div className="apple-container-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="squircle-image">
-              <img
+            <div className="squircle-image aspect-[3/2] relative">
+              <Image
                 src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop"
                 alt="Sessió de massatge terapèutic per a treballadors d'oficina"
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
               />
             </div>
             

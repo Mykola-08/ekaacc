@@ -1,11 +1,14 @@
-import { createPost } from "@/server/community/actions";
+import { CreatePost } from '@/components/community/CreatePost';
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
+import { Card } from "@/components/ui/card";
+
+export const metadata = {
+  title: 'Create Post - Community',
+  description: 'Share your thoughts with the community',
+};
 
 export default async function NewPostPage() {
   const supabase = await createClient();
@@ -13,62 +16,28 @@ export default async function NewPostPage() {
 
   if (!user) {
     return (
-      <div className="container py-20 text-center">
-        <h2 className="text-xl font-semibold mb-4">Please log in to post</h2>
-        <Button asChild>
-          <Link href="/login?next=/community/new">Login</Link>
-        </Button>
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="p-8 max-w-md w-full text-center space-y-6">
+          <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mx-auto text-2xl">
+            🔒
+          </div>
+          <div>
+            <h2 className="text-xl font-medium mb-2 text-foreground">Login Required</h2>
+            <p className="text-muted-foreground">Please log in to share with the community.</p>
+          </div>
+          <Button asChild className="rounded-full w-full py-6 text-base shadow-md">
+            <Link href="/login?next=/community/new">Login to Continue</Link>
+          </Button>
+          <div className="text-sm">
+            <Link href="/community" className="text-muted-foreground hover:text-foreground">
+              ← Back to Community
+            </Link>
+          </div>
+        </Card>
       </div>
-    )
+    );
   }
 
-  return (
-    <div className="container max-w-2xl py-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold">Create New Post</h1>
-        <p className="text-muted-foreground">Share your thoughts with the community.</p>
-      </div>
-      
-      <form action={createPost} className="space-y-6 border-none p-6 rounded-[32px] bg-card">
-        <input type="hidden" name="userId" value={user.id} />
-        
-        <div className="space-y-2">
-          <Label htmlFor="title">Title</Label>
-          <Input id="title" name="title" required placeholder="What's on your mind?" />
-        </div>
-        
-        <div className="space-y-2">
-           <Label htmlFor="category">Category</Label>
-           <select 
-            id="category" 
-            name="category" 
-            className="flex h-10 w-full rounded-xl border-none bg-secondary/50 px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <option value="general">General</option>
-            <option value="question">Question</option>
-            <option value="success_story">Success Story</option>
-            <option value="tips">Tips & Advice</option>
-           </select>
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="content">Content</Label>
-          <Textarea 
-            id="content" 
-            name="content" 
-            required 
-            placeholder="Share your details..." 
-            className="min-h-[200px]" 
-          />
-        </div>
-        
-        <div className="flex gap-4 pt-4">
-          <Button type="submit">Post to Community</Button>
-          <Button variant="outline" asChild>
-            <Link href="/community">Cancel</Link>
-          </Button>
-        </div>
-      </form>
-    </div>
-  )
+  return <CreatePost userId={user.id} />;
 }
+

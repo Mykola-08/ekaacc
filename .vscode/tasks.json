@@ -52,6 +52,18 @@
 			],
 			"isBackground": false,
 			"group": "none"
+		},
+		{
+			"label": "Build Booking App",
+			"type": "shell",
+			"command": "npx turbo",
+			"args": [
+				"run",
+				"build",
+				"--filter=booking-app"
+			],
+			"isBackground": false,
+			"group": "build"
 		}
 	]
 }

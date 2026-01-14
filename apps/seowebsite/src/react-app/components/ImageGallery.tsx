@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import Image from 'next/image';
 
 interface ImageGalleryProps {
   images: Array<{
@@ -60,16 +61,21 @@ const Lightbox: React.FC<LightboxProps> = ({
       )}
 
       {/* Image container */}
-      <div className="flex items-center justify-center h-full p-12">
-        <div className="max-w-7xl max-h-full">
-          <img
+      <div className="flex items-center justify-center h-full p-4 sm:p-12">
+        <div className="relative w-full h-full max-w-7xl">
+          <Image
             src={currentImage.url}
             alt={currentImage.alt}
-            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            fill
+            className="object-contain drop-shadow-2xl"
+            sizes="(max-width: 1280px) 100vw, 1280px"
+            priority
           />
           {currentImage.caption && (
-            <div className="mt-6 text-center">
-              <p className="text-white/90 text-lg">{currentImage.caption}</p>
+            <div className="absolute bottom-4 left-0 right-0 text-center">
+              <p className="text-white/90 text-lg bg-black/50 inline-block px-4 py-2 rounded-lg backdrop-blur-sm">
+                {currentImage.caption}
+              </p>
             </div>
           )}
         </div>
@@ -113,13 +119,15 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
         {images.map((image, index) => (
           <div
             key={index}
-            className="relative group cursor-pointer overflow-hidden rounded-2xl"
+            className="relative group cursor-pointer overflow-hidden rounded-2xl aspect-square"
             onClick={() => openLightbox(index)}
           >
-            <img
+            <Image
               src={image.url}
               alt={image.alt}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
               <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">

@@ -1,4 +1,5 @@
 import SEOHead from '@/react-app/components/SEOHead';
+import Image from 'next/image';
 import { Clock, Heart, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
@@ -69,11 +70,13 @@ export default function MassatgePage() {
           </div>
 
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-               <img
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
+               <Image
                   src="https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt="Sessió de massatge terapèutic"
-                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  fill
+                  className="object-cover transform hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                 />
             </div>
             {/* Floating Card */}

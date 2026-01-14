@@ -32,7 +32,19 @@ export async function getUpcomingBookings(profileId: string) {
        LIMIT 1`,
       [profileId]
     );
-    return rows.length > 0 ? rows[0] : null;
+
+    if (rows.length === 0) return null;
+
+    const row = rows[0];
+    return {
+        id: row.id,
+        serviceId: row.service_id,
+        serviceName: row.service_name,
+        startTime: row.start_time.toISOString(),
+        endTime: row.end_time.toISOString(),
+        status: row.status,
+        // Map other necessary fields or cast as needed
+    } as any;
   } catch (error) {
     console.error('Error fetching bookings', error);
     return null;

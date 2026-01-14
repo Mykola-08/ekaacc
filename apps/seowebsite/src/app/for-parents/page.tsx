@@ -2,6 +2,7 @@
 
 import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Clock, CheckCircle } from 'lucide-react';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
@@ -70,10 +71,12 @@ export default function ParentsPersonalized() {
 
        <div className="order-1 lg:order-2">
         <div className="relative">
-         <img
+         <Image
           src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=1920&h=1080&fit=crop"
           alt={t('personalized.parents.hero.title')}
           className="w-full h-[400px] sm:h-[500px] object-cover rounded-[32px] shadow-2xl"
+          width={1920}
+          height={1080}
          />
         </div>
        </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from 'keep-react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Globe, Users, Clock } from 'lucide-react';
@@ -68,11 +69,15 @@ export default function Home() {
        className="relative"
       >
        <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-3xl opacity-30" />
-       <img
-        src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
-        alt="Elena, terapeuta corporal d'EKA Balance"
-        className="relative w-full max-w-md mx-auto h-auto rounded-full object-cover aspect-square shadow-2xl border-8 border-white"
-       />
+       <div className="relative w-full max-w-md mx-auto aspect-square">
+         <Image
+          src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
+          alt="Elena, terapeuta corporal d'EKA Balance"
+          fill
+          className="rounded-full object-cover shadow-2xl border-8 border-white"
+          sizes="(max-width: 768px) 100vw, 500px"
+         />
+       </div>
        {/* Floating Badge */}
        <div className="absolute bottom-10 right-10 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 hidden md:block">
          <p className="text-sm font-medium text-gray-900">Elena Kucherova</p>

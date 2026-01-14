@@ -19,7 +19,7 @@ export function AdminHeader() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-72">
+          <SheetContent side="left" className="p-0 w-72 bg-[#FDFBF9] border-r-0 rounded-r-4xl shadow-2xl">
              {/* Pass onClick to close the sheet when a link is clicked */}
             <AdminSidebarContent onClick={() => setOpen(false)} />
           </SheetContent>

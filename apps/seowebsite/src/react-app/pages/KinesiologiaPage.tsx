@@ -1,5 +1,6 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Clock, Brain, ArrowRight, CheckCircle2, Zap } from 'lucide-react';
+import Image from 'next/image';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Button } from 'keep-react';
@@ -69,11 +70,13 @@ export default function KinesiologiaPage() {
           </div>
 
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-               <img
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
+               <Image
                   src="https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt={t('kinesiology.page.imageAlt') || "Kinesiologia Session"}
-                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
+                  fill
+                  className="object-cover transform hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
             </div>
             {/* Floating Card */}

@@ -1,26 +1,29 @@
-"use client";
+'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
-import { Settings } from 'lucide-react';
+import { SettingsContentHeadless } from '@/components/platform/settings/settings-content-headless';
+import { useAuth } from '@/context/platform/auth-context';
 
 export default function AdminSettingsPage() {
- return (
-  <div className="space-y-6">
-   <div>
-    <h1 className="text-3xl font-bold flex items-center gap-2">
-     <Settings className="h-8 w-8" />
-     Admin Settings
-    </h1>
-    <p className="text-muted-foreground">Configure platform settings and preferences</p>
-   </div>
-   <Card>
-    <CardHeader>
-     <CardTitle>Platform Settings</CardTitle>
-    </CardHeader>
-    <CardContent>
-     <p className="text-muted-foreground">Platform settings functionality coming soon. Configure global settings, integrations, and preferences here.</p>
-    </CardContent>
-   </Card>
-  </div>
- );
+    const { user, loading } = useAuth();
+
+    if (loading) {
+        return <div className="flex items-center justify-center p-8">Loading...</div>;
+    }
+
+    if (!user) {
+        return <div className="p-8">Please log in to view settings.</div>;
+    }
+
+    // Adapt AuthUser to the User interface expected by SettingsContentHeadless
+    const adaptedUser = {
+        id: user.id,
+        email: user.email || '',
+        name: user.user_metadata?.full_name || user.email?.split('@')[0],
+        role: user.role?.name,
+        initials: (user.email?.[0] || 'U').toUpperCase(),
+        user_metadata: user.user_metadata,
+        settings: {} 
+    };
+
+    return <SettingsContentHeadless currentUser={adaptedUser} />;
 }

@@ -4,8 +4,9 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui/sonner';
 import { CookieConsent } from '@/components/cookie-consent';
-import { SiteFooter } from '@/components/site-footer';
-import { SiteHeader } from '@/components/site-header';
+import { SiteFooter } from '@/components/SiteFooter';
+import { SiteHeader } from '@/components/SiteHeader';
+import { MainLayout } from '@/components/layout/main-layout';
 import { DebugStatus } from '@ekaacc/shared-ui';
 import { cn } from '@/lib/utils';
 import './globals.css';
@@ -39,22 +40,25 @@ export default function RootLayout({
   <html lang='en'>
    <body
     className={cn(
-     'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-primary/30',
+     'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-teal-100 selection:text-teal-900',
+     // Subtle ambient background gradient
+     'bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-white via-stone-50 to-stone-100',
      inter.variable,
      playfair.variable
     )}
    >
-    <SiteHeader />
-    <main className='flex-1 pt-24 md:pt-32 relative z-0'>
-     {children}
-    </main>
-    <SiteFooter />
+    <MainLayout
+      header={<SiteHeader />}
+      footer={<SiteFooter />}
+    >
+      {children}
+    </MainLayout>
     <CookieConsent />
 
     <Toaster />
     <Analytics />
     <SpeedInsights />
-    <DebugStatus />
+    {/* <DebugStatus /> */}
    </body>
   </html>
  );

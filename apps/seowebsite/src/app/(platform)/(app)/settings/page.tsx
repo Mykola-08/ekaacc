@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/platform/supabase/server';
 import { redirect } from 'next/navigation';
-import { SettingsContent } from '@/components/platform/settings/settings-content';
+import { SettingsContentHeadless as SettingsContent } from '@/components/platform/settings/settings-content-headless';
 import type { User } from '@/lib/platform/types/types';
 
 export default async function SettingsPage() {

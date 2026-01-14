@@ -2,6 +2,7 @@
 
 import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 export default function Families() {
@@ -43,11 +44,13 @@ export default function Families() {
       </div>
 
       <div className="order-1 lg:order-2">
-       <div className="relative">
-        <img
+       <div className="relative w-full h-[400px] sm:h-[500px]">
+        <Image
          src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?w=1920&h=1080&fit=crop"
          alt={t('elena.target.families.title')}
-         className="w-full h-[400px] sm:h-[500px] object-cover rounded-[32px] shadow-2xl"
+         fill
+         className="object-cover rounded-[32px] shadow-2xl"
+         sizes="(max-width: 1024px) 100vw, 50vw"
         />
        </div>
       </div>

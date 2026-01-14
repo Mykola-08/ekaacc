@@ -1,5 +1,6 @@
 import SEOOptimized from '@/react-app/components/SEOOptimized';
 import { Link } from 'react-router';
+import Image from 'next/image';
 import { Clock, CheckCircle } from 'lucide-react';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
@@ -66,11 +67,13 @@ export default function ParentsPersonalized() {
               </div>
 
               <div className="order-1 lg:order-2">
-                <div className="relative">
-                  <img
+                <div className="relative h-[400px] sm:h-[500px]">
+                  <Image
                     src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=1920&h=1080&fit=crop"
                     alt={t('personalized.parents.hero.title')}
-                    className="w-full h-[400px] sm:h-[500px] object-cover rounded-3xl shadow-2xl"
+                    fill
+                    className="object-cover rounded-3xl shadow-2xl"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               </div>

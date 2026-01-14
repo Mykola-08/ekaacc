@@ -2,6 +2,7 @@ import AppleHero from '@/react-app/components/AppleHero';
 import TestimonialSlider from '@/react-app/components/TestimonialSlider';
 import FAQ from '@/react-app/components/FAQ';
 import CasosSection from '@/react-app/components/CasosSection';
+import Image from 'next/image';
 
 import SEOOptimized from '@/react-app/components/SEOOptimized';
 import { Link } from 'react-router';
@@ -63,11 +64,15 @@ export default function Home() {
             {/* Photo - Mobile: top, Desktop: left */}
             <div className="order-1 lg:order-1">
               <div className="relative max-w-md mx-auto lg:max-w-none">
-                <img
-                  src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
-                  alt="Elena, terapeuta corporal d'EKA Balance"
-                  className="w-full h-auto rounded-full object-cover aspect-square"
-                />
+                <div className="relative aspect-square w-full rounded-full overflow-hidden">
+                  <Image
+                    src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
+                    alt="Elena, terapeuta corporal d'EKA Balance"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
               </div>
             </div>
 

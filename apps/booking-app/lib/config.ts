@@ -6,9 +6,15 @@ let lastLoad = 0;
 const CACHE_TTL_MS = 5 * 60_000; // 5 minutes (configs rarely change)
 let isLoading = false;
 let loadPromise: Promise<void> | null = null;
+const CONFIG_DB_ENABLED = process.env.CONFIG_DB_ENABLED !== '0';
+let hasLoggedError = false;
 
 // Batch load all configs at once to reduce DB queries
 async function loadAllConfigs(): Promise<void> {
+  if (!CONFIG_DB_ENABLED) {
+    // Skip DB-backed config loading; rely on env fallbacks
+    return Promise.resolve();
+  }
   if (isLoading && loadPromise) return loadPromise;
   
   isLoading = true;
@@ -25,7 +31,10 @@ async function loadAllConfigs(): Promise<void> {
       }
       lastLoad = Date.now();
     } catch (error) {
-      console.error('Error loading configs:', error);
+      if (!hasLoggedError) {
+        console.warn('Config DB load failed; using env defaults:', error);
+        hasLoggedError = true;
+      }
     } finally {
       isLoading = false;
       loadPromise = null;
@@ -43,11 +52,11 @@ export async function getConfig(key: string): Promise<string | undefined> {
     await loadAllConfigs();
   }
   
-  return cache[key];
+  return CONFIG_DB_ENABLED ? cache[key] : undefined;
 }
 
 // Pre-load configs on module import in production
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && process.env.CONFIG_DB_PRELOAD === '1') {
   loadAllConfigs().catch(() => {/* ignore initial load errors */});
 }
 

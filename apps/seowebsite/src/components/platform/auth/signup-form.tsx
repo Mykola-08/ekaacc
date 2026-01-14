@@ -69,14 +69,14 @@ export function SignUpForm({ onSuccess, onError }: SignUpFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader className="space-y-1">
+    <Card className="w-full max-w-md mx-auto rounded-[32px] border shadow-2xl bg-card text-card-foreground overflow-hidden">
+      <CardHeader className="space-y-1 p-8 md:p-10 pb-0 md:pb-0">
         <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
         <CardDescription className="text-center">
           Enter your information to create your account
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-8 md:p-10 pt-6 md:pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
@@ -89,6 +89,7 @@ export function SignUpForm({ onSuccess, onError }: SignUpFormProps) {
                     <Input
                       placeholder="Enter your full name"
                       autoComplete="name"
+                      className="rounded-xl h-11"
                       {...field}
                     />
                   </FormControl>

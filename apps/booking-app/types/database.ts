@@ -27,6 +27,7 @@ export interface Service {
   metadata?: Record<string, unknown> | null;
   variants?: ServiceVariant[];
   images?: string[] | null;
+  slug?: string;
 
   // Legacy/UI compatibility
   image_url?: string | null;

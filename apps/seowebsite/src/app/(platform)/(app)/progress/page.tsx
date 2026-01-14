@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/platform/supabase/server';
 import { redirect } from 'next/navigation';
-import { ProgressContent } from '@/components/platform/progress/progress-content';
+import { ProgressContentHeadless as ProgressContent } from '@/components/platform/progress/progress-content-headless';
 import type { Report } from '@/lib/platform/types/types';
 
 export default async function ProgressPage() {

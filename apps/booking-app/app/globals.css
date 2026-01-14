@@ -1,2 +1,76 @@
 @import "@ekaacc/shared-ui/styles/globals.css";
 @source "../../packages/shared-ui";
+
+@theme inline {
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+/* Glassy Apple Health Theme Overrides */
+:root {
+  /* Apple-esque warm grey background */
+  --background: #F5F7FA;
+  --foreground: #1F2937;
+
+  /* Glassy Card Base (White with opacity) */
+  --card: #ffffff;
+  --card-foreground: #1F2937;
+  
+  --popover: #ffffff;
+  --popover-foreground: #1F2937;
+
+  /* Health Primary - Sophisticated Teal */
+  --primary: #0F766E; /* Teal 700 */
+  --primary-foreground: #ffffff;
+
+  --secondary: #CCFBF1; /* Teal 100 */
+  --secondary-foreground: #0F766E;
+
+  --muted: #E2E8F0;
+  --muted-foreground: #64748B;
+
+  --accent: #F0FDFA; /* Teal 50 */
+  --accent-foreground: #0F766E;
+
+  --destructive: #EF4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #0F766E;
+  
+  --radius: 1.5rem; /* 24px - Large rounded corners */
+}
+
+.dark {
+  --background: #020617; /* Slate 950 */
+  --foreground: #F8FAFC;
+
+  --card: #0F172A;
+  --card-foreground: #F8FAFC;
+
+  --primary: #2DD4BF; /* Teal 400 */
+  --primary-foreground: #020617;
+
+  --secondary: #1E293B;
+  --secondary-foreground: #F8FAFC;
+
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+
+  --accent: #1E293B;
+  --accent-foreground: #F8FAFC;
+  
+  --border: #1E293B;
+  --input: #1E293B;
+  --ring: #2DD4BF;
+}
+
+/* Global Glass Utilities */
+@utility glass {
+  @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm;
+}
+@utility glass-card {
+  @apply bg-white/60 backdrop-blur-lg border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)];
+}
+

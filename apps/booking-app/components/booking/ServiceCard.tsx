@@ -20,18 +20,17 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
     <div className="h-full hover:scale-[1.02] transition-transform duration-300 ease-out origin-center">
       <Card className={cn(
         "h-full flex flex-col overflow-hidden transition-all duration-300 rounded-[1.5rem]", 
-        "border bg-card text-card-foreground shadow-sm hover:shadow-md"
+        "glass-card border-white/50 hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]"
       )}>
         {/* Image Placeholder or Header Gradient */}
         <div className={cn(
-          "relative bg-gradient-to-br from-zinc-800 to-zinc-900 w-full",
+          "relative bg-gradient-to-br from-teal-50 via-cyan-50 to-white w-full",
           isCompact ? "h-24" : "h-48"
         )}>
-          {/* We could use service.image_url if it existed, for now a nice pattern */}
-          <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+          {/* Subtle noise/pattern - removed for clean glass look */}
           
           <div className="absolute bottom-4 left-4">
-             <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm border-0 shadow-sm rounded-full px-3">
+             <Badge variant="secondary" className="bg-white/60 backdrop-blur-md border border-white/50 shadow-sm rounded-full px-4 py-1 text-teal-800 font-medium">
                 {service.category || 'Therapy'}
              </Badge>
           </div>

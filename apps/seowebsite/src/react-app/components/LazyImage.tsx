@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { useLazyImage } from '@/react-app/hooks/useIntersectionObserver';
+import Image from 'next/image';
 
 interface LazyImageProps {
   src: string;
@@ -17,7 +17,6 @@ export default function LazyImage({
   className = '',
   onLoad
 }: LazyImageProps) {
-  const [imageRef, imageSrc] = useLazyImage(src, placeholder);
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleLoad = () => {
@@ -26,20 +25,18 @@ export default function LazyImage({
   };
 
   return (
-    <div ref={imageRef as React.LegacyRef<HTMLDivElement>} className={`relative overflow-hidden ${className}`}>
-      {imageSrc ? (
-        <img
-          src={imageSrc as string}
+    <div className={`relative overflow-hidden ${className}`}>
+        <Image
+          src={src}
           alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onLoad={handleLoad}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'
+          className={`object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
         />
-      ) : (
-        <div className="w-full h-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
-      )}
 
-      {!isLoaded && imageSrc && (
+      {!isLoaded && (
         <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700 animate-pulse" />
       )}
     </div>

@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import { getWalletBalanceAction, getClientTransactions, type Transaction } from '@/app/actions/wallet';
 import { getUserPlanUsages, type PlanUsage } from '@/app/actions/plans';
-import { WalletContent } from '@/components/platform/wallet/wallet-content';
+import { WalletContentHeadless as WalletContent } from '@/components/platform/wallet/wallet-content-headless';
 import { AuthGuard } from '@/components/platform/auth/auth-guard';
 
 export default async function WalletPage() {

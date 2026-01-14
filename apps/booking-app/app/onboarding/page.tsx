@@ -1,5 +1,5 @@
 import { getOnboardingQuestions } from '@/server/personalization/service';
-import { OnboardingWizard } from './onboarding-wizard';
+import { OnboardingWizard } from '@/components/onboarding/OnboardingWizard';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
@@ -11,15 +11,13 @@ export default async function OnboardingPage() {
   // redirect('/login'); // In production redirect to login
   // For demo purposes, we might want to allow viewing, but since we need profileId:
   return (
-    <div className="flex h-screen items-center justify-center">
-      <p>Please log in to continue onboarding.</p>
+    <div className="flex h-screen items-center justify-center bg-background">
+      <p className="text-muted-foreground">Please log in to continue onboarding.</p>
     </div>
   )
  }
 
- // Get Profile ID (Simple lookup, or assume trigger created it with auth_id linkage)
- // Assuming a helper or direct query.
- // For now, let's fetch profile ID.
+ // Get Profile ID
  const { data: profile } = await supabase
   .from('profiles')
   .select('id')
@@ -33,7 +31,7 @@ export default async function OnboardingPage() {
  const questions = await getOnboardingQuestions();
 
  return (
-  <OnboardingWizard 
+  <OnboardingWizard
     questions={questions} 
     userProfileId={profile.id} 
   />

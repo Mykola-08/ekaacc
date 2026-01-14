@@ -13,13 +13,13 @@ export default async function AdminLayout({ children }: { children: ReactNode })
  }
 
  return (
-  <div className="flex min-h-screen bg-neutral-50/50">
+  <div className="flex min-h-screen bg-[#FDFBF9]">
    {/* Desktop Sidebar - hidden on mobile via CSS in component */}
    <AdminSidebar />
    
    <div className="flex-1 flex flex-col min-w-0">
      <AdminHeader />
-     <main className="flex-1 p-4 md:p-8 overflow-auto">
+     <main className="flex-1 overflow-auto">
       {children}
      </main>
    </div>

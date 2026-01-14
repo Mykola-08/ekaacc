@@ -3,6 +3,7 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Clock } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from 'keep-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import LazyImage from '@/react-app/components/LazyImage';
@@ -159,11 +160,13 @@ export default function Athletes() {
    <section className="apple-section bg-white">
     <div className="apple-container-sm">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div className="squircle-image">
-       <img
+      <div className="squircle-image aspect-[4/3] relative">
+       <Image
         src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&auto=format&fit=crop"
         alt="Sessió de teràpia per a esportistes"
-        className="w-full h-full object-cover"
+        fill
+        className="object-cover"
+        sizes="(max-width: 1024px) 100vw, 50vw"
        />
       </div>
 

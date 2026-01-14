@@ -1,5 +1,6 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Link } from 'react-router';
+import Image from 'next/image';
 import { Button } from 'keep-react';
 import { Sparkles, Zap, Shield, Brain, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
@@ -65,12 +66,14 @@ export default function AgenyzPage() {
                         </div>
 
                         <div className="order-1 lg:order-2">
-                             <div className="relative group">
+                             <div className="relative group aspect-[4/3]">
                                 <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-indigo-200 rounded-[2.5rem] blur-xl opacity-30 group-hover:opacity-50 transition-duration-500" />
-                                <img
+                                <Image
                                     src="https://images.pexels.com/photos/3618606/pexels-photo-3618606.jpeg?auto=compress&cs=tinysrgb&w=1200"
                                     alt="Advanced supplements and cellular nutrition"
-                                    className="relative w-full h-auto aspect-[4/3] object-cover rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
+                                    fill
+                                    className="object-cover rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                                 <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white/20">
                                     <div className="flex items-center space-x-3">

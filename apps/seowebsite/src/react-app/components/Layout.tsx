@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 import { Menu, X, ChevronDown, Globe } from 'lucide-react';
+import Image from 'next/image';
 
 import ToastContainer from './Toast';
 import { OfflineIndicator } from './OfflineIndicator';
@@ -134,9 +135,11 @@ export default function Layout({
             }`}>
             {/* Logo Only - Left Side */}
             <Link to="/" className="flex items-center flex-shrink-0 group relative">
-              <img
+              <Image
                 src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
                 alt="EKA Balance Logo"
+                width={40}
+                height={40}
                 className={`transition-all duration-300 ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'
                   } object-contain`}
               />
@@ -413,10 +416,12 @@ export default function Layout({
           {/* Logo */}
           <Link to="/" className="flex items-center justify-center space-x-3 mb-8 group w-fit mx-auto">
             <div className="relative w-10 h-10">
-              <img
+              <Image
                 src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
                 alt="EKA Balance Logo"
-                className="w-10 h-10 object-contain absolute inset-0 transition-transform duration-300 group-hover:scale-105"
+                fill
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                sizes="40px"
               />
             </div>
             <span className="text-xl font-medium">EKA Balance</span>

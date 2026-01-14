@@ -15,8 +15,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { PlusCircle } from "lucide-react"
+import { PlusCircle, UserPlus, Calendar, User } from "lucide-react"
 import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 
 export function AddFamilyDialog() {
   const [open, setOpen] = useState(false)
@@ -46,44 +47,73 @@ export function AddFamilyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="transition-all hover:scale-105 active:scale-95">
-            <PlusCircle className="mr-2 h-4 w-4" />
+        <Button className="bg-slate-900 text-white rounded-xl px-5 py-6 hover:bg-slate-800 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-slate-200">
+            <UserPlus className="mr-2 h-4 w-4" />
             Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add Family Member</DialogTitle>
-          <DialogDescription>
-            Add a child or dependent to manage their bookings.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-                <Label htmlFor="full_name">Full Name</Label>
-                <Input id="full_name" name="full_name" required placeholder="e.g. Maya V." className="focus-visible:ring-primary" />
+      <DialogContent className="sm:max-w-106.25 bg-white border-none shadow-2xl rounded-4xl p-0 overflow-hidden">
+        <div className="bg-slate-50 border-b border-slate-100 p-6 pb-4">
+            <DialogHeader className="text-left space-y-1">
+            <DialogTitle className="text-xl font-serif text-slate-900">Add Family Member</DialogTitle>
+            <DialogDescription className="text-slate-500">
+                Add a child or dependent to manage their bookings.
+            </DialogDescription>
+            </DialogHeader>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+            <div className="space-y-4">
+                <div className="space-y-2">
+                    <Label htmlFor="full_name" className="text-slate-700 font-medium">Full Name</Label>
+                    <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <Input 
+                            id="full_name" 
+                            name="full_name" 
+                            required 
+                            placeholder="e.g. Maya V." 
+                            className="pl-10 h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-slate-900/10 focus-visible:ring-offset-0" 
+                        />
+                    </div>
+                </div>
+                
+                <div className="space-y-2">
+                    <Label htmlFor="dob" className="text-slate-700 font-medium">Date of Birth</Label>
+                    <div className="relative">
+                        <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                        <Input 
+                            id="dob" 
+                            name="dob" 
+                            type="date" 
+                            className="pl-10 h-12 bg-slate-50 border-slate-200 rounded-xl block w-full focus:ring-slate-900/10 focus-visible:ring-offset-0" 
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <Label htmlFor="relationship" className="text-slate-700 font-medium">Relationship</Label>
+                    <Select name="relationship" required defaultValue="child">
+                        <SelectTrigger className="h-12 bg-slate-50 border-slate-200 rounded-xl focus:ring-slate-900/10">
+                            <SelectValue placeholder="Select relationship" />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border-slate-100 shadow-xl">
+                            <SelectItem value="child">Child</SelectItem>
+                            <SelectItem value="spouse">Spouse</SelectItem>
+                            <SelectItem value="parent">Parent</SelectItem>
+                            <SelectItem value="sibling">Sibling</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
             </div>
-            <div className="space-y-2">
-                <Label htmlFor="dob">Date of Birth</Label>
-                <Input id="dob" name="dob" type="date" className="block w-full" />
-            </div>
-            <div className="space-y-2">
-                <Label htmlFor="relationship">Relationship</Label>
-                <Select name="relationship" required defaultValue="child">
-                    <SelectTrigger>
-                        <SelectValue placeholder="Select relationship" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="child">Child</SelectItem>
-                        <SelectItem value="spouse">Spouse</SelectItem>
-                        <SelectItem value="parent">Parent</SelectItem>
-                        <SelectItem value="sibling">Sibling</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                    </SelectContent>
-                </Select>
-            </div>
-            <DialogFooter>
-                <Button type="submit" disabled={loading} className="w-full sm:w-auto">
+
+            <DialogFooter className="pt-2">
+                <Button 
+                    type="submit" 
+                    disabled={loading} 
+                    className="w-full bg-slate-900 text-white hover:bg-black rounded-xl h-12 text-base font-medium shadow-lg shadow-slate-200"
+                >
                     {loading ? (
                         <>
                           <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent mr-2" />

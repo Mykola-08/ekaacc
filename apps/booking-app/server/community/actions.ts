@@ -56,3 +56,19 @@ export async function createPost(formData: FormData) {
   revalidatePath("/community");
   redirect("/community");
 }
+
+export async function getPost(id: string): Promise<Post | null> {
+  const query = `SELECT * FROM posts WHERE id = $1`;
+  const { rows } = await db.query(query, [id]);
+  if (rows.length === 0) return null;
+  const row = rows[0];
+  return {
+    id: row.id,
+    title: row.title,
+    content: row.content,
+    category: row.category,
+    createdAt: row.created_at.toISOString(),
+    likesCount: row.likes_count, 
+    userId: row.user_id 
+  } as Post;
+}

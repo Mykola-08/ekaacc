@@ -44,26 +44,26 @@ export default function TelegramBookingsPage() {
  };
 
  if (loading) return (
-   <div className="min-h-screen bg-[#FDFBF9] flex items-center justify-center">
+   <div className="min-h-screen bg-background flex items-center justify-center">
      <div className="animate-spin w-6 h-6 border-2 border-black/10 border-t-black/60 rounded-full" />
    </div>
  );
  
  if (!user) return (
-   <div className="min-h-screen bg-[#FDFBF9] flex items-center justify-center p-6 text-center text-muted-foreground">
+   <div className="min-h-screen bg-background flex items-center justify-center p-6 text-center text-muted-foreground">
      Please open this page in Telegram
    </div>
  );
 
  return (
-  <div className="min-h-screen bg-[#FDFBF9] px-4 py-8 font-sans">
+  <div className="min-h-screen bg-background px-4 py-8 font-sans">
    <div className="mb-8 pl-1">
      <h1 className="text-3xl font-light text-[#1F1F1F] tracking-tight mb-2">My Bookings</h1>
      <p className="text-muted-foreground/80 text-sm">Upcoming and past appointments</p>
    </div>
 
    {bookings.length === 0 ? (
-    <div className="text-center py-12 bg-white rounded-4xl border border-black/3">
+    <div className="text-center py-12 bg-card rounded-4xl border border-black/3">
       <CalendarDays className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
       <p className="text-muted-foreground">No bookings found yet.</p>
     </div>
@@ -75,7 +75,7 @@ export default function TelegramBookingsPage() {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: i * 0.05 }}
-        className="p-5 bg-white rounded-3xl border border-black/4 shadow-sm flex flex-col gap-3"
+        className="p-5 bg-card rounded-3xl border border-black/4 shadow-sm flex flex-col gap-3"
       >
        <div className="flex items-start justify-between">
          <div className="font-medium text-lg text-[#1F1F1F]">{b.service?.name || 'Service'}</div>
@@ -83,7 +83,7 @@ export default function TelegramBookingsPage() {
            "px-2.5 py-1 rounded-full text-xs font-medium uppercase tracking-wide",
            b.status === 'confirmed' ? "bg-green-100 text-green-700" :
            b.status === 'pending' ? "bg-yellow-100 text-yellow-800" :
-           "bg-gray-100 text-gray-600"
+           "bg-muted text-gray-600"
          )}>
            {b.status || b.payment_status}
          </div>

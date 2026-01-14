@@ -14,32 +14,32 @@ interface ErrorLogsHeadlessProps {
 
 export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps) {
     return (
-        <div className="w-full bg-[#FDFBF9] min-h-screen p-6 md:p-12">
+        <div className="w-full bg-background min-h-screen p-6 md:p-12">
             <div className="max-w-6xl mx-auto space-y-8">
                 {/* Header */}
                 <div className="flex items-start md:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-serif text-slate-900">System Error Logs</h1>
-                        <p className="text-slate-500 mt-1">Monitor application health and issues.</p>
+                        <h1 className="text-3xl font-serif text-foreground">System Error Logs</h1>
+                        <p className="text-muted-foreground mt-1">Monitor application health and issues.</p>
                     </div>
-                    <div className="bg-white border border-slate-100 px-4 py-2 rounded-xl text-sm font-medium text-slate-600 shadow-sm flex items-center gap-2">
+                    <div className="bg-card border border-border/60 px-4 py-2 rounded-xl text-sm font-medium text-muted-foreground shadow-sm flex items-center gap-2">
                         <AlertTriangle className="w-4 h-4 text-amber-500" />
                         <span>Total Events:</span>
-                        <span className="text-slate-900 font-bold">{count}</span>
+                        <span className="text-foreground font-bold">{count}</span>
                     </div>
                 </div>
 
                 {/* Table */}
-                <div className="bg-white rounded-[32px] border border-slate-100 shadow-xl overflow-hidden">
+                <div className="bg-card rounded-[32px] border border-border/60 shadow-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left border-collapse">
                             <thead>
-                                <tr className="border-b border-slate-50 bg-slate-50/50">
-                                    <th className="p-6 font-semibold text-slate-500 w-[180px]">Timestamp</th>
-                                    <th className="p-6 font-semibold text-slate-500 max-w-[400px]">Message</th>
-                                    <th className="p-6 font-semibold text-slate-500">Context URL</th>
-                                    <th className="p-6 font-semibold text-slate-500">User</th>
-                                    <th className="p-6 font-semibold text-slate-500 text-right">Action</th>
+                                <tr className="border-b border-slate-50 bg-muted/40/50">
+                                    <th className="p-6 font-semibold text-muted-foreground w-[180px]">Timestamp</th>
+                                    <th className="p-6 font-semibold text-muted-foreground max-w-[400px]">Message</th>
+                                    <th className="p-6 font-semibold text-muted-foreground">Context URL</th>
+                                    <th className="p-6 font-semibold text-muted-foreground">User</th>
+                                    <th className="p-6 font-semibold text-muted-foreground text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -49,25 +49,25 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                                              <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4">
                                                 <CheckCircle className="w-6 h-6 text-green-500" />
                                              </div>
-                                             <p className="text-slate-500 font-medium">No errors found in the logs.</p>
+                                             <p className="text-muted-foreground font-medium">No errors found in the logs.</p>
                                         </td>
                                     </tr>
                                 ) : (
                                     logs.map((log) => (
-                                        <tr key={log.id} className="hover:bg-slate-50/50 transition-colors group">
-                                            <td className="p-6 whitespace-nowrap text-slate-500 font-mono text-xs">
+                                        <tr key={log.id} className="hover:bg-muted/40/50 transition-colors group">
+                                            <td className="p-6 whitespace-nowrap text-muted-foreground font-mono text-xs">
                                                 {format(new Date(log.created_at), 'MMM dd, HH:mm:ss')}
                                             </td>
                                             <td className="p-6">
-                                                <div className="font-bold text-slate-900 max-w-75 truncate" title={log.error_message}>
+                                                <div className="font-bold text-foreground max-w-75 truncate" title={log.error_message}>
                                                     {log.error_message}
                                                 </div>
-                                                <div className="text-xs text-slate-400 truncate mt-1 font-mono">
+                                                <div className="text-xs text-muted-foreground/80 truncate mt-1 font-mono">
                                                     {log.user_agent}
                                                 </div>
                                             </td>
                                             <td className="p-6 max-w-50">
-                                                <div className="truncate text-xs text-slate-500 bg-slate-100 inline-block px-2 py-1 rounded-md font-medium">
+                                                <div className="truncate text-xs text-muted-foreground bg-muted inline-block px-2 py-1 rounded-md font-medium">
                                                     {log.url?.replace(/^https?:\/\/[^/]+/, '') || '/'}
                                                 </div>
                                             </td>
@@ -77,7 +77,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                                                         {log.user_id.slice(0, 8)}
                                                     </span>
                                                 ) : (
-                                                    <span className="text-slate-400 italic">Guest</span>
+                                                    <span className="text-muted-foreground/80 italic">Guest</span>
                                                 )}
                                             </td>
                                             <td className="p-6 text-right">
@@ -96,7 +96,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                     {page > 1 && (
                         <Link 
                             href={`?page=${page - 1}`} 
-                            className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-100 rounded-full text-slate-600 font-medium hover:bg-slate-50 shadow-sm transition-all hover:shadow-md"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-card border border-border/60 rounded-full text-muted-foreground font-medium hover:bg-muted/40 shadow-sm transition-all hover:shadow-md"
                         >
                             <ChevronLeft className="w-4 h-4" />
                             Previous
@@ -105,7 +105,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                     {((count || 0) > page * 20) && (
                         <Link 
                             href={`?page=${page + 1}`} 
-                            className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-100 rounded-full text-slate-600 font-medium hover:bg-slate-50 shadow-sm transition-all hover:shadow-md"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-card border border-border/60 rounded-full text-muted-foreground font-medium hover:bg-muted/40 shadow-sm transition-all hover:shadow-md"
                         >
                             Next
                             <ChevronRight className="w-4 h-4" />

@@ -22,9 +22,9 @@ export default function ChecklistPage() {
  const progress = Math.round((items.filter(i => i.checked).length / items.length) * 100);
 
  return (
-  <div className="min-h-screen bg-[#FDFBF9] px-6 py-8 font-sans">
+  <div className="min-h-screen bg-background px-6 py-8 font-sans">
    <div className="mb-8 flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-sm">
+      <div className="w-10 h-10 rounded-full bg-card border border-black/5 flex items-center justify-center shadow-sm">
         <CheckSquare className="w-5 h-5 text-gray-700" />
       </div>
       <div>
@@ -34,7 +34,7 @@ export default function ChecklistPage() {
    </div>
 
    {/* Progress Bar */}
-   <div className="mb-8 w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+   <div className="mb-8 w-full h-2 bg-muted rounded-full overflow-hidden">
      <motion.div 
        initial={{ width: 0 }}
        animate={{ width: `${progress}%` }}
@@ -52,7 +52,7 @@ export default function ChecklistPage() {
          "cursor-pointer group flex items-center gap-4 p-5 rounded-3xl border transition-all duration-300",
          item.checked 
            ? "bg-gray-50 border-transparent opacity-80" 
-           : "bg-white border-black/4 shadow-sm hover:shadow-md hover:-translate-y-0.5"
+           : "bg-card border-black/4 shadow-sm hover:shadow-md hover:-translate-y-0.5"
        )}
      >
       <div className={cn(

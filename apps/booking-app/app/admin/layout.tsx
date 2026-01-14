@@ -13,7 +13,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
  }
 
  return (
-  <div className="flex min-h-screen bg-[#FDFBF9]">
+  <div className="flex min-h-screen bg-background">
    {/* Desktop Sidebar - hidden on mobile via CSS in component */}
    <AdminSidebar />
    

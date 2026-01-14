@@ -19,7 +19,7 @@ export default async function ErrorLogsPage({ searchParams }: { searchParams: Pr
 
  if (errorStr) {
    return (
-     <div className="w-full bg-[#FDFBF9] min-h-screen p-6 md:p-12 flex items-center justify-center">
+     <div className="w-full bg-background min-h-screen p-6 md:p-12 flex items-center justify-center">
         <div className="p-6 bg-red-50 text-red-600 rounded-2xl border border-red-100 max-w-md text-center">
             <h3 className="font-bold mb-2">Error loading logs</h3>
             <p className="text-sm opacity-80">{errorStr}</p>

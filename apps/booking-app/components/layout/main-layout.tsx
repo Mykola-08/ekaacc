@@ -15,7 +15,7 @@ export function MainLayout({ children, header, footer }: MainLayoutProps) {
   const isMinimal = pathname?.startsWith('/telegram');
 
   if (isMinimal) {
-    return <main className="min-h-screen bg-[#FDFBF9]">{children}</main>;
+    return <main className="min-h-screen bg-background">{children}</main>;
   }
 
   return (

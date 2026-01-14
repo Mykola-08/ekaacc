@@ -47,22 +47,22 @@ export function FamilyList({ members }: { members: any[] }) {
         {members.map(member => (
             <div 
                 key={member.id} 
-                className="group relative flex items-start gap-4 p-5 bg-white rounded-3xl border border-slate-100 shadow-sm transition-all hover:shadow-lg hover:border-slate-200 hover:-translate-y-1"
+                className="group relative flex items-start gap-4 p-5 bg-card rounded-3xl border border-border/60 shadow-sm transition-all hover:shadow-lg hover:border-border hover:-translate-y-1"
             >
-                <Avatar className="h-12 w-12 border border-slate-100 bg-slate-50">
-                    <AvatarFallback className="bg-slate-100/50 text-slate-600 font-serif text-lg">
+                <Avatar className="h-12 w-12 border border-border/60 bg-muted/40">
+                    <AvatarFallback className="bg-muted/50 text-muted-foreground font-serif text-lg">
                         {member.full_name?.charAt(0) || <User className="h-5 w-5" />}
                     </AvatarFallback>
                 </Avatar>
                 
                 <div className="flex-1 min-w-0 pt-0.5">
-                    <h3 className="font-semibold text-slate-900 truncate mb-1">{member.full_name}</h3>
+                    <h3 className="font-semibold text-foreground truncate mb-1">{member.full_name}</h3>
                     <div className="flex items-center gap-2 text-xs">
-                        <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 font-medium capitalize">
+                        <span className="px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium capitalize">
                             {member.metadata?.relationship || 'Dependent'}
                         </span>
                         {member.dob && (
-                            <span className="text-slate-400">
+                            <span className="text-muted-foreground/80">
                                 • Born {new Date(member.dob).getFullYear()}
                             </span>
                         )}
@@ -72,7 +72,7 @@ export function FamilyList({ members }: { members: any[] }) {
                 <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-9 w-9 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl opacity-0 group-hover:opacity-100 transition-all absolute top-3 right-3"
+                    className="h-9 w-9 text-muted-foreground/50 hover:text-red-500 hover:bg-red-50 rounded-xl opacity-0 group-hover:opacity-100 transition-all absolute top-3 right-3"
                     onClick={() => setDeletingId(member.id)}
                 >
                     <Trash2 className="h-4 w-4" />
@@ -82,24 +82,24 @@ export function FamilyList({ members }: { members: any[] }) {
     </div>
 
     <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-        <DialogContent className="sm:max-w-100 bg-white border-none shadow-2xl rounded-4xl p-0 overflow-hidden">
+        <DialogContent className="sm:max-w-100 bg-card border-none shadow-2xl rounded-4xl p-0 overflow-hidden">
              <div className="p-8 pb-6 flex flex-col items-center text-center">
                 <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-6">
                     <AlertCircle className="w-8 h-8 text-red-500" />
                 </div>
-                <DialogTitle className="text-xl font-serif text-slate-900 mb-2">
+                <DialogTitle className="text-xl font-serif text-foreground mb-2">
                    Remove Family Member?
                 </DialogTitle>
-                <DialogDescription className="text-slate-500">
+                <DialogDescription className="text-muted-foreground">
                     Are you sure you want to remove this family member? This action cannot be undone.
                 </DialogDescription>
              </div>
              
-             <div className="bg-slate-50 p-6 flex gap-3">
+             <div className="bg-muted/40 p-6 flex gap-3">
                 <Button 
                     variant="outline" 
                     onClick={() => setDeletingId(null)}
-                    className="flex-1 rounded-xl h-11 border-slate-200 hover:bg-white hover:text-slate-900"
+                    className="flex-1 rounded-xl h-11 border-border hover:bg-card hover:text-foreground"
                 >
                     Cancel
                 </Button>

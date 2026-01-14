@@ -43,7 +43,7 @@ export default function TelegramWebApp() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF9] px-6 py-10 font-sans">
+    <div className="min-h-screen bg-background px-6 py-10 font-sans">
       <motion.div
         variants={container}
         initial="hidden"
@@ -62,7 +62,7 @@ export default function TelegramWebApp() {
         <motion.div variants={item} className="grid gap-4">
           <Link href="/telegram/book" className="block group">
             <div className={cn(
-              "relative overflow-hidden bg-white p-6 rounded-3xl border border-black/4 shadow-sm",
+              "relative overflow-hidden bg-card p-6 rounded-3xl border border-black/4 shadow-sm",
               "transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5",
               "flex items-center gap-4"
             )}>
@@ -81,7 +81,7 @@ export default function TelegramWebApp() {
 
           <Link href="/telegram/bookings" className="block group">
             <div className={cn(
-              "relative overflow-hidden bg-white p-6 rounded-3xl border border-black/4 shadow-sm",
+              "relative overflow-hidden bg-card p-6 rounded-3xl border border-black/4 shadow-sm",
               "transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5",
               "flex items-center gap-4"
             )}>
@@ -97,7 +97,7 @@ export default function TelegramWebApp() {
 
           <Link href="/telegram/june" className="block group">
             <div className={cn(
-              "relative overflow-hidden bg-white p-6 rounded-3xl border border-black/4 shadow-sm",
+              "relative overflow-hidden bg-card p-6 rounded-3xl border border-black/4 shadow-sm",
               "transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5",
               "flex items-center gap-4"
             )}>
@@ -113,7 +113,7 @@ export default function TelegramWebApp() {
 
           <Link href="/telegram/checklist" className="block group">
             <div className={cn(
-              "relative overflow-hidden bg-white p-6 rounded-3xl border border-black/4 shadow-sm",
+              "relative overflow-hidden bg-card p-6 rounded-3xl border border-black/4 shadow-sm",
               "transition-all duration-300 group-hover:shadow-md group-hover:-translate-y-0.5",
               "flex items-center gap-4"
             )}>

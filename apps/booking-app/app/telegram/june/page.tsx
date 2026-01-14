@@ -2,15 +2,15 @@ import { Bot } from "lucide-react";
 
 export default function JuneProgramPage() {
  return (
-  <div className="min-h-screen bg-[#FDFBF9] px-6 py-8 font-sans">
+  <div className="min-h-screen bg-background px-6 py-8 font-sans">
     <div className="mb-8 flex items-center gap-3">
-      <div className="w-10 h-10 rounded-full bg-white border border-black/5 flex items-center justify-center shadow-sm">
+      <div className="w-10 h-10 rounded-full bg-card border border-black/5 flex items-center justify-center shadow-sm">
         <Bot className="w-5 h-5 text-gray-700" />
       </div>
       <h1 className="text-2xl font-light text-[#1F1F1F] tracking-tight">June Program</h1>
     </div>
 
-   <div className="bg-white p-8 rounded-4xl border border-black/3 shadow-sm space-y-6">
+   <div className="bg-card p-8 rounded-4xl border border-black/3 shadow-sm space-y-6">
      <p className="text-lg text-muted-foreground leading-relaxed">
        Welcome to the June Program. Your personalized journey starts here.
      </p>

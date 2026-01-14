@@ -138,7 +138,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
         confirmed: 'bg-green-100 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20',
         pending: 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20',
         cancelled: 'bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20',
-        completed: 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700',
+        completed: 'bg-muted text-foreground/90 border-border dark:bg-primary/90 dark:text-muted-foreground/80 dark:border-slate-700',
     };
     
     // @ts-ignore

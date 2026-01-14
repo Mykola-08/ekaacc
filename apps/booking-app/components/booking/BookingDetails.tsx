@@ -448,7 +448,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                     )}
                                 </button>
                                 
-                                <div className="text-center text-xs text-slate-400 space-y-1">
+                                <div className="text-center text-xs text-muted-foreground/80 space-y-1">
                                     <p>Free cancellation up to 24 hours before your appointment.</p>
                                     <div className="flex items-center justify-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
                                         <CreditCard className="w-3 h-3" />

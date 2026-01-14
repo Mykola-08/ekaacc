@@ -30,7 +30,7 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
           {/* Subtle noise/pattern - removed for clean glass look */}
           
           <div className="absolute bottom-4 left-4">
-             <Badge variant="secondary" className="bg-white/60 backdrop-blur-md border border-white/50 shadow-sm rounded-full px-4 py-1 text-teal-800 font-medium">
+             <Badge variant="secondary" className="bg-card/60 backdrop-blur-md border border-white/50 shadow-sm rounded-full px-4 py-1 text-teal-800 font-medium">
                 {service.category || 'Therapy'}
              </Badge>
           </div>

@@ -23,7 +23,7 @@ export default function Error({
       <AlertCircle className="w-8 h-8 text-red-400" />
     </div>
     <h2 className="text-2xl font-serif text-slate-100 mb-3">Something went wrong!</h2>
-    <p className="text-slate-400 mb-8">
+    <p className="text-muted-foreground/80 mb-8">
      We encountered an error while loading the booking details. Please checking your connection and try again.
     </p>
     <div className="flex gap-4 justify-center">

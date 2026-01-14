@@ -79,7 +79,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
                     <p className="whitespace-pre-line">{service.description}</p>
                     </div>
                 
-                    <div className="bg-white/40 backdrop-blur-md rounded-3xl p-8 border border-white/50 h-fit">
+                    <div className="bg-card/40 backdrop-blur-md rounded-3xl p-8 border border-white/50 h-fit">
                         <h3 className="font-serif text-2xl mb-6 text-teal-800">Benefits</h3>
                         
                             <ul className="space-y-4">
@@ -110,7 +110,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
                             key={variant.id || 'standard'} 
                             href={`/book/${service.id}?variantId=${variant.id || ''}`}
                         >
-                            <div className="glass-card group relative h-full hover:border-teal-500/50 hover:bg-white/80 transition-all duration-300 hover:shadow-xl rounded-3xl hover:-translate-y-1">
+                            <div className="glass-card group relative h-full hover:border-teal-500/50 hover:bg-card/80 transition-all duration-300 hover:shadow-xl rounded-3xl hover:-translate-y-1">
                                 <div className="p-8 flex flex-col h-full">
                                     <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity -mr-4 -mt-4">
                                         <div className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center text-white">

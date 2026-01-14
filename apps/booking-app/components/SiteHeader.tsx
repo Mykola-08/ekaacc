@@ -83,19 +83,19 @@ export function SiteHeader() {
         className={cn(
             "fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-[32px] transition-all duration-300",
             scrolled 
-                ? "bg-white/90 border border-slate-200 shadow-xl shadow-slate-200/40 backdrop-blur-md py-2" 
-                : "bg-white border border-slate-100 shadow-lg shadow-slate-100/50 py-3"
+                ? "bg-card/90 border border-border shadow-xl shadow-slate-200/40 backdrop-blur-md py-2" 
+                : "bg-card border border-border/60 shadow-lg shadow-slate-100/50 py-3"
         )}
       >
         <div className='flex items-center justify-between px-6'>
           {/* Logo */}
           <Link href='/' className='flex items-center gap-2 group'>
-            <div className="w-8 h-8 bg-slate-900 rounded-full flex items-center justify-center text-white font-serif font-bold text-sm">E</div>
-            <span className='font-serif font-bold tracking-tight text-lg text-slate-900 group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-serif font-bold text-sm">E</div>
+            <span className='font-serif font-bold tracking-tight text-lg text-foreground group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className='hidden md:flex items-center space-x-1 bg-slate-50 rounded-full p-1 px-2 border border-slate-100'>
+          <nav className='hidden md:flex items-center space-x-1 bg-muted/40 rounded-full p-1 px-2 border border-border/60'>
             {routes.map((route) => {
                 const isActive = pathname === route.href;
                 return (
@@ -105,8 +105,8 @@ export function SiteHeader() {
                         className={cn(
                         'relative px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200',
                         isActive 
-                            ? 'text-slate-900 bg-white shadow-sm ring-1 ring-slate-200' 
-                            : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200/50'
+                            ? 'text-foreground bg-card shadow-sm ring-1 ring-slate-200' 
+                            : 'text-muted-foreground hover:text-foreground hover:bg-slate-200/50'
                         )}
                     >
                         {route.label}
@@ -120,14 +120,14 @@ export function SiteHeader() {
             {user ? (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <button className="flex items-center gap-2 pl-3 pr-1 py-1 rounded-full bg-slate-50 border border-slate-100 hover:bg-slate-100 transition-colors">
-                            <span className="text-sm font-medium text-slate-700 max-w-[100px] truncate hidden md:block">{user.email}</span>
-                            <div className="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center border border-slate-100">
-                                <User className="w-4 h-4 text-slate-700" />
+                        <button className="flex items-center gap-2 pl-3 pr-1 py-1 rounded-full bg-muted/40 border border-border/60 hover:bg-muted transition-colors">
+                            <span className="text-sm font-medium text-foreground/90 max-w-[100px] truncate hidden md:block">{user.email}</span>
+                            <div className="w-8 h-8 rounded-full bg-card shadow-sm flex items-center justify-center border border-border/60">
+                                <User className="w-4 h-4 text-foreground/90" />
                             </div>
                         </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="w-56 rounded-2xl border-slate-100 shadow-xl p-2">
+                    <DropdownMenuContent align="end" className="w-56 rounded-2xl border-border/60 shadow-xl p-2">
                          <DropdownMenuLabel className="font-serif">My Account</DropdownMenuLabel>
                          <DropdownMenuSeparator />
                         {user ? (
@@ -144,10 +144,10 @@ export function SiteHeader() {
                 </DropdownMenu>
             ) : (
                 <div className="flex items-center gap-2">
-                    <Link href="/auth/login" className="hidden md:inline-flex text-sm font-semibold text-slate-600 hover:text-slate-900 px-3 py-2">
+                    <Link href="/auth/login" className="hidden md:inline-flex text-sm font-semibold text-muted-foreground hover:text-foreground px-3 py-2">
                         Log in
                     </Link>
-                    <Link href="/book" className="inline-flex items-center gap-1 bg-slate-900 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-slate-800 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-slate-900/20">
+                    <Link href="/book" className="inline-flex items-center gap-1 bg-primary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-slate-900/20">
                         Book Now
                     </Link>
                 </div>
@@ -155,7 +155,7 @@ export function SiteHeader() {
 
             {/* Mobile Toggle */}
             <button 
-                className="md:hidden w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-50"
+                className="md:hidden w-10 h-10 rounded-full border border-border flex items-center justify-center text-foreground/90 hover:bg-muted/40"
                 onClick={() => setMobileMenuOpen(true)}
             >
                 <Menu className="w-5 h-5" />
@@ -171,7 +171,7 @@ export function SiteHeader() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="fixed inset-0 z-[60] bg-slate-900/40 backdrop-blur-sm md:hidden"
+                className="fixed inset-0 z-[60] bg-primary/40 backdrop-blur-sm md:hidden"
                 onClick={() => setMobileMenuOpen(false)}
             >
                 <motion.div 
@@ -179,14 +179,14 @@ export function SiteHeader() {
                     animate={{ x: 0 }}
                     exit={{ x: '100%' }}
                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-white shadow-2xl p-6 flex flex-col"
+                    className="absolute right-0 top-0 bottom-0 w-full max-w-sm bg-card shadow-2xl p-6 flex flex-col"
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="flex items-center justify-between mb-8">
-                        <span className="font-serif font-bold text-xl text-slate-900">Menu</span>
+                        <span className="font-serif font-bold text-xl text-foreground">Menu</span>
                         <button 
                             onClick={() => setMobileMenuOpen(false)}
-                            className="w-10 h-10 rounded-full bg-slate-50 text-slate-900 flex items-center justify-center"
+                            className="w-10 h-10 rounded-full bg-muted/40 text-foreground flex items-center justify-center"
                         >
                             <X className="w-6 h-6" />
                         </button>
@@ -197,21 +197,21 @@ export function SiteHeader() {
                             <Link 
                                 key={route.href} 
                                 href={route.href}
-                                className="flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors"
+                                className="flex items-center justify-between p-4 rounded-2xl hover:bg-muted/40 transition-colors"
                                 onClick={() => setMobileMenuOpen(false)}
                             >
-                                <span className="text-xl font-medium text-slate-900">{route.label}</span>
-                                <ChevronRight className="w-5 h-5 text-slate-300" />
+                                <span className="text-xl font-medium text-foreground">{route.label}</span>
+                                <ChevronRight className="w-5 h-5 text-muted-foreground/50" />
                             </Link>
                         ))}
                     </div>
 
                     {!user && (
-                         <div className="space-y-3 mt-auto pt-6 border-t border-slate-100">
-                             <Link href="/auth/login" className="flex items-center justify-center w-full py-3.5 rounded-full border border-slate-200 text-slate-900 font-semibold">
+                         <div className="space-y-3 mt-auto pt-6 border-t border-border/60">
+                             <Link href="/auth/login" className="flex items-center justify-center w-full py-3.5 rounded-full border border-border text-foreground font-semibold">
                                  Log in
                              </Link>
-                             <Link href="/book" className="flex items-center justify-center w-full py-3.5 rounded-full bg-slate-900 text-white font-semibold shadow-lg shadow-slate-900/20">
+                             <Link href="/book" className="flex items-center justify-center w-full py-3.5 rounded-full bg-primary text-white font-semibold shadow-lg shadow-slate-900/20">
                                  Book Appointment
                              </Link>
                          </div>

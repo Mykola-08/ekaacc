@@ -55,7 +55,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                         <CardContent className="pt-4">
                             {nextBooking ? (
                                 <div className="space-y-6">
-                                    <div className="bg-white/50 border border-white/60 rounded-xl p-4 transition-colors hover:bg-white/70">
+                                    <div className="bg-card/50 border border-white/60 rounded-xl p-4 transition-colors hover:bg-card/70">
                                         <h3 className="text-lg font-semibold text-foreground">
                                             {nextBooking.services?.title || 'Therapy Session'}
                                         </h3>
@@ -67,19 +67,19 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                         </div>
                                     </div>
                                     
-                                    <div className="flex items-center gap-3 text-sm bg-white/40 p-4 rounded-xl border border-white/40">
+                                    <div className="flex items-center gap-3 text-sm bg-card/40 p-4 rounded-xl border border-white/40">
                                         <MapPin className="w-4 h-4 text-muted-foreground" />
                                         <span className="font-medium text-foreground">Main Studio, Room 3</span>
                                     </div>
 
                                     <div className="flex gap-3">
-                                        <Button variant="outline" className="flex-1 rounded-xl h-11 border-white/60 bg-white/50 hover:bg-white">Reschedule</Button>
+                                        <Button variant="outline" className="flex-1 rounded-xl h-11 border-white/60 bg-card/50 hover:bg-card">Reschedule</Button>
                                         <Button variant="secondary" className="flex-1 rounded-xl h-11 bg-teal-100/50 hover:bg-teal-100 text-teal-800">Get Directions</Button>
                                     </div>
                                 </div>
                             ) : (
                                 <div className="flex flex-col items-center justify-center py-10 space-y-4 text-center">
-                                    <div className="bg-white/50 p-4 rounded-full">
+                                    <div className="bg-card/50 p-4 rounded-full">
                                         <Calendar className="h-8 w-8 text-muted-foreground/50" />
                                     </div>
                                     <div className="space-y-1">

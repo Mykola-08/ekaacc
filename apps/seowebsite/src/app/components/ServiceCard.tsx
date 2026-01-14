@@ -16,7 +16,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
  const { navigateToBooking } = useBooking();
 
  return (
-  <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+  <div className="bg-card rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
     <div className="relative h-48 sm:h-56 overflow-hidden">
      <LazyImage
       src={service.image}
@@ -25,7 +25,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
      />
     </div>
    <div className="p-6 flex flex-col flex-grow">
-    <h3 className="text-xl font-bold text-gray-900 mb-2">
+    <h3 className="text-xl font-bold text-foreground mb-2">
      {t(service.titleKey)}
     </h3>
     {/* Helper text/subtitle in orange/color */}
@@ -33,19 +33,19 @@ export default function ServiceCard({ service }: ServiceCardProps) {
      {t(service.subtitleKey)}
     </p>
     
-    <p className="text-gray-600 text-sm leading-relaxed mb-6 line-clamp-3">
+    <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
      {t(service.descriptionKey)}
     </p>
 
     {/* Benefits List */}
     {service.benefitsKeys && service.benefitsKeys.length > 0 && (
      <div className="mb-6">
-      <h4 className="text-xs font-bold text-gray-900 uppercase tracking-wider mb-3">
+      <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-3">
        {t('services.mainBenefits') || 'Key Benefits'}
       </h4>
       <ul className="space-y-2">
        {service.benefitsKeys.slice(0, 4).map((key, i) => (
-        <li key={i} className="flex items-start text-sm text-gray-600">
+        <li key={i} className="flex items-start text-sm text-muted-foreground">
          <span className={`w-1.5 h-1.5 rounded-full bg-${service.color}-500 mt-1.5 mr-2 flex-shrink-0`} />
          {t(key)}
         </li>
@@ -58,7 +58,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
        <Link href={service.href} className="flex-1">
       <Button 
         variant="outline"
-        className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 border-border text-sm py-2.5 rounded-xl transition-colors"
+        className="w-full bg-muted/30 hover:bg-muted text-foreground/90 border-border text-sm py-2.5 rounded-xl transition-colors"
         >
         {t('common.readMore') || 'Read More'}
       </Button>

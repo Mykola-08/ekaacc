@@ -57,8 +57,8 @@ export function ProductManagementPanelHeadless() {
     <div className="space-y-6">
        <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
         <div>
-            <h2 className="text-xl font-bold text-gray-900">Products & Services</h2>
-            <p className="text-sm text-gray-500">Manage your catalog and pricing.</p>
+            <h2 className="text-xl font-bold text-foreground">Products & Services</h2>
+            <p className="text-sm text-muted-foreground">Manage your catalog and pricing.</p>
         </div>
         <button
             onClick={() => setIsDialogOpen(true)}
@@ -70,23 +70,23 @@ export function ProductManagementPanelHeadless() {
       </div>
 
        <div className="relative w-full sm:w-96 group">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground/80 group-focus-within:text-blue-500 transition-colors" />
           <input 
             type="text"
             placeholder="Search products..." 
-            className="w-full pl-10 pr-4 py-3 bg-gray-50 border-transparent focus:bg-white focus:border-blue-500 rounded-2xl outline-none transition-all duration-200 font-medium text-gray-900 placeholder:text-gray-400"
+            className="w-full pl-10 pr-4 py-3 bg-muted/30 border-transparent focus:bg-card focus:border-blue-500 rounded-2xl outline-none transition-all duration-200 font-medium text-foreground placeholder:text-muted-foreground/80"
           />
         </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
-            <div key={product.id} className="group bg-white rounded-[24px] p-6 shadow-xl shadow-slate-100 ring-1 ring-slate-100 hover:ring-blue-500/20 transition-all hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden">
+            <div key={product.id} className="group bg-card rounded-[24px] p-6 shadow-xl shadow-slate-100 ring-1 ring-slate-100 hover:ring-blue-500/20 transition-all hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden">
                  <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
                         <Package className="w-6 h-6" />
                     </div>
                     <Menu as="div" className="relative">
-                        <MenuButton className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-50">
+                        <MenuButton className="p-2 text-muted-foreground/80 hover:text-muted-foreground rounded-lg hover:bg-muted/30">
                             <MoreVertical className="w-5 h-5" />
                         </MenuButton>
                         <Transition
@@ -98,20 +98,20 @@ export function ProductManagementPanelHeadless() {
                             leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95"
                         >
-                            <MenuItems className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <MenuItems className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-xl bg-card shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <div className="p-1">
                                     <MenuItem>
                                         {({ active }) => (
-                                            <button className={cn(active ? 'bg-gray-50' : '', 'group flex w-full items-center rounded-lg px-2 py-2 text-sm text-gray-900')}>
-                                                <Edit className="mr-2 h-4 w-4 text-gray-400" />
+                                            <button className={cn(active ? 'bg-muted/30' : '', 'group flex w-full items-center rounded-lg px-2 py-2 text-sm text-foreground')}>
+                                                <Edit className="mr-2 h-4 w-4 text-muted-foreground/80" />
                                                 Edit
                                             </button>
                                         )}
                                     </MenuItem>
                                      <MenuItem>
                                         {({ active }) => (
-                                            <button className={cn(active ? 'bg-red-50 text-red-700' : 'text-gray-900', 'group flex w-full items-center rounded-lg px-2 py-2 text-sm')}>
-                                                <Trash2 className={cn("mr-2 h-4 w-4", active ? "text-red-500" : "text-gray-400")} />
+                                            <button className={cn(active ? 'bg-red-50 text-red-700' : 'text-foreground', 'group flex w-full items-center rounded-lg px-2 py-2 text-sm')}>
+                                                <Trash2 className={cn("mr-2 h-4 w-4", active ? "text-red-500" : "text-muted-foreground/80")} />
                                                 Delete
                                             </button>
                                         )}
@@ -122,15 +122,15 @@ export function ProductManagementPanelHeadless() {
                     </Menu>
                  </div>
                  
-                 <h3 className="text-lg font-bold text-gray-900 mb-1">{product.name}</h3>
-                 <p className="text-sm text-gray-500 mb-4">{product.category}</p>
+                 <h3 className="text-lg font-bold text-foreground mb-1">{product.name}</h3>
+                 <p className="text-sm text-muted-foreground mb-4">{product.category}</p>
                  
                  <div className="flex items-end justify-between mt-auto">
                     <div>
-                        <p className="text-2xl font-bold text-gray-900">€{product.price}</p>
-                        <p className="text-xs text-gray-400 mt-1">{product.sales} sales</p>
+                        <p className="text-2xl font-bold text-foreground">€{product.price}</p>
+                        <p className="text-xs text-muted-foreground/80 mt-1">{product.sales} sales</p>
                     </div>
-                    <span className={cn("px-2.5 py-1 rounded-full text-xs font-medium ring-1 ring-inset", product.isActive ? "bg-green-50 text-green-700 ring-green-600/20" : "bg-gray-50 text-gray-600 ring-gray-600/20")}>
+                    <span className={cn("px-2.5 py-1 rounded-full text-xs font-medium ring-1 ring-inset", product.isActive ? "bg-green-50 text-green-700 ring-green-600/20" : "bg-muted/30 text-muted-foreground ring-gray-600/20")}>
                         {product.isActive ? 'Active' : 'Draft'}
                     </span>
                  </div>
@@ -142,10 +142,10 @@ export function ProductManagementPanelHeadless() {
             onClick={() => setIsDialogOpen(true)}
             className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-200 rounded-[24px] hover:border-blue-300 hover:bg-blue-50/50 transition-all group min-h-[200px]"
         >
-            <div className="h-12 w-12 rounded-full bg-gray-50 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors">
-                <Plus className="w-6 h-6 text-gray-400 group-hover:text-blue-600" />
+            <div className="h-12 w-12 rounded-full bg-muted/30 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors">
+                <Plus className="w-6 h-6 text-muted-foreground/80 group-hover:text-blue-600" />
             </div>
-            <span className="font-semibold text-gray-600 group-hover:text-blue-700">Add New Product</span>
+            <span className="font-semibold text-muted-foreground group-hover:text-blue-700">Add New Product</span>
         </button>
       </div>
 
@@ -174,17 +174,17 @@ export function ProductManagementPanelHeadless() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-[32px] bg-white p-8 text-left align-middle shadow-2xl transition-all">
-                  <DialogTitle as="h3" className="text-xl font-bold leading-6 text-gray-900">
+                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-[32px] bg-card p-8 text-left align-middle shadow-2xl transition-all">
+                  <DialogTitle as="h3" className="text-xl font-bold leading-6 text-foreground">
                     Product Details
                   </DialogTitle>
                   
                   <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-4">
                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                        <label className="block text-sm font-medium text-foreground/90 mb-1">Name</label>
                         <input
                             {...register('name')}
-                            className="w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                            className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                             placeholder="e.g. Therapy Session" 
                         />
                         {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
@@ -192,22 +192,22 @@ export function ProductManagementPanelHeadless() {
 
                      <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                            <label className="block text-sm font-medium text-foreground/90 mb-1">Price</label>
                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">€</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">€</span>
                                 <input
                                     type="number"
                                     {...register('price', { valueAsNumber: true })}
-                                    className="w-full rounded-xl border-gray-200 bg-gray-50 p-3 pl-8 text-sm focus:border-blue-500 focus:ring-blue-500"
+                                    className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 pl-8 text-sm focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
                             {errors.price && <p className="text-xs text-red-500 mt-1">{errors.price.message}</p>}
                         </div>
                         <div>
-                             <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                             <label className="block text-sm font-medium text-foreground/90 mb-1">Category</label>
                             <select
                                 {...register('category')}
-                                className="w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                                className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                             >
                                 <option value="">Select...</option>
                                 <option value="Consultation">Consultation</option>
@@ -220,8 +220,8 @@ export function ProductManagementPanelHeadless() {
 
                     <div className="flex items-center justify-between py-2">
                         <span className="flex flex-col">
-                             <span className="text-sm font-medium text-gray-900">Active Status</span>
-                             <span className="text-xs text-gray-500">Visible to users</span>
+                             <span className="text-sm font-medium text-foreground">Active Status</span>
+                             <span className="text-xs text-muted-foreground">Visible to users</span>
                         </span>
                         <Switch
                             checked={true} // Simplified
@@ -235,7 +235,7 @@ export function ProductManagementPanelHeadless() {
                                 aria-hidden="true"
                                 className={cn(
                                     'translate-x-5',
-                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-card shadow ring-0 transition duration-200 ease-in-out'
                                 )}
                             />
                         </Switch>
@@ -244,7 +244,7 @@ export function ProductManagementPanelHeadless() {
                     <div className="mt-8 flex justify-end gap-3">
                         <button
                         type="button"
-                        className="inline-flex justify-center rounded-xl px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-100 transition-colors"
+                        className="inline-flex justify-center rounded-xl px-4 py-2.5 text-sm font-medium text-foreground/90 hover:bg-muted transition-colors"
                         onClick={() => setIsDialogOpen(false)}
                         >
                         Cancel

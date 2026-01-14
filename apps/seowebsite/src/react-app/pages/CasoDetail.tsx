@@ -48,7 +48,7 @@ export default function CasoDetail() {
     return (
       
         <div className="py-20 text-center">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+          <h1 className="text-2xl font-semibold text-foreground mb-4">
             {language === 'ca' ? 'Problema no trobat' :
               language === 'es' ? 'Problema no encontrado' :
                 language === 'en' ? 'Problem not found' :
@@ -100,11 +100,11 @@ export default function CasoDetail() {
     >
       
         {/* Back navigation */}
-        <div className="py-6 bg-gray-50 border-b border-gray-100">
+        <div className="py-6 bg-muted/30 border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-8">
             <Link
               to="/cases"
-              className="inline-flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+              className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t('casos.section.viewAll')}
@@ -115,8 +115,8 @@ export default function CasoDetail() {
         {/* Hero Section */}
         <section className={`py-20 sm:py-28 bg-gradient-to-br ${getBgGradient(config.color)}`}>
           <div className="max-w-4xl mx-auto px-4 sm:px-8 text-center">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-8 shadow-lg">
-              <ProblemIcon className="w-10 h-10 text-gray-700" />
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-card rounded-full mb-8 shadow-lg">
+              <ProblemIcon className="w-10 h-10 text-foreground/90" />
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-white mb-6">
@@ -134,7 +134,7 @@ export default function CasoDetail() {
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
             {/* Symptoms */}
             <div className="mb-16">
-              <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-8">
+              <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-8">
                 {language === 'ca' ? 'Símptomes típics' :
                   language === 'es' ? 'Síntomas típicos' :
                     language === 'en' ? 'Typical symptoms' :
@@ -142,9 +142,9 @@ export default function CasoDetail() {
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {symptoms.map((symptom, index) => (
-                  <div key={index} className="flex items-start p-4 bg-gray-50 rounded-xl">
+                  <div key={index} className="flex items-start p-4 bg-muted/30 rounded-xl">
                     <div className="w-2 h-2 bg-red-500 rounded-full mr-4 mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-700">{symptom}</span>
+                    <span className="text-foreground/90">{symptom}</span>
                   </div>
                 ))}
               </div>
@@ -152,7 +152,7 @@ export default function CasoDetail() {
 
             {/* Causes */}
             <div className="mb-16">
-              <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-8">
+              <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-8">
                 {language === 'ca' ? 'Causes habituals' :
                   language === 'es' ? 'Causas habituales' :
                     language === 'en' ? 'Common causes' :
@@ -162,7 +162,7 @@ export default function CasoDetail() {
                 {causes.map((cause, index) => (
                   <div key={index} className="flex items-start p-4 bg-blue-50 rounded-xl">
                     <div className="w-2 h-2 bg-blue-500 rounded-full mr-4 mt-2 flex-shrink-0"></div>
-                    <span className="text-gray-700">{cause}</span>
+                    <span className="text-foreground/90">{cause}</span>
                   </div>
                 ))}
               </div>
@@ -170,14 +170,14 @@ export default function CasoDetail() {
 
             {/* Treatment */}
             <div className="mb-16">
-              <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-8">
+              <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-8">
                 {language === 'ca' ? 'Com ho treballem' :
                   language === 'es' ? 'Cómo lo trabajamos' :
                     language === 'en' ? 'How we work' :
                       'Как мы работаем'}
               </h2>
               <div className="p-8 bg-green-50 rounded-2xl border border-green-200">
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <p className="text-foreground/90 leading-relaxed text-lg">
                   {treatment}
                 </p>
               </div>
@@ -185,7 +185,7 @@ export default function CasoDetail() {
 
             {/* Results */}
             <div className="mb-16">
-              <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-8">
+              <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-8">
                 {language === 'ca' ? 'Resultats reals' :
                   language === 'es' ? 'Resultados reales' :
                     language === 'en' ? 'Real results' :
@@ -194,7 +194,7 @@ export default function CasoDetail() {
               <div className="p-8 bg-yellow-50 rounded-2xl border border-yellow-200">
                 <div className="flex items-start">
                   <CheckCircle className="w-6 h-6 text-green-600 mr-4 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 leading-relaxed text-lg">
+                  <p className="text-foreground/90 leading-relaxed text-lg">
                     {results}
                   </p>
                 </div>
@@ -204,7 +204,7 @@ export default function CasoDetail() {
             {/* Success Story */}
             {successStory && (
               <div className="mb-16">
-                <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-8">
+                <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-8">
                   {language === 'ca' ? 'Cas d\'èxit' :
                     language === 'es' ? 'Caso de éxito' :
                       language === 'en' ? 'Success story' :
@@ -216,7 +216,7 @@ export default function CasoDetail() {
                       <span className="text-purple-700 font-semibold text-lg">💬</span>
                     </div>
                     <div>
-                      <p className="text-gray-700 leading-relaxed text-lg italic">
+                      <p className="text-foreground/90 leading-relaxed text-lg italic">
                         "{successStory}"
                       </p>
                     </div>
@@ -247,7 +247,7 @@ export default function CasoDetail() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to={config.href}
-                className="bg-white text-gray-900 hover:bg-gray-100 font-semibold px-8 py-4 rounded-full transition-colors duration-200 flex items-center justify-center"
+                className="bg-card text-foreground hover:bg-muted font-semibold px-8 py-4 rounded-full transition-colors duration-200 flex items-center justify-center"
               >
                 {language === 'ca' ? 'Més informació sobre el tractament' :
                   language === 'es' ? 'Más información sobre el tratamiento' :
@@ -256,7 +256,7 @@ export default function CasoDetail() {
               </Link>
               <Link
                 to="/booking"
-                className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 flex items-center justify-center"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 flex items-center justify-center"
               >
                 {language === 'ca' ? 'Reserva la teva sessió' :
                   language === 'es' ? 'Reserva tu sesión' :

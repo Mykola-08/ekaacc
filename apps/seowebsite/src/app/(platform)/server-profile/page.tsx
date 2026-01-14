@@ -33,7 +33,7 @@ export default async function ServerProfilePage() {
     <div className="rounded bg-red-50 text-red-700 p-3 text-sm">{error}</div>
    )}
    {!error && profile && (
-    <div className="rounded border p-4 space-y-2 bg-white/50 backdrop-blur">
+    <div className="rounded border p-4 space-y-2 bg-card/50 backdrop-blur">
      <div><span className="font-medium">ID:</span> {profile.id}</div>
      <div><span className="font-medium">Email:</span> {profile.email}</div>
      <div><span className="font-medium">Role:</span> {profile.role}</div>

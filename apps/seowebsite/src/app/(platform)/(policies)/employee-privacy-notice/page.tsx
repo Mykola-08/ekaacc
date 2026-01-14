@@ -153,7 +153,7 @@ export default function EmployeePrivacyNotice() {
        className={`px-4 py-2 text-sm font-medium border first:rounded-l-lg last:rounded-r-lg ${
         language === lang
          ? "bg-primary text-white border-primary"
-         : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+         : "bg-card text-foreground/90 border-gray-200 hover:bg-muted/30"
        }`}
       >
        {lang.toUpperCase()}
@@ -162,7 +162,7 @@ export default function EmployeePrivacyNotice() {
     </div>
    </div>
 
-   <div className="bg-white shadow-xl rounded-2xl overflow-hidden">
+   <div className="bg-card shadow-xl rounded-2xl overflow-hidden">
     <div className="bg-gradient-to-r from-slate-600 to-gray-600 px-8 py-12 text-white">
      <div className="flex items-center gap-4 mb-4">
       <UserCog className="w-12 h-12 opacity-90" />
@@ -174,18 +174,18 @@ export default function EmployeePrivacyNotice() {
 
     <div className="p-8 space-y-8">
      {t.sections.map((section, index) => (
-      <div key={index} className="flex gap-4 p-6 rounded-[32px] bg-gray-50 hover:bg-gray-100 transition-colors">
+      <div key={index} className="flex gap-4 p-6 rounded-[32px] bg-muted/30 hover:bg-muted transition-colors">
        <div className="flex-shrink-0 mt-1">{section.icon}</div>
        <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-2">{section.title}</h2>
-        <p className="text-gray-600 leading-relaxed">{section.text}</p>
+        <h2 className="text-xl font-semibold text-foreground mb-2">{section.title}</h2>
+        <p className="text-muted-foreground leading-relaxed">{section.text}</p>
        </div>
       </div>
      ))}
     </div>
 
-    <div className="bg-gray-50 px-8 py-6 border-t border-gray-100">
-     <p className="text-sm text-gray-500 text-center">
+    <div className="bg-muted/30 px-8 py-6 border-t border-gray-100">
+     <p className="text-sm text-muted-foreground text-center">
       © {new Date().getFullYear()} EKA Balance. All rights reserved.
      </p>
     </div>

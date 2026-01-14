@@ -47,7 +47,7 @@ export default function ServiceCategoryPills() {
   }, [t]);
 
   return (
-    <section className="apple-section bg-white">
+    <section className="apple-section bg-card">
       <div className="apple-container">
         {/* Section Header */}
         <div className="text-center mb-16">

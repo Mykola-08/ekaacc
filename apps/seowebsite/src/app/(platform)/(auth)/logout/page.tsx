@@ -5,7 +5,7 @@ import { CheckCircle2 } from 'lucide-react';
 
 export default function LogoutPage() {
  return (
-  <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4 dark:bg-gray-900">
+  <div className="flex min-h-screen items-center justify-center bg-muted/30 p-4 dark:bg-gray-900">
    <Card className="w-full max-w-md text-center shadow-lg">
     <CardHeader className="flex flex-col items-center space-y-4 pb-2">
      <div className="rounded-full bg-green-100 p-3 dark:bg-green-900/20">

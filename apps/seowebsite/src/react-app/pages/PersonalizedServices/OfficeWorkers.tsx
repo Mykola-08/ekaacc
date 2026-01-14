@@ -28,18 +28,18 @@ export default function OfficeWorkers() {
                 <span className="text-blue-700 font-medium text-sm">{t('nav.personalizedServices')}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-foreground mb-6 leading-tight">
                 {t('nav.officeWorkers')}
               </h1>
 
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+              <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
                 {t('personalizedServices.officeWorkers.desc')}
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
                   to="/booking"
-                  className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
                 >
                   {t('common.reserveSession')}
                 </Link>
@@ -60,7 +60,7 @@ export default function OfficeWorkers() {
       </section>
 
       {/* Problems & Benefits */}
-      <section className="apple-section bg-white">
+      <section className="apple-section bg-card">
         <div className="apple-container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Problems */}
@@ -72,22 +72,22 @@ export default function OfficeWorkers() {
                 <div className="flex items-start">
                   <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{t('office.problems.pain.title')}</h3>
-                    <p className="text-gray-600">{t('office.problems.pain.desc')}</p>
+                    <h3 className="font-semibold text-foreground mb-2">{t('office.problems.pain.title')}</h3>
+                    <p className="text-muted-foreground">{t('office.problems.pain.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{t('office.problems.stress.title')}</h3>
-                    <p className="text-gray-600">{t('office.problems.stress.desc')}</p>
+                    <h3 className="font-semibold text-foreground mb-2">{t('office.problems.stress.title')}</h3>
+                    <p className="text-muted-foreground">{t('office.problems.stress.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{t('office.problems.sedentary.title')}</h3>
-                    <p className="text-gray-600">{t('office.problems.sedentary.desc')}</p>
+                    <h3 className="font-semibold text-foreground mb-2">{t('office.problems.sedentary.title')}</h3>
+                    <p className="text-muted-foreground">{t('office.problems.sedentary.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -102,22 +102,22 @@ export default function OfficeWorkers() {
                 <div className="flex items-start">
                   <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{t('office.benefits.techniques.title')}</h3>
-                    <p className="text-gray-600">{t('office.benefits.techniques.desc')}</p>
+                    <h3 className="font-semibold text-foreground mb-2">{t('office.benefits.techniques.title')}</h3>
+                    <p className="text-muted-foreground">{t('office.benefits.techniques.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{t('office.benefits.exercises.title')}</h3>
-                    <p className="text-gray-600">{t('office.benefits.exercises.desc')}</p>
+                    <h3 className="font-semibold text-foreground mb-2">{t('office.benefits.exercises.title')}</h3>
+                    <p className="text-muted-foreground">{t('office.benefits.exercises.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
                   <div>
-                    <h3 className="font-semibold text-gray-900 mb-2">{t('office.benefits.mindfulness.title')}</h3>
-                    <p className="text-gray-600">{t('office.benefits.mindfulness.desc')}</p>
+                    <h3 className="font-semibold text-foreground mb-2">{t('office.benefits.mindfulness.title')}</h3>
+                    <p className="text-muted-foreground">{t('office.benefits.mindfulness.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export default function OfficeWorkers() {
       {/* Results */}
       <section className="apple-section bg-blue-50">
         <div className="apple-container text-center">
-          <div className="squircle-card bg-white p-12 max-w-4xl mx-auto">
+          <div className="squircle-card bg-card p-12 max-w-4xl mx-auto">
             <h2 className="apple-headline mb-6 text-blue-600">
               {t('athletes.result.title')}
             </h2>
@@ -140,15 +140,15 @@ export default function OfficeWorkers() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               <div className="text-center">
                 <div className="text-3xl font-light text-blue-600 mb-2">85%</div>
-                <div className="text-gray-600">{t('office.stats.pain')}</div>
+                <div className="text-muted-foreground">{t('office.stats.pain')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-light text-blue-600 mb-2">92%</div>
-                <div className="text-gray-600">{t('office.stats.posture')}</div>
+                <div className="text-muted-foreground">{t('office.stats.posture')}</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-light text-blue-600 mb-2">78%</div>
-                <div className="text-gray-600">{t('office.stats.stress')}</div>
+                <div className="text-muted-foreground">{t('office.stats.stress')}</div>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function OfficeWorkers() {
       </section>
 
       {/* Service Card */}
-      <section className="apple-section bg-white">
+      <section className="apple-section bg-card">
         <div className="apple-container-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="squircle-image aspect-[3/2] relative">
@@ -176,11 +176,11 @@ export default function OfficeWorkers() {
               
               <div className="space-y-4 mb-8">
                 <div className="flex items-center">
-                  <Clock className="w-5 h-5 text-gray-500 mr-3" />
-                  <span className="text-gray-700">1 {t('common.hour')}</span>
+                  <Clock className="w-5 h-5 text-muted-foreground mr-3" />
+                  <span className="text-foreground/90">1 {t('common.hour')}</span>
                 </div>
                 <div className="flex items-center">
-                  <span className="text-3xl font-light text-gray-900">70€</span>
+                  <span className="text-3xl font-light text-foreground">70€</span>
                 </div>
               </div>
               
@@ -194,7 +194,7 @@ export default function OfficeWorkers() {
                 <Link to="/services" className="flex-1">
                   <Button 
                     variant="outline"
-                    className="w-full border-gray-200 text-gray-700 hover:bg-gray-50 px-6 py-3 rounded-2xl font-medium"
+                    className="w-full border-gray-200 text-foreground/90 hover:bg-muted/30 px-6 py-3 rounded-2xl font-medium"
                   >
                     {t('office.session.plans')}
                   </Button>

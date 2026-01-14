@@ -56,19 +56,19 @@ export default function CookieBanner() {
  return (
   <div className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6">
    <div className="max-w-4xl mx-auto">
-    <div className="bg-white/95 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl p-6 sm:p-8">
+    <div className="bg-card/95 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl p-6 sm:p-8">
      <div className="flex items-start gap-4">
       <div className="flex-shrink-0 mt-1">
-       <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-        <Cookie className="w-5 h-5 text-gray-600" />
+       <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
+        <Cookie className="w-5 h-5 text-muted-foreground" />
        </div>
       </div>
 
       <div className="flex-1 min-w-0">
-       <h3 className="text-lg font-semibold text-gray-900 mb-2">
+       <h3 className="text-lg font-semibold text-foreground mb-2">
         {t('cookies.title')}
        </h3>
-       <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-4">
+       <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4">
         {t('cookies.description')}
        </p>
 
@@ -82,7 +82,7 @@ export default function CookieBanner() {
          </button>
          <button
           onClick={() => setShowLanguagePopup(true)}
-          className="text-gray-500 hover:text-blue-600 font-medium text-sm transition-colors duration-200 underline decoration-dotted"
+          className="text-muted-foreground hover:text-blue-600 font-medium text-sm transition-colors duration-200 underline decoration-dotted"
          >
           {t('cookies.wrongLanguage')}
          </button>
@@ -99,7 +99,7 @@ export default function CookieBanner() {
 
       <button
        onClick={acceptCookies}
-       className="flex-shrink-0 p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+       className="flex-shrink-0 p-2 text-muted-foreground/80 hover:text-muted-foreground transition-colors duration-200"
        aria-label="Close cookie banner"
       >
        <X className="w-5 h-5" aria-hidden="true" />

@@ -64,17 +64,17 @@ export function TherapistDashboardHeadless() {
               </span>
               Therapist Workspace
            </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground leading-tight">
             {t('dashboard.welcomeBack', { name: user?.first_name || 'Therapist' })}
           </h1>
-          <p className="text-lg text-gray-500 mt-2">
+          <p className="text-lg text-muted-foreground mt-2">
             Manage your patients and schedule efficiently.
           </p>
         </div>
         <div className="flex gap-3">
              <Link 
                 href="/platform/schedule" 
-                className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-200 text-sm font-semibold rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
+                className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-200 text-sm font-semibold rounded-xl text-foreground/90 bg-card hover:bg-muted/30 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
             >
                 <Calendar className="w-4 h-4 mr-2" />
                 View Schedule
@@ -92,12 +92,12 @@ export function TherapistDashboardHeadless() {
       {/* Stats Grid */}
       <div className="grid gap-6 md:grid-cols-3 animate-slide-up">
         {stats.map((stat, i) => (
-            <div key={i} className="group relative overflow-hidden bg-white rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+            <div key={i} className="group relative overflow-hidden bg-card rounded-3xl p-8 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
                  <div className="flex items-start justify-between">
                     <div>
-                         <p className="text-sm font-semibold text-gray-400 uppercase tracking-wide">{stat.label}</p>
-                         <h3 className="text-4xl font-bold text-gray-900 mt-2">{stat.value}</h3>
-                         <p className="text-sm text-gray-500 mt-2">{stat.desc}</p>
+                         <p className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wide">{stat.label}</p>
+                         <h3 className="text-4xl font-bold text-foreground mt-2">{stat.value}</h3>
+                         <p className="text-sm text-muted-foreground mt-2">{stat.desc}</p>
                     </div>
                     <div className={cn("h-12 w-12 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-110", stat.bg)}>
                         <stat.icon className={cn("h-6 w-6", stat.color)} />
@@ -110,11 +110,11 @@ export function TherapistDashboardHeadless() {
       {/* Main Content Area */}
       <div className="grid gap-8 lg:grid-cols-3 animate-slide-up" style={{ animationDelay: '100ms' }}>
          {/* Today's Schedule */}
-         <div className="lg:col-span-2 bg-white rounded-4xl border border-gray-100 shadow-sm p-8 flex flex-col h-full">
+         <div className="lg:col-span-2 bg-card rounded-4xl border border-gray-100 shadow-sm p-8 flex flex-col h-full">
             <div className="flex items-center justify-between mb-8">
                 <div>
-                     <h2 className="text-xl font-bold text-gray-900">Today's Schedule</h2>
-                     <p className="text-sm text-gray-500">You have 4 sessions remaining today</p>
+                     <h2 className="text-xl font-bold text-foreground">Today's Schedule</h2>
+                     <p className="text-sm text-muted-foreground">You have 4 sessions remaining today</p>
                 </div>
                  <Link href="/platform/schedule" className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition-colors">
                     View full calendar &rarr;
@@ -128,14 +128,14 @@ export function TherapistDashboardHeadless() {
                      { time: '02:00 PM', patient: 'Emma Wilson', type: 'Therapy Session', status: 'upcoming' },
                      { time: '04:30 PM', patient: 'James Davis', type: 'Review', status: 'upcoming' },
                  ].map((session, i) => (
-                     <div key={i} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+                     <div key={i} className="flex items-center gap-4 p-4 rounded-2xl hover:bg-muted/30 border border-transparent hover:border-gray-100 transition-all group">
                          <div className="w-20 text-center">
-                             <span className="block text-sm font-bold text-gray-900">{session.time}</span>
+                             <span className="block text-sm font-bold text-foreground">{session.time}</span>
                          </div>
-                         <div className="w-1 h-12 rounded-full bg-gray-100 group-hover:bg-blue-200 transition-colors" />
+                         <div className="w-1 h-12 rounded-full bg-muted group-hover:bg-blue-200 transition-colors" />
                          <div className="flex-grow">
-                             <h4 className="font-bold text-gray-900">{session.patient}</h4>
-                             <p className="text-sm text-gray-500">{session.type}</p>
+                             <h4 className="font-bold text-foreground">{session.patient}</h4>
+                             <p className="text-sm text-muted-foreground">{session.type}</p>
                          </div>
                          <div>
                              {session.status === 'completed' ? (
@@ -154,29 +154,29 @@ export function TherapistDashboardHeadless() {
          </div>
 
          {/* Pending Actions */}
-         <div className="bg-white rounded-4xl border border-gray-100 shadow-sm p-8 h-full">
+         <div className="bg-card rounded-4xl border border-gray-100 shadow-sm p-8 h-full">
              <div className="flex items-center gap-3 mb-8">
                  <div className="h-10 w-10 rounded-full bg-amber-50 flex items-center justify-center">
                      <AlertCircle className="w-5 h-5 text-amber-600" />
                  </div>
                  <div>
-                     <h2 className="text-xl font-bold text-gray-900">Action Required</h2>
-                     <p className="text-sm text-gray-500">3 items pending</p>
+                     <h2 className="text-xl font-bold text-foreground">Action Required</h2>
+                     <p className="text-sm text-muted-foreground">3 items pending</p>
                  </div>
              </div>
 
              <div className="space-y-4">
                  <div className="p-4 rounded-2xl bg-amber-50/50 border border-amber-100">
-                     <h4 className="font-bold text-gray-900 mb-1">Incomplete Session Notes</h4>
-                     <p className="text-sm text-gray-600 mb-3">Session with Sarah J. on Oct 20</p>
+                     <h4 className="font-bold text-foreground mb-1">Incomplete Session Notes</h4>
+                     <p className="text-sm text-muted-foreground mb-3">Session with Sarah J. on Oct 20</p>
                      <button className="text-sm font-semibold text-amber-700 hover:text-amber-800">Complete Note &rarr;</button>
                  </div>
-                 <div className="p-4 rounded-2xl bg-gray-50 border border-gray-100">
-                     <h4 className="font-bold text-gray-900 mb-1">New Patient Request</h4>
-                     <p className="text-sm text-gray-600 mb-3">Robert Fox requested an appointment</p>
+                 <div className="p-4 rounded-2xl bg-muted/30 border border-gray-100">
+                     <h4 className="font-bold text-foreground mb-1">New Patient Request</h4>
+                     <p className="text-sm text-muted-foreground mb-3">Robert Fox requested an appointment</p>
                      <div className="flex gap-2">
                          <button className="text-xs font-semibold px-3 py-1.5 bg-black text-white rounded-lg hover:bg-gray-800">Review</button>
-                         <button className="text-xs font-semibold px-3 py-1.5 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-50">Dismiss</button>
+                         <button className="text-xs font-semibold px-3 py-1.5 bg-card border border-gray-200 text-foreground/90 rounded-lg hover:bg-muted/30">Dismiss</button>
                      </div>
                  </div>
              </div>

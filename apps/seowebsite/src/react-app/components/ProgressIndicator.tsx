@@ -50,7 +50,7 @@ export default function ProgressIndicator({
                       ? 'bg-green-500 text-white scale-110' 
                       : isCurrent 
                         ? 'bg-blue-500 text-white ring-4 ring-blue-200 animate-pulse' 
-                        : 'bg-gray-200 text-gray-500'
+                        : 'bg-gray-200 text-muted-foreground'
                     }
                   `}
                 >
@@ -79,14 +79,14 @@ export default function ProgressIndicator({
                         ? 'text-green-700' 
                         : isCurrent 
                           ? 'text-blue-700' 
-                          : 'text-gray-500'
+                          : 'text-muted-foreground'
                       }
                     `}
                   >
                     {step.title}
                   </h3>
                   {step.description && (
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       {step.description}
                     </p>
                   )}
@@ -115,7 +115,7 @@ export default function ProgressIndicator({
                     ? 'bg-green-500 text-white scale-110' 
                     : isCurrent 
                       ? 'bg-blue-500 text-white ring-4 ring-blue-200 animate-pulse' 
-                      : 'bg-gray-200 text-gray-500'
+                      : 'bg-gray-200 text-muted-foreground'
                   }
                 `}
               >
@@ -135,7 +135,7 @@ export default function ProgressIndicator({
                         ? 'text-green-700' 
                         : isCurrent 
                           ? 'text-blue-700' 
-                          : 'text-gray-500'
+                          : 'text-muted-foreground'
                       }
                     `}
                   >
@@ -231,7 +231,7 @@ export function CircularProgress({
       
       {showPercentage && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-gray-700">
+          <span className="text-2xl font-bold text-foreground/90">
             {Math.round(animatedPercentage)}%
           </span>
         </div>

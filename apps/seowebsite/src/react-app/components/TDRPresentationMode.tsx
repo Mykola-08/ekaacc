@@ -130,7 +130,7 @@ export const TDRPresentationMode = () => {
   const currentStep = PRESETS[currentStepIndex];
 
   // Using string concatenation to avoid template literal issues
-  const containerClasses = "bg-white/95 backdrop-blur-md border border-stone-200 shadow-2xl rounded-2xl overflow-hidden pointer-events-auto transition-all duration-300 " +
+  const containerClasses = "bg-card/95 backdrop-blur-md border border-stone-200 shadow-2xl rounded-2xl overflow-hidden pointer-events-auto transition-all duration-300 " +
     (isMinimized ? "h-12 w-12 rounded-full translate-y-4 translate-x-4" : "");
 
   return (

@@ -378,22 +378,22 @@ export default function PrivacyControlsPage() {
          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
           <CheckCircle className="w-6 h-6 text-green-600" />
          </div>
-         <h3 className="font-semibold text-slate-900 mb-1">Data Protection</h3>
-         <p className="text-sm text-slate-600">Your data is encrypted and protected</p>
+         <h3 className="font-semibold text-foreground mb-1">Data Protection</h3>
+         <p className="text-sm text-muted-foreground">Your data is encrypted and protected</p>
         </div>
         <div className="text-center">
          <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
           <Eye className="w-6 h-6 text-blue-600" />
          </div>
-         <h3 className="font-semibold text-slate-900 mb-1">Transparency</h3>
-         <p className="text-sm text-slate-600">Full visibility into data usage</p>
+         <h3 className="font-semibold text-foreground mb-1">Transparency</h3>
+         <p className="text-sm text-muted-foreground">Full visibility into data usage</p>
         </div>
         <div className="text-center">
          <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
           <Settings className="w-6 h-6 text-purple-600" />
          </div>
-         <h3 className="font-semibold text-slate-900 mb-1">Control</h3>
-         <p className="text-sm text-slate-600">Complete control over your privacy</p>
+         <h3 className="font-semibold text-foreground mb-1">Control</h3>
+         <p className="text-sm text-muted-foreground">Complete control over your privacy</p>
         </div>
        </div>
       </CardContent>
@@ -409,7 +409,7 @@ export default function PrivacyControlsPage() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.5, delay: 0.2 }}
       >
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center">
           <Database className="w-5 h-5 mr-2 text-blue-600" />
@@ -422,7 +422,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">AI Training Data</h4>
-            <p className="text-sm text-slate-500">Allow AI to learn from your interactions</p>
+            <p className="text-sm text-muted-foreground">Allow AI to learn from your interactions</p>
            </div>
            <Switch
             checked={privacySettings.dataSharing.aiTraining}
@@ -440,7 +440,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Third-Party Services</h4>
-            <p className="text-sm text-slate-500">Share data with integrated services</p>
+            <p className="text-sm text-muted-foreground">Share data with integrated services</p>
            </div>
            <Switch
             checked={privacySettings.dataSharing.thirdPartyServices}
@@ -458,7 +458,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Analytics & Improvements</h4>
-            <p className="text-sm text-slate-500">Help improve our services with usage data</p>
+            <p className="text-sm text-muted-foreground">Help improve our services with usage data</p>
            </div>
            <Switch
             checked={privacySettings.dataSharing.analytics}
@@ -476,7 +476,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Marketing Communications</h4>
-            <p className="text-sm text-slate-500">Receive personalized recommendations</p>
+            <p className="text-sm text-muted-foreground">Receive personalized recommendations</p>
            </div>
            <Switch
             checked={privacySettings.dataSharing.marketing}
@@ -499,7 +499,7 @@ export default function PrivacyControlsPage() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.5, delay: 0.3 }}
       >
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center">
           <Globe className="w-5 h-5 mr-2 text-green-600" />
@@ -536,7 +536,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Online Status</h4>
-            <p className="text-sm text-slate-500">Show when you're online</p>
+            <p className="text-sm text-muted-foreground">Show when you're online</p>
            </div>
            <Switch
             checked={privacySettings.visibility.showOnlineStatus}
@@ -552,7 +552,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Profile Search</h4>
-            <p className="text-sm text-slate-500">Allow others to find you via search</p>
+            <p className="text-sm text-muted-foreground">Allow others to find you via search</p>
            </div>
            <Switch
             checked={privacySettings.visibility.allowSearch}
@@ -568,7 +568,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Activity Feed</h4>
-            <p className="text-sm text-slate-500">Show your recent activity</p>
+            <p className="text-sm text-muted-foreground">Show your recent activity</p>
            </div>
            <Switch
             checked={privacySettings.visibility.showActivity}
@@ -591,7 +591,7 @@ export default function PrivacyControlsPage() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.5, delay: 0.4 }}
       >
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center">
           <Lock className="w-5 h-5 mr-2 text-red-600" />
@@ -604,7 +604,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Two-Factor Authentication</h4>
-            <p className="text-sm text-slate-500">Add an extra layer of security</p>
+            <p className="text-sm text-muted-foreground">Add an extra layer of security</p>
            </div>
            <Switch
             checked={privacySettings.security.twoFactor}
@@ -622,7 +622,7 @@ export default function PrivacyControlsPage() {
           <div className="flex items-center justify-between">
            <div>
             <h4 className="font-medium">Login Alerts</h4>
-            <p className="text-sm text-slate-500">Get notified of new login attempts</p>
+            <p className="text-sm text-muted-foreground">Get notified of new login attempts</p>
            </div>
            <Switch
             checked={privacySettings.security.loginAlerts}
@@ -671,7 +671,7 @@ export default function PrivacyControlsPage() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.5, delay: 0.2 }}
       >
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center">
           <Activity className="w-5 h-5 mr-2 text-purple-600" />
@@ -721,7 +721,7 @@ export default function PrivacyControlsPage() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.5, delay: 0.3 }}
       >
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center">
           <Clock className="w-5 h-5 mr-2 text-orange-600" />
@@ -731,20 +731,20 @@ export default function PrivacyControlsPage() {
         <CardContent>
          <div className="space-y-3 max-h-64 overflow-y-auto">
           {privacyAudit.length === 0 ? (
-           <p className="text-sm text-slate-500 text-center py-4">No recent activity</p>
+           <p className="text-sm text-muted-foreground text-center py-4">No recent activity</p>
           ) : (
            privacyAudit.map((audit) => (
-            <div key={audit.id} className="flex items-start space-x-3 p-3 bg-slate-50 rounded-xl">
+            <div key={audit.id} className="flex items-start space-x-3 p-3 bg-muted/40 rounded-xl">
              <div className="w-2 h-2 bg-blue-500 rounded-full mt-2"></div>
              <div className="flex-1">
-              <p className="text-sm font-medium text-slate-900">
+              <p className="text-sm font-medium text-foreground">
                {audit.action.replace('_', ' ').toUpperCase()}
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                {formatTimestamp(audit.timestamp)}
               </p>
               {audit.metadata && (
-               <p className="text-xs text-slate-600 mt-1">
+               <p className="text-xs text-muted-foreground mt-1">
                 {JSON.stringify(audit.metadata).substring(0, 50)}...
                </p>
               )}
@@ -763,7 +763,7 @@ export default function PrivacyControlsPage() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.5, delay: 0.4 }}
       >
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center">
           <UserCheck className="w-5 h-5 mr-2 text-green-600" />
@@ -773,20 +773,20 @@ export default function PrivacyControlsPage() {
         <CardContent>
          <div className="space-y-3 max-h-64 overflow-y-auto">
           {accessLogs.length === 0 ? (
-           <p className="text-sm text-slate-500 text-center py-4">No access logs</p>
+           <p className="text-sm text-muted-foreground text-center py-4">No access logs</p>
           ) : (
            accessLogs.map((log) => (
-            <div key={log.id} className="flex items-start space-x-3 p-3 bg-slate-50 rounded-xl">
+            <div key={log.id} className="flex items-start space-x-3 p-3 bg-muted/40 rounded-xl">
              <div className="w-2 h-2 bg-green-500 rounded-full mt-2"></div>
              <div className="flex-1">
-              <p className="text-sm font-medium text-slate-900">
+              <p className="text-sm font-medium text-foreground">
                {log.action.toUpperCase()} - {log.section}
               </p>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-muted-foreground">
                {log.accessor} • {formatTimestamp(log.timestamp)}
               </p>
               {log.ip && (
-               <p className="text-xs text-slate-600 mt-1">
+               <p className="text-xs text-muted-foreground mt-1">
                 IP: {log.ip}
                </p>
               )}
@@ -907,7 +907,7 @@ export default function PrivacyControlsPage() {
       </DialogDescription>
      </DialogHeader>
      <div className="space-y-4">
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-muted-foreground">
        To confirm account deletion, please type: <strong>DELETE MY ACCOUNT</strong>
       </p>
       <Input

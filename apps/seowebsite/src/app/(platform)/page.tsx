@@ -237,7 +237,7 @@ export default function AIInsightsPage() {
   switch (trend) {
    case 'improving': return <TrendingUp className="w-4 h-4 text-green-500" />;
    case 'declining': return <TrendingDown className="w-4 h-4 text-red-500" />;
-   case 'stable': return <Activity className="w-4 h-4 text-gray-500" />;
+   case 'stable': return <Activity className="w-4 h-4 text-muted-foreground" />;
   }
  };
 
@@ -400,7 +400,7 @@ export default function AIInsightsPage() {
      <TabsContent value="overview" className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
        {/* Wellness Insights */}
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center space-x-2">
           <Heart className="w-5 h-5 text-red-500" />
@@ -414,16 +414,16 @@ export default function AIInsightsPage() {
            key={insight.id}
            initial={{ opacity: 0, x: -20 }}
            animate={{ opacity: 1, x: 0 }}
-           className="p-4 bg-slate-50 rounded-xl border border-border"
+           className="p-4 bg-muted/40 rounded-xl border border-border"
           >
            <div className="flex items-start justify-between mb-2">
             <div className="flex items-center space-x-2">
              {getInsightIcon(insight.type)}
-             <span className="font-medium text-slate-900">{insight.title}</span>
+             <span className="font-medium text-foreground">{insight.title}</span>
             </div>
             {getTrendIcon(insight.trend)}
            </div>
-           <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
+           <p className="text-sm text-muted-foreground mb-3">{insight.description}</p>
            <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
              <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
@@ -432,7 +432,7 @@ export default function AIInsightsPage() {
                style={{ width: `${insight.confidence}%` }}
               />
              </div>
-             <span className="text-xs text-slate-500">{insight.confidence}%</span>
+             <span className="text-xs text-muted-foreground">{insight.confidence}%</span>
             </div>
             {insight.actionable && (
              <Badge variant="outline" className="text-xs">Actionable</Badge>
@@ -441,13 +441,13 @@ export default function AIInsightsPage() {
           </motion.div>
          ))}
          {wellnessInsights.length === 0 && (
-          <p className="text-sm text-slate-500 text-center py-4">No wellness insights available</p>
+          <p className="text-sm text-muted-foreground text-center py-4">No wellness insights available</p>
          )}
         </CardContent>
        </Card>
 
        {/* Behavior Insights */}
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center space-x-2">
           <Activity className="w-5 h-5 text-blue-500" />
@@ -461,16 +461,16 @@ export default function AIInsightsPage() {
            key={insight.id}
            initial={{ opacity: 0, x: -20 }}
            animate={{ opacity: 1, x: 0 }}
-           className="p-4 bg-slate-50 rounded-xl border border-border"
+           className="p-4 bg-muted/40 rounded-xl border border-border"
           >
            <div className="flex items-start justify-between mb-2">
             <div className="flex items-center space-x-2">
              {getInsightIcon(insight.type)}
-             <span className="font-medium text-slate-900">{insight.title}</span>
+             <span className="font-medium text-foreground">{insight.title}</span>
             </div>
             {getTrendIcon(insight.trend)}
            </div>
-           <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
+           <p className="text-sm text-muted-foreground mb-3">{insight.description}</p>
            <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
              <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
@@ -479,7 +479,7 @@ export default function AIInsightsPage() {
                style={{ width: `${insight.confidence}%` }}
               />
              </div>
-             <span className="text-xs text-slate-500">{insight.confidence}%</span>
+             <span className="text-xs text-muted-foreground">{insight.confidence}%</span>
             </div>
             {insight.actionable && (
              <Badge variant="outline" className="text-xs">Actionable</Badge>
@@ -488,13 +488,13 @@ export default function AIInsightsPage() {
           </motion.div>
          ))}
          {behaviorInsights.length === 0 && (
-          <p className="text-sm text-slate-500 text-center py-4">No behavior insights available</p>
+          <p className="text-sm text-muted-foreground text-center py-4">No behavior insights available</p>
          )}
         </CardContent>
        </Card>
 
        {/* Therapy Insights */}
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center space-x-2">
           <Brain className="w-5 h-5 text-indigo-500" />
@@ -508,16 +508,16 @@ export default function AIInsightsPage() {
            key={insight.id}
            initial={{ opacity: 0, x: -20 }}
            animate={{ opacity: 1, x: 0 }}
-           className="p-4 bg-slate-50 rounded-xl border border-border"
+           className="p-4 bg-muted/40 rounded-xl border border-border"
           >
            <div className="flex items-start justify-between mb-2">
             <div className="flex items-center space-x-2">
              {getInsightIcon(insight.type)}
-             <span className="font-medium text-slate-900">{insight.title}</span>
+             <span className="font-medium text-foreground">{insight.title}</span>
             </div>
             {getTrendIcon(insight.trend)}
            </div>
-           <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
+           <p className="text-sm text-muted-foreground mb-3">{insight.description}</p>
            <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
              <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
@@ -526,7 +526,7 @@ export default function AIInsightsPage() {
                style={{ width: `${insight.confidence}%` }}
               />
              </div>
-             <span className="text-xs text-slate-500">{insight.confidence}%</span>
+             <span className="text-xs text-muted-foreground">{insight.confidence}%</span>
             </div>
             {insight.actionable && (
              <Badge variant="outline" className="text-xs">Actionable</Badge>
@@ -535,13 +535,13 @@ export default function AIInsightsPage() {
           </motion.div>
          ))}
          {therapyInsights.length === 0 && (
-          <p className="text-sm text-slate-500 text-center py-4">No therapy insights available</p>
+          <p className="text-sm text-muted-foreground text-center py-4">No therapy insights available</p>
          )}
         </CardContent>
        </Card>
 
        {/* Goal Insights */}
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardHeader>
          <CardTitle className="flex items-center space-x-2">
           <Target className="w-5 h-5 text-emerald-500" />
@@ -555,16 +555,16 @@ export default function AIInsightsPage() {
            key={insight.id}
            initial={{ opacity: 0, x: -20 }}
            animate={{ opacity: 1, x: 0 }}
-           className="p-4 bg-slate-50 rounded-xl border border-border"
+           className="p-4 bg-muted/40 rounded-xl border border-border"
           >
            <div className="flex items-start justify-between mb-2">
             <div className="flex items-center space-x-2">
              {getInsightIcon(insight.type)}
-             <span className="font-medium text-slate-900">{insight.title}</span>
+             <span className="font-medium text-foreground">{insight.title}</span>
             </div>
             {getTrendIcon(insight.trend)}
            </div>
-           <p className="text-sm text-slate-600 mb-3">{insight.description}</p>
+           <p className="text-sm text-muted-foreground mb-3">{insight.description}</p>
            <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
              <div className="w-20 h-2 bg-slate-200 rounded-full overflow-hidden">
@@ -573,7 +573,7 @@ export default function AIInsightsPage() {
                style={{ width: `${insight.confidence}%` }}
               />
              </div>
-             <span className="text-xs text-slate-500">{insight.confidence}%</span>
+             <span className="text-xs text-muted-foreground">{insight.confidence}%</span>
             </div>
             {insight.actionable && (
              <Badge variant="outline" className="text-xs">Actionable</Badge>
@@ -582,7 +582,7 @@ export default function AIInsightsPage() {
           </motion.div>
          ))}
          {goalInsights.length === 0 && (
-          <p className="text-sm text-slate-500 text-center py-4">No goal insights available</p>
+          <p className="text-sm text-muted-foreground text-center py-4">No goal insights available</p>
          )}
         </CardContent>
        </Card>
@@ -598,7 +598,7 @@ export default function AIInsightsPage() {
          animate={{ opacity: 1, y: 0 }}
          transition={{ delay: index * 0.1 }}
         >
-         <Card className="border-slate-200 shadow-lg">
+         <Card className="border-border shadow-lg">
           <CardHeader>
            <div className="flex items-center justify-between">
             <CardTitle className="flex items-center space-x-3">
@@ -612,7 +612,7 @@ export default function AIInsightsPage() {
             </div>
            </div>
            <CardDescription>
-            <div className="flex items-center space-x-4 text-sm text-slate-500">
+            <div className="flex items-center space-x-4 text-sm text-muted-foreground">
              <span className="flex items-center space-x-1">
               <Calendar className="w-3 h-3" />
               <span>{new Date(insight.timestamp).toLocaleDateString()}</span>
@@ -625,15 +625,15 @@ export default function AIInsightsPage() {
            </CardDescription>
           </CardHeader>
           <CardContent>
-           <p className="text-slate-700 mb-4">{insight.description}</p>
+           <p className="text-foreground/90 mb-4">{insight.description}</p>
            {insight.metadata && (
-            <div className="bg-slate-50 p-3 rounded-xl">
-             <h4 className="text-sm font-medium text-slate-900 mb-2">Additional Details</h4>
+            <div className="bg-muted/40 p-3 rounded-xl">
+             <h4 className="text-sm font-medium text-foreground mb-2">Additional Details</h4>
              <div className="grid grid-cols-2 gap-2 text-sm">
               {Object.entries(insight.metadata).map(([key, value]) => (
                <div key={key} className="flex justify-between">
-                <span className="text-slate-600 capitalize">{key.replace('_', ' ')}:</span>
-                <span className="font-medium text-slate-900">
+                <span className="text-muted-foreground capitalize">{key.replace('_', ' ')}:</span>
+                <span className="font-medium text-foreground">
                  {typeof value === 'number' && key.includes('percentage') ? `${value}%` : 
                   typeof value === 'number' && value < 1 ? `${Math.round(value * 100)}%` :
                   String(value)}
@@ -648,11 +648,11 @@ export default function AIInsightsPage() {
         </motion.div>
        ))}
        {insights.length === 0 && (
-        <Card className="border-slate-200 shadow-lg">
+        <Card className="border-border shadow-lg">
          <CardContent className="text-center py-12">
-          <Brain className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-slate-900 mb-2">No Insights Available</h3>
-          <p className="text-slate-600">AI insights will appear here as you continue using the platform.</p>
+          <Brain className="w-12 h-12 text-muted-foreground/80 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-foreground mb-2">No Insights Available</h3>
+          <p className="text-muted-foreground">AI insights will appear here as you continue using the platform.</p>
          </CardContent>
         </Card>
        )}
@@ -662,7 +662,7 @@ export default function AIInsightsPage() {
      <TabsContent value="personalization" className="space-y-6">
       {personalizationData ? (
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-slate-200 shadow-lg">
+        <Card className="border-border shadow-lg">
          <CardHeader>
           <CardTitle className="flex items-center space-x-2">
            <Shield className="w-5 h-5 text-indigo-500" />
@@ -699,7 +699,7 @@ export default function AIInsightsPage() {
          </CardContent>
         </Card>
 
-        <Card className="border-slate-200 shadow-lg">
+        <Card className="border-border shadow-lg">
          <CardHeader>
           <CardTitle className="flex items-center space-x-2">
            <Activity className="w-5 h-5 text-green-500" />
@@ -711,45 +711,45 @@ export default function AIInsightsPage() {
            <div>
             <div className="flex items-center justify-between mb-1">
              <span className="text-sm font-medium">Navigation Patterns</span>
-             <span className="text-sm text-slate-500">{personalizationData.patterns.navigation.length} tracked</span>
+             <span className="text-sm text-muted-foreground">{personalizationData.patterns.navigation.length} tracked</span>
             </div>
             <Progress value={75} className="h-2" />
            </div>
            <div>
             <div className="flex items-center justify-between mb-1">
              <span className="text-sm font-medium">Engagement History</span>
-             <span className="text-sm text-slate-500">{personalizationData.patterns.engagement.length} events</span>
+             <span className="text-sm text-muted-foreground">{personalizationData.patterns.engagement.length} events</span>
             </div>
             <Progress value={85} className="h-2" />
            </div>
            <div>
             <div className="flex items-center justify-between mb-1">
              <span className="text-sm font-medium">Wellness Data</span>
-             <span className="text-sm text-slate-500">{personalizationData.patterns.wellness.length} entries</span>
+             <span className="text-sm text-muted-foreground">{personalizationData.patterns.wellness.length} entries</span>
             </div>
             <Progress value={60} className="h-2" />
            </div>
           </div>
           <Separator />
-          <div className="text-sm text-slate-600">
+          <div className="text-sm text-muted-foreground">
            Last updated: {new Date(personalizationData.lastUpdated).toLocaleString()}
           </div>
          </CardContent>
         </Card>
        </div>
       ) : (
-       <Card className="border-slate-200 shadow-lg">
+       <Card className="border-border shadow-lg">
         <CardContent className="text-center py-12">
-         <Shield className="w-12 h-12 text-slate-400 mx-auto mb-4" />
-         <h3 className="text-lg font-medium text-slate-900 mb-2">Personalization Data Loading</h3>
-         <p className="text-slate-600">Your personalized settings will appear here.</p>
+         <Shield className="w-12 h-12 text-muted-foreground/80 mx-auto mb-4" />
+         <h3 className="text-lg font-medium text-foreground mb-2">Personalization Data Loading</h3>
+         <p className="text-muted-foreground">Your personalized settings will appear here.</p>
         </CardContent>
        </Card>
       )}
      </TabsContent>
 
      <TabsContent value="assistant" className="space-y-6">
-      <Card className="border-slate-200 shadow-lg">
+      <Card className="border-border shadow-lg">
        <CardHeader>
         <CardTitle className="flex items-center space-x-2">
          <Zap className="w-5 h-5 text-yellow-500" />

@@ -31,10 +31,10 @@ export function TierProgressIndicator({
       {/* Progress Bar */}
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <span className="text-sm font-medium text-gray-700">
+          <span className="text-sm font-medium text-foreground/90">
             Progress to {tierName}
           </span>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-muted-foreground">
             {currentProgress} / {targetProgress}
           </span>
         </div>
@@ -56,7 +56,7 @@ export function TierProgressIndicator({
           )}
         </div>
         
-        <div className="flex justify-between text-xs text-gray-500">
+        <div className="flex justify-between text-xs text-muted-foreground">
           <span>0%</span>
           <span className={cn(
             'font-semibold',
@@ -71,7 +71,7 @@ export function TierProgressIndicator({
       {/* Requirements List */}
       {showDetails && (
         <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-gray-800">Requirements:</h4>
+          <h4 className="text-sm font-semibold text-foreground">Requirements:</h4>
           
           <div className="space-y-2">
             {requirements.map((requirement, index) => (
@@ -81,20 +81,20 @@ export function TierProgressIndicator({
                   'flex items-center gap-3 p-3 rounded-lg border transition-all duration-200',
                   index < Math.ceil(requirements.length * (currentProgress / targetProgress))
                     ? 'bg-green-50 border-green-200'
-                    : 'bg-gray-50 border-gray-200'
+                    : 'bg-muted/30 border-gray-200'
                 )}
               >
                 {index < Math.ceil(requirements.length * (currentProgress / targetProgress)) ? (
                   <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
                 ) : (
-                  <Circle className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                  <Circle className="h-4 w-4 text-muted-foreground/80 flex-shrink-0" />
                 )}
                 
                 <span className={cn(
                   'text-sm',
                   index < Math.ceil(requirements.length * (currentProgress / targetProgress))
                     ? 'text-green-700 line-through'
-                    : 'text-gray-700'
+                    : 'text-foreground/90'
                 )}>
                   {requirement}
                 </span>
@@ -107,7 +107,7 @@ export function TierProgressIndicator({
       {/* Next Requirements Preview */}
       {nextRequirements.length > 0 && (
         <div className="space-y-2">
-          <h4 className="text-sm font-semibold text-gray-800 flex items-center gap-2">
+          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
             <ArrowUp className="h-4 w-4" />
             Next Level Requirements:
           </h4>
@@ -116,10 +116,10 @@ export function TierProgressIndicator({
             {nextRequirements.slice(0, 3).map((requirement, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-2 rounded-lg bg-gray-100 border border-gray-200"
+                className="flex items-center gap-3 p-2 rounded-lg bg-muted border border-gray-200"
               >
-                <Lock className="h-3 w-3 text-gray-400 flex-shrink-0" />
-                <span className="text-xs text-gray-600">{requirement}</span>
+                <Lock className="h-3 w-3 text-muted-foreground/80 flex-shrink-0" />
+                <span className="text-xs text-muted-foreground">{requirement}</span>
               </div>
             ))}
           </div>
@@ -215,7 +215,7 @@ export function CircularTierProgress({
       
       {showPercentage && (
         <div className={cn('absolute inset-0 flex items-center justify-center', fontSize)}>
-          <span className="font-semibold text-gray-700">
+          <span className="font-semibold text-foreground/90">
             {Math.round(progress)}%
           </span>
         </div>
@@ -274,7 +274,7 @@ export function TierBenefitsList({
       {/* Unavailable Benefits */}
       {showUnavailable && unavailableBenefits.length > 0 && (
         <div className="space-y-2 mt-4">
-          <h4 className="text-sm font-semibold text-gray-500 flex items-center gap-2">
+          <h4 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
             <Lock className="h-4 w-4" />
             Locked Benefits
           </h4>
@@ -283,15 +283,15 @@ export function TierBenefitsList({
             {unavailableBenefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 p-3 bg-gray-50 border border-gray-200 rounded-lg opacity-60"
+                className="flex items-start gap-3 p-3 bg-muted/30 border border-gray-200 rounded-lg opacity-60"
               >
                 <div className="flex-shrink-0 mt-0.5">
-                  <Lock className="h-4 w-4 text-gray-400" />
+                  <Lock className="h-4 w-4 text-muted-foreground/80" />
                 </div>
                 
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-600">{benefit.name}</p>
-                  <p className="text-xs text-gray-500 mt-1">{benefit.description}</p>
+                  <p className="text-sm font-medium text-muted-foreground">{benefit.name}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{benefit.description}</p>
                 </div>
               </div>
             ))}

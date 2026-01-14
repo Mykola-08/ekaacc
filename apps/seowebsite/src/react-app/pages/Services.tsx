@@ -80,19 +80,19 @@ export default function Services() {
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.3 }}
           >
-            <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
+            <div className="inline-flex items-center px-6 py-3 bg-card/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
               <Heart className="w-5 h-5 text-blue-600 mr-2" />
               <span className="text-blue-700 font-medium">{t('services.integralWellbeingFor')}</span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-gray-900 mb-8 leading-tight">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-8 leading-tight">
               {t('services.ourServices')}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-medium">
                 {t('services.ourServices2') || 'Therapies'}
               </span>
             </h1>
 
-            <p className="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto mb-12 leading-relaxed font-light">
+            <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed font-light">
               {t('services.wellnessPath')}
             </p>
 
@@ -102,7 +102,7 @@ export default function Services() {
               >
                  <Button 
                   size="xl" 
-                  className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
                 >
                   {t('common.bookNow')}
                   <ArrowRight className="ml-2 w-5 h-5" />
@@ -114,7 +114,7 @@ export default function Services() {
       </section>
 
       {/* Services Grid */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
            <div className="grid grid-cols-1 gap-12 sm:gap-16 lg:gap-24">
               {SERVICES_DATA.map((service, index) => {
@@ -150,12 +150,12 @@ export default function Services() {
                              <Icon className={`w-8 h-8 ${colorClass.icon}`} />
                           </div>
                           
-                          <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-4">
+                          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4">
                             {t(service.titleKey)}
                           </h2>
                           <div className={`h-1 w-20 rounded-full ${colorClass.bg.replace('bg-', 'bg-gradient-to-r from-').replace('-50', '-400')} to-gray-200 mb-6`}></div>
 
-                          <p className="text-xl text-gray-700 mb-8 leading-relaxed font-light">
+                          <p className="text-xl text-foreground/90 mb-8 leading-relaxed font-light">
                             {t(service.descriptionKey)}
                           </p>
                           
@@ -166,7 +166,7 @@ export default function Services() {
                                   <div className={`p-1 rounded-full ${colorClass.bg} mr-3 mt-1`}>
                                      <ArrowRight className={`w-3 h-3 ${colorClass.icon}`} />
                                   </div>
-                                  <span className="text-gray-600">{t(benefitKey)}</span>
+                                  <span className="text-muted-foreground">{t(benefitKey)}</span>
                                 </li>
                               ))}
                             </ul>
@@ -180,7 +180,7 @@ export default function Services() {
                              </Link>
                              
                              <Link to="/booking">
-                                <Button variant="outline" className="rounded-xl px-6 py-3 border-gray-200 hover:bg-gray-50 text-gray-700 transition-transform hover:-translate-y-1">
+                                <Button variant="outline" className="rounded-xl px-6 py-3 border-gray-200 hover:bg-muted/30 text-foreground/90 transition-transform hover:-translate-y-1">
                                   {t('common.bookNow')}
                                 </Button>
                              </Link>
@@ -194,9 +194,9 @@ export default function Services() {
       </section>
 
       {/* Disclaimer */}
-      <section className="py-16 bg-gray-50 border-t border-gray-100">
+      <section className="py-16 bg-muted/30 border-t border-gray-100">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-sm text-gray-500 max-w-2xl mx-auto">
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
             <span className="font-semibold">{t('services.disclaimerPrefix')}:</span> {t('services.disclaimerBody')}
           </p>
         </div>

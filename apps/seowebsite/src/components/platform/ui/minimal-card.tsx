@@ -63,7 +63,7 @@ const MinimalCardTitle = React.forwardRef<HTMLParagraphElement, MinimalCardTitle
   ({ className, children, ...props }, ref) => {
     return (
       <h3
-        className={cn('text-lg font-semibold leading-none tracking-tight text-gray-900', className)}
+        className={cn('text-lg font-semibold leading-none tracking-tight text-foreground', className)}
         ref={ref}
         {...props}
       >
@@ -82,7 +82,7 @@ const MinimalCardDescription = React.forwardRef<HTMLParagraphElement, MinimalCar
   ({ className, children, ...props }, ref) => {
     return (
       <p
-        className={cn('text-sm text-gray-600', className)}
+        className={cn('text-sm text-muted-foreground', className)}
         ref={ref}
         {...props}
       >

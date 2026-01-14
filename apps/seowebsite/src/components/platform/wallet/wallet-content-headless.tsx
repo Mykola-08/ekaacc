@@ -61,7 +61,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number, onSuccess: (
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
+      <div className="bg-muted/30 p-4 rounded-xl border border-gray-200">
         <PaymentElement options={{ 
             layout: 'tabs',
         }} />
@@ -139,10 +139,10 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 animate-fade-in">
             <div>
-                <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
+                <h1 className="text-4xl font-extrabold tracking-tight text-foreground leading-tight">
                     Wallet & Plans
                 </h1>
-                <p className="text-lg text-gray-500 mt-2">
+                <p className="text-lg text-muted-foreground mt-2">
                     Manage your credits, transactions, and membership plans.
                 </p>
             </div>
@@ -158,13 +158,13 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                     
                     <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div>
-                            <p className="text-gray-400 font-medium mb-1">Total Balance</p>
+                            <p className="text-muted-foreground/80 font-medium mb-1">Total Balance</p>
                             <h2 className="text-5xl font-extrabold tracking-tight">
-                                {(balance / 100).toFixed(2)} <span className="text-2xl font-normal text-gray-400">€</span>
+                                {(balance / 100).toFixed(2)} <span className="text-2xl font-normal text-muted-foreground/80">€</span>
                             </h2>
                         </div>
                          <div className="flex flex-col gap-3 w-full md:w-auto">
-                            <label className="text-sm font-medium text-gray-400">Quick Top-up Amount</label>
+                            <label className="text-sm font-medium text-muted-foreground/80">Quick Top-up Amount</label>
                             <div className="flex bg-gray-800/50 p-1 rounded-xl">
                                 {amounts.map((amt) => (
                                     <button
@@ -173,8 +173,8 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                                         className={cn(
                                             "flex-1 px-4 py-2 rounded-lg text-sm font-semibold transition-all",
                                             topUpAmount === amt 
-                                                ? "bg-white text-gray-900 shadow-md" 
-                                                : "text-gray-400 hover:text-white hover:bg-gray-700"
+                                                ? "bg-card text-foreground shadow-md" 
+                                                : "text-muted-foreground/80 hover:text-white hover:bg-gray-700"
                                         )}
                                     >
                                         €{amt}
@@ -183,7 +183,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                             </div>
                             <button 
                                 onClick={handleTopUpClick}
-                                className="w-full py-3 bg-white text-black font-bold rounded-xl hover:bg-gray-100 transition-colors shadow-lg flex items-center justify-center gap-2 mt-2"
+                                className="w-full py-3 bg-card text-black font-bold rounded-xl hover:bg-muted transition-colors shadow-lg flex items-center justify-center gap-2 mt-2"
                             >
                                 <Plus className="w-5 h-5" />
                                 Add Funds
@@ -194,14 +194,14 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
 
                 {/* Transactions & Plans Tabs */}
                  <TabGroup as="div" className="space-y-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
-                    <TabList className="flex space-x-2 rounded-2xl bg-gray-100/80 p-1.5 w-fit">
+                    <TabList className="flex space-x-2 rounded-2xl bg-muted/80 p-1.5 w-fit">
                         <Tab className={({ selected }) =>
                             cn(
                             'px-6 py-2.5 rounded-xl text-sm font-semibold leading-5 transition-all outline-none',
                             'focus:ring-2 focus:ring-black/5',
                             selected
-                                ? 'bg-white text-gray-900 shadow-sm'
-                                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                                ? 'bg-card text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
                             )
                         }>
                             Transactions
@@ -211,8 +211,8 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                             'px-6 py-2.5 rounded-xl text-sm font-semibold leading-5 transition-all outline-none',
                             'focus:ring-2 focus:ring-black/5',
                             selected
-                                ? 'bg-white text-gray-900 shadow-sm'
-                                : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                                ? 'bg-card text-foreground shadow-sm'
+                                : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
                             )
                         }>
                             My Plans
@@ -220,10 +220,10 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                     </TabList>
                     
                     <TabPanels>
-                         <TabPanel className="bg-white rounded-4xl border border-gray-100 shadow-sm p-8 focus:outline-none min-h-100">
+                         <TabPanel className="bg-card rounded-4xl border border-gray-100 shadow-sm p-8 focus:outline-none min-h-100">
                             {initialTransactions.length === 0 ? (
-                                <div className="h-full flex flex-col items-center justify-center text-center text-gray-500 py-12">
-                                    <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                                <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground py-12">
+                                    <div className="w-16 h-16 bg-muted/30 rounded-full flex items-center justify-center mb-4">
                                         <History className="w-8 h-8 text-gray-300" />
                                     </div>
                                     <p className="font-medium">No transactions yet</p>
@@ -232,22 +232,22 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                             ) : (
                                 <div className="space-y-4">
                                     {initialTransactions.slice(0, 10).map((tx) => (
-                                        <div key={tx.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 group">
+                                        <div key={tx.id} className="flex items-center justify-between p-4 rounded-2xl hover:bg-muted/30 transition-colors border border-transparent hover:border-gray-100 group">
                                             <div className="flex items-center gap-4">
                                                 <div className={cn(
                                                     "h-10 w-10 rounded-full flex items-center justify-center",
-                                                    tx.amount > 0 ? "bg-green-50 text-green-600" : "bg-gray-100 text-gray-600"
+                                                    tx.amount > 0 ? "bg-green-50 text-green-600" : "bg-muted text-muted-foreground"
                                                 )}>
                                                     {tx.amount > 0 ? <Plus className="w-5 h-5" /> : <CreditCard className="w-5 h-5" />}
                                                 </div>
                                                 <div>
-                                                    <p className="font-bold text-gray-900">{tx.description || 'Top Up'}</p>
-                                                    <p className="text-xs text-gray-500">{new Date(tx.created_at).toLocaleDateString()}</p>
+                                                    <p className="font-bold text-foreground">{tx.description || 'Top Up'}</p>
+                                                    <p className="text-xs text-muted-foreground">{new Date(tx.created_at).toLocaleDateString()}</p>
                                                 </div>
                                             </div>
                                             <span className={cn(
                                                 "font-bold font-mono",
-                                                tx.amount > 0 ? "text-green-600" : "text-gray-900"
+                                                tx.amount > 0 ? "text-green-600" : "text-foreground"
                                             )}>
                                                 {tx.amount > 0 ? '+' : ''}{(tx.amount / 100).toFixed(2)} €
                                             </span>
@@ -257,10 +257,10 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                             )}
                         </TabPanel>
                         
-                        <TabPanel className="bg-white rounded-[32px] border border-gray-100 shadow-sm p-8 focus:outline-none min-h-[400px]">
+                        <TabPanel className="bg-card rounded-[32px] border border-gray-100 shadow-sm p-8 focus:outline-none min-h-[400px]">
                              {initialPlans.length === 0 ? (
-                                <div className="h-full flex flex-col items-center justify-center text-center text-gray-500 py-12">
-                                     <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                                <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground py-12">
+                                     <div className="w-16 h-16 bg-muted/30 rounded-full flex items-center justify-center mb-4">
                                         <Wallet className="w-8 h-8 text-gray-300" />
                                     </div>
                                     <p className="font-medium">No active plans</p>
@@ -269,10 +269,10 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                              ) : (
                                  <div className="grid gap-4 md:grid-cols-2">
                                      {initialPlans.map((plan) => (
-                                         <div key={plan.id} className="p-6 rounded-3xl bg-gray-50 border border-gray-100 relative overflow-hidden">
+                                         <div key={plan.id} className="p-6 rounded-3xl bg-muted/30 border border-gray-100 relative overflow-hidden">
                                               <div className="relative z-10">
-                                                 <h3 className="font-bold text-lg text-gray-900 mb-1">{plan.name || 'Standard Plan'}</h3>
-                                                 <p className="text-sm text-gray-500 mb-4">{plan.credits_remaining} / {plan.credits_total} credits remaining</p>
+                                                 <h3 className="font-bold text-lg text-foreground mb-1">{plan.name || 'Standard Plan'}</h3>
+                                                 <p className="text-sm text-muted-foreground mb-4">{plan.credits_remaining} / {plan.credits_total} credits remaining</p>
                                                  <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                                                      <div 
                                                         className="h-full bg-black rounded-full" 
@@ -291,16 +291,16 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
 
             {/* Right Column: Info / Help */}
              <div className="space-y-6 lg:col-span-1 animate-slide-up" style={{ animationDelay: '200ms' }}>
-                <div className="rounded-4xl border border-gray-100 bg-white p-8 shadow-sm">
-                    <h3 className="font-bold text-xl text-gray-900 mb-4">Payment Methods</h3>
-                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100 mb-4">
-                        <div className="w-10 h-6 bg-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-gray-500">VISA</div>
+                <div className="rounded-4xl border border-gray-100 bg-card p-8 shadow-sm">
+                    <h3 className="font-bold text-xl text-foreground mb-4">Payment Methods</h3>
+                    <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-2xl border border-gray-100 mb-4">
+                        <div className="w-10 h-6 bg-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-muted-foreground">VISA</div>
                         <div>
-                             <p className="text-sm font-bold text-gray-900">•••• 4242</p>
-                             <p className="text-xs text-gray-500">Expires 12/28</p>
+                             <p className="text-sm font-bold text-foreground">•••• 4242</p>
+                             <p className="text-xs text-muted-foreground">Expires 12/28</p>
                         </div>
                     </div>
-                     <button className="w-full py-3 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors">
+                     <button className="w-full py-3 border border-gray-200 text-foreground/90 font-semibold rounded-xl hover:bg-muted/30 transition-colors">
                         Manage Methods
                     </button>
                 </div>
@@ -350,20 +350,20 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-4xl bg-white p-8 text-left align-middle shadow-xl transition-all">
+                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-4xl bg-card p-8 text-left align-middle shadow-xl transition-all">
                   <DialogTitle
                     as="h3"
-                    className="text-2xl font-bold leading-6 text-gray-900 flex justify-between items-center mb-6"
+                    className="text-2xl font-bold leading-6 text-foreground flex justify-between items-center mb-6"
                   >
                     <span>Secure Top Up</span>
-                    <button onClick={closeModal} className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-                        <X className="w-5 h-5 text-gray-500" />
+                    <button onClick={closeModal} className="p-2 rounded-full hover:bg-muted transition-colors">
+                        <X className="w-5 h-5 text-muted-foreground" />
                     </button>
                   </DialogTitle>
                   
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500 mb-6">
-                        You are about to add <span className="font-bold text-gray-900 text-base">€{topUpAmount}</span> to your wallet.
+                    <p className="text-sm text-muted-foreground mb-6">
+                        You are about to add <span className="font-bold text-foreground text-base">€{topUpAmount}</span> to your wallet.
                     </p>
 
                     {clientSecret ? (

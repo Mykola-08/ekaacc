@@ -225,7 +225,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
             <motion.div variants={itemVariants}>
               <SettingsCard title="Security" description="Account protection">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-white/50 transition-all duration-200">
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-card/50 transition-all duration-200">
                     <div className="space-y-1">
                       <h4 className="font-medium flex items-center gap-2">
                         <Lock className="w-4 h-4 text-amber-500" />
@@ -237,7 +237,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
                       Reset Password
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-white/50 transition-all duration-200 opacity-60">
+                  <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-card/50 transition-all duration-200 opacity-60">
                     <div className="space-y-1">
                       <h4 className="font-medium flex items-center gap-2">
                         <Shield className="w-4 h-4 text-green-500" />
@@ -255,7 +255,7 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
 
             <motion.div variants={itemVariants}>
               <SettingsCard title="Integrations" description="Manage external services">
-                <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-white/50 transition-all duration-200">
+                <div className="flex items-center justify-between p-4 rounded-lg border border-muted hover:border-border hover:bg-card/50 transition-all duration-200">
                   <div className="space-y-1">
                     <h4 className="font-medium flex items-center gap-2">
                       <RefreshCw className={isSyncing ? "w-4 h-4 animate-spin text-blue-500" : "w-4 h-4 text-blue-500"} />

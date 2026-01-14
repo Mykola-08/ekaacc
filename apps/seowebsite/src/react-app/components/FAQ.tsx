@@ -41,13 +41,13 @@ const FAQ = () => {
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-white">
+    <section className="py-16 sm:py-24 bg-card">
       <div className="max-w-3xl mx-auto px-4 sm:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-4">
+          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4">
             {t('faq.title')}
           </h2>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-muted-foreground">
             {t('faq.subtitle')}
           </p>
         </div>
@@ -56,20 +56,20 @@ const FAQ = () => {
           {faqItems.map((item, index) => (
             <div
               key={index}
-              className="bg-gray-50 rounded-[20px] overflow-hidden transition-all duration-300 hover:bg-gray-100"
+              className="bg-muted/30 rounded-[20px] overflow-hidden transition-all duration-300 hover:bg-muted"
             >
               <button
                 onClick={() => toggleItem(index)}
                 className="w-full px-6 py-5 text-left flex items-center justify-between focus:outline-none"
               >
-                <span className="text-base font-medium text-gray-900 pr-4">
+                <span className="text-base font-medium text-foreground pr-4">
                   {item.question}
                 </span>
                 <div className="flex-shrink-0">
                   {openItem === index ? (
-                    <Minus className="w-5 h-5 text-gray-600" />
+                    <Minus className="w-5 h-5 text-muted-foreground" />
                   ) : (
-                    <Plus className="w-5 h-5 text-gray-600" />
+                    <Plus className="w-5 h-5 text-muted-foreground" />
                   )}
                 </div>
               </button>
@@ -80,7 +80,7 @@ const FAQ = () => {
                 }`}
               >
                 <div className="px-6 pb-5">
-                  <p className="text-gray-700 leading-relaxed text-sm">
+                  <p className="text-foreground/90 leading-relaxed text-sm">
                     {item.answer}
                   </p>
                 </div>

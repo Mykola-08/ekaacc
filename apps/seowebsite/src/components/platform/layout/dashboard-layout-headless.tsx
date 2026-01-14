@@ -92,8 +92,8 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
                                     href={item.href}
                                     className={cn(
                                         isActive
-                                        ? 'bg-white/10 text-white'
-                                        : 'text-gray-400 hover:text-white hover:bg-white/5',
+                                        ? 'bg-card/10 text-white'
+                                        : 'text-muted-foreground/80 hover:text-white hover:bg-card/5',
                                         'group flex gap-x-3 rounded-xl p-3 text-sm font-semibold leading-6 transition-all'
                                     )}
                                     >
@@ -132,8 +132,8 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
                             href={item.href}
                             className={cn(
                                 isActive
-                                ? 'bg-white text-black shadow-lg shadow-white/10'
-                                : 'text-gray-400 hover:text-white hover:bg-white/10',
+                                ? 'bg-card text-black shadow-lg shadow-white/10'
+                                : 'text-muted-foreground/80 hover:text-white hover:bg-card/10',
                                 'group flex gap-x-3 rounded-2xl p-4 text-sm font-semibold leading-6 transition-all duration-300'
                             )}
                             >
@@ -148,7 +148,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
                 
                 <li className="mt-auto">
                      <div className="rounded-2xl bg-linear-to-br from-blue-600 to-indigo-700 p-4 relative overflow-hidden group hover:scale-105 transition-transform duration-300 cursor-pointer">
-                         <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2" />
+                         <div className="absolute top-0 right-0 w-20 h-20 bg-card/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2" />
                          <h4 className="font-bold text-white relative z-10">Premium Plan</h4>
                          <p className="text-xs text-blue-100 mt-1 relative z-10">Access exclusive content.</p>
                      </div>
@@ -156,16 +156,16 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
 
                 <li className="-mx-2 min-h-16 flex items-center">
                     <HeadlessMenu as="div" className="relative w-full">
-                        <MenuButton className="flex items-center gap-x-4 p-2.5 w-full rounded-2xl hover:bg-white/5 transition-colors text-left outline-none">
+                        <MenuButton className="flex items-center gap-x-4 p-2.5 w-full rounded-2xl hover:bg-card/5 transition-colors text-left outline-none">
                             <div className="h-10 w-10 rounded-full bg-gray-800 flex items-center justify-center font-bold text-white">
                                 {user?.profile?.firstName?.charAt(0) || user?.email?.charAt(0) || 'U'}
                             </div>
                             <span className="sr-only">Your profile</span>
                             <span aria-hidden="true" className="flex flex-col flex-1 min-w-0">
                                 <span className="block truncate text-sm font-semibold text-white">{user?.profile?.firstName || user?.displayName || 'User'}</span>
-                                <span className="block truncate text-xs text-gray-500">{user?.email || 'user@example.com'}</span>
+                                <span className="block truncate text-xs text-muted-foreground">{user?.email || 'user@example.com'}</span>
                             </span>
-                            <ChevronDown className="h-4 w-4 text-gray-400" aria-hidden="true" />
+                            <ChevronDown className="h-4 w-4 text-muted-foreground/80" aria-hidden="true" />
                         </MenuButton>
                         <Transition
                             as={Fragment}
@@ -176,14 +176,14 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
                             leaveFrom="transform opacity-100 scale-100"
                             leaveTo="transform opacity-0 scale-95"
                         >
-                            <MenuItems className="absolute bottom-full left-0 z-10 mb-2 w-full origin-bottom-right rounded-xl bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <MenuItems className="absolute bottom-full left-0 z-10 mb-2 w-full origin-bottom-right rounded-xl bg-card py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <MenuItem>
                                     {({ active }) => (
                                         <button
                                             onClick={() => signOut?.()}
                                             className={cn(
-                                                active ? 'bg-gray-50' : '',
-                                                'px-4 py-2 text-sm text-gray-700 w-full text-left flex items-center gap-2 font-medium'
+                                                active ? 'bg-muted/30' : '',
+                                                'px-4 py-2 text-sm text-foreground/90 w-full text-left flex items-center gap-2 font-medium'
                                             )}
                                         >
                                             <LogOut className="w-4 h-4" />
@@ -203,7 +203,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
         {/* Main Content Area */}
         <div className="lg:pl-72 h-screen flex flex-col">
           <div className="sticky top-0 z-40 flex h-24 shrink-0 items-center gap-x-4 px-4 sm:gap-x-6 sm:px-6 lg:px-8 bg-none">
-            <button type="button" className="-m-2.5 p-2.5 text-gray-700 lg:hidden" onClick={() => setSidebarOpen(true)}>
+            <button type="button" className="-m-2.5 p-2.5 text-foreground/90 lg:hidden" onClick={() => setSidebarOpen(true)}>
               <span className="sr-only">Open sidebar</span>
               <Menu className="h-6 w-6" aria-hidden="true" />
             </button>
@@ -211,7 +211,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
             {/* Top Bar - Simplified / Transparent-ish */}
             <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 items-center justify-end">
                 <div className="flex items-center gap-x-4 lg:gap-x-6">
-                    <button className="p-2.5 text-gray-400 hover:text-gray-500 rounded-full hover:bg-gray-100/50 transition-colors relative">
+                    <button className="p-2.5 text-muted-foreground/80 hover:text-muted-foreground rounded-full hover:bg-muted/50 transition-colors relative">
                         <span className="sr-only">View notifications</span>
                         <div className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border border-white" />
                         <Bell className="h-6 w-6" aria-hidden="true" />
@@ -222,7 +222,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
             </div>
           </div>
 
-          <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-10 bg-white lg:bg-transparent lg:rounded-tl-[40px]">
+          <main className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 pb-10 bg-card lg:bg-transparent lg:rounded-tl-[40px]">
             {children}
           </main>
         </div>

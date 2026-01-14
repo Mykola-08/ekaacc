@@ -25,7 +25,7 @@ export default function TechniqueDetail() {
 
   if (!baseKey) {
     return (
-        <div className="min-h-screen bg-gray-50 flex items-center justify-center text-gray-900">
+        <div className="min-h-screen bg-muted/30 flex items-center justify-center text-foreground">
           Technique not found
         </div>
     );
@@ -40,7 +40,7 @@ export default function TechniqueDetail() {
       />
       
       <Layout>
-      <div className="bg-gray-50 min-h-screen text-gray-900 pt-32 pb-20">
+      <div className="bg-muted/30 min-h-screen text-foreground pt-32 pb-20">
         <div className="max-w-4xl mx-auto px-6">
           <Link to="/about-elena" className="inline-flex items-center text-blue-600 hover:text-blue-700 mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -56,15 +56,15 @@ export default function TechniqueDetail() {
               {t(`${baseKey}.title`)}
             </h1>
             
-            <div className="prose prose-lg text-gray-600 max-w-none">
+            <div className="prose prose-lg text-muted-foreground max-w-none">
               <p>
                 {t(`${baseKey}.desc`)}
               </p>
             </div>
             
-            <div className="mt-12 p-8 bg-white rounded-3xl shadow-sm border border-orange-100">
-               <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('technique.why')}</h3>
-               <p className="text-gray-600">
+            <div className="mt-12 p-8 bg-card rounded-3xl shadow-sm border border-orange-100">
+               <h3 className="text-xl font-semibold text-foreground mb-4">{t('technique.why')}</h3>
+               <p className="text-muted-foreground">
                   {t(`${baseKey}.why`)}
                </p>
             </div>

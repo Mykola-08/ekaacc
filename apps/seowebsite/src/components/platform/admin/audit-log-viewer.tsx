@@ -133,7 +133,7 @@ export function AuditLogViewer() {
       case 'high': return 'text-red-600 bg-red-100'
       case 'medium': return 'text-yellow-600 bg-yellow-100'
       case 'low': return 'text-blue-600 bg-blue-100'
-      default: return 'text-gray-600 bg-gray-100'
+      default: return 'text-muted-foreground bg-muted'
     }
   }
 
@@ -150,8 +150,8 @@ export function AuditLogViewer() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Audit Log Viewer</h2>
-          <p className="text-gray-600">Security monitoring and activity tracking</p>
+          <h2 className="text-2xl font-bold text-foreground">Audit Log Viewer</h2>
+          <p className="text-muted-foreground">Security monitoring and activity tracking</p>
         </div>
         <div className="flex items-center gap-3">
           <select
@@ -195,11 +195,11 @@ export function AuditLogViewer() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-red-600">{securityAnalysis.failedLogins.total}</div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 {securityAnalysis.failedLogins.uniqueUsers} unique users
               </div>
               {securityAnalysis.failedLogins.topFailedUsers.slice(0, 3).map((user, index) => (
-                <div key={user.email} className="text-xs text-gray-500 mt-1">
+                <div key={user.email} className="text-xs text-muted-foreground mt-1">
                   {index + 1}. {user.email} ({user.count} attempts)
                 </div>
               ))}
@@ -213,7 +213,7 @@ export function AuditLogViewer() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-blue-600">{securityAnalysis.permissionChanges}</div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Role/permission modifications
               </div>
             </CardContent>
@@ -226,11 +226,11 @@ export function AuditLogViewer() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-yellow-600">{securityAnalysis.suspiciousActivities.length}</div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Security alerts detected
               </div>
               {securityAnalysis.suspiciousActivities.slice(0, 2).map((activity, index) => (
-                <div key={index} className="text-xs text-gray-500 mt-1">
+                <div key={index} className="text-xs text-muted-foreground mt-1">
                   <Badge className={getSeverityColor(activity.severity)}>
                     {activity.type} ({activity.count})
                   </Badge>
@@ -251,7 +251,7 @@ export function AuditLogViewer() {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
                 <Input
                   placeholder="Search by user email, action, or resource..."
                   value={searchTerm}
@@ -300,32 +300,32 @@ export function AuditLogViewer() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-200">
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Timestamp</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">User</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Action</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Resource</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">IP Address</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Details</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Timestamp</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">User</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Action</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Resource</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Status</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">IP Address</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Details</th>
                 </tr>
               </thead>
               <tbody>
                 {logs.map((log) => (
-                  <tr key={log.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <tr key={log.id} className="border-b border-gray-100 hover:bg-muted/30">
                     <td className="py-3 px-4">
-                      <div className="text-sm text-gray-900">
+                      <div className="text-sm text-foreground">
                         {format(new Date(log.createdAt), 'MMM dd, yyyy')}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-muted-foreground">
                         {format(new Date(log.createdAt), 'HH:mm:ss')}
                       </div>
                     </td>
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-gray-400" />
+                        <User className="h-4 w-4 text-muted-foreground/80" />
                         <div>
-                          <div className="text-sm font-medium text-gray-900">{log.userEmail}</div>
-                          <div className="text-xs text-gray-500">ID: {log.userId}</div>
+                          <div className="text-sm font-medium text-foreground">{log.userEmail}</div>
+                          <div className="text-xs text-muted-foreground">ID: {log.userId}</div>
                         </div>
                       </div>
                     </td>
@@ -333,13 +333,13 @@ export function AuditLogViewer() {
                       <Badge variant="outline">{log.action}</Badge>
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-sm text-gray-900">{log.resource}</div>
+                      <div className="text-sm text-foreground">{log.resource}</div>
                     </td>
                     <td className="py-3 px-4">
                       {getStatusBadge(log.status)}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-sm text-gray-900">{log.ipAddress}</div>
+                      <div className="text-sm text-foreground">{log.ipAddress}</div>
                     </td>
                     <td className="py-3 px-4">
                       <Button
@@ -362,7 +362,7 @@ export function AuditLogViewer() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-6">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Showing page {currentPage} of {totalPages}
               </div>
               <div className="flex gap-2">

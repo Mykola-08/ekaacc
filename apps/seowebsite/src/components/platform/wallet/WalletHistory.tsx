@@ -78,7 +78,7 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
                     <TableCell className="text-xs text-muted-foreground">
                       {format(new Date(tx.created_at), 'MMM d, HH:mm')}
                     </TableCell>
-                    <TableCell className={`text-right font-medium ${tx.amount > 0 ? 'text-green-600' : 'text-slate-600'}`}>
+                    <TableCell className={`text-right font-medium ${tx.amount > 0 ? 'text-green-600' : 'text-muted-foreground'}`}>
                       {formatAmount(tx.type, tx.amount)}
                     </TableCell>
                   </TableRow>

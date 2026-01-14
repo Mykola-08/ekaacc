@@ -205,10 +205,10 @@ export default function ContactFormOptimized() {
           >
             <CheckCircle className="w-12 h-12 text-green-600" />
           </motion.div>
-          <h3 className="text-3xl font-light text-gray-900 mb-4">
+          <h3 className="text-3xl font-light text-foreground mb-4">
             {t('contact.success.title')}
           </h3>
-          <p className="text-gray-600 mb-8 leading-relaxed text-lg">
+          <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
             {t('contact.success.message')}
           </p>
           <button
@@ -232,10 +232,10 @@ export default function ContactFormOptimized() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <h2 className="text-4xl font-light text-gray-900 mb-6">
+            <h2 className="text-4xl font-light text-foreground mb-6">
               {t('contact.info.title')}
             </h2>
-            <p className="text-gray-600 mb-8 leading-relaxed text-lg">
+            <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
               {t('contact.info.subtitle')}
             </p>
           </motion.div>
@@ -251,14 +251,14 @@ export default function ContactFormOptimized() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start space-x-4 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+                className="flex items-start space-x-4 p-6 bg-card rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
               >
                 <div className={`w-12 h-12 bg-${item.color}-50 rounded-xl flex items-center justify-center flex-shrink-0`}>
                   <item.icon className={`w-6 h-6 text-${item.color}-600`} />
                 </div>
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-1">{item.title}</h4>
-                  <p className="text-gray-600 mb-2">
+                  <h4 className="font-medium text-foreground mb-1">{item.title}</h4>
+                  <p className="text-muted-foreground mb-2">
                     {item.link ? (
                       <a href={item.link} className={`hover:text-${item.color}-600 transition-colors text-lg font-medium`}>
                         {item.content}
@@ -267,7 +267,7 @@ export default function ContactFormOptimized() {
                       <span className="text-lg">{item.content}</span>
                     )}
                   </p>
-                  <p className="text-sm text-gray-500">{item.sub}</p>
+                  <p className="text-sm text-muted-foreground">{item.sub}</p>
                 </div>
               </motion.div>
             ))}
@@ -282,19 +282,19 @@ export default function ContactFormOptimized() {
             <div className="flex items-start space-x-3">
               <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
               <div>
-                <h4 className="font-medium text-gray-900 mb-3 text-lg">{t('contact.hours.title')}</h4>
+                <h4 className="font-medium text-foreground mb-3 text-lg">{t('contact.hours.title')}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600">{t('contact.hours.weekdays')}:</span>
-                    <span className="font-medium text-gray-900 bg-white px-2 py-1 rounded-md shadow-sm">9:00 - 20:00</span>
+                    <span className="text-muted-foreground">{t('contact.hours.weekdays')}:</span>
+                    <span className="font-medium text-foreground bg-card px-2 py-1 rounded-md shadow-sm">9:00 - 20:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600">{t('contact.hours.saturday')}:</span>
-                    <span className="font-medium text-gray-900 bg-white px-2 py-1 rounded-md shadow-sm">9:00 - 18:00</span>
+                    <span className="text-muted-foreground">{t('contact.hours.saturday')}:</span>
+                    <span className="font-medium text-foreground bg-card px-2 py-1 rounded-md shadow-sm">9:00 - 18:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-gray-600">{t('contact.hours.sunday')}:</span>
-                    <span className="font-medium text-gray-900 bg-white px-2 py-1 rounded-md shadow-sm">10:00 - 16:00</span>
+                    <span className="text-muted-foreground">{t('contact.hours.sunday')}:</span>
+                    <span className="font-medium text-foreground bg-card px-2 py-1 rounded-md shadow-sm">10:00 - 16:00</span>
                   </div>
                 </div>
               </div>
@@ -308,15 +308,15 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-3xl border border-gray-200 shadow-lg overflow-hidden"
+            className="bg-card rounded-3xl border border-gray-200 shadow-lg overflow-hidden"
           >
             <div className="p-8 md:p-10">
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div>
-                  <h3 className="text-3xl font-light text-gray-900 mb-2">
+                  <h3 className="text-3xl font-light text-foreground mb-2">
                     {t('contact.form.title')}
                   </h3>
-                  <p className="text-gray-500">
+                  <p className="text-muted-foreground">
                     {t('contact.form.message.placeholder')}
                   </p>
                 </div>
@@ -334,11 +334,11 @@ export default function ContactFormOptimized() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="name" className="block text-sm font-medium text-foreground/90">
                       {t('contact.form.name')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <User className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                      <User className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
                       <input
                         type="text"
                         id="name"
@@ -353,11 +353,11 @@ export default function ContactFormOptimized() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="email" className="block text-sm font-medium text-foreground/90">
                       {t('contact.form.email')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                      <Mail className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
                       <input
                         type="email"
                         id="email"
@@ -374,11 +374,11 @@ export default function ContactFormOptimized() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="phone" className="block text-sm font-medium text-foreground/90">
                       {t('contact.form.phone')}
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                      <Phone className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
                       <input
                         type="tel"
                         id="phone"
@@ -393,7 +393,7 @@ export default function ContactFormOptimized() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="service" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="service" className="block text-sm font-medium text-foreground/90">
                       {t('contact.form.service')}
                     </label>
                     <div className="relative">
@@ -412,7 +412,7 @@ export default function ContactFormOptimized() {
                         ))}
                       </select>
                       <div className="absolute right-4 top-3.5 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg className="w-5 h-5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                       </div>
                     </div>
                     {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
@@ -420,7 +420,7 @@ export default function ContactFormOptimized() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="message" className="block text-sm font-medium text-foreground/90">
                     {t('contact.form.message')} <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -437,7 +437,7 @@ export default function ContactFormOptimized() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <label className="block text-sm font-medium text-gray-700">
+                    <label className="block text-sm font-medium text-foreground/90">
                       {t('contact.form.preferred')}
                     </label>
                     <div className="grid grid-cols-3 gap-3">
@@ -451,7 +451,7 @@ export default function ContactFormOptimized() {
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
                             formData.preferred_contact === option.value 
                               ? 'border-blue-500 bg-blue-50 text-blue-700' 
-                              : 'border-gray-200 hover:border-blue-200 hover:bg-gray-50'
+                              : 'border-gray-200 hover:border-blue-200 hover:bg-muted/30'
                           }`}
                         >
                           <input
@@ -462,7 +462,7 @@ export default function ContactFormOptimized() {
                             onChange={handleChange}
                             className="sr-only"
                           />
-                          <option.icon className={`w-5 h-5 mb-1 ${formData.preferred_contact === option.value ? 'text-blue-600' : 'text-gray-500'}`} />
+                          <option.icon className={`w-5 h-5 mb-1 ${formData.preferred_contact === option.value ? 'text-blue-600' : 'text-muted-foreground'}`} />
                           <span className="text-xs font-medium">{option.label}</span>
                         </label>
                       ))}
@@ -470,11 +470,11 @@ export default function ContactFormOptimized() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="preferred_time" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="preferred_time" className="block text-sm font-medium text-foreground/90">
                       {t('contact.form.preferredTime')}
                     </label>
                     <div className="relative">
-                      <Calendar className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+                      <Calendar className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
                       <select
                         id="preferred_time"
                         name="preferred_time"
@@ -490,14 +490,14 @@ export default function ContactFormOptimized() {
                         ))}
                       </select>
                       <div className="absolute right-4 top-3.5 pointer-events-none">
-                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg className="w-5 h-5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="source" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="source" className="block text-sm font-medium text-foreground/90">
                     {t('contact.form.source')}
                   </label>
                   <div className="relative">
@@ -516,7 +516,7 @@ export default function ContactFormOptimized() {
                       ))}
                     </select>
                     <div className="absolute right-4 top-3.5 pointer-events-none">
-                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                      <svg className="w-5 h-5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                   </div>
                 </div>
@@ -530,7 +530,7 @@ export default function ContactFormOptimized() {
                       onChange={handleChange}
                       className="mt-1 w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                     />
-                    <span className="text-sm text-gray-600">
+                    <span className="text-sm text-muted-foreground">
                       {t('contact.form.privacy')} <span className="text-red-500">*</span>
                     </span>
                   </label>
@@ -558,7 +558,7 @@ export default function ContactFormOptimized() {
 
               {/* Quick Contact */}
               <div className="mt-8 pt-8 border-t border-gray-200">
-                <p className="text-center text-gray-600 mb-4 text-sm">
+                <p className="text-center text-muted-foreground mb-4 text-sm">
                   {t('contact.quick.title')}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -573,7 +573,7 @@ export default function ContactFormOptimized() {
                   </a>
                   <a
                     href="tel:+34658867133"
-                    className="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg transition-colors duration-200 text-sm shadow-sm hover:shadow-md"
+                    className="inline-flex items-center justify-center bg-muted hover:bg-gray-200 text-foreground/90 font-medium px-4 py-2 rounded-lg transition-colors duration-200 text-sm shadow-sm hover:shadow-md"
                   >
                     <Phone className="w-4 h-4 mr-2" />
                     {t('contact.quick.call')}

@@ -123,7 +123,7 @@ export default function Layout({
 
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-card">
       <OfflineIndicator />
 
       {/* Navigation with scroll effect */}
@@ -155,7 +155,7 @@ export default function Layout({
                       <>
                         <Link
                           to={item.href}
-                          className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-white/60 ${isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
+                          className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-card/60 ${isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
                             }`}
                           onMouseEnter={openDropdown}
                           onMouseLeave={scheduleHide}
@@ -197,7 +197,7 @@ export default function Layout({
                               key={dropdownItem.name}
                               to={dropdownItem.href}
                               onClick={() => setShowPersonalServices(false)}
-                              className="flex items-center justify-center h-12 text-sm font-medium transition-colors duration-200 text-[#000035] hover:text-[#FFB405]"
+                              className="flex items-center justify-center h-12 text-sm font-medium transition-colors duration-200 text-primary-foreground hover:text-primary"
                               style={{
                                 marginBottom: index < item.dropdownItems!.length - 1 ? '8px' : '0'
                               }}
@@ -212,7 +212,7 @@ export default function Layout({
                       <a
                         href={item.href}
                         rel="noopener noreferrer"
-                        className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 text-[#000035] hover:text-[#FFB405]"
+                        className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 text-primary-foreground hover:text-primary"
                         onClick={(e) => {
                           e.preventDefault();
                           window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -223,9 +223,9 @@ export default function Layout({
                     ) : (
                       <Link
                         to={item.href}
-                        className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 ${item.isGold
+                        className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 ${item.isGold
                             ? 'gold-shimmer font-black bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
-                            : isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
+                            : isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
                           }`}
                       >
                         {item.name}
@@ -247,13 +247,13 @@ export default function Layout({
                     <div className="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
                       <UserIcon className="w-4 h-4 text-yellow-700" />
                     </div>
-                    <span className="text-sm font-medium text-[#000035] group-hover:text-[#FFB405] transition-colors">
+                    <span className="text-sm font-medium text-primary-foreground group-hover:text-primary transition-colors">
                       {user.user_metadata.full_name || user.email?.split('@')[0]}
                     </span>
                   </Link>
                   <button
                     onClick={signOut}
-                    className="text-xs text-gray-500 hover:text-red-500 transition-colors border border-gray-200 px-2 py-1 rounded-md"
+                    className="text-xs text-muted-foreground hover:text-red-500 transition-colors border border-gray-200 px-2 py-1 rounded-md"
                   >
                     {t('footer.logout')}
                   </button>
@@ -261,7 +261,7 @@ export default function Layout({
               ) : (
                 <button
                   onClick={signInWithGoogle}
-                  className="hidden sm:inline-flex items-center justify-center p-2 rounded-full hover:bg-gray-100 transition-colors duration-200 text-[#000035]"
+                  className="hidden sm:inline-flex items-center justify-center p-2 rounded-full hover:bg-muted transition-colors duration-200 text-primary-foreground"
                   title="Login"
                 >
                   <UserIcon className="w-5 h-5" />
@@ -272,7 +272,7 @@ export default function Layout({
               {/* Reserva Button */}
               <Link
                 to="/booking"
-                className="hidden sm:inline-flex bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-6 py-3 rounded-full transition-colors duration-200"
+                className="hidden sm:inline-flex bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 rounded-full transition-colors duration-200"
               >
                 {t('nav.bookNow')}
               </Link>
@@ -280,12 +280,12 @@ export default function Layout({
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-2xl hover:bg-gray-100 transition-colors duration-200"
+                className="md:hidden p-2 rounded-2xl hover:bg-muted transition-colors duration-200"
               >
                 {isMenuOpen ? (
-                  <X className="w-5 h-5 text-gray-700" />
+                  <X className="w-5 h-5 text-foreground/90" />
                 ) : (
-                  <Menu className="w-5 h-5 text-gray-700" />
+                  <Menu className="w-5 h-5 text-foreground/90" />
                 )}
               </button>
             </div>
@@ -306,7 +306,7 @@ export default function Layout({
                           setIsMenuOpen(false);
                           window.open(item.href, '_blank', 'noopener,noreferrer');
                         }}
-                        className="block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 text-gray-700 hover:bg-gray-50"
+                        className="block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 text-foreground/90 hover:bg-muted/30"
                       >
                         {item.name}
                       </a>
@@ -316,7 +316,7 @@ export default function Layout({
                         onClick={() => setIsMenuOpen(false)}
                         className={`block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 ${item.isGold
                             ? 'text-amber-600 bg-amber-50 border border-amber-100 font-bold'
-                            : isActivePath(item.href) ? 'text-[#FFB405] bg-[#FFB405]/10' : 'text-gray-700 hover:bg-gray-50'
+                            : isActivePath(item.href) ? 'text-primary bg-primary/10' : 'text-foreground/90 hover:bg-muted/30'
                           }`}
                       >
                         {item.name}
@@ -329,7 +329,7 @@ export default function Layout({
                             key={dropdownItem.name}
                             to={dropdownItem.href}
                             onClick={() => setIsMenuOpen(false)}
-                            className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-lg"
+                            className="block px-4 py-2 text-sm text-muted-foreground hover:bg-muted/30 rounded-lg"
                           >
                             {dropdownItem.name}
                           </Link>
@@ -350,7 +350,7 @@ export default function Layout({
                         signOut();
                         setIsMenuOpen(false);
                       }}
-                      className="block w-full text-center py-2 text-gray-600 hover:text-[#FFB405]"
+                      className="block w-full text-center py-2 text-muted-foreground hover:text-primary"
                     >
                       {t('footer.logout')} ({user.email?.split('@')[0]})
                     </button>
@@ -360,7 +360,7 @@ export default function Layout({
                         signInWithGoogle();
                         setIsMenuOpen(false);
                       }}
-                      className="block w-full text-center py-2 text-[#000035] font-medium hover:text-[#FFB405]"
+                      className="block w-full text-center py-2 text-primary-foreground font-medium hover:text-primary"
                     >
                       {t('footer.login')}
                     </button>
@@ -370,7 +370,7 @@ export default function Layout({
                   <Link
                     to="/booking"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-4 py-3 rounded-xl text-center transition-colors duration-200"
+                    className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-4 py-3 rounded-xl text-center transition-colors duration-200"
                   >
                     {t('nav.bookNow')}
                   </Link>
@@ -401,10 +401,10 @@ export default function Layout({
 
 
       {/* Fixed Mobile Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
         <Link
           to="/booking"
-          className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
+          className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
         >
           {t('nav.bookNow')}
         </Link>
@@ -466,8 +466,8 @@ export default function Layout({
           {/* Language Selector */}
           <div className="mb-8">
             <div className="flex items-center justify-center space-x-2 mb-4">
-              <Globe className="w-4 h-4 text-gray-400" />
-              <span className="text-sm text-gray-400">{t('footer.selectLanguage')}</span>
+              <Globe className="w-4 h-4 text-muted-foreground/80" />
+              <span className="text-sm text-muted-foreground/80">{t('footer.selectLanguage')}</span>
             </div>
             <div className="flex justify-center space-x-4">
               {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
@@ -475,7 +475,7 @@ export default function Layout({
                   key={lang}
                   onClick={() => setLanguage(lang)}
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${language === lang
-                    ? 'bg-[#FFB405] text-[#000035]'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                     }`}
                 >
@@ -490,7 +490,7 @@ export default function Layout({
 
           {/* Copyright */}
           <div className="border-t border-gray-800 pt-8">
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-muted-foreground/80">
               {t('footer.copyright')}
             </p>
           </div>

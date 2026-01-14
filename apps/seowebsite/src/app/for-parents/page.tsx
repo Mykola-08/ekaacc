@@ -45,11 +45,11 @@ export default function ParentsPersonalized() {
          <span className="text-pink-700 font-medium text-sm">{t('nav.personalizedServices')}</span>
         </div>
 
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 mb-6 leading-tight">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-foreground mb-6 leading-tight">
          {t('personalized.parents.hero.title')}
         </h1>
 
-        <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+        <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
          {t('personalized.parents.hero.description')}
         </p>
 
@@ -85,13 +85,13 @@ export default function ParentsPersonalized() {
     </section>
 
     {/* Understanding Section */}
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
       <div className="bg-pink-50 rounded-[32px] p-8 sm:p-12">
-       <h2 className="text-2xl sm:text-3xl font-light text-gray-900 mb-6">
+       <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-6">
         {t('personalized.parents.understanding.title')}
        </h2>
-       <div className="space-y-4 text-gray-700 leading-relaxed">
+       <div className="space-y-4 text-foreground/90 leading-relaxed">
         <p>{t('personalized.parents.understanding.description1')}</p>
         <p>{t('personalized.parents.understanding.description2')}</p>
         <p className="font-medium text-pink-900">
@@ -103,26 +103,26 @@ export default function ParentsPersonalized() {
     </section>
 
     {/* Recommended Services */}
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-muted/30">
      <div className="max-w-6xl mx-auto px-4 sm:px-8">
       <div className="text-center mb-12">
-       <h2 className="text-3xl font-light text-gray-900 mb-4">
+       <h2 className="text-3xl font-light text-foreground mb-4">
         {t('personalized.parents.services.title')}
        </h2>
-       <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+       <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
         {t('personalized.parents.services.subtitle')}
        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
        {recommendedServices.map((service, index) => (
-        <div key={service.id} className="bg-white rounded-[32px] p-8 border-none ">
+        <div key={service.id} className="bg-card rounded-[32px] p-8 border-none ">
          <div className="flex items-start justify-between mb-6">
           <div>
-           <h3 className="text-xl font-semibold text-gray-900 mb-2">
+           <h3 className="text-xl font-semibold text-foreground mb-2">
             {service.title}
            </h3>
-           <div className="flex items-center text-gray-600 mb-4">
+           <div className="flex items-center text-muted-foreground mb-4">
             <Clock className="w-4 h-4 mr-2" />
             <span className="text-sm">{service.duration}</span>
            </div>
@@ -132,14 +132,14 @@ export default function ParentsPersonalized() {
           </span>
          </div>
          
-         <p className="text-gray-700 leading-relaxed mb-6">
+         <p className="text-foreground/90 leading-relaxed mb-6">
           {service.description}
          </p>
          
          <div className="flex gap-4">
           <Link
            href={service.link}
-           className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-full transition-colors duration-200 text-center"
+           className="flex-1 bg-muted hover:bg-gray-200 text-foreground/90 font-semibold px-6 py-3 rounded-full transition-colors duration-200 text-center"
           >
            {t('common.learnMore')}
           </Link>
@@ -157,7 +157,7 @@ export default function ParentsPersonalized() {
     </section>
 
     {/* Success Story */}
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
       <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-[32px] p-8 sm:p-12">
        <div className="flex items-start space-x-4">
@@ -167,13 +167,13 @@ export default function ParentsPersonalized() {
          </div>
         </div>
         <div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-4">
+         <h3 className="text-xl font-semibold text-foreground mb-4">
           {t('personalized.parents.testimonial.title')}
          </h3>
-         <blockquote className="text-gray-700 italic leading-relaxed mb-4">
+         <blockquote className="text-foreground/90 italic leading-relaxed mb-4">
           "{t('personalized.parents.testimonial.quote')}"
          </blockquote>
-         <cite className="text-sm text-gray-600 not-italic">
+         <cite className="text-sm text-muted-foreground not-italic">
           {t('personalized.parents.testimonial.author')}
          </cite>
         </div>
@@ -183,10 +183,10 @@ export default function ParentsPersonalized() {
     </section>
 
     {/* Disclaimer */}
-    <section className="py-12 bg-gray-50">
+    <section className="py-12 bg-muted/30">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
       <div className="text-center">
-       <p className="text-sm text-gray-600 leading-relaxed">
+       <p className="text-sm text-muted-foreground leading-relaxed">
         {t('common.disclaimer')}
        </p>
       </div>

@@ -50,8 +50,8 @@ export default function DataRequestPage() {
     <div className="bg-green-50 rounded-full p-4 w-20 h-20 mx-auto mb-6 flex items-center justify-center">
      <CheckCircle className="w-10 h-10 text-green-600" />
     </div>
-    <h1 className="text-3xl font-bold text-gray-900 mb-4">Request Submitted</h1>
-    <p className="text-lg text-gray-600 mb-8">
+    <h1 className="text-3xl font-bold text-foreground mb-4">Request Submitted</h1>
+    <p className="text-lg text-muted-foreground mb-8">
      We have received your data request. Our Data Protection Officer will review it and respond to you at <strong>{email}</strong> within 30 days.
     </p>
     <button
@@ -75,13 +75,13 @@ export default function DataRequestPage() {
     <div className="inline-flex items-center justify-center p-3 bg-blue-50 rounded-xl mb-4">
      <Shield className="w-8 h-8 text-primary" />
     </div>
-    <h1 className="text-3xl font-bold text-gray-900 mb-4">Data Privacy Request</h1>
-    <p className="text-lg text-gray-600">
+    <h1 className="text-3xl font-bold text-foreground mb-4">Data Privacy Request</h1>
+    <p className="text-lg text-muted-foreground">
      Exercise your rights under GDPR, CCPA, and other privacy laws. Use this form to request access, deletion, or correction of your personal data.
     </p>
    </div>
 
-   <div className="bg-white shadow-sm border-none rounded-[32px] p-6 md:p-8">
+   <div className="bg-card shadow-sm border-none rounded-[32px] p-6 md:p-8">
     <form onSubmit={handleSubmit} className="space-y-6">
      {error && (
       <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">
@@ -91,7 +91,7 @@ export default function DataRequestPage() {
      )}
 
      <div>
-      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+      <label htmlFor="email" className="block text-sm font-medium text-foreground/90 mb-1">
        Email Address
       </label>
       <input
@@ -103,20 +103,20 @@ export default function DataRequestPage() {
        className="w-full px-4 py-2 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
        placeholder="you@example.com"
       />
-      <p className="mt-1 text-xs text-gray-500">
+      <p className="mt-1 text-xs text-muted-foreground">
        We will use this email to verify your identity and communicate with you about your request.
       </p>
      </div>
 
      <div>
-      <label htmlFor="type" className="block text-sm font-medium text-gray-700 mb-1">
+      <label htmlFor="type" className="block text-sm font-medium text-foreground/90 mb-1">
        Request Type
       </label>
       <select
        id="type"
        value={requestType}
        onChange={(e) => setRequestType(e.target.value as RequestType)}
-       className="w-full px-4 py-2 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-white"
+       className="w-full px-4 py-2 border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all bg-card"
       >
        <option value="access">Access (Right to Know)</option>
        <option value="deletion">Deletion (Right to be Forgotten)</option>
@@ -128,7 +128,7 @@ export default function DataRequestPage() {
      </div>
 
      <div>
-      <label htmlFor="details" className="block text-sm font-medium text-gray-700 mb-1">
+      <label htmlFor="details" className="block text-sm font-medium text-foreground/90 mb-1">
        Additional Details (Optional)
       </label>
       <textarea
@@ -159,7 +159,7 @@ export default function DataRequestPage() {
         </>
        )}
       </button>
-      <p className="mt-4 text-xs text-center text-gray-500">
+      <p className="mt-4 text-xs text-center text-muted-foreground">
        By submitting this form, you confirm that you are the owner of the email address provided. We may request additional information to verify your identity before processing your request.
       </p>
      </div>

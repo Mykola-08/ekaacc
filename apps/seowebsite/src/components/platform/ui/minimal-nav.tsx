@@ -23,7 +23,7 @@ const MinimalNav = React.forwardRef<HTMLElement, MinimalNavProps>(
     return (
       <nav
         className={cn(
-          'bg-white border-b border-gray-200',
+          'bg-card border-b border-gray-200',
           className
         )}
         ref={ref}
@@ -34,7 +34,7 @@ const MinimalNav = React.forwardRef<HTMLElement, MinimalNavProps>(
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
               {logo || (
-                <span className="text-xl font-semibold text-gray-900">
+                <span className="text-xl font-semibold text-foreground">
                   {logoText}
                 </span>
               )}
@@ -51,7 +51,7 @@ const MinimalNav = React.forwardRef<HTMLElement, MinimalNavProps>(
                     'text-sm font-medium transition-colors',
                     item.active 
                       ? 'text-primary border-b-2 border-primary pb-1' 
-                      : 'text-gray-600 hover:text-gray-900'
+                      : 'text-muted-foreground hover:text-foreground'
                   )}
                 >
                   {item.label}
@@ -62,7 +62,7 @@ const MinimalNav = React.forwardRef<HTMLElement, MinimalNavProps>(
             {/* User Menu */}
             {userMenu && (
               <div className="flex items-center space-x-4">
-                <Button variant="ghost" className="text-sm font-medium text-gray-600 hover:text-gray-900">
+                <Button variant="ghost" className="text-sm font-medium text-muted-foreground hover:text-foreground">
                   Sign In
                 </Button>
                 <Link

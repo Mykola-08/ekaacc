@@ -79,14 +79,14 @@ export default function CasoDetailPage() {
  const results = t(`casos.problems.${config.key}.results`);
 
  return (
-  <div className="min-h-screen bg-white">
+  <div className="min-h-screen bg-card">
    
    {/* Hero Section */}
    <div className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-gray-50 to-white border-b border-gray-100/50">
     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-40" />
     <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
      
-     <Link href="/cases" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-blue-600 mb-8 transition-colors bg-white px-4 py-2 rounded-full shadow-sm hover:shadow border border-gray-100">
+     <Link href="/cases" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-blue-600 mb-8 transition-colors bg-card px-4 py-2 rounded-full shadow-sm hover:shadow border border-gray-100">
       <ArrowLeft className="w-4 h-4 mr-2" />
       {t('casos.title')}
      </Link>
@@ -95,11 +95,11 @@ export default function CasoDetailPage() {
       <Icon className={`w-10 h-10 ${colorClass.text}`} />
      </div>
 
-     <h1 className="text-4xl md:text-5xl font-light text-gray-900 mb-6 tracking-tight">
+     <h1 className="text-4xl md:text-5xl font-light text-foreground mb-6 tracking-tight">
       {t(`casos.problems.${config.key}.title`)}
      </h1>
      
-     <p className="text-xl text-gray-600 leading-relaxed font-light max-w-2xl mx-auto">
+     <p className="text-xl text-muted-foreground leading-relaxed font-light max-w-2xl mx-auto">
       {t(`casos.problems.${config.key}.description`)}
      </p>
     </div>
@@ -111,15 +111,15 @@ export default function CasoDetailPage() {
      {/* Symptoms */}
      <div className="relative">
       <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-red-200 to-transparent rounded-full opacity-50" />
-      <h2 className="text-2xl font-light text-gray-900 mb-6 flex items-center">
+      <h2 className="text-2xl font-light text-foreground mb-6 flex items-center">
        <span className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center mr-3 text-sm font-bold">1</span>
        {t('casos.symptoms')}
       </h2>
       <ul className="space-y-4">
        {symptoms.map((item, idx) => (
-        <li key={idx} className="flex items-start bg-gray-50 p-4 rounded-xl">
+        <li key={idx} className="flex items-start bg-muted/30 p-4 rounded-xl">
          <span className="w-1.5 h-1.5 mt-2 rounded-full bg-red-400 mr-3 flex-shrink-0" />
-         <span className="text-gray-700">{item}</span>
+         <span className="text-foreground/90">{item}</span>
         </li>
        ))}
       </ul>
@@ -128,15 +128,15 @@ export default function CasoDetailPage() {
      {/* Causes */}
      <div className="relative">
       <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-200 to-transparent rounded-full opacity-50" />
-      <h2 className="text-2xl font-light text-gray-900 mb-6 flex items-center">
+      <h2 className="text-2xl font-light text-foreground mb-6 flex items-center">
         <span className="w-8 h-8 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center mr-3 text-sm font-bold">2</span>
        {t('casos.causes')}
       </h2>
       <ul className="space-y-4">
        {causes.map((item, idx) => (
-        <li key={idx} className="flex items-start bg-gray-50 p-4 rounded-xl">
+        <li key={idx} className="flex items-start bg-muted/30 p-4 rounded-xl">
          <span className="w-1.5 h-1.5 mt-2 rounded-full bg-orange-400 mr-3 flex-shrink-0" />
-         <span className="text-gray-700">{item}</span>
+         <span className="text-foreground/90">{item}</span>
         </li>
        ))}
       </ul>

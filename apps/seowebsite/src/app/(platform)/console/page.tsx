@@ -75,7 +75,7 @@ export default function AdminDashboard() {
       <div className="flex items-center justify-center min-h-[600px]">
         <div className="text-center space-y-4">
           <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto" />
-          <p className="text-gray-500 font-medium">Loading dashboard...</p>
+          <p className="text-muted-foreground font-medium">Loading dashboard...</p>
         </div>
       </div>
     );

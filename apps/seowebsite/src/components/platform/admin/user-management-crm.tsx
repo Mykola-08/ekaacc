@@ -153,12 +153,12 @@ export function UserManagementCRM() {
   const getTierBadge = (tier?: string) => {
     if (!tier) return null
     const colors: Record<string, string> = {
-      basic: 'bg-gray-100 text-gray-800',
+      basic: 'bg-muted text-foreground',
       premium: 'bg-blue-100 text-blue-800',
       vip: 'bg-purple-100 text-purple-800'
     }
     return (
-      <Badge className={colors[tier] || 'bg-gray-100 text-gray-800'}>
+      <Badge className={colors[tier] || 'bg-muted text-foreground'}>
         {tier.toUpperCase()}
       </Badge>
     )

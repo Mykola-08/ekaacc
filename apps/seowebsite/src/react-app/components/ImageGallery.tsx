@@ -37,7 +37,7 @@ const Lightbox: React.FC<LightboxProps> = ({
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 z-10"
+        className="absolute top-6 right-6 w-12 h-12 bg-card/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-card/30 transition-all duration-200 z-10"
       >
         <X className="w-6 h-6" />
       </button>
@@ -47,13 +47,13 @@ const Lightbox: React.FC<LightboxProps> = ({
         <>
           <button
             onClick={onPrevious}
-            className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 z-10"
+            className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-card/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-card/30 transition-all duration-200 z-10"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
           <button
             onClick={onNext}
-            className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 z-10"
+            className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-card/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-card/30 transition-all duration-200 z-10"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -130,8 +130,8 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-              <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
-                <ZoomIn className="w-6 h-6 text-gray-700" />
+              <div className="w-12 h-12 bg-card/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
+                <ZoomIn className="w-6 h-6 text-foreground/90" />
               </div>
             </div>
             {image.caption && (

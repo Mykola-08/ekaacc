@@ -59,8 +59,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 tracking-tight">Settings</h1>
-          <p className="text-gray-500 mt-2 text-lg">Manage your account preferences and settings.</p>
+          <h1 className="text-4xl font-bold text-foreground tracking-tight">Settings</h1>
+          <p className="text-muted-foreground mt-2 text-lg">Manage your account preferences and settings.</p>
         </div>
         <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-200">
           <Save className="w-5 h-5" />
@@ -81,7 +81,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                       'w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-2xl transition-all duration-200 outline-none',
                       selected
                         ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
-                        : 'text-gray-500 hover:bg-white hover:text-gray-900'
+                        : 'text-muted-foreground hover:bg-card hover:text-foreground'
                     )
                   }
                 >
@@ -96,11 +96,11 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           <div className="col-span-12 md:col-span-9">
             <TabPanels>
               {/* Profile Panel */}
-              <TabPanel className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Personal Information</h2>
-                    <p className="text-gray-500 text-sm mt-1">Update your photo and personal details.</p>
+                    <h2 className="text-xl font-bold text-foreground">Personal Information</h2>
+                    <p className="text-muted-foreground text-sm mt-1">Update your photo and personal details.</p>
                   </div>
 
                   <div className="flex items-center gap-6 pb-6 border-b border-gray-100">
@@ -108,45 +108,45 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         {currentUser.initials || 'U'}
                     </div>
                     <div className="space-y-2">
-                        <button className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+                        <button className="px-4 py-2 bg-card border border-gray-200 rounded-xl text-sm font-medium text-foreground/90 hover:bg-muted/30 transition-colors">
                             Change photo
                         </button>
-                        <p className="text-xs text-gray-400">JPG, GIF or PNG. 1MB max.</p>
+                        <p className="text-xs text-muted-foreground/80">JPG, GIF or PNG. 1MB max.</p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
+                      <label htmlFor="fullName" className="block text-sm font-medium text-foreground/90">Full Name</label>
                       <input
                         type="text"
                         id="fullName"
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                       />
                     </div>
                     <div className="space-y-2">
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+                      <label htmlFor="email" className="block text-sm font-medium text-foreground/90">Email Address</label>
                       <input
                         type="email"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                       />
                     </div>
                     <div className="col-span-full space-y-2">
-                      <label htmlFor="bio" className="block text-sm font-medium text-gray-700">Bio</label>
+                      <label htmlFor="bio" className="block text-sm font-medium text-foreground/90">Bio</label>
                       <textarea
                         id="bio"
                         name="bio"
                         rows={4}
                         value={formData.bio}
                         onChange={handleInputChange}
-                        className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         placeholder="Write a few sentences about yourself."
                       />
                     </div>
@@ -155,18 +155,18 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Notifications Panel */}
-              <TabPanel className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Notifications</h2>
-                    <p className="text-gray-500 text-sm mt-1">Manage how you want to be notified.</p>
+                    <h2 className="text-xl font-bold text-foreground">Notifications</h2>
+                    <p className="text-muted-foreground text-sm mt-1">Manage how you want to be notified.</p>
                   </div>
 
                   <div className="space-y-6">
                     <Field className="flex items-center justify-between">
                         <span className="flex flex-col">
-                            <Label className="text-sm font-medium text-gray-900">Marketing emails</Label>
-                            <span className="text-sm text-gray-500">Receive emails about new products, features, and more.</span>
+                            <Label className="text-sm font-medium text-foreground">Marketing emails</Label>
+                            <span className="text-sm text-muted-foreground">Receive emails about new products, features, and more.</span>
                         </span>
                         <Switch
                             checked={formData.marketingEmails}
@@ -180,7 +180,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                                 aria-hidden="true"
                                 className={cn(
                                     formData.marketingEmails ? 'translate-x-5' : 'translate-x-0',
-                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-card shadow ring-0 transition duration-200 ease-in-out'
                                 )}
                             />
                         </Switch>
@@ -188,8 +188,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     <div className="border-t border-gray-100" />
                     <Field className="flex items-center justify-between">
                         <span className="flex flex-col">
-                            <Label className="text-sm font-medium text-gray-900">Security emails</Label>
-                            <span className="text-sm text-gray-500">Receive emails about your account security.</span>
+                            <Label className="text-sm font-medium text-foreground">Security emails</Label>
+                            <span className="text-sm text-muted-foreground">Receive emails about your account security.</span>
                         </span>
                         <Switch
                             checked={formData.securityEmails}
@@ -203,7 +203,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                                 aria-hidden="true"
                                 className={cn(
                                     formData.securityEmails ? 'translate-x-5' : 'translate-x-0',
-                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-card shadow ring-0 transition duration-200 ease-in-out'
                                 )}
                             />
                         </Switch>
@@ -211,8 +211,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     <div className="border-t border-gray-100" />
                     <Field className="flex items-center justify-between">
                         <span className="flex flex-col">
-                            <Label className="text-sm font-medium text-gray-900">Activity emails</Label>
-                            <span className="text-sm text-gray-500">Receive emails about your activity on the platform.</span>
+                            <Label className="text-sm font-medium text-foreground">Activity emails</Label>
+                            <span className="text-sm text-muted-foreground">Receive emails about your activity on the platform.</span>
                         </span>
                         <Switch
                             checked={formData.activityEmails}
@@ -226,7 +226,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                                 aria-hidden="true"
                                 className={cn(
                                     formData.activityEmails ? 'translate-x-5' : 'translate-x-0',
-                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                    'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-card shadow ring-0 transition duration-200 ease-in-out'
                                 )}
                             />
                         </Switch>
@@ -236,25 +236,25 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Security Panel */}
-              <TabPanel className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Security</h2>
-                    <p className="text-gray-500 text-sm mt-1">Update your password and security settings.</p>
+                    <h2 className="text-xl font-bold text-foreground">Security</h2>
+                    <p className="text-muted-foreground text-sm mt-1">Update your password and security settings.</p>
                   </div>
 
                   <div className="max-w-md space-y-6">
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">Current Password</label>
-                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3" />
+                        <label className="block text-sm font-medium text-foreground/90">Current Password</label>
+                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3" />
                       </div>
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">New Password</label>
-                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3" />
+                        <label className="block text-sm font-medium text-foreground/90">New Password</label>
+                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3" />
                       </div>
                       <div className="space-y-2">
-                        <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
-                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3" />
+                        <label className="block text-sm font-medium text-foreground/90">Confirm Password</label>
+                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3" />
                       </div>
                       <button className="px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors">
                         Update Password
@@ -264,22 +264,22 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Preferences Panel */}
-              <TabPanel className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                  <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-gray-900">Preferences</h2>
-                    <p className="text-gray-500 text-sm mt-1">Customize your experience.</p>
+                    <h2 className="text-xl font-bold text-foreground">Preferences</h2>
+                    <p className="text-muted-foreground text-sm mt-1">Customize your experience.</p>
                   </div>
 
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                      <div className="space-y-2">
-                        <label htmlFor="language" className="block text-sm font-medium text-gray-700">Language</label>
+                        <label htmlFor="language" className="block text-sm font-medium text-foreground/90">Language</label>
                         <select
                             id="language"
                             name="language"
                             value={formData.language}
                             onChange={handleInputChange}
-                            className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                             <option value="en">English</option>
                             <option value="es">Spanish</option>
@@ -287,13 +287,13 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         </select>
                      </div>
                      <div className="space-y-2">
-                        <label htmlFor="timezone" className="block text-sm font-medium text-gray-700">Timezone</label>
+                        <label htmlFor="timezone" className="block text-sm font-medium text-foreground/90">Timezone</label>
                         <select
                             id="timezone"
                             name="timezone"
                             value={formData.timezone}
                             onChange={handleInputChange}
-                            className="block w-full rounded-xl border-gray-200 bg-gray-50 p-3 text-gray-900 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                             <option value="UTC">UTC</option>
                             <option value="EST">Eastern Time</option>
@@ -303,8 +303,8 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                      <div className="col-span-full pt-4 border-t border-gray-100">
                         <Field className="flex items-center justify-between">
                             <span className="flex flex-col">
-                                <Label className="text-sm font-medium text-gray-900">Dark Mode</Label>
-                                <span className="text-sm text-gray-500">Switch between light and dark themes.</span>
+                                <Label className="text-sm font-medium text-foreground">Dark Mode</Label>
+                                <span className="text-sm text-muted-foreground">Switch between light and dark themes.</span>
                             </span>
                             <Switch
                                 checked={formData.darkMode}
@@ -318,7 +318,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                                     aria-hidden="true"
                                     className={cn(
                                         formData.darkMode ? 'translate-x-5' : 'translate-x-0',
-                                        'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out'
+                                        'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-card shadow ring-0 transition duration-200 ease-in-out'
                                     )}
                                 />
                             </Switch>

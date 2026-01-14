@@ -189,8 +189,8 @@ export function EnhancedUserManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">User Management</h2>
-          <p className="text-gray-600">Manage users, roles, and access permissions</p>
+          <h2 className="text-2xl font-bold text-foreground">User Management</h2>
+          <p className="text-muted-foreground">Manage users, roles, and access permissions</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={fetchUsers}>
@@ -228,7 +228,7 @@ export function EnhancedUserManagement() {
           <div className="space-y-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
               <Input
                 placeholder="Search by name, email, or ID..."
                 value={searchTerm}
@@ -337,17 +337,17 @@ export function EnhancedUserManagement() {
                       className="rounded border-gray-300"
                     />
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">User</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Role</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Created</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Last Login</th>
-                  <th className="text-left py-3 px-4 font-medium text-gray-900">Actions</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">User</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Role</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Status</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Created</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Last Login</th>
+                  <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <tr key={user.id} className="border-b border-gray-100 hover:bg-muted/30">
                     <td className="py-3 px-4">
                       <input
                         type="checkbox"
@@ -358,8 +358,8 @@ export function EnhancedUserManagement() {
                     </td>
                     <td className="py-3 px-4">
                       <div>
-                        <div className="font-medium text-gray-900">{user.fullName}</div>
-                        <div className="text-gray-500 text-xs flex items-center gap-1">
+                        <div className="font-medium text-foreground">{user.fullName}</div>
+                        <div className="text-muted-foreground text-xs flex items-center gap-1">
                           <Mail className="h-3 w-3" />
                           {user.email}
                         </div>
@@ -372,13 +372,13 @@ export function EnhancedUserManagement() {
                       {getStatusBadge(user.status)}
                     </td>
                     <td className="py-3 px-4">
-                      <div className="text-gray-900">{format(new Date(user.createdAt), 'MMM dd, yyyy')}</div>
+                      <div className="text-foreground">{format(new Date(user.createdAt), 'MMM dd, yyyy')}</div>
                     </td>
                     <td className="py-3 px-4">
                       {user.lastLoginAt ? (
-                        <div className="text-gray-900">{format(new Date(user.lastLoginAt), 'MMM dd, yyyy')}</div>
+                        <div className="text-foreground">{format(new Date(user.lastLoginAt), 'MMM dd, yyyy')}</div>
                       ) : (
-                        <div className="text-gray-400 text-xs">Never</div>
+                        <div className="text-muted-foreground/80 text-xs">Never</div>
                       )}
                     </td>
                     <td className="py-3 px-4">
@@ -400,7 +400,7 @@ export function EnhancedUserManagement() {
           {/* Pagination */}
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-6">
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Showing page {currentPage} of {totalPages}
               </div>
               <div className="flex gap-2">

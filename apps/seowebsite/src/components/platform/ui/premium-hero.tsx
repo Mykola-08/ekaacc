@@ -277,7 +277,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full animate-particle"
+              className="absolute w-1 h-1 bg-card/20 rounded-full animate-particle"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -329,13 +329,13 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
               <div className="absolute bottom-4 right-4 flex gap-2">
                 <button
                   onClick={toggleVideoPlayback}
-                  className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-colors"
+                  className="p-2 bg-card/20 backdrop-blur-md rounded-full text-white hover:bg-card/30 transition-colors"
                 >
                   {isVideoPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                 </button>
                 <button
                   onClick={toggleMute}
-                  className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/30 transition-colors"
+                  className="p-2 bg-card/20 backdrop-blur-md rounded-full text-white hover:bg-card/30 transition-colors"
                 >
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
@@ -355,7 +355,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
 
         {/* Scroll Progress Indicator */}
         {scrollProgress > 0 && (
-          <div className="absolute top-0 left-0 w-full h-1 bg-white/10">
+          <div className="absolute top-0 left-0 w-full h-1 bg-card/10">
             <div 
               className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-150"
               style={{ width: `${scrollProgress * 100}%` }}
@@ -397,7 +397,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
                 {features.map((feature, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 text-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-card/10 backdrop-blur-md rounded-full border border-white/20 text-sm"
                   >
                     <div className="w-2 h-2 bg-primary-400 rounded-full" />
                     <span>{feature}</span>
@@ -434,10 +434,10 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
                     disabled={secondaryAction.disabled || secondaryAction.loading}
                     className={cn(
                       "inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform",
-                      "border-2 border-neutral-300 text-neutral-700 hover:border-neutral-400 hover:bg-white/50",
+                      "border-2 border-neutral-300 text-neutral-700 hover:border-neutral-400 hover:bg-card/50",
                       "focus:outline-none focus:ring-4 focus:ring-neutral-500/20",
                       (secondaryAction.disabled || secondaryAction.loading) && "opacity-50 cursor-not-allowed",
-                      (variant === 'dark' || variant === 'premium' || variant === 'gradient') && "border-white/30 text-white hover:bg-white/10"
+                      (variant === 'dark' || variant === 'premium' || variant === 'gradient') && "border-white/30 text-white hover:bg-card/10"
                     )}
                   >
                     {secondaryAction.loading && (
@@ -492,7 +492,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
           <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-scroll-indicator" />
+            <div className="w-1 h-3 bg-card/60 rounded-full mt-2 animate-scroll-indicator" />
           </div>
         </div>
       </section>

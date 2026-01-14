@@ -40,17 +40,17 @@ export default function Home() {
       <AppleHero />
 
       {/* Stats Section */}
-      <section className="py-16 bg-white border-t border-gray-50">
+      <section className="py-16 bg-card border-t border-gray-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="flex items-center justify-center mb-2">
-                  <span className="text-3xl sm:text-4xl font-medium text-gray-900 tracking-tight">
+                  <span className="text-3xl sm:text-4xl font-medium text-foreground tracking-tight">
                     {stat.number}
                   </span>
                 </div>
-                <p className="text-gray-500 text-sm sm:text-base font-medium">{stat.label}</p>
+                <p className="text-muted-foreground text-sm sm:text-base font-medium">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -58,7 +58,7 @@ export default function Home() {
       </section>
 
       {/* Elena Introduction Section */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-card">
         <div className="max-w-6xl mx-auto px-4 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Photo - Mobile: top, Desktop: left */}
@@ -79,11 +79,11 @@ export default function Home() {
             {/* Text Content - Mobile: bottom, Desktop: right */}
             <div className="order-2 lg:order-2 flex flex-col justify-center">
               <div className="text-center lg:text-left space-y-6">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 leading-tight">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground leading-tight">
                   {t('elena.greeting')}
                 </h2>
 
-                <div className="text-lg sm:text-xl text-gray-700 leading-relaxed space-y-4">
+                <div className="text-lg sm:text-xl text-foreground/90 leading-relaxed space-y-4">
                   <p>
                     {t('elena.description1')}
                   </p>
@@ -97,7 +97,7 @@ export default function Home() {
                 <div className="pt-4">
                   <Link to="/about-elena">
                     <Button 
-                      className="inline-block bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-medium px-8 py-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 border-none"
+                      className="inline-block bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-3 rounded-2xl transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5 border-none"
                     >
                       {t('elena.knowMore')}
                     </Button>
@@ -110,21 +110,21 @@ export default function Home() {
       </section>
 
       {/* Services Overview */}
-      <section className="py-16 sm:py-24 bg-gray-50">
+      <section className="py-16 sm:py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center px-6 py-2 bg-blue-50 border border-blue-100 rounded-full mb-8">
               <span className="text-blue-700 font-medium text-sm uppercase tracking-wide">{t('services.ourServices')}</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-gray-900 mb-6">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-6">
               {t('services.therapiesFor')}{' '}
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
                 {t('services.integralWellbeing')}
               </span>
             </h2>
 
-            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
+            <p className="text-xl text-foreground/90 max-w-3xl mx-auto">
               {t('services.personalizedTreatments')}
             </p>
           </div>
@@ -141,17 +141,17 @@ export default function Home() {
               
                return (
                 <Link key={service.id} to={service.href} className="group cursor-pointer">
-                  <div className="bg-white rounded-[2rem] p-8 h-full shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                  <div className="bg-card rounded-[2rem] p-8 h-full shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden">
                     <div className="flex items-center mb-6">
                       <div className={`p-3 rounded-2xl ${colorClass} mr-4 transition-transform group-hover:scale-110`}>
                         <Icon className="w-8 h-8" />
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-semibold text-foreground group-hover:text-blue-600 transition-colors">
                         {t(service.titleKey)}
                       </h3>
                     </div>
                     
-                    <p className="text-gray-600 mb-6 line-clamp-3">
+                    <p className="text-muted-foreground mb-6 line-clamp-3">
                       {t(service.descriptionKey)}
                     </p>
                     
@@ -173,7 +173,7 @@ export default function Home() {
       <CasosSection />
 
       {/* Testimonials */}
-      <section className="py-24 bg-white overflow-hidden">
+      <section className="py-24 bg-card overflow-hidden">
          <TestimonialSlider />
       </section>
 

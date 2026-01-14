@@ -58,7 +58,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
  variants.sort((a, b) => a.duration_min - b.duration_min);
 
  return (
-  <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+  <div className="min-h-screen bg-muted/30 font-sans text-foreground">
    <SEOHead
     title={`${title} - Eka Balance`}
     description={description}
@@ -74,7 +74,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
      >
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-orange-100 text-sm text-orange-600 mb-8 shadow-sm">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-orange-100 text-sm text-orange-600 mb-8 shadow-sm">
        <Heart className="w-4 h-4" />
        <span className="font-medium">{getText(meta.heroBadge) || 'Integral Wellbeing'}</span>
       </div>
@@ -83,7 +83,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
        {title}
       </h1>
       
-      <p className="text-xl text-gray-600 mb-8 leading-relaxed max-w-lg font-light">
+      <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-lg font-light">
        {description}
       </p>
 
@@ -91,9 +91,9 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
       {variants.length > 0 && (
         <div className="mb-8 flex flex-wrap gap-3">
           {variants.map((v) => (
-            <div key={v.duration_min} className="px-4 py-2 bg-white rounded-xl border border-border shadow-sm text-sm">
-              <span className="font-semibold text-gray-900">{v.duration_min} min</span>
-              <span className="text-gray-400 mx-2">|</span>
+            <div key={v.duration_min} className="px-4 py-2 bg-card rounded-xl border border-border shadow-sm text-sm">
+              <span className="font-semibold text-foreground">{v.duration_min} min</span>
+              <span className="text-muted-foreground/80 mx-2">|</span>
               <span className="text-orange-600 font-medium">{(v.price_amount / 100).toFixed(0)}€</span>
             </div>
           ))}
@@ -126,14 +126,14 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
         />
       </div>
       {/* Floating Card */}
-      <div className="absolute -bottom-6 -left-6 bg-white rounded-2xl p-4 shadow-xl border border-gray-100 max-w-xs">
+      <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-4 shadow-xl border border-gray-100 max-w-xs">
         <div className="flex items-center gap-3">
          <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
           <Clock className="w-5 h-5 text-orange-600" />
          </div>
          <div>
-          <p className="text-sm font-medium text-gray-900">{t('massage.page.availableToday') || 'Available Today'}</p>
-          <p className="text-xs text-gray-500">{t('massage.page.bookSession') || 'Book your session'}</p>
+          <p className="text-sm font-medium text-foreground">{t('massage.page.availableToday') || 'Available Today'}</p>
+          <p className="text-xs text-muted-foreground">{t('massage.page.bookSession') || 'Book your session'}</p>
          </div>
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
 
    {/* Benefits Section */}
    {benefits.length > 0 && (
-   <section className="py-24 bg-white">
+   <section className="py-24 bg-card">
     <div className="max-w-6xl mx-auto px-6">
      <div className="grid md:grid-cols-2 gap-12 items-center">
        <div>
@@ -156,19 +156,19 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors"
+              className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/30 transition-colors"
             >
               <div className="mt-1 bg-green-100 p-2 rounded-full">
                 <CheckCircle2 className="w-5 h-5 text-green-600" />
               </div>
-              <p className="text-lg text-gray-700">{getText(benefit)}</p>
+              <p className="text-lg text-foreground/90">{getText(benefit)}</p>
             </motion.div>
           ))}
         </div>
        </div>
        {meta.longDescription && (
-         <div className="bg-gray-50 p-8 rounded-[32px] prose prose-lg prose-blue">
-           <p className="text-gray-600 font-light leading-relaxed">
+         <div className="bg-muted/30 p-8 rounded-[32px] prose prose-lg prose-blue">
+           <p className="text-muted-foreground font-light leading-relaxed">
              {getText(meta.longDescription)}
            </p>
          </div>
@@ -180,19 +180,19 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
 
    {/* Testimonials */}
    {testimonials.length > 0 && (
-     <section className="py-24 bg-gray-50">
+     <section className="py-24 bg-muted/30">
        <div className="max-w-6xl mx-auto px-6">
          <h2 className="text-3xl font-light text-center mb-12">{t('common.testimonials') || 'What clients say'}</h2>
          <div className="grid md:grid-cols-2 gap-8">
            {testimonials.map((test, i) => (
-             <div key={i} className="bg-white p-8 rounded-[32px] shadow-sm border-none ">
+             <div key={i} className="bg-card p-8 rounded-[32px] shadow-sm border-none ">
                 <div className="flex gap-1 mb-4">
                   {[...Array(test.rating)].map((_, r) => (
                     <Star key={r} className="w-4 h-4 text-[#FFB405] fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-600 italic mb-6">"{getText(test.text)}"</p>
-                <p className="font-semibold text-gray-900">{test.name}</p>
+                <p className="text-muted-foreground italic mb-6">"{getText(test.text)}"</p>
+                <p className="font-semibold text-foreground">{test.name}</p>
              </div>
            ))}
          </div>

@@ -128,7 +128,7 @@ export default function MainLayout({
  };
 
  return (
-   <div className="min-h-screen bg-white">
+   <div className="min-h-screen bg-card">
    <OfflineIndicator />
 
    {/* Navigation with scroll effect */}
@@ -161,7 +161,7 @@ export default function MainLayout({
            <>
             <Link
              href={item.href}
-             className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-white/60 ${isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
+             className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-card/60 ${isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
               }`}
              onMouseEnter={openDropdown}
              onMouseLeave={scheduleHide}
@@ -218,7 +218,7 @@ export default function MainLayout({
            <a
             href={item.href}
             rel="noopener noreferrer"
-            className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 text-[#000035] hover:text-[#FFB405]"
+            className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 text-[#000035] hover:text-[#FFB405]"
             onClick={(e) => {
              e.preventDefault();
              window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -229,7 +229,7 @@ export default function MainLayout({
           ) : (
            <Link
             href={item.href}
-            className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 ${item.isGold
+            className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 ${item.isGold
               ? 'gold-shimmer font-black bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
               : isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
              }`}
@@ -274,16 +274,16 @@ export default function MainLayout({
 
          {/* Profile Dropdown */}
          {isProfileOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-1 border border-border ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
+          <div className="absolute right-0 mt-2 w-48 bg-card rounded-xl shadow-lg py-1 border border-border ring-1 ring-black ring-opacity-5 focus:outline-none z-50">
            <div className="px-4 py-3 border-b border-gray-100">
-            <p className="text-sm font-medium text-gray-900 truncate">
+            <p className="text-sm font-medium text-foreground truncate">
              {user.profile?.full_name || 'User'}
             </p>
-            <p className="text-xs text-gray-500 truncate">{user.email}</p>
+            <p className="text-xs text-muted-foreground truncate">{user.email}</p>
            </div>
            <Link
             href="/dashboard"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+            className="block px-4 py-2 text-sm text-foreground/90 hover:bg-muted/30"
             onClick={() => setIsProfileOpen(false)}
            >
             Dashboard
@@ -321,12 +321,12 @@ export default function MainLayout({
        {/* Mobile menu button */}
        <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
-        className="md:hidden p-2 rounded-2xl hover:bg-gray-100 transition-colors duration-200"
+        className="md:hidden p-2 rounded-2xl hover:bg-muted transition-colors duration-200"
        >
         {isMenuOpen ? (
-         <X className="w-5 h-5 text-gray-700" />
+         <X className="w-5 h-5 text-foreground/90" />
         ) : (
-         <Menu className="w-5 h-5 text-gray-700" />
+         <Menu className="w-5 h-5 text-foreground/90" />
         )}
        </button>
       </div>
@@ -347,7 +347,7 @@ export default function MainLayout({
              setIsMenuOpen(false);
              window.open(item.href, '_blank', 'noopener,noreferrer');
             }}
-            className="block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 text-gray-700 hover:bg-gray-50"
+            className="block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 text-foreground/90 hover:bg-muted/30"
            >
             {item.name}
            </a>
@@ -357,7 +357,7 @@ export default function MainLayout({
             onClick={() => setIsMenuOpen(false)}
             className={`block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 ${item.isGold
               ? 'text-amber-600 bg-amber-50 border border-amber-100 font-bold'
-              : isActivePath(item.href) ? 'text-[#FFB405] bg-[#FFB405]/10' : 'text-gray-700 hover:bg-gray-50'
+              : isActivePath(item.href) ? 'text-[#FFB405] bg-[#FFB405]/10' : 'text-foreground/90 hover:bg-muted/30'
              }`}
            >
             {item.name}
@@ -370,7 +370,7 @@ export default function MainLayout({
               key={dropdownItem.name}
               href={dropdownItem.href}
               onClick={() => setIsMenuOpen(false)}
-              className="block px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-xl"
+              className="block px-4 py-2 text-sm text-muted-foreground hover:bg-muted/30 rounded-xl"
              >
               {dropdownItem.name}
              </Link>
@@ -395,17 +395,17 @@ export default function MainLayout({
               className="rounded-full border border-gray-200"
              />
             ) : (
-              <UserCircle className="w-10 h-10 text-gray-400" />
+              <UserCircle className="w-10 h-10 text-muted-foreground/80" />
             )}
             <div>
-             <p className="font-medium text-gray-900">{user.profile?.full_name || 'User'}</p>
-             <p className="text-xs text-gray-500 truncate max-w-[200px]">{user.email}</p>
+             <p className="font-medium text-foreground">{user.profile?.full_name || 'User'}</p>
+             <p className="text-xs text-muted-foreground truncate max-w-[200px]">{user.email}</p>
             </div>
            </div>
            <Link
             href="/dashboard"
             onClick={() => setIsMenuOpen(false)}
-            className="block px-4 py-3 rounded-xl font-medium text-base text-gray-700 hover:bg-gray-50"
+            className="block px-4 py-3 rounded-xl font-medium text-base text-foreground/90 hover:bg-muted/30"
            >
             Dashboard
            </Link>
@@ -425,7 +425,7 @@ export default function MainLayout({
            <Link
             href="/login"
             onClick={() => setIsMenuOpen(false)}
-            className="flex justify-center items-center py-3 rounded-xl font-medium text-base text-[#000035] bg-gray-100 hover:bg-gray-200 transition-colors"
+            className="flex justify-center items-center py-3 rounded-xl font-medium text-base text-[#000035] bg-muted hover:bg-gray-200 transition-colors"
            >
             Log in
            </Link>
@@ -463,7 +463,7 @@ export default function MainLayout({
 
    {/* Fixed Mobile Bottom CTA - Removed as per integration request */}
    {/* 
-   <div className="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
+   <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
     <Link
      href="/booking"
      className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
@@ -530,8 +530,8 @@ export default function MainLayout({
      {/* Language Selector */}
      <div className="mb-8">
       <div className="flex items-center justify-center space-x-2 mb-4">
-       <Globe className="w-4 h-4 text-gray-400" />
-       <span className="text-sm text-gray-400">{t('footer.selectLanguage')}</span>
+       <Globe className="w-4 h-4 text-muted-foreground/80" />
+       <span className="text-sm text-muted-foreground/80">{t('footer.selectLanguage')}</span>
       </div>
       <div className="flex justify-center space-x-4">
        {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
@@ -554,7 +554,7 @@ export default function MainLayout({
 
      {/* Copyright */}
      <div className="border-t border-gray-800 pt-8">
-      <p className="text-sm text-gray-400">
+      <p className="text-sm text-muted-foreground/80">
        {t('footer.copyright')}
       </p>
      </div>

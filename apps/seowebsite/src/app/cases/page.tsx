@@ -128,27 +128,27 @@ export default function Casos() {
  };
 
  return (
-  <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+  <div className="min-h-screen bg-muted/30 font-sans text-foreground">
    
    {/* Hero Section */}
    <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="relative max-w-4xl mx-auto text-center z-10">
-     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-blue-100 text-sm text-blue-600 mb-8 shadow-sm">
+     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 text-sm text-blue-600 mb-8 shadow-sm">
       <Search className="w-4 h-4" />
       <span className="font-medium">{t('casos.hero.badge') || "What brings you here?"}</span>
      </div>
 
-     <h1 className="text-5xl md:text-7xl font-light text-gray-900 mb-6 tracking-tight leading-tight">
+     <h1 className="text-5xl md:text-7xl font-light text-foreground mb-6 tracking-tight leading-tight">
       {t('casos.title')}
      </h1>
      
-     <p className="text-xl md:text-2xl text-gray-600 mb-8 leading-relaxed font-light">
+     <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed font-light">
       {t('casos.subtitle')}
      </p>
 
-     <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+     <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
       {t('casos.description')}
      </p>
     </div>
@@ -157,8 +157,8 @@ export default function Casos() {
    {/* Main Problems Grid */}
    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24">
     <div className="text-center mb-16">
-     <h2 className="text-3xl font-light text-gray-900 mb-4">{t('casos.frequentCases')}</h2>
-     <p className="text-gray-500">{t('casos.frequentCasesSubtitle')}</p>
+     <h2 className="text-3xl font-light text-foreground mb-4">{t('casos.frequentCases')}</h2>
+     <p className="text-muted-foreground">{t('casos.frequentCasesSubtitle')}</p>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -170,7 +170,7 @@ export default function Casos() {
        <Link 
         key={problem.id} 
         href={`/cases/${problem.id}`}
-        className="group relative bg-white rounded-[32px] p-8 hover:shadow-xl transition-all duration-300 border-none border-transparent hover:/50 flex flex-col h-full overflow-hidden"
+        className="group relative bg-card rounded-[32px] p-8 hover:shadow-xl transition-all duration-300 border-none border-transparent hover:/50 flex flex-col h-full overflow-hidden"
        >
         {/* Hover Gradient Background */}
         <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 ${colors.bg.replace('bg-', 'bg-gradient-to-br from-white to-')}`} />
@@ -180,15 +180,15 @@ export default function Casos() {
           <Icon className="w-7 h-7" />
          </div>
          
-         <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-900 transition-colors">
+         <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-900 transition-colors">
           {problem.title}
          </h3>
          
-         <p className="text-gray-500 text-sm leading-relaxed mb-6 line-clamp-3">
+         <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
           {problem.description}
          </p>
          
-         <div className="mt-auto flex items-center text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
+         <div className="mt-auto flex items-center text-sm font-semibold text-foreground group-hover:text-blue-600 transition-colors">
           <span>{t('casos.seeDetails')}</span>
           <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
          </div>
@@ -200,21 +200,21 @@ export default function Casos() {
    </div>
 
    {/* Additional Problems List - Modernized */}
-   <div className="bg-white py-24 border-t border-gray-100">
+   <div className="bg-card py-24 border-t border-gray-100">
     <div className="max-w-5xl mx-auto px-6">
      <div className="text-center mb-16">
-      <h2 className="text-3xl font-light text-gray-900 mb-4">{t('casos.otherCases')}</h2>
-      <p className="text-gray-500">{t('casos.otherCasesSubtitle')}</p>
+      <h2 className="text-3xl font-light text-foreground mb-4">{t('casos.otherCases')}</h2>
+      <p className="text-muted-foreground">{t('casos.otherCasesSubtitle')}</p>
      </div>
 
      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {additionalProblemsKeys.map((key) => (
        <div 
         key={key} 
-        className="flex items-center p-4 rounded-2xl bg-gray-50 hover:bg-blue-50/50 transition-colors duration-200 group cursor-default"
+        className="flex items-center p-4 rounded-2xl bg-muted/30 hover:bg-blue-50/50 transition-colors duration-200 group cursor-default"
        >
         <div className="w-2 h-2 rounded-full bg-blue-400/50 mr-4 group-hover:bg-blue-500 transition-colors" />
-        <span className="text-gray-700 font-medium group-hover:text-blue-800 transition-colors">
+        <span className="text-foreground/90 font-medium group-hover:text-blue-800 transition-colors">
          {t(key)}
         </span>
        </div>
@@ -248,7 +248,7 @@ export default function Casos() {
        <Link href="/services">
         <Button 
          size="xl" 
-         className="bg-transparent hover:bg-white/10 text-white border border-white/20 font-medium py-4 px-8 rounded-2xl hover:scale-105 transition-transform"
+         className="bg-transparent hover:bg-card/10 text-white border border-white/20 font-medium py-4 px-8 rounded-2xl hover:scale-105 transition-transform"
         >
          {t('casos.discoverIdeal')}
         </Button>

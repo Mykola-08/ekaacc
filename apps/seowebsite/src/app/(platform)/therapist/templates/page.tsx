@@ -197,7 +197,7 @@ export default function TherapistTemplatesPage() {
 
  if (isLoading) {
   return (
-   <div className="min-h-screen bg-gray-50">
+   <div className="min-h-screen bg-muted/30">
     <div className="space-y-6">
      <div className="flex items-center justify-between">
       <div>
@@ -242,7 +242,7 @@ export default function TherapistTemplatesPage() {
  }
 
  return (
-  <div className="min-h-screen bg-gray-50">
+  <div className="min-h-screen bg-muted/30">
    <motion.div 
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -258,7 +258,7 @@ export default function TherapistTemplatesPage() {
      <div className="flex items-center justify-between">
       <div>
        <h3 className="text-2xl font-bold">Report Templates</h3>
-       <p className="text-gray-600 mt-1">
+       <p className="text-muted-foreground mt-1">
         Professional templates with smart autofill from client data
        </p>
       </div>
@@ -274,7 +274,7 @@ export default function TherapistTemplatesPage() {
      <CardContent className="pt-6">
       <div className="flex gap-4">
        <div className="flex-1 relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground/80" />
         <Input
          placeholder="Search templates..."
          className="pl-9"
@@ -325,12 +325,12 @@ export default function TherapistTemplatesPage() {
           </Badge>
          </div>
          <h5 className="text-lg font-semibold">{template.name}</h5>
-         <p className="text-sm text-gray-600">
+         <p className="text-sm text-muted-foreground">
           {template.description}
          </p>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col justify-between">
-         <div className="space-y-2 text-xs text-gray-500 mb-4">
+         <div className="space-y-2 text-xs text-muted-foreground mb-4">
           <div className="flex items-center gap-2">
            <TrendingUp className="w-3 h-3" />
            <span>Used {template.useCount} times</span>
@@ -388,7 +388,7 @@ export default function TherapistTemplatesPage() {
       <Separator />
 
       {selectedClient && (
-       <Card className="bg-gray-50">
+       <Card className="bg-muted/30">
         <CardHeader className="p-4">
          <CardTitle className="text-sm flex items-center gap-2">
           <Sparkles className="w-4 h-4" />
@@ -473,7 +473,7 @@ export default function TherapistTemplatesPage() {
      <DialogHeader>
       <DialogTitle>Generated Report Preview</DialogTitle>
      </DialogHeader>
-     <ScrollArea className="h-96 p-4 border rounded-xl bg-gray-50">
+     <ScrollArea className="h-96 p-4 border rounded-xl bg-muted/30">
       <p className="text-sm whitespace-pre-wrap">{previewContent}</p>
      </ScrollArea>
      <DialogFooter>

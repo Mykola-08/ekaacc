@@ -141,7 +141,7 @@ export default function VariantsSection() {
           {variants.map((variant, index) => (
             <motion.div
               key={index}
-              className="group relative overflow-hidden rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 cursor-pointer"
+              className="group relative overflow-hidden rounded-3xl bg-card/5 backdrop-blur-md border border-white/10 cursor-pointer"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

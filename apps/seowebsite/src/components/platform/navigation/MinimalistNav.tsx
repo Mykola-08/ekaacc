@@ -24,7 +24,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
   return (
     <motion.nav
       className={cn(
-        "sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-gray-200",
+        "sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-gray-200",
         className
       )}
       initial={{ y: -100 }}
@@ -39,7 +39,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
             whileHover={{ y: -2, opacity: 0.95 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <Link href="/home" className="text-xl font-semibold text-gray-900">
+            <Link href="/home" className="text-xl font-semibold text-foreground">
               EKA
             </Link>
           </motion.div>
@@ -50,7 +50,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
               <motion.a
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                 whileHover={{ y: -1 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -70,14 +70,14 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="text-gray-600 hover:text-gray-900"
+                className="text-muted-foreground hover:text-foreground"
               >
                 <User className="h-4 w-4" />
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                className="text-gray-600 hover:text-gray-900"
+                className="text-muted-foreground hover:text-foreground"
               >
                 <Settings className="h-4 w-4" />
               </Button>
@@ -85,7 +85,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
 
             {/* Mobile menu button */}
             <motion.button
-              className="md:hidden p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="md:hidden p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               whileTap={{ scale: 0.95 }}
             >
@@ -109,7 +109,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
               <motion.a
                 key={item.name}
                 href={item.href}
-                className="block px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg"
+                className="block px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded-lg"
                 whileHover={{ x: 4 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -120,7 +120,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start text-gray-600 hover:text-gray-900"
+                className="w-full justify-start text-muted-foreground hover:text-foreground"
               >
                 <User className="h-4 w-4 mr-2" />
                 Profile
@@ -128,7 +128,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-start text-gray-600 hover:text-gray-900"
+                className="w-full justify-start text-muted-foreground hover:text-foreground"
               >
                 <Settings className="h-4 w-4 mr-2" />
                 Settings

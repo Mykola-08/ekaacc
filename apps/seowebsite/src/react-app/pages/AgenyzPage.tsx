@@ -28,15 +28,15 @@ export default function AgenyzPage() {
                                 <span className="text-blue-700 font-medium text-sm tracking-wide uppercase">{t('agenyz.hero.biohacking') || 'Biohacking & Nutrition'}</span>
                             </div>
 
-                            <h1 className="text-5xl sm:text-6xl font-light text-gray-900 mb-6 leading-tight tracking-tight">
+                            <h1 className="text-5xl sm:text-6xl font-light text-foreground mb-6 leading-tight tracking-tight">
                                 {t('agenyz.page.title') || 'Agenyz Cellular Nutrition'}
                             </h1>
 
-                            <p className="text-xl sm:text-2xl text-gray-600 mb-8 leading-relaxed font-light">
+                            <p className="text-xl sm:text-2xl text-muted-foreground mb-8 leading-relaxed font-light">
                                 {t('agenyz.page.subtitle') || 'Advanced supplements for deep cellular regeneration and vitality.'}
                             </p>
 
-                            <p className="text-lg text-gray-700 mb-10 leading-relaxed font-light max-w-2xl mx-auto lg:mx-0">
+                            <p className="text-lg text-foreground/90 mb-10 leading-relaxed font-light max-w-2xl mx-auto lg:mx-0">
                                 {t('agenyz.page.description') || 'Discover the power of biohacking with Agenyz. These supplements are designed to work at the cellular level, restoring energy, immunity, and youthfulness from the inside out.'}
                             </p>
 
@@ -44,7 +44,7 @@ export default function AgenyzPage() {
                                 <Link to="/booking">
                                     <Button 
                                         size="xl"
-                                        className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-medium px-8 py-4 rounded-2xl transition-all duration-200 shadow-xl border-none hover:scale-105"
+                                        className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-4 rounded-2xl transition-all duration-200 shadow-xl border-none hover:scale-105"
                                     >
                                         {t('common.bookNow')}
                                     </Button>
@@ -75,13 +75,13 @@ export default function AgenyzPage() {
                                     className="object-cover rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
-                                <div className="absolute -bottom-6 -left-6 bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white/20">
+                                <div className="absolute -bottom-6 -left-6 bg-card/90 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white/20">
                                     <div className="flex items-center space-x-3">
                                         <span className="relative flex h-3 w-3">
                                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                                           <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                                         </span>
-                                        <span className="text-sm font-medium text-gray-700">{t('agenyz.hero.available') || 'Available for Order'}</span>
+                                        <span className="text-sm font-medium text-foreground/90">{t('agenyz.hero.available') || 'Available for Order'}</span>
                                     </div>
                                 </div>
                             </div>
@@ -91,13 +91,13 @@ export default function AgenyzPage() {
             </section>
 
             {/* Benefits Section */}
-            <section className="py-24 bg-white">
+            <section className="py-24 bg-card">
                 <div className="max-w-6xl mx-auto px-4 sm:px-8">
                     <div className="text-center mb-16">
-                        <h2 className="text-4xl font-light text-gray-900 mb-6">
+                        <h2 className="text-4xl font-light text-foreground mb-6">
                             {t('agenyz.why.title') || 'Why Agenyz?'}
                         </h2>
-                        <p className="text-xl text-gray-600 font-light">
+                        <p className="text-xl text-muted-foreground font-light">
                             {t('agenyz.why.subtitle') || 'Science-backed benefits for your body and mind.'}
                         </p>
                     </div>
@@ -108,8 +108,8 @@ export default function AgenyzPage() {
                                 <Zap className="w-8 h-8" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-medium text-gray-900 mb-3">{t('agenyz.benefits.energy') || 'Infinite Energy'}</h3>
-                                <p className="text-gray-600 leading-relaxed font-light">{t('agenyz.benefits.energy.desc') || 'Restores mitochondrial function for sustained daily energy.'}</p>
+                                <h3 className="text-xl font-medium text-foreground mb-3">{t('agenyz.benefits.energy') || 'Infinite Energy'}</h3>
+                                <p className="text-muted-foreground leading-relaxed font-light">{t('agenyz.benefits.energy.desc') || 'Restores mitochondrial function for sustained daily energy.'}</p>
                             </div>
                         </div>
 
@@ -118,8 +118,8 @@ export default function AgenyzPage() {
                                 <Shield className="w-8 h-8" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-medium text-gray-900 mb-3">{t('agenyz.benefits.immunity') || 'Immune Shield'}</h3>
-                                <p className="text-gray-600 leading-relaxed font-light">{t('agenyz.benefits.immunity.desc') || 'Strengthens your natural defenses against stress and pathogens.'}</p>
+                                <h3 className="text-xl font-medium text-foreground mb-3">{t('agenyz.benefits.immunity') || 'Immune Shield'}</h3>
+                                <p className="text-muted-foreground leading-relaxed font-light">{t('agenyz.benefits.immunity.desc') || 'Strengthens your natural defenses against stress and pathogens.'}</p>
                             </div>
                         </div>
 
@@ -128,8 +128,8 @@ export default function AgenyzPage() {
                                 <Brain className="w-8 h-8" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-medium text-gray-900 mb-3">{t('agenyz.benefits.brain') || 'Cognitive Clarity'}</h3>
-                                <p className="text-gray-600 leading-relaxed font-light">{t('agenyz.benefits.brain.desc') || 'Enhances focus, memory, and mental agility.'}</p>
+                                <h3 className="text-xl font-medium text-foreground mb-3">{t('agenyz.benefits.brain') || 'Cognitive Clarity'}</h3>
+                                <p className="text-muted-foreground leading-relaxed font-light">{t('agenyz.benefits.brain.desc') || 'Enhances focus, memory, and mental agility.'}</p>
                             </div>
                         </div>
 
@@ -138,8 +138,8 @@ export default function AgenyzPage() {
                                 <Sparkles className="w-8 h-8" />
                             </div>
                             <div>
-                                <h3 className="text-xl font-medium text-gray-900 mb-3">{t('agenyz.benefits.youth') || 'Cellular Youth'}</h3>
-                                <p className="text-gray-600 leading-relaxed font-light">{t('agenyz.benefits.youth.desc') || 'Promotes regeneration and fights oxidative stress.'}</p>
+                                <h3 className="text-xl font-medium text-foreground mb-3">{t('agenyz.benefits.youth') || 'Cellular Youth'}</h3>
+                                <p className="text-muted-foreground leading-relaxed font-light">{t('agenyz.benefits.youth.desc') || 'Promotes regeneration and fights oxidative stress.'}</p>
                             </div>
                         </div>
                     </div>

@@ -146,25 +146,25 @@ export default function RefundPolicyPage() {
    <div className="flex justify-end space-x-2 mb-4">
     <button 
      onClick={() => setLanguage('en')}
-     className={`px-3 py-1 rounded text-sm ${language === 'en' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+     className={`px-3 py-1 rounded text-sm ${language === 'en' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
     >
      EN
     </button>
     <button 
      onClick={() => setLanguage('es')}
-     className={`px-3 py-1 rounded text-sm ${language === 'es' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+     className={`px-3 py-1 rounded text-sm ${language === 'es' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
     >
      ES
     </button>
     <button 
      onClick={() => setLanguage('ca')}
-     className={`px-3 py-1 rounded text-sm ${language === 'ca' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+     className={`px-3 py-1 rounded text-sm ${language === 'ca' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
     >
      CA
     </button>
     <button 
      onClick={() => setLanguage('ru')}
-     className={`px-3 py-1 rounded text-sm ${language === 'ru' ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'}`}
+     className={`px-3 py-1 rounded text-sm ${language === 'ru' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
     >
      RU
     </button>
@@ -172,20 +172,20 @@ export default function RefundPolicyPage() {
 
    <div className="border-b pb-6">
     <h1 className="text-3xl font-bold tracking-tight mb-2">{t.title}</h1>
-    <p className="text-gray-500">{t.updated}</p>
+    <p className="text-muted-foreground">{t.updated}</p>
    </div>
 
    <div className="prose prose-gray max-w-none">
-    <p className="text-lg leading-relaxed text-gray-600 mb-8">
+    <p className="text-lg leading-relaxed text-muted-foreground mb-8">
      {t.intro}
     </p>
 
     {t.sections.map((section, index) => (
      <section key={index} id={(section as any).id} className="mb-8 scroll-mt-24">
-      <h2 className="text-xl font-semibold mb-4 text-gray-900">
+      <h2 className="text-xl font-semibold mb-4 text-foreground">
        {section.title}
       </h2>
-      <div className="text-gray-600 leading-relaxed whitespace-pre-line">
+      <div className="text-muted-foreground leading-relaxed whitespace-pre-line">
        {section.text}
       </div>
      </section>

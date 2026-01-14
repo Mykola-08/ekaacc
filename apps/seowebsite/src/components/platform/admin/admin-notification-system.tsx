@@ -204,7 +204,7 @@ export function AdminNotificationSystem() {
       case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />
       case 'error': return <AlertTriangle className="h-4 w-4 text-red-500" />
       case 'success': return <CheckCircle className="h-4 w-4 text-green-500" />
-      default: return <Bell className="h-4 w-4 text-gray-500" />
+      default: return <Bell className="h-4 w-4 text-muted-foreground" />
     }
   }
 
@@ -214,7 +214,7 @@ export function AdminNotificationSystem() {
       case 'warning': return 'bg-yellow-100 text-yellow-800'
       case 'error': return 'bg-red-100 text-red-800'
       case 'success': return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-muted text-foreground'
     }
   }
 
@@ -223,7 +223,7 @@ export function AdminNotificationSystem() {
       case 'high': return 'bg-red-100 text-red-800'
       case 'medium': return 'bg-yellow-100 text-yellow-800'
       case 'low': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-gray-100 text-gray-800'
+      default: return 'bg-muted text-foreground'
     }
   }
 
@@ -250,8 +250,8 @@ export function AdminNotificationSystem() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Notification System</h2>
-          <p className="text-gray-600">Manage system notifications and alerts</p>
+          <h2 className="text-2xl font-bold text-foreground">Notification System</h2>
+          <p className="text-muted-foreground">Manage system notifications and alerts</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={fetchNotifications}>
@@ -279,7 +279,7 @@ export function AdminNotificationSystem() {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
                 <Input
                   placeholder="Search by title or message..."
                   value={searchTerm}
@@ -344,16 +344,16 @@ export function AdminNotificationSystem() {
             <CardContent>
               <div className="space-y-3">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Recipients:</span>
+                  <span className="text-muted-foreground">Recipients:</span>
                   <Badge variant="outline">{notification.recipients}</Badge>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Created:</span>
+                  <span className="text-muted-foreground">Created:</span>
                   <span>{format(new Date(notification.createdAt), 'MMM dd, yyyy HH:mm')} by {notification.createdBy}</span>
                 </div>
                 {notification.expiresAt && (
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Expires:</span>
+                    <span className="text-muted-foreground">Expires:</span>
                     <span className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       {format(new Date(notification.expiresAt), 'MMM dd, yyyy HH:mm')}
@@ -504,7 +504,7 @@ export function AdminNotificationSystem() {
               <CardDescription>Create and manage notification templates</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="bg-slate-50 p-4 rounded-lg space-y-4">
+              <div className="bg-muted/40 p-4 rounded-lg space-y-4">
                 <h4 className="font-medium">New Template</h4>
                 <div>
                   <Label htmlFor="tpl-name">Template Name</Label>
@@ -562,7 +562,7 @@ export function AdminNotificationSystem() {
               <div>
                 <h4 className="font-medium mb-2">Existing Templates</h4>
                 {templates.length === 0 ? (
-                  <p className="text-gray-500 text-sm">No templates found.</p>
+                  <p className="text-muted-foreground text-sm">No templates found.</p>
                 ) : (
                   <div className="grid gap-2">
                     {templates.map(tpl => (

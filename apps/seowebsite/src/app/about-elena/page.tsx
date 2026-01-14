@@ -23,7 +23,7 @@ export default function AboutElena() {
 
  return (
   <>
-   <div className="bg-white min-h-screen text-gray-900 selection:bg-blue-100">
+   <div className="bg-card min-h-screen text-foreground selection:bg-blue-100">
 
     {/* Hero Section - Unified Gradient */}
     <section className="relative pt-32 pb-24 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -54,7 +54,7 @@ export default function AboutElena() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.8, delay: 0.2 }}
       >
-       <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-gray-900 tracking-tight leading-tight">
+       <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground tracking-tight leading-tight">
         Elena Kucherova
        </h1>
 
@@ -62,17 +62,17 @@ export default function AboutElena() {
         <p className="text-2xl sm:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium tracking-wide">
          {t('elena.greeting')}
         </p>
-        <p className="text-xl sm:text-2xl text-gray-500 font-light tracking-wide">
+        <p className="text-xl sm:text-2xl text-muted-foreground font-light tracking-wide">
          {t('elena.role')}
         </p>
-        <p className="text-lg sm:text-xl text-gray-600 font-light max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg sm:text-xl text-muted-foreground font-light max-w-2xl mx-auto leading-relaxed">
          {t('elena.bio')}
         </p>
        </div>
 
        {/* Quote */}
        <div className="max-w-3xl mx-auto mt-12">
-        <blockquote className="text-xl sm:text-2xl text-gray-700 italic font-light leading-relaxed relative">
+        <blockquote className="text-xl sm:text-2xl text-foreground/90 italic font-light leading-relaxed relative">
          <span className="text-6xl text-blue-100 absolute -top-8 -left-4 font-serif">"</span>
          <span className="relative z-10">{t('elena.quote')}</span>
         </blockquote>
@@ -86,26 +86,26 @@ export default function AboutElena() {
         transition={{ duration: 0.8, delay: 0.4 }}
         className="flex flex-wrap justify-center gap-4"
       >
-        <div className="inline-flex items-center px-6 py-3 bg-white rounded-full border border-gray-100 shadow-sm">
+        <div className="inline-flex items-center px-6 py-3 bg-card rounded-full border border-gray-100 shadow-sm">
           <Star className="w-4 h-4 text-yellow-500 mr-2" />
-          <span className="text-gray-700 font-medium">15+ {t('hero.stats.experience')}</span>
+          <span className="text-foreground/90 font-medium">15+ {t('hero.stats.experience')}</span>
         </div>
-        <div className="inline-flex items-center px-6 py-3 bg-white rounded-full border border-gray-100 shadow-sm">
+        <div className="inline-flex items-center px-6 py-3 bg-card rounded-full border border-gray-100 shadow-sm">
           <Heart className="w-4 h-4 text-red-500 mr-2" />
-          <span className="text-gray-700 font-medium">96% {t('hero.stats.clients')}</span>
+          <span className="text-foreground/90 font-medium">96% {t('hero.stats.clients')}</span>
         </div>
       </motion.div>
      </div>
     </section>
 
     {/* Techniques Section */}
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-card">
      <div className="max-w-6xl mx-auto px-4 sm:px-8 text-center">
       <div className="mb-16">
-       <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-6">
+       <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-6">
         {t('elena.approach.title')}
        </h2>
-       <p className="text-xl text-gray-600 max-w-3xl mx-auto font-light leading-relaxed">
+       <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light leading-relaxed">
         {t('elena.approach.desc')}
        </p>
       </div>
@@ -128,7 +128,7 @@ export default function AboutElena() {
           visible: { opacity: 1, y: 0 }
          }}
          whileHover={{ scale: 1.05 }}
-         className="px-8 py-4 bg-white text-gray-700 rounded-2xl border border-gray-100 font-medium shadow-sm hover:shadow-md hover:border-blue-200 hover:text-blue-700 transition-all cursor-default"
+         className="px-8 py-4 bg-card text-foreground/90 rounded-2xl border border-gray-100 font-medium shadow-sm hover:shadow-md hover:border-blue-200 hover:text-blue-700 transition-all cursor-default"
         >
          {tech.name}
         </motion.div>
@@ -138,9 +138,9 @@ export default function AboutElena() {
     </section>
 
     {/* Contact CTA */}
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-muted/30">
       <div className="max-w-4xl mx-auto px-4 text-center">
-       <h2 className="text-3xl font-light text-gray-900 mb-8">{t('footer.readyToBegin')}</h2>
+       <h2 className="text-3xl font-light text-foreground mb-8">{t('footer.readyToBegin')}</h2>
        <div className="flex flex-col sm:flex-row justify-center gap-4">
          <Link href="/booking">
           <Button 
@@ -154,7 +154,7 @@ export default function AboutElena() {
           <Button 
            size="xl" 
            variant="outline"
-           className="bg-white text-gray-900 border-gray-200 px-10 py-4 rounded-2xl font-medium hover:bg-gray-100"
+           className="bg-card text-foreground border-gray-200 px-10 py-4 rounded-2xl font-medium hover:bg-muted"
           >
            {t('nav.contact')}
           </Button>

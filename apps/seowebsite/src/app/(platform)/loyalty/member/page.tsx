@@ -108,7 +108,7 @@ export default function LoyaltyMemberPage() {
        </div>
       </BlurIn>
       <BlurIn>
-       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+       <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Earn Rewards While
         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
          You Heal
@@ -116,7 +116,7 @@ export default function LoyaltyMemberPage() {
        </h1>
       </BlurIn>
       <BlurIn>
-       <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+       <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
         Join our free Loyalty Member program and start earning points, discounts, and exclusive rewards 
         for taking care of your mental health. It's our way of saying thank you for choosing us.
        </p>
@@ -136,13 +136,13 @@ export default function LoyaltyMemberPage() {
    </section>
 
    {/* How It Works */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
        How It Works
       </AnimatedGradientText>
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
        Simple, transparent, and rewarding - get started in minutes
       </p>
      </div>
@@ -156,10 +156,10 @@ export default function LoyaltyMemberPage() {
          <div className="text-blue-600 mb-4">
           <step.icon className="w-8 h-8 mx-auto" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {step.title}
          </h3>
-         <p className="text-gray-600">
+         <p className="text-muted-foreground">
           {step.description}
          </p>
         </div>
@@ -170,27 +170,27 @@ export default function LoyaltyMemberPage() {
    </section>
 
    {/* Key Benefits */}
-   <section className="py-16 bg-gray-50">
+   <section className="py-16 bg-muted/30">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
        Member Benefits
       </AnimatedGradientText>
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
        Enjoy exclusive perks designed to enhance your therapy experience
       </p>
      </div>
      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {benefits.map((benefit, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+        <div className="bg-card p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
          <div className={`${benefit.color} mb-4`}>
           <benefit.icon className="w-8 h-8" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {benefit.title}
          </h3>
-         <p className="text-gray-600">
+         <p className="text-muted-foreground">
           {benefit.description}
          </p>
         </div>
@@ -225,7 +225,7 @@ export default function LoyaltyMemberPage() {
    </section>
 
    {/* Testimonials */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
@@ -235,18 +235,18 @@ export default function LoyaltyMemberPage() {
      <div className="grid md:grid-cols-3 gap-8">
       {testimonials.map((testimonial, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-gray-50 p-6 rounded-2xl shadow-lg border border-gray-100">
+        <div className="bg-muted/30 p-6 rounded-2xl shadow-lg border border-gray-100">
          <div className="flex mb-4">
           {[...Array(testimonial.rating)].map((_, i) => (
            <Heart key={i} className="w-5 h-5 text-red-400 fill-current" />
           ))}
          </div>
-         <p className="text-gray-600 mb-4 italic">
+         <p className="text-muted-foreground mb-4 italic">
           "{testimonial.content}"
          </p>
          <div>
-          <p className="font-semibold text-gray-900">{testimonial.name}</p>
-          <p className="text-sm text-gray-500">{testimonial.role}</p>
+          <p className="font-semibold text-foreground">{testimonial.name}</p>
+          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
          </div>
         </div>
        </BlurIn>
@@ -267,10 +267,10 @@ export default function LoyaltyMemberPage() {
        while taking care of their mental health. It's completely free!
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-       <ShimmerButton className="px-8 py-4 text-lg bg-white text-blue-600 hover:bg-gray-100">
+       <ShimmerButton className="px-8 py-4 text-lg bg-card text-blue-600 hover:bg-muted">
         Join Now - It's Free
        </ShimmerButton>
-       <Button variant="outline" className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-white hover:text-blue-600">
+       <Button variant="outline" className="px-8 py-4 text-lg border-2 border-white text-white hover:bg-card hover:text-blue-600">
         View Full Benefits
        </Button>
       </div>

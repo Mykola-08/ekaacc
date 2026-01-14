@@ -59,7 +59,7 @@ export default function LoyaltyPage() {
    name: 'Silver',
    minPoints: 500,
    icon: Star,
-   color: 'text-gray-400',
+   color: 'text-muted-foreground/80',
    benefits: ['10% discount on sessions', 'Free rescheduling', 'Exclusive content access'],
   },
   {
@@ -276,7 +276,7 @@ export default function LoyaltyPage() {
            )}>
             <reward.icon className="h-6 w-6" />
            </div>
-           <Badge className={reward.available ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}>
+           <Badge className={reward.available ? 'bg-green-500 text-white' : 'bg-muted/300 text-white'}>
             {reward.pointsCost} pts
            </Badge>
           </div>

@@ -128,7 +128,7 @@ export default function Casos() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+    <div className="min-h-screen bg-muted/30 font-sans text-foreground">
       <SEOHead
         title={t('casos.seo.title')}
         description={t('casos.seo.desc')}
@@ -141,7 +141,7 @@ export default function Casos() {
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative max-w-4xl mx-auto text-center z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-blue-100 text-sm text-blue-600 mb-8 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 text-sm text-blue-600 mb-8 shadow-sm">
             <Search className="w-4 h-4" />
             <span className="font-medium">{t('casos.hero.badge') || "What brings you here?"}</span>
           </div>
@@ -150,11 +150,11 @@ export default function Casos() {
             {t('casos.title')}
           </h1>
           
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
             {t('casos.subtitle')}
           </p>
           
-          <div className="prose prose-lg mx-auto text-gray-600 max-w-3xl">
+          <div className="prose prose-lg mx-auto text-muted-foreground max-w-3xl">
             <p>
               {t('casos.description')}
             </p>
@@ -163,13 +163,13 @@ export default function Casos() {
       </div>
 
       {/* Featured Problems */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-card">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {t('casos.frequentCases')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               {t('casos.frequentCasesSubtitle')}
             </p>
           </div>
@@ -183,17 +183,17 @@ export default function Casos() {
                 <Link
                   key={problem.id}
                   to={problem.href} // Direct link to service
-                  className="group relative bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full"
+                  className="group relative bg-card rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col h-full"
                 >
                   <div className={`w-14 h-14 rounded-2xl ${colors.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <ProblemIcon className={`w-7 h-7 ${colors.text}`} />
                   </div>
                   
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-600 transition-colors">
                     {problem.title}
                   </h3>
                   
-                  <p className="text-gray-600 text-sm mb-6 leading-relaxed flex-grow">
+                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed flex-grow">
                     {problem.description}
                   </p>
 
@@ -209,13 +209,13 @@ export default function Casos() {
       </section>
 
       {/* Additional Problems List */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-muted/30">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {t('casos.otherCases')}
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               {t('casos.otherCasesSubtitle')}
             </p>
           </div>
@@ -224,10 +224,10 @@ export default function Casos() {
             {additionalProblemsKeys.map((problemKey, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-5 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all duration-200 flex items-center gap-3 group"
+                className="bg-card rounded-2xl p-5 border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all duration-200 flex items-center gap-3 group"
               >
                 <div className="w-2 h-2 rounded-full bg-gray-200 group-hover:bg-blue-400 transition-colors" />
-                <span className="text-gray-700 font-medium">{t(problemKey)}</span>
+                <span className="text-foreground/90 font-medium">{t(problemKey)}</span>
               </div>
             ))}
           </div>
@@ -251,7 +251,7 @@ export default function Casos() {
             <Link to="/first-time">
               <Button 
                 variant="outline"
-                className="bg-transparent hover:bg-white/10 text-white border-white px-8 h-14 rounded-2xl text-lg font-bold w-full sm:w-auto"
+                className="bg-transparent hover:bg-card/10 text-white border-white px-8 h-14 rounded-2xl text-lg font-bold w-full sm:w-auto"
               >
                 {t('casos.discoverIdeal')}
               </Button>
@@ -259,7 +259,7 @@ export default function Casos() {
             
             <Link to="/booking">
               <Button 
-                className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] border-none px-8 h-14 rounded-2xl text-lg font-bold w-full sm:w-auto"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground border-none px-8 h-14 rounded-2xl text-lg font-bold w-full sm:w-auto"
               >
                 {t('casos.bookSession')}
                 <ArrowRight className="w-5 h-5 ml-2" />

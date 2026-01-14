@@ -167,7 +167,7 @@ export default function TestimonialSlider({ backgroundImage = 'https://images.pe
               >
                 {testimonials.map((testimonial) => (
                   <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
-                    <div className="rounded-3xl bg-white/95 backdrop-blur-sm p-8 md:p-12 text-center shadow-sm border border-white/50">
+                    <div className="rounded-3xl bg-card/95 backdrop-blur-sm p-8 md:p-12 text-center shadow-sm border border-white/50">
                       {/* Rating */}
                       <div className="flex justify-center mb-6">
                         {[...Array(testimonial.rating)].map((_, i) => (
@@ -176,16 +176,16 @@ export default function TestimonialSlider({ backgroundImage = 'https://images.pe
                       </div>
                       
                       {/* Quote */}
-                      <blockquote className="text-xl md:text-2xl text-gray-900 italic leading-relaxed mb-8 font-light">
+                      <blockquote className="text-xl md:text-2xl text-foreground italic leading-relaxed mb-8 font-light">
                         "{testimonial.text}"
                       </blockquote>
                       
                       {/* Author */}
                       <div className="text-center">
-                        <div className="font-semibold text-gray-900 text-lg">
+                        <div className="font-semibold text-foreground text-lg">
                           {testimonial.name}
                         </div>
-                        <div className="text-gray-600">
+                        <div className="text-muted-foreground">
                           {testimonial.role}
                         </div>
                         <div className="text-sm text-blue-600 font-medium">
@@ -202,7 +202,7 @@ export default function TestimonialSlider({ backgroundImage = 'https://images.pe
             <div className="flex justify-center items-center mt-8 space-x-4">
               <button
                 onClick={prevSlide}
-                className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 rounded-full w-12 h-12 flex items-center justify-center transition-colors"
+                className="bg-card/20 backdrop-blur-sm border border-white/30 text-white hover:bg-card/30 rounded-full w-12 h-12 flex items-center justify-center transition-colors"
               >
                 <div className="w-3 h-3 border-l-2 border-t-2 border-white transform -rotate-45"></div>
               </button>
@@ -212,7 +212,7 @@ export default function TestimonialSlider({ backgroundImage = 'https://images.pe
                   <div
                     key={index}
                     className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentSlide ? 'bg-white' : 'bg-white/40'
+                      index === currentSlide ? 'bg-card' : 'bg-card/40'
                     }`}
                   />
                 ))}
@@ -220,7 +220,7 @@ export default function TestimonialSlider({ backgroundImage = 'https://images.pe
               
               <button
                 onClick={nextSlide}
-                className="bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30 rounded-full w-12 h-12 flex items-center justify-center transition-colors"
+                className="bg-card/20 backdrop-blur-sm border border-white/30 text-white hover:bg-card/30 rounded-full w-12 h-12 flex items-center justify-center transition-colors"
               >
                 <div className="w-3 h-3 border-r-2 border-t-2 border-white transform rotate-45"></div>
               </button>

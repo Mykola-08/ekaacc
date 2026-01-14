@@ -34,7 +34,7 @@ function UnsubscribeContent() {
   return (
    <div className="text-center">
     <p className="text-green-600 mb-4">You have been successfully unsubscribed.</p>
-    <p className="text-sm text-gray-500">You can always resubscribe from your account settings.</p>
+    <p className="text-sm text-muted-foreground">You can always resubscribe from your account settings.</p>
    </div>
   );
  }
@@ -52,7 +52,7 @@ function UnsubscribeContent() {
 
 export default function UnsubscribePage() {
  return (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
+  <div className="min-h-screen flex items-center justify-center bg-muted/30 p-4">
    <Card className="w-full max-w-md">
     <CardHeader>
      <CardTitle>Unsubscribe</CardTitle>

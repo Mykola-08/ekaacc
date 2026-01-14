@@ -217,21 +217,21 @@ export default function DataProcessingAgreement() {
  };
 
  return (
-  <div className="min-h-screen bg-gray-50 pb-12">
+  <div className="min-h-screen bg-muted/30 pb-12">
    {/* Header */}
-   <div className="bg-white border-b sticky top-0 z-10">
+   <div className="bg-card border-b sticky top-0 z-10">
     <div className="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
-     <Link href="/" className="flex items-center text-gray-600 hover:text-primary transition-colors">
+     <Link href="/" className="flex items-center text-muted-foreground hover:text-primary transition-colors">
       <ArrowLeft className="w-5 h-5 mr-2" />
       <span className="font-medium">Back to Legal Center</span>
      </Link>
      
      <div className="flex items-center space-x-2">
-      <Globe className="w-4 h-4 text-gray-500" />
+      <Globe className="w-4 h-4 text-muted-foreground" />
       <select 
        value={language}
        onChange={(e) => setLanguage(e.target.value as Language)}
-       className="text-sm border-none bg-transparent focus:ring-0 text-gray-600 font-medium cursor-pointer"
+       className="text-sm border-none bg-transparent focus:ring-0 text-muted-foreground font-medium cursor-pointer"
       >
        <option value="en">English</option>
        <option value="es">Español</option>
@@ -244,28 +244,28 @@ export default function DataProcessingAgreement() {
 
    {/* Content */}
    <div className="max-w-3xl mx-auto px-4 py-12">
-    <div className="bg-white rounded-2xl shadow-sm p-8 md:p-12">
+    <div className="bg-card rounded-2xl shadow-sm p-8 md:p-12">
      <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-8 mx-auto">
       <Database className="w-8 h-8 text-blue-600" />
      </div>
      
-     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">
+     <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 text-center">
       {content[language].title}
      </h1>
      
-     <p className="text-gray-500 text-center mb-12">
+     <p className="text-muted-foreground text-center mb-12">
       {content[language].lastUpdated}
      </p>
 
-     <div className="prose prose-lg max-w-none text-gray-600">
-      <p className="lead text-xl text-gray-800 mb-8">
+     <div className="prose prose-lg max-w-none text-muted-foreground">
+      <p className="lead text-xl text-foreground mb-8">
        {content[language].intro}
       </p>
 
       <div className="space-y-8">
        {content[language].sections.map((section, index) => (
         <div key={index} className="border-b border-gray-100 pb-8 last:border-0">
-         <h2 className="text-xl font-bold text-gray-900 mb-4">
+         <h2 className="text-xl font-bold text-foreground mb-4">
           {section.title}
          </h2>
          <p className="whitespace-pre-line leading-relaxed">
@@ -276,8 +276,8 @@ export default function DataProcessingAgreement() {
       </div>
      </div>
 
-     <div className="mt-12 p-6 bg-gray-50 rounded-xl border border-border">
-      <p className="text-sm text-gray-500 text-center">
+     <div className="mt-12 p-6 bg-muted/30 rounded-xl border border-border">
+      <p className="text-sm text-muted-foreground text-center">
        {language === 'en' && "This DPA is an integral part of our Terms of Service. By using our services, you agree to these data processing terms."}
        {language === 'es' && "Este DPA es una parte integral de nuestros Términos de Servicio. Al utilizar nuestros servicios, usted acepta estos términos de procesamiento de datos."}
        {language === 'ca' && "Aquest DPA és una part integral dels nostres Termes del Servei. En utilitzar els nostres serveis, accepteu aquests termes de processament de dades."}

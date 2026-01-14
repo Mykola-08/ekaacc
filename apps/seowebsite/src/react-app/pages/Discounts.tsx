@@ -46,7 +46,7 @@ export default function Discounts() {
               </div>
               <button
                 onClick={removeDiscount}
-                className="flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full transition-colors"
+                className="flex items-center space-x-2 bg-card/20 hover:bg-card/30 px-4 py-2 rounded-full transition-colors"
               >
                 <X className="w-4 h-4" />
                 <span className="text-sm">{t('discounts.remove')}</span>
@@ -64,11 +64,11 @@ export default function Discounts() {
               {t('discounts.badge')}
             </div>
             
-            <h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl sm:text-6xl font-bold text-foreground mb-6">
               {t('discounts.title')}
             </h1>
             
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {t('discounts.subtitle')}
             </p>
           </div>
@@ -78,10 +78,10 @@ export default function Discounts() {
         <section className="py-16 sm:py-24">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
                 {t('discounts.availableTitle')}
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-muted-foreground">
                 {t('discounts.availableSubtitle')}
               </p>
             </div>
@@ -90,7 +90,7 @@ export default function Discounts() {
               {availableDiscounts.map((discount) => (
                 <div 
                   key={discount.id}
-                  className="group relative bg-white rounded-3xl p-8 sm:p-12 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden"
+                  className="group relative bg-card rounded-3xl p-8 sm:p-12 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden"
                 >
                   {/* Background Gradient */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -102,14 +102,14 @@ export default function Discounts() {
                         <Percent className="w-8 h-8 text-white" />
                       </div>
                       <div>
-                        <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                        <h3 className="text-2xl font-bold text-foreground mb-2">
                           {discount.name}
                         </h3>
                         <div className="flex items-center space-x-2">
                           <span className="text-3xl font-bold text-blue-600">
                             {discount.percentage}%
                           </span>
-                          <span className="text-gray-600 font-medium">
+                          <span className="text-muted-foreground font-medium">
                             {t('discounts.off')}
                           </span>
                         </div>
@@ -125,7 +125,7 @@ export default function Discounts() {
 
                   {/* Description */}
                   <div className="relative mb-8">
-                    <p className="text-gray-600 text-lg leading-relaxed">
+                    <p className="text-muted-foreground text-lg leading-relaxed">
                       {discount.description}
                     </p>
                   </div>
@@ -133,10 +133,10 @@ export default function Discounts() {
                   {/* Discount Code */}
                   {discount.code && (
                     <div className="relative space-y-3">
-                      <div className="flex items-center justify-between p-4 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 group-hover:border-blue-300 transition-colors duration-300">
+                      <div className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl border-2 border-dashed border-gray-200 group-hover:border-blue-300 transition-colors duration-300">
                         <div className="flex items-center space-x-3">
                           <Gift className="w-5 h-5 text-blue-600" />
-                          <span className="text-sm font-medium text-gray-700">
+                          <span className="text-sm font-medium text-foreground/90">
                             {t('discounts.code')}:
                           </span>
                           <code className="text-lg font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
@@ -145,7 +145,7 @@ export default function Discounts() {
                         </div>
                         <button 
                           onClick={() => navigator.clipboard.writeText(discount.code || '')}
-                          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-sm font-medium rounded-xl transition-colors duration-200"
+                          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-foreground/90 text-sm font-medium rounded-xl transition-colors duration-200"
                         >
                           {t('discounts.copy')}
                         </button>
@@ -174,13 +174,13 @@ export default function Discounts() {
         </section>
 
         {/* How to Use Section */}
-        <section className="py-16 sm:py-24 bg-gray-50">
+        <section className="py-16 sm:py-24 bg-muted/30">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-16">
-              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+              <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">
                 {t('discounts.howToUse.title')}
               </h2>
-              <p className="text-lg text-gray-600">
+              <p className="text-lg text-muted-foreground">
                 {t('discounts.howToUse.subtitle')}
               </p>
             </div>
@@ -190,10 +190,10 @@ export default function Discounts() {
                 <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Users className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-foreground mb-4">
                   {t('discounts.step1.title')}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {t('discounts.step1.description')}
                 </p>
               </div>
@@ -202,10 +202,10 @@ export default function Discounts() {
                 <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Tag className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-foreground mb-4">
                   {t('discounts.step2.title')}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {t('discounts.step2.description')}
                 </p>
               </div>
@@ -214,10 +214,10 @@ export default function Discounts() {
                 <div className="w-16 h-16 bg-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <Percent className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                <h3 className="text-xl font-bold text-foreground mb-4">
                   {t('discounts.step3.title')}
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-muted-foreground">
                   {t('discounts.step3.description')}
                 </p>
               </div>
@@ -238,7 +238,7 @@ export default function Discounts() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/booking"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-semibold rounded-2xl hover:bg-gray-50 transition-colors duration-200"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-card text-blue-600 font-semibold rounded-2xl hover:bg-muted/30 transition-colors duration-200"
                 >
                   {t('discounts.cta.bookNow')}
                 </Link>

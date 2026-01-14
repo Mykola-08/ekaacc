@@ -183,7 +183,7 @@ export default function Why360Section() {
               return (
                 <motion.div
                   key={layer.name}
-                  className={`group relative p-6 rounded-2xl border transition-all duration-500 cursor-pointer overflow-hidden backdrop-blur-md ${isHovered ? 'bg-white/10 border-amber-500/30' : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'}`}
+                  className={`group relative p-6 rounded-2xl border transition-all duration-500 cursor-pointer overflow-hidden backdrop-blur-md ${isHovered ? 'bg-card/10 border-amber-500/30' : 'bg-card/5 border-white/10 hover:bg-card/10 hover:border-white/20'}`}
                   initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}

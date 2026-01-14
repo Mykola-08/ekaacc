@@ -18,7 +18,7 @@ export default function MinimalistHomePage() {
 
  if (loading) {
   return (
-   <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+   <div className="min-h-screen bg-muted/30 flex items-center justify-center">
     <motion.div
      className="flex flex-col items-center space-y-4"
      initial={{ opacity: 0 }}
@@ -30,7 +30,7 @@ export default function MinimalistHomePage() {
       animate={{ scale: [1, 1.2, 1] }}
       transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
      />
-     <div className="text-gray-600">Loading...</div>
+     <div className="text-muted-foreground">Loading...</div>
     </motion.div>
    </div>
   );
@@ -41,13 +41,13 @@ export default function MinimalistHomePage() {
  }
 
  return (
-  <div className="min-h-screen bg-gray-50">
+  <div className="min-h-screen bg-muted/30">
    {/* Minimalist Hero Section */}
    <section className="relative overflow-hidden py-20 sm:py-32">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
      <div className="mx-auto max-w-3xl text-center">
       <motion.div
-       className="mb-8 inline-flex items-center gap-2 rounded-full bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
+       className="mb-8 inline-flex items-center gap-2 rounded-full bg-muted px-4 py-2 text-sm font-medium text-foreground/90"
        initial={{ opacity: 0, y: 20 }}
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.6, ease: "easeOut" }}
@@ -57,7 +57,7 @@ export default function MinimalistHomePage() {
       </motion.div>
 
       <motion.h1
-       className="text-4xl font-semibold tracking-tight text-gray-900 sm:text-6xl lg:text-7xl"
+       className="text-4xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-7xl"
        initial={{ opacity: 0, y: 30 }}
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
@@ -67,7 +67,7 @@ export default function MinimalistHomePage() {
       </motion.h1>
 
       <motion.p
-       className="mt-6 text-lg leading-8 text-gray-600 sm:text-xl"
+       className="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl"
        initial={{ opacity: 0, y: 20 }}
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
@@ -95,11 +95,11 @@ export default function MinimalistHomePage() {
    </section>
 
    {/* Minimalist Features Section */}
-   <section className="py-24 bg-white">
+   <section className="py-24 bg-card">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
      <div className="mx-auto max-w-2xl text-center mb-16">
       <motion.h2
-       className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
+       className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
        initial={{ opacity: 0, y: 20 }}
        whileInView={{ opacity: 1, y: 0 }}
        viewport={{ once: true }}
@@ -109,7 +109,7 @@ export default function MinimalistHomePage() {
        <span className="text-blue-600"> meaningful growth</span>
       </motion.h2>
       <motion.p
-       className="mt-6 text-lg leading-8 text-gray-600"
+       className="mt-6 text-lg leading-8 text-muted-foreground"
        initial={{ opacity: 0, y: 20 }}
        whileInView={{ opacity: 1, y: 0 }}
        viewport={{ once: true }}
@@ -144,7 +144,7 @@ export default function MinimalistHomePage() {
       ].map((feature, index) => (
        <motion.div
         key={feature.title}
-        className="group bg-white p-6 rounded-[32px] border-none hover: transition-all duration-200 hover:shadow-sm"
+        className="group bg-card p-6 rounded-[32px] border-none hover: transition-all duration-200 hover:shadow-sm"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -154,10 +154,10 @@ export default function MinimalistHomePage() {
         <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
          <feature.icon className="h-6 w-6 text-blue-600" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <h3 className="text-lg font-semibold text-foreground mb-2">
          {feature.title}
         </h3>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <p className="text-muted-foreground text-sm leading-relaxed">
          {feature.description}
         </p>
        </motion.div>
@@ -167,11 +167,11 @@ export default function MinimalistHomePage() {
    </section>
 
    {/* Minimalist CTA Section */}
-   <section className="py-24 bg-gray-50">
+   <section className="py-24 bg-muted/30">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
      <div className="mx-auto max-w-2xl text-center">
       <motion.h2
-       className="text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl"
+       className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl"
        initial={{ opacity: 0, y: 20 }}
        whileInView={{ opacity: 1, y: 0 }}
        viewport={{ once: true }}
@@ -180,7 +180,7 @@ export default function MinimalistHomePage() {
        Ready to continue?
       </motion.h2>
       <motion.p
-       className="mt-6 text-lg leading-8 text-gray-600"
+       className="mt-6 text-lg leading-8 text-muted-foreground"
        initial={{ opacity: 0, y: 20 }}
        whileInView={{ opacity: 1, y: 0 }}
        viewport={{ once: true }}
@@ -205,7 +205,7 @@ export default function MinimalistHomePage() {
        </motion.button>
        
        <motion.button
-        className="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-gray-700 font-medium transition-all duration-200 hover:bg-gray-100 hover:border-border"
+        className="inline-flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-foreground/90 font-medium transition-all duration-200 hover:bg-muted hover:border-border"
         whileHover={{ y: -2, opacity: 0.95 }}
         whileTap={{ scale: 0.95 }}
        >

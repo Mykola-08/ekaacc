@@ -29,7 +29,7 @@ interface StatsCardProps {
 
 function StatsCard({ title, value, change, trend, icon }: StatsCardProps) {
   return (
-    <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group">
+    <Card className="border-0 shadow-lg bg-card/60 dark:bg-primary/90/60 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         <div className="p-2 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-600 dark:text-blue-400 transition-all duration-300 group-hover:opacity-80">
@@ -64,7 +64,7 @@ interface ActivityItemProps {
 
 function ActivityItem({ user, action, time, avatar }: ActivityItemProps) {
   return (
-    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors duration-200">
+    <div className="flex items-center gap-4 p-3 rounded-lg hover:bg-muted/40 dark:hover:bg-primary/90/50 transition-colors duration-200">
       <Avatar className="h-10 w-10">
         <AvatarImage src={avatar} />
         <AvatarFallback>{user.charAt(0).toUpperCase()}</AvatarFallback>
@@ -141,7 +141,7 @@ export default function ShadcnBlocksLayout() {
           {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* Recent Activity */}
-            <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-card/60 dark:bg-primary/90/60 backdrop-blur-sm">
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
@@ -183,7 +183,7 @@ export default function ShadcnBlocksLayout() {
             </Card>
 
             {/* Performance Chart */}
-            <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-card/60 dark:bg-primary/90/60 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-xl font-semibold">Performance Overview</CardTitle>
                 <CardDescription>Your business metrics over time</CardDescription>
@@ -203,7 +203,7 @@ export default function ShadcnBlocksLayout() {
           {/* Right Column - Sidebar */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-card/60 dark:bg-primary/90/60 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-xl font-semibold">Quick Actions</CardTitle>
                 <CardDescription>Common tasks and shortcuts</CardDescription>
@@ -229,7 +229,7 @@ export default function ShadcnBlocksLayout() {
             </Card>
 
             {/* Contact Info */}
-            <Card className="border-0 shadow-lg bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm">
+            <Card className="border-0 shadow-lg bg-card/60 dark:bg-primary/90/60 backdrop-blur-sm">
               <CardHeader>
                 <CardTitle className="text-xl font-semibold">Contact Information</CardTitle>
                 <CardDescription>Get in touch with support</CardDescription>

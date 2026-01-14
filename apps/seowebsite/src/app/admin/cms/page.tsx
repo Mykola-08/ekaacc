@@ -29,7 +29,7 @@ export default async function CMSListPage() {
        </Link>
       </CardHeader>
       <CardContent>
-       <p className="text-sm text-gray-500">Last updated: {new Date(page.updated_at).toLocaleDateString()}</p>
+       <p className="text-sm text-muted-foreground">Last updated: {new Date(page.updated_at).toLocaleDateString()}</p>
       </CardContent>
      </Card>
     ))}

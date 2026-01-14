@@ -39,10 +39,10 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 animate-fade-in">
         <div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 leading-tight">
+          <h1 className="text-4xl font-extrabold tracking-tight text-foreground leading-tight">
             {t('dashboard.welcome', { name: user?.first_name || 'Guest' })}
           </h1>
-          <p className="text-lg text-gray-500 mt-2">
+          <p className="text-lg text-muted-foreground mt-2">
             {t('dashboard.subtitle') || 'Here is what is happening with your wellness today.'}
           </p>
         </div>
@@ -59,7 +59,7 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
 
       {/* Tabs Section using Headless UI */}
       <TabGroup as="div" className="space-y-8">
-        <TabList className="flex space-x-2 rounded-2xl bg-gray-100/80 p-1.5 w-fit">
+        <TabList className="flex space-x-2 rounded-2xl bg-muted/80 p-1.5 w-fit">
             {['Overview', 'Schedule', 'Wallet'].map((category) => (
                 <Tab
                     key={category}
@@ -68,8 +68,8 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                         'w-32 rounded-xl py-2.5 text-sm font-semibold leading-5 transition-all outline-none',
                         'focus:ring-2 focus:ring-black/5',
                         selected
-                            ? 'bg-white text-gray-900 shadow-sm'
-                            : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                            ? 'bg-card text-foreground shadow-sm'
+                            : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/50'
                         )
                     }
                 >
@@ -83,35 +83,35 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                  {/* Stats Grid */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                     {/* Next Session Card */}
-                    <div className="relative group overflow-hidden bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div className="relative group overflow-hidden bg-card rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
                         <div className="flex items-center justify-between mb-4">
-                            <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">{t('dashboard.stats.nextSession')}</span>
+                            <span className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wider">{t('dashboard.stats.nextSession')}</span>
                             <div className="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center group-hover:bg-blue-100 transition-colors">
                                 <Calendar className="h-5 w-5 text-blue-600" />
                             </div>
                         </div>
                         <div className="space-y-1">
-                            <div className="text-2xl font-bold text-gray-900">{formattedDate}</div>
+                            <div className="text-2xl font-bold text-foreground">{formattedDate}</div>
                             {upcomingSession ? (
                                 <p className="text-sm font-medium text-blue-600">{formattedTime} • {serviceName}</p>
                             ) : (
-                                <p className="text-sm text-gray-400">No sessions booked</p>
+                                <p className="text-sm text-muted-foreground/80">No sessions booked</p>
                             )}
                         </div>
                          <div className="absolute bottom-0 right-0 w-24 h-24 bg-blue-50/50 rounded-full blur-2xl -mr-10 -mb-10 group-hover:bg-blue-100/50 transition-colors" />
                     </div>
 
                     {/* Credits Card */}
-                    <div className="relative group overflow-hidden bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div className="relative group overflow-hidden bg-card rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
                          <div className="flex items-center justify-between mb-4">
-                            <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">{t('dashboard.stats.credits')}</span>
+                            <span className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wider">{t('dashboard.stats.credits')}</span>
                             <div className="h-10 w-10 rounded-full bg-emerald-50 flex items-center justify-center group-hover:bg-emerald-100 transition-colors">
                                 <CreditCard className="h-5 w-5 text-emerald-600" />
                             </div>
                         </div>
                         <div className="space-y-1">
-                            <div className="text-2xl font-bold text-gray-900">
-                                {walletBalance !== undefined ? (walletBalance / 100).toFixed(2) : '0.00'} <span className="text-lg text-gray-400">€</span>
+                            <div className="text-2xl font-bold text-foreground">
+                                {walletBalance !== undefined ? (walletBalance / 100).toFixed(2) : '0.00'} <span className="text-lg text-muted-foreground/80">€</span>
                             </div>
                             <p className="text-sm font-medium text-emerald-600">Available balance</p>
                         </div>
@@ -119,19 +119,19 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                     </div>
 
                     {/* Wellness Score Card */}
-                    <div className="relative group overflow-hidden bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div className="relative group overflow-hidden bg-card rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
                           <div className="flex items-center justify-between mb-4">
-                            <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">{t('dashboard.stats.wellnessScore')}</span>
+                            <span className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wider">{t('dashboard.stats.wellnessScore')}</span>
                             <div className="h-10 w-10 rounded-full bg-violet-50 flex items-center justify-center group-hover:bg-violet-100 transition-colors">
                                 <Activity className="h-5 w-5 text-violet-600" />
                             </div>
                         </div>
                          <div className="space-y-3">
                             <div className="flex items-baseline gap-2">
-                                <div className="text-2xl font-bold text-gray-900">85</div>
+                                <div className="text-2xl font-bold text-foreground">85</div>
                                 <span className="text-sm text-green-500 font-medium">+2%</span>
                             </div>
-                            <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                            <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
                                 <div className="h-full bg-violet-600 w-[85%] rounded-full" />
                             </div>
                         </div>
@@ -139,15 +139,15 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                     </div>
 
                     {/* Streak Card */}
-                    <div className="relative group overflow-hidden bg-white rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div className="relative group overflow-hidden bg-card rounded-3xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
                           <div className="flex items-center justify-between mb-4">
-                            <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider">{t('dashboard.stats.streak')}</span>
+                            <span className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wider">{t('dashboard.stats.streak')}</span>
                             <div className="h-10 w-10 rounded-full bg-orange-50 flex items-center justify-center group-hover:bg-orange-100 transition-colors">
                                 <TrendingUp className="h-5 w-5 text-orange-600" />
                             </div>
                         </div>
                         <div className="space-y-1">
-                            <div className="text-2xl font-bold text-gray-900">3 {t('common.days')}</div>
+                            <div className="text-2xl font-bold text-foreground">3 {t('common.days')}</div>
                              <p className="text-sm font-medium text-orange-600">Keep it burning!</p>
                         </div>
                          <div className="absolute bottom-0 right-0 w-24 h-24 bg-orange-50/50 rounded-full blur-2xl -mr-10 -mb-10 group-hover:bg-orange-100/50 transition-colors" />
@@ -157,27 +157,27 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                 {/* Main Content Grid */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {/* Upcoming Sessions Section */}
-                    <div className="lg:col-span-2 bg-white rounded-4xl border border-gray-100 shadow-sm p-8 hover:shadow-lg transition-shadow duration-300">
+                    <div className="lg:col-span-2 bg-card rounded-4xl border border-gray-100 shadow-sm p-8 hover:shadow-lg transition-shadow duration-300">
                         <div className="flex items-center justify-between mb-8">
                             <div className="space-y-1">
-                                <h2 className="text-xl font-bold text-gray-900">{t('dashboard.upcoming.title')}</h2>
-                                <p className="text-sm text-gray-500">{t('dashboard.upcoming.subtitle')}</p>
+                                <h2 className="text-xl font-bold text-foreground">{t('dashboard.upcoming.title')}</h2>
+                                <p className="text-sm text-muted-foreground">{t('dashboard.upcoming.subtitle')}</p>
                             </div>
-                             <button className="text-sm font-semibold text-gray-900 hover:text-gray-600 transition-colors">
+                             <button className="text-sm font-semibold text-foreground hover:text-muted-foreground transition-colors">
                                 {t('common.viewAll')} &rarr;
                             </button>
                         </div>
 
                         <div className="space-y-4">
                             {/* Session Item 1 */}
-                            <div className="group flex items-center gap-5 p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 cursor-pointer">
+                            <div className="group flex items-center gap-5 p-4 rounded-2xl hover:bg-muted/30 transition-colors border border-transparent hover:border-gray-100 cursor-pointer">
                                 <div className="shrink-0 h-16 w-16 rounded-2xl bg-orange-50 text-orange-600 flex flex-col items-center justify-center border border-orange-100">
                                     <span className="text-xs font-bold uppercase">Oct</span>
                                     <span className="text-xl font-bold">22</span>
                                 </div>
                                 <div className="flex-grow min-w-0">
-                                    <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Deep Tissue Massage</h3>
-                                    <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+                                    <h3 className="text-base font-bold text-foreground group-hover:text-blue-600 transition-colors">Deep Tissue Massage</h3>
+                                    <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
                                         <Clock className="w-4 h-4" /> 4:00 PM - 5:00 PM
                                     </p>
                                 </div>
@@ -189,14 +189,14 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                             </div>
                             
                             {/* Session Item 2 */}
-                             <div className="group flex items-center gap-5 p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 cursor-pointer">
+                             <div className="group flex items-center gap-5 p-4 rounded-2xl hover:bg-muted/30 transition-colors border border-transparent hover:border-gray-100 cursor-pointer">
                                 <div className="shrink-0 h-16 w-16 rounded-2xl bg-blue-50 text-blue-600 flex flex-col items-center justify-center border border-blue-100">
                                     <span className="text-xs font-bold uppercase">Oct</span>
                                     <span className="text-xl font-bold">28</span>
                                 </div>
                                 <div className="flex-grow min-w-0">
-                                    <h3 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors">Kinesiology Session</h3>
-                                    <p className="text-sm text-gray-500 mt-1 flex items-center gap-2">
+                                    <h3 className="text-base font-bold text-foreground group-hover:text-blue-600 transition-colors">Kinesiology Session</h3>
+                                    <p className="text-sm text-muted-foreground mt-1 flex items-center gap-2">
                                         <Clock className="w-4 h-4" /> 11:00 AM - 12:00 PM
                                     </p>
                                 </div>
@@ -214,7 +214,7 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                         <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
                         
                         <div className="relative z-10">
-                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-medium border border-white/20 mb-6">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/10 backdrop-blur-md text-xs font-medium border border-white/20 mb-6">
                                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                                 <span>Premium Member</span>
                             </div>
@@ -239,30 +239,30 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                             </ul>
                         </div>
 
-                        <button className="relative z-10 w-full py-3.5 bg-white text-gray-900 rounded-xl font-bold hover:bg-gray-100 transition-colors active:scale-95 duration-200 shadow-lg">
+                        <button className="relative z-10 w-full py-3.5 bg-card text-foreground rounded-xl font-bold hover:bg-muted transition-colors active:scale-95 duration-200 shadow-lg">
                             {t('common.upgrade')}
                         </button>
                     </div>
                 </div>
             </TabPanel>
 
-            <TabPanel className="p-12 text-center bg-white rounded-[32px] border border-gray-100 shadow-sm animate-slide-up">
+            <TabPanel className="p-12 text-center bg-card rounded-[32px] border border-gray-100 shadow-sm animate-slide-up">
                 <div className="max-w-md mx-auto">
-                    <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Calendar className="w-8 h-8 text-gray-400" />
+                    <div className="w-16 h-16 bg-muted/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <Calendar className="w-8 h-8 text-muted-foreground/80" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Full Booking Schedule</h3>
-                    <p className="text-gray-500 mb-6">This feature is under active development. Check back soon for deeper calendar integration.</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Full Booking Schedule</h3>
+                    <p className="text-muted-foreground mb-6">This feature is under active development. Check back soon for deeper calendar integration.</p>
                 </div>
             </TabPanel>
 
-            <TabPanel className="p-12 text-center bg-white rounded-[32px] border border-gray-100 shadow-sm animate-slide-up">
+            <TabPanel className="p-12 text-center bg-card rounded-[32px] border border-gray-100 shadow-sm animate-slide-up">
                 <div className="max-w-md mx-auto">
-                     <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <CreditCard className="w-8 h-8 text-gray-400" />
+                     <div className="w-16 h-16 bg-muted/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <CreditCard className="w-8 h-8 text-muted-foreground/80" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">Wallet Management</h3>
-                    <p className="text-gray-500 mb-6">Manage your credits, payment methods, and transaction history here soon.</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Wallet Management</h3>
+                    <p className="text-muted-foreground mb-6">Manage your credits, payment methods, and transaction history here soon.</p>
                 </div>
             </TabPanel>
         </TabPanels>

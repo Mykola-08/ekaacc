@@ -31,7 +31,7 @@ export default function PersonalBlock() {
 
   if (authLoading) {
     return (
-      <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm">
+      <Card className="bg-card dark:bg-gray-800/50 border-none shadow-sm">
         <CardHeader>
           <Skeleton className="h-6 w-3/4" />
         </CardHeader>
@@ -61,13 +61,13 @@ export default function PersonalBlock() {
   }
 
   return (
-    <Card className="bg-white dark:bg-gray-800/50 border-none shadow-sm">
+    <Card className="bg-card dark:bg-gray-800/50 border-none shadow-sm">
       <CardHeader>
         <CardTitle>AI-Powered Guidance</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="guidance-question" className="text-sm font-medium text-gray-600 dark:text-gray-300">
+          <Label htmlFor="guidance-question" className="text-sm font-medium text-muted-foreground dark:text-gray-300">
             Ask me anything about your wellness journey
           </Label>
           <div className="flex gap-2">

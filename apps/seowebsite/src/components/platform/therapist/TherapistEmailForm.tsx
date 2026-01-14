@@ -170,7 +170,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
         </div>
 
         {emailType === 'homework' && (
-          <div className="space-y-4 border p-4 rounded-md bg-slate-50 dark:bg-slate-900">
+          <div className="space-y-4 border p-4 rounded-md bg-muted/40 dark:bg-primary">
             <div className="space-y-2">
               <Label>Assignment Title</Label>
               <Input name="assignmentTitle" value={formData.assignmentTitle} onChange={handleInputChange} placeholder="e.g. CBT Worksheet" />
@@ -197,7 +197,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
         )}
 
         {emailType === 'session_notes' && (
-          <div className="space-y-4 border p-4 rounded-md bg-slate-50 dark:bg-slate-900">
+          <div className="space-y-4 border p-4 rounded-md bg-muted/40 dark:bg-primary">
             <div className="space-y-2">
               <Label>Session Date</Label>
               <Input type="date" name="sessionDate" value={formData.sessionDate} onChange={handleInputChange} />
@@ -218,7 +218,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
         )}
 
         {emailType === 'check_in' && (
-          <div className="space-y-4 border p-4 rounded-md bg-slate-50 dark:bg-slate-900">
+          <div className="space-y-4 border p-4 rounded-md bg-muted/40 dark:bg-primary">
             <div className="space-y-2">
               <Label>Message</Label>
               <Textarea name="message" value={formData.message} onChange={handleInputChange} placeholder="How are you feeling today?" className="min-h-[100px]" />
@@ -246,7 +246,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
                 <DialogHeader>
                     <DialogTitle>Email Preview</DialogTitle>
                 </DialogHeader>
-                <div className="border rounded-md p-4 bg-white text-black min-h-[400px]" dangerouslySetInnerHTML={{ __html: previewHtml }} />
+                <div className="border rounded-md p-4 bg-card text-black min-h-[400px]" dangerouslySetInnerHTML={{ __html: previewHtml }} />
             </DialogContent>
         </Dialog>
         

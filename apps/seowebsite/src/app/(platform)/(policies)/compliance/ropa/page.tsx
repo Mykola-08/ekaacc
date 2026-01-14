@@ -5,113 +5,113 @@ export default function RoPAPage() {
  return (
   <div className="max-w-4xl mx-auto py-12 px-4">
    <div className="mb-12">
-    <h1 className="text-3xl font-bold text-gray-900 mb-4">Record of Processing Activities (RoPA)</h1>
-    <p className="text-lg text-gray-600">
+    <h1 className="text-3xl font-bold text-foreground mb-4">Record of Processing Activities (RoPA)</h1>
+    <p className="text-lg text-muted-foreground">
      In compliance with Article 30 of the GDPR, EKA Balance maintains a record of processing activities. This summary outlines how we handle data across our organization.
     </p>
    </div>
 
    <div className="space-y-8">
     {/* Activity 1: User Account Management */}
-    <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
-     <div className="bg-gray-50 px-6 py-4 border-b flex items-center gap-3">
+    <div className="bg-card border rounded-xl overflow-hidden shadow-sm">
+     <div className="bg-muted/30 px-6 py-4 border-b flex items-center gap-3">
       <Users className="w-5 h-5 text-primary" />
-      <h3 className="font-semibold text-gray-900">1. User Account Management</h3>
+      <h3 className="font-semibold text-foreground">1. User Account Management</h3>
      </div>
      <div className="p-6 grid md:grid-cols-2 gap-6">
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Purpose of Processing</h4>
-       <p className="text-sm text-gray-900">To create and manage user accounts, authenticate users, and provide access to the platform.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Purpose of Processing</h4>
+       <p className="text-sm text-foreground">To create and manage user accounts, authenticate users, and provide access to the platform.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Categories of Data</h4>
-       <p className="text-sm text-gray-900">Name, Email, Password (hashed), IP Address, Login History.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Categories of Data</h4>
+       <p className="text-sm text-foreground">Name, Email, Password (hashed), IP Address, Login History.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Legal Basis</h4>
-       <p className="text-sm text-gray-900">Contractual Necessity (Art. 6(1)(b) GDPR)</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Legal Basis</h4>
+       <p className="text-sm text-foreground">Contractual Necessity (Art. 6(1)(b) GDPR)</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Retention Period</h4>
-       <p className="text-sm text-gray-900">Duration of account + 30 days after deletion.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Retention Period</h4>
+       <p className="text-sm text-foreground">Duration of account + 30 days after deletion.</p>
       </div>
      </div>
     </div>
 
     {/* Activity 2: Therapy Services */}
-    <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
-     <div className="bg-gray-50 px-6 py-4 border-b flex items-center gap-3">
+    <div className="bg-card border rounded-xl overflow-hidden shadow-sm">
+     <div className="bg-muted/30 px-6 py-4 border-b flex items-center gap-3">
       <Database className="w-5 h-5 text-primary" />
-      <h3 className="font-semibold text-gray-900">2. Therapy & Consultation Services</h3>
+      <h3 className="font-semibold text-foreground">2. Therapy & Consultation Services</h3>
      </div>
      <div className="p-6 grid md:grid-cols-2 gap-6">
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Purpose of Processing</h4>
-       <p className="text-sm text-gray-900">To provide mental health services, schedule appointments, and maintain medical records.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Purpose of Processing</h4>
+       <p className="text-sm text-foreground">To provide mental health services, schedule appointments, and maintain medical records.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Categories of Data</h4>
-       <p className="text-sm text-gray-900">Health Data (Special Category), Session Notes, Appointment History.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Categories of Data</h4>
+       <p className="text-sm text-foreground">Health Data (Special Category), Session Notes, Appointment History.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Legal Basis</h4>
-       <p className="text-sm text-gray-900">Explicit Consent (Art. 9(2)(a) GDPR) & Provision of Health Care (Art. 9(2)(h) GDPR)</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Legal Basis</h4>
+       <p className="text-sm text-foreground">Explicit Consent (Art. 9(2)(a) GDPR) & Provision of Health Care (Art. 9(2)(h) GDPR)</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Retention Period</h4>
-       <p className="text-sm text-gray-900">5 years after last interaction (or as required by local medical laws).</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Retention Period</h4>
+       <p className="text-sm text-foreground">5 years after last interaction (or as required by local medical laws).</p>
       </div>
      </div>
     </div>
 
     {/* Activity 3: Payment Processing */}
-    <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
-     <div className="bg-gray-50 px-6 py-4 border-b flex items-center gap-3">
+    <div className="bg-card border rounded-xl overflow-hidden shadow-sm">
+     <div className="bg-muted/30 px-6 py-4 border-b flex items-center gap-3">
       <Lock className="w-5 h-5 text-primary" />
-      <h3 className="font-semibold text-gray-900">3. Payment Processing</h3>
+      <h3 className="font-semibold text-foreground">3. Payment Processing</h3>
      </div>
      <div className="p-6 grid md:grid-cols-2 gap-6">
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Purpose of Processing</h4>
-       <p className="text-sm text-gray-900">To process payments for services and subscriptions.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Purpose of Processing</h4>
+       <p className="text-sm text-foreground">To process payments for services and subscriptions.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Categories of Data</h4>
-       <p className="text-sm text-gray-900">Billing Address, Transaction ID, Last 4 digits of card (processed by Stripe).</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Categories of Data</h4>
+       <p className="text-sm text-foreground">Billing Address, Transaction ID, Last 4 digits of card (processed by Stripe).</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Legal Basis</h4>
-       <p className="text-sm text-gray-900">Contractual Necessity (Art. 6(1)(b) GDPR) & Legal Obligation (Tax laws).</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Legal Basis</h4>
+       <p className="text-sm text-foreground">Contractual Necessity (Art. 6(1)(b) GDPR) & Legal Obligation (Tax laws).</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Retention Period</h4>
-       <p className="text-sm text-gray-900">10 years (for tax and accounting purposes).</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Retention Period</h4>
+       <p className="text-sm text-foreground">10 years (for tax and accounting purposes).</p>
       </div>
      </div>
     </div>
 
     {/* Activity 4: Marketing & Analytics */}
-    <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
-     <div className="bg-gray-50 px-6 py-4 border-b flex items-center gap-3">
+    <div className="bg-card border rounded-xl overflow-hidden shadow-sm">
+     <div className="bg-muted/30 px-6 py-4 border-b flex items-center gap-3">
       <Globe className="w-5 h-5 text-primary" />
-      <h3 className="font-semibold text-gray-900">4. Marketing & Analytics</h3>
+      <h3 className="font-semibold text-foreground">4. Marketing & Analytics</h3>
      </div>
      <div className="p-6 grid md:grid-cols-2 gap-6">
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Purpose of Processing</h4>
-       <p className="text-sm text-gray-900">To send newsletters, analyze website usage, and improve services.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Purpose of Processing</h4>
+       <p className="text-sm text-foreground">To send newsletters, analyze website usage, and improve services.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Categories of Data</h4>
-       <p className="text-sm text-gray-900">Email, Cookie Data, Usage Metrics.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Categories of Data</h4>
+       <p className="text-sm text-foreground">Email, Cookie Data, Usage Metrics.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Legal Basis</h4>
-       <p className="text-sm text-gray-900">Consent (Art. 6(1)(a) GDPR) - Withdrawable at any time.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Legal Basis</h4>
+       <p className="text-sm text-foreground">Consent (Art. 6(1)(a) GDPR) - Withdrawable at any time.</p>
       </div>
       <div>
-       <h4 className="text-sm font-medium text-gray-500 mb-1">Retention Period</h4>
-       <p className="text-sm text-gray-900">Until consent is withdrawn.</p>
+       <h4 className="text-sm font-medium text-muted-foreground mb-1">Retention Period</h4>
+       <p className="text-sm text-foreground">Until consent is withdrawn.</p>
       </div>
      </div>
     </div>

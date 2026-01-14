@@ -64,7 +64,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
         <TabsContent value="overview" className="space-y-8">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <div className="animate-slide-up">
-                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-white">
+                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-card">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-6">
                     <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.stats.nextSession')}</CardTitle>
                     <div className="h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center">
@@ -72,17 +72,17 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                     </div>
                   </CardHeader>
                   <CardContent className="p-6 pt-0">
-                    <div className="text-3xl font-bold tracking-tight text-gray-900">{formattedDate}</div>
+                    <div className="text-3xl font-bold tracking-tight text-foreground">{formattedDate}</div>
                     {upcomingSession ? (
-                      <p className="text-sm text-gray-500 mt-1 font-medium">{formattedTime} • {serviceName}</p>
+                      <p className="text-sm text-muted-foreground mt-1 font-medium">{formattedTime} • {serviceName}</p>
                     ) : (
-                      <p className="text-sm text-gray-400 mt-1">Book your session</p>
+                      <p className="text-sm text-muted-foreground/80 mt-1">Book your session</p>
                     )}
                   </CardContent>
                 </Card>
             </div>
             <div className="animate-slide-up" style={{ animationDelay: '100ms' }}>
-                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-white">
+                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-card">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-6">
                     <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.stats.credits')}</CardTitle>
                     <div className="h-10 w-10 rounded-full bg-green-50 flex items-center justify-center">
@@ -90,13 +90,13 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                     </div>
                   </CardHeader>
                   <CardContent className="p-6 pt-0">
-                    <div className="text-3xl font-bold tracking-tight text-gray-900">{walletBalance !== undefined ? (walletBalance / 100).toFixed(2) : '0.00'} €</div>
-                    <p className="text-sm text-gray-500 mt-1 font-medium">Available balance</p>
+                    <div className="text-3xl font-bold tracking-tight text-foreground">{walletBalance !== undefined ? (walletBalance / 100).toFixed(2) : '0.00'} €</div>
+                    <p className="text-sm text-muted-foreground mt-1 font-medium">Available balance</p>
                   </CardContent>
                 </Card>
             </div>
             <div className="animate-slide-up" style={{ animationDelay: '200ms' }}>
-                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-white">
+                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-card">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-6">
                     <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.stats.wellnessScore')}</CardTitle>
                     <div className="h-10 w-10 rounded-full bg-purple-50 flex items-center justify-center">
@@ -104,13 +104,13 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                     </div>
                   </CardHeader>
                   <CardContent className="p-6 pt-0">
-                    <div className="text-3xl font-bold tracking-tight text-gray-900">85</div>
-                    <Progress value={85} className="mt-3 h-2 rounded-full bg-gray-100" />
+                    <div className="text-3xl font-bold tracking-tight text-foreground">85</div>
+                    <Progress value={85} className="mt-3 h-2 rounded-full bg-muted" />
                   </CardContent>
                 </Card>
             </div>
             <div className="animate-slide-up" style={{ animationDelay: '300ms' }}>
-                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-white">
+                <Card className="hover:shadow-lg transition-all duration-300 rounded-[32px] border-none shadow-sm bg-card">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-6">
                     <CardTitle className="text-sm font-medium text-muted-foreground">{t('dashboard.stats.streak')}</CardTitle>
                     <div className="h-10 w-10 rounded-full bg-orange-50 flex items-center justify-center">
@@ -118,8 +118,8 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                     </div>
                   </CardHeader>
                   <CardContent className="p-6 pt-0">
-                    <div className="text-3xl font-bold tracking-tight text-gray-900">3 {t('common.days')}</div>
-                    <p className="text-sm text-gray-500 mt-1 font-medium">Keep it up!</p>
+                    <div className="text-3xl font-bold tracking-tight text-foreground">3 {t('common.days')}</div>
+                    <p className="text-sm text-muted-foreground mt-1 font-medium">Keep it up!</p>
                   </CardContent>
                 </Card>
             </div>
@@ -127,42 +127,42 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7">
             <div className="col-span-4 animate-slide-up" style={{ animationDelay: '200ms' }}>
-              <Card className="h-full rounded-[32px] border-none shadow-sm bg-white hover:shadow-lg transition-all duration-300">
+              <Card className="h-full rounded-[32px] border-none shadow-sm bg-card hover:shadow-lg transition-all duration-300">
                 <CardHeader className="p-8 pb-4">
-                  <CardTitle className="text-xl font-semibold text-gray-900">{t('dashboard.upcoming.title')}</CardTitle>
-                  <CardDescription className="text-gray-500 text-base">{t('dashboard.upcoming.subtitle')}</CardDescription>
+                  <CardTitle className="text-xl font-semibold text-foreground">{t('dashboard.upcoming.title')}</CardTitle>
+                  <CardDescription className="text-muted-foreground text-base">{t('dashboard.upcoming.subtitle')}</CardDescription>
                 </CardHeader>
                 <CardContent className="p-8 pt-4">
                   <div className="space-y-4">
                      {/* Mock Data Item */}
-                     <div className="flex items-center p-4 bg-gray-50 rounded-2xl transition-colors hover:bg-gray-100/80">
+                     <div className="flex items-center p-4 bg-muted/30 rounded-2xl transition-colors hover:bg-muted/80">
                         <div className="h-12 w-12 rounded-xl bg-orange-100 flex items-center justify-center mr-4">
                             <span className="font-bold text-orange-700 text-lg">22</span>
                         </div>
                         <div className="space-y-1">
-                          <p className="font-semibold text-gray-900">Deep Tissue Massage</p>
-                          <p className="text-sm text-gray-500">Today at 4:00 PM</p>
+                          <p className="font-semibold text-foreground">Deep Tissue Massage</p>
+                          <p className="text-sm text-muted-foreground">Today at 4:00 PM</p>
                         </div>
                         <div className="ml-auto font-medium flex items-center gap-2">
-                            <Badge variant="secondary" className="bg-white hover:bg-white text-green-700 shadow-sm border border-gray-100 rounded-lg px-3 py-1">Confirmed</Badge>
+                            <Badge variant="secondary" className="bg-card hover:bg-card text-green-700 shadow-sm border border-gray-100 rounded-lg px-3 py-1">Confirmed</Badge>
                         </div>
                      </div>
-                     <div className="flex items-center p-4 bg-gray-50 rounded-2xl transition-colors hover:bg-gray-100/80">
+                     <div className="flex items-center p-4 bg-muted/30 rounded-2xl transition-colors hover:bg-muted/80">
                         <div className="h-12 w-12 rounded-xl bg-blue-100 flex items-center justify-center mr-4">
                              <span className="font-bold text-blue-700 text-lg">28</span>
                         </div>
                         <div className="space-y-1">
-                          <p className="font-semibold text-gray-900">Kinesiology Session</p>
-                          <p className="text-sm text-gray-500">Oct 28 at 11:00 AM</p>
+                          <p className="font-semibold text-foreground">Kinesiology Session</p>
+                          <p className="text-sm text-muted-foreground">Oct 28 at 11:00 AM</p>
                         </div>
                         <div className="ml-auto font-medium flex items-center gap-2">
-                            <Badge variant="secondary" className="bg-white hover:bg-white text-blue-700 shadow-sm border border-gray-100 rounded-lg px-3 py-1">Pending</Badge>
+                            <Badge variant="secondary" className="bg-card hover:bg-card text-blue-700 shadow-sm border border-gray-100 rounded-lg px-3 py-1">Pending</Badge>
                         </div>
                      </div>
                   </div>
                 </CardContent>
                 <CardFooter className="p-8 pt-0">
-                    <Button variant="ghost" className="w-full text-muted-foreground hover:text-foreground hover:bg-gray-50 rounded-2xl h-12">
+                    <Button variant="ghost" className="w-full text-muted-foreground hover:text-foreground hover:bg-muted/30 rounded-2xl h-12">
                         {t('common.viewAll')} <ChevronRight className="w-4 h-4 ml-2" />
                     </Button>
                 </CardFooter>
@@ -171,7 +171,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
             
             <div className="col-span-3 animate-slide-up" style={{ animationDelay: '300ms' }}>
               <Card className="h-full bg-gray-900 text-white border-0 shadow-lg relative overflow-hidden rounded-[32px]">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-card/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
                 <CardHeader className="p-8 pb-4 relative z-10">
                   <CardTitle className="text-white text-xl font-semibold">{t('dashboard.promo.title') || 'Premium Plan'}</CardTitle>
                   <CardDescription className="text-gray-300 text-base">
@@ -181,19 +181,19 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                 <CardContent className="space-y-6 p-8 relative z-10">
                    <ul className="space-y-4 text-sm font-medium">
                       <li className="flex items-center gap-3">
-                        <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
+                        <div className="h-8 w-8 rounded-full bg-card/10 flex items-center justify-center">
                             <Star className="w-4 h-4 fill-white text-white" />
                         </div>
                         <span>10% off all sessions</span>
                       </li>
                       <li className="flex items-center gap-3">
-                         <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
+                         <div className="h-8 w-8 rounded-full bg-card/10 flex items-center justify-center">
                             <Star className="w-4 h-4 fill-white text-white" />
                         </div>
                         <span>Priority booking</span>
                       </li>
                       <li className="flex items-center gap-3">
-                         <div className="h-8 w-8 rounded-full bg-white/10 flex items-center justify-center">
+                         <div className="h-8 w-8 rounded-full bg-card/10 flex items-center justify-center">
                             <Star className="w-4 h-4 fill-white text-white" />
                         </div>
                         <span>Free cancellation</span>
@@ -201,7 +201,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                    </ul>
                 </CardContent>
                 <CardFooter className="p-8 pt-0 relative z-10 mt-auto">
-                    <Button variant="secondary" className="w-full font-bold h-12 rounded-2xl bg-white text-gray-900 hover:bg-gray-100 border-0">
+                    <Button variant="secondary" className="w-full font-bold h-12 rounded-2xl bg-card text-foreground hover:bg-muted border-0">
                         {t('common.upgrade')}
                     </Button>
                 </CardFooter>

@@ -117,7 +117,7 @@ export default function LoyaltyElitePage() {
        </div>
       </BlurIn>
       <BlurIn>
-       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+       <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Premium Rewards
         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-600">
          & Exclusive Benefits
@@ -125,7 +125,7 @@ export default function LoyaltyElitePage() {
        </h1>
       </BlurIn>
       <BlurIn>
-       <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+       <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
         Elevate your loyalty experience with enhanced rewards, exclusive events, and premium benefits. 
         Designed for our most valued members who deserve the very best.
        </p>
@@ -145,13 +145,13 @@ export default function LoyaltyElitePage() {
    </section>
 
    {/* Key Benefits */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
        Elite Premium Benefits
       </AnimatedGradientText>
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
        Enhanced rewards, exclusive access, and premium features designed for our most valued members
       </p>
      </div>
@@ -162,10 +162,10 @@ export default function LoyaltyElitePage() {
          <div className={`${benefit.color} mb-4`}>
           <benefit.icon className="w-8 h-8" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {benefit.title}
          </h3>
-         <p className="text-gray-600 text-sm">
+         <p className="text-muted-foreground text-sm">
           {benefit.description}
          </p>
         </div>
@@ -186,14 +186,14 @@ export default function LoyaltyElitePage() {
      <div className="grid md:grid-cols-3 gap-8">
       {exclusiveFeatures.map((feature, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-orange-200 text-center">
+        <div className="bg-card p-6 rounded-2xl shadow-lg border border-orange-200 text-center">
          <div className="text-orange-600 mb-4">
           <feature.icon className="w-12 h-12 mx-auto" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {feature.title}
          </h3>
-         <p className="text-gray-600">
+         <p className="text-muted-foreground">
           {feature.description}
          </p>
         </div>
@@ -238,18 +238,18 @@ export default function LoyaltyElitePage() {
      <div className="grid md:grid-cols-3 gap-8">
       {testimonials.map((testimonial, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-orange-100">
+        <div className="bg-card p-6 rounded-2xl shadow-lg border border-orange-100">
          <div className="flex mb-4">
           {[...Array(testimonial.rating)].map((_, i) => (
            <Gem key={i} className="w-5 h-5 text-red-400 fill-current" />
           ))}
          </div>
-         <p className="text-gray-600 mb-4 italic">
+         <p className="text-muted-foreground mb-4 italic">
           "{testimonial.content}"
          </p>
          <div>
-          <p className="font-semibold text-gray-900">{testimonial.name}</p>
-          <p className="text-sm text-gray-500">{testimonial.role}</p>
+          <p className="font-semibold text-foreground">{testimonial.name}</p>
+          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
          </div>
         </div>
        </BlurIn>
@@ -259,13 +259,13 @@ export default function LoyaltyElitePage() {
    </section>
 
    {/* CTA Section */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
      <BlurIn>
       <AnimatedGradientText className="text-3xl font-bold mb-6">
        Ready to Go Elite?
       </AnimatedGradientText>
-      <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-muted-foreground mb-8">
        Join our most exclusive loyalty tier and experience premium rewards, exclusive events, 
        and enhanced benefits designed for our most valued members.
       </p>
@@ -277,7 +277,7 @@ export default function LoyaltyElitePage() {
         View Elite Events Calendar
        </Button>
       </div>
-      <p className="text-sm text-gray-500 mt-4">
+      <p className="text-sm text-muted-foreground mt-4">
        14-day Elite trial • Upgrade from Member anytime • Exclusive benefits
       </p>
      </BlurIn>

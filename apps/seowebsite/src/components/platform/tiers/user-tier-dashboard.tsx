@@ -218,13 +218,13 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
     return (
       <div className={cn('space-y-6', className)}>
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-900">Your Membership</h2>
+          <h2 className="text-2xl font-bold text-foreground">Your Membership</h2>
         </div>
         <Card>
           <CardContent className="flex items-center justify-center h-64">
             <div className="text-center">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading tier data...</p>
+              <p className="text-muted-foreground">Loading tier data...</p>
             </div>
           </CardContent>
         </Card>
@@ -259,8 +259,8 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Your Membership</h2>
-          <p className="text-gray-600">Track your tier status and benefits</p>
+          <h2 className="text-2xl font-bold text-foreground">Your Membership</h2>
+          <p className="text-muted-foreground">Track your tier status and benefits</p>
         </div>
         <Button variant="outline" size="sm">
           <Settings className="h-4 w-4 mr-2" />
@@ -298,14 +298,14 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
             {tierData?.currentTiers?.vip && (tierData?.usage as any)?.vip ? (
               <>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Sessions Used</span>
+                  <span className="text-sm text-muted-foreground">Sessions Used</span>
                   <Badge variant="secondary">
                     {(tierData.usage as any).vip.sessionsUsed} / {(tierData.usage as any).vip.sessionsRemaining === -1 ? '∞' : (tierData.usage as any).vip.sessionsRemaining + (tierData.usage as any).vip.sessionsUsed}
                   </Badge>
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Storage Used</span>
+                  <span className="text-sm text-muted-foreground">Storage Used</span>
                   <Badge variant="secondary">
                     {(tierData.usage as any).vip.storageUsed}GB / {(tierData.usage as any).vip.storageLimit === -1 ? '∞' : (tierData.usage as any).vip.storageLimit + 'GB'}
                   </Badge>
@@ -331,7 +331,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
               </>
             ) : (
               <div className="text-center py-4">
-                <p className="text-gray-500 mb-3">Upgrade to VIP for premium benefits</p>
+                <p className="text-muted-foreground mb-3">Upgrade to VIP for premium benefits</p>
                 <Button size="sm" variant="outline">
                   View VIP Tiers
                 </Button>
@@ -368,21 +368,21 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
             {tierData?.currentTiers?.loyalty && (tierData?.usage as any)?.loyalty ? (
               <>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Points Earned</span>
+                  <span className="text-sm text-muted-foreground">Points Earned</span>
                   <Badge variant="secondary">
                     {(tierData.usage as any).loyalty.pointsEarned.toLocaleString()}
                   </Badge>
                 </div>
                 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Points Multiplier</span>
+                  <span className="text-sm text-muted-foreground">Points Multiplier</span>
                   <Badge variant="secondary">
                     {(tierData.usage as any).loyalty.pointsMultiplier}x
                   </Badge>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Discount Available</span>
+                  <span className="text-sm text-muted-foreground">Discount Available</span>
                   <Badge variant="secondary">
                     {tierData.usage.loyalty?.discountAvailable || 0}%
                   </Badge>
@@ -408,7 +408,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
               </>
             ) : (
               <div className="text-center py-4">
-                <p className="text-gray-500 mb-3">Join our loyalty program</p>
+                <p className="text-muted-foreground mb-3">Join our loyalty program</p>
                 <Button size="sm" variant="outline">
                   View Loyalty Tiers
                 </Button>
@@ -430,12 +430,12 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                 'group inline-flex items-center py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 rounded-none h-auto hover:bg-transparent',
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  : 'border-transparent text-muted-foreground hover:text-foreground/90 hover:border-gray-300'
               )}
             >
               <span className={cn(
                 'mr-2',
-                activeTab === tab.id ? 'text-blue-500' : 'text-gray-400 group-hover:text-gray-500'
+                activeTab === tab.id ? 'text-blue-500' : 'text-muted-foreground/80 group-hover:text-muted-foreground'
               )}>
                 {tab.icon}
               </span>
@@ -560,20 +560,20 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg">
                   <TierBadge tierType="vip" tierName="silver" size="sm" />
                   <div className="flex-1">
                     <p className="font-medium">VIP Silver Assigned</p>
-                    <p className="text-sm text-gray-600">January 15, 2024</p>
+                    <p className="text-sm text-muted-foreground">January 15, 2024</p>
                   </div>
                   <Badge variant="outline">Active</Badge>
                 </div>
                 
-                <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg">
                   <TierBadge tierType="loyalty" tierName="member" size="sm" />
                   <div className="flex-1">
                     <p className="font-medium">Loyalty Member Assigned</p>
-                    <p className="text-sm text-gray-600">January 10, 2024</p>
+                    <p className="text-sm text-muted-foreground">January 10, 2024</p>
                   </div>
                   <Badge variant="outline">Active</Badge>
                 </div>

@@ -153,7 +153,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       icon: Archive,
       label: 'Archive',
       description: 'Archive this session',
-      color: 'text-gray-500',
+      color: 'text-muted-foreground',
       onClick: handleArchiveSession,
     },
   ]

@@ -58,11 +58,11 @@ export default function Musicians() {
         <span className="text-blue-700 font-medium text-sm">{t('nav.personalizedServices')}</span>
        </div>
 
-       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 mb-6 leading-tight">
+       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-foreground mb-6 leading-tight">
         {t('nav.musicians')}
        </h1>
 
-       <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+       <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
         {t('musicians.hero.subtitle')}
        </p>
 
@@ -90,7 +90,7 @@ export default function Musicians() {
    </section>
 
    {/* Problems */}
-   <section className="apple-section bg-white">
+   <section className="apple-section bg-card">
     <div className="apple-container">
      <div className="text-center mb-16">
       <h2 className="apple-headline mb-6">
@@ -106,8 +106,8 @@ export default function Musicians() {
        <div className="flex items-start">
         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
         <div>
-         <h3 className="font-semibold text-gray-900 mb-2">{t('musicians.problem1.title')}</h3>
-         <p className="text-gray-600">
+         <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem1.title')}</h3>
+         <p className="text-muted-foreground">
           {t('musicians.problem1.desc')}
          </p>
         </div>
@@ -116,8 +116,8 @@ export default function Musicians() {
        <div className="flex items-start">
         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
         <div>
-         <h3 className="font-semibold text-gray-900 mb-2">{t('musicians.problem2.title')}</h3>
-         <p className="text-gray-600">
+         <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem2.title')}</h3>
+         <p className="text-muted-foreground">
           {t('musicians.problem2.desc')}
          </p>
         </div>
@@ -128,8 +128,8 @@ export default function Musicians() {
        <div className="flex items-start">
         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
         <div>
-         <h3 className="font-semibold text-gray-900 mb-2">{t('musicians.problem3.title')}</h3>
-         <p className="text-gray-600">
+         <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem3.title')}</h3>
+         <p className="text-muted-foreground">
           {t('musicians.problem3.desc')}
          </p>
         </div>
@@ -138,8 +138,8 @@ export default function Musicians() {
        <div className="flex items-start">
         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
         <div>
-         <h3 className="font-semibold text-gray-900 mb-2">{t('musicians.problem4.title')}</h3>
-         <p className="text-gray-600">
+         <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem4.title')}</h3>
+         <p className="text-muted-foreground">
           {t('musicians.problem4.desc')}
          </p>
         </div>
@@ -157,32 +157,32 @@ export default function Musicians() {
      </h2>
      
      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div className="squircle-card bg-white p-8 text-center">
+      <div className="squircle-card bg-card p-8 text-center">
        <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-        <div className="w-8 h-8 bg-white rounded-xl"></div>
+        <div className="w-8 h-8 bg-card rounded-xl"></div>
        </div>
-       <h3 className="font-semibold text-gray-900 mb-4">{t('musicians.help1.title')}</h3>
-       <p className="text-gray-600">
+       <h3 className="font-semibold text-foreground mb-4">{t('musicians.help1.title')}</h3>
+       <p className="text-muted-foreground">
         {t('musicians.help1.desc')}
        </p>
       </div>
       
-      <div className="squircle-card bg-white p-8 text-center">
+      <div className="squircle-card bg-card p-8 text-center">
        <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-        <div className="w-8 h-8 bg-white rounded-xl"></div>
+        <div className="w-8 h-8 bg-card rounded-xl"></div>
        </div>
-       <h3 className="font-semibold text-gray-900 mb-4">{t('musicians.help2.title')}</h3>
-       <p className="text-gray-600">
+       <h3 className="font-semibold text-foreground mb-4">{t('musicians.help2.title')}</h3>
+       <p className="text-muted-foreground">
         {t('musicians.help2.desc')}
        </p>
       </div>
       
-      <div className="squircle-card bg-white p-8 text-center">
+      <div className="squircle-card bg-card p-8 text-center">
        <div className="w-16 h-16 bg-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-        <div className="w-8 h-8 bg-white rounded-xl"></div>
+        <div className="w-8 h-8 bg-card rounded-xl"></div>
        </div>
-       <h3 className="font-semibold text-gray-900 mb-4">{t('musicians.help3.title')}</h3>
-       <p className="text-gray-600">
+       <h3 className="font-semibold text-foreground mb-4">{t('musicians.help3.title')}</h3>
+       <p className="text-muted-foreground">
         {t('musicians.help3.desc')}
        </p>
       </div>
@@ -191,7 +191,7 @@ export default function Musicians() {
    </section>
 
    {/* Results */}
-   <section className="apple-section bg-white">
+   <section className="apple-section bg-card">
     <div className="apple-container text-center">
      <div className="squircle-card bg-purple-50 p-12 max-w-4xl mx-auto">
       <h2 className="apple-headline mb-6 text-purple-600">
@@ -213,7 +213,7 @@ export default function Musicians() {
    </section>
 
    {/* Pricing Plans */}
-   <section className="apple-section bg-gray-50">
+   <section className="apple-section bg-muted/30">
     <div className="apple-container">
      <div className="text-center mb-16">
       <h2 className="apple-headline mb-6">
@@ -228,7 +228,7 @@ export default function Musicians() {
       {musicianPlans.map((plan) => (
        <div
         key={plan.name}
-        className={`squircle-card bg-white p-8 relative transition-all duration-300 ${
+        className={`squircle-card bg-card p-8 relative transition-all duration-300 ${
          plan.popular ? 'ring-2 ring-purple-400 scale-105' : ''
         }`}
        >
@@ -241,19 +241,19 @@ export default function Musicians() {
         )}
         
         <div className="text-center mb-8">
-         <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+         <h3 className="text-2xl font-semibold text-foreground mb-4">
           {t(plan.name)}
          </h3>
-         <p className="text-gray-600 mb-6">
+         <p className="text-muted-foreground mb-6">
           {t(plan.description)}
          </p>
          
          <div className="mb-4">
-          <span className="text-4xl font-light text-gray-900">
+          <span className="text-4xl font-light text-foreground">
            {plan.price}€
           </span>
           {plan.originalPrice && (
-           <span className="text-lg text-gray-500 line-through ml-2">
+           <span className="text-lg text-muted-foreground line-through ml-2">
             {plan.originalPrice}€
            </span>
           )}
@@ -265,7 +265,7 @@ export default function Musicians() {
           </div>
          )}
          
-         <div className="text-sm text-gray-500">
+         <div className="text-sm text-muted-foreground">
           {plan.sessions} sessió{plan.sessions > 1 ? 's' : ''}
          </div>
         </div>
@@ -274,7 +274,7 @@ export default function Musicians() {
          {plan.benefits.map((benefit, index) => (
           <li key={index} className="flex items-start">
            <div className="w-2 h-2 bg-green-500 rounded-full mr-3 flex-shrink-0 mt-2"></div>
-           <span className="text-gray-700 text-sm">{t(benefit)}</span>
+           <span className="text-foreground/90 text-sm">{t(benefit)}</span>
           </li>
          ))}
         </ul>
@@ -290,7 +290,7 @@ export default function Musicians() {
          className={`w-full inline-flex items-center justify-center py-3 rounded-2xl font-medium transition-all duration-200 ${
           plan.popular
            ? 'bg-purple-600 hover:bg-purple-700 text-white'
-           : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
+           : 'bg-muted hover:bg-gray-200 text-foreground'
          }`}
         >
          {t('musicians.plan.cta')} {t(plan.name)}

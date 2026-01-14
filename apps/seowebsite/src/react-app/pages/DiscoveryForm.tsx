@@ -555,17 +555,17 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 <span className="text-green-700 font-medium">{t('discovery.recommendation.badge')}</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl font-light text-gray-900 mb-6 leading-tight">
+              <h1 className="text-4xl sm:text-5xl font-light text-foreground mb-6 leading-tight">
                 {t('discovery.recommendation.title')}
               </h1>
 
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-xl text-muted-foreground mb-8">
                 {t('discovery.recommendation.subtitle')}
               </p>
 
               {recommendation.analysis && (
                 <div className="bg-blue-50 p-6 rounded-2xl mb-12 text-center max-w-2xl mx-auto border border-blue-100">
-                  <p className="text-lg text-gray-700 leading-relaxed">
+                  <p className="text-lg text-foreground/90 leading-relaxed">
                     {t('discovery.analysis.intro')}
                     {recommendation.analysis.problem && (
                       <span> {t('discovery.analysis.have')} <strong className="text-blue-800 font-semibold">{recommendation.analysis.problem}</strong></span>
@@ -582,11 +582,11 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               )}
 
               {/* Toggle */}
-              <div className="inline-flex bg-gray-100 p-1 rounded-xl mb-8">
+              <div className="inline-flex bg-muted p-1 rounded-xl mb-8">
                 <button
                   onClick={() => setViewMode('basic')}
                   className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
-                    viewMode === 'basic' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                    viewMode === 'basic' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground/90'
                   }`}
                 >
                   {t('discovery.view.basic')}
@@ -594,7 +594,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 <button
                   onClick={() => setViewMode('advanced')}
                   className={`px-6 py-2 rounded-lg text-sm font-medium transition-all ${
-                    viewMode === 'advanced' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+                    viewMode === 'advanced' ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground/90'
                   }`}
                 >
                   {t('discovery.view.advanced')}
@@ -603,38 +603,38 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             </div>
 
             {viewMode === 'basic' ? (
-              <div className={`bg-white rounded-3xl shadow-xl border-2 ${getColorClasses(recommendation.color)} p-8 sm:p-12 mb-8`}>
+              <div className={`bg-card rounded-3xl shadow-xl border-2 ${getColorClasses(recommendation.color)} p-8 sm:p-12 mb-8`}>
                 <div className="text-center mb-8">
                   {Icon && (
-                    <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
-                      <Icon className="w-10 h-10 text-gray-700" />
+                    <div className="w-20 h-20 bg-card rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
+                      <Icon className="w-10 h-10 text-foreground/90" />
                     </div>
                   )}
 
-                  <h2 className="text-3xl font-semibold text-gray-900 mb-4">
+                  <h2 className="text-3xl font-semibold text-foreground mb-4">
                     {recommendation.service}
                   </h2>
 
-                  <p className="text-lg text-gray-600 leading-relaxed mb-8">
+                  <p className="text-lg text-muted-foreground leading-relaxed mb-8">
                     {recommendation.description}
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <h4 className="font-semibold text-gray-900 mb-2">{t('common.price')}</h4>
-                      <p className="text-2xl font-bold text-gray-800">{recommendation.price}</p>
+                    <div className="text-center p-4 bg-muted/30 rounded-2xl">
+                      <h4 className="font-semibold text-foreground mb-2">{t('common.price')}</h4>
+                      <p className="text-2xl font-bold text-foreground">{recommendation.price}</p>
                     </div>
-                    <div className="text-center p-4 bg-gray-50 rounded-2xl">
-                      <h4 className="font-semibold text-gray-900 mb-2">{t('common.duration')}</h4>
-                      <p className="text-2xl font-bold text-gray-800">{recommendation.duration}</p>
+                    <div className="text-center p-4 bg-muted/30 rounded-2xl">
+                      <h4 className="font-semibold text-foreground mb-2">{t('common.duration')}</h4>
+                      <p className="text-2xl font-bold text-foreground">{recommendation.duration}</p>
                     </div>
                   </div>
 
                   <div className="mb-8">
-                    <h4 className="font-semibold text-gray-900 mb-4">{t('common.benefits')}:</h4>
+                    <h4 className="font-semibold text-foreground mb-4">{t('common.benefits')}:</h4>
                     <div className="grid grid-cols-2 gap-3">
                       {recommendation.benefits.map((benefit, index) => (
-                        <div key={index} className="flex items-center text-gray-700">
+                        <div key={index} className="flex items-center text-foreground/90">
                           <div className="w-2 h-2 bg-gray-400 rounded-full mr-3 flex-shrink-0"></div>
                           {benefit}
                         </div>
@@ -643,7 +643,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </div>
 
                   <div className="mb-8">
-                    <h4 className="font-semibold text-gray-900 mb-4">{t('booking.form.timeSlot')}:</h4>
+                    <h4 className="font-semibold text-foreground mb-4">{t('booking.form.timeSlot')}:</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                       {['morning', 'noon', 'afternoon', 'evening'].map((slot) => (
                         <button
@@ -652,7 +652,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           className={`py-2 px-4 rounded-xl border-2 transition-all duration-200 text-sm font-medium ${
                             selectedTime === t(`booking.options.timeSlot.${slot}`)
                               ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                              : 'border-gray-200 text-muted-foreground hover:border-gray-300'
                           }`}
                         >
                           {t(`booking.options.timeSlot.${slot}`)}
@@ -679,32 +679,32 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </button>
                   <button
                     onClick={() => setShowRecommendation(false)}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-8 py-4 rounded-full transition-colors duration-200"
+                    className="bg-muted hover:bg-gray-200 text-foreground/90 font-semibold px-8 py-4 rounded-full transition-colors duration-200"
                   >
                     {t('discovery.recommendation.restart')}
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="bg-white rounded-3xl shadow-xl border border-gray-200 p-8 sm:p-12 mb-8">
-                <h2 className="text-2xl font-semibold text-gray-900 mb-8 flex items-center justify-center">
+              <div className="bg-card rounded-3xl shadow-xl border border-gray-200 p-8 sm:p-12 mb-8">
+                <h2 className="text-2xl font-semibold text-foreground mb-8 flex items-center justify-center">
                   <ClipboardList className="w-6 h-6 mr-3 text-blue-600" />
                   {t('discovery.diagnosis.title')}
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   {/* Profile */}
-                  <div className="bg-gray-50 p-6 rounded-2xl">
-                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{t('discovery.diagnosis.profile')}</h3>
-                    <p className="text-lg font-medium text-gray-900">{recommendation.diagnosis?.profile}</p>
+                  <div className="bg-muted/30 p-6 rounded-2xl">
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('discovery.diagnosis.profile')}</h3>
+                    <p className="text-lg font-medium text-foreground">{recommendation.diagnosis?.profile}</p>
                   </div>
                   
                   {/* Symptoms */}
-                  <div className="bg-gray-50 p-6 rounded-2xl">
-                    <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{t('discovery.diagnosis.symptoms')}</h3>
+                  <div className="bg-muted/30 p-6 rounded-2xl">
+                    <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('discovery.diagnosis.symptoms')}</h3>
                     <div className="flex flex-wrap gap-2">
                       {recommendation.diagnosis?.symptoms.map((s, i) => (
-                        <span key={i} className="px-3 py-1 bg-white border border-gray-200 rounded-full text-sm text-gray-700 shadow-sm">
+                        <span key={i} className="px-3 py-1 bg-card border border-gray-200 rounded-full text-sm text-foreground/90 shadow-sm">
                           {s}
                         </span>
                       ))}
@@ -741,7 +741,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   </button>
                   <button
                     onClick={() => setShowRecommendation(false)}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-8 py-4 rounded-full transition-colors duration-200"
+                    className="bg-muted hover:bg-gray-200 text-foreground/90 font-semibold px-8 py-4 rounded-full transition-colors duration-200"
                   >
                     {t('discovery.recommendation.restart')}
                   </button>
@@ -749,7 +749,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               </div>
             )}
 
-            <div className="text-center text-gray-500">
+            <div className="text-center text-muted-foreground">
               <p className="mb-4">{t('discovery.recommendation.why')}</p>
               <Link
                 to="/contact"
@@ -780,14 +780,14 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               <span className="text-blue-700 font-medium">{t('discovery.recommendation.badge')}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-light text-gray-900 mb-6 leading-tight flex items-center justify-center gap-3">
+            <h1 className="text-4xl sm:text-5xl font-light text-foreground mb-6 leading-tight flex items-center justify-center gap-3">
               👋 {t('hero.title')}
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                 BETA
               </span>
             </h1>
 
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-muted-foreground mb-8">
               {t('discovery.recommendation.subtitle')}
             </p>
 
@@ -804,15 +804,15 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           </div>
 
           {/* Form */}
-          <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-12">
+          <div className="bg-card rounded-3xl shadow-xl border border-gray-100 p-8 sm:p-12">
 
             {/* Step 0: Location */}
             {currentStep === 0 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   📍 {t('discovery.step.location.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step.location.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step.location.subtitle')}</p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   {locations.map((loc) => {
@@ -826,11 +826,11 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                             : 'border-gray-200 hover:border-gray-300'
                           }`}
                       >
-                        <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${formData.location === loc.id ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-600'
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${formData.location === loc.id ? 'bg-blue-100 text-blue-600' : 'bg-muted text-muted-foreground'
                           }`}>
                           <LocIcon className="w-6 h-6" />
                         </div>
-                        <h3 className="font-semibold text-gray-900">{loc.title}</h3>
+                        <h3 className="font-semibold text-foreground">{loc.title}</h3>
                       </button>
                     );
                   })}
@@ -841,10 +841,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 1: Description */}
             {currentStep === 1 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   📝 {t('discovery.step.description.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step.description.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step.description.subtitle')}</p>
 
                 <textarea
                   value={formData.description}
@@ -852,7 +852,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   placeholder={t('discovery.step.description.placeholder')}
                   className="w-full h-40 p-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:ring-0 resize-none text-lg"
                 />
-                <p className="text-sm text-gray-500 mt-2 text-right">
+                <p className="text-sm text-muted-foreground mt-2 text-right">
                   {formData.description.length}/3 characters minimum
                 </p>
               </div>
@@ -861,10 +861,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 2: User Type */}
             {currentStep === 2 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   💡 {t('discovery.step1.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step1.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step1.subtitle')}</p>
 
                 <div className="space-y-4">
                   {userTypes.map((type) => (
@@ -876,8 +876,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <h3 className="font-semibold text-gray-900 mb-2">{type.title}</h3>
-                      <p className="text-gray-600 text-sm">{type.description}</p>
+                      <h3 className="font-semibold text-foreground mb-2">{type.title}</h3>
+                      <p className="text-muted-foreground text-sm">{type.description}</p>
                     </button>
                   ))}
                 </div>
@@ -887,10 +887,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 3: Tension Areas */}
             {currentStep === 3 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   📍 {t('discovery.step2.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step2.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step2.subtitle')}</p>
 
                 <div className="space-y-4">
                   {tensionOptions.map((option) => (
@@ -908,7 +908,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                         }`}
                     >
                       <div className="flex items-center justify-between">
-                        <span className="font-medium text-gray-900">{option}</span>
+                        <span className="font-medium text-foreground">{option}</span>
                         {formData.tensionAreas.includes(option) && (
                           <CheckCircle className="w-5 h-5 text-blue-600" />
                         )}
@@ -922,10 +922,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 4: Emotional State */}
             {currentStep === 4 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   🧘 {t('discovery.step4.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step4.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step4.subtitle')}</p>
 
                 <div className="space-y-4">
                   {emotionalStates.map((state) => (
@@ -937,8 +937,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <h3 className="font-semibold text-gray-900 mb-2">{state.title}</h3>
-                      <p className="text-gray-600 text-sm">{state.description}</p>
+                      <h3 className="font-semibold text-foreground mb-2">{state.title}</h3>
+                      <p className="text-muted-foreground text-sm">{state.description}</p>
                     </button>
                   ))}
                 </div>
@@ -948,10 +948,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 5: Time Commitment */}
             {currentStep === 5 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   ⏰ {t('discovery.step5.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step5.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step5.subtitle')}</p>
 
                 <div className="space-y-4">
                   {timeCommitments.map((time) => (
@@ -963,8 +963,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <h3 className="font-semibold text-gray-900 mb-2">{time.title}</h3>
-                      <p className="text-gray-600 text-sm">{time.description}</p>
+                      <h3 className="font-semibold text-foreground mb-2">{time.title}</h3>
+                      <p className="text-muted-foreground text-sm">{time.description}</p>
                     </button>
                   ))}
                 </div>
@@ -974,10 +974,10 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             {/* Step 6: Budget */}
             {currentStep === 6 && (
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+                <h2 className="text-2xl font-semibold text-foreground mb-6">
                   💰 {t('discovery.step6.title')}
                 </h2>
-                <p className="text-gray-600 mb-8">{t('discovery.step6.subtitle')}</p>
+                <p className="text-muted-foreground mb-8">{t('discovery.step6.subtitle')}</p>
 
                 <div className="space-y-4">
                   {budgetOptions.map((budget) => (
@@ -989,8 +989,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           : 'border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                      <h3 className="font-semibold text-gray-900 mb-2">{budget.title}</h3>
-                      <p className="text-gray-600 text-sm">{budget.description}</p>
+                      <h3 className="font-semibold text-foreground mb-2">{budget.title}</h3>
+                      <p className="text-muted-foreground text-sm">{budget.description}</p>
                     </button>
                   ))}
                 </div>
@@ -1002,8 +1002,8 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
               <button
                 onClick={handleBack}
                 className={`flex items-center px-6 py-3 rounded-full font-medium transition-colors duration-200 ${currentStep === 0
-                    ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                    ? 'text-muted-foreground/80 cursor-not-allowed'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                   }`}
                 disabled={currentStep === 0}
               >
@@ -1011,7 +1011,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 {t('discovery.back')}
               </button>
 
-              <span className="text-sm text-gray-500">
+              <span className="text-sm text-muted-foreground">
                 {t('common.step')} {currentStep + 1} {t('common.of')} 7
               </span>
 
@@ -1019,7 +1019,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 onClick={handleNext}
                 className={`flex items-center px-6 py-3 rounded-full font-medium transition-colors duration-200 ${canProceed()
                     ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    : 'bg-gray-200 text-muted-foreground/80 cursor-not-allowed'
                   }`}
                 disabled={!canProceed()}
               >

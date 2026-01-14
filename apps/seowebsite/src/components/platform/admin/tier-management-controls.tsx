@@ -91,7 +91,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
         <CardContent className="flex items-center justify-center h-64">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading...</p>
+            <p className="text-muted-foreground">Loading...</p>
           </div>
         </CardContent>
       </Card>
@@ -137,10 +137,10 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                 {users.length > 0 && (
                   <div className="space-y-2">
                     {users.map((user) => (
-                      <div key={user.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div key={user.id} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
                         <div>
                           <p className="font-medium">{user.displayName}</p>
-                          <p className="text-sm text-gray-600">{user.email}</p>
+                          <p className="text-sm text-muted-foreground">{user.email}</p>
                         </div>
                         <div className="flex items-center gap-2">
                           {user.currentTiers.map((tier) => (
@@ -214,7 +214,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="tier-type" className="block text-sm font-medium text-gray-700 mb-2">
+                    <Label htmlFor="tier-type" className="block text-sm font-medium text-foreground/90 mb-2">
                       Tier Type
                     </Label>
                     <Select value={tierType} onValueChange={(value) => setTierType(value as 'vip' | 'loyalty')}>
@@ -229,7 +229,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                   </div>
                   
                   <div>
-                    <Label htmlFor="select-tier" className="block text-sm font-medium text-gray-700 mb-2">
+                    <Label htmlFor="select-tier" className="block text-sm font-medium text-foreground/90 mb-2">
                       Select Tier
                     </Label>
                     <Select value={selectedTier} onValueChange={setSelectedTier}>
@@ -255,7 +255,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                 </div>
                 
                 <div>
-                  <Label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-2">
+                  <Label htmlFor="reason" className="block text-sm font-medium text-foreground/90 mb-2">
                     Reason
                   </Label>
                   <Textarea
@@ -316,15 +316,15 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Name</label>
+                      <label className="text-sm font-medium text-foreground/90">Name</label>
                       <p className="text-lg font-semibold">John Doe</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Email</label>
+                      <label className="text-sm font-medium text-foreground/90">Email</label>
                       <p className="text-lg">john.doe@example.com</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Current VIP Tier</label>
+                      <label className="text-sm font-medium text-foreground/90">Current VIP Tier</label>
                       <div className="flex items-center gap-2">
                         <Badge className="bg-gradient-to-r from-blue-500 to-purple-600">
                           <Crown className="w-3 h-3 mr-1" />
@@ -335,7 +335,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Current Loyalty Tier</label>
+                      <label className="text-sm font-medium text-foreground/90">Current Loyalty Tier</label>
                       <div className="flex items-center gap-2">
                         <Badge className="bg-gradient-to-r from-amber-500 to-orange-600">
                           <Star className="w-3 h-3 mr-1" />
@@ -344,11 +344,11 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                       </div>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Total Spend</label>
+                      <label className="text-sm font-medium text-foreground/90">Total Spend</label>
                       <p className="text-lg font-semibold text-green-600">€250.00</p>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-700">Loyalty Points</label>
+                      <label className="text-sm font-medium text-foreground/90">Loyalty Points</label>
                       <p className="text-lg font-semibold text-purple-600">1,500</p>
                     </div>
                   </div>
@@ -371,13 +371,13 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
             <CardContent>
               <div className="space-y-3">
                 {auditLogs.length === 0 ? (
-                  <div className="text-center text-gray-500 py-8">
+                  <div className="text-center text-muted-foreground py-8">
                     <Clock className="w-8 h-8 mx-auto mb-2 opacity-50" />
                     <p>No recent activity</p>
                   </div>
                 ) : (
                   auditLogs.map((log) => (
-                    <div key={log.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
+                    <div key={log.id} className="flex items-start gap-3 p-3 bg-muted/30 rounded-lg">
                       <div className="mt-1">
                         {log.action === 'assign' ? (
                           <Shield className="w-4 h-4 text-green-600" />
@@ -394,11 +394,11 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                             {log.tierType.toUpperCase()}
                           </Badge>
                         </div>
-                        <p className="text-sm text-gray-600">{log.reason}</p>
-                        <p className="text-xs text-gray-400 mt-2">
+                        <p className="text-sm text-muted-foreground">{log.reason}</p>
+                        <p className="text-xs text-muted-foreground/80 mt-2">
                           {new Date(log.timestamp).toLocaleString()}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-muted-foreground mt-1">
                           User: Test User
                         </p>
                       </div>

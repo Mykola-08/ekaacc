@@ -3,16 +3,16 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/platform/utils/css-utils'
 
 const premiumCardVariants = cva(
-  'relative overflow-hidden rounded-2xl border bg-white shadow-sm transition-all duration-300',
+  'relative overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300',
   {
     variants: {
       variant: {
-        default: 'border-neutral-200 bg-white',
-        elevated: 'border-neutral-200 bg-white shadow-lg hover:shadow-xl',
-        outlined: 'border-2 border-neutral-300 bg-white',
+        default: 'border-neutral-200 bg-card',
+        elevated: 'border-neutral-200 bg-card shadow-lg hover:shadow-xl',
+        outlined: 'border-2 border-neutral-300 bg-card',
         filled: 'border-neutral-200 bg-neutral-50',
-        glass: 'border-white/20 bg-white/10 backdrop-blur-md',
-        minimal: 'border-neutral-100 bg-white',
+        glass: 'border-white/20 bg-card/10 backdrop-blur-md',
+        minimal: 'border-neutral-100 bg-card',
         premium: 'border-primary-200 bg-gradient-to-br from-white to-neutral-50 shadow-xl',
       },
       padding: {
@@ -150,7 +150,7 @@ const PremiumCardBadge = React.forwardRef<HTMLDivElement, PremiumCardBadgeProps>
       success: 'bg-green-50 text-green-700 border border-green-200',
       warning: 'bg-amber-50 text-amber-700 border border-amber-200',
       error: 'bg-red-50 text-red-700 border border-red-200',
-      neutral: 'bg-slate-100 text-slate-700 border border-slate-200'
+      neutral: 'bg-muted text-foreground/90 border border-border'
     };
 
     const sizeClasses = {
@@ -270,7 +270,7 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
         
         {/* Loading Overlay */}
         {loading && (
-          <div className="absolute inset-0 bg-white/50 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
+          <div className="absolute inset-0 bg-card/50 backdrop-blur-sm rounded-2xl flex items-center justify-center z-10">
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />

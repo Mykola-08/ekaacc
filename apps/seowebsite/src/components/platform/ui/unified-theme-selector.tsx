@@ -150,7 +150,7 @@ export function UnifiedThemeSelector({
                   "relative p-4 rounded-xl border-2 transition-all duration-200 h-auto flex flex-col items-stretch hover:bg-muted/80",
                   isSelected
                     ? 'border-blue-500 bg-blue-50/50 dark:border-blue-400 dark:bg-blue-950/20'
-                    : 'border-slate-200 hover:border-slate-300 bg-white dark:border-slate-700 dark:bg-slate-800'
+                    : 'border-border hover:border-input bg-card dark:border-slate-700 dark:bg-primary/90'
                 )}
               >
                 <div className={cn(

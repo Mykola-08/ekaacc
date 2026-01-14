@@ -33,20 +33,20 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
      >
-       <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8">
+       <div className="inline-flex items-center px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8">
        <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent uppercase tracking-wider">
         {t('personalizedServices.title')}
        </span>
       </div>
 
-      <h1 className="text-5xl lg:text-7xl font-light text-gray-900 mb-8 tracking-tight leading-tight">
+      <h1 className="text-5xl lg:text-7xl font-light text-foreground mb-8 tracking-tight leading-tight">
        {t('services.therapiesFor')}{' '}
        <span className="font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
         {t('services.integralWellbeing')}
        </span>
       </h1>
 
-      <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+      <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light">
        {t('personalizedServices.subtitle')}
       </p>
 
@@ -64,13 +64,13 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
    </section>
 
    {/* Service List - Revised to use Cards */}
-   <section className="py-16 sm:py-24 bg-white">
+   <section className="py-16 sm:py-24 bg-card">
     <div className="max-w-7xl mx-auto px-4 sm:px-8">
       <div className="text-center mb-24">
-      <h2 className="text-4xl font-light text-gray-900 mb-6">
+      <h2 className="text-4xl font-light text-foreground mb-6">
        {t('personalizedServices.choose.title')}
       </h2>
-      <p className="text-xl text-gray-600 font-light max-w-2xl mx-auto">
+      <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto">
        {t('personalizedServices.choose.subtitle')}
       </p>
      </div>

@@ -27,27 +27,27 @@ export default function PersonalizedServices() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8">
+             <div className="inline-flex items-center px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8">
               <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent uppercase tracking-wider">
                 {t('personalizedServices.title')}
               </span>
             </div>
 
-            <h1 className="text-5xl lg:text-7xl font-light text-gray-900 mb-8 tracking-tight leading-tight">
+            <h1 className="text-5xl lg:text-7xl font-light text-foreground mb-8 tracking-tight leading-tight">
               {t('services.therapiesFor')}{' '}
               <span className="font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {t('services.integralWellbeing')}
               </span>
             </h1>
 
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-light">
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light">
               {t('personalizedServices.subtitle')}
             </p>
 
             <Link to="/booking">
               <Button 
                 size="xl" 
-                className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
               >
                 {t('personalizedServices.cta')}
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -58,13 +58,13 @@ export default function PersonalizedServices() {
       </section>
 
       {/* Service List - Unified Design with Services.tsx */}
-      <section className="py-16 sm:py-24 bg-white">
+      <section className="py-16 sm:py-24 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
            <div className="text-center mb-24">
-            <h2 className="text-4xl font-light text-gray-900 mb-6">
+            <h2 className="text-4xl font-light text-foreground mb-6">
               {t('personalizedServices.choose.title')}
             </h2>
-            <p className="text-xl text-gray-600 font-light max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground font-light max-w-2xl mx-auto">
               {t('personalizedServices.choose.subtitle')}
             </p>
           </div>
@@ -95,9 +95,9 @@ export default function PersonalizedServices() {
                             
                             {/* Floating Badge */}
                             <div className="absolute bottom-6 left-6 right-6">
-                                <div className="inline-flex items-center px-4 py-2 bg-white/90 backdrop-blur-md rounded-full shadow-lg">
-                                  <span className="text-gray-900 font-medium">{t(service.titleKey)}</span>
-                                  <ArrowUpRight className="ml-2 w-4 h-4 text-gray-900" />
+                                <div className="inline-flex items-center px-4 py-2 bg-card/90 backdrop-blur-md rounded-full shadow-lg">
+                                  <span className="text-foreground font-medium">{t(service.titleKey)}</span>
+                                  <ArrowUpRight className="ml-2 w-4 h-4 text-foreground" />
                                 </div>
                             </div>
                           </Link>
@@ -109,11 +109,11 @@ export default function PersonalizedServices() {
                              <UserRound className={`w-8 h-8 text-blue-600`} />
                           </div>
 
-                          <h3 className="text-3xl font-light text-gray-900 mb-6">
+                          <h3 className="text-3xl font-light text-foreground mb-6">
                             {t(service.titleKey)}
                           </h3>
                           
-                          <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+                          <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                             {t(service.descriptionKey)}
                           </p>
 
@@ -129,7 +129,7 @@ export default function PersonalizedServices() {
                              <Link to="/booking">
                                 <Button 
                                   variant="outline"
-                                  className="border-gray-300 hover:bg-gray-50 text-gray-700 px-8 py-3 rounded-xl transition-all"
+                                  className="border-gray-300 hover:bg-muted/30 text-foreground/90 px-8 py-3 rounded-xl transition-all"
                                 >
                                   {t('common.bookNow')}
                                 </Button>

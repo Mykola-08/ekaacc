@@ -143,7 +143,7 @@ export function AnalyticsDashboardHeadless() {
       case 'healthy': return 'text-green-700 bg-green-50 ring-green-600/20'
       case 'warning': return 'text-yellow-700 bg-yellow-50 ring-yellow-600/20'
       case 'critical': return 'text-red-700 bg-red-50 ring-red-600/20'
-      default: return 'text-gray-700 bg-gray-50 ring-gray-600/20'
+      default: return 'text-foreground/90 bg-muted/30 ring-gray-600/20'
     }
   }
 
@@ -170,8 +170,8 @@ export function AnalyticsDashboardHeadless() {
         <div className="bg-red-50 rounded-full p-4 mb-4">
             <AlertTriangle className="w-8 h-8 text-red-500" />
         </div>
-        <h3 className="text-lg font-semibold text-gray-900">Failed to load analytics</h3>
-        <p className="text-gray-500 mt-1 mb-6">We couldn't retrieve the latest data.</p>
+        <h3 className="text-lg font-semibold text-foreground">Failed to load analytics</h3>
+        <p className="text-muted-foreground mt-1 mb-6">We couldn't retrieve the latest data.</p>
         <button 
             onClick={handleRefresh} 
             className="px-6 py-2.5 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-full transition-colors"
@@ -187,21 +187,21 @@ export function AnalyticsDashboardHeadless() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-bold text-gray-900 tracking-tight flex items-center gap-3">
-             <BarChartIcon className="w-8 h-8 text-gray-400" />
+          <h1 className="text-4xl font-bold text-foreground tracking-tight flex items-center gap-3">
+             <BarChartIcon className="w-8 h-8 text-muted-foreground/80" />
              Analytics
           </h1>
-          <p className="text-gray-500 mt-2 text-lg">System metrics and user analytics.</p>
+          <p className="text-muted-foreground mt-2 text-lg">System metrics and user analytics.</p>
         </div>
         
-        <div className="flex items-center gap-3 bg-white p-1.5 rounded-full shadow-sm ring-1 ring-slate-200">
+        <div className="flex items-center gap-3 bg-card p-1.5 rounded-full shadow-sm ring-1 ring-slate-200">
           <select
             value={timeframe}
             onChange={(e) => {
               setTimeframe(e.target.value)
               fetchAnalytics(e.target.value)
             }}
-            className="pl-4 pr-8 py-2 bg-transparent border-0 text-sm font-medium text-gray-700 focus:ring-0 cursor-pointer"
+            className="pl-4 pr-8 py-2 bg-transparent border-0 text-sm font-medium text-foreground/90 focus:ring-0 cursor-pointer"
           >
             <option value="24h">Last 24 hours</option>
             <option value="7d">Last 7 days</option>
@@ -214,7 +214,7 @@ export function AnalyticsDashboardHeadless() {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="p-2 text-gray-500 hover:text-gray-900 transition-colors disabled:opacity-50"
+            className="p-2 text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
             title="Refresh"
           >
             <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -224,7 +224,7 @@ export function AnalyticsDashboardHeadless() {
 
           <button
             onClick={() => handleExport('csv')}
-            className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-full transition-colors"
+            className="px-4 py-2 text-sm font-medium text-foreground/90 hover:bg-muted/30 rounded-full transition-colors"
           >
             Export
           </button>
@@ -233,12 +233,12 @@ export function AnalyticsDashboardHeadless() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-white rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
-                <span className="text-sm font-medium text-gray-500">Total Users</span>
+                <span className="text-sm font-medium text-muted-foreground">Total Users</span>
                 <Users className="w-5 h-5 text-blue-500" />
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="text-3xl font-bold text-foreground mb-2">
                 {analytics.overview.totalUsers.toLocaleString()}
             </div>
             <div className="flex items-center text-sm">
@@ -246,29 +246,29 @@ export function AnalyticsDashboardHeadless() {
                     <TrendingUp className="w-3 h-3 mr-1" />
                     +{analytics.overview.newUsers}
                 </span>
-                <span className="text-gray-400 ml-2">this period</span>
+                <span className="text-muted-foreground/80 ml-2">this period</span>
             </div>
         </div>
 
-        <div className="bg-white rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
-                <span className="text-sm font-medium text-gray-500">Active Users</span>
+                <span className="text-sm font-medium text-muted-foreground">Active Users</span>
                 <Activity className="w-5 h-5 text-emerald-500" />
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="text-3xl font-bold text-foreground mb-2">
                 {analytics.overview.activeUsers.toLocaleString()}
             </div>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
                 {((analytics.overview.activeUsers / analytics.overview.totalUsers) * 100).toFixed(1)}% of total
             </div>
         </div>
 
-        <div className="bg-white rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
-                <span className="text-sm font-medium text-gray-500">Conversion Rate</span>
+                <span className="text-sm font-medium text-muted-foreground">Conversion Rate</span>
                 <BarChartIcon className="w-5 h-5 text-amber-500" />
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="text-3xl font-bold text-foreground mb-2">
                 {analytics.overview.conversionRate.toFixed(1)}%
             </div>
             <div className="flex items-center text-sm">
@@ -276,30 +276,30 @@ export function AnalyticsDashboardHeadless() {
                     <TrendingUp className="w-3 h-3 mr-1" />
                     +2.1%
                 </span>
-                <span className="text-gray-400 ml-2">vs last period</span>
+                <span className="text-muted-foreground/80 ml-2">vs last period</span>
             </div>
         </div>
 
-        <div className="bg-white rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
-                <span className="text-sm font-medium text-gray-500">Avg Session</span>
+                <span className="text-sm font-medium text-muted-foreground">Avg Session</span>
                 <Clock className="w-5 h-5 text-violet-500" />
             </div>
-            <div className="text-3xl font-bold text-gray-900 mb-2">
+            <div className="text-3xl font-bold text-foreground mb-2">
                 {Math.floor(analytics.overview.avgSessionDuration / 60)}m {analytics.overview.avgSessionDuration % 60}s
             </div>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
                 Session duration
             </div>
         </div>
       </div>
 
       {/* System Health */}
-      <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+      <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-                <h3 className="text-lg font-bold text-gray-900">System Health</h3>
-                <p className="text-gray-500 text-sm">Real-time status metrics</p>
+                <h3 className="text-lg font-bold text-foreground">System Health</h3>
+                <p className="text-muted-foreground text-sm">Real-time status metrics</p>
             </div>
             
             <div className="flex flex-wrap items-center gap-4 text-sm">
@@ -313,19 +313,19 @@ export function AnalyticsDashboardHeadless() {
                 
                 <div className="h-4 w-px bg-slate-200 hidden md:block" />
                 
-                <div className="text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+                <div className="text-muted-foreground bg-muted/30 px-3 py-1 rounded-full">
                     <span className="font-medium">Uptime:</span> {analytics.systemHealth.uptime.toFixed(1)}%
                 </div>
                 
-                <div className="text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+                <div className="text-muted-foreground bg-muted/30 px-3 py-1 rounded-full">
                     <span className="font-medium">Response:</span> {analytics.systemHealth.responseTime}ms
                 </div>
                 
-                <div className="text-gray-600 bg-gray-50 px-3 py-1 rounded-full">
+                <div className="text-muted-foreground bg-muted/30 px-3 py-1 rounded-full">
                     <span className="font-medium">Error Rate:</span> {analytics.systemHealth.errorRate.toFixed(2)}%
                 </div>
                 
-                <div className="text-xs text-gray-400 ml-auto md:ml-0">
+                <div className="text-xs text-muted-foreground/80 ml-auto md:ml-0">
                     Last check: {format(new Date(analytics.systemHealth.lastCheck), 'HH:mm:ss')}
                 </div>
             </div>
@@ -335,7 +335,7 @@ export function AnalyticsDashboardHeadless() {
       {/* Main Content Tabs */}
       <Tab.Group>
         <div className="flex items-center justify-between mb-2">
-            <Tab.List className="flex space-x-1 rounded-full bg-slate-100 p-1">
+            <Tab.List className="flex space-x-1 rounded-full bg-muted p-1">
                 {['Overview', 'User Growth', 'Activity', 'Top Pages', 'Segments'].map((category) => (
                     <Tab
                         key={category}
@@ -344,8 +344,8 @@ export function AnalyticsDashboardHeadless() {
                             'w-full min-w-[100px] rounded-full px-4 py-2.5 text-sm font-medium leading-5',
                             'focus:outline-none focus:ring-2 ring-offset-2 ring-slate-400',
                             selected
-                            ? 'bg-white text-gray-900 shadow'
-                            : 'text-gray-500 hover:text-gray-700 hover:bg-white/[0.12]'
+                            ? 'bg-card text-foreground shadow'
+                            : 'text-muted-foreground hover:text-foreground/90 hover:bg-card/[0.12]'
                         )
                         }
                     >
@@ -359,10 +359,10 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="space-y-6 focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
-                        <h3 className="text-lg font-bold text-gray-900">User Growth Trend</h3>
-                        <p className="text-gray-500 text-sm">User acquisition over time</p>
+                        <h3 className="text-lg font-bold text-foreground">User Growth Trend</h3>
+                        <p className="text-muted-foreground text-sm">User acquisition over time</p>
                     </div>
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
@@ -392,10 +392,10 @@ export function AnalyticsDashboardHeadless() {
                     </div>
                 </div>
 
-                <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
-                        <h3 className="text-lg font-bold text-gray-900">Activity by Hour</h3>
-                        <p className="text-gray-500 text-sm">Peak usage times</p>
+                        <h3 className="text-lg font-bold text-foreground">Activity by Hour</h3>
+                        <p className="text-muted-foreground text-sm">Peak usage times</p>
                     </div>
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
@@ -427,10 +427,10 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
-            <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+            <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                  <div className="mb-6">
-                    <h3 className="text-lg font-bold text-gray-900">User Growth Details</h3>
-                    <p className="text-gray-500 text-sm">Detailed user acquisition metrics</p>
+                    <h3 className="text-lg font-bold text-foreground">User Growth Details</h3>
+                    <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
                 </div>
                  <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
@@ -454,10 +454,10 @@ export function AnalyticsDashboardHeadless() {
           
           <Tab.Panel className="focus:outline-none">
             {/* Activity Panel */}
-            <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+            <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6">
-                    <h3 className="text-lg font-bold text-gray-900">Hourly Activity Pattern</h3>
-                    <p className="text-gray-500 text-sm">User activity throughout the day</p>
+                    <h3 className="text-lg font-bold text-foreground">Hourly Activity Pattern</h3>
+                    <p className="text-muted-foreground text-sm">User activity throughout the day</p>
                 </div>
                 <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
@@ -475,26 +475,26 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
              {/* Top Pages */}
-             <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+             <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6">
-                    <h3 className="text-lg font-bold text-gray-900">Most Visited Pages</h3>
-                    <p className="text-gray-500 text-sm">Top performing content</p>
+                    <h3 className="text-lg font-bold text-foreground">Most Visited Pages</h3>
+                    <p className="text-muted-foreground text-sm">Top performing content</p>
                 </div>
                 <div className="divide-y divide-gray-100">
                 {analytics.topPages.map((page, index) => (
-                  <div key={page.path} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between hover:bg-gray-50/50 rounded-xl px-2 transition-colors -mx-2">
+                  <div key={page.path} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between hover:bg-muted/30/50 rounded-xl px-2 transition-colors -mx-2">
                     <div className="flex items-center gap-4">
-                      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-100 text-sm font-semibold text-slate-600">
+                      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-muted text-sm font-semibold text-muted-foreground">
                         {index + 1}
                       </span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-gray-900 truncate">{page.path}</p>
-                        <p className="text-xs text-gray-500">{page.uniqueVisitors.toLocaleString()} unique visitors</p>
+                        <p className="text-sm font-semibold text-foreground truncate">{page.path}</p>
+                        <p className="text-xs text-muted-foreground">{page.uniqueVisitors.toLocaleString()} unique visitors</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-gray-900">{page.views.toLocaleString()}</p>
-                      <p className="text-xs text-gray-500">views</p>
+                      <p className="text-sm font-bold text-foreground">{page.views.toLocaleString()}</p>
+                      <p className="text-xs text-muted-foreground">views</p>
                     </div>
                   </div>
                 ))}
@@ -505,10 +505,10 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
-                        <h3 className="text-lg font-bold text-gray-900">User Segments</h3>
-                        <p className="text-gray-500 text-sm">User distribution by segment</p>
+                        <h3 className="text-lg font-bold text-foreground">User Segments</h3>
+                        <p className="text-muted-foreground text-sm">User distribution by segment</p>
                     </div>
                     <div className="h-[300px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
@@ -534,24 +534,24 @@ export function AnalyticsDashboardHeadless() {
                     </div>
                 </div>
 
-                <div className="bg-white rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
-                        <h3 className="text-lg font-bold text-gray-900">Segment Details</h3>
-                        <p className="text-gray-500 text-sm">Breakdown by user segments</p>
+                        <h3 className="text-lg font-bold text-foreground">Segment Details</h3>
+                        <p className="text-muted-foreground text-sm">Breakdown by user segments</p>
                     </div>
                     <div className="space-y-4">
                         {analytics.userSegments.map((segment, index) => (
-                            <div key={segment.segment} className="flex items-center justify-between p-3 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-colors">
+                            <div key={segment.segment} className="flex items-center justify-between p-3 rounded-2xl bg-muted/30 hover:bg-muted transition-colors">
                                 <div className="flex items-center gap-3">
                                     <div 
                                         className="w-4 h-4 rounded-full ring-2 ring-white" 
                                         style={{ backgroundColor: COLORS[index % COLORS.length] }}
                                     />
-                                    <span className="text-sm font-semibold text-gray-700">{segment.segment}</span>
+                                    <span className="text-sm font-semibold text-foreground/90">{segment.segment}</span>
                                 </div>
                                 <div className="text-right">
-                                    <p className="text-sm font-bold text-gray-900">{segment.count.toLocaleString()}</p>
-                                    <p className="text-xs text-gray-500">{segment.percentage.toFixed(1)}%</p>
+                                    <p className="text-sm font-bold text-foreground">{segment.count.toLocaleString()}</p>
+                                    <p className="text-xs text-muted-foreground">{segment.percentage.toFixed(1)}%</p>
                                 </div>
                             </div>
                         ))}

@@ -31,7 +31,7 @@ const testimonials = [
 
 export default function SuccessStories() {
   return (
-    <section className="py-24 bg-white dark:bg-gray-900 relative overflow-hidden">
+    <section className="py-24 bg-card dark:bg-gray-900 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 opacity-50"></div>
       <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 opacity-50"></div>
@@ -39,10 +39,10 @@ export default function SuccessStories() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground dark:text-white mb-6">
             Històries d'èxit
           </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground dark:text-gray-300 max-w-3xl mx-auto">
             Descobreix testimonis de persones que han recuperat el benestar i la llibertat de moviment amb les nostres teràpies.
           </p>
         </div>
@@ -52,7 +52,7 @@ export default function SuccessStories() {
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.name}
-              className="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-2 relative"
+              className="bg-card dark:bg-gray-800 rounded-3xl p-8 shadow-md hover:shadow-lg transition-all duration-500 transform hover:-translate-y-2 relative"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Quote Icon */}
@@ -68,7 +68,7 @@ export default function SuccessStories() {
               </div>
 
               {/* Testimonial Text */}
-              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed italic">
+              <p className="text-muted-foreground dark:text-gray-300 mb-6 leading-relaxed italic">
                 "{testimonial.text}"
               </p>
 
@@ -87,10 +87,10 @@ export default function SuccessStories() {
                   className="rounded-full object-cover mr-4"
                 />
                 <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
+                  <h4 className="font-semibold text-foreground dark:text-white">
                     {testimonial.name}
                   </h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-muted-foreground dark:text-muted-foreground/80">
                     {testimonial.role}
                   </p>
                 </div>
@@ -101,7 +101,7 @@ export default function SuccessStories() {
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
+          <p className="text-2xl md:text-3xl font-bold text-foreground dark:text-white mb-8">
             Torna a sentir-te bé amb tu mateixa
           </p>
           <Link

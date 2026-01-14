@@ -6,7 +6,7 @@ export function SettingsCard({ title, description, icon: Icon, actions, children
         {Icon && <Icon className='h-5 w-5' />}
         <div>
           <h3 className='font-semibold'>{title}</h3>
-          <p className='text-sm text-gray-500'>{description}</p>
+          <p className='text-sm text-muted-foreground'>{description}</p>
         </div>
         {actions && <div className='ml-auto'>{actions}</div>}
       </div>

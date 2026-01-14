@@ -37,9 +37,9 @@ function BillingSkeleton() {
 function NoInvoicesEmptyState({ onCreate }: { onCreate: () => void }) {
   return (
     <Card className="text-center py-16 border-2 border-dashed">
-      <DollarSign className="mx-auto h-12 w-12 text-gray-400" />
+      <DollarSign className="mx-auto h-12 w-12 text-muted-foreground/80" />
       <h5 className="text-lg font-semibold mt-4">No Invoices Found</h5>
-      <p className="text-sm text-gray-600 mt-1">
+      <p className="text-sm text-muted-foreground mt-1">
         There are no invoices for this client yet.
       </p>
       <Button onClick={onCreate} className="mt-4" variant="default">
@@ -99,7 +99,7 @@ export default function TherapistBillingPage() {
     <div className="flex items-center justify-between">
      <div>
       <h3 className="text-2xl font-bold">Client Billing</h3>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-muted-foreground">
        Manage invoices and payments for your clients.
       </p>
      </div>

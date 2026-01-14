@@ -34,7 +34,7 @@ export default function AppleHero() {
     {/* Content */}
     <div className="relative z-10 text-center text-white px-6 max-w-6xl mx-auto">
       {/* Badge - Glassy Style */}
-      <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 mb-8 animate-fade-in">
+      <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-card/5 backdrop-blur-sm border border-white/10 mb-8 animate-fade-in">
         <span className="text-sm md:text-base font-medium tracking-wide uppercase text-white/90">
           {t('hero.badge')}
         </span>
@@ -59,7 +59,7 @@ export default function AppleHero() {
         </Link>
 
         <Link to="/services" className="group" onClick={() => logEvent('hero_services_click')}>
-          <Button size="xl" className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
+          <Button size="xl" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
             {t('hero.discoverServices')}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>

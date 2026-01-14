@@ -140,8 +140,8 @@ export default function CancellationPolicy() {
  };
 
  return (
-  <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-   <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+  <div className="min-h-screen bg-muted/30 py-12 px-4 sm:px-6 lg:px-8">
+   <div className="max-w-4xl mx-auto bg-card rounded-2xl shadow-xl overflow-hidden">
     <div className="bg-blue-900 py-8 px-8 text-white flex justify-between items-center">
      <div>
       <h1 className="text-3xl font-bold">{content[language].title}</h1>
@@ -154,7 +154,7 @@ export default function CancellationPolicy() {
         onClick={() => setLanguage(lang)}
         className={`px-3 py-1 rounded uppercase text-sm font-bold transition-colors ${
          language === lang
-          ? "bg-white text-blue-900"
+          ? "bg-card text-blue-900"
           : "bg-blue-800 text-blue-200 hover:bg-blue-700"
         }`}
        >
@@ -165,21 +165,21 @@ export default function CancellationPolicy() {
     </div>
 
     <div className="p-8">
-     <p className="text-gray-700 text-lg mb-8 leading-relaxed border-b pb-8">
+     <p className="text-foreground/90 text-lg mb-8 leading-relaxed border-b pb-8">
       {content[language].intro}
      </p>
 
      <div className="space-y-8">
       {content[language].sections.map((section, index) => (
-       <div key={index} className="flex items-start p-6 bg-gray-50 rounded-xl hover:shadow-md transition-shadow">
-        <div className="flex-shrink-0 mt-1 bg-white p-3 rounded-full shadow-sm">
+       <div key={index} className="flex items-start p-6 bg-muted/30 rounded-xl hover:shadow-md transition-shadow">
+        <div className="flex-shrink-0 mt-1 bg-card p-3 rounded-full shadow-sm">
          {section.icon}
         </div>
         <div className="ml-6">
-         <h2 className="text-xl font-semibold text-gray-900 mb-3">
+         <h2 className="text-xl font-semibold text-foreground mb-3">
           {section.title}
          </h2>
-         <p className="text-gray-600 leading-relaxed">
+         <p className="text-muted-foreground leading-relaxed">
           {section.text}
          </p>
         </div>
@@ -187,7 +187,7 @@ export default function CancellationPolicy() {
       ))}
      </div>
 
-     <div className="mt-12 pt-8 border-t border-gray-200 text-center text-gray-500 text-sm">
+     <div className="mt-12 pt-8 border-t border-gray-200 text-center text-muted-foreground text-sm">
       <p>&copy; 2025 EKA Balance. All rights reserved.</p>
      </div>
     </div>

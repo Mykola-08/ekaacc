@@ -120,7 +120,7 @@ export default function BenefitsSection() {
           {benefits.map((benefit, index) => (
             <motion.div
               key={index}
-              className="group relative p-8 rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-amber-500/30 transition-all duration-500"
+              className="group relative p-8 rounded-3xl bg-card/5 backdrop-blur-md border border-white/10 hover:border-amber-500/30 transition-all duration-500"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

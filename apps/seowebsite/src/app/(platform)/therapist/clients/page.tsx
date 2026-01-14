@@ -25,7 +25,7 @@ function StatCard({ title, value, icon }: { title: string, value: string, icon: 
   return (
     <Card className="p-4">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-sm text-gray-600">{title}</span>
+        <span className="text-sm text-muted-foreground">{title}</span>
         {icon}
       </div>
       <div className="text-2xl font-bold">{value}</div>
@@ -66,9 +66,9 @@ function ClientsPageSkeleton() {
 function NoClientsEmptyState({ onCreate }: { onCreate: () => void }) {
   return (
     <Card className="text-center py-16 border-2 border-dashed">
-      <Users className="mx-auto h-12 w-12 text-gray-400" />
+      <Users className="mx-auto h-12 w-12 text-muted-foreground/80" />
       <h5 className="text-lg font-semibold mt-4">No Clients Found</h5>
-      <p className="text-sm text-gray-600 mt-1">
+      <p className="text-sm text-muted-foreground mt-1">
         Get started by adding your first client.
       </p>
       <Button onClick={onCreate} className="mt-4" variant="default">
@@ -124,7 +124,7 @@ export default function TherapistClientsPage() {
     <div className="flex items-center justify-between">
      <div>
       <h3 className="text-2xl font-bold">Clients</h3>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-muted-foreground">
        Manage your client relationships and view their profiles.
       </p>
      </div>
@@ -149,17 +149,17 @@ export default function TherapistClientsPage() {
        <StatCard 
         title="Total Clients" 
         value={clients.length.toString()} 
-        icon={<Users className="h-4 w-4 text-gray-500" />} 
+        icon={<Users className="h-4 w-4 text-muted-foreground" />} 
        />
        <StatCard 
         title="Active This Week" 
         value="-" 
-        icon={<Activity className="h-4 w-4 text-gray-500" />} 
+        icon={<Activity className="h-4 w-4 text-muted-foreground" />} 
        />
        <StatCard 
         title="New This Month" 
         value="-" 
-        icon={<Calendar className="h-4 w-4 text-gray-500" />} 
+        icon={<Calendar className="h-4 w-4 text-muted-foreground" />} 
        />
       </div>
 
@@ -197,7 +197,7 @@ export default function TherapistClientsPage() {
               </Link>
              </TableCell>
              <TableCell>
-              <span className="text-sm text-gray-600">
+              <span className="text-sm text-muted-foreground">
                {client.email || '-'}
               </span>
              </TableCell>

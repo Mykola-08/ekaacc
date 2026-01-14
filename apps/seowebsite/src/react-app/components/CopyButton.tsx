@@ -21,7 +21,7 @@ export function CopyButton({
       className={`transition-all duration-200 ${
         isCopied 
           ? 'text-green-600 scale-105' 
-          : 'text-gray-600 hover:text-gray-900'
+          : 'text-muted-foreground hover:text-foreground'
       } ${className}`}
       title={isCopied ? 'Copiat!' : 'Copia al porta-retalls'}
     >

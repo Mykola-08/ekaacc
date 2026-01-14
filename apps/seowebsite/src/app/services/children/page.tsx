@@ -25,11 +25,11 @@ export default function Children() {
         <span className="text-blue-700 font-medium text-sm">{t('nav.personalizedServices')}</span>
        </div>
 
-       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-gray-900 mb-6 leading-tight">
+       <h1 className="text-4xl sm:text-5xl lg:text-6xl font-light text-foreground mb-6 leading-tight">
         {t('elena.target.children.title')}
        </h1>
 
-       <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+       <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
         {t('elena.target.children.desc')}
        </p>
 

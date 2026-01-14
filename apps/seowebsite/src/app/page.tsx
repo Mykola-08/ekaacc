@@ -37,17 +37,17 @@ export default function Home() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-white rounded-[32px] shadow-xl border-none p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
+      className="bg-card rounded-[32px] shadow-xl border-none p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
      >
       {stats.map((stat, index) => (
        <div key={index} className="flex flex-col items-center text-center space-y-2">
         <div className="p-3 bg-blue-50 rounded-full text-blue-600 mb-1">
          <stat.icon size={24} />
         </div>
-        <span className="text-3xl font-light text-gray-900 tracking-tight">
+        <span className="text-3xl font-light text-foreground tracking-tight">
          {stat.number}
         </span>
-        <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">{stat.label}</p>
+        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">{stat.label}</p>
        </div>
       ))}
      </motion.div>
@@ -79,9 +79,9 @@ export default function Home() {
          />
        </div>
        {/* Floating Badge */}
-       <div className="absolute bottom-10 right-10 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 hidden md:block">
-         <p className="text-sm font-medium text-gray-900">Elena Kucherova</p>
-         <p className="text-xs text-gray-500">Founder & CEO</p>
+       <div className="absolute bottom-10 right-10 bg-card/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 hidden md:block">
+         <p className="text-sm font-medium text-foreground">Elena Kucherova</p>
+         <p className="text-xs text-muted-foreground">Founder & CEO</p>
        </div>
       </motion.div>
 
@@ -93,11 +93,11 @@ export default function Home() {
         transition={{ duration: 0.8 }}
         className="space-y-8 text-center lg:text-left"
       >
-       <h2 className="text-4xl sm:text-5xl font-light text-gray-900 leading-tight">
+       <h2 className="text-4xl sm:text-5xl font-light text-foreground leading-tight">
         {t('elena.greeting')}
        </h2>
 
-       <div className="text-lg text-gray-600 leading-relaxed space-y-6 font-light">
+       <div className="text-lg text-muted-foreground leading-relaxed space-y-6 font-light">
         <p>
          {t('elena.description1')}
         </p>
@@ -123,21 +123,21 @@ export default function Home() {
    </section>
 
    {/* Services Overview */}
-   <section className="py-24 bg-white relative">
+   <section className="py-24 bg-card relative">
     <div className="max-w-7xl mx-auto px-4 sm:px-8">
      <div className="text-center mb-16 space-y-4">
       <span className="text-blue-600 font-medium tracking-widest text-sm uppercase">
        {t('services.ourServices')}
       </span>
 
-      <h2 className="text-4xl sm:text-5xl font-light text-gray-900">
+      <h2 className="text-4xl sm:text-5xl font-light text-foreground">
        {t('services.therapiesFor')}{' '}
        <span className="block mt-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
         {t('services.integralWellbeing')}
        </span>
       </h2>
 
-      <p className="text-xl text-gray-500 max-w-2xl mx-auto font-light">
+      <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
        {t('services.personalizedTreatments')}
       </p>
      </div>
@@ -158,7 +158,7 @@ export default function Home() {
 
      <div className="mt-16 text-center">
        <Link href="/services">
-        <Button variant="outline" className="border-border text-gray-600 hover:text-blue-600 hover:border-blue-200 px-8 py-3 rounded-xl bg-gray-50">
+        <Button variant="outline" className="border-border text-muted-foreground hover:text-blue-600 hover:border-blue-200 px-8 py-3 rounded-xl bg-muted/30">
           View All Services
         </Button>
        </Link>
@@ -170,7 +170,7 @@ export default function Home() {
    <CasosSection />
 
    {/* Testimonials */}
-   <section className="py-24 bg-gray-50 overflow-hidden">
+   <section className="py-24 bg-muted/30 overflow-hidden">
      <TestimonialSlider />
    </section>
 

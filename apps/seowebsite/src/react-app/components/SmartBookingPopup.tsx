@@ -65,13 +65,13 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden relative"
+        className="bg-card dark:bg-zinc-900 rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden relative"
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-gray-100 dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 flex items-center justify-center transition-colors z-10"
+          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-muted dark:bg-zinc-800 hover:bg-gray-200 dark:hover:bg-zinc-700 flex items-center justify-center transition-colors z-10"
         >
-          <X className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+          <X className="w-5 h-5 text-muted-foreground dark:text-gray-300" />
         </button>
 
         <div className="p-8">
@@ -85,10 +85,10 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                 className="space-y-8"
               >
                 <div className="text-center space-y-2">
-                  <h2 className="text-2xl font-light text-gray-900 dark:text-white">
+                  <h2 className="text-2xl font-light text-foreground dark:text-white">
                     {t('booking.smart.title')}
                   </h2>
-                  <p className="text-gray-500 dark:text-gray-400">
+                  <p className="text-muted-foreground dark:text-muted-foreground/80">
                     {t('booking.smart.subtitle')}
                   </p>
                 </div>
@@ -102,10 +102,10 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                       <MessageCircle className="w-6 h-6 text-green-600" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-foreground dark:text-gray-100">
                         {t('booking.smart.quick')}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground/80">
                         {t('booking.smart.quickDesc')}
                       </p>
                     </div>
@@ -119,10 +119,10 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                       <FileText className="w-6 h-6 text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                      <h3 className="font-medium text-foreground dark:text-gray-100">
                         {t('booking.smart.form')}
                       </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <p className="text-sm text-muted-foreground dark:text-muted-foreground/80">
                         {t('booking.smart.formDesc')}
                       </p>
                     </div>
@@ -140,18 +140,18 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                 <div className="flex items-center mb-6">
                   <button 
                     onClick={() => setStep('choice')}
-                    className="mr-4 p-2 hover:bg-gray-100 dark:hover:bg-zinc-800 rounded-full transition-colors"
+                    className="mr-4 p-2 hover:bg-muted dark:hover:bg-zinc-800 rounded-full transition-colors"
                   >
-                    <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-300" />
+                    <ArrowLeft className="w-5 h-5 text-muted-foreground dark:text-gray-300" />
                   </button>
-                  <h2 className="text-xl font-medium text-gray-900 dark:text-white">
+                  <h2 className="text-xl font-medium text-foreground dark:text-white">
                     {t('booking.smart.form')}
                   </h2>
                 </div>
 
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-foreground/90 dark:text-gray-300 mb-1">
                       {t('booking.smart.name')}
                     </label>
                     <input
@@ -159,18 +159,18 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-foreground/90 dark:text-gray-300 mb-1">
                       {t('booking.smart.service')}
                     </label>
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
                     >
                       <option value="">Select a service...</option>
                       {services.map((s) => (
@@ -180,7 +180,7 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    <label className="block text-sm font-medium text-foreground/90 dark:text-gray-300 mb-1">
                       {t('booking.smart.time')}
                     </label>
                     <input
@@ -188,7 +188,7 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                       placeholder="Ex: Mornings, Next week..."
                       value={formData.timePreference}
                       onChange={(e) => setFormData({ ...formData, timePreference: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-gray-50 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
                     />
                   </div>
 

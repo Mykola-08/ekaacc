@@ -107,7 +107,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
  return (
   <div className="bg-black/40 border-none border-white/10 rounded-[32px] p-6 backdrop-blur-sm hover:border-white/20 transition-colors">
    <div className="flex items-start justify-between mb-4">
-    <div className="p-2 bg-white/5 rounded-xl text-white">
+    <div className="p-2 bg-card/5 rounded-xl text-white">
      <Icon className="w-5 h-5" />
     </div>
     <div className="flex flex-col items-end">

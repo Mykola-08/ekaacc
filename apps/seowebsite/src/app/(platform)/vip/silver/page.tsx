@@ -87,7 +87,7 @@ export default function VIPSilverPage() {
        </div>
       </BlurIn>
       <BlurIn>
-       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+       <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Elevate Your Therapy
         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
          Experience
@@ -95,7 +95,7 @@ export default function VIPSilverPage() {
        </h1>
       </BlurIn>
       <BlurIn>
-       <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+       <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
         Unlock enhanced therapy features with VIP Silver tier. Get priority support, 
         increased session limits, and exclusive access to premium tools and community.
        </p>
@@ -115,13 +115,13 @@ export default function VIPSilverPage() {
    </section>
 
    {/* Key Benefits */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
        Silver Tier Benefits
       </AnimatedGradientText>
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
        Everything you need to enhance your therapy journey with premium features and priority access
       </p>
      </div>
@@ -132,10 +132,10 @@ export default function VIPSilverPage() {
          <div className={`${benefit.color} mb-4`}>
           <benefit.icon className="w-8 h-8" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {benefit.title}
          </h3>
-         <p className="text-gray-600">
+         <p className="text-muted-foreground">
           {benefit.description}
          </p>
         </div>
@@ -170,7 +170,7 @@ export default function VIPSilverPage() {
    </section>
 
    {/* Testimonials */}
-   <section className="py-16 bg-gray-50">
+   <section className="py-16 bg-muted/30">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
@@ -180,18 +180,18 @@ export default function VIPSilverPage() {
      <div className="grid md:grid-cols-3 gap-8">
       {testimonials.map((testimonial, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+        <div className="bg-card p-6 rounded-2xl shadow-lg border border-gray-100">
          <div className="flex mb-4">
           {[...Array(testimonial.rating)].map((_, i) => (
            <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
           ))}
          </div>
-         <p className="text-gray-600 mb-4 italic">
+         <p className="text-muted-foreground mb-4 italic">
           "{testimonial.content}"
          </p>
          <div>
-          <p className="font-semibold text-gray-900">{testimonial.name}</p>
-          <p className="text-sm text-gray-500">{testimonial.role}</p>
+          <p className="font-semibold text-foreground">{testimonial.name}</p>
+          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
          </div>
         </div>
        </BlurIn>
@@ -201,13 +201,13 @@ export default function VIPSilverPage() {
    </section>
 
    {/* CTA Section */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
      <BlurIn>
       <AnimatedGradientText className="text-3xl font-bold mb-6">
        Ready to Upgrade?
       </AnimatedGradientText>
-      <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-muted-foreground mb-8">
        Join thousands of satisfied Silver members who have enhanced their therapy experience. 
        Start your journey today with a 7-day free trial.
       </p>
@@ -215,11 +215,11 @@ export default function VIPSilverPage() {
        <ShimmerButton className="px-8 py-4 text-lg">
         Start Free Trial
        </ShimmerButton>
-       <Button variant="outline" className="px-8 py-4 text-lg border-2 border-gray-300 text-gray-700 hover:bg-gray-50">
+       <Button variant="outline" className="px-8 py-4 text-lg border-2 border-gray-300 text-foreground/90 hover:bg-muted/30">
         Learn More
        </Button>
       </div>
-      <p className="text-sm text-gray-500 mt-4">
+      <p className="text-sm text-muted-foreground mt-4">
        No commitment • Cancel anytime • 7-day free trial
       </p>
      </BlurIn>

@@ -222,15 +222,15 @@ export default function DonationsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex justify-between items-center">
-            <span className="text-gray-600 dark:text-gray-400">{t('donations.page.totalDonated')}</span>
+            <span className="text-muted-foreground dark:text-muted-foreground/80">{t('donations.page.totalDonated')}</span>
             <span className="font-bold text-xl">€{donationStats.totalDonated.toFixed(2)}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-600 dark:text-gray-400">{t('donations.page.sessionsFunded')}</span>
+            <span className="text-muted-foreground dark:text-muted-foreground/80">{t('donations.page.sessionsFunded')}</span>
             <span className="font-bold text-xl">{donationStats.sessionsFunded}</span>
           </div>
           <div className="flex justify-between items-center">
-            <span className="text-gray-600 dark:text-gray-400">{t('donations.page.livesTouched')}</span>
+            <span className="text-muted-foreground dark:text-muted-foreground/80">{t('donations.page.livesTouched')}</span>
             <span className="font-bold text-xl">{donationStats.livesTouched}</span>
           </div>
         </CardContent>
@@ -244,7 +244,7 @@ export default function DonationsPage() {
         open={true}
        />
       ) : (
-       <Card className="bg-gray-50 dark:bg-gray-900/50">
+       <Card className="bg-muted/30 dark:bg-gray-900/50">
         <CardHeader>
          <CardTitle>{t('donations.page.needHelpTitle')}</CardTitle>
          <CardDescription>

@@ -9,10 +9,10 @@ const premiumNavVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-white/80 backdrop-blur-xl border-b border-neutral-200',
-        glass: 'bg-white/10 backdrop-blur-xl border-b border-white/20',
+        default: 'bg-card/80 backdrop-blur-xl border-b border-neutral-200',
+        glass: 'bg-card/10 backdrop-blur-xl border-b border-white/20',
         minimal: 'bg-transparent border-b border-neutral-100',
-        elevated: 'bg-white shadow-lg shadow-neutral-100/50',
+        elevated: 'bg-card shadow-lg shadow-neutral-100/50',
         dark: 'bg-neutral-900 border-b border-neutral-800',
         gradient: 'bg-gradient-to-r from-primary-50 to-secondary-50 border-b border-primary-100',
       },
@@ -48,7 +48,7 @@ const premiumNavItemVariants = cva(
         default: 'text-neutral-600 hover:text-primary-600 hover:bg-neutral-50',
         primary: 'text-primary-600 hover:text-primary-700 hover:bg-primary-50',
         minimal: 'text-neutral-700 hover:text-neutral-900',
-        glass: 'text-white/80 hover:text-white hover:bg-white/10',
+        glass: 'text-white/80 hover:text-white hover:bg-card/10',
         accent: 'text-secondary-600 hover:text-secondary-700 hover:bg-secondary-50',
       },
       size: {
@@ -86,7 +86,7 @@ const premiumNavItemVariants = cva(
       {
         variant: 'glass',
         active: true,
-        className: 'text-white bg-white/20',
+        className: 'text-white bg-card/20',
       },
     ],
   }
@@ -252,7 +252,7 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
             sticky, 
             rounded: scrolledState || rounded 
           }),
-          transparent && scrolledState && 'bg-white/90 backdrop-blur-xl',
+          transparent && scrolledState && 'bg-card/90 backdrop-blur-xl',
           className
         )}
         {...props}
@@ -458,7 +458,7 @@ const PremiumNavItem = ({
       </div>
       
       {item.dropdown && isDropdownOpen && (
-        <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+        <div className="absolute top-full left-0 mt-1 w-48 bg-card rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
           {item.dropdown.map((dropdownItem) => (
             <Link
               key={dropdownItem.label}
@@ -537,7 +537,7 @@ const UserMenu = ({ variant }: { variant: any }) => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+        <div className="absolute right-0 top-full mt-1 w-48 bg-card rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
           {menuItems.map((item) => (
             <Link
               key={item.label}

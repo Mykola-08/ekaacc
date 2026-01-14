@@ -42,23 +42,23 @@ export default function LegalLayout({
      </header>
      
      <main className="flex-grow container mx-auto px-4 py-12 max-w-5xl">
-      <div className="bg-white rounded-xl shadow-sm border p-8 md:p-12">
+      <div className="bg-card rounded-xl shadow-sm border p-8 md:p-12">
        {children}
       </div>
      </main>
 
-     <footer className="bg-white border-t py-12">
+     <footer className="bg-card border-t py-12">
       <div className="container mx-auto px-4">
        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div>
          <h3 className="font-bold mb-4">EKA Balance</h3>
-         <p className="text-sm text-gray-500">
+         <p className="text-sm text-muted-foreground">
           Empowering your journey to mental wellness through technology and professional care.
          </p>
         </div>
         <div>
-         <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Legal</h4>
-         <ul className="space-y-2 text-sm text-gray-600">
+         <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Legal</h4>
+         <ul className="space-y-2 text-sm text-muted-foreground">
           <li><Link href="/legal/privacy" className="hover:underline">Privacy Policy</Link></li>
           <li><Link href="/legal/terms" className="hover:underline">Terms of Service</Link></li>
           <li><Link href="/legal/cookies" className="hover:underline">Cookie Policy</Link></li>
@@ -66,22 +66,22 @@ export default function LegalLayout({
          </ul>
         </div>
         <div>
-         <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Contact</h4>
-         <ul className="space-y-2 text-sm text-gray-600">
+         <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Contact</h4>
+         <ul className="space-y-2 text-sm text-muted-foreground">
           <li>legal@ekabalance.com</li>
           <li>dpo@ekabalance.com</li>
           <li>support@ekabalance.com</li>
          </ul>
         </div>
         <div>
-         <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-gray-500">Updates</h4>
-         <p className="text-sm text-gray-500">
+         <h4 className="font-semibold mb-4 text-sm uppercase tracking-wider text-muted-foreground">Updates</h4>
+         <p className="text-sm text-muted-foreground">
           Legal documents last updated: <br/>
-          <span className="font-medium text-gray-900">November 25, 2025</span>
+          <span className="font-medium text-foreground">November 25, 2025</span>
          </p>
         </div>
        </div>
-       <div className="border-t pt-8 text-center text-sm text-gray-400">
+       <div className="border-t pt-8 text-center text-sm text-muted-foreground/80">
         &copy; {new Date().getFullYear()} EKA Balance. All rights reserved.
        </div>
       </div>

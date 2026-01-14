@@ -41,13 +41,13 @@ export default function MinimalHomePage() {
  ]
  
  return (
-  <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+  <div className="min-h-screen bg-muted/30 dark:bg-gray-900">
    {/* Hero Section */}
    <div className="text-center space-y-8 mb-16">
-    <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+    <h1 className="text-4xl md:text-5xl font-bold text-foreground">
      Professional Therapy Platform
     </h1>
-    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+    <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
      Connect with licensed therapists, track your progress, and improve your mental health with evidence-based tools and support.
     </p>
     <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -76,13 +76,13 @@ export default function MinimalHomePage() {
    
    {/* Features Section */}
    <div className="mb-16">
-    <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Platform Features</h2>
+    <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Platform Features</h2>
     <div className="grid gap-6 md:grid-cols-2">
      {features.map((feature, index) => (
       <Link key={index} href={feature.href}>
        <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer">
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
-        <p className="text-gray-600">{feature.description}</p>
+        <h3 className="text-lg font-semibold text-foreground mb-2">{feature.title}</h3>
+        <p className="text-muted-foreground">{feature.description}</p>
        </Card>
       </Link>
      ))}
@@ -91,23 +91,23 @@ export default function MinimalHomePage() {
    
    {/* Stats Section */}
    <div className="mb-16">
-    <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Platform Statistics</h2>
+    <h2 className="text-2xl font-bold text-foreground mb-8 text-center">Platform Statistics</h2>
     <div className="grid gap-4 md:grid-cols-4">
      {stats.map((stat, index) => (
       <Card key={index} className="p-6 text-center border">
-       <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
-       <div className="text-sm text-gray-600">{stat.label}</div>
+       <div className="text-2xl font-bold text-foreground mb-1">{stat.value}</div>
+       <div className="text-sm text-muted-foreground">{stat.label}</div>
       </Card>
      ))}
     </div>
    </div>
    
    {/* CTA Section */}
-   <div className="text-center space-y-6 bg-gray-100 rounded-[32px] p-8">
-    <h2 className="text-2xl font-bold text-gray-900">
+   <div className="text-center space-y-6 bg-muted rounded-[32px] p-8">
+    <h2 className="text-2xl font-bold text-foreground">
      Ready to Start Your Journey?
     </h2>
-    <p className="text-gray-600">
+    <p className="text-muted-foreground">
      Take the first step towards better mental health today.
     </p>
     <div className="flex flex-col sm:flex-row gap-4 justify-center">

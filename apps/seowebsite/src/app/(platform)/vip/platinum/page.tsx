@@ -117,7 +117,7 @@ export default function VIPPlatinumPage() {
        </div>
       </BlurIn>
       <BlurIn>
-       <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+       <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Elite Therapy
         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
          Excellence
@@ -125,7 +125,7 @@ export default function VIPPlatinumPage() {
        </h1>
       </BlurIn>
       <BlurIn>
-       <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+       <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
         Experience the absolute pinnacle of therapy with unlimited access, personal therapist teams, 
         white-label solutions, and elite concierge service. Reserved for those who demand the best.
        </p>
@@ -141,7 +141,7 @@ export default function VIPPlatinumPage() {
        </div>
       </BlurIn>
       <BlurIn>
-       <p className="text-sm text-gray-500 mt-4">
+       <p className="text-sm text-muted-foreground mt-4">
         Invitation-only tier • Application required • Premium onboarding
        </p>
       </BlurIn>
@@ -150,13 +150,13 @@ export default function VIPPlatinumPage() {
    </section>
 
    {/* Key Benefits */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
        Platinum Elite Benefits
       </AnimatedGradientText>
-      <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
        Unprecedented access, unlimited resources, and elite-level service designed for ultimate success
       </p>
      </div>
@@ -167,10 +167,10 @@ export default function VIPPlatinumPage() {
          <div className={`${benefit.color} mb-4`}>
           <benefit.icon className="w-8 h-8" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {benefit.title}
          </h3>
-         <p className="text-gray-600 text-sm">
+         <p className="text-muted-foreground text-sm">
           {benefit.description}
          </p>
         </div>
@@ -191,14 +191,14 @@ export default function VIPPlatinumPage() {
      <div className="grid md:grid-cols-3 gap-8">
       {exclusiveFeatures.map((feature, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-purple-200 text-center">
+        <div className="bg-card p-6 rounded-2xl shadow-lg border border-purple-200 text-center">
          <div className="text-purple-600 mb-4">
           <feature.icon className="w-12 h-12 mx-auto" />
          </div>
-         <h3 className="text-xl font-semibold text-gray-900 mb-3">
+         <h3 className="text-xl font-semibold text-foreground mb-3">
           {feature.title}
          </h3>
-         <p className="text-gray-600">
+         <p className="text-muted-foreground">
           {feature.description}
          </p>
         </div>
@@ -243,18 +243,18 @@ export default function VIPPlatinumPage() {
      <div className="grid md:grid-cols-3 gap-8">
       {testimonials.map((testimonial, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-white p-6 rounded-2xl shadow-lg border border-purple-100">
+        <div className="bg-card p-6 rounded-2xl shadow-lg border border-purple-100">
          <div className="flex mb-4">
           {[...Array(testimonial.rating)].map((_, i) => (
            <Crown key={i} className="w-5 h-5 text-purple-400 fill-current" />
           ))}
          </div>
-         <p className="text-gray-600 mb-4 italic">
+         <p className="text-muted-foreground mb-4 italic">
           "{testimonial.content}"
          </p>
          <div>
-          <p className="font-semibold text-gray-900">{testimonial.name}</p>
-          <p className="text-sm text-gray-500">{testimonial.role}</p>
+          <p className="font-semibold text-foreground">{testimonial.name}</p>
+          <p className="text-sm text-muted-foreground">{testimonial.role}</p>
          </div>
         </div>
        </BlurIn>
@@ -264,13 +264,13 @@ export default function VIPPlatinumPage() {
    </section>
 
    {/* CTA Section */}
-   <section className="py-16 bg-white">
+   <section className="py-16 bg-card">
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
      <BlurIn>
       <AnimatedGradientText className="text-3xl font-bold mb-6">
        Ready for Elite Status?
       </AnimatedGradientText>
-      <p className="text-xl text-gray-600 mb-8">
+      <p className="text-xl text-muted-foreground mb-8">
        Join the most exclusive therapy experience available. Our Platinum tier is reserved for 
        those who demand unlimited access, elite service, and transformative results.
       </p>
@@ -282,7 +282,7 @@ export default function VIPPlatinumPage() {
         Elite Consultation Call
        </Button>
       </div>
-      <p className="text-sm text-gray-500 mt-4">
+      <p className="text-sm text-muted-foreground mt-4">
        Application review within 24 hours • Premium onboarding • Exclusive benefits
       </p>
      </BlurIn>

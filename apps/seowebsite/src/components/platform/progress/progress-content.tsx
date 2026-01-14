@@ -30,7 +30,7 @@ function MinimalStatCard({
   }[trend || 'neutral'];
 
   return (
-    <Card className="p-6 animate-slide-up bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
+    <Card className="p-6 animate-slide-up bg-card/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
         {icon}
@@ -55,7 +55,7 @@ function MinimalProgressChart({ data }: { data: any[] }) {
       <h3 className="text-lg font-semibold text-foreground mb-4">Progress Over Time</h3>
       <div className="space-y-4">
         {data.map((point, index) => (
-          <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+          <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
             <div>
               <p className="font-medium text-foreground">{format(new Date(point.date), 'MMM d, yyyy')}</p>
               <p className="text-sm text-muted-foreground">{point.notes || 'Session completed'}</p>
@@ -159,10 +159,10 @@ export function ProgressContent({ reports }: ProgressContentProps) {
 
         {/* Empty State */}
         {progressData.length === 0 && (
-          <Card className="p-12 text-center animate-slide-up bg-white/50 backdrop-blur-sm border-dashed">
+          <Card className="p-12 text-center animate-slide-up bg-card/50 backdrop-blur-sm border-dashed">
             <div className="max-w-md mx-auto">
-              <div className="w-16 h-16 bg-gray-100/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Target className="w-8 h-8 text-gray-400" />
+              <div className="w-16 h-16 bg-muted/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Target className="w-8 h-8 text-muted-foreground/80" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-2">No Progress Data Yet</h3>
               <p className="text-muted-foreground mb-6">
@@ -184,7 +184,7 @@ export function ProgressContent({ reports }: ProgressContentProps) {
           <Button 
             variant="outline" 
             size="default"
-            className="hover:bg-white/60"
+            className="hover:bg-card/60"
             onClick={() => window.location.href = '/progress-reports'}
           >
             View Detailed Reports
@@ -192,7 +192,7 @@ export function ProgressContent({ reports }: ProgressContentProps) {
           <Button 
             variant="outline" 
             size="default"
-             className="hover:bg-white/60"
+             className="hover:bg-card/60"
             onClick={() => window.location.href = '/goals'}
           >
             Manage Goals

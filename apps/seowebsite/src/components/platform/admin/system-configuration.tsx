@@ -168,7 +168,7 @@ export function SystemConfiguration() {
 
   const renderConfigValue = (config: Configuration) => {
     if (config.isEncrypted) {
-      return <span className="text-gray-400 italic">••••••••</span>
+      return <span className="text-muted-foreground/80 italic">••••••••</span>
     }
     
     if (typeof config.value === 'boolean') {
@@ -200,7 +200,7 @@ export function SystemConfiguration() {
             }}
           />
         ) : (
-          <span className="text-sm text-gray-900">{config.value}</span>
+          <span className="text-sm text-foreground">{config.value}</span>
         )}
         {editingConfig !== config.id && (
           <Button
@@ -231,8 +231,8 @@ export function SystemConfiguration() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">System Configuration</h2>
-          <p className="text-gray-600">Manage system settings and configurations</p>
+          <h2 className="text-2xl font-bold text-foreground">System Configuration</h2>
+          <p className="text-muted-foreground">Manage system settings and configurations</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={fetchConfigurations}>
@@ -256,7 +256,7 @@ export function SystemConfiguration() {
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
                 <Input
                   placeholder="Search by key or description..."
                   value={searchTerm}
@@ -312,15 +312,15 @@ export function SystemConfiguration() {
                       <div key={config.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
-                            <h4 className="text-sm font-medium text-gray-900">{config.key}</h4>
+                            <h4 className="text-sm font-medium text-foreground">{config.key}</h4>
                             {config.isEncrypted && (
                               <Badge variant="outline" className="text-xs">
                                 Encrypted
                               </Badge>
                             )}
                           </div>
-                          <p className="text-sm text-gray-600">{config.description}</p>
-                          <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                          <p className="text-sm text-muted-foreground">{config.description}</p>
+                          <div className="flex items-center gap-4 mt-2 text-xs text-muted-foreground">
                             <span>Updated: {format(new Date(config.updatedAt), 'MMM dd, yyyy HH:mm')}</span>
                             <span>By: {config.updatedBy}</span>
                           </div>

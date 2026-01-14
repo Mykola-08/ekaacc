@@ -34,25 +34,25 @@ export default function ServicesContent({ services }: ServicesContentProps) {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.6 }}
      >
-      <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
+      <div className="inline-flex items-center px-6 py-3 bg-card/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
        <Heart className="w-5 h-5 text-blue-600 mr-2" />
        <span className="text-blue-700 font-medium">{t('services.integralWellbeingFor')}</span>
       </div>
 
-      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-gray-900 mb-8 leading-tight">
+      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-8 leading-tight">
        {t('services.ourServices')}{' '}
        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-medium">
         {t('services.ourServices2') || 'Therapies'}
        </span>
       </h1>
 
-      <p className="text-xl sm:text-2xl text-gray-600 max-w-4xl mx-auto mb-12 leading-relaxed font-light">
+      <p className="text-xl sm:text-2xl text-muted-foreground max-w-4xl mx-auto mb-12 leading-relaxed font-light">
        {t('services.wellnessPath')}
       </p>
 
       <div className="flex justify-center">
        <Link href="/booking">
-        <Button size="2xl" className="bg-slate-900 hover:bg-slate-800 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl transition-all duration-300">
+        <Button size="2xl" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl transition-all duration-300">
          {t('services.bookSession')}
          <ArrowRight className="ml-3 w-6 h-6" />
         </Button>
@@ -63,7 +63,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
    </section>
 
    {/* Services Grid */}
-   <section className="py-24 bg-white relative">
+   <section className="py-24 bg-card relative">
     <div className="max-w-7xl mx-auto px-4 sm:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {services.map((service, index) => {

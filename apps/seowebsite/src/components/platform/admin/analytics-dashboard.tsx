@@ -135,7 +135,7 @@ export function AnalyticsDashboard() {
   if (!analytics) {
     return (
       <div className="text-center py-8">
-        <p className="text-gray-500">Failed to load analytics data</p>
+        <p className="text-muted-foreground">Failed to load analytics data</p>
         <Button onClick={handleRefresh} className="mt-4">
           Try Again
         </Button>
@@ -148,8 +148,8 @@ export function AnalyticsDashboard() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Analytics Dashboard</h2>
-          <p className="text-gray-600">System metrics and user analytics</p>
+          <h2 className="text-2xl font-bold text-foreground">Analytics Dashboard</h2>
+          <p className="text-muted-foreground">System metrics and user analytics</p>
         </div>
         <div className="flex items-center gap-3">
           <select
@@ -265,17 +265,17 @@ export function AnalyticsDashboard() {
                 {getHealthIcon(analytics.systemHealth.status)}
                 <span className="ml-1 capitalize">{analytics.systemHealth.status}</span>
               </Badge>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Uptime: {analytics.systemHealth.uptime.toFixed(1)}%
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Response Time: {analytics.systemHealth.responseTime}ms
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-muted-foreground">
                 Error Rate: {analytics.systemHealth.errorRate.toFixed(2)}%
               </div>
             </div>
-            <div className="text-xs text-gray-500">
+            <div className="text-xs text-muted-foreground">
               Last check: {format(new Date(analytics.systemHealth.lastCheck), 'HH:mm:ss')}
             </div>
           </div>
@@ -395,15 +395,15 @@ export function AnalyticsDashboard() {
                 {analytics.topPages.map((page, index) => (
                   <div key={page.path} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="text-sm font-medium text-gray-500 w-6">{index + 1}.</span>
+                      <span className="text-sm font-medium text-muted-foreground w-6">{index + 1}.</span>
                       <div className="min-w-0 flex-1">
-                        <p className="text-sm font-medium text-gray-900 truncate">{page.path}</p>
-                        <p className="text-sm text-gray-500">{page.uniqueVisitors.toLocaleString()} unique visitors</p>
+                        <p className="text-sm font-medium text-foreground truncate">{page.path}</p>
+                        <p className="text-sm text-muted-foreground">{page.uniqueVisitors.toLocaleString()} unique visitors</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-medium text-gray-900">{page.views.toLocaleString()}</p>
-                      <p className="text-sm text-gray-500">views</p>
+                      <p className="text-sm font-medium text-foreground">{page.views.toLocaleString()}</p>
+                      <p className="text-sm text-muted-foreground">views</p>
                     </div>
                   </div>
                 ))}
@@ -460,7 +460,7 @@ export function AnalyticsDashboard() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium">{segment.count.toLocaleString()}</p>
-                        <p className="text-sm text-gray-500">{segment.percentage.toFixed(1)}%</p>
+                        <p className="text-sm text-muted-foreground">{segment.percentage.toFixed(1)}%</p>
                       </div>
                     </div>
                   ))}

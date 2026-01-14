@@ -15,7 +15,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
  const { t } = useLanguage();
 
  return (
-  <div className="bg-white rounded-[32px] shadow-sm border-none overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+  <div className="bg-card rounded-[32px] shadow-sm border-none overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
     <div className="relative h-64 overflow-hidden rounded-t-3xl">
      <LazyImage
       src={service.image}
@@ -25,11 +25,11 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
     </div>
     
    <div className="p-8 flex flex-col flex-grow">
-    <h3 className="text-2xl font-bold text-gray-900 mb-3">
+    <h3 className="text-2xl font-bold text-foreground mb-3">
      {t(service.titleKey)}
     </h3>
     
-    <p className="text-gray-600 text-sm leading-relaxed mb-6">
+    <p className="text-muted-foreground text-sm leading-relaxed mb-6">
      {t(service.descriptionKey)}
     </p>
 
@@ -37,7 +37,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
     {service.benefitsKeys && service.benefitsKeys.length > 0 && (
      <ul className="space-y-3 mb-8">
       {service.benefitsKeys.map((key, i) => (
-       <li key={i} className="flex items-start text-sm text-gray-700">
+       <li key={i} className="flex items-start text-sm text-foreground/90">
         <span className="w-2 h-2 rounded-full bg-orange-400 mt-1.5 mr-3 flex-shrink-0" />
         {t(key)}
        </li>
@@ -52,7 +52,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
            <span className="text-xs font-bold text-yellow-800 uppercase tracking-wide opacity-80">
              {t('common.expectedResult') || 'Expected Result:'}
            </span>
-           <p className="text-sm font-medium text-gray-900">
+           <p className="text-sm font-medium text-foreground">
              {t(service.resultKey)}
            </p>
         </div>
@@ -60,12 +60,12 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
     )}
     
     {/* Price and Duration Row */}
-     <div className="flex items-center justify-between mb-8 mt-auto text-sm text-gray-500">
+     <div className="flex items-center justify-between mb-8 mt-auto text-sm text-muted-foreground">
       <div className="flex items-center gap-1.5">
         <Clock className="w-4 h-4" />
         <span>{service.duration || '1 h'}</span>
       </div>
-       <span className="text-xl font-medium text-gray-900">
+       <span className="text-xl font-medium text-foreground">
         {service.price ? `${service.price} €` : 'Ask price'}
       </span>
     </div>
@@ -82,7 +82,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
      <Link href={service.href} className="flex-1">
        <Button 
         variant="outline"
-        className="w-full bg-white hover:bg-gray-50 text-gray-600 border border-border py-3 rounded-xl font-medium transition-colors"
+        className="w-full bg-card hover:bg-muted/30 text-muted-foreground border border-border py-3 rounded-xl font-medium transition-colors"
         >
         {t('common.readMore') || 'Read More'}
       </Button>

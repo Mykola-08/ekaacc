@@ -49,7 +49,7 @@ export function PlanUsageStats({ plans, loading }: PlanUsageStatsProps) {
                 <CardHeader className="pb-2 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800">
                   <div className="flex justify-between items-center">
                     <CardTitle className="text-base font-medium">{plan.name}</CardTitle>
-                    <Badge variant="secondary" className="bg-white/50 backdrop-blur">
+                    <Badge variant="secondary" className="bg-card/50 backdrop-blur">
                       {remaining} Left
                     </Badge>
                   </div>

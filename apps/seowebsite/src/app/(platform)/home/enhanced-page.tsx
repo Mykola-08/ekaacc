@@ -267,7 +267,7 @@ export default function PatientDashboardPage() {
          whileHover={{ y: -5 }}
          className="group"
         >
-         <div className="text-center p-8 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all duration-300 group-hover:shadow-2xl">
+         <div className="text-center p-8 rounded-2xl bg-card/50 dark:bg-primary/90/50 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 hover:bg-card/70 dark:hover:bg-primary/90/70 transition-all duration-300 group-hover:shadow-2xl">
           <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mx-auto mb-6 group-hover:opacity-90 transition-opacity shadow-lg`}>
            <feature.icon className="h-8 w-8 text-white" />
           </div>

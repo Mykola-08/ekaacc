@@ -8,46 +8,54 @@
 
 /* Glassy Apple Health Theme Overrides */
 :root {
-  /* Apple-esque warm grey background */
-  --background: #F5F7FA;
-  --foreground: #1F2937;
+  /* Apple-esque soft gray background (Nebula/Starlight vibe) */
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
 
-  /* Glassy Card Base (White with opacity) */
-  --card: #ffffff;
-  --card-foreground: #1F2937;
+  /* Glassy Card Base - softer white */
+  --card: rgba(255, 255, 255, 0.7);
+  --card-foreground: #1d1d1f;
   
-  --popover: #ffffff;
-  --popover-foreground: #1F2937;
+  --popover: rgba(255, 255, 255, 0.8);
+  --popover-foreground: #1d1d1f;
 
-  /* Health Primary - Sophisticated Teal */
-  --primary: #0F766E; /* Teal 700 */
+  /* Refined Teal - slightly more muted/premium */
+  --primary: #0d9488; /* Teal 600 */
   --primary-foreground: #ffffff;
 
-  --secondary: #CCFBF1; /* Teal 100 */
-  --secondary-foreground: #0F766E;
+  --secondary: #f0fdfa; /* Teal 50 */
+  --secondary-foreground: #0f766e;
 
-  --muted: #E2E8F0;
-  --muted-foreground: #64748B;
+  --muted: #f5f5f7;
+  --muted-foreground: #86868b; /* Apple gray text */
 
-  --accent: #F0FDFA; /* Teal 50 */
-  --accent-foreground: #0F766E;
+  --accent: #e0f2fe; /* Light blue accent for subtle details */
+  --accent-foreground: #0284c7;
 
-  --destructive: #EF4444;
+  --destructive: #ff3b30; /* Apple system red */
   --destructive-foreground: #ffffff;
 
-  --border: #E5E7EB;
-  --input: #E5E7EB;
-  --ring: #0F766E;
+  --border: rgba(0, 0, 0, 0.05); /* Very subtle borders */
+  --input: rgba(0, 0, 0, 0.05);
+  --ring: #0d9488;
   
-  --radius: 1.5rem; /* 24px - Large rounded corners */
+  --radius: 1.75rem; /* 28px - Extra rounded */
+}
+
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg shadow-black/[0.03];
+}
+
+.subtle-footer {
+  @apply bg-transparent backdrop-blur-lg border-t border-black/[0.02];
 }
 
 .dark {
-  --background: #020617; /* Slate 950 */
-  --foreground: #F8FAFC;
+  --background: #000000;
+  --foreground: #f5f5f7;
 
-  --card: #0F172A;
-  --card-foreground: #F8FAFC;
+  --card: rgba(28, 28, 30, 0.7);
+  --card-foreground: #f5f5f7;
 
   --primary: #2DD4BF; /* Teal 400 */
   --primary-foreground: #020617;

@@ -10,23 +10,40 @@
   font-family: 'SF Pro Text', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   
   /* Unified Theme Variables */
-  /* Apple-esque warm grey background */
-  --background: #F5F7FA;
-  --foreground: #1F2937;
+  /* Apple-esque soft gray (Nebula/Starlight) */
+  --background: #f5f5f7;
+  --foreground: #1d1d1f;
 
-  /* Glassy Card Base (White with opacity) */
-  --card: #ffffff;
-  --card-foreground: #1F2937;
+  /* Glassy Card Base - softer white with transparency */
+  /* Used with backdrop-blur in components */
+  --card: rgba(255, 255, 255, 0.7);
+  --card-foreground: #1d1d1f;
   
-  --popover: #ffffff;
-  --popover-foreground: #1F2937;
+  --popover: rgba(255, 255, 255, 0.8);
+  --popover-foreground: #1d1d1f;
 
-  /* Health Primary - Sophisticated Teal */
-  --primary: #0F766E; /* Teal 700 */
+  /* Health Primary - Sophisticated Teal (Optimized) */
+  --primary: #0d9488; /* Teal 600 */
   --primary-foreground: #ffffff;
 
-  --secondary: #CCFBF1; /* Teal 100 */
-  --secondary-foreground: #0F766E;
+  --secondary: #f0fdfa; /* Teal 50 */
+  --secondary-foreground: #0f766e;
+  
+  --muted: #f5f5f7;
+  --muted-foreground: #86868b; /* Apple Legend Gray */
+
+  --accent: #e0f2fe;
+  --accent-foreground: #0284c7;
+
+  --destructive: #ff3b30;
+  --destructive-foreground: #ffffff;
+
+  --border: rgba(0, 0, 0, 0.05);
+  --input: rgba(0, 0, 0, 0.05);
+  --ring: #0d9488;
+
+  --radius: 1.75rem; /* 28px - Extra rounded */
+}
 
   --muted: #E2E8F0;
   --muted-foreground: #64748B;

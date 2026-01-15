@@ -11,6 +11,7 @@ import { DebugStatus } from '@ekaacc/shared-ui';
 import { cn } from '@/lib/utils';
 import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({
  subsets: ['latin'],
@@ -38,29 +39,36 @@ export default function RootLayout({
  children: React.ReactNode;
 }>) {
  return (
-  <html lang='en'>
+  <html lang='en' suppressHydrationWarning>
    <body
     className={cn(
      'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-teal-100 selection:text-teal-900',
      // Subtle ambient background gradient
-     'bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-white via-stone-50 to-stone-100',
+     'bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-white via-stone-50 to-stone-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950',
      inter.variable,
      playfair.variable
     )}
    >
-    <LanguageProvider>
-      <MainLayout
-        header={<SiteHeader />}
-        footer={<SiteFooter />}
-      >
-        {children}
-      </MainLayout>
-      <CookieConsent />
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <LanguageProvider>
+        <MainLayout
+          header={<SiteHeader />}
+          footer={<SiteFooter />}
+        >
+          {children}
+        </MainLayout>
+        <CookieConsent />
 
-      <Toaster />
-      <Analytics />
-      <SpeedInsights />
-    </LanguageProvider>
+        <Toaster />
+        <Analytics />
+        <SpeedInsights />
+      </LanguageProvider>
+    </ThemeProvider>
    </body>
   </html>
  );

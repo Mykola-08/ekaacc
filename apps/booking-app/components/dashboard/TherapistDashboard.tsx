@@ -2,10 +2,8 @@
 
 import { useMemo } from 'react';
 import { format } from 'date-fns';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, MapPin, User, CheckCircle, XCircle, MoreVertical, Plus } from "lucide-react";
+import { Calendar, Clock, MapPin, User, CheckCircle, XCircle, MoreVertical, Plus, ArrowUpRight } from "lucide-react";
 import { NotificationDropdown } from "./NotificationDropdown";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
@@ -45,75 +43,66 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
     }, [schedule]);
 
     return (
-        <div className="w-full max-w-6xl mx-auto space-y-8 p-4 md:p-8 animate-in fade-in duration-500">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div className="w-full max-w-6xl mx-auto space-y-12 p-6 md:p-10 animate-in fade-in duration-700">
+            {/* Minimal Header */}
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border/40 pb-6">
                 <div>
-                    <h1 className="text-3xl font-serif text-foreground tracking-tight">{t('nav.dashboard')}</h1>
-                    <p className="text-muted-foreground flex items-center gap-2 mt-1">
-                        <Calendar className="w-4 h-4" />
+                    <h1 className="text-4xl font-semibold tracking-tight text-foreground/90">{t('nav.dashboard')}</h1>
+                    <p className="text-lg text-muted-foreground font-light flex items-center gap-2 mt-2">
+                        <Calendar className="w-4 h-4 opacity-70" />
                         {format(today, 'EEEE, MMMM do, yyyy')}
                     </p>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-3">
                     <NotificationDropdown />
-                    <Button variant="outline" className="rounded-full shadow-sm hover:bg-muted">{t('therapist.view_calendar')}</Button>
-                    <Button className="rounded-full shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90">
+                    <Button variant="outline" className="rounded-full border-border/40 hover:bg-foreground/5 shadow-none backdrop-blur-md">
+                        {t('therapist.view_calendar')}
+                    </Button>
+                    <Button className="rounded-full px-5 h-10 font-medium bg-foreground text-background hover:opacity-90 shadow-none">
                         <Plus className="w-4 h-4 mr-2" />
                         {t('therapist.add_block')}
                     </Button>
                 </div>
             </div>
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="h-full">
-                    <Card className="h-full hover:scale-[1.02] transition-all duration-300">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('therapist.total_bookings')}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-3xl font-bold">{stats.total}</div>
-                            <p className="text-xs text-muted-foreground mt-1">{t('therapist.for_today')}</p>
-                        </CardContent>
-                    </Card>
+            {/* Notion-like Stats Row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="group p-6 rounded-3xl border border-border/40 bg-background/40 backdrop-blur-xl hover:bg-background/60 transition-all duration-500">
+                    <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">{t('therapist.total_bookings')}</h3>
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-5xl font-semibold tracking-tighter text-foreground">{stats.total}</span>
+                        <span className="text-muted-foreground font-light">{t('therapist.for_today')}</span>
+                    </div>
                 </div>
-                <div className="h-full">
-                    <Card className="h-full hover:scale-[1.02] transition-all duration-300">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('status.confirmed')}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-3xl font-bold text-teal-600">{stats.confirmed}</div>
-                            <p className="text-xs text-muted-foreground mt-1">{t('therapist.sessions_confirmed')}</p>
-                        </CardContent>
-                    </Card>
+                
+                <div className="group p-6 rounded-3xl border border-border/40 bg-background/40 backdrop-blur-xl hover:bg-background/60 transition-all duration-500">
+                    <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">{t('status.confirmed')}</h3>
+                    <div className="flex items-baseline gap-2">
+                         <span className="text-5xl font-semibold tracking-tighter text-teal-600 dark:text-teal-400">{stats.confirmed}</span>
+                        <span className="text-muted-foreground font-light">{t('therapist.sessions_confirmed')}</span>
+                    </div>
                 </div>
-                <div className="h-full">
-                    <Card className="h-full hover:scale-[1.02] transition-all duration-300">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('status.pending')}</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="text-3xl font-bold text-amber-500">{stats.pending}</div>
-                            <p className="text-xs text-muted-foreground mt-1">{t('therapist.awaiting_action')}</p>
-                        </CardContent>
-                    </Card>
+
+                <div className="group p-6 rounded-3xl border border-border/40 bg-background/40 backdrop-blur-xl hover:bg-background/60 transition-all duration-500">
+                    <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">{t('status.pending')}</h3>
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-5xl font-semibold tracking-tighter text-amber-500 dark:text-amber-400">{stats.pending}</span>
+                         <span className="text-muted-foreground font-light">{t('therapist.awaiting_action')}</span>
+                    </div>
                 </div>
             </div>
 
-            {/* Schedule List */}
+            {/* Minimal Schedule List */}
             <div className="space-y-6">
-                <div>
-                    <h2 className="text-xl font-semibold text-foreground">Today's Schedule</h2>
-                </div>
+                <h2 className="text-xl font-medium text-foreground/80">Today's Schedule</h2>
                 
                 <div className="space-y-4">
                     {schedule.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-12 bg-muted/30 rounded-2xl border border-dashed border-border text-center">
-                            <div className="p-4 bg-muted rounded-full mb-3">
-                                <Calendar className="w-6 h-6 text-muted-foreground" />
+                        <div className="flex flex-col items-center justify-center py-16 rounded-3xl border border-dashed border-border/50 text-center bg-background/30 backdrop-blur-sm">
+                            <div className="p-4 bg-foreground/5 rounded-full mb-4">
+                                <Calendar className="w-6 h-6 text-muted-foreground/50" />
                             </div>
-                            <p className="text-muted-foreground font-medium">No bookings scheduled for today.</p>
+                            <p className="text-muted-foreground font-light text-lg">No bookings scheduled for today.</p>
                         </div>
                     ) : (
                         schedule.map((item, index) => (
@@ -135,90 +124,91 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
         ? `${item.profiles.first_name || ''} ${item.profiles.last_name || ''}`.trim() || item.profiles.email 
         : 'Unknown Client';
     
-    // Updated badges to use semantic tokens closer to design system
-    const statusMap = {
-        confirmed: 'bg-green-100 text-green-700 border-green-200 dark:bg-green-500/10 dark:text-green-400 dark:border-green-500/20',
-        pending: 'bg-orange-100 text-orange-700 border-orange-200 dark:bg-orange-500/10 dark:text-orange-400 dark:border-orange-500/20',
-        cancelled: 'bg-red-100 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20',
-        completed: 'bg-muted text-foreground/90 border-border dark:bg-primary/90 dark:text-muted-foreground/80 dark:border-slate-700',
-    };
-    
-    const statusColor = statusMap[item.status as keyof typeof statusMap] || 'bg-secondary text-secondary-foreground';
+    // Minimalist status indicators
+    const statusColor = {
+        confirmed: 'bg-teal-500/10 text-teal-700 dark:text-teal-400 border-teal-200/50',
+        pending: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200/50',
+        cancelled: 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-200/50',
+        completed: 'bg-muted text-muted-foreground border-border/50',
+    }[item.status as string] || 'bg-secondary text-secondary-foreground';
 
     return (
-        <Card className="group hover:shadow-md transition-all duration-300 border-none shadow-sm bg-card overflow-hidden">
+        <div className="group relative rounded-2xl border border-border/40 bg-background/50 backdrop-blur-md hover:bg-background/80 transition-all duration-300 overflow-hidden">
             <div className="flex flex-col md:flex-row">
-                {/* Time Column */}
-                <div className="p-6 md:w-48 flex flex-row md:flex-col justify-between md:justify-center items-center md:items-start border-b md:border-b-0 md:border-r border-border/50 bg-muted/10">
-                    <div className="text-center md:text-left">
-                        <span className="block text-2xl font-bold text-foreground">
+                
+                {/* Time - Minimal */}
+                <div className="p-6 md:w-40 flex flex-row md:flex-col justify-between md:justify-center items-center md:items-start border-b md:border-b-0 md:border-r border-border/40 bg-foreground/[0.02]">
+                    <div className="text-center md:text-left space-y-1">
+                        <span className="block text-xl font-semibold tracking-tight text-foreground/90">
                             {format(startTime, 'HH:mm')}
                         </span>
-                        <span className="text-sm text-muted-foreground font-medium">
+                        <span className="block text-sm text-muted-foreground font-mono opacity-70">
                             {format(endTime, 'HH:mm')}
                         </span>
                     </div>
                 </div>
 
-                {/* Details Column */}
-                <div className="flex-1 p-6 flex flex-col md:flex-row justify-between gap-4 items-start md:items-center">
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-2 mb-2">
-                             <Badge variant="outline" className={`rounded-full px-3 py-0.5 font-normal ${statusColor} border`}>
+                {/* Content - Clean */}
+                <div className="flex-1 p-6 flex flex-col md:flex-row justify-between gap-6 items-start md:items-center">
+                    <div className="space-y-2">
+                        <div className="flex items-center gap-3">
+                             <span className={`px-2.5 py-0.5 rounded-md text-xs font-medium uppercase tracking-wider border ${statusColor}`}>
                                 {item.status}
-                            </Badge>
+                            </span>
+                            <span className="text-sm text-muted-foreground font-light flex items-center gap-1">
+                                <Clock className="w-3 h-3 opacity-50" />
+                                {item.services?.duration} min
+                            </span>
                         </div>
-                        <h3 className="text-lg font-semibold text-foreground">
+                        
+                        <h3 className="text-lg font-medium text-foreground tracking-tight">
                             {item.services?.title || 'Custom Session'}
                         </h3>
                         
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-1.5">
-                                <Clock className="w-3.5 h-3.5" />
-                                <span>{item.services?.duration} min</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <User className="w-3.5 h-3.5" />
-                                <span className="font-medium text-foreground/80">{clientName}</span>
-                            </div>
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                            <Avatar className="w-6 h-6 border border-border/50">
+                                <AvatarFallback className="text-[10px] bg-foreground/5">{clientName.substring(0,2).toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                            <span className="text-sm font-normal text-foreground/80">{clientName}</span>
                         </div>
                     </div>
 
+                    {/* Actions - Flat */}
                     <div className="flex items-center gap-3 w-full md:w-auto mt-2 md:mt-0">
                         {item.status === 'pending' && (
-                             <div className="flex gap-2 w-full md:w-auto">
-                                <Button size="sm" className="flex-1 md:flex-none gap-2 bg-green-600 hover:bg-green-700 text-white rounded-full shadow-sm">
-                                    <CheckCircle className="w-4 h-4" />
+                             <div className="flex gap-3 w-full md:w-auto">
+                                <Button size="sm" className="flex-1 md:flex-none h-9 rounded-lg bg-green-600/90 hover:bg-green-600 text-white shadow-none border border-transparent">
+                                    <CheckCircle className="w-4 h-4 mr-2 opacity-90" />
                                     Confirm
                                 </Button>
-                                <Button size="sm" variant="outline" className="flex-1 md:flex-none gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20 border-red-200 dark:border-red-900/30 rounded-full">
-                                    <XCircle className="w-4 h-4" />
+                                <Button size="sm" variant="outline" className="flex-1 md:flex-none h-9 rounded-lg text-red-600 border-red-200 hover:bg-red-50 dark:border-red-900/30 dark:hover:bg-red-950/30">
+                                    <XCircle className="w-4 h-4 mr-2 opacity-90" />
                                     Decline
                                 </Button>
                              </div>
                         )}
                         {item.status === 'confirmed' && (
-                            <Button size="sm" variant="secondary" className="w-full md:w-auto gap-2 rounded-full bg-secondary/80 hover:bg-secondary">
-                                <MapPin className="w-4 h-4" />
+                            <Button size="sm" variant="secondary" className="w-full md:w-auto h-9 rounded-lg bg-foreground/5 hover:bg-foreground/10 text-foreground shadow-none">
+                                <MapPin className="w-3.5 h-3.5 mr-2 opacity-60" />
                                 Check In
                             </Button>
                         )}
                         
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                                    <MoreVertical className="w-4 h-4" />
+                                <Button variant="ghost" size="icon" className="h-9 w-9 rounded-lg hover:bg-foreground/5">
+                                    <MoreVertical className="w-4 h-4 opacity-50" />
                                 </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="rounded-xl">
-                                <DropdownMenuItem className="rounded-lg cursor-pointer">View Details</DropdownMenuItem>
-                                <DropdownMenuItem className="rounded-lg cursor-pointer">Reschedule</DropdownMenuItem>
-                                <DropdownMenuItem className="text-destructive rounded-lg cursor-pointer focus:bg-destructive/10 focus:text-destructive">Cancel Booking</DropdownMenuItem>
+                            <DropdownMenuContent align="end" className="rounded-xl border-border/40 backdrop-blur-xl bg-background/80 shadow-lg">
+                                <DropdownMenuItem className="rounded-lg cursor-pointer my-1">View Details</DropdownMenuItem>
+                                <DropdownMenuItem className="rounded-lg cursor-pointer my-1">Reschedule</DropdownMenuItem>
+                                <DropdownMenuItem className="text-destructive focus:text-destructive rounded-lg cursor-pointer my-1">Cancel Booking</DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                 </div>
             </div>
-        </Card>
+        </div>
     );
 }

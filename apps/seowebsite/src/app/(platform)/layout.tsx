@@ -71,10 +71,9 @@ export default function PlatformLayout({
      <AuthProvider>
       <ThemeProvider
        attribute="class"
-       defaultTheme="dark"
-       enableSystem={false}
+       defaultTheme="system"
+       enableSystem
        disableTransitionOnChange
-       forcedTheme="dark"
       >
        <ProgressProvider>
         <TooltipProvider>

@@ -1,0 +1,188 @@
+import os
+
+css_path = r"c:\ekaacc\packages\shared-ui\src\styles\globals.css"
+
+new_content = """@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: "Open Runde", "Inter", sans-serif;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Porcelain & Flow Extended Tokens */
+  --color-surface-subtle: #F7F8F9;
+  --color-surface-hover: #F0F2F4;
+  --color-surface-danger: #FFF0F0;
+  
+  --color-text-tertiary: #A5A5A5;
+  
+  --color-action-brand: #4DAFFF;
+  --color-action-danger: #FF3F40;
+
+  /* Custom Radii - Porcelain System */
+  --radius-xl: 1rem;       /* 16px - Standard Buttons */
+  --radius-2xl: 1.5rem;    /* 24px - Inner Cards */
+  --radius-3xl: 2.25rem;   /* 36px - Outer Containers/Drawers */
+  
+  /* Shadows */
+  --shadow-focus-ring-button: 0 0 0 2px #fff, 0 0 0 4px #E5E7EB;
+  
+  /* Animations */
+  --animate-fade-in: fade-in 0.2s ease-out forwards;
+  --animate-slide-up: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-zoom-in: zoom-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes slide-up {
+    0% { transform: translateY(20px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes zoom-in {
+    0% { transform: scale(0.95); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+}
+
+:root {
+  /* Porcelain & Flow System - Light Mode (Default) */
+  
+  /* Canvas Background: Porcelain Secondary (#F9F9F8) */
+  --background: #F9F9F8;
+  --foreground: #222222;
+
+  /* Card Surface: Porcelain Main (#FEFFFE) */
+  --card: #FEFFFE;
+  --card-foreground: #222222;
+
+  --popover: #FEFFFE;
+  --popover-foreground: #222222;
+
+  /* Brand Action: Apple Blue (#4DAFFF) */
+  --primary: #4DAFFF;
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #F7F8F9; /* Surface Subtle */
+  --secondary-foreground: #222222;
+
+  --muted: #F0F2F4; /* Surface Hover */
+  --muted-foreground: #999999;
+
+  --accent: #F0F2F4;
+  --accent-foreground: #222222;
+
+  --destructive: #FF3F40;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #F5F5F5;
+  --input: #F0F2F4;
+  --ring: #E5E7EB;
+
+  --radius: 2.25rem; /* Base radius 36px */
+
+  --sidebar: #FEFFFE;
+  --sidebar-foreground: #222222;
+  --sidebar-primary: #4DAFFF;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F7F8F9;
+  --sidebar-accent-foreground: #222222;
+  --sidebar-border: #F5F5F5;
+  --sidebar-ring: #4DAFFF;
+}
+
+.dark {
+  /* Dark Mode - iOS/Linear Night Style */
+  --background: #000000;
+  --foreground: #F5F5F7;
+
+  --card: #1C1C1E;
+  --card-foreground: #F5F5F7;
+
+  --popover: #1C1C1E;
+  --popover-foreground: #F5F5F7;
+
+  --primary: #4DAFFF; /* Keep Blue or adjust for dark mode contrast */
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #2C2C2E;
+  --secondary-foreground: #F5F5F7;
+
+  --muted: #2C2C2E;
+  --muted-foreground: #8E8E93;
+
+  --accent: #2C2C2E;
+  --accent-foreground: #F5F5F7;
+
+  --destructive: #FF453A;
+  --destructive-foreground: #FFFFFF;
+
+  --border: #38383A;
+  --input: #2C2C2E;
+  --ring: #4DAFFF;
+
+  --sidebar: #000000;
+  --sidebar-foreground: #F5F5F7;
+  --sidebar-primary: #4DAFFF;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1C1C1E;
+  --sidebar-accent-foreground: #F5F5F7;
+  --sidebar-border: #38383A;
+  --sidebar-ring: #4DAFFF;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Utilities */
+@utility glass {
+  @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm;
+}
+"""
+
+with open(css_path, "w", encoding='utf-8') as f:
+    f.write(new_content)

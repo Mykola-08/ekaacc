@@ -1,6 +1,113 @@
-# Animation Best Practices
+# Design System Specification: "Porcelain & Flow"
 
-> **For a comprehensive guide on Animation Theory, CSS Animations, and Framer Motion, please refer to [docs/ANIMATION_THEORY_GUIDE.md](ANIMATION_THEORY_GUIDE.md).**
+## 1. Core Philosophy
+
+* **Tactility:** Every interactive element must provide feedback. The code uses `active:scale-95`this "squishy" feel is essential.
+* **Soft Containers:** Avoid hard borders where possible. Use slight contrast in background colors (`#F9F9F8` on `#FEFFFE`) to define hierarchy.
+* **Hyper-Rounded:** We are avoiding sharp edges entirely. This is an "Apple-ish" super-ellipse (squircle) aesthetic.
+* **Action Color:** Action color is a vibrant Blue (`#4DAFFF`), reminiscent of iOS native actions.
+
+## 2. Design Tokens (Tailwind Config)
+
+These tokens rely on `globals.css` variables but follow this semantic mapping:
+
+### Colors
+
+* **Background (Canvas):** `bg-background` -> `#F9F9F8` (Porcelain Subtle)
+* **Surface (Cards/Sidebar):** `bg-card` / `bg-sidebar` -> `#FEFFFE` (Pure White)
+* **Primary Brand (Action):** `bg-primary` -> `#4DAFFF` (Apple Blue)
+* **Text Main:** `text-foreground` -> `#222222` (Soft Black)
+* **Text Muted:** `text-muted-foreground` -> `#999999` (Muted Gray)
+* **Borders:** `border-border` -> `#F5F5F5` (Very Light)
+
+### Radius
+
+* **Outer Containers (Cards, Sidebar, Modals):** `rounded-[36px]` (`rounded-3xl` + custom) -> `var(--radius)`
+* **Inner Elements (Buttons, Inputs):** `rounded-2xl` or `rounded-xl`
+* **Icons/Avatars:** `rounded-full`
+
+### Motion (Framer Motion)
+
+To maintain the "Apple" feel on a dashboard, use spring physics rather than ease-in-out.
+
+```javascript
+// Motion constants for your system
+export const springTransition = {
+  type: "spring",
+  stiffness: 400,
+  damping: 30
+};
+```
+
+## 3. Component Architecture
+
+### A. Typography
+
+* **Headings:** Semibold (`font-semibold`), dark grey (`#222222`).
+* **Body:** Medium (`font-medium`), soft grey (`#999999`).
+* **Labels:** Small, uppercase, tracking-wide.
+
+### B. Iconography (The "Thick Stroke" Style)
+
+* **Weight:** `2.75px` (Thicker than standard 2px).
+* **Style:** Rounded caps and joins.
+* **Color:** `#999999` (Inactive) to `#222222` (Active).
+* **Rule:** Never use filled icons unless it`s a notification dot. Keep everything outlined to match the "Airy" feel.
+
+### C. Buttons & Interactions
+
+1. **The "Row" Button:** (Used for settings/navigation)
+    * Height: `48px` (`h-12`)
+    * Radius: `16px`
+    * Bg: `#F7F8F9` (`bg-secondary`)
+    * Interaction: `active:scale-95`
+
+2. **The "Action" Button:** (Used for confirmation/modals)
+    * Height: `48px`
+    * Radius: `Full` (Pill shape)
+    * Bg: Brand Blue (`bg-primary`).
+    * Align: Center.
+
+## 4. Dashboard Concept Layout: "The Bento Grid"
+
+Instead of a complex admin panel, use a "Bento Box" layout.
+
+* **Sidebar:** Floating, pill-shaped (`rounded-[36px]`), detached from the edge.
+* **Main Content:** Large cards with `rounded-[36px]`.
+
+### Dashboard Layout Wrapper Example
+
+```jsx
+export function DashboardLayout({ children }) {
+  return (
+    <div className="min-h-screen bg-background p-4 flex gap-4 font-sans antialiased text-foreground">
+      {/* Sidebar */}
+      <nav className="w-64 bg-sidebar rounded-[36px] p-6 flex flex-col justify-between hidden md:flex border border-border">
+         {/* ... */}
+      </nav>
+
+      {/* Main Content Area */}
+      <main className="flex-1 bg-card rounded-[36px] p-8 overflow-y-auto border border-border">
+        {children}
+      </main>
+    </div>
+  );
+}
+```
+
+## 5. Summary of Visual Rules
+
+1. **No Pure Black:** Text is `#222222`.
+2. **No Thin Borders:** If a border exists, it`s very light `#F5F5F5`. Use background color separation (`#F9F9F8` vs `#FEFFFE`) instead of borders where possible.
+3. **Thick Icons:** Maintain that `2.75px` stroke width.
+4. **Radius Consistency:**
+    * Outer containers: `36px`
+    * Inner containers/Buttons: `16px`
+    * Icons/Small elements: `Full` (Circle)
+
+---
+
+# Legacy Animation Guidelines (Reference)
 
 ## 1. Easing
 
@@ -10,121 +117,12 @@ Use custom easing functions over built-in CSS easings for more natural motion.
 
 ```css
 --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
---ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
---ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
 --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
---ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
---ease-out-circ: cubic-bezier(0.075, 0.82, 0.165, 1);
 ```
 
 ### ease-in-out (Elements moving within the screen)
 
 ```css
 --ease-in-out-quad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
---ease-in-out-cubic: cubic-bezier(0.645, 0.045, 0.355, 1);
---ease-in-out-quart: cubic-bezier(0.77, 0, 0.175, 1);
---ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
---ease-in-out-expo: cubic-bezier(1, 0, 0, 1);
---ease-in-out-circ: cubic-bezier(0.785, 0.135, 0.15, 0.86);
 ```
-
-### ease-in (Should generally be avoided as it makes the UI feel slow.)
-
-```css
---ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
---ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
---ease-in-quart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
---ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
---ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
---ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.335);
-```
-
-## 2. Duration & Timing
-
-- **Hover transitions**: Use `transition: property 200ms ease` for `color`, `background-color`, `opacity`
-- **Spring animations**: When using Motion/Framer Motion using Spring animations usually results in a better animation. Avoid using bouncy spring animations unless you are working with drag gestures.
-- **Make your UI feel fast**: Keep in mind that most animations should be fast. We want the user to feel that the UI is responsive and listens to him. No animation should be longer than 1s, unless it's illustrative.
-- **Origin-aware**: Animate from the trigger (e.g., dropdown animates from button). Set `transform-origin` accordingly
-
-## 3. Motion/Framer Motion
-
-- Prefer **spring animations** for natural feel (avoid bouncy springs unless using drag gestures)
-- **Recommended Snappy Config**: Use `iosSpring` with `stiffness: 500`, `damping: 30`.
-- Use `transform` instead of `x`/`y` for hardware acceleration:
-
-```tsx
-// Prefer this (hardware accelerated)
-<motion.div style={{ transform: "translateX(100px)" }} />
-
-// Over this
-<motion.div animate={{ x: 100 }} />
-```
-
-## 4. Performance
-
-- **Animate mostly**: `opacity`, `transform`
-- **Avoid**: Animating `top`, `left`, `width`, `height`  use `transform` instead
-- **Blur**: Keep blur values  20px
-- **will-change**: Use sparingly, only for `transform`, `opacity`, `clipPath`, `filter`
-- **Never** animate drag gestures with CSS variables
-
-## 5. Radix UI Integration
-
-### Adding animations
-
-Use `asChild` with a `motion` component:
-
-```tsx
-<Dialog.Content asChild>
-  <motion.div
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
-    exit={{ opacity: 0, scale: 0.95 }}
-  >
-    {children}
-  </motion.div>
-</Dialog.Content>
-```
-
-### Exit & layout animations
-
-Hoist state and use `AnimatePresence` with `forceMount`:
-
-```tsx
-const [open, setOpen] = useState(false);
-
-return (
-  <Dialog.Root open={open} onOpenChange={setOpen}>
-    <Dialog.Trigger>Open</Dialog.Trigger>
-    <AnimatePresence>
-      {open && (
-        <Dialog.Content forceMount asChild>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            {children}
-          </motion.div>
-        </Dialog.Content>
-      )}
-    </AnimatePresence>
-  </Dialog.Root>
-);
-```
-
-# Design System Guidelines (Colors & Themes)
-
-## 1. Visual Hierarchy (The "Apple" Look)
-- **Theme 1 (Mainstream)**:
-  - **Backgrounds**: `bg-slate-50` (light grey) and `bg-white`.
-  - **Glassmorphism**: `bg-white/70`, `backdrop-blur-xl`, `border-white/40`.
-  - **Shadows**: `appleShadow` (`shadow-[0_8px_30px_rgb(0,0,0,0.04)]`).
-  - **Accents**: "Apple Blue" (`#007AFF` / `blue-600`) for primary actions.
-  - **Typography**: Clean sans-serif, high contrast (`slate-900` headings, `slate-500` body).
-
-- **Theme 2 (Premium Services)**:
-  - Used *only* for Premium Services selection.
-  - **Aesthetic**: High contrast, "Sheet" style.
-  - **Backgrounds**: Darker or heavily blurred glass over dark backgrounds (if in dark mode) or distinct "Passbook" style cards.
 

@@ -61,7 +61,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number, onSuccess: (
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="bg-muted/30 p-4 rounded-xl border border-gray-200">
+      <div className="bg-muted/30 p-4 rounded-xl border border-border">
         <PaymentElement options={{ 
             layout: 'tabs',
         }} />
@@ -300,7 +300,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                              <p className="text-xs text-muted-foreground">Expires 12/28</p>
                         </div>
                     </div>
-                     <button className="w-full py-3 border border-gray-200 text-foreground/90 font-semibold rounded-xl hover:bg-muted/30 transition-colors">
+                     <button className="w-full py-3 border border-border text-foreground/90 font-semibold rounded-xl hover:bg-muted/30 transition-colors">
                         Manage Methods
                     </button>
                 </div>
@@ -372,7 +372,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                         </Elements>
                     ) : (
                         <div className="flex justify-center py-12">
-                             <div className="animate-spin rounded-full h-8 w-8 border-4 border-gray-200 border-t-black"></div>
+                             <div className="animate-spin rounded-full h-8 w-8 border-4 border-border border-t-black"></div>
                         </div>
                     )}
                   </div>

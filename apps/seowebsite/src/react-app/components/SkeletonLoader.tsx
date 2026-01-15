@@ -37,10 +37,10 @@ export function CardSkeleton({ count = 1 }: { count?: number }) {
 export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; columns?: number }) {
   return (
     <div className="bg-card dark:bg-gray-800 rounded-2xl shadow-sm overflow-hidden">
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+      <div className="p-6 border-b border-border dark:border-gray-700">
         <Skeleton className="h-6 w-40" />
       </div>
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="divide-y divide-border dark:divide-gray-700">
         {Array.from({ length: rows }).map((_, rowIndex) => (
           <div key={rowIndex} className="p-6 flex items-center space-x-6">
             {Array.from({ length: columns }).map((_, colIndex) => (

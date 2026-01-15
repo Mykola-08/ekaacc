@@ -11,7 +11,7 @@ function cn(...inputs: (string | undefined | null | false)[]) {
 
 export function AcademyContentHeadless() {
   const courses = [
-      { title: "Mindfulness Fundamentals", progress: 65, total: 12, completed: 8, image: "bg-teal-100", icon: "🧘" },
+      { title: "Mindfulness Fundamentals", progress: 65, total: 12, completed: 8, image: "bg-blue-100", icon: "🧘" },
       { title: "Sleep Science 101", progress: 30, total: 10, completed: 3, image: "bg-indigo-100", icon: "😴" },
       { title: "Stress Management Mastery", progress: 0, total: 15, completed: 0, image: "bg-orange-100", icon: "😌" }
   ];
@@ -37,7 +37,7 @@ export function AcademyContentHeadless() {
              <input 
                 type="text" 
                 placeholder="Find a course..."
-                className="pl-12 pr-4 py-3 rounded-2xl border-gray-200 bg-card border shadow-sm focus:ring-2 focus:ring-black focus:border-transparent w-full md:w-64 transition-all"
+                className="pl-12 pr-4 py-3 rounded-2xl border-border bg-card border shadow-sm focus:ring-2 focus:ring-black focus:border-transparent w-full md:w-64 transition-all"
             />
         </div>
       </div>

@@ -36,7 +36,7 @@ export default function ServiceCategoryPills() {
         image: s.image || '',
         color: s.color === 'orange' ? 'from-orange-400 to-pink-500' : 
                s.color === 'blue' ? 'from-blue-400 to-indigo-500' : 
-               s.color === 'green' ? 'from-green-400 to-teal-500' : 'from-purple-400 to-pink-500',
+               s.color === 'green' ? 'from-green-400 to-blue-500' : 'from-purple-400 to-pink-500',
         number: `0${index + 1}`,
         name: t(s.titleKey),
         description: t(s.descriptionKey).substring(0, 50) + '...'

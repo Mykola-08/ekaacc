@@ -129,7 +129,7 @@ export function RoleManagementPanelHeadless() {
 
       <div className="overflow-hidden rounded-3xl ring-1 ring-gray-200 bg-card">
           <div className="overflow-x-auto">
-             <table className="min-w-full divide-y divide-gray-200">
+             <table className="min-w-full divide-y divide-border">
                 <thead className="bg-muted/30/50">
                     <tr>
                         <th className="py-4 pl-6 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">User</th>
@@ -141,7 +141,7 @@ export function RoleManagementPanelHeadless() {
                         </th>
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 bg-card">
+                <tbody className="divide-y divide-border bg-card">
                     {users.map(user => (
                         <tr key={user.id} className="hover:bg-muted/30/50 transition-colors">
                             <td className="whitespace-nowrap py-4 pl-6 pr-3">
@@ -220,7 +220,7 @@ export function RoleManagementPanelHeadless() {
                         <label className="block text-sm font-medium text-foreground/90 mb-1">User ID</label>
                         <input
                             {...register('userId')}
-                            className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                            className="w-full rounded-xl border-border bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                             placeholder="Select user..." 
                         />
                         {errors.userId && <p className="text-xs text-red-500 mt-1">{errors.userId.message}</p>}
@@ -230,7 +230,7 @@ export function RoleManagementPanelHeadless() {
                         <label className="block text-sm font-medium text-foreground/90 mb-1">Role</label>
                         <select
                             {...register('role')}
-                            className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                            className="w-full rounded-xl border-border bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                         >
                             <option value="">Select a role</option>
                             <option value="admin">Admin</option>
@@ -245,7 +245,7 @@ export function RoleManagementPanelHeadless() {
                         <textarea
                              {...register('reason')}
                              rows={3}
-                             className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                             className="w-full rounded-xl border-border bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                              placeholder="Why is this role being assigned?"
                         />
                          {errors.reason && <p className="text-xs text-red-500 mt-1">{errors.reason.message}</p>}

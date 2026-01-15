@@ -202,7 +202,7 @@ export function ResponsiveCard({
   };
 
   const variantClasses = {
-    default: 'bg-card shadow-lg rounded-xl border border-gray-200',
+    default: 'bg-card shadow-lg rounded-xl border border-border',
     elevated: 'bg-card shadow-2xl rounded-2xl border border-gray-100',
     outlined: 'bg-transparent border-2 border-gray-300 rounded-xl',
     ghost: 'bg-transparent border-none rounded-xl'
@@ -251,7 +251,7 @@ export function ResponsiveButton({
     default: 'bg-gradient-to-r from-primary to-purple-600 text-white hover:shadow-lg transition-all duration-200',
     outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-200',
     ghost: 'bg-transparent text-primary hover:bg-primary/10 transition-all duration-200',
-    elevated: 'bg-card text-foreground shadow-lg hover:shadow-xl border border-gray-200 transition-all duration-200'
+    elevated: 'bg-card text-foreground shadow-lg hover:shadow-xl border border-border transition-all duration-200'
   };
 
   return (

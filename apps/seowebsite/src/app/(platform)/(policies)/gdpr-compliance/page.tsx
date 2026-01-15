@@ -158,7 +158,7 @@ export default function GdprCompliance() {
        className={`px-4 py-2 text-sm font-medium border first:rounded-l-lg last:rounded-r-lg ${
         language === lang
          ? "bg-primary text-white border-primary"
-         : "bg-card text-foreground/90 border-gray-200 hover:bg-muted/30"
+         : "bg-card text-foreground/90 border-border hover:bg-muted/30"
        }`}
       >
        {lang.toUpperCase()}

@@ -59,7 +59,7 @@ const benefits = [
   icon: Gem,
   title: 'Concierge Service',
   description: 'Dedicated account manager and concierge service for all your needs',
-  color: 'text-teal-500',
+  color: 'text-blue-500',
  },
 ];
 

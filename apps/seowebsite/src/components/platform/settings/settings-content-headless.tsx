@@ -108,7 +108,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         {currentUser.initials || 'U'}
                     </div>
                     <div className="space-y-2">
-                        <button className="px-4 py-2 bg-card border border-gray-200 rounded-xl text-sm font-medium text-foreground/90 hover:bg-muted/30 transition-colors">
+                        <button className="px-4 py-2 bg-card border border-border rounded-xl text-sm font-medium text-foreground/90 hover:bg-muted/30 transition-colors">
                             Change photo
                         </button>
                         <p className="text-xs text-muted-foreground/80">JPG, GIF or PNG. 1MB max.</p>
@@ -124,7 +124,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-xl border-border bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                       />
                     </div>
                     <div className="space-y-2">
@@ -135,7 +135,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-xl border-border bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                       />
                     </div>
                     <div className="col-span-full space-y-2">
@@ -146,7 +146,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         rows={4}
                         value={formData.bio}
                         onChange={handleInputChange}
-                        className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-xl border-border bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         placeholder="Write a few sentences about yourself."
                       />
                     </div>
@@ -246,15 +246,15 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                   <div className="max-w-md space-y-6">
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-foreground/90">Current Password</label>
-                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3" />
+                        <input type="password" className="block w-full rounded-xl border-border bg-muted/30 p-3" />
                       </div>
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-foreground/90">New Password</label>
-                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3" />
+                        <input type="password" className="block w-full rounded-xl border-border bg-muted/30 p-3" />
                       </div>
                       <div className="space-y-2">
                         <label className="block text-sm font-medium text-foreground/90">Confirm Password</label>
-                        <input type="password" className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3" />
+                        <input type="password" className="block w-full rounded-xl border-border bg-muted/30 p-3" />
                       </div>
                       <button className="px-4 py-2 bg-gray-900 text-white rounded-xl text-sm font-medium hover:bg-gray-800 transition-colors">
                         Update Password
@@ -279,7 +279,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                             name="language"
                             value={formData.language}
                             onChange={handleInputChange}
-                            className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            className="block w-full rounded-xl border-border bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                             <option value="en">English</option>
                             <option value="es">Spanish</option>
@@ -293,7 +293,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                             name="timezone"
                             value={formData.timezone}
                             onChange={handleInputChange}
-                            className="block w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                            className="block w-full rounded-xl border-border bg-muted/30 p-3 text-foreground focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                         >
                             <option value="UTC">UTC</option>
                             <option value="EST">Eastern Time</option>

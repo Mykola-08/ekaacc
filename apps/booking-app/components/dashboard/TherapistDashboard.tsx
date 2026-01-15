@@ -78,7 +78,7 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
                 <div className="group p-6 rounded-[28px] glass-card hover:bg-white/80 transition-all duration-500">
                     <h3 className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">{t('status.confirmed')}</h3>
                     <div className="flex items-baseline gap-2">
-                         <span className="text-5xl font-semibold tracking-tighter text-[#0d9488] dark:text-teal-400">{stats.confirmed}</span>
+                         <span className="text-5xl font-semibold tracking-tighter text-primary dark:text-blue-400">{stats.confirmed}</span>
                         <span className="text-muted-foreground font-light">{t('therapist.sessions_confirmed')}</span>
                     </div>
                 </div>
@@ -126,7 +126,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
     
     // Minimalist status indicators
     const statusColor = {
-        confirmed: 'bg-teal-500/10 text-[#0d9488] dark:text-teal-400 border-teal-200/50',
+        confirmed: 'bg-blue-500/10 text-primary dark:text-blue-400 border-blue-200/50',
         pending: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200/50',
         cancelled: 'bg-red-500/10 text-red-700 dark:text-red-400 border-red-200/50',
         completed: 'bg-muted text-muted-foreground border-border/50',

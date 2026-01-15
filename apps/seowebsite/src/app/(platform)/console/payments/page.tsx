@@ -14,7 +14,7 @@ export default function PaymentsPage() {
         </div>
         
         <div className="flex gap-2">
-            <button className="inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-foreground/90 bg-card border border-gray-200 hover:bg-muted/30 shadow-sm transition-colors">
+            <button className="inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-medium text-foreground/90 bg-card border border-border hover:bg-muted/30 shadow-sm transition-colors">
                 <Filter className="w-4 h-4 mr-2" />
                 Filter
             </button>

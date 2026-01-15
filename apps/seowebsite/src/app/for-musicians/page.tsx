@@ -61,7 +61,7 @@ export default function MusiciansPersonalized() {
         </button>
         <Link
          href="/contact"
-         className="bg-card hover:bg-muted/30 text-foreground/90 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-colors duration-200 flex items-center justify-center"
+         className="bg-card hover:bg-muted/30 text-foreground/90 font-semibold px-8 py-4 rounded-full border-2 border-border transition-colors duration-200 flex items-center justify-center"
         >
          {t('common.askQuestions')}
         </Link>

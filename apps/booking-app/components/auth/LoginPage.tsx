@@ -14,7 +14,7 @@ import { Loader2 } from 'lucide-react'
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <Button className="w-full h-12 rounded-xl text-base font-medium bg-[#0d9488] hover:bg-[#0f766e] shadow-lg shadow-teal-500/20" type="submit" disabled={pending}>
+    <Button className="w-full h-12 rounded-xl text-base font-medium bg-primary hover:bg-primary/90 shadow-lg shadow-blue-500/20" type="submit" disabled={pending}>
       {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
       {pending ? 'Signing In...' : 'Sign In'}
     </Button>
@@ -42,7 +42,7 @@ export function LoginPage() {
       <Card className="w-full max-w-md animate-in fade-in zoom-in duration-500 border-white/40 shadow-2xl shadow-black/5 bg-white/60 backdrop-blur-xl">
         <CardHeader className="space-y-4 text-center pb-8 border-b border-black/5">
            <div className="flex flex-col items-center gap-2 mb-2">
-                <div className="w-12 h-12 bg-[#0d9488] rounded-[18px] flex items-center justify-center text-white font-sans font-bold text-xl shadow-lg shadow-teal-900/10">
+                <div className="w-12 h-12 bg-primary rounded-[18px] flex items-center justify-center text-primary-foreground font-sans font-bold text-xl shadow-lg shadow-blue-900/10">
                     E
                 </div>
             </div>
@@ -61,13 +61,13 @@ export function LoginPage() {
                 placeholder="m@example.com"
                 required
                 type="email"
-                className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
+                className="h-12 bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20 rounded-xl"
               />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label htmlFor="password" className="text-foreground/80 font-medium">Password</Label>
-                <Link href="#" className="text-sm text-[#0d9488] hover:underline font-medium">
+                <Link href="#" className="text-sm text-primary hover:underline font-medium">
                     Forgot password?
                 </Link>
               </div>
@@ -76,7 +76,7 @@ export function LoginPage() {
                 name="password"
                 required
                 type="password"
-                className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
+                className="h-12 bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20 rounded-xl"
               />
             </div>
             {errorMessage && (
@@ -90,7 +90,7 @@ export function LoginPage() {
         <CardFooter className="flex flex-col gap-4 border-t border-black/5 pt-6 bg-black/1">
           <div className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline text-[#0d9488] hover:text-[#0f766e] font-medium">
+            <Link href="/signup" className="underline text-primary hover:text-primary/90 font-medium">
               Sign up
             </Link>
           </div>

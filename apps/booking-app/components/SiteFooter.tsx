@@ -15,7 +15,7 @@ export function SiteFooter() {
             {/* Brand Column - Simplified */}
             <div className="col-span-1 md:col-span-2 space-y-4">
                 <Link href='/' className='flex items-center gap-3 group opacity-90 hover:opacity-100 transition-opacity'>
-                    <div className="w-8 h-8 bg-[#0d9488] rounded-full flex items-center justify-center text-white font-sans font-bold text-sm shadow-sm">
+                    <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-sans font-bold text-sm shadow-sm">
                         E
                     </div>
                     <span className='font-sans font-bold tracking-tight text-lg text-foreground/90'>EKA BALANCE</span>
@@ -28,11 +28,11 @@ export function SiteFooter() {
 
             {/* Links Column 1 - Clean typography */}
             <div className="space-y-4">
-                <h4 className="font-sans font-medium text-zinc-900 text-sm tracking-wide opacity-80">Platform</h4>
+                <h4 className="font-sans font-medium text-foreground text-sm tracking-wide opacity-80">Platform</h4>
                 <ul className="space-y-2.5">
                     {['Services', 'About', 'Journal', 'Pricing'].map((link) => (
                         <li key={link}>
-                            <Link href={`/${link.toLowerCase().replace(' ', '-')}`} className="text-sm text-muted-foreground hover:text-zinc-900 transition-colors">
+                            <Link href={`/${link.toLowerCase().replace(' ', '-')}`} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                                 {link}
                             </Link>
                         </li>
@@ -42,11 +42,11 @@ export function SiteFooter() {
 
              {/* Links Column 2 */}
             <div className="space-y-4">
-                <h4 className="font-sans font-medium text-zinc-900 text-sm tracking-wide opacity-80">Legal</h4>
+                <h4 className="font-sans font-medium text-foreground text-sm tracking-wide opacity-80">Legal</h4>
                 <ul className="space-y-2.5">
                     {['Privacy', 'Terms', 'Cookies'].map((link) => (
                         <li key={link}>
-                            <Link href="/legal" className="text-sm text-muted-foreground hover:text-zinc-900 transition-colors">
+                            <Link href="/legal" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                                 {link}
                             </Link>
                         </li>

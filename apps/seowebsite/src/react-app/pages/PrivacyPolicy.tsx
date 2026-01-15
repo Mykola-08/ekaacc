@@ -12,7 +12,7 @@ export default function PrivacyPolicy() {
     >
         <div className="min-h-screen bg-muted/30 py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
-            <div className="bg-card rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
               {/* Header */}
               <div className="bg-gray-900 text-white px-12 py-10">
                 <h1 className="text-3xl font-light tracking-tight mb-3">
@@ -35,7 +35,7 @@ export default function PrivacyPolicy() {
 
                 {/* Data Controller */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     Data Controller
                   </h2>
                   <div className="bg-muted/30 rounded-lg p-6 space-y-4">
@@ -62,7 +62,7 @@ export default function PrivacyPolicy() {
 
                 {/* Data Protection Officer */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     Data Protection Officer (DPO)
                   </h2>
                   <div className="bg-blue-50 rounded-lg p-6 space-y-4 border border-blue-100">
@@ -92,7 +92,7 @@ export default function PrivacyPolicy() {
 
                 {/* Data Collection */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     1. Data We Collect
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-8">
@@ -157,7 +157,7 @@ export default function PrivacyPolicy() {
 
                 {/* Legal Basis */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     2. Legal Basis for Processing (GDPR Article 6)
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -215,7 +215,7 @@ export default function PrivacyPolicy() {
 
                 {/* User Rights */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     3. Your Rights Under GDPR (Articles 12-22)
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-8">
@@ -223,7 +223,7 @@ export default function PrivacyPolicy() {
                   </p>
 
                   <div className="space-y-6">
-                    <div className="border border-gray-200 rounded-lg p-6">
+                    <div className="border border-border rounded-lg p-6">
                       <h3 className="text-lg font-medium text-foreground mb-3">3.1 Right of Access (Article 15)</h3>
                       <p className="text-foreground/90 mb-4">You have the right to obtain:</p>
                       <ul className="space-y-2 text-foreground/90">
@@ -235,7 +235,7 @@ export default function PrivacyPolicy() {
                       </div>
                     </div>
 
-                    <div className="border border-gray-200 rounded-lg p-6">
+                    <div className="border border-border rounded-lg p-6">
                       <h3 className="text-lg font-medium text-foreground mb-3">3.2 Right to Erasure ('Right to be Forgotten') (Article 17)</h3>
                       <p className="text-foreground/90 mb-4">You have the right to obtain the erasure of personal data concerning you where one of the following grounds applies:</p>
                       <ul className="space-y-2 text-foreground/90">
@@ -246,7 +246,7 @@ export default function PrivacyPolicy() {
                       </ul>
                     </div>
 
-                    <div className="border border-gray-200 rounded-lg p-6">
+                    <div className="border border-border rounded-lg p-6">
                       <h3 className="text-lg font-medium text-foreground mb-3">3.3 Right to Data Portability (Article 20)</h3>
                       <p className="text-foreground/90 mb-4">You have the right to receive your personal data in a structured, commonly used, and machine-readable format and have the right to transmit that data to another controller where:</p>
                       <ul className="space-y-2 text-foreground/90">
@@ -281,7 +281,7 @@ export default function PrivacyPolicy() {
 
                 {/* Contact Information */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     Contact Information and Complaints
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -335,7 +335,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-gray-200 pt-8 mt-12">
+                <div className="border-t border-border pt-8 mt-12">
                   <p className="text-center text-muted-foreground text-sm">
                     This Privacy Policy is provided in compliance with the General Data Protection Regulation (EU) 2016/679.
                   </p>

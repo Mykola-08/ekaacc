@@ -145,7 +145,7 @@ export function AdminBookingTableHeadless() {
             </div>
         ) : (
             <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
+                <table className="min-w-full divide-y divide-border">
                     <thead className="bg-muted/30/50">
                         <tr>
                             <th scope="col" className="py-4 pl-6 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">Service</th>
@@ -158,7 +158,7 @@ export function AdminBookingTableHeadless() {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-200 bg-card">
+                    <tbody className="divide-y divide-border bg-card">
                         {bookings.map((booking) => (
                             <tr key={booking.id} className="hover:bg-muted/30/50 transition-colors">
                                 <td className="whitespace-nowrap py-4 pl-6 pr-3 text-sm font-medium text-foreground">
@@ -201,7 +201,7 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Pagination */}
-       <div className="flex items-center justify-between border-t border-gray-200 bg-card px-4 py-3 sm:px-6 rounded-3xl ring-1 ring-gray-100">
+       <div className="flex items-center justify-between border-t border-border bg-card px-4 py-3 sm:px-6 rounded-3xl ring-1 ring-gray-100">
         <div className="flex flex-1 justify-between sm:hidden">
             <button
             onClick={() => setPage(p => Math.max(1, p - 1))}

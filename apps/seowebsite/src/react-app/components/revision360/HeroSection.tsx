@@ -100,7 +100,7 @@ export default function HeroSection() {
             href={`https://wa.me/34658867133?text=${encodeURIComponent(t('whatsapp.booking'))}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-block px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-yellow-400 text-zinc-900 font-semibold text-base sm:text-lg rounded-full shadow-lg shadow-amber-500/30 transition-all duration-300"
+            className="group relative inline-block px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-yellow-400 text-foreground font-semibold text-base sm:text-lg rounded-full shadow-lg shadow-amber-500/30 transition-all duration-300"
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
             whileHover={{ 

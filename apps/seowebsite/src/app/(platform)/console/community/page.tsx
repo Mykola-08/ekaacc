@@ -16,16 +16,16 @@ export default function CommunityPage() {
 
       <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden min-h-[400px] flex items-center justify-center">
         {/* Decorative background elements */}
-        <div className="absolute top-0 left-0 w-96 h-96 bg-teal-50/50 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-50/50 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/3 pointer-events-none" />
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-cyan-50/50 rounded-full blur-3xl translate-y-1/3 translate-x-1/4 pointer-events-none" />
         
         <div className="relative z-10 flex flex-col items-center justify-center text-center max-w-md mx-auto">
            <div className="flex items-center justify-center -space-x-4 mb-8">
                 <div className="h-16 w-16 rounded-full bg-card ring-4 ring-white shadow-lg flex items-center justify-center z-10">
-                    <Users className="w-8 h-8 text-teal-600" />
+                    <Users className="w-8 h-8 text-blue-600" />
                 </div>
-                <div className="h-16 w-16 rounded-full bg-teal-100 ring-4 ring-white shadow-lg flex items-center justify-center z-0">
-                    <MessageSquare className="w-8 h-8 text-teal-500" />
+                <div className="h-16 w-16 rounded-full bg-blue-100 ring-4 ring-white shadow-lg flex items-center justify-center z-0">
+                    <MessageSquare className="w-8 h-8 text-blue-500" />
                 </div>
            </div>
            

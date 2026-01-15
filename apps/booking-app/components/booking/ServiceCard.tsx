@@ -24,13 +24,13 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
       )}>
         {/* Image Placeholder or Header Gradient */}
         <div className={cn(
-          "relative bg-gradient-to-br from-teal-50 via-gray-50 to-white w-full",
+          "relative bg-gradient-to-br from-primary/5 via-gray-50 to-white w-full",
           isCompact ? "h-24" : "h-48"
         )}>
           {/* Subtle noise/pattern - removed for clean glass look */}
           
           <div className="absolute bottom-4 left-6">
-             <Badge variant="secondary" className="bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-lg px-3 py-1 text-[#0d9488] font-medium tracking-tight">
+             <Badge variant="secondary" className="bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-lg px-3 py-1 text-primary font-medium tracking-tight">
                 {service.category || 'Therapy'}
              </Badge>
           </div>
@@ -50,18 +50,18 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
         <CardContent className={cn("flex-grow", isCompact ? "p-4 pt-0" : "p-6 pt-0")}>
            <div className="flex flex-col gap-3 text-sm text-foreground/80 font-medium">
               <div className="flex items-center gap-3">
-                 <Clock className="w-4 h-4 text-[#0d9488]" />
+                 <Clock className="w-4 h-4 text-primary" />
                  <span>{service.duration} minutes</span>
               </div>
               <div className="flex items-center gap-3">
-                 <Euro className="w-4 h-4 text-[#0d9488]" />
+                 <Euro className="w-4 h-4 text-primary" />
                  <span>{service.price}</span>
               </div>
            </div>
         </CardContent>
 
-        <CardFooter className={cn("border-t border-black/5 bg-transparent", isCompact ? "p-3" : "p-6")}>
-           <Button asChild className="w-full gap-2 group rounded-xl bg-[#0d9488] hover:bg-[#0f766e] text-white shadow-lg shadow-teal-500/20" size={isCompact ? "sm" : "lg"}>
+        <CardFooter className={cn("border-t border-primary/5 bg-transparent", isCompact ? "p-3" : "p-6")}>
+           <Button asChild className="w-full gap-2 group rounded-2xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20 hover:shadow-xl transition-all" size={isCompact ? "sm" : "lg"}>
               <Link href={`/book/${service.id}`}>
                  Book Session
                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

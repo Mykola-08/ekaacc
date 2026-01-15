@@ -13,7 +13,7 @@ export default function TermsOfService() {
       
         <div className="min-h-screen bg-muted/30 py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
-            <div className="bg-card rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
               {/* Header */}
               <div className="bg-gray-900 text-white px-12 py-10">
                 <h1 className="text-3xl font-light tracking-tight mb-3">
@@ -36,7 +36,7 @@ export default function TermsOfService() {
 
                 {/* Acceptance and Consent */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     1. Acceptance and Consent
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -67,7 +67,7 @@ export default function TermsOfService() {
 
                 {/* Eligibility and Age Requirements */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     2. Eligibility and Age Requirements
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -108,7 +108,7 @@ export default function TermsOfService() {
 
                 {/* Nature of Services */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     3. Nature of Services
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -387,7 +387,7 @@ export default function TermsOfService() {
 
                 {/* Contact Information */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     18. Contact Information and Data Protection Inquiries
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -458,7 +458,7 @@ export default function TermsOfService() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-gray-200 pt-8 mt-12">
+                <div className="border-t border-border pt-8 mt-12">
                   <p className="text-center text-muted-foreground text-sm">
                     These Terms of Service are provided in compliance with applicable data protection regulations and consumer protection laws.
                   </p>

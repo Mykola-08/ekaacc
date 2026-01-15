@@ -22,7 +22,7 @@ export default function JuneProgramPage() {
          { week: 3, title: 'Practice', status: 'locked' },
          { week: 4, title: 'Integration', status: 'locked' }
        ].map((week) => (
-         <div key={week.week} className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50/50 border border-black/2">
+         <div key={week.week} className="flex items-center gap-4 p-4 rounded-2xl bg-background/50 border border-black/2">
            <div className={`
              w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
              ${week.status === 'current' ? 'bg-black text-white' : 'bg-gray-200 text-gray-400'}

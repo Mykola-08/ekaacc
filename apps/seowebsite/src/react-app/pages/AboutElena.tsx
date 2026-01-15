@@ -149,7 +149,7 @@ export default function AboutElena() {
                     <Button 
                       size="xl" 
                       variant="outline"
-                      className="bg-card text-foreground border-gray-200 px-10 py-4 rounded-2xl font-medium hover:bg-muted"
+                      className="bg-card text-foreground border-border px-10 py-4 rounded-2xl font-medium hover:bg-muted"
                     >
                       {t('nav.contact')}
                     </Button>

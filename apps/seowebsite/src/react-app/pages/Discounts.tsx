@@ -133,7 +133,7 @@ export default function Discounts() {
                   {/* Discount Code */}
                   {discount.code && (
                     <div className="relative space-y-3">
-                      <div className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl border-2 border-dashed border-gray-200 group-hover:border-blue-300 transition-colors duration-300">
+                      <div className="flex items-center justify-between p-4 bg-muted/30 rounded-2xl border-2 border-dashed border-border group-hover:border-blue-300 transition-colors duration-300">
                         <div className="flex items-center space-x-3">
                           <Gift className="w-5 h-5 text-blue-600" />
                           <span className="text-sm font-medium text-foreground/90">

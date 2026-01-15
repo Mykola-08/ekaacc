@@ -140,7 +140,7 @@ export function ProductManagementPanelHeadless() {
         {/* Add New Card Placeholder */}
         <button 
             onClick={() => setIsDialogOpen(true)}
-            className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-200 rounded-[24px] hover:border-blue-300 hover:bg-blue-50/50 transition-all group min-h-[200px]"
+            className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-[24px] hover:border-blue-300 hover:bg-blue-50/50 transition-all group min-h-[200px]"
         >
             <div className="h-12 w-12 rounded-full bg-muted/30 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors">
                 <Plus className="w-6 h-6 text-muted-foreground/80 group-hover:text-blue-600" />
@@ -184,7 +184,7 @@ export function ProductManagementPanelHeadless() {
                         <label className="block text-sm font-medium text-foreground/90 mb-1">Name</label>
                         <input
                             {...register('name')}
-                            className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                            className="w-full rounded-xl border-border bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                             placeholder="e.g. Therapy Session" 
                         />
                         {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name.message}</p>}
@@ -198,7 +198,7 @@ export function ProductManagementPanelHeadless() {
                                 <input
                                     type="number"
                                     {...register('price', { valueAsNumber: true })}
-                                    className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 pl-8 text-sm focus:border-blue-500 focus:ring-blue-500"
+                                    className="w-full rounded-xl border-border bg-muted/30 p-3 pl-8 text-sm focus:border-blue-500 focus:ring-blue-500"
                                 />
                             </div>
                             {errors.price && <p className="text-xs text-red-500 mt-1">{errors.price.message}</p>}
@@ -207,7 +207,7 @@ export function ProductManagementPanelHeadless() {
                              <label className="block text-sm font-medium text-foreground/90 mb-1">Category</label>
                             <select
                                 {...register('category')}
-                                className="w-full rounded-xl border-gray-200 bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
+                                className="w-full rounded-xl border-border bg-muted/30 p-3 text-sm focus:border-blue-500 focus:ring-blue-500"
                             >
                                 <option value="">Select...</option>
                                 <option value="Consultation">Consultation</option>

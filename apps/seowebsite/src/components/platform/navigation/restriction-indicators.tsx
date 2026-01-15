@@ -77,7 +77,7 @@ const restrictionConfig = {
     icon: Ban,
     color: 'text-muted-foreground',
     bgColor: 'bg-muted/30',
-    borderColor: 'border-gray-200',
+    borderColor: 'border-border',
     defaultMessage: 'Location restricted',
     defaultReason: 'Not available in your region'
   }
@@ -384,8 +384,8 @@ export function RoleBadge({
     'Content Manager': 'bg-indigo-100 text-indigo-800 border-indigo-200',
     'Marketing': 'bg-pink-100 text-pink-800 border-pink-200',
     'Accountant': 'bg-yellow-100 text-yellow-800 border-yellow-200',
-    'Corporate Client': 'bg-teal-100 text-teal-800 border-teal-200',
-    'Custom': 'bg-muted text-foreground border-gray-200'
+    'Corporate Client': 'bg-blue-100 text-blue-800 border-blue-200',
+    'Custom': 'bg-muted text-foreground border-border'
   };
 
   const sizeClasses = {

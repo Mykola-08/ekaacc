@@ -195,7 +195,7 @@ export default function Students() {
         <Link href="/services" className="flex-1">
          <Button
           variant="outline"
-          className="w-full border-gray-200 text-foreground/90 hover:bg-muted/30 px-6 py-3 rounded-2xl font-medium"
+          className="w-full border-border text-foreground/90 hover:bg-muted/30 px-6 py-3 rounded-2xl font-medium"
          >
           {t('common.seeOtherServices')}
          </Button>

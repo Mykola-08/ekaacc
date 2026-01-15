@@ -180,7 +180,7 @@ export default function Services() {
                              </Link>
                              
                              <Link to="/booking">
-                                <Button variant="outline" className="rounded-xl px-6 py-3 border-gray-200 hover:bg-muted/30 text-foreground/90 transition-transform hover:-translate-y-1">
+                                <Button variant="outline" className="rounded-xl px-6 py-3 border-border hover:bg-muted/30 text-foreground/90 transition-transform hover:-translate-y-1">
                                   {t('common.bookNow')}
                                 </Button>
                              </Link>

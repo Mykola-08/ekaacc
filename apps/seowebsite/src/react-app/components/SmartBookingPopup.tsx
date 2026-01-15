@@ -159,7 +159,7 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-border dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
                     />
                   </div>
 
@@ -170,7 +170,7 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                     <select
                       value={formData.service}
                       onChange={(e) => setFormData({ ...formData, service: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-border dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
                     >
                       <option value="">Select a service...</option>
                       {services.map((s) => (
@@ -188,7 +188,7 @@ export default function SmartBookingPopup({ isOpen, onClose, preselectedService 
                       placeholder="Ex: Mornings, Next week..."
                       value={formData.timePreference}
                       onChange={(e) => setFormData({ ...formData, timePreference: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-xl border border-border dark:border-zinc-700 bg-muted/30 dark:bg-zinc-800 focus:ring-2 focus:ring-amber-500 outline-none transition-all"
                     />
                   </div>
 

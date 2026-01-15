@@ -106,7 +106,7 @@ export default function CasosSection() {
               <Link
                 key={problem.id}
                 to={problem.href}
-                className="group bg-card rounded-[24px] p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300"
+                className="group bg-card rounded-[24px] p-6 border border-border hover:border-gray-300 hover:shadow-lg transition-all duration-300"
               >
                 <div className={`w-14 h-14 rounded-xl ${getColorClasses(problem.color)} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border`}>
                   <ProblemIcon className="w-7 h-7" />
@@ -141,7 +141,7 @@ export default function CasosSection() {
               'casos.other.work',
               'casos.other.trauma'
             ].map((key) => (
-              <span key={key} className="px-6 py-3 bg-card border border-gray-200 rounded-full text-muted-foreground shadow-sm hover:shadow-md hover:border-blue-200 hover:text-blue-600 transition-all duration-200 cursor-default">
+              <span key={key} className="px-6 py-3 bg-card border border-border rounded-full text-muted-foreground shadow-sm hover:shadow-md hover:border-blue-200 hover:text-blue-600 transition-all duration-200 cursor-default">
                 {t(key)}
               </span>
             ))}

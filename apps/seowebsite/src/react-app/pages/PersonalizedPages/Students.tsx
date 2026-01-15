@@ -58,7 +58,7 @@ export default function StudentsPersonalized() {
                 </button>
                 <Link
                   to="/contact"
-                  className="bg-card hover:bg-muted/30 text-foreground/90 font-semibold px-8 py-4 rounded-full border-2 border-gray-200 transition-colors duration-200"
+                  className="bg-card hover:bg-muted/30 text-foreground/90 font-semibold px-8 py-4 rounded-full border-2 border-border transition-colors duration-200"
                 >
                   {t('common.askQuestions')}
                 </Link>

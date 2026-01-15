@@ -23,11 +23,11 @@ export default function AboutElena() {
 
  return (
   <>
-   <div className="bg-card min-h-screen text-foreground selection:bg-blue-100">
+   <div className="bg-background min-h-screen text-foreground selection:bg-primary/20">
 
     {/* Hero Section - Unified Gradient */}
-    <section className="relative pt-32 pb-24 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    <section className="relative pt-32 pb-24 overflow-hidden bg-background">
+     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
      
      <div className="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center">
       {/* Profile Image with Glow */}
@@ -38,7 +38,7 @@ export default function AboutElena() {
        transition={{ duration: 0.8 }}
       >
        <div className="relative group">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-emerald-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
         <img
          src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
          alt="Elena Kuchera"
@@ -54,12 +54,12 @@ export default function AboutElena() {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.8, delay: 0.2 }}
       >
-       <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground tracking-tight leading-tight">
+       <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold text-foreground tracking-tight leading-tight">
         Elena Kucherova
        </h1>
 
        <div className="space-y-4">
-        <p className="text-2xl sm:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium tracking-wide">
+        <p className="text-2xl sm:text-3xl text-primary font-medium tracking-wide">
          {t('elena.greeting')}
         </p>
         <p className="text-xl sm:text-2xl text-muted-foreground font-light tracking-wide">
@@ -73,7 +73,7 @@ export default function AboutElena() {
        {/* Quote */}
        <div className="max-w-3xl mx-auto mt-12">
         <blockquote className="text-xl sm:text-2xl text-foreground/90 italic font-light leading-relaxed relative">
-         <span className="text-6xl text-blue-100 absolute -top-8 -left-4 font-serif">"</span>
+         <span className="text-6xl text-primary/20 absolute -top-8 -left-4 font-serif">"</span>
          <span className="relative z-10">{t('elena.quote')}</span>
         </blockquote>
        </div>
@@ -86,12 +86,12 @@ export default function AboutElena() {
         transition={{ duration: 0.8, delay: 0.4 }}
         className="flex flex-wrap justify-center gap-4"
       >
-        <div className="inline-flex items-center px-6 py-3 bg-card rounded-full border border-gray-100 shadow-sm">
-          <Star className="w-4 h-4 text-yellow-500 mr-2" />
+        <div className="inline-flex items-center px-6 py-3 bg-white/60 backdrop-blur-md rounded-full border border-white/40 shadow-sm">
+          <Star className="w-4 h-4 text-primary mr-2" />
           <span className="text-foreground/90 font-medium">15+ {t('hero.stats.experience')}</span>
         </div>
-        <div className="inline-flex items-center px-6 py-3 bg-card rounded-full border border-gray-100 shadow-sm">
-          <Heart className="w-4 h-4 text-red-500 mr-2" />
+        <div className="inline-flex items-center px-6 py-3 bg-white/60 backdrop-blur-md rounded-full border border-white/40 shadow-sm">
+          <Heart className="w-4 h-4 text-primary mr-2" />
           <span className="text-foreground/90 font-medium">96% {t('hero.stats.clients')}</span>
         </div>
       </motion.div>
@@ -128,7 +128,7 @@ export default function AboutElena() {
           visible: { opacity: 1, y: 0 }
          }}
          whileHover={{ scale: 1.05 }}
-         className="px-8 py-4 bg-card text-foreground/90 rounded-2xl border border-gray-100 font-medium shadow-sm hover:shadow-md hover:border-blue-200 hover:text-blue-700 transition-all cursor-default"
+         className="px-8 py-4 bg-white/60 backdrop-blur-sm text-foreground/90 rounded-2xl border border-white/40 font-medium shadow-sm hover:shadow-md hover:border-primary/50 hover:text-primary transition-all cursor-default"
         >
          {tech.name}
         </motion.div>
@@ -138,14 +138,14 @@ export default function AboutElena() {
     </section>
 
     {/* Contact CTA */}
-    <section className="py-20 bg-muted/30">
+    <section className="py-20 bg-background">
       <div className="max-w-4xl mx-auto px-4 text-center">
-       <h2 className="text-3xl font-light text-foreground mb-8">{t('footer.readyToBegin')}</h2>
+       <h2 className="text-3xl font-semibold text-foreground mb-8">{t('footer.readyToBegin')}</h2>
        <div className="flex flex-col sm:flex-row justify-center gap-4">
          <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
           <Button 
            size="xl" 
-           className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-10 py-4 rounded-2xl font-medium shadow-lg hover:translate-y-[-2px] transition-all border-none"
+           className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-2xl font-medium shadow-lg hover:translate-y-[-2px] transition-all border-none"
           >
            {t('common.bookNow')}
           </Button>
@@ -154,7 +154,7 @@ export default function AboutElena() {
           <Button 
            size="xl" 
            variant="outline"
-           className="bg-card text-foreground border-gray-200 px-10 py-4 rounded-2xl font-medium hover:bg-muted"
+           className="bg-white/60 backdrop-blur-md text-foreground border-white/40 px-10 py-4 rounded-2xl font-medium hover:bg-white"
           >
            {t('nav.contact')}
           </Button>

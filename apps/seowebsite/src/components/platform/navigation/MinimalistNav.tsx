@@ -24,7 +24,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
   return (
     <motion.nav
       className={cn(
-        "sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-gray-200",
+        "sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border",
         className
       )}
       initial={{ y: -100 }}
@@ -97,7 +97,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
         {/* Mobile Navigation */}
         <motion.div
           className={cn(
-            "md:hidden border-t border-gray-200",
+            "md:hidden border-t border-border",
             isMenuOpen ? "block" : "hidden"
           )}
           initial={false}
@@ -116,7 +116,7 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
                 {item.name}
               </motion.a>
             ))}
-            <div className="border-t border-gray-200 pt-4 mt-4">
+            <div className="border-t border-border pt-4 mt-4">
               <Button
                 variant="outline"
                 size="sm"

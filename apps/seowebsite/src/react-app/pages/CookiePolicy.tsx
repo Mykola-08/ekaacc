@@ -13,7 +13,7 @@ export default function CookiePolicy() {
       
         <div className="min-h-screen bg-muted/30 py-16">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
-            <div className="bg-card rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-card rounded-lg shadow-sm border border-border overflow-hidden">
               {/* Header */}
               <div className="bg-gray-900 text-white px-12 py-10">
                 <h1 className="text-3xl font-light tracking-tight mb-3">
@@ -36,7 +36,7 @@ export default function CookiePolicy() {
 
                 {/* What Cookies Are */}
                 <div className="mb-12">
-                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-gray-200 pb-4">
+                  <h2 className="text-xl font-medium text-foreground mb-6 border-b border-border pb-4">
                     1. What Cookies Are (GDPR Article 4(11))
                   </h2>
                   <p className="text-foreground/90 leading-relaxed mb-6">
@@ -45,7 +45,7 @@ export default function CookiePolicy() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-gray-200 pt-8 mt-12">
+                <div className="border-t border-border pt-8 mt-12">
                   <p className="text-center text-muted-foreground text-sm">
                     This Cookie Policy is provided in compliance with the General Data Protection Regulation (EU) 2016/679.
                   </p>

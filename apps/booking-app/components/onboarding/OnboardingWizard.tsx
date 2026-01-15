@@ -93,7 +93,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
      return (
          <div className="min-h-screen bg-background flex items-center justify-center p-4">
              <div className="text-center animate-in zoom-in duration-500">
-                 <div className="w-20 h-20 bg-[#0d9488]/10 rounded-full flex items-center justify-center mx-auto mb-6 text-[#0d9488]">
+                 <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
                      <CheckCircle2 className="w-10 h-10" />
                  </div>
                  <h1 className="text-3xl font-sans font-semibold tracking-tight text-foreground mb-2">You're All Set</h1>
@@ -106,7 +106,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
  return (
     <div className="min-h-screen bg-background flex flex-col">
         {/* Progress Bar */}
-        <Progress value={progress} className="h-1 w-full rounded-none bg-black/5" indicatorClassName="bg-[#0d9488]" />
+        <Progress value={progress} className="h-1 w-full rounded-none bg-primary/10" />
 
         <div className="flex-1 flex flex-col items-center justify-center max-w-2xl mx-auto w-full px-6 pb-20 pt-10">
             <AnimatePresence mode="wait">
@@ -118,7 +118,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                     transition={{ duration: 0.3 }}
                     className="w-full"
                 >
-                    <div className="mb-2 text-sm font-bold text-[#0d9488] uppercase tracking-widest">
+                    <div className="mb-2 text-sm font-bold text-primary uppercase tracking-widest">
                         Question {currentIndex + 1} of {questions.length}
                     </div>
                     
@@ -136,16 +136,16 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                                         className={cn(
                                             "w-full cursor-pointer p-6 text-left rounded-2xl border transition-all flex items-center justify-between group glass-card hover:bg-white/80",
                                             answers[currentQuestion.id] === option.value
-                                                ? "border-[#0d9488] ring-1 ring-[#0d9488]"
-                                                : "border-white/40 hover:border-[#0d9488]/50"
+                                                ? "border-primary ring-1 ring-primary"
+                                                : "border-white/40 hover:border-primary/50"
                                         )}
                                     >
                                         <span className={cn(
                                             "text-lg font-medium transition-colors",
-                                            answers[currentQuestion.id] === option.value ? "text-[#0d9488]" : "text-foreground"
+                                            answers[currentQuestion.id] === option.value ? "text-primary" : "text-foreground"
                                         )}>{option.label}</span>
                                         {answers[currentQuestion.id] === option.value && (
-                                            <div className="bg-[#0d9488] text-white rounded-full p-1">
+                                            <div className="bg-primary text-white rounded-full p-1">
                                                 <Check className="w-4 h-4" />
                                             </div>
                                         )}
@@ -172,17 +172,17 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                                             className={cn(
                                                 "w-full cursor-pointer p-6 text-left rounded-2xl border transition-all flex items-center justify-between group glass-card hover:bg-white/80",
                                                 isSelected
-                                                    ? "border-[#0d9488] bg-[#0d9488]/5"
-                                                    : "border-white/40 hover:border-[#0d9488]/50"
+                                                    ? "border-primary bg-primary/5"
+                                                    : "border-white/40 hover:border-primary/50"
                                             )}
                                         >
                                             <span className={cn(
                                                 "text-lg font-medium transition-colors",
-                                                isSelected ? "text-[#0d9488]" : "text-foreground"
+                                                isSelected ? "text-primary" : "text-foreground"
                                             )}>{option.label}</span>
                                              <div className={cn(
                                                  "w-6 h-6 rounded-full border flex items-center justify-center transition-colors",
-                                                 isSelected ? "border-[#0d9488] bg-[#0d9488] text-white" : "border-black/20"
+                                                 isSelected ? "border-primary bg-primary text-white" : "border-black/20"
                                              )}>
                                                  {isSelected && <Check className="w-3 h-3" />}
                                              </div>
@@ -201,7 +201,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                                         className={cn(
                                             "w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center text-xl font-bold transition-all",
                                             answers[currentQuestion.id] === val
-                                                ? "bg-[#0d9488] text-white shadow-lg shadow-teal-500/20 scale-110"
+                                                ? "bg-primary text-white shadow-lg shadow-primary/20 scale-110"
                                                 : "bg-black/5 text-muted-foreground hover:bg-black/10"
                                         )}
                                     >

@@ -221,7 +221,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                     type="text"
                     value={formData.name}
                     onChange={(e) => handleFormChange('name', e.target.value)}
-                    className="w-full px-4 py-3 bg-muted/30 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                    className="w-full px-4 py-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                     placeholder={t('booking.form.namePlaceholder')}
                   />
                 </div>
@@ -234,7 +234,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                   <select
                     value={formData.service}
                     onChange={(e) => handleFormChange('service', e.target.value)}
-                    className="w-full px-4 py-3 bg-muted/30 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                    className="w-full px-4 py-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                   >
                     <option value="">{t('booking.form.servicePlaceholder')}</option>
                     {services.map((service) => (
@@ -253,7 +253,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                   <select
                     value={formData.location}
                     onChange={(e) => handleFormChange('location', e.target.value)}
-                    className="w-full px-4 py-3 bg-muted/30 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                    className="w-full px-4 py-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                   >
                     <option value="">{t('booking.form.locationPlaceholder')}</option>
                     {locations.map((location) => (
@@ -272,7 +272,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                   <select
                     value={formData.timeSlot}
                     onChange={(e) => handleFormChange('timeSlot', e.target.value)}
-                    className="w-full px-4 py-3 bg-muted/30 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                    className="w-full px-4 py-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                   >
                     <option value="">{t('booking.form.timeSlotPlaceholder')}</option>
                     {timeSlots.map((slot) => (
@@ -291,7 +291,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                   <select
                     value={formData.availability}
                     onChange={(e) => handleFormChange('availability', e.target.value)}
-                    className="w-full px-4 py-3 bg-muted/30 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                    className="w-full px-4 py-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                       >
                         <option value="">{t('booking.form.availabilityPlaceholder')}</option>
                         {availabilityOptions.map((option) => (
@@ -311,7 +311,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
                         type="text"
                         value={formData.objective}
                         onChange={(e) => handleFormChange('objective', e.target.value)}
-                        className="w-full px-4 py-3 bg-muted/30 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
+                        className="w-full px-4 py-3 bg-muted/30 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm"
                         placeholder={t('booking.form.objectivePlaceholder')}
                       />
                     </div>

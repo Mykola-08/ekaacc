@@ -41,7 +41,7 @@ export default function Home() {
      >
       {stats.map((stat, index) => (
        <div key={index} className="flex flex-col items-center text-center space-y-2">
-        <div className="p-3 bg-blue-50 rounded-full text-blue-600 mb-1">
+        <div className="p-3 bg-primary/10 rounded-full text-primary mb-1">
          <stat.icon size={24} />
         </div>
         <span className="text-3xl font-light text-foreground tracking-tight">
@@ -55,8 +55,8 @@ export default function Home() {
    </section>
 
    {/* Elena Introduction Section - UNIFIED DESIGN */}
-   <section className="py-24 relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+   <section className="py-24 relative overflow-hidden bg-background">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="max-w-6xl mx-auto px-4 sm:px-8 relative z-10">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -68,7 +68,7 @@ export default function Home() {
        transition={{ duration: 0.8 }}
        className="relative"
       >
-       <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-3xl opacity-30" />
+       <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-emerald-200 rounded-full blur-3xl opacity-30" />
        <div className="relative w-full max-w-md mx-auto aspect-square">
          <Image
           src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
@@ -79,7 +79,7 @@ export default function Home() {
          />
        </div>
        {/* Floating Badge */}
-       <div className="absolute bottom-10 right-10 bg-card/90 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 hidden md:block">
+       <div className="absolute bottom-10 right-10 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-white/50 hidden md:block">
          <p className="text-sm font-medium text-foreground">Elena Kucherova</p>
          <p className="text-xs text-muted-foreground">Founder & CEO</p>
        </div>
@@ -93,7 +93,7 @@ export default function Home() {
         transition={{ duration: 0.8 }}
         className="space-y-8 text-center lg:text-left"
       >
-       <h2 className="text-4xl sm:text-5xl font-light text-foreground leading-tight">
+       <h2 className="text-4xl sm:text-5xl font-semibold text-foreground leading-tight">
         {t('elena.greeting')}
        </h2>
 

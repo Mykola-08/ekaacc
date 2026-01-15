@@ -89,7 +89,7 @@ export default function CookieConsent() {
     return (
       <button 
         onClick={() => { setIsVisible(true); setIsReopenVisible(false); }}
-        className="fixed bottom-4 left-4 z-50 p-3 bg-card rounded-full shadow-lg border border-gray-200 hover:bg-muted/30 transition-all group"
+        className="fixed bottom-4 left-4 z-50 p-3 bg-card rounded-full shadow-lg border border-border hover:bg-muted/30 transition-all group"
         title="Cookie Settings"
       >
         <Shield className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
@@ -100,7 +100,7 @@ export default function CookieConsent() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-card border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] animate-in slide-in-from-bottom duration-500">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 bg-card border-t border-border shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] animate-in slide-in-from-bottom duration-500">
       <div className="max-w-7xl mx-auto">
         {!showDetails ? (
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">

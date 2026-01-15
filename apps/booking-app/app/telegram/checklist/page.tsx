@@ -51,7 +51,7 @@ export default function ChecklistPage() {
        className={cn(
          "cursor-pointer group flex items-center gap-4 p-5 rounded-3xl border transition-all duration-300",
          item.checked 
-           ? "bg-gray-50 border-transparent opacity-80" 
+           ? "bg-background border-transparent opacity-80" 
            : "bg-card border-black/4 shadow-sm hover:shadow-md hover:-translate-y-0.5"
        )}
      >

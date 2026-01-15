@@ -63,23 +63,23 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                 </h3>
                                 <div className="flex flex-col gap-2 mt-4 text-muted-foreground">
                                     <div className="flex items-center gap-3 text-lg font-light">
-                                        <Clock className="w-5 h-5 opacity-40" />
+                                        <Clock className="w-5 h-5 opacity-40 text-primary" />
                                         <span>
                                             {format(new Date(nextBooking.start_time), 'EEEE, MMMM do')} • {format(new Date(nextBooking.start_time), 'h:mm a')}
                                         </span>
                                     </div>
                                     <div className="flex items-center gap-3 text-base font-light opacity-80">
-                                        <MapPin className="w-5 h-5 opacity-40" />
+                                        <MapPin className="w-5 h-5 opacity-40 text-primary" />
                                         <span>Main Studio, Room 3</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="flex gap-4 pt-4">
-                                <Button variant="outline" className="flex-1 rounded-xl h-12 border-black/5 hover:bg-black/5 transition-colors text-foreground/80">
+                                <Button variant="outline" className="flex-1 rounded-2xl h-12 border-primary/10 hover:bg-primary/5 transition-colors text-foreground/80">
                                     Reschedule
                                 </Button>
-                                <Button className="flex-1 rounded-xl h-12 bg-[#0d9488] text-white hover:bg-[#0f766e] transition-all shadow-lg shadow-[#0d9488]/20 border-0">
+                                <Button className="flex-1 rounded-2xl h-12 bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 border-0">
                                     Get Directions
                                 </Button>
                             </div>
@@ -90,7 +90,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                 <p className="text-lg font-medium text-foreground/80">No upcoming sessions</p>
                                 <p className="text-muted-foreground font-light">Ready to prioritize your wellness?</p>
                             </div>
-                            <Button variant="link" className="p-0 h-auto font-medium text-[#0d9488] flex items-center gap-2 group-hover:gap-3 transition-all" asChild>
+                            <Button variant="link" className="p-0 h-auto font-medium text-primary flex items-center gap-2 group-hover:gap-3 transition-all" asChild>
                                 <Link href="/book">
                                     Browse Schedule <ArrowUpRight className="w-4 h-4" />
                                 </Link>
@@ -100,13 +100,13 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                 </div>
 
                 {/* Wallet - Notion/Glass style */}
-                <div className="group relative overflow-hidden rounded-[28px] glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md flex flex-col justify-between">
+                <div className="group relative overflow-hidden rounded-[32px] glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md flex flex-col justify-between border border-transparent hover:border-primary/5">
                      <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
                                 Credit Balance
                             </h2>
-                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-black/5 -mr-2">
+                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/5 -mr-2 text-primary">
                                 <ArrowUpRight className="w-5 h-5 opacity-40" />
                             </Button>
                         </div>
@@ -119,11 +119,11 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                         </div>
 
                         <div className="space-y-3 pt-2">
-                            <div className="flex justify-between text-sm py-2 border-b border-black/5">
+                            <div className="flex justify-between text-sm py-2 border-b border-primary/5">
                                 <span className="text-muted-foreground">Membership</span>
-                                <span className="font-medium">Standard</span>
+                                <span className="font-medium text-primary">Standard</span>
                             </div>
-                            <div className="flex justify-between text-sm py-2 border-b border-black/5">
+                            <div className="flex justify-between text-sm py-2 border-b border-primary/5">
                                 <span className="text-muted-foreground">Expires</span>
                                 <span className="font-medium">Never</span>
                             </div>
@@ -131,7 +131,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                     </div>
 
                     <div className="pt-8">
-                         <Button className="w-full rounded-xl h-12 bg-black/5 hover:bg-black/10 text-foreground font-medium border border-transparent hover:border-black/5 shadow-none transition-all">
+                         <Button className="w-full rounded-2xl h-12 bg-primary/5 hover:bg-primary/10 text-primary font-medium border border-transparent transition-all">
                             Add Credits
                         </Button>
                     </div>
@@ -141,12 +141,12 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
              {/* Recent Activity Section */}
              <div className="pt-8">
                 <h3 className="text-xl font-light text-muted-foreground mb-6">Recent Activity</h3>
-                <div className="rounded-[28px] glass-card overflow-hidden">
+                <div className="rounded-[32px] glass-card overflow-hidden border border-white/20">
                     {[1, 2, 3].map((_, i) => (
-                        <div key={i} className="flex items-center justify-between p-6 border-b border-black/5 last:border-0 hover:bg-black/2 transition-colors">
+                        <div key={i} className="flex items-center justify-between p-6 border-b border-primary/5 last:border-0 hover:bg-primary/5 transition-colors">
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center">
-                                    <Clock className="w-4 h-4 opacity-50" />
+                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                    <Clock className="w-4 h-4 opacity-70" />
                                 </div>
                                 <div>
                                     <p className="font-medium text-foreground/90">Deep Tissue Massage</p>

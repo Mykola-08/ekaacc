@@ -165,7 +165,7 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
       case 'Reception':
         return 'bg-green-100 text-green-800 border-green-200';
       case 'Patient':
-        return 'bg-muted text-foreground border-gray-200';
+        return 'bg-muted text-foreground border-border';
       case 'VIP Patient':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
       case 'Corporate Client':
@@ -177,9 +177,9 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
       case 'Accountant':
         return 'bg-orange-100 text-orange-800 border-orange-200';
       case 'Custom':
-        return 'bg-teal-100 text-teal-800 border-teal-200';
+        return 'bg-blue-100 text-blue-800 border-blue-200';
       default:
-        return 'bg-muted text-foreground border-gray-200';
+        return 'bg-muted text-foreground border-border';
     }
   };
 

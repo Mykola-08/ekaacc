@@ -80,12 +80,12 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
                     </div>
                 
                     <div className="bg-card/40 backdrop-blur-md rounded-3xl p-8 border border-white/50 h-fit">
-                        <h3 className="font-serif text-2xl mb-6 text-teal-800">Benefits</h3>
+                        <h3 className="font-serif text-2xl mb-6 text-blue-800">Benefits</h3>
                         
                             <ul className="space-y-4">
                                 {['Relieves tension & stress', 'Improves circulation', 'Restores structural balance', 'Deep relaxation'].map((item, i) => (
                                     <li key={i} className="flex items-center gap-3 text-foreground font-medium">
-                                        <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 shrink-0">
+                                        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 shrink-0">
                                             <CheckCircle className="w-4 h-4" />
                                         </div>
                                         {item}
@@ -110,17 +110,17 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
                             key={variant.id || 'standard'} 
                             href={`/book/${service.id}?variantId=${variant.id || ''}`}
                         >
-                            <div className="glass-card group relative h-full hover:border-teal-500/50 hover:bg-card/80 transition-all duration-300 hover:shadow-xl rounded-3xl hover:-translate-y-1">
+                            <div className="glass-card group relative h-full hover:border-blue-500/50 hover:bg-card/80 transition-all duration-300 hover:shadow-xl rounded-3xl hover:-translate-y-1">
                                 <div className="p-8 flex flex-col h-full">
                                     <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-100 transition-opacity -mr-4 -mt-4">
-                                        <div className="w-12 h-12 bg-teal-600 rounded-full flex items-center justify-center text-white">
+                                        <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white">
                                             <ArrowRight className="w-6 h-6 -rotate-45 group-hover:rotate-0 transition-transform duration-300" />
                                         </div>
                                     </div>
 
                                     <div className="mb-4">
                                         <h4 className="text-xl font-bold text-foreground mb-1">{variant.name}</h4>
-                                        <Badge variant="secondary" className="gap-2 bg-teal-50 text-teal-700 hover:bg-teal-100">
+                                        <Badge variant="secondary" className="gap-2 bg-blue-50 text-blue-700 hover:bg-blue-100">
                                             <Clock className="w-3.5 h-3.5" />
                                             {variant.duration} minutes
                                         </Badge>
@@ -131,7 +131,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
                                     </p>
 
                                     <div className="mt-auto flex items-center gap-2">
-                                        <span className="text-3xl font-serif text-teal-900">€{variant.price}</span>
+                                        <span className="text-3xl font-serif text-blue-900">€{variant.price}</span>
                                         <span className="text-muted-foreground text-sm font-medium self-end mb-1.5">per session</span>
                                     </div>
                                 </div>

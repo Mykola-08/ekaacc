@@ -228,7 +228,7 @@ export default function DynamicPriceCalculator({
   const hasSurcharges = priceBreakdown.modifiers.some(m => m.type === 'surcharge');
 
   return (
-    <div className={`bg-card dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-sm ${className}`}>
+    <div className={`bg-card dark:bg-gray-900 border border-border dark:border-gray-700 rounded-2xl p-6 shadow-sm ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
@@ -288,7 +288,7 @@ export default function DynamicPriceCalculator({
             </div>
           ))}
           
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between items-center font-medium">
+          <div className="border-t border-border dark:border-gray-700 pt-3 flex justify-between items-center font-medium">
             <span className="text-foreground dark:text-white">Total</span>
             <span className="text-xl text-foreground dark:text-white">
               {formatPrice(priceBreakdown.final_price_cents)}

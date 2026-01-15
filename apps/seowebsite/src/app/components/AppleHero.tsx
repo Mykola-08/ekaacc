@@ -72,7 +72,7 @@ export default function AppleHero() {
     <AnimateIn delay={0.8}>
     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
      <Link href="/first-time" className="group" onClick={() => logEvent('hero_first_time_click')}>
-      <Button size="xl" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
+      <Button size="xl" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl shadow-blue-900/20 border-none">
        {t('hero.firstTime')}
       </Button>
      </Link>

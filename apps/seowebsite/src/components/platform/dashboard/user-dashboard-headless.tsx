@@ -49,7 +49,7 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
         <div>
             <Link 
                 href="/services" 
-                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-2xl text-white bg-black hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-2xl text-white bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50"
             >
                 <Sparkles className="w-5 h-5 mr-2" />
                 {t('common.bookNow')}

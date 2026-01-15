@@ -309,7 +309,7 @@ export function SystemConfiguration() {
                       config.description.toLowerCase().includes(searchTerm.toLowerCase())
                     )
                     .map((config) => (
-                      <div key={config.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                      <div key={config.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
                             <h4 className="text-sm font-medium text-foreground">{config.key}</h4>

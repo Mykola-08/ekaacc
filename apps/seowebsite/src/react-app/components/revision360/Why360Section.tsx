@@ -222,7 +222,7 @@ export default function Why360Section() {
             >
               <button
                 onClick={() => setShowModal(true)}
-                className="group relative w-full sm:w-auto px-8 py-4 bg-zinc-900 text-amber-100 font-medium rounded-full overflow-hidden border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300"
+                className="group relative w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground font-medium rounded-full overflow-hidden border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <span className="relative flex items-center justify-center gap-3">

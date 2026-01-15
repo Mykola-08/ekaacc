@@ -652,7 +652,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                           className={`py-2 px-4 rounded-xl border-2 transition-all duration-200 text-sm font-medium ${
                             selectedTime === t(`booking.options.timeSlot.${slot}`)
                               ? 'border-blue-500 bg-blue-50 text-blue-700'
-                              : 'border-gray-200 text-muted-foreground hover:border-gray-300'
+                              : 'border-border text-muted-foreground hover:border-gray-300'
                           }`}
                         >
                           {t(`booking.options.timeSlot.${slot}`)}
@@ -686,7 +686,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                 </div>
               </div>
             ) : (
-              <div className="bg-card rounded-3xl shadow-xl border border-gray-200 p-8 sm:p-12 mb-8">
+              <div className="bg-card rounded-3xl shadow-xl border border-border p-8 sm:p-12 mb-8">
                 <h2 className="text-2xl font-semibold text-foreground mb-8 flex items-center justify-center">
                   <ClipboardList className="w-6 h-6 mr-3 text-blue-600" />
                   {t('discovery.diagnosis.title')}
@@ -704,7 +704,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">{t('discovery.diagnosis.symptoms')}</h3>
                     <div className="flex flex-wrap gap-2">
                       {recommendation.diagnosis?.symptoms.map((s, i) => (
-                        <span key={i} className="px-3 py-1 bg-card border border-gray-200 rounded-full text-sm text-foreground/90 shadow-sm">
+                        <span key={i} className="px-3 py-1 bg-card border border-border rounded-full text-sm text-foreground/90 shadow-sm">
                           {s}
                         </span>
                       ))}
@@ -823,7 +823,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                         onClick={() => setFormData({ ...formData, location: loc.id })}
                         className={`text-center p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-lg flex flex-col items-center justify-center ${formData.location === loc.id
                             ? 'border-blue-500 bg-blue-50'
-                            : 'border-gray-200 hover:border-gray-300'
+                            : 'border-border hover:border-gray-300'
                           }`}
                       >
                         <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-4 ${formData.location === loc.id ? 'bg-blue-100 text-blue-600' : 'bg-muted text-muted-foreground'
@@ -850,7 +850,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   placeholder={t('discovery.step.description.placeholder')}
-                  className="w-full h-40 p-4 rounded-2xl border-2 border-gray-200 focus:border-blue-500 focus:ring-0 resize-none text-lg"
+                  className="w-full h-40 p-4 rounded-2xl border-2 border-border focus:border-blue-500 focus:ring-0 resize-none text-lg"
                 />
                 <p className="text-sm text-muted-foreground mt-2 text-right">
                   {formData.description.length}/3 characters minimum
@@ -873,7 +873,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, userType: type.id })}
                       className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-lg ${formData.userType === type.id
                           ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-border hover:border-gray-300'
                         }`}
                     >
                       <h3 className="font-semibold text-foreground mb-2">{type.title}</h3>
@@ -904,7 +904,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       }}
                       className={`w-full text-left p-4 rounded-2xl border-2 transition-all duration-200 ${formData.tensionAreas.includes(option)
                           ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-border hover:border-gray-300'
                         }`}
                     >
                       <div className="flex items-center justify-between">
@@ -934,7 +934,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, emotionalState: state.id })}
                       className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-lg ${formData.emotionalState === state.id
                           ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-border hover:border-gray-300'
                         }`}
                     >
                       <h3 className="font-semibold text-foreground mb-2">{state.title}</h3>
@@ -960,7 +960,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, timeCommitment: time.id })}
                       className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-lg ${formData.timeCommitment === time.id
                           ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-border hover:border-gray-300'
                         }`}
                     >
                       <h3 className="font-semibold text-foreground mb-2">{time.title}</h3>
@@ -986,7 +986,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                       onClick={() => setFormData({ ...formData, budget: budget.id })}
                       className={`w-full text-left p-6 rounded-2xl border-2 transition-all duration-200 hover:shadow-lg ${formData.budget === budget.id
                           ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          : 'border-border hover:border-gray-300'
                         }`}
                     >
                       <h3 className="font-semibold text-foreground mb-2">{budget.title}</h3>
@@ -998,7 +998,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
             )}
 
             {/* Navigation */}
-            <div className="flex justify-between items-center mt-12 pt-8 border-t border-gray-200">
+            <div className="flex justify-between items-center mt-12 pt-8 border-t border-border">
               <button
                 onClick={handleBack}
                 className={`flex items-center px-6 py-3 rounded-full font-medium transition-colors duration-200 ${currentStep === 0

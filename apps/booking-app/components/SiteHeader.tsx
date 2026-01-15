@@ -94,7 +94,7 @@ export function SiteHeader() {
         <div className='flex items-center justify-between px-6'>
           {/* Logo */}
           <Link href={mainSiteUrl} className='flex items-center gap-2 group'>
-            <div className="w-8 h-8 bg-[#0d9488] rounded-full flex items-center justify-center text-white font-sans font-bold text-sm shadow-md shadow-teal-900/10">E</div>
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-sans font-bold text-sm shadow-md shadow-blue-900/10">E</div>
             <span className='font-sans font-bold tracking-tight text-base text-foreground/90 group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
           </Link>
 

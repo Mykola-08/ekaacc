@@ -56,7 +56,7 @@ export default function CookieBanner() {
  return (
   <div className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6">
    <div className="max-w-4xl mx-auto">
-    <div className="bg-card/95 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl p-6 sm:p-8">
+    <div className="bg-card/95 backdrop-blur-lg border border-border rounded-2xl shadow-xl p-6 sm:p-8">
      <div className="flex items-start gap-4">
       <div className="flex-shrink-0 mt-1">
        <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
@@ -89,7 +89,7 @@ export default function CookieBanner() {
         </div>
 
         <Link
-         href="/cookie-policy"
+         href="/legal/cookie-policy"
          className="text-[#FFB405] hover:text-[#e8a204] font-medium text-sm transition-colors duration-200"
         >
          {t('cookies.learnMore')}

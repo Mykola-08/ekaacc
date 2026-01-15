@@ -81,7 +81,7 @@ export function TierProgressIndicator({
                   'flex items-center gap-3 p-3 rounded-lg border transition-all duration-200',
                   index < Math.ceil(requirements.length * (currentProgress / targetProgress))
                     ? 'bg-green-50 border-green-200'
-                    : 'bg-muted/30 border-gray-200'
+                    : 'bg-muted/30 border-border'
                 )}
               >
                 {index < Math.ceil(requirements.length * (currentProgress / targetProgress)) ? (
@@ -116,7 +116,7 @@ export function TierProgressIndicator({
             {nextRequirements.slice(0, 3).map((requirement, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-2 rounded-lg bg-muted border border-gray-200"
+                className="flex items-center gap-3 p-2 rounded-lg bg-muted border border-border"
               >
                 <Lock className="h-3 w-3 text-muted-foreground/80 flex-shrink-0" />
                 <span className="text-xs text-muted-foreground">{requirement}</span>
@@ -283,7 +283,7 @@ export function TierBenefitsList({
             {unavailableBenefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 p-3 bg-muted/30 border border-gray-200 rounded-lg opacity-60"
+                className="flex items-start gap-3 p-3 bg-muted/30 border border-border rounded-lg opacity-60"
               >
                 <div className="flex-shrink-0 mt-0.5">
                   <Lock className="h-4 w-4 text-muted-foreground/80" />

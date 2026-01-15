@@ -6,19 +6,3 @@
   --radius-3xl: 2rem;
 }
 
-.glass-panel {
-  @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg shadow-black/[0.03];
-}
-
-.subtle-footer {
-  @apply bg-transparent backdrop-blur-lg border-t border-black/[0.02];
-}
-
-/* Global Glass Utilities */
-@utility glass {
-  @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm;
-}
-@utility glass-card {
-  @apply bg-white/60 backdrop-blur-lg border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)];
-}
-

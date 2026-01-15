@@ -187,7 +187,7 @@ export default function CancellationPolicy() {
       ))}
      </div>
 
-     <div className="mt-12 pt-8 border-t border-gray-200 text-center text-muted-foreground text-sm">
+     <div className="mt-12 pt-8 border-t border-border text-center text-muted-foreground text-sm">
       <p>&copy; 2025 EKA Balance. All rights reserved.</p>
      </div>
     </div>

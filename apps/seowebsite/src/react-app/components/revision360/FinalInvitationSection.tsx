@@ -113,7 +113,7 @@ export default function FinalInvitationSection() {
             href={`https://wa.me/34658867133?text=${encodeURIComponent(t('whatsapp.booking'))}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative inline-block px-16 py-6 bg-gradient-to-r from-amber-500 to-yellow-400 text-zinc-900 font-bold text-xl rounded-full shadow-2xl shadow-amber-500/40"
+            className="relative inline-block px-16 py-6 bg-gradient-to-r from-amber-500 to-yellow-400 text-foreground font-bold text-xl rounded-full shadow-2xl shadow-amber-500/40"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             whileHover={{ 

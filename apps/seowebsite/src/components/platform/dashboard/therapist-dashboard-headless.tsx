@@ -74,14 +74,14 @@ export function TherapistDashboardHeadless() {
         <div className="flex gap-3">
              <Link 
                 href="/platform/schedule" 
-                className="inline-flex items-center justify-center px-5 py-2.5 border border-gray-200 text-sm font-semibold rounded-xl text-foreground/90 bg-card hover:bg-muted/30 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
+                className="inline-flex items-center justify-center px-5 py-2.5 border border-border text-sm font-semibold rounded-xl text-foreground/90 bg-card hover:bg-muted/30 transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200"
             >
                 <Calendar className="w-4 h-4 mr-2" />
                 View Schedule
             </Link>
             <Link 
                 href="/platform/patients" 
-                className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-xl text-white bg-black hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                className="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-xl text-white bg-primary hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50"
             >
                 <Users className="w-4 h-4 mr-2" />
                 View Patients
@@ -176,7 +176,7 @@ export function TherapistDashboardHeadless() {
                      <p className="text-sm text-muted-foreground mb-3">Robert Fox requested an appointment</p>
                      <div className="flex gap-2">
                          <button className="text-xs font-semibold px-3 py-1.5 bg-black text-white rounded-lg hover:bg-gray-800">Review</button>
-                         <button className="text-xs font-semibold px-3 py-1.5 bg-card border border-gray-200 text-foreground/90 rounded-lg hover:bg-muted/30">Dismiss</button>
+                         <button className="text-xs font-semibold px-3 py-1.5 bg-card border border-border text-foreground/90 rounded-lg hover:bg-muted/30">Dismiss</button>
                      </div>
                  </div>
              </div>

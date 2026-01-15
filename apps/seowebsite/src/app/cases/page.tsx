@@ -115,32 +115,25 @@ export default function Casos() {
  ];
 
  const getColorClasses = (color: string) => {
-  const colors = {
-   blue: { bg: 'bg-blue-50', text: 'text-blue-700', border: 'group-hover:border-blue-200' },
-   purple: { bg: 'bg-purple-50', text: 'text-purple-700', border: 'group-hover:border-purple-200' },
-   green: { bg: 'bg-green-50', text: 'text-green-700', border: 'group-hover:border-green-200' },
-   orange: { bg: 'bg-orange-50', text: 'text-orange-700', border: 'group-hover:border-orange-200' },
-   indigo: { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'group-hover:border-indigo-200' },
-   pink: { bg: 'bg-pink-50', text: 'text-pink-700', border: 'group-hover:border-pink-200' },
-   red: { bg: 'bg-red-50', text: 'text-red-700', border: 'group-hover:border-red-200' }
-  };
-  return colors[color as keyof typeof colors] || colors.blue;
+  // UNIFIED DESIGN: Use a consistent logic, mapping everything to primary for cleanliness
+  // or simple neutral cards with primary accents
+  return { bg: 'bg-primary/10', text: 'text-primary', border: 'group-hover:border-primary/20' };
  };
 
  return (
-  <div className="min-h-screen bg-muted/30 font-sans text-foreground">
+  <div className="min-h-screen bg-background font-sans text-foreground">
    
    {/* Hero Section */}
-   <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+   <div className="relative bg-background pt-32 pb-20 px-6 overflow-hidden">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="relative max-w-4xl mx-auto text-center z-10">
-     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 text-sm text-blue-600 mb-8 shadow-sm">
+     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 text-sm text-primary mb-8 shadow-sm">
       <Search className="w-4 h-4" />
       <span className="font-medium">{t('casos.hero.badge') || "What brings you here?"}</span>
      </div>
 
-     <h1 className="text-5xl md:text-7xl font-light text-foreground mb-6 tracking-tight leading-tight">
+     <h1 className="text-5xl md:text-7xl font-semibold text-foreground mb-6 tracking-tight leading-tight">
       {t('casos.title')}
      </h1>
      
@@ -170,17 +163,17 @@ export default function Casos() {
        <Link 
         key={problem.id} 
         href={`/cases/${problem.id}`}
-        className="group relative bg-card rounded-[32px] p-8 hover:shadow-xl transition-all duration-300 border-none border-transparent hover:/50 flex flex-col h-full overflow-hidden"
+        className="group relative bg-white/60 backdrop-blur-sm rounded-[32px] p-8 hover:shadow-xl transition-all duration-300 border border-white/40 hover:border-primary/20 flex flex-col h-full overflow-hidden"
        >
         {/* Hover Gradient Background */}
-        <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-300 ${colors.bg.replace('bg-', 'bg-gradient-to-br from-white to-')}`} />
+        <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-gradient-to-br from-white to-primary`} />
 
         <div className="relative z-10">
-         <div className={`w-14 h-14 rounded-2xl ${colors.bg} ${colors.text} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+         <div className={`w-14 h-14 rounded-2xl ${colors.bg} ${colors.text} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white`}>
           <Icon className="w-7 h-7" />
          </div>
          
-         <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-blue-900 transition-colors">
+         <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
           {problem.title}
          </h3>
          
@@ -188,7 +181,7 @@ export default function Casos() {
           {problem.description}
          </p>
          
-         <div className="mt-auto flex items-center text-sm font-semibold text-foreground group-hover:text-blue-600 transition-colors">
+         <div className="mt-auto flex items-center text-sm font-semibold text-primary transition-colors">
           <span>{t('casos.seeDetails')}</span>
           <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
          </div>
@@ -200,7 +193,7 @@ export default function Casos() {
    </div>
 
    {/* Additional Problems List - Modernized */}
-   <div className="bg-card py-24 border-t border-gray-100">
+   <div className="bg-background py-24 border-t border-none">
     <div className="max-w-5xl mx-auto px-6">
      <div className="text-center mb-16">
       <h2 className="text-3xl font-light text-foreground mb-4">{t('casos.otherCases')}</h2>
@@ -211,10 +204,10 @@ export default function Casos() {
       {additionalProblemsKeys.map((key) => (
        <div 
         key={key} 
-        className="flex items-center p-4 rounded-2xl bg-muted/30 hover:bg-blue-50/50 transition-colors duration-200 group cursor-default"
+        className="flex items-center p-4 rounded-2xl bg-white/60 backdrop-blur-sm hover:bg-white transition-all duration-200 group cursor-default shadow-sm border border-white/40"
        >
-        <div className="w-2 h-2 rounded-full bg-blue-400/50 mr-4 group-hover:bg-blue-500 transition-colors" />
-        <span className="text-foreground/90 font-medium group-hover:text-blue-800 transition-colors">
+        <div className="w-2 h-2 rounded-full bg-primary/40 mr-4 group-hover:bg-primary transition-colors" />
+        <span className="text-foreground/90 font-medium group-hover:text-primary transition-colors">
          {t(key)}
         </span>
        </div>
@@ -224,23 +217,23 @@ export default function Casos() {
    </div>
 
    {/* CTA Section */}
-   <div className="bg-gradient-to-br from-[#000035] to-[#000060] py-24 px-6 relative overflow-hidden">
+   <div className="bg-background py-24 px-6 relative overflow-hidden">
     {/* Abstract Background Shapes */}
-    <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-    <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
+    <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+    <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
     <div className="max-w-4xl mx-auto text-center relative z-10">
-     <h2 className="text-3xl md:text-5xl font-light text-white mb-6 tracking-tight">
+     <h2 className="text-3xl md:text-5xl font-semibold text-foreground mb-6 tracking-tight">
       {t('casos.ctaTitle')}
      </h2>
-     <p className="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl mx-auto font-light leading-relaxed">
+     <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto font-light leading-relaxed">
       {t('casos.ctaSubtitle')}
      </p>
      <div className="flex flex-col sm:flex-row gap-4 justify-center">
        <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
         <Button 
          size="xl" 
-         className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold py-4 px-8 rounded-2xl shadow-lg border-none hover:scale-105 transition-transform"
+         className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-2xl shadow-lg border-none hover:scale-105 transition-transform"
         >
          {t('casos.bookSession')}
         </Button>
@@ -248,7 +241,8 @@ export default function Casos() {
        <Link href="/services">
         <Button 
          size="xl" 
-         className="bg-transparent hover:bg-card/10 text-white border border-white/20 font-medium py-4 px-8 rounded-2xl hover:scale-105 transition-transform"
+         variant="outline"
+         className="bg-white/60 hover:bg-white text-foreground border-white/40 font-medium py-4 px-8 rounded-2xl hover:scale-105 transition-transform backdrop-blur-md"
         >
          {t('casos.discoverIdeal')}
         </Button>

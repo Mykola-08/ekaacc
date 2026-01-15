@@ -164,7 +164,7 @@ const ComparativeTable = () => {
   };
 
   return (
-    <section className="py-24 relative bg-muted/30 border-t border-gray-200">
+    <section className="py-24 relative bg-muted/30 border-t border-border">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-light mb-4 text-foreground">
@@ -323,7 +323,7 @@ export default function VIPUltraPremium() {
              {defaultPlans.map((plan) => (
                <div 
                  key={plan.tier}
-                 className={`relative bg-card rounded-[2.5rem] p-8 border ${plan.popular ? 'border-amber-400 shadow-2xl shadow-amber-100' : 'border-gray-200 shadow-lg'}`}
+                 className={`relative bg-card rounded-[2.5rem] p-8 border ${plan.popular ? 'border-amber-400 shadow-2xl shadow-amber-100' : 'border-border shadow-lg'}`}
                >
                  {plan.popular && (
                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-amber-500 text-white px-6 py-2 rounded-full text-sm font-bold tracking-wide shadow-md">

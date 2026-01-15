@@ -128,7 +128,7 @@ export default function Layout({
 
       {/* Navigation with scroll effect */}
       <nav className={`sticky top-0 z-50 transition-all duration-300`} style={{
-        backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : '#F5F5F7'
+        backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)'
       }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
@@ -178,7 +178,7 @@ export default function Layout({
                         <div
                           className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''}`}
                           style={{
-                            backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : '#F5F5F7',
+                            backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)',
                             backdropFilter: isScrolled ? 'blur(20px)' : 'none',
                             WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
                           }}
@@ -253,7 +253,7 @@ export default function Layout({
                   </Link>
                   <button
                     onClick={signOut}
-                    className="text-xs text-muted-foreground hover:text-red-500 transition-colors border border-gray-200 px-2 py-1 rounded-md"
+                    className="text-xs text-muted-foreground hover:text-red-500 transition-colors border border-border px-2 py-1 rounded-md"
                   >
                     {t('footer.logout')}
                   </button>
@@ -401,7 +401,7 @@ export default function Layout({
 
 
       {/* Fixed Mobile Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-border md:hidden z-50 pb-safe">
         <Link
           to="/booking"
           className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"

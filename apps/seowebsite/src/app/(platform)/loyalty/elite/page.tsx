@@ -59,7 +59,7 @@ const benefits = [
   icon: Award,
   title: 'Premium Content',
   description: 'Get access to Elite-exclusive content, resources, and expert-led sessions',
-  color: 'text-teal-500',
+  color: 'text-blue-500',
  },
 ];
 

@@ -57,7 +57,7 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                 <form onSubmit={handleSubmit}>
                     <CardHeader className="border-b border-black/5 pb-8 mb-8">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-[#0d9488]/10 flex items-center justify-center text-[#0d9488]">
+                            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
                                 <User className="w-6 h-6" />
                             </div>
                             <div>
@@ -71,7 +71,7 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                         {/* Full Name */}
                         <div className="space-y-2">
                             <Label htmlFor="full_name" className="flex items-center gap-2 font-medium">
-                                <User className="w-4 h-4 text-[#0d9488]" />
+                                <User className="w-4 h-4 text-primary" />
                                 Full Name
                             </Label>
                             <Input 
@@ -79,14 +79,14 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                                 name="full_name" 
                                 defaultValue={profile?.full_name || ''} 
                                 required 
-                                className="h-12 rounded-xl bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20"
+                                className="h-12 rounded-xl bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20"
                             />
                         </div>
 
                         {/* Email (Read Only) */}
                         <div className="space-y-2">
                             <Label htmlFor="email" className="flex items-center gap-2 font-medium">
-                                <Mail className="w-4 h-4 text-[#0d9488]" />
+                                <Mail className="w-4 h-4 text-primary" />
                                 Email Address
                             </Label>
                             <div className="relative">
@@ -109,7 +109,7 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                         {/* Phone */}
                         <div className="space-y-2">
                             <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
-                                <Phone className="w-4 h-4 text-[#0d9488]" />
+                                <Phone className="w-4 h-4 text-primary" />
                                 Phone Number
                             </Label>
                             <Input 
@@ -117,14 +117,14 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                                 name="phone" 
                                 defaultValue={profile?.metadata?.phone || profile?.phone || ''} 
                                 placeholder="+1 (555) 000-0000"
-                                className="h-12 rounded-xl bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20"
+                                className="h-12 rounded-xl bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20"
                             />
                         </div>
 
                         {/* Bio */}
                         <div className="space-y-2">
                             <Label htmlFor="bio" className="flex items-center gap-2 font-medium">
-                                <FileText className="w-4 h-4 text-[#0d9488]" />
+                                <FileText className="w-4 h-4 text-primary" />
                                 Bio / Notes
                             </Label>
                             <Textarea 
@@ -132,7 +132,7 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                                 name="bio" 
                                 defaultValue={profile?.metadata?.bio || profile?.bio || ''} 
                                 placeholder="Tell us a bit about yourself..."
-                                className="min-h-32 resize-y rounded-xl bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20"
+                                className="min-h-32 resize-y rounded-xl bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20"
                             />
                         </div>
                     </CardContent>
@@ -141,18 +141,13 @@ export function SettingsPage({ profile }: SettingsPageProps) {
                         <Button 
                             type="submit" 
                             disabled={loading}
-                            className="w-full sm:w-auto min-w-37.5 rounded-xl bg-[#0d9488] hover:bg-[#0f766e] text-white shadow-lg shadow-teal-500/20"
+                            className="w-full sm:w-auto min-w-37.5 rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-blue-500/20"
                         >
                             {loading ? (
                                 <>Saving...</>
                             ) : (
                                 <>
                                     <Save className="w-4 h-4 mr-2" />
-                                    Save Changes
-                                </>
-                            )}
-                        </Button>
-                    </CardFooter>
                                     Save Changes
                                 </>
                             )}

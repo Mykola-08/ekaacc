@@ -299,7 +299,7 @@ export function AuditLogViewer() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-border">
                   <th className="text-left py-3 px-4 font-medium text-foreground">Timestamp</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">User</th>
                   <th className="text-left py-3 px-4 font-medium text-foreground">Action</th>

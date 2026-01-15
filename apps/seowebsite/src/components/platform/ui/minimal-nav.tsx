@@ -23,7 +23,7 @@ const MinimalNav = React.forwardRef<HTMLElement, MinimalNavProps>(
     return (
       <nav
         className={cn(
-          'bg-card border-b border-gray-200',
+          'bg-card border-b border-border',
           className
         )}
         ref={ref}

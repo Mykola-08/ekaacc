@@ -70,7 +70,7 @@ export function UserManagementHeadless() {
         <button
             onClick={loadUsers}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2.5 bg-card text-foreground/90 border border-gray-200 rounded-xl hover:bg-muted/30 transition-colors shadow-sm disabled:opacity-50"
+            className="flex items-center gap-2 px-4 py-2.5 bg-card text-foreground/90 border border-border rounded-xl hover:bg-muted/30 transition-colors shadow-sm disabled:opacity-50"
         >
             <RefreshCw className={cn("w-4 h-4", loading ? "animate-spin" : "")} />
             <span>Refresh</span>
@@ -90,7 +90,7 @@ export function UserManagementHeadless() {
 
       <div className="overflow-hidden rounded-3xl ring-1 ring-gray-200 bg-card shadow-xl shadow-slate-200/50">
         <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
+            <table className="min-w-full divide-y divide-border">
             <thead className="bg-muted/30/50">
                 <tr>
                     <th scope="col" className="py-4 pl-6 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-muted-foreground">User</th>
@@ -101,7 +101,7 @@ export function UserManagementHeadless() {
                     </th>
                 </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-card">
+            <tbody className="divide-y divide-border bg-card">
                 {filteredUsers.length === 0 && !loading && (
                     <tr>
                         <td colSpan={4} className="py-10 text-center text-muted-foreground">No users found.</td>

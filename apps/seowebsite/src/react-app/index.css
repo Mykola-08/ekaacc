@@ -24,14 +24,6 @@
   --apple-shadow-large: 0 20px 60px rgba(0, 0, 0, 0.08);
 }
 
-/* Global Glass Utilities */
-@utility glass {
-  @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm;
-}
-@utility glass-card {
-  @apply bg-white/60 backdrop-blur-lg border border-white/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)];
-}
-
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

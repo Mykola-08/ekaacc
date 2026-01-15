@@ -134,7 +134,7 @@ export default function MainLayout({
    {/* Navigation with scroll effect */}
    {!isAuthPage && (
    <nav className={`sticky top-0 z-50 transition-all duration-300`} style={{
-    backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : '#F5F5F7'
+    backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)'
    }}>
     <div className="max-w-7xl mx-auto px-4 sm:px-6">
      <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
@@ -161,7 +161,7 @@ export default function MainLayout({
            <>
             <Link
              href={item.href}
-             className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-card/60 ${isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
+             className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-white/60 ${isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
               }`}
              onMouseEnter={openDropdown}
              onMouseLeave={scheduleHide}
@@ -184,7 +184,7 @@ export default function MainLayout({
             <div
              className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''}`}
              style={{
-              backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : '#F5F5F7',
+              backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)',
               backdropFilter: isScrolled ? 'blur(20px)' : 'none',
               WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
              }}
@@ -203,7 +203,7 @@ export default function MainLayout({
                key={dropdownItem.name}
                href={dropdownItem.href}
                onClick={() => setShowPersonalServices(false)}
-               className="flex items-center justify-center h-12 text-sm font-medium transition-colors duration-200 text-[#000035] hover:text-[#FFB405]"
+               className="flex items-center justify-center h-12 text-sm font-medium transition-colors duration-200 text-foreground hover:text-primary"
                style={{
                 marginBottom: index < item.dropdownItems!.length - 1 ? '8px' : '0'
                }}
@@ -218,7 +218,7 @@ export default function MainLayout({
            <a
             href={item.href}
             rel="noopener noreferrer"
-            className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 text-[#000035] hover:text-[#FFB405]"
+            className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 text-foreground hover:text-primary"
             onClick={(e) => {
              e.preventDefault();
              window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -229,9 +229,9 @@ export default function MainLayout({
           ) : (
            <Link
             href={item.href}
-            className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 ${item.isGold
+            className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 ${item.isGold
               ? 'gold-shimmer font-black bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
-              : isActivePath(item.href) ? 'text-[#FFB405]' : 'text-[#000035] hover:text-[#FFB405]'
+              : isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
              }`}
            >
             {item.name}
@@ -250,7 +250,7 @@ export default function MainLayout({
         <div className="relative">
          <button 
           onClick={() => setIsProfileOpen(!isProfileOpen)}
-          className="flex items-center space-x-2 text-[#000035] hover:text-[#FFB405] transition-colors duration-200"
+          className="flex items-center space-x-2 text-foreground hover:text-primary transition-colors duration-200"
          >
           {user.profile?.avatar_url ? (
            <Image 
@@ -259,11 +259,11 @@ export default function MainLayout({
             width={40}
             height={40}
             unoptimized
-            className="rounded-full border-2 border-[#FFB405] object-cover"
+            className="rounded-full border-2 border-primary object-cover"
            />
           ) : (
-           <div className="w-10 h-10 rounded-full bg-[#FFB405]/20 flex items-center justify-center border-2 border-[#FFB405]">
-             <UserCircle className="w-6 h-6 text-[#000035]" />
+           <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary">
+             <UserCircle className="w-6 h-6 text-foreground" />
            </div>
           )}
           <span className="hidden sm:inline font-medium max-w-[100px] truncate">
@@ -305,13 +305,13 @@ export default function MainLayout({
         <div className="hidden sm:flex items-center space-x-3">
           <Link
             href="/login"
-            className="text-[#000035] hover:text-[#FFB405] font-medium transition-colors"
+            className="text-foreground hover:text-primary font-medium transition-colors"
           >
             Log in
           </Link>
           <Link
             href="/signup"
-            className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-5 py-2.5 rounded-full transition-colors duration-200"
+            className="bg-primary hover:bg-primary/90 text-white font-semibold px-5 py-2.5 rounded-full transition-colors duration-200 shadow-lg shadow-blue-900/10"
           >
              Sign up
           </Link>
@@ -357,7 +357,7 @@ export default function MainLayout({
             onClick={() => setIsMenuOpen(false)}
             className={`block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 ${item.isGold
               ? 'text-amber-600 bg-amber-50 border border-amber-100 font-bold'
-              : isActivePath(item.href) ? 'text-[#FFB405] bg-[#FFB405]/10' : 'text-foreground/90 hover:bg-muted/30'
+              : isActivePath(item.href) ? 'text-primary bg-primary/10' : 'text-foreground/90 hover:bg-muted/30'
              }`}
            >
             {item.name}
@@ -392,7 +392,7 @@ export default function MainLayout({
               width={40}
               height={40}
               unoptimized
-              className="rounded-full border border-gray-200"
+              className="rounded-full border border-border"
              />
             ) : (
               <UserCircle className="w-10 h-10 text-muted-foreground/80" />
@@ -463,7 +463,7 @@ export default function MainLayout({
 
    {/* Fixed Mobile Bottom CTA - Removed as per integration request */}
    {/* 
-   <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-gray-200 md:hidden z-50 pb-safe">
+   <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-border md:hidden z-50 pb-safe">
     <Link
      href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
      className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
@@ -507,19 +507,19 @@ export default function MainLayout({
         {t('footer.discounts')}
        </Link>
        <Link
-        href="/privacy-policy"
+        href="/legal/privacy-policy"
         className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
        >
         {t('footer.privacyPolicy')}
        </Link>
        <Link
-        href="/cookie-policy"
+        href="/legal/cookie-policy"
         className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
        >
         {t('footer.cookiePolicy')}
        </Link>
        <Link
-        href="/terms-of-service"
+        href="/legal/terms-of-service"
         className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
        >
         {t('footer.termsOfService')}

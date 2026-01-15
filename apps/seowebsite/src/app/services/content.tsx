@@ -25,8 +25,8 @@ export default function ServicesContent({ services }: ServicesContentProps) {
  return (
   <>
    {/* Hero Section */}
-   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-background">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="max-w-7xl mx-auto px-4 sm:px-8 text-center relative z-10">
      <motion.div
@@ -34,14 +34,14 @@ export default function ServicesContent({ services }: ServicesContentProps) {
        animate={{ opacity: 1, y: 0 }}
        transition={{ duration: 0.6 }}
      >
-      <div className="inline-flex items-center px-6 py-3 bg-card/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
-       <Heart className="w-5 h-5 text-blue-600 mr-2" />
-       <span className="text-blue-700 font-medium">{t('services.integralWellbeingFor')}</span>
+      <div className="inline-flex items-center px-6 py-2.5 bg-white/60 backdrop-blur-md border border-white/40 rounded-full mb-8 shadow-sm">
+       <Heart className="w-4 h-4 text-primary mr-2" />
+       <span className="text-foreground/80 font-medium text-sm tracking-wide">{t('services.integralWellbeingFor')}</span>
       </div>
 
-      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-8 leading-tight">
+      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-foreground mb-8 leading-tight">
        {t('services.ourServices')}{' '}
-       <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-medium">
+       <span className="text-primary">
         {t('services.ourServices2') || 'Therapies'}
        </span>
       </h1>
@@ -52,7 +52,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
 
       <div className="flex justify-center">
        <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
-        <Button size="2xl" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl transition-all duration-300">
+        <Button size="2xl" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border-none">
          {t('services.bookSession')}
          <ArrowRight className="ml-3 w-6 h-6" />
         </Button>
@@ -63,7 +63,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
    </section>
 
    {/* Services Grid */}
-   <section className="py-24 bg-card relative">
+   <section className="py-24 bg-background relative">
     <div className="max-w-7xl mx-auto px-4 sm:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {services.map((service, index) => {
@@ -89,7 +89,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
          subtitleKey: meta.translationKey ? `${meta.translationKey}.subtitle` : undefined, // Infer from pattern
          descriptionKey: service.description,
          iconName: meta.icon,
-         color: service.slug === 'massage' ? 'orange' : 'blue', // simplified
+         color: service.slug === 'massage' ? 'orange' : 'teal', // simplified
          durations: meta.durations || [],
          image: service.image_url,
          href: `/services/${service.slug}`,

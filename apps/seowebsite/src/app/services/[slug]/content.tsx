@@ -65,8 +65,8 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
    />
 
    {/* Hero Section */}
-   <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+   <div className="relative bg-background pt-32 pb-20 px-6 overflow-hidden">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
      <motion.div 
@@ -74,12 +74,12 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.6 }}
      >
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-orange-100 text-sm text-orange-600 mb-8 shadow-sm">
+      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 text-sm text-primary mb-8 shadow-sm">
        <Heart className="w-4 h-4" />
        <span className="font-medium">{getText(meta.heroBadge) || 'Integral Wellbeing'}</span>
       </div>
       
-      <h1 className="text-5xl md:text-7xl font-light bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 mb-6 tracking-tight leading-tight">
+      <h1 className="text-5xl md:text-7xl font-semibold text-foreground mb-6 tracking-tight leading-tight">
        {title}
       </h1>
       
@@ -91,10 +91,10 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
       {variants.length > 0 && (
         <div className="mb-8 flex flex-wrap gap-3">
           {variants.map((v) => (
-            <div key={v.duration_min} className="px-4 py-2 bg-card rounded-xl border border-border shadow-sm text-sm">
+            <div key={v.duration_min} className="px-4 py-2 bg-white/60 backdrop-blur-sm rounded-xl border border-white/20 shadow-sm text-sm">
               <span className="font-semibold text-foreground">{v.duration_min} min</span>
               <span className="text-muted-foreground/80 mx-2">|</span>
-              <span className="text-orange-600 font-medium">{(v.price_amount / 100).toFixed(0)}€</span>
+              <span className="text-primary font-medium">{(v.price_amount / 100).toFixed(0)}€</span>
             </div>
           ))}
         </div>
@@ -104,7 +104,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
        <Button 
         onClick={() => navigateToBooking(service.slug)}
         size="xl"
-        className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] border-none rounded-2xl px-8 h-14 text-lg shadow-lg hover:scale-105 transition-all"
+        className="bg-primary hover:bg-primary/90 text-white border-none rounded-2xl px-8 h-14 text-lg shadow-lg hover:scale-105 transition-all"
        >
         {t('common.bookNow') || 'Book Now'}
         <ArrowRight className="ml-2 w-5 h-5" />
@@ -126,10 +126,10 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
         />
       </div>
       {/* Floating Card */}
-      <div className="absolute -bottom-6 -left-6 bg-card rounded-2xl p-4 shadow-xl border border-gray-100 max-w-xs">
+      <div className="absolute -bottom-6 -left-6 bg-white/80 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white/20 max-w-xs">
         <div className="flex items-center gap-3">
-         <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
-          <Clock className="w-5 h-5 text-orange-600" />
+         <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+          <Clock className="w-5 h-5 text-primary" />
          </div>
          <div>
           <p className="text-sm font-medium text-foreground">{t('massage.page.availableToday') || 'Available Today'}</p>
@@ -143,11 +143,11 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
 
    {/* Benefits Section */}
    {benefits.length > 0 && (
-   <section className="py-24 bg-card">
+   <section className="py-24 bg-background">
     <div className="max-w-6xl mx-auto px-6">
      <div className="grid md:grid-cols-2 gap-12 items-center">
        <div>
-        <h2 className="text-3xl font-light mb-8">{t('common.benefits') || 'Benefits'}</h2>
+        <h2 className="text-3xl font-light mb-8 text-foreground">{t('common.benefits') || 'Benefits'}</h2>
         <div className="space-y-4">
           {benefits.map((benefit, i) => (
             <motion.div 
@@ -156,19 +156,19 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="flex items-start gap-4 p-4 rounded-xl hover:bg-muted/30 transition-colors"
+              className="flex items-start gap-4 p-4 rounded-xl hover:bg-white/40 transition-colors"
             >
-              <div className="mt-1 bg-green-100 p-2 rounded-full">
-                <CheckCircle2 className="w-5 h-5 text-green-600" />
+              <div className="mt-1 bg-primary/10 p-2 rounded-full">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
               </div>
-              <p className="text-lg text-foreground/90">{getText(benefit)}</p>
+              <p className="text-lg text-foreground/90 font-light">{getText(benefit)}</p>
             </motion.div>
           ))}
         </div>
        </div>
        {meta.longDescription && (
-         <div className="bg-muted/30 p-8 rounded-[32px] prose prose-lg prose-blue">
-           <p className="text-muted-foreground font-light leading-relaxed">
+         <div className="bg-white/60 backdrop-blur-md p-8 rounded-[32px] border border-white/40 shadow-sm leading-relaxed">
+           <p className="text-muted-foreground font-light text-lg">
              {getText(meta.longDescription)}
            </p>
          </div>
@@ -180,19 +180,24 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
 
    {/* Testimonials */}
    {testimonials.length > 0 && (
-     <section className="py-24 bg-muted/30">
+     <section className="py-24 bg-background">
        <div className="max-w-6xl mx-auto px-6">
-         <h2 className="text-3xl font-light text-center mb-12">{t('common.testimonials') || 'What clients say'}</h2>
+         <h2 className="text-3xl font-light text-center mb-12 text-foreground">{t('common.testimonials') || 'What clients say'}</h2>
          <div className="grid md:grid-cols-2 gap-8">
            {testimonials.map((test, i) => (
-             <div key={i} className="bg-card p-8 rounded-[32px] shadow-sm border-none ">
+             <div key={i} className="bg-white/60 backdrop-blur-md p-8 rounded-[32px] shadow-sm border border-white/40 hover:shadow-md transition-all">
                 <div className="flex gap-1 mb-4">
                   {[...Array(test.rating)].map((_, r) => (
-                    <Star key={r} className="w-4 h-4 text-[#FFB405] fill-current" />
+                    <Star key={r} className="w-4 h-4 text-primary fill-current opacity-80" />
                   ))}
                 </div>
-                <p className="text-muted-foreground italic mb-6">"{getText(test.text)}"</p>
-                <p className="font-semibold text-foreground">{test.name}</p>
+                <p className="text-muted-foreground italic mb-6 font-light text-lg">"{getText(test.text)}"</p>
+                <div className="flex items-center gap-3">
+                   <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary">
+                     {test.name.charAt(0)}
+                   </div>
+                   <p className="font-semibold text-foreground">{test.name}</p>
+                </div>
              </div>
            ))}
          </div>

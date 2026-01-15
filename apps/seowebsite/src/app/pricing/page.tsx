@@ -20,8 +20,9 @@ const plans = [
    "Exclusive Themes",
    "AI Insights"
   ],
-  badge: <Badge className="bg-amber-500">Best Value</Badge>,
-  cta: "Start Free Trial"
+  badge: "Best Value",
+  cta: "Start Free Trial",
+  popular: true
  },
  {
   id: "vip1",
@@ -33,8 +34,8 @@ const plans = [
    "Priority Support",
    "Custom Workouts"
   ],
-  badge: <Badge className="bg-yellow-500">VIP</Badge>,
-  cta: "Subscribe Now"
+  cta: "Subscribe Now",
+  popular: false
  },
  {
   id: "vip2",
@@ -46,8 +47,8 @@ const plans = [
    "Exclusive Events",
    "2 Free Sessions/Month"
   ],
-  badge: <Badge className="bg-gray-400">VIP</Badge>,
-  cta: "Subscribe Now"
+  cta: "Subscribe Now",
+  popular: false
  },
  {
   id: "vip3",
@@ -59,8 +60,9 @@ const plans = [
    "24/7 Support",
    "4 Free Sessions/Month"
   ],
-  badge: <Badge className="bg-yellow-700">VIP</Badge>,
-  cta: "Subscribe Now"
+  badge: "VIP Exclusive",
+  cta: "Subscribe Now",
+  popular: false
  }
 ];
 
@@ -68,43 +70,76 @@ export default function PricingPage() {
  return (
   <div className="min-h-screen bg-background">
    {/* Hero Section */}
-   <div className="relative py-24 px-6 lg:px-8 text-center">
-    <h1 className="text-4xl font-bold tracking-tight sm:text-6xl mb-6">
-     Simple, Transparent Pricing
-    </h1>
-    <p className="text-lg leading-8 text-muted-foreground max-w-2xl mx-auto mb-10">
-     Choose the perfect plan for your wellness journey. No hidden fees. Cancel anytime.
-    </p>
+   <div className="relative py-32 px-6 lg:px-8 text-center overflow-hidden">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    
+    <div className="relative z-10">
+      <div className="inline-flex items-center px-4 py-1.5 bg-white/60 backdrop-blur-md border border-white/40 rounded-full mb-8 shadow-sm">
+       <span className="text-primary font-medium text-sm tracking-wide">Flexible Plans</span>
+      </div>
+      <h1 className="text-5xl font-semibold tracking-tight sm:text-7xl mb-6 text-foreground">
+       Simple, Transparent Pricing
+      </h1>
+      <p className="text-xl leading-8 text-muted-foreground max-w-2xl mx-auto mb-10 font-light">
+       Choose the perfect plan for your wellness journey. No hidden fees. Cancel anytime.
+      </p>
+    </div>
    </div>
 
    {/* Pricing Grid */}
-   <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-24">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+   <div className="max-w-7xl mx-auto px-6 lg:px-8 pb-32">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
      {plans.map((plan) => (
-      <Card key={plan.id} className="flex flex-col relative overflow-hidden border-2 hover:border-primary/50 transition-colors">
-       <CardHeader className="text-center pb-2">
-        <div className="flex justify-center mb-2">
-         {plan.badge}
+      <Card 
+       key={plan.id} 
+       className={`flex flex-col relative overflow-hidden transition-all duration-300 border h-full rounded-[32px] hover:shadow-xl
+        ${plan.popular 
+          ? 'bg-white/80 backdrop-blur-md border-primary/30 shadow-lg ring-1 ring-primary/20 transform scale-105 z-10' 
+          : 'bg-white/40 backdrop-blur-sm border-white/40 hover:bg-white/60 shadow-sm'
+        }`}
+      >
+       {plan.badge && (
+        <div className="absolute top-0 inset-x-0 flex justify-center -mt-3">
+          <Badge className="bg-primary text-white hover:bg-primary px-4 py-1 rounded-full shadow-md border-none text-xs font-semibold uppercase tracking-wider">
+            {plan.badge}
+          </Badge>
         </div>
-        <CardTitle className="text-xl">{plan.name}</CardTitle>
-        <div className="pt-4 pb-2">
-         <span className="text-4xl font-bold">€{plan.price}</span>
-         <span className="text-muted-foreground">/mo</span>
+       )}
+       
+       <CardHeader className="text-center pb-6 pt-10">
+        <CardTitle className="text-xl font-bold text-foreground mb-4">{plan.name}</CardTitle>
+        <div className="flex items-baseline justify-center gap-1 mb-4">
+         <span className="text-4xl font-bold text-foreground">€{plan.price}</span>
+         <span className="text-muted-foreground text-sm font-medium">/mo</span>
         </div>
-        <CardDescription>{plan.description}</CardDescription>
+        <CardDescription className="text-muted-foreground leading-relaxed px-2 font-light">
+          {plan.description}
+        </CardDescription>
        </CardHeader>
-       <CardContent className="flex-1">
-        <ul className="space-y-3 pt-4">
+       
+       <CardContent className="flex-1 px-8">
+        <div className="w-full h-px bg-foreground/5 mb-6" />
+        <ul className="space-y-4">
          {plan.features.map((feature, idx) => (
-          <li key={idx} className="flex items-start gap-2 text-sm">
-           <Check className="w-4 h-4 text-green-500 mt-1 shrink-0" />
-           <span className="text-muted-foreground">{feature}</span>
+          <li key={idx} className="flex items-start gap-3 text-sm">
+           <div className={`p-1 rounded-full shrink-0 ${plan.popular ? 'bg-primary/10 text-primary' : 'bg-white/60 text-muted-foreground'}`}>
+             <Check className={`w-3 h-3 ${plan.popular ? 'text-primary' : 'text-foreground/60'}`} />
+           </div>
+           <span className="text-muted-foreground font-medium">{feature}</span>
           </li>
          ))}
         </ul>
        </CardContent>
-       <CardFooter className="pt-4">
-        <Button className="w-full" size="lg" asChild>
+       
+       <CardFooter className="pt-8 pb-8 px-8 mt-auto">
+        <Button 
+         className={`w-full text-base font-semibold py-6 rounded-2xl shadow-lg transition-all hover:scale-[1.02] border-none
+           ${plan.popular 
+             ? 'bg-primary hover:bg-primary/90 text-white' 
+             : 'bg-white hover:bg-white/90 text-foreground border-white/20'
+           }`}
+         asChild
+        >
          <Link href={`/signup?plan=${plan.id}`}>
           {plan.cta}
          </Link>

@@ -74,7 +74,7 @@ export default function Home() {
 
     <Link href="/legal/refund-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
-      <div className="p-3 bg-teal-50 rounded-xl text-teal-600 group-hover:bg-teal-100 transition-colors">
+      <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors">
        <RefreshCcw className="w-6 h-6" />
       </div>
       <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
@@ -266,7 +266,7 @@ export default function Home() {
 
     <Link href="/legal/remote-work-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
-      <div className="p-3 bg-teal-100 rounded-xl text-teal-700 group-hover:bg-teal-200 transition-colors">
+      <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Laptop className="w-6 h-6" />
       </div>
       <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />
@@ -362,7 +362,7 @@ export default function Home() {
 
     <Link href="/legal/patient-rights" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
-      <div className="p-3 bg-teal-100 rounded-xl text-teal-700 group-hover:bg-teal-200 transition-colors">
+      <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Scale className="w-6 h-6" />
       </div>
       <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-primary transition-colors" />

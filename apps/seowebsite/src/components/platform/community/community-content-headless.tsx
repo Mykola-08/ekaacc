@@ -32,7 +32,7 @@ export function CommunityContentHeadless() {
              <input 
                 type="text" 
                 placeholder="Search topics..."
-                className="pl-12 pr-4 py-3 rounded-2xl border-gray-200 bg-card border shadow-sm focus:ring-2 focus:ring-black focus:border-transparent w-full md:w-64 transition-all"
+                className="pl-12 pr-4 py-3 rounded-2xl border-border bg-card border shadow-sm focus:ring-2 focus:ring-black focus:border-transparent w-full md:w-64 transition-all"
             />
         </div>
       </div>
@@ -51,7 +51,7 @@ export function CommunityContentHeadless() {
                          </div>
                          <div className="grid sm:grid-cols-2 gap-4">
                              {/* Event Card 1 */}
-                             <div className="group bg-card p-5 rounded-2xl border border-gray-200 hover:border-gray-300 transition-all cursor-pointer">
+                             <div className="group bg-card p-5 rounded-2xl border border-border hover:border-gray-300 transition-all cursor-pointer">
                                  <div className="flex justify-between items-start mb-3">
                                       <span className="text-xs font-bold text-muted-foreground uppercase">Tomorrow</span>
                                       <span className="text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Live</span>
@@ -65,7 +65,7 @@ export function CommunityContentHeadless() {
                              </div>
 
                              {/* Event Card 2 */}
-                             <div className="group bg-card p-5 rounded-2xl border border-gray-200 hover:border-gray-300 transition-all cursor-pointer">
+                             <div className="group bg-card p-5 rounded-2xl border border-border hover:border-gray-300 transition-all cursor-pointer">
                                  <div className="flex justify-between items-start mb-3">
                                       <span className="text-xs font-bold text-muted-foreground uppercase">Nov 12</span>
                                  </div>
@@ -147,7 +147,7 @@ export function CommunityContentHeadless() {
                      </h3>
                      <div className="space-y-4">
                          {[
-                             { name: "Dr. Emily R.", role: "Therapist", img: "bg-teal-100 text-teal-700" },
+                             { name: "Dr. Emily R.", role: "Therapist", img: "bg-blue-100 text-blue-700" },
                              { name: "Mark Wilson", role: "Design", img: "bg-orange-100 text-orange-700" },
                          ].map((u, i) => (
                              <div key={i} className="flex items-center gap-3">

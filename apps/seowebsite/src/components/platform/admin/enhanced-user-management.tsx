@@ -328,7 +328,7 @@ export function EnhancedUserManagement() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-gray-200">
+                <tr className="border-b border-border">
                   <th className="text-left py-3 px-4">
                     <input
                       type="checkbox"

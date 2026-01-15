@@ -68,7 +68,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                 <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground/90 font-medium">
                   Detalls de l'error
                 </summary>
-                <div className="mt-4 p-4 bg-muted rounded-lg border border-gray-200">
+                <div className="mt-4 p-4 bg-muted rounded-lg border border-border">
                   <p className="font-mono text-sm font-bold text-red-700 mb-2">
                     {this.state.error.name}: {this.state.error.message}
                   </p>

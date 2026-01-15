@@ -153,7 +153,7 @@ export default function RemoteWorkPolicy() {
        className={`px-4 py-2 text-sm font-medium border first:rounded-l-lg last:rounded-r-lg ${
         language === lang
          ? "bg-primary text-white border-primary"
-         : "bg-card text-foreground/90 border-gray-200 hover:bg-muted/30"
+         : "bg-card text-foreground/90 border-border hover:bg-muted/30"
        }`}
       >
        {lang.toUpperCase()}
@@ -163,7 +163,7 @@ export default function RemoteWorkPolicy() {
    </div>
 
    <div className="bg-card shadow-xl rounded-2xl overflow-hidden">
-    <div className="bg-gradient-to-r from-teal-600 to-emerald-600 px-8 py-12 text-white">
+    <div className="bg-gradient-to-r from-blue-600 to-emerald-600 px-8 py-12 text-white">
      <div className="flex items-center gap-4 mb-4">
       <Laptop className="w-12 h-12 opacity-90" />
       <h1 className="text-3xl font-bold">{t.title}</h1>

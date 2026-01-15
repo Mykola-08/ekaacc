@@ -69,36 +69,35 @@ export default function CasosSection() {
  ];
 
  const getColorClasses = (color: string) => {
-  const colors = {
-   blue: 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100',
-   purple: 'bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100',
-   green: 'bg-green-50 border-green-200 text-green-700 hover:bg-green-100',
-   orange: 'bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100',
-   indigo: 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100',
-   pink: 'bg-pink-50 border-pink-200 text-pink-700 hover:bg-pink-100',
-   red: 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
-  };
-  return colors[color as keyof typeof colors] || colors.blue;
+  // UNIFIED DESIGN: Use variations of neutral/gray/teal for a cleaner look
+  // Or simple light background with primary accent hook
+  return 'bg-white border-white/40 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300';
  };
 
  return (
-  <section className="py-16 sm:py-24 bg-muted/30">
+  <section className="py-16 sm:py-24 bg-background">
    <div className="max-w-7xl mx-auto px-4 sm:px-8">
     <div className="text-center mb-16">
-     <div className="inline-flex items-center px-6 py-2 bg-blue-50 border border-blue-100 rounded-full mb-8">
-      <span className="text-blue-700 font-medium text-sm uppercase tracking-wide">{t('casos.section.badge')}</span>
+     <AnimateIn delay={0.2} from="top">
+     <div className="inline-flex items-center px-4 py-1.5 bg-white/60 backdrop-blur-md border border-white/40 rounded-full mb-8 shadow-sm">
+      <span className="text-primary font-medium text-sm uppercase tracking-wide">{t('casos.section.badge')}</span>
      </div>
+     </AnimateIn>
 
-     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-6">
+     <AnimateIn delay={0.3}>
+     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground mb-6 tracking-tight">
       {t('casos.section.title')}{' '}
-      <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+      <span className="text-primary">
        {t('casos.section.titleHighlight')}
       </span>
      </h2>
+     </AnimateIn>
 
-     <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+     <AnimateIn delay={0.4}>
+     <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light">
       {t('casos.section.subtitle')}
      </p>
+     </AnimateIn>
     </div>
 
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -108,13 +107,13 @@ export default function CasosSection() {
        <AnimateIn key={problem.id} delay={index * 0.1}>
        <Link
         href={problem.href}
-        className="group bg-card rounded-[24px] p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 block"
+        className="group bg-card rounded-3xl p-6 border border-border/50 hover:border-border hover:shadow-lg transition-all duration-300 block"
        >
-        <div className={`w-14 h-14 rounded-xl ${getColorClasses(problem.color)} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border`}>
+        <div className={`w-14 h-14 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all duration-300`}>
          <ProblemIcon className="w-7 h-7" />
         </div>
 
-        <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-blue-600 transition-colors">
+        <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors">
          {t(problem.titleKey)}
         </h3>
 
@@ -122,7 +121,7 @@ export default function CasosSection() {
          {t(problem.descriptionKey)}
         </p>
 
-        <div className="flex items-center text-blue-600 font-medium">
+        <div className="flex items-center text-primary font-medium">
          {t('casos.section.readMore')}
          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
         </div>
@@ -144,7 +143,7 @@ export default function CasosSection() {
        'casos.other.work',
        'casos.other.trauma'
       ].map((key) => (
-       <span key={key} className="px-6 py-3 bg-card border border-gray-200 rounded-full text-muted-foreground shadow-sm hover:shadow-md hover:border-blue-200 hover:text-blue-600 transition-all duration-200 cursor-default">
+       <span key={key} className="px-6 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-full text-muted-foreground shadow-sm hover:shadow-md hover:border-primary/50 hover:text-primary transition-all duration-200 cursor-default">
         {t(key)}
        </span>
       ))}
@@ -156,14 +155,14 @@ export default function CasosSection() {
      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
       <Link
        href="/cases"
-       className="inline-flex items-center bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-all duration-200 shadow-sm hover:shadow-md"
+       className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105"
       >
        {t('casos.section.viewAll')}
        <ArrowRight className="w-5 h-5 ml-2" />
       </Link>
       <Link
        href="/first-time"
-       className="inline-flex items-center bg-muted hover:bg-gray-200 text-foreground/90 font-semibold px-6 py-3 rounded-full transition-all duration-200"
+       className="inline-flex items-center bg-white/50 hover:bg-white text-foreground/90 font-semibold px-6 py-3 rounded-full transition-all duration-200 backdrop-blur-sm border border-white/20"
       >
        {t('casos.section.findYourCase')}
       </Link>

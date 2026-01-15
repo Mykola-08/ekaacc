@@ -71,7 +71,7 @@ export function BookingHistoryList({ bookings }: BookingHistoryListProps) {
 function BookingCard({ booking, isUpcoming }: { booking: Booking, isUpcoming?: boolean }) {
     // Minimal status colors
     const statusStyle = {
-        confirmed: 'bg-teal-500/10 text-teal-700 dark:text-teal-400 border-teal-200/40',
+        confirmed: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200/40',
         pending: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200/40',
         cancelled: 'bg-red-500/5 text-red-600/80 border-red-200/30',
         completed: 'bg-muted text-muted-foreground border-border/50',

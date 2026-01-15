@@ -1,5 +1,12 @@
 import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
 import { emitEvent } from '@/lib/events';
+
+// Initialize Supabase Admin for backend operations
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 interface CreateCheckoutSessionParams {
   serviceId: string;
@@ -37,6 +44,64 @@ function getStripeClient(): Stripe | null {
   return stripeClient;
 }
 
+/**
+ * Resolves or Creates a Stripe Customer for the given user/email.
+ * Links the Stripe Customer ID to the Supabase User Profile if applicable.
+ */
+async function getOrCreateStripeCustomer(
+  stripe: Stripe,
+  email: string,
+  name: string,
+  userId?: string
+): Promise<string> {
+  // 1. If we have a logged-in user, check their profile first
+  if (userId) {
+    const { data: profile } = await supabaseAdmin
+      .from('user_profiles')
+      .select('stripe_customer_id')
+      .eq('id', userId)
+      .single();
+
+    if (profile?.stripe_customer_id) {
+      return profile.stripe_customer_id;
+    }
+  }
+
+  // 2. Search Stripe by email (prevent duplicates for Guests or unsynced Users)
+  const existingCustomers = await stripe.customers.list({ email: email, limit: 1 });
+  
+  if (existingCustomers.data.length > 0) {
+    const customerId = existingCustomers.data[0].id;
+    // Link back to profile if user exists but wasn't linked
+    if (userId) {
+      await supabaseAdmin
+        .from('user_profiles')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', userId);
+    }
+    return customerId;
+  }
+
+  // 3. Create new Stripe Customer
+  const newCustomer = await stripe.customers.create({
+    email,
+    name,
+    metadata: {
+      supabase_user_id: userId || 'guest'
+    }
+  });
+
+  // Link new customer to profile
+  if (userId) {
+    await supabaseAdmin
+      .from('user_profiles')
+      .update({ stripe_customer_id: newCustomer.id })
+      .eq('id', userId);
+  }
+
+  return newCustomer.id;
+}
+
 export async function createCheckoutSession(params: CreateCheckoutSessionParams): Promise<CheckoutResult> {
   const { bookingId, origin, serviceName, price, customerEmail, customerName } = params;
 
@@ -46,9 +111,32 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
   }
 
   try {
-    // Create Stripe Checkout Session
+    // A. Resolve User ID from Booking (to link customer properly)
+    const { data: booking } = await supabaseAdmin
+      .from('booking')
+      .select('customer_reference_id')
+      .eq('id', bookingId)
+      .single();
+
+    const userId = booking?.customer_reference_id;
+
+    // B. Get Stripe Customer ID
+    const stripeCustomerId = await getOrCreateStripeCustomer(
+      stripe,
+      customerEmail,
+      customerName,
+      userId
+    );
+
+    // C. Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card', 'paypal'],
+      customer: stripeCustomerId, // Link the session to the customer
+      customer_update: {
+        address: 'auto', // Allow them to update their address in Stripe
+        name: 'auto',
+      },
+      automatic_payment_methods: { enabled: true },
+
       line_items: [
         {
           price_data: {
@@ -65,7 +153,7 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel`,
       client_reference_id: bookingId,
-      customer_email: customerEmail,
+      // customer_email is mutually exclusive with customer
       metadata: {
         bookingId,
         customerName,

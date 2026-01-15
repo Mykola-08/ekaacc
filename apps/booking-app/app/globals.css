@@ -1,8 +1,8 @@
 @import "@ekaacc/shared-ui/styles/globals.css";
 @source "../../packages/shared-ui";
 
+/* Local overrides should align with Porcelain & Flow system */
 @theme inline {
-  --radius-2xl: 1.5rem;
-  --radius-3xl: 2rem;
+  --radius-3xl: 2.25rem; /* Ensure 36px alignment */
 }
 

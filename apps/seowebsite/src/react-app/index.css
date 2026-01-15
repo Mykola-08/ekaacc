@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'); */
 @import "@ekaacc/shared-ui/styles/globals.css";
 @import 'keep-react/css';
 @source "../../../../packages/shared-ui";
@@ -12,12 +12,12 @@
   /* Legacy Apple Variables - Keeping for backward compatibility but mapped where possible */
   --apple-gray: #f5f5f7;
   --apple-gray-dark: #1d1d1f;
-  --apple-blue: #0F766E; /* Mapped to Primary Teal */
+  --apple-blue: #4DAFFF; /* Mapped to Primary Blue */
   --apple-purple: #5856d6;
   --apple-border-radius: 20px;
   --apple-border-radius-small: 12px;
-  --apple-border-radius-large: 28px;
-  --apple-squircle-radius: 24px;
+  --apple-border-radius-large: 36px;
+  --apple-squircle-radius: 36px;
   --apple-squircle-radius-large: 40px;
   --apple-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   --apple-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);

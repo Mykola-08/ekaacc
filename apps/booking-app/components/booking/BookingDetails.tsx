@@ -3,7 +3,7 @@
 import { Service, ServiceVariant } from '@/types/database';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, Clock, CreditCard, CheckCircle, Star, Calendar as CalendarIcon, ArrowRight, User, Users, Loader2 } from 'lucide-react';
+import { ChevronLeft, Clock, CreditCard, CheckCircle, Star, Calendar as CalendarIcon, ArrowRight, User, Users, Loader2, Wallet } from 'lucide-react';
 import { useState, useEffect, useCallback } from 'react';
 import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -18,6 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Simplified Component for Booking Details
 // We inject the data from the server component (app/book/[id]/page.tsx)
@@ -35,6 +36,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
     const displayDuration = activeVariant ? activeVariant.duration : service.duration;
     const displayPrice = activeVariant ? activeVariant.price : service.price;
     const variantId = activeVariant?.id || service.variants?.[0]?.id;
+    const depositAmount = 20; // 20 EUR
 
     // State
     const [date, setDate] = useState<Date>();
@@ -47,10 +49,12 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
     const [userProfile, setUserProfile] = useState<any>(null);
     const [familyMembers, setFamilyMembers] = useState<any[]>([]);
     const [loadingUser, setLoadingUser] = useState(true);
+    const [walletBalance, setWalletBalance] = useState<number | null>(null);
 
     // Form State
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [paymentMethod, setPaymentMethod] = useState<'stripe' | 'wallet'>('stripe');
     
     // Member Booking State
     const [bookingFor, setBookingFor] = useState<'self' | 'dependent'>('self');
@@ -70,6 +74,22 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         .single();
                     
                     setUserProfile(profile);
+                    
+                    if (profile) {
+                        // Fetch Wallet
+                        const { data: wallet } = await supabase
+                            .from('wallets')
+                            .select('balance_cents')
+                            .eq('profile_id', profile.id)
+                            .single();
+                        
+                        if (wallet) {
+                            setWalletBalance(wallet.balance_cents / 100);
+                        }
+
+                        setName(profile.full_name || '');
+                        setEmail(profile.email || user.email || '');
+                    }
                     
                     // Helper to get family
                     // We call the server action via an API route or just client-side query if RLS permits
@@ -168,7 +188,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                  attendeeProfileId: bookingFor === 'dependent' ? selectedDependentId : userProfile?.id,
               },
               userId: userProfile?.id,
-              paymentMode: 'deposit',
+              paymentMode: paymentMethod === 'wallet' ? 'full' : 'deposit', // Wallet is instant full payment or deposit? Wallet API pays full.
               depositCents: 2000, // 20 EUR
             }),
           });
@@ -177,26 +197,43 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
     
           if (bookingData.error) throw new Error(bookingData.error);
     
-          // 2. Initiate Checkout
-          const checkoutResponse = await fetch('/api/checkout', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              serviceId: service.id,
-              serviceName: service.name,
-              price: 20, // 20 EUR deposit
-              customerName: name,
-              customerEmail: email,
-              date: selectedSlot.startTime,
-              bookingId: bookingData.bookingId,
-            }),
-          });
-    
-          const checkoutData = await checkoutResponse.json();
-    
-          if (checkoutData.error) throw new Error(checkoutData.error);
-    
-          window.location.href = checkoutData.url;
+          // 2. Process Payment
+          if (paymentMethod === 'wallet') {
+            const walletResponse = await fetch('/api/booking/pay-with-wallet', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bookingId: bookingData.bookingId }),
+            });
+            const walletData = await walletResponse.json();
+            if (walletData.error) throw new Error(walletData.error);
+            
+            toast.success('Booking Confirmed!');
+            // Redirect to success page or Dashboard
+            window.location.href = '/bookings'; 
+
+          } else {
+            // Initiate Checkout (Stripe)
+            const checkoutResponse = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                serviceId: service.id,
+                serviceName: service.name,
+                price: 20, // 20 EUR deposit
+                customerName: name,
+                customerEmail: email,
+                date: selectedSlot.startTime,
+                bookingId: bookingData.bookingId,
+                userId: userProfile?.id, // Added userId to link Stripe Customer!
+                }),
+            });
+        
+            const checkoutData = await checkoutResponse.json();
+        
+            if (checkoutData.error) throw new Error(checkoutData.error);
+        
+            window.location.href = checkoutData.url;
+          }
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : 'Unknown error';
           console.error('Booking error:', error);
@@ -424,6 +461,34 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             </div>
 
                             <div className="space-y-4 pt-6 border-t border-black/5">
+                                {/* Payment Method Selection */}
+                                {walletBalance !== null && walletBalance >= depositAmount && (
+                                    <div className="bg-white/50 rounded-xl p-1 border border-black/5">
+                                        <div className="grid grid-cols-2 gap-1">
+                                            <button
+                                                onClick={() => setPaymentMethod('stripe')}
+                                                className={cn(
+                                                    "py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2",
+                                                    paymentMethod === 'stripe' ? "bg-white shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"
+                                                )}
+                                            >
+                                                <CreditCard className="w-4 h-4" />
+                                                Card
+                                            </button>
+                                            <button
+                                                onClick={() => setPaymentMethod('wallet')}
+                                                className={cn(
+                                                    "py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2",
+                                                    paymentMethod === 'wallet' ? "bg-white shadow-sm text-foreground" : "text-muted-foreground hover:text-foreground"
+                                                )}
+                                            >
+                                                <Wallet className="w-4 h-4" />
+                                                Wallet (€{walletBalance})
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="flex justify-between items-end">
                                     <div className="text-sm text-muted-foreground font-medium">Deposit Due</div>
                                     <div className="text-3xl font-semibold tracking-tight text-foreground">€20<span className="text-lg text-muted-foreground font-light">.00</span></div>
@@ -441,7 +506,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                         </>
                                     ) : (
                                         <>
-                                            Pay Deposit & Book
+                                            {paymentMethod === 'wallet' ? 'Pay with Balance' : 'Pay Deposit & Book'}
                                         </>
                                     )}
                                 </button>
@@ -449,8 +514,17 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                 <div className="text-center text-xs text-muted-foreground/60 space-y-1 font-light pt-2">
                                     <p>Free cancellation up to 24 hours before your appointment.</p>
                                     <div className="flex items-center justify-center gap-1.5 opacity-80">
-                                        <CreditCard className="w-3 h-3" />
-                                        <span>Secure payment via Stripe</span>
+                                        {paymentMethod === 'stripe' ? (
+                                            <>
+                                                <CreditCard className="w-3 h-3" />
+                                                <span>Secure payment via Stripe</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Wallet className="w-3 h-3" />
+                                                <span>Secure payment via Wallet</span>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
                             </div>

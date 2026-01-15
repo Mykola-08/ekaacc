@@ -156,7 +156,7 @@ export default function NutricioPage() {
                 
                 <Button
                   onClick={() => navigateToBooking()}
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl h-12 border-none"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-full h-12 border-none shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-300"
                 >
                   {t('common.bookNow')}
                 </Button>

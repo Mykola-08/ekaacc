@@ -97,8 +97,7 @@ function BookingRow({ booking }: { booking: Booking }) {
     };
 
     // Fallback
-    // @ts-ignore
-    const config = statusConfig[booking.status] || statusConfig.scheduled;
+    const config = statusConfig[booking.status as keyof typeof statusConfig] || statusConfig.scheduled;
     const StatusIcon = config.icon;
 
     return (

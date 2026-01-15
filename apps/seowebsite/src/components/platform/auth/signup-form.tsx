@@ -34,9 +34,10 @@ type SignUpFormValues = z.infer<typeof signUpSchema>
 interface SignUpFormProps {
   onSuccess?: () => void
   onError?: (error: string) => void
+  planId?: string
 }
 
-export function SignUpForm({ onSuccess, onError }: SignUpFormProps) {
+export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
   const { signUp, isLoading } = useSimpleAuth()
 
   const form = useForm<SignUpFormValues>({
@@ -56,6 +57,7 @@ export function SignUpForm({ onSuccess, onError }: SignUpFormProps) {
       password: values.password,
       fullName: values.fullName,
       username: values.username,
+      planId: planId,
     })
     
     if (error) {

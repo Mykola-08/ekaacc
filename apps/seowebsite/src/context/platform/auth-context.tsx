@@ -246,6 +246,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           data: {
             full_name: credentials.fullName,
             username: credentials.username,
+            plan_id: credentials.planId,
           },
         },
       })

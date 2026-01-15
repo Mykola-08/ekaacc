@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, ChevronRight } from 'lucide-react';
+import { Menu, X, User, ChevronRight, Globe } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
+import { useLanguage } from '@/context/LanguageContext';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -24,6 +25,7 @@ export function SiteHeader() {
   const [user, setUser] = React.useState<any>(null);
   const [scrolled, setScrolled] = React.useState(false);
   const supabase = createClient();
+  const { t, language, setLanguage } = useLanguage();
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -53,10 +55,12 @@ export function SiteHeader() {
     setUser(null);
   };
 
+  const mainSiteUrl = process.env.NEXT_PUBLIC_MAIN_SITE_URL || 'http://localhost:9002';
+
   const routes = [
-    { href: '/', label: 'Home' },
-    { href: '/services', label: 'Services' },
-    { href: '/about', label: 'About' },
+    { href: `${mainSiteUrl}`, label: t('nav.home') },
+    { href: `${mainSiteUrl}/services`, label: t('nav.services') },
+    { href: `${mainSiteUrl}/about-elena`, label: t('nav.about') },
   ];
 
   const headerVariants = {
@@ -89,7 +93,7 @@ export function SiteHeader() {
       >
         <div className='flex items-center justify-between px-6'>
           {/* Logo */}
-          <Link href='/' className='flex items-center gap-2 group'>
+          <Link href={mainSiteUrl} className='flex items-center gap-2 group'>
             <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-serif font-bold text-sm">E</div>
             <span className='font-serif font-bold tracking-tight text-lg text-foreground group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
           </Link>
@@ -117,6 +121,21 @@ export function SiteHeader() {
 
           {/* User Actions */}
           <div className="flex items-center gap-2">
+            {/* Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="w-8 h-8 rounded-full bg-muted/40 flex items-center justify-center hover:bg-muted transition-colors border border-border/60">
+                  <Globe className="w-4 h-4 text-muted-foreground" />
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setLanguage('en')}>English {language === 'en' && '✓'}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('es')}>Español {language === 'es' && '✓'}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('ca')}>Català {language === 'ca' && '✓'}</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setLanguage('ru')}>Русский {language === 'ru' && '✓'}</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             {user ? (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -132,11 +151,11 @@ export function SiteHeader() {
                          <DropdownMenuSeparator />
                         {user ? (
                            <>
-                             <DropdownMenuItem onClick={() => router.push('/')}>Dashboard</DropdownMenuItem>
-                             <DropdownMenuItem onClick={() => router.push('/settings')}>Settings</DropdownMenuItem>
+                             <DropdownMenuItem onClick={() => router.push('/')}>{t('nav.dashboard')}</DropdownMenuItem>
+                             <DropdownMenuItem onClick={() => router.push('/settings')}>{t('nav.settings')}</DropdownMenuItem>
                              <DropdownMenuSeparator />
                              <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={handleSignOut}>
-                                Sign out
+                                {t('nav.signout')}
                              </DropdownMenuItem>
                            </>
                         ) : null}
@@ -144,11 +163,11 @@ export function SiteHeader() {
                 </DropdownMenu>
             ) : (
                 <div className="flex items-center gap-2">
-                    <Link href="/auth/login" className="hidden md:inline-flex text-sm font-semibold text-muted-foreground hover:text-foreground px-3 py-2">
-                        Log in
+                    <Link href={`${mainSiteUrl}/auth/login`} className="hidden md:inline-flex text-sm font-semibold text-muted-foreground hover:text-foreground px-3 py-2">
+                        {t('nav.login')}
                     </Link>
                     <Link href="/book" className="inline-flex items-center gap-1 bg-primary text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-slate-900/20">
-                        Book Now
+                        {t('nav.book')}
                     </Link>
                 </div>
             )}
@@ -184,12 +203,29 @@ export function SiteHeader() {
                 >
                     <div className="flex items-center justify-between mb-8">
                         <span className="font-serif font-bold text-xl text-foreground">Menu</span>
-                        <button 
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="w-10 h-10 rounded-full bg-muted/40 text-foreground flex items-center justify-center"
-                        >
-                            <X className="w-6 h-6" />
-                        </button>
+                        <div className="flex items-center gap-4">
+                            {/* Mobile Language Switcher */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button className="w-10 h-10 rounded-full bg-muted/40 flex items-center justify-center hover:bg-muted transition-colors border border-border/60">
+                                        <Globe className="w-5 h-5 text-foreground" />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => setLanguage('en')}>English {language === 'en' && '✓'}</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setLanguage('es')}>Español {language === 'es' && '✓'}</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setLanguage('ca')}>Català {language === 'ca' && '✓'}</DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setLanguage('ru')}>Русский {language === 'ru' && '✓'}</DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+
+                            <button 
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="w-10 h-10 rounded-full bg-muted/40 text-foreground flex items-center justify-center"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                        </div>
                     </div>
 
                     <div className="space-y-2 flex-1">
@@ -208,11 +244,11 @@ export function SiteHeader() {
 
                     {!user && (
                          <div className="space-y-3 mt-auto pt-6 border-t border-border/60">
-                             <Link href="/auth/login" className="flex items-center justify-center w-full py-3.5 rounded-full border border-border text-foreground font-semibold">
-                                 Log in
+                             <Link href={`${mainSiteUrl}/auth/login`} className="flex items-center justify-center w-full py-3.5 rounded-full border border-border text-foreground font-semibold">
+                                 {t('nav.login')}
                              </Link>
                              <Link href="/book" className="flex items-center justify-center w-full py-3.5 rounded-full bg-primary text-white font-semibold shadow-lg shadow-slate-900/20">
-                                 Book Appointment
+                                 {t('nav.book')}
                              </Link>
                          </div>
                     )}

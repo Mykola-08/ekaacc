@@ -9,6 +9,7 @@ import { SiteHeader } from '@/components/SiteHeader';
 import { MainLayout } from '@/components/layout/main-layout';
 import { DebugStatus } from '@ekaacc/shared-ui';
 import { cn } from '@/lib/utils';
+import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
 
 const inter = Inter({
@@ -47,18 +48,19 @@ export default function RootLayout({
      playfair.variable
     )}
    >
-    <MainLayout
-      header={<SiteHeader />}
-      footer={<SiteFooter />}
-    >
-      {children}
-    </MainLayout>
-    <CookieConsent />
+    <LanguageProvider>
+      <MainLayout
+        header={<SiteHeader />}
+        footer={<SiteFooter />}
+      >
+        {children}
+      </MainLayout>
+      <CookieConsent />
 
-    <Toaster />
-    <Analytics />
-    <SpeedInsights />
-    {/* <DebugStatus /> */}
+      <Toaster />
+      <Analytics />
+      <SpeedInsights />
+    </LanguageProvider>
    </body>
   </html>
  );

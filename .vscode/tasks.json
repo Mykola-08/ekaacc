@@ -2,58 +2,6 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Build API",
-			"type": "shell",
-			"command": "npx turbo",
-			"args": [
-				"run",
-				"build",
-				"--filter=api"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
-		},
-		{
-			"label": "Build API Correct",
-			"type": "shell",
-			"command": "npx",
-			"args": [
-				"turbo",
-				"run",
-				"build",
-				"--filter=api"
-			],
-			"isBackground": false,
-			"problemMatcher": [
-				"$tsc"
-			],
-			"group": "build"
-		},
-		{
-			"label": "Move Legal Files",
-			"type": "shell",
-			"command": "powershell",
-			"args": [
-				"-Command",
-				"Move-Item -Path 'apps/legal/src/app/*' -Destination 'apps/web/src/app/legal' -Force; Move-Item -Path 'apps/legal/src/components/*' -Destination 'apps/web/src/components/legal' -Force; Move-Item -Path 'apps/legal/src/hooks/*' -Destination 'apps/web/src/hooks/legal' -Force; Move-Item -Path 'apps/legal/src/lib/*' -Destination 'apps/web/src/lib/legal' -Force"
-			],
-			"isBackground": false,
-			"group": "none"
-		},
-		{
-			"label": "Refactor Legal Files",
-			"type": "shell",
-			"command": "python",
-			"args": [
-				"refactor_legal.py"
-			],
-			"isBackground": false,
-			"group": "none"
-		},
-		{
 			"label": "Build Booking App",
 			"type": "shell",
 			"command": "npx turbo",
@@ -63,6 +11,24 @@
 				"--filter=booking-app"
 			],
 			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build SEO Website",
+			"type": "shell",
+			"command": "npx turbo",
+			"args": [
+				"run",
+				"build",
+				"--filter=seowebsite"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
 			"group": "build"
 		}
 	]

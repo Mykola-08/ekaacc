@@ -6,14 +6,12 @@ import { createClient } from '@/lib/supabase/server';
 import { ClientDashboard } from '@/components/dashboard/ClientDashboard';
 import { TherapistDashboard } from '@/components/dashboard/TherapistDashboard';
 
+import { redirect } from 'next/navigation';
+
+// ... existing imports ...
+
 // Dynamic because we check auth
 export const dynamic = 'force-dynamic';
-
-async function getServices(): Promise<Service[]> {
- const { data, error } = await listServices();
- if (error) return [];
- return (data || []) as Service[];
-}
 
 export default async function Home() {
  const supabase = await createClient();
@@ -44,24 +42,6 @@ export default async function Home() {
    return <ClientDashboard profile={profile} wallet={wallet} nextBooking={nextBooking} />;
  }
 
- // 3. Guest View (Service List)
- const services = await getServices();
-
- return (
-  <div className='min-h-screen bg-background font-sans pb-24'>
-   {/* Hero Section */}
-   <div className="pt-32 pb-16 px-6 text-center animate-in fade-in duration-700">
-     <h1 className="text-4xl lg:text-5xl font-serif text-foreground mb-6 tracking-tight">
-       Wellness, Reimagined.
-     </h1>
-     <p className="text-muted-foreground text-lg max-w-xl mx-auto leading-relaxed">
-       Discover a sanctuary for your mind and body. Book your next session with ease.
-     </p>
-   </div>
-   
-   <div className="container mx-auto px-4 max-w-7xl">
-     <ServiceGrid services={services} />
-   </div>
-  </div>
- );
+ // 3. Redirect unauthenticated users to the main website
+ redirect('http://localhost:9002');
 }

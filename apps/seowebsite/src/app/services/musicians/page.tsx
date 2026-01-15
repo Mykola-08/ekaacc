@@ -68,7 +68,7 @@ export default function Musicians() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href="/booking"
+         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
@@ -286,7 +286,7 @@ export default function Musicians() {
         </div>
 
         <Link 
-         href="/booking"
+         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
          className={`w-full inline-flex items-center justify-center py-3 rounded-2xl font-medium transition-all duration-200 ${
           plan.popular
            ? 'bg-purple-600 hover:bg-purple-700 text-white'

@@ -14,6 +14,7 @@ import {
     DropdownMenuItem, 
     DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { useLanguage } from '@/context/LanguageContext';
 
 type ScheduleItem = {
     id: string;
@@ -34,6 +35,7 @@ type ScheduleItem = {
 
 export function TherapistDashboard({ schedule }: { schedule: any[] }) {
     const today = new Date();
+    const { t } = useLanguage();
 
     const stats = useMemo(() => {
         const total = schedule.length;
@@ -46,7 +48,7 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
         <div className="w-full max-w-6xl mx-auto space-y-8 p-4 md:p-8 animate-in fade-in duration-500">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-serif text-foreground tracking-tight">Dashboard</h1>
+                    <h1 className="text-3xl font-serif text-foreground tracking-tight">{t('nav.dashboard')}</h1>
                     <p className="text-muted-foreground flex items-center gap-2 mt-1">
                         <Calendar className="w-4 h-4" />
                         {format(today, 'EEEE, MMMM do, yyyy')}
@@ -54,10 +56,10 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
                 </div>
                 <div className="flex gap-2">
                     <NotificationDropdown />
-                    <Button variant="outline" className="rounded-full shadow-sm hover:bg-muted">View Calendar</Button>
+                    <Button variant="outline" className="rounded-full shadow-sm hover:bg-muted">{t('therapist.view_calendar')}</Button>
                     <Button className="rounded-full shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90">
                         <Plus className="w-4 h-4 mr-2" />
-                        Add Block
+                        {t('therapist.add_block')}
                     </Button>
                 </div>
             </div>
@@ -67,33 +69,33 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
                 <div className="h-full">
                     <Card className="h-full hover:scale-[1.02] transition-all duration-300">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">Total Bookings</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('therapist.total_bookings')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold">{stats.total}</div>
-                            <p className="text-xs text-muted-foreground mt-1">For today</p>
+                            <p className="text-xs text-muted-foreground mt-1">{t('therapist.for_today')}</p>
                         </CardContent>
                     </Card>
                 </div>
                 <div className="h-full">
                     <Card className="h-full hover:scale-[1.02] transition-all duration-300">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">Confirmed</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('status.confirmed')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-teal-600">{stats.confirmed}</div>
-                            <p className="text-xs text-muted-foreground mt-1">Sessions confirmed</p>
+                            <p className="text-xs text-muted-foreground mt-1">{t('therapist.sessions_confirmed')}</p>
                         </CardContent>
                     </Card>
                 </div>
                 <div className="h-full">
                     <Card className="h-full hover:scale-[1.02] transition-all duration-300">
                         <CardHeader className="pb-2">
-                            <CardTitle className="text-sm font-medium text-muted-foreground">Pending</CardTitle>
+                            <CardTitle className="text-sm font-medium text-muted-foreground">{t('status.pending')}</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-amber-500">{stats.pending}</div>
-                            <p className="text-xs text-muted-foreground mt-1">Awaiting action</p>
+                            <p className="text-xs text-muted-foreground mt-1">{t('therapist.awaiting_action')}</p>
                         </CardContent>
                     </Card>
                 </div>
@@ -141,8 +143,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
         completed: 'bg-muted text-foreground/90 border-border dark:bg-primary/90 dark:text-muted-foreground/80 dark:border-slate-700',
     };
     
-    // @ts-ignore
-    const statusColor = statusMap[item.status] || 'bg-secondary text-secondary-foreground';
+    const statusColor = statusMap[item.status as keyof typeof statusMap] || 'bg-secondary text-secondary-foreground';
 
     return (
         <Card className="group hover:shadow-md transition-all duration-300 border-none shadow-sm bg-card overflow-hidden">

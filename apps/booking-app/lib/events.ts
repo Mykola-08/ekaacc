@@ -7,6 +7,7 @@ type EventType =
   | 'booking.cancelled'
   | 'booking.completed'
   | 'booking.no_show'
+  | 'booking.payment_failed'
   | 'payment.session_created'
   | 'payment.captured'
   | 'payment.refunded'

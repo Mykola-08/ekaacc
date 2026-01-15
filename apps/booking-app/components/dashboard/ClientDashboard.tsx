@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, MapPin, CreditCard, ArrowRight, Plus } from "lucide-react";
 import Link from 'next/link';
 import { NotificationDropdown } from "./NotificationDropdown";
+import { useLanguage } from '@/context/LanguageContext';
 
 type ClientDashboardProps = {
     profile: any;
@@ -15,6 +16,7 @@ type ClientDashboardProps = {
 
 export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboardProps) {
     const today = new Date();
+    const { t } = useLanguage();
 
     return (
         <div className="w-full max-w-5xl mx-auto space-y-8 p-4 md:p-8 min-h-screen animate-in fade-in duration-500">
@@ -22,7 +24,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h1 className="text-3xl font-serif text-foreground tracking-tight">
-                        Welcome back, {profile.first_name || 'Guest'}
+                        {t('dashboard.welcome')}, {profile.first_name || 'Guest'}
                     </h1>
                     <p className="text-muted-foreground mt-1">
                         Here is your wellness overview for today.
@@ -33,7 +35,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                     <Button asChild className="rounded-full shadow-lg shadow-primary/20">
                         <Link href="/book">
                             <Plus className="w-4 h-4 mr-2" />
-                            Book Session
+                            {t('nav.book')}
                         </Link>
                     </Button>
                 </div>
@@ -49,7 +51,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                 <div className="p-2 rounded-full bg-teal-100 text-teal-700">
                                     <Calendar className="w-5 h-5" />
                                 </div>
-                                Upcoming Session
+                                {t('dashboard.upcoming')}
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="pt-4">

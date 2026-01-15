@@ -105,7 +105,7 @@ export default function PricingPage() {
        </CardContent>
        <CardFooter className="pt-4">
         <Button className="w-full" size="lg" asChild>
-         <Link href={`/auth/signup?plan=${plan.id}`}>
+         <Link href={`/signup?plan=${plan.id}`}>
           {plan.cta}
          </Link>
         </Button>

@@ -651,3 +651,29 @@ export async function getServiceAvailability(serviceId: string, date: string, se
     return { error: errorMessage, status: 500 };
   }
 }
+
+export async function updateBookingPaymentStatus(bookingId: string, status: 'captured' | 'failed', stripePaymentIntentId?: string) {
+  try {
+    const bookingStatus = status === 'captured' ? 'scheduled' : 'canceled'; 
+    await db.query(
+      `UPDATE booking 
+       SET payment_status = $1, 
+           status = $2,
+           stripe_payment_intent = COALESCE($3, stripe_payment_intent),
+           updated_at = NOW()
+       WHERE id = $4`,
+      [status, bookingStatus, stripePaymentIntentId, bookingId]
+    );
+    
+    if (status === 'captured') {
+        await emitEvent('booking.confirmed', { bookingId });
+    } else {
+        await emitEvent('booking.payment_failed', { bookingId });
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating booking payment status:', error);
+    return { success: false, error: 'Database update failed' };
+  }
+}

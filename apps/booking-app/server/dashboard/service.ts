@@ -40,14 +40,44 @@ export async function getUpcomingBookings(profileId: string) {
         id: row.id,
         serviceId: row.service_id,
         serviceName: row.service_name,
-        startTime: row.start_time.toISOString(),
+        startTime: row.start_time.toISOString(), // Ensure dates are serializable
         endTime: row.end_time.toISOString(),
         status: row.status,
-        // Map other necessary fields or cast as needed
+        services: {
+            title: row.service_name
+        }
     } as any;
   } catch (error) {
     console.error('Error fetching bookings', error);
     return null;
+  }
+}
+
+export async function getBookingsHistory(profileId: string) {
+  try {
+    const { rows } = await db.query(
+      `SELECT b.*, s.name as service_name 
+       FROM booking b
+       JOIN service s ON b.service_id = s.id
+       WHERE b.profile_id = $1 
+       ORDER BY b.start_time DESC`,
+      [profileId]
+    );
+
+    return rows.map((row: any) => ({
+        id: row.id,
+        serviceId: row.service_id,
+        serviceName: row.service_name,
+        startTime: row.start_time.toISOString(),
+        endTime: row.end_time.toISOString(),
+        status: row.status,
+        services: {
+             title: row.service_name
+        }
+    }));
+  } catch (error) {
+    console.error('Error fetching booking history', error);
+    return [];
   }
 }
 

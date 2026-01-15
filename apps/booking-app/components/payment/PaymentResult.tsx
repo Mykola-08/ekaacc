@@ -47,7 +47,7 @@ export function PaymentResult({ status }: PaymentResultProps) {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
             
             {isSuccess && (
-               <Link href="/admin">
+               <Link href="/bookings">
                 <Button className="w-full sm:w-auto h-12 px-8 text-base shadow-lg">
                     <Calendar className="w-4 h-4 mr-2" />
                     View My Bookings

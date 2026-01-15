@@ -40,7 +40,7 @@ export default function OfficeWorkers() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href="/booking"
+         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
@@ -188,7 +188,7 @@ export default function OfficeWorkers() {
        
        <div className="flex flex-col sm:flex-row gap-4">
         <Link 
-         href="/booking"
+         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
          className="flex-1 inline-flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-2xl font-medium"
         >
          {t('common.reserve')}

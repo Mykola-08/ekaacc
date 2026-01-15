@@ -78,6 +78,7 @@ export interface SignUpCredentials {
   lastName?: string;
   fullName?: string;
   username?: string;
+  planId?: string;
 }
 
 export interface AuthError {

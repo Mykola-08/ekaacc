@@ -35,7 +35,7 @@ export default function Children() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href="/booking"
+         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}

@@ -51,7 +51,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
       </p>
 
       <div className="flex justify-center">
-       <Link href="/booking">
+       <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
         <Button size="2xl" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl transition-all duration-300">
          {t('services.bookSession')}
          <ArrowRight className="ml-3 w-6 h-6" />

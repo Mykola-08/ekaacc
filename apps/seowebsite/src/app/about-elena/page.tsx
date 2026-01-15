@@ -142,7 +142,7 @@ export default function AboutElena() {
       <div className="max-w-4xl mx-auto px-4 text-center">
        <h2 className="text-3xl font-light text-foreground mb-8">{t('footer.readyToBegin')}</h2>
        <div className="flex flex-col sm:flex-row justify-center gap-4">
-         <Link href="/booking">
+         <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
           <Button 
            size="xl" 
            className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-10 py-4 rounded-2xl font-medium shadow-lg hover:translate-y-[-2px] transition-all border-none"

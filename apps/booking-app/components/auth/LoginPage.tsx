@@ -14,7 +14,7 @@ import { Loader2 } from 'lucide-react'
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <Button className="w-full h-12 text-base font-medium" type="submit" disabled={pending}>
+    <Button className="w-full h-12 rounded-xl text-base font-medium bg-[#0d9488] hover:bg-[#0f766e] shadow-lg shadow-teal-500/20" type="submit" disabled={pending}>
       {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
       {pending ? 'Signing In...' : 'Sign In'}
     </Button>
@@ -38,31 +38,36 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-background/50 backdrop-blur-sm">
-      <Card className="w-full max-w-md animate-slide-up border-white/20 shadow-xl bg-card/80 backdrop-blur-md">
-        <CardHeader className="space-y-1 text-center pb-8 border-b border-white/10">
-          <CardTitle className="text-3xl font-serif text-primary">Welcome Back</CardTitle>
-          <CardDescription className="text-lg">
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md animate-in fade-in zoom-in duration-500 border-white/40 shadow-2xl shadow-black/5 bg-white/60 backdrop-blur-xl">
+        <CardHeader className="space-y-4 text-center pb-8 border-b border-black/5">
+           <div className="flex flex-col items-center gap-2 mb-2">
+                <div className="w-12 h-12 bg-[#0d9488] rounded-[18px] flex items-center justify-center text-white font-sans font-bold text-xl shadow-lg shadow-teal-900/10">
+                    E
+                </div>
+            </div>
+          <CardTitle className="text-2xl font-sans font-semibold tracking-tight text-foreground">Welcome Back</CardTitle>
+          <CardDescription className="text-base font-light text-muted-foreground">
             Enter your email to sign in to your account
           </CardDescription>
         </CardHeader>
         <CardContent className="pt-8">
           <form action={clientAction} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-foreground/80 font-medium">Email</Label>
               <Input
                 id="email"
                 name="email"
                 placeholder="m@example.com"
                 required
                 type="email"
-                className="h-12 bg-white/50 border-white/20 focus:border-primary/50 focus:ring-primary/20"
+                className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
               />
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link href="#" className="text-sm text-primary hover:underline">
+                <Label htmlFor="password" className="text-foreground/80 font-medium">Password</Label>
+                <Link href="#" className="text-sm text-[#0d9488] hover:underline font-medium">
                     Forgot password?
                 </Link>
               </div>
@@ -71,21 +76,21 @@ export function LoginPage() {
                 name="password"
                 required
                 type="password"
-                className="h-12 bg-white/50 border-white/20 focus:border-primary/50 focus:ring-primary/20"
+                className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
               />
             </div>
             {errorMessage && (
-                <div className="text-destructive text-sm font-medium bg-destructive/10 p-3 rounded-md">
+                <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-xl border border-red-100">
                     {errorMessage}
                 </div>
             )}
             <SubmitButton />
           </form>
         </CardContent>
-        <CardFooter className="flex flex-col gap-4 border-t border-white/10 pt-6">
+        <CardFooter className="flex flex-col gap-4 border-t border-black/5 pt-6 bg-black/1">
           <div className="text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <Link href="/signup" className="underline text-primary hover:text-primary/80 font-medium">
+            <Link href="/signup" className="underline text-[#0d9488] hover:text-[#0f766e] font-medium">
               Sign up
             </Link>
           </div>

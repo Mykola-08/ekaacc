@@ -43,8 +43,6 @@ export default function RootLayout({
    <body
     className={cn(
      'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-teal-100 selection:text-teal-900',
-     // Subtle ambient background gradient
-     'bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-white via-stone-50 to-stone-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950',
      inter.variable,
      playfair.variable
     )}

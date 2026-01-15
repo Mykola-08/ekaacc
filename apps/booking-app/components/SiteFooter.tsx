@@ -5,9 +5,9 @@ export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-white/30 backdrop-blur-2xl border-t border-white/20 pt-16 pb-8 overflow-hidden">
-      {/* Soft Gradient Mesh */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/40 to-white/0 opacity-50 pointer-events-none" />
+    <footer className="relative bg-transparent pt-16 pb-8 overflow-hidden">
+       {/* Top Border with gradient fade */}
+       <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-black/5 to-transparent" />
       
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
@@ -15,10 +15,10 @@ export function SiteFooter() {
             {/* Brand Column - Simplified */}
             <div className="col-span-1 md:col-span-2 space-y-4">
                 <Link href='/' className='flex items-center gap-3 group opacity-90 hover:opacity-100 transition-opacity'>
-                    <div className="w-8 h-8 bg-zinc-900/5 rounded-2xl flex items-center justify-center text-zinc-900 font-sans font-medium text-sm shadow-[inset_0_1px_1px_rgba(255,255,255,0.8)] backdrop-blur-sm">
+                    <div className="w-8 h-8 bg-[#0d9488] rounded-full flex items-center justify-center text-white font-sans font-bold text-sm shadow-sm">
                         E
                     </div>
-                    <span className='font-sans font-semibold tracking-tight text-lg text-zinc-800/90'>EKA BALANCE</span>
+                    <span className='font-sans font-bold tracking-tight text-lg text-foreground/90'>EKA BALANCE</span>
                 </Link>
                 <p className="text-muted-foreground max-w-sm text-base font-normal leading-relaxed">
                     Restoring balance through structural integration. 

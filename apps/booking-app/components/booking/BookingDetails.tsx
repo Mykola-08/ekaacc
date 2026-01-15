@@ -208,8 +208,8 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
     return (
         <div className="min-h-screen bg-background font-sans text-foreground pb-20 animate-in fade-in duration-500">
             <main className="max-w-6xl mx-auto px-6 py-12">
-                <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors mb-8 group font-medium">
-                    <ChevronLeft className="w-5 h-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <Link href="/" className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors mb-8 group font-medium text-sm">
+                    <ChevronLeft className="w-4 h-4 mr-1 group-hover:-translate-x-1 transition-transform" />
                     Back to Services
                 </Link>
 
@@ -219,19 +219,19 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     <div className="flex-1 animate-in slide-in-from-bottom-8 duration-700">
                          {/* Header */}
                          <div className="mb-8">
-                            <h1 className="text-4xl lg:text-5xl font-serif text-foreground mb-6 leading-tight">{service.name}</h1>
+                            <h1 className="text-4xl lg:text-5xl font-semibold tracking-tight text-foreground mb-6 leading-tight">{service.name}</h1>
                             {activeVariant && (
                                 <div className="flex items-center gap-3">
-                                    <span className="text-lg text-muted-foreground font-medium bg-muted px-3 py-1 rounded-full">{activeVariant.name}</span>
+                                    <span className="text-sm font-medium bg-foreground/5 text-foreground px-3 py-1 rounded-full border border-foreground/5">{activeVariant.name}</span>
                                     <span className="text-muted-foreground/30">•</span>
-                                    <span className="text-lg text-muted-foreground font-medium">{displayDuration} min</span>
+                                    <span className="text-sm text-muted-foreground font-medium">{displayDuration} min</span>
                                 </div>
                             )}
                         </div>
 
                         {/* Image */}
                         {(service.images?.[0] || service.image_url) && (
-                            <div className="relative rounded-3xl overflow-hidden bg-muted aspect-video mb-10 shadow-lg shadow-black/5">
+                            <div className="relative rounded-[2rem] overflow-hidden bg-muted aspect-video mb-10 border border-black/5 shadow-sm">
                                 <Image 
                                     src={service.images?.[0] || service.image_url || ''} 
                                     alt={service.name} 
@@ -244,14 +244,14 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
                         {/* Description */}
                         <div className="prose prose-lg max-w-none text-muted-foreground mb-12 dark:prose-invert">
-                            <p className="whitespace-pre-line leading-relaxed">{activeVariant?.description || service.description}</p>
+                            <p className="whitespace-pre-line leading-relaxed font-light">{activeVariant?.description || service.description}</p>
                         </div>
 
                         {/* Variants Selector (if multiple) */}
                         {service.variants && service.variants.length > 1 && (
                             <div className="mb-12">
-                                <h3 className="text-xl font-serif text-foreground mb-6 flex items-center gap-2">
-                                    <Star className="w-5 h-5 text-amber-400 fill-amber-400" /> 
+                                <h3 className="text-lg font-semibold tracking-tight text-foreground mb-6 flex items-center gap-2">
+                                    <Star className="w-4 h-4 text-amber-400 fill-amber-400" /> 
                                     Choose Experience
                                 </h3>
                                 <div className="grid gap-4">
@@ -263,24 +263,24 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                             href={`/book/${service.id}?variantId=${variant.id}`}
                                             scroll={false}
                                             className={cn(
-                                                "group flex items-center justify-between p-5 rounded-[24px] border transition-all cursor-pointer",
+                                                "group flex items-center justify-between p-5 rounded-[1.5rem] border transition-all cursor-pointer",
                                                 isActive 
-                                                    ? "bg-primary text-primary-foreground border-primary shadow-xl shadow-primary/10" 
-                                                    : "bg-card border-border text-foreground hover:border-input"
+                                                    ? "bg-primary/5 border-primary/20 shadow-sm" 
+                                                    : "bg-white/40 backdrop-blur-xl border-white/20 hover:bg-white/60 hover:border-black/5"
                                             )}
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className={cn("w-5 h-5 rounded-full border-2 flex items-center justify-center", isActive ? "border-primary-foreground" : "border-muted-foreground/30")}>
-                                                    {isActive && <div className="w-2.5 h-2.5 rounded-full bg-primary-foreground" />}
+                                                <div className={cn("w-5 h-5 rounded-full border flex items-center justify-center transition-colors", isActive ? "border-primary bg-primary" : "border-muted-foreground/30")}>
+                                                    {isActive && <div className="w-2 h-2 rounded-full bg-white" />}
                                                 </div>
                                                 <div>
-                                                    <div className="font-bold text-lg">{variant.name}</div>
-                                                    <div className={cn("text-sm", isActive ? "text-primary-foreground/80" : "text-muted-foreground")}>
+                                                    <div className={cn("font-medium text-lg tracking-tight", isActive ? "text-primary" : "text-foreground")}>{variant.name}</div>
+                                                    <div className="text-sm text-muted-foreground font-light">
                                                         {variant.duration} min • {variant.features?.join(', ') || 'Standard Session'}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="font-serif text-xl">€{variant.price}</div>
+                                            <div className="font-semibold tracking-tight text-lg">€{variant.price}</div>
                                         </Link>
                                     )
                                 })}
@@ -288,12 +288,12 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             </div>
                         )}
 
-                        <div className="bg-card p-8 rounded-[32px] border border-border shadow-xl shadow-black/5">
-                            <h3 className="text-xl font-serif text-foreground mb-4">What to expect</h3>
+                        <div className="bg-white/40 backdrop-blur-xl p-8 rounded-[2rem] border border-white/20 shadow-sm">
+                            <h3 className="text-lg font-semibold tracking-tight text-foreground mb-4">What to expect</h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {['Personalized assessment', 'Therapeutic touch', 'Relaxing environment', 'Post-session guidance'].map((item, i) => (
-                                    <li key={i} className="flex items-center gap-3 text-muted-foreground font-medium">
-                                        <CheckCircle className="w-5 h-5 text-emerald-500" />
+                                    <li key={i} className="flex items-center gap-3 text-muted-foreground font-light">
+                                        <CheckCircle className="w-4 h-4 text-emerald-500/80" />
                                         {item}
                                     </li>
                                 ))}
@@ -303,112 +303,111 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
                     {/* Right Column: Sticky Booking Card */}
                     <div className="w-full lg:w-[420px] shrink-0 lg:sticky lg:top-24 animate-in slide-in-from-bottom-12 duration-500 delay-100">
-                        <div className="bg-card rounded-[32px] p-8 border border-border shadow-2xl shadow-black/5">
+                        <div className="bg-white/60 backdrop-blur-2xl rounded-[2rem] p-8 border border-white/40 shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
                             
                             {/* Family / User Selection */}
                             {!loadingUser && userProfile && familyMembers.length > 0 && (
-                                <div className="mb-6 p-4 bg-muted/50 rounded-2xl border border-border/50">
-                                    <div className="flex items-center justify-between mb-3">
-                                        <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Booking For</span>
-                                        <div className="flex gap-2">
-                                            <button 
-                                                onClick={() => setBookingFor('self')}
-                                                className={cn("px-3 py-1 rounded-full text-xs font-bold transition-all", bookingFor === 'self' ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}
-                                            >
-                                                Myself
-                                            </button>
-                                            <button 
-                                                onClick={() => setBookingFor('dependent')}
-                                                 className={cn("px-3 py-1 rounded-full text-xs font-bold transition-all", bookingFor === 'dependent' ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground")}
-                                            >
-                                                Family
-                                            </button>
-                                        </div>
-                                    </div>
-                                    {bookingFor === 'dependent' && (
-                                        <Select value={selectedDependentId} onValueChange={setSelectedDependentId}>
-                                            <SelectTrigger className="w-full bg-background border-input rounded-xl">
-                                                <SelectValue placeholder="Select Member" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {familyMembers.map(m => (
-                                                    <SelectItem key={m.id} value={m.id}>{m.full_name} ({m.relationship})</SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    )}
+                                <div className="mb-6 p-1 bg-black/5 rounded-full border border-black/5 inline-flex w-full">
+                                    <button 
+                                        onClick={() => setBookingFor('self')}
+                                        className={cn("flex-1 py-1.5 rounded-full text-xs font-semibold transition-all", bookingFor === 'self' ? "bg-white text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+                                    >
+                                        Myself
+                                    </button>
+                                    <button 
+                                        onClick={() => setBookingFor('dependent')}
+                                            className={cn("flex-1 py-1.5 rounded-full text-xs font-semibold transition-all", bookingFor === 'dependent' ? "bg-white text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground")}
+                                    >
+                                        Family Member
+                                    </button>
+                                </div>
+                            )}
+
+                             {bookingFor === 'dependent' && (
+                                <div className="mb-6">
+                                     <Select value={selectedDependentId} onValueChange={setSelectedDependentId}>
+                                        <SelectTrigger className="w-full bg-white/50 border-black/5 rounded-xl h-11">
+                                            <SelectValue placeholder="Select Member" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {familyMembers.map(m => (
+                                                <SelectItem key={m.id} value={m.id}>{m.full_name} ({m.relationship})</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </div>
                             )}
 
                             {/* Contact Details Inputs (if not user or edit needed) */}
                             <div className="space-y-4 mb-8">
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Name</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 ml-1">Name</label>
                                     <input 
                                         type="text" 
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         placeholder="Your Name"
-                                        className="w-full h-11 px-4 rounded-xl border border-input bg-background focus:bg-background focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-muted-foreground/50 text-foreground"
+                                        className="w-full h-11 px-4 rounded-xl border border-black/5 bg-white/50 focus:bg-white focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all placeholder:text-muted-foreground/40 text-foreground text-sm"
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2">Email</label>
+                                    <label className="block text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 ml-1">Email</label>
                                     <input 
                                         type="email" 
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="your@email.com"
-                                        className="w-full h-11 px-4 rounded-xl border border-input bg-background focus:bg-background focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all placeholder:text-muted-foreground/50 text-foreground"
+                                        className="w-full h-11 px-4 rounded-xl border border-black/5 bg-white/50 focus:bg-white focus:border-primary/50 focus:ring-2 focus:ring-primary/10 outline-none transition-all placeholder:text-muted-foreground/40 text-foreground text-sm"
                                     />
                                 </div>
                             </div>
 
-                            <div className="h-px bg-border mb-8" />
+                            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8" />
 
                             <div className="mb-8">
-                                <h3 className="text-xl font-serif text-foreground mb-4 flex items-center gap-2">
-                                    <CalendarIcon className="w-5 h-5 text-muted-foreground" />
+                                <h3 className="text-lg font-semibold tracking-tight text-foreground mb-4 flex items-center gap-2">
+                                    <CalendarIcon className="w-4 h-4 text-muted-foreground" />
                                     Select Date & Time
                                 </h3>
                                 
-                                <div className="bg-muted/30 rounded-2xl p-1 mb-6 border border-border/50">
+                                <div className="bg-white/40 rounded-[1.5rem] p-4 mb-6 border border-white/20 shadow-sm">
                                     <Calendar
                                         mode="single"
                                         selected={date}
                                         onSelect={setDate}
                                         disabled={(day) => day < new Date() || day > addDays(new Date(), 90)}
-                                        className="rounded-xl border-none w-full flex justify-center bg-transparent pointer-events-auto"
+                                        className="rounded-xl border-none w-full flex justify-center bg-transparent pointer-events-auto p-0"
                                         classNames={{
-                                            day_selected: "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                                            day_today: "bg-muted text-foreground font-bold",
-                                            head_cell: "text-muted-foreground font-medium text-[0.8rem]",
-                                            cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-transparent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                                            day_selected: "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground shadow-md",
+                                            day_today: "bg-white/50 text-foreground font-bold",
+                                            head_cell: "text-muted-foreground font-medium text-[0.8rem] w-8",
+                                            cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-transparent h-8 w-8",
+                                            day: "h-8 w-8 p-0 font-normal aria-selected:opacity-100 rounded-full hover:bg-black/5 transition-colors",
                                         }}
                                     />
                                 </div>
 
                                 {date && (
                                     <div className="animate-in fade-in slide-in-from-top-4">
-                                        <h4 className="text-sm font-bold text-foreground mb-3 block">
-                                            Available Slots for {format(date, 'MMM do')}
+                                        <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 block ml-1">
+                                            Available Slots — {format(date, 'MMM do')}
                                         </h4>
                                         {loadingSlots ? (
                                             <div className="flex items-center justify-center py-8 text-muted-foreground gap-2">
                                                 <Loader2 className="w-4 h-4 animate-spin" />
-                                                <span className="text-sm">Finding slots...</span>
+                                                <span className="text-sm font-light">Checking availability...</span>
                                             </div>
                                         ) : slots.length > 0 ? (
-                                            <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
+                                            <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
                                                 {slots.map((slot, i) => (
                                                     <button 
                                                         key={i}
                                                         onClick={() => setSelectedSlot(slot)}
                                                         className={cn(
-                                                            "py-2.5 px-3 rounded-xl border text-sm font-medium transition-all text-center",
+                                                            "py-2.5 px-3 rounded-xl border text-sm transition-all text-center",
                                                             selectedSlot === slot
-                                                                ? "bg-primary text-primary-foreground border-primary shadow-md"
-                                                                : "bg-card border-border text-foreground hover:border-input hover:bg-muted"
+                                                                ? "bg-primary text-primary-foreground border-primary shadow-md font-semibold"
+                                                                : "bg-white/50 border-transparent text-foreground hover:bg-white hover:shadow-sm font-light type-tabular"
                                                         )}
                                                     >
                                                         {format(new Date(slot.startTime), 'h:mm a')}
@@ -416,24 +415,24 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                                 ))}
                                             </div>
                                         ) : (
-                                            <div className="py-6 text-center bg-muted/30 rounded-xl border border-dashed border-border">
-                                                <p className="text-sm text-muted-foreground">No availability</p>
+                                            <div className="py-6 text-center bg-white/30 rounded-xl border border-dashed border-black/5">
+                                                <p className="text-sm text-muted-foreground font-light">No slots available</p>
                                             </div>
                                         )}
                                     </div>
                                 )}
                             </div>
 
-                            <div className="space-y-4 pt-6 border-t border-border">
+                            <div className="space-y-4 pt-6 border-t border-black/5">
                                 <div className="flex justify-between items-end">
                                     <div className="text-sm text-muted-foreground font-medium">Deposit Due</div>
-                                    <div className="text-3xl font-serif text-foreground">€20<span className="text-lg text-muted-foreground">.00</span></div>
+                                    <div className="text-3xl font-semibold tracking-tight text-foreground">€20<span className="text-lg text-muted-foreground font-light">.00</span></div>
                                 </div>
                                 
                                 <button 
                                     onClick={handleBooking}
                                     disabled={isSubmitting || !selectedSlot || !name || !email}
-                                    className="w-full py-4 bg-primary text-primary-foreground rounded-2xl font-bold text-lg hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none"
+                                    className="w-full py-4 bg-primary text-primary-foreground rounded-[1.25rem] font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none"
                                 >
                                     {isSubmitting ? (
                                         <>
@@ -443,14 +442,13 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                     ) : (
                                         <>
                                             Pay Deposit & Book
-                                            <ArrowRight className="w-5 h-5" />
                                         </>
                                     )}
                                 </button>
                                 
-                                <div className="text-center text-xs text-muted-foreground/80 space-y-1">
+                                <div className="text-center text-xs text-muted-foreground/60 space-y-1 font-light pt-2">
                                     <p>Free cancellation up to 24 hours before your appointment.</p>
-                                    <div className="flex items-center justify-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity">
+                                    <div className="flex items-center justify-center gap-1.5 opacity-80">
                                         <CreditCard className="w-3 h-3" />
                                         <span>Secure payment via Stripe</span>
                                     </div>

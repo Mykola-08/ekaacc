@@ -85,17 +85,17 @@ export function SiteHeader() {
         initial='hidden'
         animate='visible'
         className={cn(
-            "fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-[32px] transition-all duration-300",
+            "fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-[28px] transition-all duration-500",
             scrolled 
-                ? "bg-card/90 border border-border shadow-xl shadow-slate-200/40 backdrop-blur-md py-2" 
-                : "bg-card border border-border/60 shadow-lg shadow-slate-100/50 py-3"
+                ? "bg-white/80 border border-white/20 shadow-xl shadow-black/5 backdrop-blur-xl py-2" 
+                : "bg-white/60 border border-white/40 shadow-lg shadow-black/2 backdrop-blur-md py-3"
         )}
       >
         <div className='flex items-center justify-between px-6'>
           {/* Logo */}
           <Link href={mainSiteUrl} className='flex items-center gap-2 group'>
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-serif font-bold text-sm">E</div>
-            <span className='font-serif font-bold tracking-tight text-lg text-foreground group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
+            <div className="w-8 h-8 bg-[#0d9488] rounded-full flex items-center justify-center text-white font-sans font-bold text-sm shadow-md shadow-teal-900/10">E</div>
+            <span className='font-sans font-bold tracking-tight text-base text-foreground/90 group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
           </Link>
 
           {/* Desktop Nav */}

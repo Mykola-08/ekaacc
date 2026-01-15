@@ -14,7 +14,7 @@ import { Loader2 } from 'lucide-react'
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <Button className="w-full h-12 text-base font-medium" type="submit" disabled={pending}>
+    <Button className="w-full h-12 rounded-xl text-base font-medium bg-[#0d9488] hover:bg-[#0f766e] shadow-lg shadow-teal-500/20" type="submit" disabled={pending}>
       {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
       {pending ? 'Creating Account...' : 'Create Account'}
     </Button>
@@ -44,11 +44,16 @@ export function SignupPage() {
     }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-background/50 backdrop-blur-sm">
-      <Card className="w-full max-w-md animate-slide-up border-white/20 shadow-xl bg-card/80 backdrop-blur-md">
-        <CardHeader className="space-y-1 text-center pb-8 border-b border-white/10">
-          <CardTitle className="text-3xl font-serif text-primary">Create an account</CardTitle>
-          <CardDescription className="text-lg">
+    <div className="flex min-h-screen items-center justify-center p-4">
+      <Card className="w-full max-w-md animate-in fade-in zoom-in duration-500 border-white/40 shadow-2xl shadow-black/5 bg-white/60 backdrop-blur-xl">
+        <CardHeader className="space-y-4 text-center pb-8 border-b border-black/5">
+            <div className="flex flex-col items-center gap-2 mb-2">
+                <div className="w-12 h-12 bg-[#0d9488] rounded-[18px] flex items-center justify-center text-white font-sans font-bold text-xl shadow-lg shadow-teal-900/10">
+                    E
+                </div>
+            </div>
+          <CardTitle className="text-2xl font-sans font-semibold tracking-tight text-foreground">Create an account</CardTitle>
+          <CardDescription className="text-base font-light text-muted-foreground">
             Enter your information to get started
           </CardDescription>
         </CardHeader>
@@ -56,48 +61,52 @@ export function SignupPage() {
             {successMessage ? (
                  <div className="flex flex-col items-center justify-center space-y-4 py-8">
                     <div className="text-center space-y-2">
-                        <h3 className="text-xl font-medium text-primary">Check your email</h3>
+                        <h3 className="text-xl font-medium text-[#0d9488]">Check your email</h3>
                         <p className="text-muted-foreground">{successMessage}</p>
                     </div>
-                    <Button asChild variant="outline" className="mt-4">
+                    <Button asChild variant="outline" className="mt-4 rounded-xl border-black/10 hover:bg-black/5 transition-colors">
                         <Link href="/login">Return to Login</Link>
                     </Button>
                  </div>
             ) : (
                 <form action={clientAction} className="space-y-6">
                 <div className="space-y-2">
-                <Label htmlFor="full_name">Full Name</Label>
+                <Label htmlFor="full_name" className="text-foreground/80 font-medium">Full Name</Label>
                 <Input
                     id="full_name"
                     name="full_name"
                     placeholder="John Doe"
                     required
-                    className="h-12 bg-white/50 border-white/20 focus:border-primary/50 focus:ring-primary/20"
+                    className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
                 />
                 </div>
                 <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-foreground/80 font-medium">Email</Label>
                 <Input
                     id="email"
                     name="email"
                     placeholder="m@example.com"
                     required
                     type="email"
-                    className="h-12 bg-white/50 border-white/20 focus:border-primary/50 focus:ring-primary/20"
+                    className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
                 />
                 </div>
                 <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-foreground/80 font-medium">Password</Label>
                 <Input
                     id="password"
                     name="password"
                     required
                     type="password"
                     minLength={6}
-                    className="h-12 bg-white/50 border-white/20 focus:border-primary/50 focus:ring-primary/20"
+                    className="h-12 bg-white/50 border-black/5 focus:border-[#0d9488]/50 focus:ring-[#0d9488]/20 rounded-xl"
                 />
                 </div>
                 {errorMessage && (
+                    <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-xl border border-red-100">
+                        {errorMessage}
+                    </div>
+                )}
                     <div className="text-destructive text-sm font-medium bg-destructive/10 p-3 rounded-md">
                         {errorMessage}
                     </div>

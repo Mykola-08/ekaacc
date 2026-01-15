@@ -6,72 +6,12 @@
   --radius-3xl: 2rem;
 }
 
-/* Glassy Apple Health Theme Overrides */
-:root {
-  /* Apple-esque soft gray background (Nebula/Starlight vibe) */
-  --background: #f5f5f7;
-  --foreground: #1d1d1f;
-
-  /* Glassy Card Base - softer white */
-  --card: rgba(255, 255, 255, 0.7);
-  --card-foreground: #1d1d1f;
-  
-  --popover: rgba(255, 255, 255, 0.8);
-  --popover-foreground: #1d1d1f;
-
-  /* Refined Teal - slightly more muted/premium */
-  --primary: #0d9488; /* Teal 600 */
-  --primary-foreground: #ffffff;
-
-  --secondary: #f0fdfa; /* Teal 50 */
-  --secondary-foreground: #0f766e;
-
-  --muted: #f5f5f7;
-  --muted-foreground: #86868b; /* Apple gray text */
-
-  --accent: #e0f2fe; /* Light blue accent for subtle details */
-  --accent-foreground: #0284c7;
-
-  --destructive: #ff3b30; /* Apple system red */
-  --destructive-foreground: #ffffff;
-
-  --border: rgba(0, 0, 0, 0.05); /* Very subtle borders */
-  --input: rgba(0, 0, 0, 0.05);
-  --ring: #0d9488;
-  
-  --radius: 1.75rem; /* 28px - Extra rounded */
-}
-
 .glass-panel {
   @apply bg-white/70 backdrop-blur-xl border border-white/20 shadow-lg shadow-black/[0.03];
 }
 
 .subtle-footer {
   @apply bg-transparent backdrop-blur-lg border-t border-black/[0.02];
-}
-
-.dark {
-  --background: #000000;
-  --foreground: #f5f5f7;
-
-  --card: rgba(28, 28, 30, 0.7);
-  --card-foreground: #f5f5f7;
-
-  --primary: #2DD4BF; /* Teal 400 */
-  --primary-foreground: #020617;
-
-  --secondary: #1E293B;
-  --secondary-foreground: #F8FAFC;
-
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-
-  --accent: #1E293B;
-  --accent-foreground: #F8FAFC;
-  
-  --border: #1E293B;
-  --input: #1E293B;
-  --ring: #2DD4BF;
 }
 
 /* Global Glass Utilities */

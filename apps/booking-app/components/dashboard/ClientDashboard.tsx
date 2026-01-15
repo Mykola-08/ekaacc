@@ -42,7 +42,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 {/* Next Session - Notion/Glass style */}
-                <div className="group relative overflow-hidden rounded-3xl border border-border/40 bg-background/40 backdrop-blur-xl p-8 hover:bg-background/60 transition-all duration-500 shadow-sm hover:shadow-md">
+                <div className="group relative overflow-hidden rounded-[28px] glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md">
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
                             <Calendar className="w-5 h-5 opacity-50" />
@@ -76,10 +76,10 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                             </div>
 
                             <div className="flex gap-4 pt-4">
-                                <Button variant="outline" className="flex-1 rounded-xl h-12 border-border/40 hover:bg-foreground/5 transition-colors text-foreground/80">
+                                <Button variant="outline" className="flex-1 rounded-xl h-12 border-black/5 hover:bg-black/5 transition-colors text-foreground/80">
                                     Reschedule
                                 </Button>
-                                <Button className="flex-1 rounded-xl h-12 bg-foreground text-background hover:opacity-90 transition-opacity shadow-none">
+                                <Button className="flex-1 rounded-xl h-12 bg-[#0d9488] text-white hover:bg-[#0f766e] transition-all shadow-lg shadow-[#0d9488]/20 border-0">
                                     Get Directions
                                 </Button>
                             </div>
@@ -90,7 +90,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                 <p className="text-lg font-medium text-foreground/80">No upcoming sessions</p>
                                 <p className="text-muted-foreground font-light">Ready to prioritize your wellness?</p>
                             </div>
-                            <Button variant="link" className="p-0 h-auto font-medium text-foreground flex items-center gap-2 group-hover:gap-3 transition-all" asChild>
+                            <Button variant="link" className="p-0 h-auto font-medium text-[#0d9488] flex items-center gap-2 group-hover:gap-3 transition-all" asChild>
                                 <Link href="/book">
                                     Browse Schedule <ArrowUpRight className="w-4 h-4" />
                                 </Link>
@@ -100,13 +100,13 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                 </div>
 
                 {/* Wallet - Notion/Glass style */}
-                <div className="group relative overflow-hidden rounded-3xl border border-border/40 bg-background/40 backdrop-blur-xl p-8 hover:bg-background/60 transition-all duration-500 shadow-sm hover:shadow-md flex flex-col justify-between">
+                <div className="group relative overflow-hidden rounded-[28px] glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md flex flex-col justify-between">
                      <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
                                 Credit Balance
                             </h2>
-                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-foreground/5 -mr-2">
+                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-black/5 -mr-2">
                                 <ArrowUpRight className="w-5 h-5 opacity-40" />
                             </Button>
                         </div>
@@ -119,11 +119,11 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                         </div>
 
                         <div className="space-y-3 pt-2">
-                            <div className="flex justify-between text-sm py-2 border-b border-border/30">
+                            <div className="flex justify-between text-sm py-2 border-b border-black/5">
                                 <span className="text-muted-foreground">Membership</span>
                                 <span className="font-medium">Standard</span>
                             </div>
-                            <div className="flex justify-between text-sm py-2 border-b border-border/30">
+                            <div className="flex justify-between text-sm py-2 border-b border-black/5">
                                 <span className="text-muted-foreground">Expires</span>
                                 <span className="font-medium">Never</span>
                             </div>
@@ -131,7 +131,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                     </div>
 
                     <div className="pt-8">
-                         <Button className="w-full rounded-xl h-12 bg-foreground/5 hover:bg-foreground/10 text-foreground font-medium border border-transparent hover:border-border/30 shadow-none transition-all">
+                         <Button className="w-full rounded-xl h-12 bg-black/5 hover:bg-black/10 text-foreground font-medium border border-transparent hover:border-black/5 shadow-none transition-all">
                             Add Credits
                         </Button>
                     </div>
@@ -141,11 +141,11 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
              {/* Recent Activity Section */}
              <div className="pt-8">
                 <h3 className="text-xl font-light text-muted-foreground mb-6">Recent Activity</h3>
-                <div className="rounded-3xl border border-border/40 bg-background/20 backdrop-blur-sm overflow-hidden">
+                <div className="rounded-[28px] glass-card overflow-hidden">
                     {[1, 2, 3].map((_, i) => (
-                        <div key={i} className="flex items-center justify-between p-6 border-b border-border/20 last:border-0 hover:bg-foreground/[0.02] transition-colors">
+                        <div key={i} className="flex items-center justify-between p-6 border-b border-black/5 last:border-0 hover:bg-black/2 transition-colors">
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-foreground/5 flex items-center justify-center">
+                                <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center">
                                     <Clock className="w-4 h-4 opacity-50" />
                                 </div>
                                 <div>

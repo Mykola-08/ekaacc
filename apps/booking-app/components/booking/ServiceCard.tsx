@@ -17,20 +17,20 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
   const isCompact = variant === 'compact';
 
   return (
-    <div className="h-full hover:scale-[1.02] transition-transform duration-300 ease-out origin-center">
+    <div className="h-full hover:scale-[1.01] transition-transform duration-500 ease-out origin-center">
       <Card className={cn(
-        "h-full flex flex-col overflow-hidden transition-all duration-300 rounded-[1.5rem]", 
-        "glass-card border-white/50 hover:shadow-[0_8px_40px_rgb(0,0,0,0.08)]"
+        "h-full flex flex-col overflow-hidden transition-all duration-300 rounded-[28px]", 
+        "glass-card border-white/40 hover:shadow-lg hover:shadow-black/5"
       )}>
         {/* Image Placeholder or Header Gradient */}
         <div className={cn(
-          "relative bg-gradient-to-br from-teal-50 via-cyan-50 to-white w-full",
+          "relative bg-gradient-to-br from-teal-50 via-gray-50 to-white w-full",
           isCompact ? "h-24" : "h-48"
         )}>
           {/* Subtle noise/pattern - removed for clean glass look */}
           
-          <div className="absolute bottom-4 left-4">
-             <Badge variant="secondary" className="bg-card/60 backdrop-blur-md border border-white/50 shadow-sm rounded-full px-4 py-1 text-teal-800 font-medium">
+          <div className="absolute bottom-4 left-6">
+             <Badge variant="secondary" className="bg-white/60 backdrop-blur-md border border-white/40 shadow-sm rounded-lg px-3 py-1 text-[#0d9488] font-medium tracking-tight">
                 {service.category || 'Therapy'}
              </Badge>
           </div>
@@ -38,34 +38,30 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
 
         <CardHeader className={cn("space-y-2", isCompact ? "p-4" : "p-6")}>
           <div className="flex justify-between items-start gap-2">
-            <CardTitle className={cn("font-serif line-clamp-2", isCompact ? "text-lg" : "text-2xl")}>
+            <CardTitle className={cn("font-sans font-medium tracking-tight line-clamp-2", isCompact ? "text-lg" : "text-xl")}>
               {service.name}
             </CardTitle>
           </div>
-          <CardDescription className="line-clamp-2 text-muted-foreground">
+          <CardDescription className="line-clamp-2 text-muted-foreground font-light text-base">
              {service.description || "A transformative session focusing on restoring balance."}
           </CardDescription>
         </CardHeader>
 
         <CardContent className={cn("flex-grow", isCompact ? "p-4 pt-0" : "p-6 pt-0")}>
-           <div className="flex flex-col gap-2 text-sm text-muted-foreground">
-              <div className="flex items-center gap-2">
-                 <Clock className="w-4 h-4 text-primary" />
+           <div className="flex flex-col gap-3 text-sm text-foreground/80 font-medium">
+              <div className="flex items-center gap-3">
+                 <Clock className="w-4 h-4 text-[#0d9488]" />
                  <span>{service.duration} minutes</span>
               </div>
-              <div className="flex items-center gap-2">
-                 <Euro className="w-4 h-4 text-primary" />
+              <div className="flex items-center gap-3">
+                 <Euro className="w-4 h-4 text-[#0d9488]" />
                  <span>{service.price}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                 <Users className="w-4 h-4 text-primary" />
-                 <span>1-on-1 Session</span>
               </div>
            </div>
         </CardContent>
 
-        <CardFooter className={cn("border-t border-border bg-muted/5", isCompact ? "p-3" : "p-4")}>
-           <Button asChild className="w-full gap-2 group rounded-full" size={isCompact ? "sm" : "default"}>
+        <CardFooter className={cn("border-t border-black/5 bg-transparent", isCompact ? "p-3" : "p-6")}>
+           <Button asChild className="w-full gap-2 group rounded-xl bg-[#0d9488] hover:bg-[#0f766e] text-white shadow-lg shadow-teal-500/20" size={isCompact ? "sm" : "lg"}>
               <Link href={`/book/${service.id}`}>
                  Book Session
                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

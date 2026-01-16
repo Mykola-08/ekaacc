@@ -32,7 +32,7 @@ function StatsCard({ title, value, change, trend, icon }: StatsCardProps) {
     <Card className="border-0 shadow-lg bg-card/60 dark:bg-primary/90/60 backdrop-blur-sm hover:shadow-xl transition-all duration-300 group">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">
         <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-        <div className="p-2 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-600 dark:text-blue-400 transition-all duration-300 group-hover:opacity-80">
+        <div className="p-2 rounded-full bg-linear-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 text-blue-600 dark:text-blue-400 transition-all duration-300 group-hover:opacity-80">
           {icon}
         </div>
       </CardHeader>
@@ -80,12 +80,12 @@ function ActivityItem({ user, action, time, avatar }: ActivityItemProps) {
 
 export default function ShadcnBlocksLayout() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Section */}
         <div className="flex items-center justify-between">
           <div className="space-y-2">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               Dashboard Overview
             </h1>
             <p className="text-muted-foreground text-lg">
@@ -97,7 +97,7 @@ export default function ShadcnBlocksLayout() {
               <Calendar className="h-4 w-4 mr-2" />
               Today
             </Button>
-            <Button size="default" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
+            <Button size="default" className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300">
               <Settings className="h-4 w-4 mr-2" />
               Settings
             </Button>
@@ -189,7 +189,7 @@ export default function ShadcnBlocksLayout() {
                 <CardDescription>Your business metrics over time</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-64 flex items-center justify-center bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg">
+                <div className="h-64 flex items-center justify-center bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg">
                   <div className="text-center">
                     <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">Chart visualization would go here</p>

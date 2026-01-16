@@ -37,7 +37,7 @@ export default function ParentsPersonalized() {
     url="https://ekabalance.com/for-parents"
    />
     {/* Hero Section */}
-    <section className="py-12 sm:py-20 bg-gradient-to-br from-white via-pink-50/30 to-rose-50/50">
+    <section className="py-12 sm:py-20 bg-linear-to-br from-white via-pink-50/30 to-rose-50/50">
      <div className="max-w-7xl mx-auto px-4 sm:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
        <div className="order-2 lg:order-1">
@@ -159,9 +159,9 @@ export default function ParentsPersonalized() {
     {/* Success Story */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-gradient-to-r from-pink-50 to-rose-50 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-linear-to-r from-pink-50 to-rose-50 rounded-[32px] p-8 sm:p-12">
        <div className="flex items-start space-x-4">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
          <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">
           <CheckCircle className="w-6 h-6 text-pink-600" />
          </div>

@@ -38,7 +38,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
      <ul className="space-y-3 mb-8">
       {service.benefitsKeys.map((key, i) => (
        <li key={i} className="flex items-start text-sm text-foreground/90">
-        <span className="w-2 h-2 rounded-full bg-orange-400 mt-1.5 mr-3 flex-shrink-0" />
+        <span className="w-2 h-2 rounded-full bg-orange-400 mt-1.5 mr-3 shrink-0" />
         {t(key)}
        </li>
       ))}

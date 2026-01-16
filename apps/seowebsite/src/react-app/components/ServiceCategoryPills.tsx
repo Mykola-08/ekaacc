@@ -75,7 +75,7 @@ export default function ServiceCategoryPills() {
               <div className="relative z-10 flex flex-col justify-between h-full p-8 text-white">
                 {/* Top content */}
                 <div className="flex justify-between items-start">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} shadow-md`}>
+                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-linear-to-br ${service.color} shadow-md`}>
                     <span className="text-2xl font-light">{service.number}</span>
                   </div>
 

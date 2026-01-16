@@ -37,19 +37,19 @@ export default function PrivacyPolicy() {
        </h2>
        <div className="space-y-4 text-muted-foreground font-normal text-lg">
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Name:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Name:</span>
          <span>Olena Kucherova Dryzhak (EKA Balance)</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Address:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Address:</span>
          <span>Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Phone:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Phone:</span>
          <span>+34 658 867 133</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Email:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Email:</span>
          <a href="mailto:legal@ekabalance.com" className="text-blue-400 hover:text-blue-300 transition-colors font-medium border-b border-blue-400/20 hover:border-blue-400">
           legal@ekabalance.com
          </a>
@@ -64,21 +64,21 @@ export default function PrivacyPolicy() {
        </h2>
        <div className="bg-muted/50 backdrop-blur-sm rounded-2xl p-8 space-y-4 border border-border shadow-sm">
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Name:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Name:</span>
          <span className="text-muted-foreground">Olena Kucherova Dryzhak</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Address:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Address:</span>
          <span className="text-muted-foreground">Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Email:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Email:</span>
          <a href="mailto:dpo@ekabalance.com" className="text-blue-400 hover:text-blue-300 transition-colors font-medium">
           dpo@ekabalance.com
          </a>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-         <span className="font-semibold text-foreground w-32 flex-shrink-0">Phone:</span>
+         <span className="font-semibold text-foreground w-32 shrink-0">Phone:</span>
          <span className="text-muted-foreground">+34 658 867 133</span>
         </div>
        </div>
@@ -101,27 +101,27 @@ export default function PrivacyPolicy() {
          <h3 className="text-lg font-semibold text-foreground mb-2">1.1 Personal Identification Data</h3>
          <ul className="space-y-3 text-muted-foreground">
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Full name
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Username
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Email address
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Phone number
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Postal address
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Date of birth
           </li>
          </ul>
@@ -132,19 +132,19 @@ export default function PrivacyPolicy() {
          <p className="text-muted-foreground mb-4">We may collect special categories of personal data where permitted by law, including:</p>
          <ul className="space-y-3 text-muted-foreground">
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Health information
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Physical condition, pain indicators, wellness data
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Biometric identifiers
           </li>
           <li className="flex items-start">
-           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+           <span className="w-2 h-2 bg-red-400 rounded-full mt-2 mr-3 shrink-0"></span>
            Mental and emotional health insights
           </li>
          </ul>

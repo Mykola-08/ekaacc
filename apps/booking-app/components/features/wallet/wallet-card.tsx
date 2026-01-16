@@ -9,7 +9,6 @@ import { formatCurrency } from '@/lib/utils';
 import { WALLET_PRODUCTS } from '@/lib/stripe-products';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Dummy hook - replace with actual API integration
 const useWallet = () => {
@@ -18,12 +17,12 @@ const useWallet = () => {
     balance: 0,
     currency: 'EUR',
     isLoading: false,
-    transactions: [] 
+    transactions: [] as any[]
   };
 };
 
 export function WalletCard() {
-  const { balance, currency, isLoading } = useWallet();
+  const { balance, currency } = useWallet();
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -54,7 +53,7 @@ export function WalletCard() {
 
   return (
     <Card className="w-full max-w-md border-border/50 shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/50 to-primary" />
+      <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-primary/50 to-primary" />
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">

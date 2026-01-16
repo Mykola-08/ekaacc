@@ -92,7 +92,7 @@ export default function PricingPage() {
      {plans.map((plan) => (
       <Card 
        key={plan.id} 
-       className={`flex flex-col relative overflow-hidden transition-all duration-300 border h-full rounded-[32px] hover:shadow-xl
+       className={`flex flex-col relative overflow-hidden transition-all duration-300 border h-full rounded-3xl hover:shadow-xl
         ${plan.popular 
           ? 'bg-white/80 backdrop-blur-md border-primary/30 shadow-lg ring-1 ring-primary/20 transform scale-105 z-10' 
           : 'bg-white/40 backdrop-blur-sm border-white/40 hover:bg-white/60 shadow-sm'

@@ -38,7 +38,7 @@ export default function AboutElena() {
        transition={{ duration: 0.8 }}
       >
        <div className="relative group">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-emerald-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-linear-to-tr from-blue-200 to-emerald-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
         <img
          src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
          alt="Elena Kuchera"

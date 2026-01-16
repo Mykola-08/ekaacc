@@ -13,7 +13,7 @@ if (!STRIPE_SECRET_KEY || !SUPABASE_URL || !SUPABASE_KEY) {
 }
 
 const stripe = new Stripe(STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-01-27.acacia',
+  apiVersion: '2025-01-27.acacia' as any,
 });
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 

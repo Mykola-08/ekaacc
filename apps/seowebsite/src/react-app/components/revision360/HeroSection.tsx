@@ -16,7 +16,7 @@ export default function HeroSection() {
       {/* Ethereal Energy Background */}
       <div className="absolute inset-0 overflow-hidden">
         {/* Deep atmospheric gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900 via-black to-zinc-900 opacity-90" />
+        <div className="absolute inset-0 bg-linear-to-b from-zinc-900 via-black to-zinc-900 opacity-90" />
         
         {/* Animated glowing orbs */}
         <motion.div 
@@ -100,7 +100,7 @@ export default function HeroSection() {
             href={`https://wa.me/34658867133?text=${encodeURIComponent(t('whatsapp.booking'))}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-block px-8 sm:px-12 py-3 sm:py-4 bg-gradient-to-r from-amber-500 to-yellow-400 text-foreground font-semibold text-base sm:text-lg rounded-full shadow-lg shadow-amber-500/30 transition-all duration-300"
+            className="group relative inline-block px-8 sm:px-12 py-3 sm:py-4 bg-linear-to-r from-amber-500 to-yellow-400 text-foreground font-semibold text-base sm:text-lg rounded-full shadow-lg shadow-amber-500/30 transition-all duration-300"
             onMouseEnter={() => setShowTooltip(true)}
             onMouseLeave={() => setShowTooltip(false)}
             whileHover={{ 
@@ -112,7 +112,7 @@ export default function HeroSection() {
           >
             <span className="relative z-10">{t('hero.cta')}</span>
             <motion.div 
-              className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
+              className="absolute inset-0 bg-linear-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ opacity: 0 }}
               whileHover={{ opacity: 1 }}
               transition={{ duration: 0.3 }}

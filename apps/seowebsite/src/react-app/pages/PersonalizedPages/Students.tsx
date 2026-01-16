@@ -33,7 +33,7 @@ export default function StudentsPersonalized() {
       url="https://ekabalance.com/for-students"
     >
         {/* Hero Section */}
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-blue-50 to-indigo-100">
+        <section className="py-16 sm:py-24 bg-linear-to-br from-blue-50 to-indigo-100">
           <div className="max-w-6xl mx-auto px-4 sm:px-8">
             <div className="text-center mb-12">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-8">
@@ -142,9 +142,9 @@ export default function StudentsPersonalized() {
         {/* Success Story */}
         <section className="py-16 bg-card">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-3xl p-8 sm:p-12">
+            <div className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-3xl p-8 sm:p-12">
               <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                     <CheckCircle className="w-6 h-6 text-blue-600" />
                   </div>

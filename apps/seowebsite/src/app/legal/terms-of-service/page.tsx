@@ -40,19 +40,19 @@ export default function TermsOfService() {
        </p>
        <ul className="space-y-3 text-muted-foreground mb-6">
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          The collection, processing, and storage of your personal data as described in our Privacy Policy
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          The use of cookies and similar technologies as described in our Cookie Policy
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          International transfers of your data as outlined in our Privacy Policy
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          Our data processing activities for the purposes described in our Privacy Policy
         </li>
        </ul>
@@ -71,27 +71,27 @@ export default function TermsOfService() {
        </p>
        <ul className="space-y-3 text-muted-foreground mb-8">
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          You are at least 18 years old, or if you are 16-18 years old, you have obtained parental consent to use our Services
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          You have the legal capacity to enter into binding agreements
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          You will provide accurate and complete information
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          You will comply with all applicable laws and regulations, including data protection laws
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          You understand and accept our data processing practices as described in our Privacy Policy
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-blue-400 rounded-full mt-2 mr-3 shrink-0"></span>
          You have the authority to provide any personal data you share with us and that such data does not infringe upon the rights of any third party
         </li>
        </ul>
@@ -112,19 +112,19 @@ export default function TermsOfService() {
        </p>
        <ul className="space-y-3 text-muted-foreground mb-6">
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 shrink-0"></span>
          Informational and educational in nature
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 shrink-0"></span>
          Not intended as medical diagnosis or treatment
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 shrink-0"></span>
          Not a substitute for professional medical advice
         </li>
         <li className="flex items-start">
-         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+         <span className="w-2 h-2 bg-green-400 rounded-full mt-2 mr-3 shrink-0"></span>
          Provided as complementary wellness support
         </li>
        </ul>
@@ -149,19 +149,19 @@ export default function TermsOfService() {
          <h3 className="text-xl font-semibold text-foreground mb-4">Data Protection Officer (DPO)</h3>
          <div className="space-y-3 text-muted-foreground text-lg">
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Name:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Name:</span>
            <span>Olena Kucherova Dryzhak</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Email:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Email:</span>
            <a href="mailto:dpo@ekabalance.com" className="text-blue-400 hover:text-blue-300">dpo@ekabalance.com</a>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Phone:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Phone:</span>
            <span>+34 658 867 133</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Address:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Address:</span>
            <span>Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
           </div>
          </div>
@@ -174,15 +174,15 @@ export default function TermsOfService() {
          <h3 className="text-xl font-semibold text-foreground mb-4">Legal and General Inquiries</h3>
          <div className="space-y-3 text-muted-foreground text-lg">
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Email:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Email:</span>
            <a href="mailto:legal@ekabalance.com" className="text-blue-400 hover:text-blue-300">legal@ekabalance.com</a>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Address:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Address:</span>
            <span>Calle Plata 1, 08191 Rubí, Barcelona, Spain</span>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-0">
-           <span className="font-semibold text-foreground w-32 flex-shrink-0">Phone:</span>
+           <span className="font-semibold text-foreground w-32 shrink-0">Phone:</span>
            <span>+34 658 867 133</span>
           </div>
          </div>

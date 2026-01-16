@@ -196,7 +196,7 @@ export default function ContactFormOptimized() {
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-2xl mx-auto"
       >
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-12 text-center border border-green-100 shadow-lg">
+        <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-3xl p-12 text-center border border-green-100 shadow-lg">
           <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -253,7 +253,7 @@ export default function ContactFormOptimized() {
                 transition={{ delay: index * 0.1 }}
                 className="flex items-start space-x-4 p-6 bg-card rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
               >
-                <div className={`w-12 h-12 bg-${item.color}-50 rounded-xl flex items-center justify-center flex-shrink-0`}>
+                <div className={`w-12 h-12 bg-${item.color}-50 rounded-xl flex items-center justify-center shrink-0`}>
                   <item.icon className={`w-6 h-6 text-${item.color}-600`} />
                 </div>
                 <div>
@@ -277,10 +277,10 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100"
+            className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100"
           >
             <div className="flex items-start space-x-3">
-              <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
+              <Clock className="w-6 h-6 text-blue-600 mt-1 shrink-0" />
               <div>
                 <h4 className="font-medium text-foreground mb-3 text-lg">{t('contact.hours.title')}</h4>
                 <div className="space-y-2 text-sm">

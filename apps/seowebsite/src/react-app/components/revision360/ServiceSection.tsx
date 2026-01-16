@@ -96,7 +96,7 @@ export default function ServiceSection() {
           transition={{ duration: 0.3 }}
         >
           <motion.h2 
-            className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 leading-tight tracking-tight"
+            className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-linear-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 leading-tight tracking-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -119,7 +119,7 @@ export default function ServiceSection() {
           {steps.map((step, index) => (
             <motion.div
               key={index}
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-zinc-800/50 to-zinc-700/30 border border-amber-500/20"
+              className="group relative overflow-hidden rounded-2xl bg-linear-to-r from-zinc-800/50 to-zinc-700/30 border border-amber-500/20"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -132,7 +132,7 @@ export default function ServiceSection() {
             >
               {/* Golden glow on hover */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-yellow-400/5"
+                className="absolute inset-0 bg-linear-to-r from-amber-500/5 to-yellow-400/5"
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
@@ -202,7 +202,7 @@ export default function ServiceSection() {
                             transition={{ duration: 0.3, delay: 0.1 * detailIndex }}
                           >
                             <motion.div 
-                              className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"
+                              className="w-2 h-2 bg-amber-400 rounded-full mt-2 shrink-0"
                               animate={{ 
                                 scale: [1, 1.2, 1],
                                 opacity: [0.7, 1, 0.7]
@@ -228,7 +228,7 @@ export default function ServiceSection() {
 
         {/* Total session info */}
         <motion.div 
-          className="mt-12 text-center p-8 bg-gradient-to-r from-amber-500/10 to-yellow-400/10 rounded-2xl border border-amber-500/30"
+          className="mt-12 text-center p-8 bg-linear-to-r from-amber-500/10 to-yellow-400/10 rounded-2xl border border-amber-500/30"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

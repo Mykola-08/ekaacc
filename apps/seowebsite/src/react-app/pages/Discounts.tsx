@@ -25,7 +25,7 @@ export default function Discounts() {
         description={t('discounts.pageDescription')}
       />
       
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-blue-50">
         {/* Success Message */}
         {showSuccess && (
           <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-4 rounded-2xl shadow-lg flex items-center space-x-3 animate-slide-in">
@@ -36,7 +36,7 @@ export default function Discounts() {
 
         {/* Active Discount Banner */}
         {selectedDiscount && (
-          <div className="bg-gradient-to-r from-green-500 to-green-600 text-white py-4">
+          <div className="bg-linear-to-r from-green-500 to-green-600 text-white py-4">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <Check className="w-5 h-5" />
@@ -57,9 +57,9 @@ export default function Discounts() {
 
         {/* Hero Section */}
         <section className="relative py-20 sm:py-32">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/5 to-purple-600/5" />
+          <div className="absolute inset-0 bg-linear-to-r from-blue-600/5 to-purple-600/5" />
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 text-center">
-            <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-medium mb-8">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-linear-to-r from-blue-100 to-purple-100 text-blue-700 text-sm font-medium mb-8">
               <Tag className="w-4 h-4 mr-2" />
               {t('discounts.badge')}
             </div>
@@ -93,12 +93,12 @@ export default function Discounts() {
                   className="group relative bg-card rounded-3xl p-8 sm:p-12 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden"
                 >
                   {/* Background Gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-linear-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   
                   {/* Discount Badge */}
                   <div className="relative flex items-start justify-between mb-8">
                     <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                         <Percent className="w-8 h-8 text-white" />
                       </div>
                       <div>
@@ -228,7 +228,7 @@ export default function Discounts() {
         {/* CTA Section */}
         <section className="py-16 sm:py-24">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 sm:p-12 text-white">
+            <div className="bg-linear-to-r from-blue-600 to-purple-600 rounded-3xl p-8 sm:p-12 text-white">
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
                 {t('discounts.cta.title')}
               </h2>

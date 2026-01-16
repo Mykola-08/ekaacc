@@ -134,7 +134,7 @@ export default function Layout({
           <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
             }`}>
             {/* Logo Only - Left Side */}
-            <Link to="/" className="flex items-center flex-shrink-0 group relative">
+            <Link to="/" className="flex items-center shrink-0 group relative">
               <Image
                 src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
                 alt="EKA Balance Logo"
@@ -224,7 +224,7 @@ export default function Layout({
                       <Link
                         to={item.href}
                         className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 ${item.isGold
-                            ? 'gold-shimmer font-black bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
+                            ? 'gold-shimmer font-black bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
                             : isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
                           }`}
                       >
@@ -237,7 +237,7 @@ export default function Layout({
             </div>
 
             {/* Right side actions */}
-            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+            <div className="flex items-center space-x-2 sm:space-x-4 shrink-0">
               {/* EKA Account Link - HIDDEN FOR NOW */}
 
               {/* Login / User Profile - HIDDEN FOR NOW

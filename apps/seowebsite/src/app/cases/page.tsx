@@ -166,7 +166,7 @@ export default function Casos() {
         className="group relative bg-white/60 backdrop-blur-sm rounded-[32px] p-8 hover:shadow-xl transition-all duration-300 border border-white/40 hover:border-primary/20 flex flex-col h-full overflow-hidden"
        >
         {/* Hover Gradient Background */}
-        <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-gradient-to-br from-white to-primary`} />
+        <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-linear-to-br from-white to-primary`} />
 
         <div className="relative z-10">
          <div className={`w-14 h-14 rounded-2xl ${colors.bg} ${colors.text} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110 group-hover:bg-primary group-hover:text-white`}>

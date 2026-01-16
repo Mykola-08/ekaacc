@@ -17,8 +17,8 @@ export default function AgenyzPage() {
             />
 
             {/* Hero Section - Unified Gradient */}
-            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+            <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+                <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
                 
                 <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -66,8 +66,8 @@ export default function AgenyzPage() {
                         </div>
 
                         <div className="order-1 lg:order-2">
-                             <div className="relative group aspect-[4/3]">
-                                <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-indigo-200 rounded-[2.5rem] blur-xl opacity-30 group-hover:opacity-50 transition-duration-500" />
+                             <div className="relative group aspect-4/3">
+                                <div className="absolute inset-0 bg-linear-to-tr from-blue-200 to-indigo-200 rounded-[2.5rem] blur-xl opacity-30 group-hover:opacity-50 transition-duration-500" />
                                 <Image
                                     src="https://images.pexels.com/photos/3618606/pexels-photo-3618606.jpeg?auto=compress&cs=tinysrgb&w=1200"
                                     alt="Advanced supplements and cellular nutrition"
@@ -104,7 +104,7 @@ export default function AgenyzPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div className="flex items-start space-x-6 p-8 bg-blue-50/50 rounded-3xl hover:bg-blue-50 transition-colors duration-300">
-                            <div className="flex-shrink-0 p-4 bg-blue-100 rounded-2xl text-blue-600">
+                            <div className="shrink-0 p-4 bg-blue-100 rounded-2xl text-blue-600">
                                 <Zap className="w-8 h-8" />
                             </div>
                             <div>
@@ -114,7 +114,7 @@ export default function AgenyzPage() {
                         </div>
 
                         <div className="flex items-start space-x-6 p-8 bg-purple-50/50 rounded-3xl hover:bg-purple-50 transition-colors duration-300">
-                            <div className="flex-shrink-0 p-4 bg-purple-100 rounded-2xl text-purple-600">
+                            <div className="shrink-0 p-4 bg-purple-100 rounded-2xl text-purple-600">
                                 <Shield className="w-8 h-8" />
                             </div>
                             <div>
@@ -124,7 +124,7 @@ export default function AgenyzPage() {
                         </div>
 
                         <div className="flex items-start space-x-6 p-8 bg-indigo-50/50 rounded-3xl hover:bg-indigo-50 transition-colors duration-300">
-                            <div className="flex-shrink-0 p-4 bg-indigo-100 rounded-2xl text-indigo-600">
+                            <div className="shrink-0 p-4 bg-indigo-100 rounded-2xl text-indigo-600">
                                 <Brain className="w-8 h-8" />
                             </div>
                             <div>
@@ -134,7 +134,7 @@ export default function AgenyzPage() {
                         </div>
 
                         <div className="flex items-start space-x-6 p-8 bg-pink-50/50 rounded-3xl hover:bg-pink-50 transition-colors duration-300">
-                            <div className="flex-shrink-0 p-4 bg-pink-100 rounded-2xl text-pink-600">
+                            <div className="shrink-0 p-4 bg-pink-100 rounded-2xl text-pink-600">
                                 <Sparkles className="w-8 h-8" />
                             </div>
                             <div>

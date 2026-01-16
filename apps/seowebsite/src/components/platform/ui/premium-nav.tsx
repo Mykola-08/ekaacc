@@ -14,7 +14,7 @@ const premiumNavVariants = cva(
         minimal: 'bg-transparent border-b border-neutral-100',
         elevated: 'bg-card shadow-lg shadow-neutral-100/50',
         dark: 'bg-neutral-900 border-b border-neutral-800',
-        gradient: 'bg-gradient-to-r from-primary-50 to-secondary-50 border-b border-primary-100',
+        gradient: 'bg-linear-to-r from-primary-50 to-secondary-50 border-b border-primary-100',
       },
       size: {
         sm: 'px-4 py-3',
@@ -267,7 +267,7 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
             onClick={onLogoClick}
           >
             {logo || (
-              <span className="font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+              <span className="font-bold bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
                 {logoText}
               </span>
             )}
@@ -431,7 +431,7 @@ const PremiumNavItem = ({
       premiumNavItemVariants({ variant, active: active || item.active }),
       "relative"
     )}>
-      {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+      {item.icon && <span className="shrink-0">{item.icon}</span>}
       <span>{item.label}</span>
       {item.dropdown && <ChevronDown className="w-3 h-3 transition-transform" />}
       {item.badge && (
@@ -466,7 +466,7 @@ const PremiumNavItem = ({
               onClick={dropdownItem.onClick}
               className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
             >
-              {dropdownItem.icon && <span className="flex-shrink-0">{dropdownItem.icon}</span>}
+              {dropdownItem.icon && <span className="shrink-0">{dropdownItem.icon}</span>}
               <span>{dropdownItem.label}</span>
               {dropdownItem.external && <ExternalLink className="w-3 h-3 ml-auto" />}
             </Link>
@@ -489,7 +489,7 @@ const MobileNavItem = ({
       premiumNavItemVariants({ variant }),
       "w-full"
     )}>
-      {item.icon && <span className="flex-shrink-0">{item.icon}</span>}
+      {item.icon && <span className="shrink-0">{item.icon}</span>}
       <span>{item.label}</span>
       {item.badge && (
         <span className="px-1.5 py-0.5 text-xs font-medium bg-primary-100 text-primary-700 rounded-full ml-auto">

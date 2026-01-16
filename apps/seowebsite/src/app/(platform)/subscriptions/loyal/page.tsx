@@ -212,7 +212,7 @@ export default function LoyalSubscriptionPage() {
          <div className="space-y-3">
           {plan.features.map((feature, idx) => (
            <div key={idx} className="flex items-start gap-2">
-            <Check className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+            <Check className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
             <span className="text-sm">{feature}</span>
            </div>
           ))}

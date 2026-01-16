@@ -21,8 +21,8 @@ export default function OfficeWorkers() {
    />
    
    {/* Hero Section */}
-   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div className="order-2 lg:order-1">
@@ -53,7 +53,7 @@ export default function OfficeWorkers() {
         <LazyImage
          src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&h=1080&fit=crop"
          alt={t('nav.officeWorkers')}
-         className="w-full h-[400px] sm:h-[500px] object-cover rounded-[32px] shadow-2xl"
+         className="w-full h-100 sm:h-125 object-cover rounded-3xl shadow-2xl"
         />
        </div>
       </div>
@@ -72,21 +72,21 @@ export default function OfficeWorkers() {
        </h2>
        <div className="space-y-6">
         <div className="flex items-start">
-         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
          <div>
           <h3 className="font-semibold text-foreground mb-2">{t('office.problems.pain.title')}</h3>
           <p className="text-muted-foreground">{t('office.problems.pain.desc')}</p>
          </div>
         </div>
         <div className="flex items-start">
-         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
          <div>
           <h3 className="font-semibold text-foreground mb-2">{t('office.problems.stress.title')}</h3>
           <p className="text-muted-foreground">{t('office.problems.stress.desc')}</p>
          </div>
         </div>
         <div className="flex items-start">
-         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+         <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
          <div>
           <h3 className="font-semibold text-foreground mb-2">{t('office.problems.sedentary.title')}</h3>
           <p className="text-muted-foreground">{t('office.problems.sedentary.desc')}</p>
@@ -102,21 +102,21 @@ export default function OfficeWorkers() {
        </h2>
        <div className="space-y-6">
         <div className="flex items-start">
-         <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+         <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 shrink-0"></div>
          <div>
           <h3 className="font-semibold text-foreground mb-2">{t('office.benefits.techniques.title')}</h3>
           <p className="text-muted-foreground">{t('office.benefits.techniques.desc')}</p>
          </div>
         </div>
         <div className="flex items-start">
-         <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+         <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 shrink-0"></div>
          <div>
           <h3 className="font-semibold text-foreground mb-2">{t('office.benefits.exercises.title')}</h3>
           <p className="text-muted-foreground">{t('office.benefits.exercises.desc')}</p>
          </div>
         </div>
         <div className="flex items-start">
-         <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+         <div className="w-3 h-3 bg-green-500 rounded-full mt-2 mr-4 shrink-0"></div>
          <div>
           <h3 className="font-semibold text-foreground mb-2">{t('office.benefits.mindfulness.title')}</h3>
           <p className="text-muted-foreground">{t('office.benefits.mindfulness.desc')}</p>
@@ -161,7 +161,7 @@ export default function OfficeWorkers() {
    <section className="apple-section bg-card">
     <div className="apple-container-sm">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div className="squircle-image aspect-[4/3] relative">
+      <div className="squircle-image aspect-4/3 relative">
        <Image
         src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop"
         alt="Sessió de massatge terapèutic per a treballadors d'oficina"

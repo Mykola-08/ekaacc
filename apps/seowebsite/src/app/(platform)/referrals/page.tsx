@@ -192,7 +192,7 @@ export default function ReferralsPage() {
    </div>
 
    {/* Referral Link Card */}
-   <Card className="bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+   <Card className="bg-linear-to-br from-primary/10 to-primary/5 border-primary/20">
     <CardHeader>
      <CardTitle className="flex items-center gap-2">
       <Share2 className="h-5 w-5" />

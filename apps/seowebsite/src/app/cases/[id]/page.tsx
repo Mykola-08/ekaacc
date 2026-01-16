@@ -82,7 +82,7 @@ export default function CasoDetailPage() {
   <div className="min-h-screen bg-card">
    
    {/* Hero Section */}
-   <div className="relative pt-32 pb-20 overflow-hidden bg-gradient-to-b from-gray-50 to-white border-b border-gray-100/50">
+   <div className="relative pt-32 pb-20 overflow-hidden bg-linear-to-b from-gray-50 to-white border-b border-gray-100/50">
     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-40" />
     <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
      
@@ -110,7 +110,7 @@ export default function CasoDetailPage() {
      
      {/* Symptoms */}
      <div className="relative">
-      <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-red-200 to-transparent rounded-full opacity-50" />
+      <div className="absolute -left-4 top-0 bottom-0 w-1 bg-linear-to-b from-red-200 to-transparent rounded-full opacity-50" />
       <h2 className="text-2xl font-light text-foreground mb-6 flex items-center">
        <span className="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center mr-3 text-sm font-bold">1</span>
        {t('casos.symptoms')}
@@ -118,7 +118,7 @@ export default function CasoDetailPage() {
       <ul className="space-y-4">
        {symptoms.map((item, idx) => (
         <li key={idx} className="flex items-start bg-muted/30 p-4 rounded-xl">
-         <span className="w-1.5 h-1.5 mt-2 rounded-full bg-red-400 mr-3 flex-shrink-0" />
+         <span className="w-1.5 h-1.5 mt-2 rounded-full bg-red-400 mr-3 shrink-0" />
          <span className="text-foreground/90">{item}</span>
         </li>
        ))}
@@ -127,7 +127,7 @@ export default function CasoDetailPage() {
 
      {/* Causes */}
      <div className="relative">
-      <div className="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-200 to-transparent rounded-full opacity-50" />
+      <div className="absolute -left-4 top-0 bottom-0 w-1 bg-linear-to-b from-orange-200 to-transparent rounded-full opacity-50" />
       <h2 className="text-2xl font-light text-foreground mb-6 flex items-center">
         <span className="w-8 h-8 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center mr-3 text-sm font-bold">2</span>
        {t('casos.causes')}
@@ -135,7 +135,7 @@ export default function CasoDetailPage() {
       <ul className="space-y-4">
        {causes.map((item, idx) => (
         <li key={idx} className="flex items-start bg-muted/30 p-4 rounded-xl">
-         <span className="w-1.5 h-1.5 mt-2 rounded-full bg-orange-400 mr-3 flex-shrink-0" />
+         <span className="w-1.5 h-1.5 mt-2 rounded-full bg-orange-400 mr-3 shrink-0" />
          <span className="text-foreground/90">{item}</span>
         </li>
        ))}

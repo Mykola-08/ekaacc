@@ -43,7 +43,7 @@ export function TierProgressIndicator({
           <div
             className={cn(
               'absolute top-0 left-0 h-full transition-all duration-500 ease-out rounded-full',
-              isComplete ? 'bg-green-500' : 'bg-gradient-to-r from-blue-500 to-purple-500',
+              isComplete ? 'bg-green-500' : 'bg-linear-to-r from-blue-500 to-purple-500',
               animated && 'animate-pulse'
             )}
             style={{ width: `${progressPercentage}%` }}
@@ -85,9 +85,9 @@ export function TierProgressIndicator({
                 )}
               >
                 {index < Math.ceil(requirements.length * (currentProgress / targetProgress)) ? (
-                  <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                  <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
                 ) : (
-                  <Circle className="h-4 w-4 text-muted-foreground/80 flex-shrink-0" />
+                  <Circle className="h-4 w-4 text-muted-foreground/80 shrink-0" />
                 )}
                 
                 <span className={cn(
@@ -118,7 +118,7 @@ export function TierProgressIndicator({
                 key={index}
                 className="flex items-center gap-3 p-2 rounded-lg bg-muted border border-border"
               >
-                <Lock className="h-3 w-3 text-muted-foreground/80 flex-shrink-0" />
+                <Lock className="h-3 w-3 text-muted-foreground/80 shrink-0" />
                 <span className="text-xs text-muted-foreground">{requirement}</span>
               </div>
             ))}
@@ -258,7 +258,7 @@ export function TierBenefitsList({
               key={index}
               className="flex items-start gap-3 p-3 bg-green-50 border border-green-200 rounded-lg"
             >
-              <div className="flex-shrink-0 mt-0.5">
+              <div className="shrink-0 mt-0.5">
                 {benefit.icon || <CheckCircle className="h-4 w-4 text-green-500" />}
               </div>
               
@@ -285,7 +285,7 @@ export function TierBenefitsList({
                 key={index}
                 className="flex items-start gap-3 p-3 bg-muted/30 border border-border rounded-lg opacity-60"
               >
-                <div className="flex-shrink-0 mt-0.5">
+                <div className="shrink-0 mt-0.5">
                   <Lock className="h-4 w-4 text-muted-foreground/80" />
                 </div>
                 

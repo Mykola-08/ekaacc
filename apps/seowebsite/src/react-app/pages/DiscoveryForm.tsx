@@ -547,7 +547,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
           description={t('discovery.recommendation.subtitle')}
         />
 
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 min-h-screen">
+        <section className="py-16 sm:py-24 bg-linear-to-br from-white via-gray-50/50 to-blue-50/30 min-h-screen">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
             <div className="text-center mb-12">
               <div className="inline-flex items-center px-6 py-3 bg-green-100 rounded-full mb-8">
@@ -635,7 +635,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
                     <div className="grid grid-cols-2 gap-3">
                       {recommendation.benefits.map((benefit, index) => (
                         <div key={index} className="flex items-center text-foreground/90">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full mr-3 flex-shrink-0"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full mr-3 shrink-0"></div>
                           {benefit}
                         </div>
                       ))}
@@ -771,7 +771,7 @@ ${t('booking.whatsapp.time', { time: selectedTime })}`;
         description="Formulari personalitzat per trobar el servei de teràpia holística que millor s'adapti a les teves necessitats específiques."
       />
 
-      <section className="py-16 sm:py-24 bg-gradient-to-br from-white via-gray-50/50 to-blue-50/30 min-h-screen">
+      <section className="py-16 sm:py-24 bg-linear-to-br from-white via-gray-50/50 to-blue-50/30 min-h-screen">
         <div className="max-w-4xl mx-auto px-4 sm:px-8">
           {/* Header */}
           <div className="text-center mb-12">

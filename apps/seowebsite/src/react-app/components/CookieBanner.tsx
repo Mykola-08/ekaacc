@@ -55,7 +55,7 @@ export default function CookieBanner() {
       <div className="max-w-4xl mx-auto">
         <div className="bg-card/95 backdrop-blur-lg border border-border rounded-2xl shadow-xl p-6 sm:p-8">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 mt-1">
+            <div className="shrink-0 mt-1">
               <div className="w-10 h-10 bg-muted rounded-full flex items-center justify-center">
                 <Cookie className="w-5 h-5 text-muted-foreground" />
               </div>
@@ -96,7 +96,7 @@ export default function CookieBanner() {
 
             <button
               onClick={acceptCookies}
-              className="flex-shrink-0 p-2 text-muted-foreground/80 hover:text-muted-foreground transition-colors duration-200"
+              className="shrink-0 p-2 text-muted-foreground/80 hover:text-muted-foreground transition-colors duration-200"
               aria-label="Close cookie banner"
             >
               <X className="w-5 h-5" aria-hidden="true" />

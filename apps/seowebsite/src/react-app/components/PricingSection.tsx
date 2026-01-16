@@ -230,7 +230,7 @@ export default function PricingSection() {
                   <ul className="space-y-3 mb-8">
                     {plan.features.map((feature: string, featureIndex: number) => (
                       <li key={featureIndex} className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 shrink-0 mt-0.5" />
                         <span className="text-sm text-muted-foreground">
                           {feature}
                         </span>

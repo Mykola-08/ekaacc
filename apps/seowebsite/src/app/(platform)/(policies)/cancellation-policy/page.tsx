@@ -172,7 +172,7 @@ export default function CancellationPolicy() {
      <div className="space-y-8">
       {content[language].sections.map((section, index) => (
        <div key={index} className="flex items-start p-6 bg-muted/30 rounded-xl hover:shadow-md transition-shadow">
-        <div className="flex-shrink-0 mt-1 bg-card p-3 rounded-full shadow-sm">
+        <div className="shrink-0 mt-1 bg-card p-3 rounded-full shadow-sm">
          {section.icon}
         </div>
         <div className="ml-6">

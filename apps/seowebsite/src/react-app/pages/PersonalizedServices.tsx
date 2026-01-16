@@ -19,8 +19,8 @@ export default function PersonalizedServices() {
       />
       
       {/* Unified Gradient Hero */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -28,14 +28,14 @@ export default function PersonalizedServices() {
             transition={{ duration: 0.3 }}
           >
              <div className="inline-flex items-center px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8">
-              <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent uppercase tracking-wider">
+              <span className="text-sm font-medium bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent uppercase tracking-wider">
                 {t('personalizedServices.title')}
               </span>
             </div>
 
             <h1 className="text-5xl lg:text-7xl font-light text-foreground mb-8 tracking-tight leading-tight">
               {t('services.therapiesFor')}{' '}
-              <span className="font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              <span className="font-medium bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 {t('services.integralWellbeing')}
               </span>
             </h1>
@@ -89,9 +89,9 @@ export default function PersonalizedServices() {
                             <LazyImage 
                               src={service.image} 
                               alt={t(service.titleKey)}
-                              className="w-full h-auto object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105" 
+                              className="w-full h-auto object-cover aspect-4/3 transition-transform duration-700 group-hover:scale-105" 
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover:from-black/50 transition-colors duration-500"></div>
+                            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent group-hover:from-black/50 transition-colors duration-500"></div>
                             
                             {/* Floating Badge */}
                             <div className="absolute bottom-6 left-6 right-6">

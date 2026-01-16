@@ -139,7 +139,7 @@ export function TierBadgeGradient({
     <div
       className={cn(
         'inline-flex items-center justify-center rounded-full font-bold text-white shadow-lg transition-all duration-300 hover:shadow-xl',
-        'bg-gradient-to-r',
+        'bg-linear-to-r',
         config.gradient,
         sizeClasses.padding,
         sizeClasses.gap,
@@ -227,7 +227,7 @@ export function TierBadgeWithProgress({
         <div
           className={cn(
             'h-full transition-all duration-300',
-            'bg-gradient-to-r',
+            'bg-linear-to-r',
             config.gradient
           )}
           style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}

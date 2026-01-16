@@ -106,7 +106,7 @@ export default function VariantsSection() {
     <section className="py-24 sm:py-32 bg-black relative overflow-hidden">
       {/* Ambient Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-amber-900/5 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-amber-900/5 rounded-full blur-[120px]" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -118,7 +118,7 @@ export default function VariantsSection() {
           transition={{ duration: 0.3 }}
         >
           <motion.h2 
-            className="text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-6 tracking-tight"
+            className="text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-linear-to-r from-amber-100 via-amber-200 to-amber-400 mb-6 tracking-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -161,7 +161,7 @@ export default function VariantsSection() {
             >
               {/* Golden frame effect */}
               <motion.div 
-                className="absolute -inset-0.5 bg-gradient-to-r from-amber-500/0 via-amber-400/10 to-amber-500/0 rounded-3xl blur-md"
+                className="absolute -inset-0.5 bg-linear-to-r from-amber-500/0 via-amber-400/10 to-amber-500/0 rounded-3xl blur-md"
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
@@ -201,7 +201,7 @@ export default function VariantsSection() {
                 </motion.p>
                 
                 <motion.p 
-                  className="text-zinc-300 text-sm leading-relaxed mb-6 flex-grow"
+                  className="text-zinc-300 text-sm leading-relaxed mb-6 grow"
                   initial={{ opacity: 0, y: 8 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -277,7 +277,7 @@ export default function VariantsSection() {
                 <ul className="space-y-2">
                   {selectedVariant.idealFor.map((item, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0" />
+                      <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 shrink-0" />
                       <span className="text-zinc-300 text-sm">{item}</span>
                     </li>
                   ))}
@@ -289,7 +289,7 @@ export default function VariantsSection() {
                 <ul className="space-y-2">
                   {selectedVariant.includes.map((item, index) => (
                     <li key={index} className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0" />
+                      <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 shrink-0" />
                       <span className="text-zinc-300 text-sm">{item}</span>
                     </li>
                   ))}

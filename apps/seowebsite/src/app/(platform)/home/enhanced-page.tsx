@@ -268,7 +268,7 @@ export default function PatientDashboardPage() {
          className="group"
         >
          <div className="text-center p-8 rounded-2xl bg-card/50 dark:bg-primary/90/50 backdrop-blur-sm border border-white/20 dark:border-slate-700/50 hover:bg-card/70 dark:hover:bg-primary/90/70 transition-all duration-300 group-hover:shadow-2xl">
-          <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mx-auto mb-6 group-hover:opacity-90 transition-opacity shadow-lg`}>
+          <div className={`w-16 h-16 rounded-2xl bg-linear-to-br ${feature.color} flex items-center justify-center mx-auto mb-6 group-hover:opacity-90 transition-opacity shadow-lg`}>
            <feature.icon className="h-8 w-8 text-white" />
           </div>
           <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>

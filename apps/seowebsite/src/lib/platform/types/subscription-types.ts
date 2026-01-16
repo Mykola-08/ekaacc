@@ -674,7 +674,7 @@ export const DEFAULT_SUBSCRIPTION_TIERS: Omit<SubscriptionTier, 'id' | 'createdA
     },
     badge: {
       text: 'VIP',
-      bgColor: 'bg-gradient-to-r from-purple-600 to-pink-600',
+      bgColor: 'bg-linear-to-r from-purple-600 to-pink-600',
       textColor: 'text-white',
       icon: 'crown',
       gradient: true,
@@ -720,7 +720,7 @@ export const EXTENDED_VIP_TIERS: Omit<VIPTierDetails, 'id' | 'createdAt' | 'upda
     },
     badge: {
       text: 'VIP SILVER',
-      bgColor: 'bg-gradient-to-r from-gray-400 to-gray-600',
+      bgColor: 'bg-linear-to-r from-gray-400 to-gray-600',
       textColor: 'text-white',
       icon: 'star',
       gradient: true,
@@ -791,7 +791,7 @@ export const EXTENDED_VIP_TIERS: Omit<VIPTierDetails, 'id' | 'createdAt' | 'upda
     },
     badge: {
       text: 'VIP GOLD',
-      bgColor: 'bg-gradient-to-r from-yellow-400 to-yellow-600',
+      bgColor: 'bg-linear-to-r from-yellow-400 to-yellow-600',
       textColor: 'text-white',
       icon: 'crown',
       gradient: true,
@@ -864,7 +864,7 @@ export const EXTENDED_VIP_TIERS: Omit<VIPTierDetails, 'id' | 'createdAt' | 'upda
     },
     badge: {
       text: 'VIP PLATINUM',
-      bgColor: 'bg-gradient-to-r from-purple-600 to-pink-600',
+      bgColor: 'bg-linear-to-r from-purple-600 to-pink-600',
       textColor: 'text-white',
       icon: 'crown',
       gradient: true,
@@ -979,7 +979,7 @@ export const EXTENDED_LOYALTY_TIERS: Omit<LoyaltyTierDetails, 'id' | 'createdAt'
     },
     badge: {
       text: 'ELITE',
-      bgColor: 'bg-gradient-to-r from-red-500 to-orange-500',
+      bgColor: 'bg-linear-to-r from-red-500 to-orange-500',
       textColor: 'text-white',
       icon: 'gem',
       gradient: true,

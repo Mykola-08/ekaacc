@@ -66,7 +66,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
 
    {/* Hero Section */}
    <div className="relative bg-background pt-32 pb-20 px-6 overflow-hidden">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
      <motion.div 
@@ -118,7 +118,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
        transition={{ duration: 0.6, delay: 0.2 }}
        className="relative"
      >
-      <div className="relative rounded-[32px] overflow-hidden shadow-2xl border-none border-white aspect-[4/3]">
+      <div className="relative rounded-3xl overflow-hidden shadow-2xl border-none border-white aspect-4/3">
         <LazyImage
          src={service.image_url}
          alt={title}
@@ -167,7 +167,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
         </div>
        </div>
        {meta.longDescription && (
-         <div className="bg-white/60 backdrop-blur-md p-8 rounded-[32px] border border-white/40 shadow-sm leading-relaxed">
+         <div className="bg-white/60 backdrop-blur-md p-8 rounded-3xl border border-white/40 shadow-sm leading-relaxed">
            <p className="text-muted-foreground font-light text-lg">
              {getText(meta.longDescription)}
            </p>
@@ -185,7 +185,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
          <h2 className="text-3xl font-light text-center mb-12 text-foreground">{t('common.testimonials') || 'What clients say'}</h2>
          <div className="grid md:grid-cols-2 gap-8">
            {testimonials.map((test, i) => (
-             <div key={i} className="bg-white/60 backdrop-blur-md p-8 rounded-[32px] shadow-sm border border-white/40 hover:shadow-md transition-all">
+             <div key={i} className="bg-white/60 backdrop-blur-md p-8 rounded-3xl shadow-sm border border-white/40 hover:shadow-md transition-all">
                 <div className="flex gap-1 mb-4">
                   {[...Array(test.rating)].map((_, r) => (
                     <Star key={r} className="w-4 h-4 text-primary fill-current opacity-80" />

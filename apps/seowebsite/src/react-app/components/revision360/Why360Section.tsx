@@ -62,7 +62,7 @@ export default function Why360Section() {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-zinc-900/50 via-black to-black" />
         <motion.div 
-          className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-amber-900/10 rounded-full blur-[120px]"
+          className="absolute top-0 left-1/4 w-200 h-200 bg-amber-900/10 rounded-full blur-[120px]"
           animate={{ 
             scale: [1, 1.1, 1],
             opacity: [0.2, 0.3, 0.2],
@@ -74,7 +74,7 @@ export default function Why360Section() {
           }}
         />
         <motion.div 
-          className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-yellow-900/10 rounded-full blur-[100px]"
+          className="absolute bottom-0 right-1/4 w-150 h-150 bg-yellow-900/10 rounded-full blur-[100px]"
           animate={{ 
             scale: [1.1, 1, 1.1],
             opacity: [0.2, 0.3, 0.2],
@@ -105,7 +105,7 @@ export default function Why360Section() {
             <span className="text-xs uppercase tracking-widest text-amber-300 font-medium">Complete Integration</span>
           </motion.div>
           
-          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-thin text-transparent bg-clip-text bg-gradient-to-b from-amber-100 via-amber-200 to-amber-500 mb-8 tracking-tight leading-[0.9]">
+          <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-thin text-transparent bg-clip-text bg-linear-to-b from-amber-100 via-amber-200 to-amber-500 mb-8 tracking-tight leading-[0.9]">
             {t('why360.title')}
           </h2>
           
@@ -168,7 +168,7 @@ export default function Why360Section() {
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 />
-                <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-zinc-900 to-black border border-amber-500/30 flex flex-col items-center justify-center shadow-2xl backdrop-blur-xl group-hover:border-amber-400/50 transition-colors duration-300">
+                <div className="relative w-32 h-32 rounded-full bg-linear-to-br from-zinc-900 to-black border border-amber-500/30 flex flex-col items-center justify-center shadow-2xl backdrop-blur-xl group-hover:border-amber-400/50 transition-colors duration-300">
                   <span className="text-4xl font-light text-amber-100">360°</span>
                   <span className="text-[10px] uppercase tracking-widest text-amber-500/80 mt-1">Balance</span>
                 </div>
@@ -192,7 +192,7 @@ export default function Why360Section() {
                   onMouseLeave={() => setHoveredLayer(null)}
                 >
                   {/* Hover Glow Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-r ${layer.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                  <div className={`absolute inset-0 bg-linear-to-r ${layer.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                   
                   <div className="relative flex items-start gap-5">
                     <div className={`mt-1 p-2 rounded-xl bg-black/40 border border-white/10 ${isHovered ? 'border-amber-500/20' : ''} transition-colors duration-300`}>
@@ -224,7 +224,7 @@ export default function Why360Section() {
                 onClick={() => setShowModal(true)}
                 className="group relative w-full sm:w-auto px-8 py-4 bg-primary text-primary-foreground font-medium rounded-full overflow-hidden border border-amber-500/20 hover:border-amber-500/50 transition-all duration-300"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-r from-amber-500/10 via-yellow-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <span className="relative flex items-center justify-center gap-3">
                   <Sparkles className="w-4 h-4 text-amber-400" />
                   {t('why360.philosophy')}

@@ -69,7 +69,7 @@ export default function FinalInvitationSection() {
           transition={{ duration: 0.3 }}
         >
           <motion.h2 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 tracking-tight leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light text-transparent bg-clip-text bg-linear-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 tracking-tight leading-tight"
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -98,7 +98,7 @@ export default function FinalInvitationSection() {
           transition={{ duration: 0.3, delay: 0.3 }}
         >
           <motion.div 
-            className="absolute -inset-4 bg-gradient-to-r from-amber-500/30 via-yellow-400/30 to-amber-500/30 rounded-full blur-lg"
+            className="absolute -inset-4 bg-linear-to-r from-amber-500/30 via-yellow-400/30 to-amber-500/30 rounded-full blur-lg"
             animate={isHovered ? { 
               opacity: 1,
               scale: 1.1
@@ -113,7 +113,7 @@ export default function FinalInvitationSection() {
             href={`https://wa.me/34658867133?text=${encodeURIComponent(t('whatsapp.booking'))}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative inline-block px-16 py-6 bg-gradient-to-r from-amber-500 to-yellow-400 text-foreground font-bold text-xl rounded-full shadow-2xl shadow-amber-500/40"
+            className="relative inline-block px-16 py-6 bg-linear-to-r from-amber-500 to-yellow-400 text-foreground font-bold text-xl rounded-full shadow-2xl shadow-amber-500/40"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             whileHover={{ 
@@ -125,7 +125,7 @@ export default function FinalInvitationSection() {
           >
             <span className="relative z-10">{t('final.cta')}</span>
             <motion.div 
-              className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full"
+              className="absolute inset-0 bg-linear-to-r from-yellow-400 to-amber-500 rounded-full"
               initial={{ opacity: 0 }}
               whileHover={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
@@ -207,7 +207,7 @@ export default function FinalInvitationSection() {
             href="https://wa.me/34658867133?text=Hola%2C%20m%27agradaria%20programar%20una%20trucada%20de%20descobriment.%20Podr%C3%ADem%20parlar%3F"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 border border-amber-500/30 text-amber-200 rounded-lg"
+            className="inline-block px-8 py-3 bg-linear-to-r from-zinc-700/50 to-zinc-600/50 border border-amber-500/30 text-amber-200 rounded-lg"
             whileHover={{ 
               backgroundColor: "rgba(82, 82, 91, 0.6)",
               borderColor: "rgba(245, 158, 11, 0.5)",
@@ -220,7 +220,7 @@ export default function FinalInvitationSection() {
           </motion.a>
           
           <motion.button 
-            className="px-8 py-3 bg-gradient-to-r from-amber-600/20 to-yellow-500/20 border border-amber-500/30 text-amber-200 rounded-lg"
+            className="px-8 py-3 bg-linear-to-r from-amber-600/20 to-yellow-500/20 border border-amber-500/30 text-amber-200 rounded-lg"
             whileHover={{ 
               backgroundColor: "rgba(245, 158, 11, 0.3)",
               borderColor: "rgba(245, 158, 11, 0.5)",

@@ -140,7 +140,7 @@ export default function MainLayout({
      <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
       }`}>
       {/* Logo Only - Left Side */}
-      <Link href="/" className="flex items-center flex-shrink-0 group relative">
+      <Link href="/" className="flex items-center shrink-0 group relative">
        <Image
         src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
         alt="EKA Balance Logo"
@@ -161,7 +161,7 @@ export default function MainLayout({
            <>
             <Link
              href={item.href}
-             className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-white/60 ${isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+             className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-lg hover:bg-white/60 ${isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
               }`}
              onMouseEnter={openDropdown}
              onMouseLeave={scheduleHide}
@@ -218,7 +218,7 @@ export default function MainLayout({
            <a
             href={item.href}
             rel="noopener noreferrer"
-            className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 text-foreground hover:text-primary"
+            className="font-medium transition-all duration-200 px-5 py-3 rounded-lg hover:bg-white/60 text-foreground hover:text-primary"
             onClick={(e) => {
              e.preventDefault();
              window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -229,8 +229,8 @@ export default function MainLayout({
           ) : (
            <Link
             href={item.href}
-            className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-white/60 ${item.isGold
-              ? 'gold-shimmer font-black bg-gradient-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
+            className={`font-medium transition-all duration-200 px-5 py-3 rounded-lg hover:bg-white/60 ${item.isGold
+              ? 'gold-shimmer font-black bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
               : isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
              }`}
            >
@@ -243,7 +243,7 @@ export default function MainLayout({
       </div>
 
       {/* Right side actions */}
-      <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+      <div className="flex items-center space-x-2 sm:space-x-4 shrink-0">
        
        {/* User Profile / Login */}
        {user ? (
@@ -293,7 +293,7 @@ export default function MainLayout({
              signOut();
              setIsProfileOpen(false);
             }}
-            className="w-full text-left block px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
+            className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center"
            >
             <LogOut className="w-4 h-4 mr-2" />
             Sign Out
@@ -399,7 +399,7 @@ export default function MainLayout({
             )}
             <div>
              <p className="font-medium text-foreground">{user.profile?.full_name || 'User'}</p>
-             <p className="text-xs text-muted-foreground truncate max-w-[200px]">{user.email}</p>
+             <p className="text-xs text-muted-foreground truncate max-w-50">{user.email}</p>
             </div>
            </div>
            <Link
@@ -414,7 +414,7 @@ export default function MainLayout({
              signOut();
              setIsMenuOpen(false);
             }}
-            className="w-full text-left block px-4 py-3 rounded-xl font-medium text-base text-red-600 hover:bg-red-50 flex items-center"
+            className="w-full text-left px-4 py-3 rounded-xl font-medium text-base text-red-600 hover:bg-red-50 flex items-center"
            >
             <LogOut className="w-5 h-5 mr-2" />
             Sign Out

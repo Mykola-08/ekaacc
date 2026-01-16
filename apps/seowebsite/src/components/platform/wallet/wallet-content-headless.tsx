@@ -307,7 +307,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
 
                  <div className="rounded-4xl border border-blue-100 bg-blue-50/50 p-8 shadow-sm">
                     <div className="flex items-start gap-4">
-                         <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                         <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                             <AlertCircle className="w-5 h-5 text-blue-600" />
                         </div>
                         <div>

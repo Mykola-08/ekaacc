@@ -181,7 +181,7 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                                         <Clock className="w-4 h-4" /> 4:00 PM - 5:00 PM
                                     </p>
                                 </div>
-                                <div className="flex-shrink-0">
+                                <div className="shrink-0">
                                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-50 text-green-700 border border-green-100">
                                         Confirmed
                                     </span>
@@ -200,7 +200,7 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
                                         <Clock className="w-4 h-4" /> 11:00 AM - 12:00 PM
                                     </p>
                                 </div>
-                                <div className="flex-shrink-0">
+                                <div className="shrink-0">
                                     <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
                                         Pending
                                     </span>
@@ -211,7 +211,7 @@ export function UserDashboardHeadless({ upcomingSession, walletBalance }: UserDa
 
                     {/* Promo/Feature Content */}
                     <div className="relative overflow-hidden rounded-[32px] bg-gray-900 p-8 text-white shadow-xl lg:col-span-1 flex flex-col justify-between group">
-                        <div className="absolute top-0 right-0 w-80 h-80 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
+                        <div className="absolute top-0 right-0 w-80 h-80 bg-linear-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
                         
                         <div className="relative z-10">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/10 backdrop-blur-md text-xs font-medium border border-white/20 mb-6">

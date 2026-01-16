@@ -47,8 +47,8 @@ export default function Musicians() {
       />
       
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div className="order-2 lg:order-1">
@@ -102,7 +102,7 @@ export default function Musicians() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="space-y-8">
               <div className="flex items-start">
-                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem1.title')}</h3>
                   <p className="text-muted-foreground">
@@ -112,7 +112,7 @@ export default function Musicians() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem2.title')}</h3>
                   <p className="text-muted-foreground">
@@ -124,7 +124,7 @@ export default function Musicians() {
 
             <div className="space-y-8">
               <div className="flex items-start">
-                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem3.title')}</h3>
                   <p className="text-muted-foreground">
@@ -134,7 +134,7 @@ export default function Musicians() {
               </div>
               
               <div className="flex items-start">
-                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 flex-shrink-0"></div>
+                <div className="w-3 h-3 bg-red-500 rounded-full mt-2 mr-4 shrink-0"></div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-2">{t('musicians.problem4.title')}</h3>
                   <p className="text-muted-foreground">
@@ -271,7 +271,7 @@ export default function Musicians() {
                 <ul className="space-y-3 mb-8">
                   {plan.benefits.map((benefit, index) => (
                     <li key={index} className="flex items-start">
-                      <div className="w-2 h-2 bg-green-500 rounded-full mr-3 flex-shrink-0 mt-2"></div>
+                      <div className="w-2 h-2 bg-green-500 rounded-full mr-3 shrink-0 mt-2"></div>
                       <span className="text-foreground/90 text-sm">{t(benefit)}</span>
                     </li>
                   ))}

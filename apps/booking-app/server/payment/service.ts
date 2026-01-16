@@ -165,7 +165,7 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
       },
       // Expire session after 30 minutes
       expires_at: Math.floor(Date.now() / 1000) + (30 * 60),
-    });
+    } as any);
 
     if (!session.url) {
       throw new Error('Failed to create session URL');

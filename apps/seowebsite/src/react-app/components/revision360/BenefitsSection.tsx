@@ -108,7 +108,7 @@ export default function BenefitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-amber-200 to-amber-400 mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-linear-to-r from-amber-100 via-amber-200 to-amber-400 mb-6 tracking-tight">
             {t('benefits.title')}
           </h2>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto font-light">
@@ -127,7 +127,7 @@ export default function BenefitsSection() {
               transition={{ duration: 0.3, delay: index * 0.1 }}
               whileHover={{ y: -5, backgroundColor: "rgba(255, 255, 255, 0.08)" }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
+              <div className="absolute inset-0 bg-linear-to-br from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
               
               <div className="relative z-10">
                 <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center mb-6 group-hover:bg-amber-500/20 transition-colors duration-500">
@@ -165,7 +165,7 @@ export default function BenefitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.4 }}
         >
-          <div className="p-8 rounded-3xl bg-gradient-to-r from-amber-500/5 via-yellow-500/5 to-amber-500/5 border border-amber-500/10 backdrop-blur-sm">
+          <div className="p-8 rounded-3xl bg-linear-to-r from-amber-500/5 via-yellow-500/5 to-amber-500/5 border border-amber-500/10 backdrop-blur-sm">
             <p className="text-amber-200/80 text-lg italic font-light leading-relaxed">
               "{t('benefits.philosophy')}"
             </p>

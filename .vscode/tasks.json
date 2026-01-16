@@ -4,8 +4,9 @@
 		{
 			"label": "Build Booking App",
 			"type": "shell",
-			"command": "npx turbo",
+			"command": "npx",
 			"args": [
+				"turbo",
 				"run",
 				"build",
 				"--filter=booking-app"
@@ -19,8 +20,9 @@
 		{
 			"label": "Build SEO Website",
 			"type": "shell",
-			"command": "npx turbo",
+			"command": "npx",
 			"args": [
+				"turbo",
 				"run",
 				"build",
 				"--filter=seowebsite"

@@ -95,14 +95,14 @@ const testimonials = [
 
 export default function LoyaltyMemberPage() {
  return (
-  <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+  <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-purple-50">
    {/* Hero Section */}
    <section className="relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-transparent to-purple-100 opacity-50"></div>
+    <div className="absolute inset-0 bg-linear-to-br from-blue-100 via-transparent to-purple-100 opacity-50"></div>
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
      <div className="text-center">
       <BlurIn>
-       <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full text-white text-sm font-medium mb-6">
+       <div className="inline-flex items-center px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-full text-white text-sm font-medium mb-6">
         <Heart className="w-4 h-4 mr-2" />
         Free Loyalty Program
        </div>
@@ -110,7 +110,7 @@ export default function LoyaltyMemberPage() {
       <BlurIn>
        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Earn Rewards While
-        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+        <span className="block text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600">
          You Heal
         </span>
        </h1>
@@ -150,7 +150,7 @@ export default function LoyaltyMemberPage() {
       {howItWorks.map((step, index) => (
        <BlurIn key={index} delay={index * 0.1}>
         <div className="text-center">
-         <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
+         <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-4">
           {step.step}
          </div>
          <div className="text-blue-600 mb-4">
@@ -201,7 +201,7 @@ export default function LoyaltyMemberPage() {
    </section>
 
    {/* Stats Section */}
-   <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+   <section className="py-16 bg-linear-to-r from-blue-600 to-purple-600">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="grid md:grid-cols-4 gap-8 text-center text-white">
       <div>
@@ -256,7 +256,7 @@ export default function LoyaltyMemberPage() {
    </section>
 
    {/* CTA Section */}
-   <section className="py-16 bg-gradient-to-br from-blue-600 to-purple-600">
+   <section className="py-16 bg-linear-to-br from-blue-600 to-purple-600">
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
      <BlurIn>
       <AnimatedGradientText className="text-3xl font-bold mb-6 text-white">

@@ -135,7 +135,7 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
               </div>
             </div>
             {image.caption && (
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/60 to-transparent">
                 <p className="text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   {image.caption}
                 </p>

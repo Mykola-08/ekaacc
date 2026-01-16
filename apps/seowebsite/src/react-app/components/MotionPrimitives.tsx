@@ -161,7 +161,7 @@ export function BorderTrail({ children, className }: BorderTrailProps) {
       transition={{ duration: 0.3 }}
     >
       <motion.div
-        className="absolute inset-0 rounded-xl border-2 border-transparent bg-gradient-to-r from-yellow-400/50 via-blue-400/50 to-yellow-400/50 opacity-0"
+        className="absolute inset-0 rounded-xl border-2 border-transparent bg-linear-to-r from-yellow-400/50 via-blue-400/50 to-yellow-400/50 opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
         style={{

@@ -40,8 +40,8 @@ export default function KinesiologiaPage() {
       />
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <div className="relative bg-linear-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -50,7 +50,7 @@ export default function KinesiologiaPage() {
               <span className="font-medium">{t('kinesiology.hero.badge')}</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 mb-6 tracking-tight leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-blue-800 to-gray-900 mb-6 tracking-tight leading-tight">
               {t('kinesiology.page.title')}
             </h1>
             
@@ -70,7 +70,7 @@ export default function KinesiologiaPage() {
           </div>
 
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-4/3">
                <Image
                   src="https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt={t('kinesiology.page.imageAlt') || "Kinesiologia Session"}
@@ -106,7 +106,7 @@ export default function KinesiologiaPage() {
           <div className="grid md:grid-cols-2 gap-8">
             {benefits.map((benefit, index) => (
               <div key={index} className="flex gap-4 p-6 bg-blue-50/50 rounded-2xl border border-blue-100 hover:border-blue-200 transition-colors">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-5 h-5 text-blue-600" />
                 </div>
                 <span className="text-lg text-foreground/90 font-medium pt-2">{benefit}</span>
@@ -127,7 +127,7 @@ export default function KinesiologiaPage() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {durations.map((duration) => (
               <div key={duration} className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 to-indigo-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-400 to-indigo-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 
                 <div className="flex items-center justify-center mb-6 w-16 h-16 rounded-2xl bg-blue-50 mx-auto group-hover:bg-blue-100 transition-colors">
                   <Clock className="w-8 h-8 text-blue-600" />
@@ -137,7 +137,7 @@ export default function KinesiologiaPage() {
                   {duration} {t('common.minutes') || 'min'}
                 </h3>
                 
-                <p className="text-muted-foreground mb-8 text-center min-h-[3rem]">
+                <p className="text-muted-foreground mb-8 text-center min-h-12">
                   {duration === 60 ? t('kinesiology.page.duration60') :
                     t('kinesiology.page.duration90')}
                 </p>

@@ -326,7 +326,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                     <div>
                       <label className="text-sm font-medium text-foreground/90">Current VIP Tier</label>
                       <div className="flex items-center gap-2">
-                        <Badge className="bg-gradient-to-r from-blue-500 to-purple-600">
+                        <Badge className="bg-linear-to-r from-blue-500 to-purple-600">
                           <Crown className="w-3 h-3 mr-1" />
                           VIP SILVER
                         </Badge>
@@ -337,7 +337,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
                     <div>
                       <label className="text-sm font-medium text-foreground/90">Current Loyalty Tier</label>
                       <div className="flex items-center gap-2">
-                        <Badge className="bg-gradient-to-r from-amber-500 to-orange-600">
+                        <Badge className="bg-linear-to-r from-amber-500 to-orange-600">
                           <Star className="w-3 h-3 mr-1" />
                           MEMBER
                         </Badge>

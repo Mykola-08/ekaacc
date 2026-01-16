@@ -33,7 +33,7 @@ export default function AboutElena() {
       <div className="bg-card min-h-screen text-foreground selection:bg-blue-100">
 
         {/* Hero Section - Unified Gradient */}
-        <section className="relative pt-32 pb-24 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <section className="relative pt-32 pb-24 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
           
           <div className="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center">
@@ -45,7 +45,7 @@ export default function AboutElena() {
               transition={{ duration: 0.4 }}
             >
               <div className="relative group aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-purple-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-tr from-blue-200 to-purple-200 rounded-full blur-2xl opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                 <Image
                   src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
                   alt="Elena Kuchera"
@@ -68,7 +68,7 @@ export default function AboutElena() {
               </h1>
 
               <div className="space-y-4">
-                <p className="text-2xl sm:text-3xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium tracking-wide">
+                <p className="text-2xl sm:text-3xl bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium tracking-wide">
                   {t('elena.greeting')}
                 </p>
                 <p className="text-xl sm:text-2xl text-muted-foreground font-light tracking-wide">

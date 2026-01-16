@@ -33,7 +33,7 @@ export default function OfficeWorkersPersonalized() {
       url="https://ekabalance.com/for-office-workers"
     >
         {/* Hero Section */}
-        <section className="py-16 sm:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+        <section className="py-16 sm:py-24 bg-linear-to-br from-gray-50 to-blue-50">
           <div className="max-w-6xl mx-auto px-4 sm:px-8">
             <div className="text-center mb-12">
               <div className="inline-flex items-center justify-center w-20 h-20 bg-muted rounded-full mb-8">
@@ -142,9 +142,9 @@ export default function OfficeWorkersPersonalized() {
         {/* Success Story */}
         <section className="py-16 bg-card">
           <div className="max-w-4xl mx-auto px-4 sm:px-8">
-            <div className="bg-gradient-to-r from-gray-50 to-blue-50 rounded-3xl p-8 sm:p-12">
+            <div className="bg-linear-to-r from-gray-50 to-blue-50 rounded-3xl p-8 sm:p-12">
               <div className="flex items-start space-x-4">
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                   <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                     <CheckCircle className="w-6 h-6 text-green-600" />
                   </div>

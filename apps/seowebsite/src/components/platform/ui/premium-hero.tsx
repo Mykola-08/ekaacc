@@ -5,7 +5,7 @@ import { ArrowRight, Play, Pause, Volume2, VolumeX } from 'lucide-react'
 import Image from 'next/image'
 
 const premiumHeroVariants = cva(
-  'relative overflow-hidden bg-gradient-to-br',
+  'relative overflow-hidden bg-linear-to-br',
   {
     variants: {
       variant: {
@@ -71,7 +71,7 @@ const premiumHeroContentVariants = cva(
 )
 
 const premiumHeroTitleVariants = cva(
-  'font-bold tracking-tight bg-gradient-to-r bg-clip-text text-transparent',
+  'font-bold tracking-tight bg-linear-to-r bg-clip-text text-transparent',
   {
     variants: {
       size: {
@@ -309,7 +309,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-black/20" />
+            <div className="absolute inset-0 bg-linear-to-br from-black/40 to-black/20" />
           </div>
         )}
 
@@ -323,7 +323,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
               loop
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-black/50 to-black/30" />
+            <div className="absolute inset-0 bg-linear-to-br from-black/50 to-black/30" />
             
             {showMediaControls && (
               <div className="absolute bottom-4 right-4 flex gap-2">
@@ -357,7 +357,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
         {scrollProgress > 0 && (
           <div className="absolute top-0 left-0 w-full h-1 bg-card/10">
             <div 
-              className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-150"
+              className="h-full bg-linear-to-r from-primary-500 to-secondary-500 transition-all duration-150"
               style={{ width: `${scrollProgress * 100}%` }}
             />
           </div>
@@ -415,7 +415,7 @@ const PremiumHero = React.forwardRef<HTMLDivElement, PremiumHeroProps>(
                     disabled={primaryAction.disabled || primaryAction.loading}
                     className={cn(
                       "inline-flex items-center gap-2 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform",
-                      "bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:shadow-xl",
+                      "bg-linear-to-r from-primary-600 to-primary-700 text-white shadow-lg hover:shadow-xl",
                       "focus:outline-none focus:ring-4 focus:ring-primary-500/30",
                       (primaryAction.disabled || primaryAction.loading) && "opacity-50 cursor-not-allowed"
                     )}

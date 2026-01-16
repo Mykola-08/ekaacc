@@ -168,7 +168,7 @@ export default function GdprCompliance() {
    </div>
 
    <div className="bg-card shadow-xl rounded-2xl overflow-hidden">
-    <div className="bg-gradient-to-r from-blue-600 to-cyan-500 px-8 py-12 text-white">
+    <div className="bg-linear-to-r from-blue-600 to-cyan-500 px-8 py-12 text-white">
      <div className="flex items-center gap-4 mb-4">
       <Globe className="w-12 h-12 opacity-90" />
       <h1 className="text-3xl font-bold">{t.title}</h1>
@@ -180,7 +180,7 @@ export default function GdprCompliance() {
     <div className="p-8 space-y-8">
      {t.sections.map((section, index) => (
       <div key={index} id={(section as any).id} className="flex gap-4 p-6 rounded-[32px] bg-muted/30 hover:bg-muted transition-colors scroll-mt-24">
-       <div className="flex-shrink-0 mt-1">{section.icon}</div>
+       <div className="shrink-0 mt-1">{section.icon}</div>
        <div>
         <h2 className="text-xl font-semibold text-foreground mb-2">{section.title}</h2>
         <p className="text-muted-foreground leading-relaxed">{section.text}</p>

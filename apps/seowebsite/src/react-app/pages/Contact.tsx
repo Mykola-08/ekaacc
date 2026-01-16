@@ -17,8 +17,8 @@ export default function ContactPage() {
     >
       <Layout>
         {/* Unified Gradient Hero */}
-        <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+        <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
           
           <div className="max-w-6xl mx-auto px-4 sm:px-8 text-center relative z-10">
             <div className="inline-flex items-center px-4 py-2 bg-card/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
@@ -28,7 +28,7 @@ export default function ContactPage() {
             
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-8 leading-tight tracking-tight">
               {t('contact.hero.title')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">{t('contact.hero.titleHighlight')}</span>
+              <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">{t('contact.hero.titleHighlight')}</span>
             </h1>
             
             <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed font-light">

@@ -113,7 +113,7 @@ export default function CasoDetail() {
         </div>
 
         {/* Hero Section */}
-        <section className={`py-20 sm:py-28 bg-gradient-to-br ${getBgGradient(config.color)}`}>
+        <section className={`py-20 sm:py-28 bg-linear-to-br ${getBgGradient(config.color)}`}>
           <div className="max-w-4xl mx-auto px-4 sm:px-8 text-center">
             <div className="inline-flex items-center justify-center w-20 h-20 bg-card rounded-full mb-8 shadow-lg">
               <ProblemIcon className="w-10 h-10 text-foreground/90" />
@@ -143,7 +143,7 @@ export default function CasoDetail() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {symptoms.map((symptom, index) => (
                   <div key={index} className="flex items-start p-4 bg-muted/30 rounded-xl">
-                    <div className="w-2 h-2 bg-red-500 rounded-full mr-4 mt-2 flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-red-500 rounded-full mr-4 mt-2 shrink-0"></div>
                     <span className="text-foreground/90">{symptom}</span>
                   </div>
                 ))}
@@ -161,7 +161,7 @@ export default function CasoDetail() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {causes.map((cause, index) => (
                   <div key={index} className="flex items-start p-4 bg-blue-50 rounded-xl">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-4 mt-2 flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-4 mt-2 shrink-0"></div>
                     <span className="text-foreground/90">{cause}</span>
                   </div>
                 ))}
@@ -193,7 +193,7 @@ export default function CasoDetail() {
               </h2>
               <div className="p-8 bg-yellow-50 rounded-2xl border border-yellow-200">
                 <div className="flex items-start">
-                  <CheckCircle className="w-6 h-6 text-green-600 mr-4 mt-1 flex-shrink-0" />
+                  <CheckCircle className="w-6 h-6 text-green-600 mr-4 mt-1 shrink-0" />
                   <p className="text-foreground/90 leading-relaxed text-lg">
                     {results}
                   </p>
@@ -212,7 +212,7 @@ export default function CasoDetail() {
                 </h2>
                 <div className="p-8 bg-purple-50 rounded-2xl border border-purple-200">
                   <div className="flex items-start">
-                    <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                    <div className="w-12 h-12 bg-purple-200 rounded-full flex items-center justify-center mr-4 shrink-0">
                       <span className="text-purple-700 font-semibold text-lg">💬</span>
                     </div>
                     <div>

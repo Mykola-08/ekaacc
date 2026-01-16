@@ -86,14 +86,14 @@ const testimonials = [
 
 export default function VIPGoldPage() {
  return (
-  <div className="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
+  <div className="min-h-screen bg-linear-to-br from-yellow-50 via-orange-50 to-red-50">
    {/* Hero Section */}
    <section className="relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100 opacity-50"></div>
+    <div className="absolute inset-0 bg-linear-to-br from-yellow-100 via-orange-100 to-red-100 opacity-50"></div>
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
      <div className="text-center">
       <BlurIn>
-       <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full text-white text-lg font-semibold mb-6 shadow-lg">
+       <div className="inline-flex items-center px-6 py-3 bg-linear-to-r from-yellow-400 to-orange-500 rounded-full text-white text-lg font-semibold mb-6 shadow-lg">
         <Crown className="w-5 h-5 mr-2" />
         VIP Gold Tier
        </div>
@@ -101,7 +101,7 @@ export default function VIPGoldPage() {
       <BlurIn>
        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Premium Therapy
-        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 to-orange-600">
+        <span className="block text-transparent bg-clip-text bg-linear-to-r from-yellow-500 to-orange-600">
          Excellence
         </span>
        </h1>
@@ -114,7 +114,7 @@ export default function VIPGoldPage() {
       </BlurIn>
       <BlurIn>
        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-yellow-400 to-orange-500">
+        <ShimmerButton className="px-8 py-4 text-lg bg-linear-to-r from-yellow-400 to-orange-500">
          Upgrade to Gold - €79.99/month
         </ShimmerButton>
         <Button variant="outline" className="px-8 py-4 text-lg border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50">
@@ -140,7 +140,7 @@ export default function VIPGoldPage() {
      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
       {benefits.map((benefit, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-gradient-to-br from-white to-yellow-50 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-yellow-100 h-full">
+        <div className="bg-linear-to-br from-white to-yellow-50 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-yellow-100 h-full">
          <div className={`${benefit.color} mb-4`}>
           <benefit.icon className="w-8 h-8" />
          </div>
@@ -158,7 +158,7 @@ export default function VIPGoldPage() {
    </section>
 
    {/* Stats Section */}
-   <section className="py-16 bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500">
+   <section className="py-16 bg-linear-to-r from-yellow-500 via-orange-500 to-red-500">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="grid md:grid-cols-4 gap-8 text-center text-white">
       <div>
@@ -182,7 +182,7 @@ export default function VIPGoldPage() {
    </section>
 
    {/* Testimonials */}
-   <section className="py-16 bg-gradient-to-br from-yellow-50 to-orange-50">
+   <section className="py-16 bg-linear-to-br from-yellow-50 to-orange-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="text-center mb-12">
       <AnimatedGradientText className="text-3xl font-bold mb-4">
@@ -224,7 +224,7 @@ export default function VIPGoldPage() {
        with unlimited access and personal care. Start your Gold experience today.
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center">
-       <ShimmerButton className="px-8 py-4 text-lg bg-gradient-to-r from-yellow-400 to-orange-500">
+       <ShimmerButton className="px-8 py-4 text-lg bg-linear-to-r from-yellow-400 to-orange-500">
         Start Gold Experience
        </ShimmerButton>
        <Button variant="outline" className="px-8 py-4 text-lg border-2 border-yellow-500 text-yellow-600 hover:bg-yellow-50">

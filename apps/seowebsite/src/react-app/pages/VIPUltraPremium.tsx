@@ -168,7 +168,7 @@ const ComparativeTable = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-light mb-4 text-foreground">
-            <span className={`text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 ${isShining ? 'animate-pulse' : ''}`}>{t('vip.table.title')}</span>
+            <span className={`text-transparent bg-clip-text bg-linear-to-r from-amber-600 via-yellow-500 to-amber-600 ${isShining ? 'animate-pulse' : ''}`}>{t('vip.table.title')}</span>
           </h2>
         </div>
         
@@ -222,8 +222,8 @@ export default function VIPUltraPremium() {
       />
 
       {/* Hero Section */}
-      <div className="relative pt-32 pb-24 overflow-hidden bg-gradient-to-br from-gray-50 via-white to-amber-50/30">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <div className="relative pt-32 pb-24 overflow-hidden bg-linear-to-br from-gray-50 via-white to-amber-50/30">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
           <motion.div
@@ -237,7 +237,7 @@ export default function VIPUltraPremium() {
             </div>
 
             <h1 className="text-6xl md:text-8xl font-serif text-foreground mb-8 tracking-tight">
-               <span className="bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-gray-700 to-gray-900">
+               <span className="bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-gray-700 to-gray-900">
                 {t('vip.hero.title')}
                </span>
             </h1>
@@ -248,7 +248,7 @@ export default function VIPUltraPremium() {
 
             <Link to="#pricing">
               <Button 
-                 className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white border-none px-10 h-16 rounded-full text-lg font-medium shadow-lg hover:shadow-amber-200/50 transition-all duration-300"
+                 className="bg-linear-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white border-none px-10 h-16 rounded-full text-lg font-medium shadow-lg hover:shadow-amber-200/50 transition-all duration-300"
               >
                 {t('vip.cta.apply')}
               </Button>
@@ -289,7 +289,7 @@ export default function VIPUltraPremium() {
                {vipServices.map((service, idx) => (
                  <div key={idx} className="bg-card rounded-[2rem] p-10 shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300">
                     <div className="flex items-start gap-6">
-                       <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+                       <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0">
                           <service.icon className="w-8 h-8 text-amber-600" />
                        </div>
                        <div>
@@ -343,7 +343,7 @@ export default function VIPUltraPremium() {
                  <div className="space-y-4 mb-8">
                     {plan.features.map((feature: string, i: number) => (
                       <div key={i} className="flex items-start gap-3">
-                         <Check className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+                         <Check className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
                          <span className="text-foreground/90 text-sm">{t(feature)}</span>
                       </div>
                     ))}

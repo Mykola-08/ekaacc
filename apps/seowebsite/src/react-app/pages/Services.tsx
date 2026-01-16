@@ -73,7 +73,7 @@ export default function Services() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 text-center relative z-10">
           <motion.div
              initial={{ opacity: 0, y: 20 }}
@@ -87,7 +87,7 @@ export default function Services() {
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-8 leading-tight">
               {t('services.ourServices')}{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 font-medium">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600 font-medium">
                 {t('services.ourServices2') || 'Therapies'}
               </span>
             </h1>
@@ -138,9 +138,9 @@ export default function Services() {
                             <LazyImage 
                               src={service.image} 
                               alt={t(service.titleKey)}
-                              className="w-full h-auto object-cover aspect-[4/3] transition-transform duration-700 group-hover:scale-105" 
+                              className="w-full h-auto object-cover aspect-4/3 transition-transform duration-700 group-hover:scale-105" 
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                            <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent"></div>
                           </div>
                       </div>
 
@@ -153,7 +153,7 @@ export default function Services() {
                           <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4">
                             {t(service.titleKey)}
                           </h2>
-                          <div className={`h-1 w-20 rounded-full ${colorClass.bg.replace('bg-', 'bg-gradient-to-r from-').replace('-50', '-400')} to-gray-200 mb-6`}></div>
+                          <div className={`h-1 w-20 rounded-full ${colorClass.bg.replace('bg-', 'bg-linear-to-r from-').replace('-50', '-400')} to-gray-200 mb-6`}></div>
 
                           <p className="text-xl text-foreground/90 mb-8 leading-relaxed font-light">
                             {t(service.descriptionKey)}

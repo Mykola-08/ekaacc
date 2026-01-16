@@ -179,7 +179,7 @@ export default function DynamicPriceCalculator({
     return (
       <div className={`bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6 ${className}`}>
         <div className="flex items-start space-x-3 mb-4">
-          <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
+          <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
           <div className="flex-1">
             <p className="text-red-700 dark:text-red-400 font-medium mb-1">Error de càlcul</p>
             <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
@@ -324,7 +324,7 @@ export default function DynamicPriceCalculator({
       {/* Info Section */}
       <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
         <div className="flex items-start space-x-3">
-          <Info className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+          <Info className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
           <div className="text-sm">
             <p className="text-blue-900 dark:text-blue-100 font-medium mb-1">
               Preus dinàmics

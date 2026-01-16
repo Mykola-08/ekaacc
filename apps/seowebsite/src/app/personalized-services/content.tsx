@@ -25,7 +25,7 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
    />
    
    {/* Unified Gradient Hero */}
-   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+   <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
     <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
      <motion.div
@@ -34,20 +34,14 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
       transition={{ duration: 0.6 }}
      >
        <div className="inline-flex items-center px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8">
-       <span className="text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent uppercase tracking-wider">
+       <span className="text-sm font-medium bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent uppercase tracking-wider">
         {t('personalizedServices.title')}
        </span>
       </div>
 
       <h1 className="text-5xl lg:text-7xl font-light text-foreground mb-8 tracking-tight leading-tight">
        {t('services.therapiesFor')}{' '}
-       <span className="font-medium bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        {t('services.integralWellbeing')}
-       </span>
-      </h1>
-
-      <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed font-light">
-       {t('personalizedServices.subtitle')}
+       <span className="font-medium bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
       </p>
 
       <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>

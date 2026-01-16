@@ -111,7 +111,7 @@ export function UserManagementHeadless() {
                     <tr key={user.id} className="hover:bg-muted/30/50 transition-colors group">
                         <td className="whitespace-nowrap py-4 pl-6 pr-3">
                             <div className="flex items-center">
-                                <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 flex items-center justify-center text-blue-700 font-bold border-2 border-white shadow-sm">
+                                <div className="h-10 w-10 shrink-0 rounded-full bg-linear-to-br from-blue-100 to-indigo-100 flex items-center justify-center text-blue-700 font-bold border-2 border-white shadow-sm">
                                     {user.email?.charAt(0).toUpperCase() || <UserIcon className="w-5 h-5" />}
                                 </div>
                                 <div className="ml-4">

@@ -263,17 +263,17 @@ export function AppSidebar07() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="bg-gradient-to-br from-purple-50 to-blue-50 border-b border-purple-100">
+      <SidebarHeader className="bg-linear-to-br from-purple-50 to-blue-50 border-b border-purple-100">
         <div className="flex items-center gap-2 px-3 py-4">
           <div className={cn(
-            "flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 text-white shadow-lg",
+            "flex aspect-square size-8 items-center justify-center rounded-lg bg-linear-to-br from-purple-600 to-blue-600 text-white shadow-lg",
             !isExpanded && "size-8"
           )}>
             <Heart className="size-4" />
           </div>
           {isExpanded && (
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-600">
+              <span className="truncate font-semibold bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-blue-600">
                 EKA Account
               </span>
               <span className="truncate text-xs text-muted-foreground">
@@ -362,7 +362,7 @@ export function AppSidebar07() {
                           <>
                             <span className="flex-1 text-left">{item.title}</span>
                             {item.badge && (
-                              <span className="rounded-md bg-gradient-to-r from-purple-600 to-blue-600 px-1.5 py-0.5 text-xs text-white">
+                              <span className="rounded-md bg-linear-to-r from-purple-600 to-blue-600 px-1.5 py-0.5 text-xs text-white">
                                 {item.badge}
                               </span>
                             )}

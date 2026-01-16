@@ -119,7 +119,7 @@ export default function Home() {
 
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-6">
               {t('services.therapiesFor')}{' '}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+              <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
                 {t('services.integralWellbeing')}
               </span>
             </h2>
@@ -141,7 +141,7 @@ export default function Home() {
               
                return (
                 <Link key={service.id} to={service.href} className="group cursor-pointer">
-                  <div className="bg-card rounded-[2rem] p-8 h-full shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden">
+                  <div className="bg-card rounded-4xl p-8 h-full shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden">
                     <div className="flex items-center mb-6">
                       <div className={`p-3 rounded-2xl ${colorClass} mr-4 transition-transform group-hover:scale-110`}>
                         <Icon className="w-8 h-8" />

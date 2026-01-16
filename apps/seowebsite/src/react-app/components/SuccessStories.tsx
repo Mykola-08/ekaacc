@@ -33,8 +33,8 @@ export default function SuccessStories() {
   return (
     <section className="py-24 bg-card dark:bg-gray-900 relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 opacity-50"></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 opacity-50"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 opacity-50"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-yellow-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 opacity-50"></div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
@@ -56,7 +56,7 @@ export default function SuccessStories() {
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Quote Icon */}
-              <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
+              <div className="absolute -top-4 -left-4 w-8 h-8 bg-linear-to-r from-yellow-400 to-yellow-500 rounded-full flex items-center justify-center">
                 <Quote className="w-4 h-4 text-white" />
               </div>
 
@@ -106,7 +106,7 @@ export default function SuccessStories() {
           </p>
           <Link
             to="/contact"
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+            className="inline-flex items-center px-8 py-4 bg-linear-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
           >
             Reserva la teva sessió avui mateix
             <ArrowRight className="ml-2 w-5 h-5" />

@@ -40,8 +40,8 @@ export default function MassatgePage() {
       />
 
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <div className="relative bg-linear-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div>
@@ -50,7 +50,7 @@ export default function MassatgePage() {
               <span className="font-medium">{t('massage.hero.badge')}</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-orange-800 to-gray-900 mb-6 tracking-tight leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-orange-800 to-gray-900 mb-6 tracking-tight leading-tight">
               {t('massage.page.title')}
             </h1>
             
@@ -70,7 +70,7 @@ export default function MassatgePage() {
           </div>
 
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-[4/3]">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white aspect-4/3">
                <Image
                   src="https://images.pexels.com/photos/3757942/pexels-photo-3757942.jpeg?auto=compress&cs=tinysrgb&w=1200"
                   alt="Sessió de massatge terapèutic"
@@ -106,7 +106,7 @@ export default function MassatgePage() {
           <div className="grid md:grid-cols-2 gap-8">
             {benefits.map((benefit, index) => (
               <div key={index} className="flex gap-4 p-6 bg-orange-50/50 rounded-2xl border border-orange-100 hover:border-orange-200 transition-colors">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-5 h-5 text-orange-600" />
                 </div>
                 <span className="text-lg text-foreground/90 font-medium pt-2">{benefit}</span>
@@ -127,7 +127,7 @@ export default function MassatgePage() {
           <div className="grid md:grid-cols-3 gap-8">
             {durations.map((duration) => (
               <div key={duration} className="bg-card rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 relative overflow-hidden group">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-amber-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-orange-400 to-amber-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                 
                 <div className="flex items-center justify-center mb-6 w-16 h-16 rounded-2xl bg-orange-50 mx-auto group-hover:bg-orange-100 transition-colors">
                   <Clock className="w-8 h-8 text-orange-600" />

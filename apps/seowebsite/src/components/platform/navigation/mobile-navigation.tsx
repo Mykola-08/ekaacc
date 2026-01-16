@@ -163,7 +163,7 @@ export function MobileNavigation({ className }: MobileNavigationProps) {
                           active ? "bg-accent text-accent-foreground" : "text-muted-foreground"
                         )}
                       >
-                        <Icon className="h-5 w-5 flex-shrink-0" />
+                        <Icon className="h-5 w-5 shrink-0" />
                         <span>{item.name}</span>
                       </Link>
                     </li>

@@ -13,7 +13,7 @@ const premiumCardVariants = cva(
         filled: 'border-neutral-200 bg-neutral-50',
         glass: 'border-white/20 bg-card/10 backdrop-blur-md',
         minimal: 'border-neutral-100 bg-card',
-        premium: 'border-primary-200 bg-gradient-to-br from-white to-neutral-50 shadow-xl',
+        premium: 'border-primary-200 bg-linear-to-br from-white to-neutral-50 shadow-xl',
       },
       padding: {
         none: 'p-0',
@@ -264,7 +264,7 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
         {/* Shimmer Effect */}
         {shimmer && (
           <div className="absolute inset-0 overflow-hidden rounded-2xl">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
+            <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-[shimmer_2s_infinite]" />
           </div>
         )}
         
@@ -283,7 +283,7 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
         {interactive && variant === 'premium' && (
           <div 
             className={cn(
-              'absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl opacity-0 transition-opacity duration-300',
+              'absolute inset-0 bg-linear-to-br from-blue-500/5 to-purple-500/5 rounded-2xl opacity-0 transition-opacity duration-300',
               isHovered && 'opacity-100'
             )}
           />

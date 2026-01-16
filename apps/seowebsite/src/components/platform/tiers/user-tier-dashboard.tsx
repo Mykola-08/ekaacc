@@ -272,7 +272,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* VIP Status */}
         <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-gray-400 to-gray-600 opacity-10 rounded-full -mr-16 -mt-16" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-gray-400 to-gray-600 opacity-10 rounded-full -mr-16 -mt-16" />
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -322,7 +322,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-gray-400 to-gray-600 h-2 rounded-full transition-all duration-300"
+                        className="bg-linear-to-r from-gray-400 to-gray-600 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${tierData.nextTierProgress.vip.progress}%` }}
                       />
                     </div>
@@ -342,7 +342,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
 
         {/* Loyalty Status */}
         <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-blue-600 opacity-10 rounded-full -mr-16 -mt-16" />
+          <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-br from-blue-400 to-blue-600 opacity-10 rounded-full -mr-16 -mt-16" />
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -399,7 +399,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className="bg-gradient-to-r from-blue-400 to-blue-600 h-2 rounded-full transition-all duration-300"
+                        className="bg-linear-to-r from-blue-400 to-blue-600 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${tierData.nextTierProgress.loyalty.progress}%` }}
                       />
                     </div>

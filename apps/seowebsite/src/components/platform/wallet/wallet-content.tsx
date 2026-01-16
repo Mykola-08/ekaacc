@@ -113,7 +113,7 @@ export function WalletContent({ initialBalance, initialPlans, initialTransaction
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-7 animate-slide-up">
         {/* Balance Card */}
-        <Card className="lg:col-span-4 border-0 shadow-lg bg-gradient-to-br from-primary/10 to-background">
+        <Card className="lg:col-span-4 border-0 shadow-lg bg-linear-to-br from-primary/10 to-background">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Wallet className="w-5 h-5 text-primary" />

@@ -52,7 +52,7 @@ export default function TechniqueDetail() {
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.3 }}
           >
-            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-800 to-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-blue-800 to-gray-900 mb-6">
               {t(`${baseKey}.title`)}
             </h1>
             

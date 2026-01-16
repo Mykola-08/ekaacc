@@ -146,7 +146,7 @@ export function RoleManagementPanelHeadless() {
                         <tr key={user.id} className="hover:bg-muted/30/50 transition-colors">
                             <td className="whitespace-nowrap py-4 pl-6 pr-3">
                                 <div className="flex items-center">
-                                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold">
+                                    <div className="h-10 w-10 shrink-0 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold">
                                         {user.name.charAt(0)}
                                     </div>
                                     <div className="ml-4">

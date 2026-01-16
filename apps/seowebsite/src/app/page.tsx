@@ -68,7 +68,7 @@ export default function Home() {
        transition={{ duration: 0.8 }}
        className="relative"
       >
-       <div className="absolute inset-0 bg-gradient-to-tr from-blue-200 to-emerald-200 rounded-full blur-3xl opacity-30" />
+       <div className="absolute inset-0 bg-linear-to-tr from-blue-200 to-emerald-200 rounded-full blur-3xl opacity-30" />
        <div className="relative w-full max-w-md mx-auto aspect-square">
          <Image
           src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
@@ -132,7 +132,7 @@ export default function Home() {
 
       <h2 className="text-4xl sm:text-5xl font-light text-foreground">
        {t('services.therapiesFor')}{' '}
-       <span className="block mt-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+       <span className="block mt-2 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
         {t('services.integralWellbeing')}
        </span>
       </h2>

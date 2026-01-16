@@ -405,7 +405,7 @@ export default function PersonalizedOnboarding() {
                     <div className="flex items-center space-x-4 w-full relative z-10">
                       {option.icon && (
                         <div className={cn(
-                          "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300",
+                          "w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300",
                           isSelected
                             ? "bg-primary text-primary-foreground shadow-md transform scale-110"
                             : "bg-muted text-muted-foreground group-hover:bg-primary/10 group-hover:text-primary"

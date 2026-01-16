@@ -74,14 +74,14 @@ const testimonials = [
 
 export default function VIPSilverPage() {
  return (
-  <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+  <div className="min-h-screen bg-linear-to-br from-slate-50 to-blue-50">
    {/* Hero Section */}
    <section className="relative overflow-hidden">
-    <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-transparent to-slate-100 opacity-50"></div>
+    <div className="absolute inset-0 bg-linear-to-br from-blue-100 via-transparent to-slate-100 opacity-50"></div>
     <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
      <div className="text-center">
       <BlurIn>
-       <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full text-white text-sm font-medium mb-6">
+       <div className="inline-flex items-center px-4 py-2 bg-linear-to-r from-blue-500 to-purple-600 rounded-full text-white text-sm font-medium mb-6">
         <Star className="w-4 h-4 mr-2" />
         VIP Silver Tier
        </div>
@@ -89,7 +89,7 @@ export default function VIPSilverPage() {
       <BlurIn>
        <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
         Elevate Your Therapy
-        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+        <span className="block text-transparent bg-clip-text bg-linear-to-r from-blue-600 to-purple-600">
          Experience
         </span>
        </h1>
@@ -128,7 +128,7 @@ export default function VIPSilverPage() {
      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {benefits.map((benefit, index) => (
        <BlurIn key={index} delay={index * 0.1}>
-        <div className="bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
+        <div className="bg-linear-to-br from-white to-gray-50 p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-gray-100">
          <div className={`${benefit.color} mb-4`}>
           <benefit.icon className="w-8 h-8" />
          </div>
@@ -146,7 +146,7 @@ export default function VIPSilverPage() {
    </section>
 
    {/* Stats Section */}
-   <section className="py-16 bg-gradient-to-r from-blue-600 to-purple-600">
+   <section className="py-16 bg-linear-to-r from-blue-600 to-purple-600">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div className="grid md:grid-cols-4 gap-8 text-center text-white">
       <div>

@@ -89,7 +89,7 @@ export default function CasosSection() {
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-light text-foreground mb-6">
             {t('casos.section.title')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+            <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
               {t('casos.section.titleHighlight')}
             </span>
           </h2>
@@ -106,7 +106,7 @@ export default function CasosSection() {
               <Link
                 key={problem.id}
                 to={problem.href}
-                className="group bg-card rounded-[24px] p-6 border border-border hover:border-gray-300 hover:shadow-lg transition-all duration-300"
+                className="group bg-card rounded-3xl p-6 border border-border hover:border-gray-300 hover:shadow-lg transition-all duration-300"
               >
                 <div className={`w-14 h-14 rounded-xl ${getColorClasses(problem.color)} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border`}>
                   <ProblemIcon className="w-7 h-7" />

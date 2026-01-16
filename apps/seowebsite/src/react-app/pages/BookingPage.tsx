@@ -121,8 +121,8 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
       />
 
       {/* Hero Section - Unified Design */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-8 text-center">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 shadow-sm mb-8 animate-fade-in-up">
@@ -132,7 +132,7 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
           
           <h1 className="text-5xl lg:text-7xl font-light tracking-tight text-foreground mb-8 drop-shadow-sm animate-fade-in-up delay-100">
             {t('booking.hero.title').split(' ').slice(0, -1).join(' ')}{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+            <span className="bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
               {t('booking.hero.title').split(' ').slice(-1)[0]}
             </span>
           </h1>

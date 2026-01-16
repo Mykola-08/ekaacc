@@ -26,7 +26,23 @@
   },
   "devDependencies": {
     "@types/pg": "^8.16.0",
-    "turbo": "^2.7.3"
+    "turbo": "^2.7.4",
+    "typescript": "^5.9.3",
+    "vercel": "^43.0.0"
+  },
+  "overrides": {
+    "@vercel/node": {
+      "path-to-regexp": "^6.3.0"
+    },
+    "@vercel/remix-builder": {
+      "path-to-regexp": "^6.3.0"
+    },
+    "undici": "^6.23.0",
+    "@vercel/blob": {
+      "undici": "^6.23.0"
+    },
+    "diff": "^8.0.3",
+    "esbuild": "^0.25.0"
   },
   "packageManager": "npm@10.9.4",
   "dependencies": {
@@ -39,14 +55,13 @@
     "@supabase/supabase-js": "^2.90.1",
     "@tanstack/react-table": "^8.21.3",
     "@types/node": "^25.0.5",
+    "@vercel/blob": "0.0.2",
     "clsx": "^2.1.1",
     "framer-motion": "^12.25.0",
     "pg": "^8.16.3",
     "stripe": "^20.1.2",
     "tailwind-merge": "^3.4.0",
     "telegraf": "^4.16.3",
-    "typescript": "^5.9.3",
-    "vercel": "^50.1.6",
     "zod": "^4.3.5"
   }
 }

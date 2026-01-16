@@ -154,7 +154,7 @@ export function UnifiedThemeSelector({
                 )}
               >
                 <div className={cn(
-                  "w-full h-20 rounded-lg mb-3 bg-gradient-to-br",
+                  "w-full h-20 rounded-lg mb-3 bg-linear-to-br",
                   themeOption.color
                 )} />
                 <div className="flex items-center justify-between">
@@ -217,7 +217,7 @@ export function UnifiedThemeSelector({
             <CardContent className="p-4">
               <div className="relative">
                 <div 
-                  className={cn("w-full h-20 rounded-lg mb-3 bg-gradient-to-br", 
+                  className={cn("w-full h-20 rounded-lg mb-3 bg-linear-to-br", 
                     `from-[${theme.colors.primary}] to-[${theme.colors.secondary}]`)} 
                 />
                 {isSelected && (
@@ -238,7 +238,7 @@ export function UnifiedThemeSelector({
               {showSubscriptionStatus && (
                 <div className="flex items-center justify-between">
                   {theme.requiredSubscription === 'vip' && (
-                    <Badge variant="default" className="text-xs bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                    <Badge variant="default" className="text-xs bg-linear-to-r from-yellow-400 to-orange-500 text-white">
                       <Sparkles className="h-3 w-3 mr-1" />
                       VIP
                     </Badge>

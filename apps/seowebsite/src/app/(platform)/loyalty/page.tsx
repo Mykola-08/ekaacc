@@ -185,7 +185,7 @@ export default function LoyaltyPage() {
      animate={{ opacity: 1, y: 0 }}
      transition={{ duration: 0.5 }}
     >
-     <Card className="bg-gradient-to-br from-primary to-primary/80 text-primary-foreground border-0 shadow-lg">
+     <Card className="bg-linear-to-br from-primary to-primary/80 text-primary-foreground border-0 shadow-lg">
       <CardContent className="p-6">
        <div className="flex items-center justify-between mb-4">
         <div>

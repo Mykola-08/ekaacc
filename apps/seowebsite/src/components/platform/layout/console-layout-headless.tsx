@@ -141,7 +141,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                             href={item.href}
                             className={cn(
                                 isActive
-                                ? 'bg-gradient-to-r from-emerald-500/20 to-transparent text-emerald-400 ring-1 ring-emerald-500/50'
+                                ? 'bg-linear-to-r from-emerald-500/20 to-transparent text-emerald-400 ring-1 ring-emerald-500/50'
                                 : 'text-muted-foreground/80 hover:text-white hover:bg-card/5',
                                 'group flex gap-x-3 rounded-2xl p-3 text-sm font-medium leading-6 transition-all duration-200'
                             )}

@@ -66,7 +66,7 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
               animate={{ scaleX: progress / 100 }}
               exit={{ scaleX: 1, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-purple-500 to-primary origin-left z-50"
+              className="fixed top-0 left-0 right-0 h-1 bg-linear-to-r from-primary via-purple-500 to-primary origin-left z-50"
             />
             
             {/* Loading overlay for long operations */}

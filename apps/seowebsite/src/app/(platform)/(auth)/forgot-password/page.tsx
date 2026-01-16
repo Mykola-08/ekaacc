@@ -46,7 +46,7 @@ export default function ForgotPasswordPage() {
  }
 
  return (
-  <div className='flex min-h-svh flex-col items-center justify-center p-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900'>
+  <div className='flex min-h-svh flex-col items-center justify-center p-6 bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-950 dark:to-slate-900'>
    <motion.div 
     initial={{ opacity: 0, scale: 0.95, y: 10 }}
     animate={{ opacity: 1, scale: 1, y: 0 }}

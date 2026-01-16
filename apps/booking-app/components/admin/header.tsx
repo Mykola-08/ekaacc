@@ -10,7 +10,7 @@ export function AdminHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="h-16 border-b bg-background flex items-center justify-between px-4 md:px-8 sticky top-0 z-10">
+    <header className="h-16 bg-card rounded-[36px] border border-border flex items-center justify-between px-6 shrink-0">
       <div className="flex items-center gap-4">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -19,7 +19,7 @@ export function AdminHeader() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-72 bg-background border-r-0 rounded-r-4xl shadow-2xl">
+          <SheetContent side="left" className="p-0 w-[280px] bg-card border-r border-border rounded-r-[36px]">
              {/* Pass onClick to close the sheet when a link is clicked */}
             <AdminSidebarContent onClick={() => setOpen(false)} />
           </SheetContent>

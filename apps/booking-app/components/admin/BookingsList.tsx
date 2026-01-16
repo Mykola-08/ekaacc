@@ -21,7 +21,7 @@ export function BookingsList({ bookings }: BookingsListProps) {
     const filteredBookings = bookings.filter(booking => {
         const matchesSearch = 
             booking.displayName?.toLowerCase().includes(search.toLowerCase()) || 
-            booking.serviceName.toLowerCase().includes(search.toLowerCase()) ||
+            booking.serviceName?.toLowerCase().includes(search.toLowerCase()) ||
             booking.email?.toLowerCase().includes(search.toLowerCase());
         
         const matchesStatus = statusFilter === 'all' || booking.status === statusFilter;

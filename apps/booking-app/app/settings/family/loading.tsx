@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@ekaacc/shared-ui"
 import { Separator } from "@/components/ui/separator"
 
 export default function Loading() {

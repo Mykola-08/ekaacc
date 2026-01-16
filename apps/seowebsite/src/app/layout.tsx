@@ -8,6 +8,7 @@ import { DiscountProvider } from "@/react-app/contexts/DiscountContext";
 import { BookingProvider } from '@/react-app/components/BookingProvider';
 import { AuthProvider } from "@/context/platform/auth-context";
 import SmoothScrolling from "@/app/components/SmoothScrolling";
+import { Preloader } from "@ekaacc/shared-ui";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
  return (
   <html lang="en">
    <body className={inter.className}>
+    <Preloader />
     <SmoothScrolling>
      <AuthProvider>
      <LanguageProvider>

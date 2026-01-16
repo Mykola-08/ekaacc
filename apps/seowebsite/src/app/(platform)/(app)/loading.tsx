@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/platform/ui/skeleton"
+import { Skeleton } from "@ekaacc/shared-ui"
 
 export default function Loading() {
  return (

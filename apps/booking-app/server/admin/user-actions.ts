@@ -165,7 +165,7 @@ export async function getAdminUserById(id: string): Promise<UserProfile | null> 
         const { rows } = await db.query(sql, [id]);
         if (rows.length === 0) return null;
         
-        const r = rows[0];
+        const r = rows[0]!;
         return {
             ...r,
             id: r.id,

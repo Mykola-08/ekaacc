@@ -25,6 +25,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
  const isLast = currentIndex === questions.length - 1;
 
  const handleAnswer = (value: any) => {
+  if (!currentQuestion) return;
   setAnswers(prev => ({
    ...prev,
    [currentQuestion.id]: value
@@ -32,6 +33,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
  };
 
  const handleNext = async () => {
+  if (!currentQuestion) return;
   if (!answers[currentQuestion.id]) {
    toast.error('Please provide an answer');
    return;

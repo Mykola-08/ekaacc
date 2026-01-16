@@ -21,8 +21,9 @@ Follow these instructions to generate code that aligns with the project's archit
 
 ## 2. Coding Standards & Conventions
 
-### UI & Styling (shadcn/ui + Tailwind)
-- **Components**: Use `shadcn/ui` primitives (Radix UI).
+### UI & Styling (shadcn/ui + Tailwind + Headless UI)
+- **Standard Components**: Use `shadcn/ui` primitives (Radix UI) for standard interface elements (Dialogs, Inputs, Sheets).
+- **Custom Transitions**: Use **Headless UI** (`@headlessui/react`) for complex, accessible transition logic and animations (e.g., Loaders, specialized Reveals).
 - **Styling**: Use Tailwind CSS. Merge classes with `cn()`.
 - **Pattern**: Export single component with `variant` and `size` props (using `cva`).
 - **Theming**: Use Tailwind config tokens (`primary`, `accent`), avoid hardcoded hex values.

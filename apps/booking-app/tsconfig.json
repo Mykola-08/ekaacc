@@ -10,7 +10,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "strict": true,
-    "strictNullChecks": false,
+    "strictNullChecks": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitReturns": false,
     "noEmit": true,

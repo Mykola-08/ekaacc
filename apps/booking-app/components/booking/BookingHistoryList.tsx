@@ -10,6 +10,9 @@ import { toast } from "sonner";
 import { cancelBookingAction } from "@/server/actions/booking-actions";
 import { createClient } from "@/lib/supabase/client"; 
 import Link from 'next/link';
+import { useBookingRealtime } from "@/hooks/useBookingRealtime";
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 type Booking = {
     id: string;
@@ -24,7 +27,40 @@ interface BookingHistoryListProps {
     userId?: string; // Optional, can be derived but better passed
 }
 
-export function BookingHistoryList({ bookings, userId }: BookingHistoryListProps) {
+export function BookingHistoryList({ bookings: initialBookings, userId }: BookingHistoryListProps) {
+    const router = useRouter();
+    const [bookings, setBookings] = useState<Booking[]>(initialBookings);
+
+    // Sync state if server prop changes
+    useEffect(() => {
+        setBookings(initialBookings);
+    }, [initialBookings]);
+
+    // Handle realtime updates
+    useBookingRealtime((payload) => {
+        if (payload.eventType === 'UPDATE') {
+            setBookings((current) => 
+                current.map((b) => {
+                    if (b.id === payload.new.id) {
+                        return { 
+                            ...b, 
+                            status: payload.new.status,
+                            // If user is just looking at history, update other fields if needed
+                            // Note: payload keys are snake_case (e.g. start_time), Booking type is camelCase
+                            // Mapping is required if we want to update times, but usually status is the main realtime change here.
+                        };
+                    }
+                    return b;
+                })
+            );
+            toast.info(`Booking status updated: ${payload.new.status}`);
+        } else {
+            // For INSERT (New booking) or DELETE (Cancelled/Deleted), 
+            // the data structure (joins) is complex, so simpler to refresh server data.
+            router.refresh(); 
+        }
+    });
+
     if (!bookings || bookings.length === 0) {
         return (
             <div className="flex flex-col items-center justify-center py-20 bg-background/30 backdrop-blur-sm rounded-3xl border border-dashed border-border/60 text-center">

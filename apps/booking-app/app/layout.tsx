@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
+// import { Inter, Playfair_Display } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui/sonner';
@@ -12,7 +12,15 @@ import { cn } from '@/lib/utils';
 import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
 import { ThemeProvider } from "@/components/theme-provider"
+import { NotificationsListener } from "@/components/NotificationsListener";
+import { AIChatWidget } from "@/components/ai/AIChatWidget";
+import { Preloader } from '@ekaacc/shared-ui';
 
+// Mock fonts for offline build
+const inter = { variable: '--font-inter', className: 'font-sans' };
+const playfair = { variable: '--font-playfair', className: 'font-serif' };
+
+/*
 const inter = Inter({
  subsets: ['latin'],
  display: 'swap',
@@ -24,6 +32,7 @@ const playfair = Playfair_Display({
  display: 'swap',
  variable: '--font-playfair',
 });
+*/
 
 export const metadata: Metadata = {
  title: 'Integrative Massage Booking - Elena V.',
@@ -53,7 +62,10 @@ export default function RootLayout({
       enableSystem
       disableTransitionOnChange
     >
+      <Preloader />
       <LanguageProvider>
+        <NotificationsListener />
+        <AIChatWidget />
         <MainLayout
           header={<SiteHeader />}
           footer={<SiteFooter />}

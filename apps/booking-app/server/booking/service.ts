@@ -63,7 +63,7 @@ export async function fetchService(serviceId: string) {
     }
 
     // Process joined results - first row has service data, all rows have variant data
-    const serviceRow = rows[0];
+    const serviceRow = rows[0]!;
     const variants = rows
       .filter(r => r.variant_id) // Only rows with variant data
       .map(v => ({
@@ -216,7 +216,7 @@ export async function getBookingById(bookingId: string) {
       return { data: null, error: { message: 'Booking not found', code: '404' } };
     }
 
-    const booking = rows[0];
+    const booking = rows[0]!;
     
     // Transform to match expected structure
     const result = {
@@ -340,7 +340,7 @@ export async function createBooking(params: CreateBookingParams) {
     if (serviceRows.length === 0) {
       return { error: 'Service not found', status: 404 };
     }
-    const service = serviceRows[0];
+    const service = serviceRows[0]!;
 
     // RESTRICTION CHECK
     if (service.requires_identity_verification || (service.min_trust_score || 0) > 0) {
@@ -379,7 +379,7 @@ export async function createBooking(params: CreateBookingParams) {
        if (vRows.length === 0) {
          return { error: 'Service variant not found', status: 404 };
        }
-       const variant = vRows[0];
+       const variant = vRows[0]!;
        finalDuration = variant.duration_min;
        finalPriceCents = variant.price_amount;
     } else {
@@ -394,7 +394,7 @@ export async function createBooking(params: CreateBookingParams) {
          [serviceId]
        );
        if (defaultV.length > 0) {
-          const def = defaultV[0];
+          const def = defaultV[0]!;
           finalVariantId = def.id; 
           finalDuration = def.duration_min;
           finalPriceCents = def.price_amount;
@@ -496,7 +496,7 @@ export async function createBooking(params: CreateBookingParams) {
             [userId]
         );
         if (autoPlanRows.length > 0) {
-            usePlanUsageId = autoPlanRows[0].id;
+            usePlanUsageId = autoPlanRows[0]!.id;
         }
     }
 
@@ -510,7 +510,7 @@ export async function createBooking(params: CreateBookingParams) {
             [usePlanUsageId]
         );
         if (planRows.length === 0) return { error: 'Plan not found', status: 404 };
-        const plan = planRows[0];
+        const plan = planRows[0]!;
         
         if (plan.user_id !== userId) return { error: 'Plan belongs to another user', status: 403 };
         if (plan.status !== 'active') return { error: 'Plan is not active', status: 400 };
@@ -520,7 +520,7 @@ export async function createBooking(params: CreateBookingParams) {
     }
 
     // --- REPUTATION POLICY CHECK ---
-    let reputationPolicy = { canBook: true, requiredDepositPercent: 50, allowPayLater: false, rejectionReason: '' };
+    let reputationPolicy: BookingPolicy = { canBook: true, requiredDepositPercent: 50, allowPayLater: false, rejectionReason: '' };
     // Only check reputation if not using prepaid plan (plan is safe) and not fully covered by reward
     if (!usePlanUsageId) { 
         reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);

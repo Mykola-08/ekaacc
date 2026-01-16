@@ -1,6 +1,0 @@
-{
-    "outputDirectory":  "apps/seowebsite/.next",
-    "buildCommand":  "npx turbo run build --filter=seowebsite",
-    "installCommand":  "npm install --legacy-peer-deps",
-    "framework":  "nextjs"
-}

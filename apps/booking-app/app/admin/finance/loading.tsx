@@ -1,4 +1,4 @@
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@ekaacc/shared-ui"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
 
 export default function Loading() {

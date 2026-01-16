@@ -85,16 +85,16 @@ export function SiteHeader() {
         initial='hidden'
         animate='visible'
         className={cn(
-            "fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-[28px] transition-all duration-500",
+            "fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-[36px] transition-all duration-500 border border-border/50",
             scrolled 
-                ? "bg-white/80 border border-white/20 shadow-xl shadow-black/5 backdrop-blur-xl py-2" 
-                : "bg-white/60 border border-white/40 shadow-lg shadow-black/2 backdrop-blur-md py-3"
+                ? "bg-background/95 backdrop-blur-xl py-2" 
+                : "bg-background/80 backdrop-blur-md py-3"
         )}
       >
         <div className='flex items-center justify-between px-6'>
           {/* Logo */}
           <Link href={mainSiteUrl} className='flex items-center gap-2 group'>
-            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-sans font-bold text-sm shadow-md shadow-blue-900/10">E</div>
+            <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-sans font-bold text-sm">E</div>
             <span className='font-sans font-bold tracking-tight text-base text-foreground/90 group-hover:opacity-80 transition-opacity'>EKA BALANCE</span>
           </Link>
 

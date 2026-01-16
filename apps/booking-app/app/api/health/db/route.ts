@@ -32,8 +32,10 @@ export async function GET() {
       } else {
         // Table check failed
         const index = tableChecks.indexOf(result);
-        tableStatus[tables[index]] = false;
-        errors[tables[index]] = result.reason?.message || 'Unknown error';
+        if (index !== -1 && tables[index]) {
+          tableStatus[tables[index] as string] = false;
+          errors[tables[index] as string] = result.reason?.message || 'Unknown error';
+        }
       }
     }
     

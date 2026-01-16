@@ -17,7 +17,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/platform/ui/sheet"
-import { Skeleton } from "@/components/platform/ui/skeleton"
+import { Skeleton } from "@ekaacc/shared-ui"
 import {
   Tooltip,
   TooltipContent,

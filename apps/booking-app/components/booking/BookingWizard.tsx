@@ -23,6 +23,10 @@ import { createNewBookingAction, getAvailableSlotsAction } from "@/server/action
 import { format } from "date-fns";
 import { createClient } from "@/lib/supabase/client";
 import { Checkbox } from "@/components/ui/checkbox";
+import { usePresence } from "@/hooks/usePresence";
+import { useBookingRealtime } from "@/hooks/useBookingRealtime";
+import { Badge } from "@/components/ui/badge";
+import { Users } from "lucide-react";
 
 export function BookingWizard({ service, variantId }: BookingWizardProps) {
   const router = useRouter();
@@ -55,6 +59,29 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
   const price = selectedVariant ? selectedVariant.price : service.price;
   const duration = selectedVariant ? selectedVariant.duration : service.duration;
 
+  // Realtime Presence: Show how many people are viewing this service
+  // Scope room by serviceId
+  const { onlineUsers } = usePresence({ 
+      roomName: `booking_view:${service.id}`, 
+      user: user ? { ...user, viewing_at: new Date().toISOString() } : { id: 'anon-' + Math.random(), viewing_at: new Date().toISOString() }
+  });
+  const viewerCount = onlineUsers.length;
+
+  // Realtime Slots: Refetch slots if a new booking comes in for this service
+  useBookingRealtime((payload) => {
+      // Only care about new bookings that might eat up a slot
+      if (payload.eventType === 'INSERT' && payload.new.service_id === service.id) {
+          // If the booking is on the currently selected date, refresh slots
+          if (date) {
+            const bookingDate = new Date(payload.new.start_time);
+             if (format(bookingDate, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')) {
+                toast.info("Someone just booked a slot. Refreshing availability...");
+                fetchSlots();
+             }
+          }
+      }
+  });
+
   // Fetch User & Wallet
   useEffect(() => {
       const init = async () => {
@@ -82,30 +109,29 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
       init();
   }, []);
 
-  useEffect(() => {
+  const fetchSlots = async () => {
     if (!date) return;
+    setLoadingSlots(true);
+    setTimeSlots([]);
+    setSelectedTime(null);
     
-    const fetchSlots = async () => {
-      setLoadingSlots(true);
-      setTimeSlots([]);
-      setSelectedTime(null);
+    try {
+      const dateStr = format(date, 'yyyy-MM-dd');
+      const res = await getAvailableSlotsAction(service.id, dateStr, variantId);
       
-      try {
-        const dateStr = format(date, 'yyyy-MM-dd');
-        const res = await getAvailableSlotsAction(service.id, dateStr, variantId);
-        
-        if (res.success && res.data?.slots) {
-             const formatted = res.data.slots.map((s: any) => format(new Date(s.startTime), 'HH:mm'));
-             setTimeSlots([...new Set(formatted)] as string[]);
-        }
-      } catch (e) {
-        console.error("Error fetching slots", e);
-        toast.error("Could not load availability");
-      } finally {
-        setLoadingSlots(false);
+      if (res.success && res.data?.slots) {
+            const formatted = res.data.slots.map((s: any) => format(new Date(s.startTime), 'HH:mm'));
+            setTimeSlots([...new Set(formatted)] as string[]);
       }
-    };
+    } catch (e) {
+      console.error("Error fetching slots", e);
+      toast.error("Could not load availability");
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
 
+  useEffect(() => {
     fetchSlots();
   }, [date, service.id, variantId]);
 
@@ -147,7 +173,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
       try {
         if (!date || !selectedTime) throw new Error("Missing time");
 
-        const [hours, mins] = selectedTime.split(':').map(Number);
+        const [hours = 0, mins = 0] = selectedTime.split(':').map(Number);
         const startTime = new Date(date);
         startTime.setHours(hours, mins, 0, 0);
         const endTime = new Date(startTime);
@@ -187,7 +213,15 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
       <div className="w-full md:w-1/3 order-2 md:order-1">
         <Card className="sticky top-24 bg-muted/40 border-muted">
           <CardHeader>
-            <CardTitle>Booking Summary</CardTitle>
+            <CardTitle className="flex justify-between items-center">
+                Booking Summary
+                {viewerCount > 1 && (
+                    <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/50 flex items-center gap-1.5 text-xs py-0.5 font-normal animate-pulse">
+                        <Users className="w-3 h-3" />
+                        {viewerCount} viewing
+                    </Badge>
+                )}
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>

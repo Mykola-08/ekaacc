@@ -19,7 +19,7 @@ param(
     [string]$Scope = 'eka-balance'
 )
 
-$apps = @('web', 'api', 'booking-app', 'legal', 'docs', 'seowebsite')
+$apps = @('booking-app', 'seowebsite')
 
 # Mapping of app names to Vercel project names
 # Assumes project names are ekaacc-1-$appName

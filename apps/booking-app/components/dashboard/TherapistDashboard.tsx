@@ -13,6 +13,9 @@ import {
     DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { useLanguage } from '@/context/LanguageContext';
+import { useBookingRealtime } from "@/hooks/useBookingRealtime";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 type ScheduleItem = {
     id: string;
@@ -34,6 +37,14 @@ type ScheduleItem = {
 export function TherapistDashboard({ schedule }: { schedule: any[] }) {
     const today = new Date();
     const { t } = useLanguage();
+    const router = useRouter();
+
+    // Listen for booking updates
+    useBookingRealtime((payload) => {
+        console.log("Realtime update received:", payload);
+        toast.info("Schedule updated");
+        router.refresh();
+    });
 
     const stats = useMemo(() => {
         const total = schedule.length;
@@ -181,7 +192,7 @@ function ScheduleCard({ item }: { item: ScheduleItem }) {
                         
                         <div className="flex items-center gap-2 text-muted-foreground">
                             <Avatar className="w-6 h-6 border border-border/50">
-                                <AvatarFallback className="text-[10px] bg-foreground/5">{clientName.substring(0,2).toUpperCase()}</AvatarFallback>
+                                <AvatarFallback className="text-[10px] bg-foreground/5">{(clientName || '??').substring(0,2).toUpperCase()}</AvatarFallback>
                             </Avatar>
                             <span className="text-sm font-normal text-foreground/80">{clientName}</span>
                         </div>

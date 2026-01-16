@@ -46,6 +46,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
  const normalizedOptions = getOptions();
 
  const handleAnswer = (value: any) => {
+  if (!currentQuestion) return;
   setAnswers(prev => ({
    ...prev,
    [currentQuestion.id]: value
@@ -54,6 +55,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
 
  const handleNext = async () => {
     // Validation: Assume required
+    if (!currentQuestion) return;
     if (!answers[currentQuestion.id]) {
         toast.error('Please answer the question to continue');
         return;
@@ -102,6 +104,8 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
          </div>
      )
  }
+
+ if (!currentQuestion) return null;
 
  return (
     <div className="min-h-screen bg-background flex flex-col">

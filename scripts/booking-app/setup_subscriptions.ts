@@ -100,7 +100,7 @@ async function main() {
     let serviceId;
 
     if (existingServices && existingServices.length > 0) {
-      serviceId = existingServices[0].id;
+      serviceId = existingServices[0]!.id;
       console.log(`Updating existing Service: ${serviceId}`);
       await supabase.from('service').update({
         stripe_product_id: product.id,
@@ -135,12 +135,12 @@ async function main() {
       .limit(1);
 
     if (existingVariants && existingVariants.length > 0) {
-      console.log(`Updating Variant: ${existingVariants[0].id}`);
+      console.log(`Updating Variant: ${existingVariants[0]!.id}`);
       await supabase.from('service_variant').update({
         stripe_price_id: price.id,
         name: `${sub.interval}ly`,
         duration_min: 0 // Subscriptions don't really have duration in minutes like sessions
-      }).eq('id', existingVariants[0].id);
+      }).eq('id', existingVariants[0]!.id);
     } else {
       console.log(`Inserting new Variant`);
       await supabase.from('service_variant').insert({

@@ -1,13 +1,20 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
 import { updateBookingPaymentStatus } from '@/server/booking/service';
+import { LoyaltyService } from '@/server/loyalty/service';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
 });
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -32,6 +39,35 @@ export async function POST(req: Request) {
         if (bookingId) {
             console.log(`Processing successful payment for booking ${bookingId}`);
             await updateBookingPaymentStatus(bookingId, 'captured', paymentIntentId);
+
+            // Loyalty Logic: 1 Euro = 1 Point
+            try {
+              const { data: booking } = await supabaseAdmin
+                .from('booking')
+                .select('customer_reference_id')
+                .eq('id', bookingId)
+                .single();
+
+              if (booking?.customer_reference_id) {
+                const amountPaid = session.amount_total || 0;
+                if (amountPaid > 0) {
+                  const pointsEarned = Math.floor(amountPaid / 100); // 1 point per 100 cents (1 EUR)
+                  
+                  const loyalty = new LoyaltyService(supabaseAdmin);
+                  await loyalty.addPoints(
+                    booking.customer_reference_id,
+                    pointsEarned,
+                    'earned_booking',
+                    bookingId,
+                    `Points earned from booking ${bookingId}`
+                  );
+                  console.log(`Awarded ${pointsEarned} points to user ${booking.customer_reference_id}`);
+                }
+              }
+            } catch (loyaltyError) {
+              console.error('Failed to award loyalty points:', loyaltyError);
+              // Do not fail the webhook, just log the error
+            }
         }
         break;
       }

@@ -2,7 +2,8 @@ import { db } from '@/lib/db';
 import { v4 as uuid } from 'uuid';
 import { signManageToken, hashToken } from '@/lib/bookingToken';
 import { emitEvent } from '@/lib/events';
-
+import { LoyaltyService } from '@/server/loyalty/service';
+import { createClient } from '@/lib/supabase/server';
 
 // Simple in-memory cache for frequently accessed data
 const serviceCache = new Map<string, { data: unknown; expiry: number }>();
@@ -303,6 +304,7 @@ interface CreateBookingParams {
   metadata?: Record<string, unknown>;
   customerTags?: string[];
   usePlanUsageId?: string;
+  rewardId?: string;
 }
 
 export async function createBooking(params: CreateBookingParams) {
@@ -317,6 +319,7 @@ export async function createBooking(params: CreateBookingParams) {
       phone,
       displayName,
       paymentMode,
+      rewardId,
       depositCents = 0,
       addons = [],
       staffId,

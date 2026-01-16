@@ -46,6 +46,21 @@ export class CatalogService {
   }
 
   /**
+   * Get available rewards
+   */
+  async getRewards() {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('service')
+      .select('*')
+      .eq('type', 'reward')
+      .eq('active', true)
+      .order('metadata->>point_cost', { ascending: true });
+      
+    return data;
+  }
+
+  /**
    * Create a new product/service (Admin)
    */
   async createProduct(input: Partial<ServiceProduct>) {

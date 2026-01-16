@@ -42,6 +42,7 @@ export interface SyncQueueItem {
   type: string;
   entity_type?: string;
   entity_id?: string;
+  operation?: string;
   status: 'pending' | 'processing' | 'completed' | 'failed';
   data: unknown;
   direction?: string;
@@ -71,11 +72,20 @@ export interface SyncOptions {
   conflictResolution?: 'local_wins' | 'external_wins' | 'merge';
 }
 
+export interface SyncBidirectionalOptions {
+  fullSync?: boolean;
+  startDate?: string;
+  endDate?: string;
+  direction?: 'inbound' | 'outbound' | 'bidirectional';
+  conflictResolution?: 'local_wins' | 'external_wins' | 'merge';
+  batchSize?: number;
+}
+
 export const bidirectionalSyncService = {
   getSyncStatistics: async (_limit?: number): Promise<SyncStatistic[]> => [],
   getPendingConflicts: async (_limit?: number): Promise<SyncConflict[]> => [],
   getSyncQueue: async (_limit: number): Promise<SyncQueueItem[]> => [],
-  syncBidirectional: async (_options: { fullSync?: boolean; startDate?: string; endDate?: string }): Promise<SyncResult> => ({ 
+  syncBidirectional: async (_options: SyncBidirectionalOptions): Promise<SyncResult> => ({ 
     success: true, 
     conflict: false, 
     isNew: false, 
@@ -86,7 +96,7 @@ export const bidirectionalSyncService = {
     updated: 0,
     errors: []
   }),
-  resolveConflict: async (_id: string, _resolution: 'local' | 'external' | 'merge'): Promise<{ success: boolean }> => ({ success: true }),
+  resolveConflict: async (_id: string, _resolution: 'local' | 'external' | 'merge' | 'local_wins' | 'external_wins'): Promise<{ success: boolean }> => ({ success: true }),
   retryQueueItem: async (_id: string): Promise<{ success: boolean }> => ({ success: true }),
   healthCheck: async (): Promise<boolean> => true,
   processInboundBooking: async (_data: unknown, _options: SyncOptions): Promise<SyncResult> => ({ 

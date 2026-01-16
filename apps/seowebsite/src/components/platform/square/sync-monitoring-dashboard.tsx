@@ -105,16 +105,17 @@ export default function SyncMonitoringDashboard() {
     conflicts: SyncConflict[], 
     queue: SyncQueueItem[]
   ) => {
-    const recentStats = stats.filter(s => 
-      new Date(s.date) > new Date(Date.now() - 24 * 60 * 60 * 1000)
-    );
+    const recentStats = stats.filter(s => {
+      const dateStr = s.date || s.timestamp;
+      return dateStr && new Date(dateStr) > new Date(Date.now() - 24 * 60 * 60 * 1000);
+    });
 
-    const totalOps = recentStats.reduce((sum, s) => sum + s.total_operations, 0);
-    const failedOps = recentStats.reduce((sum, s) => sum + s.failure_count, 0);
+    const totalOps = recentStats.reduce((sum, s) => sum + (s.total_operations ?? 0), 0);
+    const failedOps = recentStats.reduce((sum, s) => sum + (s.failure_count ?? 0), 0);
     const successRate = totalOps > 0 ? (totalOps - failedOps) / totalOps : 1;
     
     const avgSyncTime = recentStats.length > 0 
-      ? recentStats.reduce((sum, s) => sum + s.avg_sync_time_ms, 0) / recentStats.length 
+      ? recentStats.reduce((sum, s) => sum + (s.avg_sync_time_ms ?? 0), 0) / recentStats.length 
       : 0;
 
     const pendingItems = queue.filter(q => q.status === 'pending').length;
@@ -124,7 +125,7 @@ export default function SyncMonitoringDashboard() {
     if (successRate < 0.8 || failedItems > 10) overall = 'error';
     else if (successRate < 0.95 || pendingItems > 50) overall = 'warning';
 
-    const lastSync = stats.length > 0 ? stats[0]?.date : null;
+    const lastSync = stats.length > 0 ? (stats[0]?.date ?? stats[0]?.timestamp ?? null) : null;
 
     setSyncHealth({
       overall,
@@ -523,7 +524,7 @@ export default function SyncMonitoringDashboard() {
                             </div>
                             <div className="text-sm text-muted-foreground flex items-center gap-2">
                               <span className="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400">
-                                {conflict.conflict_type.replace('_', ' ')}
+                                {(conflict.conflict_type ?? conflict.type ?? 'unknown').replace('_', ' ')}
                               </span>
                               <span>•</span>
                               <span>{new Date(conflict.created_at).toLocaleTimeString()}</span>
@@ -616,22 +617,22 @@ export default function SyncMonitoringDashboard() {
                         <div className="flex items-center gap-4 text-sm">
                           <div className="flex items-center gap-1 text-green-600 dark:text-green-400">
                             <CheckCircle className="h-4 w-4" />
-                            <span className="font-medium">{stat.success_count}</span>
+                            <span className="font-medium">{stat.success_count ?? 0}</span>
                           </div>
-                          {stat.failure_count > 0 && (
+                          {(stat.failure_count ?? 0) > 0 && (
                             <div className="flex items-center gap-1 text-red-600 dark:text-red-400">
                               <AlertTriangle className="h-4 w-4" />
                               <span className="font-medium">{stat.failure_count}</span>
                             </div>
                           )}
-                          {stat.conflict_count > 0 && (
+                          {(stat.conflict_count ?? 0) > 0 && (
                             <div className="flex items-center gap-1 text-orange-600 dark:text-orange-400">
                               <Users className="h-4 w-4" />
                               <span className="font-medium">{stat.conflict_count}</span>
                             </div>
                           )}
                           <div className="text-muted-foreground font-medium">
-                            {stat.avg_sync_time_ms}ms
+                            {stat.avg_sync_time_ms ?? 0}ms
                           </div>
                         </div>
                       </div>

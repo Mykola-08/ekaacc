@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { signManageToken, hashToken } from '@/lib/bookingToken';
 import { emitEvent } from '@/lib/events';
 import { LoyaltyService } from '@/server/loyalty/service';
+import { ReputationService } from '@/server/reputation/service';
 import { createClient } from '@/lib/supabase/server';
 
 // Simple in-memory cache for frequently accessed data
@@ -329,6 +330,7 @@ export async function createBooking(params: CreateBookingParams) {
     } = params;
 
     let usePlanUsageId = inputPlanId;
+    let finalDepositCents = depositCents;
 
     // 1. Fetch service
     const { rows: serviceRows } = await db.query(
@@ -445,6 +447,41 @@ export async function createBooking(params: CreateBookingParams) {
       return { error: 'No staff available for this slot', status: 409 };
     }
 
+    // --- REWARD REDEMPTION LOGIC ---
+    if (rewardId) {
+        if (!userId) {
+           return { error: 'You must be logged in to redeem rewards.', status: 401 };
+        }
+ 
+        try {
+           // Redeem the reward (deduct points)
+          const loyalty = new LoyaltyService();
+          const redemption = await loyalty.redeemReward(userId, rewardId);
+          const rewardMeta = redemption.reward || {};
+           let discountCents = 0;
+           
+           if (rewardMeta.discount_percent) {
+              discountCents = Math.floor(finalPriceCents * (rewardMeta.discount_percent / 100));
+           } else if (rewardMeta.discount_amount_cents) {
+              discountCents = rewardMeta.discount_amount_cents;
+           } else if (rewardMeta.category === 'session') {
+              // Free session covers full price
+              discountCents = finalPriceCents;
+           }
+
+           if (discountCents > 0) {
+              console.log(`[Booking] Applying reward discount: ${discountCents} cents`);
+              finalPriceCents = Math.max(0, finalPriceCents - discountCents);
+              finalDepositCents = Math.max(0, finalDepositCents - discountCents);
+           }
+           
+        } catch (err: any) {
+           console.error('[Booking] Reward redemption failed:', err);
+           return { error: err.message || 'Failed to redeem reward', status: 400 };
+        }
+    }
+    // --------------------------------
+
     // Check Plan logic
     // Modification: Automatically check for available credits if not explicitly provided
     if (userId && !usePlanUsageId) {
@@ -482,6 +519,18 @@ export async function createBooking(params: CreateBookingParams) {
         initialPaymentStatus = 'captured';
     }
 
+    // --- REPUTATION POLICY CHECK ---
+    let reputationPolicy = { canBook: true, requiredDepositPercent: 50, allowPayLater: false, rejectionReason: '' };
+    // Only check reputation if not using prepaid plan (plan is safe) and not fully covered by reward
+    if (!usePlanUsageId) { 
+        reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);
+        if (!reputationPolicy.canBook) {
+            return { error: reputationPolicy.rejectionReason || 'Booking declined based on account policy.', status: 403 };
+        }
+        console.log(`[Booking] Reputation Policy for ${email}: ${JSON.stringify(reputationPolicy)}`);
+    }
+    // -------------------------------
+
     // 4. Prepare booking
     const reservationTTLMinutes = 5;
     const reservationExpiresAt = new Date(Date.now() + reservationTTLMinutes * 60000);
@@ -492,8 +541,20 @@ export async function createBooking(params: CreateBookingParams) {
     const addonsTotal = addons.reduce((sum: number, a: any) => sum + (a.priceCents || 0), 0);
     const totalCents = finalPriceCents + addonsTotal;
 
-    if (paymentMode === 'deposit' && depositCents <= 0) {
-      return { error: 'Deposit amount required for deposit mode', status: 400 };
+    if (paymentMode === 'deposit' && !rewardId && !usePlanUsageId) {
+       // 1. Check if trying to pay 0 without permission
+       if (finalDepositCents <= 0 && !reputationPolicy.allowPayLater) {
+          return { error: 'Deposit amount required for deposit mode', status: 400 };
+       }
+       
+       // 2. Check Min Percentage 
+       if (reputationPolicy.requiredDepositPercent > 0) {
+           const requiredAmount = Math.floor(totalCents * (reputationPolicy.requiredDepositPercent / 100));
+           // Allow small margin of error (e.g. 1 cent)
+           if (finalDepositCents < (requiredAmount - 1)) {
+                return { error: `Insufficient deposit. Your account requires a ${reputationPolicy.requiredDepositPercent}% deposit.`, status: 400 };
+           }
+       }
     }
 
     const cancellationPolicy = {
@@ -514,7 +575,7 @@ export async function createBooking(params: CreateBookingParams) {
       [
         id, service.id, finalVariantId, originApp, userId || null, finalStaffId, start.toISOString(), end.toISOString(), finalDuration,
         finalPriceCents, 'EUR', email, phone, displayName,
-        JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? depositCents : 0, initialPaymentStatus,
+        JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? finalDepositCents : 0, initialPaymentStatus,
         'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash,
         metadata, customerTags
       ]
@@ -540,7 +601,7 @@ export async function createBooking(params: CreateBookingParams) {
         totalCents,
         basePriceCents: finalPriceCents,
         addonsTotalCents: addonsTotal,
-        depositCents: paymentMode === 'deposit' ? depositCents : undefined,
+        depositCents: paymentMode === 'deposit' ? finalDepositCents : undefined,
         reservationExpiresAt: reservationExpiresAt.toISOString(),
         staffId: finalStaffId,
       },

@@ -103,6 +103,10 @@ export class LoyaltyService {
         `Redeemed: ${reward.name}`
     );
     
-    return { success: true, remaining_points: (balance.current_points || 0) - cost };
+    return { 
+      success: true, 
+      remaining_points: (balance.current_points || 0) - cost,
+      reward: reward.metadata
+    };
   }
 }

@@ -1,6 +1,14 @@
 -- Migration for Rewards System
--- 1. Ensure type column exists on service
-alter table service add column if not exists type text default 'service';
+-- 1. Update Constraint to allow 'reward'
+DO $$
+BEGIN
+  IF EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'service_type_check') THEN
+    ALTER TABLE service DROP CONSTRAINT service_type_check;
+  END IF;
+  
+  ALTER TABLE service ADD CONSTRAINT service_type_check 
+  CHECK (type = ANY (ARRAY['service', 'product', 'wallet_credit', 'membership', 'subscription', 'reward']));
+END $$;
 
 -- 2. Create Rewards
 -- We use a dedicated function to avoid duplicates

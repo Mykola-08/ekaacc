@@ -389,6 +389,9 @@ async function recordSyncStatistics(
   try {
     // Use the bidirectional sync service to record statistics
     await bidirectionalSyncService.recordSyncStatistics({
+      imported: 0,
+      exported: 0,
+      errors: conflict ? 1 : 0,
       externalSystem: 'square',
       entityType,
       syncDirection: direction,

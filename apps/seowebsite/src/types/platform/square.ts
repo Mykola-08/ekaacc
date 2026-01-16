@@ -52,7 +52,7 @@ export interface EnhancedSquareWebhookEvent {
   event_id: string;
   merchantId: string;
   merchant_id: string;
-  locationId: string;
+  locationId?: string;
   location_id?: string;
   data: any;
   created_at?: string;

@@ -1,11 +1,8 @@
 'use client'
 
 import { useCallback, useMemo, useState } from 'react'
-// @ts-expect-error - slate modules not installed
 import { createEditor, Descendant, Editor, Transforms, Element as SlateElement } from 'slate'
-// @ts-expect-error - slate-react modules not installed
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'slate-react'
-// @ts-expect-error - slate-history modules not installed
 import { withHistory } from 'slate-history'
 import { Button } from '@/components/platform/ui/button'
 import { Card, CardContent } from '@/components/platform/ui/card'

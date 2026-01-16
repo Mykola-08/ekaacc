@@ -74,7 +74,8 @@ export function AIHelpWidget({
       ]);
 
       setRecommendations(recs);
-      setSupportiveMessage(supportiveResponse.output);
+      const outputMessage = typeof supportiveResponse === 'string' ? supportiveResponse : supportiveResponse.output;
+      setSupportiveMessage(outputMessage);
       setShowSupportiveMessage(true);
     } catch (error) {
       console.error('Failed to get AI recommendations:', error);
@@ -85,6 +86,7 @@ export function AIHelpWidget({
           title: 'Contact Support',
           description: 'Reach out to our support team for assistance',
           category: 'general',
+          type: 'general',
           confidence: 0.8
         }
       ]);

@@ -32,7 +32,7 @@ export default function MessagesPage() {
       if (dataService && user) {
         setIsLoading(true);
         const allUsers = await dataService.getAllUsers();
-        const therapist = allUsers.find(u => u.role === 'Therapist');
+        const therapist = allUsers.find((u: User) => u.role === 'Therapist');
         if (therapist) {
           setConversations([therapist]);
           setActiveConversation(therapist);

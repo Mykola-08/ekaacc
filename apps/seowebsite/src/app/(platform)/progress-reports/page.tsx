@@ -90,10 +90,10 @@ export default function ProgressReportsPage() {
   useEffect(() => {
     if (dataService) {
       setIsLoadingReports(true);
-      dataService.getReports().then(fetchedReports => {
+      dataService.getReports().then((fetchedReports: Report[]) => {
         setReports(fetchedReports || []);
         setIsLoadingReports(false);
-      }).catch(error => {
+      }).catch((error: Error) => {
         console.error("Failed to fetch reports", error);
         setIsLoadingReports(false);
         toast({

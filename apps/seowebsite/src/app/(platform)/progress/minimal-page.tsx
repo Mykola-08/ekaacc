@@ -150,10 +150,12 @@ export default function MinimalProgressPage() {
       : 0;
     const completedGoals = reports.filter(report => report.goalProgress === 100).length;
     const recentReports = reports.slice(-5);
-    const recentTrend: 'improving' | 'declining' | 'neutral' = recentReports.length > 1 
-      ? (recentReports[recentReports.length - 1].mood || 0) > (recentReports[0].mood || 0)
+    const lastReport = recentReports[recentReports.length - 1];
+    const firstReport = recentReports[0];
+    const recentTrend: 'improving' | 'declining' | 'neutral' = recentReports.length > 1 && lastReport && firstReport
+      ? (lastReport.mood || 0) > (firstReport.mood || 0)
         ? 'improving' 
-        : (recentReports[recentReports.length - 1].mood || 0) < (recentReports[0].mood || 0)
+        : (lastReport.mood || 0) < (firstReport.mood || 0)
           ? 'declining' 
           : 'neutral'
       : 'neutral';

@@ -44,7 +44,7 @@ export default function EditLessonPage({ params }: { params: Promise<{ lessonId:
         setIsPublished(data.is_published);
         
         // Parse Content
-        const content = data.content || {};
+        const content = data.content as { article_text?: string; video_url?: string; questions?: QuizQuestion[] } || {};
         if (data.content_type === 'article') {
           setArticleContent(content.article_text || '');
         } else if (data.content_type === 'video') {
@@ -101,16 +101,22 @@ export default function EditLessonPage({ params }: { params: Promise<{ lessonId:
     ]);
   };
 
-  const updateQuestion = (index: number, field: keyof QuizQuestion, value: any) => {
+  const updateQuestion = (index: number, field: keyof QuizQuestion, value: string | string[] | number) => {
     const newQuestions = [...quizQuestions];
-    newQuestions[index] = { ...newQuestions[index], [field]: value };
-    setQuizQuestions(newQuestions);
+    const existingQuestion = newQuestions[index];
+    if (existingQuestion) {
+      newQuestions[index] = { ...existingQuestion, [field]: value };
+      setQuizQuestions(newQuestions);
+    }
   };
 
   const updateOption = (qIndex: number, oIndex: number, value: string) => {
     const newQuestions = [...quizQuestions];
-    newQuestions[qIndex].options[oIndex] = value;
-    setQuizQuestions(newQuestions);
+    const question = newQuestions[qIndex];
+    if (question) {
+      question.options[oIndex] = value;
+      setQuizQuestions(newQuestions);
+    }
   };
 
   const removeQuestion = (index: number) => {

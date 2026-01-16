@@ -41,9 +41,9 @@ export function OAuthConnections() {
     if (!error && data) {
       setConnections(data.map(token => ({
         provider: token.provider,
-        connectedAt: token.updated_at,
-        tokenExpiresAt: token.token_expires_at,
-        scopes: token.scopes,
+        connectedAt: token.updated_at || new Date().toISOString(),
+        tokenExpiresAt: token.token_expires_at || null,
+        scopes: token.scopes || null,
       })))
     }
 

@@ -300,8 +300,8 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
 
 interface ImpersonationBannerProps {
   impersonation: {
-    originalUserEmail: string
-    targetUserEmail: string
+    originalUserEmail?: string
+    targetUserEmail?: string
     reason: string
     startedAt: string
   }
@@ -329,10 +329,10 @@ export function ImpersonationBanner({ impersonation, onEndImpersonation }: Imper
           <Shield className="h-5 w-5 text-amber-600" />
           <div className="text-sm">
             <span className="font-medium text-amber-800">
-              Impersonating: {impersonation.targetUserEmail}
+              Impersonating: {impersonation.targetUserEmail || 'Unknown'}
             </span>
             <span className="text-amber-700 ml-2">
-              (Original: {impersonation.originalUserEmail})
+              (Original: {impersonation.originalUserEmail || 'Unknown'})
             </span>
             <span className="text-amber-600 ml-2">
               • Reason: {impersonation.reason}

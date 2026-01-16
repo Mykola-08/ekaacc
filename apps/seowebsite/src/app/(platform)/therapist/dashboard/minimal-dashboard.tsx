@@ -184,9 +184,9 @@ export default function MinimalTherapistDashboard() {
       );
       
       // Get unique clients
-      const clientIds = [...new Set(therapistSessions.map((s: any) => s.userId))];
+      const clientIds: string[] = [...new Set(therapistSessions.map((s: any) => s.userId as string))].filter((id): id is string => typeof id === 'string');
       const clientData = await Promise.all(
-        clientIds.map(async (id: string) => {
+        clientIds.map(async (id) => {
           try {
             const { data } = await supabase.from('users').select('*').eq('id', id).single();
             return data;

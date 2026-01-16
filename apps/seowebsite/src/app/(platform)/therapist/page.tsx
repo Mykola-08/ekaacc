@@ -72,7 +72,7 @@ export default function TherapistDashboard() {
       const service = await getDataService();
       const allUsers = await service.getAllUsers();
       // Get unique patient IDs from my sessions
-      const patientIds = [...new Set(mySessions.map(s => s.userId))].filter(id => id);
+      const patientIds = [...new Set(mySessions.map(s => s.userId as string))].filter((id): id is string => !!id);
       const clients = allUsers.filter(u => patientIds.includes(u.id));
       setMyClients(clients);
     } catch (error) {

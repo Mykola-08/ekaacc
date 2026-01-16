@@ -21,9 +21,25 @@ export async function generateTherapyRecommendations(_userId_or_query: string, _
   ];
 }
 
-export async function generateAIResponse(_query: string, _context?: any): Promise<string> {
+export interface AIResponseOptions {
+  input: string;
+  context?: { query: string; page: string };
+  model?: string;
+  maxTokens?: number;
+  temperature?: number;
+}
+
+export interface AIResponseResult {
+  output: string;
+  model?: string;
+}
+
+export async function generateAIResponse(options: string | AIResponseOptions, _context?: unknown): Promise<string | AIResponseResult> {
   console.warn("generateAIResponse called (stub)");
-  return "This is a placeholder AI response. The actual AI service needs to be connected.";
+  if (typeof options === 'string') {
+    return "This is a placeholder AI response. The actual AI service needs to be connected.";
+  }
+  return { output: "This is a placeholder AI response. The actual AI service needs to be connected." };
 }
 
 export async function generateWellnessInsights(_userId: string): Promise<string[]> {

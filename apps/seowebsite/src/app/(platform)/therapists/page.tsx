@@ -28,7 +28,7 @@ export default function TherapistsPage() {
       if (dataService) {
         setIsLoading(true);
         const allUsers = await dataService.getAllUsers();
-        const therapistUsers = allUsers.filter(user => user.role === 'Therapist');
+        const therapistUsers = allUsers.filter((user: User) => user.role === 'Therapist');
         setTherapists(therapistUsers);
         setIsLoading(false);
       }

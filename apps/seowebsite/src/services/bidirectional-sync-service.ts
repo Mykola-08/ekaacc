@@ -1,33 +1,56 @@
-interface SyncStatistic {
+export interface SyncStatistic {
   id: string;
   timestamp: string;
+  date?: string; // Alias for dashboard compatibility
   imported: number;
   exported: number;
   errors: number;
   externalSystem?: string;
+  external_system?: string; // Snake case alias
   entityType?: string;
+  entity_type?: string; // Snake case alias
   syncDirection?: string;
+  sync_direction?: string; // Snake case alias
   operation?: string;
   success?: boolean;
   conflict?: boolean;
   syncTimeMs?: number | null;
+  avg_sync_time_ms?: number; // Dashboard compatible
+  total_operations?: number; // Dashboard compatible  
+  success_count?: number; // Dashboard compatible
+  failure_count?: number; // Dashboard compatible
+  conflict_count?: number; // Dashboard compatible
 }
 
-interface SyncConflict {
+export interface SyncConflict {
   id: string;
   type: string;
+  entity_type?: string; // Dashboard alias
   local_data: unknown;
   external_data: unknown;
+  local_id?: string;
+  external_id?: string;
+  conflict_type?: string;
+  conflict_data?: unknown;
   created_at: string;
-  resolved_at?: string;
+  resolved_at?: string | null;
+  resolution_strategy?: string | null;
 }
 
-interface SyncQueueItem {
+export interface SyncQueueItem {
   id: string;
   type: string;
+  entity_type?: string;
+  entity_id?: string;
   status: 'pending' | 'processing' | 'completed' | 'failed';
   data: unknown;
+  direction?: string;
+  external_system?: string;
   created_at: string;
+  scheduled_at?: string;
+  processed_at?: string | null;
+  error_message?: string | null;
+  retry_count?: number;
 }
 
 interface SyncResult {
@@ -42,7 +65,7 @@ interface SyncResult {
   errors: string[];
 }
 
-interface SyncOptions {
+export interface SyncOptions {
   source?: string;
   direction?: 'inbound' | 'outbound' | 'bidirectional';
   conflictResolution?: 'local_wins' | 'external_wins' | 'merge';

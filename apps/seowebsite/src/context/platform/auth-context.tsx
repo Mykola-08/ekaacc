@@ -222,6 +222,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Authentication methods
   const signIn = async (credentials: LoginCredentials) => {
     try {
+      if (!credentials.password) {
+        return { error: { message: 'Password is required' } }
+      }
       const { error } = await supabase.auth.signInWithPassword({
         email: credentials.email,
         password: credentials.password,
@@ -239,6 +242,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signUp = async (credentials: SignUpCredentials) => {
     try {
+      if (!credentials.password) {
+        return { error: { message: 'Password is required' } }
+      }
       const { error } = await supabase.auth.signUp({
         email: credentials.email,
         password: credentials.password,

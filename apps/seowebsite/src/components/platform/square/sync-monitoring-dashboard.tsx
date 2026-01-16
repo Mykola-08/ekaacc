@@ -23,53 +23,18 @@ import {
   ShieldCheck,
   AlertOctagon
 } from 'lucide-react';
-import { bidirectionalSyncService } from '@/services/bidirectional-sync-service';
+import { 
+  bidirectionalSyncService,
+  type SyncStatistic,
+  type SyncConflict,
+  type SyncQueueItem,
+  type SyncOptions
+} from '@/services/bidirectional-sync-service';
 import { isSquareAppointmentsEnabled, isSquareSyncEnabled } from '@/lib/platform/feature-flags';
 import { AnimatedGradientText } from '@/components/platform/ui/animated-gradient-text';
 import { NumberTicker } from '@/components/platform/ui/number-ticker';
 import { BlurIn } from '@/components/platform/ui/blur-in';
 import { cn } from '@/lib/platform/utils';
-
-interface SyncStatistics {
-  id: string;
-  date: string;
-  external_system: string;
-  entity_type: string;
-  sync_direction: string;
-  operation: string;
-  success_count: number;
-  failure_count: number;
-  conflict_count: number;
-  avg_sync_time_ms: number;
-  total_operations: number;
-}
-
-interface SyncConflict {
-  id: string;
-  entity_type: string;
-  local_id: string;
-  external_id: string;
-  conflict_type: string;
-  conflict_data: any;
-  created_at: string;
-  resolved_at: string | null;
-  resolution_strategy: string | null;
-}
-
-interface SyncQueueItem {
-  id: string;
-  entity_type: string;
-  entity_id: string;
-  operation: string;
-  status: string;
-  direction: string;
-  external_system: string;
-  created_at: string;
-  scheduled_at: string;
-  processed_at: string | null;
-  error_message: string | null;
-  retry_count: number;
-}
 
 interface SyncHealth {
   overall: 'healthy' | 'warning' | 'error';
@@ -83,7 +48,7 @@ interface SyncHealth {
 export default function SyncMonitoringDashboard() {
   const [isEnabled, setIsEnabled] = useState(false);
   const [syncEnabled, setSyncEnabled] = useState(false);
-  const [statistics, setStatistics] = useState<SyncStatistics[]>([]);
+  const [statistics, setStatistics] = useState<SyncStatistic[]>([]);
   const [conflicts, setConflicts] = useState<SyncConflict[]>([]);
   const [queueItems, setQueueItems] = useState<SyncQueueItem[]>([]);
   const [syncHealth, setSyncHealth] = useState<SyncHealth>({
@@ -136,7 +101,7 @@ export default function SyncMonitoringDashboard() {
 
   // Calculate health metrics
   const calculateHealthMetrics = (
-    stats: SyncStatistics[], 
+    stats: SyncStatistic[], 
     conflicts: SyncConflict[], 
     queue: SyncQueueItem[]
   ) => {

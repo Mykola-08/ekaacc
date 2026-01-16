@@ -10,18 +10,23 @@ export interface ProviderToken {
     scopes?: string[] | null;
 }
 
+export interface SaveProviderTokensParams {
+    userId: string;
+    provider: string;
+    providerToken: string | null;
+    providerRefreshToken?: string | null;
+    expiresIn?: number;
+}
+
 export async function getValidGoogleToken(_userId: string): Promise<string> {
     return 'mock-token';
 }
 
 export async function saveProviderTokens(
-    _userId: string,
-    _provider: string,
-    _accessToken: string,
-    _refreshToken?: string,
-    _expiresAt?: string
+    params: SaveProviderTokensParams
 ): Promise<void> {
-    // Stub
+    // Stub implementation
+    console.log('saveProviderTokens called with:', params.userId, params.provider);
 }
 
 export async function getAllProviderTokens(_userId: string): Promise<{ data: ProviderToken[] | null, error: Error | null }> {

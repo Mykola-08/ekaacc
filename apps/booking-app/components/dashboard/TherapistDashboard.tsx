@@ -92,6 +92,20 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
                 </div>
             </div>
 
+            {/* Manual Verification Queue (NEW) */}
+             <div className="p-8 rounded-4xl border border-border/50 bg-background/50">
+                 <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-medium text-foreground/80">Payment Verifications</h2>
+                    <Button variant="ghost" size="sm">View All</Button>
+                 </div>
+                 
+                 <div className="space-y-4">
+                    <div className="p-4 rounded-xl border border-dashed border-border flex items-center justify-center text-muted-foreground text-sm">
+                        No pending proofs to review.
+                    </div>
+                 </div>
+            </div>
+
             {/* Minimal Schedule List */}
             <div className="space-y-6">
                 <h2 className="text-xl font-medium text-foreground/80">Today's Schedule</h2>

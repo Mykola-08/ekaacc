@@ -268,7 +268,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
                         {/* Image */}
                         {(service.images?.[0] || service.image_url) && (
-                            <div className="relative rounded-[2rem] overflow-hidden bg-muted aspect-video mb-10 border border-black/5 shadow-sm">
+                            <div className="relative rounded-4xl overflow-hidden bg-muted aspect-video mb-10 border border-black/5 shadow-sm">
                                 <Image 
                                     src={service.images?.[0] || service.image_url || ''} 
                                     alt={service.name} 
@@ -300,7 +300,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                             href={`/book/${service.id}?variantId=${variant.id}`}
                                             scroll={false}
                                             className={cn(
-                                                "group flex items-center justify-between p-5 rounded-[1.5rem] border transition-all cursor-pointer",
+                                                "group flex items-center justify-between p-5 rounded-2xl border transition-all cursor-pointer",
                                                 isActive 
                                                     ? "bg-primary/5 border-primary/20 shadow-sm" 
                                                     : "bg-white/40 backdrop-blur-xl border-white/20 hover:bg-white/60 hover:border-black/5"
@@ -325,7 +325,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                             </div>
                         )}
 
-                        <div className="bg-white/40 backdrop-blur-xl p-8 rounded-[2rem] border border-white/20 shadow-sm">
+                        <div className="bg-white/40 backdrop-blur-xl p-8 rounded-4xl border border-white/20 shadow-sm">
                             <h3 className="text-lg font-semibold tracking-tight text-foreground mb-4">What to expect</h3>
                             <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 {['Personalized assessment', 'Therapeutic touch', 'Relaxing environment', 'Post-session guidance'].map((item, i) => (
@@ -339,8 +339,8 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     </div>
 
                     {/* Right Column: Sticky Booking Card */}
-                    <div className="w-full lg:w-[420px] shrink-0 lg:sticky lg:top-24 animate-in slide-in-from-bottom-12 duration-500 delay-100">
-                        <div className="bg-white/60 backdrop-blur-2xl rounded-[2rem] p-8 border border-white/40 shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
+                    <div className="w-full lg:w-105 shrink-0 lg:sticky lg:top-24 animate-in slide-in-from-bottom-12 duration-500 delay-100">
+                        <div className="bg-white/60 backdrop-blur-2xl rounded-4xl p-8 border border-white/40 shadow-[0_8px_40px_rgba(0,0,0,0.04)]">
                             
                             {/* Family / User Selection */}
                             {!loadingUser && userProfile && familyMembers.length > 0 && (
@@ -399,7 +399,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                 </div>
                             </div>
 
-                            <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-8" />
+                            <div className="h-px bg-linear-to-r from-transparent via-border to-transparent mb-8" />
 
                             <div className="mb-8">
                                 <h3 className="text-lg font-semibold tracking-tight text-foreground mb-4 flex items-center gap-2">
@@ -407,7 +407,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                     Select Date & Time
                                 </h3>
                                 
-                                <div className="bg-white/40 rounded-[1.5rem] p-4 mb-6 border border-white/20 shadow-sm">
+                                <div className="bg-white/40 rounded-2xl p-4 mb-6 border border-white/20 shadow-sm">
                                     <Calendar
                                         mode="single"
                                         selected={date}
@@ -497,7 +497,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                 <button 
                                     onClick={handleBooking}
                                     disabled={isSubmitting || !selectedSlot || !name || !email}
-                                    className="w-full py-4 bg-primary text-primary-foreground rounded-[1.25rem] font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none"
+                                    className="w-full py-4 bg-primary text-primary-foreground rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none"
                                 >
                                     {isSubmitting ? (
                                         <>

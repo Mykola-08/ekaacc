@@ -42,7 +42,9 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
       <h1 className="text-5xl lg:text-7xl font-light text-foreground mb-8 tracking-tight leading-tight">
        {t('services.therapiesFor')}{' '}
        <span className="font-medium bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-      </p>
+        {t('personalizedServices.title')}
+       </span>
+      </h1>
 
       <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
        <Button 

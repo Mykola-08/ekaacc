@@ -18,7 +18,7 @@ export function JournalPage() {
             Reflections on structural integration, somatic awareness, and the journey to balance.
          </p>
 
-         <div className="p-8 rounded-[24px] bg-muted/30 border border-dashed border-muted mb-10">
+         <div className="p-8 rounded-2xl bg-muted/30 border border-dashed border-muted mb-10">
             <p className="text-muted-foreground font-medium uppercase tracking-widest text-sm">
                 Articles Coming Soon
             </p>

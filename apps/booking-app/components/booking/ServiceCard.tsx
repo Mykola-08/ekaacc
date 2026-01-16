@@ -24,7 +24,7 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
       )}>
         {/* Image Placeholder or Header Gradient */}
         <div className={cn(
-          "relative bg-gradient-to-br from-primary/5 via-gray-50 to-white w-full",
+          "relative bg-linear-to-br from-primary/5 via-gray-50 to-white w-full",
           isCompact ? "h-24" : "h-48"
         )}>
           {/* Subtle noise/pattern - removed for clean glass look */}

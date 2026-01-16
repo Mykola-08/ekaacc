@@ -101,3 +101,65 @@ export async function getTherapistDailySchedule(profileId: string) {
         return [];
       }
 }
+
+export async function cancelBooking(bookingId: string, userId: string) {
+  try {
+    // In a real app, check cancellation policy window (e.g. 24h)
+    const { rows } = await db.query(
+      `UPDATE booking 
+       SET status = 'cancelled', updated_at = NOW()
+       WHERE id = $1 AND profile_id = $2
+       RETURNING id, status, payment_status, base_price_cents`,
+      [bookingId, userId]
+    );
+    
+    if (rows.length === 0) {
+      throw new Error("Booking not found or not authorized");
+    }
+
+    const booking = rows[0];
+
+    // TODO: Trigger Refund if payment_status === 'paid'
+    // if (booking.payment_status === 'paid') { ... }
+
+    return { success: true, bookingId: booking.id };
+  } catch (error) {
+    console.error('Error cancelling booking', error);
+    return { success: false, error: 'Failed to cancel booking' };
+  }
+}
+
+export async function getPendingVerifications(therapistId: string) {
+  try {
+     // Fetch payments where method='manual' and status='pending'
+     // This assumes a 'payment_proofs' table or similar logic
+     // For now, we mock or query booking directly
+     const { rows } = await db.query(
+       `SELECT b.id, b.start_time, s.name as service_name, p.full_name, b.base_price_cents
+        FROM booking b
+        JOIN service s ON b.service_id = s.id
+        LEFT JOIN profiles p ON b.profile_id = p.id
+        WHERE b.payment_status = 'pending' AND b.payment_mode = 'manual'
+        ORDER BY b.created_at ASC`
+     );
+     return rows;
+  } catch (error) {
+     console.error('Error fetching verifications', error);
+     return [];
+  }
+}
+
+export async function verifyPayment(bookingId: string, approved: boolean) {
+   try {
+     const status = approved ? 'paid' : 'pending'; // In real app, rejection might mean 'failed'
+     // If rejected, we might want to keep it pending or cancel
+     const { rows } = await db.query(
+        `UPDATE booking SET payment_status = $1 WHERE id = $2 RETURNING id`,
+        [status, bookingId]
+     );
+     return { success: true };
+   } catch (error) {
+     return { success: false };
+   }
+}
+

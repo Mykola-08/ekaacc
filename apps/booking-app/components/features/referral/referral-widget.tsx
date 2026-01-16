@@ -21,7 +21,7 @@ export function ReferralWidget() {
   const progress = (points / nextReward) * 100;
 
   return (
-    <Card className="border-emerald-100 dark:border-emerald-900/50 bg-gradient-to-b from-white to-emerald-50/20 dark:from-background dark:to-emerald-950/10">
+    <Card className="border-emerald-100 dark:border-emerald-900/50 bg-linear-to-b from-white to-emerald-50/20 dark:from-background dark:to-emerald-950/10">
       <CardHeader>
         <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500">
             <Gift className="w-5 h-5" />

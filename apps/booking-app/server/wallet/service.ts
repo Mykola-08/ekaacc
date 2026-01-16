@@ -14,6 +14,16 @@ export class WalletService {
     return data?.balance_cents || 0;
   }
 
+  async getTransactions(userId: string) {
+    const supabase = await createClient();
+    const { data } = await supabase
+      .from('wallet_transactions')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  }
+
   /**
    * Process a purchase using Wallet Balance
    */

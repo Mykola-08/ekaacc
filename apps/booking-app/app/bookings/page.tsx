@@ -27,7 +27,7 @@ export default async function BookingsPage() {
   const bookings = await getBookingsHistory(profile.id);
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto p-6 md:p-10 space-y-12 animate-in fade-in duration-700">
         
         {/* Header - Minimal/Glassy */}
@@ -55,7 +55,7 @@ export default async function BookingsPage() {
             </Button>
         </div>
 
-        <BookingHistoryList bookings={bookings} />
+        <BookingHistoryList bookings={bookings} userId={profile.id} />
 
       </div>
     </div>

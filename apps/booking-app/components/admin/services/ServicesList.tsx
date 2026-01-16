@@ -104,7 +104,7 @@ function ServiceRow({ service, index }: { service: AdminService, index: number }
         >
             
             <div className="flex items-center gap-4 flex-1">
-                <div className="w-16 h-16 rounded-2xl bg-muted border border-border flex items-center justify-center overflow-hidden flex-shrink-0 relative">
+                <div className="w-16 h-16 rounded-2xl bg-muted border border-border flex items-center justify-center overflow-hidden shrink-0 relative">
                     {service.imageUrl ? (
                         <Image 
                             src={service.imageUrl} 

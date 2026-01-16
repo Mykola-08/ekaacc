@@ -31,6 +31,10 @@ const Lightbox: React.FC<LightboxProps> = ({
 }) => {
   const currentImage = images[currentIndex];
 
+  if (!currentImage) {
+    return null;
+  }
+
   return (
     <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm">
       {/* Close button */}

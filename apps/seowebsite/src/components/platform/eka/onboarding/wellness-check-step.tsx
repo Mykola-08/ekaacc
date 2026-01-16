@@ -30,7 +30,7 @@ export function WellnessCheckStep({ onNext }: WellnessCheckStepProps) {
             </div>
             <Slider
               value={[stressLevel]}
-              onValueChange={([val]) => setStressLevel(val)}
+              onValueChange={([val]) => setStressLevel(val ?? stressLevel)}
               max={10}
               step={1}
             />
@@ -43,7 +43,7 @@ export function WellnessCheckStep({ onNext }: WellnessCheckStepProps) {
             </div>
             <Slider
               value={[sleepQuality]}
-              onValueChange={([val]) => setSleepQuality(val)}
+              onValueChange={([val]) => setSleepQuality(val ?? sleepQuality)}
               max={10}
               step={1}
             />
@@ -56,7 +56,7 @@ export function WellnessCheckStep({ onNext }: WellnessCheckStepProps) {
             </div>
             <Slider
               value={[energyLevel]}
-              onValueChange={([val]) => setEnergyLevel(val)}
+              onValueChange={([val]) => setEnergyLevel(val ?? energyLevel)}
               max={10}
               step={1}
             />

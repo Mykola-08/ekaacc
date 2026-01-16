@@ -76,7 +76,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
     const newBalance = currentBalance + amount;
     const newTransaction: Transaction = {
       id: (transactions.length + 1).toString(),
-      date: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split('T')[0] ?? new Date().toISOString(),
       type: 'credit',
       amount,
       description: description || 'Manual balance addition',
@@ -122,7 +122,7 @@ export function ClientBilling({ client, isAdmin }: ClientBillingProps) {
     const newBalance = currentBalance - amount;
     const newTransaction: Transaction = {
       id: (transactions.length + 1).toString(),
-      date: new Date().toISOString().split('T')[0],
+      date: new Date().toISOString().split('T')[0] ?? new Date().toISOString(),
       type: 'debit',
       amount,
       description: description || 'Manual balance deduction',

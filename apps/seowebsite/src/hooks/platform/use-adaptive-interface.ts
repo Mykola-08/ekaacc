@@ -141,7 +141,7 @@ export const useAdaptiveInterface = () => {
       });
 
       const dominantMood = Object.entries(moodCounts)
-        .sort(([,a], [,b]) => b - a)[0][0];
+        .sort(([,a], [,b]) => b - a)[0]?.[0] || 'neutral';
 
       // Adapt based on dominant mood
       let newColorScheme = settings.colorScheme;

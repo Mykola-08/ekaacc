@@ -25,7 +25,7 @@ export function getLuminance(hex: string): number {
       : Math.pow((val + 0.055) / 1.055, 2.4);
   });
 
-  return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
+  return 0.2126 * (sRGB[0] ?? 0) + 0.7152 * (sRGB[1] ?? 0) + 0.0722 * (sRGB[2] ?? 0);
 }
 
 /**

@@ -5,6 +5,12 @@ interface SyncStatistic {
   exported: number;
   errors: number;
   externalSystem?: string;
+  entityType?: string;
+  syncDirection?: string;
+  operation?: string;
+  success?: boolean;
+  conflict?: boolean;
+  syncTimeMs?: number | null;
 }
 
 interface SyncConflict {
@@ -37,8 +43,9 @@ interface SyncResult {
 }
 
 interface SyncOptions {
-  source: string;
+  source?: string;
   direction?: 'inbound' | 'outbound' | 'bidirectional';
+  conflictResolution?: 'local_wins' | 'external_wins' | 'merge';
 }
 
 export const bidirectionalSyncService = {

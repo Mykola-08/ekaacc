@@ -223,7 +223,7 @@ export function useFormValidation<T extends Record<string, any>>(
       
       setErrors(prev => {
         const newErrors = { ...prev };
-        if (fieldHasErrors) {
+        if (fieldHasErrors && fieldErrors[0]) {
           newErrors[field as string] = fieldErrors[0].message;
         } else {
           delete newErrors[field as string];

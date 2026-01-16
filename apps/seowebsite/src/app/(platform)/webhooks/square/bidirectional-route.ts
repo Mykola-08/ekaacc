@@ -34,6 +34,9 @@ const SIGNATURE_KEY = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
  * Enhanced webhook event handler for Square Appointments
  */
 interface EnhancedSquareWebhookEvent extends SquareWebhookEvent {
+  eventId: string;
+  merchantId: string;
+  locationId?: string;
   timestamp?: string;
   retryCount?: number;
   source?: string; // To prevent sync loops
@@ -487,6 +490,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       event_id: rawEvent.event_id || 'unknown',
       merchantId: rawEvent.merchant_id || rawEvent.merchantId || 'unknown',
       merchant_id: rawEvent.merchant_id || 'unknown',
+      locationId: rawEvent.location_id || rawEvent.locationId,
     };
 
     // Log webhook receipt

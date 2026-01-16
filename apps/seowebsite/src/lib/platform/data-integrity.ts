@@ -59,8 +59,11 @@ export class TransactionManager {
         const results = [];
         for (let i = 0; i < operations.length; i++) {
           logger.debug(`Executing operation ${i + 1}/${operations.length} in transaction ${transactionId}`);
-          const operationResult = await operations[i]();
-          results.push(operationResult);
+          const operation = operations[i];
+          if (operation) {
+            const operationResult = await operation();
+            results.push(operationResult);
+          }
         }
         
         // Commit transaction

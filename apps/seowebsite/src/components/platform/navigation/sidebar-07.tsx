@@ -255,8 +255,8 @@ export function AppSidebar07() {
 
   const getUserInitials = () => {
     if (!user?.email) return 'U'
-    return user.email
-      .split('@')[0]
+    return (user.email
+      .split('@')[0] ?? 'U')
       .substring(0, 2)
       .toUpperCase()
   }

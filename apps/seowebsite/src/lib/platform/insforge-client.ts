@@ -1,4 +1,4 @@
-// @ts-expect-error - InsForge type definitions are missing - Module not available, using placeholder
+// InsForge type definitions are missing - Module not available, using placeholder
 // import { createClient } from '@insforge/js-client'
 
 // InsForge configuration from your deployed instance

@@ -46,7 +46,7 @@ export function rateLimit(config: RateLimitConfig) {
 
       // Check if limit exceeded
       if (timestamps.length >= limit) {
-        const oldestTimestamp = timestamps[0];
+        const oldestTimestamp = timestamps[0] ?? now;
         const reset = oldestTimestamp + interval;
         
         throw {

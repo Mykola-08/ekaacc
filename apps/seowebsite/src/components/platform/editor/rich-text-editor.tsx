@@ -134,7 +134,9 @@ export function RichTextEditor({
                 if (isHotkey(hotkey, event as any)) {
                   event.preventDefault()
                   const mark = HOTKEYS[hotkey]
-                  toggleMark(editor, mark)
+                  if (mark) {
+                    toggleMark(editor, mark)
+                  }
                 }
               }
             }}

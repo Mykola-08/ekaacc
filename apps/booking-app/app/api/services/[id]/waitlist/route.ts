@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabaseClient';
+import { createClient } from '@/lib/supabase/client';
 import { emitEvent } from '@/lib/events';
 
 // POST /api/services/:id/waitlist

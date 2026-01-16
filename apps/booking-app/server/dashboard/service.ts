@@ -8,9 +8,9 @@ export async function getWallet(profileId: string) {
     );
     if (rows.length === 0) return { balanceCents: 0, pointsBalance: 0 };
     return {
-      balanceCents: rows[0].balance_cents,
-      pointsBalance: rows[0].points_balance,
-      currency: rows[0].currency
+      balanceCents: rows[0]!.balance_cents,
+      pointsBalance: rows[0]!.points_balance,
+      currency: rows[0]!.currency
     };
   } catch (error) {
     console.error('Error fetching wallet', error);
@@ -35,7 +35,7 @@ export async function getUpcomingBookings(profileId: string) {
 
     if (rows.length === 0) return null;
 
-    const row = rows[0];
+    const row = rows[0]!;
     return {
         id: row.id,
         serviceId: row.service_id,
@@ -117,7 +117,7 @@ export async function cancelBooking(bookingId: string, userId: string) {
       throw new Error("Booking not found or not authorized");
     }
 
-    const booking = rows[0];
+    const booking = rows[0]!;
 
     // TODO: Trigger Refund if payment_status === 'paid'
     // if (booking.payment_status === 'paid') { ... }

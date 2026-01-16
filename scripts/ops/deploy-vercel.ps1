@@ -33,7 +33,7 @@ $projectMapping = @{
     "seowebsite" = "seowebsite"
 }
 
-function Deploy-App {
+function Publish-App {
     param([string]$appName)
     
     $projectName = $projectMapping[$appName]
@@ -115,7 +115,7 @@ if ($App -eq 'all') {
     
     $results = @{}
     foreach ($appName in $apps) {
-        $results[$appName] = Deploy-App -appName $appName
+        $results[$appName] = Publish-App -appName $appName
     }
     
     Write-Host "`n========================================" -ForegroundColor Magenta
@@ -128,7 +128,7 @@ if ($App -eq 'all') {
         Write-Host "$appName : $status" -ForegroundColor $color
     }
 } else {
-    Deploy-App -appName $App
+    Publish-App -appName $App
 }
 
 Write-Host "`n========================================`n" -ForegroundColor Magenta

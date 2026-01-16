@@ -3,7 +3,7 @@
 import { Badge } from '@/components/platform/ui/badge';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
-import { Skeleton } from '@/components/platform/ui/skeleton';
+import { Skeleton } from '@ekaacc/shared-ui';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 import { useState, useMemo, useEffect } from 'react';
 import { TrendingUp, TrendingDown, HeartPulse, Target, Award, FileText, Bot, ArrowUp, Loader2 } from 'lucide-react';

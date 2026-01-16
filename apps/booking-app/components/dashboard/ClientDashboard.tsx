@@ -11,9 +11,13 @@ type ClientDashboardProps = {
     profile: any;
     wallet: any;
     nextBooking: any;
+    singleTherapist?: { display_name: string | null; name: string } | null;
+    exerciseStats?: any;
 };
 
-export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboardProps) {
+import { SingleTherapistProfile } from '@/components/profile/SingleTherapistProfile';
+
+export function ClientDashboard({ profile, wallet, nextBooking, singleTherapist, exerciseStats }: ClientDashboardProps) {
     const { t } = useLanguage();
 
     return (
@@ -22,10 +26,15 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
             <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border/40 pb-6">
                 <div className="space-y-2">
                     <h1 className="text-4xl font-semibold tracking-tight text-foreground/90">
-                        {t('dashboard.welcome')}, {profile.first_name || 'Guest'}
+                        {singleTherapist 
+                            ? `Welcome!`
+                            : `${t('dashboard.welcome')}, ${profile.first_name || 'Guest'}`
+                        }
                     </h1>
                     <p className="text-lg text-muted-foreground font-light">
-                        Your wellness overview for today.
+                        {singleTherapist 
+                           ? `Book your next session with ${singleTherapist.display_name || singleTherapist.name}` 
+                           : 'Your wellness overview for today.'}
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -38,6 +47,9 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                     </Button>
                 </div>
             </div>
+
+            {/* Static Therapist Profile (Single Mode) */}
+            {singleTherapist && <SingleTherapistProfile therapist={singleTherapist} />}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
@@ -100,7 +112,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                 </div>
 
                 {/* Wallet - Notion/Glass style */}
-                <div className="group relative overflow-hidden rounded-[32px] glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md flex flex-col justify-between border border-transparent hover:border-primary/5">
+                <div className="group relative overflow-hidden rounded-4xl glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md flex flex-col justify-between border border-transparent hover:border-primary/5">
                      <div className="space-y-6">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
@@ -127,6 +139,14 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
                                 <span className="text-muted-foreground">Expires</span>
                                 <span className="font-medium">Never</span>
                             </div>
+                             {exerciseStats && (
+                                <div className="flex justify-between text-sm py-2 border-b border-primary/5">
+                                    <span className="text-muted-foreground">Exercises</span>
+                                    <span className="font-medium text-emerald-600 dark:text-emerald-400">
+                                        {exerciseStats.completed}/{exerciseStats.total} ({Math.round(exerciseStats.completion_rate * 100)}%)
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
 
@@ -141,7 +161,7 @@ export function ClientDashboard({ profile, wallet, nextBooking }: ClientDashboar
              {/* Recent Activity Section */}
              <div className="pt-8">
                 <h3 className="text-xl font-light text-muted-foreground mb-6">Recent Activity</h3>
-                <div className="rounded-[32px] glass-card overflow-hidden border border-white/20">
+                <div className="rounded-4xl glass-card overflow-hidden border border-white/20">
                     {[1, 2, 3].map((_, i) => (
                         <div key={i} className="flex items-center justify-between p-6 border-b border-primary/5 last:border-0 hover:bg-primary/5 transition-colors">
                             <div className="flex items-center gap-4">

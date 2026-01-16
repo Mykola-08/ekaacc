@@ -76,7 +76,7 @@ export async function getUserPersonalization(profileId: string) {
     );
     
     if (rows.length === 0) return null;
-    return rows[0].personalization_data;
+    return rows[0]!.personalization_data;
   } catch (error) {
     console.error('Error fetching personalization', error);
     return null;

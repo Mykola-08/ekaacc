@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid';
 import { signManageToken, hashToken } from '@/lib/bookingToken';
 import { emitEvent } from '@/lib/events';
 import { LoyaltyService } from '@/server/loyalty/service';
-import { ReputationService } from '@/server/reputation/service';
+import { ReputationService, BookingPolicy } from '@/server/reputation/service';
 import { createClient } from '@/lib/supabase/server';
 
 // Simple in-memory cache for frequently accessed data
@@ -625,7 +625,7 @@ export async function getServiceAvailability(serviceId: string, date: string, se
     if (serviceRows.length === 0) {
       return { error: 'Service not found', status: 404 };
     }
-    const service = serviceRows[0];
+    const service = serviceRows[0]!;
     let durationMin = service.duration;
 
     if (serviceVariantId) {
@@ -634,7 +634,7 @@ export async function getServiceAvailability(serviceId: string, date: string, se
          [serviceVariantId, serviceId]
        );
        if (vRows.length > 0) {
-         durationMin = vRows[0].duration_min;
+         durationMin = vRows[0]!.duration_min;
        }
     }
 

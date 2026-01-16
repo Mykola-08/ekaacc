@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent } from '@/components/platform/ui/card';
-import { Skeleton } from '@/components/platform/ui/skeleton';
+import { Skeleton } from '@ekaacc/shared-ui';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/platform/ui/table';
 import { Badge } from '@/components/platform/ui/badge';
 import { Separator } from '@/components/platform/ui/separator';

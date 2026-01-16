@@ -34,7 +34,7 @@ export class ReputationService {
       WHERE email = $1
     `, [email]);
 
-    const stats = rows[0];
+    const stats = rows[0]!;
     const completedCount = parseInt(stats.completed_count || '0');
     const completedValue = parseInt(stats.completed_value || '0');
     const noShowCount = parseInt(stats.noshow_count || '0');

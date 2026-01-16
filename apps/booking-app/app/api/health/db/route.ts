@@ -1,11 +1,12 @@
 import { NextResponse } from 'next/server';
-import { supabaseServer } from '@/lib/supabaseServerClient';
+import { createClient } from '@/lib/supabase/server';
 
 // Cache for 30 seconds
 export const revalidate = 30;
 
 export async function GET() {
   const startTime = Date.now();
+  const supabase = await createClient();
   
   try {
     // Check critical tables in parallel for faster response
@@ -13,7 +14,7 @@ export async function GET() {
     
     const tableChecks = await Promise.allSettled(
       tables.map(async (table) => {
-        const { error } = await supabaseServer
+        const { error } = await supabase
           .from(table)
           .select('id', { count: 'exact', head: true });
         return { table, healthy: !error, error: error?.message };

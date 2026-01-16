@@ -52,7 +52,7 @@ export function Preloader() {
       leaveFrom="opacity-100"
       leaveTo="opacity-0"
     >
-      <div className="fixed inset-0 z-[100] grid place-items-center bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
+      <div className="fixed inset-0 z-100 grid place-items-center bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
         <div className="flex flex-col items-center justify-center p-6 text-center">
           
           {/* Logo Animation */}

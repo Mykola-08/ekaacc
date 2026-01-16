@@ -8,10 +8,10 @@ export function CardSkeleton() {
   return (
     <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
       <div className="p-6 flex flex-col space-y-3">
-        <Skeleton className="h-[125px] w-full rounded-xl" />
+        <Skeleton className="h-31.25 w-full rounded-xl" />
         <div className="space-y-2">
-          <Skeleton className="h-4 w-[250px]" />
-          <Skeleton className="h-4 w-[200px]" />
+          <Skeleton className="h-4 w-62.5" />
+          <Skeleton className="h-4 w-50" />
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@ export function ProjectStatsSkeleton() {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {Array.from({ length: 4 }).map((_, i) => (
-        <Skeleton key={i} className="h-[120px] w-full rounded-xl" />
+        <Skeleton key={i} className="h-30 w-full rounded-xl" />
       ))}
     </div>
   )

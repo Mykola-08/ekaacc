@@ -71,7 +71,7 @@ async function getOrCreateStripeCustomer(
   const existingCustomers = await stripe.customers.list({ email: email, limit: 1 });
   
   if (existingCustomers.data.length > 0) {
-    const customerId = existingCustomers.data[0].id;
+    const customerId = existingCustomers.data[0]!.id;
     // Link back to profile if user exists but wasn't linked
     if (userId) {
       await supabaseAdmin

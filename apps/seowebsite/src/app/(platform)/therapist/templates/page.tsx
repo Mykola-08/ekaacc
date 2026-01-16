@@ -8,7 +8,7 @@ import { Input } from '@/components/platform/ui/input';
 import { Label } from '@/components/platform/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/platform/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
-import { Skeleton } from '@/components/platform/ui/skeleton';
+import { Skeleton } from '@ekaacc/shared-ui';
 import { Textarea } from '@/components/platform/ui/textarea';
 import { ScrollArea } from '@/components/platform/ui/scroll-area';
 import React, { useEffect, useState, useMemo } from 'react';

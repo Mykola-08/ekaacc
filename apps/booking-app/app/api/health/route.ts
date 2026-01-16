@@ -1,4 +1,4 @@
-import { supabaseServer } from '@/lib/supabaseServerClient';
+import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 
 // Cache health check for 30 seconds
@@ -8,7 +8,7 @@ export async function GET() {
   const startTime = Date.now();
   
   try {
-    const supabase = supabaseServer;
+    const supabase = await createClient();
     
     // Check database connection with simple count
     const { error } = await supabase.from('service').select('id', { count: 'exact', head: true });

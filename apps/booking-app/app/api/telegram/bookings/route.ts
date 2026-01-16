@@ -1,7 +1,8 @@
-import { supabaseServer } from '@/lib/supabaseServerClient';
+import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
+  const supabase = await createClient();
   const { searchParams } = new URL(req.url);
   const telegramId = searchParams.get('telegram_id');
 
@@ -10,7 +11,7 @@ export async function GET(req: NextRequest) {
   }
 
   // Find user by telegram_id
-  const { data: user, error: userError } = await supabaseServer
+  const { data: user, error: userError } = await supabase
     .from('users')
     .select('id, email')
     .eq('telegram_user_id', telegramId)
@@ -22,7 +23,7 @@ export async function GET(req: NextRequest) {
 
   // Fetch bookings for this user
   // We check both customer_reference_id and email
-  let query = supabaseServer
+  let query = supabase
     .from('booking')
     .select('*, service(name)')
     .order('start_time', { ascending: false });

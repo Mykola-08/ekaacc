@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/platform/ui/input';
 import { Label } from '@/components/platform/ui/label';
 import { Select, SelectContent, SelectItem, SelectValue, SelectTrigger } from '@/components/platform/ui/select';
-import { Skeleton } from '@/components/platform/ui/skeleton';
+import { Skeleton } from '@ekaacc/shared-ui';
 import { useState, useMemo, useEffect } from 'react';
 import { Heart, HandHeart } from "lucide-react";
 import { useAuth } from '@/lib/platform/supabase/auth';

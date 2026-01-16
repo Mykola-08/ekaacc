@@ -61,7 +61,7 @@ export async function getPost(id: string): Promise<Post | null> {
   const query = `SELECT * FROM posts WHERE id = $1`;
   const { rows } = await db.query(query, [id]);
   if (rows.length === 0) return null;
-  const row = rows[0];
+  const row = rows[0]!;
   return {
     id: row.id,
     title: row.title,

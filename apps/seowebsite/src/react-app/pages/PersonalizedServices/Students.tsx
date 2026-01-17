@@ -2,7 +2,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Clock } from 'lucide-react';
 import { Link } from 'react-router';
 import Image from 'next/image';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import LazyImage from '@/react-app/components/LazyImage';
 

@@ -3,7 +3,7 @@ import Layout from '@/react-app/components/Layout';
 import ContactFormOptimized from '@/react-app/components/ContactFormOptimized';
 import { MessageCircle, Phone } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 export default function ContactPage() {
   const { t } = useLanguage();
@@ -43,7 +43,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
               >
                   <Button 
-                    size="xl"
+                    size="lg"
                     className="bg-[#25D366] hover:bg-[#128C7E] text-white font-medium px-8 py-4 rounded-2xl transition-all duration-200 hover:scale-105 shadow-xl border-none"
                   >
                     <MessageCircle className="w-6 h-6 mr-2" />
@@ -52,7 +52,7 @@ export default function ContactPage() {
               </a>
               <a href="tel:+34658867133">
                  <Button 
-                    size="xl"
+                    size="lg"
                     className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-2xl transition-all duration-200 hover:scale-105 shadow-xl border-none"
                  >
                     <Phone className="w-6 h-6 mr-2" />

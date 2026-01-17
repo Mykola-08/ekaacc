@@ -1,6 +1,6 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Link } from 'react-router';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { PERSONALIZED_SERVICES_DATA } from '@/shared/constants';
 import { ArrowRight, UserRound, ArrowUpRight } from 'lucide-react';
@@ -46,7 +46,7 @@ export default function PersonalizedServices() {
 
             <Link to="/booking">
               <Button 
-                size="xl" 
+                size="lg" 
                 className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
               >
                 {t('personalizedServices.cta')}

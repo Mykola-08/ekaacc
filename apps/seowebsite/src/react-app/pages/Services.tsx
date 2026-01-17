@@ -4,7 +4,7 @@ import { Heart, Brain, Leaf, RotateCcw, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { SERVICES_DATA } from '@/shared/constants';
 import { motion } from 'framer-motion';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import LazyImage from '@/react-app/components/LazyImage';
 
 const iconMap: Record<string, React.ElementType> = {
@@ -101,7 +101,7 @@ export default function Services() {
                 to="/booking"
               >
                  <Button 
-                  size="xl" 
+                  size="lg" 
                   className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
                 >
                   {t('common.bookNow')}

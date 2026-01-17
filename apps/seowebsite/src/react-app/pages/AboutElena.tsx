@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import { motion } from 'framer-motion';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import Image from 'next/image';
 import SEOHead from '@/react-app/components/SEOHead';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
@@ -34,7 +34,7 @@ export default function AboutElena() {
 
         {/* Hero Section - Unified Gradient */}
         <section className="relative pt-32 pb-24 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
-          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+          <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
           
           <div className="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center">
             {/* Profile Image with Glow */}
@@ -139,15 +139,15 @@ export default function AboutElena() {
               <div className="flex flex-col sm:flex-row justify-center gap-4">
                  <Link to="/booking">
                     <Button 
-                      size="xl" 
-                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-2xl font-medium shadow-lg hover:translate-y-[-2px] transition-all border-none"
+                      size="lg" 
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-4 rounded-2xl font-medium shadow-lg hover:-translate-y-0.5 transition-all border-none"
                     >
                       {t('common.bookNow')}
                     </Button>
                  </Link>
                  <Link to="/contact">
                     <Button 
-                      size="xl" 
+                      size="lg" 
                       variant="outline"
                       className="bg-card text-foreground border-border px-10 py-4 rounded-2xl font-medium hover:bg-muted"
                     >

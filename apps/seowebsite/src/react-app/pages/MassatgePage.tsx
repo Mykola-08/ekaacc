@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Clock, Heart, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 export default function MassatgePage() {
   const { navigateToBooking } = useBooking();
@@ -137,7 +137,7 @@ export default function MassatgePage() {
                   {duration} {t('common.minutes') || 'min'}
                 </h3>
                 
-                <p className="text-muted-foreground mb-8 text-center min-h-[3rem]">
+                <p className="text-muted-foreground mb-8 text-center min-h-12">
                   {duration === 60 ? t('massage.page.duration60') :
                     duration === 90 ? t('massage.page.duration90') :
                       t('massage.page.duration120')}

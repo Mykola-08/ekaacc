@@ -2,7 +2,7 @@
 
 import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -48,7 +48,7 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
 
       <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
        <Button 
-        size="xl" 
+        size="lg" 
         className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
        >
         {t('personalizedServices.cta')}

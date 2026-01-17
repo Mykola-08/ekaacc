@@ -1,7 +1,7 @@
 import SEOHead from '@/react-app/components/SEOHead';
 import { Link } from 'react-router';
 import Image from 'next/image';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { Sparkles, Zap, Shield, Brain, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
@@ -43,7 +43,7 @@ export default function AgenyzPage() {
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                                 <Link to="/booking">
                                     <Button 
-                                        size="xl"
+                                        size="lg"
                                         className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-8 py-4 rounded-2xl transition-all duration-200 shadow-xl border-none hover:scale-105"
                                     >
                                         {t('common.bookNow')}
@@ -55,7 +55,7 @@ export default function AgenyzPage() {
                                     rel="noopener noreferrer"
                                 >
                                     <Button 
-                                        size="xl"
+                                        size="lg"
                                         className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-2xl transition-all duration-200 shadow-xl border-none hover:scale-105"
                                     >
                                         {t('agenyz.cta.visitStore') || 'Visit Agenyz Store'}

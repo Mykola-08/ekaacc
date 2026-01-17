@@ -4,7 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Clock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import LazyImage from '@/react-app/components/LazyImage';
 
@@ -21,7 +21,7 @@ export default function Artists() {
 
    {/* Hero Section */}
    <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     <div className="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <div className="order-2 lg:order-1">
@@ -52,7 +52,7 @@ export default function Artists() {
         <LazyImage
          src="https://images.unsplash.com/photo-1599447421405-0c325d26d77e?w=1920&h=1080&fit=crop"
          alt={t('nav.artists')}
-         className="w-full h-[400px] sm:h-[500px] object-cover rounded-[32px] shadow-2xl"
+         className="w-full h-100 sm:h-125 object-cover rounded-4xl shadow-2xl"
         />
        </div>
       </div>
@@ -160,7 +160,7 @@ export default function Artists() {
    <section className="apple-section bg-card">
     <div className="apple-container-sm">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      <div className="squircle-image aspect-[4/3] relative">
+      <div className="squircle-image aspect-4/3 relative">
        <Image
         src="https://images.unsplash.com/photo-1544367563-121542f85488?w=800&auto=format&fit=crop"
         alt="Sessió de teràpia per a artistes"

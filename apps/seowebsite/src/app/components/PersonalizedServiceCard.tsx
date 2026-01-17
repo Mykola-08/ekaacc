@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { PersonalizedServiceItem } from '@/shared/types';
 import LazyImage from '@/react-app/components/LazyImage';
@@ -15,7 +15,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
  const { t } = useLanguage();
 
  return (
-  <div className="bg-card rounded-[32px] shadow-sm border-none overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
+  <div className="bg-card rounded-4xl shadow-sm border-none overflow-hidden hover:shadow-xl transition-all duration-300 h-full flex flex-col">
     <div className="relative h-64 overflow-hidden rounded-t-3xl">
      <LazyImage
       src={service.image}
@@ -24,7 +24,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
      />
     </div>
     
-   <div className="p-8 flex flex-col flex-grow">
+   <div className="p-8 flex flex-col grow">
     <h3 className="text-2xl font-bold text-foreground mb-3">
      {t(service.titleKey)}
     </h3>

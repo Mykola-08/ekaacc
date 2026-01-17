@@ -1,7 +1,9 @@
 import { ReactNode } from 'react';
 import { CircleNotch } from 'phosphor-react';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
+import { cn } from '@/lib/utils';
 
+// Redefining interface to maintain compatibility but map internally
 interface LoadingButtonProps {
   children: ReactNode;
   loading?: boolean;
@@ -29,15 +31,39 @@ export default function LoadingButton({
 }: LoadingButtonProps) {
   const isDisabled = disabled || loading;
 
+  // Map Keep Props to Shared UI Props
+  let mappedVariant: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" = "default";
+  let colorClass = "";
+  
+  // Logic for Mapping
+  if (color === 'error') {
+    mappedVariant = "destructive";
+  } else if (color === 'secondary') {
+    mappedVariant = "secondary";
+  } else if (color === 'success') {
+     // Shared UI doesn't have success variant, use custom class
+     colorClass = "bg-green-600 hover:bg-green-700 text-white";
+  } else if (variant === 'outline') {
+    mappedVariant = "outline";
+  } else if (variant === 'link') {
+    mappedVariant = "link";
+  } else if (variant === 'softBg') {
+    mappedVariant = "secondary"; 
+  }
+
+  // Map Size
+  let mappedSize: "default" | "sm" | "lg" | "icon" = "default";
+  if (size === 'xs' || size === 'sm') mappedSize = "sm";
+  else if (size === 'lg' || size === 'xl' || size === '2xl') mappedSize = "lg";
+
   return (
     <Button
       type={type}
       onClick={onClick}
       disabled={isDisabled}
-      color={color}
-      variant={variant}
-      size={size}
-      className={`${loading ? 'cursor-wait' : ''} ${className}`}
+      variant={mappedVariant}
+      size={mappedSize}
+      className={cn(loading ? 'cursor-wait' : '', colorClass, className)}
     >
       {loading && (
         <CircleNotch className="w-4 h-4 mr-2 animate-spin" />

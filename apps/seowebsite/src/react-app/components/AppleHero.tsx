@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { useAnalytics } from '@/react-app/hooks/useAnalytics';
@@ -53,13 +53,13 @@ export default function AppleHero() {
       {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
         <Link to="/first-time" className="group" onClick={() => logEvent('hero_first_time_click')}>
-          <Button size="xl" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
+          <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
             {t('hero.firstTime')}
           </Button>
         </Link>
 
         <Link to="/services" className="group" onClick={() => logEvent('hero_services_click')}>
-          <Button size="xl" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
+          <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
             {t('hero.discoverServices')}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>

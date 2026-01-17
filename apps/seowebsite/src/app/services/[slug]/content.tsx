@@ -4,7 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Clock, Heart, ArrowRight, Star, CheckCircle2 } from 'lucide-react';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import LazyImage from '@/react-app/components/LazyImage';
 import { motion } from 'framer-motion';
 
@@ -103,7 +103,7 @@ export default function ServiceDetailContent({ service }: ServiceDetailContentPr
       <div className="flex flex-wrap gap-4">
        <Button 
         onClick={() => navigateToBooking(service.slug)}
-        size="xl"
+        size="lg"
         className="bg-primary hover:bg-primary/90 text-white border-none rounded-2xl px-8 h-14 text-lg shadow-lg hover:scale-105 transition-all"
        >
         {t('common.bookNow') || 'Book Now'}

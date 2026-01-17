@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Globe, Users, Clock } from 'lucide-react';
 
@@ -37,7 +37,7 @@ export default function Home() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-card rounded-[32px] shadow-xl border-none p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
+      className="bg-card rounded-4xl shadow-xl border-none p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
      >
       {stats.map((stat, index) => (
        <div key={index} className="flex flex-col items-center text-center space-y-2">
@@ -109,7 +109,7 @@ export default function Home() {
        <div className="pt-4 flex justify-center lg:justify-start">
         <Link href="/about-elena">
          <Button 
-          size="xl"
+          size="lg"
           className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border-none"
          >
           {t('elena.knowMore')}

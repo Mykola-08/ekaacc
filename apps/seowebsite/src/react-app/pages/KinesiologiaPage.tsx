@@ -3,7 +3,7 @@ import { Clock, Brain, ArrowRight, CheckCircle2, Zap } from 'lucide-react';
 import Image from 'next/image';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 export default function KinesiologiaPage() {
   const { navigateToBooking } = useBooking();

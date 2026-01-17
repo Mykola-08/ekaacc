@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import Link from 'next/link';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { useBooking } from '@/react-app/hooks/useBooking';
@@ -16,8 +16,8 @@ export default function ServiceCard({ service }: ServiceCardProps) {
  const { navigateToBooking } = useBooking();
 
  return (
-  <div className="group relative bg-white/60 backdrop-blur-md rounded-[32px] overflow-hidden hover:shadow-xl transition-all duration-500 h-full flex flex-col border border-white/40 hover:border-primary/20">
-    <div className="relative h-56 sm:h-64 overflow-hidden rounded-[24px] m-2 mb-0">
+  <div className="group relative bg-white/60 backdrop-blur-md rounded-4xl overflow-hidden hover:shadow-xl transition-all duration-500 h-full flex flex-col border border-white/40 hover:border-primary/20">
+    <div className="relative h-56 sm:h-64 overflow-hidden rounded-2xl m-2 mb-0">
      <div className="absolute inset-0 bg-primary/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
      <LazyImage
       src={service.image}
@@ -26,7 +26,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
      />
     </div>
    
-   <div className="p-8 flex flex-col flex-grow">
+   <div className="p-8 flex flex-col grow">
     <div className="flex justify-between items-start mb-4">
       <h3 className="text-2xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors">
       {t(service.titleKey)}

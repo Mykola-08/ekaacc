@@ -10,7 +10,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 
 
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 // --- Constants & Data ---
 
@@ -173,7 +173,7 @@ const ComparativeTable = () => {
         </div>
         
         <div className="overflow-x-auto rounded-3xl shadow-xl bg-card border border-gray-100">
-          <table className="w-full min-w-[600px] border-collapse">
+          <table className="w-full min-w-150 border-collapse">
             <thead>
               <tr className="bg-muted/30/50">
                 <th className="p-6 text-left text-muted-foreground/80 font-light w-1/3"></th>
@@ -287,7 +287,7 @@ export default function VIPUltraPremium() {
 
             <div className="grid lg:grid-cols-2 gap-12">
                {vipServices.map((service, idx) => (
-                 <div key={idx} className="bg-card rounded-[2rem] p-10 shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+                 <div key={idx} className="bg-card rounded-4xl p-10 shadow-sm border border-gray-100 hover:shadow-xl transition-shadow duration-300">
                     <div className="flex items-start gap-6">
                        <div className="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center shrink-0">
                           <service.icon className="w-8 h-8 text-amber-600" />

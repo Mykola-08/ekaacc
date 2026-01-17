@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { ArrowRight, Heart, Brain, Zap, Moon, Activity, Stethoscope, Shield, Search } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 interface Problem {
  id: string;
@@ -125,7 +125,7 @@ export default function Casos() {
    
    {/* Hero Section */}
    <div className="relative bg-background pt-32 pb-20 px-6 overflow-hidden">
-    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+    <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
     
     <div className="relative max-w-4xl mx-auto text-center z-10">
      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-white/40 text-sm text-primary mb-8 shadow-sm">
@@ -163,7 +163,7 @@ export default function Casos() {
        <Link 
         key={problem.id} 
         href={`/cases/${problem.id}`}
-        className="group relative bg-white/60 backdrop-blur-sm rounded-[32px] p-8 hover:shadow-xl transition-all duration-300 border border-white/40 hover:border-primary/20 flex flex-col h-full overflow-hidden"
+        className="group relative bg-white/60 backdrop-blur-sm rounded-4xl p-8 hover:shadow-xl transition-all duration-300 border border-white/40 hover:border-primary/20 flex flex-col h-full overflow-hidden"
        >
         {/* Hover Gradient Background */}
         <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-linear-to-br from-white to-primary`} />
@@ -232,7 +232,7 @@ export default function Casos() {
      <div className="flex flex-col sm:flex-row gap-4 justify-center">
        <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
         <Button 
-         size="xl" 
+         size="lg" 
          className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-2xl shadow-lg border-none hover:scale-105 transition-transform"
         >
          {t('casos.bookSession')}
@@ -240,7 +240,7 @@ export default function Casos() {
        </Link>
        <Link href="/services">
         <Button 
-         size="xl" 
+         size="lg" 
          variant="outline"
          className="bg-white/60 hover:bg-white text-foreground border-white/40 font-medium py-4 px-8 rounded-2xl hover:scale-105 transition-transform backdrop-blur-md"
         >

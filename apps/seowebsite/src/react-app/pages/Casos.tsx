@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { ArrowRight, Heart, Brain, Zap, Moon, Activity, Stethoscope, Shield, Search } from 'lucide-react';
 import SEOHead from '@/react-app/components/SEOHead';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 interface Problem {
   id: string;
@@ -193,7 +193,7 @@ export default function Casos() {
                     {problem.title}
                   </h3>
                   
-                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed flex-grow">
+                  <p className="text-muted-foreground text-sm mb-6 leading-relaxed grow">
                     {problem.description}
                   </p>
 

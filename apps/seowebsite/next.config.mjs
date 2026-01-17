@@ -27,7 +27,7 @@ const nextConfig = {
   },
   // Bundle optimization
   experimental: {
-    optimizePackageImports: ['lucide-react', 'date-fns', '@supabase/supabase-js'],
+    optimizePackageImports: ['lucide-react', 'date-fns'],
   },
   // Compression
   compress: true,

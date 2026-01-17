@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, CheckCircle, Heart, Brain, Zap, Moon, Activity, Stethoscope, Shield } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 
 interface ProblemConfig {
  icon: React.ComponentType<any>;
@@ -91,7 +91,7 @@ export default function CasoDetailPage() {
       {t('casos.title')}
      </Link>
 
-     <div className={`w-20 h-20 mx-auto rounded-[32px] ${colorClass.bg} flex items-center justify-center mb-6 shadow-inner`}>
+     <div className={`w-20 h-20 mx-auto rounded-4xl ${colorClass.bg} flex items-center justify-center mb-6 shadow-inner`}>
       <Icon className={`w-10 h-10 ${colorClass.text}`} />
      </div>
 
@@ -172,7 +172,7 @@ export default function CasoDetailPage() {
       <div className="mt-12 text-center pt-8 border-t border-white/10">
         <Link href={config.href}>
           <Button 
-            size="xl"
+            size="lg"
             className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold px-8 py-4 rounded-2xl border-none hover:scale-105 transition-transform shadow-lg"
           >
             {t('common.bookNow')}

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Heart, Star } from 'lucide-react';
 
@@ -144,15 +144,15 @@ export default function AboutElena() {
        <div className="flex flex-col sm:flex-row justify-center gap-4">
          <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
           <Button 
-           size="xl" 
-           className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-2xl font-medium shadow-lg hover:translate-y-[-2px] transition-all border-none"
+           size="lg" 
+           className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-2xl font-medium shadow-lg hover:-translate-y-0.5 transition-all border-none"
           >
            {t('common.bookNow')}
           </Button>
          </Link>
          <Link href="/contact">
           <Button 
-           size="xl" 
+           size="lg" 
            variant="outline"
            className="bg-white/60 backdrop-blur-md text-foreground border-white/40 px-10 py-4 rounded-2xl font-medium hover:bg-white"
           >

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Heart, Brain, Leaf, RotateCcw, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { motion } from 'framer-motion';
-import { Button } from 'keep-react';
+import { Button } from '@ekaacc/shared-ui';
 import LazyImage from '@/react-app/components/LazyImage';
 import ServiceCard from '@/app/components/ServiceCard';
 
@@ -52,7 +52,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
 
       <div className="flex justify-center">
        <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
-        <Button size="2xl" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border-none">
+        <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-12 py-6 text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 border-none">
          {t('services.bookSession')}
          <ArrowRight className="ml-3 w-6 h-6" />
         </Button>

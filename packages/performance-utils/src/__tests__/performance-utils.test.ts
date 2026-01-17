@@ -1,5 +1,5 @@
 
-import { describe, it, expect, jest, beforeEach, afterEach } from '@jest/globals';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   LRUCache,
   BatchProcessor,
@@ -64,7 +64,7 @@ describe('Performance Utils', () => {
 
   describe('BatchProcessor', () => {
     it('should process items in batches', async () => {
-      const processFn = jest.fn(async (items: number[]) => {});
+      const processFn = vi.fn(async (items: number[]) => {});
       const processor = new BatchProcessor<number>(processFn, 3, 1000);
 
       processor.add(1);
@@ -75,26 +75,26 @@ describe('Performance Utils', () => {
     });
 
     it('should flush on timeout', async () => {
-      jest.useFakeTimers();
-      const processFn = jest.fn(async (items: number[]) => {});
+      vi.useFakeTimers();
+      const processFn = vi.fn(async (items: number[]) => {});
       const processor = new BatchProcessor<number>(processFn, 3, 1000);
 
       processor.add(1);
       processor.add(2);
 
-      jest.advanceTimersByTime(1000);
+      vi.advanceTimersByTime(1000);
 
       expect(processFn).toHaveBeenCalledWith([1, 2]);
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should retry failed items', async () => {
-      const processFn = jest.fn<(items: number[]) => Promise<void>>()
+      const processFn = vi.fn<(items: number[]) => Promise<void>>()
         .mockRejectedValueOnce(new Error('Fail'))
         .mockResolvedValue(undefined);
       
       const processor = new BatchProcessor<number>(processFn, 2, 1000);
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       processor.add(1);
       processor.add(2); // Triggers first flush (fails)
@@ -116,8 +116,8 @@ describe('Performance Utils', () => {
 
   describe('debounce', () => {
     it('should debounce function calls', () => {
-      jest.useFakeTimers();
-      const func = jest.fn();
+      vi.useFakeTimers();
+      const func = vi.fn();
       const debouncedFunc = debounce(func, 100);
 
       debouncedFunc();
@@ -126,15 +126,15 @@ describe('Performance Utils', () => {
 
       expect(func).not.toHaveBeenCalled();
 
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
 
       expect(func).toHaveBeenCalledTimes(1);
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
 
     it('should support leading edge', () => {
-      jest.useFakeTimers();
-      const func = jest.fn();
+      vi.useFakeTimers();
+      const func = vi.fn();
       const debouncedFunc = debounce(func, 100, { leading: true, trailing: false });
 
       debouncedFunc();
@@ -143,17 +143,17 @@ describe('Performance Utils', () => {
       debouncedFunc();
       expect(func).toHaveBeenCalledTimes(1);
 
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       debouncedFunc();
       expect(func).toHaveBeenCalledTimes(2);
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
   describe('throttle', () => {
     it('should throttle function calls', () => {
-      jest.useFakeTimers();
-      const func = jest.fn();
+      vi.useFakeTimers();
+      const func = vi.fn();
       const throttledFunc = throttle(func, 100);
 
       throttledFunc();
@@ -163,15 +163,15 @@ describe('Performance Utils', () => {
       throttledFunc();
       expect(func).toHaveBeenCalledTimes(1);
 
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       expect(func).toHaveBeenCalledTimes(2); // Trailing call
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
   describe('memoize', () => {
     it('should memoize results', () => {
-      const func = jest.fn((x: number) => x * 2);
+      const func = vi.fn((x: number) => x * 2);
       const memoizedFunc = memoize(func);
 
       expect(memoizedFunc(2)).toBe(4);
@@ -180,17 +180,17 @@ describe('Performance Utils', () => {
     });
 
     it('should respect TTL', () => {
-      jest.useFakeTimers();
-      const func = jest.fn((x: number) => x * 2);
+      vi.useFakeTimers();
+      const func = vi.fn((x: number) => x * 2);
       const memoizedFunc = memoize(func, { ttl: 100 });
 
       expect(memoizedFunc(2)).toBe(4);
       
-      jest.advanceTimersByTime(101);
+      vi.advanceTimersByTime(101);
       
       expect(memoizedFunc(2)).toBe(4);
       expect(func).toHaveBeenCalledTimes(2);
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
   });
 
@@ -209,7 +209,7 @@ describe('Performance Utils', () => {
   describe('asyncBatch', () => {
     it('should process items with concurrency limit', async () => {
       const items = [1, 2, 3, 4, 5];
-      const processFn = jest.fn(async (x: number) => x * 2);
+      const processFn = vi.fn(async (x: number) => x * 2);
       
       const { results } = await asyncBatch(items, processFn, 2);
       
@@ -221,12 +221,12 @@ describe('Performance Utils', () => {
 
     it('should handle errors gracefully', async () => {
       const items = [1, 2, 3];
-      const processFn = jest.fn(async (x: number) => {
+      const processFn = vi.fn(async (x: number) => {
         if (x === 2) throw new Error('Fail');
         return x * 2;
       });
 
-      const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
       
       const { results, errors } = await asyncBatch(items, processFn, 2);
       
@@ -240,7 +240,7 @@ describe('Performance Utils', () => {
   describe('PerformanceTracker', () => {
     it('should measure execution time', () => {
       const tracker = new PerformanceTracker();
-      const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+      const consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
       
       tracker.start('test');
       const duration = tracker.end('test');
@@ -255,7 +255,7 @@ describe('Performance Utils', () => {
   describe('ResourceManager', () => {
     it('should cleanup resources', () => {
       const manager = new ResourceManager();
-      const cleanup = jest.fn();
+      const cleanup = vi.fn();
       
       manager.register('res1', cleanup);
       manager.cleanup('res1');
@@ -264,16 +264,16 @@ describe('Performance Utils', () => {
     });
 
     it('should auto-cleanup after timeout', () => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
       const manager = new ResourceManager();
-      const cleanup = jest.fn();
+      const cleanup = vi.fn();
       
       manager.register('res1', cleanup, 100);
       
-      jest.advanceTimersByTime(100);
+      vi.advanceTimersByTime(100);
       
       expect(cleanup).toHaveBeenCalled();
-      jest.useRealTimers();
+      vi.useRealTimers();
     });
   });
 });

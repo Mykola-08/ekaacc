@@ -13,6 +13,9 @@ export { Preloader } from './components/loading/Preloader'
 export { LoadingSpinner, InlineSpinner, type SpinnerProps } from './components/loading/Spinner'
 export { CardSkeleton, ProjectStatsSkeleton, LoadingSkeleton } from './components/loading/Skeletons'
 
+// Image components
+export { default as LazyImage } from './components/ui/lazy-image'
+
 
 
 

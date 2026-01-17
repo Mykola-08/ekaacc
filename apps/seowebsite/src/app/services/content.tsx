@@ -5,7 +5,6 @@ import { Heart, Brain, Leaf, RotateCcw, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { Button } from '@ekaacc/shared-ui';
-import LazyImage from '@/react-app/components/LazyImage';
 import ServiceCard from '@/app/components/ServiceCard';
 
 const iconMap: Record<string, React.ElementType> = {

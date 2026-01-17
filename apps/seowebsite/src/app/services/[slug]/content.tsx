@@ -4,8 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Clock, Heart, ArrowRight, Star, CheckCircle2 } from 'lucide-react';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from '@ekaacc/shared-ui';
-import LazyImage from '@/react-app/components/LazyImage';
+import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { motion } from 'framer-motion';
 
 interface ServiceVariant {

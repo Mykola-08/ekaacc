@@ -4,9 +4,8 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Clock } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@ekaacc/shared-ui';
+import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import LazyImage from '@/react-app/components/LazyImage';
 
 export default function Students() {
  const { t } = useLanguage();

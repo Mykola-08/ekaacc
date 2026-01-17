@@ -1,11 +1,10 @@
 'use client';
 
-import { Button } from '@ekaacc/shared-ui';
+import { Button, LazyImage } from '@ekaacc/shared-ui';
 import Link from 'next/link';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { useBooking } from '@/react-app/hooks/useBooking';
 import { ServiceItem } from '@/shared/types';
-import LazyImage from '@/react-app/components/LazyImage';
 
 interface ServiceCardProps {
  service: ServiceItem;

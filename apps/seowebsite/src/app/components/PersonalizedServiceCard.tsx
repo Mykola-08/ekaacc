@@ -1,10 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from '@ekaacc/shared-ui';
+import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { PersonalizedServiceItem } from '@/shared/types';
-import LazyImage from '@/react-app/components/LazyImage';
 import { Clock } from 'lucide-react';
 
 interface PersonalizedServiceCardProps {

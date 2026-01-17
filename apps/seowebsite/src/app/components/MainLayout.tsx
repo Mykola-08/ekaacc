@@ -266,7 +266,7 @@ export default function MainLayout({
              <UserCircle className="w-6 h-6 text-foreground" />
            </div>
           )}
-          <span className="hidden sm:inline font-medium max-w-[100px] truncate">
+          <span className="hidden sm:inline font-medium max-w-25 truncate">
            {user.profile?.full_name?.split(' ')[0] || user.email?.split('@')[0]}
           </span>
           <ChevronDown className="w-4 h-4" />

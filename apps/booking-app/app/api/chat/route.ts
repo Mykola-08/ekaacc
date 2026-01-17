@@ -61,14 +61,17 @@ Local time context: ${new Date().toLocaleString('en-US', { weekday: 'long', hour
 
 // Helper to convert AI tools to OpenAI tool format
 const getTools = () => {
-  return Object.entries(aiTools).map(([name, tool]) => ({
-    type: 'function' as const,
-    function: {
-      name,
-      description: tool.description,
-      parameters: zodToJsonSchema(tool.parameters),
-    },
-  }));
+  return Object.entries(aiTools).map(([name, tool]) => {
+    const params = zodToJsonSchema(tool.parameters as any) as any;
+    return {
+      type: 'function' as const,
+      function: {
+        name,
+        description: tool.description,
+        parameters: params,
+      },
+    };
+  });
 };
 
 export async function POST(req: Request) {
@@ -100,7 +103,7 @@ export async function POST(req: Request) {
   const stream = new ReadableStream({
     async start(controller) {
       try {
-        let currentMessages = [...fullMessages];
+        const currentMessages = [...fullMessages];
         let retryCount = 0;
         const maxRetries = 10;
 
@@ -113,17 +116,17 @@ export async function POST(req: Request) {
             stream: false, // We'll handle tool calls first, then stream the final response
           });
 
-          const message = response.choices[0].message;
+          const message = response.choices[0]?.message;
 
-          if (message.tool_calls && message.tool_calls.length > 0) {
+          if (message?.tool_calls && message.tool_calls.length > 0) {
             currentMessages.push(message as any);
 
             // Send neutral update to UI that tools are working (optional protocol chunk)
             // controller.enqueue(encoder.encode('__TOOL_CALLING__')); 
 
             for (const toolCall of message.tool_calls) {
-              const toolName = toolCall.function.name;
-              const toolArgs = JSON.parse(toolCall.function.arguments);
+              const toolName = (toolCall as any).function.name;
+              const toolArgs = JSON.parse((toolCall as any).function.arguments);
               const tool = aiTools[toolName];
 
               let result;

@@ -161,7 +161,7 @@ export function generateWelcomeMessage(profile: PersonalizationProfile): string 
 
   // Students with goals get special messaging
   if (profile.occupation === 'student' && profile.therapeuticGoals && profile.therapeuticGoals.length > 0) {
-    return `${greeting}${name ? `, ${name}` : ''}! Ready to work on ${profile.therapeuticGoals[0].toLowerCase()}?`;
+    return `${greeting}${name ? `, ${name}` : ''}! Ready to work on ${profile.therapeuticGoals[0]?.toLowerCase()}?`;
   }
 
   // Login streak recognition
@@ -171,7 +171,7 @@ export function generateWelcomeMessage(profile: PersonalizationProfile): string 
 
   // Goal-based greeting
   if (profile.therapeuticGoals && profile.therapeuticGoals.length > 0) {
-    return `${greeting}${name ? `, ${name}` : ''}! Let's continue your ${profile.therapeuticGoals[0].toLowerCase()} journey.`;
+    return `${greeting}${name ? `, ${name}` : ''}! Let's continue your ${profile.therapeuticGoals[0]?.toLowerCase()} journey.`;
   }
 
   // Default

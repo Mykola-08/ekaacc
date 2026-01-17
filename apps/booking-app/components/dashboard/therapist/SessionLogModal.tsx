@@ -49,7 +49,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
         }
     };
 
-    const improvement = Math.round(((finalMood[0] - initialMood[0]) / initialMood[0]) * 100);
+    const improvement = initialMood[0] && finalMood[0] ? Math.round(((finalMood[0] - initialMood[0]) / initialMood[0]) * 100) : 0;
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -89,7 +89,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
                         />
                     </div>
 
-                    {initialMood[0] > 0 && (
+                    {initialMood[0] !== undefined && initialMood[0] > 0 && (
                         <div className="bg-blue-50 p-3 rounded-lg text-center">
                             <span className="text-sm text-blue-600 font-medium">Predicted Improvement: </span>
                             <span className={`text-lg font-bold ${improvement > 0 ? 'text-green-600' : 'text-gray-600'}`}>

@@ -266,8 +266,8 @@ export function WalletResult({ balance: initialBalance, currency }: WalletResult
     table: 'user_wallet',
     event: 'UPDATE',
     callback: (payload) => {
-      if (payload.new && typeof payload.new.balance_cents === 'number') {
-        setBalance(payload.new.balance_cents / 100);
+      if (payload.new && typeof (payload.new as any).balance_cents === 'number') {
+        setBalance((payload.new as any).balance_cents / 100);
       }
     }
   });

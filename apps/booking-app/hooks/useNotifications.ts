@@ -3,7 +3,7 @@ import { useRealtimeSubscription } from './useRealtimeSubscription';
 import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { createClient } from '@/lib/supabase/client';
 
-export interface AppNotification {
+export interface AppNotification extends Record<string, unknown> {
   id: string;
   recipient_id: string;
   title: string;

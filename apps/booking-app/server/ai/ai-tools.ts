@@ -67,7 +67,7 @@ export const checkAvailability: AITool = {
     if (!result.success) {
       return { error: result.error };
     }
-    return { slots: result.data.slots };
+    return { slots: result.data?.slots };
   },
 };
 
@@ -111,8 +111,8 @@ export const bookAppointment: AITool = {
 
     if (!serviceVariantId) {
       const sData = await fetchService(serviceId);
-      if (sData.data && sData.data.variants && sData.data.variants.length > 0) {
-        serviceVariantId = sData.data.variants[0].id;
+      if (sData.data && (sData.data as any).variants && (sData.data as any).variants.length > 0) {
+        serviceVariantId = (sData.data as any).variants[0].id;
       }
     }
 
@@ -151,7 +151,7 @@ export const bookAppointment: AITool = {
 export const getWalletBalance: AITool = {
   description: 'Get the current wallet balance of the user.',
   parameters: z.object({}),
-  execute: async ({ }) => {
+  execute: async () => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -177,7 +177,7 @@ export const getWalletBalance: AITool = {
 export const getRewardsBalance: AITool = {
   description: 'Get the user\'s loyalty rewards points balance and recent reward activity.',
   parameters: z.object({}),
-  execute: async ({ }) => {
+  execute: async () => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -589,7 +589,7 @@ export const getMemories: AITool = {
 export const getUserProfile: AITool = {
   description: 'Get the user\'s profile information and preferences.',
   parameters: z.object({}),
-  execute: async ({ }) => {
+  execute: async () => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };

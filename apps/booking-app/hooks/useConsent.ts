@@ -43,7 +43,6 @@ export function useConsent() {
           // Check for Global Privacy Control (GPC)
           // @ts-expect-error Navigator.globalPrivacyControl is not yet in standard types
           if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
-            console.log('Global Privacy Control (GPC) signal detected.');
             const gpcPreferences = { ...DEFAULT_PREFERENCES };
             setStatus('denied');
             setPreferences(gpcPreferences);

@@ -40,8 +40,7 @@ export function TherapistDashboard({ schedule }: { schedule: any[] }) {
     const router = useRouter();
 
     // Listen for booking updates
-    useBookingRealtime((payload) => {
-        console.log("Realtime update received:", payload);
+    useBookingRealtime(() => {
         toast.info("Schedule updated");
         router.refresh();
     });

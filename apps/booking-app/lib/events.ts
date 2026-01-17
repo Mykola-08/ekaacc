@@ -33,19 +33,13 @@ export function onEvent(type: EventType, handler: (payload: EventPayload) => Pro
 }
 
 export async function emitEvent(type: EventType, payload: EventPayload): Promise<boolean> {
-  const timestamp = new Date().toISOString();
-  
-  // Structured logging for production observability
-  if (process.env.NODE_ENV === 'development') {
-    console.log(JSON.stringify({ event: type, payload, timestamp }));
-  }
-
   // Execute registered handlers
   const handlers = eventHandlers.get(type) || [];
   await Promise.allSettled(handlers.map(handler => handler(payload)));
 
   // TODO: In production, dispatch to webhook/message bus here
-  // await dispatchToWebhook(type, payload);
-  
+  // const timestamp = new Date().toISOString();
+  // await dispatchToWebhook(type, payload, timestamp);
+
   return true;
 }

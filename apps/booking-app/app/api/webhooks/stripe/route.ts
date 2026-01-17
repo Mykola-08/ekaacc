@@ -37,7 +37,6 @@ export async function POST(req: Request) {
         const paymentIntentId = session.payment_intent as string;
 
         if (bookingId) {
-            console.log(`Processing successful payment for booking ${bookingId}`);
             await updateBookingPaymentStatus(bookingId, 'captured', paymentIntentId);
 
             // Loyalty Logic: 1 Euro = 1 Point
@@ -61,7 +60,6 @@ export async function POST(req: Request) {
                     bookingId,
                     `Points earned from booking ${bookingId}`
                   );
-                  console.log(`Awarded ${pointsEarned} points to user ${booking.customer_reference_id}`);
                 }
               }
             } catch (loyaltyError) {
@@ -75,15 +73,15 @@ export async function POST(req: Request) {
          const session = event.data.object as Stripe.Checkout.Session;
          const bookingId = session.client_reference_id;
          if (bookingId) {
-             console.log(`Processing expired session for booking ${bookingId}`);
              // Potentially cancel the tentative booking if logic requires
-             // await updateBookingPaymentStatus(bookingId, 'failed'); 
+             // await updateBookingPaymentStatus(bookingId, 'failed');
          }
          break;
       }
       // Add other event types as needed
       default:
-        console.log(`Unhandled event type ${event.type}`);
+        // Unhandled event type
+        break;
     }
   } catch (err: any) {
       console.error('Error processing webhook:', err);

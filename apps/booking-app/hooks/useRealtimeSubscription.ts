@@ -4,7 +4,7 @@ import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
 type RealtimeEvent = 'INSERT' | 'UPDATE' | 'DELETE' | '*';
 
-interface UseRealtimeSubscriptionProps<T extends { [key: string]: any }> {
+interface UseRealtimeSubscriptionProps<T extends Record<string, unknown>> {
   table: string;
   schema?: string;
   event?: RealtimeEvent;
@@ -13,7 +13,7 @@ interface UseRealtimeSubscriptionProps<T extends { [key: string]: any }> {
   enabled?: boolean;
 }
 
-export function useRealtimeSubscription<T extends { [key: string]: any } = any>({
+export function useRealtimeSubscription<T extends Record<string, unknown> = Record<string, unknown>>({
   table,
   schema = 'public',
   event = '*',
@@ -27,8 +27,6 @@ export function useRealtimeSubscription<T extends { [key: string]: any } = any>(
     if (!enabled) return;
 
     const channelName = `${schema}:${table}${filter ? `:${filter}` : ''}`;
-    
-    console.log(`Subscribing to realtime channel: ${channelName}`);
 
     const channel = supabase
       .channel(channelName)
@@ -45,16 +43,12 @@ export function useRealtimeSubscription<T extends { [key: string]: any } = any>(
         }
       )
       .subscribe((status: string) => {
-        if (status === 'SUBSCRIBED') {
-          console.log(`Successfully subscribed to ${channelName}`);
-        }
         if (status === 'CHANNEL_ERROR') {
           console.error(`Failed to subscribe to ${channelName}`);
         }
       });
 
     return () => {
-      console.log(`Unsubscribing from realtime channel: ${channelName}`);
       supabase.removeChannel(channel);
     };
   }, [table, schema, event, filter, enabled, JSON.stringify(callback)]);

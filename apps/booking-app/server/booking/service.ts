@@ -102,7 +102,7 @@ export async function fetchService(serviceId: string) {
     return result;
   } catch (error) {
     console.error('Error fetching service:', error);
-    return { data: null as any, error };
+    return { data: null, error };
   }
 }
 
@@ -135,7 +135,7 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
     return { data: mappedRows, error: null as string | null };
   } catch (error) {
     console.error('Error listing bookings:', error);
-    return { data: [] as any[], error };
+    return { data: [], error };
   }
 }
 
@@ -197,7 +197,7 @@ export async function listServices() {
     return result;
   } catch (error) {
     console.error('Error listing services:', error);
-    return { data: null as any, error };
+    return { data: null, error };
   }
 }
 
@@ -227,13 +227,13 @@ export async function getBookingById(bookingId: string) {
         price: booking.service_price,
         description: booking.service_description
       },
-      staff: null as any // We don't have staff table join yet
+      staff: null // We don't have staff table join yet
     };
 
     return { data: result, error: null as string | null };
   } catch (error) {
     console.error('Error getting booking:', error);
-    return { data: null as any, error };
+    return { data: null, error };
   }
 }
 
@@ -245,12 +245,12 @@ export async function getBookingStats() {
     const stats = {
       total: rows.length,
        
-      byStatus: rows.reduce((acc: Record<string, number>, b: any) => {
+      byStatus: rows.reduce((acc: Record<string, number>, b: { status: string }) => {
         acc[b.status] = (acc[b.status] || 0) + 1;
         return acc;
       }, {}),
-       
-      byPaymentStatus: rows.reduce((acc: Record<string, number>, b: any) => {
+
+      byPaymentStatus: rows.reduce((acc: Record<string, number>, b: { payment_status: string }) => {
         acc[b.payment_status] = (acc[b.payment_status] || 0) + 1;
         return acc;
       }, {})
@@ -470,14 +470,14 @@ export async function createBooking(params: CreateBookingParams) {
            }
 
            if (discountCents > 0) {
-              console.log(`[Booking] Applying reward discount: ${discountCents} cents`);
               finalPriceCents = Math.max(0, finalPriceCents - discountCents);
               finalDepositCents = Math.max(0, finalDepositCents - discountCents);
            }
            
-        } catch (err: any) {
+        } catch (err) {
+           const errorMessage = err instanceof Error ? err.message : 'Failed to redeem reward';
            console.error('[Booking] Reward redemption failed:', err);
-           return { error: err.message || 'Failed to redeem reward', status: 400 };
+           return { error: errorMessage, status: 400 };
         }
     }
     // --------------------------------
@@ -522,12 +522,11 @@ export async function createBooking(params: CreateBookingParams) {
     // --- REPUTATION POLICY CHECK ---
     let reputationPolicy: BookingPolicy = { canBook: true, requiredDepositPercent: 50, allowPayLater: false, rejectionReason: '' };
     // Only check reputation if not using prepaid plan (plan is safe) and not fully covered by reward
-    if (!usePlanUsageId) { 
+    if (!usePlanUsageId) {
         reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);
         if (!reputationPolicy.canBook) {
             return { error: reputationPolicy.rejectionReason || 'Booking declined based on account policy.', status: 403 };
         }
-        console.log(`[Booking] Reputation Policy for ${email}: ${JSON.stringify(reputationPolicy)}`);
     }
     // -------------------------------
 
@@ -538,7 +537,7 @@ export async function createBooking(params: CreateBookingParams) {
     const manageToken = await signManageToken(id, 'manage', reservationTTLMinutes * 60);
     const manageTokenHash = hashToken(manageToken);
 
-    const addonsTotal = addons.reduce((sum: number, a: any) => sum + (a.priceCents || 0), 0);
+    const addonsTotal = addons.reduce((sum: number, a: BookingAddon) => sum + (a.priceCents || 0), 0);
     const totalCents = finalPriceCents + addonsTotal;
 
     if (paymentMode === 'deposit' && !rewardId && !usePlanUsageId) {

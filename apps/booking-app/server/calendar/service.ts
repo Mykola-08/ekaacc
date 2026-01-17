@@ -38,9 +38,9 @@ export class CalendarSyncService {
     // 2. For each connection, call Google/Outlook API
     // 3. Diff and update 'external_calendar_event' table
     // 4. This ensures 'Block out time' logic works in booking flow
-    
-    console.log(`Syncing calendar for ${userId}...`);
-    // Implementation requires Google/Graph API clients
+
+    // TODO: Implementation requires Google/Graph API clients
+    return { success: false, message: 'Not implemented' };
   }
   
   async pushBookingToCalendar(userId: string, booking: any) {

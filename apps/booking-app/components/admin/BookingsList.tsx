@@ -19,13 +19,13 @@ export function BookingsList({ bookings }: BookingsListProps) {
     const [statusFilter, setStatusFilter] = useState<'all' | 'scheduled' | 'pending' | 'completed' | 'canceled'>('all');
 
     const filteredBookings = bookings.filter(booking => {
-        const matchesSearch = 
-            booking.displayName?.toLowerCase().includes(search.toLowerCase()) || 
+        const matchesSearch =
+            booking.displayName?.toLowerCase().includes(search.toLowerCase()) ||
             booking.serviceName?.toLowerCase().includes(search.toLowerCase()) ||
             booking.email?.toLowerCase().includes(search.toLowerCase());
-        
+
         const matchesStatus = statusFilter === 'all' || booking.status === statusFilter;
-        
+
         return matchesSearch && matchesStatus;
     });
 
@@ -34,8 +34,8 @@ export function BookingsList({ bookings }: BookingsListProps) {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-serif text-foreground">All Bookings</h1>
-                    <p className="text-muted-foreground mt-1">Manage appointments and sessions</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">Reservations</h1>
+                    <p className="text-muted-foreground mt-1 text-lg">Comprehensive view of all platform sessions.</p>
                 </div>
             </div>
 
@@ -43,9 +43,9 @@ export function BookingsList({ bookings }: BookingsListProps) {
             <Card className="p-4 flex flex-col md:flex-row gap-4 items-center">
                 <div className="relative flex-1 w-full md:w-auto">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <Input 
-                        type="text" 
-                        placeholder="Search by name, email or service..." 
+                    <Input
+                        type="text"
+                        placeholder="Search by name, email or service..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="pl-10"
@@ -58,7 +58,7 @@ export function BookingsList({ bookings }: BookingsListProps) {
                             variant={statusFilter === status ? "default" : "outline"}
                             size="sm"
                             onClick={() => setStatusFilter(status as any)}
-                            className="capitalize rounded-full"
+                            className={cn("capitalize rounded-full px-5 h-9", statusFilter === status ? "bg-[#007AFF]" : "text-muted-foreground border-gray-200")}
                         >
                             {status}
                         </Button>
@@ -70,10 +70,10 @@ export function BookingsList({ bookings }: BookingsListProps) {
             <div className="space-y-4">
                 {filteredBookings.length === 0 ? (
                     <Card className="py-20 flex flex-col items-center justify-center border-dashed bg-muted/50">
-                            <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
+                        <div className="w-12 h-12 bg-muted rounded-full flex items-center justify-center mb-4">
                             <Calendar className="w-6 h-6 text-muted-foreground" />
-                            </div>
-                            <p className="text-muted-foreground font-medium">No bookings found</p>
+                        </div>
+                        <p className="text-muted-foreground font-medium">No bookings found</p>
                     </Card>
                 ) : (
                     <div className="grid grid-cols-1 gap-4">
@@ -101,11 +101,11 @@ function BookingRow({ booking }: { booking: Booking }) {
     const StatusIcon = config.icon;
 
     return (
-        <Card className="p-5 flex flex-col md:flex-row items-center gap-6 hover:shadow-md transition-all duration-300">
-            
+        <Card className="p-5 flex flex-col md:flex-row items-center gap-6 apple-card">
+
             {/* Date Block */}
             <div className="flex flex-row md:flex-col items-center md:items-start min-w-[100px] gap-3 md:gap-0">
-                <div className="text-2xl font-serif text-foreground">
+                <div className="text-2xl font-bold tracking-tight text-foreground">
                     {format(new Date(booking.startTime), 'MMM do')}
                 </div>
                 <div className="text-sm font-medium text-muted-foreground">
@@ -117,15 +117,15 @@ function BookingRow({ booking }: { booking: Booking }) {
             <div className="flex-1 w-full text-center md:text-left space-y-1">
                 <h3 className="text-lg font-bold text-foreground">{booking.serviceName}</h3>
                 <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                     <span className="flex items-center gap-1.5 text-sm text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full border border-border">
+                    <span className="flex items-center gap-1.5 text-sm text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-full border border-border">
                         <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
                         {booking.displayName || 'Guest'}
-                     </span>
-                     {booking.email && (
+                    </span>
+                    {booking.email && (
                         <span className="hidden sm:inline text-sm text-muted-foreground">
                             {booking.email}
                         </span>
-                     )}
+                    )}
                 </div>
             </div>
 
@@ -135,7 +135,7 @@ function BookingRow({ booking }: { booking: Booking }) {
                     <StatusIcon className="w-3 h-3" />
                     {booking.status}
                 </Badge>
-                
+
                 <div className="text-right min-w-[80px]">
                     <div className="font-bold text-foreground">
                         {new Intl.NumberFormat('en-US', { style: 'currency', currency: booking.currency || 'EUR' }).format((booking.basePriceCents || 0) / 100)}

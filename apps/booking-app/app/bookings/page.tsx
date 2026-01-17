@@ -5,6 +5,8 @@ import { BookingHistoryList } from '@/components/booking/BookingHistoryList';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus } from 'lucide-react';
 import Link from 'next/link';
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
 
 export default async function BookingsPage() {
   const supabase = await createClient();
@@ -21,43 +23,35 @@ export default async function BookingsPage() {
     .single();
 
   if (!profile) {
-      redirect('/onboarding');
+    redirect('/onboarding');
   }
 
   const bookings = await getBookingsHistory(profile.id);
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto p-6 md:p-10 space-y-12 animate-in fade-in duration-700">
-        
-        {/* Header - Minimal/Glassy */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-border/40">
-            <div className="space-y-3">
-                <Button variant="link" className="pl-0 h-auto text-muted-foreground hover:text-foreground/80 transition-colors group" asChild>
-                    <Link href="/">
-                        <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-                        Dashboard
-                    </Link>
-                </Button>
-                <div>
-                    <h1 className="text-4xl font-semibold tracking-tight text-foreground/90">Your Bookings</h1>
-                    <p className="text-lg text-muted-foreground font-light mt-1">
-                        History and upcoming sessions.
-                    </p>
-                </div>
-            </div>
-            
-            <Button asChild className="rounded-full h-10 px-6 font-medium bg-foreground text-background hover:opacity-90 shadow-none transition-all">
-                <Link href="/book">
-                    <Plus className="w-4 h-4 mr-2" />
-                    New Booking
-                </Link>
-            </Button>
+    <DashboardLayout profile={profile}>
+      <div className="space-y-8 animate-in fade-in duration-700">
+
+        <DashboardHeader
+          title="Your Bookings"
+          subtitle="View your session history and upcoming appointments."
+        >
+          <Button asChild className="rounded-[18px] h-10 px-5 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 border-0 transition-all active:scale-95">
+            <Link href="/book">
+              <Plus className="w-4 h-4 mr-2" strokeWidth={2.75} />
+              New Booking
+            </Link>
+          </Button>
+        </DashboardHeader>
+
+        {/* Unified Card Container for List */}
+        <div className="bg-card rounded-[32px] border border-border/60 shadow-sm overflow-hidden p-1">
+          <div className="p-6 md:p-8">
+            <BookingHistoryList bookings={bookings} userId={profile.id} />
+          </div>
         </div>
 
-        <BookingHistoryList bookings={bookings} userId={profile.id} />
-
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

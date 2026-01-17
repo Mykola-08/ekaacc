@@ -1,53 +1,69 @@
-import { listServices } from '@/server/booking/service';
-import { getWallet, getUpcomingBookings, getTherapistDailySchedule } from '@/server/dashboard/service';
-import { Service } from '@/types/database';
-import { ServiceGrid } from '@/components/booking/ServiceGrid';
 import { createClient } from '@/lib/supabase/server';
-import { ClientDashboard } from '@/components/dashboard/ClientDashboard';
-import { TherapistDashboard } from '@/components/dashboard/TherapistDashboard';
-import { getSingleActiveTherapist } from '@/server/therapist/service';
-
 import { redirect } from 'next/navigation';
+import { ClientDashboard } from '@/components/dashboard/client/ClientDashboard';
+import { AdminDashboard } from '@/components/dashboard/admin/AdminDashboard';
+import { TherapistDashboard } from '@/components/dashboard/therapist/TherapistDashboard';
+import { getAvailablePlans } from '@/server/plans/actions';
 
-// ... existing imports ...
-
-import { getClientExerciseStats } from '@/server/exercises/service';
-
-// Dynamic because we check auth
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
- const supabase = await createClient();
- const { data: { user } } = await supabase.auth.getUser();
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
 
- let profile = null;
- if (user) {
-  const { data } = await supabase
-   .from('profiles')
-   .select('*')
-   .eq('auth_id', user.id)
-   .single();
-  profile = data;
- }
+  if (!user) return redirect('/login');
 
- // 1. Therapist View
- if (profile?.role === 'therapist' || profile?.role === 'admin') {
-   const todaySchedule = await getTherapistDailySchedule(profile.id);
-   return <TherapistDashboard schedule={todaySchedule} />;
- }
+  const profile = user.user_metadata;
+  const role = profile.role || 'client';
 
- // 2. Client View (Authenticated)
- if (profile?.role === 'client') {
-   const wallet = await getWallet(profile.id);
-   const nextBookings = await getUpcomingBookings(profile.id);
-   const singleTherapist = await getSingleActiveTherapist();
-   const exerciseStats = await getClientExerciseStats(profile.id);
+  if (role === 'admin' || role === 'super_admin') {
+    const { data: stats } = await supabase.rpc('get_admin_kpi_stats');
+    return <AdminDashboard profile={profile} stats={stats} />;
+  }
 
-   // Assuming getUpcomingBookings returns an array, pick the first one
-   const nextBooking = Array.isArray(nextBookings) ? nextBookings[0] : nextBookings;
-   return <ClientDashboard profile={profile} wallet={wallet} nextBooking={nextBooking} singleTherapist={singleTherapist} exerciseStats={exerciseStats} />;
- }
+  if (role === 'therapist') {
+    return <TherapistDashboard profile={profile} userId={user.id} />;
+  }
 
- // 3. Redirect unauthenticated users to the main website
- redirect('http://localhost:9002');
+  // Client Data Fetching
+  const { data: wallet } = await supabase.from('wallets').select('*').eq('user_id', user.id).single();
+
+  // Active Plan Usage
+  const { data: activeUsage } = await supabase
+    .from('user_plan_usage')
+    .select('*')
+    .eq('user_id', user.id)
+    .eq('status', 'active')
+    .order('expires_at', { ascending: false })
+    .limit(1)
+    .single();
+
+  // Next Booking
+  const { data: bookings } = await supabase
+    .from('booking')
+    .select('*, service:service_id(name)')
+    .eq('user_id', user.id)
+    .eq('status', 'confirmed')
+    .gte('start_time', new Date().toISOString())
+    .order('start_time', { ascending: true })
+    .limit(1);
+
+  const nextBooking = bookings?.[0] || null;
+
+  // Goals (New)
+  const { data: goals } = await supabase.from('wellness_goals').select('*').eq('user_id', user.id).eq('status', 'active');
+
+  // Plans for marketplace
+  const plans = await getAvailablePlans();
+
+  return (
+    <ClientDashboard
+      profile={profile}
+      wallet={wallet}
+      nextBooking={nextBooking}
+      activeUsage={activeUsage}
+      goals={goals}
+      plans={plans}
+    />
+  );
 }

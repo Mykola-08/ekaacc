@@ -14,23 +14,31 @@ export function MainLayout({ children, header, footer }: MainLayoutProps) {
   const pathname = usePathname();
   const isMinimal = pathname?.startsWith('/telegram');
 
+  // Routes that use the internal DashboardLayout (Sidebar) and shouldn't show the global SiteHeader/Footer
+  const appRoutes = ['/', '/settings', '/wallet', '/bookings', '/profile'];
+  const isAppRoute = appRoutes.includes(pathname) || pathname?.startsWith('/dashboard');
+
   if (isMinimal) {
     return <main className="min-h-screen bg-background">{children}</main>;
   }
 
   return (
     <div className="flex flex-col min-h-screen">
-      {header}
-      <main className="flex-1 pt-24 md:pt-32 relative z-0">
+      {!isAppRoute && header}
+      <main className={cn(
+        "flex-1 relative z-0",
+        !isAppRoute && "pt-24 md:pt-32" // Only add padding if header is present
+      )}>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          className="h-full"
         >
           {children}
         </motion.div>
       </main>
-      {footer}
+      {!isAppRoute && footer}
     </div>
   );
 }

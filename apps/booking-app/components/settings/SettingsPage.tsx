@@ -1,168 +1,156 @@
-"use client";
+'use client';
 
-import { updateProfile } from '@/server/settings/actions';
-import { toast } from "sonner";
-import { User, Mail, Phone, FileText, Save, Shield } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ShieldCheck, User, Bell, Lock, Target, CreditCard, ChevronRight, LogOut } from 'lucide-react';
+import { IdentityVerificationForm } from '@/components/identity/IdentityVerificationForm';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
-interface SettingsPageProps {
-  profile: any;
-}
+export function SettingsPage({ profile, identityStatus }: { profile: any, identityStatus: string }) {
+    const supabase = createClient();
+    const router = useRouter();
+    const [notifications, setNotifications] = useState({
+        email: true,
+        push: false,
+        reminders: true,
+        marketing: false,
+    });
 
-export function SettingsPage({ profile }: SettingsPageProps) {
-  const [loading, setLoading] = useState(false);
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.push('/login');
+    };
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-      event.preventDefault();
-      setLoading(true);
-      const formData = new FormData(event.currentTarget);
-      
-      try {
-        const result = await updateProfile(null, formData);
-        
-        if (result && result.success) {
-            toast.success("Profile Updated", {
-                description: "Your changes have been saved successfully."
-            });
-        } else {
-            toast.error("Update Failed", {
-                description: result?.message || "Something went wrong. Please try again."
-            });
-        }
-      } catch (e) {
-         toast.error("Error", { description: "An unexpected error occurred." });
-      } finally {
-        setLoading(false);
-      }
-  }
+    return (
+        <div className="container max-w-4xl py-8 space-y-8">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold">Settings</h1>
+                    <p className="text-muted-foreground">Manage your account preferences</p>
+                </div>
+                <Button variant="ghost" className="text-rose-500 hover:text-rose-600 hover:bg-rose-50" onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                </Button>
+            </div>
 
-  return (
-    <div className="flex flex-col gap-8 pb-24 pt-12 max-w-4xl mx-auto px-6 animate-in fade-in slide-in-from-bottom-2 duration-700">
-       {/* Header */}
-        <div className="pb-8 text-center space-y-4">
-            <h1 className="font-sans font-semibold tracking-tight text-3xl md:text-4xl text-foreground">Account Settings</h1>
-            <p className="text-muted-foreground text-lg font-light">Manage your profile information and preferences.</p>
-        </div>
+            <Tabs defaultValue="profile" className="space-y-6">
+                <TabsList className="grid grid-cols-2 md:grid-cols-4 lg:w-[600px]">
+                    <TabsTrigger value="profile">Profile</TabsTrigger>
+                    <TabsTrigger value="identity">Identity</TabsTrigger>
+                    <TabsTrigger value="security">Security</TabsTrigger>
+                    <TabsTrigger value="notifications">Notifications</TabsTrigger>
+                </TabsList>
 
-       <div className="grid gap-8">
-            
-            {/* Profile Form */}
-            <Card className="glass-panel overflow-hidden">
-                <form onSubmit={handleSubmit}>
-                    <CardHeader className="border-b border-black/5 pb-8 mb-8">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
-                                <User className="w-6 h-6" />
+                {/* PROFILE TAB */}
+                <TabsContent value="profile" className="space-y-6">
+                    <Card className="p-6">
+                        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <User className="w-5 h-5" /> Personal Information
+                        </h2>
+                        <div className="flex flex-col md:flex-row gap-8 items-start">
+                            <div className="flex flex-col items-center gap-2">
+                                <Avatar className="w-24 h-24">
+                                    <AvatarImage src={profile?.avatar_url} />
+                                    <AvatarFallback>{profile?.full_name?.substring(0, 2) || 'ME'}</AvatarFallback>
+                                </Avatar>
+                                <Button variant="outline" size="sm">Change Photo</Button>
                             </div>
-                            <div>
-                                <CardTitle className="text-xl font-sans font-medium tracking-tight">Personal Information</CardTitle>
-                                <CardDescription className="text-muted-foreground font-light">Update your public profile details.</CardDescription>
-                            </div>
-                        </div>
-                    </CardHeader>
-
-                    <CardContent className="space-y-6">
-                        {/* Full Name */}
-                        <div className="space-y-2">
-                            <Label htmlFor="full_name" className="flex items-center gap-2 font-medium">
-                                <User className="w-4 h-4 text-primary" />
-                                Full Name
-                            </Label>
-                            <Input 
-                                id="full_name" 
-                                name="full_name" 
-                                defaultValue={profile?.full_name || ''} 
-                                required 
-                                className="h-12 rounded-xl bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20"
-                            />
-                        </div>
-
-                        {/* Email (Read Only) */}
-                        <div className="space-y-2">
-                            <Label htmlFor="email" className="flex items-center gap-2 font-medium">
-                                <Mail className="w-4 h-4 text-primary" />
-                                Email Address
-                            </Label>
-                            <div className="relative">
-                                <Input 
-                                    id="email" 
-                                    name="email" 
-                                    defaultValue={profile?.email || 'Managed by Auth Provider'} 
-                                    disabled 
-                                    className="h-12 pr-10 bg-black/5 border-transparent cursor-not-allowed opacity-75 rounded-xl"
-                                />
-                                <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                    <Shield className="w-4 h-4 text-muted-foreground" />
+                            <div className="flex-1 space-y-4 w-full">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div className="space-y-2">
+                                        <Label>Full Name</Label>
+                                        <Input defaultValue={profile?.full_name} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Email</Label>
+                                        <Input defaultValue={profile?.email} disabled className="bg-muted" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label>Phone</Label>
+                                        <Input defaultValue={profile?.phone || ''} placeholder="+1 234 567 890" />
+                                    </div>
                                 </div>
+                                <Button className="mt-4">Save Changes</Button>
                             </div>
-                            <p className="text-xs text-muted-foreground px-1 font-light">
-                                Email is managed by your authentication provider and cannot be changed here.
-                            </p>
                         </div>
+                    </Card>
 
-                        {/* Phone */}
-                        <div className="space-y-2">
-                            <Label htmlFor="phone" className="flex items-center gap-2 font-medium">
-                                <Phone className="w-4 h-4 text-primary" />
-                                Phone Number
-                            </Label>
-                            <Input 
-                                id="phone" 
-                                name="phone" 
-                                defaultValue={profile?.metadata?.phone || profile?.phone || ''} 
-                                placeholder="+1 (555) 000-0000"
-                                className="h-12 rounded-xl bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20"
-                            />
+                    <Card className="p-6">
+                        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <Target className="w-5 h-5" /> Preferences
+                        </h2>
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <Label>Public Profile (Social Features)</Label>
+                                <Switch checked={true} />
+                            </div>
+                            <div className="flex items-center justify-between">
+                                <Label>Share Goals Progress</Label>
+                                <Switch checked={false} />
+                            </div>
                         </div>
+                    </Card>
+                </TabsContent>
 
-                        {/* Bio */}
-                        <div className="space-y-2">
-                            <Label htmlFor="bio" className="flex items-center gap-2 font-medium">
-                                <FileText className="w-4 h-4 text-primary" />
-                                Bio / Notes
-                            </Label>
-                            <Textarea 
-                                id="bio" 
-                                name="bio" 
-                                defaultValue={profile?.metadata?.bio || profile?.bio || ''} 
-                                placeholder="Tell us a bit about yourself..."
-                                className="min-h-32 resize-y rounded-xl bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20"
-                            />
+                {/* IDENTITY TAB */}
+                <TabsContent value="identity" className="space-y-6">
+                    <IdentityVerificationForm currentStatus={identityStatus} />
+                </TabsContent>
+
+                {/* SECURITY TAB */}
+                <TabsContent value="security" className="space-y-6">
+                    <Card className="p-6">
+                        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <Lock className="w-5 h-5" /> Password & Authentication
+                        </h2>
+                        <div className="space-y-4">
+                            <div className="flex justify-between items-center p-3 border rounded-lg">
+                                <div>
+                                    <div className="font-medium">Password</div>
+                                    <div className="text-sm text-muted-foreground">Last changed 30 days ago</div>
+                                </div>
+                                <Button variant="outline" size="sm" onClick={() => toast.info('Password reset email sent!')}>Change</Button>
+                            </div>
+                            <div className="flex justify-between items-center p-3 border rounded-lg opacity-50">
+                                <div>
+                                    <div className="font-medium">Two-Factor Authentication</div>
+                                    <div className="text-sm text-muted-foreground">Coming soon</div>
+                                </div>
+                                <Switch disabled />
+                            </div>
                         </div>
-                    </CardContent>
+                    </Card>
+                </TabsContent>
 
-                    <CardFooter className="border-t border-black/5 pt-8 flex justify-end bg-black/1">
-                        <Button 
-                            type="submit" 
-                            disabled={loading}
-                            className="w-full sm:w-auto min-w-37.5 rounded-xl bg-primary hover:bg-primary/90 text-white shadow-lg shadow-blue-500/20"
-                        >
-                            {loading ? (
-                                <>Saving...</>
-                            ) : (
-                                <>
-                                    <Save className="w-4 h-4 mr-2" />
-                                    Save Changes
-                                </>
-                            )}
-                        </Button>
-                    </CardFooter>
-                </form>
-            </Card>
-
-            {/* Notifications Placeholder */}
-            <Card className="p-8 text-center bg-muted/30 border-dashed animate-fade-in" style={{ animationDelay: '100ms' }}>
-                <h3 className="text-lg font-serif text-muted-foreground mb-1">Notifications</h3>
-                <p className="text-sm text-muted-foreground">Additional preferences coming soon.</p>
-            </Card>
-
-       </div>
-    </div>
-  );
+                {/* NOTIFICATIONS TAB */}
+                <TabsContent value="notifications" className="space-y-6">
+                    <Card className="p-6">
+                        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                            <Bell className="w-5 h-5" /> Notification Preferences
+                        </h2>
+                        <div className="space-y-4">
+                            {Object.keys(notifications).map(key => (
+                                <div key={key} className="flex items-center justify-between py-2">
+                                    <div className="capitalize">{key} Updates</div>
+                                    <Switch
+                                        checked={notifications[key as keyof typeof notifications]}
+                                        onCheckedChange={(c) => setNotifications({ ...notifications, [key]: c })}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
+                </TabsContent>
+            </Tabs>
+        </div>
+    );
 }

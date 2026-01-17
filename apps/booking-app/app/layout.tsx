@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-// import { Inter, Playfair_Display } from 'next/font/google';
+import { Inter, Playfair_Display } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui/sonner';
@@ -16,70 +16,64 @@ import { NotificationsListener } from "@/components/NotificationsListener";
 import { AIChatWidget } from "@/components/ai/AIChatWidget";
 import { Preloader } from '@ekaacc/shared-ui';
 
-// Mock fonts for offline build
-const inter = { variable: '--font-inter', className: 'font-sans' };
-const playfair = { variable: '--font-playfair', className: 'font-serif' };
-
-/*
 const inter = Inter({
- subsets: ['latin'],
- display: 'swap',
- variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
 });
 
 const playfair = Playfair_Display({
- subsets: ['latin'],
- display: 'swap',
- variable: '--font-playfair',
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-playfair',
 });
-*/
 
 export const metadata: Metadata = {
- title: 'Integrative Massage Booking - Elena V.',
- description: 'Restoring balance through structural integration',
- icons: {
-  icon: '/favicon.ico',
- },
+  title: 'Integrative Massage Booking - Elena V.',
+  description: 'Restoring balance through structural integration',
+  icons: {
+    icon: '/favicon.ico',
+  },
 };
 
 export default function RootLayout({
- children,
+  children,
 }: Readonly<{
- children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
- return (
-  <html lang='en' suppressHydrationWarning>
-   <body
-    className={cn(
-     'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-blue-100 selection:text-blue-900',
-     inter.variable,
-     playfair.variable
-    )}
-   >
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <Preloader />
-      <LanguageProvider>
-        <NotificationsListener />
-        <AIChatWidget />
-        <MainLayout
-          header={<SiteHeader />}
-          footer={<SiteFooter />}
+  return (
+    <html lang='en' suppressHydrationWarning>
+      <body
+        className={cn(
+          'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-blue-100 selection:text-blue-900',
+          inter.variable,
+          playfair.variable
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          {children}
-        </MainLayout>
-        <CookieConsent />
+          <Preloader />
+          <LanguageProvider>
+            <NotificationsListener />
+            <AIChatWidget />
+            <MainLayout
+              header={<SiteHeader />}
+              footer={<SiteFooter />}
+            >
+              {children}
+            </MainLayout>
+            <CookieConsent />
 
-        <Toaster />
-        <Analytics />
-        <SpeedInsights />
-      </LanguageProvider>
-    </ThemeProvider>
-   </body>
-  </html>
- );
+            <Toaster />
+            <Analytics />
+            <SpeedInsights />
+          </LanguageProvider>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

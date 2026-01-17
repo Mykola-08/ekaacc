@@ -1,11 +1,14 @@
-'use client';
-
 import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, MapPin, Plus, ArrowUpRight } from "lucide-react";
+import { Calendar, Clock, Plus, ArrowUpRight, Wallet, Activity } from "lucide-react";
 import Link from 'next/link';
-import { NotificationDropdown } from "./NotificationDropdown";
 import { useLanguage } from '@/context/LanguageContext';
+import { DashboardLayout } from './DashboardLayout';
+import { DashboardHeader } from './DashboardHeader';
+import { SingleTherapistProfile } from '@/components/profile/SingleTherapistProfile';
+import { WelcomeBanner } from './widgets/WelcomeBanner';
+import { StatsCard } from './widgets/StatsCard';
+import { RecentActivity } from './widgets/RecentActivity';
 
 type ClientDashboardProps = {
     profile: any;
@@ -15,169 +18,100 @@ type ClientDashboardProps = {
     exerciseStats?: any;
 };
 
-import { SingleTherapistProfile } from '@/components/profile/SingleTherapistProfile';
-
 export function ClientDashboard({ profile, wallet, nextBooking, singleTherapist, exerciseStats }: ClientDashboardProps) {
     const { t } = useLanguage();
 
     return (
-        <div className="w-full max-w-5xl mx-auto space-y-12 p-6 md:p-10 min-h-screen animate-in fade-in duration-700">
-            {/* Minimalist Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-border/40 pb-6">
-                <div className="space-y-2">
-                    <h1 className="text-4xl font-semibold tracking-tight text-foreground/90">
-                        {singleTherapist 
-                            ? `Welcome!`
-                            : `${t('dashboard.welcome')}, ${profile.first_name || 'Guest'}`
-                        }
-                    </h1>
-                    <p className="text-lg text-muted-foreground font-light">
-                        {singleTherapist 
-                           ? `Book your next session with ${singleTherapist.display_name || singleTherapist.name}` 
-                           : 'Your wellness overview for today.'}
-                    </p>
-                </div>
-                <div className="flex items-center gap-3">
-                     <NotificationDropdown />
-                    <Button asChild variant="secondary" className="rounded-full px-6 h-10 font-medium bg-foreground/5 hover:bg-foreground/10 text-foreground shadow-none backdrop-blur-md">
-                        <Link href="/book">
-                            <Plus className="w-4 h-4 mr-2 opacity-70" />
-                            {t('nav.book')}
-                        </Link>
-                    </Button>
-                </div>
-            </div>
+        <DashboardLayout profile={profile}>
+            <div className="space-y-8 animate-in fade-in duration-500">
 
-            {/* Static Therapist Profile (Single Mode) */}
-            {singleTherapist && <SingleTherapistProfile therapist={singleTherapist} />}
+                {/* Header */}
+                <DashboardHeader
+                    title={singleTherapist ? 'Therapist Overview' : 'Client Overview'}
+                    showDate={false}
+                />
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                
-                {/* Next Session - Notion/Glass style */}
-                <div className="group relative overflow-hidden rounded-[28px] glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
-                            <Calendar className="w-5 h-5 opacity-50" />
-                            {t('dashboard.upcoming')}
-                        </h2>
-                        {nextBooking && (
-                            <span className="text-xs font-mono uppercase tracking-wider opacity-60 bg-foreground/5 px-2 py-1 rounded-md">
-                                Confirmed
-                            </span>
-                        )}
-                    </div>
+                {/* Welcome Banner */}
+                <WelcomeBanner
+                    title={singleTherapist
+                        ? `Welcome Back`
+                        : `${t('dashboard.welcome')}, ${profile.first_name || 'Guest'}`
+                    }
+                    subtitle={singleTherapist
+                        ? `Manage your sessions with ${singleTherapist.display_name || singleTherapist.name}.`
+                        : 'Track your wellness journey, balance, and upcoming appointments.'
+                    }
+                    action={
+                        <Button asChild className="rounded-[18px] h-12 px-6 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 border-0 font-semibold active:scale-95 transition-transform">
+                            <Link href="/book">
+                                <Plus className="w-5 h-5 mr-2" strokeWidth={2.75} />
+                                {t('nav.book')}
+                            </Link>
+                        </Button>
+                    }
+                />
 
-                    {nextBooking ? (
-                        <div className="space-y-8">
-                            <div>
-                                <h3 className="text-3xl font-medium tracking-tight text-foreground">
-                                    {nextBooking.services?.title || 'Therapy Session'}
-                                </h3>
-                                <div className="flex flex-col gap-2 mt-4 text-muted-foreground">
-                                    <div className="flex items-center gap-3 text-lg font-light">
-                                        <Clock className="w-5 h-5 opacity-40 text-primary" />
-                                        <span>
-                                            {format(new Date(nextBooking.start_time), 'EEEE, MMMM do')} • {format(new Date(nextBooking.start_time), 'h:mm a')}
-                                        </span>
-                                    </div>
-                                    <div className="flex items-center gap-3 text-base font-light opacity-80">
-                                        <MapPin className="w-5 h-5 opacity-40 text-primary" />
-                                        <span>Main Studio, Room 3</span>
-                                    </div>
-                                </div>
+                {singleTherapist && <SingleTherapistProfile therapist={singleTherapist} />}
+
+                {/* Stats Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {/* Wallet/Credits */}
+                    <Link href="/wallet" className="block h-full">
+                        <StatsCard
+                            icon={Wallet}
+                            label="Balance"
+                            value={<span>{wallet?.balance || 0} <span className="text-lg text-muted-foreground font-medium">credits</span></span>}
+                            colorClass="bg-blue-50 text-blue-600"
+                            action={<ArrowUpRight className="w-5 h-5 text-muted-foreground/50" />}
+                            className="cursor-pointer h-full"
+                        />
+                    </Link>
+
+                    {/* Next Session (Custom Card to handle specific layout) */}
+                    <div className="bg-card p-6 rounded-[28px] border border-border shadow-sm hover:shadow-md transition-all group lg:col-span-2">
+                        <div className="flex items-start justify-between mb-4">
+                            <div className="w-12 h-12 rounded-[14px] bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Calendar className="w-6 h-6" strokeWidth={2.5} />
                             </div>
-
-                            <div className="flex gap-4 pt-4">
-                                <Button variant="outline" className="flex-1 rounded-2xl h-12 border-primary/10 hover:bg-primary/5 transition-colors text-foreground/80">
-                                    Reschedule
-                                </Button>
-                                <Button className="flex-1 rounded-2xl h-12 bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 border-0">
-                                    Get Directions
-                                </Button>
-                            </div>
+                            {nextBooking && <span className="bg-purple-100 text-purple-700 px-2.5 py-1 rounded-full text-xs font-bold uppercase">Upcoming</span>}
                         </div>
-                    ) : (
-                        <div className="flex flex-col items-start justify-center py-6 space-y-4">
-                            <div className="space-y-2">
-                                <p className="text-lg font-medium text-foreground/80">No upcoming sessions</p>
-                                <p className="text-muted-foreground font-light">Ready to prioritize your wellness?</p>
-                            </div>
-                            <Button variant="link" className="p-0 h-auto font-medium text-primary flex items-center gap-2 group-hover:gap-3 transition-all" asChild>
-                                <Link href="/book">
-                                    Browse Schedule <ArrowUpRight className="w-4 h-4" />
+                        <div className="space-y-1">
+                            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">Next Session</span>
+                            {nextBooking ? (
+                                <Link href="/bookings" className="block hover:opacity-80 transition-opacity">
+                                    <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6">
+                                        <div className="text-2xl font-bold text-foreground tracking-tight truncate">{nextBooking.services?.title}</div>
+                                        <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium bg-secondary px-3 py-1 rounded-full w-fit">
+                                            <Clock className="w-4 h-4" />
+                                            {format(new Date(nextBooking.start_time), 'MMM do, h:mm a')}
+                                        </div>
+                                    </div>
                                 </Link>
-                            </Button>
-                        </div>
-                    )}
-                </div>
-
-                {/* Wallet - Notion/Glass style */}
-                <div className="group relative overflow-hidden rounded-4xl glass-card p-8 hover:bg-white/80 transition-all duration-500 hover:shadow-md flex flex-col justify-between border border-transparent hover:border-primary/5">
-                     <div className="space-y-6">
-                        <div className="flex items-center justify-between">
-                            <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
-                                Credit Balance
-                            </h2>
-                            <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/5 -mr-2 text-primary">
-                                <ArrowUpRight className="w-5 h-5 opacity-40" />
-                            </Button>
-                        </div>
-                        
-                        <div>
-                            <span className="text-5xl font-semibold tracking-tighter text-foreground">
-                                {wallet?.balance || 0}
-                            </span>
-                            <span className="text-xl text-muted-foreground ml-2 font-light">Credits</span>
-                        </div>
-
-                        <div className="space-y-3 pt-2">
-                            <div className="flex justify-between text-sm py-2 border-b border-primary/5">
-                                <span className="text-muted-foreground">Membership</span>
-                                <span className="font-medium text-primary">Standard</span>
-                            </div>
-                            <div className="flex justify-between text-sm py-2 border-b border-primary/5">
-                                <span className="text-muted-foreground">Expires</span>
-                                <span className="font-medium">Never</span>
-                            </div>
-                             {exerciseStats && (
-                                <div className="flex justify-between text-sm py-2 border-b border-primary/5">
-                                    <span className="text-muted-foreground">Exercises</span>
-                                    <span className="font-medium text-emerald-600 dark:text-emerald-400">
-                                        {exerciseStats.completed}/{exerciseStats.total} ({Math.round(exerciseStats.completion_rate * 100)}%)
-                                    </span>
-                                </div>
+                            ) : (
+                                <div className="text-xl font-semibold text-muted-foreground">No upcoming sessions</div>
                             )}
                         </div>
                     </div>
 
-                    <div className="pt-8">
-                         <Button className="w-full rounded-2xl h-12 bg-primary/5 hover:bg-primary/10 text-primary font-medium border border-transparent transition-all">
-                            Add Credits
-                        </Button>
-                    </div>
-                </div>
-            </div>
-            
-             {/* Recent Activity Section */}
-             <div className="pt-8">
-                <h3 className="text-xl font-light text-muted-foreground mb-6">Recent Activity</h3>
-                <div className="rounded-4xl glass-card overflow-hidden border border-white/20">
-                    {[1, 2, 3].map((_, i) => (
-                        <div key={i} className="flex items-center justify-between p-6 border-b border-primary/5 last:border-0 hover:bg-primary/5 transition-colors">
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                                    <Clock className="w-4 h-4 opacity-70" />
-                                </div>
-                                <div>
-                                    <p className="font-medium text-foreground/90">Deep Tissue Massage</p>
-                                    <p className="text-sm text-muted-foreground">Oct 2{i}, 2023</p>
-                                </div>
+                    {/* Check In Action (Quick Action Style) */}
+                    <Link href="/book" className="bg-card p-6 rounded-[28px] border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-40">
+                        <div className="flex items-start justify-between">
+                            <div className="w-12 h-12 rounded-[14px] bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Plus className="w-6 h-6" strokeWidth={2.5} />
                             </div>
-                            <span className="text-sm font-mono opacity-50">-1 Credit</span>
                         </div>
-                    ))}
+                        <div className="mt-4">
+                            <div className="text-lg font-bold text-foreground">Book Now</div>
+                            <div className="text-sm text-muted-foreground font-medium">Schedule a new visit</div>
+                        </div>
+                    </Link>
                 </div>
+
+
+                {/* Recent Activity Section */}
+                <h3 className="text-xl font-semibold text-foreground px-1">Recent Activity</h3>
+                <RecentActivity />
             </div>
-        </div>
+        </DashboardLayout>
     );
 }

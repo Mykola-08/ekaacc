@@ -56,7 +56,7 @@ export function ServiceForm({ initialData, serviceId }: ServiceFormProps) {
           .from('service')
           .update(data)
           .eq('id', serviceId);
-        
+
         if (error) throw error;
         toast.success('Service updated successfully');
       } else {
@@ -64,7 +64,7 @@ export function ServiceForm({ initialData, serviceId }: ServiceFormProps) {
         const { error } = await supabase
           .from('service')
           .insert([data]);
-        
+
         if (error) throw error;
         toast.success('Service created successfully');
         router.push('/admin/services');
@@ -123,7 +123,7 @@ export function ServiceForm({ initialData, serviceId }: ServiceFormProps) {
             </FormItem>
           )}
         />
-        
+
         <FormField
           control={form.control}
           name="image_url"
@@ -131,7 +131,7 @@ export function ServiceForm({ initialData, serviceId }: ServiceFormProps) {
             <FormItem>
               <FormLabel>Image URL</FormLabel>
               <FormControl>
-                <Input placeholder="https://..." {...field} />
+                <Input placeholder="https://..." className="bg-gray-50 border-gray-200 focus:bg-white rounded-xl h-11" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -139,56 +139,56 @@ export function ServiceForm({ initialData, serviceId }: ServiceFormProps) {
         />
 
         <div className="flex gap-8">
-            <FormField
-              control={form.control}
-              name="active"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Active
-                    </FormLabel>
-                    <FormDescription>
-                      Available for administration.
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="active"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    Active
+                  </FormLabel>
+                  <FormDescription>
+                    Available for administration.
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
 
-            <FormField
-              control={form.control}
-              name="is_public"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Public
-                    </FormLabel>
-                    <FormDescription>
-                      Visible on the booking site.
-                    </FormDescription>
-                  </div>
-                </FormItem>
-              )}
-            />
+          <FormField
+            control={form.control}
+            name="is_public"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormControl>
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <div className="space-y-1 leading-none">
+                  <FormLabel>
+                    Public
+                  </FormLabel>
+                  <FormDescription>
+                    Visible on the booking site.
+                  </FormDescription>
+                </div>
+              </FormItem>
+            )}
+          />
         </div>
 
-        <Button type="submit" disabled={loading}>
+        <Button type="submit" disabled={loading} className="apple-button h-11 px-10">
           {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {serviceId ? 'Update Service' : 'Create Service'}
+          {serviceId ? 'Save Changes' : 'Create Service'}
         </Button>
       </form>
     </Form>

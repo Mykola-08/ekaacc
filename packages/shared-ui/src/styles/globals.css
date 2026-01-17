@@ -4,35 +4,35 @@
 
 @theme inline {
   --font-sans: "Open Runde", "Inter", sans-serif;
-  
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
-  
+
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
-  
+
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  
+
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  
+
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  
+
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
-  
+
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -46,21 +46,26 @@
   --color-surface-subtle: #F7F8F9;
   --color-surface-hover: #F0F2F4;
   --color-surface-danger: #FFF0F0;
-  
+
   --color-text-tertiary: #A5A5A5;
-  
+
   --color-action-brand: #007AFF;
   --color-action-danger: #FF3F40;
 
   /* Custom Radii - Porcelain System */
-  --radius-xl: 1rem;       /* 16px - Standard Buttons */
-  --radius-2xl: 1.5rem;    /* 24px - Inner Cards */
+  --radius-xl: 1rem;
+  /* 16px - Standard Buttons */
+  --radius-2xl: 1.5rem;
+  /* 24px - Inner Cards */
   --radius-3xl: 2.25rem;
-  --radius-sm: 0.75rem;    /* 12px */
-  --radius-md: 1rem;       /* 16px - Inputs/Standard */
-  --radius-lg: 1.25rem;    /* 20px */
-   /* 36px - Outer Containers/Drawers */
-  
+  --radius-sm: 0.75rem;
+  /* 12px */
+  --radius-md: 1rem;
+  /* 16px - Inputs/Standard */
+  --radius-lg: 1.25rem;
+  /* 20px */
+  /* 36px - Outer Containers/Drawers */
+
   /* Shadows - Disabled for Plain Design */
   --shadow-xs: 0 0 0 0 transparent;
   --shadow-sm: 0 0 0 0 transparent;
@@ -69,31 +74,53 @@
   --shadow-xl: 0 0 0 0 transparent;
   --shadow-2xl: 0 0 0 0 transparent;
   --shadow-inner: 0 0 0 0 transparent;
-  
+
   --shadow-focus-ring-button: 0 0 0 2px #fff, 0 0 0 4px #E5E7EB;
-  
+
   /* Animations */
   --animate-fade-in: fade-in 0.2s ease-out forwards;
+  --animate-accordion-down: accordion-down 0.2s ease-out forwards;
   --animate-slide-up: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   --animate-zoom-in: zoom-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   @keyframes fade-in {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
+    0% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
   }
+
   @keyframes slide-up {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
+
   @keyframes zoom-in {
-    0% { transform: scale(0.95); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+      transform: scale(0.95);
+      opacity: 0;
+    }
+
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 }
 
 :root {
   /* Porcelain & Flow System - Light Mode (Default) */
-  
+
   /* Canvas Background: Porcelain Secondary (#F9F9F8) */
   --background: #F9F9F8;
   --foreground: #222222;
@@ -105,14 +132,16 @@
   --popover: #FEFFFE;
   --popover-foreground: #222222;
 
-  /* Brand Action: Apple Blue (#007AFF) */
-  --primary: #007AFF;
+  /* Brand Action: Apple Blue (#4DAFFF) */
+  --primary: #4DAFFF;
   --primary-foreground: #FFFFFF;
 
-  --secondary: #F7F8F9; /* Surface Subtle */
+  --secondary: #F7F8F9;
+  /* Surface Subtle */
   --secondary-foreground: #222222;
 
-  --muted: #F0F2F4; /* Surface Hover */
+  --muted: #F0F2F4;
+  /* Surface Hover */
   --muted-foreground: #999999;
 
   --accent: #F0F2F4;
@@ -121,20 +150,29 @@
   --destructive: #FF3F40;
   --destructive-foreground: #FFFFFF;
 
-  --border: #E5E5E5; /* Darker border for contrast without shadows */
+  --border: #F5F5F5;
+  /* Lightest border */
   --input: #F0F2F4;
   --ring: #E5E7EB;
 
-  --radius: 2.25rem; /* Base radius 36px */
+  /* Radii - Porcelain System (Squircle) */
+  --radius: 2.25rem;
+  /* 36px */
+  --radius-xl: 1rem;
+  /* 16px */
+  --radius-2xl: 1.5rem;
+  /* 24px */
+  --radius-3xl: 2.25rem;
+  /* 36px */
 
   --sidebar: #FEFFFE;
   --sidebar-foreground: #222222;
-  --sidebar-primary: #007AFF;
+  --sidebar-primary: #4DAFFF;
   --sidebar-primary-foreground: #FFFFFF;
   --sidebar-accent: #F7F8F9;
   --sidebar-accent-foreground: #222222;
-  --sidebar-border: #E5E5E5;
-  --sidebar-ring: #007AFF;
+  --sidebar-border: #F5F5F5;
+  --sidebar-ring: #4DAFFF;
 }
 
 .dark {
@@ -148,7 +186,8 @@
   --popover: #1C1C1E;
   --popover-foreground: #F5F5F7;
 
-  --primary: #0A84FF; /* Apple Blue Dark Mode */
+  --primary: #0A84FF;
+  /* Apple Blue Dark Mode */
   --primary-foreground: #FFFFFF;
 
   --secondary: #2C2C2E;
@@ -181,6 +220,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -189,4 +229,52 @@
 /* Utilities */
 @utility glass {
   @apply bg-white/70 backdrop-blur-xl border border-white/40;
+}
+
+/* 
+  PLAN THEMES 
+  These classes override the :root variables to apply plan-specific designs.
+  They should be applied to the body or a top-level wrapper.
+*/
+
+/* SILVER PLAN - Sleek, Metallic, Professional */
+.theme-silver {
+  --background: #F8F9FA;
+  /* Cool Gray surface */
+  --primary: #64748B;
+  /* Slate 500 - Metallic Blue-Grey */
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #E2E8F0;
+  /* Slate 200 */
+  --secondary-foreground: #1E293B;
+
+  --sidebar-primary: #64748B;
+  --sidebar-ring: #64748B;
+
+  --border: #E2E8F0;
+  --ring: #CBD5E1;
+}
+
+/* GOLD PLAN - Warm, Premium, Exclusive */
+.theme-gold {
+  --background: #FFFCF5;
+  /* Very subtle warm white */
+  --primary: #D4AF37;
+  /* Classic Gold */
+  --primary-foreground: #FFFFFF;
+
+  --secondary: #FEF9E7;
+  /* Pale Gold Surface */
+  --secondary-foreground: #3E2F05;
+
+  --sidebar-primary: #D4AF37;
+  --sidebar-ring: #D4AF37;
+
+  --border: #F3E5AB;
+  /* Vanilla / Pale Gold Border */
+  --ring: #D4AF37;
+
+  --muted: #F9F3E0;
+  --muted-foreground: #8C7D50;
 }

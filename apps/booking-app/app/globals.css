@@ -2,16 +2,25 @@
 @source "../../packages/shared-ui";
 
 /* Local overrides should align with Porcelain & Flow system */
-@theme inline {
-  --radius-3xl: 2.25rem; /* Ensure 36px alignment */
-  
-  /* Force Remove Shadows locally as well */
-  --shadow-xs: 0 0 0 0 transparent;
-  --shadow-sm: 0 0 0 0 transparent;
-  --shadow-md: 0 0 0 0 transparent;
-  --shadow-lg: 0 0 0 0 transparent;
-  --shadow-xl: 0 0 0 0 transparent;
-  --shadow-2xl: 0 0 0 0 transparent;
-  --shadow-inner: 0 0 0 0 transparent;
+@layer base {
+    :root {
+        --primary: 211 100% 50%;
+        /* #007AFF Apple Blue */
+        --primary-foreground: 0 0% 100%;
+        --radius: 0.75rem;
+        /* 12px - Cleaner, less round than 28px */
+    }
 }
 
+/* Apple-style Clean Aesthetics */
+.glass-card {
+    @apply bg-white border border-border/50 shadow-sm backdrop-blur-none !important;
+}
+
+.apple-card {
+    @apply bg-white rounded-2xl border border-gray-100 shadow-sm transition-all hover:shadow-md;
+}
+
+.apple-button {
+    @apply bg-[#007AFF] text-white hover:bg-[#0071E3] active:scale-95 transition-all rounded-full font-medium shadow-none;
+}

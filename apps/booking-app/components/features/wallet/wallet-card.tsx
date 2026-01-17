@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -10,6 +10,13 @@ import { WALLET_PRODUCTS } from '@/lib/stripe-products';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 
+interface WalletTransaction {
+  id: string;
+  amount: number;
+  type: 'credit' | 'debit';
+  timestamp: string;
+}
+
 // Dummy hook - replace with actual API integration
 const useWallet = () => {
   // Mock data
@@ -17,7 +24,7 @@ const useWallet = () => {
     balance: 0,
     currency: 'EUR',
     isLoading: false,
-    transactions: [] as any[]
+    transactions: [] as WalletTransaction[]
   };
 };
 
@@ -26,22 +33,21 @@ export function WalletCard() {
   const [isTopUpOpen, setIsTopUpOpen] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleTopUp = async (priceId: string) => {
+  const handleTopUp = useCallback(async (priceId: string) => {
     setIsProcessing(true);
     try {
       // Simulate API call to create Checkout Session
       // const res = await fetch('/api/checkout/wallet', { method: 'POST', body: JSON.stringify({ priceId }) });
       // const { url } = await res.json();
       // window.location.href = url;
-      
-      console.log('Redirecting to Stripe with Price ID:', priceId);
+
       toast.success("Redirecting to Payment Provider", {
         description: "Please complete your payment to top up your wallet.",
       });
-      
+
       // Delay to simulate
       await new Promise(r => setTimeout(r, 1500));
-      
+
     } catch (error) {
       toast.error("Error", {
         description: "Could not initiate top-up. Please try again.",
@@ -49,7 +55,7 @@ export function WalletCard() {
     } finally {
       setIsProcessing(false);
     }
-  };
+  }, []);
 
   return (
     <Card className="w-full max-w-md border-border/50 shadow-sm relative overflow-hidden">

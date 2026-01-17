@@ -15,8 +15,8 @@ import { format } from 'date-fns';
 interface ToolInvocation {
   toolCallId: string;
   toolName: string;
-  args: any;
-  result?: any;
+  args: Record<string, unknown>;
+  result?: Record<string, unknown>;
 }
 
 interface Message {
@@ -28,14 +28,15 @@ interface Message {
 
 export function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
-    // @ts-expect-error - api type definition mismatch in ai sdk v3 vs v4
+  const chatResult = useChat({
     api: '/api/chat',
-  }) as unknown as {
+  });
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = chatResult as {
     messages: Message[];
     input: string;
-    handleInputChange: (e: any) => void;
-    handleSubmit: (e: any) => void;
+    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
     isLoading: boolean;
   };
   const scrollRef = useRef<HTMLDivElement>(null);

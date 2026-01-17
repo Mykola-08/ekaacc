@@ -6,6 +6,8 @@ import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Heart, Star } from 'lucide-react';
 
+import { BOOKING_APP_URL } from '@/lib/config';
+
 export default function AboutElena() {
  const { t } = useLanguage();
 
@@ -142,7 +144,7 @@ export default function AboutElena() {
       <div className="max-w-4xl mx-auto px-4 text-center">
        <h2 className="text-3xl font-semibold text-foreground mb-8">{t('footer.readyToBegin')}</h2>
        <div className="flex flex-col sm:flex-row justify-center gap-4">
-         <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
+         <Link href={BOOKING_APP_URL}>
           <Button 
            size="lg" 
            className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-2xl font-medium shadow-lg hover:-translate-y-0.5 transition-all border-none"

@@ -2,7 +2,7 @@ import { Client } from 'pg';
 
 const projects = [
     { ref: 'dopkncrqutxnchwqxloa', region: 'eu-west-3' }, // New project (Paris?)
-    { ref: 'rbnfyxhewsivofvwdpuk', region: 'eu-west-3' }, // Old project (Paris)
+    { ref: 'dopkncrqutxnchwqxloa', region: 'eu-west-3' }, // Old project (Paris)
 ];
 const password = 'xDvwnz5wI5gv3vtZ';
 

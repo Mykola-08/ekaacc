@@ -12,13 +12,13 @@ $envVars = @{
     "AI_GATEWAY_API_KEY" = "vck_3lucTOjuNO1Vb3eOk92bN5g3OVScyRSzuxhTj12JZq6vrzZmSX3u50pr"
     "CRON_SECRET" = "local_cron_secret_123"
     "NEXT_PUBLIC_SUPABASE_URL" = "https://dopkncrqutxnchwqxloa.supabase.co"
-    "POSTGRES_URL" = "postgres://postgres.rbnfyxhewsivofvwdpuk:x6tgW4EsRa1nSK3Q@aws-1-eu-west-3.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
-    "POSTGRES_USER" = "postgres.rbnfyxhewsivofvwdpuk"
+    "POSTGRES_URL" = "postgres://postgres.dopkncrqutxnchwqxloa:x6tgW4EsRa1nSK3Q@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
+    "POSTGRES_USER" = "postgres.dopkncrqutxnchwqxloa"
     "POSTGRES_PASSWORD" = "x6tgW4EsRa1nSK3Q"
     "POSTGRES_HOST" = "aws-1-eu-west-3.pooler.supabase.com"
     "POSTGRES_DATABASE" = "postgres"
-    "POSTGRES_PRISMA_URL" = "postgres://postgres.rbnfyxhewsivofvwdpuk:x6tgW4EsRa1nSK3Q@aws-1-eu-west-3.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
-    "POSTGRES_URL_NON_POOLING" = "postgres://postgres.rbnfyxhewsivofvwdpuk:x6tgW4EsRa1nSK3Q@aws-1-eu-west-3.pooler.supabase.com:5432/postgres?sslmode=require"
+    "POSTGRES_PRISMA_URL" = "postgres://postgres.dopkncrqutxnchwqxloa:x6tgW4EsRa1nSK3Q@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?sslmode=require&pgbouncer=true"
+    "POSTGRES_URL_NON_POOLING" = "postgres://postgres.dopkncrqutxnchwqxloa:x6tgW4EsRa1nSK3Q@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require"
     "PAYLOAD_SECRET" = "your-secret-key-here"
 }
 

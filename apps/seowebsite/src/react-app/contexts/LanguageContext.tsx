@@ -6969,6 +6969,7 @@ const translations: Record<Language, Record<string, string>> = {
 
 // Detect browser language
 const detectBrowserLanguage = (): Language => {
+  if (typeof navigator === 'undefined') return 'en';
   const browserLang = navigator.language.toLowerCase();
 
   if (browserLang.startsWith('ca')) return 'ca';

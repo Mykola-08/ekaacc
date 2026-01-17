@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 export default function Students() {
  const { t } = useLanguage();
@@ -38,7 +39,7 @@ export default function Students() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
+         href={BOOKING_APP_URL}
          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
@@ -186,7 +187,7 @@ export default function Students() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
+         href={BOOKING_APP_URL}
          className="flex-1 inline-flex items-center justify-center w-full bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-2xl font-medium"
         >
          {t('common.reserve')}

@@ -5,6 +5,7 @@ import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { PersonalizedServiceItem } from '@/shared/types';
 import { Clock } from 'lucide-react';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 interface PersonalizedServiceCardProps {
  service: PersonalizedServiceItem;
@@ -71,7 +72,7 @@ export default function PersonalizedServiceCard({ service }: PersonalizedService
 
     {/* Buttons - Note order reversed from typical: Book first (Orange), Learn More second (Outline) */}
     <div className="flex gap-4">
-     <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL} className="flex-1">
+     <Link href={BOOKING_APP_URL} className="flex-1">
        <Button 
         className="w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] py-3 rounded-xl font-bold transition-colors border-none shadow-md hover:shadow-lg"
        >

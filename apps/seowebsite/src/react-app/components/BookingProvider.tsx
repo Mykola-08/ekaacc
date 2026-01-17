@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useAnalytics } from '@/react-app/hooks/useAnalytics';
 import { BookingContext } from '@/react-app/contexts/bookingContext';
 import SmartBookingPopup from './SmartBookingPopup';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 export function BookingProvider({ children }: { children: React.ReactNode }) {
   const { logEvent } = useAnalytics();
@@ -17,8 +18,8 @@ export function BookingProvider({ children }: { children: React.ReactNode }) {
     if (service) {
       // Integrated Booking App Redirection
       // Uses slugs: nutrition, massage, kinesiology, etc.
-      const bookingUrl = process.env.NEXT_PUBLIC_BOOKING_APP_URL 
-        ? `${process.env.NEXT_PUBLIC_BOOKING_APP_URL}/book/${service}`
+      const bookingUrl = BOOKING_APP_URL 
+        ? `${BOOKING_APP_URL}/book/${service}`
         : `/booking/book/${service}`; // Fallback to relative if rewrite exists, or assume localhost/dev behavior
 
        // For now, let's assume we want to redirect to the separate app.

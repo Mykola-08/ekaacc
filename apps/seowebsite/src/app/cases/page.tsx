@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowRight, Heart, Brain, Zap, Moon, Activity, Stethoscope, Shield, Search } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Button } from '@ekaacc/shared-ui';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 interface Problem {
  id: string;
@@ -230,7 +231,7 @@ export default function Casos() {
       {t('casos.ctaSubtitle')}
      </p>
      <div className="flex flex-col sm:flex-row gap-4 justify-center">
-       <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
+       <Link href={BOOKING_APP_URL}>
         <Button 
          size="lg" 
          className="bg-primary hover:bg-primary/90 text-white font-bold py-4 px-8 rounded-2xl shadow-lg border-none hover:scale-105 transition-transform"

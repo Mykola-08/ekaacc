@@ -243,7 +243,7 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
                           id="feedback"
                           value={userFeedback}
                           onChange={(e) => this.setState({ userFeedback: e.target.value })}
-                          className="w-full min-h-[100px] p-3 border-none bg-secondary/50 rounded-xl resize-none"
+                          className="w-full min-h-25 p-3 border-none bg-secondary/50 rounded-xl resize-none"
                           placeholder="Please describe what happened..."
                         />
                       </div>

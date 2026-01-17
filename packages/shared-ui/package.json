@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "echo \"no build step\"",
     "clean": "rm -rf .turbo node_modules .next"
   },
   "main": "./src/index.ts",

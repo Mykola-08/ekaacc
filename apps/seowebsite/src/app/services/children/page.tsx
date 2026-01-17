@@ -4,6 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 export default function Children() {
  const { t } = useLanguage();
@@ -35,7 +36,7 @@ export default function Children() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
+         href={BOOKING_APP_URL}
          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}

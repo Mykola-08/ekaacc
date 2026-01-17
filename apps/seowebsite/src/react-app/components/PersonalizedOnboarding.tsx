@@ -7,6 +7,7 @@ import { OnboardingData, Recommendation } from '@/shared/types';
 import { cn } from '@/lib/platform/utils/css-utils';
 import { Button } from '@/components/platform/ui/button';
 import { Card } from '@/components/platform/ui/card';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 interface Question {
   id: keyof OnboardingData;
@@ -294,7 +295,7 @@ export default function PersonalizedOnboarding() {
                          <Link href={rec.link}>{t('common.learnMore')}</Link>
                     </Button>
                     <Button asChild className="flex-1 rounded-full shadow-md">
-                         <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>{t('common.bookNow')}</Link>
+                         <Link href={BOOKING_APP_URL}>{t('common.bookNow')}</Link>
                     </Button>
                   </div>
                 </Card>
@@ -304,7 +305,7 @@ export default function PersonalizedOnboarding() {
 
           <div className="animate-fade-in text-center" style={{ animationDelay: '500ms' }}>
             <Button asChild size="lg" className="rounded-full px-8 py-6 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-                <Link href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}>
+                <Link href={BOOKING_APP_URL}>
                   {t('common.bookNow')}
                   <ChevronRight className="w-5 h-5 ml-2" />
                 </Link>

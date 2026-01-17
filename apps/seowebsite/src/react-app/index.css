@@ -17,17 +17,26 @@
   --color-metal-800: #2d3643;
   --color-metal-900: #1c222b;
 
-  --color-primary-25: #f2f5ff;
-  --color-primary-50: #e8edff;
-  --color-primary-100: #aebfff;
-  --color-primary-200: #94abff;
-  --color-primary-300: #6f8eff;
-  --color-primary-400: #4a72ff;
-  --color-primary-500: #1b4dff;
-  --color-primary-600: #0f3cd9;
-  --color-primary-700: #042bb2;
-  --color-primary-800: #042185;
-  --color-primary-900: #00114a;
+  --color-primary-25: #F5FAFF;
+  --color-primary-50: #EFF8FF;
+  --color-primary-100: #D1E9FF;
+  --color-primary-200: #B2D9FF;
+  --color-primary-300: #80C0FF;
+  --color-primary-400: #55A8FF;
+  --color-primary-500: #007AFF;
+  --color-primary-600: #006ADC;
+  --color-primary-700: #0055B3;
+  --color-primary-800: #00428C;
+  --color-primary-900: #003672;
+
+  /* Force Remove Shadows for Plain Design */
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 0 0 0 transparent;
+  --shadow-md: 0 0 0 0 transparent;
+  --shadow-lg: 0 0 0 0 transparent;
+  --shadow-xl: 0 0 0 0 transparent;
+  --shadow-2xl: 0 0 0 0 transparent;
+  --shadow-inner: 0 0 0 0 transparent;
 
   --color-success-25: #eafef5;
   --color-success-50: #d7f8e9;
@@ -826,8 +835,8 @@ html {
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 211 100% 50%; /* Apple Blue */
+    --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --muted: 240 4.8% 95.9%;
@@ -838,7 +847,7 @@ html {
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 211 100% 50%;
     --radius: 1.5rem;
   }
 
@@ -849,8 +858,8 @@ html {
     --card-foreground: 0 0% 98%;
     --popover: 0 0% 3%;
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
+    --primary: 210 100% 52%; /* Apple Blue Dark */
+    --primary-foreground: 0 0% 100%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
     --muted: 240 3.7% 15.9%;
@@ -861,7 +870,7 @@ html {
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --ring: 210 100% 52%;
   }
 }
 

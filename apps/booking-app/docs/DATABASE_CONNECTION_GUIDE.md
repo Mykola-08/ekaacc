@@ -8,7 +8,7 @@ The booking app is properly configured with Supabase database connections:
 1. **Client-Side Connection** (`lib/supabaseClient.ts`)
    - Uses `@supabase/supabase-js` v2 (modern API)
    - Anon key for client-side operations
-   - URL: `https://rbnfyxhewsivofvwdpuk.supabase.co`
+   - URL: `https://dopkncrqutxnchwqxloa.supabase.co`
    - ✅ Properly configured for client components
 
 2. **Server-Side Connection** (`lib/supabaseServerClient.ts`)
@@ -171,7 +171,7 @@ Add to `lib/supabaseServerClient.ts`:
 ```typescript
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co';
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...';
 
 export const supabaseServer = createClient(supabaseUrl, serviceKey, {
@@ -291,7 +291,7 @@ Add to `package.json`:
 ### Required Variables
 ```env
 # Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=https://rbnfyxhewsivofvwdpuk.supabase.co
+NEXT_PUBLIC_SUPABASE_URL=https://dopkncrqutxnchwqxloa.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 

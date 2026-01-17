@@ -31,7 +31,7 @@ BEGIN
   -- Note: We use a fire-and-forget approach. 
   -- Ideally, we would use a queue for reliability, but this is a direct integration.
   SELECT net.http_post(
-    url := 'https://rbnfyxhewsivofvwdpuk.supabase.co/functions/v1/sync-to-stripe',
+    url := 'https://dopkncrqutxnchwqxloa.supabase.co/functions/v1/sync-to-stripe',
     body := payload,
     headers := '{"Content-Type": "application/json"}'::jsonb
   ) INTO request_id;

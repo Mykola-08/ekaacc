@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   // Re-initializing with service role for this operation
   const { createClient: createServiceClient } = await import('@supabase/supabase-js');
   const adminClient = createServiceClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co',
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 

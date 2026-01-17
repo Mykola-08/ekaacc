@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { useToast } from '@/react-app/hooks/useToast';
 
 export function useOnlineStatus() {
-  const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [isOnline, setIsOnline] = useState(() => {
+    return typeof navigator !== 'undefined' ? navigator.onLine : true;
+  });
   const [wasOffline, setWasOffline] = useState(false);
   const toast = useToast();
 

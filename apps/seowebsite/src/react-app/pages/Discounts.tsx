@@ -4,6 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Tag, Users, Percent, Gift, Check, X } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 export default function Discounts() {
   const { t } = useLanguage();
@@ -237,7 +238,7 @@ export default function Discounts() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
+                  href={BOOKING_APP_URL}
                   className="inline-flex items-center justify-center px-8 py-4 bg-card text-blue-600 font-semibold rounded-2xl hover:bg-muted/30 transition-colors duration-200"
                 >
                   {t('discounts.cta.bookNow')}

@@ -18,6 +18,8 @@ import { TDRPresentationMode } from '@/react-app/components/TDRPresentationMode'
 import { useClickOutside } from '@/react-app/hooks/useClickOutside';
 import { useAnalytics } from '@/react-app/hooks/useAnalytics';
 
+import { BOOKING_APP_URL } from '@/lib/config';
+
 export default function MainLayout({
  children
 }: {
@@ -465,7 +467,7 @@ export default function MainLayout({
    {/* 
    <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-border md:hidden z-50 pb-safe">
     <Link
-     href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
+     href={BOOKING_APP_URL}
      className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
     >
      {t('nav.bookNow')}

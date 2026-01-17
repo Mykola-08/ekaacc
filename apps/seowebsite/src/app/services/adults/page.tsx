@@ -4,6 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { BOOKING_APP_URL } from '@/lib/config';
 
 export default function Adults() {
  const { t } = useLanguage();
@@ -35,7 +36,7 @@ export default function Adults() {
 
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
-         href={process.env.NEXT_PUBLIC_BOOKING_APP_URL}
+         href={BOOKING_APP_URL}
          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
@@ -44,12 +45,12 @@ export default function Adults() {
       </div>
 
       <div className="order-1 lg:order-2">
-       <div className="relative w-full h-[400px] sm:h-[500px]">
+       <div className="relative w-full h-100 sm:h-125">
         <Image
          src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=1920&h=1080&fit=crop"
          alt={t('elena.target.adults.title')}
          fill
-         className="object-cover rounded-[32px] shadow-2xl"
+         className="object-cover rounded-4xl shadow-2xl"
          sizes="(max-width: 1024px) 100vw, 50vw"
         />
        </div>

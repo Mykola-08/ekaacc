@@ -4,5 +4,14 @@
 /* Local overrides should align with Porcelain & Flow system */
 @theme inline {
   --radius-3xl: 2.25rem; /* Ensure 36px alignment */
+  
+  /* Force Remove Shadows locally as well */
+  --shadow-xs: 0 0 0 0 transparent;
+  --shadow-sm: 0 0 0 0 transparent;
+  --shadow-md: 0 0 0 0 transparent;
+  --shadow-lg: 0 0 0 0 transparent;
+  --shadow-xl: 0 0 0 0 transparent;
+  --shadow-2xl: 0 0 0 0 transparent;
+  --shadow-inner: 0 0 0 0 transparent;
 }
 

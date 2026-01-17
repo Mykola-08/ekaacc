@@ -177,7 +177,7 @@ app.post('/api/recommendations', authMiddleware, zValidator('json', z.object({
     const recommendations = [];
 
     // Use Supabase for unified services
-    const supabaseUrl = c.env.SUPABASE_URL || 'https://rbnfyxhewsivofvwdpuk.supabase.co';
+    const supabaseUrl = c.env.SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co';
     const supabaseKey = c.env.SUPABASE_ANON_KEY;
 
     let services: any[] = [];

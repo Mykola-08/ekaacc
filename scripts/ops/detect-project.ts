@@ -6,7 +6,7 @@ const resolve4 = promisify(dns.resolve4);
 
 const projects = [
   'dopkncrqutxnchwqxloa', // From MCP
-  'rbnfyxhewsivofvwdpuk'  // From original .env
+  'dopkncrqutxnchwqxloa'  // From original .env
 ];
 
 const password = 'xDvwnz5wI5gv3vtZ';

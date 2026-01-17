@@ -7,7 +7,7 @@ import { Label } from '@/components/platform/ui/label';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import { Lightbulb, AlertTriangle } from 'lucide-react';
-import { Skeleton } from './skeleton';
+import { Skeleton } from '@ekaacc/shared-ui';
 
 export default function PersonalBlock() {
   const { user, loading: authLoading } = useAuth();
@@ -77,7 +77,7 @@ export default function PersonalBlock() {
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
               placeholder="e.g., How can I improve my sleep?"
-              className="flex-grow"
+              className="grow"
               onKeyUp={(e) => e.key === 'Enter' && handleAsk()}
             />
             <Button 

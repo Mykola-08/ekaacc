@@ -3,7 +3,7 @@
 import { Button } from '@/components/platform/ui/button';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { PageHeader } from '@/components/platform/eka/page-header';
-import { Skeleton } from '@/components/platform/ui/skeleton';
+import { Skeleton } from '@ekaacc/shared-ui';
 import { Label } from '@/components/platform/ui/label';
 import { Input } from '@/components/platform/ui/input';
 import { useState, useMemo } from 'react';

@@ -1,126 +1,51 @@
-import { openai } from '@ai-sdk/openai';
-import { streamText, convertToModelMessages } from 'ai';
+import OpenAI from 'openai';
+import { zodToJsonSchema } from 'zod-to-json-schema';
 import { aiTools } from '@/server/ai/ai-tools';
 import { buildUserContext, formatContextForAI, extractAndStoreLearnings, updateUserBehaviorPatterns } from '@/server/ai/user-context-service';
 import { createClient } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 
-/**
- * AI Personalization & Memory Instructions
- *
- * The AI should:
- * 1. Remember and reference user preferences, goals, and important facts
- * 2. Adapt communication style based on user's expressed preferences
- * 3. Proactively offer relevant suggestions based on context
- * 4. Track mood patterns and offer support when appropriate
- * 5. Learn from each interaction to improve future responses
- */
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
 const AI_INSTRUCTIONS = `
 ## Core Identity
 You are EKA Balance, a compassionate AI wellness companion. You support users on their mental health and wellness journey through booking, tracking, and personalized guidance.
 
 ## Memory & Personalization Protocol
-
 ### What to Remember
-- User's name and how they prefer to be addressed
-- Their wellness goals and reasons for seeking help
-- Health conditions, sensitivities, or constraints mentioned
-- Service preferences (timing, therapist preferences, session types)
-- Communication style preferences (formal/casual, brief/detailed)
-- Life circumstances that affect their wellness (job, family, stress sources)
-- Past conversations and what worked/didn't work for them
-- Emotional patterns and triggers they've shared
-- Progress and achievements in their wellness journey
+- User's name and preferences
+- Wellness goals and reasons for seeking help
+- Service preferences and life circumstances
+- Emotional patterns and past interactions
 
 ### How to Use Memory
-- Reference past conversations naturally ("Last time you mentioned...")
-- Acknowledge progress and changes ("I noticed your mood has been improving...")
-- Anticipate needs based on patterns ("Since you usually feel stressed on Mondays...")
-- Personalize recommendations based on known preferences
-- Adapt your communication style to match their preferences
+- Reference past conversations naturally
+- Acknowledge progress and changes
+- Anticipate needs based on patterns
+- Personalize recommendations
 
-### Proactive Learning
-During each conversation, pay attention to:
-- New information about the user (life events, preferences, concerns)
-- Changes in their situation or mood
-- What seems to resonate with them
-- Feedback on your suggestions
-
-When you learn something new about the user, use the rememberThis tool to store it for future reference.
+When you learn something new about the user, use the rememberThis tool.
 
 ## Capabilities
-
-### Booking & Services
-- Search services by name, category, or user needs
-- Check availability and book appointments
-- View and manage existing bookings
-- Cancel bookings with appropriate follow-up
-
-### Wellness Tracking
-- Log mood check-ins (mood, energy, stress, emotions, activities, sleep)
-- View mood history and trends
-- Set and track wellness goals
-- Generate wellness insights and scores
-
-### Financial
-- Check wallet balance
-- View rewards points and tier status
-
-### Recommendations
-- Personalized service recommendations based on wellness data
-- Exercise and activity suggestions
-- Actionable next steps for wellness improvement
-
-### Memory & Context
-- Remember important user information
-- Recall preferences and past interactions
-- Update user preferences
-
-### Journaling
-- Create and view journal entries
-- Track thoughts and reflections
+- Booking: Search, check availability, book, cancel
+- Wellness: Log mood, view trends, set goals, insights
+- Finance: Check wallet and rewards
+- Memory: Store and recall user info
+- Journaling: Create and view entries
 
 ## Communication Guidelines
-
-### Tone & Style
-- Warm, empathetic, and supportive
+- Warm, empathetic, and supportive tone
 - Professional but approachable
-- Concise unless the user prefers detailed responses
-- Non-judgmental about mental health topics
-- Celebratory of progress and achievements
-- Gently encouraging of healthy habits
-
-### Important Behaviors
-1. Always acknowledge the user's feelings before offering solutions
-2. Ask clarifying questions rather than assuming
-3. Offer choices rather than directives when possible
-4. Celebrate small wins and progress
-5. Be honest about limitations - suggest professional help when appropriate
-6. Never dismiss concerns or minimize struggles
-7. Respect privacy - don't reference sensitive info unnecessarily
-
-### Crisis Awareness
-If a user expresses:
-- Thoughts of self-harm or suicide
-- Severe depression or hopelessness
-- Panic or extreme anxiety
-- Abuse or dangerous situations
-
-Respond with empathy, provide crisis resources, and strongly encourage professional help. Do not just refer to tools - offer genuine human connection while being clear about your limitations as an AI.
+- Concise unless the user prefers detail
+- Crisis Awareness: Suggest professional help if self-harm or severe distress is mentioned.
 
 ## Response Format
-- Keep responses concise unless asked for detail
+- Keep responses concise
 - Use bullet points for lists
-- Include relevant data from tools (wellness scores, booking info)
-- End with a clear next step or invitation to continue
-
-## Tool Usage Guidelines
-- Use tools proactively to gather context before responding
-- When user asks about bookings, always fetch current data
-- When discussing wellness, reference their actual trends
-- Store important learnings using rememberThis
-- Generate insights when discussing progress
+- End with a clear next step
 `;
 
 const buildSystemPrompt = (userContext: string) => `
@@ -134,52 +59,143 @@ ${new Date().toISOString()}
 Local time context: ${new Date().toLocaleString('en-US', { weekday: 'long', hour: 'numeric', minute: 'numeric', hour12: true })}
 `;
 
+// Helper to convert AI tools to OpenAI tool format
+const getTools = () => {
+  return Object.entries(aiTools).map(([name, tool]) => ({
+    type: 'function' as const,
+    function: {
+      name,
+      description: tool.description,
+      parameters: zodToJsonSchema(tool.parameters),
+    },
+  }));
+};
+
 export async function POST(req: Request) {
   const { messages } = await req.json();
 
-  // Get user and build comprehensive context
   let userContextString = '';
   let userId: string | null = null;
 
   try {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
-
     if (user) {
       userId = user.id;
-
-      // Build comprehensive user context
       const context = await buildUserContext(user.id);
-      if (context) {
-        userContextString = formatContextForAI(context);
-      }
+      if (context) userContextString = formatContextForAI(context);
     }
-  } catch {
-    // Continue without context if fetch fails
+  } catch (e) {
+    console.error('Error fetching context:', e);
   }
 
-  const result = await streamText({
-    model: openai('gpt-4o'),
-    system: buildSystemPrompt(userContextString),
-    messages: await convertToModelMessages(messages),
-    tools: aiTools,
-    maxSteps: 10, // Allow more steps for complex multi-tool interactions
-    onFinish: async ({ text }) => {
-      // Extract learnings from the conversation
-      if (userId && messages.length > 0) {
-        const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
-        if (lastUserMessage?.content) {
-          // Extract and store learnings in background
-          extractAndStoreLearnings(userId, lastUserMessage.content, text || '').catch(() => {});
+  const systemPrompt = buildSystemPrompt(userContextString);
+  const fullMessages = [
+    { role: 'system', content: systemPrompt },
+    ...messages
+  ];
 
-          // Update behavior patterns periodically
-          if (Math.random() < 0.1) { // 10% chance to update patterns
-            updateUserBehaviorPatterns(userId).catch(() => {});
+  const encoder = new TextEncoder();
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        let currentMessages = [...fullMessages];
+        let retryCount = 0;
+        const maxRetries = 10;
+
+        while (retryCount < maxRetries) {
+          const response = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: currentMessages as any,
+            tools: getTools(),
+            tool_choice: 'auto',
+            stream: false, // We'll handle tool calls first, then stream the final response
+          });
+
+          const message = response.choices[0].message;
+
+          if (message.tool_calls && message.tool_calls.length > 0) {
+            currentMessages.push(message as any);
+
+            // Send neutral update to UI that tools are working (optional protocol chunk)
+            // controller.enqueue(encoder.encode('__TOOL_CALLING__')); 
+
+            for (const toolCall of message.tool_calls) {
+              const toolName = toolCall.function.name;
+              const toolArgs = JSON.parse(toolCall.function.arguments);
+              const tool = aiTools[toolName];
+
+              let result;
+              if (tool) {
+                try {
+                  result = await tool.execute(toolArgs);
+                } catch (e: any) {
+                  result = { error: e.message || 'Tool execution failed' };
+                }
+              } else {
+                result = { error: 'Tool not found' };
+              }
+
+              currentMessages.push({
+                role: 'tool',
+                tool_call_id: toolCall.id,
+                content: JSON.stringify(result),
+              } as any);
+
+              // Push the tool result to the stream as well so UI can render it
+              controller.enqueue(encoder.encode(`0:${JSON.stringify({
+                type: 'tool-result',
+                toolName,
+                args: toolArgs,
+                result
+              })}\n`));
+            }
+            retryCount++;
+            continue;
           }
-        }
-      }
-    }
-  } as any);
 
-  return (result as any).toDataStreamResponse();
+          // Final response from assistant
+          const finalResponse = await openai.chat.completions.create({
+            model: 'gpt-4o',
+            messages: currentMessages as any,
+            stream: true,
+          });
+
+          let fullText = '';
+          for await (const chunk of finalResponse) {
+            const content = chunk.choices[0]?.delta?.content || '';
+            if (content) {
+              fullText += content;
+              controller.enqueue(encoder.encode(`t:${content}\n`));
+            }
+          }
+
+          // Handle onFinish logic manually
+          if (userId && messages.length > 0) {
+            const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
+            if (lastUserMessage?.content) {
+              extractAndStoreLearnings(userId, lastUserMessage.content, fullText).catch(() => { });
+              if (Math.random() < 0.1) {
+                updateUserBehaviorPatterns(userId).catch(() => { });
+              }
+            }
+          }
+
+          break;
+        }
+        controller.close();
+      } catch (err: any) {
+        console.error('Stream error:', err);
+        controller.error(err);
+      }
+    },
+  });
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'Transfer-Encoding': 'chunked',
+    },
+  });
 }

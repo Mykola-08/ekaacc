@@ -45,7 +45,7 @@ export async function fetchService(serviceId: string) {
     // Use a single query with JOIN for better performance
     // Updated to support lookup by UUID or Slug
     const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(serviceId);
-    
+
     const { rows } = await db.query(
       `SELECT s.id, s.name, s.description, s.stripe_product_id, s.metadata, s.image_url, s.images, s.tags,
               sv.id as variant_id, sv.name as variant_name, sv.description as variant_description,
@@ -57,7 +57,7 @@ export async function fetchService(serviceId: string) {
        ORDER BY sv.price_amount ASC`,
       [serviceId]
     );
-    
+
     if (rows.length === 0) {
       return { data: null, error: { message: 'Service not found', code: '404' } };
     }
@@ -166,7 +166,7 @@ export async function listServices() {
        GROUP BY s.id
        ORDER BY s.name`
     );
-    
+
     interface ServiceRow {
       id: string;
       name: string;
@@ -182,7 +182,7 @@ export async function listServices() {
       duration: number;
       version?: string | null;
     }
-    
+
     const mappedData = (rows as unknown as ServiceRow[]).map((s) => ({
       ...s,
       is_active: s.active,
@@ -190,10 +190,10 @@ export async function listServices() {
       image_url: s.image_url || null,
       version: s.version || null
     }));
-    
+
     const result = { data: mappedData, error: null as string | null };
     setCache(cacheKey, result);
-    
+
     return result;
   } catch (error) {
     console.error('Error listing services:', error);
@@ -217,7 +217,7 @@ export async function getBookingById(bookingId: string) {
     }
 
     const booking = rows[0]!;
-    
+
     // Transform to match expected structure
     const result = {
       ...booking,
@@ -241,21 +241,23 @@ export async function getBookingById(bookingId: string) {
 export async function getBookingStats() {
   try {
     const { rows } = await db.query('SELECT status, payment_status FROM booking');
-    
+
     const stats = {
       total: rows.length,
-       
-      byStatus: rows.reduce((acc: Record<string, number>, b: { status: string }) => {
-        acc[b.status] = (acc[b.status] || 0) + 1;
+
+      byStatus: (rows as any[]).reduce((acc: Record<string, number>, b: any) => {
+        const status = b.status || 'unknown';
+        acc[status] = (acc[status] || 0) + 1;
         return acc;
       }, {}),
 
-      byPaymentStatus: rows.reduce((acc: Record<string, number>, b: { payment_status: string }) => {
-        acc[b.payment_status] = (acc[b.payment_status] || 0) + 1;
+      byPaymentStatus: (rows as any[]).reduce((acc: Record<string, number>, b: any) => {
+        const pStatus = b.payment_status || 'unknown';
+        acc[pStatus] = (acc[pStatus] || 0) + 1;
         return acc;
       }, {})
     };
-    
+
     return { data: stats };
   } catch (error) {
     return { error };
@@ -267,16 +269,16 @@ export async function checkDatabaseHealth() {
     const startTime = Date.now();
     await db.query('SELECT count(*) FROM service');
     const responseTime = Date.now() - startTime;
-    
-    return { 
-      healthy: true, 
+
+    return {
+      healthy: true,
       timestamp: new Date().toISOString(),
       responseTimeMs: responseTime,
       error: null as string | null
     };
   } catch (err) {
-    return { 
-      healthy: false, 
+    return {
+      healthy: false,
       error: String(err),
       timestamp: new Date().toISOString()
     };
@@ -344,63 +346,63 @@ export async function createBooking(params: CreateBookingParams) {
 
     // RESTRICTION CHECK
     if (service.requires_identity_verification || (service.min_trust_score || 0) > 0) {
-       // We must check the user's status.
-       const { rows: scoreRows } = await db.query('SELECT calculate_trust_score($1) as score', [email]);
-       const userScore = scoreRows[0]?.score || 50; // Default 50
+      // We must check the user's status.
+      const { rows: scoreRows } = await db.query('SELECT calculate_trust_score($1) as score', [email]);
+      const userScore = scoreRows[0]?.score || 50; // Default 50
 
-       // Check Trust Score
-       if ((service.min_trust_score || 0) > userScore) {
-          return { error: 'Booking restricted: Trust score requirement not met.', status: 403 };
-       }
+      // Check Trust Score
+      if ((service.min_trust_score || 0) > userScore) {
+        return { error: 'Booking restricted: Trust score requirement not met.', status: 403 };
+      }
 
-       // Check Identity 
-       if (service.requires_identity_verification) {
-          if (!userId) {
-             return { error: 'This service requires identity verification. Please log in.', status: 403 };
-          }
-       }
+      // Check Identity 
+      if (service.requires_identity_verification) {
+        if (!userId) {
+          return { error: 'This service requires identity verification. Please log in.', status: 403 };
+        }
+      }
     }
 
     // 1b. Fetch Variant (if provided) or Default
-    let finalDuration = 60; 
+    let finalDuration = 60;
     let finalPriceCents = 0;
     let finalVariantId = serviceVariantId || null;
 
     if (serviceVariantId) {
-       interface VariantRow {
-         id: string;
-         duration_min: number;
-         price_amount: number;
-       }
-       const { rows: vRows } = await db.query<VariantRow>(
-         'SELECT id, duration_min, price_amount FROM service_variant WHERE id = $1 AND service_id = $2',
-         [serviceVariantId, serviceId]
-       );
-       if (vRows.length === 0) {
-         return { error: 'Service variant not found', status: 404 };
-       }
-       const variant = vRows[0]!;
-       finalDuration = variant.duration_min;
-       finalPriceCents = variant.price_amount;
+      interface VariantRow {
+        id: string;
+        duration_min: number;
+        price_amount: number;
+      }
+      const { rows: vRows } = await db.query<VariantRow>(
+        'SELECT id, duration_min, price_amount FROM service_variant WHERE id = $1 AND service_id = $2',
+        [serviceVariantId, serviceId]
+      );
+      if (vRows.length === 0) {
+        return { error: 'Service variant not found', status: 404 };
+      }
+      const variant = vRows[0]!;
+      finalDuration = variant.duration_min;
+      finalPriceCents = variant.price_amount;
     } else {
-       // Attempt to find a default variant (lowest price)
-       interface DefaultVariantRow {
-         id: string;
-         duration_min: number;
-         price_amount: number;
-       }
-       const { rows: defaultV } = await db.query<DefaultVariantRow>(
-         'SELECT id, duration_min, price_amount FROM service_variant WHERE service_id = $1 ORDER BY price_amount ASC LIMIT 1', 
-         [serviceId]
-       );
-       if (defaultV.length > 0) {
-          const def = defaultV[0]!;
-          finalVariantId = def.id; 
-          finalDuration = def.duration_min;
-          finalPriceCents = def.price_amount;
-       } else {
-          return { error: 'Service has no bookable variants', status: 400 };
-       }
+      // Attempt to find a default variant (lowest price)
+      interface DefaultVariantRow {
+        id: string;
+        duration_min: number;
+        price_amount: number;
+      }
+      const { rows: defaultV } = await db.query<DefaultVariantRow>(
+        'SELECT id, duration_min, price_amount FROM service_variant WHERE service_id = $1 ORDER BY price_amount ASC LIMIT 1',
+        [serviceId]
+      );
+      if (defaultV.length > 0) {
+        const def = defaultV[0]!;
+        finalVariantId = def.id;
+        finalDuration = def.duration_min;
+        finalPriceCents = def.price_amount;
+      } else {
+        return { error: 'Service has no bookable variants', status: 400 };
+      }
     }
 
     const start = new Date(startTime);
@@ -423,7 +425,7 @@ export async function createBooking(params: CreateBookingParams) {
     if (!finalStaffId) {
       const weekday = start.getDay();
       const startHour = start.getHours();
-      
+
       const { rows: schedules } = await db.query(
         'SELECT staff_id, start_hour, end_hour, active FROM staff_schedule WHERE weekday = $1 AND active = true',
         [weekday]
@@ -449,84 +451,84 @@ export async function createBooking(params: CreateBookingParams) {
 
     // --- REWARD REDEMPTION LOGIC ---
     if (rewardId) {
-        if (!userId) {
-           return { error: 'You must be logged in to redeem rewards.', status: 401 };
-        }
- 
-        try {
-           // Redeem the reward (deduct points)
-          const loyalty = new LoyaltyService();
-          const redemption = await loyalty.redeemReward(userId, rewardId);
-          const rewardMeta = redemption.reward || {};
-           let discountCents = 0;
-           
-           if (rewardMeta.discount_percent) {
-              discountCents = Math.floor(finalPriceCents * (rewardMeta.discount_percent / 100));
-           } else if (rewardMeta.discount_amount_cents) {
-              discountCents = rewardMeta.discount_amount_cents;
-           } else if (rewardMeta.category === 'session') {
-              // Free session covers full price
-              discountCents = finalPriceCents;
-           }
+      if (!userId) {
+        return { error: 'You must be logged in to redeem rewards.', status: 401 };
+      }
 
-           if (discountCents > 0) {
-              finalPriceCents = Math.max(0, finalPriceCents - discountCents);
-              finalDepositCents = Math.max(0, finalDepositCents - discountCents);
-           }
-           
-        } catch (err) {
-           const errorMessage = err instanceof Error ? err.message : 'Failed to redeem reward';
-           console.error('[Booking] Reward redemption failed:', err);
-           return { error: errorMessage, status: 400 };
+      try {
+        // Redeem the reward (deduct points)
+        const loyalty = new LoyaltyService();
+        const redemption = await loyalty.redeemReward(userId, rewardId);
+        const rewardMeta = redemption.reward || {};
+        let discountCents = 0;
+
+        if (rewardMeta.discount_percent) {
+          discountCents = Math.floor(finalPriceCents * (rewardMeta.discount_percent / 100));
+        } else if (rewardMeta.discount_amount_cents) {
+          discountCents = rewardMeta.discount_amount_cents;
+        } else if (rewardMeta.category === 'session') {
+          // Free session covers full price
+          discountCents = finalPriceCents;
         }
+
+        if (discountCents > 0) {
+          finalPriceCents = Math.max(0, finalPriceCents - discountCents);
+          finalDepositCents = Math.max(0, finalDepositCents - discountCents);
+        }
+
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to redeem reward';
+        console.error('[Booking] Reward redemption failed:', err);
+        return { error: errorMessage, status: 400 };
+      }
     }
     // --------------------------------
 
     // Check Plan logic
     // Modification: Automatically check for available credits if not explicitly provided
     if (userId && !usePlanUsageId) {
-        const { rows: autoPlanRows } = await db.query(
-            `SELECT id FROM user_plan_usage 
+      const { rows: autoPlanRows } = await db.query(
+        `SELECT id FROM user_plan_usage 
              WHERE user_id = $1 
                AND status = 'active' 
                AND (credits_total - credits_used) > 0 
                AND (expires_at IS NULL OR expires_at > NOW())
              ORDER BY expires_at ASC NULLS LAST, created_at ASC 
              LIMIT 1`,
-            [userId]
-        );
-        if (autoPlanRows.length > 0) {
-            usePlanUsageId = autoPlanRows[0]!.id;
-        }
+        [userId]
+      );
+      if (autoPlanRows.length > 0) {
+        usePlanUsageId = autoPlanRows[0]!.id;
+      }
     }
 
     let initialPaymentStatus = 'pending';
     if (usePlanUsageId) {
-        if (!userId) return { error: 'User ID required for plan usage', status: 400 };
+      if (!userId) return { error: 'User ID required for plan usage', status: 400 };
 
-        // Verify Plan Validity
-        const { rows: planRows } = await db.query(
-            'SELECT credits_total, credits_used, user_id, status FROM user_plan_usage WHERE id = $1', 
-            [usePlanUsageId]
-        );
-        if (planRows.length === 0) return { error: 'Plan not found', status: 404 };
-        const plan = planRows[0]!;
-        
-        if (plan.user_id !== userId) return { error: 'Plan belongs to another user', status: 403 };
-        if (plan.status !== 'active') return { error: 'Plan is not active', status: 400 };
-        if ((plan.credits_total - plan.credits_used) < 1) return { error: 'Insufficient plan credits', status: 402 };
-        
-        initialPaymentStatus = 'captured';
+      // Verify Plan Validity
+      const { rows: planRows } = await db.query(
+        'SELECT credits_total, credits_used, user_id, status FROM user_plan_usage WHERE id = $1',
+        [usePlanUsageId]
+      );
+      if (planRows.length === 0) return { error: 'Plan not found', status: 404 };
+      const plan = planRows[0]!;
+
+      if (plan.user_id !== userId) return { error: 'Plan belongs to another user', status: 403 };
+      if (plan.status !== 'active') return { error: 'Plan is not active', status: 400 };
+      if ((plan.credits_total - plan.credits_used) < 1) return { error: 'Insufficient plan credits', status: 402 };
+
+      initialPaymentStatus = 'captured';
     }
 
     // --- REPUTATION POLICY CHECK ---
     let reputationPolicy: BookingPolicy = { canBook: true, requiredDepositPercent: 50, allowPayLater: false, rejectionReason: '' };
     // Only check reputation if not using prepaid plan (plan is safe) and not fully covered by reward
     if (!usePlanUsageId) {
-        reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);
-        if (!reputationPolicy.canBook) {
-            return { error: reputationPolicy.rejectionReason || 'Booking declined based on account policy.', status: 403 };
-        }
+      reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);
+      if (!reputationPolicy.canBook) {
+        return { error: reputationPolicy.rejectionReason || 'Booking declined based on account policy.', status: 403 };
+      }
     }
     // -------------------------------
 
@@ -541,19 +543,19 @@ export async function createBooking(params: CreateBookingParams) {
     const totalCents = finalPriceCents + addonsTotal;
 
     if (paymentMode === 'deposit' && !rewardId && !usePlanUsageId) {
-       // 1. Check if trying to pay 0 without permission
-       if (finalDepositCents <= 0 && !reputationPolicy.allowPayLater) {
-          return { error: 'Deposit amount required for deposit mode', status: 400 };
-       }
-       
-       // 2. Check Min Percentage 
-       if (reputationPolicy.requiredDepositPercent > 0) {
-           const requiredAmount = Math.floor(totalCents * (reputationPolicy.requiredDepositPercent / 100));
-           // Allow small margin of error (e.g. 1 cent)
-           if (finalDepositCents < (requiredAmount - 1)) {
-                return { error: `Insufficient deposit. Your account requires a ${reputationPolicy.requiredDepositPercent}% deposit.`, status: 400 };
-           }
-       }
+      // 1. Check if trying to pay 0 without permission
+      if (finalDepositCents <= 0 && !reputationPolicy.allowPayLater) {
+        return { error: 'Deposit amount required for deposit mode', status: 400 };
+      }
+
+      // 2. Check Min Percentage 
+      if (reputationPolicy.requiredDepositPercent > 0) {
+        const requiredAmount = Math.floor(totalCents * (reputationPolicy.requiredDepositPercent / 100));
+        // Allow small margin of error (e.g. 1 cent)
+        if (finalDepositCents < (requiredAmount - 1)) {
+          return { error: `Insufficient deposit. Your account requires a ${reputationPolicy.requiredDepositPercent}% deposit.`, status: 400 };
+        }
+      }
     }
 
     const cancellationPolicy = {
@@ -581,14 +583,14 @@ export async function createBooking(params: CreateBookingParams) {
     );
 
     if (usePlanUsageId && initialPaymentStatus === 'captured') {
-        try {
-            await db.query('SELECT consume_plan_credit_for_booking($1, $2)', [id, usePlanUsageId]);
-        } catch (err) {
-             console.error('Failed to consume plan credit:', err);
-             // Rollback booking
-             await db.query("UPDATE booking SET status = 'canceled', payment_status = 'failed' WHERE id = $1", [id]);
-             return { error: 'Failed to process plan credit deduction', status: 500 };
-        }
+      try {
+        await db.query('SELECT consume_plan_credit_for_booking($1, $2)', [id, usePlanUsageId]);
+      } catch (err) {
+        console.error('Failed to consume plan credit:', err);
+        // Rollback booking
+        await db.query("UPDATE booking SET status = 'canceled', payment_status = 'failed' WHERE id = $1", [id]);
+        return { error: 'Failed to process plan credit deduction', status: 500 };
+      }
     }
 
     await emitEvent('booking.created', { bookingId: id, serviceId: service.id, startTime, staffId: finalStaffId });
@@ -628,13 +630,13 @@ export async function getServiceAvailability(serviceId: string, date: string, se
     let durationMin = service.duration;
 
     if (serviceVariantId) {
-       const { rows: vRows } = await db.query(
-         'SELECT duration_min FROM service_variant WHERE id = $1 AND service_id = $2',
-         [serviceVariantId, serviceId]
-       );
-       if (vRows.length > 0) {
-         durationMin = vRows[0]!.duration_min;
-       }
+      const { rows: vRows } = await db.query(
+        'SELECT duration_min FROM service_variant WHERE id = $1 AND service_id = $2',
+        [serviceVariantId, serviceId]
+      );
+      if (vRows.length > 0) {
+        durationMin = vRows[0]!.duration_min;
+      }
     }
 
     const weekday = new Date(date + 'T00:00:00').getDay();
@@ -648,7 +650,7 @@ export async function getServiceAvailability(serviceId: string, date: string, se
     // 3. Fetch existing bookings
     const dayStart = new Date(date + 'T00:00:00Z');
     const dayEnd = new Date(dayStart.getTime() + 86400000);
-    
+
     const { rows: bookings } = await db.query(
       `SELECT id, start_time, end_time, staff_id, payment_status 
        FROM booking 
@@ -670,7 +672,7 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         const start = new Date(date + 'T00:00:00');
         start.setHours(hour, 0, 0, 0);
         const end = new Date(start.getTime() + durationMin * 60000);
-        
+
         if (end.getHours() > sched.end_hour || (end.getHours() === sched.end_hour && end.getMinutes() > 0)) {
           break; // Exceeds shift
         }
@@ -686,10 +688,10 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         const overlapping = (bookings as BookingRow[]).some((b) => {
           const bStart = new Date(b.start_time);
           const bEnd = new Date(b.end_time);
-          return b.staff_id === staffId && 
-                 bStart < end && 
-                 bEnd > start && 
-                 ['pending', 'authorized', 'captured'].includes(b.payment_status);
+          return b.staff_id === staffId &&
+            bStart < end &&
+            bEnd > start &&
+            ['pending', 'authorized', 'captured'].includes(b.payment_status);
         });
 
         if (!overlapping) {
@@ -718,7 +720,7 @@ export async function getServiceAvailability(serviceId: string, date: string, se
 
 export async function updateBookingPaymentStatus(bookingId: string, status: 'captured' | 'failed', stripePaymentIntentId?: string) {
   try {
-    const bookingStatus = status === 'captured' ? 'scheduled' : 'canceled'; 
+    const bookingStatus = status === 'captured' ? 'scheduled' : 'canceled';
     await db.query(
       `UPDATE booking 
        SET payment_status = $1, 
@@ -728,11 +730,11 @@ export async function updateBookingPaymentStatus(bookingId: string, status: 'cap
        WHERE id = $4`,
       [status, bookingStatus, stripePaymentIntentId, bookingId]
     );
-    
+
     if (status === 'captured') {
-        await emitEvent('booking.confirmed', { bookingId });
+      await emitEvent('booking.confirmed', { bookingId });
     } else {
-        await emitEvent('booking.payment_failed', { bookingId });
+      await emitEvent('booking.payment_failed', { bookingId });
     }
 
     return { success: true };

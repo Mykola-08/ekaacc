@@ -4,12 +4,17 @@
  * Enhanced with wellness tracking, recommendations, insights, and more.
  */
 import { z } from 'zod';
-import { tool } from 'ai';
 import { createClient } from '@/lib/supabase/server';
 import * as wellnessService from './wellness-service';
 import * as recommendationEngine from './recommendation-engine';
 import * as insightsService from './ai-insights-service';
 import * as memoryService from './ai-memory-service';
+
+export interface AITool<P = any> {
+  description: string;
+  parameters: z.ZodSchema<P>;
+  execute: (args: P) => Promise<any>;
+}
 
 // ============================================================================
 // BOOKING TOOLS
@@ -19,7 +24,7 @@ const getMyBookingsSchema = z.object({
   status: z.enum(['scheduled', 'completed', 'canceled', 'all']).optional().describe('Filter by booking status'),
 });
 
-export const getMyBookings = tool({
+export const getMyBookings: AITool = {
   description: 'Get a list of the current user\'s bookings (past and upcoming).',
   parameters: getMyBookingsSchema,
   execute: async ({ status }) => {
@@ -48,15 +53,15 @@ export const getMyBookings = tool({
 
     return { bookings: data };
   },
-});
+};
 
-export const checkAvailability = tool({
+export const checkAvailability: AITool = {
   description: 'Check available time slots for a specific service on a given date.',
   parameters: z.object({
     serviceId: z.string().describe('The ID of the service to check'),
     date: z.string().describe('The date to check in YYYY-MM-DD format'),
   }),
-  execute: async ({ serviceId, date }: { serviceId: string, date: string }) => {
+  execute: async ({ serviceId, date }) => {
     const { getAvailableSlotsAction } = await import('@/server/actions/booking-actions');
     const result = await getAvailableSlotsAction(serviceId, date);
     if (!result.success) {
@@ -64,15 +69,15 @@ export const checkAvailability = tool({
     }
     return { slots: result.data.slots };
   },
-});
+};
 
-export const cancelBooking = tool({
+export const cancelBooking: AITool = {
   description: 'Cancel a booking for the current user.',
   parameters: z.object({
     bookingId: z.string().describe('The ID of the booking to cancel'),
     reason: z.string().optional().describe('Reason for cancellation'),
   }),
-  execute: async ({ bookingId, reason }: { bookingId: string, reason?: string }) => {
+  execute: async ({ bookingId, reason }) => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -81,16 +86,16 @@ export const cancelBooking = tool({
     const result = await cancelBookingAction(bookingId, user.id);
     return result;
   },
-});
+};
 
-export const bookAppointment = tool({
+export const bookAppointment: AITool = {
   description: 'Book an appointment for a service at a specific time. REQUIRES a confirmed time slot from checkAvailability.',
   parameters: z.object({
     serviceId: z.string().describe('The ID of the service to book'),
     serviceVariantId: z.string().optional().describe('The ID of the specific variant if known'),
     dateTime: z.string().describe('The start time in ISO format'),
   }),
-  execute: async ({ serviceId, serviceVariantId, dateTime }: { serviceId: string, serviceVariantId?: string, dateTime: string }) => {
+  execute: async ({ serviceId, serviceVariantId, dateTime }) => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -105,48 +110,48 @@ export const bookAppointment = tool({
     const { fetchService, createBooking } = await import('@/server/booking/service');
 
     if (!serviceVariantId) {
-        const sData = await fetchService(serviceId);
-        if (sData.data && sData.data.variants && sData.data.variants.length > 0) {
-            serviceVariantId = sData.data.variants[0].id;
-        }
+      const sData = await fetchService(serviceId);
+      if (sData.data && sData.data.variants && sData.data.variants.length > 0) {
+        serviceVariantId = sData.data.variants[0].id;
+      }
     }
 
     const res = await createBooking({
-        serviceId,
-        serviceVariantId,
-        startTime: dateTime,
-        userId: user.id,
-        email: user.email!,
-        displayName,
-        phone: phone || undefined,
-        paymentMode: 'full',
-        originApp: 'ai-concierge'
+      serviceId,
+      serviceVariantId,
+      startTime: dateTime,
+      userId: user.id,
+      email: user.email!,
+      displayName,
+      phone: phone || undefined,
+      paymentMode: 'full',
+      originApp: 'ai-concierge'
     });
 
     if (res.error) {
-        return { error: typeof res.error === 'string' ? res.error : 'Booking failed' };
+      return { error: typeof res.error === 'string' ? res.error : 'Booking failed' };
     }
 
     return {
-        success: true,
-        bookingId: res.data?.bookingId,
-        message: 'Booking created successfully',
-        details: {
-            serviceId,
-            dateTime
-        }
+      success: true,
+      bookingId: res.data?.bookingId,
+      message: 'Booking created successfully',
+      details: {
+        serviceId,
+        dateTime
+      }
     };
   },
-});
+};
 
 // ============================================================================
 // WALLET & FINANCE TOOLS
 // ============================================================================
 
-export const getWalletBalance = tool({
+export const getWalletBalance: AITool = {
   description: 'Get the current wallet balance of the user.',
   parameters: z.object({}),
-  execute: async () => {
+  execute: async ({ }) => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -167,12 +172,12 @@ export const getWalletBalance = tool({
       currency: wallet.currency
     };
   },
-});
+};
 
-export const getRewardsBalance = tool({
+export const getRewardsBalance: AITool = {
   description: 'Get the user\'s loyalty rewards points balance and recent reward activity.',
   parameters: z.object({}),
-  execute: async () => {
+  execute: async ({ }) => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -191,19 +196,19 @@ export const getRewardsBalance = tool({
       tier: rewards.tier
     };
   },
-});
+};
 
 // ============================================================================
 // SERVICE TOOLS
 // ============================================================================
 
-export const searchServices = tool({
+export const searchServices: AITool = {
   description: 'Search for available services to book.',
   parameters: z.object({
     query: z.string().optional().describe('Search term like \'massage\' or \'consultation\''),
     category: z.string().optional().describe('Filter by service category'),
   }),
-  execute: async ({ query, category }: { query?: string, category?: string }) => {
+  execute: async ({ query, category }) => {
     const supabase = await createClient();
     let q = supabase.from('service').select('id, name, description, price_amount, duration_min, category').eq('active', true);
 
@@ -217,9 +222,9 @@ export const searchServices = tool({
     const { data } = await q;
     return { services: data };
   },
-});
+};
 
-export const getServiceDetails = tool({
+export const getServiceDetails: AITool = {
   description: 'Get detailed information about a specific service including variants and pricing.',
   parameters: z.object({
     serviceId: z.string().describe('The ID of the service'),
@@ -231,7 +236,7 @@ export const getServiceDetails = tool({
       .from('service')
       .select('*, service_variant(*)')
       .eq('id', serviceId)
-      .single();
+      .single() as { data: any, error: any };
 
     if (!service) return { error: 'Service not found' };
 
@@ -247,13 +252,13 @@ export const getServiceDetails = tool({
       }
     };
   },
-});
+};
 
 // ============================================================================
 // WELLNESS & MOOD TOOLS
 // ============================================================================
 
-export const logMoodCheckIn = tool({
+export const logMoodCheckIn: AITool = {
   description: 'Log a mood check-in entry. Call this when user wants to track their mood, emotions, or how they\'re feeling.',
   parameters: z.object({
     mood: z.number().min(1).max(10).describe('Mood rating from 1 (very low) to 10 (excellent)'),
@@ -294,9 +299,9 @@ export const logMoodCheckIn = tool({
       }
     };
   },
-});
+};
 
-export const getWellnessSummary = tool({
+export const getWellnessSummary: AITool = {
   description: 'Get a summary of the user\'s wellness data including mood trends, common emotions, and streak.',
   parameters: z.object({
     period: z.enum(['day', 'week', 'month']).optional().describe('Time period for the summary'),
@@ -318,9 +323,9 @@ export const getWellnessSummary = tool({
       totalEntries: summary.totalEntries
     };
   },
-});
+};
 
-export const getMoodHistory = tool({
+export const getMoodHistory: AITool = {
   description: 'Get the user\'s recent mood entries for review.',
   parameters: z.object({
     days: z.number().optional().describe('Number of days of history (default 14)'),
@@ -342,9 +347,9 @@ export const getMoodHistory = tool({
       }))
     };
   },
-});
+};
 
-export const setWellnessGoal = tool({
+export const setWellnessGoal: AITool = {
   description: 'Create a new wellness goal for the user to track.',
   parameters: z.object({
     title: z.string().describe('Goal title like "Reduce stress" or "Better sleep"'),
@@ -378,9 +383,9 @@ export const setWellnessGoal = tool({
       }
     };
   },
-});
+};
 
-export const getWellnessGoals = tool({
+export const getWellnessGoals: AITool = {
   description: 'Get the user\'s active wellness goals and their progress.',
   parameters: z.object({}),
   execute: async () => {
@@ -402,13 +407,13 @@ export const getWellnessGoals = tool({
       }))
     };
   },
-});
+};
 
 // ============================================================================
 // RECOMMENDATION TOOLS
 // ============================================================================
 
-export const getRecommendations = tool({
+export const getRecommendations: AITool = {
   description: 'Get personalized recommendations for services, exercises, and actions based on user preferences and wellness data.',
   parameters: z.object({
     type: z.enum(['all', 'services', 'exercises', 'actions']).optional().describe('Type of recommendations to get'),
@@ -444,9 +449,9 @@ export const getRecommendations = tool({
 
     return { error: 'Invalid recommendation type' };
   },
-});
+};
 
-export const getWellnessRecommendations = tool({
+export const getWellnessRecommendations: AITool = {
   description: 'Get wellness-specific recommendations based on recent mood and health data.',
   parameters: z.object({}),
   execute: async () => {
@@ -458,13 +463,13 @@ export const getWellnessRecommendations = tool({
 
     return { recommendations };
   },
-});
+};
 
 // ============================================================================
 // INSIGHTS TOOLS
 // ============================================================================
 
-export const getInsights = tool({
+export const getInsights: AITool = {
   description: 'Get AI-generated insights about the user\'s wellness journey, patterns, and progress.',
   parameters: z.object({}),
   execute: async () => {
@@ -485,9 +490,9 @@ export const getInsights = tool({
       }))
     };
   },
-});
+};
 
-export const getWellnessScore = tool({
+export const getWellnessScore: AITool = {
   description: 'Get the user\'s overall wellness score with breakdown by category.',
   parameters: z.object({}),
   execute: async () => {
@@ -508,9 +513,9 @@ export const getWellnessScore = tool({
       trend: score.trend
     };
   },
-});
+};
 
-export const completeInsightAction = tool({
+export const completeInsightAction: AITool = {
   description: 'Mark an insight action item as completed.',
   parameters: z.object({
     insightId: z.string().describe('The insight ID'),
@@ -527,13 +532,13 @@ export const completeInsightAction = tool({
       ? { success: true, message: 'Action completed!' }
       : { error: 'Failed to complete action' };
   },
-});
+};
 
 // ============================================================================
 // MEMORY & CONTEXT TOOLS
 // ============================================================================
 
-export const rememberThis = tool({
+export const rememberThis: AITool = {
   description: 'Store an important piece of information about the user for future reference.',
   parameters: z.object({
     content: z.string().describe('What to remember about the user'),
@@ -551,9 +556,9 @@ export const rememberThis = tool({
       ? { success: true, message: 'I\'ll remember that!' }
       : { error: 'Failed to save memory' };
   },
-});
+};
 
-export const getMemories = tool({
+export const getMemories: AITool = {
   description: 'Recall stored information about the user.',
   parameters: z.object({
     type: z.enum(['preference', 'fact', 'goal', 'observation', 'all']).optional().describe('Filter by memory type'),
@@ -575,16 +580,16 @@ export const getMemories = tool({
       }))
     };
   },
-});
+};
 
 // ============================================================================
 // PROFILE & PREFERENCES TOOLS
 // ============================================================================
 
-export const getUserProfile = tool({
+export const getUserProfile: AITool = {
   description: 'Get the user\'s profile information and preferences.',
   parameters: z.object({}),
-  execute: async () => {
+  execute: async ({ }) => {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
@@ -605,9 +610,9 @@ export const getUserProfile = tool({
       preferences: profile.personalization_data || {}
     };
   },
-});
+};
 
-export const updatePreferences = tool({
+export const updatePreferences: AITool = {
   description: 'Update user preferences for personalization.',
   parameters: z.object({
     goals: z.array(z.string()).optional().describe('Wellness goals'),
@@ -635,13 +640,13 @@ export const updatePreferences = tool({
 
     return { success: true, message: 'Preferences updated successfully' };
   },
-});
+};
 
 // ============================================================================
 // JOURNAL TOOLS
 // ============================================================================
 
-export const createJournalEntry = tool({
+export const createJournalEntry: AITool = {
   description: 'Create a journal entry for the user\'s thoughts and reflections.',
   parameters: z.object({
     content: z.string().describe('The journal entry content'),
@@ -683,9 +688,9 @@ export const createJournalEntry = tool({
       entryId: data.id
     };
   },
-});
+};
 
-export const getJournalEntries = tool({
+export const getJournalEntries: AITool = {
   description: 'Get recent journal entries.',
   parameters: z.object({
     limit: z.number().optional().describe('Number of entries to return'),
@@ -712,13 +717,13 @@ export const getJournalEntries = tool({
       }))
     };
   },
-});
+};
 
 // ============================================================================
 // EXPORT ALL TOOLS
 // ============================================================================
 
-export const aiTools = {
+export const aiTools: Record<string, AITool> = {
   // Booking
   getMyBookings,
   checkAvailability,

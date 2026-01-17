@@ -160,7 +160,7 @@ export function generateWelcomeMessage(profile: PersonalizationProfile): string 
   const name = profile.name?.split(' ')[0] || '';
 
   // Students with goals get special messaging
-  if (profile.occupation === 'student' && profile.therapeuticGoals.length > 0) {
+  if (profile.occupation === 'student' && profile.therapeuticGoals && profile.therapeuticGoals.length > 0) {
     return `${greeting}${name ? `, ${name}` : ''}! Ready to work on ${profile.therapeuticGoals[0].toLowerCase()}?`;
   }
 
@@ -170,7 +170,7 @@ export function generateWelcomeMessage(profile: PersonalizationProfile): string 
   }
 
   // Goal-based greeting
-  if (profile.therapeuticGoals.length > 0) {
+  if (profile.therapeuticGoals && profile.therapeuticGoals.length > 0) {
     return `${greeting}${name ? `, ${name}` : ''}! Let's continue your ${profile.therapeuticGoals[0].toLowerCase()} journey.`;
   }
 

@@ -1,12 +1,10 @@
 'use client';
 
-import { useChat } from '@ai-sdk/react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sparkles, Send, X, MessageSquare, ChevronDown } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
 import { BookingResult, ServiceResult, WalletResult, AvailabilityResult, BookingConfirmation } from './GenerativeUI';
@@ -15,30 +13,23 @@ import { format } from 'date-fns';
 interface ToolInvocation {
   toolCallId: string;
   toolName: string;
-  args: Record<string, unknown>;
-  result?: Record<string, unknown>;
+  args: Record<string, any>;
+  result?: any;
 }
 
 interface Message {
   id: string;
-  role: 'function' | 'system' | 'user' | 'assistant' | 'data' | 'tool';
+  role: 'user' | 'assistant' | 'tool';
   content: string;
   toolInvocations?: ToolInvocation[];
 }
 
 export function AIChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const chatResult = useChat({
-    api: '/api/chat',
-  });
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = chatResult as {
-    messages: Message[];
-    input: string;
-    handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    isLoading: boolean;
-  };
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom
@@ -48,36 +39,126 @@ export function AIChatWidget() {
     }
   }, [messages]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading) return;
+
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: input.trim(),
+    };
+
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
+    setInput('');
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch chat response');
+
+      const reader = response.body?.getReader();
+      if (!reader) throw new Error('No readable stream');
+
+      const assistantId = (Date.now() + 1).toString();
+      let assistantMessage: Message = {
+        id: assistantId,
+        role: 'assistant',
+        content: '',
+        toolInvocations: [],
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+
+      const decoder = new TextDecoder();
+      let done = false;
+      let buffer = '';
+
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunk = decoder.decode(value, { stream: true });
+        buffer += chunk;
+
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('t:')) {
+            const content = line.slice(2);
+            assistantMessage = {
+              ...assistantMessage,
+              content: assistantMessage.content + content
+            };
+            setMessages(prev => prev.map(m => m.id === assistantId ? assistantMessage : m));
+          } else if (line.startsWith('0:')) {
+            try {
+              const data = JSON.parse(line.slice(2));
+              if (data.type === 'tool-result') {
+                const invocation: ToolInvocation = {
+                  toolCallId: Math.random().toString(36).substring(7),
+                  toolName: data.toolName,
+                  args: data.args,
+                  result: data.result,
+                };
+                assistantMessage = {
+                  ...assistantMessage,
+                  toolInvocations: [...(assistantMessage.toolInvocations || []), invocation]
+                };
+                setMessages(prev => prev.map(m => m.id === assistantId ? assistantMessage : m));
+              }
+            } catch (e) {
+              console.error('Failed to parse tool result', e);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Chat error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Handle slot selection from GenerativeUI
   useEffect(() => {
     const handleSlotSelect = (e: any) => {
-       const timeStr = e.detail;
-       const date = new Date(timeStr);
-       const prompt = `Book appointment for ${format(date, 'MMM d')} at ${format(date, 'h:mm a')}`;
-       
-       // Simulate typing
-       handleInputChange({ target: { value: prompt } } as any);
-       // Focus input
-       const inputEl = document.querySelector('input[placeholder="Type a message..."]') as HTMLInputElement;
-       if (inputEl) inputEl.focus();
+      const timeStr = e.detail;
+      const date = new Date(timeStr);
+      const prompt = `Book appointment for ${format(date, 'MMM d')} at ${format(date, 'h:mm a')}`;
+      setInput(prompt);
+      const inputEl = document.querySelector('input[placeholder="Type a message..."]') as HTMLInputElement;
+      if (inputEl) inputEl.focus();
     };
 
     const handleServiceSelect = (e: any) => {
-        const { name } = e.detail;
-        const prompt = `Check availability for ${name}`;
-        handleInputChange({ target: { value: prompt } } as any);
-        const inputEl = document.querySelector('input[placeholder="Type a message..."]') as HTMLInputElement;
-        if (inputEl) inputEl.focus();
+      const { name } = e.detail;
+      const prompt = `Check availability for ${name}`;
+      setInput(prompt);
+      const inputEl = document.querySelector('input[placeholder="Type a message..."]') as HTMLInputElement;
+      if (inputEl) inputEl.focus();
     };
 
     document.addEventListener('ai_slot_selected', handleSlotSelect);
     document.addEventListener('ai_service_selected', handleServiceSelect);
-    
+
     return () => {
-        document.removeEventListener('ai_slot_selected', handleSlotSelect);
-        document.removeEventListener('ai_service_selected', handleServiceSelect);
+      document.removeEventListener('ai_slot_selected', handleSlotSelect);
+      document.removeEventListener('ai_service_selected', handleServiceSelect);
     };
-  }, [handleInputChange]);
+  }, []);
 
   return (
     <>
@@ -116,11 +197,11 @@ export function AIChatWidget() {
                 <div className="flex justify-between items-center text-white">
                   <div className="flex items-center gap-2">
                     <div className="p-1.5 bg-white/20 rounded-full backdrop-blur-sm">
-                        <Sparkles className="h-4 w-4" />
+                      <Sparkles className="h-4 w-4" />
                     </div>
                     <div>
-                        <CardTitle className="text-base font-semibold">EKA Concierge</CardTitle>
-                        <p className="text-[10px] text-indigo-100 opacity-90">Always here to help</p>
+                      <CardTitle className="text-base font-semibold">EKA Concierge</CardTitle>
+                      <p className="text-[10px] text-indigo-100 opacity-90">Always here to help</p>
                     </div>
                   </div>
                   <Button
@@ -141,30 +222,26 @@ export function AIChatWidget() {
                       <Sparkles className="h-12 w-12 mb-4 text-purple-400" />
                       <p className="text-sm">How can I help you regarding your wellness journey today?</p>
                       <div className="flex flex-wrap gap-2 justify-center mt-6">
-                        <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="bg-white/50 text-xs h-auto py-1"
-                            onClick={() => {
-                                const event = { target: { value: "When is my next appointment?" } } as any;
-                                handleInputChange(event);
-                                // Need to trigger submit manually or let user press enter, 
-                                // but for simplicity just populating input
-                            }}
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="bg-white/50 text-xs h-auto py-1"
+                          onClick={() => setInput("When is my next appointment?")}
                         >
-                            "When is my next appointment?"
+                          "When is my next appointment?"
                         </Button>
-                         <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="bg-white/50 text-xs h-auto py-1"
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="bg-white/50 text-xs h-auto py-1"
+                          onClick={() => setInput("Check my wallet balance")}
                         >
-                            "Check my wallet balance"
+                          "Check my wallet balance"
                         </Button>
                       </div>
                     </div>
                   )}
-                  
+
                   {messages.map((m) => (
                     <div
                       key={m.id}
@@ -182,52 +259,50 @@ export function AIChatWidget() {
                         )}
                       >
                         {/* Check if there are tool invocations */}
-                        {m.toolInvocations?.map((toolInvocation) => {
-                             const toolCallId = toolInvocation.toolCallId;
+                        {m.toolInvocations?.map((toolInvocation, idx) => {
+                          const toolCallId = toolInvocation.toolCallId || idx.toString();
 
-                             // Render tool based on toolName
-                             if ('result' in toolInvocation) {
-                                switch(toolInvocation.toolName) {
-                                    case 'getMyBookings':
-                                        return <BookingResult key={toolCallId} bookings={toolInvocation.result.bookings} />;
-                                    case 'searchServices':
-                                        return <ServiceResult key={toolCallId} services={toolInvocation.result.services} />;
-                                    case 'getWalletBalance':
-                                        return <WalletResult key={toolCallId} {...toolInvocation.result} />;
-                                    case 'checkAvailability':
-                                        return <AvailabilityResult key={toolCallId} slots={toolInvocation.result.slots} />;
-                                    case 'bookAppointment':
-                                        return <BookingConfirmation key={toolCallId} {...toolInvocation.result} />;
-                                    default:
-                                        // For cancelBooking, etc, the text response is usually enough
-                                        // or we can add specific UIs later
-                                        return <div key={toolCallId} className="text-xs text-muted-foreground italic mt-2 border-l-2 border-primary/20 pl-2">
-                                            Completed action: {toolInvocation.toolName}
-                                        </div>;
-                                }
-                             } else {
-                                 return <div key={toolCallId} className="flex items-center gap-2 text-xs opacity-70 italic mb-2">
-                                     <Sparkles className="w-3 h-3 animate-spin"/>
-                                     Processing {toolInvocation.toolName}...
-                                 </div>
-                             }
+                          // Render tool based on toolName
+                          if (toolInvocation.result) {
+                            switch (toolInvocation.toolName) {
+                              case 'getMyBookings':
+                                return <BookingResult key={toolCallId} bookings={toolInvocation.result.bookings} />;
+                              case 'searchServices':
+                                return <ServiceResult key={toolCallId} services={toolInvocation.result.services} />;
+                              case 'getWalletBalance':
+                                return <WalletResult key={toolCallId} {...toolInvocation.result} />;
+                              case 'checkAvailability':
+                                return <AvailabilityResult key={toolCallId} slots={toolInvocation.result.slots} />;
+                              case 'bookAppointment':
+                                return <BookingConfirmation key={toolCallId} {...toolInvocation.result} />;
+                              default:
+                                return <div key={toolCallId} className="text-xs text-muted-foreground italic mt-2 border-l-2 border-primary/20 pl-2">
+                                  Completed action: {toolInvocation.toolName}
+                                </div>;
+                            }
+                          } else {
+                            return <div key={toolCallId} className="flex items-center gap-2 text-xs opacity-70 italic mb-2">
+                              <Sparkles className="w-3 h-3 animate-spin" />
+                              Processing {toolInvocation.toolName}...
+                            </div>
+                          }
                         })}
-                        
+
                         <div className="whitespace-pre-wrap">{m.content}</div>
                       </div>
                     </div>
                   ))}
-                  
+
                   {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                     <div className="flex justify-start w-full mb-4">
-                        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
-                           <div className="flex gap-1">
-                             <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                             <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                             <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                           </div>
+                    <div className="flex justify-start w-full mb-4">
+                      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
+                        <div className="flex gap-1">
+                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                         </div>
-                     </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </CardContent>
@@ -240,9 +315,9 @@ export function AIChatWidget() {
                     placeholder="Type a message..."
                     className="flex-1 rounded-full bg-slate-100 dark:bg-slate-800 border-0 focus-visible:ring-1 focus-visible:ring-purple-500"
                   />
-                  <Button 
-                    type="submit" 
-                    size="icon" 
+                  <Button
+                    type="submit"
+                    size="icon"
                     disabled={isLoading || !input.trim()}
                     className="rounded-full bg-purple-600 hover:bg-purple-700 h-10 w-10 shrink-0"
                   >

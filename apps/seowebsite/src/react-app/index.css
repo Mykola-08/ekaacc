@@ -17,17 +17,17 @@
   --color-metal-800: #2d3643;
   --color-metal-900: #1c222b;
 
-  --color-primary-25: #F5FAFF;
-  --color-primary-50: #EFF8FF;
-  --color-primary-100: #D1E9FF;
-  --color-primary-200: #B2D9FF;
-  --color-primary-300: #80C0FF;
-  --color-primary-400: #55A8FF;
-  --color-primary-500: #007AFF;
-  --color-primary-600: #006ADC;
-  --color-primary-700: #0055B3;
-  --color-primary-800: #00428C;
-  --color-primary-900: #003672;
+  --color-primary-25: #F0F7FF;
+  --color-primary-50: #E6F1FF;
+  --color-primary-100: #CCE4FF;
+  --color-primary-200: #99C9FF;
+  --color-primary-300: #66ADFF;
+  --color-primary-400: #3392FF;
+  --color-primary-500: #0E7AFE;
+  --color-primary-600: #0D6EE4;
+  --color-primary-700: #0B5BC0;
+  --color-primary-800: #09499C;
+  --color-primary-900: #073977;
 
   /* Soft Apple-style shadows for premium depth */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
@@ -127,24 +127,26 @@
   --text-body-5--letter-spacing: -0.2px;
 }
 
-/* Glassy Apple Health Theme Overrides - Unified with Booking App */
+/* Plain Pill Design System - Flat Hierarchy */
 :root {
   font-family: 'SF Pro Text', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
 
-  /* Legacy Apple Variables - Keeping for backward compatibility but mapped where possible */
-  --apple-gray: #f5f5f7;
-  --apple-gray-dark: #1d1d1f;
-  --apple-blue: #4DAFFF;
-  /* Mapped to Primary Blue */
-  --apple-purple: #5856d6;
-  --apple-border-radius: 20px;
-  --apple-border-radius-small: 12px;
-  --apple-border-radius-large: 36px;
-  --apple-squircle-radius: 36px;
-  --apple-squircle-radius-large: 40px;
-  --apple-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-  --apple-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --apple-shadow-large: 0 20px 60px rgba(0, 0, 0, 0.08);
+  /* Plain Pill Design System - Flat Hierarchy */
+  --apple-gray: #FBFBFD;
+  --apple-gray-dark: #1D1D1F;
+  --apple-blue: #0E7AFE;
+  --apple-border-radius: 9999px;
+  /* Forced Pill Shape */
+  --apple-border-radius-small: 9999px;
+  --apple-border-radius-large: 32px;
+  /* For larger containers */
+  --apple-squircle-radius: 32px;
+
+  /* Minimal Depth - "One Level" feel */
+  --apple-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
+  --apple-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.02);
+  --apple-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --apple-shadow-xl: 0 8px 24px rgba(0, 0, 0, 0.04);
 }
 
 * {
@@ -154,8 +156,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground leading-relaxed;
-    font-weight: 400;
+    @apply bg-[#FBFBFD] text-foreground leading-relaxed font-normal;
     letter-spacing: -0.003em;
   }
 
@@ -200,9 +201,14 @@
     border-radius: var(--apple-squircle-radius);
   }
 
+  .nav-shadow {
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+  }
+
   .squircle-card {
-    @apply bg-white shadow-lg transition-all duration-200 ease-out;
-    border-radius: var(--apple-squircle-radius);
+    @apply bg-white shadow-sm transition-all duration-200 ease-out;
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.03);
     box-shadow: var(--apple-shadow);
   }
 
@@ -249,8 +255,14 @@
     transition: all 0.3s ease;
   }
 
-  .service-pill:hover::before {
-    @apply from-black/30 via-black/40 to-black/70;
+  /* Classic Apple Card (Subtle translucency, not heavy glass) */
+  .apple-card-classic {
+    @apply bg-white/95 backdrop-blur-md border border-black/[0.05] shadow-sm transition-all duration-300;
+  }
+
+  /* Island-based Layouts */
+  .apple-island {
+    @apply bg-white rounded-[24px] p-8 shadow-sm transition-all duration-300;
   }
 
   /* Apple-style buttons */
@@ -426,14 +438,13 @@
     @apply sticky top-0 z-50;
   }
 
-  /* Liquid Glass Navigation Header */
-  .liquid-glass-nav {
-    @apply bg-white/60 backdrop-blur-2xl border-b border-gray-200/20 sticky top-0 z-50 transition-all duration-200 ease-out;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.6);
-    border-bottom: 1px solid rgba(229, 231, 235, 0.2);
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  /* Plain Pill Navigation */
+  .plain-nav {
+    @apply sticky top-0 z-50 transition-all duration-300;
+    background: rgba(251, 251, 253, 0.82);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   }
 
   .liquid-glass-nav::before {
@@ -689,22 +700,20 @@ html {
 
 
 .nav-dropdown {
+  @apply bg-white border border-black/5 shadow-sm;
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-6px);
-  background: #F5F5F7;
-  border-radius: 0 0 16px 16px;
-  min-width: 320px;
+  transform: translateX(-50%) translateY(0);
+  min-width: 260px;
   max-width: 480px;
-  padding: 22px;
+  padding: 1rem;
+  border-radius: 2rem;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition:
-    transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
-    opacity 0.22s,
-    visibility 0s 0.22s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 4px;
   z-index: 50;
 }
 
@@ -865,8 +874,8 @@ html {
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 211 100% 50%;
-    /* Apple Blue */
+    --primary: 211 100% 53%;
+    /* #0E7AFE */
     --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -879,18 +888,26 @@ html {
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
     --ring: 211 100% 50%;
-    --radius: 1.5rem;
+    --radius: 2rem;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 211 100% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 240 5.9% 90%;
+    --sidebar-ring: 211 100% 50%;
   }
 
   .dark {
-    --background: 0 0% 0%;
+    --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --card: 0 0% 3%;
+    --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 210 100% 52%;
-    /* Apple Blue Dark */
+    --primary: 211 100% 53%;
+    /* #0E7AFE */
     --primary-foreground: 0 0% 100%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -902,6 +919,14 @@ html {
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 210 100% 52%;
+    --ring: 211 100% 50%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 211 100% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 211 100% 53%;
   }
 }

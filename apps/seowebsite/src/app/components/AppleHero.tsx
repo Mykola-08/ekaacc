@@ -47,7 +47,7 @@ export default function AppleHero() {
             <div className="relative z-10 text-center text-white px-6 max-w-6xl mx-auto">
                 {/* Badge - Glassy Style */}
                 <AnimateIn delay={0.2} from="top">
-                    <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-card/5 backdrop-blur-sm border border-white/10 mb-8 animate-fade-in">
+                    <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/15 mb-8 animate-fade-in">
                         <span className="text-sm md:text-base font-medium tracking-wide text-white/90">
                             {t('hero.badge')}
                         </span>
@@ -56,7 +56,7 @@ export default function AppleHero() {
 
                 {/* Main Title */}
                 <AnimateIn delay={0.4} duration={0.8}>
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl text-white mb-8 font-bold tracking-tighter drop-shadow-2xl">
+                    <h1 className="text-6xl md:text-8xl lg:text-9xl text-white mb-8 font-bold tracking-tight drop-shadow-2xl">
                         {t('hero.title')}
                     </h1>
                 </AnimateIn>
@@ -72,13 +72,13 @@ export default function AppleHero() {
                 <AnimateIn delay={0.8}>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Link href="/first-time" className="group" onClick={() => logEvent('hero_first_time_click')}>
-                            <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl shadow-blue-900/20 border-none">
+                            <Button size="lg" className="bg-primary hover:bg-primary/95 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-[1.02] shadow-sm border-none">
                                 {t('hero.firstTime')}
                             </Button>
                         </Link>
 
                         <Link href="/services" className="group" onClick={() => logEvent('hero_services_click')}>
-                            <Button size="lg" className="bg-card/10 hover:bg-card/20 text-white backdrop-blur-md border border-white/20 px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl">
+                            <Button size="lg" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-[1.02] shadow-sm">
                                 {t('hero.discoverServices')}
                                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Button>

@@ -135,9 +135,7 @@ export default function MainLayout({
 
       {/* Navigation with scroll effect */}
       {!isAuthPage && !pathname?.includes('360-revision') && (
-        <nav className={`sticky top-0 z-50 transition-all duration-300`} style={{
-          backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)'
-        }}>
+        <nav className={`plain-nav`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
               }`}>
@@ -163,7 +161,7 @@ export default function MainLayout({
                         <>
                           <Link
                             href={item.href}
-                            className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-lg hover:bg-white/60 ${isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+                            className={`nav-trigger font-medium transition-all duration-200 flex items-center px-4 py-2 rounded-full hover:bg-black/5 ${isActivePath(item.href) ? 'text-primary' : 'text-foreground/80 hover:text-primary'
                               }`}
                             onMouseEnter={openDropdown}
                             onMouseLeave={scheduleHide}
@@ -185,11 +183,6 @@ export default function MainLayout({
                           {/* Dropdown menu with CSS-first positioning */}
                           <div
                             className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''}`}
-                            style={{
-                              backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)',
-                              backdropFilter: isScrolled ? 'blur(20px)' : 'none',
-                              WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
-                            }}
                             onMouseEnter={openDropdown}
                             onMouseLeave={scheduleHide}
                             onKeyDown={(e) => {
@@ -231,9 +224,9 @@ export default function MainLayout({
                       ) : (
                         <Link
                           href={item.href}
-                          className={`font-medium transition-all duration-200 px-5 py-3 rounded-lg hover:bg-white/60 ${item.isGold
-                            ? 'gold-shimmer font-black bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
-                            : isActivePath(item.href) ? 'text-primary' : 'text-foreground hover:text-primary'
+                          className={`font-medium transition-all duration-200 px-4 py-2 rounded-full hover:bg-black/5 ${item.isGold
+                            ? 'gold-shimmer font-bold text-amber-600'
+                            : isActivePath(item.href) ? 'text-primary' : 'text-foreground/80 hover:text-primary'
                             }`}
                         >
                           {item.name}
@@ -313,7 +306,7 @@ export default function MainLayout({
                     </Link>
                     <Link
                       href={`${BOOKING_APP_URL}/signup`}
-                      className="bg-primary hover:bg-primary/90 text-white font-semibold px-5 py-2.5 rounded-full transition-colors duration-200 shadow-lg shadow-blue-900/10"
+                      className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2.5 rounded-full transition-all duration-300 shadow-lg shadow-primary/20 hover:scale-105 active:scale-95"
                     >
                       Sign up
                     </Link>
@@ -477,7 +470,7 @@ export default function MainLayout({
 
       {/* Footer */}
       {!isAuthPage && !pathname?.includes('360-revision') && (
-        <footer className="py-12 sm:py-16 bg-gray-900 text-white mb-24 md:mb-0">
+        <footer className="py-16 sm:py-24 bg-white text-foreground border-t border-black/5 mb-24 md:mb-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
             {/* Logo */}
             <Link href="/" className="flex items-center justify-center space-x-3 mb-8 group w-fit mx-auto">
@@ -494,35 +487,35 @@ export default function MainLayout({
             </Link>
 
             {/* Contact Info */}
-            <div className="space-y-2 mb-8 text-gray-100">
-              <p>{t('footer.address')}</p>
-              <p>{t('footer.email')}</p>
+            <div className="space-y-2 mb-10 text-muted-foreground">
+              <p className="text-lg">{t('footer.address')}</p>
+              <p className="text-lg">{t('footer.email')}</p>
             </div>
 
             {/* Footer Links */}
-            <div className="mb-8">
-              <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
+            <div className="mb-10">
+              <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
                 <Link
                   href="/discounts"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm font-medium"
                 >
                   {t('footer.discounts')}
                 </Link>
                 <Link
                   href="/legal/privacy-policy"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm font-medium"
                 >
                   {t('footer.privacyPolicy')}
                 </Link>
                 <Link
                   href="/legal/cookie-policy"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm font-medium"
                 >
                   {t('footer.cookiePolicy')}
                 </Link>
                 <Link
                   href="/legal/terms-of-service"
-                  className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-200 text-sm font-medium"
                 >
                   {t('footer.termsOfService')}
                 </Link>
@@ -535,14 +528,14 @@ export default function MainLayout({
                 <Globe className="w-4 h-4 text-muted-foreground/80" />
                 <span className="text-sm text-muted-foreground/80">{t('footer.selectLanguage')}</span>
               </div>
-              <div className="flex justify-center space-x-4">
+              <div className="flex justify-center space-x-3">
                 {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
                   <button
                     key={lang}
                     onClick={() => setLanguage(lang)}
-                    className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors duration-200 ${language === lang
-                      ? 'bg-[#FFB405] text-[#000035]'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${language === lang
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-105'
+                      : 'bg-black/5 dark:bg-white/5 text-muted-foreground hover:bg-black/10 dark:hover:bg-white/10'
                       }`}
                   >
                     {lang === 'ca' && 'Català'}

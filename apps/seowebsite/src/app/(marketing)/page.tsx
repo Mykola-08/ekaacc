@@ -51,11 +51,11 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-card rounded-4xl shadow-xl border-none p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
+            className="bg-white rounded-[32px] shadow-sm border border-black/[0.03] p-8 grid grid-cols-2 md:grid-cols-4 gap-8"
           >
             {stats.map((stat, index) => (
               <div key={index} className="flex flex-col items-center text-center space-y-2">
-                <div className="p-3 bg-primary/10 rounded-full text-primary mb-1">
+                <div className="p-3 bg-black/5 rounded-full text-primary mb-1">
                   <stat.icon size={24} />
                 </div>
                 <span className="text-3xl font-light text-foreground tracking-tight">
@@ -124,7 +124,7 @@ export default function Home() {
                 <Link href="/about-elena">
                   <Button
                     size="lg"
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all border-none"
+                    className="bg-primary hover:bg-primary/95 text-white font-semibold px-8 py-4 rounded-full shadow-sm hover:shadow-md transition-all border-none"
                   >
                     {t('elena.knowMore')}
                     <ArrowRight className="ml-2 w-5 h-5" />
@@ -144,9 +144,9 @@ export default function Home() {
               {t('services.ourServices')}
             </span>
 
-            <h2 className="text-4xl sm:text-5xl font-light text-foreground">
-              {t('services.therapiesFor')}{' '}
-              <span className="block mt-2 bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-medium">
+            <h2 className="text-4xl sm:text-5xl font-light text-foreground leading-tight">
+              {t('services.therapies For')}{' '}
+              <span className="block mt-2 text-primary font-medium">
                 {t('services.integralWellbeing')}
               </span>
             </h2>
@@ -172,7 +172,7 @@ export default function Home() {
 
           <div className="mt-16 text-center">
             <Link href="/services">
-              <Button variant="outline" className="border-border text-muted-foreground hover:text-blue-600 hover:border-blue-200 px-8 py-3 rounded-xl bg-muted/30">
+              <Button variant="outline" className="border-black/5 text-muted-foreground hover:text-primary hover:bg-black/5 px-8 py-3 rounded-full bg-white shadow-sm">
                 View All Services
               </Button>
             </Link>

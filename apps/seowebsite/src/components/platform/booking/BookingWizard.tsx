@@ -166,7 +166,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
     return (
         <div className="container max-w-5xl py-12 px-4 md:px-6 flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-1/3 order-2 md:order-1">
-                <Card className="sticky top-24 bg-muted/40 border-muted">
+                <Card className="sticky top-24 bg-white border border-black/5 shadow-sm">
                     <CardHeader>
                         <CardTitle>Booking Summary</CardTitle>
                     </CardHeader>
@@ -199,7 +199,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
             <div className="w-full md:w-2/3 order-1 md:order-2">
                 <div className="mb-6">
-                    <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0">
+                    <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0 hover:bg-transparent">
                         <ArrowLeft className="w-4 h-4 mr-2" /> Back
                     </Button>
                     <h1 className="text-3xl font-serif font-medium">
@@ -213,7 +213,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                 <div className="space-y-8">
                     {step === "time" && (
                         <div className="grid md:grid-cols-2 gap-8">
-                            <div className="border rounded-xl p-4">
+                            <div className="border border-black/5 rounded-[32px] p-6 bg-white shadow-sm">
                                 <Calendar
                                     mode="single"
                                     selected={date}
@@ -223,7 +223,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 />
                             </div>
                             <div className="space-y-4">
-                                <Label>Available Slots</Label>
+                                <Label className="text-sm font-medium ml-1">Available Slots</Label>
                                 {loadingSlots ? (
                                     <div className="flex items-center justify-center py-8">
                                         <Loader2 className="w-6 h-6 animate-spin mr-2" />
@@ -235,13 +235,14 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                                 key={time}
                                                 variant={selectedTime === time ? "default" : "outline"}
                                                 onClick={() => handleTimeSelect(time)}
+                                                className="rounded-full h-11"
                                             >
                                                 {time}
                                             </Button>
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="py-8 text-center text-muted-foreground text-sm border rounded-lg">
+                                    <div className="py-8 text-center text-muted-foreground text-sm border border-black/5 rounded-[32px] bg-white">
                                         No slots available for this date.
                                     </div>
                                 )}
@@ -251,15 +252,15 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
                     {step === "addons" && (
                         <div className="grid gap-4">
-                            <Card className="cursor-pointer hover:border-primary transition-colors border-dashed bg-muted/20">
-                                <CardContent className="flex items-center justify-between p-6">
+                            <Card className="cursor-pointer hover:border-primary/30 transition-colors border-dashed border-black/10 bg-white rounded-[32px] shadow-sm">
+                                <CardContent className="flex items-center justify-between p-8">
                                     <div>
-                                        <h3 className="font-medium">Aromatherapy</h3>
+                                        <h3 className="font-medium text-lg">Aromatherapy</h3>
                                         <p className="text-sm text-muted-foreground">Add essential oils for relaxation.</p>
                                     </div>
                                     <div className="flex items-center gap-4">
-                                        <span className="text-sm font-medium">+€10</span>
-                                        <Button variant="outline" size="sm" disabled>Coming Soon</Button>
+                                        <span className="text-sm font-semibold">+€10</span>
+                                        <Button variant="outline" size="sm" disabled className="rounded-full">Coming Soon</Button>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -291,32 +292,37 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
                     {step === "payment" && (
                         <div className="space-y-6">
-                            <div className="border rounded-xl p-6 bg-card">
-                                <h3 className="font-semibold mb-4 flex items-center gap-2">
-                                    <CreditCard className="w-5 h-5" />
+                            <div className="border border-black/5 rounded-[32px] p-8 bg-white shadow-sm">
+                                <h3 className="font-semibold text-xl mb-6 flex items-center gap-2">
+                                    <CreditCard className="w-5 h-5 text-primary" />
                                     Payment Method
                                 </h3>
                                 <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)}>
-                                    <TabsList className="w-full grid grid-cols-2">
-                                        <TabsTrigger value="stripe">Card / Apple Pay</TabsTrigger>
-                                        <TabsTrigger value="wallet" disabled={!user}>Wallet</TabsTrigger>
+                                    <TabsList className="w-full grid grid-cols-2 p-1 bg-secondary/30 rounded-full h-14">
+                                        <TabsTrigger value="stripe" className="rounded-full h-12 data-[state=active]:bg-white data-[state=active]:shadow-sm">Card / Apple Pay</TabsTrigger>
+                                        <TabsTrigger value="wallet" disabled={!user} className="rounded-full h-12 data-[state=active]:bg-white data-[state=active]:shadow-sm">Wallet</TabsTrigger>
                                     </TabsList>
-                                    <TabsContent value="stripe" className="pt-6 space-y-4">
-                                        <p className="text-sm text-muted-foreground">Secured by Stripe. Confirm to finish.</p>
+                                    <TabsContent value="stripe" className="pt-8 space-y-4">
+                                        <p className="text-sm text-muted-foreground flex items-center gap-2">
+                                            <span className="w-2 h-2 rounded-full bg-primary/40" />
+                                            Secured by Stripe. Confirm to finish.
+                                        </p>
                                     </TabsContent>
-                                    <TabsContent value="wallet" className="pt-6">
-                                        <p className="text-sm font-medium">Balance: €{walletBalance || 0}</p>
+                                    <TabsContent value="wallet" className="pt-8">
+                                        <div className="p-4 rounded-[24px] bg-primary/5 border border-primary/10">
+                                            <p className="text-sm font-medium text-primary">Available Balance: €{walletBalance || 0}</p>
+                                        </div>
                                     </TabsContent>
                                 </Tabs>
                             </div>
                         </div>
                     )}
 
-                    <div className="flex justify-between pt-8 border-t">
+                    <div className="flex justify-between pt-8 border-t border-black/5">
                         {step !== 'time' && (
-                            <Button variant="ghost" onClick={handleBack}>Back</Button>
+                            <Button variant="ghost" onClick={handleBack} className="rounded-full px-8">Back</Button>
                         )}
-                        <Button size="lg" className="ml-auto px-8" onClick={step === 'payment' ? handleBooking : handleNext} disabled={loading}>
+                        <Button size="lg" className="ml-auto px-10 rounded-full h-14 shadow-lg shadow-primary/20" onClick={step === 'payment' ? handleBooking : handleNext} disabled={loading}>
                             {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
                             {step === 'payment' ? "Confirm Booking" : "Next Step"}
                         </Button>

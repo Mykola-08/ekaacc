@@ -7,7 +7,27 @@ import { Sparkles, Send, X, MessageSquare, ChevronDown } from 'lucide-react';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { cn } from '@/lib/utils';
 import { AnimatePresence, motion } from 'framer-motion';
-import { BookingResult, ServiceResult, WalletResult, AvailabilityResult, BookingConfirmation } from './GenerativeUI';
+import {
+  BookingResult,
+  ServiceResult,
+  WalletResult,
+  AvailabilityResult,
+  BookingConfirmation,
+  PersonalizedGreetingResult,
+  DailyActionsResult,
+  AffirmationResult,
+  ProgressReportResult,
+  PatternInsightResult,
+  BreathingExerciseResult,
+  AchievementCelebrationResult,
+  MeditationResult,
+  SleepInsightResult,
+  GoalTrackerResult,
+  MoodCalendarResult,
+  BookingPreviewBlock,
+  ServiceComparisonBlock,
+  WalletHistoryBlock
+} from './GenerativeUI';
 import { format } from 'date-fns';
 
 interface ToolInvocation {
@@ -151,12 +171,41 @@ export function AIChatWidget() {
       if (inputEl) inputEl.focus();
     };
 
+    const handleConfirmBooking = (e: any) => {
+      const { serviceName, dateTime } = e.detail;
+      const prompt = `Confirm my booking for ${serviceName} on ${format(new Date(dateTime), 'MMM d @ h:mm a')}`;
+      setInput(prompt);
+      // Automatically submit for "Confirm"
+      setTimeout(() => {
+        const form = document.querySelector('form');
+        form?.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+      }, 100);
+    };
+
+    const handleCancelBooking = (e: any) => {
+      const bookingId = e.detail;
+      const prompt = `Cancel my booking ${bookingId}`;
+      setInput(prompt);
+    };
+
+    const handleReschedule = (e: any) => {
+      const booking = e.detail;
+      const prompt = `I want to reschedule my ${booking.service?.name} appointment`;
+      setInput(prompt);
+    };
+
     document.addEventListener('ai_slot_selected', handleSlotSelect);
     document.addEventListener('ai_service_selected', handleServiceSelect);
+    document.addEventListener('ai_confirm_booking', handleConfirmBooking);
+    document.addEventListener('ai_cancel_booking', handleCancelBooking);
+    document.addEventListener('ai_reschedule_request', handleReschedule);
 
     return () => {
       document.removeEventListener('ai_slot_selected', handleSlotSelect);
       document.removeEventListener('ai_service_selected', handleServiceSelect);
+      document.removeEventListener('ai_confirm_booking', handleConfirmBooking);
+      document.removeEventListener('ai_cancel_booking', handleCancelBooking);
+      document.removeEventListener('ai_reschedule_request', handleReschedule);
     };
   }, []);
 
@@ -275,6 +324,34 @@ export function AIChatWidget() {
                                 return <AvailabilityResult key={toolCallId} slots={toolInvocation.result.slots} />;
                               case 'bookAppointment':
                                 return <BookingConfirmation key={toolCallId} {...toolInvocation.result} />;
+                              case 'getPersonalizedGreeting':
+                                return <PersonalizedGreetingResult key={toolCallId} {...toolInvocation.result} />;
+                              case 'suggestDailyActions':
+                                return <DailyActionsResult key={toolCallId} actions={toolInvocation.result.actions} />;
+                              case 'generateAffirmation':
+                                return <AffirmationResult key={toolCallId} affirmation={toolInvocation.result.affirmation} />;
+                              case 'getProgressReport':
+                                return <ProgressReportResult key={toolCallId} report={toolInvocation.result.report} />;
+                              case 'identifyPatterns':
+                                return <PatternInsightResult key={toolCallId} patterns={toolInvocation.result.patterns} />;
+                              case 'suggestBreathingExercise':
+                                return <BreathingExerciseResult key={toolCallId} exercise={toolInvocation.result.exercise} />;
+                              case 'celebrateAchievement':
+                                return <AchievementCelebrationResult key={toolCallId} achievements={toolInvocation.result.achievements} />;
+                              case 'startGuidedMeditation':
+                                return <MeditationResult key={toolCallId} session={toolInvocation.result.session} />;
+                              case 'getSleepInsights':
+                                return <SleepInsightResult key={toolCallId} insight={toolInvocation.result.insight} />;
+                              case 'getInteractiveGoalTracker':
+                                return <GoalTrackerResult key={toolCallId} tracker={toolInvocation.result.tracker} />;
+                              case 'getMoodCalendar':
+                                return <MoodCalendarResult key={toolCallId} days={toolInvocation.result.days} />;
+                              case 'getBookingPreview':
+                                return <BookingPreviewBlock key={toolCallId} preview={toolInvocation.result.preview} />;
+                              case 'compareServices':
+                                return <ServiceComparisonBlock key={toolCallId} services={toolInvocation.result.services} />;
+                              case 'getWalletHistory':
+                                return <WalletHistoryBlock key={toolCallId} transactions={toolInvocation.result.transactions} />;
                               default:
                                 return <div key={toolCallId} className="text-xs text-muted-foreground italic mt-2 border-l-2 border-primary/20 pl-2">
                                   Completed action: {toolInvocation.toolName}

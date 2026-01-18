@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { EmailService } from '@/lib/platform/services/email-logic';
-import { createClient } from '@supabase/supabase-js';
+import { sendWelcomeEmail } from '@/lib/platform/services/transactional-email-service';
+import { supabaseAdmin } from '@/lib/platform/supabase';
 import crypto from 'crypto';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 /**
  * POST /api/email/verify/send
@@ -32,7 +28,7 @@ export async function POST(request: NextRequest) {
     // Get or verify user
     let user;
     if (userId) {
-      const { data } = await supabase
+      const { data } = await supabaseAdmin
         .from('users')
         .select('id, email, email_verified, raw_user_meta_data')
         .eq('id', userId)
@@ -40,7 +36,7 @@ export async function POST(request: NextRequest) {
         .single();
       user = data;
     } else {
-      const { data } = await supabase
+      const { data } = await supabaseAdmin
         .from('users')
         .select('id, email, email_verified, raw_user_meta_data')
         .eq('email', email)
@@ -68,7 +64,7 @@ export async function POST(request: NextRequest) {
     expiresAt.setHours(expiresAt.getHours() + 24); // 24 hour expiry
 
     // Store token in database
-    const { error: insertError } = await supabase
+    const { error: insertError } = await supabaseAdmin
       .from('email_verification_tokens')
       .insert({
         user_id: user.id,
@@ -79,7 +75,7 @@ export async function POST(request: NextRequest) {
 
     if (insertError) {
       // If token already exists, update it
-      await supabase
+      await supabaseAdmin
         .from('email_verification_tokens')
         .update({
           token,
@@ -96,7 +92,8 @@ export async function POST(request: NextRequest) {
 
     // Send verification email
     const userName = user.raw_user_meta_data?.name || 'User';
-    const result = await EmailService.sendWelcomeEmail(
+
+    const result = await sendWelcomeEmail(
       user.email,
       userName,
       verifyUrl

@@ -20,7 +20,7 @@ export const billingService = {
 
         .order('created_at', { ascending: false });
 
-      
+
 
       if (error) {
 
@@ -30,7 +30,7 @@ export const billingService = {
 
       }
 
-      
+
 
       const balance = transactions?.reduce((acc: number, t: any) => acc + (t.amount_eur || 0), 0) || 0;
 
@@ -70,7 +70,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (error) {
 
@@ -80,7 +80,7 @@ export const billingService = {
 
       }
 
-      
+
 
       return data;
 
@@ -120,7 +120,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (error) {
 
@@ -130,7 +130,7 @@ export const billingService = {
 
       }
 
-      
+
 
       return data;
 
@@ -172,7 +172,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (txError) {
 
@@ -182,7 +182,7 @@ export const billingService = {
 
       }
 
-      
+
 
       // In a real implementation, you would integrate with a payment processor here
 
@@ -228,7 +228,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (error) {
 
@@ -238,7 +238,7 @@ export const billingService = {
 
       }
 
-      
+
 
       return invoices || [];
 
@@ -276,7 +276,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (error) {
 
@@ -286,7 +286,7 @@ export const billingService = {
 
       }
 
-      
+
 
       return data;
 
@@ -316,7 +316,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (invoiceError) {
 
@@ -326,7 +326,7 @@ export const billingService = {
 
       }
 
-      
+
 
       if (!invoice) {
 
@@ -334,7 +334,7 @@ export const billingService = {
 
       }
 
-      
+
 
       // Create payment transaction
 
@@ -360,7 +360,7 @@ export const billingService = {
 
       );
 
-      
+
 
       if (txError) {
 
@@ -382,7 +382,7 @@ export const billingService = {
 
       }
 
-      
+
 
       return {
 
@@ -404,6 +404,26 @@ export const billingService = {
 
     }
 
+  },
+
+  async createWalletTopUpIntent(userId: string, amount: number) {
+    if (!process.env.STRIPE_SECRET_KEY || process.env.STRIPE_SECRET_KEY === 'sk_test_mock') {
+      return { clientSecret: null, error: 'Stripe not configured' };
+    }
+
+    try {
+      const { stripe } = await import('@/lib/platform/services/stripe-client');
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        amount: Math.round(amount * 100),
+        currency: 'eur',
+        metadata: { userId, type: 'wallet_topup' },
+      });
+      return { clientSecret: paymentIntent.client_secret, error: null };
+    } catch (error) {
+      console.error('Stripe createWalletTopUpIntent error:', error);
+      return { clientSecret: null, error: 'Failed to create payment intent' };
+    }
   }
 
 };

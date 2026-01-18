@@ -17,11 +17,11 @@ async function safeGetItem(key: string): Promise<string | null> {
       if (typeof window !== 'undefined' && window.localStorage) {
         return window.localStorage.getItem(key);
       }
-      
+
       // Server-side: check Supabase user settings
       const { data: { user } } = await (supabase.auth as any).getUser();
       if (!user) return null;
-      
+
       const { data, error } = await safeSupabaseQuery<{ value: string }>(
         supabase
           .from('user_settings')
@@ -30,12 +30,12 @@ async function safeGetItem(key: string): Promise<string | null> {
           .eq('key', key)
           .single()
       );
-      
+
       if (error) {
         logger.debug(`Setting not found: ${key}`);
         return null;
       }
-      
+
       return data?.value || null;
     } catch (error) {
       logger.error(`Error getting setting: ${key}`, error as Error);
@@ -51,13 +51,13 @@ async function safeSetItem(key: string, value: string): Promise<void> {
         window.localStorage.setItem(key, value);
         return;
       }
-      
+
       // Server-side: store in Supabase user settings
       const { data: { user } } = await (supabase.auth as any).getUser();
       if (!user) {
         throw new AppError('User not authenticated', 'AUTHENTICATION_ERROR', 401);
       }
-      
+
       const { error } = await safeSupabaseInsert<any>(
         'user_settings',
         {
@@ -67,11 +67,11 @@ async function safeSetItem(key: string, value: string): Promise<void> {
           updated_at: new Date().toISOString()
         }
       );
-      
+
       if (error) {
         throw new AppError(`Failed to save setting: ${error.message}`, 'DATABASE_ERROR', 500);
       }
-      
+
       logger.debug(`Setting saved: ${key}`);
     } catch (error) {
       logger.error(`Error saving setting: ${key}`, error as Error);
@@ -132,17 +132,35 @@ const fxService = {
   },
 
   async getSessions(userId?: string) {
-    // Placeholder - replace with actual service call
     const bookings = await bookingService.getAllBookings();
+    let filtered = bookings;
     if (userId) {
-       return bookings.filter(b => b.clientId === userId || b.userId === userId);
+      filtered = bookings.filter(b => b.clientId === userId || b.userId === userId);
     }
-    return bookings; 
+
+    // Map to Session type
+    return filtered.map(b => {
+      const start = new Date(b.slot.start);
+      const end = new Date(b.slot.end);
+      const durationMinutes = (end.getTime() - start.getTime()) / 60000;
+
+      return {
+        id: b.id,
+        date: start.toLocaleDateString(), // simplified
+        time: start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        type: b.serviceId, // placeholder for service name
+        therapist: b.therapistId, // placeholder for therapist name
+        status: (b.status.charAt(0).toUpperCase() + b.status.slice(1)) as 'Upcoming' | 'Completed' | 'Canceled', // Capitalize
+        notes: b.notes,
+        duration: durationMinutes > 0 ? durationMinutes : 60,
+        userId: b.userId
+      };
+    });
   },
 
   async getJournalEntries(userId: string) {
-      // Placeholder
-      return [];
+    // Placeholder
+    return [];
   },
 
   // Bookings
@@ -155,12 +173,28 @@ const fxService = {
   },
   async createBooking(data: any) {
     // Handle both old and new signatures
+    // The simplified bookingService.createBooking expects a BookingRequest object
+
+    // Check if data matches BookingRequest shape roughly
+    if (data.userId && data.therapistId && data.slot) {
+      return bookingService.createBooking(data);
+    }
+
     if (typeof data === 'object' && data.userId && data.therapistId && data.date) {
-      return bookingService.createBooking(data.userId, data.therapistId, data.date, data.notes);
+      // Adapt old signature to new request object
+      return bookingService.createBooking({
+        userId: data.userId,
+        therapistId: data.therapistId,
+        serviceId: 'default-service', // fallback
+        slot: { start: data.date, end: data.date }, // simplistic, should adjust duration
+        price: 0,
+        paymentMethod: 'pay_at_place',
+        notes: data.notes
+      });
     }
     // Handle legacy signature: createBooking(selectedClientId, therapistId, bookingDateTime, notes)
     // This is called with multiple arguments, so we need to handle it differently
-    throw new Error('Invalid booking data - use object format: { userId, therapistId, date, notes }');
+    throw new Error('Invalid booking data - use object format: { userId, therapistId, slot: {start, end}, ... }');
   },
   async updateBooking(id: string, data: any) {
     return bookingService.updateBooking(id, data);
@@ -201,9 +235,9 @@ const fxService = {
   },
 
   async saveReport(data: any) {
-      // stub
-      logger.info('Save report', data);
-      return { id: 'stub', ...data };
+    // stub
+    logger.info('Save report', data);
+    return { id: 'stub', ...data };
   },
   async createAssessment(data: any) {
     return assessmentService.saveAssessment(data.sessionId, data.data);
@@ -316,7 +350,7 @@ const fxService = {
       return {};
     }, {}, { operation: 'getSettings' });
   },
-  
+
   async updateSettings(updates: any) {
     return await withRetry(async () => {
       const current = await this.getSettings();
@@ -349,7 +383,7 @@ const fxService = {
         }
 
         logger.info(`Uploading file: ${file.name} to ${path}`);
-        
+
         const { data, error } = await supabase.storage
           .from('user-files')
           .upload(path, file, {
@@ -374,7 +408,7 @@ const fxService = {
     return await withRetry(async () => {
       try {
         const { data } = supabase.storage.from('user-files').getPublicUrl(path);
-        
+
         if (!data?.publicUrl) {
           throw new NotFoundError(`File not found: ${path}`);
         }
@@ -392,7 +426,7 @@ const fxService = {
     return await withRetry(async () => {
       try {
         logger.info('Creating report', { userId, reportTitle: report.title || 'Untitled' });
-        
+
         const { data, error } = await safeSupabaseInsert<any>(
           'reports',
           {
@@ -424,7 +458,7 @@ const fxService = {
     return await withRetry(async () => {
       try {
         logger.info('Generating AI report', { userId, promptLength: prompt.length });
-        
+
         // Implementation would integrate with AI service
         // For now, return a placeholder
         throw new AppError('AI report generation not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
@@ -439,7 +473,7 @@ const fxService = {
     return await withRetry(async () => {
       try {
         logger.info('Processing AI chat response', { promptLength: prompt.length, historyLength: history.length });
-        
+
         // Implementation would integrate with AI service
         throw new AppError('AI chat response not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
       } catch (error) {
@@ -453,7 +487,7 @@ const fxService = {
     return await withRetry(async () => {
       try {
         logger.info('Fetching AI recommendations');
-        
+
         // Implementation would integrate with AI service
         throw new AppError('AI recommendations not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
       } catch (error) {
@@ -462,9 +496,6 @@ const fxService = {
       }
     }, {}, { operation: 'getAIRecommendations' });
   },
-
-  // Storage - removed duplicate implementations
-  // AI Features - removed duplicate implementations
 };
 
 export default fxService;

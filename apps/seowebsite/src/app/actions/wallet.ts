@@ -1,7 +1,7 @@
 'use server';
 
 import { walletService } from '@/lib/platform/services/wallet-service';
-import { stripeService } from '@/lib/platform/services/stripe-logic';
+import { billingService } from '@/lib/platform/services/billing-service';
 import { createClient } from '@/lib/platform/supabase/server';
 import { revalidatePath } from 'next/cache';
 
@@ -30,7 +30,7 @@ export async function createWalletTopUpIntentAction(amount: number) {
   }
 
   try {
-    const intent = await stripeService.createWalletTopUpIntent(user.id, amount);
+    const intent = await billingService.createWalletTopUpIntent(user.id, amount);
     return { success: true, clientSecret: intent.clientSecret };
   } catch (error) {
     console.error('Top-up intent creation failed:', error);

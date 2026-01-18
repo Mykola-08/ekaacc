@@ -30,11 +30,32 @@ You are EKA Balance, a compassionate AI wellness companion. You support users on
 When you learn something new about the user, use the rememberThis tool.
 
 ## Capabilities
-- Booking: Search, check availability, book, cancel
-- Wellness: Log mood, view trends, set goals, insights
-- Finance: Check wallet and rewards
+- Booking: Search, check availability, book, cancel, preview booking
+- Wellness: Log mood, view trends, set goals, insights, meditation, sleep insights, mood landscape
+- Finance: Check wallet, rewards, transaction history
 - Memory: Store and recall user info
 - Journaling: Create and view entries
+- Personalization: Greetings, affirmations, daily actions, progress reports, patterns, breathing exercises, achievements
+
+## Visual Block Guidelines (CRITICAL)
+Always prefer calling tools that generate Visual Blocks over sending plain text descriptions.
+- **Booking Lists**: Use getMyBookings; the UI will handle grouping and sorting.
+- **Booking Confidence**: Before finalizing a booking (bookAppointment), you MUST USE getBookingPreview to show the user a visual confirmation block.
+- **Service Comparison**: If a user asks about multiple services, use compareServices to show them side-by-side.
+- **Financial History**: Use getWalletHistory to display a stylized transaction list.
+
+## Personalization & Tool Usage
+- When starting a conversation, use getPersonalizedGreeting for a warm, contextual welcome
+- Use generateAffirmation when user needs encouragement or is feeling down
+- Suggest suggestDailyActions when asked what to do or for recommendations
+- Show getProgressReport for weekly/monthly check-ins
+- Use identifyPatterns if the user asks about their progress, habits, or cycles.
+- Use suggestBreathingExercise if the user seems stressed, anxious, or explicitly asks for relaxation.
+- Use celebrateAchievement periodically when the user reaches a milestone or shows consistency.
+- Use startGuidedMeditation when the user needs a deeper relaxation session or asks to meditate.
+- Use getSleepInsights if the user mentions poor sleep, tiredness, or asks for sleep advice.
+- Use getInteractiveGoalTracker to show current progress on wellness goals.
+- Use getMoodCalendar when the user wants to see a visual history of their mood.
 
 ## Communication Guidelines
 - Warm, empathetic, and supportive tone
@@ -99,6 +120,79 @@ export async function POST(req: Request) {
   ];
 
   const encoder = new TextEncoder();
+
+  // ============================================================================
+  // ALGORITHMIC ROUTING (Optimization)
+  // ============================================================================
+  const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop()?.content?.toLowerCase() || '';
+
+  // Simple Greeting Intent
+  const isSimpleGreeting = /^(hi|hello|hey|good morning|good afternoon|good evening|greeting|hi there|hello there)$/.test(lastUserMessage.trim());
+
+  // Status/What can I do Intent
+  const isStatusIntent = /^(what should i do|what to do today|daily actions|suggest something|how is my day|anything for me)$/.test(lastUserMessage.trim());
+
+  // Wallet Intent
+  const isWalletIntent = /^(wallet|balance|my wallet|how much money|transactions|wallet history)$/.test(lastUserMessage.trim());
+
+  if (userId && (isSimpleGreeting || isStatusIntent || isWalletIntent)) {
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          let toolName = '';
+          const toolArgs = {};
+          let result: any = null;
+
+          if (isSimpleGreeting && aiTools.getPersonalizedGreeting) {
+            toolName = 'getPersonalizedGreeting';
+            result = await aiTools.getPersonalizedGreeting.execute({});
+          } else if (isStatusIntent && aiTools.suggestDailyActions) {
+            toolName = 'suggestDailyActions';
+            result = await aiTools.suggestDailyActions.execute({});
+          } else if (isWalletIntent && aiTools.getWalletBalance) {
+            toolName = 'getWalletBalance';
+            result = await aiTools.getWalletBalance.execute({});
+          }
+
+          if (toolName && result) {
+            // Push tool result directly
+            controller.enqueue(encoder.encode(`0:${JSON.stringify({
+              type: 'tool-result',
+              toolName,
+              args: toolArgs,
+              result
+            })}\n`));
+
+            // Generate a simple algorithmic response text based on the result
+            let responseText = '';
+            if (isSimpleGreeting) {
+              responseText = result.greeting || 'Hello! How can I help you today?';
+              if (result.moodAcknowledgment) responseText += ' ' + result.moodAcknowledgment;
+              if (result.contextTip) responseText += '\n\n' + result.contextTip;
+            } else if (isStatusIntent) {
+              responseText = "Here are some things you could focus on today:";
+            } else if (isWalletIntent) {
+              responseText = `You currently have ${result.balance} ${result.currency} in your wallet.`;
+            }
+
+            controller.enqueue(encoder.encode(`t:${responseText}\n`));
+          }
+          controller.close();
+        } catch (err) {
+          console.error('Algorithmic routing error:', err);
+          controller.error(err);
+        }
+      }
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Transfer-Encoding': 'chunked',
+      },
+    });
+  }
+  // ============================================================================
 
   const stream = new ReadableStream({
     async start(controller) {

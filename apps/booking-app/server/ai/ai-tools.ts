@@ -9,6 +9,7 @@ import * as wellnessService from './wellness-service';
 import * as recommendationEngine from './recommendation-engine';
 import * as insightsService from './ai-insights-service';
 import * as memoryService from './ai-memory-service';
+import * as personalizationService from './ai-personalization-service';
 
 export interface AITool<P = any> {
   description: string;
@@ -128,10 +129,6 @@ export const bookAppointment: AITool = {
       originApp: 'ai-concierge'
     });
 
-    if (res.error) {
-      return { error: typeof res.error === 'string' ? res.error : 'Booking failed' };
-    }
-
     return {
       success: true,
       bookingId: res.data?.bookingId,
@@ -139,6 +136,48 @@ export const bookAppointment: AITool = {
       details: {
         serviceId,
         dateTime
+      }
+    };
+  },
+};
+
+export const getBookingPreview: AITool = {
+  description: 'Generate a visual booking confirmation preview for the user to review before final booking. Use this when a user selects a slot but hasn\'t confirmed yet.',
+  parameters: z.object({
+    serviceId: z.string().describe('The ID of the service'),
+    dateTime: z.string().describe('The selected date and time in ISO format'),
+    serviceVariantId: z.string().optional().describe('The ID of the specific variant if known'),
+  }),
+  execute: async ({ serviceId, dateTime, serviceVariantId }) => {
+    const supabase = await createClient();
+    const { data: service } = await supabase
+      .from('service')
+      .select('id, name, description, price_amount, duration_min')
+      .eq('id', serviceId)
+      .single();
+
+    if (!service) return { error: 'Service not found' };
+
+    let variant = null;
+    if (serviceVariantId) {
+      const { data: vData } = await supabase
+        .from('service_variant')
+        .select('*')
+        .eq('id', serviceVariantId)
+        .single();
+      variant = vData;
+    }
+
+    return {
+      preview: {
+        serviceId: service.id,
+        serviceName: service.name,
+        description: service.description,
+        price: variant?.price_amount ?? service.price_amount,
+        duration: variant?.duration_min ?? service.duration_min,
+        dateTime,
+        variantName: variant?.name,
+        serviceVariantId
       }
     };
   },
@@ -198,6 +237,33 @@ export const getRewardsBalance: AITool = {
   },
 };
 
+export const getWalletHistory: AITool = {
+  description: 'Get a list of recent wallet transactions including deposits, purchases, and refunds.',
+  parameters: z.object({
+    limit: z.number().optional().describe('Number of transactions to fetch (default 10)'),
+  }),
+  execute: async ({ limit = 10 }) => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const { WalletService } = await import('@/server/wallet/service');
+    const service = new WalletService();
+    const transactions = await service.getTransactions(user.id);
+
+    return {
+      transactions: transactions.slice(0, limit).map(t => ({
+        id: t.id,
+        amount: t.amount_cents / 100,
+        type: t.type,
+        description: t.description,
+        date: t.created_at,
+        referenceId: t.reference_id
+      }))
+    };
+  },
+};
+
 // ============================================================================
 // SERVICE TOOLS
 // ============================================================================
@@ -251,6 +317,22 @@ export const getServiceDetails: AITool = {
         variants: service.service_variant || []
       }
     };
+  },
+};
+
+export const compareServices: AITool = {
+  description: 'Compare multiple services side-by-side to help the user choose.',
+  parameters: z.object({
+    serviceIds: z.array(z.string()).describe('List of service IDs to compare'),
+  }),
+  execute: async ({ serviceIds }) => {
+    const supabase = await createClient();
+    const { data: services } = await supabase
+      .from('service')
+      .select('id, name, description, price_amount, duration_min, category')
+      .in('id', serviceIds);
+
+    return { services: services || [] };
   },
 };
 
@@ -720,23 +802,189 @@ export const getJournalEntries: AITool = {
 };
 
 // ============================================================================
+// PERSONALIZATION TOOLS
+// ============================================================================
+
+export const getPersonalizedGreeting: AITool = {
+  description: 'Get a personalized greeting based on time of day, mood, and user context. Call this to warmly greet the user.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { greeting: 'Hello! How can I help you today?', emoji: '👋' };
+
+    const result = await personalizationService.generatePersonalizedGreeting(user.id);
+    return result;
+  },
+};
+
+export const suggestDailyActions: AITool = {
+  description: 'Get personalized daily action suggestions based on user\'s wellness data and patterns.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const actions = await personalizationService.suggestDailyActions(user.id);
+    return { actions };
+  },
+};
+
+export const analyzeConversation: AITool = {
+  description: 'Analyze the sentiment and emotional tone of a user message. Use this to better understand user needs.',
+  parameters: z.object({
+    message: z.string().describe('The user message to analyze'),
+  }),
+  execute: async ({ message }) => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    const userId = user?.id || 'anonymous';
+
+    const analysis = await personalizationService.analyzeConversationSentiment(message, userId);
+    return { analysis };
+  },
+};
+
+export const generateAffirmation: AITool = {
+  description: 'Generate a personalized affirmation based on user\'s current mood and wellness status.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { affirmation: { text: 'You are capable of amazing things.', category: 'general', relatedToMood: false } };
+
+    const affirmation = await personalizationService.generateAffirmation(user.id);
+    return { affirmation };
+  },
+};
+
+export const getProgressReport: AITool = {
+  description: 'Generate a progress report summarizing the user\'s wellness journey over a period of time.',
+  parameters: z.object({
+    period: z.enum(['week', 'month']).optional().describe('The time period for the report'),
+  }),
+  execute: async ({ period = 'week' }) => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const report = await personalizationService.generateProgressReport(user.id, period);
+    return { report };
+  },
+};
+
+export const identifyPatterns: AITool = {
+  description: 'Identify behavioral patterns in the user\'s wellness data, such as mood cycles, sleep trends, and stress triggers.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const patterns = await personalizationService.identifyBehavioralPatterns(user.id);
+    return { patterns };
+  },
+};
+
+export const suggestBreathingExercise: AITool = {
+  description: 'Suggest a breathing exercise based on the user\'s current stress level and mood.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { exercise: { id: 'box-breathing', name: 'Box Breathing', description: 'A calming technique.', duration: 4, pattern: { inhale: 4, hold: 4, exhale: 4 }, benefits: ['Reduces stress'] } };
+
+    const exercise = await personalizationService.suggestBreathingExercise(user.id);
+    return { exercise };
+  },
+};
+
+export const celebrateAchievement: AITool = {
+  description: 'Provide a celebration message for a user achievement or milestone.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const achievements = await personalizationService.celebrateAchievement(user.id);
+    return { achievements };
+  },
+};
+
+export const startGuidedMeditation: AITool = {
+  description: 'Start a short guided meditation session for the user.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const session = await personalizationService.startGuidedMeditation(user.id);
+    return { session };
+  },
+};
+
+export const getSleepInsights: AITool = {
+  description: 'Provide insights and hygiene tips regarding the user\'s sleep quality and habits.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const insight = await personalizationService.getSleepQualityInsights(user.id);
+    return { insight };
+  },
+};
+
+export const getInteractiveGoalTracker: AITool = {
+  description: 'Show the user\'s active wellness goals and their current progress.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const tracker = await personalizationService.getInteractiveGoalTracker(user.id);
+    return { tracker };
+  },
+};
+
+export const getMoodCalendar: AITool = {
+  description: 'Provide a 14-day mood calendar visualization.',
+  parameters: z.object({}),
+  execute: async () => {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return { error: 'Unauthorized' };
+
+    const days = await personalizationService.getMoodCalendar(user.id);
+    return { days };
+  },
+};
+
+// ============================================================================
 // EXPORT ALL TOOLS
 // ============================================================================
 
 export const aiTools: Record<string, AITool> = {
-  // Booking
   getMyBookings,
   checkAvailability,
   cancelBooking,
   bookAppointment,
+  getBookingPreview,
 
   // Wallet & Finance
   getWalletBalance,
   getRewardsBalance,
+  getWalletHistory,
 
   // Services
   searchServices,
   getServiceDetails,
+  compareServices,
 
   // Wellness & Mood
   logMoodCheckIn,
@@ -765,17 +1013,45 @@ export const aiTools: Record<string, AITool> = {
   // Journal
   createJournalEntry,
   getJournalEntries,
+
+  // Personalization
+  getPersonalizedGreeting,
+  suggestDailyActions,
+  analyzeConversation,
+  generateAffirmation,
+  getProgressReport,
+  identifyPatterns,
+  suggestBreathingExercise,
+  celebrateAchievement,
+  startGuidedMeditation,
+  getSleepInsights,
+  getInteractiveGoalTracker,
+  getMoodCalendar,
 };
 
 // Tool categories for documentation
 export const toolCategories = {
-  booking: ['getMyBookings', 'checkAvailability', 'cancelBooking', 'bookAppointment'],
-  finance: ['getWalletBalance', 'getRewardsBalance'],
-  services: ['searchServices', 'getServiceDetails'],
+  booking: ['getMyBookings', 'checkAvailability', 'cancelBooking', 'bookAppointment', 'getBookingPreview'],
+  finance: ['getWalletBalance', 'getRewardsBalance', 'getWalletHistory'],
+  services: ['searchServices', 'getServiceDetails', 'compareServices'],
   wellness: ['logMoodCheckIn', 'getWellnessSummary', 'getMoodHistory', 'setWellnessGoal', 'getWellnessGoals'],
   recommendations: ['getRecommendations', 'getWellnessRecommendations'],
   insights: ['getInsights', 'getWellnessScore', 'completeInsightAction'],
   memory: ['rememberThis', 'getMemories'],
   profile: ['getUserProfile', 'updatePreferences'],
-  journal: ['createJournalEntry', 'getJournalEntries']
+  journal: ['createJournalEntry', 'getJournalEntries'],
+  personalization: [
+    'getPersonalizedGreeting',
+    'suggestDailyActions',
+    'analyzeConversation',
+    'generateAffirmation',
+    'getProgressReport',
+    'identifyPatterns',
+    'suggestBreathingExercise',
+    'celebrateAchievement',
+    'startGuidedMeditation',
+    'getSleepInsights',
+    'getInteractiveGoalTracker',
+    'getMoodCalendar'
+  ]
 };

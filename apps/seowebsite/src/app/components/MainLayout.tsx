@@ -134,7 +134,7 @@ export default function MainLayout({
       <OfflineIndicator />
 
       {/* Navigation with scroll effect */}
-      {!isAuthPage && (
+      {!isAuthPage && !pathname?.includes('360-revision') && (
         <nav className={`sticky top-0 z-50 transition-all duration-300`} style={{
           backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)'
         }}>
@@ -476,7 +476,7 @@ export default function MainLayout({
    */}
 
       {/* Footer */}
-      {!isAuthPage && (
+      {!isAuthPage && !pathname?.includes('360-revision') && (
         <footer className="py-12 sm:py-16 bg-gray-900 text-white mb-24 md:mb-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
             {/* Logo */}

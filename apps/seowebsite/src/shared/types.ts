@@ -21,6 +21,8 @@ export interface ServiceItem {
   href: string;
   benefitsKeys?: string[];
   fullWidth?: boolean;
+  price?: number;
+  active?: boolean;
 }
 
 export interface PersonalizedServiceItem {

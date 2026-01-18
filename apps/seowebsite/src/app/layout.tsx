@@ -1,7 +1,6 @@
 
 import type { Metadata, Viewport } from "next";
 import "@/react-app/index.css";
-import MainLayout from "@/app/components/MainLayout";
 import { Inter } from "next/font/google";
 import { LanguageProvider } from '@/react-app/contexts/LanguageContext';
 import { DiscountProvider } from "@/react-app/contexts/DiscountContext";
@@ -39,9 +38,7 @@ export default function RootLayout({
             <LanguageProvider>
               <DiscountProvider>
                 <BookingProvider>
-                  <MainLayout>
-                    {children}
-                  </MainLayout>
+                  {children}
                 </BookingProvider>
               </DiscountProvider>
             </LanguageProvider>

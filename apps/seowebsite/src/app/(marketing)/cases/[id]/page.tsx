@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, CheckCircle, Heart, Brain, Zap, Moon, Activity, Stethoscope, Shield } from 'lucide-react';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { Button } from '@ekaacc/shared-ui';
+import { Button, DebugStatus } from '@ekaacc/shared-ui';
 
 interface ProblemConfig {
  icon: React.ComponentType<any>;
@@ -182,6 +182,7 @@ export default function CasoDetailPage() {
       </div>
     </div>
    </div>
+   <DebugStatus />
   </div>
  );
 }

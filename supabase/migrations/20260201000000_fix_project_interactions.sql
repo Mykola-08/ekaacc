@@ -19,11 +19,31 @@ CREATE TABLE IF NOT EXISTS public.project_comments (
     parent_id UUID REFERENCES public.project_comments(id)
 );
 
--- 2. Modify existing tables if needed (Handle constraints and types)
+-- 2. Modify existing tables (Handle policies, constraints, and types)
 DO $$
 DECLARE
     r RECORD;
+    p RECORD;
 BEGIN
+    -- DROP ALL POLICIES on project_likes to avoid dependency issues when altering columns
+    FOR p IN
+        SELECT policyname
+        FROM pg_policies
+        WHERE tablename = 'project_likes' AND schemaname = 'public'
+    LOOP
+        EXECUTE 'DROP POLICY IF EXISTS ' || quote_ident(p.policyname) || ' ON public.project_likes';
+    END LOOP;
+
+    -- DROP ALL POLICIES on project_comments to avoid dependency issues when altering columns
+    FOR p IN
+        SELECT policyname
+        FROM pg_policies
+        WHERE tablename = 'project_comments' AND schemaname = 'public'
+    LOOP
+        EXECUTE 'DROP POLICY IF EXISTS ' || quote_ident(p.policyname) || ' ON public.project_comments';
+    END LOOP;
+
+
     -- Handle project_likes: Drop FK on project_id if exists
     FOR r IN
         SELECT tc.constraint_name
@@ -99,7 +119,7 @@ BEGIN
 
 END $$;
 
--- 3. RLS Policies
+-- 3. Re-create RLS Policies
 
 -- project_likes
 ALTER TABLE public.project_likes ENABLE ROW LEVEL SECURITY;

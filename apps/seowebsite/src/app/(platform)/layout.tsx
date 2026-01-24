@@ -10,7 +10,6 @@ import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import CookieConsent from '@/components/platform/consent/CookieConsent';
-import { DebugStatus } from "@ekaacc/shared-ui";
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -82,7 +81,6 @@ export default function PlatformLayout({
               <SpeedInsights />
             </ImpersonationWrapper>
             <Toaster />
-            <DebugStatus />
           </TooltipProvider>
         </ProgressProvider>
       </ThemeProvider>

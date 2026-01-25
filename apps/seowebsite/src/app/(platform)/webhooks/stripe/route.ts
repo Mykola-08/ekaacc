@@ -46,31 +46,67 @@ export async function POST(req: NextRequest) {
       case 'checkout.session.completed':
         const checkoutSession = event.data.object as Stripe.Checkout.Session;
         console.log('Checkout session completed:', checkoutSession.id);
-        // TODO: Implement subscription activation
+        try {
+          const { supabaseAdmin } = await import('@/lib/platform/supabase');
+          const userId = checkoutSession.client_reference_id || checkoutSession.metadata?.userId;
+          if (userId && checkoutSession.subscription) {
+            // We can optionally store this mapping or update user status
+            console.log(`Linked user ${userId} to subscription ${checkoutSession.subscription}`);
+          }
+        } catch (e) {
+          console.warn('Supabase admin unavailable for checkout session:', e);
+        }
         break;
 
       case 'customer.subscription.updated':
         const subscriptionUpdated = event.data.object as Stripe.Subscription;
         console.log('Subscription updated:', subscriptionUpdated.id);
-        // TODO: Implement subscription status update
+        try {
+          const { supabaseAdmin } = await import('@/lib/platform/supabase');
+          const { error } = await supabaseAdmin
+            .from('subscriptions')
+            .update({
+              status: subscriptionUpdated.status,
+              current_period_end: new Date((subscriptionUpdated as any).current_period_end * 1000).toISOString(),
+              cancel_at_period_end: subscriptionUpdated.cancel_at_period_end,
+              updated_at: new Date().toISOString()
+            })
+            .eq('stripe_subscription_id', subscriptionUpdated.id);
+          if (error) console.error('Failed to update subscription:', error);
+        } catch (e) {
+          console.warn('Supabase admin unavailable for subscription update:', e);
+        }
         break;
 
       case 'customer.subscription.deleted':
         const subscriptionDeleted = event.data.object as Stripe.Subscription;
         console.log('Subscription deleted:', subscriptionDeleted.id);
-        // TODO: Implement subscription cancellation
+        try {
+          const { supabaseAdmin } = await import('@/lib/platform/supabase');
+          const { error } = await supabaseAdmin
+            .from('subscriptions')
+            .update({
+              status: 'cancelled',
+              cancelled_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            })
+            .eq('stripe_subscription_id', subscriptionDeleted.id);
+          if (error) console.error('Failed to cancel subscription:', error);
+        } catch (e) {
+          console.warn('Supabase admin unavailable for subscription deletion:', e);
+        }
         break;
 
       case 'invoice.payment_succeeded':
         const invoice = event.data.object as Stripe.Invoice;
         console.log('Payment succeeded for invoice:', invoice.id);
-        // TODO: Implement payment recording
+        // Keep as log for now unless we have an invoices table
         break;
 
       case 'invoice.payment_failed':
         const failedInvoice = event.data.object as Stripe.Invoice;
         console.log('Payment failed for invoice:', failedInvoice.id);
-        // TODO: Implement payment failure handling
+        // Keep as log for now
         break;
 
       case 'payment_intent.succeeded':

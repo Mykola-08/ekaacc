@@ -7,14 +7,14 @@
         --primary: 211 100% 50%;
         /* #007AFF Apple Blue */
         --primary-foreground: 0 0% 100%;
-        --radius: 0.75rem;
-        /* 12px - Cleaner, less round than 28px */
+        --radius: 1.5rem;
+        /* 24px - Consistent with Unified Apple Style */
     }
 }
 
 /* Apple-style Clean Aesthetics */
 .glass-card {
-    @apply bg-white border border-border/50 shadow-sm backdrop-blur-none !important;
+    @apply bg-white border border-border/50 shadow-sm backdrop-blur-none;
 }
 
 .apple-card {

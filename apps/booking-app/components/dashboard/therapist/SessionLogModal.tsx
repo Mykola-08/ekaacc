@@ -49,7 +49,9 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
         }
     };
 
-    const improvement = initialMood[0] && finalMood[0] ? Math.round(((finalMood[0] - initialMood[0]) / initialMood[0]) * 100) : 0;
+    const startMood = initialMood[0] ?? 0;
+    const endMood = finalMood[0] ?? 0;
+    const improvement = startMood > 0 ? Math.round(((endMood - startMood) / startMood) * 100) : 0;
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>

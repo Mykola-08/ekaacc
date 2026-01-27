@@ -82,7 +82,7 @@ export default function PlatformLayout({
               <SpeedInsights />
             </ImpersonationWrapper>
             <Toaster />
-            <DebugStatus />
+            {process.env.NODE_ENV === 'development' && <DebugStatus />}
           </TooltipProvider>
         </ProgressProvider>
       </ThemeProvider>

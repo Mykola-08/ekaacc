@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 export async function GET(_request: NextRequest) {
   const supabase = await createClient()
-  const { data: { user } } = await (supabase.auth as any).getUser()
+  const { data: { user } } = await supabase.auth.getUser()
   
   if (!user) {
     return new Response(JSON.stringify({ user: null }), { status: 200 })

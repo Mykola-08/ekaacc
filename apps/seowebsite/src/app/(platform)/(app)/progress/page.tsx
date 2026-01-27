@@ -5,7 +5,7 @@ import type { Report } from '@/lib/platform/types/types';
 
 export default async function ProgressPage() {
  const supabase = await createClient();
- const { data: { user } } = await (supabase.auth as any).getUser();
+ const { data: { user } } = await supabase.auth.getUser();
 
  if (!user) {
   redirect('/auth-portal');

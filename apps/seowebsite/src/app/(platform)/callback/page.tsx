@@ -18,7 +18,7 @@ export default function AuthCallback() {
 
     if (code) {
      // Exchange code for session
-     const { data, error } = await (supabase.auth as any).exchangeCodeForSession(code)
+     const { data, error } = await supabase.auth.exchangeCodeForSession(code)
 
      if (error) {
       console.error('Error exchanging code for session:', error)
@@ -58,7 +58,7 @@ export default function AuthCallback() {
      router.push(returnTo)
     } else {
      // No code provided, check if there's already a session
-     const { data: { session } } = await (supabase.auth as any).getSession()
+     const { data: { session } } = await supabase.auth.getSession()
      if (session) {
       const returnTo = params.get('returnTo') || '/dashboard'
       router.push(returnTo)

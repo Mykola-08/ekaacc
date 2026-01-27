@@ -6,7 +6,7 @@ export const runtime = 'nodejs'
 
 export default async function ServerProfilePage() {
  const supabase = await createClient()
- const { data: { user } } = await (supabase.auth as any).getUser()
+ const { data: { user } } = await supabase.auth.getUser()
 
  let profile: any = null
  let error: string | null = null

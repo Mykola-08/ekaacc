@@ -11,7 +11,7 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await (supabase.auth as any).getUser(token);
+  const { data: { user }, error } = await supabase.auth.getUser(token);
   
   if (error || !user) {
     return { error: 'Invalid token', user: null };

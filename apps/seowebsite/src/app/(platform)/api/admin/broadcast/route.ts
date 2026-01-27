@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   
   // Check admin role
-  const { data: { user } } = await (supabase.auth as any).getUser();
+  const { data: { user } } = await supabase.auth.getUser();
   if (!user || user.user_metadata?.role !== 'Admin') {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

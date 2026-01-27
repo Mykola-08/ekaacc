@@ -19,7 +19,7 @@ export default function ResetPasswordPage() {
  useEffect(() => {
   // Check if we have a valid session for password reset
   const checkSession = async () => {
-   const { data: { session } } = await (supabase.auth as any).getSession()
+   const { data: { session } } = await supabase.auth.getSession()
    if (session) {
     setIsValidSession(true)
    } else {
@@ -46,7 +46,7 @@ export default function ResetPasswordPage() {
   setIsLoading(true)
 
   try {
-   const { error } = await (supabase.auth as any).updateUser({
+   const { error } = await supabase.auth.updateUser({
     password: password
    })
 
@@ -55,7 +55,7 @@ export default function ResetPasswordPage() {
    } else {
     toast.success('Password updated successfully!')
     // Sign out and redirect to login
-    await (supabase.auth as any).signOut()
+    await supabase.auth.signOut()
     router.push('/login?message=password_updated')
    }
   } catch (error) {

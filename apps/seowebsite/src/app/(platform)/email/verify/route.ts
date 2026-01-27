@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Mark email as verified
-    const { error: updateError } = await (supabase.auth as any).admin.updateUserById(
+    const { error: updateError } = await supabase.auth.admin.updateUserById(
       tokenData.user_id,
       { email_confirm: true }
     );

@@ -19,7 +19,7 @@ const AppHeader = () => (
     </header>
 );
 
-import { LayoutProvider, useLayout } from '@/context/platform/layout-context';
+import { LayoutProvider, useLayout } from '@/contexts/platform/layout-context';
 import { MobileNav } from '@/components/platform/navigation/mobile-nav';
 
 function AppLayoutInner({ children }: { children: React.ReactNode }) {

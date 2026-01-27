@@ -1,9 +1,9 @@
 'use client';
 
-import SEOHead from '@/react-app/components/SEOHead';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { BOOKING_APP_URL } from '@/lib/config';
 
 export default function Children() {

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { translations } from '@/react-app/contexts/translations';
+import { translations } from '@/contexts/translations';
 import CaseDetailClient from './CaseDetailClient';
 
 const problemsConfig: Record<string, string> = {

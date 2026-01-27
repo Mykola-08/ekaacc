@@ -7,7 +7,7 @@ import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { Label } from '@/components/platform/ui/label';
 import { Input } from '@/components/platform/ui/input';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function OnboardingPage() {
  const router = useRouter();

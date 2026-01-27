@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useAuth } from '@/context/platform/auth-context'
+import { useAuth } from '@/contexts/platform/auth-context'
 import { ImpersonationBanner } from '@/components/platform/admin/user-impersonation'
 import { useToast } from '@/hooks/platform/ui/use-toast'
 

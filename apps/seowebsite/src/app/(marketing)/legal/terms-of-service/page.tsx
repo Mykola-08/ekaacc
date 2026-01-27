@@ -1,6 +1,6 @@
 'use client';
 
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import React from 'react';
 
 export default function TermsOfService() {

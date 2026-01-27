@@ -14,7 +14,7 @@ import { useToast } from '@/hooks/platform/ui/use-toast';
 import type { Donation, User } from '@/lib/platform/types/types';
 import { DonationSeekerApplicationForm } from '@/components/platform/eka/forms/donation-seeker-application-form';
 import type { DonationSeekerData } from '@/components/platform/eka/forms/donation-seeker-application-form';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function DonationsPage() {
  const { user: currentUser } = useAuth();

@@ -1,6 +1,6 @@
 'use client';
 
-import PersonalizedOnboarding from '@/react-app/components/PersonalizedOnboarding';
+import PersonalizedOnboarding from '@/components/PersonalizedOnboarding';
 
 export default function FirstTimePage() {
  return (

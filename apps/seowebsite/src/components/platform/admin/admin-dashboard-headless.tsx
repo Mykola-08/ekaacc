@@ -5,7 +5,7 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { Shield, Users, Activity, BarChart3, Settings, Calendar, DollarSign, Eye, Package } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { AdminBookingTableHeadless as AdminBookingTable } from '@/components/platform/admin/admin-booking-table-headless';
 import { RoleManagementPanelHeadless as RoleManagementPanel } from '@/components/platform/admin/role-management-panel-headless';
 import { ProductManagementPanelHeadless as ProductManagementPanel } from '@/components/platform/admin/product-management-panel-headless';

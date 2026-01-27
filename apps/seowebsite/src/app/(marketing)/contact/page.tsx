@@ -1,8 +1,8 @@
 'use client';
 
-import ContactFormOptimized from '@/react-app/components/ContactFormOptimized';
+import ContactFormOptimized from '@/components/ContactFormOptimized';
 import { MessageCircle, Phone } from 'lucide-react';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@ekaacc/shared-ui';
 
 export default function ContactPage() {

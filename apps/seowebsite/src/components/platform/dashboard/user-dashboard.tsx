@@ -6,8 +6,8 @@ import {
   Calendar, Clock, CreditCard, Star, ChevronRight, Activity, 
   BookOpen, Heart, TrendingUp, Sparkles, MapPin 
 } from 'lucide-react';
-import { useAuth } from '@/context/platform/auth-context';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useAuth } from '@/contexts/platform/auth-context';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/platform/ui/card';
 import { Badge } from '@/components/platform/ui/badge';

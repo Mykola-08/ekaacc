@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@ekaacc/shared-ui';
 import { Ticket, Users, Calendar, Sparkles } from 'lucide-react';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import Link from 'next/link';
 
 export default function DiscountsPage() {

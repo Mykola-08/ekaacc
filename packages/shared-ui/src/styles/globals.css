@@ -3,7 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Open Runde", "Inter", sans-serif;
+  --font-sans: "SF Pro Text", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --font-display: "SF Pro Display", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -42,141 +43,97 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  /* Porcelain & Flow Extended Tokens */
-  --color-surface-subtle: #F7F8F9;
-  --color-surface-hover: #F0F2F4;
-  --color-surface-danger: #FFF0F0;
-
-  --color-text-tertiary: #A5A5A5;
-
-  --color-action-brand: #007AFF;
-  --color-action-danger: #FF3F40;
-
-  /* Custom Radii - Porcelain System */
+  /* Radius Tokens */
   --radius-xl: 1rem;
-  /* 16px - Standard Buttons */
   --radius-2xl: 1.5rem;
-  /* 24px - Inner Cards */
   --radius-3xl: 2.25rem;
   --radius-sm: 0.75rem;
-  /* 12px */
   --radius-md: 1rem;
-  /* 16px - Inputs/Standard */
   --radius-lg: 1.25rem;
-  /* 20px */
-  /* 36px - Outer Containers/Drawers */
+  --radius-full: 9999px;
 
-  /* Shadows - Disabled for Plain Design */
-  --shadow-xs: 0 0 0 0 transparent;
-  --shadow-sm: 0 0 0 0 transparent;
-  --shadow-md: 0 0 0 0 transparent;
-  --shadow-lg: 0 0 0 0 transparent;
-  --shadow-xl: 0 0 0 0 transparent;
-  --shadow-2xl: 0 0 0 0 transparent;
-  --shadow-inner: 0 0 0 0 transparent;
+  /* Shadows - Apple Style */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 
-  --shadow-focus-ring-button: 0 0 0 2px #fff, 0 0 0 4px #E5E7EB;
-
-  /* Animations */
-  --animate-fade-in: fade-in 0.2s ease-out forwards;
-  --animate-accordion-down: accordion-down 0.2s ease-out forwards;
-  --animate-slide-up: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  --animate-zoom-in: zoom-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-fade-in: fade-in 0.4s ease-out forwards;
+  --animate-fade-in-up: fadeInUp 0.6s ease-out forwards;
+  --animate-scale-in: scaleIn 0.3s ease-out forwards;
 
   @keyframes fade-in {
-    0% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
-    }
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 
-  @keyframes slide-up {
-    0% {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  @keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
 
-  @keyframes zoom-in {
-    0% {
-      transform: scale(0.95);
-      opacity: 0;
-    }
-
-    100% {
-      transform: scale(1);
-      opacity: 1;
-    }
+  @keyframes scaleIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
   }
 }
 
 :root {
-  /* Porcelain & Flow System - Light Mode (Default) */
+  /* Apple-style Design System */
 
-  /* Canvas Background: Porcelain Secondary (#F9F9F8) */
-  --background: #F9F9F8;
-  --foreground: #222222;
+  --background: #FBFBFD; /* Apple Gray Light */
+  --foreground: #1D1D1F;
 
-  /* Card Surface: Porcelain Main (#FEFFFE) */
-  --card: #FEFFFE;
-  --card-foreground: #222222;
+  --card: #FFFFFF;
+  --card-foreground: #1D1D1F;
 
-  --popover: #FEFFFE;
-  --popover-foreground: #222222;
+  --popover: #FFFFFF;
+  --popover-foreground: #1D1D1F;
 
-  /* Brand Action: Apple Blue (#4DAFFF) */
-  --primary: #4DAFFF;
+  --primary: #007AFF; /* Apple Blue */
   --primary-foreground: #FFFFFF;
 
-  --secondary: #F7F8F9;
-  /* Surface Subtle */
-  --secondary-foreground: #222222;
+  --secondary: #F5F5F7;
+  --secondary-foreground: #1D1D1F;
 
-  --muted: #F0F2F4;
-  /* Surface Hover */
-  --muted-foreground: #999999;
+  --muted: #F5F5F7;
+  --muted-foreground: #86868B;
 
-  --accent: #F0F2F4;
-  --accent-foreground: #222222;
+  --accent: #F5F5F7;
+  --accent-foreground: #1D1D1F;
 
-  --destructive: #FF3F40;
+  --destructive: #FF3B30;
   --destructive-foreground: #FFFFFF;
 
-  --border: #F5F5F5;
-  /* Lightest border */
-  --input: #F0F2F4;
-  --ring: #E5E7EB;
+  --border: #E5E5EA;
+  --input: #E5E5EA;
+  --ring: #007AFF;
 
-  /* Radii - Porcelain System (Squircle) */
-  --radius: 2.25rem;
-  /* 36px */
-  --radius-xl: 1rem;
-  /* 16px */
-  --radius-2xl: 1.5rem;
-  /* 24px */
-  --radius-3xl: 2.25rem;
-  /* 36px */
+  --radius: 1.5rem; /* 24px default */
 
-  --sidebar: #FEFFFE;
-  --sidebar-foreground: #222222;
-  --sidebar-primary: #4DAFFF;
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1D1D1F;
+  --sidebar-primary: #007AFF;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #F7F8F9;
-  --sidebar-accent-foreground: #222222;
-  --sidebar-border: #F5F5F5;
-  --sidebar-ring: #4DAFFF;
+  --sidebar-accent: #F5F5F7;
+  --sidebar-accent-foreground: #1D1D1F;
+  --sidebar-border: #E5E5EA;
+  --sidebar-ring: #007AFF;
+
+  /* Apple Specific Vars */
+  --apple-gray: #FBFBFD;
+  --apple-gray-dark: #1D1D1F;
+  --apple-blue: #007AFF;
+  --apple-border-radius: 9999px;
+  --apple-squircle-radius: 32px;
+  --apple-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  --apple-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .dark {
-  /* Dark Mode - iOS/Linear Night Style */
   --background: #000000;
   --foreground: #F5F5F7;
 
@@ -187,7 +144,6 @@
   --popover-foreground: #F5F5F7;
 
   --primary: #0A84FF;
-  /* Apple Blue Dark Mode */
   --primary-foreground: #FFFFFF;
 
   --secondary: #2C2C2E;
@@ -219,10 +175,66 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground leading-relaxed font-normal;
+    letter-spacing: -0.003em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+}
+
+@layer components {
+  /* Apple-style Components */
+  .squircle {
+    border-radius: var(--apple-squircle-radius);
+    overflow: hidden;
+  }
+
+  .squircle-card {
+    @apply bg-card shadow-sm transition-all duration-200 ease-out;
+    border-radius: 2rem;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    box-shadow: var(--apple-shadow);
+  }
+
+  .squircle-card:hover {
+    box-shadow: var(--apple-shadow-hover);
+    transform: translateY(-2px) scale(1.005);
+  }
+
+  .apple-card {
+    @apply bg-card border border-border/50 transition-all duration-200 ease-out;
+    border-radius: var(--apple-squircle-radius);
+    box-shadow: var(--apple-shadow);
+  }
+
+  .apple-card:hover {
+    box-shadow: var(--apple-shadow-hover);
+    @apply scale-[1.005] -translate-y-0.5;
+  }
+
+  .apple-button {
+    @apply bg-primary text-primary-foreground hover:brightness-110 active:scale-95 transition-all rounded-full font-medium shadow-none px-6 py-3;
+  }
+
+  /* Navigation */
+  .apple-nav {
+    @apply bg-background/80 backdrop-blur-2xl border-b border-border/50 sticky top-0 z-50;
+  }
+
+  /* Form Elements */
+  .apple-input {
+    @apply w-full px-4 py-4 text-lg bg-secondary border border-transparent rounded-2xl transition-all duration-200;
+    @apply focus:outline-none focus:bg-background focus:ring-2 focus:ring-primary focus:border-transparent;
   }
 }
 
@@ -231,50 +243,6 @@
   @apply bg-white/70 backdrop-blur-xl border border-white/40;
 }
 
-/* 
-  PLAN THEMES 
-  These classes override the :root variables to apply plan-specific designs.
-  They should be applied to the body or a top-level wrapper.
-*/
-
-/* SILVER PLAN - Sleek, Metallic, Professional */
-.theme-silver {
-  --background: #F8F9FA;
-  /* Cool Gray surface */
-  --primary: #64748B;
-  /* Slate 500 - Metallic Blue-Grey */
-  --primary-foreground: #FFFFFF;
-
-  --secondary: #E2E8F0;
-  /* Slate 200 */
-  --secondary-foreground: #1E293B;
-
-  --sidebar-primary: #64748B;
-  --sidebar-ring: #64748B;
-
-  --border: #E2E8F0;
-  --ring: #CBD5E1;
-}
-
-/* GOLD PLAN - Warm, Premium, Exclusive */
-.theme-gold {
-  --background: #FFFCF5;
-  /* Very subtle warm white */
-  --primary: #D4AF37;
-  /* Classic Gold */
-  --primary-foreground: #FFFFFF;
-
-  --secondary: #FEF9E7;
-  /* Pale Gold Surface */
-  --secondary-foreground: #3E2F05;
-
-  --sidebar-primary: #D4AF37;
-  --sidebar-ring: #D4AF37;
-
-  --border: #F3E5AB;
-  /* Vanilla / Pale Gold Border */
-  --ring: #D4AF37;
-
-  --muted: #F9F3E0;
-  --muted-foreground: #8C7D50;
+@utility text-glow {
+  text-shadow: 0 0 20px rgba(var(--primary), 0.3);
 }

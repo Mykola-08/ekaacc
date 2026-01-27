@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useConsent, ConsentPreferences } from '@/hooks/platform/useConsent';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { X, Shield, Cookie, Info } from 'lucide-react';
 import Link from 'next/link';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { getDataService } from '@/lib/platform/services/data-service';
 import type { User, Session } from '@/lib/platform/types/types';
 import { useToast } from '@/hooks/platform/ui/use-toast';

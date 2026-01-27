@@ -10,7 +10,7 @@ import {
 import { Dialog, Transition, TransitionChild, Menu as HeadlessMenu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 
 function cn(...inputs: (string | undefined | null | false)[]) {
   return twMerge(clsx(inputs));

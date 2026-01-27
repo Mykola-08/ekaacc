@@ -6,14 +6,14 @@ import { Button } from '@ekaacc/shared-ui';
 import { motion } from 'framer-motion';
 import { ArrowRight, Star, Globe, Users, Clock } from 'lucide-react';
 
-import AppleHero from '@/app/components/AppleHero';
-import CasosSection from '@/app/components/CasosSection';
-import TestimonialSlider from '@/react-app/components/TestimonialSlider';
-import FAQ from '@/react-app/components/FAQ';
+import AppleHero from '@/components/AppleHero';
+import CasosSection from '@/components/CasosSection';
+import TestimonialSlider from '@/components/TestimonialSlider';
+import FAQ from '@/components/FAQ';
 
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { SERVICES_DATA } from '@/shared/constants';
-import ServiceCard from '@/app/components/ServiceCard';
+import ServiceCard from '@/components/ServiceCard';
 import { servicesService } from '@/lib/platform/services/services-service';
 import { useState, useEffect } from 'react';
 import { ServiceItem } from '@/shared/types';

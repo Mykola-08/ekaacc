@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowRight, Heart, Brain, Zap, Moon, Activity, Stethoscope, Shield, Search } from 'lucide-react';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@ekaacc/shared-ui';
 import { BOOKING_APP_URL } from '@/lib/config';
 

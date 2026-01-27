@@ -29,19 +29,19 @@
     "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./*"
+        "./src/*"
       ],
       "@ui/*": [
-        "./components/ui/*"
+        "./src/components/ui/*"
       ],
       "@server/*": [
-        "./server/*"
+        "./src/server/*"
       ],
       "@lib/*": [
-        "./lib/*"
+        "./src/lib/*"
       ],
       "@types/*": [
-        "./types/*"
+        "./src/types/*"
       ]
     }
   },

@@ -1,9 +1,9 @@
 'use client';
 
-import SEOHead from '@/react-app/components/SEOHead';
+import SEOHead from '@/components/SEOHead';
 import { Clock, Heart, ArrowRight, Star, CheckCircle2 } from 'lucide-react';
-import { useBooking } from '@/react-app/hooks/useBooking';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useBooking } from '@/hooks/useBooking';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { motion } from 'framer-motion';
 

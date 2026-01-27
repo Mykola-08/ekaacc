@@ -10,7 +10,7 @@ import { RoleManagementPanel } from '@/components/platform/admin/role-management
 import { ProductManagementPanel } from '@/components/platform/admin/product-management-panel';
 import { AdminBookingTable } from '@/components/platform/admin/AdminBookingTable';
 import { UnifiedRoleGuard } from '@/components/platform/auth/unified-role-guard';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
   Shield, 

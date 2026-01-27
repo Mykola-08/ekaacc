@@ -13,7 +13,7 @@ import { Textarea } from '@/components/platform/ui/textarea';
 import { Checkbox } from '@/components/platform/ui/checkbox';
 import { Label } from '@/components/platform/ui/label';
 import { RoleBadge } from '@/components/platform/role-guard';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 

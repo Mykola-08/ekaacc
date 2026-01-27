@@ -13,7 +13,7 @@ import { Textarea } from '@/components/platform/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
 import { Switch } from '@/components/platform/ui/switch';
 import { Label } from '@/components/platform/ui/label';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 

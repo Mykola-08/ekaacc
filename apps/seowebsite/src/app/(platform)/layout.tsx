@@ -5,7 +5,7 @@ import { Toaster } from '@/components/platform/ui/sonner';
 import { cn } from '@/lib/platform/utils/css-utils';
 import { ThemeProvider } from '@/components/platform/providers/theme-provider';
 import { TooltipProvider } from '@/components/platform/ui/tooltip';
-import { ProgressProvider } from '@/context/platform/progress-context';
+import { ProgressProvider } from '@/contexts/platform/progress-context';
 import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-wrapper';
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";

@@ -1,11 +1,11 @@
 'use client';
 
-import SEOHead from '@/react-app/components/SEOHead';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Clock, CheckCircle } from 'lucide-react';
-import { useBooking } from '@/react-app/hooks/useBooking';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useBooking } from '@/hooks/useBooking';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function ParentsPersonalized() {
  const { navigateToBooking } = useBooking();

@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/platform/ui/card';
 import { Badge } from '@/components/platform/ui/badge';
 import { cn } from '@/lib/platform/utils/css-utils';
 import { useActiveSubscriptions } from '@/hooks/platform/use-active-subscriptions';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { getThemeService } from '@/lib/platform/services/theme-service';
 import type { IThemeService } from '@/lib/platform/services/theme-service';
 import type { Theme } from '@/lib/platform/types/subscription-types';

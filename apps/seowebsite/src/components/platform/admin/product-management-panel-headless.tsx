@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, Fragment } from 'react';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { 
   Plus, 

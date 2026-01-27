@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { academyService } from '@/lib/platform/services/academy-service';
 import { Course } from '@/lib/platform/types/academy';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { PlusCircle, Edit, BookOpen } from 'lucide-react';

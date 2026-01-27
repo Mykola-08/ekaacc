@@ -1,5 +1,5 @@
 
-import MainLayout from "@/app/components/MainLayout";
+import MainLayout from "@/components/MainLayout";
 
 export default function MarketingLayout({
     children,

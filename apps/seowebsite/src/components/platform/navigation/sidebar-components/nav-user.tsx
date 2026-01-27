@@ -29,7 +29,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/platform/ui/sidebar"
-import { useAuth } from "@/context/platform/auth-context"
+import { useAuth } from "@/contexts/platform/auth-context"
 import { useRouter } from "next/navigation"
 
 export function NavUser() {

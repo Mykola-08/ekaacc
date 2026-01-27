@@ -10,8 +10,8 @@ import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-import { useAuth } from '@/context/platform/auth-context';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useAuth } from '@/contexts/platform/auth-context';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface UserDashboardProps {
     upcomingSession?: {

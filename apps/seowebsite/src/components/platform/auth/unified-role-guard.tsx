@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactNode, useMemo } from 'react';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 import { SystemRole, PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/platform/ui/alert';
 import { Button } from '@/components/platform/ui/button';

@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '@/context/platform/auth-context';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useAuth } from '@/contexts/platform/auth-context';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
 import { Badge } from '@/components/platform/ui/badge';

@@ -1,10 +1,10 @@
 'use client';
 
-import SEOHead from '@/react-app/components/SEOHead';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
 import { Zap, Clock, CheckCircle, ArrowRight } from 'lucide-react';
-import { useBooking } from '@/react-app/hooks/useBooking';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useBooking } from '@/hooks/useBooking';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function AthletesPersonalized() {
  const { navigateToBooking } = useBooking();

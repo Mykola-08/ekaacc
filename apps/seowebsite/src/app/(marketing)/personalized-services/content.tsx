@@ -1,13 +1,13 @@
 'use client';
 
-import SEOHead from '@/react-app/components/SEOHead';
+import SEOHead from '@/components/SEOHead';
 import Link from 'next/link';
 import { Button } from '@ekaacc/shared-ui';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-import PersonalizedServiceCard from '@/app/components/PersonalizedServiceCard';
+import PersonalizedServiceCard from '@/components/PersonalizedServiceCard';
 import { BOOKING_APP_URL } from '@/lib/config';
 
 interface ContentProps {

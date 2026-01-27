@@ -1,12 +1,12 @@
 
 import type { Metadata, Viewport } from "next";
-import "@/react-app/index.css";
+import "./globals.css";
 import { Inter } from "next/font/google";
-import { LanguageProvider } from '@/react-app/contexts/LanguageContext';
-import { DiscountProvider } from "@/react-app/contexts/DiscountContext";
-import { BookingProvider } from '@/react-app/components/BookingProvider';
-import { AuthProvider } from "@/context/platform/auth-context";
-import SmoothScrolling from "@/app/components/SmoothScrolling";
+import { LanguageProvider } from '@/contexts/LanguageContext';
+import { DiscountProvider } from "@/contexts/DiscountContext";
+import { BookingProvider } from '@/components/BookingProvider';
+import { AuthProvider } from "@/contexts/platform/auth-context";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 const inter = Inter({ subsets: ["latin"] });
 

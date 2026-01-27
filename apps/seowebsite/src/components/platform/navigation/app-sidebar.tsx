@@ -29,9 +29,9 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/platform/ui/sidebar"
-import { useAuth } from "@/context/platform/auth-context"
+import { useAuth } from "@/contexts/platform/auth-context"
 import { usePathname } from "next/navigation"
-import { useLanguage } from "@/react-app/contexts/LanguageContext"
+import { useLanguage } from "@/contexts/LanguageContext"
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user, isLoading } = useAuth()

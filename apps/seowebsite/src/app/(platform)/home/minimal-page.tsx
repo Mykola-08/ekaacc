@@ -4,7 +4,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/platform/ui/button'
 import { Card } from '@/components/platform/ui/card'
-import { useAuth } from '@/context/platform/auth-context'
+import { useAuth } from '@/contexts/platform/auth-context'
 import { ArrowRight } from 'lucide-react'
 
 export default function MinimalHomePage() {

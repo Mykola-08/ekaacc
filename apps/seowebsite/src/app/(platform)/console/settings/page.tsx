@@ -1,7 +1,7 @@
 'use client';
 
 import { SettingsContentHeadless } from '@/components/platform/settings/settings-content-headless';
-import { useAuth } from '@/context/platform/auth-context';
+import { useAuth } from '@/contexts/platform/auth-context';
 
 export default function AdminSettingsPage() {
     const { user, loading } = useAuth();

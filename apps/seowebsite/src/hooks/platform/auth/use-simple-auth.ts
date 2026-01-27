@@ -1,4 +1,4 @@
-import { useAuth } from '@/context/platform/auth-context'
+import { useAuth } from '@/contexts/platform/auth-context'
 
 /**
  * Simple auth hook that provides essential auth functionality

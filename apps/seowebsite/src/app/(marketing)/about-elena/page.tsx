@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { Button } from '@ekaacc/shared-ui';
-import { useLanguage } from '@/react-app/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Heart, Star } from 'lucide-react';
 
 import { BOOKING_APP_URL } from '@/lib/config';

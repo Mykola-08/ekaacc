@@ -7,7 +7,6 @@ import { CookieConsent } from '@/components/cookie-consent';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import { MainLayout } from '@/components/layout/main-layout';
-import { DebugStatus } from '@ekaacc/shared-ui';
 import { cn } from '@/lib/utils';
 import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';

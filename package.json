@@ -25,6 +25,7 @@
     "prepare": "husky || echo 'Husky not installed'"
   },
   "devDependencies": {
+    "@types/node": "^25.0.9",
     "@types/pg": "^8.16.0",
     "turbo": "^2.7.5",
     "typescript": "^5.9.3",
@@ -47,22 +48,8 @@
   },
   "packageManager": "npm@11.7.0",
   "dependencies": {
-    "@headlessui/react": "^2.2.9",
-    "@heroicons/react": "^2.2.0",
-    "@radix-ui/react-dropdown-menu": "^2.1.16",
-    "@stripe/react-stripe-js": "^5.4.1",
-    "@stripe/stripe-js": "^8.6.1",
-    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.90.1",
-    "@tanstack/react-table": "^8.21.3",
-    "@types/node": "^25.0.9",
-    "@vercel/blob": "^2.0.0",
-    "clsx": "^2.1.1",
-    "framer-motion": "^12.27.0",
     "pg": "^8.17.1",
-    "stripe": "^20.2.0",
-    "tailwind-merge": "^3.4.0",
-    "telegraf": "^4.16.3",
-    "zod": "^4.3.5"
+    "stripe": "^20.2.0"
   }
 }

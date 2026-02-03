@@ -6,8 +6,8 @@ A comprehensive Next.js application for mental health and wellness management wi
 
 This project is a monorepo managed with **TurboRepo**, consisting of two main applications:
 
-1.  **Marketing Site** (`apps/marketing-app`): The public-facing landing page.
-2.  **Web Application** (`apps/web`): The main SaaS platform (Dashboard, Auth, etc.).
+1.  **Booking App** (`apps/booking-app`): The therapist booking and care management app.
+2.  **SEO Website** (`apps/seowebsite`): The public-facing marketing and content site.
 
 ## Table of Contents
 
@@ -122,11 +122,11 @@ This installs all dependencies for the monorepo workspaces.
 ### 3. Configure environment variables
 
 ```bash
-cd apps/web
+cd apps/seowebsite
 cp .env.example .env.local
 ```
 
-Edit `apps/web/.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
+Edit `apps/seowebsite/.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
 
 ### 4. Set up the database
 
@@ -149,9 +149,8 @@ npm run dev
 ```
 
 This will start all applications in parallel:
-- **Web App**: [http://localhost:9002](http://localhost:9002)
+- **SEO Website**: [http://localhost:9002](http://localhost:9002)
 - **Booking App**: [http://localhost:9004](http://localhost:9004)
-- **Legal App**: [http://localhost:9006](http://localhost:9006)
 
 ## Project Structure
 
@@ -160,44 +159,20 @@ This is a Turborepo monorepo with the following structure:
 ```
 ekaacc/
 ├── apps/
-│   ├── booking/                 # Booking microfrontend (Next.js)
-│   ├── marketing/               # Public landing page (Next.js)
-│   │   ├── src/
-│   │   │   ├── app/             # Landing page routes
-│   │   │   └── components/      # Marketing UI components
-│   └── web/                     # Main Next.js application
-│       ├── src/
-│       │   ├── app/            # Next.js App Router pages
-│       │   │   ├── (app)/      # Protected routes (home, sessions, journal, etc.)
-│       │   │   ├── admin/      # Admin panel
-│       │   │   ├── api/        # API routes
-│       │   │   └── auth/       # Authentication pages
-│       │   ├── components/     # React components
-│       │   │   ├── ui/         # shadcn/ui base components
-│       │   │   └── eka/        # Custom feature components
-│       │   ├── lib/            # Utilities and helpers
-│       │   ├── services/       # Business logic layer
-│       │   ├── ai/             # AI integration services
-│       │   ├── hooks/          # Custom React hooks
-│       │   ├── context/        # React context providers
-│       │   └── types/          # TypeScript definitions
-│       ├── public/             # Static assets
-│       └── e2e/                # Playwright tests
+│   ├── booking-app/             # Booking application (Next.js)
+│   │   ├── app/                 # Next.js App Router pages
+│   │   ├── components/          # React components
+│   │   ├── lib/                 # Utilities and helpers
+│   │   └── public/              # Static assets
+│   └── seowebsite/              # Marketing & SEO site (Next.js)
+│       ├── app/                 # Marketing routes
+│       ├── components/          # Marketing UI components
+│       ├── lib/                 # Utilities and helpers
+│       └── public/              # Static assets
 ├── packages/
-│   └── shared/                  # Shared utilities (if needed)
-├── supabase/
-│   ├── migrations/             # Database migration files
-│   ├── functions/              # Edge functions
-│   └── templates/              # Email templates
+│   └── shared-ui/               # Shared UI primitives and styles
+├── supabase/                    # Database migrations & edge functions
 ├── scripts/                     # Utility scripts
-├── wiki/                        # Documentation
-└── load-tests/                  # k6 load testing
-│   └── types/                   # TypeScript type definitions
-├── supabase/
-│   └── migrations/              # Database migration files
-├── public/                      # Static assets
-├── e2e/                         # End-to-end tests (Playwright)
-├── __tests__/                   # Unit tests (Jest)
 └── docs/                        # Additional documentation
 ```
 

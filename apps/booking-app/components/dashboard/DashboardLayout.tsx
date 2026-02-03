@@ -1,47 +1,25 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Calendar, Shield, LayoutDashboard, Settings, LogOut, Wallet, User } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
+import { dashboardNavItems } from '@/lib/dashboard/navigation';
+import { motion } from 'framer-motion';
 
-export function DashboardLayout({ children, profile }: { children: React.ReactNode, profile?: any }) {
+export function DashboardLayout({ children, profile }: { children: React.ReactNode, profile?: { first_name?: string; last_name?: string } }) {
     const pathname = usePathname();
-    const { t } = useLanguage();
-
-    const navItems = [
-        { label: 'Dashboard', href: '/', icon: LayoutDashboard },
-        { label: 'Wallet', href: '/wallet', icon: Wallet },
-        { label: 'Bookings', href: '/bookings', icon: Calendar },
-        { label: 'Profile', href: '/profile', icon: User },
-        { label: 'Settings', href: '/settings', icon: Settings },
-    ];
-
-    // Specialized 'Row' Button style from spec
-    const NavButton = ({ item, isActive }: { item: any, isActive: boolean }) => (
-        <Link href={item.href} className="w-full">
-            <button
-                className={cn(
-                    "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-semibold transition-all duration-200",
-                    "active:scale-95", // Squishy interaction
-                    isActive
-                        ? "bg-secondary text-secondary-foreground shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
-                        : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground"
-                )}
-            >
-                <item.icon className={cn("w-5 h-5", isActive ? "text-foreground" : "text-muted-foreground")} strokeWidth={2.75} />
-                <span>{item.label}</span>
-            </button>
-        </Link>
-    );
+    const isActive = (href: string) => (href === '/' ? pathname === '/' : pathname?.startsWith(href));
 
     return (
         <div className="min-h-screen bg-background p-4 flex gap-4 font-sans antialiased text-foreground">
             {/* Sidebar - Floating, glassy porcelain */}
-            <nav className="w-64 bg-card/60 backdrop-blur-xl rounded-[36px] p-6 flex flex-col justify-between hidden md:flex shadow-sm border border-border/60">
+            <motion.nav
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ type: 'spring', stiffness: 180, damping: 22 }}
+                className="w-64 bg-card/60 backdrop-blur-xl rounded-[36px] p-6 flex flex-col justify-between hidden md:flex shadow-sm border border-border/60"
+            >
                 <div className="space-y-8">
                     {/* Brand Header */}
                     <div className="pl-2">
@@ -53,18 +31,19 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                     </div>
 
                     <div className="space-y-1">
-                        {navItems.map((item) => (
-                            <Link href={item.href} key={item.href} className="w-full block">
+                        {dashboardNavItems.map((item) => (
+                            <Link href={item.href} key={item.href} className="w-full block" aria-current={isActive(item.href) ? 'page' : undefined}>
                                 <button
+                                    type="button"
                                     className={cn(
                                         "flex w-full items-center gap-3 rounded-[18px] px-4 py-3.5 text-[15px] font-semibold transition-all duration-200",
-                                        "active:scale-95", // Squishy interaction
-                                        pathname === item.href
+                                        "active:scale-95",
+                                        isActive(item.href)
                                             ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                                             : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                                     )}
                                 >
-                                    <item.icon className={cn("w-5 h-5", pathname === item.href ? "text-primary-foreground" : "text-muted-foreground")} strokeWidth={2.25} />
+                                    <item.icon className={cn("w-5 h-5", isActive(item.href) ? "text-primary-foreground" : "text-muted-foreground")} strokeWidth={2.25} />
                                     <span>{item.label}</span>
                                 </button>
                             </Link>
@@ -90,41 +69,47 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                     </div>
 
                     {/* Tiny Sign Out */}
-                    <button className="w-full text-xs font-medium text-muted-foreground hover:text-destructive transition-colors text-center pb-1">
+                    <button type="button" className="w-full text-xs font-medium text-muted-foreground hover:text-destructive transition-colors text-center pb-1">
                         Sign Out
                     </button>
                 </div>
-            </nav>
+            </motion.nav>
 
             {/* Main Content Area - Porcelain surface with subtle glass feel */}
-            <main className="flex-1 overflow-hidden relative flex flex-col gap-4 mb-20 md:mb-0">
+            <motion.main
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 160, damping: 24 }}
+                className="flex-1 overflow-hidden relative flex flex-col gap-4 mb-20 md:mb-0"
+            >
                 {/* Optional: We could put a top bar here if we wanted it global, but the screenshot has it per page. 
                      However, the layout wrapper itself renders specific children. 
                      We keep the main container standard. */}
                 <div className="flex-1 bg-card/80 backdrop-blur-md rounded-[36px] border border-border/60 shadow-sm overflow-y-auto scrollbar-thin p-8 md:p-10">
                     {children}
                 </div>
-            </main>
+            </motion.main>
 
             {/* Mobile Bottom Navigation */}
             <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-t border-border/60 p-4 md:hidden pb-safe">
                 <div className="flex justify-around items-center">
-                    {navItems.map((item) => (
+                    {dashboardNavItems.map((item) => (
                         <Link href={item.href} key={item.href} className="flex-1">
                             <button
+                                type="button"
                                 className={cn(
                                     "flex flex-col items-center justify-center w-full gap-1 p-2 rounded-xl transition-all duration-200",
                                     "active:scale-95",
-                                    pathname === item.href
+                                    isActive(item.href)
                                         ? "text-primary font-bold"
                                         : "text-muted-foreground/60 hover:text-foreground"
                                 )}
                             >
                                 <item.icon
-                                    className={cn("w-6 h-6", pathname === item.href && "fill-primary/10")}
-                                    strokeWidth={pathname === item.href ? 2.5 : 2}
+                                    className={cn("w-6 h-6", isActive(item.href) && "fill-primary/10")}
+                                    strokeWidth={isActive(item.href) ? 2.5 : 2}
                                 />
-                                <span className={cn("text-[10px] tracking-wide", pathname === item.href && "font-bold")}>{item.label}</span>
+                                <span className={cn("text-[10px] tracking-wide", isActive(item.href) && "font-bold")}>{item.label}</span>
                             </button>
                         </Link>
                     ))}

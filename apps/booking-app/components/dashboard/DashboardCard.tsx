@@ -1,9 +1,7 @@
 'use client';
 
-import React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { ArrowUpRight } from 'lucide-react';
 
 export interface DashboardCardProps {
     title?: string;
@@ -50,7 +48,7 @@ export function DashboardCard({
                 </header>
 
                 <div className="space-y-1">
-                    {value && (
+                    {value !== undefined && value !== null && (
                         <div className="text-[40px] font-semibold text-foreground tracking-tight leading-none">
                             {value}
                         </div>

@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export function NotificationDropdown() {
   const [userId, setUserId] = useState<string | undefined>(undefined);
@@ -37,7 +38,11 @@ export function NotificationDropdown() {
         <Button variant="outline" size="icon" className="rounded-full relative border-black/10 hover:bg-black/5 shadow-sm">
           <Bell className="h-4 w-4 opacity-70" />
           {unreadCount > 0 && (
-             <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white animate-pulse"></span>
+             <motion.span
+               layoutId="notification-indicator"
+               className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white"
+               transition={{ type: "spring", stiffness: 260, damping: 20 }}
+             />
           )}
         </Button>
       </DropdownMenuTrigger>

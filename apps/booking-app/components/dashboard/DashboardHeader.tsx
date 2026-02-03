@@ -1,23 +1,28 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { Sun, Bell, Search, Filter } from "lucide-react";
+import { Sun, Bell } from "lucide-react";
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 interface DashboardHeaderProps {
     title: string;
     subtitle?: string;
     children?: React.ReactNode;
     showDate?: boolean;
+    notificationCount?: number;
     className?: string;
 }
 
-export function DashboardHeader({ title, subtitle, children, showDate = true, className }: DashboardHeaderProps) {
+export function DashboardHeader({ title, subtitle, children, showDate = true, notificationCount = 0, className }: DashboardHeaderProps) {
     return (
-        <div className={cn("bg-card rounded-[24px] p-4 px-6 flex flex-col md:flex-row items-start md:items-center justify-between border border-border/40 shadow-sm gap-4", className)}>
+        <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 24 }}
+            className={cn("bg-card rounded-[24px] p-4 px-6 flex flex-col md:flex-row items-start md:items-center justify-between border border-border/40 shadow-sm gap-4", className)}
+        >
             <div className="space-y-0.5">
                 <h2 className="text-lg font-semibold text-foreground tracking-tight">
                     {title}
@@ -32,13 +37,19 @@ export function DashboardHeader({ title, subtitle, children, showDate = true, cl
 
                 {/* Default Actions */}
                 <div className="flex items-center gap-3 pl-2 border-l border-border/60">
-                    <button className="text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-secondary rounded-full" title="Toggle Theme">
+                    <button type="button" className="text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-secondary rounded-full" title="Toggle Theme" aria-label="Toggle theme">
                         <Sun className="w-5 h-5" strokeWidth={2.25} />
                     </button>
                     <Link href="/notifications" className="text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-secondary rounded-full relative" title="Notifications">
                         <Bell className="w-5 h-5" strokeWidth={2.25} />
-                        {/* Mock notification dot */}
-                        <span className="absolute top-1 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-card" />
+                        {notificationCount > 0 && (
+                            <motion.span
+                                layoutId="notification-indicator"
+                                className="absolute top-1 right-1.5 h-2 w-2 rounded-full bg-red-500 border-2 border-card"
+                                aria-hidden="true"
+                                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                            />
+                        )}
                     </Link>
                     {showDate && (
                         <>
@@ -50,6 +61,6 @@ export function DashboardHeader({ title, subtitle, children, showDate = true, cl
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }

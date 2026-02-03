@@ -95,6 +95,7 @@ export function AvailabilityManager() {
                                         return (
                                             <td key={`${day}-${hour}`} className="p-2 text-center">
                                                 <button
+                                                    type="button"
                                                     onClick={() => toggleSlot(day, hour)}
                                                     className={cn(
                                                         "w-full h-10 rounded-xl transition-all duration-200 flex items-center justify-center border-2",

@@ -66,14 +66,14 @@
   /* 20px */
   /* 36px - Outer Containers/Drawers */
 
-  /* Shadows - Disabled for Plain Design */
-  --shadow-xs: 0 0 0 0 transparent;
-  --shadow-sm: 0 0 0 0 transparent;
-  --shadow-md: 0 0 0 0 transparent;
-  --shadow-lg: 0 0 0 0 transparent;
-  --shadow-xl: 0 0 0 0 transparent;
-  --shadow-2xl: 0 0 0 0 transparent;
-  --shadow-inner: 0 0 0 0 transparent;
+  /* Shadows - Subtle Apple-style depth */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 40px rgba(0, 0, 0, 0.14);
+  --shadow-2xl: 0 24px 56px rgba(0, 0, 0, 0.18);
+  --shadow-inner: inset 0 1px 2px rgba(0, 0, 0, 0.04);
 
   --shadow-focus-ring-button: 0 0 0 2px #fff, 0 0 0 4px #E5E7EB;
 

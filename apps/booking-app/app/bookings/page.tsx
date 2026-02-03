@@ -5,8 +5,8 @@ import { BookingHistoryList } from '@/components/booking/BookingHistoryList';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Plus } from 'lucide-react';
 import Link from 'next/link';
-import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
-import { DashboardHeader } from '@/components/dashboard/DashboardHeader';
+import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
+import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 
 export default async function BookingsPage() {
   const supabase = await createClient();

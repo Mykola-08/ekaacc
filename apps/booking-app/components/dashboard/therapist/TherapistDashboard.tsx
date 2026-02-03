@@ -1,7 +1,7 @@
 'use client';
 
-import { DashboardLayout } from '../DashboardLayout';
-import { DashboardHeader } from '../DashboardHeader';
+import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
+import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Card } from '@/components/ui/card';

@@ -1,5 +1,7 @@
 @import "@ekaacc/shared-ui/styles/globals.css";
+@import "./animations.css";
 @source "../../packages/shared-ui";
+
 
 /* Local overrides should align with Porcelain & Flow system */
 @layer base {

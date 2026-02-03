@@ -1,6 +1,6 @@
 import { getTherapistDailySchedule } from '@/server/dashboard/service';
 import { createClient } from '@/lib/supabase/server';
-import { TherapistDashboard } from '@/components/dashboard/TherapistDashboard';
+import { TherapistDashboard as TherapistScheduleView } from '@/components/dashboard/TherapistScheduleView';
 import { redirect } from 'next/navigation';
 
 export default async function AdminDashboardPage() {
@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
 
  return (
   <div className="space-y-6">
-    <TherapistDashboard schedule={todaySchedule} />
+    <TherapistScheduleView schedule={todaySchedule} />
   </div>
  );
 }

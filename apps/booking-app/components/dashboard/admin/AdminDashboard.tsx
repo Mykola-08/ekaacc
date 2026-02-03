@@ -1,7 +1,7 @@
 'use client';
 
-import { DashboardLayout } from '../DashboardLayout';
-import { DashboardHeader } from '../DashboardHeader';
+import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
+import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { Users, Activity, TrendingUp } from "lucide-react";
 import { StatsCard } from '../widgets/StatsCard';
 

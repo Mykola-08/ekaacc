@@ -4,10 +4,9 @@ import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, Plus, ArrowUpRight, Wallet } from "lucide-react";
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { DashboardLayout } from '../DashboardLayout';
-import { DashboardHeader } from '../DashboardHeader';
+import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
+import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { WelcomeBanner } from '../widgets/WelcomeBanner';
 import { StatsCard } from '../widgets/StatsCard';
 import { RecentActivity } from '../widgets/RecentActivity';
@@ -21,11 +20,8 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
 
     return (
         <DashboardLayout profile={profile}>
-            <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="space-y-8"
+            <div
+                className="space-y-6 animate-enter-fast"
             >
                 <DashboardHeader title="My Wellness" showDate={false} />
 
@@ -69,11 +65,8 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                     </Link>
 
                     {/* Next Session */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="bg-card p-6 rounded-[28px] border border-border shadow-sm hover:shadow-md transition-shadow"
+                    <div
+                        className="bg-card p-6 rounded-[28px] border border-border shadow-sm hover:shadow-md transition-shadow animate-slide-in-right"
                     >
                         <div className="flex items-center justify-between mb-2">
                             <span className="text-sm font-semibold text-muted-foreground uppercase">Next Session</span>
@@ -90,7 +83,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                         ) : (
                             <div className="mt-4 text-muted-foreground font-medium">No upcoming sessions.</div>
                         )}
-                    </motion.div>
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -107,7 +100,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                         <h3 className="font-bold mb-4">Identity Status</h3>
                         {/* Placeholder for Identity status check passed as prop, using generic 'pending' for example if unknown */}
                         <IdentityVerificationForm currentStatus={profile?.identity_status || 'none'} />
-                    </motion.div>
+                    </div>
                 </div>
 
                 {/* Marketplace Teaser if no plan */}
@@ -120,7 +113,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
 
                 <h3 className="text-xl font-semibold px-1">Recent Activity</h3>
                 <RecentActivity />
-            </motion.div>
+            </div>
         </DashboardLayout>
     );
 }

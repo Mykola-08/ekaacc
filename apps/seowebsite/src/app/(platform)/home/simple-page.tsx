@@ -1,6 +1,6 @@
 'use client'
 
-import { EnhancedDashboard } from '@/components/platform/dashboard/enhanced-dashboard'
+import { BentoDashboard } from '@/components/platform/dashboard/bento-dashboard'
 import { PageContainer } from '@/components/platform/eka/page-container'
 import { PageHeader } from '@/components/platform/eka/page-header'
 
@@ -13,7 +13,7 @@ export default function SimplePatientDashboard() {
     badge="Overview"
    />
    
-   <EnhancedDashboard />
+   <BentoDashboard user={{ name: "Guest", email: "guest@example.com" }} />
   </PageContainer>
  )
 }

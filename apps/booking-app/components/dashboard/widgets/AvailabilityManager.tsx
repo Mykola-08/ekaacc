@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check, X, Clock, Calendar as CalendarIcon, Save } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { DashboardHeader } from '../DashboardHeader';
+import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { toast } from "sonner";
 import { StatsCard } from './StatsCard';
 

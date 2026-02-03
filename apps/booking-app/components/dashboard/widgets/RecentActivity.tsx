@@ -2,7 +2,7 @@
 
 import { Activity } from 'lucide-react';
 import Link from 'next/link';
-import { DashboardCard } from '../DashboardCard';
+import { DashboardCard } from '@/components/dashboard/shared/DashboardCard';
 
 export function RecentActivity() {
     return (

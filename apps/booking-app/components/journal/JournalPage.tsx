@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { BookOpen, Plus, Calendar, Smile, Frown, Meh } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DashboardLayout } from "../dashboard/DashboardLayout";
+import { DashboardLayout } from "../dashboard/layout/DashboardLayout";
 import { DashboardHeader } from "../dashboard/DashboardHeader";
 import { DashboardCard } from "../dashboard/DashboardCard";
 

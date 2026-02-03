@@ -1,1 +1,0 @@
-export const EnhancedDashboard = (_props: any) => <div>Dashboard</div>;

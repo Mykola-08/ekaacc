@@ -3,8 +3,8 @@
 import React from 'react';
 import { useAuth } from '@/context/platform/auth-context';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { UserDashboardHeadless as UserDashboard } from './user-dashboard-headless';
-import { TherapistDashboardHeadless as TherapistDashboard } from './therapist-dashboard-headless';
+import { UserDashboard } from './UserDashboard';
+import { TherapistDashboard } from './TherapistDashboard';
 
 export default function Dashboard({ upcomingSession, walletBalance }: { upcomingSession?: any, walletBalance?: number }) {
   const { user, isLoading } = useAuth();

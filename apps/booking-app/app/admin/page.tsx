@@ -1,6 +1,6 @@
 import { getTherapistDailySchedule } from '@/server/dashboard/service';
 import { createClient } from '@/lib/supabase/server';
-import { TherapistDashboard as TherapistScheduleView } from '@/components/dashboard/TherapistScheduleView';
+import { TherapistScheduleView } from '@/components/dashboard/therapist/TherapistScheduleView';
 import { redirect } from 'next/navigation';
 
 export default async function AdminDashboardPage() {

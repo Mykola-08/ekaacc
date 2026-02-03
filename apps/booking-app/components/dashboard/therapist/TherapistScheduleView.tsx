@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
-import { StatsCard } from './widgets/StatsCard';
-import { ScheduleTable } from './widgets/ScheduleTable';
+import { StatsCard } from '../widgets/StatsCard';
+import { ScheduleTable } from '../widgets/ScheduleTable';
 
 export function TherapistScheduleView({ schedule }: { schedule: any[] }) {
     const { t } = useLanguage();

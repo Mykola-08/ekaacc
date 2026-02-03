@@ -4,20 +4,28 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { Calendar, Shield, LayoutDashboard, Settings, LogOut, Wallet, User } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
+import { createClient } from '@/lib/supabase/client';
 
 export function DashboardLayout({ children, profile }: { children: React.ReactNode, profile?: any }) {
     const pathname = usePathname();
+    const router = useRouter();
     const { t } = useLanguage();
+    const supabase = createClient();
+
+    const handleSignOut = async () => {
+        await supabase.auth.signOut();
+        router.push('/login');
+    };
 
     const navItems = [
-        { label: 'Dashboard', href: '/', icon: LayoutDashboard },
-        { label: 'Wallet', href: '/wallet', icon: Wallet },
-        { label: 'Bookings', href: '/bookings', icon: Calendar },
-        { label: 'Profile', href: '/profile', icon: User },
-        { label: 'Settings', href: '/settings', icon: Settings },
+        { label: t('nav.dashboard') || 'Dashboard', href: '/', icon: LayoutDashboard },
+        { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: Wallet },
+        { label: t('nav.book') || 'Bookings', href: '/bookings', icon: Calendar },
+        { label: t('nav.account') || 'Profile', href: '/profile', icon: User },
+        { label: t('nav.settings') || 'Settings', href: '/settings', icon: Settings },
     ];
 
     // Specialized 'Row' Button style from spec
@@ -90,8 +98,11 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                     </div>
 
                     {/* Tiny Sign Out */}
-                    <button className="w-full text-xs font-medium text-muted-foreground hover:text-destructive transition-colors text-center pb-1">
-                        Sign Out
+                    <button 
+                        onClick={handleSignOut}
+                        className="w-full text-xs font-medium text-muted-foreground hover:text-destructive transition-colors text-center pb-1"
+                    >
+                        {t('nav.signout') || 'Sign Out'}
                     </button>
                 </div>
             </nav>

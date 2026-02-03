@@ -14,6 +14,7 @@ import { PlanUsageCard } from '@/components/plans/PlanUsageCard';
 import { PlanMarketplace } from '@/components/plans/PlanMarketplace';
 import { GoalTracker } from '@/components/dashboard/goals/GoalTracker';
 import { IdentityVerificationForm } from '@/components/identity/IdentityVerificationForm';
+import { motion } from 'framer-motion';
 
 export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsage, goals }: any) {
     const { t } = useLanguage();

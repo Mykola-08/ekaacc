@@ -11,6 +11,7 @@ import { Calendar, Clock, CheckCircle, MoreVertical, Star, Activity } from 'luci
 import { format } from 'date-fns';
 import { SessionLogModal } from './SessionLogModal';
 import { motion } from 'framer-motion';
+import { StatsCard } from '../widgets/StatsCard';
 
 export function TherapistDashboard({ profile, userId }: { profile: any, userId: string }) {
     const [bookings, setBookings] = useState<any[]>([]);
@@ -45,39 +46,24 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                 />
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <Card className="p-6 apple-card">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600">
-                                <Calendar className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-muted-foreground font-medium">Today's Sessions</p>
-                                <h3 className="text-2xl font-bold">{bookings.length}</h3>
-                            </div>
-                        </div>
-                    </Card>
-                    <Card className="p-6 apple-card">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-green-50 rounded-2xl flex items-center justify-center text-green-600">
-                                <Activity className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-muted-foreground font-medium">Avg. Improvement</p>
-                                <h3 className="text-2xl font-bold">+18%</h3>
-                            </div>
-                        </div>
-                    </Card>
-                    <Card className="p-6 apple-card">
-                        <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600">
-                                <Star className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <p className="text-sm text-muted-foreground font-medium">Rating</p>
-                                <h3 className="text-2xl font-bold">4.9</h3>
-                            </div>
-                        </div>
-                    </Card>
+                    <StatsCard 
+                        icon={Calendar} 
+                        label="Today's Sessions" 
+                        value={bookings.length} 
+                        colorClass="bg-blue-50 text-blue-600" 
+                    />
+                    <StatsCard 
+                        icon={Activity} 
+                        label="Avg. Improvement" 
+                        value="+18%" 
+                        colorClass="bg-green-50 text-green-600" 
+                    />
+                    <StatsCard 
+                        icon={Star} 
+                        label="Rating" 
+                        value="4.9" 
+                        colorClass="bg-amber-50 text-amber-600" 
+                    />
                 </div>
 
                 <div className="space-y-4">

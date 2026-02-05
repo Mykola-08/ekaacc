@@ -4,7 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { LazyImage } from '@ekaacc/shared-ui';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 const musicianPlans = [
  {

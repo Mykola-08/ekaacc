@@ -6,7 +6,7 @@ import { Button } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { Heart, Star } from 'lucide-react';
 
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 export default function AboutElena() {
  const { t } = useLanguage();

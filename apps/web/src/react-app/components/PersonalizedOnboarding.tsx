@@ -7,7 +7,7 @@ import { OnboardingData, Recommendation } from '@/shared/types';
 import { cn } from '@/lib/platform/utils/css-utils';
 import { Button } from '@/components/platform/ui/button';
 import { Card } from '@/components/platform/ui/card';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 interface Question {
   id: keyof OnboardingData;

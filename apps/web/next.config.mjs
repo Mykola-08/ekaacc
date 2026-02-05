@@ -33,15 +33,6 @@ const nextConfig = {
   compress: true,
   // Powered by header removal for security
   poweredByHeader: false,
-  async redirects() {
-    return [
-      {
-        source: '/booking',
-        destination: process.env.NEXT_PUBLIC_BOOKING_APP_URL || 'http://localhost:9004',
-        permanent: false, // Changed from true to allow dev changes
-      },
-    ];
-  },
 };
 
 export default nextConfig;

@@ -4,7 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import { Tag, Users, Percent, Gift, Check, X } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 export default function Discounts() {
   const { t } = useLanguage();

@@ -6,7 +6,7 @@ import { useLanguage } from '@/react-app/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { Button } from '@ekaacc/shared-ui';
 import ServiceCard from '@/app/components/ServiceCard';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 const iconMap: Record<string, React.ElementType> = {
  Heart,

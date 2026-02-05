@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useAnalytics } from '@/react-app/hooks/useAnalytics';
 import { BookingContext } from '@/react-app/contexts/bookingContext';
 import SmartBookingPopup from './SmartBookingPopup';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 export function BookingProvider({ children }: { children: React.ReactNode }) {
   const { logEvent } = useAnalytics();

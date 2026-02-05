@@ -5,7 +5,7 @@ import { Button, LazyImage } from '@ekaacc/shared-ui';
 import { useLanguage } from '@/context/LanguageContext';
 import { PersonalizedServiceItem } from '@/shared/types';
 import { Clock } from 'lucide-react';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 interface PersonalizedServiceCardProps {
  service: PersonalizedServiceItem;

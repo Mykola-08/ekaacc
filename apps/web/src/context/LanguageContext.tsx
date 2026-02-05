@@ -8,6 +8,9 @@ export interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  showLanguagePopup: boolean;
+  setShowLanguagePopup: (show: boolean) => void;
+  confirmLanguage: () => void;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -133,6 +136,7 @@ const translations: Record<Language, Record<string, string>> = {
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguage] = useState<Language>('en');
+  const [showLanguagePopup, setShowLanguagePopup] = useState(false);
 
   useEffect(() => {
     // Try to get from localStorage or browser
@@ -152,12 +156,16 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('language', lang);
   };
 
+  const confirmLanguage = () => {
+    setShowLanguagePopup(false);
+  };
+
   const t = (key: string) => {
     return translations[language][key] || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, showLanguagePopup, setShowLanguagePopup, confirmLanguage }}>
       {children}
     </LanguageContext.Provider>
   );

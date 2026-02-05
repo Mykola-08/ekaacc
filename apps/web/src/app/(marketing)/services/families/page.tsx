@@ -4,7 +4,7 @@ import SEOHead from '@/react-app/components/SEOHead';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/react-app/contexts/LanguageContext';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 export default function Families() {
  const { t } = useLanguage();

@@ -18,7 +18,7 @@ import { TDRPresentationMode } from '@/react-app/components/TDRPresentationMode'
 import { useClickOutside } from '@/react-app/hooks/useClickOutside';
 import { useAnalytics } from '@/react-app/hooks/useAnalytics';
 
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 export default function MainLayout({
   children

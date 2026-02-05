@@ -8,7 +8,7 @@ import { useLanguage } from '@/context/LanguageContext';
 
 export default function CookieBanner() {
  const [isVisible, setIsVisible] = useState(false);
- const { t, setShowLanguagePopup } = useLanguage();
+ const { t } = useLanguage();
 
  useEffect(() => {
   // Check if user has already accepted cookies
@@ -81,7 +81,7 @@ export default function CookieBanner() {
           {t('cookies.accept')}
          </button>
          <button
-          onClick={() => setShowLanguagePopup(true)}
+          onClick={() => {/* Language popup removed - no longer needed */}}
           className="text-muted-foreground hover:text-blue-600 font-medium text-sm transition-colors duration-200 underline decoration-dotted"
          >
           {t('cookies.wrongLanguage')}

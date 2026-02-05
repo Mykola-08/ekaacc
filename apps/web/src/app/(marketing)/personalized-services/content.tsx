@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import PersonalizedServiceCard from '@/app/components/PersonalizedServiceCard';
-import { BOOKING_APP_URL } from '@/lib/config';
+import { BOOKING_APP_URL } from '@/lib/constants';
 
 interface ContentProps {
  services: any[];

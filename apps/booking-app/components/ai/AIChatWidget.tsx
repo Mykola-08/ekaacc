@@ -265,7 +265,7 @@ export function AIChatWidget() {
                 </div>
               </CardHeader>
 
-              <CardContent className="flex-1 p-0 overflow-hidden relative bg-[#F5F5F7]">
+              <CardContent className="flex-1 p-0 overflow-hidden relative bg-secondary">
                 <div ref={scrollRef} className="h-full overflow-y-auto p-4 space-y-4">
                   {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-center p-6 text-zinc-400">

@@ -76,7 +76,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
 
   if (!bookings || bookings.length === 0) {
     return (
-      <div className="p-4 bg-[#F9F9F8] rounded-[24px] border border-[#F0F0F0] text-sm font-medium text-[#999999] text-center">
+      <div className="p-4 bg-card rounded-[24px] border border-border text-sm font-medium text-muted-foreground text-center">
         No bookings found matching your request.
       </div>
     );
@@ -87,7 +87,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
   const past = sortedBookings.filter(b => b.status !== 'scheduled');
 
   const renderBookingCard = (booking: any) => (
-    <Card key={booking.id} className="p-5 border-[#F0F0F0] bg-white rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300">
+    <Card key={booking.id} className="p-5 border-border bg-white rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex justify-between items-start mb-2">
         <div>
           <h4 className="font-medium text-sm text-foreground">{booking.service?.name || "Service"}</h4>
@@ -197,7 +197,7 @@ interface AvailabilityResultProps {
 
 export function AvailabilityResult({ slots }: AvailabilityResultProps) {
   if (!slots || slots.length === 0) {
-    return <div className="text-sm font-medium text-[#999999] p-4 bg-[#F9F9F8] rounded-[24px] text-center border border-[#F0F0F0]">No slots available for this date.</div>;
+    return <div className="text-sm font-medium text-muted-foreground p-4 bg-card rounded-[24px] text-center border border-border">No slots available for this date.</div>;
   }
 
   const uniqueStartTimes = Array.from(new Set(slots.map(s => s.startTime))).sort();
@@ -232,13 +232,13 @@ interface ServiceResultProps {
 
 export function ServiceResult({ services, onSelect }: ServiceResultProps) {
   if (!services || services.length === 0) {
-    return <div className="text-sm font-medium text-[#999999] p-4 bg-[#F9F9F8] rounded-[24px] text-center border border-[#F0F0F0]">No services found.</div>;
+    return <div className="text-sm font-medium text-muted-foreground p-4 bg-card rounded-[24px] text-center border border-border">No services found.</div>;
   }
 
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-2 snap-x">
       {services.map(service => (
-        <Card key={service.id} className="min-w-[220px] p-5 flex-shrink-0 snap-center border-[#EAEAEA] bg-white rounded-[24px] shadow-sm hover:shadow-md transition-all">
+        <Card key={service.id} className="min-w-[220px] p-5 flex-shrink-0 snap-center border-muted bg-white rounded-[24px] shadow-sm hover:shadow-md transition-all">
           <h4 className="font-semibold text-sm mb-1">{service.name}</h4>
           <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{service.description}</p>
           <div className="flex justify-between items-center text-xs font-medium mb-2">
@@ -443,7 +443,7 @@ export function WellnessSummaryResult({
   const trendColor = moodTrend === 'improving' ? 'text-green-500' : moodTrend === 'declining' ? 'text-red-500' : 'text-gray-500';
 
   return (
-    <Card className="p-5 my-2 border border-[#F0F0F0] bg-white rounded-[28px] shadow-sm">
+    <Card className="p-5 my-2 border border-border bg-white rounded-[28px] shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <h4 className="font-semibold text-sm flex items-center gap-2">
           <Activity className="w-4 h-4 text-purple-500" />

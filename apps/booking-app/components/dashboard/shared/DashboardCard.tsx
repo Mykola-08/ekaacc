@@ -37,7 +37,7 @@ export function DashboardCard({
                 ease: [0.25, 1, 0.5, 1],
             }}
             className={cn(
-                "bg-[#FEFFFE] p-8 rounded-[36px] border border-[#F5F5F5] shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col justify-between h-full relative overflow-hidden group",
+                "bg-card p-8 rounded-[36px] border border-border shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col justify-between h-full relative overflow-hidden group",
                 className
             )}
         >
@@ -45,11 +45,11 @@ export function DashboardCard({
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         {Icon && (
-                            <div className="h-12 w-12 rounded-[16px] bg-[#F7F8F9] flex items-center justify-center text-[#222222]">
+                            <div className="h-12 w-12 rounded-[16px] bg-card flex items-center justify-center text-foreground">
                                 <Icon className="w-6 h-6" strokeWidth={2} />
                             </div>
                         )}
-                        <h3 className="text-[17px] font-semibold text-[#222222]">{title}</h3>
+                        <h3 className="text-[17px] font-semibold text-foreground">{title}</h3>
                     </div>
                 </header>
 

@@ -140,14 +140,14 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <Card className="p-6 rounded-[36px] border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
-                                <ProgressRing progress={75} size={80} strokeWidth={8} color="#4DAFFF" />
+                                <ProgressRing progress={75} size={80} strokeWidth={8} color="hsl(var(--primary))" />
                                 <div>
                                     <div className="font-bold text-primary">Activity</div>
                                     <div className="text-2xl font-black text-accent tabular-nums">75%</div>
                                     <div className="text-[10px] font-bold uppercase text-muted tracking-widest">Daily Goal</div>
                                 </div>
                             </Card>
-                            <Card className="p-6 rounded-[36px] border-border bg-surface/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
+                            <Card className="p-6 rounded-[36px] border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
                                 <ProgressRing progress={85} size={80} strokeWidth={8} color="#10B981" />
                                 <div>
                                     <div className="font-bold text-primary">Wellness</div>

@@ -211,6 +211,19 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Legacy surface utilities - map to shadcn colors */
+  .bg-surface {
+    @apply bg-card;
+  }
+  
+  .bg-surface-container {
+    @apply bg-secondary;
+  }
+  
+  .bg-surface-highlight {
+    @apply bg-secondary;
+  }
 }
 
 @keyframes fadeIn {

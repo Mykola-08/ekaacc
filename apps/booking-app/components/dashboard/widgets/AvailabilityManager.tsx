@@ -114,32 +114,16 @@ export function AvailabilityManager() {
                     </table>
                 </div>
             </div>
-                                                        isAvailable
-                                                            ? "bg-[#4DAFFF]/10 border-[#4DAFFF]/20 text-[#4DAFFF] hover:bg-[#4DAFFF] hover:text-white shadow-sm"
-                                                            : "bg-[#F5F5F5] border-transparent text-[#999999]/30 hover:bg-[#EAEAEA] hover:text-[#999999]"
-                                                    )}
-                                                >
-                                                    {isAvailable ? <Check className="w-5 h-5" strokeWidth={3} /> : <X className="w-5 h-5" strokeWidth={2.5} />}
-                                                </button>
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+            <div className="mt-8 flex items-center justify-center gap-8 text-sm font-bold text-[#999999]">
+                <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-[6px] bg-[#4DAFFF]/10 border-2 border-[#4DAFFF]/20 flex items-center justify-center text-[#4DAFFF]">
+                         <Check className="w-3 h-3" strokeWidth={4} />
+                    </div>
+                    <span className="text-[#222222]">Available</span>
                 </div>
-                <div className="mt-8 flex items-center justify-center gap-8 text-sm font-bold text-[#999999]">
-                    <div className="flex items-center gap-3">
-                        <div className="w-5 h-5 rounded-[6px] bg-[#4DAFFF]/10 border-2 border-[#4DAFFF]/20 flex items-center justify-center text-[#4DAFFF]">
-                             <Check className="w-3 h-3" strokeWidth={4} />
-                        </div>
-                        <span className="text-[#222222]">Available</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                        <div className="w-5 h-5 rounded-[6px] bg-[#F5F5F5] border-2 border-transparent"></div>
-                        <span>Blocked</span>
-                    </div>
+                <div className="flex items-center gap-3">
+                    <div className="w-5 h-5 rounded-[6px] bg-[#F5F5F5] border-2 border-transparent"></div>
+                    <span>Blocked</span>
                 </div>
             </div>
         </div>

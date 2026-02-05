@@ -252,7 +252,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                         </div>
                     </TabPanel>
 
-                    <TabPanel className="p-12 text-center bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl border-0 shadow-xl animate-slide-up relative overflow-hidden">
+                    <TabPanel className="p-12 text-center bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl border-0 shadow-xl animate-slide-up relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 pointer-events-none" />
                         <div className="max-w-md mx-auto relative z-10">
                             <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
@@ -263,7 +263,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                         </div>
                     </TabPanel>
 
-                    <TabPanel className="p-12 text-center bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl border-0 shadow-xl animate-slide-up relative overflow-hidden">
+                    <TabPanel className="p-12 text-center bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl border-0 shadow-xl animate-slide-up relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 pointer-events-none" />
                         <div className="max-w-md mx-auto relative z-10">
                             <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">

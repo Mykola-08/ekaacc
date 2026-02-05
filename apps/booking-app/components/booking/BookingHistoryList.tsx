@@ -63,7 +63,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
     if (!bookings || bookings.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-24 bg-card/50 rounded-3xl text-center border-2 border-dashed border-muted">
+            <div className="flex flex-col items-center justify-center py-24 bg-card/50 rounded-2xl text-center border-2 border-dashed border-muted">
                 <div className="p-6 bg-background rounded-full mb-6 shadow-sm">
                     <Calendar className="w-8 h-8 text-muted-foreground" strokeWidth={2} />
                 </div>

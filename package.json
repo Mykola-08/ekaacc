@@ -6,8 +6,7 @@
     "node": ">=22.0.0"
   },
   "workspaces": [
-    "apps/booking-app",
-    "apps/seowebsite",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {

@@ -63,7 +63,7 @@ export default function AppleHero() {
 
                 {/* Subtitle */}
                 <AnimateIn delay={0.6}>
-                    <p className="apple-subtitle text-white/90 mb-12 max-w-3xl mx-auto">
+                    <p className="text-lg md:text-xl text-muted-foreground text-white/90 mb-12 max-w-3xl mx-auto">
                         {t('hero.subtitle')}
                     </p>
                 </AnimateIn>

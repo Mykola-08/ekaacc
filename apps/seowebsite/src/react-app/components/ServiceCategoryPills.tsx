@@ -48,13 +48,13 @@ export default function ServiceCategoryPills() {
 
   return (
     <section className="apple-section bg-card">
-      <div className="apple-container">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="apple-headline mb-6">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6">
             Els nostres serveis
           </h2>
-          <p className="apple-subtitle max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
             Descobreix la nostra gamma completa de teràpies personalitzades
             per restaurar l'equilibri i promoure el teu benestar integral
           </p>

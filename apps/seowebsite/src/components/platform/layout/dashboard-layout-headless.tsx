@@ -188,7 +188,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       </Transition>
 
       {/* Desktop Sidebar Pill */}
-      <aside className="hidden lg:flex w-[280px] flex-col bg-card rounded-2xl border border-border/60 shadow-sm shrink-0 animate-sidebar-enter">
+      <aside className="hidden lg:flex w-[280px] flex-col bg-card rounded-2xl border border-border/60 shadow-sm shrink-0 animate-in slide-in-from-left-4 duration-300">
          <SidebarContent />
       </aside>
       
@@ -196,7 +196,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       <div className="flex-1 flex flex-col gap-4 overflow-hidden min-w-0">
         <HeaderPill />
 
-        <main className="flex-1 bg-card rounded-2xl border border-border/60 shadow-sm overflow-auto md:p-6 p-4 animate-content-fade">
+        <main className="flex-1 bg-card rounded-2xl border border-border/60 shadow-sm overflow-auto md:p-6 p-4 animate-in fade-in duration-300">
            <div className="max-w-7xl mx-auto h-full">
              {children}
            </div>

@@ -146,13 +146,13 @@ export default function TestimonialSlider({ backgroundImage = 'https://images.pe
       <div className="bg-overlay-dark" />
       
       <div className="relative z-10 apple-section">
-        <div className="apple-container">
+        <div className="max-w-7xl mx-auto px-4">
           {/* Header */}
           <div className="text-center mb-16">
-            <h2 className="apple-headline text-white mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-white mb-6">
               {t('testimonials.sliderTitle')}
             </h2>
-            <p className="apple-subtitle text-white/90 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground text-white/90 max-w-3xl mx-auto">
               {t('testimonials.sliderSubtitle')}
             </p>
           </div>

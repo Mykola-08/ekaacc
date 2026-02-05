@@ -65,33 +65,27 @@ export function SiteHeader() {
   ];
 
   const headerVariants = {
-    hidden: { y: -100, opacity: 0, x: '-50%' },
+    hidden: { opacity: 0 },
     visible: {
-      y: 0,
       opacity: 1,
-      x: '-50%',
       transition: {
-        type: 'spring' as const,
-        stiffness: 100,
-        damping: 20,
-        mass: 1
+        duration: 0.5,
+        ease: "easeOut"
       }
     }
   };
 
   return (
     <>
-      <motion.header
-        variants={headerVariants}
-        initial='hidden'
-        animate='visible'
-        className={cn(
-          "fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-2xl transition-all duration-500 border border-border/50",
-          scrolled
-            ? "bg-background/95 backdrop-blur-xl py-2"
-            : "bg-background/80 backdrop-blur-md py-3"
-        )}
-      >
+      <div className="fixed top-4 left-0 right-0 z-50 flex justify-center pointer-events-none">
+        <motion.header
+          className={cn(
+            "pointer-events-auto w-[95%] max-w-5xl rounded-full transition-all duration-500 border border-border/50",
+            scrolled
+              ? "bg-background/95 backdrop-blur-xl py-2"
+              : "bg-background/80 backdrop-blur-md py-3"
+          )}
+        >
         <div className='flex items-center justify-between px-6 max-w-5xl mx-auto'>
           {/* Logo */}
           <Link href={mainSiteUrl} className='flex items-center gap-2 group'>
@@ -152,7 +146,7 @@ export function SiteHeader() {
                   <DropdownMenuSeparator />
                   {user ? (
                     <>
-                      <DropdownMenuItem onClick={() => router.push('/')}>{t('nav.dashboard')}</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => router.push('/dashboard')}>{t('nav.dashboard')}</DropdownMenuItem>
                       <DropdownMenuItem onClick={() => router.push('/settings')}>{t('nav.settings')}</DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={handleSignOut}>
@@ -183,6 +177,7 @@ export function SiteHeader() {
           </div>
         </div>
       </motion.header>
+      </div>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>

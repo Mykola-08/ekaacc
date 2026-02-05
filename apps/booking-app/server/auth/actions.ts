@@ -20,7 +20,7 @@ export async function login(prevState: any, formData: FormData) {
     return { success: false, message: error.message }
   }
 
-  revalidatePath('/', 'layout')
+  revalidatePath('/dashboard', 'layout')
   return { success: true }
 }
 
@@ -48,6 +48,22 @@ export async function signup(prevState: any, formData: FormData) {
   }
 
   return { success: true, message: 'Check your email to confirm your account.' }
+}
+
+export async function forgotPassword(prevState: any, formData: FormData) {
+  const supabase = await createClient()
+  const email = formData.get('email') as string
+  const origin = (await headers()).get('origin')
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${origin}/auth/update-password`,
+  })
+
+  if (error) {
+    return { success: false, message: error.message }
+  }
+
+  return { success: true, message: 'Check your email for the password reset link.' }
 }
 
 export async function logout() {

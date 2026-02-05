@@ -55,19 +55,23 @@ export function SignupPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-background">
+    <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
+
       <div className="w-full max-w-sm space-y-8">
         <div className="flex flex-col items-center gap-2 text-center">
-          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-sm">
-            <span className="text-primary-foreground font-black text-lg italic">E</span>
-          </div>
+            <Link href="/" className="mb-4">
+                <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-sm hover:scale-105 transition-transform cursor-pointer">
+                    <span className="text-primary-foreground font-black text-lg italic">E</span>
+                </div>
+            </Link>
           <div className="space-y-1">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">Create account</h1>
             <p className="text-sm text-muted-foreground">Join EKA Balance today</p>
           </div>
         </div>
 
-        <Card className="border border-border bg-surface shadow-sm rounded-2xl">
+        <Card className="border border-border bg-surface/50 backdrop-blur-sm shadow-sm rounded-2xl">
           <CardContent className="pt-6">
             {successMessage ? (
               <div className="flex flex-col items-center justify-center space-y-6 py-8">
@@ -117,11 +121,10 @@ export function SignupPage() {
                     minLength={6}
                     className="bg-transparent"
                   />
-                  <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
                 </div>
 
                 {errorMessage && (
-                  <div className="text-sm font-medium bg-danger/10 text-danger p-3 rounded-md border border-danger/20">
+                  <div className="text-sm font-medium bg-destructive/10 text-destructive p-3 rounded-md border border-destructive/20">
                     {errorMessage}
                   </div>
                 )}
@@ -136,7 +139,7 @@ export function SignupPage() {
               <div className="text-center text-sm text-muted-foreground w-full">
                 Already have an account?{" "}
                 <Link href="/login" className="font-semibold text-primary hover:underline">
-                  Log in
+                  Sign in
                 </Link>
               </div>
             </CardFooter>
@@ -146,3 +149,4 @@ export function SignupPage() {
     </div>
   )
 }
+

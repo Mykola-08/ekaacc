@@ -3,9 +3,6 @@ import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui/sonner';
 import { CookieConsent } from '@/components/cookie-consent';
-import { SiteFooter } from '@/components/SiteFooter';
-import { SiteHeader } from '@/components/SiteHeader';
-import { MainLayout } from '@/components/layout/main-layout';
 import { cn } from '@/lib/utils';
 import { LanguageProvider } from '@/context/LanguageContext';
 import './globals.css';
@@ -31,7 +28,7 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body
         className={cn(
-          'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-blue-100 selection:text-blue-900'
+          'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground'
         )}
       >
         <ThemeProvider
@@ -43,13 +40,7 @@ export default function RootLayout({
           <Preloader />
           <LanguageProvider>
             <NotificationsListener />
-            <AIChatWidget />
-            <MainLayout
-              header={<SiteHeader />}
-              footer={<SiteFooter />}
-            >
-              {children}
-            </MainLayout>
+            {children}
             <CookieConsent />
 
             <Toaster />

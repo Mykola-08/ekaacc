@@ -41,7 +41,7 @@ export function LoginPage() {
     const result = await login(null, formData)
     if (result?.success) {
       toast.success("Welcome back!")
-      router.push('/')
+      router.push('/dashboard')
       return
     }
 
@@ -52,19 +52,23 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-background">
+    <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
+
       <div className="w-full max-w-sm space-y-8">
         <div className="flex flex-col items-center gap-2 text-center">
-          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-sm">
-            <span className="text-primary-foreground font-black text-lg italic">E</span>
-          </div>
+          <Link href="/" className="mb-4">
+            <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-sm hover:scale-105 transition-transform cursor-pointer">
+              <span className="text-primary-foreground font-black text-lg italic">E</span>
+            </div>
+          </Link>
           <div className="space-y-1">
             <h1 className="text-2xl font-bold tracking-tight text-foreground">Welcome back</h1>
             <p className="text-sm text-muted-foreground">Enter your credentials to access your account</p>
           </div>
         </div>
 
-        <Card className="border border-border bg-surface shadow-sm rounded-2xl">
+        <Card className="border border-border bg-surface/50 backdrop-blur-sm shadow-sm rounded-2xl">
           <CardContent className="pt-6">
             <form action={clientAction} className="space-y-4">
               <div className="space-y-2">
@@ -82,7 +86,7 @@ export function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <Link href="#" className="text-xs font-medium text-primary hover:underline">
+                  <Link href="/forgot-password" className="text-xs font-medium text-primary hover:underline">
                     Forgot password?
                   </Link>
                 </div>
@@ -96,7 +100,7 @@ export function LoginPage() {
               </div>
 
               {errorMessage && (
-                <div className="text-sm font-medium bg-danger/10 text-danger p-3 rounded-md border border-danger/20">
+                <div className="text-sm font-medium bg-destructive/10 text-destructive p-3 rounded-md border border-destructive/20">
                   {errorMessage}
                 </div>
               )}

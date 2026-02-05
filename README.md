@@ -4,9 +4,9 @@ A comprehensive Next.js application for mental health and wellness management wi
 
 ## Architecture
 
-This project is a Next.js application built with TurboRepo for monorepo management.
+The project is built with Next.js 16 and unified into a single-application structure for maximum simplicity and development speed.
 
-The main application is located at `apps/web` and includes:
+The application includes:
 - **Marketing Pages**: Public-facing content and SEO-optimized pages
 - **Platform Features**: Dashboard, booking, admin, therapist portal, and all core functionality
 - **API Routes**: Backend services and integrations
@@ -124,11 +124,10 @@ This installs all dependencies for the monorepo workspaces.
 ### 3. Configure environment variables
 
 ```bash
-cd apps/web
 cp .env.example .env.local
 ```
 
-Edit `apps/web/.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
+Edit `.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
 
 ### 4. Set up the database
 
@@ -155,25 +154,21 @@ This will start the application:
 
 ## Project Structure
 
-This is a Turborepo monorepo with the following structure:
+The project follows a unified single-application structure:
 
 ```
 ekaacc/
-├── apps/
-│   └── web/                     # Main Next.js application
-│       ├── src/
-│       │   ├── app/             # Next.js App Router pages
-│       │   │   ├── (marketing)/ # Marketing and SEO pages
-│       │   │   └── (platform)/  # Authenticated platform features
-│       │   ├── components/      # React components
-│       │   ├── lib/             # Utilities and helpers
-│       │   └── context/         # React contexts
-│       ├── server/              # Server-side business logic
-│       ├── hooks/               # Custom React hooks
-│       └── public/              # Static assets
-├── packages/
-│   ├── shared-ui/               # Shared UI primitives and styles
-│   └── shared/                  # Shared utilities
+├── src/                         # Application source code
+│   ├── app/                     # Next.js App Router pages
+│   │   ├── (marketing)/         # Marketing and SEO pages
+│   │   └── (platform)/          # Authenticated platform features
+│   ├── components/              # React components
+│   ├── lib/                     # Utilities and helpers
+│   ├── context/                 # React contexts
+│   ├── hooks/                   # Custom React hooks
+│   └── packages/                # Internal shared packages
+├── server/                      # Server-side business logic
+├── public/                      # Static assets
 ├── supabase/                    # Database migrations & edge functions
 ├── scripts/                     # Utility scripts
 └── docs/                        # Additional documentation

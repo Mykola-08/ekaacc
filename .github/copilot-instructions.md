@@ -1,15 +1,12 @@
 # GitHub Copilot Instructions for EKA Account
 
-This repository is a **TurboRepo monorepo** for a mental health & wellness platform.
-Follow these instructions to generate code that aligns with the project's architecture and conventions.
+This repository is a Next.js application for a mental health & wellness platform.
 
 ## 1. Project Structure & Architecture
 
-- **Monorepo**: Managed by TurboRepo.
-  - `apps/web`: Main SaaS application (Next.js 14 App Router).
-  - `apps/booking-app`: Micro-app for booking (Service Layer pattern).
-  - `packages/shared-ui`: Shared UI components.
-  - `packages/ai-services`: AI integration logic.
+- **Structure**: Unified single-application structure.
+  - `src/app`: Next.js 14 App Router.
+  - `src/packages`: Internal shared logic and UI.
 - **Tech Stack**: Next.js 14, TypeScript, Tailwind CSS, Supabase, Stripe, Square, Resend.
 
 ### Key Architectural Patterns
@@ -47,8 +44,8 @@ Follow these instructions to generate code that aligns with the project's archit
 
 ## 3. Workflows & Commands
 
-- **Development**: `npx turbo run dev` (Web runs on port 9002).
-- **Build**: `npx turbo run build`.
+- **Development**: `npm run dev` (Web runs on port 9002).
+- **Build**: `npm run build`.
 - **Testing**:
   - Unit: `npm test` (Jest/Vitest).
   - E2E: `npm run test:e2e` (Playwright).

@@ -148,8 +148,8 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                                 </div>
                                 <div className="flex justify-between items-center p-5 bg-secondary rounded-[24px] opacity-60">
                                     <div>
-                                        <div className="font-bold text-[#222222]">Two-Factor Authentication</div>
-                                        <div className="text-sm text-[#999999] font-medium mt-1">Coming soon</div>
+                                        <div className="font-bold text-foreground">Two-Factor Authentication</div>
+                                        <div className="text-sm text-muted-foreground font-medium mt-1">Coming soon</div>
                                     </div>
                                     <Switch disabled />
                                 </div>

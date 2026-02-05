@@ -39,13 +39,13 @@ export function JournalTeaser() {
         >
             <div className="flex-1 flex flex-col justify-center">
                 {lastEntry ? (
-                    <div className="bg-[#F9F9F8] p-4 rounded-[24px] border border-[#EEEEEE]">
-                        <div className="text-[15px] text-[#555555] line-clamp-3 leading-relaxed italic relative">
-                            <span className="text-[#DDDDDD] text-4xl leading-none absolute -top-3 -left-2">“</span>
+                    <div className="bg-[hsl(var(--secondary))] p-4 rounded-[24px] border border-[hsl(var(--border))]">
+                        <div className="text-[15px] text-[hsl(var(--muted-foreground))] line-clamp-3 leading-relaxed italic relative">
+                            <span className="text-[hsl(var(--muted))] text-4xl leading-none absolute -top-3 -left-2">“</span>
                             {lastEntry.content}
-                            <span className="text-[#DDDDDD] text-4xl leading-none absolute -bottom-5 -right-1">”</span>
+                            <span className="text-[hsl(var(--muted))] text-4xl leading-none absolute -bottom-5 -right-1">”</span>
                         </div>
-                        <div className="mt-3 text-[11px] font-bold text-[#999999] uppercase tracking-wider text-right">
+                        <div className="mt-3 text-[11px] font-bold text-[hsl(var(--muted-foreground))] uppercase tracking-wider text-right">
                             {new Date(lastEntry.created_at).toLocaleDateString()}
                         </div>
                     </div>

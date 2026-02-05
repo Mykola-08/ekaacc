@@ -28,7 +28,7 @@ export function CommunityList({ posts }: CommunityListProps) {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-border">
           <div className="space-y-2 text-center md:text-left">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#222222]">Community Forum</h1>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Community Forum</h1>
               <p className="text-muted-foreground text-lg">Connect with others on the journey to balance.</p>
           </div>
           <Link href="/community/new">

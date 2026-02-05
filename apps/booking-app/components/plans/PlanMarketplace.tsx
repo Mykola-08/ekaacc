@@ -56,7 +56,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                             <div className="flex items-center gap-4">
                                 <div className={cn(
                                     "w-12 h-12 rounded-[16px] flex items-center justify-center shadow-sm transition-transform group-hover:scale-110", 
-                                    isVIP ? "bg-amber-50 text-amber-600" : "bg-[#F7F8F9] text-[#222222]"
+                                    isVIP ? "bg-amber-50 text-amber-600" : "bg-card text-foreground"
                                 )}>
                                     {isVIP ? <Sparkles className="w-6 h-6 fill-amber-100" /> : <Shield className="w-6 h-6" strokeWidth={2} />}
                                 </div>

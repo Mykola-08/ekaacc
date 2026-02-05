@@ -311,12 +311,12 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 ))}
                             </div>
                         ) : (
-                             <div className="py-12 text-center bg-[#F9F9F8] rounded-[24px] border border-[#F5F5F5]">
-                                 <p className="text-[#999999] font-medium">No slots available for this date.</p>
-                                 <p className="text-xs text-[#999999] mt-2">Try selecting another day.</p>
+                             <div className="py-12 text-center bg-secondary rounded-[24px] border border-border">
+                                 <p className="text-muted-foreground font-medium">No slots available for this date.</p>
+                                 <p className="text-xs text-muted-foreground mt-2">Try selecting another day.</p>
                              </div>
                         )}
-                        <p className="text-xs text-[#999999] text-center font-medium">
+                        <p className="text-xs text-muted-foreground text-center font-medium">
                             All times are in local time.
                         </p>
                     </div>

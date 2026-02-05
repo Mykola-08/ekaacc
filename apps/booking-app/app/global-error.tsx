@@ -3,11 +3,7 @@
 import { useEffect } from 'react'
 import { logError } from '@/server/logging/actions'
 import { Button } from '@/components/ui/button'
-import { Inter, Playfair_Display } from 'next/font/google'
 import { cn } from "@/lib/utils"
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
 
 export default function GlobalError({
  error,
@@ -25,7 +21,7 @@ export default function GlobalError({
 
  return (
   <html lang="en">
-   <body className={cn("antialiased", inter.variable, playfair.variable)}>
+   <body className={cn("antialiased font-sans")}>
     <div className="flex h-screen w-full flex-col items-center justify-center space-y-4 p-8">
       <h1 className="text-4xl font-serif font-bold text-destructive">Critical Error</h1>
       <p className="text-muted-foreground text-center">

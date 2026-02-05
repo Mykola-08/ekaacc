@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter, Playfair_Display } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from '@/components/ui/sonner';
@@ -14,18 +13,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { NotificationsListener } from "@/components/NotificationsListener";
 import { AIChatWidget } from "@/components/ai/AIChatWidget";
 import { Preloader } from '@ekaacc/shared-ui';
-
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-playfair',
-});
 
 export const metadata: Metadata = {
   title: 'Integrative Massage Booking - Elena V.',
@@ -44,9 +31,7 @@ export default function RootLayout({
     <html lang='en' suppressHydrationWarning>
       <body
         className={cn(
-          'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-blue-100 selection:text-blue-900',
-          inter.variable,
-          playfair.variable
+          'font-sans antialiased min-h-screen flex flex-col bg-background text-foreground selection:bg-blue-100 selection:text-blue-900'
         )}
       >
         <ThemeProvider

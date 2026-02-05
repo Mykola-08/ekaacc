@@ -1,14 +1,11 @@
 
 import type { Metadata, Viewport } from "next";
 import "@/react-app/index.css";
-import { Inter } from "next/font/google";
 import { LanguageProvider } from '@/react-app/contexts/LanguageContext';
 import { DiscountProvider } from "@/react-app/contexts/DiscountContext";
 import { BookingProvider } from '@/react-app/components/BookingProvider';
 import { AuthProvider } from "@/context/platform/auth-context";
 import SmoothScrolling from "@/app/components/SmoothScrolling";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "EKA Balance - Teràpies Integratives",
@@ -32,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className="font-sans">
         <SmoothScrolling>
           <AuthProvider>
             <LanguageProvider>

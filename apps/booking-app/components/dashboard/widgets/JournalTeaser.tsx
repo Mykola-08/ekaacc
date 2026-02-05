@@ -54,7 +54,7 @@ export function JournalTeaser() {
                         <div className="w-12 h-12 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mx-auto mb-3">
                             <PenLine className="w-6 h-6" />
                         </div>
-                        <p className="text-[#555555] font-medium leading-relaxed">
+                        <p className="text-muted-foreground font-medium leading-relaxed">
                             Reflecting on your day improves mental clarity. Take a moment for yourself.
                         </p>
                     </div>

@@ -62,8 +62,8 @@ export function PermissionManager({ userId, userName, initialPermissions }: Perm
                             <div>
                                 <div className="font-semibold text-foreground flex items-center gap-2">
                                     {p.code}
-                                    {p.source === 'role' && <span className="text-[10px] uppercase bg-secondary px-2 py-0.5 rounded-full text-muted-foreground font-bold">Role Default</span>}
-                                    {p.source === 'override' && <span className="text-[10px] uppercase bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">Override</span>}
+                                    {p.source === 'role' && <span className="text-xs uppercase bg-secondary px-2 py-0.5 rounded-full text-muted-foreground font-bold">Role Default</span>}
+                                    {p.source === 'override' && <span className="text-xs uppercase bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-bold">Override</span>}
                                 </div>
                                 <div className="text-sm text-muted-foreground">{p.description}</div>
                             </div>

@@ -63,7 +63,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
                 <div className="space-y-8">
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <Label className="text-muted-foreground font-bold uppercase text-[11px] tracking-wider">Initial Client Mood</Label>
+                            <Label className="text-muted-foreground font-bold uppercase text-xs tracking-wider">Initial Client Mood</Label>
                             <span className="font-bold text-primary bg-primary/10 px-3 py-1 rounded-full text-sm">{initialMood[0]}/10</span>
                         </div>
                         <Slider
@@ -78,7 +78,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <Label className="text-muted-foreground font-bold uppercase text-[11px] tracking-wider">Final Client Mood</Label>
+                            <Label className="text-muted-foreground font-bold uppercase text-xs tracking-wider">Final Client Mood</Label>
                             <span className="font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-sm">{finalMood[0]}/10</span>
                         </div>
                         <Slider

@@ -127,7 +127,7 @@ export function CookieConsent() {
                     </Button>
                 </div>
              </div>
-             <p className="text-[10px] text-muted-foreground/80 text-center px-4 leading-relaxed">
+             <p className="text-xs text-muted-foreground/80 text-center px-4 leading-relaxed">
                 Compliance: CCPA, GDPR, ISO 27001, SOC 2, HIPAA aligned.
             </p>
           </div>

@@ -82,7 +82,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                                 <Plus className="w-6 h-6 text-white" strokeWidth={2.75} />
                             </div>
                             <div className="text-center relative z-10">
-                                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">Availability</span>
+                                <span className="text-xs font-bold uppercase tracking-[0.2em] text-white/70">Availability</span>
                                 <div className="font-bold text-lg tracking-tight text-white leading-tight">Update Schedule</div>
                             </div>
                         </Button>
@@ -119,7 +119,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                                             <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                                                 <div className="flex items-center gap-4 flex-1">
                                                     <div className="w-16 h-16 bg-secondary/50 rounded-2xl flex flex-col items-center justify-center border border-border/40 group-hover:border-primary/20 group-hover:bg-primary/5 transition-colors">
-                                                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{format(new Date(booking.start_time), 'MMM')}</span>
+                                                        <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{format(new Date(booking.start_time), 'MMM')}</span>
                                                         <span className="text-2xl font-black text-foreground leading-none tabular-nums">{format(new Date(booking.start_time), 'd')}</span>
                                                     </div>
                                                     <div>
@@ -132,7 +132,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center gap-3">
-                                                    <Badge className="rounded-full bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-50 px-4 py-1.5 text-[10px] font-bold uppercase tracking-wider">
+                                                    <Badge className="rounded-full bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-50 px-4 py-1.5 text-xs font-bold uppercase tracking-wider">
                                                         Confirmed
                                                     </Badge>
                                                     <Button

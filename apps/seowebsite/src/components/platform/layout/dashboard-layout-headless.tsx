@@ -64,7 +64,7 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
           </li>
           
           <li className="mt-auto">
-                <div className="rounded-3xl bg-linear-to-br from-primary to-blue-600 p-5 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300 cursor-pointer shadow-lg shadow-blue-900/10">
+                <div className="rounded-3xl bg-linear-to-br from-primary to-blue-600 p-5 relative overflow-hidden group hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg shadow-blue-900/10">
                   <div className="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full bg-white/10 blur-2xl group-hover:bg-white/20 transition-colors"></div>
                   <div className="relative">
                     <p className="text-white font-bold text-lg mb-1">Premium Plan</p>

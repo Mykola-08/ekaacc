@@ -115,7 +115,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
                                 />
                             </div>
                             <div className="flex justify-between opacity-0 group-hover:opacity-100 transition-opacity pt-1">
-                                <button onClick={() => updateProgress(goal, 1)} className="text-[10px] uppercase font-bold text-primary hover:underline">+ Log Progress</button>
+                                <button onClick={() => updateProgress(goal, 1)} className="text-xs uppercase font-bold text-primary hover:underline">+ Log Progress</button>
                             </div>
                         </div>
                     );

@@ -19,7 +19,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                         <Zap className="w-4 h-4 text-foreground" strokeWidth={2.5} />
-                        <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">Credits</span>
+                        <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Credits</span>
                     </div>
                     <span className="text-[15px] font-bold text-foreground">{remaining}/{total}</span>
                 </div>
@@ -46,7 +46,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
             </div>
 
             <div className="relative z-10 space-y-2">
-                <div className="flex justify-between text-[11px] uppercase font-bold text-muted-foreground tracking-wider">
+                <div className="flex justify-between text-xs uppercase font-bold text-muted-foreground tracking-wider">
                     <span>Usage</span>
                     <span>{Math.round(percent)}%</span>
                 </div>

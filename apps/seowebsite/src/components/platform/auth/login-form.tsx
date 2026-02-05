@@ -178,7 +178,7 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
               >
                 <Button 
                   type='submit' 
-                  className='w-full rounded-xl h-12 font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] active:scale-[0.98] hover:shadow-xl hover:shadow-blue-500/30'
+                  className='w-full rounded-xl h-12 font-semibold bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 transition-all hover:scale-105 active:scale-[0.98] hover:shadow-xl hover:shadow-blue-500/30'
                   disabled={loading}
                 >
                   {loading ? (

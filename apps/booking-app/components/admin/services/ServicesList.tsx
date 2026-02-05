@@ -150,7 +150,7 @@ function ServiceRow({ service, index }: { service: AdminService, index: number }
             {service.tags && service.tags.length > 0 && (
                 <div className="hidden lg:flex items-center gap-2 max-w-[200px] overflow-hidden">
                     {service.tags.slice(0, 2).map(tag => (
-                        <Badge key={tag} variant="outline" className="text-[10px] uppercase font-bold tracking-wider">
+                        <Badge key={tag} variant="outline" className="text-xs uppercase font-bold tracking-wider">
                             <Tag className="w-2 h-2 mr-1" />
                             {tag}
                         </Badge>

@@ -95,7 +95,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
         </div>
         <Badge
           variant={booking.status === 'scheduled' ? 'default' : booking.status === 'canceled' ? 'destructive' : 'secondary'}
-          className="text-[10px] h-5 capitalize"
+          className="text-xs h-5 capitalize"
         >
           {booking.status}
         </Badge>
@@ -111,7 +111,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-[10px] flex-1 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900 dark:text-red-400"
+            className="h-7 text-xs flex-1 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900 dark:text-red-400"
             onClick={() => {
               const event = new CustomEvent('ai_cancel_booking', { detail: booking.id });
               document.dispatchEvent(event);
@@ -122,7 +122,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
           <Button
             variant="outline"
             size="sm"
-            className="h-7 text-[10px] flex-1 border-primary/20 hover:bg-primary/5"
+            className="h-7 text-xs flex-1 border-primary/20 hover:bg-primary/5"
             onClick={() => {
               const event = new CustomEvent('ai_reschedule_request', { detail: booking });
               document.dispatchEvent(event);
@@ -139,14 +139,14 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
     <div className="space-y-4 my-2 w-full">
       {upcoming.length > 0 && (
         <div className="space-y-2">
-          <h5 className="text-[10px] font-bold uppercase tracking-widest text-primary/60 ml-1">Upcoming</h5>
+          <h5 className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1">Upcoming</h5>
           {upcoming.map(renderBookingCard)}
         </div>
       )}
 
       {past.length > 0 && (
         <div className="space-y-2 opacity-80">
-          <h5 className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground ml-1">Past & Canceled</h5>
+          <h5 className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Past & Canceled</h5>
           {past.slice(0, 3).map(renderBookingCard)}
         </div>
       )}
@@ -281,7 +281,7 @@ export function ServiceDetailResult({ service }: ServiceDetailResultProps) {
         <div>
           <h4 className="font-semibold text-base">{service.name}</h4>
           {service.category && (
-            <Badge variant="secondary" className="text-[10px] mt-1">{service.category}</Badge>
+            <Badge variant="secondary" className="text-xs mt-1">{service.category}</Badge>
           )}
         </div>
         <div className="text-right">
@@ -295,7 +295,7 @@ export function ServiceDetailResult({ service }: ServiceDetailResultProps) {
           <p className="text-xs font-medium mb-1">Available Options:</p>
           <div className="flex flex-wrap gap-1">
             {service.variants.map((v: any) => (
-              <Badge key={v.id} variant="outline" className="text-[10px]">
+              <Badge key={v.id} variant="outline" className="text-xs">
                 {v.name || `Option ${v.id}`}
               </Badge>
             ))}
@@ -368,7 +368,7 @@ export function RewardsResult({ points, lifetimePoints, tier }: RewardsResultPro
       </div>
       <div className="flex justify-between items-center text-xs opacity-80">
         <span>Lifetime: {lifetimePoints.toLocaleString()}</span>
-        <Badge className="bg-white/20 text-white hover:bg-white/30 text-[10px] capitalize">{tier}</Badge>
+        <Badge className="bg-white/20 text-white hover:bg-white/30 text-xs capitalize">{tier}</Badge>
       </div>
     </Card>
   );
@@ -405,15 +405,15 @@ export function MoodCheckInResult({ entry, message }: MoodCheckInResultProps) {
       <div className="grid grid-cols-3 gap-2 text-center">
         <div className="bg-white/80 rounded-xl p-3 shadow-sm border border-white/50">
           <div className="text-lg font-bold text-pink-600 dark:text-pink-400">{entry.mood}/10</div>
-          <div className="text-[10px] text-muted-foreground">Mood</div>
+          <div className="text-xs text-muted-foreground">Mood</div>
         </div>
         <div className="bg-white/80 rounded-xl p-3 shadow-sm border border-white/50">
           <div className="text-xs font-medium capitalize text-purple-600 dark:text-purple-400">{entry.energy.replace('_', ' ')}</div>
-          <div className="text-[10px] text-muted-foreground">Energy</div>
+          <div className="text-xs text-muted-foreground">Energy</div>
         </div>
         <div className="bg-white/80 rounded-xl p-3 shadow-sm border border-white/50">
           <div className="text-xs font-medium capitalize text-indigo-600 dark:text-indigo-400">{entry.stress}</div>
-          <div className="text-[10px] text-muted-foreground">Stress</div>
+          <div className="text-xs text-muted-foreground">Stress</div>
         </div>
       </div>
     </Card>
@@ -449,14 +449,14 @@ export function WellnessSummaryResult({
           <Activity className="w-4 h-4 text-purple-500" />
           {period.charAt(0).toUpperCase() + period.slice(1)}ly Summary
         </h4>
-        <Badge variant="outline" className="text-[10px]">{totalEntries} entries</Badge>
+        <Badge variant="outline" className="text-xs">{totalEntries} entries</Badge>
       </div>
 
       <div className="grid grid-cols-2 gap-3 mb-3">
         <div className="bg-purple-50 dark:bg-purple-950/30 rounded-lg p-3">
           <div className="flex items-center gap-2 mb-1">
             <Heart className="w-3 h-3 text-purple-500" />
-            <span className="text-[10px] text-muted-foreground">Avg Mood</span>
+            <span className="text-xs text-muted-foreground">Avg Mood</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="text-xl font-bold">{averageMood}</span>
@@ -467,7 +467,7 @@ export function WellnessSummaryResult({
         <div className="bg-indigo-50 dark:bg-indigo-950/30 rounded-lg p-3">
           <div className="flex items-center gap-2 mb-1">
             <Moon className="w-3 h-3 text-indigo-500" />
-            <span className="text-[10px] text-muted-foreground">Avg Sleep</span>
+            <span className="text-xs text-muted-foreground">Avg Sleep</span>
           </div>
           <div className="flex items-center gap-1">
             <span className="text-xl font-bold">{averageSleep}</span>
@@ -486,7 +486,7 @@ export function WellnessSummaryResult({
       {commonEmotions.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {commonEmotions.map(e => (
-            <Badge key={e.emotion} variant="secondary" className="text-[10px] capitalize">
+            <Badge key={e.emotion} variant="secondary" className="text-xs capitalize">
               {e.emotion}
             </Badge>
           ))}
@@ -522,17 +522,17 @@ export function MoodHistoryResult({ entries }: MoodHistoryResultProps) {
               </div>
               <div>
                 <div className="text-xs font-medium">{format(new Date(entry.date), 'MMM d')}</div>
-                <div className="text-[10px] text-muted-foreground capitalize">{entry.energy.replace('_', ' ')} energy</div>
+                <div className="text-xs text-muted-foreground capitalize">{entry.energy.replace('_', ' ')} energy</div>
               </div>
             </div>
-            <Badge variant={entry.stress === 'minimal' || entry.stress === 'mild' ? 'secondary' : 'destructive'} className="text-[10px] capitalize">
+            <Badge variant={entry.stress === 'minimal' || entry.stress === 'mild' ? 'secondary' : 'destructive'} className="text-xs capitalize">
               {entry.stress}
             </Badge>
           </div>
           {entry.emotions && entry.emotions.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-2">
               {entry.emotions.slice(0, 3).map(e => (
-                <Badge key={e} variant="outline" className="text-[10px] capitalize">{e}</Badge>
+                <Badge key={e} variant="outline" className="text-xs capitalize">{e}</Badge>
               ))}
             </div>
           )}
@@ -563,10 +563,10 @@ export function WellnessGoalResult({ goal, message }: WellnessGoalResultProps) {
           <h4 className="font-semibold text-sm text-green-900 dark:text-green-100">Goal Created!</h4>
           <p className="text-xs text-green-700 dark:text-green-300">{message || goal.title}</p>
           <div className="flex items-center gap-2 mt-1">
-            <Badge variant="outline" className="text-[10px] border-green-200 dark:border-green-800 capitalize">
+            <Badge variant="outline" className="text-xs border-green-200 dark:border-green-800 capitalize">
               {goal.targetType}
             </Badge>
-            <span className="text-[10px] text-green-600 dark:text-green-400">Target: {goal.targetValue}</span>
+            <span className="text-xs text-green-600 dark:text-green-400">Target: {goal.targetValue}</span>
           </div>
         </div>
       </div>
@@ -606,7 +606,7 @@ export function WellnessGoalsListResult({ goals }: WellnessGoalsListResultProps)
           <div className="flex justify-between items-start mb-2">
             <div>
               <h4 className="font-medium text-sm">{goal.title}</h4>
-              <Badge variant="outline" className="text-[10px] mt-1 capitalize">{goal.targetType}</Badge>
+              <Badge variant="outline" className="text-xs mt-1 capitalize">{goal.targetType}</Badge>
             </div>
             <span className="text-lg font-bold text-purple-600 dark:text-purple-400">{goal.progress}%</span>
           </div>
@@ -616,7 +616,7 @@ export function WellnessGoalsListResult({ goals }: WellnessGoalsListResultProps)
               style={{ width: `${Math.min(100, goal.progress)}%` }}
             />
           </div>
-          <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
+          <div className="flex justify-between text-xs text-muted-foreground mt-1">
             <span>Current: {goal.currentValue}</span>
             <span>Target: {goal.targetValue}</span>
           </div>
@@ -661,7 +661,7 @@ export function RecommendationsResult({ services, exercises, actions }: Recommen
             {services.slice(0, 3).map(s => (
               <Card key={s.id} className="min-w-[160px] p-2 flex-shrink-0 bg-indigo-50/50 dark:bg-slate-900/50 border-indigo-100 dark:border-indigo-900">
                 <h5 className="text-xs font-medium truncate">{s.title}</h5>
-                <p className="text-[10px] text-muted-foreground line-clamp-2 mt-1">{s.reason}</p>
+                <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{s.reason}</p>
                 <Badge className="mt-2 text-[9px]" variant={s.priority === 'high' ? 'default' : 'secondary'}>
                   {Math.round(s.confidence * 100)}% match
                 </Badge>
@@ -682,7 +682,7 @@ export function RecommendationsResult({ services, exercises, actions }: Recommen
                 <h5 className="text-xs font-medium">{e.title}</h5>
                 <div className="flex items-center gap-1 mt-1">
                   <Clock className="w-3 h-3 text-muted-foreground" />
-                  <span className="text-[10px] text-muted-foreground">{e.data.duration} min</span>
+                  <span className="text-xs text-muted-foreground">{e.data.duration} min</span>
                 </div>
               </Card>
             ))}
@@ -801,7 +801,7 @@ export function InsightsResult({ insights }: InsightsResultProps) {
             <div className="flex-1">
               <div className="flex items-center justify-between">
                 <h4 className="text-sm font-medium">{insight.title}</h4>
-                <Badge variant={insight.priority === 'high' ? 'destructive' : 'secondary'} className="text-[10px]">
+                <Badge variant={insight.priority === 'high' ? 'destructive' : 'secondary'} className="text-xs">
                   {insight.priority}
                 </Badge>
               </div>
@@ -878,7 +878,7 @@ export function WellnessScoreResult({ overall, breakdown, trend }: WellnessScore
         {Object.entries(breakdown).map(([key, value]) => (
           <div key={key} className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-2 text-center">
             <div className="text-lg font-bold text-purple-600 dark:text-purple-400">{value}</div>
-            <div className="text-[10px] text-muted-foreground capitalize">{key}</div>
+            <div className="text-xs text-muted-foreground capitalize">{key}</div>
           </div>
         ))}
       </div>
@@ -919,8 +919,8 @@ export function MemoriesResult({ memories }: MemoriesResultProps) {
             <div className="flex-1">
               <p className="text-sm">{memory.content}</p>
               <div className="flex items-center gap-2 mt-2">
-                <Badge variant="outline" className="text-[10px] capitalize">{memory.type}</Badge>
-                <span className="text-[10px] text-muted-foreground">{format(new Date(memory.date), 'MMM d')}</span>
+                <Badge variant="outline" className="text-xs capitalize">{memory.type}</Badge>
+                <span className="text-xs text-muted-foreground">{format(new Date(memory.date), 'MMM d')}</span>
               </div>
             </div>
             <div className="flex">
@@ -975,7 +975,7 @@ export function ProfileResult({ name, email, phone, language, preferences }: Pro
             <span className="text-muted-foreground text-xs">Preferences:</span>
             <div className="flex flex-wrap gap-1 mt-1">
               {preferences.goals?.map((g: string) => (
-                <Badge key={g} variant="secondary" className="text-[10px]">{g}</Badge>
+                <Badge key={g} variant="secondary" className="text-xs">{g}</Badge>
               ))}
             </div>
           </div>
@@ -1040,14 +1040,14 @@ export function JournalEntriesListResult({ entries }: JournalEntriesListResultPr
           <div className="flex items-start justify-between mb-2">
             <span className="text-xs text-muted-foreground">{format(new Date(entry.date), 'MMM d, yyyy')}</span>
             {entry.mood && (
-              <Badge variant="outline" className="text-[10px]">Mood: {entry.mood}/10</Badge>
+              <Badge variant="outline" className="text-xs">Mood: {entry.mood}/10</Badge>
             )}
           </div>
           <p className="text-sm">{entry.content}</p>
           {entry.tags && entry.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-2">
               {entry.tags.map(tag => (
-                <Badge key={tag} variant="secondary" className="text-[10px]">{tag}</Badge>
+                <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
               ))}
             </div>
           )}
@@ -1182,10 +1182,10 @@ export function DailyActionsResult({ actions }: DailyActionsResultProps) {
               <h5 className="text-sm font-medium">{action.title}</h5>
               <p className="text-xs text-muted-foreground mt-0.5">{action.description}</p>
               <div className="flex items-center gap-2 mt-2">
-                <Badge variant="outline" className="text-[10px]">
+                <Badge variant="outline" className="text-xs">
                   <Clock className="w-2 h-2 mr-1" />{action.estimatedMinutes} min
                 </Badge>
-                <span className="text-[10px] text-muted-foreground">{action.reason}</span>
+                <span className="text-xs text-muted-foreground">{action.reason}</span>
               </div>
             </div>
           </div>
@@ -1214,7 +1214,7 @@ export function AffirmationResult({ affirmation }: AffirmationResultProps) {
         {affirmation.relatedToMood && (
           <div className="mt-3 flex items-center justify-center gap-1">
             <Heart className="w-3 h-3 text-pink-500" />
-            <span className="text-[10px] text-muted-foreground">Based on how you're feeling</span>
+            <span className="text-xs text-muted-foreground">Based on how you're feeling</span>
           </div>
         )}
       </div>
@@ -1252,15 +1252,15 @@ export function ProgressReportResult({ report }: ProgressReportResultProps) {
       <div className="grid grid-cols-3 gap-2 mb-4">
         <div className="bg-purple-50 dark:bg-purple-950/30 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-purple-600 dark:text-purple-400">{report.stats.averageMood}</div>
-          <div className="text-[10px] text-muted-foreground">Avg Mood</div>
+          <div className="text-xs text-muted-foreground">Avg Mood</div>
         </div>
         <div className="bg-indigo-50 dark:bg-indigo-950/30 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-indigo-600 dark:text-indigo-400">{report.stats.streakDays}</div>
-          <div className="text-[10px] text-muted-foreground">Day Streak</div>
+          <div className="text-xs text-muted-foreground">Day Streak</div>
         </div>
         <div className="bg-green-50 dark:bg-green-950/30 rounded-lg p-2 text-center">
           <div className="text-lg font-bold text-green-600 dark:text-green-400">{report.stats.moodCheckIns}</div>
-          <div className="text-[10px] text-muted-foreground">Check-ins</div>
+          <div className="text-xs text-muted-foreground">Check-ins</div>
         </div>
       </div>
 
@@ -1393,23 +1393,23 @@ export function BreathingExerciseResult({ exercise }: BreathingExerciseResultPro
           <div className="flex items-center gap-4 mt-3 bg-white/50 dark:bg-slate-800/50 rounded-lg p-2">
             <div className="text-center">
               <div className="text-lg font-bold text-cyan-600">{exercise.pattern.inhale}s</div>
-              <div className="text-[10px] text-muted-foreground">Inhale</div>
+              <div className="text-xs text-muted-foreground">Inhale</div>
             </div>
             {exercise.pattern.hold && (
               <div className="text-center">
                 <div className="text-lg font-bold text-cyan-600">{exercise.pattern.hold}s</div>
-                <div className="text-[10px] text-muted-foreground">Hold</div>
+                <div className="text-xs text-muted-foreground">Hold</div>
               </div>
             )}
             <div className="text-center">
               <div className="text-lg font-bold text-cyan-600">{exercise.pattern.exhale}s</div>
-              <div className="text-[10px] text-muted-foreground">Exhale</div>
+              <div className="text-xs text-muted-foreground">Exhale</div>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-1 mt-2">
             {exercise.benefits.slice(0, 3).map(b => (
-              <Badge key={b} variant="secondary" className="text-[10px] bg-cyan-100/50 dark:bg-cyan-900/30">
+              <Badge key={b} variant="secondary" className="text-xs bg-cyan-100/50 dark:bg-cyan-900/30">
                 {b}
               </Badge>
             ))}
@@ -1495,7 +1495,7 @@ export function MeditationResult({ session }: MeditationResultProps) {
             <Flower2 className="h-4 w-4 text-indigo-600 dark:text-indigo-400" />
           </div>
           <h4 className="font-semibold text-sm">{session.title}</h4>
-          <Badge variant="outline" className="ml-auto text-[10px]">{session.durationMinutes} min</Badge>
+          <Badge variant="outline" className="ml-auto text-xs">{session.durationMinutes} min</Badge>
         </div>
 
         <p className="text-xs text-muted-foreground mb-4 italic">"{session.calmingQuote}"</p>
@@ -1526,7 +1526,7 @@ export function MeditationResult({ session }: MeditationResultProps) {
               </div>
             </div>
             <p className="text-sm font-medium animate-pulse text-indigo-600 dark:text-indigo-400">Breathing in...</p>
-            <p className="text-[10px] text-muted-foreground mt-2">Focus on the rhythm of the circle</p>
+            <p className="text-xs text-muted-foreground mt-2">Focus on the rhythm of the circle</p>
             <Button variant="ghost" size="sm" className="mt-4 text-xs h-7" onClick={() => setIsActive(false)}>Finish</Button>
           </div>
         )}
@@ -1564,7 +1564,7 @@ export function SleepInsightResult({ insight }: SleepInsightResultProps) {
       <p className="text-xs text-muted-foreground mb-4">{insight.summary}</p>
 
       <div className="bg-slate-50 dark:bg-slate-900/50 rounded-lg p-3">
-        <h5 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1">
+        <h5 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-2 flex items-center gap-1">
           <Lightbulb className="h-3 w-3" /> Habits for Better Rest
         </h5>
         <ul className="space-y-1">
@@ -1617,7 +1617,7 @@ export function GoalTrackerResult({ tracker }: GoalTrackerResultProps) {
               ></div>
             </div>
             {goal.isCompleted && (
-              <p className="text-[10px] text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
+              <p className="text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
                 <Sparkles className="h-3 w-3" /> Goal Achieved!
               </p>
             )}
@@ -1651,7 +1651,7 @@ export function MoodCalendarResult({ days }: MoodCalendarResultProps) {
           <Calendar className="h-4 w-4 text-primary" />
         </div>
         <h4 className="font-semibold text-sm">Mood Landscape</h4>
-        <Badge variant="secondary" className="ml-auto text-[10px]">Last 14 Days</Badge>
+        <Badge variant="secondary" className="ml-auto text-xs">Last 14 Days</Badge>
       </div>
 
       <div className="grid grid-cols-7 gap-1">
@@ -1672,7 +1672,7 @@ export function MoodCalendarResult({ days }: MoodCalendarResultProps) {
         )}
       </div>
 
-      <div className="mt-4 flex items-center justify-between text-[10px] text-muted-foreground border-t pt-3">
+      <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground border-t pt-3">
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-sm bg-red-300"></div>
           <span>Low</span>
@@ -1717,7 +1717,7 @@ export function BookingPreviewBlock({ preview }: {
       </div>
 
       <div className="relative z-10">
-        <Badge className="mb-2 bg-primary text-primary-foreground text-[10px]">Preview Confirmation</Badge>
+        <Badge className="mb-2 bg-primary text-primary-foreground text-xs">Preview Confirmation</Badge>
         <h4 className="text-lg font-bold text-foreground mb-1">{preview.serviceName}</h4>
         {preview.variantName && (
           <p className="text-xs font-semibold text-primary/80 mb-2">{preview.variantName}</p>
@@ -1726,7 +1726,7 @@ export function BookingPreviewBlock({ preview }: {
 
         <div className="grid grid-cols-2 gap-4 mb-5">
           <div className="bg-white/40 dark:bg-black/20 p-2 rounded-lg border border-white/20">
-            <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-1">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
               <Calendar className="w-3 h-3" /> Date & Time
             </div>
             <div className="text-xs font-bold truncate">
@@ -1734,7 +1734,7 @@ export function BookingPreviewBlock({ preview }: {
             </div>
           </div>
           <div className="bg-white/40 dark:bg-black/20 p-2 rounded-lg border border-white/20">
-            <div className="flex items-center gap-2 text-[10px] text-muted-foreground mb-1">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground mb-1">
               <ShoppingBag className="w-3 h-3" /> Investment
             </div>
             <div className="text-xs font-bold">${preview.price}</div>
@@ -1777,20 +1777,20 @@ export function ServiceComparisonBlock({ services }: { services: any[] }) {
             <div className="p-4 bg-gradient-to-br from-indigo-50 to-white dark:from-slate-900 dark:to-slate-950 transition-colors">
               <Badge variant="outline" className="mb-2 text-[9px] border-primary/20">{s.category}</Badge>
               <h5 className="font-bold text-sm mb-1 line-clamp-1">{s.name}</h5>
-              <p className="text-[11px] text-muted-foreground line-clamp-2 h-8">{s.description}</p>
+              <p className="text-xs text-muted-foreground line-clamp-2 h-8">{s.description}</p>
             </div>
             <div className="p-4 border-t border-indigo-50 dark:border-indigo-900/50 space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] text-muted-foreground">Price</span>
+                <span className="text-xs text-muted-foreground">Price</span>
                 <span className="font-bold text-sm bg-primary/10 px-2 py-0.5 rounded text-primary">${s.price_amount}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-[10px] text-muted-foreground">Duration</span>
+                <span className="text-xs text-muted-foreground">Duration</span>
                 <span className="text-xs font-medium">{s.duration_min} min</span>
               </div>
               <Button
                 size="sm"
-                className="w-full h-8 text-[11px] font-semibold bg-white dark:bg-slate-900 border border-primary/20 hover:bg-primary hover:text-white transition-all shadow-sm"
+                className="w-full h-8 text-xs font-semibold bg-white dark:bg-slate-900 border border-primary/20 hover:bg-primary hover:text-white transition-all shadow-sm"
                 onClick={() => {
                   const event = new CustomEvent('ai_service_selected', { detail: { name: s.name, id: s.id } });
                   document.dispatchEvent(event);
@@ -1813,7 +1813,7 @@ export function WalletHistoryBlock({ transactions }: { transactions: any[] }) {
 
   return (
     <div className="my-2 space-y-3">
-      <h4 className="text-[10px] font-bold uppercase tracking-widest text-primary/60 ml-1 flex items-center gap-2">
+      <h4 className="text-xs font-bold uppercase tracking-widest text-primary/60 ml-1 flex items-center gap-2">
         <History className="w-3 h-3" /> Recent Transactions
       </h4>
       <div className="space-y-1">
@@ -1831,7 +1831,7 @@ export function WalletHistoryBlock({ transactions }: { transactions: any[] }) {
               </div>
               <div>
                 <div className="text-xs font-semibold line-clamp-1">{t.description || t.type}</div>
-                <div className="text-[10px] text-muted-foreground">{format(new Date(t.date), 'MMM d, h:mm a')}</div>
+                <div className="text-xs text-muted-foreground">{format(new Date(t.date), 'MMM d, h:mm a')}</div>
               </div>
             </div>
             <div className={`text-xs font-bold ${t.amount >= 0 ? 'text-green-600' : 'text-red-600'}`}>
@@ -1840,7 +1840,7 @@ export function WalletHistoryBlock({ transactions }: { transactions: any[] }) {
           </div>
         ))}
       </div>
-      <Button variant="ghost" size="sm" className="w-full text-[10px] text-muted-foreground h-7" onClick={() => window.location.href = '/wallet'}>
+      <Button variant="ghost" size="sm" className="w-full text-xs text-muted-foreground h-7" onClick={() => window.location.href = '/wallet'}>
         View All in Wallet
       </Button>
     </div>

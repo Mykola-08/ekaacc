@@ -251,7 +251,7 @@ export function AIChatWidget() {
                     </div>
                     <div>
                       <CardTitle className="text-base font-semibold text-zinc-900">Concierge</CardTitle>
-                      <p className="text-[11px] font-medium text-zinc-500">Wellness Assistant</p>
+                      <p className="text-xs font-medium text-zinc-500">Wellness Assistant</p>
                     </div>
                   </div>
                   <Button

@@ -213,7 +213,7 @@ export default function ResetPasswordPage() {
        >
         <Button
          type="submit"
-         className="w-full rounded-xl h-12 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold shadow-lg shadow-teal-500/25 transition-all hover:scale-[1.02] active:scale-[0.98] hover:shadow-xl hover:shadow-teal-500/30"
+         className="w-full rounded-xl h-12 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold shadow-lg shadow-teal-500/25 transition-all hover:scale-105 active:scale-[0.98] hover:shadow-xl hover:shadow-teal-500/30"
          disabled={isLoading}
         >
          {isLoading ? (

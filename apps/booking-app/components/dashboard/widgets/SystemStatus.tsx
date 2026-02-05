@@ -25,7 +25,7 @@ export function SystemStatus() {
                             <s.icon className={`${s.color} w-4 h-4`} strokeWidth={2.5} />
                         </div>
                         <div className="min-w-0">
-                            <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-0.5">{s.label}</div>
+                            <div className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-0.5">{s.label}</div>
                             <div className="text-[13px] font-bold text-foreground truncate leading-none">{s.status}</div>
                         </div>
                     </div>

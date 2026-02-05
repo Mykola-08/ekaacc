@@ -96,7 +96,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                         </div>
                       )}
                       <div className="absolute top-4 left-4">
-                          <Badge className="bg-background/95 text-foreground backdrop-blur-md border-0 shadow-lg font-bold px-3 py-1.5 rounded-full uppercase text-[10px] tracking-wider">
+                          <Badge className="bg-background/95 text-foreground backdrop-blur-md border-0 shadow-lg font-bold px-3 py-1.5 rounded-full uppercase text-xs tracking-wider">
                              {resource.category === 'video' && <PlayCircle className="w-3 h-3 mr-1.5" strokeWidth={2.5} />}
                              {resource.category === 'article' && <FileText className="w-3 h-3 mr-1.5" strokeWidth={2.5} />}
                              {resource.category === 'meditation' && <Activity className="w-3 h-3 mr-1.5" strokeWidth={2.5} />}

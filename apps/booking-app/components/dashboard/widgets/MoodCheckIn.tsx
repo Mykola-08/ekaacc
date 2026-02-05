@@ -80,7 +80,7 @@ export function MoodCheckIn() {
                                 )}
                             >
                                 <mood.icon className={cn("w-6 h-6", mood.color)} strokeWidth={2.5} />
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-muted">{mood.label}</span>
+                                <span className="text-xs font-bold uppercase tracking-wider text-muted">{mood.label}</span>
                             </button>
                         ))}
                     </motion.div>

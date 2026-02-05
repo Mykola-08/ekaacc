@@ -45,7 +45,7 @@ export function NotificationDropdown() {
         <DropdownMenuLabel className="px-4 py-3 text-base font-bold tracking-tight text-foreground flex items-center justify-between">
             Notifications
             {unreadCount > 0 && (
-                <span className="text-[10px] bg-foreground text-background px-2 py-0.5 rounded-full">{unreadCount} New</span>
+                <span className="text-xs bg-foreground text-background px-2 py-0.5 rounded-full">{unreadCount} New</span>
             )}
         </DropdownMenuLabel>
         
@@ -70,7 +70,7 @@ export function NotificationDropdown() {
                             {!n.read && <span className="h-2 w-2 rounded-full bg-primary shrink-0 mt-1.5"></span>}
                         </div>
                         <span className="text-xs text-muted-foreground font-normal leading-relaxed line-clamp-2">{n.message}</span>
-                        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider pt-1">{formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}</span>
+                        <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider pt-1">{formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}</span>
                     </div>
                     </DropdownMenuItem>
                 ))}

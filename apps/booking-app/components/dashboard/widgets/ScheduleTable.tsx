@@ -44,7 +44,7 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
                 </div>
                 <Button
                     onClick={onAddBlock}
-                    className="rounded-lg px-6 h-12 font-bold bg-foreground text-background hover:bg-foreground/90 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-foreground/20">
+                    className="rounded-lg px-6 h-12 font-bold bg-foreground text-background hover:bg-foreground/90 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-foreground/20">
                     <Plus className="w-5 h-5 mr-2" strokeWidth={2.5} />
                     Add Time Block
                 </Button>
@@ -72,7 +72,7 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
                 ) : (
                     // Table Header
                     <div className="w-full">
-                        <div className="grid grid-cols-12 gap-4 px-8 py-5 bg-secondary text-[11px] font-bold text-muted-foreground uppercase tracking-[0.1em] border-b border-border">
+                        <div className="grid grid-cols-12 gap-4 px-8 py-5 bg-secondary text-xs font-bold text-muted-foreground uppercase tracking-[0.1em] border-b border-border">
                             <div className="col-span-4 md:col-span-3">Details</div>
                             <div className="col-span-3 md:col-span-2">Status</div>
                             <div className="hidden md:block md:col-span-3">Client</div>
@@ -117,7 +117,7 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
 
             {/* Status Pill */}
             <div className="col-span-3 md:col-span-2">
-                <span className={cn("inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border", statusClass)}>
+                <span className={cn("inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border", statusClass)}>
                     {item.status}
                 </span>
             </div>
@@ -126,7 +126,7 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
             <div className="hidden md:block md:col-span-3">
                 <div className="flex items-center gap-3">
                     <Avatar className="w-9 h-9 border border-border">
-                        <AvatarFallback className="text-[11px] bg-secondary font-bold text-muted-foreground">
+                        <AvatarFallback className="text-xs bg-secondary font-bold text-muted-foreground">
                             {(clientName?.substring(0, 2) || '??').toUpperCase()}
                         </AvatarFallback>
                     </Avatar>

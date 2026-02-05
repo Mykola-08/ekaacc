@@ -98,7 +98,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                     {/* Next Session - Standard Card */}
                     <Card className="p-6 rounded-2xl border border-border bg-surface flex flex-col justify-between shadow-sm">
                         <div className="flex items-center justify-between mb-4">
-                            <span className="text-[11px] font-bold text-muted uppercase tracking-wider">Upcoming Session</span>
+                            <span className="text-xs font-bold text-muted uppercase tracking-wider">Upcoming Session</span>
                             <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
                                 <Calendar className="w-5 h-5" strokeWidth={2} />
                             </div>
@@ -114,7 +114,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                                         </span>
                                     </div>
                                     <div className="py-2">
-                                        <div className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Starts in</div>
+                                        <div className="text-xs uppercase font-bold text-muted-foreground mb-1">Starts in</div>
                                         <CountdownTimer targetDate={nextBooking.start_time} />
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                                 <div>
                                     <div className="font-bold text-primary">Activity</div>
                                     <div className="text-2xl font-black text-accent tabular-nums">75%</div>
-                                    <div className="text-[10px] font-bold uppercase text-muted tracking-widest">Daily Goal</div>
+                                    <div className="text-xs font-bold uppercase text-muted tracking-widest">Daily Goal</div>
                                 </div>
                             </Card>
                             <Card className="p-6 rounded-2xl border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
@@ -152,7 +152,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                                 <div>
                                     <div className="font-bold text-primary">Wellness</div>
                                     <div className="text-2xl font-black text-emerald-500 tabular-nums">85%</div>
-                                    <div className="text-[10px] font-bold uppercase text-muted tracking-widest">Score</div>
+                                    <div className="text-xs font-bold uppercase text-muted tracking-widest">Score</div>
                                 </div>
                             </Card>
                         </div>

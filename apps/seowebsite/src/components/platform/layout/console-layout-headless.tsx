@@ -166,7 +166,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-xs font-medium text-white">Super Admin</span>
-                                <span className="text-[10px] text-muted-foreground/80">System Access</span>
+                                <span className="text-xs text-muted-foreground/80">System Access</span>
                             </div>
                         </div>
                     </div>

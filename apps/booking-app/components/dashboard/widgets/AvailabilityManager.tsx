@@ -80,7 +80,7 @@ export function AvailabilityManager() {
                     <table className="w-full">
                         <thead>
                             <tr>
-                                <th className="text-left font-bold text-muted-foreground pb-6 w-20 uppercase text-[11px] tracking-wider">Time</th>
+                                <th className="text-left font-bold text-muted-foreground pb-6 w-20 uppercase text-xs tracking-wider">Time</th>
                                 {DAYS.map(day => (
                                     <th key={day} className="text-center font-bold text-foreground pb-6 min-w-[80px] text-sm uppercase tracking-wider">{day}</th>
                                 ))}
@@ -89,7 +89,7 @@ export function AvailabilityManager() {
                         <tbody className="divide-y divide-border">
                             {HOURS.map(hour => (
                                 <tr key={hour} className="group hover:bg-secondary/50 transition-colors">
-                                    <td className="py-4 font-mono text-[11px] font-bold text-muted-foreground group-hover:text-foreground transition-colors">{hour}</td>
+                                    <td className="py-4 font-mono text-xs font-bold text-muted-foreground group-hover:text-foreground transition-colors">{hour}</td>
                                     {DAYS.map(day => {
                                         const isAvailable = availability[day]?.[hour] ?? false;
                                         return (

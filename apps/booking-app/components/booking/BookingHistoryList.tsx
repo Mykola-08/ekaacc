@@ -148,7 +148,7 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                         "flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-xl",
                         isUpcoming ? "bg-primary/10 text-primary" : "bg-secondary/50 text-muted-foreground"
                     )}>
-                        <span className="text-[11px] font-black uppercase tracking-widest opacity-80">
+                        <span className="text-xs font-black uppercase tracking-widest opacity-80">
                             {format(new Date(booking.startTime), 'MMM')}
                         </span>
                         <span className="text-2xl font-black tracking-tighter">
@@ -159,7 +159,7 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                     <div className="space-y-3 md:space-y-2 flex-1">
                         <div className="flex items-center justify-between md:justify-start md:gap-4">
                             <span className={cn(
-                                "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider", 
+                                "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider", 
                                 badgeClass
                             )}>
                                 {booking.status}

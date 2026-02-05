@@ -83,7 +83,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                         {/* Stats Grid */}
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
                             {/* Next Session Card */}
-                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 pointer-events-none" />
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                                 <div className="flex items-center justify-between mb-4 relative z-10">
@@ -103,7 +103,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                             </div>
 
                             {/* Credits Card */}
-                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 pointer-events-none" />
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                                 <div className="flex items-center justify-between mb-4 relative z-10">
@@ -121,7 +121,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                             </div>
 
                             {/* Wellness Score Card */}
-                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                                 <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 to-purple-500/5 pointer-events-none" />
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-violet-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                                 <div className="flex items-center justify-between mb-4 relative z-10">
@@ -142,7 +142,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                             </div>
 
                             {/* Streak Card */}
-                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+                            <div className="relative group overflow-hidden bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-6 border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
                                 <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-amber-500/5 pointer-events-none" />
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
                                 <div className="flex items-center justify-between mb-4 relative z-10">
@@ -161,7 +161,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                         {/* Main Content Grid */}
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {/* Upcoming Sessions Section */}
-                            <div className="lg:col-span-2 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl border-0 shadow-xl p-8 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
+                            <div className="lg:col-span-2 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl border-0 shadow-xl p-8 hover:shadow-2xl transition-all duration-300 relative overflow-hidden">
                                 <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 pointer-events-none" />
                                 <div className="flex items-center justify-between mb-8 relative z-10">
                                     <div className="space-y-1">
@@ -215,7 +215,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                             </div>
 
                             {/* Promo/Feature Content */}
-                            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-card via-card/95 to-card/90 backdrop-blur-sm p-8 text-foreground shadow-2xl lg:col-span-1 flex flex-col justify-between group border-0">
+                            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-card via-card/95 to-card/90 backdrop-blur-sm p-8 text-foreground shadow-2xl lg:col-span-1 flex flex-col justify-between group border-0">
                                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 pointer-events-none" />
                                 <div className="absolute top-0 right-0 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none group-hover:scale-110 transition-transform duration-700" />
 
@@ -255,7 +255,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                     <TabPanel className="p-12 text-center bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl border-0 shadow-xl animate-slide-up relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 pointer-events-none" />
                         <div className="max-w-md mx-auto relative z-10">
-                            <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
                                 <Calendar className="w-10 h-10 text-blue-600 dark:text-blue-400" />
                             </div>
                             <h3 className="text-2xl font-bold text-foreground mb-3">Full Booking Schedule</h3>
@@ -266,7 +266,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                     <TabPanel className="p-12 text-center bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl border-0 shadow-xl animate-slide-up relative overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 pointer-events-none" />
                         <div className="max-w-md mx-auto relative z-10">
-                            <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <div className="w-20 h-20 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
                                 <CreditCard className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                             </div>
                             <h3 className="text-2xl font-bold text-foreground mb-3">Wallet Management</h3>

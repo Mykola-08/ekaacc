@@ -144,7 +144,7 @@ export function BentoGrid() {
 
        {/* Quick Booking Calendar */}
        <motion.div variants={item} className="md:col-span-1 lg:col-span-1">
-        <Card className="h-full border-none bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8 rounded-2xl relative overflow-hidden group hover:scale-[1.02] transition-transform">
+        <Card className="h-full border-none bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8 rounded-2xl relative overflow-hidden group hover:scale-105 transition-transform">
            <div className="relative z-10 flex flex-col h-full">
               <IconCalendar01 size={32} className="mb-4" />
               <h4 className="text-2xl font-bold mb-2">Check availability</h4>

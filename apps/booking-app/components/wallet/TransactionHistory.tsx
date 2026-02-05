@@ -35,9 +35,9 @@ import {
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent border-b border-border">
-              <TableHead className="text-muted-foreground font-bold uppercase text-[11px] tracking-widest pl-8 py-6">Date</TableHead>
-              <TableHead className="text-muted-foreground font-bold uppercase text-[11px] tracking-widest py-6">Description</TableHead>
-              <TableHead className="text-right text-muted-foreground font-bold uppercase text-[11px] tracking-widest pr-8 py-6">Amount</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase text-xs tracking-widest pl-8 py-6">Date</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase text-xs tracking-widest py-6">Description</TableHead>
+              <TableHead className="text-right text-muted-foreground font-bold uppercase text-xs tracking-widest pr-8 py-6">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

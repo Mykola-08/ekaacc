@@ -29,7 +29,7 @@ export function StatsCard({ icon: Icon, label, value, colorClass = "bg-surface-c
                 {action || <ArrowUpRight className="w-5 h-5 text-muted group-hover:text-accent transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 opacity-50" />}
             </div>
             <div className="space-y-1">
-                <div className="text-[11px] font-bold text-muted uppercase tracking-[0.1em]">{label}</div>
+                <div className="text-xs font-bold text-muted uppercase tracking-[0.1em]">{label}</div>
                 <div className="text-3xl font-bold text-primary tracking-tight tabular-nums leading-none">{value}</div>
             </div>
         </div>

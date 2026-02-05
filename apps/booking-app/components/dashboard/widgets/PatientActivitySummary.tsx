@@ -77,13 +77,13 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
                                     <span className="font-bold text-[13px] text-foreground truncate">
                                         {activity.profile?.first_name} {activity.profile?.last_name}
                                     </span>
-                                    <span className="text-[10px] text-muted-foreground whitespace-nowrap">
+                                    <span className="text-xs text-muted-foreground whitespace-nowrap">
                                         {formatDistanceToNow(new Date(activity.created_at), { addSuffix: true })}
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <div className={cn(
-                                        "flex items-center gap-1.5 text-[11px] font-bold px-2 py-1 rounded-md uppercase tracking-tight",
+                                        "flex items-center gap-1.5 text-xs font-bold px-2 py-1 rounded-md uppercase tracking-tight",
                                         activity.mood >= 7 ? "bg-[#EEFBF3] text-[#148046]" : 
                                         activity.mood >= 4 ? "bg-[#FFF8EB] text-[#B95000]" : "bg-[#FEF2F2] text-[#D92D20]"
                                     )}>

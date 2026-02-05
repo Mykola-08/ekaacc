@@ -42,7 +42,7 @@ export function RecentAdminActivity() {
                                 <span className="font-bold text-foreground">{event.profiles?.first_name}</span> booked a session
                             </div>
                         </div>
-                        <div className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider whitespace-nowrap ml-2">
+                        <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider whitespace-nowrap ml-2">
                             {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
                         </div>
                     </div>

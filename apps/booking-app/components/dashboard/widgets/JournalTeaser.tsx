@@ -45,7 +45,7 @@ export function JournalTeaser() {
                             {lastEntry.content}
                             <span className="text-[hsl(var(--muted))] text-4xl leading-none absolute -bottom-5 -right-1">”</span>
                         </div>
-                        <div className="mt-3 text-[11px] font-bold text-[hsl(var(--muted-foreground))] uppercase tracking-wider text-right">
+                        <div className="mt-3 text-xs font-bold text-[hsl(var(--muted-foreground))] uppercase tracking-wider text-right">
                             {new Date(lastEntry.created_at).toLocaleDateString()}
                         </div>
                     </div>

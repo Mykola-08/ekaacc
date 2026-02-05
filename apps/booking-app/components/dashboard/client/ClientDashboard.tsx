@@ -148,7 +148,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                                 </div>
                             </Card>
                             <Card className="p-6 rounded-[36px] border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
-                                <ProgressRing progress={85} size={80} strokeWidth={8} color="#10B981" />
+                                <ProgressRing progress={85} size={80} strokeWidth={8} color="hsl(142 76% 36%)" />
                                 <div>
                                     <div className="font-bold text-primary">Wellness</div>
                                     <div className="text-2xl font-black text-emerald-500 tabular-nums">85%</div>

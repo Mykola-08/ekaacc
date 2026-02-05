@@ -53,7 +53,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
                 <Progress 
                     value={percent} 
                     className={`h-3 rounded-full bg-card border border-border`} 
-                    indicatorClassName={`${isVIP ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]' : 'shadow-[0_0_10px_rgba(0,0,0,0.1)]'}`} 
+                    indicatorClassName={`${isVIP ? 'bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]' : 'bg-foreground shadow-[0_0_10px_rgba(0,0,0,0.1)]'}`} 
                 />
             </div>
 

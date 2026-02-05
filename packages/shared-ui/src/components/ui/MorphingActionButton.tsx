@@ -37,7 +37,7 @@ export function MorphingActionButton({
       className={cn(
         "relative overflow-hidden transition-all duration-300 min-w-30",
         (isSuccess || isError) && "cursor-default",
-        isSuccess && "bg-emerald-500 hover:bg-emerald-600 text-primary-foreground border-emerald-500",
+        isSuccess && "bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-500",
         isError && "bg-destructive hover:bg-destructive/90 text-destructive-foreground border-destructive",
         className
       )}

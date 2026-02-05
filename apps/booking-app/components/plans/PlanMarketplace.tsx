@@ -83,7 +83,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                                     "w-full rounded-[16px] font-bold h-12 text-base transition-all active:scale-95",
                                     isVIP 
                                         ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25" 
-                                        : "shadow-lg"
+                                        : "bg-foreground text-background hover:bg-foreground/90 shadow-lg"
                                 )}
                                 onClick={() => handlePurchase(plan)}
                                 disabled={!!loadingId}

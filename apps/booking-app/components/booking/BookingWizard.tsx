@@ -210,53 +210,62 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
     <div className="container max-w-5xl py-12 px-4 md:px-6 flex flex-col md:flex-row gap-8">
       
       {/* Sidebar Summary */}
-      <div className="w-full md:w-1/3 order-2 md:order-1">
-        <Card className="sticky top-24 bg-muted/40 border-muted">
-          <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-                Booking Summary
-                {viewerCount > 1 && (
-                    <Badge variant="secondary" className="bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/50 flex items-center gap-1.5 text-xs py-0.5 font-normal animate-pulse">
-                        <Users className="w-3 h-3" />
-                        {viewerCount} viewing
-                    </Badge>
-                )}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+      <div className="w-full md:w-1/3 order-2 md:order-1 animate-in fade-in slide-in-from-right-8 duration-700">
+        <div className="bg-white rounded-[32px] border border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden sticky top-24">
+          <div className="relative h-48 bg-[#F9F9F8]">
+            {/* Image Placeholder */}
+            <div className="absolute inset-0 flex items-center justify-center text-[#999999]/20">
+              <Users className="w-16 h-16" strokeWidth={1} />
+            </div>
+             {/* Live Viewers Badge */}
+             {viewerCount > 1 && (
+                 <div className="absolute top-4 right-4 animate-pulse">
+                     <Badge variant="secondary" className="bg-white/80 backdrop-blur shadow-sm text-[#FF3F40] border-transparent">
+                        <Users className="w-3 h-3 mr-1" />
+                        {viewerCount} booking now
+                     </Badge>
+                 </div>
+             )}
+          </div>
+          
+          <div className="p-8 space-y-6">
             <div>
-              <h3 className="font-semibold text-foreground">{service.name}</h3>
-              <p className="text-sm text-muted-foreground">{selectedVariant?.name || "Standard Session"}</p>
+               <h2 className="font-bold text-2xl text-[#222222] mb-2">{service.name}</h2>
+               <p className="text-[#999999] leading-relaxed">{service.description}</p>
             </div>
-            <Separator />
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Duration</span>
-              <span>{duration} mins</span>
+
+            <div className="space-y-4 pt-6 border-t border-[#F5F5F5]">
+                <div className="flex justify-between text-sm">
+                  <span className="text-[#999999] font-medium">Duration</span>
+                  <span className="text-[#222222] font-semibold">{duration} mins</span>
+                </div>
+                 <div className="flex justify-between text-sm">
+                  <span className="text-[#999999] font-medium">Date</span>
+                  <span className="text-[#222222] font-semibold">{date ? date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) : "Select date"}</span>
+                </div>
+                 <div className="flex justify-between text-sm">
+                  <span className="text-[#999999] font-medium">Time</span>
+                  <span className="text-[#222222] font-semibold">{selectedTime || "Select time"}</span>
+                </div>
             </div>
-             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Date</span>
-              <span>{date ? date.toLocaleDateString() : "-"}</span>
+
+            <div className="pt-6 border-t border-[#F5F5F5]">
+                <div className="flex justify-between items-baseline">
+                  <span className="font-bold text-lg text-[#222222]">Total</span>
+                  <span className="font-bold text-3xl text-[#222222]">€{price}</span>
+                </div>
             </div>
-             <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Time</span>
-              <span>{selectedTime || "-"}</span>
-            </div>
-            <Separator />
-            <div className="flex justify-between font-bold text-lg">
-              <span>Total</span>
-              <span>€{price}</span>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
 
       {/* Main Wizard */}
       <div className="w-full md:w-2/3 order-1 md:order-2">
-                 <div className="mb-6">
-            <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0 hover:pl-0">
+                 <div className="mb-8">
+            <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0 hover:pl-0 text-[#999999] hover:text-[#222222]">
                  <ArrowLeft className="w-4 h-4 mr-2"/> {step === 'time' ? "Back to Service" : "Back"}
             </Button>
-            <h1 className="text-3xl font-serif font-medium">
+            <h1 className="text-4xl font-bold tracking-tight text-[#222222]">
                 {step === 'time' && "Select a Time"}
                 {step === 'addons' && "Enhance Your Session"}
                 {step === 'details' && "Your Details"}
@@ -266,29 +275,35 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {step === "time" && (
-                <div className="grid md:grid-cols-2 gap-8">
-                    <div className="border rounded-xl p-4">
+                <div className="grid lg:grid-cols-2 gap-8">
+                    <div className="bg-white rounded-[32px] p-6 shadow-sm border border-[#F5F5F5]">
                         <Calendar
                             mode="single"
                             selected={date}
                             onSelect={setDate}
-                            className="rounded-md w-full flex justify-center"
+                            className="w-full flex justify-center"
                             disabled={(date) => date < new Date() || date.getDay() === 0}
                         />
                     </div>
-                    <div className="space-y-4">
-                        <Label>Available Slots</Label>
+                    <div className="space-y-6">
+                        <Label className="text-[#222222] font-bold text-lg">Available Slots</Label>
                         {loadingSlots ? (
-                             <div className="flex items-center justify-center py-8 text-muted-foreground">
+                             <div className="flex items-center justify-center py-12 text-[#999999]">
                                  <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                                 Looking for slots...
                              </div>
                         ) : timeSlots.length > 0 ? (
                             <div className="grid grid-cols-2 gap-3">
                                 {timeSlots.map((time) => (
                                     <Button
                                         key={time}
-                                        variant={selectedTime === time ? "default" : "outline"}
-                                        className={selectedTime === time ? "bg-foreground hover:bg-foreground/90" : ""}
+                                        variant="outline"
+                                        className={cn(
+                                            "h-12 rounded-[16px] border-2 font-semibold transition-all",
+                                            selectedTime === time 
+                                                ? "bg-[#222222] text-white border-[#222222] hover:bg-black hover:text-white transform scale-[1.02] shadow-md" 
+                                                : "bg-white border-[#F5F5F5] text-[#222222] hover:border-[#EAEAEA] hover:bg-[#F9F9F8]"
+                                        )}
                                         onClick={() => handleTimeSelect(time)}
                                     >
                                         {time}
@@ -296,11 +311,12 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 ))}
                             </div>
                         ) : (
-                             <div className="py-8 text-center text-muted-foreground text-sm border rounded-lg bg-muted/20">
-                                 No slots available for this date.
+                             <div className="py-12 text-center bg-[#F9F9F8] rounded-[24px] border border-[#F5F5F5]">
+                                 <p className="text-[#999999] font-medium">No slots available for this date.</p>
+                                 <p className="text-xs text-[#999999] mt-2">Try selecting another day.</p>
                              </div>
                         )}
-                        <p className="text-xs text-muted-foreground mt-4">
+                        <p className="text-xs text-[#999999] text-center font-medium">
                             All times are in local time.
                         </p>
                     </div>
@@ -309,67 +325,99 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
             
             {step === "addons" && (
                  <div className="grid gap-4">
-                     {/* Placeholder for Addons based on spec */}
-                     <Card className="cursor-pointer hover:border-primary transition-colors border-dashed bg-muted/20">
-                         <CardContent className="flex items-center justify-between p-6">
-                             <div>
-                                 <h3 className="font-medium">Aromatherapy</h3>
-                                 <p className="text-sm text-muted-foreground">Add essential oils for relaxation.</p>
-                             </div>
-                             <div className="flex items-center gap-4">
-                                 <span className="text-sm font-medium">+€10</span>
-                                 <Button variant="outline" size="sm" disabled>Unavailable</Button>
-                             </div>
-                         </CardContent>
-                     </Card>
+                     {/* Placeholder usage */}
+                     <div className="group cursor-pointer bg-white hover:bg-[#F9F9F8] transition-colors border-2 border-dashed border-[#EAEAEA] hover:border-[#222222] rounded-[24px] p-6 flex items-center justify-between">
+                         <div>
+                             <h3 className="font-bold text-[#222222]">Aromatherapy</h3>
+                             <p className="text-sm text-[#999999]">Add essential oils for relaxation.</p>
+                         </div>
+                         <div className="flex items-center gap-4">
+                             <span className="text-sm font-bold text-[#222222]">+€10</span>
+                             <Button variant="secondary" size="sm" className="bg-[#EAEAEA] text-[#999999] rounded-full" disabled>Unavailable</Button>
+                         </div>
+                     </div>
                      
-                     <div className="p-4 bg-blue-50/50 dark:bg-blue-900/10 rounded-lg text-sm text-blue-700 dark:text-blue-300">
+                     <div className="p-6 bg-[#4DAFFF]/5 rounded-[24px] text-sm text-[#4DAFFF] font-medium text-center">
                          <p>More enhancements coming soon.</p>
                      </div>
                  </div>
             )}
 
             {step === "details" && (
+                <div className="bg-white rounded-[32px] p-8 border border-[#F5F5F5] shadow-sm">
                 <Tabs defaultValue="guest" value={user ? "guest" : undefined} className="w-full">
                     {!user && (
-                        <TabsList className="grid w-full grid-cols-2 mb-8">
-                            <TabsTrigger value="guest">Guest Checkout</TabsTrigger>
-                            <TabsTrigger value="login">Sign In</TabsTrigger>
+                        <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-[#F9F9F8] rounded-full h-12">
+                            <TabsTrigger value="guest" className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">Guest Checkout</TabsTrigger>
+                            <TabsTrigger value="login" className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">Sign In</TabsTrigger>
                         </TabsList>
                     )}
                     
                     <TabsContent value="guest" className="space-y-6">
                          <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="firstName">First name</Label>
-                                <Input id="firstName" placeholder="Jane" disabled={!!user} defaultValue={user?.user_metadata?.first_name} value={formData.firstName} onChange={handleInputChange} />
+                                <Label htmlFor="firstName" className="font-bold text-[#222222]">First name</Label>
+                                <Input 
+                                    id="firstName" 
+                                    className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                    placeholder="Jane" 
+                                    disabled={!!user} 
+                                    defaultValue={user?.user_metadata?.first_name} 
+                                    value={formData.firstName} 
+                                    onChange={handleInputChange} 
+                                />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="lastName">Last name</Label>
-                                <Input id="lastName" placeholder="Doe" disabled={!!user} defaultValue={user?.user_metadata?.last_name} value={formData.lastName} onChange={handleInputChange} />
+                                <Label htmlFor="lastName" className="font-bold text-[#222222]">Last name</Label>
+                                <Input 
+                                    id="lastName" 
+                                    className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                    placeholder="Doe" 
+                                    disabled={!!user} 
+                                    defaultValue={user?.user_metadata?.last_name} 
+                                    value={formData.lastName} 
+                                    onChange={handleInputChange} 
+                                />
                             </div>
                          </div>
                          <div className="space-y-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input id="email" type="email" placeholder="jane@example.com" disabled={!!user} defaultValue={user?.email} value={formData.email} onChange={handleInputChange} />
+                            <Label htmlFor="email" className="font-bold text-[#222222]">Email</Label>
+                            <Input 
+                                id="email" 
+                                type="email" 
+                                className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                placeholder="jane@example.com" 
+                                disabled={!!user} 
+                                defaultValue={user?.email} 
+                                value={formData.email} 
+                                onChange={handleInputChange} 
+                            />
                          </div>
                          <div className="space-y-2">
-                            <Label htmlFor="phone">Phone</Label>
-                            <Input id="phone" type="tel" placeholder="+1234567890" value={formData.phone} onChange={handleInputChange} />
+                            <Label htmlFor="phone" className="font-bold text-[#222222]">Phone</Label>
+                            <Input 
+                                id="phone" 
+                                type="tel" 
+                                className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                placeholder="+1234567890" 
+                                value={formData.phone} 
+                                onChange={handleInputChange} 
+                            />
                          </div>
                          
                          {!user && (
-                             <div className="flex items-center space-x-2 pt-4 border-t">
+                             <div className="flex items-center space-x-3 pt-6 border-t border-[#F5F5F5]">
                                 <Checkbox 
                                     id="createAccount" 
                                     checked={formData.createAccount}
                                     onCheckedChange={(checked) => setFormData({...formData, createAccount: checked as boolean})}
+                                    className="rounded-[6px] border-[#999999] data-[state=checked]:bg-[#222222] data-[state=checked]:border-[#222222]"
                                 />
                                 <div className="grid gap-1.5 leading-none">
-                                    <Label htmlFor="createAccount" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                    <Label htmlFor="createAccount" className="text-sm font-bold text-[#222222] cursor-pointer">
                                         Create an account for easier booking next time
                                     </Label>
-                                    <p className="text-sm text-muted-foreground">
+                                    <p className="text-sm text-[#999999]">
                                         We'll email you a link to set your password.
                                     </p>
                                 </div>
@@ -379,69 +427,72 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                     
                     {!user && (
                         <TabsContent value="login">
-                            <div className="text-center py-8 space-y-4">
-                                <p className="text-muted-foreground">Already have an account? Sign in to use your saved details and points.</p>
-                                <Button variant="outline" asChild>
+                            <div className="text-center py-12 space-y-6">
+                                <p className="text-[#999999] max-w-xs mx-auto">Already have an account? Sign in to use your saved details and points.</p>
+                                <Button variant="outline" asChild className="rounded-full h-12 px-8 border-2 border-[#EAEAEA] hover:border-[#222222] hover:bg-transparent text-[#222222] font-bold">
                                     <Link href={`/login?returnTo=/book/${service.id}`}>Sign In</Link>
                                 </Button>
                             </div>
                         </TabsContent>
                     )}
                 </Tabs>
+                </div>
             )}
 
              {step === "payment" && (
                 <div className="space-y-6">
-                    <div className="border rounded-xl p-6 bg-card">
-                       <h3 className="font-semibold mb-4 flex items-center gap-2">
-                           <CreditCard className="w-5 h-5 text-blue-600" />
+                    <div className="bg-white rounded-[32px] p-8 border border-[#F5F5F5] shadow-sm">
+                       <h3 className="font-bold text-xl mb-6 flex items-center gap-3 text-[#222222]">
+                           <div className="w-10 h-10 rounded-full bg-[#4DAFFF]/10 flex items-center justify-center text-[#4DAFFF]">
+                               <CreditCard className="w-5 h-5" />
+                           </div>
                            Payment Method
                        </h3>
                        <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)}>
-                           <TabsList className="w-full grid grid-cols-2">
-                               <TabsTrigger value="stripe">Card / Apple Pay</TabsTrigger>
-                               <TabsTrigger value="wallet" disabled={!user}>
+                           <TabsList className="w-full grid grid-cols-2 p-1 bg-[#F9F9F8] rounded-full h-12 mb-8">
+                               <TabsTrigger value="stripe" className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">Card / Apple Pay</TabsTrigger>
+                               <TabsTrigger value="wallet" disabled={!user} className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">
                                    Wallet {walletBalance !== null && `(€${walletBalance})`}
                                </TabsTrigger>
                            </TabsList>
-                           <TabsContent value="stripe" className="pt-6 space-y-4">
+                           <TabsContent value="stripe" className="space-y-6">
                                 <div className="space-y-4">
-                                    <Input placeholder="Card number" />
+                                    <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="Card number" />
                                     <div className="grid grid-cols-3 gap-4">
-                                        <Input placeholder="MM/YY" />
-                                        <Input placeholder="CVC" />
-                                        <Input placeholder="Zip" />
+                                        <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="MM/YY" />
+                                        <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="CVC" />
+                                        <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="Zip" />
                                     </div>
-                                    <p className="text-xs text-muted-foreground text-center">
+                                    <p className="text-xs text-[#999999] text-center mt-4">
                                         Transactions secured by Stripe. No payment taken until confirmation.
                                     </p>
                                 </div>
                            </TabsContent>
-                           <TabsContent value="wallet" className="pt-6">
+                           <TabsContent value="wallet" className="">
                                {user ? (
                                    walletBalance !== null && walletBalance >= price ? (
                                        <div className="text-center space-y-4 py-4">
-                                           <div className="bg-green-500/10 text-green-600 rounded-full p-3 w-12 h-12 mx-auto flex items-center justify-center">
-                                               <CheckCircle2 className="w-6 h-6" />
+                                           <div className="bg-[#10B981]/10 text-[#10B981] rounded-full p-4 w-16 h-16 mx-auto flex items-center justify-center">
+                                               <CheckCircle2 className="w-8 h-8" strokeWidth={3} />
                                            </div>
                                            <div>
-                                               <p className="font-medium">Sufficient Balance</p>
-                                               <p className="text-sm text-muted-foreground">
+                                               <p className="font-bold text-[#222222] text-lg">Sufficient Balance</p>
+                                               <p className="text-sm text-[#999999]">
                                                    €{price} will be deducted from your €{walletBalance} balance.
                                                </p>
                                            </div>
                                        </div>
                                    ) : (
-                                       <div className="text-center space-y-4 py-4">
-                                           <div className="bg-amber-500/10 text-amber-600 rounded-full p-3 w-12 h-12 mx-auto flex items-center justify-center">
-                                               <CreditCard className="w-6 h-6" />
+                                       <div className="text-center space-y-6 py-4">
+                                           <div className="bg-[#F59E0B]/10 text-[#F59E0B] rounded-full p-4 w-16 h-16 mx-auto flex items-center justify-center">
+                                               <CreditCard className="w-8 h-8" strokeWidth={3} />
                                            </div>
                                            <div>
-                                               <p className="font-medium">Insufficient Balance</p>
-                                               <p className="text-sm text-muted-foreground mb-4">
+                                               <p className="font-bold text-[#222222] text-lg">Insufficient Balance</p>
+                                               <p className="text-sm text-[#999999] mb-6">
                                                    Your balance is €{walletBalance}. You need €{price}.
                                                </p>
-                                               <Button variant="outline" asChild>
+                                               <Button variant="outline" asChild className="rounded-full font-bold border-2">
                                                    <Link href="/wallet/top-up" target="_blank">Top Up Wallet</Link>
                                                </Button>
                                            </div>
@@ -449,35 +500,35 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                    )
                                ) : (
                                    <div className="text-center py-8">
-                                       <p>Please sign in to use Wallet.</p>
+                                       <p className="text-[#999999]">Please sign in to use Wallet.</p>
                                    </div>
                                )}
                            </TabsContent>
                        </Tabs>
                     </div>
 
-                    <div className="flex items-start space-x-2 text-sm text-muted-foreground">
-                        <CheckCircle2 className="w-4 h-4 mt-0.5 text-green-600 shrink-0" />
-                        <p>I agree to the cancellation policy (24h notice required).</p>
+                    <div className="flex items-start space-x-3 text-sm text-[#999999] px-2">
+                        <CheckCircle2 className="w-5 h-5 text-[#10B981] shrink-0" strokeWidth={2.5} />
+                        <p className="font-medium">I agree to the cancellation policy (24h notice required).</p>
                     </div>
                 </div>
             )}
 
 
-            <div className="flex justify-between pt-8 border-t">
+            <div className="flex justify-between pt-8 border-t border-[#F5F5F5]">
                  {step !== 'time' && (
-                     <Button variant="ghost" onClick={() => setStep(step === 'payment' ? 'details' : 'time')}>
+                     <Button variant="ghost" onClick={() => setStep(step === 'payment' ? 'details' : 'time')} className="text-[#999999] hover:text-[#222222] hover:bg-transparent pl-0">
                          Back
                      </Button>
                  )}
                  <div className="ml-auto">
                     {step === 'payment' ? (
-                        <Button size="lg" className="px-8" onClick={handleBooking} disabled={loading}>
-                            {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2"/> : null}
+                        <Button size="lg" className="px-10 h-14 rounded-full font-bold text-lg bg-[#222222] hover:bg-black text-white shadow-xl shadow-[#222222]/20 hover:scale-105 active:scale-95 transition-all" onClick={handleBooking} disabled={loading}>
+                            {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2"/> : null}
                             Confirm Booking
                         </Button>
                     ) : (
-                        <Button size="lg" className="px-8" onClick={handleNext}>
+                        <Button size="lg" className="px-10 h-14 rounded-full font-bold text-lg bg-[#222222] hover:bg-black text-white shadow-xl shadow-[#222222]/20 hover:scale-105 active:scale-95 transition-all" onClick={handleNext}>
                             Next Step
                         </Button>
                     )}

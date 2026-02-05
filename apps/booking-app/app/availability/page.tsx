@@ -1,6 +1,6 @@
 'use client';
 
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
 import { AvailabilityManager } from "@/components/dashboard/widgets/AvailabilityManager";
 
 export default function AvailabilityPage() {

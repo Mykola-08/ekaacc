@@ -82,11 +82,10 @@ export async function getBookingsHistory(profileId: string) {
 }
 
 export async function getTherapistDailySchedule(profileId: string) {
-    // Mock implementation for now as we don't have full staff-profile linkage yet in migration
-    // assuming profile_id IS the staff_id for now or we just query all bookings for today
     try {
         const { rows } = await db.query(
-          `SELECT b.*, s.name as service_name, p.full_name as client_name
+          `SELECT b.*, s.name as service_name, s.duration as service_duration, 
+                  p.first_name, p.last_name, p.email, p.phone, p.full_name as client_name
            FROM booking b
            JOIN service s ON b.service_id = s.id
            LEFT JOIN profiles p ON b.profile_id = p.id
@@ -95,7 +94,21 @@ export async function getTherapistDailySchedule(profileId: string) {
            ORDER BY b.start_time ASC`,
            []
         );
-        return rows;
+
+        // Transform to nested structure for component compatibility
+        return rows.map(row => ({
+            ...row,
+            services: {
+                title: row.service_name,
+                duration: row.service_duration
+            },
+            profiles: {
+                first_name: row.first_name || row.client_name?.split(' ')[0] || '',
+                last_name: row.last_name || row.client_name?.split(' ')[1] || '',
+                email: row.email,
+                phone: row.phone
+            }
+        }));
       } catch (error) {
         console.error('Error fetching schedule', error);
         return [];

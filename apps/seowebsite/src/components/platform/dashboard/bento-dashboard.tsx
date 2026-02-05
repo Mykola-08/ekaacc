@@ -26,69 +26,78 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-7xl mx-auto animate-hero-fade-in pb-20">
       {/* Welcome Card - Large */}
-      <div className="col-span-1 md:col-span-2 lg:col-span-2 row-span-1 bg-white dark:bg-zinc-900 rounded-[32px] p-8 shadow-sm border border-zinc-100 dark:border-zinc-800 flex flex-col justify-between group hover:shadow-md transition-shadow animate-hero-slide-up bg-[url('https://grainy-gradients.vercel.app/noise.svg')] bg-opacity-50" style={{ animationDelay: '0.1s' }}>
-        <div>
-          <h2 className="text-3xl font-bold mb-3 text-balance tracking-tight">Welcome back, {user?.name || 'Guest'}</h2>
-          <p className="text-zinc-500 dark:text-zinc-400 text-lg">Your wellness journey is on track. You have 2 upcoming sessions this week.</p>
+      <div className="col-span-1 md:col-span-2 lg:col-span-2 row-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 flex flex-col justify-between group hover:shadow-3xl transition-all animate-hero-slide-up relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/5 rounded-full blur-2xl" />
+        <div className="relative z-10">
+          <h2 className="text-4xl font-bold mb-3 text-balance tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">Welcome back, {user?.name || 'Guest'}</h2>
+          <p className="text-muted-foreground text-lg font-medium">Your wellness journey is on track. You have 2 upcoming sessions this week.</p>
         </div>
-        <div className="mt-8 flex gap-3">
-          <Button className="rounded-full bg-primary text-white hover:bg-primary/90 px-6 h-12 text-md">
+        <div className="mt-8 flex gap-3 relative z-10">
+          <Button className="rounded-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 h-14 text-md font-bold shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/30 transition-all hover:scale-105">
             Book New Session
           </Button>
-          <Button variant="outline" className="rounded-full border-zinc-200 dark:border-zinc-700 h-12 px-6">
+          <Button variant="outline" className="rounded-full border-border/50 hover:border-primary/50 hover:bg-primary/5 h-14 px-8 font-semibold">
             View Schedule
           </Button>
         </div>
       </div>
 
       {/* Stats Card - Small */}
-      <div className="col-span-1 bg-blue-50/50 dark:bg-blue-900/10 rounded-[32px] p-6 border border-blue-100 dark:border-blue-800/50 flex flex-col justify-between animate-hero-slide-up hover:scale-[1.02] transition-transform duration-300" style={{ animationDelay: '0.2s' }}>
-        <div className="flex justify-between items-start">
-          <div className="p-3 bg-white dark:bg-blue-800/50 rounded-2xl text-blue-600 dark:text-blue-400 shadow-sm">
+      <div className="col-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl flex flex-col justify-between animate-hero-slide-up hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 relative overflow-hidden group" style={{ animationDelay: '0.2s' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+        <div className="flex justify-between items-start relative z-10">
+          <div className="p-3 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/40 dark:to-indigo-900/40 rounded-2xl text-blue-600 dark:text-blue-400 shadow-lg">
             <TrendingUp size={24} />
           </div>
-          <span className="text-xs font-bold bg-white dark:bg-blue-900/50 px-3 py-1.5 rounded-full text-blue-600 dark:text-blue-300 shadow-sm">+12%</span>
+          <span className="text-xs font-bold bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/50 dark:to-indigo-900/50 px-3 py-1.5 rounded-full text-blue-600 dark:text-blue-300 shadow-md">+12%</span>
         </div>
-        <div>
-          <div className="text-4xl font-bold text-blue-900 dark:text-blue-100 mb-1 tracking-tight">24</div>
-          <div className="text-sm text-blue-700 dark:text-blue-300 font-medium">Sessions Completed</div>
+        <div className="relative z-10">
+          <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-2 tracking-tight">24</div>
+          <div className="text-sm text-muted-foreground font-bold uppercase tracking-wide">Sessions Completed</div>
         </div>
       </div>
 
       {/* Wallet Card - Small */}
-      <div className="col-span-1 bg-emerald-50/50 dark:bg-emerald-900/10 rounded-[32px] p-6 border border-emerald-100 dark:border-emerald-800/50 flex flex-col justify-between animate-hero-slide-up hover:scale-[1.02] transition-transform duration-300" style={{ animationDelay: '0.3s' }}>
-        <div className="flex justify-between items-start">
-          <div className="p-3 bg-white dark:bg-emerald-800/50 rounded-2xl text-emerald-600 dark:text-emerald-400 shadow-sm">
+      <div className="col-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl flex flex-col justify-between animate-hero-slide-up hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 relative overflow-hidden group" style={{ animationDelay: '0.3s' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
+        <div className="flex justify-between items-start relative z-10">
+          <div className="p-3 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/40 dark:to-teal-900/40 rounded-2xl text-emerald-600 dark:text-emerald-400 shadow-lg">
             <CreditCard size={24} />
           </div>
         </div>
-        <div>
-          <div className="text-4xl font-bold text-emerald-900 dark:text-emerald-100 mb-1 tracking-tight">€120</div>
-          <div className="text-sm text-emerald-700 dark:text-emerald-300 font-medium">Balance Available</div>
+        <div className="relative z-10">
+          <div className="text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2 tracking-tight">€120</div>
+          <div className="text-sm text-muted-foreground font-bold uppercase tracking-wide">Balance Available</div>
         </div>
       </div>
 
       {/* Upcoming Session - Tall */}
-      <div className="col-span-1 md:col-span-1 row-span-2 bg-zinc-900 dark:bg-black text-white rounded-[32px] p-8 shadow-2xl flex flex-col relative overflow-hidden animate-hero-slide-up group" style={{ animationDelay: '0.4s' }}>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 blur-[80px] rounded-full pointer-events-none group-hover:bg-primary/30 transition-colors duration-500" />
+      <div className="col-span-1 md:col-span-1 row-span-2 bg-gradient-to-br from-card via-card to-card/90 backdrop-blur-sm text-foreground rounded-3xl p-8 shadow-2xl border-0 flex flex-col relative overflow-hidden animate-hero-slide-up group" style={{ animationDelay: '0.4s' }}>
+        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-indigo-500/15 transition-all duration-500" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/10 blur-[60px] rounded-full pointer-events-none" />
         
-        <div className="flex items-center gap-2 mb-8 z-10">
-          <div className="p-2 bg-white/10 rounded-xl backdrop-blur-md">
-             <Clock className="text-zinc-200" size={20} />
+        <div className="flex items-center gap-2 mb-8 z-10 relative">
+          <div className="p-2 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/40 dark:to-purple-900/40 rounded-xl backdrop-blur-md shadow-lg">
+             <Clock className="text-indigo-600 dark:text-indigo-400" size={20} />
           </div>
-          <span className="text-sm font-semibold text-zinc-300">Next Session</span>
+          <span className="text-sm font-bold text-muted-foreground uppercase tracking-wide">Next Session</span>
         </div>
         
-        <div className="flex-1 flex flex-col justify-center z-10">
-          <div className="text-5xl font-bold mb-2 tracking-tighter">14:00</div>
-          <div className="text-zinc-400 text-xl mb-8">Tomorrow</div>
+        <div className="flex-1 flex flex-col justify-center z-10 relative">
+          <div className="text-6xl font-bold mb-2 tracking-tighter bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">14:00</div>
+          <div className="text-muted-foreground text-xl mb-8 font-semibold">Tomorrow</div>
           <div className="mt-auto space-y-1">
-            <div className="font-bold text-xl">Integrative Therapy</div>
-            <div className="text-zinc-400 text-md">with Dr. Sarah Smith</div>
+            <div className="font-bold text-2xl">Integrative Therapy</div>
+            <div className="text-muted-foreground text-md font-medium">with Dr. Sarah Smith</div>
           </div>
         </div>
         
-        <button className="mt-8 w-full py-4 bg-white text-black hover:bg-zinc-200 rounded-2xl text-md font-bold transition-colors z-10 cursor-pointer shadow-lg shadow-white/5">
+        <button className="mt-8 w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-2xl text-md font-bold transition-all z-10 relative cursor-pointer shadow-xl shadow-indigo-500/25 hover:shadow-2xl hover:shadow-indigo-500/30 hover:scale-105 active:scale-95">
           Reschedule
         </button>
       </div>

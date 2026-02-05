@@ -24,12 +24,10 @@ export function MinimalistNav({ className }: MinimalistNavProps) {
   return (
     <motion.nav
       className={cn(
-        "sticky top-0 z-50 bg-card/80 backdrop-blur-sm border-b border-border",
+        "fixed top-0 inset-x-0 z-50 bg-surface/80 backdrop-blur-md border-b border-border",
         className
       )}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      initial={false}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">

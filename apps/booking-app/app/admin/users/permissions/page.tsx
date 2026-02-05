@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { PermissionManager } from "@/components/admin/users/PermissionManager";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
 import { redirect } from "next/navigation";
 import { getAllUserPermissions } from "@/lib/permissions";
 

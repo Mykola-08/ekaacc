@@ -44,17 +44,17 @@ export function AvailabilityManager() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <DashboardHeader title="Availability" subtitle="Manage your weekly working hours and time blocks.">
                 <Button
                     onClick={handleSave}
                     disabled={!hasChanges}
                     className={cn(
-                        "rounded-full transition-all",
-                        hasChanges ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20" : "opacity-50"
+                        "rounded-[16px] h-10 px-6 font-bold transition-all",
+                        hasChanges ? "bg-[#222222] text-white shadow-lg shadow-[#222222]/20 hover:bg-black hover:scale-105 active:scale-95" : "bg-[#EAEAEA] text-[#999999] opacity-50 cursor-not-allowed"
                     )}
                 >
-                    <Save className="w-4 h-4 mr-2" />
+                    <Save className="w-4 h-4 mr-2" strokeWidth={2.5} />
                     Save Changes
                 </Button>
             </DashboardHeader>
@@ -65,31 +65,31 @@ export function AvailabilityManager() {
                     icon={Clock}
                     label="Weekly Hours"
                     value="40h"
-                    colorClass="bg-purple-50 text-purple-600"
+                    colorClass="bg-[#F9F9F8] text-[#222222]"
                 />
                 <StatsCard
                     icon={CalendarIcon}
                     label="Days Active"
                     value="5/7"
-                    colorClass="bg-blue-50 text-blue-600"
+                    colorClass="bg-[#F9F9F8] text-[#222222]"
                 />
             </div>
 
-            <div className="bg-card rounded-[32px] border border-border shadow-sm overflow-hidden p-6 md:p-8">
+            <div className="bg-[#FEFFFE] rounded-[32px] border border-[#F5F5F5] shadow-sm p-6 md:p-8 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
                             <tr>
-                                <th className="text-left font-medium text-muted-foreground pb-6 w-20">Time</th>
+                                <th className="text-left font-bold text-[#999999] pb-6 w-20 uppercase text-[11px] tracking-wider">Time</th>
                                 {DAYS.map(day => (
-                                    <th key={day} className="text-center font-bold text-foreground pb-6 min-w-[80px]">{day}</th>
+                                    <th key={day} className="text-center font-bold text-[#222222] pb-6 min-w-[80px] text-sm uppercase tracking-wider">{day}</th>
                                 ))}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-border/50">
+                        <tbody className="divide-y divide-[#F5F5F5]">
                             {HOURS.map(hour => (
-                                <tr key={hour} className="group">
-                                    <td className="py-4 font-mono text-sm text-muted-foreground">{hour}</td>
+                                <tr key={hour} className="group hover:bg-[#F9F9F8] transition-colors">
+                                    <td className="py-4 font-mono text-[11px] font-bold text-[#999999] group-hover:text-[#222222] transition-colors">{hour}</td>
                                     {DAYS.map(day => {
                                         const isAvailable = availability[day]?.[hour] ?? false;
                                         return (
@@ -97,10 +97,10 @@ export function AvailabilityManager() {
                                                 <button
                                                     onClick={() => toggleSlot(day, hour)}
                                                     className={cn(
-                                                        "w-full h-10 rounded-xl transition-all duration-200 flex items-center justify-center border-2",
-                                                        isAvailable
-                                                            ? "bg-emerald-50 border-emerald-100 text-emerald-600 hover:bg-emerald-100 hover:border-emerald-200"
-                                                            : "bg-secondary/40 border-transparent text-muted-foreground/40 hover:bg-secondary/60"
+                                                        "w-full h-10 rounded-[12px] transition-all duration-200 flex items-center justify-center border-2",
+                                                        isAvailable 
+                                                            ? "bg-[#F7F8F9] border-transparent hover:border-[#4DAFFF] text-[#4DAFFF]" 
+                                                            : "bg-transparent border-[#EEEEEE] text-[#DDDDDD] hover:bg-[#F9F9F8]"
                                                     )}
                                                 >
                                                     {isAvailable ? <Check className="w-4 h-4" strokeWidth={3} /> : <X className="w-4 h-4" />}
@@ -113,13 +113,31 @@ export function AvailabilityManager() {
                         </tbody>
                     </table>
                 </div>
-                <div className="mt-6 flex items-center justify-center gap-6 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded bg-emerald-50 border-2 border-emerald-100"></div>
-                        <span>Available</span>
+            </div>
+                                                        isAvailable
+                                                            ? "bg-[#4DAFFF]/10 border-[#4DAFFF]/20 text-[#4DAFFF] hover:bg-[#4DAFFF] hover:text-white shadow-sm"
+                                                            : "bg-[#F5F5F5] border-transparent text-[#999999]/30 hover:bg-[#EAEAEA] hover:text-[#999999]"
+                                                    )}
+                                                >
+                                                    {isAvailable ? <Check className="w-5 h-5" strokeWidth={3} /> : <X className="w-5 h-5" strokeWidth={2.5} />}
+                                                </button>
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="mt-8 flex items-center justify-center gap-8 text-sm font-bold text-[#999999]">
+                    <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-[6px] bg-[#4DAFFF]/10 border-2 border-[#4DAFFF]/20 flex items-center justify-center text-[#4DAFFF]">
+                             <Check className="w-3 h-3" strokeWidth={4} />
+                        </div>
+                        <span className="text-[#222222]">Available</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <div className="w-4 h-4 rounded bg-secondary/40"></div>
+                    <div className="flex items-center gap-3">
+                        <div className="w-5 h-5 rounded-[6px] bg-[#F5F5F5] border-2 border-transparent"></div>
                         <span>Blocked</span>
                     </div>
                 </div>

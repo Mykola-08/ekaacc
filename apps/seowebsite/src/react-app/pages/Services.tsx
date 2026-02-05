@@ -73,16 +73,16 @@ export default function Services() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-linear-to-br from-blue-50 via-white to-purple-50">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-[#FBFBFD]">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 text-center relative z-10">
           <motion.div
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.3 }}
           >
-            <div className="inline-flex items-center px-6 py-3 bg-card/80 backdrop-blur-sm border border-blue-100 rounded-full mb-8 shadow-sm">
-              <Heart className="w-5 h-5 text-blue-600 mr-2" />
-              <span className="text-blue-700 font-medium">{t('services.integralWellbeingFor')}</span>
+            <div className="inline-flex items-center px-6 py-3 bg-white/60 backdrop-blur-sm border border-[#E5E5EA]/30 rounded-full mb-8 shadow-sm">
+              <Heart className="w-5 h-5 text-primary mr-2" />
+              <span className="text-primary font-medium">{t('services.integralWellbeingFor')}</span>
             </div>
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-light text-foreground mb-8 leading-tight">

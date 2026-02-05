@@ -1,28 +1,34 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { generateObject } from 'ai';
-import { openai } from '@ai-sdk/openai';
+import { createOpenAI } from '@ai-sdk/openai';
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
-
-// Initialize Supabase client with fallbacks
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+import { getSupabaseServiceRoleKey, getOpenAIApiKey } from '@/lib/config';
 
 // Lazy initialization to avoid build-time errors
-let supabase: ReturnType<typeof createClient> | null = null;
+let supabase: SupabaseClient | null = null;
 
-function getSupabaseClient() {
+async function getSupabaseClient() {
   if (!supabase) {
-    if (!supabaseServiceKey) {
-      throw new Error('SUPABASE_SERVICE_ROLE_KEY is required for this API route');
+    const serviceKey = await getSupabaseServiceRoleKey();
+    if (!serviceKey || serviceKey === 'placeholder-service-key-for-build') {
+      throw new Error('Supabase Service Role Key is required for this API route');
     }
-    supabase = createClient(supabaseUrl, supabaseServiceKey);
+    supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
+      serviceKey
+    );
   }
   return supabase;
 }
 
 export async function POST(req: Request) {
   try {
+    const apiKey = await getOpenAIApiKey();
+    const openai = createOpenAI({
+      apiKey: apiKey || 'placeholder',
+    });
+
     const { query } = await req.json();
 
     if (!query) {
@@ -30,7 +36,7 @@ export async function POST(req: Request) {
     }
 
     // Get Supabase client with validation
-    const client = getSupabaseClient();
+    const client = await getSupabaseClient();
 
     // 1. Fetch active services
     const { data: services, error } = await client

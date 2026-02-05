@@ -1,12 +1,22 @@
 import Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { emitEvent } from '@/lib/events';
+import { getStripeSecretKey, getSupabaseServiceRoleKey } from '@/lib/config';
 
-// Initialize Supabase Admin for backend operations
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+// Initialize Supabase Admin lazily to use DB-backed configs
+let supabaseAdmin: SupabaseClient | null = null;
+
+async function getSupabaseAdmin(): Promise<SupabaseClient> {
+  if (supabaseAdmin) return supabaseAdmin;
+  
+  const serviceKey = await getSupabaseServiceRoleKey();
+  supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
+    serviceKey
+  );
+  
+  return supabaseAdmin;
+}
 
 interface CreateCheckoutSessionParams {
   serviceId: string;
@@ -27,10 +37,10 @@ interface CheckoutResult {
 // Singleton Stripe client
 let stripeClient: Stripe | null = null;
 
-function getStripeClient(): Stripe | null {
+async function getStripeClient(): Promise<Stripe | null> {
   if (stripeClient) return stripeClient;
   
-  const secretKey = process.env.STRIPE_SECRET_KEY;
+  const secretKey = await getStripeSecretKey();
   if (!secretKey) {
     console.error('STRIPE_SECRET_KEY is missing');
     return null;
@@ -54,9 +64,10 @@ async function getOrCreateStripeCustomer(
   name: string,
   userId?: string
 ): Promise<string> {
+  const admin = await getSupabaseAdmin();
   // 1. If we have a logged-in user, check their profile first
   if (userId) {
-    const { data: profile } = await supabaseAdmin
+    const { data: profile } = await admin
       .from('user_profiles')
       .select('stripe_customer_id')
       .eq('id', userId)
@@ -74,7 +85,7 @@ async function getOrCreateStripeCustomer(
     const customerId = existingCustomers.data[0]!.id;
     // Link back to profile if user exists but wasn't linked
     if (userId) {
-      await supabaseAdmin
+      await admin
         .from('user_profiles')
         .update({ stripe_customer_id: customerId })
         .eq('id', userId);
@@ -93,7 +104,7 @@ async function getOrCreateStripeCustomer(
 
   // Link new customer to profile
   if (userId) {
-    await supabaseAdmin
+    await admin
       .from('user_profiles')
       .update({ stripe_customer_id: newCustomer.id })
       .eq('id', userId);
@@ -105,14 +116,15 @@ async function getOrCreateStripeCustomer(
 export async function createCheckoutSession(params: CreateCheckoutSessionParams): Promise<CheckoutResult> {
   const { bookingId, origin, serviceName, price, customerEmail, customerName } = params;
 
-  const stripe = getStripeClient();
+  const stripe = await getStripeClient();
   if (!stripe) {
     return { data: null, error: { message: 'Payment configuration error' } };
   }
 
   try {
+    const admin = await getSupabaseAdmin();
     // A. Resolve User ID from Booking (to link customer properly)
-    const { data: booking } = await supabaseAdmin
+    const { data: booking } = await admin
       .from('booking')
       .select('customer_reference_id')
       .eq('id', bookingId)

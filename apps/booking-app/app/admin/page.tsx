@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
 
  return (
   <div className="space-y-6">
-    <TherapistScheduleView schedule={todaySchedule} />
+    <TherapistScheduleView profile={profile} schedule={todaySchedule} />
   </div>
  );
 }

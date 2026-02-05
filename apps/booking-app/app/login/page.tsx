@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
+import { LoginPage } from '@/components/auth/LoginPage'
 
-export default function LoginPage() {
-    redirect("https://app.ekabalance.com/login");
+export default function Page() {
+  return <LoginPage />
 }

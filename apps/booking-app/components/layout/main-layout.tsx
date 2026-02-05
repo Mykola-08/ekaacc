@@ -15,8 +15,8 @@ export function MainLayout({ children, header, footer }: MainLayoutProps) {
   const isMinimal = pathname?.startsWith('/telegram');
 
   // Routes that use the internal DashboardLayout (Sidebar) and shouldn't show the global SiteHeader/Footer
-  const appRoutes = ['/', '/settings', '/wallet', '/bookings', '/profile'];
-  const isAppRoute = appRoutes.includes(pathname) || pathname?.startsWith('/dashboard');
+  const appRoutes = ['/', '/settings', '/wallet', '/bookings', '/profile', '/resources'];
+  const isAppRoute = appRoutes.includes(pathname) || pathname?.startsWith('/dashboard') || pathname?.startsWith('/settings') || pathname?.startsWith('/bookings') || pathname?.startsWith('/wallet') || pathname?.startsWith('/profile') || pathname?.startsWith('/resources');
 
   if (isMinimal) {
     return <main className="min-h-screen bg-background">{children}</main>;
@@ -42,3 +42,5 @@ export function MainLayout({ children, header, footer }: MainLayoutProps) {
     </div>
   );
 }
+
+

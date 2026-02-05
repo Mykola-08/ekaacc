@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Users, RefreshCcw, Trash2 } from "lucide-react";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { DashboardHeader } from "@/components/dashboard/layout/DashboardHeader";
+import { DashboardCard } from "@/components/dashboard/shared/DashboardCard";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 

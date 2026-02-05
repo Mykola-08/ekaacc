@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Check, Star, Shield, Zap } from "lucide-react";
+import { Check, Star, Shield, Zap, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { buyPlan } from "@/server/plans/actions";
 import { cn } from "@/lib/utils";
@@ -42,43 +41,57 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
             {plans.map(plan => {
                 const isVIP = plan.name.includes("VIP");
                 return (
-                    <Card key={plan.id} className={cn(
-                        "relative overflow-hidden border-2 transition-all hover:scale-[1.02]",
-                        isVIP ? "border-amber-400/50 bg-amber-50/10" : "border-border"
+                    <div key={plan.id} className={cn(
+                        "relative overflow-hidden transition-all duration-300 group flex flex-col justify-between",
+                        "p-6 rounded-[32px] border shadow-sm hover:shadow-xl",
+                        isVIP 
+                            ? "bg-[#FEFFFE] border-amber-200 shadow-amber-100/50 hover:shadow-amber-200/50 hover:-translate-y-1" 
+                            : "bg-[#FEFFFE] border-[#F5F5F5] hover:shadow-md hover:-translate-y-1"
                     )}>
                         {isVIP && (
-                            <div className="absolute top-0 right-0 bg-amber-400 text-amber-950 text-xs font-bold px-3 py-1 rounded-bl-xl">
-                                BEST VALUE
-                            </div>
+                            <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-100 rounded-full blur-3xl opacity-60" />
                         )}
-
-                        <div className="p-6 space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center", isVIP ? "bg-amber-100 text-amber-600" : "bg-blue-100 text-blue-600")}>
-                                    {isVIP ? <Star className="w-6 h-6 fill-current" /> : <Shield className="w-6 h-6" />}
+                        
+                        <div className="relative z-10 space-y-5">
+                            <div className="flex items-center gap-4">
+                                <div className={cn(
+                                    "w-12 h-12 rounded-[16px] flex items-center justify-center shadow-sm transition-transform group-hover:scale-110", 
+                                    isVIP ? "bg-amber-50 text-amber-600" : "bg-[#F7F8F9] text-[#222222]"
+                                )}>
+                                    {isVIP ? <Sparkles className="w-6 h-6 fill-amber-100" /> : <Shield className="w-6 h-6" strokeWidth={2} />}
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-lg leading-tight">{plan.name}</h3>
-                                    <div className="text-sm text-muted-foreground">{plan.credits_total} Sessions Included</div>
+                                    <h3 className="font-bold text-xl text-[#222222] tracking-tight">{plan.name}</h3>
+                                    <div className="flex items-center gap-1.5 mt-0.5">
+                                        <div className={cn("w-1.5 h-1.5 rounded-full", isVIP ? "bg-amber-500" : "bg-blue-500")} />
+                                        <span className="text-[13px] font-bold text-[#999999] uppercase tracking-wider">{plan.credits_total} Sessions</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <p className="text-muted-foreground text-sm min-h-[40px]">{plan.description}</p>
-
-                            <div className="flex items-baseline gap-1">
-                                <span className="text-3xl font-bold">€{plan.price_cents / 100}</span>
-                                <span className="text-muted-foreground text-sm">/ bundle</span>
+                            <p className="text-[#555555] text-sm leading-relaxed min-h-[40px] font-medium">{plan.description}</p>
+                            
+                            <div className="flex items-center gap-2 py-2">
+                                <span className={cn("text-4xl font-bold tracking-tighter", isVIP ? "text-amber-950" : "text-[#222222]")}>€{plan.price_cents / 100}</span>
+                                <span className="text-sm font-bold text-[#999999]">/ bundle</span>
                             </div>
+                        </div>
 
+                        <div className="mt-6 relative z-10">
                             <Button
-                                className={cn("w-full rounded-xl font-bold h-12", isVIP ? "bg-amber-500 hover:bg-amber-600 text-white shadow-lg shadow-amber-500/20" : "")}
+                                className={cn(
+                                    "w-full rounded-[16px] font-bold h-12 text-base transition-all active:scale-95",
+                                    isVIP 
+                                        ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25" 
+                                        : "bg-[#222222] hover:bg-[#000000] text-white shadow-lg shadow-gray-200"
+                                )}
                                 onClick={() => handlePurchase(plan)}
                                 disabled={!!loadingId}
                             >
-                                {loadingId === plan.id ? "Processing..." : "Buy Now"}
+                                {loadingId === plan.id ? "Processing..." : "Purchase Plan"}
                             </Button>
                         </div>
-                    </Card>
+                    </div>
                 );
             })}
         </div>

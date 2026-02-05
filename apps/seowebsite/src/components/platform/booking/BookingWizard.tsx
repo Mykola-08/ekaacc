@@ -166,43 +166,44 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
     return (
         <div className="container max-w-5xl py-12 px-4 md:px-6 flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-1/3 order-2 md:order-1">
-                <Card className="sticky top-24 bg-white border border-black/5 shadow-sm">
-                    <CardHeader>
-                        <CardTitle>Booking Summary</CardTitle>
+                <Card className="sticky top-24 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm border-0 shadow-2xl rounded-3xl overflow-hidden relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 pointer-events-none" />
+                    <CardHeader className="relative">
+                        <CardTitle className="text-xl font-bold">Booking Summary</CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4">
+                    <CardContent className="space-y-4 relative">
                         <div>
-                            <h3 className="font-semibold text-foreground">{service.name}</h3>
-                            <p className="text-sm text-muted-foreground">{selectedVariant?.name || "Standard Session"}</p>
+                            <h3 className="font-bold text-foreground text-lg">{service.name}</h3>
+                            <p className="text-sm text-muted-foreground font-medium">{selectedVariant?.name || "Standard Session"}</p>
                         </div>
-                        <Separator />
-                        <div className="flex justify-between text-sm">
+                        <Separator className="bg-border/50" />
+                        <div className="flex justify-between text-sm font-medium">
                             <span className="text-muted-foreground">Duration</span>
-                            <span>{duration} mins</span>
+                            <span className="font-semibold">{duration} mins</span>
                         </div>
-                        <div className="flex justify-between text-sm">
+                        <div className="flex justify-between text-sm font-medium">
                             <span className="text-muted-foreground">Date</span>
-                            <span>{date ? date.toLocaleDateString() : "-"}</span>
+                            <span className="font-semibold">{date ? date.toLocaleDateString() : "-"}</span>
                         </div>
-                        <div className="flex justify-between text-sm">
+                        <div className="flex justify-between text-sm font-medium">
                             <span className="text-muted-foreground">Time</span>
-                            <span>{selectedTime || "-"}</span>
+                            <span className="font-semibold">{selectedTime || "-"}</span>
                         </div>
-                        <Separator />
-                        <div className="flex justify-between font-bold text-lg">
+                        <Separator className="bg-border/50" />
+                        <div className="flex justify-between font-bold text-xl">
                             <span>Total</span>
-                            <span>€{price}</span>
+                            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">€{price}</span>
                         </div>
                     </CardContent>
                 </Card>
             </div>
 
             <div className="w-full md:w-2/3 order-1 md:order-2">
-                <div className="mb-6">
-                    <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0 hover:bg-transparent">
+                <div className="mb-8">
+                    <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-6 pl-0 hover:bg-transparent hover:text-primary transition-colors">
                         <ArrowLeft className="w-4 h-4 mr-2" /> Back
                     </Button>
-                    <h1 className="text-3xl font-serif font-medium">
+                    <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
                         {step === 'time' && "Select a Time"}
                         {step === 'addons' && "Enhance Your Session"}
                         {step === 'details' && "Your Details"}
@@ -213,20 +214,24 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                 <div className="space-y-8">
                     {step === "time" && (
                         <div className="grid md:grid-cols-2 gap-8">
-                            <div className="border border-black/5 rounded-[32px] p-6 bg-white shadow-sm">
+                            <div className="border-0 rounded-3xl p-6 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-blue-500/5 pointer-events-none" />
                                 <Calendar
                                     mode="single"
                                     selected={date}
                                     onSelect={setDate}
-                                    className="rounded-md w-full flex justify-center"
+                                    className="rounded-md w-full flex justify-center relative"
                                     disabled={(date) => date < new Date() || date.getDay() === 0}
                                 />
                             </div>
                             <div className="space-y-4">
-                                <Label className="text-sm font-medium ml-1">Available Slots</Label>
+                                <Label className="text-sm font-bold ml-1 text-foreground">Available Slots</Label>
                                 {loadingSlots ? (
-                                    <div className="flex items-center justify-center py-8">
-                                        <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                                    <div className="flex items-center justify-center py-8 bg-card/50 backdrop-blur-sm rounded-3xl border-0">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-lg animate-pulse" />
+                                            <Loader2 className="relative w-8 h-8 animate-spin text-blue-600" />
+                                        </div>
                                     </div>
                                 ) : timeSlots.length > 0 ? (
                                     <div className="grid grid-cols-2 gap-3">
@@ -235,15 +240,15 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                                 key={time}
                                                 variant={selectedTime === time ? "default" : "outline"}
                                                 onClick={() => handleTimeSelect(time)}
-                                                className="rounded-full h-11"
+                                                className={selectedTime === time ? "rounded-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg" : "rounded-full h-12 border-border/50 hover:border-primary/50 hover:bg-primary/5 font-medium"}
                                             >
                                                 {time}
                                             </Button>
                                         ))}
                                     </div>
                                 ) : (
-                                    <div className="py-8 text-center text-muted-foreground text-sm border border-black/5 rounded-[32px] bg-white">
-                                        No slots available for this date.
+                                    <div className="py-8 text-center text-muted-foreground text-sm border-0 rounded-3xl bg-card/50 backdrop-blur-sm shadow-lg">
+                                        <p className="font-medium">No slots available for this date.</p>
                                     </div>
                                 )}
                             </div>
@@ -252,15 +257,16 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
                     {step === "addons" && (
                         <div className="grid gap-4">
-                            <Card className="cursor-pointer hover:border-primary/30 transition-colors border-dashed border-black/10 bg-white rounded-[32px] shadow-sm">
-                                <CardContent className="flex items-center justify-between p-8">
+                            <Card className="cursor-pointer hover:border-primary/30 transition-all duration-300 border-dashed border-border/30 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl shadow-lg hover:shadow-xl relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 pointer-events-none" />
+                                <CardContent className="flex items-center justify-between p-8 relative">
                                     <div>
-                                        <h3 className="font-medium text-lg">Aromatherapy</h3>
-                                        <p className="text-sm text-muted-foreground">Add essential oils for relaxation.</p>
+                                        <h3 className="font-bold text-lg">Aromatherapy</h3>
+                                        <p className="text-sm text-muted-foreground font-medium">Add essential oils for relaxation.</p>
                                     </div>
                                     <div className="flex items-center gap-4">
-                                        <span className="text-sm font-semibold">+€10</span>
-                                        <Button variant="outline" size="sm" disabled className="rounded-full">Coming Soon</Button>
+                                        <span className="text-sm font-bold">+€10</span>
+                                        <Button variant="outline" size="sm" disabled className="rounded-full border-border/50">Coming Soon</Button>
                                     </div>
                                 </CardContent>
                             </Card>
@@ -268,49 +274,53 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                     )}
 
                     {step === "details" && (
-                        <div className="space-y-6">
-                            <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-6 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border-0 relative overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-cyan-500/5 pointer-events-none" />
+                            <div className="grid grid-cols-2 gap-4 relative">
                                 <div className="space-y-2">
-                                    <Label htmlFor="firstName">First name</Label>
-                                    <Input id="firstName" disabled={!!user} value={user ? user.user_metadata?.first_name : formData.firstName} onChange={handleInputChange} />
+                                    <Label htmlFor="firstName" className="font-semibold">First name</Label>
+                                    <Input id="firstName" disabled={!!user} value={user ? user.user_metadata?.first_name : formData.firstName} onChange={handleInputChange} className="h-12 rounded-xl border-border/50" />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="lastName">Last name</Label>
-                                    <Input id="lastName" disabled={!!user} value={user ? user.user_metadata?.last_name : formData.lastName} onChange={handleInputChange} />
+                                    <Label htmlFor="lastName" className="font-semibold">Last name</Label>
+                                    <Input id="lastName" disabled={!!user} value={user ? user.user_metadata?.last_name : formData.lastName} onChange={handleInputChange} className="h-12 rounded-xl border-border/50" />
                                 </div>
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" disabled={!!user} value={user ? user.email : formData.email} onChange={handleInputChange} />
+                            <div className="space-y-2 relative">
+                                <Label htmlFor="email" className="font-semibold">Email</Label>
+                                <Input id="email" disabled={!!user} value={user ? user.email : formData.email} onChange={handleInputChange} className="h-12 rounded-xl border-border/50" />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="phone">Phone</Label>
-                                <Input id="phone" value={formData.phone} onChange={handleInputChange} />
+                            <div className="space-y-2 relative">
+                                <Label htmlFor="phone" className="font-semibold">Phone</Label>
+                                <Input id="phone" value={formData.phone} onChange={handleInputChange} className="h-12 rounded-xl border-border/50" />
                             </div>
                         </div>
                     )}
 
                     {step === "payment" && (
                         <div className="space-y-6">
-                            <div className="border border-black/5 rounded-[32px] p-8 bg-white shadow-sm">
-                                <h3 className="font-semibold text-xl mb-6 flex items-center gap-2">
-                                    <CreditCard className="w-5 h-5 text-primary" />
+                            <div className="border-0 rounded-3xl p-8 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm shadow-xl relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 pointer-events-none" />
+                                <h3 className="font-bold text-2xl mb-6 flex items-center gap-2 relative">
+                                    <div className="p-2 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/40 dark:to-emerald-900/40 rounded-xl">
+                                        <CreditCard className="w-6 h-6 text-green-600 dark:text-green-400" />
+                                    </div>
                                     Payment Method
                                 </h3>
-                                <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)}>
-                                    <TabsList className="w-full grid grid-cols-2 p-1 bg-secondary/30 rounded-full h-14">
-                                        <TabsTrigger value="stripe" className="rounded-full h-12 data-[state=active]:bg-white data-[state=active]:shadow-sm">Card / Apple Pay</TabsTrigger>
-                                        <TabsTrigger value="wallet" disabled={!user} className="rounded-full h-12 data-[state=active]:bg-white data-[state=active]:shadow-sm">Wallet</TabsTrigger>
+                                <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)} className="relative">
+                                    <TabsList className="w-full grid grid-cols-2 p-1.5 bg-secondary/20 backdrop-blur-sm rounded-full h-16 border border-border/30">
+                                        <TabsTrigger value="stripe" className="rounded-full h-12 data-[state=active]:bg-card data-[state=active]:shadow-lg font-semibold">Card / Apple Pay</TabsTrigger>
+                                        <TabsTrigger value="wallet" disabled={!user} className="rounded-full h-12 data-[state=active]:bg-card data-[state=active]:shadow-lg font-semibold">Wallet</TabsTrigger>
                                     </TabsList>
                                     <TabsContent value="stripe" className="pt-8 space-y-4">
-                                        <p className="text-sm text-muted-foreground flex items-center gap-2">
-                                            <span className="w-2 h-2 rounded-full bg-primary/40" />
+                                        <p className="text-sm text-muted-foreground flex items-center gap-2 font-medium">
+                                            <span className="w-2 h-2 rounded-full bg-green-500/60 animate-pulse" />
                                             Secured by Stripe. Confirm to finish.
                                         </p>
                                     </TabsContent>
                                     <TabsContent value="wallet" className="pt-8">
-                                        <div className="p-4 rounded-[24px] bg-primary/5 border border-primary/10">
-                                            <p className="text-sm font-medium text-primary">Available Balance: €{walletBalance || 0}</p>
+                                        <div className="p-5 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 shadow-inner">
+                                            <p className="text-sm font-bold text-primary">Available Balance: €{walletBalance || 0}</p>
                                         </div>
                                     </TabsContent>
                                 </Tabs>
@@ -318,12 +328,17 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                         </div>
                     )}
 
-                    <div className="flex justify-between pt-8 border-t border-black/5">
+                    <div className="flex justify-between pt-8 border-t border-border/30">
                         {step !== 'time' && (
-                            <Button variant="ghost" onClick={handleBack} className="rounded-full px-8">Back</Button>
+                            <Button variant="ghost" onClick={handleBack} className="rounded-full px-8 h-12 font-semibold hover:bg-muted/50">Back</Button>
                         )}
-                        <Button size="lg" className="ml-auto px-10 rounded-full h-14 shadow-lg shadow-primary/20" onClick={step === 'payment' ? handleBooking : handleNext} disabled={loading}>
-                            {loading && <Loader2 className="w-4 h-4 animate-spin mr-2" />}
+                        <Button 
+                            size="lg" 
+                            className="ml-auto px-12 rounded-full h-14 font-bold bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 hover:from-emerald-700 hover:via-blue-700 hover:to-purple-700 shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/30 transition-all hover:scale-105 active:scale-95" 
+                            onClick={step === 'payment' ? handleBooking : handleNext} 
+                            disabled={loading}
+                        >
+                            {loading && <Loader2 className="w-5 h-5 animate-spin mr-2" />}
                             {step === 'payment' ? "Confirm Booking" : "Next Step"}
                         </Button>
                     </div>

@@ -63,12 +63,12 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
     if (!bookings || bookings.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-20 bg-background/30 backdrop-blur-sm rounded-3xl border border-dashed border-border/60 text-center">
-                <div className="p-5 bg-foreground/5 rounded-full mb-6">
-                    <Calendar className="w-8 h-8 text-muted-foreground/60" />
+            <div className="flex flex-col items-center justify-center py-24 bg-[#F9F9F8]/50 rounded-[40px] text-center border-2 border-dashed border-[#EAEAEA]">
+                <div className="p-6 bg-white rounded-full mb-6 shadow-sm shadow-[#000000]/5">
+                    <Calendar className="w-8 h-8 text-[#999999]" strokeWidth={2} />
                 </div>
-                <h3 className="text-xl font-medium text-foreground tracking-tight">No bookings yet</h3>
-                <p className="text-muted-foreground font-light mt-2 max-w-64">
+                <h3 className="text-xl font-bold text-[#222222] tracking-tight">No bookings yet</h3>
+                <p className="text-[#999999] font-medium mt-2 max-w-xs">
                     Your wellness journey begins with your first session.
                 </p>
             </div>
@@ -79,12 +79,12 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
     const past = bookings.filter(b => new Date(b.startTime) <= new Date());
 
     return (
-        <div className="space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
+        <div className="space-y-16 animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
             {upcoming.length > 0 && (
-                <div className="space-y-6">
-                    <h2 className="text-xl font-medium text-foreground/80 flex items-center gap-3">
+                <div className="space-y-8">
+                    <h2 className="text-xl font-bold text-[#222222] flex items-center gap-3">
                         Upcoming
-                        <span className="text-xs font-mono bg-foreground/5 text-foreground/70 px-2 py-1 rounded-md">
+                        <span className="text-xs font-bold font-mono bg-[#222222] text-white px-2.5 py-1 rounded-lg">
                             {upcoming.length}
                         </span>
                     </h2>
@@ -97,9 +97,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
             )}
 
             {past.length > 0 && (
-                <div className="space-y-6">
-                    <h2 className="text-xl font-medium text-muted-foreground">Past History</h2>
-                    <div className="grid gap-4 opacity-70 hover:opacity-100 transition-all duration-500">
+                <div className="space-y-8">
+                    <h2 className="text-xl font-bold text-[#999999]">Past History</h2>
+                    <div className="grid gap-6 opacity-60 hover:opacity-100 transition-opacity duration-500">
                         {past.map(booking => (
                             <BookingCard key={booking.id} booking={booking} userId={userId} />
                         ))}
@@ -111,23 +111,19 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 }
 
 function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpcoming?: boolean, userId?: string }) {
-    // Minimal status colors
-    const statusStyle: any = {
-        confirmed: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-200/40',
-        pending: 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-200/40',
-        cancelled: 'bg-red-500/5 text-red-600/80 border-red-200/30',
-        completed: 'bg-muted text-muted-foreground border-border/50',
+    const statusStyles = {
+        confirmed: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100/50",
+        pending: "bg-amber-50 text-amber-700 ring-1 ring-amber-100/50",
+        cancelled: "bg-rose-50 text-rose-700 ring-1 ring-rose-100/50",
+        completed: 'bg-[#F0F0F0] text-[#777777] ring-1 ring-[#E5E5E5]',
     };
-    
-    // Fallback safely
-    const badgeClass = statusStyle[booking.status] || 'bg-muted text-muted-foreground';
+
+    // Default to pending if unknown
+    const badgeClass = statusStyles[booking.status.toLowerCase() as keyof typeof statusStyles] || statusStyles.pending;
 
     const handleCancel = async () => {
         if(!confirm("Are you sure you want to cancel this session?")) return;
         
-        // We'd ideally need the userId here. 
-        // For now simulating a client-side call or using a passed ID.
-        // In a real scenario, useSession() hook or similar.
         if (userId) {
              const res = await cancelBookingAction(booking.id, userId);
              if (res.success) {
@@ -140,52 +136,66 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
 
     return (
         <div className={cn(
-            "group relative rounded-2xl border transition-all duration-300 overflow-hidden",
+            "group relative rounded-[32px] overflow-hidden transition-all duration-300",
             isUpcoming 
-                ? "bg-background/40 backdrop-blur-xl border-border/60 hover:bg-background/60 hover:shadow-sm" 
-                : "bg-background/20 border-border/30 hover:bg-background/40"
+                ? "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 border border-transparent" 
+                : "bg-[#F9F9F8] border border-[#F0F0F0]"
         )}>
-            <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 md:items-center justify-between">
-                <div className="space-y-3 md:space-y-2 flex-1">
-                    <div className="flex items-center justify-between md:justify-start md:gap-4">
-                        <span className={cn(
-                            "px-2.5 py-0.5 rounded-md text-xs font-medium uppercase tracking-wider border", 
-                            badgeClass
-                        )}>
-                            {booking.status}
+            <div className="p-8 flex flex-col md:flex-row gap-8 md:items-center justify-between">
+                <div className="flex items-start gap-6 flex-1">
+                     {/* Enhanced Date Block */}
+                     <div className={cn(
+                        "flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-[22px]",
+                        isUpcoming ? "bg-[#4DAFFF]/10 text-[#4DAFFF]" : "bg-[#EAEAEA]/50 text-[#999999]"
+                    )}>
+                        <span className="text-[11px] font-black uppercase tracking-widest opacity-80">
+                            {format(new Date(booking.startTime), 'MMM')}
                         </span>
-                        {isUpcoming && <span className="text-xs text-muted-foreground font-light flex items-center gap-1"><MapPin className="w-3 h-3" /> Main Studio</span>}
+                        <span className="text-2xl font-black tracking-tighter">
+                            {format(new Date(booking.startTime), 'd')}
+                        </span>
                     </div>
-                    
-                    <h3 className="font-medium text-xl md:text-2xl text-foreground tracking-tight group-hover:text-primary transition-colors">
-                        {booking.serviceName}
-                    </h3>
 
-                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                             <Calendar className="w-4 h-4 text-blue-500/70" />
-                             {format(new Date(booking.startTime), 'EEEE, MMMM do')}
+                    <div className="space-y-3 md:space-y-2 flex-1">
+                        <div className="flex items-center justify-between md:justify-start md:gap-4">
+                            <span className={cn(
+                                "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider", 
+                                badgeClass
+                            )}>
+                                {booking.status}
+                            </span>
+                            {isUpcoming && <span className="text-xs text-[#999999] font-bold flex items-center gap-1"><MapPin className="w-3 h-3" strokeWidth={2.5} /> Main Studio</span>}
                         </div>
-                        <div className="flex items-center gap-2">
-                             <Clock className="w-4 h-4 text-amber-500/70" />
-                             {format(new Date(booking.startTime), 'h:mm a')}
+                        
+                        <h3 className={cn(
+                            "font-bold text-xl md:text-2xl tracking-tight transition-colors",
+                            isUpcoming ? "text-[#222222]" : "text-[#555555]"
+                        )}>
+                            {booking.serviceName}
+                        </h3>
+
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[#999999] font-medium text-sm">
+                            <div className="flex items-center gap-2">
+                                <Clock className="w-4 h-4" strokeWidth={2.5} />
+                                {format(new Date(booking.startTime), 'h:mm a')} - {format(new Date(booking.endTime), 'h:mm a')}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 {isUpcoming && booking.status !== 'cancelled' && (
-                    <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-border/50">
-                        <Button variant="outline" size="sm" className="w-full md:w-auto text-xs h-9 border-red-200/50 text-red-600/80 hover:bg-red-50 hover:text-red-700" onClick={handleCancel}>
-                           <Ban className="w-3 h-3 mr-2" />
+                    <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-6 md:pt-0 border-t md:border-t-0 border-[#F0F0F0]">
+                        <Button variant="outline" size="sm" className="w-full md:w-32 text-xs font-bold h-9 rounded-xl border-rose-100 text-rose-600 hover:bg-rose-50 hover:text-rose-700" onClick={handleCancel}>
+                           <Ban className="w-3 h-3 mr-2" strokeWidth={2.5} />
                            Cancel
                         </Button>
-                         <Button variant="ghost" size="sm" onClick={() => toast.info("Rescheduling coming soon")} className="w-full md:w-auto text-xs h-9 text-muted-foreground hover:text-foreground">
-                           <CalendarDays className="w-3 h-3 mr-2" />
+                         <Button variant="ghost" size="sm" onClick={() => toast.info("Rescheduling coming soon")} className="w-full md:w-32 text-xs font-bold h-9 rounded-xl text-[#999999] hover:text-[#222222]">
+                           <CalendarDays className="w-3 h-3 mr-2" strokeWidth={2.5} />
                            Reschedule
                         </Button>
-                        <Button variant="link" size="sm" asChild className="w-full md:w-auto text-xs h-9 text-muted-foreground p-0">
+                        <Button variant="link" size="sm" asChild className="w-full md:w-32 text-xs font-bold h-9 text-[#4DAFFF] p-0 hover:no-underline hover:opacity-80">
                            <Link href="https://maps.google.com/?q=Main+Studio" target="_blank" rel="noreferrer">
-                              <Navigation className="w-3 h-3 mr-2" />
+                              <Navigation className="w-3 h-3 mr-2" strokeWidth={2.5} />
                               Get Directions
                            </Link>
                         </Button>
@@ -193,9 +203,9 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                 )}
                 
                 {!isUpcoming && (
-                     <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-border/50">
-                        <Button variant="secondary" size="sm" className="w-full md:w-auto text-xs h-9">
-                           <Undo2 className="w-3 h-3 mr-2" />
+                     <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#F0F0F0]">
+                        <Button variant="secondary" size="sm" className="w-full md:w-auto text-xs font-bold h-9 rounded-xl bg-[#F0F0F0] text-[#555555] hover:bg-[#E5E5E5]">
+                           <Undo2 className="w-3 h-3 mr-2" strokeWidth={2.5} />
                            Book Again
                         </Button>
                     </div>

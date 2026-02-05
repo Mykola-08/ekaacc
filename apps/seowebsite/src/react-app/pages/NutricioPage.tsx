@@ -51,17 +51,17 @@ export default function NutricioPage() {
       />
 
       {/* Hero Section */}
-      <div className="relative bg-linear-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <div className="relative bg-[#FBFBFD] pt-32 pb-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-20 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-green-100 text-sm text-green-600 mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-[#E5E5EA]/30 text-sm text-green-600 mb-8 shadow-sm">
               <Leaf className="w-4 h-4" />
               <span className="font-medium">{t('nutrition.hero.badge')}</span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-green-800 to-gray-900 mb-6 tracking-tight leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 tracking-tight leading-tight">
               {t('nutrition.page.title')}
             </h1>
             

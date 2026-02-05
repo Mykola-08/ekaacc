@@ -1,24 +1,33 @@
 import { headers } from 'next/headers';
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { updateBookingPaymentStatus } from '@/server/booking/service';
 import { LoyaltyService } from '@/server/loyalty/service';
+import { getStripeSecretKey, getStripeWebhookSecret, getSupabaseServiceRoleKey } from '@/lib/config';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
-});
+async function getStripeAndSecrets() {
+  const secretKey = await getStripeSecretKey();
+  const webhookSecret = await getStripeWebhookSecret();
+  const serviceKey = await getSupabaseServiceRoleKey();
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+  const stripe = new Stripe(secretKey, {
+    apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
+  });
 
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+  const supabaseAdmin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
+    serviceKey
+  );
+
+  return { stripe, webhookSecret, supabaseAdmin };
+}
 
 export async function POST(req: Request) {
   const body = await req.text();
   const signature = (await headers()).get('stripe-signature') as string;
+
+  const { stripe, webhookSecret, supabaseAdmin } = await getStripeAndSecrets();
 
   let event: Stripe.Event;
 

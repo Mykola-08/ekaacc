@@ -5,6 +5,7 @@ import { emitEvent } from '@/lib/events';
 import { LoyaltyService } from '@/server/loyalty/service';
 import { ReputationService, BookingPolicy } from '@/server/reputation/service';
 import { createClient } from '@/lib/supabase/server';
+import { ZoomService } from '@/server/zoom/service';
 
 // Simple in-memory cache for frequently accessed data
 const serviceCache = new Map<string, { data: unknown; expiry: number }>();
@@ -336,7 +337,7 @@ export async function createBooking(params: CreateBookingParams) {
 
     // 1. Fetch service
     const { rows: serviceRows } = await db.query(
-      'SELECT id, name, requires_identity_verification, min_trust_score FROM service WHERE id = $1',
+      'SELECT id, name, requires_identity_verification, min_trust_score, location FROM service WHERE id = $1',
       [serviceId]
     );
     if (serviceRows.length === 0) {
@@ -564,6 +565,23 @@ export async function createBooking(params: CreateBookingParams) {
       feeCents: 0,
     };
 
+    // --- ZOOM INTEGRATION ---
+    let zoomJoinUrl: string | null = null;
+    let zoomMeetingId: string | null = null;
+
+    if (service.location === 'video' || service.location === 'online') {
+       const meeting = await ZoomService.createMeeting(
+          `${service.name} with ${displayName || email}`, 
+          start.toISOString(), 
+          finalDuration
+       );
+       if (meeting) {
+          zoomJoinUrl = meeting.join_url;
+          zoomMeetingId = meeting.id;
+       }
+    }
+    // ------------------------
+
     // 5. Insert booking
     await db.query(
       `INSERT INTO booking (
@@ -571,14 +589,14 @@ export async function createBooking(params: CreateBookingParams) {
         base_price_cents, currency, email, phone, display_name,
         addons_json, payment_mode, deposit_cents, payment_status,
         status, cancellation_policy, reservation_expires_at, manage_token_hash,
-        metadata, customer_tags
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24)`,
+        metadata, customer_tags, zoom_join_url, zoom_meeting_id
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)`,
       [
         id, service.id, finalVariantId, originApp, userId || null, finalStaffId, start.toISOString(), end.toISOString(), finalDuration,
         finalPriceCents, 'EUR', email, phone, displayName,
         JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? finalDepositCents : 0, initialPaymentStatus,
         'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash,
-        metadata, customerTags
+        metadata, customerTags, zoomJoinUrl, zoomMeetingId
       ]
     );
 

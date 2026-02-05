@@ -4,7 +4,6 @@ import { Button } from "../ui/button"
 import { Transition } from "@headlessui/react"
 import { useEffect, useState, Fragment } from "react"
 import { Loader2 } from "lucide-react"
-import { cn } from "../../utils"
 
 export function Preloader() {
   const [isLoading, setIsLoading] = useState(true)

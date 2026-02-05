@@ -7,7 +7,6 @@ import { cn } from '../../utils';
 interface LazyImageProps {
   src: string;
   alt: string;
-  placeholder?: string;
   className?: string;
   onLoad?: () => void;
 }
@@ -15,7 +14,6 @@ interface LazyImageProps {
 export default function LazyImage({
   src,
   alt,
-  placeholder,
   className = '',
   onLoad
 }: LazyImageProps) {

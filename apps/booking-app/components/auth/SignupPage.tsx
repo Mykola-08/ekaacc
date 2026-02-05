@@ -8,121 +8,141 @@ import { Label } from '@/components/ui/label'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import { toast } from 'sonner'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Mail, Lock, User, Sparkles, CheckCircle2 } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 function SubmitButton() {
   const { pending } = useFormStatus()
   return (
-    <Button className="w-full h-12 rounded-xl text-base font-medium bg-primary hover:bg-primary/90 shadow-lg shadow-blue-500/20" type="submit" disabled={pending}>
-      {pending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-      {pending ? 'Creating Account...' : 'Create Account'}
+    <Button
+      className="w-full text-base font-semibold transition-all active:scale-[0.98]"
+      type="submit"
+      disabled={pending}
+      size="lg"
+    >
+      {pending ? (
+        <Loader2 className="w-5 h-5 animate-spin" />
+      ) : (
+        "Create Account"
+      )}
     </Button>
   )
 }
 
 export function SignupPage() {
-    const [successMessage, setSuccessMessage] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
 
-    async function clientAction(formData: FormData) {
-        setErrorMessage('')
-        setSuccessMessage('')
-        
-        try {
-            const result = await signup(null, formData)
-            if (result.success) {
-                setSuccessMessage(result.message)
-                toast.success("Account Created", { description: result.message })
-            } else {
-                setErrorMessage(result.message)
-                toast.error("Signup Failed", { description: result.message })
-            }
-        } catch (e) {
-            setErrorMessage("An error occurred")
-        }
+  async function clientAction(formData: FormData) {
+    setErrorMessage('')
+    setSuccessMessage('')
+
+    try {
+      const result = await signup(null, formData)
+      if (result.success) {
+        setSuccessMessage(result.message)
+        toast.success("Account Created", { description: result.message })
+      } else {
+        setErrorMessage(result.message)
+        toast.error("Signup Failed", { description: result.message })
+      }
+    } catch (e) {
+      setErrorMessage("An error occurred")
     }
+  }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md animate-in fade-in zoom-in duration-500 border-white/40 shadow-2xl shadow-black/5 bg-white/60 backdrop-blur-xl">
-        <CardHeader className="space-y-4 text-center pb-8 border-b border-black/5">
-            <div className="flex flex-col items-center gap-2 mb-2">
-                <div className="w-12 h-12 bg-primary rounded-[18px] flex items-center justify-center text-primary-foreground font-sans font-bold text-xl shadow-lg shadow-blue-900/10">
-                    E
-                </div>
-            </div>
-          <CardTitle className="text-2xl font-sans font-semibold tracking-tight text-foreground">Create an account</CardTitle>
-          <CardDescription className="text-base font-light text-muted-foreground">
-            Enter your information to get started
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="pt-8">
+    <div className="flex min-h-screen items-center justify-center p-4 bg-background">
+      <div className="w-full max-w-sm space-y-8">
+        <div className="flex flex-col items-center gap-2 text-center">
+          <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-sm">
+            <span className="text-primary-foreground font-black text-lg italic">E</span>
+          </div>
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">Create account</h1>
+            <p className="text-sm text-muted-foreground">Join EKA Balance today</p>
+          </div>
+        </div>
+
+        <Card className="border border-border bg-surface shadow-sm rounded-2xl">
+          <CardContent className="pt-6">
             {successMessage ? (
-                 <div className="flex flex-col items-center justify-center space-y-4 py-8">
-                    <div className="text-center space-y-2">
-                        <h3 className="text-xl font-medium text-primary">Check your email</h3>
-                        <p className="text-muted-foreground">{successMessage}</p>
-                    </div>
-                    <Button asChild variant="outline" className="mt-4 rounded-xl border-black/10 hover:bg-black/5 transition-colors">
-                        <Link href="/login">Return to Login</Link>
-                    </Button>
-                 </div>
+              <div className="flex flex-col items-center justify-center space-y-6 py-8">
+                <div className="bg-success/10 p-4 rounded-full">
+                  <CheckCircle2 className="w-10 h-10 text-success" />
+                </div>
+                <div className="text-center space-y-3">
+                  <h3 className="text-xl font-bold text-foreground">Check your email</h3>
+                  <p className="text-muted-foreground text-sm max-w-sm">{successMessage}</p>
+                </div>
+                <Button asChild variant="outline" className="mt-4 w-full">
+                  <Link href="/login">Return to Login</Link>
+                </Button>
+              </div>
             ) : (
-                <form action={clientAction} className="space-y-6">
+              <form action={clientAction} className="space-y-4">
                 <div className="space-y-2">
-                <Label htmlFor="full_name" className="text-foreground/80 font-medium">Full Name</Label>
-                <Input
+                  <Label htmlFor="full_name">Full Name</Label>
+                  <Input
                     id="full_name"
                     name="full_name"
                     placeholder="John Doe"
                     required
-                    className="h-12 bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20 rounded-xl"
-                />
+                    className="bg-transparent"
+                  />
                 </div>
+
                 <div className="space-y-2">
-                <Label htmlFor="email" className="text-foreground/80 font-medium">Email</Label>
-                <Input
+                  <Label htmlFor="email">Email</Label>
+                  <Input
                     id="email"
                     name="email"
                     placeholder="m@example.com"
                     required
                     type="email"
-                    className="h-12 bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20 rounded-xl"
-                />
+                    className="bg-transparent"
+                  />
                 </div>
+
                 <div className="space-y-2">
-                <Label htmlFor="password" className="text-foreground/80 font-medium">Password</Label>
-                <Input
+                  <Label htmlFor="password">Password</Label>
+                  <Input
                     id="password"
                     name="password"
                     required
                     type="password"
                     minLength={6}
-                    className="h-12 bg-white/50 border-black/5 focus:border-primary/50 focus:ring-primary/20 rounded-xl"
-                />
+                    className="bg-transparent"
+                  />
+                  <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
                 </div>
+
                 {errorMessage && (
-                    <div className="text-red-600 text-sm font-medium bg-red-50 p-3 rounded-xl border border-red-100">
-                        {errorMessage}
-                    </div>
+                  <div className="text-sm font-medium bg-danger/10 text-danger p-3 rounded-md border border-danger/20">
+                    {errorMessage}
+                  </div>
                 )}
+
                 <SubmitButton />
-            </form>
+              </form>
             )}
-          
-        </CardContent>
-        {!successMessage && (
-            <CardFooter className="flex flex-col gap-4 border-t border-white/10 pt-6">
-            <div className="text-center text-sm text-muted-foreground">
+          </CardContent>
+
+          {!successMessage && (
+            <CardFooter className="border-t border-border bg-muted/20 px-6 py-4 rounded-b-2xl">
+              <div className="text-center text-sm text-muted-foreground w-full">
                 Already have an account?{" "}
-                <Link href="/login" className="underline text-primary hover:text-primary/80 font-medium">
-                Log in
+                <Link href="/login" className="font-semibold text-primary hover:underline">
+                  Log in
                 </Link>
-            </div>
+              </div>
             </CardFooter>
-        )}
-      </Card>
+          )}
+        </Card>
+      </div>
     </div>
   )
 }

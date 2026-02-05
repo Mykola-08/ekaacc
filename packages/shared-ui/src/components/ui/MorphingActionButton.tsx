@@ -35,7 +35,7 @@ export function MorphingActionButton({
   return (
     <Button
       className={cn(
-        "relative overflow-hidden transition-all duration-300 min-w-[120px]",
+        "relative overflow-hidden transition-all duration-300 min-w-30",
         (isSuccess || isError) && "cursor-default",
         isSuccess && "bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-500",
         isError && "bg-red-500 hover:bg-red-600 text-white border-red-500",

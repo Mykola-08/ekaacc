@@ -1,23 +1,36 @@
 'use server'
 
-import { createClient as createServiceClient } from '@supabase/supabase-js'
+import { createClient as createServiceClient, SupabaseClient } from '@supabase/supabase-js'
 import { createClient } from '@/lib/supabase/server'
 import { headers } from 'next/headers'
+import { getSupabaseServiceRoleKey } from '@/lib/config'
 
-// Fallback to console if service key is missing (e.g. during build or local dev without env)
-const serviceClient = process.env.SUPABASE_SERVICE_ROLE_KEY
-  ? createServiceClient(
+// Initialize Supabase Admin lazily
+let serviceClient: SupabaseClient | null = null;
+
+async function getServiceClient(): Promise<SupabaseClient | null> {
+  if (serviceClient) return serviceClient;
+  
+  const serviceKey = await getSupabaseServiceRoleKey();
+  if (!serviceKey || serviceKey === 'placeholder-service-key-for-build') {
+     return null;
+  }
+  
+  serviceClient = createServiceClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
-    )
-  : null
+      serviceKey
+  );
+  
+  return serviceClient;
+}
 
 export async function logError(error: any, info?: any) {
   // Always log to console in server environment
   console.error('[ServerError]', error)
 
-  if (!serviceClient) {
-    console.warn('SUPABASE_SERVICE_ROLE_KEY not set. Skipping DB logging.')
+  const client = await getServiceClient();
+  if (!client) {
+    console.warn('Supabase Service Role Key not available. Skipping DB logging.')
     return
   }
 
@@ -49,7 +62,7 @@ export async function logError(error: any, info?: any) {
         // Auth might fail or not be available
     }
 
-    await serviceClient.from('error_logs').insert({
+    await client.from('error_logs').insert({
       user_id: userId,
       error_message,
       stack_trace,

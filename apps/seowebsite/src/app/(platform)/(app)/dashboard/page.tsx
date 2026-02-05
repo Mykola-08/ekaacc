@@ -10,8 +10,10 @@ export default async function DashboardPage() {
 
     return (
         <AuthGuard>
-            <div className="container mx-auto p-4 md:p-8">
-                <Dashboard upcomingSession={upcomingSession} walletBalance={walletBalance} />
+            <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/20 dark:from-slate-950 dark:via-blue-950/20 dark:to-indigo-950/20">
+                <div className="container mx-auto p-4 md:p-8">
+                    <Dashboard upcomingSession={upcomingSession} walletBalance={walletBalance} />
+                </div>
             </div>
         </AuthGuard>
     )

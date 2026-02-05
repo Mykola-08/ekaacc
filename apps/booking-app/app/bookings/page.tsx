@@ -1,9 +1,10 @@
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
+import * as motion from "framer-motion/client";
 import { getBookingsHistory } from '@/server/dashboard/service';
 import { BookingHistoryList } from '@/components/booking/BookingHistoryList';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { IconArrowLeft01, IconAdd01 } from '@hugeicons/react';
 import Link from 'next/link';
 import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
@@ -30,28 +31,37 @@ export default async function BookingsPage() {
 
   return (
     <DashboardLayout profile={profile}>
-      <div className="space-y-8 animate-in fade-in duration-700">
+      <motion.div 
+        className="space-y-8"
+        initial={{ opacity: 0, scale: 0.98, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{
+            duration: 0.4,
+            ease: [0.25, 1, 0.5, 1],
+        }}
+      >
 
         <DashboardHeader
           title="Your Bookings"
           subtitle="View your session history and upcoming appointments."
         >
-          <Button asChild className="rounded-[18px] h-10 px-5 font-semibold bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 border-0 transition-all active:scale-95">
+          <Button asChild variant="default" className="shadow-lg shadow-primary/20">
             <Link href="/book">
-              <Plus className="w-4 h-4 mr-2" strokeWidth={2.75} />
+              <IconAdd01 className="w-4 h-4 mr-2" strokeWidth={2.5} />
               New Booking
             </Link>
           </Button>
         </DashboardHeader>
 
         {/* Unified Card Container for List */}
-        <div className="bg-card rounded-[32px] border border-border/60 shadow-sm overflow-hidden p-1">
+        <div className="bg-card rounded-[24px] border border-border/60 shadow-sm overflow-hidden p-1">
           <div className="p-6 md:p-8">
             <BookingHistoryList bookings={bookings} userId={profile.id} />
           </div>
         </div>
 
-      </div>
+      </motion.div>
     </DashboardLayout>
   );
 }
+

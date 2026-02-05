@@ -11,17 +11,12 @@
         "https://mcp.squareup.com/sse"
       ]
     },
-    "statsig-local": {
+    "stitch": {
       "command": "npx",
       "args": [
-        "mcp-remote",
-        "https://api.statsig.com/v1/mcp",
-        "--header",
-        "statsig-api-key:${AUTH_TOKEN}"
-      ],
-      "env": {
-        "AUTH_TOKEN": "${STATSIG_API_KEY}"  
-      }
+        "-y",
+        "stitch-mcp"
+      ]
     }
   }
 }

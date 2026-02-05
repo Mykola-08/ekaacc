@@ -11,6 +11,9 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import CookieConsent from '@/components/platform/consent/CookieConsent';
 import { DebugStatus } from "@ekaacc/shared-ui";
+import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { PlatformSidebar } from '@/app/(platform)/components/PlatformSidebar';
+import { Separator } from '@/components/ui/separator';
 
 const manrope = Manrope({
   subsets: ['latin'],
@@ -23,41 +26,6 @@ const playfair = Playfair_Display({
   display: 'swap',
   variable: '--font-playfair',
 });
-
-export const metadata: Metadata = {
-  title: {
-    default: 'EKA Account',
-    template: '%s | EKA Account',
-  },
-  description: 'The central hub for your EKA ecosystem.',
-  metadataBase: new URL('https://app.ekabalance.com'),
-  openGraph: {
-    title: 'EKA Account',
-    description: 'The central hub for your EKA ecosystem.',
-    url: 'https://app.ekabalance.com',
-    siteName: 'EKA Account',
-    locale: 'en_US',
-    type: 'website',
-  },
-  icons: {
-    icon: '/favicon.ico',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  twitter: {
-    title: 'EKA Account',
-    card: 'summary_large_image',
-  },
-};
 
 export default function PlatformLayout({
   children,
@@ -76,7 +44,22 @@ export default function PlatformLayout({
         <ProgressProvider>
           <TooltipProvider>
             <ImpersonationWrapper>
-              {children}
+              <SidebarProvider>
+                <PlatformSidebar />
+                <SidebarInset>
+                    <header className="flex h-16 shrink-0 items-center justify-between border-b px-6 bg-background/50 backdrop-blur-md sticky top-0 z-10 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                         <div className="flex items-center gap-4">
+                             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground" />
+                             <Separator orientation="vertical" className="h-4" />
+                             <span className="text-sm font-medium text-muted-foreground">Console</span>
+                         </div>
+                    </header>
+                    <main className="flex-1 p-6 md:p-8 pt-6">
+                        {children}
+                    </main>
+                </SidebarInset>
+              </SidebarProvider>
+
               <CookieConsent />
               <Analytics />
               <SpeedInsights />
@@ -90,3 +73,4 @@ export default function PlatformLayout({
     </div>
   );
 }
+

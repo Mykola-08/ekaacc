@@ -30,33 +30,37 @@ export function DashboardCard({
 }: DashboardCardProps) {
     return (
         <motion.div
-            whileHover={{ y: -4 }}
-            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+                duration: 0.4,
+                ease: [0.25, 1, 0.5, 1],
+            }}
             className={cn(
-                "bg-card p-8 rounded-[36px] border border-border shadow-sm flex flex-col justify-between h-full relative overflow-hidden group",
+                "bg-[#FEFFFE] p-8 rounded-[36px] border border-[#F5F5F5] shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col justify-between h-full relative overflow-hidden group",
                 className
             )}
         >
-            <div className="space-y-6">
+            <div className="space-y-6 relative z-10 w-full">
                 <header className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         {Icon && (
-                            <div className="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-foreground">
-                                <Icon className="w-6 h-6" strokeWidth={2.75} />
+                            <div className="h-12 w-12 rounded-[16px] bg-[#F7F8F9] flex items-center justify-center text-[#222222]">
+                                <Icon className="w-6 h-6" strokeWidth={2} />
                             </div>
                         )}
-                        <h3 className="text-[19px] font-semibold text-foreground">{title}</h3>
+                        <h3 className="text-[17px] font-semibold text-[#222222]">{title}</h3>
                     </div>
                 </header>
 
                 <div className="space-y-1">
                     {value && (
-                        <div className="text-[40px] font-semibold text-foreground tracking-tight leading-none">
+                        <div className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent tracking-tight leading-none">
                             {value}
                         </div>
                     )}
                     {subtext && (
-                        <div className="text-[17px] font-medium text-muted-foreground">
+                        <div className="text-lg font-semibold text-muted-foreground">
                             {subtext}
                         </div>
                     )}
@@ -67,16 +71,16 @@ export function DashboardCard({
 
             {/* "Squishy" Action Button at bottom of card */}
             {(actionLabel || onAction) && (
-                <div className="mt-8">
+                <div className="mt-8 relative z-10">
                     <button
                         onClick={onAction}
                         className={cn(
-                            "w-full h-14 rounded-[20px] font-semibold text-[17px] transition-all duration-200 active:scale-95 flex items-center justify-center gap-2",
+                            "w-full h-14 rounded-2xl font-bold text-lg transition-all duration-200 active:scale-95 hover:scale-105 flex items-center justify-center gap-2 shadow-lg",
                             variant === 'default'
-                                ? "bg-secondary text-foreground hover:bg-secondary/80"
+                                ? "bg-gradient-to-r from-secondary to-secondary/80 text-foreground hover:from-secondary/90 hover:to-secondary/70"
                                 : variant === 'primary'
-                                    ? "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20"
-                                    : "bg-destructive/10 text-destructive hover:bg-destructive/20"
+                                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-xl shadow-blue-500/25 hover:shadow-2xl hover:shadow-blue-500/30"
+                                    : "bg-gradient-to-r from-red-50 to-rose-50 dark:from-red-900/40 dark:to-rose-900/40 text-red-700 dark:text-red-400 hover:from-red-100 hover:to-rose-100 dark:hover:from-red-900/60 dark:hover:to-rose-900/60"
                         )}
                     >
                         {actionLabel || 'Manage'}

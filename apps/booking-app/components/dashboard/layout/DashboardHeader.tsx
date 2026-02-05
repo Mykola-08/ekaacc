@@ -18,32 +18,25 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ title, subtitle, children, showDate = true, className }: DashboardHeaderProps) {
     return (
-        <div className={cn("bg-card rounded-[24px] p-4 px-6 flex flex-col md:flex-row items-start md:items-center justify-between border border-border/40 shadow-sm gap-4", className)}>
-            <div className="space-y-0.5">
-                <h2 className="text-lg font-semibold text-foreground tracking-tight">
+        <div className={cn("flex flex-col md:flex-row items-baseline justify-between gap-4 pb-6 border-b border-[#F5F5F5] mb-8", className)}>
+            <div className="space-y-1">
+                <h2 className="text-3xl font-bold text-[#222222] tracking-tighter leading-tight">
                     {title}
                 </h2>
                 {subtitle && (
-                    <p className="text-sm text-muted-foreground font-medium">{subtitle}</p>
+                    <p className="text-base text-[#999999] font-medium">{subtitle}</p>
                 )}
             </div>
 
-            <div className="flex items-center gap-4 w-full md:w-auto justify-end">
+            <div className="flex items-center gap-4 w-full md:w-auto">
                 {children}
 
-                {/* Default Actions */}
-                <div className="flex items-center gap-3 pl-2 border-l border-border/60">
-                    <button className="text-muted-foreground hover:text-foreground transition-colors p-1 hover:bg-secondary rounded-full" title="Toggle Theme">
-                        <Sun className="w-5 h-5" strokeWidth={2.25} />
-                    </button>
+                <div className="flex items-center gap-3">
                     <NotificationDropdown />
                     {showDate && (
-                        <>
-                            <div className="h-6 w-px bg-border/60 hidden md:block"></div>
-                            <span className="text-sm font-medium text-muted-foreground hidden md:block">
-                                {format(new Date(), 'MMM dd, yyyy')}
-                            </span>
-                        </>
+                        <span className="text-xs font-semibold text-[#999999] uppercase tracking-wider bg-[#F7F8F9] px-3 py-1 rounded-full">
+                            {format(new Date(), 'MMMM d, yyyy')}
+                        </span>
                     )}
                 </div>
             </div>

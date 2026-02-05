@@ -72,10 +72,13 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[600px]">
+      <div className="flex items-center justify-center min-h-[600px] bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-950 dark:to-blue-950/30">
         <div className="text-center space-y-4">
-          <div className="animate-spin w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full mx-auto" />
-          <p className="text-muted-foreground font-medium">Loading dashboard...</p>
+          <div className="relative">
+            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl animate-pulse" />
+            <div className="relative animate-spin w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full mx-auto shadow-lg" />
+          </div>
+          <p className="text-muted-foreground font-semibold text-lg">Loading dashboard...</p>
         </div>
       </div>
     );

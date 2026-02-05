@@ -3,10 +3,10 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sparkles, Send, X, MessageSquare, ChevronDown } from 'lucide-react';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { Sparkles, Send, X } from 'lucide-react';
+import { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'motion/react';
 import {
   BookingResult,
   ServiceResult,
@@ -218,11 +218,12 @@ export function AIChatWidget() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="fixed bottom-6 right-6 z-50"
           >
             <Button
               onClick={() => setIsOpen(true)}
-              className="rounded-full h-14 w-14 shadow-xl bg-gradient-to-tr from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white transition-all hover:scale-105"
+              className="rounded-full h-14 w-14 shadow-xl bg-zinc-900 hover:bg-zinc-800 text-white transition-transform hover:scale-105"
             >
               <Sparkles className="h-6 w-6" />
               <span className="sr-only">Open Chat</span>
@@ -238,54 +239,54 @@ export function AIChatWidget() {
             initial={{ y: 20, opacity: 0, scale: 0.95 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 20, opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-100px)]"
           >
-            <Card className="h-full flex flex-col shadow-2xl border-purple-100 dark:border-purple-900 overflow-hidden">
-              <CardHeader className="bg-gradient-to-r from-indigo-500 to-purple-600 p-4 shrink-0">
-                <div className="flex justify-between items-center text-white">
-                  <div className="flex items-center gap-2">
-                    <div className="p-1.5 bg-white/20 rounded-full backdrop-blur-sm">
-                      <Sparkles className="h-4 w-4" />
+            <Card className="h-full flex flex-col shadow-2xl border-zinc-200 dark:border-zinc-800 bg-zinc-50/95 overflow-hidden rounded-[2rem]">
+              <CardHeader className="bg-white/80 p-4 shrink-0 border-b border-zinc-100">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-zinc-100 rounded-full">
+                      <Sparkles className="h-4 w-4 text-zinc-900" />
                     </div>
                     <div>
-                      <CardTitle className="text-base font-semibold">EKA Concierge</CardTitle>
-                      <p className="text-[10px] text-indigo-100 opacity-90">Always here to help</p>
+                      <CardTitle className="text-base font-semibold text-zinc-900">Concierge</CardTitle>
+                      <p className="text-[11px] font-medium text-zinc-500">Wellness Assistant</p>
                     </div>
                   </div>
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => setIsOpen(false)}
-                    className="text-white/80 hover:text-white hover:bg-white/20 h-8 w-8 rounded-full"
+                    className="h-8 w-8 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-600"
                   >
-                    <ChevronDown className="h-5 w-5" />
+                    <X className="h-4 w-4" />
                   </Button>
                 </div>
               </CardHeader>
 
-              <CardContent className="flex-1 p-0 overflow-hidden relative bg-slate-50 dark:bg-slate-950">
+              <CardContent className="flex-1 p-0 overflow-hidden relative bg-[#F5F5F7]">
                 <div ref={scrollRef} className="h-full overflow-y-auto p-4 space-y-4">
                   {messages.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full text-center p-6 text-muted-foreground opacity-60">
-                      <Sparkles className="h-12 w-12 mb-4 text-purple-400" />
-                      <p className="text-sm">How can I help you regarding your wellness journey today?</p>
+                    <div className="flex flex-col items-center justify-center h-full text-center p-6 text-zinc-400">
+                      <Sparkles className="h-10 w-10 mb-4 text-zinc-300" />
+                      <p className="text-sm font-medium text-zinc-500">How can I support your wellness today?</p>
                       <div className="flex flex-wrap gap-2 justify-center mt-6">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="bg-white/50 text-xs h-auto py-1"
+                          className="bg-white text-xs h-auto py-1.5 px-3 rounded-full border-zinc-200 text-zinc-600 shadow-sm"
                           onClick={() => setInput("When is my next appointment?")}
                         >
-                          "When is my next appointment?"
+                          My schedule
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="bg-white/50 text-xs h-auto py-1"
+                          className="bg-white text-xs h-auto py-1.5 px-3 rounded-full border-zinc-200 text-zinc-600 shadow-sm"
                           onClick={() => setInput("Check my wallet balance")}
                         >
-                          "Check my wallet balance"
+                          Balance
                         </Button>
                       </div>
                     </div>
@@ -303,7 +304,7 @@ export function AIChatWidget() {
                         className={cn(
                           "max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm transition-all",
                           m.role === 'user'
-                            ? "bg-gradient-to-br from-indigo-500 to-purple-600 text-white rounded-br-none"
+                            ? "bg-linear-to-br from-indigo-500 to-purple-600 text-white rounded-br-none"
                             : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/50 rounded-bl-none text-slate-800 dark:text-slate-200"
                         )}
                       >

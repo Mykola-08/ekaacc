@@ -26,7 +26,7 @@ export default function Discounts() {
         description={t('discounts.pageDescription')}
       />
       
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-white to-blue-50">
+      <div className="min-h-screen bg-[#FBFBFD]">
         {/* Success Message */}
         {showSuccess && (
           <div className="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-4 rounded-2xl shadow-lg flex items-center space-x-3 animate-slide-in">

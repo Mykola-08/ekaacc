@@ -1,5 +1,8 @@
 export { cn } from './utils'
 export { DebugStatus } from './components/DebugStatus'
+export { ProgressRing } from './components/ProgressRing'
+export { MotivationalQuote } from './components/MotivationalQuote'
+export { CountdownTimer } from './components/CountdownTimer'
 export { PredictiveLink } from './components/PredictiveLink'
 export { usePredictivePrefetch } from './hooks/usePredictivePrefetch'
 export { useRefreshOnFocus } from './hooks/useRefreshOnFocus'
@@ -61,7 +64,7 @@ export { ScrollArea, ScrollBar } from './components/ui/scroll-area'
 export {
   Select,
   SelectGroup,
-  Value,
+  SelectValue,
   SelectTrigger,
   SelectContent,
   SelectLabel,

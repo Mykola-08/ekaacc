@@ -21,7 +21,7 @@ async function loadAllConfigs(): Promise<void> {
   loadPromise = (async () => {
     try {
       const { rows } = await db.query<{ key: string; value: string }>(
-        'SELECT key, value FROM system_configurations'
+        'SELECT key, value FROM app_config'
       );
       
       // Clear and repopulate cache
@@ -70,6 +70,30 @@ export async function getStripeSecretKey(): Promise<string> {
 
 export async function getStripeWebhookSecret(): Promise<string> {
   return (await getConfig('STRIPE_WEBHOOK_SECRET')) || process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
+}
+
+export async function getSupabaseServiceRoleKey(): Promise<string> {
+  return (await getConfig('SUPABASE_SERVICE_ROLE_KEY')) || process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key-for-build';
+}
+
+export async function getOpenAIApiKey(): Promise<string | undefined> {
+  return (await getConfig('OPENAI_API_KEY')) || process.env.OPENAI_API_KEY;
+}
+
+export async function getResendApiKey(): Promise<string | undefined> {
+  return (await getConfig('RESEND_API_KEY')) || process.env.RESEND_API_KEY;
+}
+
+export async function getZoomClientId(): Promise<string | undefined> {
+  return (await getConfig('ZOOM_CLIENT_ID')) || process.env.ZOOM_CLIENT_ID;
+}
+
+export async function getZoomClientSecret(): Promise<string | undefined> {
+  return (await getConfig('ZOOM_CLIENT_SECRET')) || process.env.ZOOM_CLIENT_SECRET;
+}
+
+export async function getZoomAccountId(): Promise<string | undefined> {
+  return (await getConfig('ZOOM_ACCOUNT_ID')) || process.env.ZOOM_ACCOUNT_ID;
 }
 
 // Invalidate cache (call after config updates)

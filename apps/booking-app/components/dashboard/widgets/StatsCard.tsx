@@ -13,24 +13,24 @@ interface StatsCardProps {
     action?: ReactNode; // Top right icon/action
 }
 
-export function StatsCard({ icon: Icon, label, value, colorClass = "bg-primary/10 text-primary", className, action }: StatsCardProps) {
+export function StatsCard({ icon: Icon, label, value, colorClass = "bg-surface-container text-primary", className, action }: StatsCardProps) {
     return (
         <div className={cn(
-            "bg-card p-6 rounded-[28px] border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-40",
+            "bg-surface p-6 rounded-[36px] border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-44",
             className
         )}>
-            <div className="flex justify-between items-start mb-4">
+            <div className="flex justify-between items-start">
                 <div className={cn(
-                    "w-12 h-12 rounded-[14px] flex items-center justify-center group-hover:scale-110 transition-transform",
+                    "w-12 h-12 rounded-[16px] flex items-center justify-center transition-all duration-300 group-hover:scale-110",
                     colorClass
                 )}>
-                    <Icon className="w-6 h-6" strokeWidth={2.5} />
+                    <Icon className="w-6 h-6" strokeWidth={2} />
                 </div>
-                {action}
+                {action || <ArrowUpRight className="w-5 h-5 text-muted group-hover:text-accent transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 opacity-50" />}
             </div>
-            <div>
-                <div className="text-3xl font-bold text-foreground tracking-tight">{value}</div>
-                <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mt-1">{label}</div>
+            <div className="space-y-1">
+                <div className="text-[11px] font-bold text-muted uppercase tracking-[0.1em]">{label}</div>
+                <div className="text-3xl font-bold text-primary tracking-tight tabular-nums leading-none">{value}</div>
             </div>
         </div>
     );

@@ -56,8 +56,7 @@ export function TaskManager() {
              <MorphingActionButton 
                 status={buttonStatus}
                 onClick={handleAddTask}
-                label="Add"
-                width={100}
+                idleLabel="Add"
              />
         </div>
       </div>

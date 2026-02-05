@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Plus, Target, CheckCircle2 } from "lucide-react";
@@ -9,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { DashboardCard } from "../shared/DashboardCard";
 
 interface Goal {
     id: string;
@@ -55,65 +55,72 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
     };
 
     return (
-        <Card className="p-6 rounded-[28px] border-border bg-card/50 backdrop-blur-sm animate-in fade-in">
-            <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-rose-100 text-rose-500 flex items-center justify-center">
-                        <Target className="w-5 h-5" />
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-foreground">Wellness Goals</h3>
-                        <p className="text-xs text-muted-foreground">Track your progress</p>
-                    </div>
-                </div>
+        <DashboardCard
+            title="Wellness Goals"
+            icon={Target}
+            actionLabel="Add Goal"
+            onAction={() => setOpen(true)}
+            variant="default"
+        >
                 <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogTrigger asChild>
-                        <Button size="sm" variant="outline" className="rounded-full h-8 w-8 p-0"><Plus className="w-4 h-4" /></Button>
-                    </DialogTrigger>
-                    <DialogContent>
+                    <DialogContent className="rounded-[32px] sm:max-w-[425px]">
                         <DialogHeader>
-                            <DialogTitle>Set a New Goal</DialogTitle>
+                            <DialogTitle className="text-xl font-bold">Set a New Goal</DialogTitle>
                         </DialogHeader>
                         <div className="space-y-4 py-4">
-                            <Input placeholder="Goal Title (e.g. Meditate Daily)" value={newGoal.title} onChange={e => setNewGoal({ ...newGoal, title: e.target.value })} />
+                            <Input 
+                                className="rounded-xl h-12 bg-[#F9F9F8] border-[#EEEEEE]" 
+                                placeholder="Goal Title (e.g. Meditate Daily)" 
+                                value={newGoal.title} 
+                                onChange={e => setNewGoal({ ...newGoal, title: e.target.value })} 
+                            />
                             <div className="flex gap-4">
-                                <Input type="number" placeholder="Target" value={newGoal.target} onChange={e => setNewGoal({ ...newGoal, target: e.target.value })} />
-                                <Input placeholder="Unit (e.g. mins)" value={newGoal.unit} onChange={e => setNewGoal({ ...newGoal, unit: e.target.value })} />
+                                <Input 
+                                    className="rounded-xl h-12 bg-[#F9F9F8] border-[#EEEEEE]" 
+                                    type="number" 
+                                    placeholder="Target" 
+                                    value={newGoal.target} 
+                                    onChange={e => setNewGoal({ ...newGoal, target: e.target.value })} 
+                                />
+                                <Input 
+                                    className="rounded-xl h-12 bg-[#F9F9F8] border-[#EEEEEE]" 
+                                    placeholder="Unit" 
+                                    value={newGoal.unit} 
+                                    onChange={e => setNewGoal({ ...newGoal, unit: e.target.value })} 
+                                />
                             </div>
-                            <Button onClick={addGoal} className="w-full">Create Goal</Button>
+                            <Button onClick={addGoal} className="w-full h-12 rounded-xl text-lg font-bold">Create Goal</Button>
                         </div>
                     </DialogContent>
                 </Dialog>
-            </div>
 
-            <div className="space-y-6">
+            <div className="space-y-6 mt-2">
                 {goals.length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground text-sm">No goals set yet. Start today!</div>
+                    <div className="text-center py-6 text-[#999999] text-sm bg-[#F9F9F8] rounded-[24px] border border-dashed border-[#EEEEEE] italic">
+                        No goals set yet. Start today!
+                    </div>
                 )}
                 {goals.map(goal => {
                     const progress = Math.min(100, (goal.current_value / goal.target_value) * 100);
                     return (
-                        <div key={goal.id} className="space-y-2">
-                            <div className="flex justify-between text-sm font-medium">
+                        <div key={goal.id} className="space-y-2 group">
+                            <div className="flex justify-between text-[13px] font-bold text-[#222222]">
                                 <span>{goal.title}</span>
-                                <span className="text-muted-foreground">{goal.current_value} / {goal.target_value} {goal.unit}</span>
+                                <span className="text-[#999999]">{goal.current_value} / {goal.target_value} {goal.unit}</span>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <Progress value={progress} className="h-2.5 bg-rose-100" indicatorClassName="bg-rose-500" />
-                                <Button
-                                    size="icon"
-                                    variant="ghost"
-                                    className="h-6 w-6 rounded-full hover:bg-rose-100 hover:text-rose-600"
-                                    onClick={() => updateProgress(goal, 1)}
-                                    disabled={progress >= 100}
-                                >
-                                    <Plus className="w-3 h-3" />
-                                </Button>
+                            <div className="relative h-3 rounded-full bg-[#F7F8F9] overflow-hidden border border-[#F5F5F5]">
+                                <div 
+                                    className="absolute inset-y-0 left-0 bg-[#222222] transition-all duration-1000 ease-out rounded-full"
+                                    style={{ width: `${progress}%` }} 
+                                />
+                            </div>
+                            <div className="flex justify-between opacity-0 group-hover:opacity-100 transition-opacity pt-1">
+                                <button onClick={() => updateProgress(goal, 1)} className="text-[10px] uppercase font-bold text-[#4DAFFF] hover:underline">+ Log Progress</button>
                             </div>
                         </div>
                     );
                 })}
             </div>
-        </Card>
+        </DashboardCard>
     );
 }

@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 export const runtime = 'nodejs';
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY || 'sk-dummy-key-for-build',
 });
 
 const AI_INSTRUCTIONS = `

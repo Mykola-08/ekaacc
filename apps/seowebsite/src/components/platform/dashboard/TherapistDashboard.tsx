@@ -133,7 +133,7 @@ export function TherapistDashboard() {
                   <span className="block text-sm font-bold text-foreground">{session.time}</span>
                 </div>
                 <div className="w-1 h-12 rounded-full bg-muted group-hover:bg-blue-200 transition-colors" />
-                <div className="flex-grow">
+                <div className="grow">
                   <h4 className="font-bold text-foreground">{session.patient}</h4>
                   <p className="text-sm text-muted-foreground">{session.type}</p>
                 </div>

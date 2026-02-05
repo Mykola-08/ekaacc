@@ -27,6 +27,7 @@
   "devDependencies": {
     "@types/node": "^25.0.9",
     "@types/pg": "^8.16.0",
+    "shadcn": "^3.8.2",
     "turbo": "^2.7.5",
     "typescript": "^5.9.3",
     "vercel": "^50.4.5"

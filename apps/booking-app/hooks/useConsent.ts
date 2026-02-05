@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 export type ConsentPreferences = {
@@ -22,12 +22,14 @@ export function useConsent() {
   const [preferences, setPreferences] = useState<ConsentPreferences>(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
   
-  const supabase = createClient(
+  const supabase = useMemo(() => createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibmZ5eGhld3Npdm9mdndkcHVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNTYzNDQsImV4cCI6MjA3ODYzMjM0NH0.beEFcpqzV7obLX0McrR-lK7V37RE0RbRTpVEKcub_Ko'
-  );
+  ), []);
 
   useEffect(() => {
+    let mounted = true;
+    
     const checkConsent = async () => {
       try {
         // 1. Check Local Storage first (fastest)
@@ -35,18 +37,24 @@ export function useConsent() {
         const storedPreferences = localStorage.getItem('eka_consent_preferences');
 
         if (storedConsent && storedPreferences) {
-          setStatus(storedConsent as ConsentStatus);
-          setPreferences(JSON.parse(storedPreferences));
-          setIsLoading(false);
+          if (mounted) {
+            setStatus(storedConsent as ConsentStatus);
+            setPreferences(JSON.parse(storedPreferences));
+            setIsLoading(false);
+          }
           return;
-        } else {
-          // Check for Global Privacy Control (GPC)
-          // @ts-expect-error Navigator.globalPrivacyControl is not yet in standard types
-          if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
+        }
+        
+        // Check for Global Privacy Control (GPC)
+        // @ts-expect-error Navigator.globalPrivacyControl is not yet in standard types
+        if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
+          if (mounted) {
             const gpcPreferences = { ...DEFAULT_PREFERENCES };
             setStatus('denied');
             setPreferences(gpcPreferences);
+            setIsLoading(false);
           }
+          return;
         }
 
         // 2. If not in local storage, check DB if user is logged in
@@ -61,7 +69,7 @@ export function useConsent() {
             .limit(1)
             .single();
 
-          if (data && !error) {
+          if (data && !error && mounted) {
             setStatus(data.status as ConsentStatus);
             setPreferences(data.preferences as ConsentPreferences);
             // Sync back to local storage
@@ -72,12 +80,18 @@ export function useConsent() {
       } catch (error) {
         console.error('Error checking consent:', error);
       } finally {
-        setIsLoading(false);
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     checkConsent();
-  }, [supabase]);
+    
+    return () => {
+      mounted = false;
+    };
+  }, []); // Run once on mount - supabase is stable via useMemo
 
   const saveConsent = async (newStatus: ConsentStatus, newPreferences: ConsentPreferences) => {
     try {

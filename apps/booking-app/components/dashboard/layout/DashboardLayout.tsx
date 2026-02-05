@@ -3,11 +3,40 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Calendar, Shield, LayoutDashboard, Settings, LogOut, Wallet, User } from 'lucide-react';
+import {
+    IconLayout01,
+    IconCalendar03,
+    IconWallet01,
+    IconUserCircle,
+    IconSettings01,
+    IconClock01,
+    IconBookOpen01,
+    IconShield01,
+    IconLogout01,
+    IconGrid,
+    IconLifesaver
+} from '@hugeicons/react';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { createClient } from '@/lib/supabase/client';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarInset,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarProvider,
+    SidebarRail,
+    SidebarTrigger,
+    SidebarGroup,
+    SidebarGroupLabel,
+    SidebarGroupContent
+} from "@/components/ui/sidebar"
+import { Separator } from "@/components/ui/separator"
 
 export function DashboardLayout({ children, profile }: { children: React.ReactNode, profile?: any }) {
     const pathname = usePathname();
@@ -20,127 +49,128 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
         router.push('/login');
     };
 
+    const role = profile?.role || 'client';
+
     const navItems = [
-        { label: t('nav.dashboard') || 'Dashboard', href: '/', icon: LayoutDashboard },
-        { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: Wallet },
-        { label: t('nav.book') || 'Bookings', href: '/bookings', icon: Calendar },
-        { label: t('nav.account') || 'Profile', href: '/profile', icon: User },
-        { label: t('nav.settings') || 'Settings', href: '/settings', icon: Settings },
+        { label: t('nav.dashboard') || 'Dashboard', href: '/', icon: IconLayout01 },
+        ...(role === 'client' ? [
+            { label: 'Wellness Journal', href: '/journal', icon: IconBookOpen01 },
+            { label: t('nav.bookings') || 'Bookings', href: '/bookings', icon: IconCalendar03 },
+            { label: 'Resources', href: '/resources', icon: IconGrid },
+            { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: IconWallet01 },
+            { label: 'My Sessions (Legacy)', href: '/old-sessions', icon: IconCalendar03 },
+        ] : []),
+        ...(role === 'therapist' ? [
+            { label: t('nav.availability') || 'Availability', href: '/availability', icon: IconClock01 },
+            { label: t('nav.bookings') || 'My Sessions', href: '/bookings', icon: IconCalendar03 },
+            { label: 'Clinical Notes', href: '/notes', icon: IconBookOpen01 },
+        ] : []),
+        ...(role === 'admin' || role === 'super_admin' ? [
+            { label: 'Platform Management', href: '/admin', icon: IconShield01 },
+            { label: 'Resource Library', href: '/admin/resources', icon: IconBookOpen01 },
+            { label: 'Service Inventory', href: '/services', icon: IconSettings01 },
+        ] : []),
+        { label: t('nav.account') || 'My Profile', href: '/profile', icon: IconUserCircle },
+        { label: t('nav.settings') || 'Preferences', href: '/settings', icon: IconSettings01 },
     ];
 
-    // Specialized 'Row' Button style from spec
-    const NavButton = ({ item, isActive }: { item: any, isActive: boolean }) => (
-        <Link href={item.href} className="w-full">
-            <button
-                className={cn(
-                    "flex w-full items-center gap-3 rounded-xl px-4 py-3 text-[15px] font-semibold transition-all duration-200",
-                    "active:scale-95", // Squishy interaction
-                    isActive
-                        ? "bg-secondary text-secondary-foreground shadow-[0_0_0_1px_rgba(0,0,0,0.03)]"
-                        : "text-muted-foreground hover:bg-secondary hover:text-secondary-foreground"
-                )}
-            >
-                <item.icon className={cn("w-5 h-5", isActive ? "text-foreground" : "text-muted-foreground")} strokeWidth={2.75} />
-                <span>{item.label}</span>
-            </button>
-        </Link>
-    );
-
     return (
-        <div className="min-h-screen bg-background p-4 flex gap-4 font-sans antialiased text-foreground">
-            {/* Sidebar - Floating, glassy porcelain */}
-            <nav className="w-64 bg-card/60 backdrop-blur-xl rounded-[36px] p-6 flex flex-col justify-between hidden md:flex shadow-sm border border-border/60">
-                <div className="space-y-8">
-                    {/* Brand Header */}
-                    <div className="pl-2">
-                        <Link href="/" className="flex items-center gap-2 group">
-                            <div className="font-bold text-xl tracking-tight text-foreground group-hover:opacity-80 transition-opacity">
-                                EKA BALANCE
-                            </div>
-                        </Link>
-                    </div>
+        <SidebarProvider>
+            <Sidebar collapsible="icon">
+                <SidebarHeader>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton size="lg" asChild>
+                                <Link href="/">
+                                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                                        <span className="font-bold italic">E</span>
+                                    </div>
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-semibold">EKA Balance</span>
+                                        <span className="truncate text-xs">Wellness Platform</span>
+                                    </div>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarHeader>
+                <SidebarContent>
+                    <SidebarGroup>
+                        <SidebarGroupLabel>Menu</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            <SidebarMenu>
+                                {navItems.map((item) => (
+                                    <SidebarMenuItem key={item.href}>
+                                        <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.label}>
+                                            <Link href={item.href}>
+                                                <item.icon />
+                                                <span>{item.label}</span>
+                                            </Link>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                ))}
+                            </SidebarMenu>
+                        </SidebarGroupContent>
+                    </SidebarGroup>
 
-                    <div className="space-y-1">
-                        {navItems.map((item) => (
-                            <Link href={item.href} key={item.href} className="w-full block">
-                                <button
-                                    className={cn(
-                                        "flex w-full items-center gap-3 rounded-[18px] px-4 py-3.5 text-[15px] font-semibold transition-all duration-200",
-                                        "active:scale-95", // Squishy interaction
-                                        pathname === item.href
-                                            ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                                            : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                                    )}
+                    {role === 'client' && (
+                        <div className="mt-auto p-4">
+                            <div className="rounded-xl border bg-destructive/10 p-4 text-destructive">
+                                <div className="flex items-center gap-2 font-medium">
+                                    <IconLifesaver className="size-4" />
+                                    <span className="text-sm">Crisis Support</span>
+                                </div>
+                                <div className="mt-2 text-xs opacity-90">
+                                    Need immediate help? Contact our hotline.
+                                </div>
+                                <Button
+                                    size="sm"
+                                    variant="destructive"
+                                    className="mt-3 w-full"
+                                    onClick={() => router.push('/crisis')}
                                 >
-                                    <item.icon className={cn("w-5 h-5", pathname === item.href ? "text-primary-foreground" : "text-muted-foreground")} strokeWidth={2.25} />
-                                    <span>{item.label}</span>
-                                </button>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Profile Card at Bottom */}
-                <div className="space-y-4">
-                    <div className="bg-secondary/50 p-3 rounded-[24px] flex items-center gap-3 border border-border/50">
-                        <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-foreground font-bold border border-border/60 shadow-sm">
-                            {profile?.first_name?.[0] || 'U'}
-                        </div>
-                        <div className="flex flex-col overflow-hidden">
-                            <span className="font-semibold text-sm truncate text-foreground">
-                                {profile?.first_name || 'User'} {profile?.last_name || ''}
-                            </span>
-                            <div className="flex items-center gap-1.5">
-                                <span className="bg-primary/20 text-primary text-[10px] px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wide">Member</span>
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                                    Get Help
+                                </Button>
                             </div>
                         </div>
+                    )}
+
+                </SidebarContent>
+                <SidebarFooter>
+                    <SidebarMenu>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton size="lg" asChild>
+                                <div className="flex items-center gap-2">
+                                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-accent text-sidebar-accent-foreground">
+                                        {profile?.first_name?.[0] || 'U'}
+                                    </div>
+                                    <div className="grid flex-1 text-left text-sm leading-tight">
+                                        <span className="truncate font-semibold">{profile?.first_name || 'User'}</span>
+                                        <span className="truncate text-xs">{role}</span>
+                                    </div>
+                                    <IconLogout01 className="ml-auto size-4" onClick={(e) => { e.preventDefault(); handleSignOut(); }} />
+                                </div>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
+                <SidebarRail />
+            </Sidebar>
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 border-b bg-background/50 px-4 backdrop-blur-md sticky top-0 z-10">
+                    <SidebarTrigger className="-ml-1" />
+                    <Separator orientation="vertical" className="mr-2 h-4" />
+                    <div className="flex items-center gap-2 text-sm font-medium">
+                        <span className="text-muted-foreground">Dashboard</span>
                     </div>
-
-                    {/* Tiny Sign Out */}
-                    <button 
-                        onClick={handleSignOut}
-                        className="w-full text-xs font-medium text-muted-foreground hover:text-destructive transition-colors text-center pb-1"
-                    >
-                        {t('nav.signout') || 'Sign Out'}
-                    </button>
-                </div>
-            </nav>
-
-            {/* Main Content Area - Porcelain surface with subtle glass feel */}
-            <main className="flex-1 overflow-hidden relative flex flex-col gap-4 mb-20 md:mb-0">
-                {/* Optional: We could put a top bar here if we wanted it global, but the screenshot has it per page. 
-                     However, the layout wrapper itself renders specific children. 
-                     We keep the main container standard. */}
-                <div className="flex-1 bg-card/80 backdrop-blur-md rounded-[36px] border border-border/60 shadow-sm overflow-y-auto scrollbar-thin p-8 md:p-10">
-                    {children}
-                </div>
-            </main>
-
-            {/* Mobile Bottom Navigation */}
-            <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-xl border-t border-border/60 p-4 md:hidden pb-safe">
-                <div className="flex justify-around items-center">
-                    {navItems.map((item) => (
-                        <Link href={item.href} key={item.href} className="flex-1">
-                            <button
-                                className={cn(
-                                    "flex flex-col items-center justify-center w-full gap-1 p-2 rounded-xl transition-all duration-200",
-                                    "active:scale-95",
-                                    pathname === item.href
-                                        ? "text-primary font-bold"
-                                        : "text-muted-foreground/60 hover:text-foreground"
-                                )}
-                            >
-                                <item.icon
-                                    className={cn("w-6 h-6", pathname === item.href && "fill-primary/10")}
-                                    strokeWidth={pathname === item.href ? 2.5 : 2}
-                                />
-                                <span className={cn("text-[10px] tracking-wide", pathname === item.href && "font-bold")}>{item.label}</span>
-                            </button>
-                        </Link>
-                    ))}
-                </div>
-            </nav>
-        </div>
+                </header>
+                <main className="flex flex-1 flex-col gap-4 p-4 pt-0">
+                    <div className="animate-in fade-in zoom-in duration-300 py-6">
+                        {children}
+                    </div>
+                </main>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }
+

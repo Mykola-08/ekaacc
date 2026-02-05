@@ -40,12 +40,12 @@ export default function KinesiologiaPage() {
       />
 
       {/* Hero Section */}
-      <div className="relative bg-linear-to-br from-blue-50 via-white to-purple-50 pt-32 pb-20 px-6 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+      <div className="relative bg-[#FBFBFD] pt-32 pb-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-20 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         
         <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-card/80 backdrop-blur-sm border border-blue-100 text-sm text-blue-600 mb-8 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-sm border border-[#E5E5EA]/30 text-sm text-primary mb-8 shadow-sm">
               <Brain className="w-4 h-4" />
               <span className="font-medium">{t('kinesiology.hero.badge')}</span>
             </div>

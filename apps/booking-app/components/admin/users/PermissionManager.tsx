@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Check, X, Shield, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { DashboardHeader } from "@/components/dashboard/layout/DashboardHeader";
+import { DashboardCard } from "@/components/dashboard/shared/DashboardCard";
 
 type PermissionItem = {
     id: string;

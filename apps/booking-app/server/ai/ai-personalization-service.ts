@@ -8,6 +8,7 @@ import { db } from '@/lib/db';
 import { getWellnessSummary, getTodaysMoodEntry } from './wellness-service';
 import { getRecentMemories, getImportantMemories } from './ai-memory-service';
 import { getActiveInsights, calculateWellnessScore } from './ai-insights-service';
+import { getAIClient, getModel } from './provider';
 
 // ============================================================================
 // TYPES
@@ -226,83 +227,94 @@ export async function suggestDailyActions(userId: string): Promise<DailyAction[]
         getWellnessSummary(userId, 'week'),
         getTodaysMoodEntry(userId),
         getActiveInsights(userId),
-        getRecentMemories(userId, 10)
+        getRecentMemories(userId, 5)
     ]);
 
     const actions: DailyAction[] = [];
     const timeOfDay = getTimeOfDay();
 
-    // Check if mood check-in needed
+    // 1. Essential Check-ins (Rule-Based)
     if (!todayMood) {
         actions.push({
             id: 'daily-checkin',
             title: 'Log your mood',
-            description: 'Take a moment to check in with how you\'re feeling today',
+            description: 'Check in with yourself to start the day right.',
             category: 'wellness',
             priority: 'high',
             estimatedMinutes: 2,
-            reason: 'You haven\'t logged your mood today'
+            reason: 'Consistency is key to wellness.'
         });
     }
 
-    // Stress management if high stress
-    if (todayMood?.stress === 'high' || todayMood?.stress === 'severe') {
-        actions.push({
-            id: 'stress-relief',
-            title: 'Try a breathing exercise',
-            description: 'A quick 5-minute breathing session to help you relax',
-            category: 'self-care',
-            priority: 'high',
-            estimatedMinutes: 5,
-            reason: 'Your stress level is elevated today'
+    // 2. AI Personalization Layer
+    try {
+        const prompt = `
+            Context:
+            - Time: ${timeOfDay}
+            - Mood: ${todayMood ? `${todayMood.mood}/10 (${todayMood.emotions.join(',')})` : 'Not logged yet'}
+            - Recent Notes: ${memories.map(m => m.content).join('; ')}
+            - Streak: ${wellnessSummary.streakDays} days
+            
+            Generate 2 specific, actionable daily tasks for this user.
+            Return strictly valid JSON: { "actions": [{ "id", "title", "description", "category" (wellness|booking|social|self-care|learning), "priority" (high|medium), "estimatedMinutes", "reason" }] }
+        `;
+
+        const client = await getAIClient();
+        const model = await getModel();
+        
+        const completion = await client.chat.completions.create({
+            model: model,
+            messages: [
+                { role: "system", content: "You are an empathetic wellness companion. Keep titles short and punchy." },
+                { role: "user", content: prompt }
+            ],
+            response_format: { type: "json_object" },
+            temperature: 0.7
         });
+
+        const content = completion.choices[0]?.message.content;
+        if (content) {
+            const parsed = JSON.parse(content);
+            if (Array.isArray(parsed.actions)) {
+                actions.push(...parsed.actions);
+            }
+        }
+    } catch (err) {
+        console.warn('AI Personalization failed, falling back to rules:', err);
     }
 
-    // Book appointment if streak is good
-    if (wellnessSummary.streakDays >= 7 && wellnessSummary.averageMood >= 6) {
-        actions.push({
-            id: 'book-session',
-            title: 'Book a wellness session',
-            description: 'Continue your positive momentum with a session',
-            category: 'booking',
-            priority: 'medium',
-            estimatedMinutes: 15,
-            reason: `You've maintained a ${wellnessSummary.streakDays} day streak!`
-        });
+    // 3. Fallbacks if AI fails or returns nothing
+    if (actions.length < 2) {
+         if (todayMood?.stress === 'high') {
+             actions.push({
+                 id: 'stress-relief',
+                 title: '5-min Breathing',
+                 description: 'Center yourself with box breathing.',
+                 category: 'self-care',
+                 priority: 'high',
+                 estimatedMinutes: 5,
+                 reason: 'De-stress moment'
+             });
+         }
+         actions.push({
+             id: 'journal',
+             title: 'Evening Reflection',
+             description: 'Clear your mind before bed.',
+             category: 'self-care',
+             priority: 'medium',
+             estimatedMinutes: 10,
+             reason: 'Daily habit'
+         });
     }
 
-    // Evening journaling
-    if (timeOfDay === 'evening' || timeOfDay === 'night') {
-        actions.push({
-            id: 'journal',
-            title: 'Write a journal entry',
-            description: 'Reflect on your day and capture your thoughts',
-            category: 'self-care',
-            priority: 'medium',
-            estimatedMinutes: 10,
-            reason: 'Evening is a great time for reflection'
-        });
-    }
+    // Deduplicate by ID
+    const uniqueActions = Array.from(new Map(actions.map(a => [a.id, a])).values());
 
-    // Morning self-care
-    if (timeOfDay === 'morning') {
-        actions.push({
-            id: 'morning-intention',
-            title: 'Set your intention for the day',
-            description: 'Start your day with clarity and purpose',
-            category: 'wellness',
-            priority: 'medium',
-            estimatedMinutes: 5,
-            reason: 'Morning intentions set the tone for the day'
-        });
-    }
-
-    // Check insights for pending actions
     const pendingInsights = insights.filter(i =>
         i.actionItems?.some(a => !a.completed)
     );
     if (pendingInsights.length > 0) {
-        actions.push({
+        uniqueActions.push({
             id: 'complete-insight',
             title: 'Complete an insight action',
             description: `You have ${pendingInsights.length} insight(s) with pending actions`,
@@ -315,7 +327,7 @@ export async function suggestDailyActions(userId: string): Promise<DailyAction[]
 
     // Sort by priority and return top 5
     const priorityOrder = { high: 0, medium: 1, low: 2 };
-    return actions
+    return uniqueActions
         .sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority])
         .slice(0, 5);
 }

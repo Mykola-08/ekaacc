@@ -34,35 +34,47 @@ export function NotificationDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full relative border-black/10 hover:bg-black/5 shadow-sm">
-          <Bell className="h-4 w-4 opacity-70" />
+        <Button variant="outline" size="icon" className="h-10 w-10 rounded-[14px] relative border-none bg-[#FEFFFE] hover:bg-[#F9F9F8] shadow-sm hover:shadow-md transition-all">
+          <Bell className="h-4 w-4 text-[#222222]" strokeWidth={2.5} />
           {unreadCount > 0 && (
-             <span className="absolute top-0 right-0 h-2.5 w-2.5 rounded-full bg-red-500 border-2 border-white animate-pulse"></span>
+             <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-[#FF3F40] ring-2 ring-white"></span>
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80 rounded-2xl p-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-slate-200 dark:border-slate-800 shadow-xl shadow-black/5 mt-2">
-        <DropdownMenuLabel className="px-3 py-2 text-sm font-semibold tracking-tight opacity-70">Notifications</DropdownMenuLabel>
-        <DropdownMenuSeparator className="mx-2 bg-slate-100 dark:bg-slate-800" />
+      <DropdownMenuContent align="end" className="w-[360px] rounded-[32px] p-4 bg-[#FEFFFE] border-[#F5F5F5] shadow-[0_20px_60px_rgba(0,0,0,0.08)] mt-4">
+        <DropdownMenuLabel className="px-4 py-3 text-base font-bold tracking-tight text-[#222222] flex items-center justify-between">
+            Notifications
+            {unreadCount > 0 && (
+                <span className="text-[10px] bg-[#222222] text-white px-2 py-0.5 rounded-full">{unreadCount} New</span>
+            )}
+        </DropdownMenuLabel>
         
         {notifications.length === 0 ? (
-            <div className="py-8 flex flex-col items-center justify-center text-center text-muted-foreground opacity-60">
-                <Bell className="w-8 h-8 mb-2 opacity-20" />
-                <span className="text-xs">No notifications yet</span>
+            <div className="py-12 flex flex-col items-center justify-center text-center text-[#999999]/60">
+                <Bell className="w-10 h-10 mb-3 opacity-20" strokeWidth={1.5} />
+                <span className="text-sm font-medium">No notifications yet</span>
             </div>
         ) : (
-            notifications.map((n) => (
-                <DropdownMenuItem key={n.id} className="cursor-pointer rounded-xl p-3 hover:bg-slate-100 dark:hover:bg-slate-800 focus:bg-slate-100 dark:focus:bg-slate-800 transition-colors my-1">
-                  <div className="flex flex-col gap-1.5 w-full">
-                     <div className="flex justify-between items-start">
-                        <span className={cn("text-sm leading-none text-foreground/90", !n.read ? "font-semibold" : "font-medium")}>{n.title}</span>
-                        {!n.read && <span className="h-2 w-2 rounded-full bg-blue-500 ring-2 ring-white dark:ring-slate-900 shrink-0 mt-0.5"></span>}
-                     </div>
-                     <span className="text-xs text-muted-foreground font-light line-clamp-2">{n.message}</span>
-                     <span className="text-[10px] text-muted-foreground/50 text-right">{formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}</span>
-                  </div>
-                </DropdownMenuItem>
-            ))
+            <div className="flex flex-col gap-1 mt-2">
+                {notifications.map((n) => (
+                    <DropdownMenuItem 
+                        key={n.id} 
+                        className={cn(
+                            "cursor-pointer rounded-[20px] p-4 focus:bg-[#F9F9F8] hover:bg-[#F9F9F8] transition-all outline-none border border-transparent hover:border-[#F0F0F0] group",
+                            !n.read ? "bg-[#F9F9F8]" : "bg-transparent"
+                        )}
+                    >
+                    <div className="flex flex-col gap-2 w-full">
+                        <div className="flex justify-between items-start gap-3">
+                            <span className={cn("text-sm leading-tight text-[#222222]", !n.read ? "font-bold" : "font-medium")}>{n.title}</span>
+                            {!n.read && <span className="h-2 w-2 rounded-full bg-[#4DAFFF] shrink-0 mt-1.5"></span>}
+                        </div>
+                        <span className="text-xs text-[#555555] font-normal leading-relaxed line-clamp-2">{n.message}</span>
+                        <span className="text-[10px] text-[#999999] font-bold uppercase tracking-wider pt-1">{formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}</span>
+                    </div>
+                    </DropdownMenuItem>
+                ))}
+            </div>
         )}
       </DropdownMenuContent>
     </DropdownMenu>

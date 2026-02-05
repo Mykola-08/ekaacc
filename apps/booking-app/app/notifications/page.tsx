@@ -1,8 +1,8 @@
 
 import { createClient } from "@/lib/supabase/server";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
+import { DashboardHeader } from "@/components/dashboard/layout/DashboardHeader";
+import { DashboardCard } from "@/components/dashboard/shared/DashboardCard";
 import { Bell, Info, CheckCircle, AlertTriangle } from "lucide-react";
 import { redirect } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -49,7 +49,7 @@ export default async function NotificationsPage() {
 
                 <div className="space-y-4">
                     {notifications.map((notification) => (
-                        <div key={notification.id} className="group relative overflow-hidden bg-card border border-border rounded-[24px] p-6 transition-all hover:shadow-md hover:border-border/80">
+                        <div key={notification.id} className="group relative overflow-hidden bg-white border border-[#F0F0F0] rounded-[32px] p-6 transition-all hover:shadow-lg shadow-sm hover:-translate-y-0.5">
                             <div className="flex gap-5">
                                 <div className={cn(
                                     "w-12 h-12 rounded-full flex items-center justify-center shrink-0 border",
@@ -77,8 +77,8 @@ export default async function NotificationsPage() {
                     ))}
 
                     {notifications.length === 0 && (
-                        <div className="flex flex-col items-center justify-center py-20 text-center">
-                            <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center mb-4">
+                        <div className="flex flex-col items-center justify-center py-20 text-center bg-[#F9F9F8] rounded-[40px] border-2 border-dashed border-[#EAEAEA]">
+                            <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4">
                                 <Bell className="w-8 h-8 text-muted-foreground/50" />
                             </div>
                             <p className="text-muted-foreground font-medium">You're all caught up!</p>

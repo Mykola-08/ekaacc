@@ -76,7 +76,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
 
   if (!bookings || bookings.length === 0) {
     return (
-      <div className="p-3 bg-muted/40 rounded-lg text-sm text-muted-foreground">
+      <div className="p-4 bg-[#F9F9F8] rounded-[24px] border border-[#F0F0F0] text-sm font-medium text-[#999999] text-center">
         No bookings found matching your request.
       </div>
     );
@@ -87,7 +87,7 @@ export function BookingResult({ bookings: initialBookings }: BookingResultProps)
   const past = sortedBookings.filter(b => b.status !== 'scheduled');
 
   const renderBookingCard = (booking: any) => (
-    <Card key={booking.id} className="p-3 border-border/60 bg-white/50 dark:bg-slate-900/50 hover:shadow-md transition-all duration-300">
+    <Card key={booking.id} className="p-5 border-[#F0F0F0] bg-white rounded-[24px] shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex justify-between items-start mb-2">
         <div>
           <h4 className="font-medium text-sm text-foreground">{booking.service?.name || "Service"}</h4>
@@ -165,7 +165,7 @@ interface BookingConfirmationProps {
 
 export function BookingConfirmation({ bookingId, details, message }: BookingConfirmationProps) {
   return (
-    <Card className="p-4 bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-900 my-2">
+    <Card className="p-5 bg-emerald-50/50 border border-emerald-100/50 rounded-[28px] my-2 shadow-[0_4px_20px_rgba(16,185,129,0.05)]">
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center shrink-0">
           <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -197,7 +197,7 @@ interface AvailabilityResultProps {
 
 export function AvailabilityResult({ slots }: AvailabilityResultProps) {
   if (!slots || slots.length === 0) {
-    return <div className="text-sm text-muted-foreground p-3 bg-muted/40 rounded-lg">No slots available for this date.</div>;
+    return <div className="text-sm font-medium text-[#999999] p-4 bg-[#F9F9F8] rounded-[24px] text-center border border-[#F0F0F0]">No slots available for this date.</div>;
   }
 
   const uniqueStartTimes = Array.from(new Set(slots.map(s => s.startTime))).sort();
@@ -232,13 +232,13 @@ interface ServiceResultProps {
 
 export function ServiceResult({ services, onSelect }: ServiceResultProps) {
   if (!services || services.length === 0) {
-    return <div className="text-sm text-muted-foreground p-3 bg-muted/40 rounded-lg">No services found.</div>;
+    return <div className="text-sm font-medium text-[#999999] p-4 bg-[#F9F9F8] rounded-[24px] text-center border border-[#F0F0F0]">No services found.</div>;
   }
 
   return (
     <div className="flex gap-2 overflow-x-auto pb-2 -mx-2 px-2 snap-x">
       {services.map(service => (
-        <Card key={service.id} className="min-w-[200px] p-3 flex-shrink-0 snap-center border-indigo-100 dark:border-indigo-900 bg-indigo-50/50 dark:bg-slate-900/50">
+        <Card key={service.id} className="min-w-[220px] p-5 flex-shrink-0 snap-center border-[#EAEAEA] bg-white rounded-[24px] shadow-sm hover:shadow-md transition-all">
           <h4 className="font-semibold text-sm mb-1">{service.name}</h4>
           <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{service.description}</p>
           <div className="flex justify-between items-center text-xs font-medium mb-2">
@@ -276,7 +276,7 @@ interface ServiceDetailResultProps {
 
 export function ServiceDetailResult({ service }: ServiceDetailResultProps) {
   return (
-    <Card className="p-4 my-2 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-slate-900 dark:to-slate-800 border-indigo-100 dark:border-indigo-900">
+    <Card className="p-5 my-2 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 border border-indigo-50/50 rounded-[28px] shadow-sm">
       <div className="flex justify-between items-start mb-3">
         <div>
           <h4 className="font-semibold text-base">{service.name}</h4>
@@ -329,7 +329,7 @@ export function WalletResult({ balance: initialBalance, currency }: WalletResult
   });
 
   return (
-    <Card className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-0 shadow-lg my-2">
+    <Card className="p-6 bg-gradient-to-br from-indigo-500 to-purple-600 text-white border-0 shadow-xl rounded-[28px] my-2">
       <div className="flex justify-between items-start mb-4">
         <span className="text-xs font-medium text-indigo-100">Digital Wallet</span>
         <CreditCard className="w-4 h-4 text-indigo-100" />
@@ -357,7 +357,7 @@ export function RewardsResult({ points, lifetimePoints, tier }: RewardsResultPro
   };
 
   return (
-    <Card className={`p-4 bg-gradient-to-br ${tierColors[tier] || tierColors.bronze} text-white border-0 shadow-lg my-2`}>
+    <Card className={`p-6 bg-gradient-to-br ${tierColors[tier] || tierColors.bronze} text-white border-0 shadow-xl rounded-[28px] my-2`}>
       <div className="flex justify-between items-start mb-3">
         <span className="text-xs font-medium opacity-90">Rewards</span>
         <Award className="w-4 h-4 opacity-90" />
@@ -392,7 +392,7 @@ export function MoodCheckInResult({ entry, message }: MoodCheckInResultProps) {
   const moodEmoji = entry.mood >= 8 ? '😊' : entry.mood >= 6 ? '🙂' : entry.mood >= 4 ? '😐' : '😔';
 
   return (
-    <Card className="p-4 bg-gradient-to-br from-pink-50 to-purple-50 dark:from-slate-900 dark:to-slate-800 border-pink-100 dark:border-pink-900 my-2">
+    <Card className="p-5 bg-gradient-to-br from-pink-50/50 to-purple-50/50 border border-pink-100 rounded-[28px] shadow-sm my-2">
       <div className="flex items-center gap-3 mb-3">
         <div className="h-12 w-12 rounded-full bg-white dark:bg-slate-800 flex items-center justify-center text-2xl shadow-sm">
           {moodEmoji}
@@ -403,15 +403,15 @@ export function MoodCheckInResult({ entry, message }: MoodCheckInResultProps) {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-2 text-center">
-        <div className="bg-white/60 dark:bg-slate-800/60 rounded-lg p-2">
+        <div className="bg-white/80 rounded-[20px] p-3 shadow-sm border border-white/50">
           <div className="text-lg font-bold text-pink-600 dark:text-pink-400">{entry.mood}/10</div>
           <div className="text-[10px] text-muted-foreground">Mood</div>
         </div>
-        <div className="bg-white/60 dark:bg-slate-800/60 rounded-lg p-2">
+        <div className="bg-white/80 rounded-[20px] p-3 shadow-sm border border-white/50">
           <div className="text-xs font-medium capitalize text-purple-600 dark:text-purple-400">{entry.energy.replace('_', ' ')}</div>
           <div className="text-[10px] text-muted-foreground">Energy</div>
         </div>
-        <div className="bg-white/60 dark:bg-slate-800/60 rounded-lg p-2">
+        <div className="bg-white/80 rounded-[20px] p-3 shadow-sm border border-white/50">
           <div className="text-xs font-medium capitalize text-indigo-600 dark:text-indigo-400">{entry.stress}</div>
           <div className="text-[10px] text-muted-foreground">Stress</div>
         </div>
@@ -443,7 +443,7 @@ export function WellnessSummaryResult({
   const trendColor = moodTrend === 'improving' ? 'text-green-500' : moodTrend === 'declining' ? 'text-red-500' : 'text-gray-500';
 
   return (
-    <Card className="p-4 my-2 border-purple-100 dark:border-purple-900">
+    <Card className="p-5 my-2 border border-[#F0F0F0] bg-white rounded-[28px] shadow-sm">
       <div className="flex items-center justify-between mb-3">
         <h4 className="font-semibold text-sm flex items-center gap-2">
           <Activity className="w-4 h-4 text-purple-500" />

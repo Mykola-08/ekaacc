@@ -10,10 +10,10 @@ if (!process.env.POSTGRES_URL) {
   }
 }
 
-const connectionString = process.env.POSTGRES_URL;
+const connectionString = process.env.POSTGRES_URL || 'postgres://localhost:5432/placeholder';
 
-if (!connectionString) {
-  throw new Error('POSTGRES_URL is not defined');
+if (!process.env.POSTGRES_URL && process.env.NODE_ENV === 'production') {
+  console.warn('POSTGRES_URL is not defined in production environment');
 }
 
 // Pool configuration optimized for serverless environments

@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { TelegramManager } from "@/components/admin/telegram/TelegramManager";
-import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
 import { redirect } from "next/navigation";
 
 export default async function TelegramAdminPage() {

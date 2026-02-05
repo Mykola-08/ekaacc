@@ -11,7 +11,7 @@ import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { StatsCard } from '../widgets/StatsCard';
 import { ScheduleTable } from '../widgets/ScheduleTable';
 
-export function TherapistScheduleView({ schedule }: { schedule: any[] }) {
+export function TherapistScheduleView({ schedule, profile }: { schedule: any[], profile?: any }) {
     const { t } = useLanguage();
     const router = useRouter();
 
@@ -29,7 +29,7 @@ export function TherapistScheduleView({ schedule }: { schedule: any[] }) {
     }, [schedule]);
 
     return (
-        <DashboardLayout profile={{ first_name: 'Therapist' }}> {/* Placeholder profile for therapist */}
+        <DashboardLayout profile={profile}>
             <div className="space-y-8 animate-in fade-in duration-500">
 
                 <DashboardHeader title={t('nav.dashboard')} />

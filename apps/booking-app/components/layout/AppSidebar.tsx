@@ -15,27 +15,28 @@ import {
   SidebarRail,
   SidebarFooter,
 } from '@/components/ui/sidebar';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  IconHome01,
-  IconCalendar03,
-  IconWallet01,
-  IconUserCircle,
-  IconSettings01,
-  IconLogout01,
-  IconGridView
-} from '@hugeicons/react';
+  Home01Icon,
+  Calendar03Icon,
+  Wallet01Icon,
+  UserCircleIcon,
+  Settings01Icon,
+  Logout01Icon,
+  GridViewIcon
+} from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
 
   const items = [
-    { title: 'Dashboard', url: '/', icon: IconHome01 },
-    { title: 'Bookings', url: '/bookings', icon: IconCalendar03 },
-    { title: 'Wallet', url: '/wallet', icon: IconWallet01 },
-    { title: 'Resources', url: '/resources', icon: IconGridView },
-    { title: 'Profile', url: '/profile', icon: IconUserCircle },
-    { title: 'Settings', url: '/settings', icon: IconSettings01 },
+    { title: 'Dashboard', url: '/', icon: Home01Icon },
+    { title: 'Bookings', url: '/bookings', icon: Calendar03Icon },
+    { title: 'Wallet', url: '/wallet', icon: Wallet01Icon },
+    { title: 'Resources', url: '/resources', icon: GridViewIcon },
+    { title: 'Profile', url: '/profile', icon: UserCircleIcon },
+    { title: 'Settings', url: '/settings', icon: Settings01Icon },
   ];
 
   return (
@@ -63,7 +64,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                     isActive={pathname === item.url || pathname?.startsWith(item.url + '/')}
                   >
                     <Link href={item.url}>
-                      <item.icon className="h-4 w-4" />
+                      <HugeiconsIcon icon={item.icon} className="h-4 w-4" />
                       <span>{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
@@ -77,7 +78,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
          <SidebarMenu>
             <SidebarMenuItem>
                 <SidebarMenuButton>
-                    <IconLogout01 className="h-4 w-4" />
+                    <HugeiconsIcon icon={Logout01Icon} className="h-4 w-4" />
                     <span>Sign out</span>
                 </SidebarMenuButton>
             </SidebarMenuItem>

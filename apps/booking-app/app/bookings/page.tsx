@@ -4,7 +4,8 @@ import * as motion from "framer-motion/client";
 import { getBookingsHistory } from '@/server/dashboard/service';
 import { BookingHistoryList } from '@/components/booking/BookingHistoryList';
 import { Button } from '@/components/ui/button';
-import { IconArrowLeft01, IconAdd01 } from '@hugeicons/react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowLeft01Icon, Add01Icon } from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
@@ -47,7 +48,7 @@ export default async function BookingsPage() {
         >
           <Button asChild variant="default" className="shadow-lg shadow-primary/20">
             <Link href="/book">
-              <IconAdd01 className="w-4 h-4 mr-2" strokeWidth={2.5} />
+              <HugeiconsIcon icon={Add01Icon} className="w-4 h-4 mr-2" strokeWidth={2.5} />
               New Booking
             </Link>
           </Button>

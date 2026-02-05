@@ -15,7 +15,7 @@ import {
     Shield01Icon,
     Logout01Icon,
     GridIcon,
-    LifesaverIcon
+    AlertCircleIcon
 } from '@hugeicons/core-free-icons';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
@@ -118,7 +118,7 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                         <div className="mt-auto p-4">
                             <div className="rounded-xl border bg-destructive/10 p-4 text-destructive">
                                 <div className="flex items-center gap-2 font-medium">
-                                    <HugeiconsIcon icon={LifesaverIcon} className="size-4" />
+                                    <HugeiconsIcon icon={AlertCircleIcon} className="size-4" />
                                     <span className="text-sm">Crisis Support</span>
                                 </div>
                                 <div className="mt-2 text-xs opacity-90">

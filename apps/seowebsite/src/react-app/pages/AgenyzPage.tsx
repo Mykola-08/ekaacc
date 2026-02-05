@@ -67,12 +67,12 @@ export default function AgenyzPage() {
 
                         <div className="order-1 lg:order-2">
                              <div className="relative group aspect-4/3">
-                                <div className="absolute inset-0 bg-linear-to-tr from-blue-200 to-indigo-200 rounded-[2.5rem] blur-xl opacity-30 group-hover:opacity-50 transition-duration-500" />
+                                <div className="absolute inset-0 bg-linear-to-tr from-blue-200 to-indigo-200 rounded-3xl blur-xl opacity-30 group-hover:opacity-50 transition-duration-500" />
                                 <Image
                                     src="https://images.pexels.com/photos/3618606/pexels-photo-3618606.jpeg?auto=compress&cs=tinysrgb&w=1200"
                                     alt="Advanced supplements and cellular nutrition"
                                     fill
-                                    className="object-cover rounded-[2.5rem] shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
+                                    className="object-cover rounded-3xl shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]"
                                     sizes="(max-width: 768px) 100vw, 50vw"
                                 />
                                 <div className="absolute -bottom-6 -left-6 bg-card/90 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white/20">

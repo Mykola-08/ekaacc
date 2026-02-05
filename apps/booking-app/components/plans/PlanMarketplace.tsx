@@ -43,7 +43,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                 return (
                     <div key={plan.id} className={cn(
                         "relative overflow-hidden transition-all duration-300 group flex flex-col justify-between",
-                        "p-6 rounded-[32px] border shadow-sm hover:shadow-xl",
+                        "p-6 rounded-2xl border shadow-sm hover:shadow-xl",
                         isVIP 
                             ? "bg-card border-amber-200 shadow-amber-100/50 hover:shadow-amber-200/50 hover:-translate-y-1" 
                             : "bg-card border-border hover:shadow-md hover:-translate-y-1"
@@ -55,7 +55,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                         <div className="relative z-10 space-y-5">
                             <div className="flex items-center gap-4">
                                 <div className={cn(
-                                    "w-12 h-12 rounded-[16px] flex items-center justify-center shadow-sm transition-transform group-hover:scale-110", 
+                                    "w-12 h-12 rounded-lg flex items-center justify-center shadow-sm transition-transform group-hover:scale-110", 
                                     isVIP ? "bg-amber-50 text-amber-600" : "bg-card text-foreground"
                                 )}>
                                     {isVIP ? <Sparkles className="w-6 h-6 fill-amber-100" /> : <Shield className="w-6 h-6" strokeWidth={2} />}
@@ -80,7 +80,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                         <div className="mt-6 relative z-10">
                             <Button
                                 className={cn(
-                                    "w-full rounded-[16px] font-bold h-12 text-base transition-all active:scale-95",
+                                    "w-full rounded-lg font-bold h-12 text-base transition-all active:scale-95",
                                     isVIP 
                                         ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25" 
                                         : "bg-foreground text-background hover:bg-foreground/90 shadow-lg"

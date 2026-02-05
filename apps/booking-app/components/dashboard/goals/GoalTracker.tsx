@@ -63,7 +63,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
             variant="default"
         >
                 <Dialog open={open} onOpenChange={setOpen}>
-                    <DialogContent className="rounded-[32px] sm:max-w-[425px]">
+                    <DialogContent className="rounded-2xl sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle className="text-xl font-bold">Set a New Goal</DialogTitle>
                         </DialogHeader>
@@ -96,7 +96,7 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
 
             <div className="space-y-6 mt-2">
                 {goals.length === 0 && (
-                    <div className="text-center py-6 text-muted-foreground text-sm bg-card rounded-[24px] border border-dashed border-border italic">
+                    <div className="text-center py-6 text-muted-foreground text-sm bg-card rounded-xl border border-dashed border-border italic">
                         No goals set yet. Start today!
                     </div>
                 )}

@@ -10,7 +10,7 @@ export function RecentActivity() {
             <DashboardCard title="Recent Transactions" icon={Activity}>
                 <div className="space-y-1 mt-4">
                     {[1, 2, 3].map((_, i) => (
-                        <div key={i} className="flex items-center justify-between p-4 rounded-[20px] hover:bg-secondary transition-colors group cursor-pointer -mx-4 px-8 border-b border-border last:border-0 last:pb-2">
+                        <div key={i} className="flex items-center justify-between p-4 rounded-xl hover:bg-secondary transition-colors group cursor-pointer -mx-4 px-8 border-b border-border last:border-0 last:pb-2">
                             <div className="flex items-center gap-4">
                                 <div className="w-10 h-10 rounded-full bg-card flex items-center justify-center text-foreground font-bold text-sm">
                                     {i === 0 ? 'DT' : i === 1 ? 'RE' : 'YO'}

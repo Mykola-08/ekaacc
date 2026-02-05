@@ -58,7 +58,7 @@ export default function DiscountsPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-white/60 backdrop-blur-md p-10 rounded-[40px] border border-white/40 shadow-sm flex flex-col items-center text-center group hover:shadow-xl transition-all"
+                            className="bg-white/60 backdrop-blur-md p-10 rounded-3xl border border-white/40 shadow-sm flex flex-col items-center text-center group hover:shadow-xl transition-all"
                         >
                             <div className="mb-6 p-4 bg-primary/5 rounded-2xl group-hover:scale-110 transition-transform">{item.icon}</div>
                             <div className="mb-4 px-3 py-1 rounded-full bg-primary text-white text-xs font-bold uppercase tracking-widest">
@@ -82,7 +82,7 @@ export default function DiscountsPage() {
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    className="mt-24 p-12 rounded-[50px] bg-linear-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-amber-500/20 shadow-2xl relative overflow-hidden text-center"
+                    className="mt-24 p-12 rounded-3xl bg-linear-to-r from-zinc-900 via-zinc-800 to-zinc-900 border border-amber-500/20 shadow-2xl relative overflow-hidden text-center"
                 >
                     <div className="absolute top-0 right-0 w-64 h-64 bg-amber-500/10 rounded-full blur-[100px]" />
                     <div className="relative z-10">

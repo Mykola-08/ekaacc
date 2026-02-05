@@ -72,7 +72,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
              exit={{ height: 0, opacity: 0 }}
              className="overflow-hidden"
            >
-              <Card className="border border-zinc-200 shadow-sm bg-zinc-50/50 rounded-[24px]">
+              <Card className="border border-zinc-200 shadow-sm bg-zinc-50/50 rounded-xl">
                  <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
                        <Lock className="w-4 h-4 text-indigo-500" />
@@ -129,7 +129,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
       <div className="space-y-4">
          {notes.map((note) => (
             <motion.div layout key={note.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-               <Card className="border-0 shadow-sm bg-white hover:shadow-md transition-shadow rounded-[24px]">
+               <Card className="border-0 shadow-sm bg-white hover:shadow-md transition-shadow rounded-xl">
                   <CardContent className="p-6">
                      <div className="flex justify-between items-start mb-4">
                         <div className="flex items-center gap-3">

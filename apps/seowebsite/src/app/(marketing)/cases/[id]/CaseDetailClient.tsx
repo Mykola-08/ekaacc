@@ -144,7 +144,7 @@ export default function CaseDetailClient({ id }: CaseDetailClientProps) {
     </div>
 
     {/* Treatment & Results */}
-    <div className="bg-gray-900 rounded-[2.5rem] p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
+    <div className="bg-gray-900 rounded-3xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl">
       <div className={`absolute top-0 right-0 w-96 h-96 ${colorClass.bg.replace('bg-', 'bg-')} opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2`} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 relative z-10">

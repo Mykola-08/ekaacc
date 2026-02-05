@@ -92,7 +92,7 @@ export function TherapistDashboard() {
       {/* Stats Grid */}
       <div className="grid gap-6 md:grid-cols-3 animate-slide-up">
         {stats.map((stat, i) => (
-          <div key={i} className="group relative overflow-hidden bg-white rounded-[32px] p-8 border border-black/5 shadow-sm hover:shadow-md transition-all duration-300">
+          <div key={i} className="group relative overflow-hidden bg-white rounded-2xl p-8 border border-black/5 shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-start justify-between">
               <div>
                 <p className="text-sm font-semibold text-muted-foreground/80 uppercase tracking-wide">{stat.label}</p>
@@ -110,7 +110,7 @@ export function TherapistDashboard() {
       {/* Main Content Area */}
       <div className="grid gap-8 lg:grid-cols-3 animate-slide-up" style={{ animationDelay: '100ms' }}>
         {/* Today's Schedule */}
-        <div className="lg:col-span-2 bg-white rounded-[32px] border border-black/5 shadow-sm p-8 flex flex-col h-full">
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-black/5 shadow-sm p-8 flex flex-col h-full">
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-xl font-bold text-foreground">Today's Schedule</h2>
@@ -128,7 +128,7 @@ export function TherapistDashboard() {
               { time: '02:00 PM', patient: 'Emma Wilson', type: 'Therapy Session', status: 'upcoming' },
               { time: '04:30 PM', patient: 'James Davis', type: 'Review', status: 'upcoming' },
             ].map((session, i) => (
-              <div key={i} className="flex items-center gap-4 p-4 rounded-[24px] hover:bg-muted/30 border border-transparent hover:border-black/5 transition-all group">
+              <div key={i} className="flex items-center gap-4 p-4 rounded-xl hover:bg-muted/30 border border-transparent hover:border-black/5 transition-all group">
                 <div className="w-20 text-center">
                   <span className="block text-sm font-bold text-foreground">{session.time}</span>
                 </div>
@@ -154,7 +154,7 @@ export function TherapistDashboard() {
         </div>
 
         {/* Pending Actions */}
-        <div className="bg-white rounded-[32px] border border-black/5 shadow-sm p-8 h-full">
+        <div className="bg-white rounded-2xl border border-black/5 shadow-sm p-8 h-full">
           <div className="flex items-center gap-3 mb-8">
             <div className="h-10 w-10 rounded-full bg-amber-50 flex items-center justify-center">
               <AlertCircle className="w-5 h-5 text-amber-600" />
@@ -166,12 +166,12 @@ export function TherapistDashboard() {
           </div>
 
           <div className="space-y-4">
-            <div className="p-4 rounded-[24px] bg-muted/30 border border-black/5">
+            <div className="p-4 rounded-xl bg-muted/30 border border-black/5">
               <h4 className="font-bold text-foreground mb-1">Incomplete Session Notes</h4>
               <p className="text-sm text-muted-foreground mb-3">Session with Sarah J. on Oct 20</p>
               <button className="text-sm font-semibold text-amber-700 hover:text-amber-800">Complete Note &rarr;</button>
             </div>
-            <div className="p-4 rounded-[32px] bg-muted/30 border border-black/5">
+            <div className="p-4 rounded-2xl bg-muted/30 border border-black/5">
               <h4 className="font-bold text-foreground mb-1">New Patient Request</h4>
               <p className="text-sm text-muted-foreground mb-3">Robert Fox requested an appointment</p>
               <div className="flex gap-2">

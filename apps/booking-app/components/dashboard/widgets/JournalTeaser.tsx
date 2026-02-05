@@ -39,7 +39,7 @@ export function JournalTeaser() {
         >
             <div className="flex-1 flex flex-col justify-center">
                 {lastEntry ? (
-                    <div className="bg-[hsl(var(--secondary))] p-4 rounded-[24px] border border-[hsl(var(--border))]">
+                    <div className="bg-[hsl(var(--secondary))] p-4 rounded-xl border border-[hsl(var(--border))]">
                         <div className="text-[15px] text-[hsl(var(--muted-foreground))] line-clamp-3 leading-relaxed italic relative">
                             <span className="text-[hsl(var(--muted))] text-4xl leading-none absolute -top-3 -left-2">“</span>
                             {lastEntry.content}

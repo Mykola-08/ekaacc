@@ -23,7 +23,7 @@ export default function DatabasePage() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+        <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
             <div className="flex items-center gap-4 mb-6">
                 <div className="h-12 w-12 bg-primary rounded-xl flex items-center justify-center text-white">
                     <Database className="w-6 h-6" />
@@ -50,7 +50,7 @@ export default function DatabasePage() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 flex flex-col items-center justify-center text-center">
+        <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 flex flex-col items-center justify-center text-center">
              <div className="h-16 w-16 bg-muted/40 rounded-full flex items-center justify-center mb-4">
                 <Server className="w-8 h-8 text-muted-foreground/80" />
              </div>

@@ -134,7 +134,7 @@ export default function Services() {
                   >
                       {/* Image Side */}
                       <div className="w-full lg:w-1/2">
-                          <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl group">
+                          <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
                             <LazyImage 
                               src={service.image} 
                               alt={t(service.titleKey)}

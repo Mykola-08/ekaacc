@@ -74,7 +74,7 @@ export default function ParentsPersonalized() {
          <Image
           src="https://images.unsplash.com/photo-1533227268428-f9ed0900fb3b?w=1920&h=1080&fit=crop"
           alt={t('personalized.parents.hero.title')}
-          className="w-full h-[400px] sm:h-[500px] object-cover rounded-[32px] shadow-2xl"
+          className="w-full h-[400px] sm:h-[500px] object-cover rounded-2xl shadow-2xl"
           width={1920}
           height={1080}
          />
@@ -87,7 +87,7 @@ export default function ParentsPersonalized() {
     {/* Understanding Section */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-pink-50 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-pink-50 rounded-2xl p-8 sm:p-12">
        <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-6">
         {t('personalized.parents.understanding.title')}
        </h2>
@@ -116,7 +116,7 @@ export default function ParentsPersonalized() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
        {recommendedServices.map((service, index) => (
-        <div key={service.id} className="bg-card rounded-[32px] p-8 border-none ">
+        <div key={service.id} className="bg-card rounded-2xl p-8 border-none ">
          <div className="flex items-start justify-between mb-6">
           <div>
            <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -159,7 +159,7 @@ export default function ParentsPersonalized() {
     {/* Success Story */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-linear-to-r from-pink-50 to-rose-50 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-linear-to-r from-pink-50 to-rose-50 rounded-2xl p-8 sm:p-12">
        <div className="flex items-start space-x-4">
         <div className="shrink-0">
          <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center">

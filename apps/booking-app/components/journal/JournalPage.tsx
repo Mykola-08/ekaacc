@@ -48,12 +48,12 @@ export function JournalPage() {
             <DashboardHeader title="Reflections" subtitle="Your private wellness journal. AI-secured.">
                <Dialog open={isNewEntryOpen} onOpenChange={setIsNewEntryOpen}>
                   <DialogTrigger asChild>
-                     <Button className="h-12 px-6 rounded-[16px] shadow-xl transition-all hover:scale-105 active:scale-95 text-[15px] font-bold">
+                     <Button className="h-12 px-6 rounded-lg shadow-xl transition-all hover:scale-105 active:scale-95 text-[15px] font-bold">
                         <Plus className="w-5 h-5 mr-2" strokeWidth={2.5} />
                         New Entry
                      </Button>
                   </DialogTrigger>
-                  <DialogContent className="sm:max-w-[525px] rounded-[32px] border-0 shadow-[0_40px_80px_rgba(0,0,0,0.12)] bg-card p-8">
+                  <DialogContent className="sm:max-w-[525px] rounded-2xl border-0 shadow-[0_40px_80px_rgba(0,0,0,0.12)] bg-card p-8">
                      <DialogHeader>
                         <DialogTitle className="text-2xl font-black text-foreground tracking-tight">New Reflection</DialogTitle>
                      </DialogHeader>
@@ -76,17 +76,17 @@ export function JournalPage() {
                            placeholder="Title (optional)" 
                            value={newEntry.title}
                            onChange={(e) => setNewEntry({ ...newEntry, title: e.target.value })}
-                           className="h-14 border-none bg-secondary text-lg font-bold px-6 py-4 rounded-[20px] focus-visible:ring-0 placeholder:text-muted-foreground text-foreground"
+                           className="h-14 border-none bg-secondary text-lg font-bold px-6 py-4 rounded-xl focus-visible:ring-0 placeholder:text-muted-foreground text-foreground"
                         />
                         <Textarea 
                            placeholder="How are you feeling today?" 
                            value={newEntry.text}
                            onChange={(e) => setNewEntry({ ...newEntry, text: e.target.value })}
-                           className="min-h-[200px] border-none bg-secondary text-base leading-relaxed p-6 rounded-[24px] resize-none focus-visible:ring-0 placeholder:text-muted-foreground text-foreground"
+                           className="min-h-[200px] border-none bg-secondary text-base leading-relaxed p-6 rounded-xl resize-none focus-visible:ring-0 placeholder:text-muted-foreground text-foreground"
                         />
                      </div>
                      <DialogFooter>
-                        <Button onClick={handleSave} className="w-full rounded-[20px] h-14 font-bold text-lg shadow-xl transition-transform active:scale-95">Save Entry</Button>
+                        <Button onClick={handleSave} className="w-full rounded-xl h-14 font-bold text-lg shadow-xl transition-transform active:scale-95">Save Entry</Button>
                      </DialogFooter>
                   </DialogContent>
                </Dialog>
@@ -100,11 +100,11 @@ export function JournalPage() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         key={entry.id} 
-                        className="bg-card p-8 rounded-[32px] shadow-[0_2px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1 group border border-transparent hover:border-border"
+                        className="bg-card p-8 rounded-2xl shadow-[0_2px_20px_rgba(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] transition-all duration-500 hover:-translate-y-1 group border border-transparent hover:border-border"
                      >
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-6">
                            <div className="flex items-center gap-5">
-                              <div className={cn("w-14 h-14 rounded-[20px] flex items-center justify-center transition-transform group-hover:scale-110 duration-500", m.bg)}>
+                              <div className={cn("w-14 h-14 rounded-xl flex items-center justify-center transition-transform group-hover:scale-110 duration-500", m.bg)}>
                                  <m.icon className={cn("w-7 h-7", m.color)} strokeWidth={2.5} />
                               </div>
                               <div>

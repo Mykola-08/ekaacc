@@ -68,7 +68,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
 
        {/* KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-card rounded-[32px] p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
+          <div className="bg-card rounded-2xl p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50/50 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
             <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -82,7 +82,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
             </div>
           </div>
 
-          <div className="bg-card rounded-[32px] p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
+          <div className="bg-card rounded-2xl p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-green-50/50 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
              <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -96,7 +96,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
             </div>
           </div>
 
-          <div className="bg-card rounded-[32px] p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
+          <div className="bg-card rounded-2xl p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50/50 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
              <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -110,7 +110,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
              </div>
           </div>
 
-          <div className="bg-card rounded-[32px] p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
+          <div className="bg-card rounded-2xl p-6 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50/50 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
              <div className="relative z-10">
                 <div className="flex items-center justify-between mb-4">
@@ -145,27 +145,27 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
           ))}
         </TabList>
         <TabPanels className="mt-6">
-           <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+           <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
               <h2 className="text-xl font-bold text-foreground mb-6">Recent Bookings</h2>
               <AdminBookingTable />
            </TabPanel>
            
-           <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+           <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="bg-amber-50 rounded-2xl p-4 mb-6 text-amber-800 text-sm">
                     Bookings management is also available in the Overview tab.
                 </div>
                 <AdminBookingTable />
            </TabPanel>
 
-           <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+           <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <RoleManagementPanel />
            </TabPanel>
 
-           <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+           <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <ProductManagementPanel />
            </TabPanel>
 
-           <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+           <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="flex items-center justify-center h-48 text-muted-foreground/80">
                     Audit logs implementation coming soon in next update.
                 </div>

@@ -21,7 +21,7 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
       <Card className={cn(
         "h-full flex flex-col overflow-hidden transition-all duration-300",
         "bg-card border-border shadow-sm", // Porcelain Surface
-        isCompact ? "rounded-[24px]" : "rounded-[36px]"
+        isCompact ? "rounded-xl" : "rounded-2xl"
       )}>
         {/* Image Placeholder or Header Gradient */}
         <div className={cn(

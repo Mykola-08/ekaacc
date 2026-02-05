@@ -47,13 +47,13 @@ export function MoodCheckIn() {
     };
 
     return (
-        <Card className="p-8 rounded-[36px] border border-border bg-surface overflow-hidden relative group shadow-sm transition-all hover:shadow-md">
+        <Card className="p-8 rounded-2xl border border-border bg-surface overflow-hidden relative group shadow-sm transition-all hover:shadow-md">
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h3 className="text-xl font-bold tracking-tighter text-primary">Daily Check-in</h3>
                     <p className="text-sm text-muted font-medium">How are you feeling right now?</p>
                 </div>
-                <div className="w-10 h-10 rounded-[12px] bg-surface-container flex items-center justify-center">
+                <div className="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center">
                     <Heart className="w-5 h-5 text-accent" strokeWidth={2} />
                 </div>
             </div>
@@ -74,7 +74,7 @@ export function MoodCheckIn() {
                                 onMouseLeave={() => setHoveredMood(null)}
                                 onClick={() => handleMoodSelect(mood.score)}
                                 className={cn(
-                                    "flex flex-col items-center gap-2 flex-1 p-3 rounded-[16px] transition-all duration-200 active:scale-95",
+                                    "flex flex-col items-center gap-2 flex-1 p-3 rounded-lg transition-all duration-200 active:scale-95",
                                     "hover:bg-surface-container",
                                     selectedMood === mood.score ? "bg-surface-container ring-1 ring-border" : "bg-transparent"
                                 )}
@@ -89,7 +89,7 @@ export function MoodCheckIn() {
                         key="thankyou"
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="py-6 text-center space-y-3 bg-surface-container/50 rounded-[20px]"
+                        className="py-6 text-center space-y-3 bg-surface-container/50 rounded-xl"
                     >
                         <Heart className="w-8 h-8 text-accent fill-accent mx-auto" />
                         <div className="space-y-1 px-4">

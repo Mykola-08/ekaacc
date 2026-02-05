@@ -40,7 +40,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
             
             <div className="flex-1 overflow-y-auto p-8 space-y-8">
                 {/* Error Message */}
-                <div className="bg-card rounded-[24px] p-6 shadow-sm border border-border/60">
+                <div className="bg-card rounded-xl p-6 shadow-sm border border-border/60">
                     <div className="flex items-center gap-3 mb-4 text-red-600">
                         <AlertTriangle className="w-5 h-5" />
                         <h4 className="font-semibold">Error Message</h4>
@@ -52,7 +52,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Context Info */}
-                    <div className="bg-card rounded-[24px] p-6 shadow-sm border border-border/60">
+                    <div className="bg-card rounded-xl p-6 shadow-sm border border-border/60">
                         <div className="flex items-center gap-3 mb-4 text-foreground">
                             <Info className="w-5 h-5 text-muted-foreground/80" />
                             <h4 className="font-semibold">Context Info</h4>
@@ -78,7 +78,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
                     </div>
 
                     {/* Metadata */}
-                    <div className="bg-card rounded-[24px] p-6 shadow-sm border border-border/60">
+                    <div className="bg-card rounded-xl p-6 shadow-sm border border-border/60">
                         <div className="flex items-center gap-3 mb-4 text-foreground">
                             <Code className="w-5 h-5 text-muted-foreground/80" />
                             <h4 className="font-semibold">Metadata</h4>
@@ -90,7 +90,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
                 </div>
 
                 {log.stack_trace && (
-                <div className="bg-primary rounded-[24px] p-6 shadow-sm">
+                <div className="bg-primary rounded-xl p-6 shadow-sm">
                     <div className="flex items-center gap-3 mb-4 text-white">
                         <Terminal className="w-5 h-5 text-muted-foreground/80" />
                         <h4 className="font-semibold">Stack Trace</h4>
@@ -102,7 +102,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
                 )}
                 
                 {log.component_stack && (
-                    <div className="bg-primary rounded-[24px] p-6 shadow-sm">
+                    <div className="bg-primary rounded-xl p-6 shadow-sm">
                         <div className="flex items-center gap-3 mb-4 text-white">
                             <Code className="w-5 h-5 text-muted-foreground/80" />
                             <h4 className="font-semibold">Component Stack</h4>

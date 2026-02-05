@@ -80,7 +80,7 @@ export function ProductManagementPanelHeadless() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => (
-            <div key={product.id} className="group bg-card rounded-[24px] p-6 shadow-xl shadow-slate-100 ring-1 ring-slate-100 hover:ring-blue-500/20 transition-all hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden">
+            <div key={product.id} className="group bg-card rounded-xl p-6 shadow-xl shadow-slate-100 ring-1 ring-slate-100 hover:ring-blue-500/20 transition-all hover:shadow-2xl hover:shadow-blue-500/10 relative overflow-hidden">
                  <div className="flex justify-between items-start mb-4">
                     <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
                         <Package className="w-6 h-6" />
@@ -140,7 +140,7 @@ export function ProductManagementPanelHeadless() {
         {/* Add New Card Placeholder */}
         <button 
             onClick={() => setIsDialogOpen(true)}
-            className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-[24px] hover:border-blue-300 hover:bg-blue-50/50 transition-all group min-h-[200px]"
+            className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-border rounded-xl hover:border-blue-300 hover:bg-blue-50/50 transition-all group min-h-[200px]"
         >
             <div className="h-12 w-12 rounded-full bg-muted/30 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors">
                 <Plus className="w-6 h-6 text-muted-foreground/80 group-hover:text-blue-600" />
@@ -174,7 +174,7 @@ export function ProductManagementPanelHeadless() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-[32px] bg-card p-8 text-left align-middle shadow-2xl transition-all">
+                <DialogPanel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-card p-8 text-left align-middle shadow-2xl transition-all">
                   <DialogTitle as="h3" className="text-xl font-bold leading-6 text-foreground">
                     Product Details
                   </DialogTitle>

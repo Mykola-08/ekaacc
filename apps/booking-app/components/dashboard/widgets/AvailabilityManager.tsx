@@ -50,7 +50,7 @@ export function AvailabilityManager() {
                     onClick={handleSave}
                     disabled={!hasChanges}
                     className={cn(
-                        "rounded-[16px] h-10 px-6 font-bold transition-all",
+                        "rounded-lg h-10 px-6 font-bold transition-all",
                         hasChanges ? "bg-foreground text-background shadow-lg shadow-foreground/20 hover:bg-foreground/90 hover:scale-105 active:scale-95" : "bg-secondary text-muted-foreground opacity-50 cursor-not-allowed"
                     )}
                 >
@@ -75,7 +75,7 @@ export function AvailabilityManager() {
                 />
             </div>
 
-            <div className="bg-card rounded-[32px] border border-border shadow-sm p-6 md:p-8 overflow-hidden">
+            <div className="bg-card rounded-2xl border border-border shadow-sm p-6 md:p-8 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
@@ -97,7 +97,7 @@ export function AvailabilityManager() {
                                                 <button
                                                     onClick={() => toggleSlot(day, hour)}
                                                     className={cn(
-                                                        "w-full h-10 rounded-[12px] transition-all duration-200 flex items-center justify-center border-2",
+                                                        "w-full h-10 rounded-lg transition-all duration-200 flex items-center justify-center border-2",
                                                         isAvailable 
                                                             ? "bg-card border-transparent hover:border-primary text-primary" 
                                                             : "bg-transparent border-border text-muted hover:bg-secondary"
@@ -116,13 +116,13 @@ export function AvailabilityManager() {
             </div>
             <div className="mt-8 flex items-center justify-center gap-8 text-sm font-bold text-muted-foreground">
                 <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-[6px] bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary">
+                    <div className="w-5 h-5 rounded-md bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary">
                          <Check className="w-3 h-3" strokeWidth={4} />
                     </div>
                     <span className="text-foreground">Available</span>
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-[6px] bg-border border-2 border-transparent"></div>
+                    <div className="w-5 h-5 rounded-md bg-border border-2 border-transparent"></div>
                     <span>Blocked</span>
                 </div>
             </div>

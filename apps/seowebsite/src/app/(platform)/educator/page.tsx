@@ -46,7 +46,7 @@ export default function EducatorDashboard() {
    </div>
 
    {courses.length === 0 ? (
-    <div className="text-center py-12 border-none rounded-[32px] bg-muted/10">
+    <div className="text-center py-12 border-none rounded-2xl bg-muted/10">
      <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
      <h3 className="text-lg font-medium">No courses yet</h3>
      <p className="text-muted-foreground mb-4">Start sharing your knowledge by creating your first course.</p>

@@ -56,7 +56,7 @@ const FAQ = () => {
           {faqItems.map((item, index) => (
             <div
               key={index}
-              className="bg-muted/30 rounded-[20px] overflow-hidden transition-all duration-300 hover:bg-muted"
+              className="bg-muted/30 rounded-xl overflow-hidden transition-all duration-300 hover:bg-muted"
             >
               <button
                 onClick={() => toggleItem(index)}

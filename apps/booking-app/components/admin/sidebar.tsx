@@ -105,7 +105,7 @@ export function AdminSidebarContent({ onClick }: { onClick?: () => void }) {
 
 export function AdminSidebar({ className }: { className?: string }) {
   return (
-    <aside className={cn("w-[280px] bg-card rounded-[36px] hidden md:flex flex-col border border-border overflow-hidden shrink-0", className)}>
+    <aside className={cn("w-[280px] bg-card rounded-2xl hidden md:flex flex-col border border-border overflow-hidden shrink-0", className)}>
       <AdminSidebarContent />
     </aside>
   )

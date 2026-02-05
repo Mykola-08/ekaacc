@@ -35,7 +35,7 @@ export function RecentAdminActivity() {
         >
             <div className="space-y-3 mt-2">
                 {events.map((event, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-[20px] bg-card border border-border hover:border-primary/20 hover:bg-primary/5 transition-colors">
+                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-card border border-border hover:border-primary/20 hover:bg-primary/5 transition-colors">
                         <div className="flex items-center gap-3">
                             <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
                             <div className="text-[13px] text-muted-foreground leading-snug">

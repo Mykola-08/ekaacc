@@ -50,7 +50,7 @@ export default function Children() {
          src="https://images.unsplash.com/photo-1485546246426-74dc88dec4d9?w=1920&h=1080&fit=crop"
          alt={t('elena.target.children.title')}
          fill
-         className="object-cover rounded-[32px] shadow-2xl"
+         className="object-cover rounded-2xl shadow-2xl"
          sizes="(max-width: 1024px) 100vw, 50vw"
         />
        </div>

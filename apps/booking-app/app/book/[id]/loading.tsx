@@ -15,7 +15,7 @@ export default function Loading() {
       </div>
     </div>
 
-    <div className="bg-surface border-none border-border-subtle rounded-[32px] p-6 md:p-10 shadow-2xl">
+    <div className="bg-surface border-none border-border-subtle rounded-2xl p-6 md:p-10 shadow-2xl">
      <div className="flex flex-col lg:flex-row gap-12">
       
       {/* Main Content Column */}

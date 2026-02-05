@@ -20,8 +20,8 @@ export function SystemStatus() {
         >
             <div className="grid grid-cols-2 gap-4 mt-2">
                 {statuses.map((s, idx) => (
-                    <div key={idx} className="p-4 rounded-[24px] bg-secondary border border-border flex items-center gap-3 transition-colors hover:border-gray-200">
-                        <div className={`p-2.5 rounded-[14px] ${s.bg} flex-shrink-0`}>
+                    <div key={idx} className="p-4 rounded-xl bg-secondary border border-border flex items-center gap-3 transition-colors hover:border-gray-200">
+                        <div className={`p-2.5 rounded-lg ${s.bg} flex-shrink-0`}>
                             <s.icon className={`${s.color} w-4 h-4`} strokeWidth={2.5} />
                         </div>
                         <div className="min-w-0">

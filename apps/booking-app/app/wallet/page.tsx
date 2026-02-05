@@ -46,7 +46,7 @@ export default async function WalletPage() {
           title="Wallet"
           subtitle="Manage your balance and view transaction history."
         >
-          <Button variant="outline" className="rounded-[16px] border-[#F5F5F5] hover:bg-[#F9F9F8] h-10 px-4 font-semibold shadow-none border text-[#222222]">
+          <Button variant="outline" className="rounded-lg border-[#F5F5F5] hover:bg-[#F9F9F8] h-10 px-4 font-semibold shadow-none border text-[#222222]">
             Export History
           </Button>
         </DashboardHeader>
@@ -58,7 +58,7 @@ export default async function WalletPage() {
             <h2 className="text-[20px] font-semibold tracking-tight text-[#222222]">Transaction History</h2>
           </div>
 
-          <div className="bg-[#FEFFFE] rounded-[36px] border border-[#F5F5F5] shadow-sm overflow-hidden p-1">
+          <div className="bg-[#FEFFFE] rounded-2xl border border-[#F5F5F5] shadow-sm overflow-hidden p-1">
             <TransactionHistory transactions={transactions} />
           </div>
         </div>

@@ -240,7 +240,7 @@ export function AnalyticsDashboardHeadless() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Total Users</span>
                 <Users className="w-5 h-5 text-blue-500" />
@@ -257,7 +257,7 @@ export function AnalyticsDashboardHeadless() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Active Users</span>
                 <Activity className="w-5 h-5 text-emerald-500" />
@@ -270,7 +270,7 @@ export function AnalyticsDashboardHeadless() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Conversion Rate</span>
                 <BarChartIcon className="w-5 h-5 text-amber-500" />
@@ -287,7 +287,7 @@ export function AnalyticsDashboardHeadless() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Avg Session</span>
                 <Clock className="w-5 h-5 text-violet-500" />
@@ -302,7 +302,7 @@ export function AnalyticsDashboardHeadless() {
       </div>
 
       {/* System Health */}
-      <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+      <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
                 <h3 className="text-lg font-bold text-foreground">System Health</h3>
@@ -366,7 +366,7 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="space-y-6 focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">User Growth Trend</h3>
                         <p className="text-muted-foreground text-sm">User acquisition over time</p>
@@ -399,7 +399,7 @@ export function AnalyticsDashboardHeadless() {
                     </div>
                 </div>
 
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">Activity by Hour</h3>
                         <p className="text-muted-foreground text-sm">Peak usage times</p>
@@ -434,7 +434,7 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
-            <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+            <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                  <div className="mb-6">
                     <h3 className="text-lg font-bold text-foreground">User Growth Details</h3>
                     <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
@@ -461,7 +461,7 @@ export function AnalyticsDashboardHeadless() {
           
           <Tab.Panel className="focus:outline-none">
             {/* Activity Panel */}
-            <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+            <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6">
                     <h3 className="text-lg font-bold text-foreground">Hourly Activity Pattern</h3>
                     <p className="text-muted-foreground text-sm">User activity throughout the day</p>
@@ -482,7 +482,7 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
              {/* Top Pages */}
-             <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+             <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6">
                     <h3 className="text-lg font-bold text-foreground">Most Visited Pages</h3>
                     <p className="text-muted-foreground text-sm">Top performing content</p>
@@ -512,7 +512,7 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">User Segments</h3>
                         <p className="text-muted-foreground text-sm">User distribution by segment</p>
@@ -541,7 +541,7 @@ export function AnalyticsDashboardHeadless() {
                     </div>
                 </div>
 
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">Segment Details</h3>
                         <p className="text-muted-foreground text-sm">Breakdown by user segments</p>

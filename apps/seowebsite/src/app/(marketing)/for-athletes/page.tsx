@@ -73,7 +73,7 @@ export default function AthletesPersonalized() {
     {/* Understanding Section */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-orange-50 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-orange-50 rounded-2xl p-8 sm:p-12">
        <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-6">
         {t('personalized.athletes.understanding.title')}
        </h2>
@@ -102,7 +102,7 @@ export default function AthletesPersonalized() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
        {recommendedServices.map((service, index) => (
-        <div key={service.id} className="bg-card rounded-[32px] p-8 border-none ">
+        <div key={service.id} className="bg-card rounded-2xl p-8 border-none ">
          <div className="flex items-start justify-between mb-6">
           <div>
            <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -145,7 +145,7 @@ export default function AthletesPersonalized() {
     {/* Success Story */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-linear-to-r from-orange-50 to-red-50 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-linear-to-r from-orange-50 to-red-50 rounded-2xl p-8 sm:p-12">
        <div className="flex items-start space-x-4">
         <div className="shrink-0">
          <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">

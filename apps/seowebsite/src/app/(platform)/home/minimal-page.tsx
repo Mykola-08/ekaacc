@@ -103,7 +103,7 @@ export default function MinimalHomePage() {
    </div>
    
    {/* CTA Section */}
-   <div className="text-center space-y-6 bg-muted rounded-[32px] p-8">
+   <div className="text-center space-y-6 bg-muted rounded-2xl p-8">
     <h2 className="text-2xl font-bold text-foreground">
      Ready to Start Your Journey?
     </h2>

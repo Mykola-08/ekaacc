@@ -57,7 +57,7 @@ export default function ForgotPasswordPage() {
     transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
     className='w-full max-w-md mx-auto relative z-10'
    >
-    <Card className='rounded-[2rem] border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative'>
+    <Card className='rounded-2xl border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative'>
      {/* Decorative gradient overlay */}
      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-blue-500/5 to-purple-500/5 pointer-events-none" />
      <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />

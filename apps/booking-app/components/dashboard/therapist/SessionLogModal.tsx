@@ -55,7 +55,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-md bg-background border-border shadow-2xl rounded-[32px] p-8">
+            <DialogContent className="sm:max-w-md bg-background border-border shadow-2xl rounded-2xl p-8">
                 <DialogHeader className="mb-4">
                     <DialogTitle className="text-2xl font-bold text-foreground">Complete Session</DialogTitle>
                 </DialogHeader>
@@ -92,7 +92,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
                     </div>
 
                     {initialMood[0] !== undefined && initialMood[0] > 0 && (
-                        <div className="bg-card p-4 rounded-[20px] text-center border border-border">
+                        <div className="bg-card p-4 rounded-xl text-center border border-border">
                             <span className="text-[13px] text-muted-foreground font-semibold">Predicted Improvement: </span>
                             <span className={`text-lg font-bold ml-2 ${improvement > 0 ? 'text-emerald-600' : 'text-muted-foreground'}`}>
                                 {improvement > 0 ? '+' : ''}{improvement}%

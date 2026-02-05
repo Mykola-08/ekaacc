@@ -85,7 +85,7 @@ export default function PersonalizedServices() {
                   >
                       {/* Image Side */}
                       <div className="w-full lg:w-1/2">
-                          <Link to={service.href} className="block relative rounded-[2.5rem] overflow-hidden shadow-2xl group">
+                          <Link to={service.href} className="block relative rounded-3xl overflow-hidden shadow-2xl group">
                             <LazyImage 
                               src={service.image} 
                               alt={t(service.titleKey)}

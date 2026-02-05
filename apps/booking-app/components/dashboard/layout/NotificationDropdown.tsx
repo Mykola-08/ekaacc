@@ -34,14 +34,14 @@ export function NotificationDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="h-10 w-10 rounded-[14px] relative border-none bg-card hover:bg-secondary shadow-sm hover:shadow-md transition-all">
+        <Button variant="outline" size="icon" className="h-10 w-10 rounded-lg relative border-none bg-card hover:bg-secondary shadow-sm hover:shadow-md transition-all">
           <Bell className="h-4 w-4 text-foreground" strokeWidth={2.5} />
           {unreadCount > 0 && (
              <span className="absolute top-2 right-2 h-2 w-2 rounded-full bg-destructive ring-2 ring-background"></span>
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[360px] rounded-[32px] p-4 bg-card border-border shadow-[0_20px_60px_rgba(0,0,0,0.08)] mt-4">
+      <DropdownMenuContent align="end" className="w-[360px] rounded-2xl p-4 bg-card border-border shadow-[0_20px_60px_rgba(0,0,0,0.08)] mt-4">
         <DropdownMenuLabel className="px-4 py-3 text-base font-bold tracking-tight text-foreground flex items-center justify-between">
             Notifications
             {unreadCount > 0 && (
@@ -60,7 +60,7 @@ export function NotificationDropdown() {
                     <DropdownMenuItem 
                         key={n.id} 
                         className={cn(
-                            "cursor-pointer rounded-[20px] p-4 focus:bg-secondary hover:bg-secondary transition-all outline-none border border-transparent hover:border-border group",
+                            "cursor-pointer rounded-xl p-4 focus:bg-secondary hover:bg-secondary transition-all outline-none border border-transparent hover:border-border group",
                             !n.read ? "bg-secondary" : "bg-transparent"
                         )}
                     >

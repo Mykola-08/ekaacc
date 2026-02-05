@@ -15,7 +15,7 @@ interface WelcomeBannerProps {
 export function WelcomeBanner({ title, firstName, subtitle, action, className }: WelcomeBannerProps) {
     return (
         <div className={cn(
-            "p-10 md:p-14 rounded-[36px] bg-surface border border-border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-10 relative overflow-hidden group",
+            "p-10 md:p-14 rounded-2xl bg-surface border border-border shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-10 relative overflow-hidden group",
             className
         )}>
             {/* Soft Blue Accent */}

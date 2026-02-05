@@ -76,7 +76,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                     </div>
                     {/* Quick Action Column */}
                     <Link href="/availability" className="h-full">
-                         <Button className="w-full h-full min-h-[140px] rounded-[36px] shadow-sm flex flex-col items-center justify-center p-6 gap-3 bg-primary hover:bg-primary/90 transition-all group overflow-hidden relative">
+                         <Button className="w-full h-full min-h-[140px] rounded-2xl shadow-sm flex flex-col items-center justify-center p-6 gap-3 bg-primary hover:bg-primary/90 transition-all group overflow-hidden relative">
                             <div className="absolute inset-0 bg-linear-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                             <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center group-hover:rotate-90 transition-transform relative z-10">
                                 <Plus className="w-6 h-6 text-white" strokeWidth={2.75} />
@@ -98,9 +98,9 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                         </div>
                         
                         {loading ? (
-                            <div className="p-12 text-center text-muted-foreground bg-secondary/20 rounded-[36px] border border-dashed">Loading...</div>
+                            <div className="p-12 text-center text-muted-foreground bg-secondary/20 rounded-2xl border border-dashed">Loading...</div>
                         ) : bookings.length === 0 ? (
-                            <div className="p-12 text-center bg-secondary/10 rounded-[36px] border border-dashed border-border/60">
+                            <div className="p-12 text-center bg-secondary/10 rounded-2xl border border-dashed border-border/60">
                                 <p className="text-muted-foreground italic font-medium">No sessions scheduled for today.</p>
                                 <Button variant="link" className="mt-2 text-primary font-bold" asChild>
                                     <Link href="/availability">Update your hours</Link>
@@ -115,7 +115,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: idx * 0.05 }}
                                     >
-                                        <Card className="p-5 rounded-[32px] group hover:border-primary/20 shadow-none hover:shadow-xl hover:shadow-primary/5 transition-all bg-card/50 backdrop-blur-sm">
+                                        <Card className="p-5 rounded-2xl group hover:border-primary/20 shadow-none hover:shadow-xl hover:shadow-primary/5 transition-all bg-card/50 backdrop-blur-sm">
                                             <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                                                 <div className="flex items-center gap-4 flex-1">
                                                     <div className="w-16 h-16 bg-secondary/50 rounded-2xl flex flex-col items-center justify-center border border-border/40 group-hover:border-primary/20 group-hover:bg-primary/5 transition-colors">

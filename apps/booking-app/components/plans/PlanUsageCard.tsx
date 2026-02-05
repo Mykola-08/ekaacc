@@ -15,7 +15,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
 
     if (compact) {
         return (
-            <Card className="p-5 bg-background border-border rounded-[32px] overflow-hidden group hover:shadow-md transition-all shadow-sm">
+            <Card className="p-5 bg-background border-border rounded-2xl overflow-hidden group hover:shadow-md transition-all shadow-sm">
                 <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                         <Zap className="w-4 h-4 text-foreground" strokeWidth={2.5} />
@@ -29,12 +29,12 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
     }
 
     return (
-        <Card className="p-6 bg-background border-border rounded-[32px] overflow-hidden relative shadow-sm hover:shadow-md transition-all">
+        <Card className="p-6 bg-background border-border rounded-2xl overflow-hidden relative shadow-sm hover:shadow-md transition-all">
             <div className="absolute top-0 right-0 w-32 h-32 bg-linear-to-bl from-primary/10 to-transparent pointer-events-none rounded-tr-[32px]" />
             
             <div className="flex items-start justify-between mb-6 relative z-10">
                 <div className="flex items-center gap-4">
-                    <div className={`w-12 h-12 rounded-[16px] flex items-center justify-center shadow-sm ${isVIP ? 'bg-amber-50 text-amber-600' : 'bg-card text-foreground'}`}>
+                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center shadow-sm ${isVIP ? 'bg-amber-50 text-amber-600' : 'bg-card text-foreground'}`}>
                         {isVIP ? <Crown className="w-6 h-6 fill-current" /> : <Zap className="w-6 h-6" strokeWidth={2.5} />}
                     </div>
                     <div>
@@ -58,7 +58,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
             </div>
 
             <div className="mt-6 pt-4 border-t border-border relative z-10">
-                <p className="text-[13px] text-muted-foreground font-medium text-center bg-secondary py-2 rounded-[12px]">
+                <p className="text-[13px] text-muted-foreground font-medium text-center bg-secondary py-2 rounded-lg">
                     Expires on <span className="text-foreground font-bold">{new Date(usage.expires_at).toLocaleDateString()}</span>
                 </p>
             </div>

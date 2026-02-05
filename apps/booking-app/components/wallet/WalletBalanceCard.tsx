@@ -15,7 +15,7 @@ export function WalletBalanceCard({ balanceCents, currency = "EUR" }: WalletBala
   }).format(balanceCents / 100);
 
   return (
-    <Card className="bg-background border-border shadow-sm rounded-[36px] overflow-hidden">
+    <Card className="bg-background border-border shadow-sm rounded-2xl overflow-hidden">
       <CardContent className="p-8">
         <div className="flex flex-col gap-1">
           <span className="text-[13px] font-semibold text-muted-foreground uppercase tracking-wide">Current Balance</span>
@@ -25,7 +25,7 @@ export function WalletBalanceCard({ balanceCents, currency = "EUR" }: WalletBala
           </p>
         </div>
         <div className="mt-8">
-          <Button asChild className="w-full sm:w-auto h-12 rounded-[16px] bg-primary hover:bg-primary/90 font-semibold shadow-lg shadow-primary/20 border-0 active:scale-95 transition-all">
+          <Button asChild className="w-full sm:w-auto h-12 rounded-lg bg-primary hover:bg-primary/90 font-semibold shadow-lg shadow-primary/20 border-0 active:scale-95 transition-all">
             <Link href="/wallet/top-up">
               <Plus className="mr-2 h-5 w-5" strokeWidth={2.75} /> Top Up Wallet
             </Link>

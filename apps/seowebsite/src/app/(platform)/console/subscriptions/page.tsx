@@ -14,7 +14,7 @@ export default function SubscriptionsPage() {
     </div>
    </div>
 
-   <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden">
+   <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 relative overflow-hidden">
      <div className="absolute top-0 right-0 w-64 h-64 bg-green-50/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
      
      <div className="relative z-10 flex flex-col items-center justify-center py-20 text-center">

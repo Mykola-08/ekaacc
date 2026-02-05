@@ -44,7 +44,7 @@ export function CookieConsent() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50 max-w-md w-full px-4 animate-in slide-in-from-bottom-4 duration-700">
-      <Card className="shadow-2xl border-none rounded-[32px] overflow-hidden bg-card/95 backdrop-blur-xl ring-1 ring-slate-900/5">
+      <Card className="shadow-2xl border-none rounded-2xl overflow-hidden bg-card/95 backdrop-blur-xl ring-1 ring-slate-900/5">
         <CardContent className="p-6 space-y-6">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
@@ -74,7 +74,7 @@ export function CookieConsent() {
                             Customize
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] bg-card border-none shadow-2xl rounded-[32px] p-0 overflow-hidden">
+                    <DialogContent className="sm:max-w-[425px] bg-card border-none shadow-2xl rounded-2xl p-0 overflow-hidden">
                         <DialogHeader className="p-8 pb-6 border-b border-border/60 bg-card">
                             <div className="flex items-center gap-3 mb-2">
                                 <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">

@@ -41,9 +41,9 @@ export default async function ProfilePage() {
                     <DashboardCard className="md:col-span-1 border-none shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
                         <div className="flex flex-col items-center text-center space-y-6 py-4">
                             <div className="relative group">
-                                <Avatar className="w-40 h-40 border-8 border-[#F9F9F8] shadow-2xl rounded-[32px]">
+                                <Avatar className="w-40 h-40 border-8 border-[#F9F9F8] shadow-2xl rounded-2xl">
                                     <AvatarImage src={profile.avatar_url} />
-                                    <AvatarFallback className="text-4xl bg-[#F0F0F0] text-[#222222] font-black rounded-[32px]">
+                                    <AvatarFallback className="text-4xl bg-[#F0F0F0] text-[#222222] font-black rounded-2xl">
                                         {profile.first_name?.[0]}{profile.last_name?.[0]}
                                     </AvatarFallback>
                                 </Avatar>
@@ -70,28 +70,28 @@ export default async function ProfilePage() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-8">
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-[#999999] uppercase tracking-widest ml-1">Email Address</label>
-                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-[24px]">
+                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-xl">
                                         <Mail className="w-5 h-5 text-[#4DAFFF]" strokeWidth={2.5} />
                                         {profile.email}
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-[#999999] uppercase tracking-widest ml-1">Phone Number</label>
-                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-[24px]">
+                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-xl">
                                         <Phone className="w-5 h-5 text-[#4DAFFF]" strokeWidth={2.5} />
                                         {profile.phone || 'Not provided'}
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-[#999999] uppercase tracking-widest ml-1">Member Since</label>
-                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-[24px]">
+                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-xl">
                                         <Calendar className="w-5 h-5 text-[#4DAFFF]" strokeWidth={2.5} />
                                         {new Date(profile.created_at).toLocaleDateString()}
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <label className="text-xs font-bold text-[#999999] uppercase tracking-widest ml-1">Account ID</label>
-                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-[24px] font-mono text-base">
+                                    <div className="flex items-center gap-4 text-[#222222] font-bold text-lg p-5 bg-[#F9F9F8] rounded-xl font-mono text-base">
                                         <Shield className="w-5 h-5 text-[#4DAFFF]" strokeWidth={2.5} />
                                         {profile.id.substring(0, 8)}...
                                     </div>

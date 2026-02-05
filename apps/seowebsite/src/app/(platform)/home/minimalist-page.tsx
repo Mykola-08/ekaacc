@@ -144,7 +144,7 @@ export default function MinimalistHomePage() {
       ].map((feature, index) => (
        <motion.div
         key={feature.title}
-        className="group bg-card p-6 rounded-[32px] border-none hover: transition-all duration-200 hover:shadow-sm"
+        className="group bg-card p-6 rounded-2xl border-none hover: transition-all duration-200 hover:shadow-sm"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

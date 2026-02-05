@@ -257,7 +257,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                             )}
                         </TabPanel>
                         
-                        <TabPanel className="bg-card rounded-[32px] border border-gray-100 shadow-sm p-8 focus:outline-none min-h-[400px]">
+                        <TabPanel className="bg-card rounded-2xl border border-gray-100 shadow-sm p-8 focus:outline-none min-h-[400px]">
                              {initialPlans.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground py-12">
                                      <div className="w-16 h-16 bg-muted/30 rounded-full flex items-center justify-center mb-4">

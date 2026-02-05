@@ -174,7 +174,7 @@ export default function CodeOfEthics() {
 
     <div className="p-8 space-y-8">
      {t.sections.map((section, index) => (
-      <div key={index} className="flex gap-4 p-6 rounded-[32px] bg-muted/30 hover:bg-muted transition-colors">
+      <div key={index} className="flex gap-4 p-6 rounded-2xl bg-muted/30 hover:bg-muted transition-colors">
        <div className="shrink-0 mt-1">{section.icon}</div>
        <div>
         <h2 className="text-xl font-semibold text-foreground mb-2">{section.title}</h2>

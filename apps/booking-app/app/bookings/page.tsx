@@ -55,7 +55,7 @@ export default async function BookingsPage() {
         </DashboardHeader>
 
         {/* Unified Card Container for List */}
-        <div className="bg-card rounded-[24px] border border-border/60 shadow-sm overflow-hidden p-1">
+        <div className="bg-card rounded-xl border border-border/60 shadow-sm overflow-hidden p-1">
           <div className="p-6 md:p-8">
             <BookingHistoryList bookings={bookings} userId={profile.id} />
           </div>

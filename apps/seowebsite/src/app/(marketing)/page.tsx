@@ -47,12 +47,12 @@ export default function Home() {
                 </div>
                 <Button variant="outline" className="rounded-full px-6">View All</Button>
             </div>
-            <div className="bg-primary/5 rounded-[48px] p-2">
+            <div className="bg-primary/5 rounded-3xl p-2">
                 <CasosSection />
             </div>
           </section>
 
-          <section className="py-20 bg-muted/30 rounded-[64px] -mx-4 lg:-mx-8 px-4 lg:px-8">
+          <section className="py-20 bg-muted/30 rounded-3xl -mx-4 lg:-mx-8 px-4 lg:px-8">
             <div className="max-w-4xl mx-auto text-center mb-16">
                 <h3 className="text-3xl font-bold tracking-tight mb-4">What our clients say</h3>
                 <p className="text-muted-foreground">Transformative experiences from people like you.</p>

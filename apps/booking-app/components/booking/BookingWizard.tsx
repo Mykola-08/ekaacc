@@ -211,7 +211,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
       
       {/* Sidebar Summary */}
       <div className="w-full md:w-1/3 order-2 md:order-1 animate-in fade-in slide-in-from-right-8 duration-700">
-        <div className="bg-white rounded-[32px] border border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden sticky top-24">
+        <div className="bg-white rounded-2xl border border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden sticky top-24">
           <div className="relative h-48 bg-card">
             {/* Image Placeholder */}
             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/20">
@@ -276,7 +276,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {step === "time" && (
                 <div className="grid lg:grid-cols-2 gap-8">
-                    <div className="bg-card rounded-[32px] p-6 shadow-sm border border-border">
+                    <div className="bg-card rounded-2xl p-6 shadow-sm border border-border">
                         <Calendar
                             mode="single"
                             selected={date}
@@ -299,7 +299,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                         key={time}
                                         variant="outline"
                                         className={cn(
-                                            "h-12 rounded-[16px] border-2 font-semibold transition-all",
+                                            "h-12 rounded-lg border-2 font-semibold transition-all",
                                             selectedTime === time 
                                                 ? "bg-foreground text-background border-foreground hover:bg-foreground/90 transform scale-[1.02] shadow-md" 
                                                 : "bg-card border-border text-foreground hover:border-muted hover:bg-secondary"
@@ -311,7 +311,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 ))}
                             </div>
                         ) : (
-                             <div className="py-12 text-center bg-secondary rounded-[24px] border border-border">
+                             <div className="py-12 text-center bg-secondary rounded-xl border border-border">
                                  <p className="text-muted-foreground font-medium">No slots available for this date.</p>
                                  <p className="text-xs text-muted-foreground mt-2">Try selecting another day.</p>
                              </div>
@@ -326,7 +326,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
             {step === "addons" && (
                  <div className="grid gap-4">
                      {/* Placeholder usage */}
-                     <div className="group cursor-pointer bg-card hover:bg-secondary transition-colors border-2 border-dashed border-muted hover:border-foreground rounded-[24px] p-6 flex items-center justify-between">
+                     <div className="group cursor-pointer bg-card hover:bg-secondary transition-colors border-2 border-dashed border-muted hover:border-foreground rounded-xl p-6 flex items-center justify-between">
                          <div>
                              <h3 className="font-bold text-foreground">Aromatherapy</h3>
                              <p className="text-sm text-muted-foreground">Add essential oils for relaxation.</p>
@@ -337,14 +337,14 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                          </div>
                      </div>
                      
-                     <div className="p-6 bg-primary/5 rounded-[24px] text-sm text-primary font-medium text-center">
+                     <div className="p-6 bg-primary/5 rounded-xl text-sm text-primary font-medium text-center">
                          <p>More enhancements coming soon.</p>
                      </div>
                  </div>
             )}
 
             {step === "details" && (
-                <div className="bg-card rounded-[32px] p-8 border border-border shadow-sm">
+                <div className="bg-card rounded-2xl p-8 border border-border shadow-sm">
                 <Tabs defaultValue="guest" value={user ? "guest" : undefined} className="w-full">
                     {!user && (
                         <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-secondary rounded-full h-12">
@@ -359,7 +359,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 <Label htmlFor="firstName" className="font-bold text-foreground">First name</Label>
                                 <Input 
                                     id="firstName" 
-                                    className="rounded-[12px] bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
+                                    className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                     placeholder="Jane" 
                                     disabled={!!user} 
                                     defaultValue={user?.user_metadata?.first_name} 
@@ -371,7 +371,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 <Label htmlFor="lastName" className="font-bold text-foreground">Last name</Label>
                                 <Input 
                                     id="lastName" 
-                                    className="rounded-[12px] bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
+                                    className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                     placeholder="Doe" 
                                     disabled={!!user} 
                                     defaultValue={user?.user_metadata?.last_name} 
@@ -385,7 +385,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                             <Input 
                                 id="email" 
                                 type="email" 
-                                className="rounded-[12px] bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
+                                className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                 placeholder="jane@example.com" 
                                 disabled={!!user} 
                                 defaultValue={user?.email} 
@@ -398,7 +398,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                             <Input 
                                 id="phone" 
                                 type="tel" 
-                                className="rounded-[12px] bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
+                                className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                 placeholder="+1234567890" 
                                 value={formData.phone} 
                                 onChange={handleInputChange} 
@@ -440,7 +440,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
              {step === "payment" && (
                 <div className="space-y-6">
-                    <div className="bg-card rounded-[32px] p-8 border border-border shadow-sm">
+                    <div className="bg-card rounded-2xl p-8 border border-border shadow-sm">
                        <h3 className="font-bold text-xl mb-6 flex items-center gap-3 text-foreground">
                            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                <CreditCard className="w-5 h-5" />
@@ -456,11 +456,11 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                            </TabsList>
                            <TabsContent value="stripe" className="space-y-6">
                                 <div className="space-y-4">
-                                    <Input className="rounded-[12px] bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="Card number" />
+                                    <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="Card number" />
                                     <div className="grid grid-cols-3 gap-4">
-                                        <Input className="rounded-[12px] bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="MM/YY" />
-                                        <Input className="rounded-[12px] bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="CVC" />
-                                        <Input className="rounded-[12px] bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="Zip" />
+                                        <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="MM/YY" />
+                                        <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="CVC" />
+                                        <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="Zip" />
                                     </div>
                                     <p className="text-xs text-muted-foreground text-center mt-4">
                                         Transactions secured by Stripe. No payment taken until confirmation.

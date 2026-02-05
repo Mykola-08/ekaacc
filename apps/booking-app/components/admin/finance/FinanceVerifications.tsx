@@ -31,7 +31,7 @@ export function FinanceVerifications({ items }: FinanceVerificationsProps) {
                     </div>
 
                     {items.length === 0 ? (
-                         <div className="py-20 text-center bg-card rounded-[32px] border border-dashed border-border">
+                         <div className="py-20 text-center bg-card rounded-2xl border border-dashed border-border">
                              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <CheckCircle className="w-6 h-6 text-primary" />
                              </div>

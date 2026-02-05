@@ -63,7 +63,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
     if (!bookings || bookings.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-24 bg-card/50 rounded-[40px] text-center border-2 border-dashed border-muted">
+            <div className="flex flex-col items-center justify-center py-24 bg-card/50 rounded-3xl text-center border-2 border-dashed border-muted">
                 <div className="p-6 bg-background rounded-full mb-6 shadow-sm">
                     <Calendar className="w-8 h-8 text-muted-foreground" strokeWidth={2} />
                 </div>
@@ -136,7 +136,7 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
 
     return (
         <div className={cn(
-            "group relative rounded-[32px] overflow-hidden transition-all duration-300",
+            "group relative rounded-2xl overflow-hidden transition-all duration-300",
             isUpcoming 
                 ? "bg-card shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 border border-transparent" 
                 : "bg-card border border-border"
@@ -145,7 +145,7 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                 <div className="flex items-start gap-6 flex-1">
                      {/* Enhanced Date Block */}
                      <div className={cn(
-                        "flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-[22px]",
+                        "flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-xl",
                         isUpcoming ? "bg-primary/10 text-primary" : "bg-secondary/50 text-muted-foreground"
                     )}>
                         <span className="text-[11px] font-black uppercase tracking-widest opacity-80">

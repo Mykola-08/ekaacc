@@ -179,7 +179,7 @@ export default function GdprCompliance() {
 
     <div className="p-8 space-y-8">
      {t.sections.map((section, index) => (
-      <div key={index} id={(section as any).id} className="flex gap-4 p-6 rounded-[32px] bg-muted/30 hover:bg-muted transition-colors scroll-mt-24">
+      <div key={index} id={(section as any).id} className="flex gap-4 p-6 rounded-2xl bg-muted/30 hover:bg-muted transition-colors scroll-mt-24">
        <div className="shrink-0 mt-1">{section.icon}</div>
        <div>
         <h2 className="text-xl font-semibold text-foreground mb-2">{section.title}</h2>

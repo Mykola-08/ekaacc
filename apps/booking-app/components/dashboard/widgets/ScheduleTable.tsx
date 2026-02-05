@@ -36,7 +36,7 @@ interface ScheduleTableProps {
 
 export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
     return (
-        <div className="bg-card rounded-[32px] border border-border shadow-sm overflow-hidden">
+        <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
             <div className="p-8 pb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
                     <h2 className="text-[24px] font-bold text-foreground tracking-tight mb-2">Today's Schedule</h2>
@@ -44,7 +44,7 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
                 </div>
                 <Button
                     onClick={onAddBlock}
-                    className="rounded-[16px] px-6 h-12 font-bold bg-foreground text-background hover:bg-foreground/90 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-foreground/20">
+                    className="rounded-lg px-6 h-12 font-bold bg-foreground text-background hover:bg-foreground/90 hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-foreground/20">
                     <Plus className="w-5 h-5 mr-2" strokeWidth={2.5} />
                     Add Time Block
                 </Button>
@@ -52,10 +52,10 @@ export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
 
             {/* Search / Filter Bar */}
             <div className="px-8 pb-8 flex gap-4">
-                <div className="bg-secondary h-12 rounded-[16px] flex items-center px-4 flex-1 text-muted-foreground text-sm font-bold gap-3 border-2 border-transparent focus-within:border-foreground/10 focus-within:bg-card transition-all">
+                <div className="bg-secondary h-12 rounded-lg flex items-center px-4 flex-1 text-muted-foreground text-sm font-bold gap-3 border-2 border-transparent focus-within:border-foreground/10 focus-within:bg-card transition-all">
                     <Search className="w-4 h-4 opacity-70" strokeWidth={2.5} /> Search bookings...
                 </div>
-                <div className="bg-secondary h-12 rounded-[16px] flex items-center px-4 md:w-48 text-foreground text-sm font-bold gap-2 justify-between cursor-pointer hover:bg-secondary/70 transition-colors border-2 border-transparent">
+                <div className="bg-secondary h-12 rounded-lg flex items-center px-4 md:w-48 text-foreground text-sm font-bold gap-2 justify-between cursor-pointer hover:bg-secondary/70 transition-colors border-2 border-transparent">
                     <span>All Statuses</span> <Filter className="w-4 h-4 text-muted-foreground" strokeWidth={2.5} />
                 </div>
             </div>
@@ -148,23 +148,23 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
             <div className="col-span-2 flex justify-end gap-2">
                 {item.status === 'pending' ? (
                     <div className="flex gap-2">
-                        <Button size="icon" className="h-9 w-9 rounded-[12px] bg-[#10B981]/10 text-[#10B981] hover:bg-[#10B981] hover:text-white shadow-none border border-transparent transition-all">
+                        <Button size="icon" className="h-9 w-9 rounded-lg bg-[#10B981]/10 text-[#10B981] hover:bg-[#10B981] hover:text-white shadow-none border border-transparent transition-all">
                             <CheckCircle className="w-5 h-5" strokeWidth={2.5} />
                         </Button>
-                        <Button size="icon" className="h-9 w-9 rounded-[12px] bg-[#EF4444]/10 text-[#EF4444] hover:bg-[#EF4444] hover:text-white shadow-none border border-transparent transition-all">
+                        <Button size="icon" className="h-9 w-9 rounded-lg bg-[#EF4444]/10 text-[#EF4444] hover:bg-[#EF4444] hover:text-white shadow-none border border-transparent transition-all">
                             <XCircle className="w-5 h-5" strokeWidth={2.5} />
                         </Button>
                     </div>
                 ) : (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-[10px] text-muted-foreground hover:bg-secondary hover:text-foreground">
+                            <Button variant="ghost" size="icon" className="h-9 w-9 rounded-md text-muted-foreground hover:bg-secondary hover:text-foreground">
                                 <MoreVertical className="w-5 h-5" strokeWidth={2} />
                             </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="rounded-[20px] p-2 border-border shadow-lg">
-                            <DropdownMenuItem className="rounded-[12px] cursor-pointer font-medium text-[13px] px-4 py-2 hover:bg-secondary transition-colors focus:bg-secondary">View Details</DropdownMenuItem>
-                            <DropdownMenuItem className="text-destructive rounded-[12px] cursor-pointer font-medium text-[13px] px-4 py-2 hover:bg-destructive/10 transition-colors focus:bg-destructive/10">Cancel Booking</DropdownMenuItem>
+                        <DropdownMenuContent align="end" className="rounded-xl p-2 border-border shadow-lg">
+                            <DropdownMenuItem className="rounded-lg cursor-pointer font-medium text-[13px] px-4 py-2 hover:bg-secondary transition-colors focus:bg-secondary">View Details</DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive rounded-lg cursor-pointer font-medium text-[13px] px-4 py-2 hover:bg-destructive/10 transition-colors focus:bg-destructive/10">Cancel Booking</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 )}

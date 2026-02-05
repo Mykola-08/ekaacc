@@ -140,7 +140,7 @@ export function CommunityContentHeadless() {
                  </div>
 
                  {/* Suggested Connections */}
-                 <div className="bg-card rounded-[32px] border border-gray-100 shadow-sm p-8">
+                 <div className="bg-card rounded-2xl border border-gray-100 shadow-sm p-8">
                      <h3 className="font-bold text-foreground mb-6 flex items-center gap-2">
                          <Users className="w-5 h-5 text-muted-foreground/80" />
                          Suggested for you

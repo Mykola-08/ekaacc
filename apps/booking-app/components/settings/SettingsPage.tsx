@@ -61,7 +61,7 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                     {/* PROFILE TAB */}
                     <TabsContent value="profile">
                         <div className="grid gap-8">
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card p-8 rounded-[32px] shadow-sm">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card p-8 rounded-2xl shadow-sm">
                                 <h2 className="text-xl font-bold mb-8 flex items-center gap-3 text-foreground">
                                     <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                         <User className="w-5 h-5" strokeWidth={2.5} />
@@ -71,11 +71,11 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                                 <div className="flex flex-col md:flex-row gap-10 items-start">
                                     <div className="flex flex-col items-center gap-4">
                                         <div className="relative group cursor-pointer">
-                                            <Avatar className="w-32 h-32 rounded-[28px] border-4 border-secondary shadow-xl">
+                                            <Avatar className="w-32 h-32 rounded-2xl border-4 border-secondary shadow-xl">
                                                 <AvatarImage src={profile?.avatar_url} />
-                                                <AvatarFallback className="bg-secondary text-foreground text-2xl font-black rounded-[28px]">{profile?.full_name?.substring(0, 2) || 'ME'}</AvatarFallback>
+                                                <AvatarFallback className="bg-secondary text-foreground text-2xl font-black rounded-2xl">{profile?.full_name?.substring(0, 2) || 'ME'}</AvatarFallback>
                                             </Avatar>
-                                            <div className="absolute inset-0 bg-black/40 rounded-[28px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <Camera className="text-white w-8 h-8" />
                                             </div>
                                         </div>
@@ -85,25 +85,25 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div className="space-y-3">
                                                 <Label className="text-muted-foreground font-bold ml-1">Full Name</Label>
-                                                <Input defaultValue={profile?.full_name} className="h-12 rounded-[16px] bg-secondary border-none font-medium px-4" />
+                                                <Input defaultValue={profile?.full_name} className="h-12 rounded-lg bg-secondary border-none font-medium px-4" />
                                             </div>
                                             <div className="space-y-3">
                                                 <Label className="text-muted-foreground font-bold ml-1">Email</Label>
-                                                <Input defaultValue={profile?.email} disabled className="h-12 rounded-[16px] bg-secondary/50 border-none font-medium px-4 text-muted-foreground" />
+                                                <Input defaultValue={profile?.email} disabled className="h-12 rounded-lg bg-secondary/50 border-none font-medium px-4 text-muted-foreground" />
                                             </div>
                                             <div className="space-y-3">
                                                 <Label className="text-muted-foreground font-bold ml-1">Phone</Label>
-                                                <Input defaultValue={profile?.phone || ''} placeholder="+1 234 567 890" className="h-12 rounded-[16px] bg-secondary border-none font-medium px-4" />
+                                                <Input defaultValue={profile?.phone || ''} placeholder="+1 234 567 890" className="h-12 rounded-lg bg-secondary border-none font-medium px-4" />
                                             </div>
                                         </div>
                                         <div className="pt-4">
-                                            <Button className="h-12 px-8 rounded-[16px] font-bold shadow-lg">Save Changes</Button>
+                                            <Button className="h-12 px-8 rounded-lg font-bold shadow-lg">Save Changes</Button>
                                         </div>
                                     </div>
                                 </div>
                             </motion.div>
 
-                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-card p-8 rounded-[32px] shadow-sm">
+                            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-card p-8 rounded-2xl shadow-sm">
                                 <h2 className="text-xl font-bold mb-8 flex items-center gap-3 text-foreground">
                                      <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                         <Target className="w-5 h-5" strokeWidth={2.5} />
@@ -111,11 +111,11 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                                     Preferences
                                 </h2>
                                 <div className="space-y-6">
-                                    <div className="flex items-center justify-between p-4 bg-secondary rounded-[20px]">
+                                    <div className="flex items-center justify-between p-4 bg-secondary rounded-xl">
                                         <Label className="font-bold text-foreground">Public Profile (Social Features)</Label>
                                         <Switch checked={true} />
                                     </div>
-                                    <div className="flex items-center justify-between p-4 bg-secondary rounded-[20px]">
+                                    <div className="flex items-center justify-between p-4 bg-secondary rounded-xl">
                                         <Label className="font-bold text-foreground">Share Goals Progress</Label>
                                         <Switch checked={false} />
                                     </div>
@@ -131,7 +131,7 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
 
                     {/* SECURITY TAB */}
                     <TabsContent value="security">
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card p-8 rounded-[32px] shadow-sm">
+                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card p-8 rounded-2xl shadow-sm">
                             <h2 className="text-xl font-bold mb-8 flex items-center gap-3 text-foreground">
                                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                     <Lock className="w-5 h-5" strokeWidth={2.5} />
@@ -139,14 +139,14 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                                 Password & Authentication
                             </h2>
                             <div className="space-y-4">
-                                <div className="flex justify-between items-center p-5 bg-secondary rounded-[24px]">
+                                <div className="flex justify-between items-center p-5 bg-secondary rounded-xl">
                                     <div>
                                         <div className="font-bold text-foreground">Password</div>
                                         <div className="text-sm text-muted-foreground font-medium mt-1">Last changed 30 days ago</div>
                                     </div>
                                     <Button variant="outline" size="sm" onClick={() => toast.info('Password reset email sent!')} className="rounded-full border-muted font-bold">Change</Button>
                                 </div>
-                                <div className="flex justify-between items-center p-5 bg-secondary rounded-[24px] opacity-60">
+                                <div className="flex justify-between items-center p-5 bg-secondary rounded-xl opacity-60">
                                     <div>
                                         <div className="font-bold text-foreground">Two-Factor Authentication</div>
                                         <div className="text-sm text-muted-foreground font-medium mt-1">Coming soon</div>
@@ -159,7 +159,7 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
 
                     {/* NOTIFICATIONS TAB */}
                     <TabsContent value="notifications">
-                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card p-8 rounded-[32px] shadow-sm">
+                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-card p-8 rounded-2xl shadow-sm">
                             <h2 className="text-xl font-bold mb-8 flex items-center gap-3 text-foreground">
                                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                                     <Bell className="w-5 h-5" strokeWidth={2.5} />
@@ -168,7 +168,7 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
                             </h2>
                             <div className="space-y-4">
                                 {Object.keys(notifications).map(key => (
-                                    <div key={key} className="flex items-center justify-between p-4 bg-secondary rounded-[20px]">
+                                    <div key={key} className="flex items-center justify-between p-4 bg-secondary rounded-xl">
                                         <div className="capitalize font-bold text-foreground">{key} Updates</div>
                                         <Switch
                                             checked={notifications[key as keyof typeof notifications]}

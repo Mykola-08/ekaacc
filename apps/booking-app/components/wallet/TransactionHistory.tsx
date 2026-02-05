@@ -24,14 +24,14 @@ import {
   export function TransactionHistory({ transactions }: TransactionHistoryProps) {
     if (!transactions.length) {
       return (
-        <div className="text-center py-20 bg-card/50 rounded-[32px] text-muted-foreground">
+        <div className="text-center py-20 bg-card/50 rounded-2xl text-muted-foreground">
           <span className="font-medium text-lg">No transactions found.</span>
         </div>
       );
     }
   
     return (
-      <div className="rounded-[32px] overflow-hidden">
+      <div className="rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow className="hover:bg-transparent border-b border-border">

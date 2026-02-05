@@ -65,7 +65,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
 
       {/* Content Container (Overlapping Hero) */}
       <div className="relative z-30 -mt-24 max-w-5xl mx-auto px-6">
-        <div className="glass-card rounded-[40px] shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] animate-slide-up p-8 md:p-16">
+        <div className="glass-card rounded-3xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] animate-slide-up p-8 md:p-16">
             
                 <Link href="/services">
                     <Button variant="ghost" className="mb-10 pl-0 hover:pl-2 transition-all">

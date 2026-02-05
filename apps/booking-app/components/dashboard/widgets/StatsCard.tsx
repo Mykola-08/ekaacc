@@ -16,12 +16,12 @@ interface StatsCardProps {
 export function StatsCard({ icon: Icon, label, value, colorClass = "bg-surface-container text-primary", className, action }: StatsCardProps) {
     return (
         <div className={cn(
-            "bg-surface p-6 rounded-[36px] border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-44",
+            "bg-surface p-6 rounded-2xl border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-44",
             className
         )}>
             <div className="flex justify-between items-start">
                 <div className={cn(
-                    "w-12 h-12 rounded-[16px] flex items-center justify-center transition-all duration-300 group-hover:scale-110",
+                    "w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110",
                     colorClass
                 )}>
                     <Icon className="w-6 h-6" strokeWidth={2} />

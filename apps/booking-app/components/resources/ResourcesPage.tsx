@@ -51,7 +51,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                    placeholder="Search library..." 
                    value={search}
                    onChange={(e) => setSearch(e.target.value)}
-                   className="pl-12 h-14 bg-background border-none rounded-[20px] shadow-sm shadow-black/5 text-foreground font-medium text-lg placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/20"
+                   className="pl-12 h-14 bg-background border-none rounded-xl shadow-sm shadow-black/5 text-foreground font-medium text-lg placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/20"
                 />
              </div>
              <div className="flex gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 hide-scrollbar px-1">
@@ -81,7 +81,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                animate={{ opacity: 1, scale: 1 }}
                key={resource.id}
              >
-                <Card className="h-full border-none bg-card text-foreground shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 rounded-[32px] overflow-hidden group flex flex-col">
+                <Card className="h-full border-none bg-card text-foreground shadow-[0_4px_24px_rgba(0,0,0,0.02)] hover:shadow-[0_24px_48px_rgba(0,0,0,0.06)] hover:-translate-y-2 transition-all duration-500 rounded-2xl overflow-hidden group flex flex-col">
                    <div className="h-56 overflow-hidden relative bg-muted">
                       {resource.imageUrl ? (
                         <Image 
@@ -114,7 +114,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                       <CardDescription className="line-clamp-2 text-muted-foreground mt-2 font-medium leading-relaxed">{resource.description}</CardDescription>
                    </CardHeader>
                    <CardFooter className="p-6 pt-auto mt-auto">
-                      <Button className="w-full rounded-[20px] bg-secondary text-foreground hover:bg-foreground hover:text-background transition-all duration-300 h-12 font-bold shadow-sm">
+                      <Button className="w-full rounded-xl bg-secondary text-foreground hover:bg-foreground hover:text-background transition-all duration-300 h-12 font-bold shadow-sm">
                          View Content
                       </Button>
                    </CardFooter>

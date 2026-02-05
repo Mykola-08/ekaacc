@@ -49,7 +49,7 @@ export default async function NotificationsPage() {
 
                 <div className="space-y-4">
                     {notifications.map((notification) => (
-                        <div key={notification.id} className="group relative overflow-hidden bg-white border border-[#F0F0F0] rounded-[32px] p-6 transition-all hover:shadow-lg shadow-sm hover:-translate-y-0.5">
+                        <div key={notification.id} className="group relative overflow-hidden bg-white border border-[#F0F0F0] rounded-2xl p-6 transition-all hover:shadow-lg shadow-sm hover:-translate-y-0.5">
                             <div className="flex gap-5">
                                 <div className={cn(
                                     "w-12 h-12 rounded-full flex items-center justify-center shrink-0 border",
@@ -77,7 +77,7 @@ export default async function NotificationsPage() {
                     ))}
 
                     {notifications.length === 0 && (
-                        <div className="flex flex-col items-center justify-center py-20 text-center bg-[#F9F9F8] rounded-[40px] border-2 border-dashed border-[#EAEAEA]">
+                        <div className="flex flex-col items-center justify-center py-20 text-center bg-[#F9F9F8] rounded-3xl border-2 border-dashed border-[#EAEAEA]">
                             <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4">
                                 <Bell className="w-8 h-8 text-muted-foreground/50" />
                             </div>

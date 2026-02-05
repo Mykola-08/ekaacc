@@ -82,7 +82,7 @@ export default function Musicians() {
         <LazyImage
          src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1920&h=1080&fit=crop"
          alt={t('nav.musicians')}
-         className="w-full h-[400px] sm:h-[500px] object-cover rounded-[32px] shadow-2xl"
+         className="w-full h-[400px] sm:h-[500px] object-cover rounded-2xl shadow-2xl"
         />
        </div>
       </div>

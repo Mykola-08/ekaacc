@@ -54,7 +54,7 @@ export default async function AdminUserDetailsPage({ params }: { params: Promise
           <CardDescription>View past and upcoming bookings for this user.</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="bg-muted/50 rounded-[32px] p-8 text-center text-muted-foreground">
+          <div className="bg-muted/50 rounded-2xl p-8 text-center text-muted-foreground">
             <History className="h-8 w-8 mx-auto mb-3 opacity-50" />
             <p>No booking history available yet.</p>
           </div>

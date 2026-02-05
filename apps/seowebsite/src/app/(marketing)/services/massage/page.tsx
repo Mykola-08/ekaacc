@@ -63,7 +63,7 @@ export default function MassagePage() {
       <div className="flex flex-wrap gap-4">
        <Button 
         onClick={() => navigateToBooking('massage')}
-        className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] border-none rounded-2xl px-8 h-14 text-lg"
+        className="bg-primary hover:bg-primary/90 text-primary-foreground border-none rounded-2xl px-8 h-14 text-lg"
        >
         {t('common.bookNow')}
         <ArrowRight className="ml-2 w-5 h-5" />
@@ -199,7 +199,7 @@ export default function MassagePage() {
      </p>
      <Button
       onClick={() => navigateToBooking('massage')}
-      className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] border-none px-10 h-14 rounded-2xl text-lg font-bold"
+      className="bg-primary hover:bg-primary/90 text-primary-foreground border-none px-10 h-14 rounded-2xl text-lg font-bold"
      >
       {t('common.bookNow')}
      </Button>

@@ -19,7 +19,7 @@ export default function PersonalizedServices() {
       />
       
       {/* Unified Gradient Hero */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-[#FBFBFD]">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-background">
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-20 mask-[linear-gradient(180deg,white,rgba(255,255,255,0))]" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
@@ -27,7 +27,7 @@ export default function PersonalizedServices() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >
-             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-[#E5E5EA]/30 shadow-sm mb-8">
+             <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-border/30 shadow-sm mb-8">
               <span className="text-sm font-medium text-primary uppercase tracking-wider">
                 {t('personalizedServices.title')}
               </span>

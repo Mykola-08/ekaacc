@@ -187,7 +187,7 @@ export default function StatusPage() {
 
  if (loading && !data) {
   return (
-   <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+   <div className="min-h-screen bg-background flex items-center justify-center">
     <Loader2 className="w-8 h-8 text-white animate-spin" />
    </div>
   );
@@ -200,7 +200,7 @@ export default function StatusPage() {
   : 'degraded';
 
  return (
-  <div className="min-h-screen bg-[#0a0a0a] text-white p-8 font-sans">
+  <div className="min-h-screen bg-background text-foreground p-8 font-sans">
    <div className="max-w-6xl mx-auto space-y-12">
     
     {/* Header */}

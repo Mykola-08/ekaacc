@@ -442,7 +442,7 @@ export function AnalyticsDashboardHeadless() {
                  <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={analytics.userGrowth}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                         <XAxis 
                         dataKey="date" 
                         tickFormatter={(date) => format(new Date(date), 'MMM dd')}

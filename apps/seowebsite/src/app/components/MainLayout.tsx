@@ -420,14 +420,14 @@ export default function MainLayout({
                         <Link
                           href={`${BOOKING_APP_URL}/login`}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex justify-center items-center py-3 rounded-xl font-medium text-base text-[#000035] bg-muted hover:bg-gray-200 transition-colors"
+                          className="flex justify-center items-center py-3 rounded-xl font-medium text-base text-foreground bg-muted hover:bg-muted/80 transition-colors"
                         >
                           Log in
                         </Link>
                         <Link
                           href={`${BOOKING_APP_URL}/signup`}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex justify-center items-center py-3 rounded-xl font-medium text-[#000035] bg-[#FFB405] hover:bg-[#e8a204] transition-colors"
+                          className="flex justify-center items-center py-3 rounded-xl font-medium text-primary-foreground bg-primary hover:bg-primary/90 transition-colors"
                         >
                           Sign up
                         </Link>
@@ -461,7 +461,7 @@ export default function MainLayout({
    <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-border md:hidden z-50 pb-safe">
     <Link
      href={BOOKING_APP_URL}
-     className="block w-full bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
+     className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
     >
      {t('nav.bookNow')}
     </Link>

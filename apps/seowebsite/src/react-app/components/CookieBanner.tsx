@@ -87,7 +87,7 @@ export default function CookieBanner() {
 
                 <Link
                   to="/cookie-policy"
-                  className="text-primary hover:text-[#e8a204] font-medium text-sm transition-colors duration-200"
+                  className="text-primary hover:text-primary/90 font-medium text-sm transition-colors duration-200"
                 >
                   {t('cookies.learnMore')}
                 </Link>

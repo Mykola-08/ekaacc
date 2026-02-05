@@ -56,7 +56,7 @@ export default function ParentsPersonalized() {
         <div className="flex flex-col sm:flex-row gap-4">
          <button
           onClick={() => navigateToBooking()}
-          className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
          >
           {t('common.bookNow')}
          </button>
@@ -145,7 +145,7 @@ export default function ParentsPersonalized() {
           </Link>
           <button
            onClick={() => navigateToBooking()}
-           className="flex-1 bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-6 py-3 rounded-full transition-colors duration-200"
+           className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 rounded-full transition-colors duration-200"
           >
            {t('common.bookNow')}
           </button>

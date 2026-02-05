@@ -173,7 +173,7 @@ export default function CaseDetailClient({ id }: CaseDetailClientProps) {
         <Link href={config.href}>
           <Button
             size="lg"
-            className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-bold px-8 py-4 rounded-2xl border-none hover:scale-105 transition-transform shadow-lg"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold px-8 py-4 rounded-2xl border-none hover:scale-105 transition-transform shadow-lg"
           >
             {t('common.bookNow')}
             <ArrowRight className="w-5 h-5 ml-2" />

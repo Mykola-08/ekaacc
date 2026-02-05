@@ -47,7 +47,7 @@ export default function FloatingBiomedSymbols() {
       x: Math.random() * 100, // %
       y: Math.random() * 100, // %
       size: 20 + Math.random() * 30, // px
-      color: Math.random() > 0.5 ? 'text-blue-500' : 'text-[#FFB405]', // blue or gold
+      color: Math.random() > 0.5 ? 'text-blue-500' : 'text-primary', // blue or gold
       duration: 10 + Math.random() * 20,
       delay: Math.random() * 5,
     });
@@ -61,7 +61,7 @@ export default function FloatingBiomedSymbols() {
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: 14 + Math.random() * 10, // text size
-      color: Math.random() > 0.5 ? 'text-blue-600' : 'text-[#FFB405]',
+      color: Math.random() > 0.5 ? 'text-blue-600' : 'text-primary',
       duration: 15 + Math.random() * 25,
       delay: Math.random() * 5,
     });
@@ -80,7 +80,7 @@ export default function FloatingBiomedSymbols() {
       x: Math.random() * 100,
       y: Math.random() * 100,
       size: 16 + Math.random() * 8,
-      color: Math.random() > 0.5 ? 'text-blue-700' : 'text-[#d49604]', // slightly darker for readability
+      color: Math.random() > 0.5 ? 'text-blue-700' : 'text-primary/90', // slightly darker for readability
       duration: 20 + Math.random() * 20,
       delay: Math.random() * 5,
     });

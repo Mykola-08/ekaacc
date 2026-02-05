@@ -41,7 +41,7 @@ export default function OfficeWorkers() {
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
          href={BOOKING_APP_URL}
-         className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
+         className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
         </Link>

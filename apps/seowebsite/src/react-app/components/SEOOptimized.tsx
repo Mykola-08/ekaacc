@@ -207,7 +207,7 @@ export default function SEOOptimized({
     
     // Additional Meta Tags
     setMetaTag('viewport', 'width=device-width, initial-scale=1.0');
-    setMetaTag('theme-color', '#F59E0B');
+    setMetaTag('theme-color', 'hsl(var(--primary))');
 
     // Canonical URL
     let canonical = document.querySelector('link[rel="canonical"]');

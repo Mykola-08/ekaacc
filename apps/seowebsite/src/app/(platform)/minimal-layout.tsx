@@ -12,7 +12,7 @@ const AppHeader = () => (
     <header className="sticky top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-md">
         <div className="container flex h-16 items-center px-6">
             <div className="mr-8 hidden md:flex">
-                <span className="font-bold text-lg tracking-tight text-[#0E7AFE]">EKA Account</span>
+                <span className="font-bold text-lg tracking-tight text-primary">EKA Account</span>
             </div>
             <div className="flex-1" />
         </div>
@@ -77,7 +77,7 @@ function AppLayoutContent({ children }: { children: React.ReactNode }) {
 
     if (!mounted || loading || (!user && !e2eBypass)) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#FBFBFD]">
+            <div className="min-h-screen flex items-center justify-center bg-background">
                 <div className="text-center">
                     <div className="w-16 h-16 rounded-full border-4 border-primary/10 border-t-primary animate-spin mx-auto mb-6" />
                     <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Loading</p>

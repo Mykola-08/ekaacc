@@ -50,7 +50,7 @@ export default function PersonalizedServicesContent({ services }: ContentProps) 
       <Link href={BOOKING_APP_URL}>
        <Button 
         size="lg" 
-        className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
+        className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl font-medium transition-all duration-300 hover:scale-105 shadow-xl border-none"
        >
         {t('personalizedServices.cta')}
         <ArrowRight className="ml-2 w-5 h-5" />

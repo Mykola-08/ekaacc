@@ -4,7 +4,7 @@ import { X, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function LanguagePopup() {
-    const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, t } = useLanguage();
+    const { showLanguagePopup, setShowLanguagePopup, confirmLanguage, setLanguage, t } = useLanguage();
 
     if (!showLanguagePopup) return null;
 
@@ -53,7 +53,7 @@ export default function LanguagePopup() {
                         {languages.map((lang) => (
                             <button
                                 key={lang.code}
-                                onClick={() => confirmLanguage(lang.code)}
+                                onClick={() => { setLanguage(lang.code); confirmLanguage(); }}
                                 className="flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group"
                             >
                                 <span className="text-2xl mr-4">{lang.flag}</span>

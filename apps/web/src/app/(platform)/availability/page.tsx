@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { DashboardLayout } from "@/components/dashboard/layout/DashboardLayout";
 import { AvailabilityManager } from "@/components/dashboard/widgets/AvailabilityManager";
 

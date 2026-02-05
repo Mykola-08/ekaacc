@@ -13,6 +13,7 @@ import { DebugStatus } from "@ekaacc/shared-ui";
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { PlatformSidebar } from '@/app/(platform)/components/PlatformSidebar';
 import { Separator } from '@/components/ui/separator';
+import { LanguageProvider } from '@/context/LanguageContext';
 
 export default function PlatformLayout({
   children,
@@ -22,6 +23,7 @@ export default function PlatformLayout({
   return (
     <div className={cn('antialiased font-sans')}>
       {/* <UserProvider> */}
+      <LanguageProvider>
       <ThemeProvider
         attribute="class"
         defaultTheme="system"
@@ -56,6 +58,7 @@ export default function PlatformLayout({
           </TooltipProvider>
         </ProgressProvider>
       </ThemeProvider>
+      </LanguageProvider>
       {/* </UserProvider> */}
     </div>
   );

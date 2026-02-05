@@ -56,7 +56,7 @@ export function UsersList({ users }: UsersListProps) {
                         placeholder="Search by name, email or company..."
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        className="pl-10 h-11 bg-gray-50 border-gray-200 focus:bg-white transition-all rounded-xl"
+                        className="pl-10 h-11 bg-secondary border-border focus:bg-background transition-all rounded-xl"
                     />
                 </div>
                 <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto no-scrollbar">
@@ -66,7 +66,7 @@ export function UsersList({ users }: UsersListProps) {
                             variant={roleFilter === role ? "default" : "outline"}
                             size="sm"
                             onClick={() => setRoleFilter(role as any)}
-                            className={cn("capitalize rounded-full px-5 h-9", roleFilter === role ? "bg-[#007AFF]" : "text-muted-foreground border-gray-200")}
+                            className={cn("capitalize rounded-full px-5 h-9", roleFilter === role ? "bg-primary" : "text-muted-foreground border-border")}
                         >
                             {role}
                         </Button>
@@ -105,8 +105,8 @@ function UserRow({ user, index }: { user: UserProfile, index: number }) {
         >
 
             <div className="flex items-center gap-4 flex-1">
-                <Avatar className={cn("w-14 h-14 border-2 shadow-sm", isLead ? "border-blue-100" : "border-gray-50")}>
-                    <AvatarFallback className={cn(isLead ? "bg-blue-50 text-blue-600 font-bold" : "bg-gray-50 text-gray-400 font-medium")}>
+                <Avatar className={cn("w-14 h-14 border-2 shadow-sm", isLead ? "border-primary/20" : "border-border")}>
+                    <AvatarFallback className={cn(isLead ? "bg-primary/10 text-primary font-bold" : "bg-secondary text-muted-foreground font-medium")}>
                         {user.fullName ? user.fullName.substring(0, 1).toUpperCase() : 'U'}
                     </AvatarFallback>
                 </Avatar>

@@ -133,7 +133,7 @@ export default function PricingPage() {
        
        <CardFooter className="pt-8 pb-8 px-8 mt-auto">
         <Button 
-         className={`w-full text-base font-semibold py-6 rounded-2xl shadow-lg transition-all hover:scale-[1.02] border-none
+         className={`w-full text-base font-semibold py-6 rounded-2xl shadow-lg transition-all hover:scale-105 border-none
            ${plan.popular 
              ? 'bg-primary hover:bg-primary/90 text-white' 
              : 'bg-white hover:bg-white/90 text-foreground border-white/20'

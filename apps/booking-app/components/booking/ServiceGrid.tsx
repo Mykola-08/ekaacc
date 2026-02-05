@@ -17,7 +17,7 @@ export function ServiceGrid({ services }: { services: Service[] }) {
           </div>
         ))
       ) : (
-        <div className='col-span-full text-center py-20 text-muted-foreground glass-card rounded-[2rem]'>
+        <div className='col-span-full text-center py-20 text-muted-foreground glass-card rounded-2xl'>
           No services available at the moment.
         </div>
       )}

@@ -10,7 +10,7 @@ export function AdminHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="h-16 bg-card rounded-[36px] border border-border flex items-center justify-between px-6 shrink-0">
+    <header className="h-16 bg-card rounded-2xl border border-border flex items-center justify-between px-6 shrink-0">
       <div className="flex items-center gap-4">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>

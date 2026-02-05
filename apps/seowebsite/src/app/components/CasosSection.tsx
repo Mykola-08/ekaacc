@@ -71,7 +71,7 @@ export default function CasosSection() {
  const getColorClasses = (color: string) => {
   // UNIFIED DESIGN: Use variations of neutral/gray/teal for a cleaner look
   // Or simple light background with primary accent hook
-  return 'bg-white border-white/40 shadow-sm hover:shadow-md hover:scale-[1.02] transition-all duration-300';
+  return 'bg-white border-white/40 shadow-sm hover:shadow-md hover:scale-105 transition-all duration-300';
  };
 
  return (

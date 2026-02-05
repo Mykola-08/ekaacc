@@ -125,7 +125,7 @@ export function TelegramManager({ chats }: TelegramManagerProps) {
                             </div>
                         </DashboardCard>
                     ) : (
-                        <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-8 bg-card rounded-[32px] border border-border/60">
+                        <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-8 bg-card rounded-2xl border border-border/60">
                             <div className="w-16 h-16 bg-secondary rounded-full flex items-center justify-center mb-4 text-muted-foreground">
                                 <Send className="w-8 h-8" />
                             </div>

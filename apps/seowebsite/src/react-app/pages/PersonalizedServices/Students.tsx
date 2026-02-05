@@ -60,11 +60,11 @@ export default function Students() {
 
       {/* Problems & Benefits */}
       <section className="apple-section bg-card">
-        <div className="apple-container">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Problems */}
             <div>
-              <h2 className="apple-headline mb-8 text-red-600">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-8 text-red-600">
                 {t('students.challenges.title')}
               </h2>
               <div className="space-y-6">
@@ -94,7 +94,7 @@ export default function Students() {
 
             {/* Benefits */}
             <div>
-              <h2 className="apple-headline mb-8 text-green-600">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-8 text-green-600">
                 {t('students.help.title')}
               </h2>
               <div className="space-y-6">
@@ -127,12 +127,12 @@ export default function Students() {
 
       {/* Results */}
       <section className="apple-section bg-yellow-50">
-        <div className="apple-container text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="squircle-card bg-card p-12 max-w-4xl mx-auto">
-            <h2 className="apple-headline mb-6 text-yellow-600">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6 text-yellow-600">
               {t('students.result.title')}
             </h2>
-            <p className="apple-subtitle mb-8">
+            <p className="text-lg md:text-xl text-muted-foreground mb-8">
               {t('students.result.desc')}
             </p>
 
@@ -156,7 +156,7 @@ export default function Students() {
 
       {/* Service Card */}
       <section className="apple-section bg-card">
-        <div className="apple-container-sm">
+        <div className="max-w-4xl mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="squircle-image aspect-4/3 relative">
               <Image

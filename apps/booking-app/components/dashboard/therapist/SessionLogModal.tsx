@@ -55,16 +55,16 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="sm:max-w-md bg-[#FEFFFE] border-[#F5F5F5] shadow-2xl rounded-[32px] p-8">
+            <DialogContent className="sm:max-w-md bg-background border-border shadow-2xl rounded-2xl p-8">
                 <DialogHeader className="mb-4">
-                    <DialogTitle className="text-2xl font-bold text-[#222222]">Complete Session</DialogTitle>
+                    <DialogTitle className="text-2xl font-bold text-foreground">Complete Session</DialogTitle>
                 </DialogHeader>
 
                 <div className="space-y-8">
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <Label className="text-[#999999] font-bold uppercase text-[11px] tracking-wider">Initial Client Mood</Label>
-                            <span className="font-bold text-[#4DAFFF] bg-blue-50 px-3 py-1 rounded-full text-sm">{initialMood[0]}/10</span>
+                            <Label className="text-muted-foreground font-bold uppercase text-xs tracking-wider">Initial Client Mood</Label>
+                            <span className="font-bold text-primary bg-primary/10 px-3 py-1 rounded-full text-sm">{initialMood[0]}/10</span>
                         </div>
                         <Slider
                             value={initialMood}
@@ -78,8 +78,8 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
                     <div className="space-y-4">
                         <div className="flex justify-between items-center">
-                            <Label className="text-[#999999] font-bold uppercase text-[11px] tracking-wider">Final Client Mood</Label>
-                            <span className="font-bold text-[#10B981] bg-emerald-50 px-3 py-1 rounded-full text-sm">{finalMood[0]}/10</span>
+                            <Label className="text-muted-foreground font-bold uppercase text-xs tracking-wider">Final Client Mood</Label>
+                            <span className="font-bold text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full text-sm">{finalMood[0]}/10</span>
                         </div>
                         <Slider
                             value={finalMood}
@@ -92,9 +92,9 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
                     </div>
 
                     {initialMood[0] !== undefined && initialMood[0] > 0 && (
-                        <div className="bg-[#F9F9F8] p-4 rounded-[20px] text-center border border-[#F5F5F5]">
-                            <span className="text-[13px] text-[#555555] font-semibold">Predicted Improvement: </span>
-                            <span className={`text-lg font-bold ml-2 ${improvement > 0 ? 'text-[#10B981]' : 'text-[#999999]'}`}>
+                        <div className="bg-card p-4 rounded-xl text-center border border-border">
+                            <span className="text-[13px] text-muted-foreground font-semibold">Predicted Improvement: </span>
+                            <span className={`text-lg font-bold ml-2 ${improvement > 0 ? 'text-emerald-600' : 'text-muted-foreground'}`}>
                                 {improvement > 0 ? '+' : ''}{improvement}%
                             </span>
                         </div>
@@ -106,14 +106,14 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                             placeholder="Key observations, treatment details..."
-                            className="min-h-25 bg-gray-50 border-gray-200 focus:bg-white transition-colors"
+                            className="min-h-25 bg-secondary border-border focus:bg-background transition-colors"
                         />
                     </div>
                 </div>
 
                 <DialogFooter className="sm:justify-end gap-2">
-                    <Button variant="outline" onClick={onClose} className="border-gray-200">Cancel</Button>
-                    <Button onClick={handleSubmit} disabled={loading} className="bg-action-brand hover:bg-[#0062CC] rounded-full px-6">
+                    <Button variant="outline" onClick={onClose}>Cancel</Button>
+                    <Button onClick={handleSubmit} disabled={loading} className="rounded-full px-6">
                         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Complete Session'}
                     </Button>
                 </DialogFooter>

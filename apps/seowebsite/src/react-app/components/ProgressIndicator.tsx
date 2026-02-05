@@ -153,8 +153,8 @@ export default function ProgressIndicator({
                 `}
                 style={{
                   background: isCompleted 
-                    ? 'linear-gradient(to right, #10b981, #10b981)' 
-                    : 'linear-gradient(to right, #e5e7eb, #e5e7eb)',
+                    ? 'hsl(var(--chart-2))' 
+                    : 'hsl(var(--border))',
                 }}
               />
             )}
@@ -180,8 +180,8 @@ export function CircularProgress({
   percentage,
   size = 120,
   strokeWidth = 8,
-  color = '#3b82f6',
-  backgroundColor = '#e5e7eb',
+  color = 'hsl(var(--primary))',
+  backgroundColor = 'hsl(var(--border))',
   showPercentage = true,
   className = '',
 }: CircularProgressProps) {

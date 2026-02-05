@@ -155,7 +155,7 @@ export default function Layout({
                       <>
                         <Link
                           to={item.href}
-                          className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-[20px] hover:bg-card/60 ${isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
+                          className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-xl hover:bg-card/60 ${isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
                             }`}
                           onMouseEnter={openDropdown}
                           onMouseLeave={scheduleHide}
@@ -212,7 +212,7 @@ export default function Layout({
                       <a
                         href={item.href}
                         rel="noopener noreferrer"
-                        className="font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 text-primary-foreground hover:text-primary"
+                        className="font-medium transition-all duration-200 px-5 py-3 rounded-xl hover:bg-card/60 text-primary-foreground hover:text-primary"
                         onClick={(e) => {
                           e.preventDefault();
                           window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -223,7 +223,7 @@ export default function Layout({
                     ) : (
                       <Link
                         to={item.href}
-                        className={`font-medium transition-all duration-200 px-5 py-3 rounded-[20px] hover:bg-card/60 ${item.isGold
+                        className={`font-medium transition-all duration-200 px-5 py-3 rounded-xl hover:bg-card/60 ${item.isGold
                             ? 'gold-shimmer font-black bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
                             : isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
                           }`}

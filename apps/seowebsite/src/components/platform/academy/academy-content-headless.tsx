@@ -102,7 +102,7 @@ export function AcademyContentHeadless() {
                                  <span className="text-xl">🎓</span>
                              </div>
                              <span className="text-xs font-bold text-muted-foreground">Certified</span>
-                             <span className="text-[10px] text-muted-foreground/80">Locked</span>
+                             <span className="text-xs text-muted-foreground/80">Locked</span>
                          </div>
                      </div>
                 </div>

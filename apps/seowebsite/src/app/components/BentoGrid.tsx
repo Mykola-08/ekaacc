@@ -65,7 +65,7 @@ export function BentoGrid() {
     >
       {/* Featured Service - Large Card */}
       <motion.div variants={item} className="md:col-span-2 lg:col-span-2 row-span-2">
-        <Card className="h-full min-h-[400px] overflow-hidden group relative border-none shadow-sm rounded-[36px]">
+        <Card className="h-full min-h-[400px] overflow-hidden group relative border-none shadow-sm rounded-2xl">
           <div className="absolute inset-0 z-0">
              <Image
                 src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/therapist_photo.jpg"
@@ -96,7 +96,7 @@ export function BentoGrid() {
 
       {/* Stats Card 1 */}
       <motion.div variants={item}>
-        <Card className="h-full bg-primary/5 border-none shadow-none flex flex-col justify-center items-center p-8 rounded-[36px] text-center">
+        <Card className="h-full bg-primary/5 border-none shadow-none flex flex-col justify-center items-center p-8 rounded-2xl text-center">
           <div className="size-12 bg-white rounded-2xl flex items-center justify-center shadow-sm mb-4 text-primary">
              <IconUserGroup size={24} />
           </div>
@@ -107,7 +107,7 @@ export function BentoGrid() {
 
        {/* Experience Card */}
        <motion.div variants={item}>
-        <Card className="h-full border border-border/40 shadow-sm p-8 rounded-[36px] flex flex-col">
+        <Card className="h-full border border-border/40 shadow-sm p-8 rounded-2xl flex flex-col">
           <CardHeader className="p-0 mb-4">
              <div className="flex justify-between items-start">
                 <div className="size-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
@@ -125,7 +125,7 @@ export function BentoGrid() {
 
       {/* Trust Quote / Testimonial Style */}
       <motion.div variants={item} className="md:col-span-2 lg:col-span-1">
-        <Card className="h-full bg-black text-white p-8 rounded-[36px] flex flex-col">
+        <Card className="h-full bg-black text-white p-8 rounded-2xl flex flex-col">
            <div className="flex gap-1 mb-6">
               {[1,2,3,4,5].map(i => <IconStar key={i} size={16} className="fill-yellow-400 text-yellow-400" />)}
            </div>
@@ -144,7 +144,7 @@ export function BentoGrid() {
 
        {/* Quick Booking Calendar */}
        <motion.div variants={item} className="md:col-span-1 lg:col-span-1">
-        <Card className="h-full border-none bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8 rounded-[36px] relative overflow-hidden group hover:scale-[1.02] transition-transform">
+        <Card className="h-full border-none bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-8 rounded-2xl relative overflow-hidden group hover:scale-105 transition-transform">
            <div className="relative z-10 flex flex-col h-full">
               <IconCalendar01 size={32} className="mb-4" />
               <h4 className="text-2xl font-bold mb-2">Check availability</h4>
@@ -161,7 +161,7 @@ export function BentoGrid() {
 
        {/* Global Presence */}
        <motion.div variants={item} className="lg:col-span-2">
-         <Card className="h-full border border-border/40 shadow-sm p-8 rounded-[36px] flex flex-row items-center gap-8 overflow-hidden">
+         <Card className="h-full border border-border/40 shadow-sm p-8 rounded-2xl flex flex-row items-center gap-8 overflow-hidden">
             <div className="flex-1">
               <div className="flex items-center gap-2 text-primary mb-2">
                 <IconGlobe size={20} />

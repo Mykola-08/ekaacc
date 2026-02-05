@@ -17,11 +17,11 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
   const isCompact = variant === 'compact';
 
   return (
-    <div className="h-full hover:scale-[1.02] transition-transform duration-500 ease-out origin-center">
+    <div className="h-full hover:scale-105 transition-transform duration-500 ease-out origin-center">
       <Card className={cn(
         "h-full flex flex-col overflow-hidden transition-all duration-300",
         "bg-card border-border shadow-sm", // Porcelain Surface
-        isCompact ? "rounded-[24px]" : "rounded-[36px]"
+        isCompact ? "rounded-xl" : "rounded-2xl"
       )}>
         {/* Image Placeholder or Header Gradient */}
         <div className={cn(

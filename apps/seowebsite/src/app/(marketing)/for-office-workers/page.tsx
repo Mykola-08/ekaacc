@@ -54,7 +54,7 @@ export default function OfficeWorkersPersonalized() {
        <div className="flex flex-col sm:flex-row gap-4 justify-center">
         <button
          onClick={() => navigateToBooking()}
-         className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-flex items-center"
+         className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-flex items-center"
         >
          {t('common.bookNow')}
          <ArrowRight className="w-5 h-5 ml-2" />
@@ -73,7 +73,7 @@ export default function OfficeWorkersPersonalized() {
     {/* Understanding Section */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-muted/30 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-muted/30 rounded-2xl p-8 sm:p-12">
        <h2 className="text-2xl sm:text-3xl font-light text-foreground mb-6">
         {t('personalized.officeWorkers.understanding.title')}
        </h2>
@@ -102,7 +102,7 @@ export default function OfficeWorkersPersonalized() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
        {recommendedServices.map((service, index) => (
-        <div key={service.id} className="bg-card rounded-[32px] p-8 border-none ">
+        <div key={service.id} className="bg-card rounded-2xl p-8 border-none ">
          <div className="flex items-start justify-between mb-6">
           <div>
            <h3 className="text-xl font-semibold text-foreground mb-2">
@@ -131,7 +131,7 @@ export default function OfficeWorkersPersonalized() {
           </Link>
           <button
            onClick={() => navigateToBooking()}
-           className="flex-1 bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-6 py-3 rounded-full transition-colors duration-200"
+           className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 rounded-full transition-colors duration-200"
           >
            {t('common.bookNow')}
           </button>
@@ -145,7 +145,7 @@ export default function OfficeWorkersPersonalized() {
     {/* Success Story */}
     <section className="py-16 bg-card">
      <div className="max-w-4xl mx-auto px-4 sm:px-8">
-      <div className="bg-linear-to-r from-gray-50 to-blue-50 rounded-[32px] p-8 sm:p-12">
+      <div className="bg-linear-to-r from-gray-50 to-blue-50 rounded-2xl p-8 sm:p-12">
        <div className="flex items-start space-x-4">
         <div className="shrink-0">
          <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">

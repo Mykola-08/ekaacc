@@ -105,7 +105,7 @@ const ServiceCard = ({ service }: { service: Service }) => {
  const Icon = iconMap[service.icon] || Activity;
  
  return (
-  <div className="bg-black/40 border-none border-white/10 rounded-[32px] p-6 backdrop-blur-sm hover:border-white/20 transition-colors">
+  <div className="bg-black/40 border-none border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:border-white/20 transition-colors">
    <div className="flex items-start justify-between mb-4">
     <div className="p-2 bg-card/5 rounded-xl text-white">
      <Icon className="w-5 h-5" />
@@ -149,7 +149,7 @@ const MetricCard = ({ metric }: { metric: Metric }) => {
  const Icon = iconMap[metric.icon] || Activity;
  
  return (
-  <div className="bg-black/40 border-none border-white/10 rounded-[32px] p-6 backdrop-blur-sm">
+  <div className="bg-black/40 border-none border-white/10 rounded-2xl p-6 backdrop-blur-sm">
    <div className="flex items-center justify-between mb-2">
     <span className="text-sm text-zinc-400">{metric.label}</span>
     <Icon className={cn("w-4 h-4", metric.color || "text-white")} />
@@ -187,7 +187,7 @@ export default function StatusPage() {
 
  if (loading && !data) {
   return (
-   <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+   <div className="min-h-screen bg-background flex items-center justify-center">
     <Loader2 className="w-8 h-8 text-white animate-spin" />
    </div>
   );
@@ -200,7 +200,7 @@ export default function StatusPage() {
   : 'degraded';
 
  return (
-  <div className="min-h-screen bg-[#0a0a0a] text-white p-8 font-sans">
+  <div className="min-h-screen bg-background text-foreground p-8 font-sans">
    <div className="max-w-6xl mx-auto space-y-12">
     
     {/* Header */}
@@ -220,7 +220,7 @@ export default function StatusPage() {
 
     {/* Overall Status Banner */}
     <div className={cn(
-     "border-none rounded-[32px] p-6 flex items-center gap-4",
+     "border-none rounded-2xl p-6 flex items-center gap-4",
      overallStatus === 'operational' 
       ? "bg-green-500/10 border-green-500/20" 
       : "bg-yellow-500/10 border-yellow-500/20"

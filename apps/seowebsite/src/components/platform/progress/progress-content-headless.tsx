@@ -139,7 +139,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                         </div>
                     ) : (
                         progressData.map((report, idx) => (
-                             <div key={idx} className="group bg-card rounded-[32px] border border-gray-100 shadow-sm p-8 hover:shadow-lg transition-all duration-300">
+                             <div key={idx} className="group bg-card rounded-2xl border border-gray-100 shadow-sm p-8 hover:shadow-lg transition-all duration-300">
                                 <div className="flex flex-col md:flex-row gap-6">
                                      {/* Date Column */}
                                     <div className="md:w-32 shrink-0 flex md:flex-col items-center md:items-start gap-2">
@@ -199,7 +199,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
 
             <TabPanel className="focus:outline-none">
                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-card rounded-[32px] border border-gray-100 shadow-sm p-8">
+                    <div className="bg-card rounded-2xl border border-gray-100 shadow-sm p-8">
                          <h3 className="font-bold text-xl text-foreground mb-6">Mood Analysis</h3>
                          <div className="h-64 flex items-end justify-between px-2 gap-10"> {/* Mock Chart */}
                             {[60, 45, 75, 50, 80, 70, 90].map((h, i) => (
@@ -222,7 +222,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                          </div>
                     </div>
 
-                    <div className="bg-card rounded-[32px] border border-gray-100 shadow-sm p-8">
+                    <div className="bg-card rounded-2xl border border-gray-100 shadow-sm p-8">
                          <h3 className="font-bold text-xl text-foreground mb-6">Focus Areas</h3>
                          <div className="space-y-6">
                              {[

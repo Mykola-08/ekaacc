@@ -41,7 +41,7 @@ export default function OfficeWorkers() {
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
          href={BOOKING_APP_URL}
-         className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
+         className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
         </Link>
@@ -63,11 +63,11 @@ export default function OfficeWorkers() {
 
    {/* Problems & Benefits */}
    <section className="apple-section bg-card">
-    <div className="apple-container">
+    <div className="max-w-7xl mx-auto px-4">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       {/* Problems */}
       <div>
-       <h2 className="apple-headline mb-8 text-red-600">
+       <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-8 text-red-600">
         {t('athletes.challenges.title')}
        </h2>
        <div className="space-y-6">
@@ -97,7 +97,7 @@ export default function OfficeWorkers() {
 
       {/* Benefits */}
       <div>
-       <h2 className="apple-headline mb-8 text-green-600">
+       <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-8 text-green-600">
         {t('athletes.help.title')}
        </h2>
        <div className="space-y-6">
@@ -130,12 +130,12 @@ export default function OfficeWorkers() {
 
    {/* Results */}
    <section className="apple-section bg-blue-50">
-    <div className="apple-container text-center">
+    <div className="max-w-7xl mx-auto px-4 text-center">
      <div className="squircle-card bg-card p-12 max-w-4xl mx-auto">
-      <h2 className="apple-headline mb-6 text-blue-600">
+      <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6 text-blue-600">
        {t('athletes.result.title')}
       </h2>
-      <p className="apple-subtitle mb-8">
+      <p className="text-lg md:text-xl text-muted-foreground mb-8">
        {t('personalizedServices.officeWorkers.result')}
       </p>
       
@@ -159,7 +159,7 @@ export default function OfficeWorkers() {
 
    {/* Service Card */}
    <section className="apple-section bg-card">
-    <div className="apple-container-sm">
+    <div className="max-w-4xl mx-auto px-4">
      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
       <div className="squircle-image aspect-4/3 relative">
        <Image

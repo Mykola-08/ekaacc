@@ -89,12 +89,12 @@ export default function Musicians() {
 
       {/* Problems */}
       <section className="apple-section bg-card">
-        <div className="apple-container">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="apple-headline mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6">
               {t('musicians.problems.title')}
             </h2>
-            <p className="apple-subtitle max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('musicians.problems.subtitle')}
             </p>
           </div>
@@ -149,8 +149,8 @@ export default function Musicians() {
 
       {/* How We Help */}
       <section className="apple-section bg-purple-50">
-        <div className="apple-container text-center">
-          <h2 className="apple-headline mb-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-16">
             {t('musicians.help.title')}
           </h2>
           
@@ -190,9 +190,9 @@ export default function Musicians() {
 
       {/* Results */}
       <section className="apple-section bg-card">
-        <div className="apple-container text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center">
           <div className="squircle-card bg-purple-50 p-12 max-w-4xl mx-auto">
-            <h2 className="apple-headline mb-6 text-purple-600">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6 text-purple-600">
               {t('musicians.results.title')}
             </h2>
             <div className="space-y-6 apple-body">
@@ -212,12 +212,12 @@ export default function Musicians() {
 
       {/* Pricing Plans */}
       <section className="apple-section bg-muted/30">
-        <div className="apple-container">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="apple-headline mb-6">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight mb-6">
               {t('musicians.plans.title')}
             </h2>
-            <p className="apple-subtitle max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
               {t('musicians.plans.subtitle')}
             </p>
           </div>

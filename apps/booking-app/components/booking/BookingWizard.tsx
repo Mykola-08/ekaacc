@@ -211,16 +211,16 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
       
       {/* Sidebar Summary */}
       <div className="w-full md:w-1/3 order-2 md:order-1 animate-in fade-in slide-in-from-right-8 duration-700">
-        <div className="bg-white rounded-[32px] border border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden sticky top-24">
-          <div className="relative h-48 bg-[#F9F9F8]">
+        <div className="bg-white rounded-2xl border border-transparent shadow-[0_4px_24px_rgba(0,0,0,0.02)] overflow-hidden sticky top-24">
+          <div className="relative h-48 bg-card">
             {/* Image Placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center text-[#999999]/20">
+            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/20">
               <Users className="w-16 h-16" strokeWidth={1} />
             </div>
              {/* Live Viewers Badge */}
              {viewerCount > 1 && (
                  <div className="absolute top-4 right-4 animate-pulse">
-                     <Badge variant="secondary" className="bg-white/80 backdrop-blur shadow-sm text-[#FF3F40] border-transparent">
+                     <Badge variant="secondary" className="bg-background/80 backdrop-blur shadow-sm text-destructive border-transparent">
                         <Users className="w-3 h-3 mr-1" />
                         {viewerCount} booking now
                      </Badge>
@@ -230,29 +230,29 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
           
           <div className="p-8 space-y-6">
             <div>
-               <h2 className="font-bold text-2xl text-[#222222] mb-2">{service.name}</h2>
-               <p className="text-[#999999] leading-relaxed">{service.description}</p>
+               <h2 className="font-bold text-2xl text-foreground mb-2">{service.name}</h2>
+               <p className="text-muted-foreground leading-relaxed">{service.description}</p>
             </div>
 
-            <div className="space-y-4 pt-6 border-t border-[#F5F5F5]">
+            <div className="space-y-4 pt-6 border-t border-border">
                 <div className="flex justify-between text-sm">
-                  <span className="text-[#999999] font-medium">Duration</span>
-                  <span className="text-[#222222] font-semibold">{duration} mins</span>
+                  <span className="text-muted-foreground font-medium">Duration</span>
+                  <span className="text-foreground font-semibold">{duration} mins</span>
                 </div>
                  <div className="flex justify-between text-sm">
-                  <span className="text-[#999999] font-medium">Date</span>
-                  <span className="text-[#222222] font-semibold">{date ? date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) : "Select date"}</span>
+                  <span className="text-muted-foreground font-medium">Date</span>
+                  <span className="text-foreground font-semibold">{date ? date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' }) : "Select date"}</span>
                 </div>
                  <div className="flex justify-between text-sm">
-                  <span className="text-[#999999] font-medium">Time</span>
-                  <span className="text-[#222222] font-semibold">{selectedTime || "Select time"}</span>
+                  <span className="text-muted-foreground font-medium">Time</span>
+                  <span className="text-foreground font-semibold">{selectedTime || "Select time"}</span>
                 </div>
             </div>
 
-            <div className="pt-6 border-t border-[#F5F5F5]">
+            <div className="pt-6 border-t border-border">
                 <div className="flex justify-between items-baseline">
-                  <span className="font-bold text-lg text-[#222222]">Total</span>
-                  <span className="font-bold text-3xl text-[#222222]">€{price}</span>
+                  <span className="font-bold text-lg text-foreground">Total</span>
+                  <span className="font-bold text-3xl text-foreground">€{price}</span>
                 </div>
             </div>
           </div>
@@ -262,10 +262,10 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
       {/* Main Wizard */}
       <div className="w-full md:w-2/3 order-1 md:order-2">
                  <div className="mb-8">
-            <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0 hover:pl-0 text-[#999999] hover:text-[#222222]">
+            <Button variant="ghost" size="sm" onClick={() => step !== 'time' ? handleBack() : router.back()} className="mb-4 pl-0 hover:pl-0 text-muted-foreground hover:text-foreground">
                  <ArrowLeft className="w-4 h-4 mr-2"/> {step === 'time' ? "Back to Service" : "Back"}
             </Button>
-            <h1 className="text-4xl font-bold tracking-tight text-[#222222]">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground">
                 {step === 'time' && "Select a Time"}
                 {step === 'addons' && "Enhance Your Session"}
                 {step === 'details' && "Your Details"}
@@ -276,7 +276,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
          <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {step === "time" && (
                 <div className="grid lg:grid-cols-2 gap-8">
-                    <div className="bg-white rounded-[32px] p-6 shadow-sm border border-[#F5F5F5]">
+                    <div className="bg-card rounded-2xl p-6 shadow-sm border border-border">
                         <Calendar
                             mode="single"
                             selected={date}
@@ -286,9 +286,9 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                         />
                     </div>
                     <div className="space-y-6">
-                        <Label className="text-[#222222] font-bold text-lg">Available Slots</Label>
+                        <Label className="text-foreground font-bold text-lg">Available Slots</Label>
                         {loadingSlots ? (
-                             <div className="flex items-center justify-center py-12 text-[#999999]">
+                             <div className="flex items-center justify-center py-12 text-muted-foreground">
                                  <Loader2 className="w-6 h-6 animate-spin mr-2" />
                                  Looking for slots...
                              </div>
@@ -299,10 +299,10 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                         key={time}
                                         variant="outline"
                                         className={cn(
-                                            "h-12 rounded-[16px] border-2 font-semibold transition-all",
+                                            "h-12 rounded-lg border-2 font-semibold transition-all",
                                             selectedTime === time 
-                                                ? "bg-[#222222] text-white border-[#222222] hover:bg-black hover:text-white transform scale-[1.02] shadow-md" 
-                                                : "bg-white border-[#F5F5F5] text-[#222222] hover:border-[#EAEAEA] hover:bg-[#F9F9F8]"
+                                                ? "bg-foreground text-background border-foreground hover:bg-foreground/90 transform scale-105 shadow-md" 
+                                                : "bg-card border-border text-foreground hover:border-muted hover:bg-secondary"
                                         )}
                                         onClick={() => handleTimeSelect(time)}
                                     >
@@ -311,12 +311,12 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 ))}
                             </div>
                         ) : (
-                             <div className="py-12 text-center bg-[#F9F9F8] rounded-[24px] border border-[#F5F5F5]">
-                                 <p className="text-[#999999] font-medium">No slots available for this date.</p>
-                                 <p className="text-xs text-[#999999] mt-2">Try selecting another day.</p>
+                             <div className="py-12 text-center bg-secondary rounded-xl border border-border">
+                                 <p className="text-muted-foreground font-medium">No slots available for this date.</p>
+                                 <p className="text-xs text-muted-foreground mt-2">Try selecting another day.</p>
                              </div>
                         )}
-                        <p className="text-xs text-[#999999] text-center font-medium">
+                        <p className="text-xs text-muted-foreground text-center font-medium">
                             All times are in local time.
                         </p>
                     </div>
@@ -326,40 +326,40 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
             {step === "addons" && (
                  <div className="grid gap-4">
                      {/* Placeholder usage */}
-                     <div className="group cursor-pointer bg-white hover:bg-[#F9F9F8] transition-colors border-2 border-dashed border-[#EAEAEA] hover:border-[#222222] rounded-[24px] p-6 flex items-center justify-between">
+                     <div className="group cursor-pointer bg-card hover:bg-secondary transition-colors border-2 border-dashed border-muted hover:border-foreground rounded-xl p-6 flex items-center justify-between">
                          <div>
-                             <h3 className="font-bold text-[#222222]">Aromatherapy</h3>
-                             <p className="text-sm text-[#999999]">Add essential oils for relaxation.</p>
+                             <h3 className="font-bold text-foreground">Aromatherapy</h3>
+                             <p className="text-sm text-muted-foreground">Add essential oils for relaxation.</p>
                          </div>
                          <div className="flex items-center gap-4">
-                             <span className="text-sm font-bold text-[#222222]">+€10</span>
-                             <Button variant="secondary" size="sm" className="bg-[#EAEAEA] text-[#999999] rounded-full" disabled>Unavailable</Button>
+                             <span className="text-sm font-bold text-foreground">+€10</span>
+                             <Button variant="secondary" size="sm" className="rounded-full" disabled>Unavailable</Button>
                          </div>
                      </div>
                      
-                     <div className="p-6 bg-[#4DAFFF]/5 rounded-[24px] text-sm text-[#4DAFFF] font-medium text-center">
+                     <div className="p-6 bg-primary/5 rounded-xl text-sm text-primary font-medium text-center">
                          <p>More enhancements coming soon.</p>
                      </div>
                  </div>
             )}
 
             {step === "details" && (
-                <div className="bg-white rounded-[32px] p-8 border border-[#F5F5F5] shadow-sm">
+                <div className="bg-card rounded-2xl p-8 border border-border shadow-sm">
                 <Tabs defaultValue="guest" value={user ? "guest" : undefined} className="w-full">
                     {!user && (
-                        <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-[#F9F9F8] rounded-full h-12">
-                            <TabsTrigger value="guest" className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">Guest Checkout</TabsTrigger>
-                            <TabsTrigger value="login" className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">Sign In</TabsTrigger>
+                        <TabsList className="grid w-full grid-cols-2 mb-8 p-1 bg-secondary rounded-full h-12">
+                            <TabsTrigger value="guest" className="rounded-full data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground font-semibold">Guest Checkout</TabsTrigger>
+                            <TabsTrigger value="login" className="rounded-full data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground font-semibold">Sign In</TabsTrigger>
                         </TabsList>
                     )}
                     
                     <TabsContent value="guest" className="space-y-6">
                          <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                                <Label htmlFor="firstName" className="font-bold text-[#222222]">First name</Label>
+                                <Label htmlFor="firstName" className="font-bold text-foreground">First name</Label>
                                 <Input 
                                     id="firstName" 
-                                    className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                    className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                     placeholder="Jane" 
                                     disabled={!!user} 
                                     defaultValue={user?.user_metadata?.first_name} 
@@ -368,10 +368,10 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <Label htmlFor="lastName" className="font-bold text-[#222222]">Last name</Label>
+                                <Label htmlFor="lastName" className="font-bold text-foreground">Last name</Label>
                                 <Input 
                                     id="lastName" 
-                                    className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                    className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                     placeholder="Doe" 
                                     disabled={!!user} 
                                     defaultValue={user?.user_metadata?.last_name} 
@@ -381,11 +381,11 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                             </div>
                          </div>
                          <div className="space-y-2">
-                            <Label htmlFor="email" className="font-bold text-[#222222]">Email</Label>
+                            <Label htmlFor="email" className="font-bold text-foreground">Email</Label>
                             <Input 
                                 id="email" 
                                 type="email" 
-                                className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                 placeholder="jane@example.com" 
                                 disabled={!!user} 
                                 defaultValue={user?.email} 
@@ -394,11 +394,11 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                             />
                          </div>
                          <div className="space-y-2">
-                            <Label htmlFor="phone" className="font-bold text-[#222222]">Phone</Label>
+                            <Label htmlFor="phone" className="font-bold text-foreground">Phone</Label>
                             <Input 
                                 id="phone" 
                                 type="tel" 
-                                className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white transition-all h-12 text-[#222222] placeholder:text-[#999999]"
+                                className="rounded-lg bg-secondary border-transparent focus:bg-background transition-all h-12 text-foreground placeholder:text-muted-foreground"
                                 placeholder="+1234567890" 
                                 value={formData.phone} 
                                 onChange={handleInputChange} 
@@ -406,18 +406,17 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                          </div>
                          
                          {!user && (
-                             <div className="flex items-center space-x-3 pt-6 border-t border-[#F5F5F5]">
+                             <div className="flex items-center space-x-3 pt-6 border-t border-border">
                                 <Checkbox 
                                     id="createAccount" 
                                     checked={formData.createAccount}
                                     onCheckedChange={(checked) => setFormData({...formData, createAccount: checked as boolean})}
-                                    className="rounded-[6px] border-[#999999] data-[state=checked]:bg-[#222222] data-[state=checked]:border-[#222222]"
                                 />
                                 <div className="grid gap-1.5 leading-none">
-                                    <Label htmlFor="createAccount" className="text-sm font-bold text-[#222222] cursor-pointer">
+                                    <Label htmlFor="createAccount" className="text-sm font-bold text-foreground cursor-pointer">
                                         Create an account for easier booking next time
                                     </Label>
-                                    <p className="text-sm text-[#999999]">
+                                    <p className="text-sm text-muted-foreground">
                                         We'll email you a link to set your password.
                                     </p>
                                 </div>
@@ -428,8 +427,8 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                     {!user && (
                         <TabsContent value="login">
                             <div className="text-center py-12 space-y-6">
-                                <p className="text-[#999999] max-w-xs mx-auto">Already have an account? Sign in to use your saved details and points.</p>
-                                <Button variant="outline" asChild className="rounded-full h-12 px-8 border-2 border-[#EAEAEA] hover:border-[#222222] hover:bg-transparent text-[#222222] font-bold">
+                                <p className="text-muted-foreground max-w-xs mx-auto">Already have an account? Sign in to use your saved details and points.</p>
+                                <Button variant="outline" asChild className="rounded-full h-12 px-8 border-2 hover:bg-transparent font-bold">
                                     <Link href={`/login?returnTo=/book/${service.id}`}>Sign In</Link>
                                 </Button>
                             </div>
@@ -441,29 +440,29 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
              {step === "payment" && (
                 <div className="space-y-6">
-                    <div className="bg-white rounded-[32px] p-8 border border-[#F5F5F5] shadow-sm">
-                       <h3 className="font-bold text-xl mb-6 flex items-center gap-3 text-[#222222]">
-                           <div className="w-10 h-10 rounded-full bg-[#4DAFFF]/10 flex items-center justify-center text-[#4DAFFF]">
+                    <div className="bg-card rounded-2xl p-8 border border-border shadow-sm">
+                       <h3 className="font-bold text-xl mb-6 flex items-center gap-3 text-foreground">
+                           <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                                <CreditCard className="w-5 h-5" />
                            </div>
                            Payment Method
                        </h3>
                        <Tabs value={paymentMethod} onValueChange={(v) => setPaymentMethod(v as any)}>
-                           <TabsList className="w-full grid grid-cols-2 p-1 bg-[#F9F9F8] rounded-full h-12 mb-8">
-                               <TabsTrigger value="stripe" className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">Card / Apple Pay</TabsTrigger>
-                               <TabsTrigger value="wallet" disabled={!user} className="rounded-full data-[state=active]:bg-white data-[state=active]:text-[#222222] data-[state=active]:shadow-sm text-[#999999] font-semibold">
+                           <TabsList className="w-full grid grid-cols-2 p-1 bg-secondary rounded-full h-12 mb-8">
+                               <TabsTrigger value="stripe" className="rounded-full data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground font-semibold">Card / Apple Pay</TabsTrigger>
+                               <TabsTrigger value="wallet" disabled={!user} className="rounded-full data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm text-muted-foreground font-semibold">
                                    Wallet {walletBalance !== null && `(€${walletBalance})`}
                                </TabsTrigger>
                            </TabsList>
                            <TabsContent value="stripe" className="space-y-6">
                                 <div className="space-y-4">
-                                    <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="Card number" />
+                                    <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="Card number" />
                                     <div className="grid grid-cols-3 gap-4">
-                                        <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="MM/YY" />
-                                        <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="CVC" />
-                                        <Input className="rounded-[12px] bg-[#F9F9F8] border-transparent focus:bg-white h-12 text-[#222222] placeholder:text-[#999999]" placeholder="Zip" />
+                                        <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="MM/YY" />
+                                        <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="CVC" />
+                                        <Input className="rounded-lg bg-secondary border-transparent focus:bg-background h-12 text-foreground placeholder:text-muted-foreground" placeholder="Zip" />
                                     </div>
-                                    <p className="text-xs text-[#999999] text-center mt-4">
+                                    <p className="text-xs text-muted-foreground text-center mt-4">
                                         Transactions secured by Stripe. No payment taken until confirmation.
                                     </p>
                                 </div>
@@ -472,24 +471,24 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                {user ? (
                                    walletBalance !== null && walletBalance >= price ? (
                                        <div className="text-center space-y-4 py-4">
-                                           <div className="bg-[#10B981]/10 text-[#10B981] rounded-full p-4 w-16 h-16 mx-auto flex items-center justify-center">
+                                           <div className="bg-emerald-500/10 text-emerald-600 rounded-full p-4 w-16 h-16 mx-auto flex items-center justify-center">
                                                <CheckCircle2 className="w-8 h-8" strokeWidth={3} />
                                            </div>
                                            <div>
-                                               <p className="font-bold text-[#222222] text-lg">Sufficient Balance</p>
-                                               <p className="text-sm text-[#999999]">
+                                               <p className="font-bold text-foreground text-lg">Sufficient Balance</p>
+                                               <p className="text-sm text-muted-foreground">
                                                    €{price} will be deducted from your €{walletBalance} balance.
                                                </p>
                                            </div>
                                        </div>
                                    ) : (
                                        <div className="text-center space-y-6 py-4">
-                                           <div className="bg-[#F59E0B]/10 text-[#F59E0B] rounded-full p-4 w-16 h-16 mx-auto flex items-center justify-center">
+                                           <div className="bg-amber-500/10 text-amber-600 rounded-full p-4 w-16 h-16 mx-auto flex items-center justify-center">
                                                <CreditCard className="w-8 h-8" strokeWidth={3} />
                                            </div>
                                            <div>
-                                               <p className="font-bold text-[#222222] text-lg">Insufficient Balance</p>
-                                               <p className="text-sm text-[#999999] mb-6">
+                                               <p className="font-bold text-foreground text-lg">Insufficient Balance</p>
+                                               <p className="text-sm text-muted-foreground mb-6">
                                                    Your balance is €{walletBalance}. You need €{price}.
                                                </p>
                                                <Button variant="outline" asChild className="rounded-full font-bold border-2">
@@ -500,35 +499,35 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                    )
                                ) : (
                                    <div className="text-center py-8">
-                                       <p className="text-[#999999]">Please sign in to use Wallet.</p>
+                                       <p className="text-muted-foreground">Please sign in to use Wallet.</p>
                                    </div>
                                )}
                            </TabsContent>
                        </Tabs>
                     </div>
 
-                    <div className="flex items-start space-x-3 text-sm text-[#999999] px-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#10B981] shrink-0" strokeWidth={2.5} />
+                    <div className="flex items-start space-x-3 text-sm text-muted-foreground px-2">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" strokeWidth={2.5} />
                         <p className="font-medium">I agree to the cancellation policy (24h notice required).</p>
                     </div>
                 </div>
             )}
 
 
-            <div className="flex justify-between pt-8 border-t border-[#F5F5F5]">
+            <div className="flex justify-between pt-8 border-t border-border">
                  {step !== 'time' && (
-                     <Button variant="ghost" onClick={() => setStep(step === 'payment' ? 'details' : 'time')} className="text-[#999999] hover:text-[#222222] hover:bg-transparent pl-0">
+                     <Button variant="ghost" onClick={() => setStep(step === 'payment' ? 'details' : 'time')} className="text-muted-foreground hover:text-foreground hover:bg-transparent pl-0">
                          Back
                      </Button>
                  )}
                  <div className="ml-auto">
                     {step === 'payment' ? (
-                        <Button size="lg" className="px-10 h-14 rounded-full font-bold text-lg bg-[#222222] hover:bg-black text-white shadow-xl shadow-[#222222]/20 hover:scale-105 active:scale-95 transition-all" onClick={handleBooking} disabled={loading}>
+                        <Button size="lg" className="px-10 h-14 rounded-full font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all" onClick={handleBooking} disabled={loading}>
                             {loading ? <Loader2 className="w-5 h-5 animate-spin mr-2"/> : null}
                             Confirm Booking
                         </Button>
                     ) : (
-                        <Button size="lg" className="px-10 h-14 rounded-full font-bold text-lg bg-[#222222] hover:bg-black text-white shadow-xl shadow-[#222222]/20 hover:scale-105 active:scale-95 transition-all" onClick={handleNext}>
+                        <Button size="lg" className="px-10 h-14 rounded-full font-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all" onClick={handleNext}>
                             Next Step
                         </Button>
                     )}

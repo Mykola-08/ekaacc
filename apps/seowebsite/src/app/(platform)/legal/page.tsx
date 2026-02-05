@@ -12,7 +12,7 @@ export default function Home() {
    </div>
    
    <div className="grid md:grid-cols-2 gap-6">
-    <Link href="/legal/terms" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/terms" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors">
        <FileText className="w-6 h-6" />
@@ -24,7 +24,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Terms &rarr;</span>
     </Link>
     
-    <Link href="/legal/privacy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/privacy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-green-50 rounded-xl text-green-600 group-hover:bg-green-100 transition-colors">
        <Shield className="w-6 h-6" />
@@ -36,7 +36,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
     
-    <Link href="/legal/cookies" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/cookies" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-orange-50 rounded-xl text-orange-600 group-hover:bg-orange-100 transition-colors">
        <Cookie className="w-6 h-6" />
@@ -48,7 +48,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
     
-    <Link href="/legal/disclaimer" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/disclaimer" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-red-50 rounded-xl text-red-600 group-hover:bg-red-100 transition-colors">
        <AlertCircle className="w-6 h-6" />
@@ -60,7 +60,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Disclaimer &rarr;</span>
     </Link>
 
-    <Link href="/legal/imprint" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/imprint" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-purple-50 rounded-xl text-purple-600 group-hover:bg-purple-100 transition-colors">
        <Building2 className="w-6 h-6" />
@@ -72,7 +72,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Notice &rarr;</span>
     </Link>
 
-    <Link href="/legal/refund-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/refund-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors">
        <RefreshCcw className="w-6 h-6" />
@@ -84,7 +84,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/acceptable-use" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/acceptable-use" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:bg-indigo-100 transition-colors">
        <CheckCircle className="w-6 h-6" />
@@ -96,7 +96,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/accessibility" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/accessibility" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-pink-50 rounded-xl text-pink-600 group-hover:bg-pink-100 transition-colors">
        <Accessibility className="w-6 h-6" />
@@ -108,7 +108,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Statement &rarr;</span>
     </Link>
 
-    <Link href="/legal/intellectual-property" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/intellectual-property" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-amber-50 rounded-xl text-amber-600 group-hover:bg-amber-100 transition-colors">
        <Copyright className="w-6 h-6" />
@@ -120,7 +120,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/data-processing-agreement" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/data-processing-agreement" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Database className="w-6 h-6" />
@@ -132,7 +132,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Agreement &rarr;</span>
     </Link>
 
-    <Link href="/legal/vulnerability-disclosure" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/vulnerability-disclosure" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-red-100 rounded-xl text-red-700 group-hover:bg-red-200 transition-colors">
        <Bug className="w-6 h-6" />
@@ -144,7 +144,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/community-guidelines" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/community-guidelines" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-green-100 rounded-xl text-green-700 group-hover:bg-green-200 transition-colors">
        <HeartHandshake className="w-6 h-6" />
@@ -156,7 +156,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Guidelines &rarr;</span>
     </Link>
 
-    <Link href="/legal/modern-slavery-statement" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/modern-slavery-statement" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-indigo-100 rounded-xl text-indigo-700 group-hover:bg-indigo-200 transition-colors">
        <Scale className="w-6 h-6" />
@@ -168,7 +168,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Statement &rarr;</span>
     </Link>
 
-    <Link href="/legal/environmental-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/environmental-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-green-100 rounded-xl text-green-700 group-hover:bg-green-200 transition-colors">
        <Leaf className="w-6 h-6" />
@@ -180,7 +180,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/supplier-code-of-conduct" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/supplier-code-of-conduct" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-orange-100 rounded-xl text-orange-700 group-hover:bg-orange-200 transition-colors">
        <Truck className="w-6 h-6" />
@@ -192,7 +192,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Code &rarr;</span>
     </Link>
 
-    <Link href="/legal/anti-bribery-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/anti-bribery-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-red-100 rounded-xl text-red-700 group-hover:bg-red-200 transition-colors">
        <Ban className="w-6 h-6" />
@@ -204,7 +204,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/whistleblower-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/whistleblower-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Megaphone className="w-6 h-6" />
@@ -216,7 +216,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/kyc-aml-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/kyc-aml-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-cyan-100 rounded-xl text-cyan-700 group-hover:bg-cyan-200 transition-colors">
        <Landmark className="w-6 h-6" />
@@ -228,7 +228,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/dei-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/dei-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-pink-100 rounded-xl text-pink-700 group-hover:bg-pink-200 transition-colors">
        <Users className="w-6 h-6" />
@@ -240,7 +240,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/social-media-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/social-media-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Share2 className="w-6 h-6" />
@@ -252,7 +252,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/business-continuity-plan" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/business-continuity-plan" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-indigo-100 rounded-xl text-indigo-700 group-hover:bg-indigo-200 transition-colors">
        <Activity className="w-6 h-6" />
@@ -264,7 +264,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Plan &rarr;</span>
     </Link>
 
-    <Link href="/legal/remote-work-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/remote-work-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Laptop className="w-6 h-6" />
@@ -276,7 +276,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/service-level-agreement" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/service-level-agreement" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <BarChart className="w-6 h-6" />
@@ -288,7 +288,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read SLA &rarr;</span>
     </Link>
 
-    <Link href="/legal/api-terms-of-use" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/api-terms-of-use" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-muted rounded-xl text-foreground/90 group-hover:bg-gray-200 transition-colors">
        <Code className="w-6 h-6" />
@@ -300,7 +300,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Terms &rarr;</span>
     </Link>
 
-    <Link href="/legal/affiliate-program-terms" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/affiliate-program-terms" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-orange-100 rounded-xl text-orange-700 group-hover:bg-orange-200 transition-colors">
        <TrendingUp className="w-6 h-6" />
@@ -312,7 +312,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Terms &rarr;</span>
     </Link>
 
-    <Link href="/legal/gdpr-compliance" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/gdpr-compliance" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-indigo-100 rounded-xl text-indigo-700 group-hover:bg-indigo-200 transition-colors">
        <Globe className="w-6 h-6" />
@@ -324,7 +324,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Statement &rarr;</span>
     </Link>
 
-    <Link href="/legal/compliance/ropa" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/compliance/ropa" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-muted rounded-xl text-foreground/90 group-hover:bg-slate-200 transition-colors">
        <FileText className="w-6 h-6" />
@@ -336,7 +336,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">View Records &rarr;</span>
     </Link>
 
-    <Link href="/legal/childrens-privacy-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/childrens-privacy-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-pink-100 rounded-xl text-pink-700 group-hover:bg-pink-200 transition-colors">
        <Heart className="w-6 h-6" />
@@ -348,7 +348,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/telehealth-consent" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/telehealth-consent" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-purple-100 rounded-xl text-purple-700 group-hover:bg-purple-200 transition-colors">
        <Video className="w-6 h-6" />
@@ -360,7 +360,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Consent &rarr;</span>
     </Link>
 
-    <Link href="/legal/patient-rights" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/patient-rights" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Scale className="w-6 h-6" />
@@ -372,7 +372,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Rights &rarr;</span>
     </Link>
 
-    <Link href="/legal/informed-consent" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/informed-consent" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <FileSignature className="w-6 h-6" />
@@ -384,7 +384,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Form &rarr;</span>
     </Link>
 
-    <Link href="/legal/code-of-ethics" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/code-of-ethics" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-amber-100 rounded-xl text-amber-700 group-hover:bg-amber-200 transition-colors">
        <BookOpen className="w-6 h-6" />
@@ -396,7 +396,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Code &rarr;</span>
     </Link>
 
-    <Link href="/legal/workplace-harassment-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/workplace-harassment-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-red-100 rounded-xl text-red-700 group-hover:bg-red-200 transition-colors">
        <Ban className="w-6 h-6" />
@@ -408,7 +408,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/employee-privacy-notice" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/employee-privacy-notice" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-muted rounded-xl text-foreground/90 group-hover:bg-slate-200 transition-colors">
        <UserCog className="w-6 h-6" />
@@ -420,7 +420,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Notice &rarr;</span>
     </Link>
 
-    <Link href="/legal/payment-terms" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/payment-terms" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-green-100 rounded-xl text-green-700 group-hover:bg-green-200 transition-colors">
        <CreditCard className="w-6 h-6" />
@@ -432,7 +432,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Terms &rarr;</span>
     </Link>
 
-    <Link href="/legal/cancellation-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/cancellation-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-red-100 rounded-xl text-red-700 group-hover:bg-red-200 transition-colors">
        <XCircle className="w-6 h-6" />
@@ -444,7 +444,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/insurance-policy" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/insurance-policy" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-100 rounded-xl text-blue-700 group-hover:bg-blue-200 transition-colors">
        <Umbrella className="w-6 h-6" />
@@ -456,7 +456,7 @@ export default function Home() {
      <span className="text-sm font-medium text-primary">Read Policy &rarr;</span>
     </Link>
 
-    <Link href="/legal/data-request" className="group block p-8 border-none rounded-[32px] hover:border-primary/50 hover:shadow-md transition-all bg-card">
+    <Link href="/legal/data-request" className="group block p-8 border-none rounded-2xl hover:border-primary/50 hover:shadow-md transition-all bg-card">
      <div className="flex items-start justify-between mb-4">
       <div className="p-3 bg-blue-50 rounded-xl text-blue-600 group-hover:bg-blue-100 transition-colors">
        <Database className="w-6 h-6" />
@@ -483,7 +483,7 @@ export default function Home() {
     </div>
    </div>
 
-   <div className="mt-12 p-6 bg-muted/30 rounded-[32px] border-none text-center">
+   <div className="mt-12 p-6 bg-muted/30 rounded-2xl border-none text-center">
     <h3 className="font-semibold mb-2">Questions about our legal policies?</h3>
     <p className="text-muted-foreground mb-4">
      If you have any questions or concerns about these documents, please contact our legal team.

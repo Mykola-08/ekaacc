@@ -58,7 +58,7 @@ export function BookingsList({ bookings }: BookingsListProps) {
                             variant={statusFilter === status ? "default" : "outline"}
                             size="sm"
                             onClick={() => setStatusFilter(status as any)}
-                            className={cn("capitalize rounded-full px-5 h-9", statusFilter === status ? "bg-[#007AFF]" : "text-muted-foreground border-gray-200")}
+                            className={cn("capitalize rounded-full px-5 h-9", statusFilter === status ? "bg-primary" : "text-muted-foreground border-border")}
                         >
                             {status}
                         </Button>

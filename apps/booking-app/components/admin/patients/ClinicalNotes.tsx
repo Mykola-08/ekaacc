@@ -72,7 +72,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
              exit={{ height: 0, opacity: 0 }}
              className="overflow-hidden"
            >
-              <Card className="border border-zinc-200 shadow-sm bg-zinc-50/50 rounded-[24px]">
+              <Card className="border border-zinc-200 shadow-sm bg-zinc-50/50 rounded-xl">
                  <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
                        <Lock className="w-4 h-4 text-indigo-500" />
@@ -129,7 +129,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
       <div className="space-y-4">
          {notes.map((note) => (
             <motion.div layout key={note.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-               <Card className="border-0 shadow-sm bg-white hover:shadow-md transition-shadow rounded-[24px]">
+               <Card className="border-0 shadow-sm bg-white hover:shadow-md transition-shadow rounded-xl">
                   <CardContent className="p-6">
                      <div className="flex justify-between items-start mb-4">
                         <div className="flex items-center gap-3">
@@ -139,7 +139,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                            <div>
                               <div className="flex items-center gap-2">
                                  <h4 className="font-semibold text-zinc-900">Session Note</h4>
-                                 <Badge variant="secondary" className="bg-zinc-100 text-zinc-500 hover:bg-zinc-200 text-[10px] px-2 py-0.5 h-5">SOAP</Badge>
+                                 <Badge variant="secondary" className="bg-zinc-100 text-zinc-500 hover:bg-zinc-200 text-xs px-2 py-0.5 h-5">SOAP</Badge>
                               </div>
                               <div className="flex items-center gap-2 text-xs text-zinc-400 mt-1">
                                  <Clock className="w-3.5 h-3.5" />
@@ -152,14 +152,14 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                      
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pl-[52px]">
                         <div className="space-y-1">
-                           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">S/O (Observations)</span>
+                           <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">S/O (Observations)</span>
                            <p className="text-sm text-zinc-600 leading-relaxed bg-zinc-50/50 p-3 rounded-lg border border-zinc-100/50">
                               <span className="font-medium text-zinc-900">S:</span> {note.subjective}<br/>
                               <span className="font-medium text-zinc-900">O:</span> {note.objective}
                            </p>
                         </div>
                         <div className="space-y-1">
-                           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">A/P (Analysis)</span>
+                           <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">A/P (Analysis)</span>
                            <p className="text-sm text-zinc-600 leading-relaxed bg-zinc-50/50 p-3 rounded-lg border border-zinc-100/50">
                               <span className="font-medium text-zinc-900">A:</span> {note.assessment}<br/>
                               <span className="font-medium text-zinc-900">P:</span> {note.plan}

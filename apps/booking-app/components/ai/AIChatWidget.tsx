@@ -242,7 +242,7 @@ export function AIChatWidget() {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-100px)]"
           >
-            <Card className="h-full flex flex-col shadow-2xl border-zinc-200 dark:border-zinc-800 bg-zinc-50/95 overflow-hidden rounded-[2rem]">
+            <Card className="h-full flex flex-col shadow-2xl border-zinc-200 dark:border-zinc-800 bg-zinc-50/95 overflow-hidden rounded-2xl">
               <CardHeader className="bg-white/80 p-4 shrink-0 border-b border-zinc-100">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-3">
@@ -251,7 +251,7 @@ export function AIChatWidget() {
                     </div>
                     <div>
                       <CardTitle className="text-base font-semibold text-zinc-900">Concierge</CardTitle>
-                      <p className="text-[11px] font-medium text-zinc-500">Wellness Assistant</p>
+                      <p className="text-xs font-medium text-zinc-500">Wellness Assistant</p>
                     </div>
                   </div>
                   <Button
@@ -265,7 +265,7 @@ export function AIChatWidget() {
                 </div>
               </CardHeader>
 
-              <CardContent className="flex-1 p-0 overflow-hidden relative bg-[#F5F5F7]">
+              <CardContent className="flex-1 p-0 overflow-hidden relative bg-secondary">
                 <div ref={scrollRef} className="h-full overflow-y-auto p-4 space-y-4">
                   {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-center p-6 text-zinc-400">

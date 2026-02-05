@@ -20,17 +20,17 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
         '--sidebar-width-mobile': '20rem',
       } as React.CSSProperties}
     >
-      <div className='flex min-h-svh w-full bg-[#FBFBFD] p-2 md:p-3 gap-2 md:gap-3 overflow-hidden'>
+      <div className='flex min-h-svh w-full bg-background p-2 md:p-3 gap-2 md:gap-3 overflow-hidden'>
         <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className='h-[calc(100vh-1.5rem)] hidden md:block shrink-0'
         >
-          <AppSidebar className='h-full rounded-[32px] border border-black/5 shadow-sm bg-white' />
+          <AppSidebar className='h-full rounded-2xl border border-black/5 shadow-sm bg-white' />
         </motion.div>
 
-        <SidebarInset className='h-[calc(100vh-1.5rem)] rounded-[32px] border border-black/5 shadow-sm bg-white overflow-hidden flex flex-col'>
+        <SidebarInset className='h-[calc(100vh-1.5rem)] rounded-2xl border border-black/5 shadow-sm bg-white overflow-hidden flex flex-col'>
           <AppHeader />
           <motion.main
             initial={{ opacity: 0, scale: 0.98 }}

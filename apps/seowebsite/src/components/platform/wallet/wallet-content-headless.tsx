@@ -257,7 +257,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                             )}
                         </TabPanel>
                         
-                        <TabPanel className="bg-card rounded-[32px] border border-gray-100 shadow-sm p-8 focus:outline-none min-h-[400px]">
+                        <TabPanel className="bg-card rounded-2xl border border-gray-100 shadow-sm p-8 focus:outline-none min-h-[400px]">
                              {initialPlans.length === 0 ? (
                                 <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground py-12">
                                      <div className="w-16 h-16 bg-muted/30 rounded-full flex items-center justify-center mb-4">
@@ -294,7 +294,7 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
                 <div className="rounded-4xl border border-gray-100 bg-card p-8 shadow-sm">
                     <h3 className="font-bold text-xl text-foreground mb-4">Payment Methods</h3>
                     <div className="flex items-center gap-3 p-4 bg-muted/30 rounded-2xl border border-gray-100 mb-4">
-                        <div className="w-10 h-6 bg-gray-200 rounded flex items-center justify-center text-[10px] font-bold text-muted-foreground">VISA</div>
+                        <div className="w-10 h-6 bg-gray-200 rounded flex items-center justify-center text-xs font-bold text-muted-foreground">VISA</div>
                         <div>
                              <p className="text-sm font-bold text-foreground">•••• 4242</p>
                              <p className="text-xs text-muted-foreground">Expires 12/28</p>

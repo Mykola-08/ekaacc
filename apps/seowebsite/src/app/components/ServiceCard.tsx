@@ -15,7 +15,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
   const { navigateToBooking } = useBooking();
 
   return (
-    <div className="group relative bg-white rounded-[32px] overflow-hidden hover:bg-white/[0.98] transition-all duration-500 h-full flex flex-col border border-black/[0.03] hover:border-primary/20">
+    <div className="group relative bg-white rounded-2xl overflow-hidden hover:bg-white/[0.98] transition-all duration-500 h-full flex flex-col border border-black/[0.03] hover:border-primary/20">
       <div className="relative h-56 sm:h-64 overflow-hidden rounded-2xl m-2 mb-0">
         <div className="absolute inset-0 bg-primary/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
         <LazyImage
@@ -62,7 +62,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         <div className="mt-auto flex flex-col gap-3 pt-2">
           <Button
             onClick={() => navigateToBooking(service.slug || service.id)}
-            className="w-full bg-primary hover:bg-primary/95 text-white text-base py-6 rounded-full font-semibold transition-all shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] border-none"
+            className="w-full bg-primary hover:bg-primary/95 text-white text-base py-6 rounded-full font-semibold transition-all shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border-none"
           >
             {t('nav.bookNow')}
           </Button>

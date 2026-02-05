@@ -101,7 +101,7 @@ export function WalletCard() {
                 {WALLET_PRODUCTS.map((product) => (
                   <div 
                     key={product.id} 
-                    className="flex flex-col p-4 border rounded-xl hover:bg-muted/50 transition-colors cursor-pointer active:scale-[0.98]"
+                    className="flex flex-col p-4 border rounded-xl hover:bg-muted/50 transition-colors cursor-pointer active:scale-95"
                     onClick={() => handleTopUp(product.priceId)}
                   >
                     <div className="flex justify-between items-center mb-1">

@@ -61,7 +61,14 @@ interface AnalyticsData {
   }
 }
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+const COLORS = [
+  'hsl(var(--primary))', 
+  'hsl(var(--chart-2))', 
+  'hsl(var(--chart-3))', 
+  'hsl(var(--destructive))', 
+  'hsl(var(--chart-5))', 
+  'hsl(var(--chart-1))'
+]
 
 export function AnalyticsDashboardHeadless() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
@@ -233,7 +240,7 @@ export function AnalyticsDashboardHeadless() {
 
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Total Users</span>
                 <Users className="w-5 h-5 text-blue-500" />
@@ -250,7 +257,7 @@ export function AnalyticsDashboardHeadless() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Active Users</span>
                 <Activity className="w-5 h-5 text-emerald-500" />
@@ -263,7 +270,7 @@ export function AnalyticsDashboardHeadless() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Conversion Rate</span>
                 <BarChartIcon className="w-5 h-5 text-amber-500" />
@@ -280,7 +287,7 @@ export function AnalyticsDashboardHeadless() {
             </div>
         </div>
 
-        <div className="bg-card rounded-[24px] p-6 shadow-sm ring-1 ring-slate-200/60">
+        <div className="bg-card rounded-xl p-6 shadow-sm ring-1 ring-slate-200/60">
             <div className="flex justify-between items-start mb-4">
                 <span className="text-sm font-medium text-muted-foreground">Avg Session</span>
                 <Clock className="w-5 h-5 text-violet-500" />
@@ -295,7 +302,7 @@ export function AnalyticsDashboardHeadless() {
       </div>
 
       {/* System Health */}
-      <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+      <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
                 <h3 className="text-lg font-bold text-foreground">System Health</h3>
@@ -359,7 +366,7 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="space-y-6 focus:outline-none">
             {/* Overview Panel Content */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">User Growth Trend</h3>
                         <p className="text-muted-foreground text-sm">User acquisition over time</p>
@@ -367,32 +374,32 @@ export function AnalyticsDashboardHeadless() {
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={analytics.userGrowth}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                                 <XAxis 
                                     dataKey="date" 
                                     tickFormatter={(date) => format(new Date(date), 'MMM dd')}
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                     dy={10}
                                 />
                                 <YAxis 
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                 />
                                 <Tooltip 
                                     labelFormatter={(date) => format(new Date(date), 'MMM dd, yyyy')}
                                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 />
-                                <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-                                <Line type="monotone" dataKey="newUsers" stroke="#10b981" strokeWidth={3} dot={false} />
+                                <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
+                                <Line type="monotone" dataKey="newUsers" stroke="hsl(var(--chart-2))" strokeWidth={3} dot={false} />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
                 </div>
 
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">Activity by Hour</h3>
                         <p className="text-muted-foreground text-sm">Peak usage times</p>
@@ -400,24 +407,24 @@ export function AnalyticsDashboardHeadless() {
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={analytics.activityByHour}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                                 <XAxis 
                                     dataKey="hour" 
                                     axisLine={false} 
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                     dy={10}
                                 />
                                 <YAxis 
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                 />
                                 <Tooltip 
                                     cursor={{ fill: 'transparent' }}
                                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 />
-                                <Bar dataKey="activity" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -427,7 +434,7 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
             {/* Users Panel - just duplication for tabs demo */}
-            <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+            <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                  <div className="mb-6">
                     <h3 className="text-lg font-bold text-foreground">User Growth Details</h3>
                     <p className="text-muted-foreground text-sm">Detailed user acquisition metrics</p>
@@ -435,7 +442,7 @@ export function AnalyticsDashboardHeadless() {
                  <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={analytics.userGrowth}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                         <XAxis 
                         dataKey="date" 
                         tickFormatter={(date) => format(new Date(date), 'MMM dd')}
@@ -444,8 +451,8 @@ export function AnalyticsDashboardHeadless() {
                         />
                         <YAxis axisLine={false} tickLine={false} />
                         <Tooltip />
-                        <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} name="Total Users" dot={{r: 4, strokeWidth: 0}} />
-                        <Line type="monotone" dataKey="newUsers" stroke="#10b981" strokeWidth={3} name="New Users" dot={{r: 4, strokeWidth: 0}} />
+                        <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={3} name="Total Users" dot={{r: 4, strokeWidth: 0}} />
+                        <Line type="monotone" dataKey="newUsers" stroke="hsl(var(--chart-2))" strokeWidth={3} name="New Users" dot={{r: 4, strokeWidth: 0}} />
                     </LineChart>
                     </ResponsiveContainer>
                 </div>
@@ -454,7 +461,7 @@ export function AnalyticsDashboardHeadless() {
           
           <Tab.Panel className="focus:outline-none">
             {/* Activity Panel */}
-            <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+            <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6">
                     <h3 className="text-lg font-bold text-foreground">Hourly Activity Pattern</h3>
                     <p className="text-muted-foreground text-sm">User activity throughout the day</p>
@@ -462,11 +469,11 @@ export function AnalyticsDashboardHeadless() {
                 <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={analytics.activityByHour}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                             <XAxis dataKey="hour" axisLine={false} tickLine={false} />
                             <YAxis axisLine={false} tickLine={false} />
-                            <Tooltip cursor={{ fill: '#F1F5F9' }} />
-                            <Bar dataKey="activity" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                            <Tooltip cursor={{ fill: 'hsl(var(--muted))' }} />
+                            <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -475,7 +482,7 @@ export function AnalyticsDashboardHeadless() {
 
           <Tab.Panel className="focus:outline-none">
              {/* Top Pages */}
-             <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+             <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                 <div className="mb-6">
                     <h3 className="text-lg font-bold text-foreground">Most Visited Pages</h3>
                     <p className="text-muted-foreground text-sm">Top performing content</p>
@@ -505,7 +512,7 @@ export function AnalyticsDashboardHeadless() {
           <Tab.Panel className="focus:outline-none">
             {/* Segments */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">User Segments</h3>
                         <p className="text-muted-foreground text-sm">User distribution by segment</p>
@@ -521,11 +528,11 @@ export function AnalyticsDashboardHeadless() {
                                 label={({ payload }: any) => `\${payload.percentage.toFixed(0)}%`}
                                 outerRadius={100}
                                 innerRadius={60}
-                                fill="#8884d8"
+                                fill="hsl(var(--primary))"
                                 dataKey="count"
                             >
                                 {analytics.userSegments.map((entry, index) => (
-                                <Cell key={`cell-\${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={2} stroke="#fff" />
+                                <Cell key={`cell-\${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={2} stroke="hsl(var(--card))" />
                                 ))}
                             </Pie>
                             <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
@@ -534,7 +541,7 @@ export function AnalyticsDashboardHeadless() {
                     </div>
                 </div>
 
-                <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
+                <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100">
                     <div className="mb-6">
                         <h3 className="text-lg font-bold text-foreground">Segment Details</h3>
                         <p className="text-muted-foreground text-sm">Breakdown by user segments</p>

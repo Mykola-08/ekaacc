@@ -24,9 +24,9 @@ interface BentoDashboardProps {
 
 export function BentoDashboard({ user }: BentoDashboardProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-7xl mx-auto animate-hero-fade-in pb-20">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4 max-w-7xl mx-auto animate-in fade-in duration-300 pb-20">
       {/* Welcome Card - Large */}
-      <div className="col-span-1 md:col-span-2 lg:col-span-2 row-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-0 flex flex-col justify-between group hover:shadow-3xl transition-all animate-hero-slide-up relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
+      <div className="col-span-1 md:col-span-2 lg:col-span-2 row-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl border-0 flex flex-col justify-between group hover:shadow-3xl transition-all animate-in slide-in-from-bottom-4 duration-500 relative overflow-hidden" style={{ animationDelay: '0.1s' }}>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 pointer-events-none" />
         <div className="absolute top-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/5 rounded-full blur-2xl" />
@@ -45,7 +45,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
       </div>
 
       {/* Stats Card - Small */}
-      <div className="col-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl flex flex-col justify-between animate-hero-slide-up hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 relative overflow-hidden group" style={{ animationDelay: '0.2s' }}>
+      <div className="col-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-6 border-0 shadow-xl flex flex-col justify-between animate-in slide-in-from-bottom-4 duration-500 hover:scale-105 hover:shadow-2xl transition-all duration-300 relative overflow-hidden group" style={{ animationDelay: '0.2s' }}>
         <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 pointer-events-none" />
         <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
         <div className="flex justify-between items-start relative z-10">
@@ -61,7 +61,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
       </div>
 
       {/* Wallet Card - Small */}
-      <div className="col-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-3xl p-6 border-0 shadow-xl flex flex-col justify-between animate-hero-slide-up hover:scale-[1.02] hover:shadow-2xl transition-all duration-300 relative overflow-hidden group" style={{ animationDelay: '0.3s' }}>
+      <div className="col-span-1 bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-sm rounded-2xl p-6 border-0 shadow-xl flex flex-col justify-between animate-in slide-in-from-bottom-4 duration-500 hover:scale-105 hover:shadow-2xl transition-all duration-300 relative overflow-hidden group" style={{ animationDelay: '0.3s' }}>
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5 pointer-events-none" />
         <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500" />
         <div className="flex justify-between items-start relative z-10">
@@ -76,10 +76,10 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
       </div>
 
       {/* Upcoming Session - Tall */}
-      <div className="col-span-1 md:col-span-1 row-span-2 bg-gradient-to-br from-card via-card to-card/90 backdrop-blur-sm text-foreground rounded-3xl p-8 shadow-2xl border-0 flex flex-col relative overflow-hidden animate-hero-slide-up group" style={{ animationDelay: '0.4s' }}>
+      <div className="col-span-1 md:col-span-1 row-span-2 bg-gradient-to-br from-card via-card to-card/90 backdrop-blur-sm text-foreground rounded-2xl p-8 shadow-2xl border-0 flex flex-col relative overflow-hidden animate-in slide-in-from-bottom-4 duration-500 group" style={{ animationDelay: '0.4s' }}>
         <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 pointer-events-none" />
-        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-indigo-500/15 transition-all duration-500" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/10 blur-[60px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 blur-3xl rounded-full pointer-events-none group-hover:bg-indigo-500/15 transition-all duration-500" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-purple-500/10 blur-2xl rounded-full pointer-events-none" />
         
         <div className="flex items-center gap-2 mb-8 z-10 relative">
           <div className="p-2 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/40 dark:to-purple-900/40 rounded-xl backdrop-blur-md shadow-lg">
@@ -103,7 +103,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
       </div>
 
       {/* Task Manager (CRUD + Morphing Action) */}
-      <div className="col-span-1 md:col-span-2 lg:col-span-3 row-span-2 animate-hero-slide-up" style={{ animationDelay: '0.5s' }}>
+      <div className="col-span-1 md:col-span-2 lg:col-span-3 row-span-2 animate-in slide-in-from-bottom-4 duration-500" style={{ animationDelay: '0.5s' }}>
          <TaskManager />
       </div>
 

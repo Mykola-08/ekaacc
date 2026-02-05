@@ -29,7 +29,7 @@ export default function CMSPage() {
             </p>
         </div>
 
-        <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 flex flex-col items-center justify-center text-center hover:bg-muted/30/50 transition-colors cursor-pointer group py-12">
+        <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 flex flex-col items-center justify-center text-center hover:bg-muted/30/50 transition-colors cursor-pointer group py-12">
             <div className="h-16 w-16 bg-pink-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <Edit className="w-8 h-8 text-pink-600" />
             </div>
@@ -39,7 +39,7 @@ export default function CMSPage() {
             </p>
         </div>
 
-        <div className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 flex flex-col items-center justify-center text-center hover:bg-muted/30/50 transition-colors cursor-pointer group py-12">
+        <div className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 flex flex-col items-center justify-center text-center hover:bg-muted/30/50 transition-colors cursor-pointer group py-12">
             <div className="h-16 w-16 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <ImageIcon className="w-8 h-8 text-orange-600" />
             </div>

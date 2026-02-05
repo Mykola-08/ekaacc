@@ -64,7 +64,7 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
           </li>
           
           <li className="mt-auto">
-                <div className="rounded-3xl bg-linear-to-br from-primary to-blue-600 p-5 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300 cursor-pointer shadow-lg shadow-blue-900/10">
+                <div className="rounded-3xl bg-linear-to-br from-primary to-blue-600 p-5 relative overflow-hidden group hover:scale-105 transition-transform duration-300 cursor-pointer shadow-lg shadow-blue-900/10">
                   <div className="absolute top-0 right-0 -mr-8 -mt-8 w-24 h-24 rounded-full bg-white/10 blur-2xl group-hover:bg-white/20 transition-colors"></div>
                   <div className="relative">
                     <p className="text-white font-bold text-lg mb-1">Premium Plan</p>
@@ -87,7 +87,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
   
   // Header Pill Component
   const HeaderPill = () => (
-    <header className="h-[72px] bg-card rounded-[24px] border border-border shadow-sm flex items-center justify-between px-6 shrink-0 animate-slide-in-top">
+    <header className="h-[72px] bg-card rounded-xl border border-border shadow-sm flex items-center justify-between px-6 shrink-0 animate-slide-in-top">
       {/* Mobile Menu Trigger */}
       <button type="button" className="lg:hidden p-2 -ml-2 text-foreground" onClick={() => setSidebarOpen(true)}>
         <Menu className="h-6 w-6" />
@@ -188,7 +188,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       </Transition>
 
       {/* Desktop Sidebar Pill */}
-      <aside className="hidden lg:flex w-[280px] flex-col bg-card rounded-[32px] border border-border/60 shadow-sm shrink-0 animate-sidebar-enter">
+      <aside className="hidden lg:flex w-[280px] flex-col bg-card rounded-2xl border border-border/60 shadow-sm shrink-0 animate-in slide-in-from-left-4 duration-300">
          <SidebarContent />
       </aside>
       
@@ -196,7 +196,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       <div className="flex-1 flex flex-col gap-4 overflow-hidden min-w-0">
         <HeaderPill />
 
-        <main className="flex-1 bg-card rounded-[32px] border border-border/60 shadow-sm overflow-auto md:p-6 p-4 animate-content-fade">
+        <main className="flex-1 bg-card rounded-2xl border border-border/60 shadow-sm overflow-auto md:p-6 p-4 animate-in fade-in duration-300">
            <div className="max-w-7xl mx-auto h-full">
              {children}
            </div>

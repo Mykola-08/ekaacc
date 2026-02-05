@@ -56,7 +56,14 @@ interface AnalyticsData {
   }
 }
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+const COLORS = [
+  'hsl(var(--primary))', 
+  'hsl(var(--chart-2))', 
+  'hsl(var(--chart-3))', 
+  'hsl(var(--destructive))', 
+  'hsl(var(--chart-5))', 
+  'hsl(var(--chart-1))'
+]
 
 export function AnalyticsDashboard() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
@@ -311,8 +318,8 @@ export function AnalyticsDashboard() {
                     <Tooltip 
                       labelFormatter={(date) => format(new Date(date), 'MMM dd, yyyy')}
                     />
-                    <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={2} />
-                    <Line type="monotone" dataKey="newUsers" stroke="#10b981" strokeWidth={2} />
+                    <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={2} />
+                    <Line type="monotone" dataKey="newUsers" stroke="hsl(var(--chart-2))" strokeWidth={2} />
                   </LineChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -330,7 +337,7 @@ export function AnalyticsDashboard() {
                     <XAxis dataKey="hour" />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="activity" fill="#3b82f6" />
+                    <Bar dataKey="activity" fill="hsl(var(--primary))" />
                   </RechartsBarChart>
                 </ResponsiveContainer>
               </CardContent>
@@ -356,8 +363,8 @@ export function AnalyticsDashboard() {
                   <Tooltip 
                     labelFormatter={(date) => format(new Date(date), 'MMM dd, yyyy')}
                   />
-                  <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} name="Total Users" />
-                  <Line type="monotone" dataKey="newUsers" stroke="#10b981" strokeWidth={3} name="New Users" />
+                  <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={3} name="Total Users" />
+                  <Line type="monotone" dataKey="newUsers" stroke="hsl(var(--chart-2))" strokeWidth={3} name="New Users" />
                 </LineChart>
               </ResponsiveContainer>
             </CardContent>
@@ -377,7 +384,7 @@ export function AnalyticsDashboard() {
                   <XAxis dataKey="hour" label={{ value: 'Hour of Day', position: 'insideBottom', offset: -10 }} />
                   <YAxis label={{ value: 'Activity Level', angle: -90, position: 'insideLeft' }} />
                   <Tooltip />
-                  <Bar dataKey="activity" fill="#3b82f6" />
+                  <Bar dataKey="activity" fill="hsl(var(--primary))" />
                 </RechartsBarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -429,7 +436,7 @@ export function AnalyticsDashboard() {
                       labelLine={false}
                       label={({ payload }: any) => `${payload.segment} (${payload.percentage.toFixed(1)}%)`}
                       outerRadius={80}
-                      fill="#8884d8"
+                      fill="hsl(var(--primary))"
                       dataKey="count"
                     >
                       {analytics.userSegments.map((entry, index) => (

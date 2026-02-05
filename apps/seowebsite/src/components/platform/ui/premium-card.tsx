@@ -249,7 +249,7 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
         className={cn(
           premiumCardVariants({ variant, padding, interactive }),
           getHoverClasses(),
-          isPressed && 'scale-[0.98]',
+          isPressed && 'scale-95',
           loading && 'animate-pulse',
           pulse && 'animate-pulse',
           className

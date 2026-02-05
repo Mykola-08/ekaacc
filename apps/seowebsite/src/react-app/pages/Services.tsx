@@ -73,14 +73,14 @@ export default function Services() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-[#FBFBFD]">
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 text-center relative z-10">
           <motion.div
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ duration: 0.3 }}
           >
-            <div className="inline-flex items-center px-6 py-3 bg-white/60 backdrop-blur-sm border border-[#E5E5EA]/30 rounded-full mb-8 shadow-sm">
+            <div className="inline-flex items-center px-6 py-3 bg-white/60 backdrop-blur-sm border border-border/30 rounded-full mb-8 shadow-sm">
               <Heart className="w-5 h-5 text-primary mr-2" />
               <span className="text-primary font-medium">{t('services.integralWellbeingFor')}</span>
             </div>
@@ -134,7 +134,7 @@ export default function Services() {
                   >
                       {/* Image Side */}
                       <div className="w-full lg:w-1/2">
-                          <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl group">
+                          <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
                             <LazyImage 
                               src={service.image} 
                               alt={t(service.titleKey)}

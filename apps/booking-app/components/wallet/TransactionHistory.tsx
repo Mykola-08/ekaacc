@@ -24,28 +24,28 @@ import {
   export function TransactionHistory({ transactions }: TransactionHistoryProps) {
     if (!transactions.length) {
       return (
-        <div className="text-center py-20 bg-[#F9F9F8]/50 rounded-[32px] text-[#999999]">
+        <div className="text-center py-20 bg-card/50 rounded-2xl text-muted-foreground">
           <span className="font-medium text-lg">No transactions found.</span>
         </div>
       );
     }
   
     return (
-      <div className="rounded-[32px] overflow-hidden">
+      <div className="rounded-2xl overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent border-b border-[#F5F5F5]">
-              <TableHead className="text-[#999999] font-bold uppercase text-[11px] tracking-widest pl-8 py-6">Date</TableHead>
-              <TableHead className="text-[#999999] font-bold uppercase text-[11px] tracking-widest py-6">Description</TableHead>
-              <TableHead className="text-right text-[#999999] font-bold uppercase text-[11px] tracking-widest pr-8 py-6">Amount</TableHead>
+            <TableRow className="hover:bg-transparent border-b border-border">
+              <TableHead className="text-muted-foreground font-bold uppercase text-xs tracking-widest pl-8 py-6">Date</TableHead>
+              <TableHead className="text-muted-foreground font-bold uppercase text-xs tracking-widest py-6">Description</TableHead>
+              <TableHead className="text-right text-muted-foreground font-bold uppercase text-xs tracking-widest pr-8 py-6">Amount</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {transactions.map((tx) => {
               const isPositive = tx.amount_cents > 0;
               return (
-                <TableRow key={tx.id} className="hover:bg-[#F9F9F8] border-b border-[#F5F5F5] group transition-colors">
-                  <TableCell className="font-medium text-[#999999] py-6 pl-8">
+                <TableRow key={tx.id} className="hover:bg-secondary border-b border-border group transition-colors">
+                  <TableCell className="font-medium text-muted-foreground py-6 pl-8">
                     {format(new Date(tx.created_at), "MMM d, yyyy")}
                   </TableCell>
                   <TableCell className="py-6">
@@ -57,10 +57,10 @@ import {
                           <ArrowUpRight className="h-4 w-4" strokeWidth={2.5} />
                         )}
                       </div>
-                      <span className="font-semibold text-[#222222]">{tx.description}</span>
+                      <span className="font-semibold text-foreground">{tx.description}</span>
                     </div>
                   </TableCell>
-                  <TableCell className={`text-right py-6 pr-8 font-bold tracking-tight text-lg ${isPositive ? 'text-emerald-600' : 'text-[#222222]'}`}>
+                  <TableCell className={`text-right py-6 pr-8 font-bold tracking-tight text-lg ${isPositive ? 'text-emerald-600' : 'text-foreground'}`}>
                     {isPositive ? '+' : ''}{new Intl.NumberFormat('en-IE', {
                       style: 'currency',
                       currency: 'EUR'

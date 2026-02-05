@@ -63,7 +63,7 @@ export default function AppleHero() {
 
                 {/* Subtitle */}
                 <AnimateIn delay={0.6}>
-                    <p className="apple-subtitle text-white/90 mb-12 max-w-3xl mx-auto">
+                    <p className="text-lg md:text-xl text-muted-foreground text-white/90 mb-12 max-w-3xl mx-auto">
                         {t('hero.subtitle')}
                     </p>
                 </AnimateIn>
@@ -72,13 +72,13 @@ export default function AppleHero() {
                 <AnimateIn delay={0.8}>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <Link href="/first-time" className="group" onClick={() => logEvent('hero_first_time_click')}>
-                            <Button size="lg" className="bg-primary hover:bg-primary/95 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-[1.02] shadow-sm border-none">
+                            <Button size="lg" className="bg-primary hover:bg-primary/95 text-white px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-sm border-none">
                                 {t('hero.firstTime')}
                             </Button>
                         </Link>
 
                         <Link href="/services" className="group" onClick={() => logEvent('hero_services_click')}>
-                            <Button size="lg" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-[1.02] shadow-sm">
+                            <Button size="lg" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border border-white/20 px-8 py-4 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-sm">
                                 {t('hero.discoverServices')}
                                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Button>

@@ -37,7 +37,7 @@ export function TaskManager() {
   };
 
   return (
-    <div className="bg-white dark:bg-zinc-900 rounded-[32px] p-6 shadow-sm border border-zinc-100 dark:border-zinc-800 h-full flex flex-col">
+    <div className="bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-800 h-full flex flex-col">
       <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
         <span className="bg-primary/10 text-primary p-2 rounded-xl"><CheckCircle2 size={20} /></span>
         Tasks

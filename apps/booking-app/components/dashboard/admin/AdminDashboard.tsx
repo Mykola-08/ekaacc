@@ -45,21 +45,21 @@ export function AdminDashboard({ profile, stats }: any) {
                         <SystemStatus />
                         
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <Card className="p-6 rounded-[36px] bg-[#FEFFFE] border-[#F5F5F5] shadow-sm flex items-center gap-4 group hover:border-primary/20 hover:shadow-md transition-all">
-                                <div className="w-12 h-12 rounded-[16px] bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                            <Card className="p-6 rounded-2xl bg-card border-border shadow-sm flex items-center gap-4 group hover:border-primary/20 hover:shadow-md transition-all">
+                                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
                                     <BarChart3 className="w-6 h-6" strokeWidth={2.75} />
                                 </div>
                                 <div>
-                                    <div className="font-bold tracking-tight text-[#222222]">Analytics</div>
+                                    <div className="font-bold tracking-tight text-foreground">Analytics</div>
                                     <div className="text-xs text-muted-foreground font-medium">Detailed usage reports</div>
                                 </div>
                             </Card>
-                            <Card className="p-6 rounded-[36px] bg-[#FEFFFE] border-[#F5F5F5] shadow-sm flex items-center gap-4 group hover:border-amber-500/20 hover:shadow-md transition-all">
-                                <div className="w-12 h-12 rounded-[16px] bg-amber-50 flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
+                            <Card className="p-6 rounded-2xl bg-card border-border shadow-sm flex items-center gap-4 group hover:border-amber-500/20 hover:shadow-md transition-all">
+                                <div className="w-12 h-12 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 group-hover:scale-110 transition-transform">
                                     <Database className="w-6 h-6" strokeWidth={2.75} />
                                 </div>
                                 <div>
-                                    <div className="font-bold tracking-tight text-[#222222]">Database</div>
+                                    <div className="font-bold tracking-tight text-foreground">Database</div>
                                     <div className="text-xs text-muted-foreground font-medium">Direct query access</div>
                                 </div>
                             </Card>
@@ -69,7 +69,7 @@ export function AdminDashboard({ profile, stats }: any) {
                     <div className="space-y-6">
                         <RecentAdminActivity />
                         
-                        <Card className="p-8 bg-primary rounded-[36px] shadow-lg shadow-primary/20 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                        <Card className="p-8 bg-primary rounded-2xl shadow-lg shadow-primary/20 flex flex-col items-center justify-center text-center relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-16 translate-x-16 blur-2xl group-hover:scale-150 transition-transform duration-700" />
                             <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-white mb-6 group-hover:rotate-6 transition-transform relative z-10">
                                 <Shield className="w-7 h-7" strokeWidth={2.75} />

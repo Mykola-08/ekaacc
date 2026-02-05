@@ -81,7 +81,7 @@ export default function DataRequestPage() {
     </p>
    </div>
 
-   <div className="bg-card shadow-sm border-none rounded-[32px] p-6 md:p-8">
+   <div className="bg-card shadow-sm border-none rounded-2xl p-6 md:p-8">
     <form onSubmit={handleSubmit} className="space-y-6">
      {error && (
       <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3">

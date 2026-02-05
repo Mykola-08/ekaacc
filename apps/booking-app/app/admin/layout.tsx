@@ -19,7 +19,7 @@ export default async function AdminLayout({ children }: { children: ReactNode })
    
    <div className="flex-1 flex flex-col min-w-0 gap-4 overflow-hidden">
      <AdminHeader />
-     <main className="flex-1 bg-card rounded-[36px] border border-border overflow-auto p-6 md:p-8 relative">
+     <main className="flex-1 bg-card rounded-2xl border border-border overflow-auto p-6 md:p-8 relative">
       {children}
      </main>
    </div>

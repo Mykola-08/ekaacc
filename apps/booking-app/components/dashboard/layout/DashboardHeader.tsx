@@ -18,13 +18,13 @@ interface DashboardHeaderProps {
 
 export function DashboardHeader({ title, subtitle, children, showDate = true, className }: DashboardHeaderProps) {
     return (
-        <div className={cn("flex flex-col md:flex-row items-baseline justify-between gap-4 pb-6 border-b border-[#F5F5F5] mb-8", className)}>
+        <div className={cn("flex flex-col md:flex-row items-baseline justify-between gap-4 pb-6 border-b border-border mb-8", className)}>
             <div className="space-y-1">
-                <h2 className="text-3xl font-bold text-[#222222] tracking-tighter leading-tight">
+                <h2 className="text-3xl font-bold text-foreground tracking-tighter leading-tight">
                     {title}
                 </h2>
                 {subtitle && (
-                    <p className="text-base text-[#999999] font-medium">{subtitle}</p>
+                    <p className="text-base text-muted-foreground font-medium">{subtitle}</p>
                 )}
             </div>
 
@@ -34,7 +34,7 @@ export function DashboardHeader({ title, subtitle, children, showDate = true, cl
                 <div className="flex items-center gap-3">
                     <NotificationDropdown />
                     {showDate && (
-                        <span className="text-xs font-semibold text-[#999999] uppercase tracking-wider bg-[#F7F8F9] px-3 py-1 rounded-full">
+                        <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider bg-card px-3 py-1 rounded-full">
                             {format(new Date(), 'MMMM d, yyyy')}
                         </span>
                     )}

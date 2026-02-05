@@ -66,7 +66,7 @@ export default function ContactPage() {
         {/* Contact Form Section */}
         <section className="py-24 bg-card relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-8">
-            <div className="bg-card rounded-[3rem] shadow-2xl overflow-hidden border border-gray-100">
+            <div className="bg-card rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
                <ContactFormOptimized />
             </div>
           </div>

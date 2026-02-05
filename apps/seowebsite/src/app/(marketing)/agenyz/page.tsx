@@ -70,7 +70,7 @@ export default function AgenyzPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.1 }}
-                            className="bg-white/60 backdrop-blur-md p-10 rounded-[40px] border border-white/40 shadow-sm hover:shadow-md transition-all"
+                            className="bg-white/60 backdrop-blur-md p-10 rounded-3xl border border-white/40 shadow-sm hover:shadow-md transition-all"
                         >
                             <div className="mb-6">{item.icon}</div>
                             <h3 className="text-2xl font-semibold mb-4">{item.title}</h3>

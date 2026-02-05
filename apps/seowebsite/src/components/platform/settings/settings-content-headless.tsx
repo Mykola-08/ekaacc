@@ -96,7 +96,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           <div className="col-span-12 md:col-span-9">
             <TabPanels>
               {/* Profile Panel */}
-              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-xl font-bold text-foreground">Personal Information</h2>
@@ -155,7 +155,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Notifications Panel */}
-              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-xl font-bold text-foreground">Notifications</h2>
@@ -236,7 +236,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Security Panel */}
-              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-xl font-bold text-foreground">Security</h2>
@@ -264,7 +264,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Preferences Panel */}
-              <TabPanel className="bg-card rounded-[32px] p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-100 outline-none">
                  <div className="space-y-8">
                   <div>
                     <h2 className="text-xl font-bold text-foreground">Preferences</h2>

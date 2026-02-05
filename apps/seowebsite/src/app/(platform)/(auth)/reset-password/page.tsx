@@ -80,7 +80,7 @@ export default function ResetPasswordPage() {
      animate={{ opacity: 1, scale: 1 }}
      className="relative z-10"
     >
-     <Card className="w-full max-w-md mx-auto rounded-[2rem] border-0 shadow-2xl bg-card/95 backdrop-blur-xl">
+     <Card className="w-full max-w-md mx-auto rounded-2xl border-0 shadow-2xl bg-card/95 backdrop-blur-xl">
       <CardContent className="p-10">
        <div className="flex flex-col items-center text-center gap-4">
         <motion.div
@@ -116,7 +116,7 @@ export default function ResetPasswordPage() {
     transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
     className="w-full max-w-md mx-auto relative z-10"
    >
-    <Card className="rounded-[2rem] border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative">
+    <Card className="rounded-2xl border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative">
      {/* Decorative gradient overlay */}
      <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-blue-500/5 to-cyan-500/5 pointer-events-none" />
      <div className="absolute top-0 left-0 w-64 h-64 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
@@ -213,7 +213,7 @@ export default function ResetPasswordPage() {
        >
         <Button
          type="submit"
-         className="w-full rounded-xl h-12 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold shadow-lg shadow-teal-500/25 transition-all hover:scale-[1.02] active:scale-[0.98] hover:shadow-xl hover:shadow-teal-500/30"
+         className="w-full rounded-xl h-12 bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white font-semibold shadow-lg shadow-teal-500/25 transition-all hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-teal-500/30"
          disabled={isLoading}
         >
          {isLoading ? (

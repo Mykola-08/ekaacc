@@ -37,7 +37,7 @@ export default function Families() {
        <div className="flex flex-col sm:flex-row gap-4">
         <Link
          href={BOOKING_APP_URL}
-         className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
+         className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-4 rounded-full transition-colors duration-200 inline-block text-center"
         >
          {t('common.reserveSession')}
         </Link>
@@ -50,7 +50,7 @@ export default function Families() {
          src="https://images.unsplash.com/photo-1542037104857-ffbb0b9155fb?w=1920&h=1080&fit=crop"
          alt={t('elena.target.families.title')}
          fill
-         className="object-cover rounded-[32px] shadow-2xl"
+         className="object-cover rounded-2xl shadow-2xl"
          sizes="(max-width: 1024px) 100vw, 50vw"
         />
        </div>

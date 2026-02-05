@@ -63,12 +63,12 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
     if (!bookings || bookings.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-24 bg-[#F9F9F8]/50 rounded-[40px] text-center border-2 border-dashed border-[#EAEAEA]">
-                <div className="p-6 bg-white rounded-full mb-6 shadow-sm shadow-[#000000]/5">
-                    <Calendar className="w-8 h-8 text-[#999999]" strokeWidth={2} />
+            <div className="flex flex-col items-center justify-center py-24 bg-card/50 rounded-2xl text-center border-2 border-dashed border-muted">
+                <div className="p-6 bg-background rounded-full mb-6 shadow-sm">
+                    <Calendar className="w-8 h-8 text-muted-foreground" strokeWidth={2} />
                 </div>
-                <h3 className="text-xl font-bold text-[#222222] tracking-tight">No bookings yet</h3>
-                <p className="text-[#999999] font-medium mt-2 max-w-xs">
+                <h3 className="text-xl font-bold text-foreground tracking-tight">No bookings yet</h3>
+                <p className="text-muted-foreground font-medium mt-2 max-w-xs">
                     Your wellness journey begins with your first session.
                 </p>
             </div>
@@ -82,9 +82,9 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
         <div className="space-y-16 animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
             {upcoming.length > 0 && (
                 <div className="space-y-8">
-                    <h2 className="text-xl font-bold text-[#222222] flex items-center gap-3">
+                    <h2 className="text-xl font-bold text-foreground flex items-center gap-3">
                         Upcoming
-                        <span className="text-xs font-bold font-mono bg-[#222222] text-white px-2.5 py-1 rounded-lg">
+                        <span className="text-xs font-bold font-mono bg-foreground text-background px-2.5 py-1 rounded-lg">
                             {upcoming.length}
                         </span>
                     </h2>
@@ -98,7 +98,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
             {past.length > 0 && (
                 <div className="space-y-8">
-                    <h2 className="text-xl font-bold text-[#999999]">Past History</h2>
+                    <h2 className="text-xl font-bold text-muted-foreground">Past History</h2>
                     <div className="grid gap-6 opacity-60 hover:opacity-100 transition-opacity duration-500">
                         {past.map(booking => (
                             <BookingCard key={booking.id} booking={booking} userId={userId} />
@@ -115,7 +115,7 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
         confirmed: "bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100/50",
         pending: "bg-amber-50 text-amber-700 ring-1 ring-amber-100/50",
         cancelled: "bg-rose-50 text-rose-700 ring-1 ring-rose-100/50",
-        completed: 'bg-[#F0F0F0] text-[#777777] ring-1 ring-[#E5E5E5]',
+        completed: 'bg-secondary text-muted-foreground ring-1 ring-border',
     };
 
     // Default to pending if unknown
@@ -136,19 +136,19 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
 
     return (
         <div className={cn(
-            "group relative rounded-[32px] overflow-hidden transition-all duration-300",
+            "group relative rounded-2xl overflow-hidden transition-all duration-300",
             isUpcoming 
-                ? "bg-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 border border-transparent" 
-                : "bg-[#F9F9F8] border border-[#F0F0F0]"
+                ? "bg-card shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 border border-transparent" 
+                : "bg-card border border-border"
         )}>
             <div className="p-8 flex flex-col md:flex-row gap-8 md:items-center justify-between">
                 <div className="flex items-start gap-6 flex-1">
                      {/* Enhanced Date Block */}
                      <div className={cn(
-                        "flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-[22px]",
-                        isUpcoming ? "bg-[#4DAFFF]/10 text-[#4DAFFF]" : "bg-[#EAEAEA]/50 text-[#999999]"
+                        "flex flex-col items-center justify-center min-w-[72px] h-[72px] rounded-xl",
+                        isUpcoming ? "bg-primary/10 text-primary" : "bg-secondary/50 text-muted-foreground"
                     )}>
-                        <span className="text-[11px] font-black uppercase tracking-widest opacity-80">
+                        <span className="text-xs font-black uppercase tracking-widest opacity-80">
                             {format(new Date(booking.startTime), 'MMM')}
                         </span>
                         <span className="text-2xl font-black tracking-tighter">
@@ -159,22 +159,22 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                     <div className="space-y-3 md:space-y-2 flex-1">
                         <div className="flex items-center justify-between md:justify-start md:gap-4">
                             <span className={cn(
-                                "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider", 
+                                "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider", 
                                 badgeClass
                             )}>
                                 {booking.status}
                             </span>
-                            {isUpcoming && <span className="text-xs text-[#999999] font-bold flex items-center gap-1"><MapPin className="w-3 h-3" strokeWidth={2.5} /> Main Studio</span>}
+                            {isUpcoming && <span className="text-xs text-muted-foreground font-bold flex items-center gap-1"><MapPin className="w-3 h-3" strokeWidth={2.5} /> Main Studio</span>}
                         </div>
                         
                         <h3 className={cn(
                             "font-bold text-xl md:text-2xl tracking-tight transition-colors",
-                            isUpcoming ? "text-[#222222]" : "text-[#555555]"
+                            isUpcoming ? "text-foreground" : "text-muted-foreground"
                         )}>
                             {booking.serviceName}
                         </h3>
 
-                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[#999999] font-medium text-sm">
+                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-muted-foreground font-medium text-sm">
                             <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4" strokeWidth={2.5} />
                                 {format(new Date(booking.startTime), 'h:mm a')} - {format(new Date(booking.endTime), 'h:mm a')}
@@ -184,16 +184,16 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                 </div>
 
                 {isUpcoming && booking.status !== 'cancelled' && (
-                    <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-6 md:pt-0 border-t md:border-t-0 border-[#F0F0F0]">
+                    <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-6 md:pt-0 border-t md:border-t-0 border-border">
                         <Button variant="outline" size="sm" className="w-full md:w-32 text-xs font-bold h-9 rounded-xl border-rose-100 text-rose-600 hover:bg-rose-50 hover:text-rose-700" onClick={handleCancel}>
                            <Ban className="w-3 h-3 mr-2" strokeWidth={2.5} />
                            Cancel
                         </Button>
-                         <Button variant="ghost" size="sm" onClick={() => toast.info("Rescheduling coming soon")} className="w-full md:w-32 text-xs font-bold h-9 rounded-xl text-[#999999] hover:text-[#222222]">
+                         <Button variant="ghost" size="sm" onClick={() => toast.info("Rescheduling coming soon")} className="w-full md:w-32 text-xs font-bold h-9 rounded-xl text-muted-foreground hover:text-foreground">
                            <CalendarDays className="w-3 h-3 mr-2" strokeWidth={2.5} />
                            Reschedule
                         </Button>
-                        <Button variant="link" size="sm" asChild className="w-full md:w-32 text-xs font-bold h-9 text-[#4DAFFF] p-0 hover:no-underline hover:opacity-80">
+                        <Button variant="link" size="sm" asChild className="w-full md:w-32 text-xs font-bold h-9 text-primary p-0 hover:no-underline hover:opacity-80">
                            <Link href="https://maps.google.com/?q=Main+Studio" target="_blank" rel="noreferrer">
                               <Navigation className="w-3 h-3 mr-2" strokeWidth={2.5} />
                               Get Directions
@@ -203,8 +203,8 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                 )}
                 
                 {!isUpcoming && (
-                     <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#F0F0F0]">
-                        <Button variant="secondary" size="sm" className="w-full md:w-auto text-xs font-bold h-9 rounded-xl bg-[#F0F0F0] text-[#555555] hover:bg-[#E5E5E5]">
+                     <div className="flex flex-row md:flex-col gap-3 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-border">
+                        <Button variant="secondary" size="sm" className="w-full md:w-auto text-xs font-bold h-9 rounded-xl">
                            <Undo2 className="w-3 h-3 mr-2" strokeWidth={2.5} />
                            Book Again
                         </Button>

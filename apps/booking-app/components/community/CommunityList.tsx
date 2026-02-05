@@ -28,7 +28,7 @@ export function CommunityList({ posts }: CommunityListProps) {
       {/* Header */}
       <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-border">
           <div className="space-y-2 text-center md:text-left">
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-[#222222]">Community Forum</h1>
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Community Forum</h1>
               <p className="text-muted-foreground text-lg">Connect with others on the journey to balance.</p>
           </div>
           <Link href="/community/new">
@@ -41,9 +41,9 @@ export function CommunityList({ posts }: CommunityListProps) {
 
       <div className="space-y-4">
         {posts.length === 0 ? (
-            <Card className="flex flex-col items-center justify-center py-20 bg-[#F9F9F8] border-2 border-dashed border-[#EAEAEA] rounded-[40px] shadow-none">
+            <Card className="flex flex-col items-center justify-center py-20 bg-card border-2 border-dashed border-muted rounded-3xl shadow-none">
                 <MessageSquare className="w-12 h-12 text-muted-foreground/50 mb-4" />
-                <h3 className="text-xl font-bold tracking-tight text-[#222222] mb-2">No posts yet</h3>
+                <h3 className="text-xl font-bold tracking-tight text-foreground mb-2">No posts yet</h3>
                 <p className="text-muted-foreground">Be the first to share your thoughts.</p>
             </Card>
         ) : (
@@ -53,11 +53,11 @@ export function CommunityList({ posts }: CommunityListProps) {
                     key={post.id} 
                     className="group block"       
                 >
-                    <Card className="p-6 md:p-8 bg-white border border-[#F0F0F0] shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden rounded-[32px]">
+                    <Card className="p-6 md:p-8 bg-card border border-border shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden rounded-2xl">
                         <div className="flex flex-col md:flex-row gap-6">
                             {/* Avatar Placeholder */}
                             <div className="shrink-0">
-                                <div className="w-12 h-12 rounded-full bg-[#F9F9F8] text-[#222222] flex items-center justify-center text-lg font-black border border-[#EAEAEA]">
+                                <div className="w-12 h-12 rounded-full bg-card text-foreground flex items-center justify-center text-lg font-black border border-muted">
                                     {post.userId ? post.userId.substring(0,1).toUpperCase() : 'U'}
                                 </div>
                             </div>
@@ -71,7 +71,7 @@ export function CommunityList({ posts }: CommunityListProps) {
                                     <span>{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
                                 </div>
 
-                                <h3 className="text-2xl font-bold tracking-tight text-[#222222] group-hover:text-primary transition-colors leading-tight">
+                                <h3 className="text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors leading-tight">
                                     {post.title}
                                 </h3>
                                 

@@ -30,7 +30,7 @@ export function ErrorLogsHeadless({ logs, count, page }: ErrorLogsHeadlessProps)
                 </div>
 
                 {/* Table */}
-                <div className="bg-card rounded-[32px] border border-border/60 shadow-xl overflow-hidden">
+                <div className="bg-card rounded-2xl border border-border/60 shadow-xl overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left border-collapse">
                             <thead>

@@ -80,7 +80,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
       transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
       className="w-full max-w-lg mx-auto"
     >
-      <Card className="rounded-[2rem] border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative">
+      <Card className="rounded-2xl border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative">
         {/* Decorative gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-blue-500/5 to-purple-500/5 pointer-events-none" />
         <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
@@ -292,7 +292,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               >
                 <Button
                   type="submit"
-                  className="w-full rounded-xl h-12 font-semibold bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 hover:from-emerald-700 hover:via-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 transition-all hover:scale-[1.02] active:scale-[0.98] hover:shadow-xl hover:shadow-blue-500/30"
+                  className="w-full rounded-xl h-12 font-semibold bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 hover:from-emerald-700 hover:via-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 transition-all hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-blue-500/30"
                   disabled={isLoading}
                 >
                   {isLoading ? (

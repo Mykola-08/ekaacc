@@ -3,19 +3,20 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
-    IconLayout01,
-    IconCalendar03,
-    IconWallet01,
-    IconUserCircle,
-    IconSettings01,
-    IconClock01,
-    IconBookOpen01,
-    IconShield01,
-    IconLogout01,
-    IconGrid,
-    IconLifesaver
-} from '@hugeicons/react';
+    Layout01Icon,
+    Calendar03Icon,
+    Wallet01Icon,
+    UserCircleIcon,
+    Settings01Icon,
+    Clock01Icon,
+    BookOpen01Icon,
+    Shield01Icon,
+    Logout01Icon,
+    GridIcon,
+    AlertCircleIcon
+} from '@hugeicons/core-free-icons';
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
@@ -52,26 +53,26 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
     const role = profile?.role || 'client';
 
     const navItems = [
-        { label: t('nav.dashboard') || 'Dashboard', href: '/', icon: IconLayout01 },
+        { label: t('nav.dashboard') || 'Dashboard', href: '/', icon: Layout01Icon },
         ...(role === 'client' ? [
-            { label: 'Wellness Journal', href: '/journal', icon: IconBookOpen01 },
-            { label: t('nav.bookings') || 'Bookings', href: '/bookings', icon: IconCalendar03 },
-            { label: 'Resources', href: '/resources', icon: IconGrid },
-            { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: IconWallet01 },
-            { label: 'My Sessions (Legacy)', href: '/old-sessions', icon: IconCalendar03 },
+            { label: 'Wellness Journal', href: '/journal', icon: BookOpen01Icon },
+            { label: t('nav.bookings') || 'Bookings', href: '/bookings', icon: Calendar03Icon },
+            { label: 'Resources', href: '/resources', icon: GridIcon },
+            { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: Wallet01Icon },
+            { label: 'My Sessions (Legacy)', href: '/old-sessions', icon: Calendar03Icon },
         ] : []),
         ...(role === 'therapist' ? [
-            { label: t('nav.availability') || 'Availability', href: '/availability', icon: IconClock01 },
-            { label: t('nav.bookings') || 'My Sessions', href: '/bookings', icon: IconCalendar03 },
-            { label: 'Clinical Notes', href: '/notes', icon: IconBookOpen01 },
+            { label: t('nav.availability') || 'Availability', href: '/availability', icon: Clock01Icon },
+            { label: t('nav.bookings') || 'My Sessions', href: '/bookings', icon: Calendar03Icon },
+            { label: 'Clinical Notes', href: '/notes', icon: BookOpen01Icon },
         ] : []),
         ...(role === 'admin' || role === 'super_admin' ? [
-            { label: 'Platform Management', href: '/admin', icon: IconShield01 },
-            { label: 'Resource Library', href: '/admin/resources', icon: IconBookOpen01 },
-            { label: 'Service Inventory', href: '/services', icon: IconSettings01 },
+            { label: 'Platform Management', href: '/admin', icon: Shield01Icon },
+            { label: 'Resource Library', href: '/admin/resources', icon: BookOpen01Icon },
+            { label: 'Service Inventory', href: '/services', icon: Settings01Icon },
         ] : []),
-        { label: t('nav.account') || 'My Profile', href: '/profile', icon: IconUserCircle },
-        { label: t('nav.settings') || 'Preferences', href: '/settings', icon: IconSettings01 },
+        { label: t('nav.account') || 'My Profile', href: '/profile', icon: UserCircleIcon },
+        { label: t('nav.settings') || 'Preferences', href: '/settings', icon: Settings01Icon },
     ];
 
     return (
@@ -103,7 +104,7 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                                     <SidebarMenuItem key={item.href}>
                                         <SidebarMenuButton asChild isActive={pathname === item.href} tooltip={item.label}>
                                             <Link href={item.href}>
-                                                <item.icon />
+                                                <HugeiconsIcon icon={item.icon} />
                                                 <span>{item.label}</span>
                                             </Link>
                                         </SidebarMenuButton>
@@ -117,7 +118,7 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                         <div className="mt-auto p-4">
                             <div className="rounded-xl border bg-destructive/10 p-4 text-destructive">
                                 <div className="flex items-center gap-2 font-medium">
-                                    <IconLifesaver className="size-4" />
+                                    <HugeiconsIcon icon={AlertCircleIcon} className="size-4" />
                                     <span className="text-sm">Crisis Support</span>
                                 </div>
                                 <div className="mt-2 text-xs opacity-90">
@@ -148,7 +149,7 @@ export function DashboardLayout({ children, profile }: { children: React.ReactNo
                                         <span className="truncate font-semibold">{profile?.first_name || 'User'}</span>
                                         <span className="truncate text-xs">{role}</span>
                                     </div>
-                                    <IconLogout01 className="ml-auto size-4" onClick={(e) => { e.preventDefault(); handleSignOut(); }} />
+                                    <HugeiconsIcon icon={Logout01Icon} className="ml-auto size-4" onClick={(e) => { e.preventDefault(); handleSignOut(); }} />
                                 </div>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

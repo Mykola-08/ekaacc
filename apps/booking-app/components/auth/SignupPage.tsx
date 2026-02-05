@@ -17,7 +17,7 @@ function SubmitButton() {
   const { pending } = useFormStatus()
   return (
     <Button
-      className="w-full text-base font-semibold transition-all active:scale-[0.98]"
+      className="w-full text-base font-semibold transition-all active:scale-95"
       type="submit"
       disabled={pending}
       size="lg"

@@ -43,10 +43,10 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                 return (
                     <div key={plan.id} className={cn(
                         "relative overflow-hidden transition-all duration-300 group flex flex-col justify-between",
-                        "p-6 rounded-[32px] border shadow-sm hover:shadow-xl",
+                        "p-6 rounded-2xl border shadow-sm hover:shadow-xl",
                         isVIP 
-                            ? "bg-[#FEFFFE] border-amber-200 shadow-amber-100/50 hover:shadow-amber-200/50 hover:-translate-y-1" 
-                            : "bg-[#FEFFFE] border-[#F5F5F5] hover:shadow-md hover:-translate-y-1"
+                            ? "bg-card border-amber-200 shadow-amber-100/50 hover:shadow-amber-200/50 hover:-translate-y-1" 
+                            : "bg-card border-border hover:shadow-md hover:-translate-y-1"
                     )}>
                         {isVIP && (
                             <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-100 rounded-full blur-3xl opacity-60" />
@@ -55,35 +55,35 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
                         <div className="relative z-10 space-y-5">
                             <div className="flex items-center gap-4">
                                 <div className={cn(
-                                    "w-12 h-12 rounded-[16px] flex items-center justify-center shadow-sm transition-transform group-hover:scale-110", 
-                                    isVIP ? "bg-amber-50 text-amber-600" : "bg-[#F7F8F9] text-[#222222]"
+                                    "w-12 h-12 rounded-lg flex items-center justify-center shadow-sm transition-transform group-hover:scale-110", 
+                                    isVIP ? "bg-amber-50 text-amber-600" : "bg-card text-foreground"
                                 )}>
                                     {isVIP ? <Sparkles className="w-6 h-6 fill-amber-100" /> : <Shield className="w-6 h-6" strokeWidth={2} />}
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-xl text-[#222222] tracking-tight">{plan.name}</h3>
+                                    <h3 className="font-bold text-xl text-foreground tracking-tight">{plan.name}</h3>
                                     <div className="flex items-center gap-1.5 mt-0.5">
                                         <div className={cn("w-1.5 h-1.5 rounded-full", isVIP ? "bg-amber-500" : "bg-blue-500")} />
-                                        <span className="text-[13px] font-bold text-[#999999] uppercase tracking-wider">{plan.credits_total} Sessions</span>
+                                        <span className="text-[13px] font-bold text-muted-foreground uppercase tracking-wider">{plan.credits_total} Sessions</span>
                                     </div>
                                 </div>
                             </div>
 
-                            <p className="text-[#555555] text-sm leading-relaxed min-h-[40px] font-medium">{plan.description}</p>
+                            <p className="text-muted-foreground text-sm leading-relaxed min-h-[40px] font-medium">{plan.description}</p>
                             
                             <div className="flex items-center gap-2 py-2">
-                                <span className={cn("text-4xl font-bold tracking-tighter", isVIP ? "text-amber-950" : "text-[#222222]")}>€{plan.price_cents / 100}</span>
-                                <span className="text-sm font-bold text-[#999999]">/ bundle</span>
+                                <span className={cn("text-4xl font-bold tracking-tighter", isVIP ? "text-amber-950" : "text-foreground")}>€{plan.price_cents / 100}</span>
+                                <span className="text-sm font-bold text-muted-foreground">/ bundle</span>
                             </div>
                         </div>
 
                         <div className="mt-6 relative z-10">
                             <Button
                                 className={cn(
-                                    "w-full rounded-[16px] font-bold h-12 text-base transition-all active:scale-95",
+                                    "w-full rounded-lg font-bold h-12 text-base transition-all active:scale-95",
                                     isVIP 
                                         ? "bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25" 
-                                        : "bg-[#222222] hover:bg-[#000000] text-white shadow-lg shadow-gray-200"
+                                        : "bg-foreground text-background hover:bg-foreground/90 shadow-lg"
                                 )}
                                 onClick={() => handlePurchase(plan)}
                                 disabled={!!loadingId}

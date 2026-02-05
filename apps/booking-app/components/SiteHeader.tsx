@@ -86,7 +86,7 @@ export function SiteHeader() {
         initial='hidden'
         animate='visible'
         className={cn(
-          "fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-[36px] transition-all duration-500 border border-border/50",
+          "fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-5xl rounded-2xl transition-all duration-500 border border-border/50",
           scrolled
             ? "bg-background/95 backdrop-blur-xl py-2"
             : "bg-background/80 backdrop-blur-md py-3"
@@ -95,7 +95,7 @@ export function SiteHeader() {
         <div className='flex items-center justify-between px-6 max-w-5xl mx-auto'>
           {/* Logo */}
           <Link href={mainSiteUrl} className='flex items-center gap-2 group'>
-            <div className="w-10 h-10 bg-primary/10 rounded-[14px] flex items-center justify-center text-primary font-sans font-black text-xl backdrop-blur-md border border-primary/20 shadow-sm">E</div>
+            <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center text-primary font-sans font-black text-xl backdrop-blur-md border border-primary/20 shadow-sm">E</div>
             <span className='font-sans font-bold tracking-tight text-lg text-foreground/90 group-hover:opacity-80 transition-opacity'>eka</span>
           </Link>
 

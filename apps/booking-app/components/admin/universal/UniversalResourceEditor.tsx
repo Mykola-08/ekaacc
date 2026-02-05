@@ -107,7 +107,7 @@ export function UniversalResourceEditor({ table, id }: { table: string, id: stri
                         <div key={key} className={`space-y-1 ${isSystem ? 'opacity-50' : ''}`}>
                             <label className="text-xs font-mono font-semibold text-muted-foreground uppercase flex items-center justify-between">
                                 {key}
-                                {isSystem && <span className="text-[10px] bg-secondary px-1 rounded">SYS</span>}
+                                {isSystem && <span className="text-xs bg-secondary px-1 rounded">SYS</span>}
                             </label>
 
                             {type === 'boolean' ? (

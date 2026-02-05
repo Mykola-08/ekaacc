@@ -74,7 +74,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                     </div>
                     {/* Wallet Component - Minimal Zinc */}
                     <Link href="/wallet" className="group h-full">
-                        <Card className="h-full p-6 rounded-[36px] border border-border bg-surface hover:bg-surface-container/50 transition-all duration-300 flex flex-col justify-between overflow-hidden relative shadow-sm hover:shadow-md cursor-pointer active:scale-[0.98]">
+                        <Card className="h-full p-6 rounded-2xl border border-border bg-surface hover:bg-surface-container/50 transition-all duration-300 flex flex-col justify-between overflow-hidden relative shadow-sm hover:shadow-md cursor-pointer active:scale-95">
                             <div className="flex items-center justify-between">
                                 <div className="p-3 rounded-2xl bg-surface-container text-primary">
                                     <Wallet className="w-5 h-5" strokeWidth={2} />
@@ -96,9 +96,9 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                     </div>
 
                     {/* Next Session - Standard Card */}
-                    <Card className="p-6 rounded-[36px] border border-border bg-surface flex flex-col justify-between shadow-sm">
+                    <Card className="p-6 rounded-2xl border border-border bg-surface flex flex-col justify-between shadow-sm">
                         <div className="flex items-center justify-between mb-4">
-                            <span className="text-[11px] font-bold text-muted uppercase tracking-wider">Upcoming Session</span>
+                            <span className="text-xs font-bold text-muted uppercase tracking-wider">Upcoming Session</span>
                             <div className="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
                                 <Calendar className="w-5 h-5" strokeWidth={2} />
                             </div>
@@ -114,7 +114,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                                         </span>
                                     </div>
                                     <div className="py-2">
-                                        <div className="text-[10px] uppercase font-bold text-muted-foreground mb-1">Starts in</div>
+                                        <div className="text-xs uppercase font-bold text-muted-foreground mb-1">Starts in</div>
                                         <CountdownTimer targetDate={nextBooking.start_time} />
                                     </div>
                                 </div>
@@ -139,20 +139,20 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                         <GoalTracker initialGoals={goals || []} />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                            <Card className="p-6 rounded-[36px] border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
-                                <ProgressRing progress={75} size={80} strokeWidth={8} color="#4DAFFF" />
+                            <Card className="p-6 rounded-2xl border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
+                                <ProgressRing progress={75} size={80} strokeWidth={8} color="hsl(var(--primary))" />
                                 <div>
                                     <div className="font-bold text-primary">Activity</div>
                                     <div className="text-2xl font-black text-accent tabular-nums">75%</div>
-                                    <div className="text-[10px] font-bold uppercase text-muted tracking-widest">Daily Goal</div>
+                                    <div className="text-xs font-bold uppercase text-muted tracking-widest">Daily Goal</div>
                                 </div>
                             </Card>
-                            <Card className="p-6 rounded-[36px] border-border bg-surface/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
-                                <ProgressRing progress={85} size={80} strokeWidth={8} color="#10B981" />
+                            <Card className="p-6 rounded-2xl border-border bg-card/50 backdrop-blur-sm flex items-center gap-6 shadow-sm">
+                                <ProgressRing progress={85} size={80} strokeWidth={8} color="hsl(142 76% 36%)" />
                                 <div>
                                     <div className="font-bold text-primary">Wellness</div>
                                     <div className="text-2xl font-black text-emerald-500 tabular-nums">85%</div>
-                                    <div className="text-[10px] font-bold uppercase text-muted tracking-widest">Score</div>
+                                    <div className="text-xs font-bold uppercase text-muted tracking-widest">Score</div>
                                 </div>
                             </Card>
                         </div>
@@ -167,7 +167,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.95 }}
-                                    className="p-6 bg-primary/5 rounded-[36px] border border-primary/10 shadow-sm relative overflow-hidden"
+                                    className="p-6 bg-primary/5 rounded-2xl border border-primary/10 shadow-sm relative overflow-hidden"
                                 >
                                     <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-full -translate-y-12 translate-x-12 blur-2xl" />
                                     <button

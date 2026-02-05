@@ -197,7 +197,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                         )}
 
                         {questionType === 'scale' && (
-                             <div className="flex justify-between items-center glass-panel p-8 rounded-[28px]">
+                             <div className="flex justify-between items-center glass-panel p-8 rounded-2xl">
                                 {[1, 2, 3, 4, 5].map((val) => (
                                     <button
                                         key={val}

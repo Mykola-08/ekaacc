@@ -4,10 +4,12 @@ A comprehensive Next.js application for mental health and wellness management wi
 
 ## Architecture
 
-This project is a monorepo managed with **TurboRepo**, consisting of two main applications:
+This project is a Next.js application built with TurboRepo for monorepo management.
 
-1.  **Booking App** (`apps/booking-app`): The therapist booking and care management app.
-2.  **SEO Website** (`apps/seowebsite`): The public-facing marketing and content site.
+The main application is located at `apps/web` and includes:
+- **Marketing Pages**: Public-facing content and SEO-optimized pages
+- **Platform Features**: Dashboard, booking, admin, therapist portal, and all core functionality
+- **API Routes**: Backend services and integrations
 
 ## Table of Contents
 
@@ -122,11 +124,11 @@ This installs all dependencies for the monorepo workspaces.
 ### 3. Configure environment variables
 
 ```bash
-cd apps/seowebsite
+cd apps/web
 cp .env.example .env.local
 ```
 
-Edit `apps/seowebsite/.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
+Edit `apps/web/.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
 
 ### 4. Set up the database
 
@@ -148,9 +150,8 @@ npx supabase db push
 npm run dev
 ```
 
-This will start all applications in parallel:
-- **SEO Website**: [http://localhost:9002](http://localhost:9002)
-- **Booking App**: [http://localhost:9004](http://localhost:9004)
+This will start the application:
+- **Main Application**: [http://localhost:9002](http://localhost:9002)
 
 ## Project Structure
 
@@ -159,18 +160,20 @@ This is a Turborepo monorepo with the following structure:
 ```
 ekaacc/
 ├── apps/
-│   ├── booking-app/             # Booking application (Next.js)
-│   │   ├── app/                 # Next.js App Router pages
-│   │   ├── components/          # React components
-│   │   ├── lib/                 # Utilities and helpers
-│   │   └── public/              # Static assets
-│   └── seowebsite/              # Marketing & SEO site (Next.js)
-│       ├── app/                 # Marketing routes
-│       ├── components/          # Marketing UI components
-│       ├── lib/                 # Utilities and helpers
+│   └── web/                     # Main Next.js application
+│       ├── src/
+│       │   ├── app/             # Next.js App Router pages
+│       │   │   ├── (marketing)/ # Marketing and SEO pages
+│       │   │   └── (platform)/  # Authenticated platform features
+│       │   ├── components/      # React components
+│       │   ├── lib/             # Utilities and helpers
+│       │   └── context/         # React contexts
+│       ├── server/              # Server-side business logic
+│       ├── hooks/               # Custom React hooks
 │       └── public/              # Static assets
 ├── packages/
-│   └── shared-ui/               # Shared UI primitives and styles
+│   ├── shared-ui/               # Shared UI primitives and styles
+│   └── shared/                  # Shared utilities
 ├── supabase/                    # Database migrations & edge functions
 ├── scripts/                     # Utility scripts
 └── docs/                        # Additional documentation

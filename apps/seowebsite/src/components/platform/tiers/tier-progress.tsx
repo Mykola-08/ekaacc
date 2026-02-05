@@ -182,7 +182,7 @@ export function CircularTierProgress({
           cx={diameter / 2}
           cy={diameter / 2}
           r={radius}
-          stroke="#e5e7eb"
+          stroke="hsl(var(--border))"
           strokeWidth={strokeWidth}
           fill="none"
         />
@@ -207,8 +207,8 @@ export function CircularTierProgress({
         {/* Gradient definition */}
         <defs>
           <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#8b5cf6" />
+            <stop offset="0%" stopColor="hsl(var(--primary))" />
+            <stop offset="100%" stopColor="hsl(var(--chart-5))" />
           </linearGradient>
         </defs>
       </svg>

@@ -20,7 +20,7 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
         '--sidebar-width-mobile': '20rem',
       } as React.CSSProperties}
     >
-      <div className='flex min-h-svh w-full bg-[#FBFBFD] p-2 md:p-3 gap-2 md:gap-3 overflow-hidden'>
+      <div className='flex min-h-svh w-full bg-background p-2 md:p-3 gap-2 md:gap-3 overflow-hidden'>
         <motion.div
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}

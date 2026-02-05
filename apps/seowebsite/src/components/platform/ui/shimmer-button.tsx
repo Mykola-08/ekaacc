@@ -19,7 +19,7 @@ export function ShimmerButton({
   shimmerSize = '200%',
   borderRadius = '0.75rem',
   shimmerDuration = '2s',
-  background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+  background = 'hsl(var(--primary))',
   ...props
 }: ShimmerButtonProps) {
   return (

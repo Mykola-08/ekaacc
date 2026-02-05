@@ -61,7 +61,14 @@ interface AnalyticsData {
   }
 }
 
-const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4']
+const COLORS = [
+  'hsl(var(--primary))', 
+  'hsl(var(--chart-2))', 
+  'hsl(var(--chart-3))', 
+  'hsl(var(--destructive))', 
+  'hsl(var(--chart-5))', 
+  'hsl(var(--chart-1))'
+]
 
 export function AnalyticsDashboardHeadless() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null)
@@ -367,26 +374,26 @@ export function AnalyticsDashboardHeadless() {
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={analytics.userGrowth}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                                 <XAxis 
                                     dataKey="date" 
                                     tickFormatter={(date) => format(new Date(date), 'MMM dd')}
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                     dy={10}
                                 />
                                 <YAxis 
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                 />
                                 <Tooltip 
                                     labelFormatter={(date) => format(new Date(date), 'MMM dd, yyyy')}
                                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 />
-                                <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
-                                <Line type="monotone" dataKey="newUsers" stroke="#10b981" strokeWidth={3} dot={false} />
+                                <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
+                                <Line type="monotone" dataKey="newUsers" stroke="hsl(var(--chart-2))" strokeWidth={3} dot={false} />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
@@ -400,24 +407,24 @@ export function AnalyticsDashboardHeadless() {
                     <div className="h-[300px] w-full">
                         <ResponsiveContainer width="100%" height="100%">
                             <BarChart data={analytics.activityByHour}>
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                                 <XAxis 
                                     dataKey="hour" 
                                     axisLine={false} 
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                     dy={10}
                                 />
                                 <YAxis 
                                     axisLine={false}
                                     tickLine={false}
-                                    tick={{ fill: '#64748B', fontSize: 12 }}
+                                    tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 12 }}
                                 />
                                 <Tooltip 
                                     cursor={{ fill: 'transparent' }}
                                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                 />
-                                <Bar dataKey="activity" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                                <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
@@ -444,8 +451,8 @@ export function AnalyticsDashboardHeadless() {
                         />
                         <YAxis axisLine={false} tickLine={false} />
                         <Tooltip />
-                        <Line type="monotone" dataKey="users" stroke="#3b82f6" strokeWidth={3} name="Total Users" dot={{r: 4, strokeWidth: 0}} />
-                        <Line type="monotone" dataKey="newUsers" stroke="#10b981" strokeWidth={3} name="New Users" dot={{r: 4, strokeWidth: 0}} />
+                        <Line type="monotone" dataKey="users" stroke="hsl(var(--primary))" strokeWidth={3} name="Total Users" dot={{r: 4, strokeWidth: 0}} />
+                        <Line type="monotone" dataKey="newUsers" stroke="hsl(var(--chart-2))" strokeWidth={3} name="New Users" dot={{r: 4, strokeWidth: 0}} />
                     </LineChart>
                     </ResponsiveContainer>
                 </div>
@@ -462,11 +469,11 @@ export function AnalyticsDashboardHeadless() {
                 <div className="h-[400px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={analytics.activityByHour}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
                             <XAxis dataKey="hour" axisLine={false} tickLine={false} />
                             <YAxis axisLine={false} tickLine={false} />
-                            <Tooltip cursor={{ fill: '#F1F5F9' }} />
-                            <Bar dataKey="activity" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+                            <Tooltip cursor={{ fill: 'hsl(var(--muted))' }} />
+                            <Bar dataKey="activity" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
                         </BarChart>
                     </ResponsiveContainer>
                 </div>
@@ -521,11 +528,11 @@ export function AnalyticsDashboardHeadless() {
                                 label={({ payload }: any) => `\${payload.percentage.toFixed(0)}%`}
                                 outerRadius={100}
                                 innerRadius={60}
-                                fill="#8884d8"
+                                fill="hsl(var(--primary))"
                                 dataKey="count"
                             >
                                 {analytics.userSegments.map((entry, index) => (
-                                <Cell key={`cell-\${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={2} stroke="#fff" />
+                                <Cell key={`cell-\${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={2} stroke="hsl(var(--card))" />
                                 ))}
                             </Pie>
                             <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Manrope, Playfair_Display } from 'next/font/google';
 
 import { Toaster } from '@/components/platform/ui/sonner';
 import { cn } from '@/lib/platform/utils/css-utils';
@@ -15,25 +14,13 @@ import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/s
 import { PlatformSidebar } from '@/app/(platform)/components/PlatformSidebar';
 import { Separator } from '@/components/ui/separator';
 
-const manrope = Manrope({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-manrope',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-playfair',
-});
-
 export default function PlatformLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div className={cn('antialiased font-sans', manrope.variable, playfair.variable)}>
+    <div className={cn('antialiased font-sans')}>
       {/* <UserProvider> */}
       <ThemeProvider
         attribute="class"

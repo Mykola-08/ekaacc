@@ -13,6 +13,7 @@ import { ArrowLeft, Loader2, CheckCircle2, CreditCard } from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface BookingWizardProps {
   service: Service;

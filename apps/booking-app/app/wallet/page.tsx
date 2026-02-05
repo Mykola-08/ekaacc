@@ -32,15 +32,7 @@ export default async function WalletPage() {
 
   return (
     <DashboardLayout profile={profile}>
-      <motion.div 
-        className="space-y-8"
-        initial={{ opacity: 0, scale: 0.98, y: 10 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{
-            duration: 0.4,
-            ease: [0.25, 1, 0.5, 1],
-        }}
-      >
+      <div className="space-y-8">
 
         <DashboardHeader
           title="Wallet"
@@ -62,7 +54,7 @@ export default async function WalletPage() {
             <TransactionHistory transactions={transactions} />
           </div>
         </div>
-      </motion.div>
+      </div>
     </DashboardLayout>
   );
 }

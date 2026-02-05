@@ -662,7 +662,7 @@ export function RecommendationsResult({ services, exercises, actions }: Recommen
               <Card key={s.id} className="min-w-[160px] p-2 flex-shrink-0 bg-indigo-50/50 dark:bg-slate-900/50 border-indigo-100 dark:border-indigo-900">
                 <h5 className="text-xs font-medium truncate">{s.title}</h5>
                 <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{s.reason}</p>
-                <Badge className="mt-2 text-[9px]" variant={s.priority === 'high' ? 'default' : 'secondary'}>
+                <Badge className="mt-2 text-xs" variant={s.priority === 'high' ? 'default' : 'secondary'}>
                   {Math.round(s.confidence * 100)}% match
                 </Badge>
               </Card>
@@ -1775,7 +1775,7 @@ export function ServiceComparisonBlock({ services }: { services: any[] }) {
         {services.map((s, idx) => (
           <Card key={idx} className="min-w-[240px] flex-shrink-0 snap-center p-0 overflow-hidden border-indigo-100 dark:border-indigo-900 bg-white/50 dark:bg-slate-950/50 backdrop-blur-sm group hover:border-primary/40 transition-all">
             <div className="p-4 bg-gradient-to-br from-indigo-50 to-white dark:from-slate-900 dark:to-slate-950 transition-colors">
-              <Badge variant="outline" className="mb-2 text-[9px] border-primary/20">{s.category}</Badge>
+              <Badge variant="outline" className="mb-2 text-xs border-primary/20">{s.category}</Badge>
               <h5 className="font-bold text-sm mb-1 line-clamp-1">{s.name}</h5>
               <p className="text-xs text-muted-foreground line-clamp-2 h-8">{s.description}</p>
             </div>

@@ -301,7 +301,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                                         className={cn(
                                             "h-12 rounded-lg border-2 font-semibold transition-all",
                                             selectedTime === time 
-                                                ? "bg-foreground text-background border-foreground hover:bg-foreground/90 transform scale-[1.02] shadow-md" 
+                                                ? "bg-foreground text-background border-foreground hover:bg-foreground/90 transform scale-105 shadow-md" 
                                                 : "bg-card border-border text-foreground hover:border-muted hover:bg-secondary"
                                         )}
                                         onClick={() => handleTimeSelect(time)}

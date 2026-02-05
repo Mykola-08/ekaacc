@@ -62,7 +62,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
         <div className="mt-auto flex flex-col gap-3 pt-2">
           <Button
             onClick={() => navigateToBooking(service.slug || service.id)}
-            className="w-full bg-primary hover:bg-primary/95 text-white text-base py-6 rounded-full font-semibold transition-all shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] border-none"
+            className="w-full bg-primary hover:bg-primary/95 text-white text-base py-6 rounded-full font-semibold transition-all shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border-none"
           >
             {t('nav.bookNow')}
           </Button>

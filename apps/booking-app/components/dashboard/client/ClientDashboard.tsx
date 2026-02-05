@@ -74,7 +74,7 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                     </div>
                     {/* Wallet Component - Minimal Zinc */}
                     <Link href="/wallet" className="group h-full">
-                        <Card className="h-full p-6 rounded-2xl border border-border bg-surface hover:bg-surface-container/50 transition-all duration-300 flex flex-col justify-between overflow-hidden relative shadow-sm hover:shadow-md cursor-pointer active:scale-[0.98]">
+                        <Card className="h-full p-6 rounded-2xl border border-border bg-surface hover:bg-surface-container/50 transition-all duration-300 flex flex-col justify-between overflow-hidden relative shadow-sm hover:shadow-md cursor-pointer active:scale-95">
                             <div className="flex items-center justify-between">
                                 <div className="p-3 rounded-2xl bg-surface-container text-primary">
                                     <Wallet className="w-5 h-5" strokeWidth={2} />

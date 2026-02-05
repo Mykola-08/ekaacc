@@ -497,7 +497,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                                 <button 
                                     onClick={handleBooking}
                                     disabled={isSubmitting || !selectedSlot || !name || !email}
-                                    className="w-full py-4 bg-primary text-primary-foreground rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none"
+                                    className="w-full py-4 bg-primary text-primary-foreground rounded-lg font-semibold text-lg hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-70 disabled:pointer-events-none"
                                 >
                                     {isSubmitting ? (
                                         <>

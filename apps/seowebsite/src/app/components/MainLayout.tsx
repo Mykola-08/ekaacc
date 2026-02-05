@@ -461,7 +461,7 @@ export default function MainLayout({
    <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-border md:hidden z-50 pb-safe">
     <Link
      href={BOOKING_APP_URL}
-     className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
+     className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-95"
     >
      {t('nav.bookNow')}
     </Link>

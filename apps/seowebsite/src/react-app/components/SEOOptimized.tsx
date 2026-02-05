@@ -207,7 +207,12 @@ export default function SEOOptimized({
     
     // Additional Meta Tags
     setMetaTag('viewport', 'width=device-width, initial-scale=1.0');
-    setMetaTag('theme-color', 'hsl(var(--primary))');
+    
+    // Compute theme color from CSS variable
+    const computedThemeColor = typeof window !== 'undefined' 
+      ? getComputedStyle(document.documentElement).getPropertyValue('--primary').trim()
+      : '#FFB405'; // fallback
+    setMetaTag('theme-color', computedThemeColor ? `hsl(${computedThemeColor})` : '#FFB405');
 
     // Canonical URL
     let canonical = document.querySelector('link[rel="canonical"]');

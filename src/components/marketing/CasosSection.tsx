@@ -166,7 +166,7 @@ export default function CasosSection() {
        className="inline-flex items-center bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-full transition-all duration-200 shadow-sm hover:shadow-md hover:scale-105"
       >
        {t('casos.section.viewAll')}
-       <ArrowRight className="w-5 h-5 ml-2" />
+       <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={2.5} className="ml-2" />
       </Link>
       <Link
        href="/first-time"

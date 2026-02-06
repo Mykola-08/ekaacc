@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowDownUpIcon, PlusSignIcon, ActivityIcon } from "@hugeicons/core-free-icons"
+import { ArrowDownIcon, PlusSignIcon, ActivityIcon } from "@hugeicons/core-free-icons"
 
 import {
   DropdownMenu,
@@ -45,7 +45,7 @@ export function TeamSwitcher() {
                 <span className="truncate font-bold text-foreground">{activeTeam.name}</span>
                 <span className="truncate text-xs text-muted-foreground">{activeTeam.plan}</span>
               </div>
-              <HugeiconsIcon icon={ArrowDownUpIcon} className="ml-auto opacity-50" strokeWidth={2.5} />
+              <HugeiconsIcon icon={ArrowDownIcon} className="ml-auto opacity-50" strokeWidth={2.5} />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent

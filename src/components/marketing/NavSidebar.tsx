@@ -2,17 +2,15 @@
 
 import * as React from "react"
 import { HugeiconsIcon } from "@hugeicons/react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import {
   Home01Icon,
   UserCircle02Icon,
   Calendar03Icon,
   Settings01Icon,
   HelpCircleIcon,
-  Search01Icon,
-  Message01Icon,
-  Layout01Icon,
-  CreditCardIcon,
-  StarIcon
+  Layout01Icon
 } from "@hugeicons/core-free-icons"
 
 const IconHome = (props: any) => <HugeiconsIcon icon={Home01Icon} {...props} />;
@@ -20,11 +18,7 @@ const IconUser = (props: any) => <HugeiconsIcon icon={UserCircle02Icon} {...prop
 const IconCalendar = (props: any) => <HugeiconsIcon icon={Calendar03Icon} {...props} />;
 const IconSettings = (props: any) => <HugeiconsIcon icon={Settings01Icon} {...props} />;
 const IconHelpCircle = (props: any) => <HugeiconsIcon icon={HelpCircleIcon} {...props} />;
-const IconSearch = (props: any) => <HugeiconsIcon icon={Search01Icon} {...props} />;
-const IconMessageCircle = (props: any) => <HugeiconsIcon icon={Message01Icon} {...props} />;
 const IconLayoutGrid = (props: any) => <HugeiconsIcon icon={Layout01Icon} {...props} />;
-const IconCreditCard = (props: any) => <HugeiconsIcon icon={CreditCardIcon} {...props} />;
-const IconStar = (props: any) => <HugeiconsIcon icon={StarIcon} {...props} />;
 
 import {
   Sidebar,
@@ -42,6 +36,7 @@ import { useLanguage } from "@/context/LanguageContext"
 
 export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useLanguage()
+  const pathname = usePathname()
 
   const navMain = [
     {
@@ -68,20 +63,20 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   const navSecondary = [
     {
-      title: "Settings",
-      url: "#",
+      title: "Pricing",
+      url: "/pricing",
       icon: IconSettings,
     },
     {
       title: "Help",
-      url: "#",
+      url: "/contact",
       icon: IconHelpCircle,
     }
   ]
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border/50" {...props}>
-      <SidebarHeader className="h-16 flex items-center px-6">
+      <SidebarHeader className="h-16 flex items-center px-6 border-b border-border/20">
          <div className="flex items-center gap-3">
             <div className="size-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground font-bold">
               E
@@ -100,11 +95,16 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu className="px-3 gap-1">
               {navMain.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/5 hover:text-primary transition-all rounded-xl py-6">
-                    <a href={item.url}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    isActive={pathname === item.url || pathname?.startsWith(`${item.url}/`)}
+                    className="hover:bg-primary/5 hover:text-primary transition-all rounded-xl py-6 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                  >
+                    <Link href={item.url}>
                       <item.icon size={20} />
                       <span className="font-medium">{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -117,11 +117,16 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu className="px-3 gap-1">
                {navSecondary.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="hover:bg-primary/5 hover:text-primary transition-all rounded-xl py-6">
-                    <a href={item.url}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    isActive={pathname === item.url || pathname?.startsWith(`${item.url}/`)}
+                    className="hover:bg-primary/5 hover:text-primary transition-all rounded-xl py-6 data-[active=true]:bg-primary/10 data-[active=true]:text-primary"
+                  >
+                    <Link href={item.url}>
                       <item.icon size={20} />
                       <span className="font-medium">{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -133,9 +138,12 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <div className="bg-primary/5 rounded-2xl p-4 group-data-[collapsible=icon]:hidden">
           <p className="text-xs font-bold text-primary uppercase tracking-widest mb-1">Premium</p>
           <p className="text-sm font-medium mb-3">Upgrade for more benefits</p>
-          <button className="w-full bg-primary text-primary-foreground text-xs py-2 rounded-xl font-bold shadow-sm active:scale-95 transition-all">
+          <Link
+            href="/pricing"
+            className="block w-full bg-primary text-primary-foreground text-xs py-2 rounded-xl font-bold shadow-sm active:scale-95 transition-all hover:bg-primary/90 text-center"
+          >
             Upgrade Now
-          </button>
+          </Link>
         </div>
       </SidebarFooter>
     </Sidebar>

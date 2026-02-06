@@ -53,7 +53,7 @@ export default function LanguagePopup() {
                         {languages.map((lang) => (
                             <button
                                 key={lang.code}
-                                onClick={() => { setLanguage(lang.code); confirmLanguage(); }}
+                                onClick={() => confirmLanguage(lang.code)}
                                 className="flex items-center p-4 rounded-xl border-2 border-gray-100 hover:border-blue-500 hover:bg-blue-50 transition-all duration-200 group"
                             >
                                 <span className="text-2xl mr-4">{lang.flag}</span>

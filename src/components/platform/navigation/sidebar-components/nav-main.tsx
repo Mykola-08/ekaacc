@@ -1,8 +1,7 @@
-"use client"
+﻿"use client"
 
-import { ChevronRight, type LucideIcon } from "lucide-react"
 import { HugeiconsIcon } from "@hugeicons/react"
-import { ArrowRight01Icon, type HugeiconsProps } from "@hugeicons/core-free-icons"
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
 import { cn } from "@/lib/utils"
 
 import {
@@ -21,18 +20,20 @@ import {
   SidebarMenuSubItem,
 } from "@/components/platform/ui/sidebar"
 
+type HugeiconGlyph = any
+
 export function NavMain({
   items,
 }: {
   items: {
     title: string
     url: string
-    icon?: React.ComponentType<HugeiconsProps>
+    icon?: HugeiconGlyph
     isActive?: boolean
     items?: {
       title: string
       url: string
-      icon?: React.ComponentType<HugeiconsProps>
+      icon?: HugeiconGlyph
     }[]
   }[]
 }) {
@@ -57,7 +58,7 @@ export function NavMain({
                       item.isActive ? "bg-primary/10 text-primary shadow-sm" : "hover:bg-secondary"
                     )}
                   >
-                    {item.icon && <item.icon className="h-5 w-5" strokeWidth={2.5} />}
+                    {item.icon && <HugeiconsIcon icon={item.icon} className="h-5 w-5" strokeWidth={2.5} />}
                     <span>{item.title}</span>
                     <HugeiconsIcon 
                       icon={ArrowRight01Icon} 
@@ -72,6 +73,7 @@ export function NavMain({
                       <SidebarMenuSubItem key={subItem.title}>
                         <SidebarMenuSubButton asChild className="h-9 rounded-xl font-medium">
                           <a href={subItem.url}>
+                            {subItem.icon && <HugeiconsIcon icon={subItem.icon} className="h-4 w-4" strokeWidth={2.5} />}
                             <span>{subItem.title}</span>
                           </a>
                         </SidebarMenuSubButton>
@@ -93,7 +95,7 @@ export function NavMain({
                 )}
               >
                 <a href={item.url}>
-                  {item.icon && <item.icon className="h-5 w-5" strokeWidth={2.5} />}
+                  {item.icon && <HugeiconsIcon icon={item.icon} className="h-5 w-5" strokeWidth={2.5} />}
                   <span>{item.title}</span>
                 </a>
               </SidebarMenuButton>

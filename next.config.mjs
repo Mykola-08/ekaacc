@@ -1,7 +1,41 @@
+import { execSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+const packageJson = JSON.parse(
+  readFileSync(join(process.cwd(), 'package.json'), 'utf8')
+);
+const packageVersion = packageJson.version ?? '0.0.0';
+
+function getGitCommitSha() {
+  try {
+    return execSync('git rev-parse --short HEAD', {
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+      .toString()
+      .trim();
+  } catch {
+    return 'nogit';
+  }
+}
+
+const gitSha = getGitCommitSha();
+const appBuildId = `${packageVersion}-${gitSha}`;
+const appBuildTimestamp = new Date().toISOString();
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   
   reactStrictMode: true,
+  generateBuildId: async () => appBuildId,
+  env: {
+    NEXT_PUBLIC_APP_VERSION: packageVersion,
+    NEXT_PUBLIC_APP_BUILD_ID: appBuildId,
+    NEXT_PUBLIC_APP_BUILD_TIMESTAMP: appBuildTimestamp,
+    APP_VERSION: packageVersion,
+    APP_BUILD_ID: appBuildId,
+    APP_BUILD_TIMESTAMP: appBuildTimestamp,
+  },
   images: {
     remotePatterns: [
       {

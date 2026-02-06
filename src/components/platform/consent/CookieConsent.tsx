@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useConsent, ConsentPreferences } from '@/hooks/platform/useConsent';
 import { useLanguage } from '@/context/LanguageContext';
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Cancel01Icon, Shield01Icon, CookieIcon, Information01Icon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon, Shield01Icon, CookieIcon, Information } from "@hugeicons/core-free-icons";
 import Link from 'next/link';
 
 export default function CookieConsent() {
@@ -126,7 +126,7 @@ export default function CookieConsent() {
                   <div className="flex items-center gap-2">
                     <span className="font-bold text-foreground">{t('cookie.type.essential')}</span>
                     <div className="group relative">
-                      <HugeiconsIcon icon={Information01Icon} className="w-4 h-4 text-muted-foreground/80 cursor-help" />
+                      <HugeiconsIcon icon={Information} className="w-4 h-4 text-muted-foreground/80 cursor-help" />
                       <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-64 p-3 bg-foreground text-background text-xs rounded-2xl hidden group-hover:block z-20 shadow-xl">
                         {t('cookie.type.essentialDesc')}
                       </div>

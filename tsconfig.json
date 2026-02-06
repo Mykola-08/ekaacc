@@ -46,6 +46,7 @@
     "node_modules",
     "src/worker",
     "api",
-    "supabase/functions"
+    "supabase/functions",
+    "scripts"
   ]
 }

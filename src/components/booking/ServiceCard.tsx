@@ -7,9 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { 
   Clock01Icon, 
-  UserGroupIcon, 
   ArrowRight01Icon, 
-  CurrencyEuroIcon 
+  CreditCardIcon 
 } from '@hugeicons/core-free-icons';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -62,7 +61,7 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
               <span>{service.duration} minutes</span>
             </div>
             <div className="flex items-center gap-3">
-              <HugeiconsIcon icon={CurrencyEuroIcon} className="w-4 h-4 text-muted-foreground/60" strokeWidth={2.75} />
+              <HugeiconsIcon icon={CreditCardIcon} className="w-4 h-4 text-muted-foreground/60" strokeWidth={2.75} />
               <span>{service.price}</span>
             </div>
           </div>

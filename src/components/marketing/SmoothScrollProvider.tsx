@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { SmoothScrollContext } from '@/react-app/contexts/smoothScrollContext';
+import { SmoothScrollContext } from '@/context/smoothScrollContext';
 
 interface SmoothScrollProviderProps {
   children: React.ReactNode;

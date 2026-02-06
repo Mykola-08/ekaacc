@@ -2,7 +2,6 @@
 
 import Link, { LinkProps } from 'next/link';
 import { ReactNode } from 'react';
-import { usePredictivePrefetch } from '../hooks/usePredictivePrefetch';
 
 interface PredictiveLinkProps extends LinkProps {
   children: ReactNode;
@@ -12,15 +11,13 @@ interface PredictiveLinkProps extends LinkProps {
 
 export function PredictiveLink({ 
   children, 
-  prefetchThreshold = 150, 
+  prefetchThreshold = 150,
   ...props 
 }: PredictiveLinkProps) {
-  const { elementRef } = usePredictivePrefetch(props.href.toString(), { 
-    threshold: prefetchThreshold 
-  });
+  void prefetchThreshold;
 
   return (
-    <Link ref={elementRef as any} {...props}>
+    <Link {...props}>
       {children}
     </Link>
   );

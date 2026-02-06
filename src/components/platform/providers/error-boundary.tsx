@@ -6,6 +6,7 @@ import { SurfacePanel } from '@/components/platform/eka/surface-panel';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { sendClientErrorReport } from '@/lib/observability/client-error-reporting';
 
 interface Props {
   children: ReactNode;
@@ -44,26 +45,18 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // Log error to console
     console.error('Error Boundary caught an error:', error, errorInfo);
-    
-    // In production, log to monitoring service
-    if (process.env.NODE_ENV === 'production') {
-      // Example: Send to Sentry, LogRocket, or other monitoring service
-      // Sentry.captureException(error, { extra: errorInfo });
-      
-      // Log to server-side logging endpoint
-      fetch('/api/log-error', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          error: error.toString(),
-          errorInfo: errorInfo.componentStack,
-          timestamp: new Date().toISOString(),
-          userAgent: navigator.userAgent,
-        }),
-      }).catch(console.error);
-    }
+    void sendClientErrorReport({
+      message: error.message || error.toString(),
+      stack: error.stack ?? errorInfo.componentStack,
+      level: 'error',
+      context: {
+        source: 'react.error-boundary',
+      },
+      additionalData: {
+        componentStack: errorInfo.componentStack,
+      },
+    });
   }
 
   handleReset = () => {

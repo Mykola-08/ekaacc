@@ -3,9 +3,19 @@
 import Link from 'next/link';
 import { Button, LazyImage } from '@/components/ui';
 import { useLanguage } from '@/context/LanguageContext';
-import { PersonalizedServiceItem } from '@/shared/types';
 import { Clock } from 'lucide-react';
 import { BOOKING_APP_URL } from '@/lib/constants';
+
+interface PersonalizedServiceItem {
+ image: string;
+ titleKey: string;
+ descriptionKey: string;
+ benefitsKeys?: string[];
+ resultKey?: string;
+ duration?: string;
+ price?: number;
+ href: string;
+}
 
 interface PersonalizedServiceCardProps {
  service: PersonalizedServiceItem;

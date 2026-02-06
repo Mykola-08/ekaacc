@@ -31,6 +31,7 @@ import { IdentityVerificationForm } from '@/components/identity/IdentityVerifica
 import { MoodCheckIn } from '../widgets/MoodCheckIn';
 import { JournalTeaser } from '../widgets/JournalTeaser';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Shield, X } from 'lucide-react';
 import {
     MorphingActionButton,
     ProgressRing,

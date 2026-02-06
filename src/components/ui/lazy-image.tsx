@@ -11,7 +11,7 @@ interface LazyImageProps {
   onLoad?: () => void;
 }
 
-export default function LazyImage({
+export function LazyImage({
   src,
   alt,
   className = '',
@@ -44,3 +44,5 @@ export default function LazyImage({
     </div>
   );
 }
+
+export default LazyImage;

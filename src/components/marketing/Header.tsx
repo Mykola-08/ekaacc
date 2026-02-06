@@ -13,11 +13,11 @@ const IconUserCircle = (props: any) => <HugeiconsIcon icon={UserCircle02Icon} {.
 
 export function Header() {
   return (
-    <header className="flex h-16 shrink-0 items-center justify-between px-6 border-b border-border/40 sticky top-0 bg-background/80 backdrop-blur-md z-30">
+    <header className="app-shell-header">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-primary transition-colors" />
         <Separator orientation="vertical" className="h-4" />
-        <h1 className="text-sm font-semibold tracking-tight text-foreground/80">Dashboard</h1>
+        <h1 className="text-sm font-semibold tracking-tight text-foreground/80">Wellness Center</h1>
       </div>
 
       <div className="flex items-center gap-2">

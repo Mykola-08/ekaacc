@@ -3,11 +3,27 @@ import Link from 'next/link';
 import { ChevronRight, Heart, Brain, Leaf, User, Target, Sparkles, CheckCircle, ArrowLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLanguage } from '@/context/LanguageContext';
-import { OnboardingData, Recommendation } from '@/shared/types';
 import { cn } from '@/lib/platform/utils/css-utils';
 import { Button } from '@/components/platform/ui/button';
 import { Card } from '@/components/platform/ui/card';
 import { BOOKING_APP_URL } from '@/lib/constants';
+
+interface OnboardingData {
+  userType: string;
+  goals: string[];
+  preferredFeeling: string;
+}
+
+interface Recommendation {
+  id: string;
+  title: string;
+  description: string;
+  price?: number;
+  duration?: string;
+  link: string;
+  personalizedLink: string;
+  feeling?: string;
+}
 
 interface Question {
   id: keyof OnboardingData;

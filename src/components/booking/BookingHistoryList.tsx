@@ -8,7 +8,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { 
   Calendar03Icon, 
   Clock01Icon, 
-  LocationSourceIcon, 
+  LocationFavouriteIcon, 
   Cancel01Icon, 
   ArrowLeft01Icon, 
   UnavailableIcon, 
@@ -174,7 +174,7 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
                             )}>
                                 {booking.status}
                             </span>
-                            {isUpcoming && <span className="text-xs text-muted-foreground font-bold flex items-center gap-1"><HugeiconsIcon icon={LocationSourceIcon} className="w-3 h-3" strokeWidth={2.5} /> Main Studio</span>}
+                            {isUpcoming && <span className="text-xs text-muted-foreground font-bold flex items-center gap-1"><HugeiconsIcon icon={LocationFavouriteIcon} className="w-3 h-3" strokeWidth={2.5} /> Main Studio</span>}
                         </div>
                         
                         <h3 className={cn(

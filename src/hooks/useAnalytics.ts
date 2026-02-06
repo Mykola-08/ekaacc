@@ -3,6 +3,12 @@ import { useCallback } from 'react';
 // import { supabase } from '@/lib/supabase';
 // import { useSupabaseAuth } from '@/context/SupabaseAuthContext';
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 export const useAnalytics = () => {
   // const { user } = useSupabaseAuth();
   const user = null;

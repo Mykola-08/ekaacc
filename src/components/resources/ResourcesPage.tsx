@@ -10,11 +10,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { HugeiconsIcon } from "@hugeicons/react";
 import { 
   PlayIcon, 
-  FileDocumentIcon, 
+  LegalDocumentIcon, 
   ActivityIcon, 
   LockIcon, 
   Search01Icon, 
-  FilterIcon, 
   Image01Icon 
 } from "@hugeicons/core-free-icons";
 import { motion } from 'motion/react';
@@ -107,7 +106,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                       <div className="absolute top-6 left-6">
                           <Badge className="bg-white/90 text-primary backdrop-blur-md border-0 shadow-lg font-black px-4 py-2 rounded-full uppercase text-[10px] tracking-widest flex items-center">
                              {resource.category === 'video' && <HugeiconsIcon icon={PlayIcon} size={14} className="mr-2" strokeWidth={2.5} />}
-                             {resource.category === 'article' && <HugeiconsIcon icon={FileDocumentIcon} size={14} className="mr-2" strokeWidth={2.5} />}
+                             {resource.category === 'article' && <HugeiconsIcon icon={LegalDocumentIcon} size={14} className="mr-2" strokeWidth={2.5} />}
                              {resource.category === 'meditation' && <HugeiconsIcon icon={ActivityIcon} size={14} className="mr-2" strokeWidth={2.5} />}
                              {resource.category}
                           </Badge>

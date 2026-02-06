@@ -1,7 +1,7 @@
 "use client"
 
 import { Loader2 } from "lucide-react"
-import { cn } from "../../utils"
+import { cn } from "@/lib/utils"
 import { Transition } from "@headlessui/react"
 
 export interface SpinnerProps {

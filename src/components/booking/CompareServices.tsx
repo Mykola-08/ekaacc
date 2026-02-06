@@ -3,7 +3,7 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { 
   Tick02Icon, 
-  Minus01Icon, 
+  MinusPlus01Icon, 
   InformationCircleIcon 
 } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
@@ -54,7 +54,7 @@ export function CompareServices() {
 function FeatureRow({ label, tooltip, classic, premium, royal }: any) {
     const renderValue = (val: any) => {
         if (typeof val === 'boolean') {
-            return val ? <HugeiconsIcon icon={Tick02Icon} className="w-5 h-5 mx-auto text-emerald-500" /> : <HugeiconsIcon icon={Minus01Icon} className="w-5 h-5 mx-auto text-muted-foreground/30" />;
+            return val ? <HugeiconsIcon icon={Tick02Icon} className="w-5 h-5 mx-auto text-emerald-500" /> : <HugeiconsIcon icon={MinusPlus01Icon} className="w-5 h-5 mx-auto text-muted-foreground/30" />;
         }
         return <span className="text-sm font-medium">{val}</span>;
     };

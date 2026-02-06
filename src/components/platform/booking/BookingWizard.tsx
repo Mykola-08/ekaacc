@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Service } from "@/types/platform/database";
+import type { Service } from "@/types/database";
 import { Button } from "@/components/platform/ui/button";
 import { Calendar } from "@/components/platform/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/platform/ui/card";
@@ -27,6 +27,7 @@ import { format } from "date-fns";
 
 import { createNewBookingAction, getAvailableSlotsAction } from "@/app/actions/booking-actions";
 import { createClient } from "@/lib/supabase/client";
+import { cn } from "@/lib/utils";
 
 interface BookingWizardProps {
     service: Service;

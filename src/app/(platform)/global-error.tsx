@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { Button } from '@/components/platform/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
+import { sendClientErrorReport } from '@/lib/observability/client-error-reporting';
 // import { PageContainer } from '@/components/platform/eka/page-container';
 // import { SurfacePanel } from '@/components/platform/eka/surface-panel';
 
@@ -29,27 +30,17 @@ export default function GlobalError({
  reset: () => void;
 }) {
  useEffect(() => {
-  // Log the error to console
   console.error('Global error occurred:', error);
 
-  // In production, send to monitoring service
-  if (process.env.NODE_ENV === 'production') {
-   // Example: Send to Sentry
-   // Sentry.captureException(error);
-   
-   // Send to server-side logging
-   fetch('/api/log-error', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-     error: error.toString(),
-     errorInfo: error.stack,
-     digest: error.digest,
-     timestamp: new Date().toISOString(),
-     userAgent: navigator.userAgent,
-    }),
-   }).catch(console.error);
-  }
+  void sendClientErrorReport({
+   message: error.message || error.toString(),
+   stack: error.stack,
+   digest: error.digest,
+   level: 'fatal',
+   context: {
+    source: 'next.global-error',
+   },
+  });
  }, [error]);
 
  return (

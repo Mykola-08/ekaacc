@@ -29,7 +29,7 @@ export default function DiscountsPage() {
             icon: <Users className="w-8 h-8 text-primary" />,
             title: "Referral Program",
             desc: "Share the balance. Refer a friend and both receive credit for your next session.",
-            badge: "10€ Credit",
+            badge: "10 EUR Credit",
             link: "/referrals"
         }
     ];
@@ -91,7 +91,7 @@ export default function DiscountsPage() {
                         <p className="text-amber-100/60 font-light max-w-xl mx-auto mb-10 text-lg">
                             Unlock exclusive access to our most sophisticated treatments and prioritized scheduling.
                         </p>
-                        <Link href="/vip">
+                        <Link href="/vip/gold">
                             <Button size="lg" className="gold-shimmer rounded-2xl px-12 h-14 border-amber-500/30">
                                 Apply for VIP
                             </Button>

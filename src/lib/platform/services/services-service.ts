@@ -1,6 +1,34 @@
-import { supabase } from '@/lib/platform/supabase'; // Use client for public data
-import { SERVICES_DATA, PERSONALIZED_SERVICES_DATA } from '@/shared/constants';
-import { ServiceItem, PersonalizedServiceItem } from '@/shared/types';
+﻿import { supabase } from '@/lib/platform/supabase'; // Use client for public data
+
+interface ServiceItem {
+    id: string;
+    slug?: string;
+    titleKey: string;
+    subtitleKey?: string;
+    descriptionKey: string;
+    image: string;
+    href: string;
+    color?: string;
+    benefitsKeys?: string[];
+    price?: number;
+    active?: boolean;
+}
+
+interface PersonalizedServiceItem {
+    id: string;
+    slug?: string;
+    titleKey: string;
+    descriptionKey: string;
+    image: string;
+    href: string;
+    benefitsKeys?: string[];
+    resultKey?: string;
+    duration?: string;
+    price?: number;
+}
+
+const SERVICES_DATA: ServiceItem[] = [];
+const PERSONALIZED_SERVICES_DATA: PersonalizedServiceItem[] = [];
 
 export const servicesService = {
     /**

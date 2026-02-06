@@ -1,19 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { Heart, Brain, Leaf, RotateCcw, ArrowRight } from 'lucide-react';
+import { Heart, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui';
 import ServiceCard from '@/components/marketing/ServiceCard';
 import { BOOKING_APP_URL } from '@/lib/constants';
-
-const iconMap: Record<string, React.ElementType> = {
- Heart,
- Brain,
- Leaf,
- RotateCcw
-};
+import type { ServiceItem } from '@/shared/types';
 
 interface ServicesContentProps {
  services: any[];
@@ -66,7 +60,7 @@ export default function ServicesContent({ services }: ServicesContentProps) {
    <section className="py-24 bg-background relative">
     <div className="max-w-7xl mx-auto px-4 sm:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {services.map((service, index) => {
+      {services.map((service) => {
        // Map DB fields to component props
        const meta = service.metadata || {};
        // Fallback to DB fields if key is missing (though we seeded keys)
@@ -82,15 +76,13 @@ export default function ServicesContent({ services }: ServicesContentProps) {
        // Actually, I should have seeded benefits.
        // Let's check ServiceCard to see what it expects.
        
-       const item = {
+       const item: ServiceItem = {
          id: service.id, // or service.slug
          slug: service.slug,
          titleKey: titleKey,
          subtitleKey: meta.translationKey ? `${meta.translationKey}.subtitle` : undefined, // Infer from pattern
          descriptionKey: service.description,
-         iconName: meta.icon,
-         color: service.slug === 'massage' ? 'orange' : 'teal', // simplified
-         durations: meta.durations || [],
+         color: service.slug === 'massage' ? 'orange' : service.slug === 'kinesiology' ? 'blue' : 'purple',
          image: service.image_url,
          href: `/services/${service.slug}`,
          benefitsKeys: meta.benefitsKeys || [] // Ideally this should be in DB

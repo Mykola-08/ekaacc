@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
-import { CircleNotch } from 'phosphor-react';
-import { Button } from '@ekaacc/shared-ui';
+﻿import { ReactNode } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Loading03Icon } from '@hugeicons/core-free-icons';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-// Redefining interface to maintain compatibility but map internally
 interface LoadingButtonProps {
   children: ReactNode;
   loading?: boolean;
@@ -31,27 +31,23 @@ export default function LoadingButton({
 }: LoadingButtonProps) {
   const isDisabled = disabled || loading;
 
-  // Map Keep Props to Shared UI Props
   let mappedVariant: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" = "default";
   let colorClass = "";
-  
-  // Logic for Mapping
+
   if (color === 'error') {
     mappedVariant = "destructive";
   } else if (color === 'secondary') {
     mappedVariant = "secondary";
   } else if (color === 'success') {
-     // Shared UI doesn't have success variant, use custom class
-     colorClass = "bg-green-600 hover:bg-green-700 text-white";
+    colorClass = "bg-green-600 hover:bg-green-700 text-white";
   } else if (variant === 'outline') {
     mappedVariant = "outline";
   } else if (variant === 'link') {
     mappedVariant = "link";
   } else if (variant === 'softBg') {
-    mappedVariant = "secondary"; 
+    mappedVariant = "secondary";
   }
 
-  // Map Size
   let mappedSize: "default" | "sm" | "lg" | "icon" = "default";
   if (size === 'xs' || size === 'sm') mappedSize = "sm";
   else if (size === 'lg' || size === 'xl' || size === '2xl') mappedSize = "lg";
@@ -66,14 +62,13 @@ export default function LoadingButton({
       className={cn(loading ? 'cursor-wait' : '', colorClass, className)}
     >
       {loading && (
-        <CircleNotch className="w-4 h-4 mr-2 animate-spin" />
+        <HugeiconsIcon icon={Loading03Icon} className="w-4 h-4 mr-2 animate-spin" />
       )}
       {loading && loadingText ? loadingText : children}
     </Button>
   );
 }
 
-// Specialized buttons using Keep React
 export function SaveButton({ 
   loading, 
   saved, 
@@ -84,9 +79,9 @@ export function SaveButton({
       {...props}
       color={saved ? 'success' : (props.color || 'primary')}
       loading={loading}
-      loadingText="Desant..."
+      loadingText="Saving..."
     >
-      {saved ? '✓ Desat' : (props.children || 'Desar')}
+      {saved ? 'Saved' : (props.children || 'Save')}
     </LoadingButton>
   );
 }
@@ -97,9 +92,9 @@ export function SubmitButton({ loading, ...props }: LoadingButtonProps) {
       {...props}
       type="submit"
       loading={loading}
-      loadingText="Enviant..."
+      loadingText="Sending..."
     >
-      {props.children || 'Enviar'}
+      {props.children || 'Submit'}
     </LoadingButton>
   );
 }
@@ -110,9 +105,9 @@ export function DeleteButton({ loading, ...props }: LoadingButtonProps) {
       {...props}
       color="error"
       loading={loading}
-      loadingText="Eliminant..."
+      loadingText="Deleting..."
     >
-      {props.children || 'Eliminar'}
+      {props.children || 'Delete'}
     </LoadingButton>
   );
 }

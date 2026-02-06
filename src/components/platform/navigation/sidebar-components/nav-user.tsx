@@ -4,10 +4,10 @@ import { HugeiconsIcon } from "@hugeicons/react"
 import {
   UserCheck01Icon,
   Notification03Icon,
-  ArrowDownUpIcon,
+  ArrowDownIcon,
   CreditCardIcon,
   Logout01Icon,
-  SparklingIcon
+  SharingIcon
 } from "@hugeicons/core-free-icons"
 
 import {
@@ -65,7 +65,7 @@ export function NavUser() {
                 <span className="truncate font-semibold text-foreground">{userData.name}</span>
                 <span className="truncate text-xs text-muted-foreground">{userData.email}</span>
               </div>
-              <HugeiconsIcon icon={ArrowDownUpIcon} className="ml-auto size-4 opacity-50" strokeWidth={2.5} />
+              <HugeiconsIcon icon={ArrowDownIcon} className="ml-auto size-4 opacity-50" strokeWidth={2.5} />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -91,7 +91,7 @@ export function NavUser() {
             <DropdownMenuSeparator className="my-2" />
             <DropdownMenuGroup className="gap-1 flex flex-col">
               <DropdownMenuItem className="rounded-xl h-10 cursor-pointer">
-                <HugeiconsIcon icon={SparklingIcon} className="mr-3 h-4 w-4 text-amber-500" strokeWidth={2.5} />
+                <HugeiconsIcon icon={SharingIcon} className="mr-3 h-4 w-4 text-amber-500" strokeWidth={2.5} />
                 <span className="font-semibold">Upgrade to Pro</span>
               </DropdownMenuItem>
             </DropdownMenuGroup>

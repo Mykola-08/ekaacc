@@ -11,6 +11,7 @@ import { PageContainer } from '@/components/platform/eka/page-container';
 import { SurfacePanel } from '@/components/platform/eka/surface-panel';
 
 import { cn } from '@/lib/platform/utils/css-utils';
+import { sendClientErrorReport } from '@/lib/observability/client-error-reporting';
 
 interface EnhancedErrorBoundaryProps {
   children: ReactNode;
@@ -99,25 +100,21 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
   }
 
   private async sendErrorReport(error: Error, errorInfo: ErrorInfo) {
-    try {
-      const errorReport = {
+    await sendClientErrorReport({
+      message: error.message || error.toString(),
+      stack: error.stack ?? errorInfo.componentStack,
+      level: 'error',
+      context: {
+        source: 'react.enhanced-error-boundary',
+        ...this.props.errorContext,
+      },
+      metadata: {
         errorId: this.state.errorId,
-        error: error.toString(),
-        errorInfo: errorInfo.componentStack,
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        context: this.props.errorContext,
-      };
-
-      await fetch('/api/log-error', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(errorReport),
-      });
-    } catch (loggingError) {
-      logger.error('Failed to send error report', loggingError as Error);
-    }
+      },
+      additionalData: {
+        componentStack: errorInfo.componentStack,
+      },
+    });
   }
 
   private handleReset = () => {

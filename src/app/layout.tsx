@@ -6,6 +6,7 @@ import { DiscountProvider } from "@/context/DiscountContext";
 import { BookingProvider } from '@/components/marketing/BookingProvider';
 import { AuthProvider } from "@/context/platform/auth-context";
 import SmoothScrolling from "@/components/marketing/SmoothScrolling";
+import { GlobalErrorReporter } from '@/components/observability/GlobalErrorReporter';
 
 export const metadata: Metadata = {
   title: "EKA Balance - Teràpies Integratives",
@@ -35,6 +36,7 @@ export default function RootLayout({
             <LanguageProvider>
               <DiscountProvider>
                 <BookingProvider>
+                  <GlobalErrorReporter />
                   {children}
                 </BookingProvider>
               </DiscountProvider>

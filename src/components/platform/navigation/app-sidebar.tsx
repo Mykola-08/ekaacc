@@ -1,30 +1,22 @@
-"use client"
+﻿"use client"
 
 import * as React from "react"
-import { HugeiconsIcon } from "@hugeicons/react";
 import {
   DashboardSquare01Icon,
-  Calendar01Icon,
-  ArrowUpRight01Icon,
-  Comment01Icon,
-  FavouriteIcon,
-  Settings02Icon,
-  UserGroupIcon,
   Shield01Icon,
-  ChartBarLine01Icon,
+  UserGroupIcon,
   CreditCardIcon,
+  ChartBarLineIcon,
+  Settings02Icon,
   UserCircleIcon,
-  FileCodeIcon,
   Briefcase01Icon,
   Book01Icon,
   PlusSignIcon,
   Wallet01Icon,
   ActivityIcon,
-  Note01Icon,
   CourseIcon,
-  Certificate01Icon,
   UserMultipleIcon
-} from "@hugeicons/core-free-icons";
+} from "@hugeicons/core-free-icons"
 
 import { NavMain } from "@/components/platform/navigation/sidebar-components/nav-main"
 import { NavUser } from "@/components/platform/navigation/sidebar-components/nav-user"
@@ -62,13 +54,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {
         title: t('nav.dashboard'),
         url: "/dashboard",
-        icon: LayoutDashboard,
+        icon: DashboardSquare01Icon,
         isActive: pathname === "/dashboard" || pathname === "/home",
       },
       {
         title: t('nav.profile'),
         url: "/myaccount",
-        icon: UserCircle,
+        icon: UserCircleIcon,
         isActive: pathname === "/myaccount",
       },
     ]
@@ -80,31 +72,31 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {
           title: t('nav.adminDashboard'),
           url: "/admin",
-          icon: Shield,
+          icon: Shield01Icon,
           isActive: pathname === "/admin",
         },
         {
           title: t('nav.userManagement'),
           url: "/admin/users",
-          icon: Users,
+          icon: UserGroupIcon,
           isActive: pathname === "/admin/users",
         },
         {
           title: t('nav.subscriptions'),
           url: "/admin/subscriptions",
-          icon: CreditCard,
+          icon: CreditCardIcon,
           isActive: pathname === "/admin/subscriptions",
         },
         {
           title: t('nav.analytics'),
           url: "/admin/analytics",
-          icon: BarChart,
+          icon: ChartBarLineIcon,
           isActive: pathname === "/admin/analytics",
         },
         {
           title: t('nav.systemSettings'),
           url: "/admin/settings",
-          icon: Settings,
+          icon: Settings02Icon,
           isActive: pathname === "/admin/settings",
         },
         ...baseItems
@@ -116,13 +108,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {
           title: t('nav.therapistDashboard'),
           url: "/dashboard",
-          icon: Briefcase,
+          icon: Briefcase01Icon,
           isActive: pathname === "/dashboard",
         },
         {
           title: t('nav.clientManagement'),
           url: "/therapist/clients",
-          icon: Users,
+          icon: UserGroupIcon,
           isActive: pathname === "/therapist/clients",
         },
         ...baseItems
@@ -153,7 +145,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       ]
     }
 
-    // Regular user items
     return [
       ...baseItems,
       {
@@ -222,4 +213,3 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   )
 }
-

@@ -13,12 +13,8 @@ import {
     Notification02Icon, 
     LockIcon, 
     Tick02Icon, 
-    CreditCardIcon, 
-    ArrowRight01Icon, 
     Logout02Icon, 
-    Camera01Icon, 
-    Shield01Icon,
-    ShieldCheckIcon
+    Camera01Icon
 } from "@hugeicons/core-free-icons";
 import { IdentityVerificationForm } from '@/components/identity/IdentityVerificationForm';
 import { createClient } from '@/lib/supabase/client';
@@ -27,7 +23,6 @@ import { toast } from 'sonner';
 import { DashboardLayout } from '../dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '../dashboard/layout/DashboardHeader';
 import { motion } from 'motion/react';
-import { cn } from '@/lib/utils';
 
 export function SettingsPage({ profile, identityStatus }: { profile: any, identityStatus: string }) {
     const supabase = createClient();

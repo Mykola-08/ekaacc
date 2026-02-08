@@ -37,9 +37,17 @@ export function DashboardCard({
         ease: [0.25, 1, 0.5, 1],
       }}
       className={cn(
-        'bg-card border-border group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border p-8 shadow-sm transition-shadow duration-300 hover:shadow-md',
+        'bg-card border-border group relative flex h-full flex-col justify-between overflow-hidden border p-8 transition-shadow duration-300',
+        'rounded-[20px]', // Apple standard 20px radius
         className
       )}
+      style={{ boxShadow: 'var(--shadow-base)' }} // Use CSS variable for shadow
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+      }}
     >
       <div className="relative z-10 w-full space-y-6">
         <header className="flex items-center justify-between">
@@ -71,13 +79,17 @@ export function DashboardCard({
           <button
             onClick={onAction}
             className={cn(
-              'flex h-14 w-full items-center justify-center gap-2 rounded-2xl text-lg font-bold shadow-lg transition-all duration-200 hover:scale-105 active:scale-95',
+              'flex h-14 w-full items-center justify-center gap-2 text-lg font-bold transition-all duration-200 hover:scale-105 active:scale-95',
+              'rounded-[20px]', // Apple standard 20px radius
               variant === 'default'
                 ? 'from-secondary to-secondary/80 text-foreground hover:from-secondary/90 hover:to-secondary/70 bg-gradient-to-r'
                 : variant === 'primary'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-xl shadow-blue-500/25 hover:from-blue-700 hover:to-indigo-700 hover:shadow-2xl hover:shadow-blue-500/30'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
                   : 'bg-gradient-to-r from-red-50 to-rose-50 text-red-700 hover:from-red-100 hover:to-rose-100 dark:from-red-900/40 dark:to-rose-900/40 dark:text-red-400 dark:hover:from-red-900/60 dark:hover:to-rose-900/60'
             )}
+            style={{
+              boxShadow: variant === 'primary' ? 'var(--shadow-lg)' : 'var(--shadow-md)',
+            }}
           >
             {actionLabel || 'Manage'}
           </button>

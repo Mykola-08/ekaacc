@@ -22,9 +22,11 @@ export function WelcomeBanner({
   return (
     <div
       className={cn(
-        'bg-surface border-border group relative flex flex-col items-start justify-between gap-10 overflow-hidden rounded-2xl border p-10 shadow-sm md:flex-row md:items-center md:p-14',
+        'bg-surface border-border group relative flex flex-col items-start justify-between gap-10 overflow-hidden border p-10 md:flex-row md:items-center md:p-14',
+        'rounded-[20px]', // Apple standard 20px radius
         className
       )}
+      style={{ boxShadow: 'var(--shadow-base)' }}
     >
       {/* Soft Blue Accent */}
       <div className="bg-accent/5 absolute -top-20 -right-20 h-80 w-80 rounded-full blur-[100px] transition-transform duration-1000 group-hover:scale-110" />

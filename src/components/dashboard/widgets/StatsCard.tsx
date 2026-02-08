@@ -24,9 +24,17 @@ export function StatsCard({
   return (
     <div
       className={cn(
-        'bg-surface border-border group flex h-44 flex-col justify-between rounded-2xl border p-6 shadow-sm transition-all hover:shadow-md',
+        'bg-surface border-border group flex h-44 flex-col justify-between border p-6 transition-all',
+        'rounded-[20px]', // Apple standard 20px radius
         className
       )}
+      style={{ boxShadow: 'var(--shadow-base)' }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+      }}
     >
       <div className="flex items-start justify-between">
         <div

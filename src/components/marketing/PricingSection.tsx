@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CheckCircle, Sparkles, Crown, Heart, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import { useBooking } from '@/hooks/marketing/useBooking';
 import { useDiscount } from '@/context/DiscountContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';

@@ -1,5 +1,5 @@
 import { Star, Quote, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import Image from 'next/image';
 
 const testimonials = [

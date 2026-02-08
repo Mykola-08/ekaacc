@@ -86,7 +86,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
       transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
       className="mx-auto w-full max-w-lg"
     >
-      <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
+      <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
         {/* Decorative gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-blue-500/5 to-purple-500/5" />
         <div className="pointer-events-none absolute top-0 left-0 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
@@ -101,8 +101,8 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
             className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative">
-              <div className="absolute inset-0 animate-pulse rounded-2xl bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 opacity-30 blur-xl" />
-              <div className="relative rounded-2xl bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 p-3 shadow-lg">
+              <div className="absolute inset-0 animate-pulse rounded-[20px] bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 opacity-30 blur-xl" />
+              <div className="relative rounded-[20px] bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 p-3 shadow-lg">
                 <Image
                   src="/eka_logo.png"
                   alt="EKA"

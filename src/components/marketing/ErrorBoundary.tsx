@@ -50,7 +50,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
       return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-          <div className="w-full max-w-md rounded-3xl bg-white p-8 text-center shadow-xl">
+          <div className="w-full max-w-md rounded-[20px] bg-white p-8 text-center shadow-xl">
             <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
               <AlertTriangle className="h-10 w-10 text-red-500" />
             </div>
@@ -109,7 +109,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 // Simple error fallback component
 export function ErrorFallback({ error, resetError }: { error: Error; resetError: () => void }) {
   return (
-    <div className="rounded-2xl border border-red-200 bg-red-50 p-8">
+    <div className="rounded-[20px] border border-red-200 bg-red-50 p-8">
       <div className="mb-4 flex items-center">
         <AlertTriangle className="mr-3 h-6 w-6 text-red-500" />
         <h2 className="text-lg font-medium text-red-900">Error en aquesta secció</h2>

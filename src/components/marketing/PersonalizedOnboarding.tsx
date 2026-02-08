@@ -404,7 +404,7 @@ export default function PersonalizedOnboarding() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+                className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="mb-4 flex flex-col justify-between gap-4 md:flex-row md:items-start">
                   <div>
@@ -555,7 +555,7 @@ export default function PersonalizedOnboarding() {
                   <button
                     key={option.id}
                     onClick={() => handleSelection(currentQuestion.id, option.id)}
-                    className={`group relative flex min-h-[100px] items-center rounded-2xl border p-6 text-left shadow-sm transition-all duration-300 ${
+                    className={`group relative flex min-h-[100px] items-center rounded-[20px] border p-6 text-left shadow-sm transition-all duration-300 ${
                       isSelected
                         ? 'border-[#FFB405] bg-[#FFB405]/5 shadow-md ring-1 ring-[#FFB405]'
                         : 'border-white bg-white hover:-translate-y-1 hover:border-[#FFB405]/50 hover:shadow-lg'

@@ -16,7 +16,7 @@ export function WalletBalanceCard({ balanceCents, currency = 'EUR' }: WalletBala
   }).format(balanceCents / 100);
 
   return (
-    <Card className="bg-background border-border overflow-hidden rounded-[24px] shadow-sm">
+    <Card className="bg-background border-border overflow-hidden rounded-[20px] shadow-sm">
       <CardContent className="p-10">
         <div className="flex flex-col gap-2">
           <span className="text-muted-foreground text-[13px] font-bold tracking-wider uppercase">

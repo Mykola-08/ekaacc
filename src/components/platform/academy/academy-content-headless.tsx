@@ -66,7 +66,7 @@ export function AcademyContentHeadless() {
           <input
             type="text"
             placeholder="Find a course..."
-            className="border-border bg-card w-full rounded-2xl border py-3 pr-4 pl-12 shadow-sm transition-all focus:border-transparent focus:ring-2 focus:ring-black md:w-64"
+            className="border-border bg-card w-full rounded-[20px] border py-3 pr-4 pl-12 shadow-sm transition-all focus:border-transparent focus:ring-2 focus:ring-black md:w-64"
           />
         </div>
       </div>
@@ -85,11 +85,11 @@ export function AcademyContentHeadless() {
             {courses.map((course, i) => (
               <div
                 key={i}
-                className="group bg-card flex cursor-pointer flex-col items-center gap-6 rounded-3xl border border-gray-100 p-4 shadow-sm transition-all duration-300 hover:shadow-lg sm:flex-row"
+                className="group bg-card flex cursor-pointer flex-col items-center gap-6 rounded-[20px] border border-gray-100 p-4 shadow-sm transition-all duration-300 hover:shadow-lg sm:flex-row"
               >
                 <div
                   className={cn(
-                    'flex h-32 w-full items-center justify-center rounded-2xl text-5xl sm:w-32',
+                    'flex h-32 w-full items-center justify-center rounded-[20px] text-5xl sm:w-32',
                     course.image
                   )}
                 >
@@ -141,13 +141,13 @@ export function AcademyContentHeadless() {
               Achievements
             </h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex aspect-square flex-col items-center justify-center rounded-2xl border border-amber-100 bg-amber-50 p-3 text-center">
+              <div className="flex aspect-square flex-col items-center justify-center rounded-[20px] border border-amber-100 bg-amber-50 p-3 text-center">
                 <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-amber-100">
                   <span className="text-xl">🏆</span>
                 </div>
                 <span className="text-xs font-bold text-amber-900">Early Adopter</span>
               </div>
-              <div className="bg-muted/30 flex aspect-square flex-col items-center justify-center rounded-2xl border border-gray-100 p-3 text-center opacity-50">
+              <div className="bg-muted/30 flex aspect-square flex-col items-center justify-center rounded-[20px] border border-gray-100 p-3 text-center opacity-50">
                 <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-gray-200">
                   <span className="text-xl">🎓</span>
                 </div>

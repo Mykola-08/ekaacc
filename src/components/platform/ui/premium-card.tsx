@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '@/lib/platform/utils/css-utils';
 
 const premiumCardVariants = cva(
-  'relative overflow-hidden rounded-2xl border bg-card shadow-sm transition-all duration-300',
+  'relative overflow-hidden rounded-[20px] border bg-card shadow-sm transition-all duration-300',
   {
     variants: {
       variant: {
@@ -253,14 +253,14 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
       >
         {/* Shimmer Effect */}
         {shimmer && (
-          <div className="absolute inset-0 overflow-hidden rounded-2xl">
+          <div className="absolute inset-0 overflow-hidden rounded-[20px]">
             <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-linear-to-r from-transparent via-white/30 to-transparent" />
           </div>
         )}
 
         {/* Loading Overlay */}
         {loading && (
-          <div className="bg-card/50 absolute inset-0 z-10 flex items-center justify-center rounded-2xl backdrop-blur-sm">
+          <div className="bg-card/50 absolute inset-0 z-10 flex items-center justify-center rounded-[20px] backdrop-blur-sm">
             <div className="flex items-center gap-3">
               <div
                 className="h-2 w-2 animate-bounce rounded-full bg-blue-500"
@@ -282,7 +282,7 @@ const PremiumCard = React.forwardRef<HTMLDivElement, PremiumCardProps>(
         {interactive && variant === 'premium' && (
           <div
             className={cn(
-              'absolute inset-0 rounded-2xl bg-linear-to-br from-blue-500/5 to-purple-500/5 opacity-0 transition-opacity duration-300',
+              'absolute inset-0 rounded-[20px] bg-linear-to-br from-blue-500/5 to-purple-500/5 opacity-0 transition-opacity duration-300',
               isHovered && 'opacity-100'
             )}
           />

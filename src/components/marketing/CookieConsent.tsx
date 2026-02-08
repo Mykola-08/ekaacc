@@ -44,7 +44,7 @@ export function CookieConsent() {
 
   return (
     <div className="animate-in slide-in-from-bottom-4 fixed right-6 bottom-6 z-50 w-full max-w-md px-4 duration-700">
-      <Card className="bg-card/95 overflow-hidden rounded-2xl border-none shadow-2xl ring-1 ring-slate-900/5 backdrop-blur-xl">
+      <Card className="bg-card/95 overflow-hidden rounded-[20px] border-none shadow-2xl ring-1 ring-slate-900/5 backdrop-blur-xl">
         <CardContent className="space-y-6 p-6">
           <div className="flex items-start gap-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100">
@@ -82,7 +82,7 @@ export function CookieConsent() {
                       Customize
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="bg-card overflow-hidden rounded-2xl border-none p-0 shadow-2xl sm:max-w-[425px]">
+                  <DialogContent className="bg-card overflow-hidden rounded-[20px] border-none p-0 shadow-2xl sm:max-w-[425px]">
                     <DialogHeader className="border-border/60 bg-card border-b p-8 pb-6">
                       <div className="mb-2 flex items-center gap-3">
                         <div className="bg-muted flex h-10 w-10 items-center justify-center rounded-full">
@@ -97,7 +97,7 @@ export function CookieConsent() {
                       </DialogDescription>
                     </DialogHeader>
                     <div className="bg-muted/30 space-y-6 p-8 py-6">
-                      <div className="bg-card border-border/60 flex items-start gap-3 rounded-2xl border p-4 opacity-60 shadow-sm">
+                      <div className="bg-card border-border/60 flex items-start gap-3 rounded-[20px] border p-4 opacity-60 shadow-sm">
                         <div className="flex-1 space-y-1">
                           <Label htmlFor="essential" className="text-foreground font-medium">
                             Essential
@@ -130,7 +130,7 @@ export function CookieConsent() {
                       ].map((item) => (
                         <div
                           key={item.id}
-                          className="bg-card border-border/60 flex items-start gap-3 rounded-2xl border p-4 shadow-sm transition-all hover:border-amber-200/50 hover:shadow-md"
+                          className="bg-card border-border/60 flex items-start gap-3 rounded-[20px] border p-4 shadow-sm transition-all hover:border-amber-200/50 hover:shadow-md"
                         >
                           <div className="flex-1 space-y-1">
                             <Label

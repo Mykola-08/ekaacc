@@ -69,7 +69,7 @@ export default function ArtistsContent() {
                 {t('artists.challenges.title')}
               </h2>
               <div className="space-y-6">
-                <div className="flex items-start rounded-2xl bg-red-50 p-6">
+                <div className="flex items-start rounded-[20px] bg-red-50 p-6">
                   <AlertCircle className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-red-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">
@@ -78,7 +78,7 @@ export default function ArtistsContent() {
                     <p className="text-gray-600">{t('artists.challenge1.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-2xl bg-red-50 p-6">
+                <div className="flex items-start rounded-[20px] bg-red-50 p-6">
                   <AlertCircle className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-red-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">
@@ -87,7 +87,7 @@ export default function ArtistsContent() {
                     <p className="text-gray-600">{t('artists.challenge2.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-2xl bg-red-50 p-6">
+                <div className="flex items-start rounded-[20px] bg-red-50 p-6">
                   <AlertCircle className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-red-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">
@@ -103,21 +103,21 @@ export default function ArtistsContent() {
             <div>
               <h2 className="text-eka-dark mb-8 text-3xl font-bold">{t('artists.help.title')}</h2>
               <div className="space-y-6">
-                <div className="flex items-start rounded-2xl bg-green-50 p-6">
+                <div className="flex items-start rounded-[20px] bg-green-50 p-6">
                   <CheckCircle2 className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-green-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help1.title')}</h3>
                     <p className="font-light text-gray-600">{t('artists.help1.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-2xl bg-green-50 p-6">
+                <div className="flex items-start rounded-[20px] bg-green-50 p-6">
                   <CheckCircle2 className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-green-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help2.title')}</h3>
                     <p className="font-light text-gray-600">{t('artists.help2.desc')}</p>
                   </div>
                 </div>
-                <div className="flex items-start rounded-2xl bg-green-50 p-6">
+                <div className="flex items-start rounded-[20px] bg-green-50 p-6">
                   <CheckCircle2 className="mt-1 mr-4 h-6 w-6 flex-shrink-0 text-green-500" />
                   <div>
                     <h3 className="mb-2 font-semibold text-gray-900">{t('artists.help3.title')}</h3>

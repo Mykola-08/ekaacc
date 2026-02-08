@@ -80,7 +80,7 @@ export function NotificationDropdown() {
               <DropdownMenuItem
                 key={n.id}
                 className={cn(
-                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-2xl border border-transparent p-4 transition-all outline-none',
+                  'focus:bg-secondary hover:bg-secondary hover:border-border group cursor-pointer rounded-[20px] border border-transparent p-4 transition-all outline-none',
                   !n.read ? 'bg-secondary' : 'bg-transparent'
                 )}
               >

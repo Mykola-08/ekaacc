@@ -153,7 +153,7 @@ export default function AboutElenaContent() {
                     visible: { opacity: 1, y: 0 },
                   }}
                   whileHover={{ scale: 1.05 }}
-                  className="cursor-default rounded-2xl border border-gray-100 bg-white px-8 py-4 font-medium text-gray-700 shadow-sm transition-all hover:border-blue-200 hover:text-blue-700 hover:shadow-md"
+                  className="cursor-default rounded-[20px] border border-gray-100 bg-white px-8 py-4 font-medium text-gray-700 shadow-sm transition-all hover:border-blue-200 hover:text-blue-700 hover:shadow-md"
                 >
                   {tech.name}
                 </motion.div>
@@ -170,7 +170,7 @@ export default function AboutElenaContent() {
               <Link href="/book">
                 <Button
                   size="xl"
-                  className="rounded-2xl border-none bg-[#FFB405] px-10 py-4 font-medium text-[#000035] normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-[#e8a204]"
+                  className="rounded-[20px] border-none bg-[#FFB405] px-10 py-4 font-medium text-[#000035] normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-[#e8a204]"
                 >
                   {t('common.bookNow')}
                 </Button>
@@ -179,7 +179,7 @@ export default function AboutElenaContent() {
                 <Button
                   size="xl"
                   variant="outline"
-                  className="rounded-2xl border-gray-200 bg-white px-10 py-4 font-medium text-gray-900 normal-case hover:bg-gray-100"
+                  className="rounded-[20px] border-gray-200 bg-white px-10 py-4 font-medium text-gray-900 normal-case hover:bg-gray-100"
                 >
                   {t('nav.contact')}
                 </Button>

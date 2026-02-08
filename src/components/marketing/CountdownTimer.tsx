@@ -63,7 +63,7 @@ export const CountdownTimer = ({ targetDate, onEnd }: CountdownTimerProps) => {
   );
 
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-white/60 bg-white/50 px-4 py-2 shadow-sm backdrop-blur-md">
+    <div className="flex items-center gap-3 rounded-[20px] border border-white/60 bg-white/50 px-4 py-2 shadow-sm backdrop-blur-md">
       {timeLeft.days > 0 && <TimeBlock value={timeLeft.days} label="days" />}
       {timeLeft.days > 0 && <span className="text-muted-foreground/30 mb-3 font-bold">:</span>}
       <TimeBlock value={timeLeft.hours} label="hours" />

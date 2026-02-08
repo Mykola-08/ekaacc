@@ -64,7 +64,7 @@ export default function AgenyzContent() {
 
           <div className="order-1 lg:order-2">
             <div className="group relative">
-              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-2xl bg-gradient-to-tr to-indigo-200 opacity-30 blur-xl group-hover:opacity-50" />
+              <div className="from-primary-200 transition-duration-500 absolute inset-0 rounded-[20px] bg-gradient-to-tr to-indigo-200 opacity-30 blur-xl group-hover:opacity-50" />
               <div className="relative aspect-[4/3]">
                 <Image
                   src="/agenyz-products.png"
@@ -74,7 +74,7 @@ export default function AgenyzContent() {
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              <div className="absolute -bottom-6 -left-6 z-10 rounded-2xl border border-white/20 bg-white/90 p-4 shadow-xl backdrop-blur-md">
+              <div className="absolute -bottom-6 -left-6 z-10 rounded-[20px] border border-white/20 bg-white/90 p-4 shadow-xl backdrop-blur-md">
                 <div className="flex items-center space-x-3">
                   <span className="relative flex h-3 w-3">
                     <span className="bg-primary-400 absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"></span>
@@ -137,7 +137,7 @@ export default function AgenyzContent() {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.3 }}
-                    className="card card-interactive group flex h-full flex-col rounded-2xl p-8"
+                    className="card card-interactive group flex h-full flex-col rounded-[20px] p-8"
                   >
                     <div className="mb-4 flex items-start justify-between">
                       <span className="bg-primary-50 text-primary-700 rounded-full px-3 py-1 text-xs font-semibold tracking-wide uppercase">
@@ -145,7 +145,7 @@ export default function AgenyzContent() {
                       </span>
                     </div>
 
-                    <div className="relative mb-6 flex h-56 w-full items-center justify-center rounded-2xl bg-white p-4">
+                    <div className="relative mb-6 flex h-56 w-full items-center justify-center rounded-[20px] bg-white p-4">
                       {product.image ? (
                         <div className="relative h-full w-full">
                           <Image

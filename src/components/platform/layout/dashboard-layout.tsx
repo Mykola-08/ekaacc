@@ -29,10 +29,10 @@ export function DashboardLayout({ children, className }: DashboardLayoutProps) {
           transition={{ duration: 0.4, ease: 'easeOut' }}
           className="hidden h-[calc(100vh-1.5rem)] shrink-0 md:block"
         >
-          <AppSidebar className="h-full rounded-2xl border border-black/5 bg-white shadow-sm" />
+          <AppSidebar className="h-full rounded-[20px] border border-black/5 bg-white shadow-sm" />
         </motion.div>
 
-        <SidebarInset className="flex h-[calc(100vh-1.5rem)] flex-col overflow-hidden rounded-2xl border border-black/5 bg-white shadow-sm">
+        <SidebarInset className="flex h-[calc(100vh-1.5rem)] flex-col overflow-hidden rounded-[20px] border border-black/5 bg-white shadow-sm">
           <AppHeader />
           <motion.main
             initial={{ opacity: 0, scale: 0.98 }}

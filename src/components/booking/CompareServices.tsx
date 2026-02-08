@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 export function CompareServices() {
   return (
-    <div className="bg-card border-border/60 animate-in slide-in-from-bottom-4 w-full overflow-hidden rounded-[24px] border shadow-none duration-700">
+    <div className="bg-card border-border/60 animate-in slide-in-from-bottom-4 w-full overflow-hidden rounded-[20px] border shadow-none duration-700">
       <div className="border-border/40 bg-secondary/20 border-b p-8 text-center">
         <h2 className="text-foreground mb-2 font-serif text-2xl font-semibold">
           Compare Experiences

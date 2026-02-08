@@ -36,7 +36,7 @@ interface ScheduleTableProps {
 
 export function ScheduleTable({ schedule, onAddBlock }: ScheduleTableProps) {
   return (
-    <div className="bg-card border-border overflow-hidden rounded-2xl border shadow-sm">
+    <div className="bg-card border-border overflow-hidden rounded-[20px] border shadow-sm">
       <div className="flex flex-col items-start justify-between gap-4 p-8 pb-6 md:flex-row md:items-center">
         <div>
           <h2 className="text-foreground mb-2 text-[24px] font-bold tracking-tight">

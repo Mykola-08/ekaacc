@@ -155,13 +155,13 @@ export function RoleManagementPanelHeadless() {
         <input
           type="text"
           placeholder="Search users..."
-          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-2xl border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
+          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-[20px] border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
 
-      <div className="bg-card overflow-hidden rounded-3xl ring-1 ring-gray-200">
+      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-gray-200">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/30/50">
@@ -256,7 +256,7 @@ export function RoleManagementPanelHeadless() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-2xl p-8 text-left align-middle shadow-2xl transition-all">
+                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-[20px] p-8 text-left align-middle shadow-2xl transition-all">
                   <DialogTitle as="h3" className="text-foreground text-xl leading-6 font-bold">
                     Assign Role
                   </DialogTitle>

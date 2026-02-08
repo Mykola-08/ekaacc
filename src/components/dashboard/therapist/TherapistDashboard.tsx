@@ -47,7 +47,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
     <DashboardLayout profile={profile}>
       <div className="animate-in fade-in space-y-8 font-sans duration-500">
         {/* Hero / Welcome */}
-        <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-[32px] border border-gray-100/80 bg-white p-8 shadow-sm md:flex-row md:items-center">
+        <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-[20px] border border-gray-100/80 bg-white p-8 shadow-sm md:flex-row md:items-center">
           <div className="relative z-10">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-amber-600">
               <Star className="h-3.5 w-3.5 fill-amber-600" />
@@ -83,7 +83,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
           </div>
           {/* Quick Action Column */}
           <Link href="/availability" className="h-full">
-            <Button className="group relative flex h-full min-h-[120px] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[32px] border-0 bg-indigo-600 p-6 shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700">
+            <Button className="group relative flex h-full min-h-[120px] w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-[20px] border-0 bg-indigo-600 p-6 shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-700">
               <div className="relative z-10 flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 transition-transform group-hover:rotate-90">
                 <Plus className="h-5 w-5 text-white" strokeWidth={3} />
               </div>
@@ -114,11 +114,11 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
             </div>
 
             {loading ? (
-              <div className="rounded-[32px] border border-dashed border-gray-200 bg-gray-50/50 p-12 text-center text-gray-400">
+              <div className="rounded-[20px] border border-dashed border-gray-200 bg-gray-50/50 p-12 text-center text-gray-400">
                 Loading schedule...
               </div>
             ) : bookings.length === 0 ? (
-              <div className="rounded-[32px] border border-dashed border-gray-200 bg-gray-50/50 p-12 text-center">
+              <div className="rounded-[20px] border border-dashed border-gray-200 bg-gray-50/50 p-12 text-center">
                 <p className="font-medium text-gray-500">No sessions scheduled for today.</p>
                 <Button variant="link" className="mt-2 font-bold text-indigo-600" asChild>
                   <Link href="/availability">Update your hours</Link>
@@ -136,7 +136,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                     <Card className="group rounded-[28px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-indigo-100 hover:shadow-md">
                       <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
                         <div className="flex flex-1 items-center gap-5">
-                          <div className="flex h-16 w-16 flex-col items-center justify-center rounded-2xl border border-gray-100 bg-gray-50 transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600">
+                          <div className="flex h-16 w-16 flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-gray-50 transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600">
                             <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
                               {format(new Date(booking.start_time), 'MMM')}
                             </span>
@@ -186,10 +186,10 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
 
           {/* Patient Context Sidebar */}
           <div className="space-y-6">
-            <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm">
+            <div className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm">
               <PatientActivitySummary userId={userId} />
             </div>
-            <div className="overflow-hidden rounded-[32px]">
+            <div className="overflow-hidden rounded-[20px]">
               <MotivationalQuote />
             </div>
           </div>
@@ -211,7 +211,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
 function MetricCard({ icon: Icon, label, value, bg }: any) {
   return (
     <div className="flex cursor-default items-center gap-5 rounded-[28px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-gray-200">
-      <div className={`flex h-12 w-12 items-center justify-center rounded-2xl ${bg}`}>
+      <div className={`flex h-12 w-12 items-center justify-center rounded-[20px] ${bg}`}>
         <Icon className="h-6 w-6" strokeWidth={2.5} />
       </div>
       <div>

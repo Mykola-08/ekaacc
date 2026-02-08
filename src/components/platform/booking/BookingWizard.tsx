@@ -310,7 +310,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                         variant={selectedTime === time ? 'default' : 'outline'}
                         onClick={() => handleTimeSelect(time)}
                         className={cn(
-                          'h-14 rounded-2xl text-base transition-all',
+                          'h-14 rounded-[20px] text-base transition-all',
                           selectedTime === time
                             ? 'bg-primary shadow-primary/20 scale-[1.02] font-bold text-white shadow-xl'
                             : 'dark:bg-card border-border/50 hover:bg-secondary bg-white font-semibold'
@@ -344,7 +344,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-5">
-                    <div className="bg-primary/10 flex h-14 w-14 items-center justify-center rounded-2xl">
+                    <div className="bg-primary/10 flex h-14 w-14 items-center justify-center rounded-[20px]">
                       <HugeiconsIcon icon={SparklesIcon} className="text-primary h-7 w-7" />
                     </div>
                     <div>
@@ -372,7 +372,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                     disabled={!!user}
                     value={user ? user.user_metadata?.first_name : formData.firstName}
                     onChange={handleInputChange}
-                    className="bg-secondary/30 focus:ring-primary h-14 rounded-2xl border-none px-6 shadow-inner focus:ring-2"
+                    className="bg-secondary/30 focus:ring-primary h-14 rounded-[20px] border-none px-6 shadow-inner focus:ring-2"
                   />
                 </div>
                 <div className="space-y-2.5">
@@ -384,7 +384,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                     disabled={!!user}
                     value={user ? user.user_metadata?.last_name : formData.lastName}
                     onChange={handleInputChange}
-                    className="bg-secondary/30 focus:ring-primary h-14 rounded-2xl border-none px-6 shadow-inner focus:ring-2"
+                    className="bg-secondary/30 focus:ring-primary h-14 rounded-[20px] border-none px-6 shadow-inner focus:ring-2"
                   />
                 </div>
               </div>
@@ -397,7 +397,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                   disabled={!!user}
                   value={user ? user.email : formData.email}
                   onChange={handleInputChange}
-                  className="bg-secondary/30 focus:ring-primary h-14 rounded-2xl border-none px-6 shadow-inner focus:ring-2"
+                  className="bg-secondary/30 focus:ring-primary h-14 rounded-[20px] border-none px-6 shadow-inner focus:ring-2"
                 />
               </div>
               <div className="space-y-2.5">
@@ -408,7 +408,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                   id="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className="bg-secondary/30 focus:ring-primary h-14 rounded-2xl border-none px-6 shadow-inner focus:ring-2"
+                  className="bg-secondary/30 focus:ring-primary h-14 rounded-[20px] border-none px-6 shadow-inner focus:ring-2"
                   placeholder="+353 ..."
                 />
               </div>
@@ -418,7 +418,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
           {step === 'payment' && (
             <Card className="bg-card/30 border-border/40 space-y-8 rounded-[24px] p-10 shadow-xl backdrop-blur-sm">
               <div className="mb-2 flex items-center gap-4">
-                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 dark:bg-emerald-900/30">
+                <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-emerald-100 dark:bg-emerald-900/30">
                   <HugeiconsIcon
                     icon={CreditCardIcon}
                     className="h-6 w-6 text-emerald-600 dark:text-emerald-400"
@@ -444,7 +444,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                   </TabsTrigger>
                 </TabsList>
                 <TabsContent value="stripe" className="pt-10">
-                  <div className="bg-secondary/20 border-border/50 space-y-4 rounded-[28px] border p-8 text-center">
+                  <div className="bg-secondary/20 border-border/50 space-y-4 rounded-[20px] border p-8 text-center">
                     <p className="text-muted-foreground text-sm font-bold">
                       Secured encrypted payment via Stripe.
                     </p>
@@ -454,7 +454,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
                   </div>
                 </TabsContent>
                 <TabsContent value="wallet" className="pt-10">
-                  <div className="bg-primary/5 border-primary/20 flex flex-col items-center gap-2 rounded-[28px] border-2 p-8">
+                  <div className="bg-primary/5 border-primary/20 flex flex-col items-center gap-2 rounded-[20px] border-2 p-8">
                     <p className="text-primary/70 text-sm font-bold tracking-widest uppercase">
                       Available Balance
                     </p>

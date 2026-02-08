@@ -85,7 +85,7 @@ const AlertDialogContent = React.forwardRef<
         <AlertDialogPrimitive.Content
           ref={ref}
           className={cn(
-            'bg-card fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-none p-8 shadow-lg duration-200 sm:rounded-[24px]',
+            'bg-card fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-none p-8 shadow-lg duration-200 sm:rounded-[20px]',
             className
           )}
           {...props}
@@ -108,7 +108,7 @@ const AlertDialogContent = React.forwardRef<
                 animate="visible"
                 exit="exit"
                 className={cn(
-                  'bg-card fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-none p-8 shadow-lg sm:rounded-[24px]', // Removed CSS animations
+                  'bg-card fixed top-[50%] left-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border-none p-8 shadow-lg sm:rounded-[20px]', // Removed CSS animations
                   className
                 )}
                 {...(props as any)}

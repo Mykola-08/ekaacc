@@ -19,7 +19,7 @@ export function AdminDashboard({ profile, stats }: any) {
     <DashboardLayout profile={profile}>
       <div className="animate-in fade-in space-y-8 font-sans duration-500">
         {/* 1. Admin Command Center - Dark Banner */}
-        <div className="relative overflow-hidden rounded-3xl bg-[#111827] p-8 text-white shadow-sm">
+        <div className="relative overflow-hidden rounded-[20px] bg-[#111827] p-8 text-white shadow-sm">
           {/* Close button visualization (optional) */}
           <div className="absolute top-6 right-6 cursor-pointer text-white/40 hover:text-white">
             {/* <X className="w-5 h-5" /> */}
@@ -88,7 +88,7 @@ export function AdminDashboard({ profile, stats }: any) {
             </div>
 
             <div className="flex gap-4">
-              <div className="min-w-[160px] rounded-2xl border border-gray-100 bg-gray-50/50 p-5">
+              <div className="min-w-[160px] rounded-[20px] border border-gray-100 bg-gray-50/50 p-5">
                 <div className="mb-2 text-[10px] font-bold tracking-wider text-gray-400 uppercase">
                   SYSTEM STATUS
                 </div>
@@ -100,7 +100,7 @@ export function AdminDashboard({ profile, stats }: any) {
                 </div>
               </div>
 
-              <div className="min-w-[160px] rounded-2xl border border-gray-100 bg-gray-50/50 p-5">
+              <div className="min-w-[160px] rounded-[20px] border border-gray-100 bg-gray-50/50 p-5">
                 <div className="mb-2 text-[10px] font-bold tracking-wider text-gray-400 uppercase">
                   ACTIVE USERS
                 </div>
@@ -148,7 +148,7 @@ export function AdminDashboard({ profile, stats }: any) {
 
 function MetricCard({ icon: Icon, label, value, iconColor, bg }: any) {
   return (
-    <div className="flex cursor-default items-center gap-5 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-gray-200">
+    <div className="flex cursor-default items-center gap-5 rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-gray-200">
       <div className={cn('flex h-12 w-12 items-center justify-center rounded-xl', bg, iconColor)}>
         <Icon className="h-6 w-6" strokeWidth={2.5} />
       </div>

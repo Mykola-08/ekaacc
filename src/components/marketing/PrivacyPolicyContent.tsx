@@ -29,7 +29,7 @@ export default function PrivacyPolicyContent() {
             <h2 className="mb-6 border-b border-gray-200 pb-4 text-xl font-medium text-gray-900">
               Complementary Methods Disclaimer
             </h2>
-            <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-6">
+            <div className="rounded-[20px] border border-yellow-200 bg-yellow-50 p-6">
               <p className="mb-4 leading-relaxed text-gray-700">
                 EKA Balance services are complementary wellness services. They are not medical
                 diagnosis or treatment and do not replace care from licensed medical or
@@ -52,7 +52,7 @@ export default function PrivacyPolicyContent() {
             <h2 className="mb-6 border-b border-gray-200 pb-4 text-xl font-medium text-gray-900">
               Data Controller
             </h2>
-            <div className="space-y-4 rounded-2xl bg-gray-50 p-6">
+            <div className="space-y-4 rounded-[20px] bg-gray-50 p-6">
               <div className="flex flex-col sm:flex-row sm:items-center">
                 <span className="w-32 flex-shrink-0 font-medium text-gray-900">Name:</span>
                 <span className="text-gray-700">Olena Kucherova Dryzhak (EKA Balance)</span>
@@ -82,7 +82,7 @@ export default function PrivacyPolicyContent() {
             <h2 className="mb-6 border-b border-gray-200 pb-4 text-xl font-medium text-gray-900">
               Data Protection Officer (DPO)
             </h2>
-            <div className="space-y-4 rounded-2xl border border-blue-100 bg-blue-50/50 p-6">
+            <div className="space-y-4 rounded-[20px] border border-blue-100 bg-blue-50/50 p-6">
               <div className="flex flex-col sm:flex-row sm:items-center">
                 <span className="w-32 flex-shrink-0 font-medium text-gray-900">Name:</span>
                 <span className="text-gray-700">Olena Kucherova Dryzhak</span>
@@ -194,7 +194,7 @@ export default function PrivacyPolicyContent() {
             </p>
 
             <div className="grid gap-6 sm:grid-cols-2">
-              <div className="rounded-2xl border border-green-100 bg-green-50/50 p-6">
+              <div className="rounded-[20px] border border-green-100 bg-green-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">
                   2.1 Consent (Article 6(1)(a))
                 </h3>
@@ -207,7 +207,7 @@ export default function PrivacyPolicyContent() {
                 </ul>
               </div>
 
-              <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-6">
+              <div className="rounded-[20px] border border-blue-100 bg-blue-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">
                   2.2 Contractual Necessity
                 </h3>
@@ -220,7 +220,7 @@ export default function PrivacyPolicyContent() {
                 </ul>
               </div>
 
-              <div className="rounded-2xl border border-purple-100 bg-purple-50/50 p-6">
+              <div className="rounded-[20px] border border-purple-100 bg-purple-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">2.3 Legal Obligations</h3>
                 <p className="mb-4 text-sm text-gray-700">
                   Processing is necessary to comply with:
@@ -233,7 +233,7 @@ export default function PrivacyPolicyContent() {
                 </ul>
               </div>
 
-              <div className="rounded-2xl border border-orange-100 bg-orange-50/50 p-6">
+              <div className="rounded-[20px] border border-orange-100 bg-orange-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">2.4 Legitimate Interests</h3>
                 <p className="mb-4 text-sm text-gray-700">
                   We process data based on our legitimate interests:
@@ -258,7 +258,7 @@ export default function PrivacyPolicyContent() {
             </p>
 
             <div className="space-y-6">
-              <div className="rounded-2xl border border-gray-100 bg-gray-50/50 p-6">
+              <div className="rounded-[20px] border border-gray-100 bg-gray-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">
                   3.1 Right of Access (Article 15)
                 </h3>
@@ -278,7 +278,7 @@ export default function PrivacyPolicyContent() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-gray-100 bg-gray-50/50 p-6">
+              <div className="rounded-[20px] border border-gray-100 bg-gray-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">
                   3.2 Right to Erasure (Article 17)
                 </h3>
@@ -294,7 +294,7 @@ export default function PrivacyPolicyContent() {
                 </ul>
               </div>
 
-              <div className="rounded-2xl border border-gray-100 bg-gray-50/50 p-6">
+              <div className="rounded-[20px] border border-gray-100 bg-gray-50/50 p-6">
                 <h3 className="mb-3 text-lg font-medium text-gray-900">
                   3.3 Right to Data Portability (Article 20)
                 </h3>
@@ -305,7 +305,7 @@ export default function PrivacyPolicyContent() {
               </div>
             </div>
 
-            <div className="mt-8 rounded-2xl border border-blue-100 bg-blue-50/50 p-6">
+            <div className="mt-8 rounded-[20px] border border-blue-100 bg-blue-50/50 p-6">
               <h4 className="mb-3 font-medium text-gray-900">Exercising Your Rights</h4>
               <p className="mb-4 text-gray-700">
                 To exercise any of your rights, please contact us:
@@ -328,7 +328,7 @@ export default function PrivacyPolicyContent() {
             </h2>
 
             <div className="grid gap-6">
-              <div className="rounded-2xl border border-gray-100 bg-gray-50 p-6">
+              <div className="rounded-[20px] border border-gray-100 bg-gray-50 p-6">
                 <h3 className="mb-4 text-lg font-medium text-gray-900">
                   Data Protection Officer (DPO)
                 </h3>
@@ -353,7 +353,7 @@ export default function PrivacyPolicyContent() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-rose-100 bg-rose-50 p-6">
+              <div className="rounded-[20px] border border-rose-100 bg-rose-50 p-6">
                 <h3 className="mb-4 text-lg font-medium text-gray-900">Supervisory Authority</h3>
                 <p className="mb-4 text-gray-700">
                   If you are not satisfied with our response or believe your data protection rights

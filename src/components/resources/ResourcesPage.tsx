@@ -69,7 +69,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
             placeholder="Search library..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="bg-card text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/20 h-16 rounded-[32px] border-none pl-14 text-lg font-medium shadow-sm focus-visible:ring-2"
+            className="bg-card text-foreground placeholder:text-muted-foreground focus-visible:ring-primary/20 h-16 rounded-[20px] border-none pl-14 text-lg font-medium shadow-sm focus-visible:ring-2"
           />
         </div>
         <div className="hide-scrollbar flex w-full gap-2 overflow-x-auto px-1 pb-2 md:w-auto md:pb-0">
@@ -137,7 +137,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                   </Badge>
                 </div>
                 {resource.isPremium && (
-                  <div className="absolute top-6 right-6 rounded-2xl bg-amber-400 p-3 text-amber-950 shadow-xl">
+                  <div className="absolute top-6 right-6 rounded-[20px] bg-amber-400 p-3 text-amber-950 shadow-xl">
                     <HugeiconsIcon icon={LockIcon} size={16} strokeWidth={3} />
                   </div>
                 )}
@@ -151,7 +151,7 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
                 </CardDescription>
               </CardHeader>
               <CardFooter className="mt-auto p-8 pt-0">
-                <Button className="bg-secondary text-foreground hover:bg-primary h-14 w-full rounded-2xl text-lg font-black shadow-none transition-all duration-500 hover:scale-[1.02] hover:text-white hover:shadow-xl">
+                <Button className="bg-secondary text-foreground hover:bg-primary h-14 w-full rounded-[20px] text-lg font-black shadow-none transition-all duration-500 hover:scale-[1.02] hover:text-white hover:shadow-xl">
                   View Content
                 </Button>
               </CardFooter>

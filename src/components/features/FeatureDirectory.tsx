@@ -50,7 +50,7 @@ export function FeatureDirectory() {
         subtitle="Every major website feature in one organized place."
       />
 
-      <Card className="border-border/60 rounded-[28px] border shadow-sm">
+      <Card className="border-border/60 rounded-[20px] border shadow-sm">
         <CardContent className="flex flex-col gap-4 p-5 md:flex-row md:items-center md:justify-between md:p-6">
           <Input
             value={query}
@@ -87,7 +87,7 @@ export function FeatureDirectory() {
               {group.items.map((feature) => (
                 <Card
                   key={feature.id}
-                  className="border-border/60 hover:border-primary/40 rounded-2xl border transition-colors"
+                  className="border-border/60 hover:border-primary/40 rounded-[20px] border transition-colors"
                 >
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between gap-3">

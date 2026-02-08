@@ -73,7 +73,7 @@ export function LoginPage() {
           </div>
         </div>
 
-        <Card className="border-border bg-surface/50 rounded-2xl border shadow-sm backdrop-blur-sm">
+        <Card className="border-border bg-surface/50 rounded-[20px] border shadow-sm backdrop-blur-sm">
           <CardContent className="pt-6">
             <form action={clientAction} className="space-y-4">
               <div className="space-y-2">

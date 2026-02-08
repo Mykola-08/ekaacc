@@ -61,13 +61,13 @@ export function StatsSkeleton({ count = 4 }: { count?: number }) {
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className="bg-card rounded-2xl p-6 shadow-sm dark:bg-gray-800">
+        <div key={i} className="bg-card rounded-[20px] p-6 shadow-sm dark:bg-gray-800">
           <div className="flex items-center justify-between">
             <div className="space-y-2">
               <Skeleton className="h-4 w-20" />
               <Skeleton className="h-8 w-16" />
             </div>
-            <Skeleton className="h-12 w-12 rounded-2xl" />
+            <Skeleton className="h-12 w-12 rounded-[20px]" />
           </div>
         </div>
       ))}
@@ -78,7 +78,7 @@ export function StatsSkeleton({ count = 4 }: { count?: number }) {
 // Profile skeleton
 export function ProfileSkeleton() {
   return (
-    <div className="bg-card rounded-2xl p-8 shadow-sm dark:bg-gray-800">
+    <div className="bg-card rounded-[20px] p-8 shadow-sm dark:bg-gray-800">
       <div className="mb-8 flex items-center space-x-6">
         <Skeleton className="h-20 w-20 rounded-full" />
         <div className="space-y-3">
@@ -125,7 +125,7 @@ export function ListSkeleton({ count = 3 }: { count?: number }) {
 // Calendar skeleton
 export function CalendarSkeleton() {
   return (
-    <div className="bg-card rounded-2xl p-6 shadow-sm dark:bg-gray-800">
+    <div className="bg-card rounded-[20px] p-6 shadow-sm dark:bg-gray-800">
       <div className="mb-6 flex items-center justify-between">
         <Skeleton className="h-6 w-32" />
         <div className="flex space-x-2">
@@ -152,7 +152,7 @@ export function CalendarSkeleton() {
 // Form skeleton
 export function FormSkeleton() {
   return (
-    <div className="bg-card rounded-2xl p-8 shadow-sm dark:bg-gray-800">
+    <div className="bg-card rounded-[20px] p-8 shadow-sm dark:bg-gray-800">
       <Skeleton className="mb-8 h-8 w-48" />
 
       <div className="space-y-6">

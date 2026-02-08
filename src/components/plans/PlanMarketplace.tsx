@@ -45,7 +45,7 @@ export function PlanMarketplace({ plans }: { plans: Plan[] }) {
             key={plan.id}
             className={cn(
               'group relative flex flex-col justify-between overflow-hidden transition-all duration-300',
-              'rounded-2xl border p-6 shadow-sm hover:shadow-xl',
+              'rounded-[20px] border p-6 shadow-sm hover:shadow-xl',
               isVIP
                 ? 'bg-card border-amber-200 shadow-amber-100/50 hover:-translate-y-1 hover:shadow-amber-200/50'
                 : 'bg-card border-border hover:-translate-y-1 hover:shadow-md'

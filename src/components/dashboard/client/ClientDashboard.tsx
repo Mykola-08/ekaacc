@@ -116,7 +116,7 @@ export function ClientDashboard({
         {/* Welcome & Main Action */}
         <div className="space-y-8 lg:col-span-2">
           {/* Hero Section - Clean White */}
-          <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[32px] border border-gray-100 bg-white p-8 shadow-sm">
+          <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm">
             <div className="relative z-10">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-blue-600">
                 <HugeiconsIcon icon={GreetingIcon} className="size-4" strokeWidth={2.5} />
@@ -137,7 +137,7 @@ export function ClientDashboard({
                   onClick={handleBookClick}
                   disabled={bookingStatus === 'loading'}
                   size="lg"
-                  className="h-12 rounded-2xl bg-blue-600 px-8 text-base font-bold shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700"
+                  className="h-12 rounded-[20px] bg-blue-600 px-8 text-base font-bold shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700"
                 >
                   {bookingStatus === 'loading' ? 'Scheduling...' : 'Book a Session'}
                 </Button>
@@ -145,7 +145,7 @@ export function ClientDashboard({
                   <Button
                     variant="outline"
                     size="lg"
-                    className="h-12 rounded-2xl border-gray-200 px-6 text-base font-bold text-gray-700 hover:bg-gray-50"
+                    className="h-12 rounded-[20px] border-gray-200 px-6 text-base font-bold text-gray-700 hover:bg-gray-50"
                   >
                     Manage Wallet
                   </Button>
@@ -156,7 +156,7 @@ export function ClientDashboard({
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Next Session */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-blue-100">
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-blue-100">
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
                   NEXT UP
@@ -201,7 +201,7 @@ export function ClientDashboard({
             </Card>
 
             {/* Wallet Balance */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-emerald-100">
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-emerald-100">
               <div className="mb-4 flex items-center justify-between">
                 <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
                   BALANCE
@@ -230,7 +230,7 @@ export function ClientDashboard({
 
           {/* Goal Tracker */}
           <div className="pt-2">
-            <div className="overflow-hidden rounded-[32px] border border-gray-100 bg-white p-2 shadow-sm">
+            <div className="overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 shadow-sm">
               <GoalTracker initialGoals={goals || []} />
             </div>
           </div>
@@ -242,7 +242,7 @@ export function ClientDashboard({
                 <Link
                   key={action.href}
                   href={action.href}
-                  className="group flex items-start gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-blue-100 hover:shadow-md"
+                  className="group flex items-start gap-4 rounded-[20px] border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-blue-100 hover:shadow-md"
                 >
                   <div className="rounded-xl bg-gray-50 p-3 text-gray-600 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
                     <HugeiconsIcon icon={action.icon} className="size-5" strokeWidth={2.5} />
@@ -262,7 +262,7 @@ export function ClientDashboard({
         {/* Sidebar / Secondary Actions */}
         <div className="space-y-6">
           {/* Daily Mood Check-In */}
-          <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm">
+          <div className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm">
             <h3 className="mb-4 text-lg font-bold text-gray-900">Daily Check-in</h3>
             <MoodCheckIn />
           </div>
@@ -273,7 +273,7 @@ export function ClientDashboard({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="relative overflow-hidden rounded-[32px] border border-blue-100 bg-blue-50 p-6"
+                className="relative overflow-hidden rounded-[20px] border border-blue-100 bg-blue-50 p-6"
               >
                 <button
                   onClick={() => setShowIdentity(false)}
@@ -293,7 +293,7 @@ export function ClientDashboard({
             )}
           </AnimatePresence>
 
-          <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm">
+          <div className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm">
             <div className="mb-4 flex items-center gap-2">
               <HugeiconsIcon
                 icon={ActivityIcon}
@@ -321,7 +321,7 @@ export function ClientDashboard({
           </div>
 
           {/* Journal or Quote - Simplified */}
-          <div className="overflow-hidden rounded-[32px]">
+          <div className="overflow-hidden rounded-[20px]">
             <MotivationalQuote />
           </div>
         </div>

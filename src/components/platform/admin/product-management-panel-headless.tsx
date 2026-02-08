@@ -103,7 +103,7 @@ export function ProductManagementPanelHeadless() {
         <input
           type="text"
           placeholder="Search products..."
-          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-2xl border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
+          className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-[20px] border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
         />
       </div>
 
@@ -114,7 +114,7 @@ export function ProductManagementPanelHeadless() {
             className="group bg-card relative overflow-hidden rounded-xl p-6 shadow-xl ring-1 shadow-slate-100 ring-slate-100 transition-all hover:shadow-2xl hover:shadow-blue-500/10 hover:ring-blue-500/20"
           >
             <div className="mb-4 flex items-start justify-between">
-              <div className="rounded-2xl bg-blue-50 p-3 text-blue-600">
+              <div className="rounded-[20px] bg-blue-50 p-3 text-blue-600">
                 <Package className="h-6 w-6" />
               </div>
               <Menu as="div" className="relative">
@@ -230,7 +230,7 @@ export function ProductManagementPanelHeadless() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-2xl p-8 text-left align-middle shadow-2xl transition-all">
+                <DialogPanel className="bg-card w-full max-w-md transform overflow-hidden rounded-[20px] p-8 text-left align-middle shadow-2xl transition-all">
                   <DialogTitle as="h3" className="text-foreground text-xl leading-6 font-bold">
                     Product Details
                   </DialogTitle>

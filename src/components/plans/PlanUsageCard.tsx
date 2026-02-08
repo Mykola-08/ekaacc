@@ -15,7 +15,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
 
   if (compact) {
     return (
-      <Card className="bg-background border-border group overflow-hidden rounded-2xl p-5 shadow-sm transition-all hover:shadow-md">
+      <Card className="bg-background border-border group overflow-hidden rounded-[20px] p-5 shadow-sm transition-all hover:shadow-md">
         <div className="mb-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Zap className="text-foreground h-4 w-4" strokeWidth={2.5} />
@@ -33,7 +33,7 @@ export function PlanUsageCard({ usage, compact }: { usage: any; compact?: boolea
   }
 
   return (
-    <Card className="bg-background border-border relative overflow-hidden rounded-2xl p-6 shadow-sm transition-all hover:shadow-md">
+    <Card className="bg-background border-border relative overflow-hidden rounded-[20px] p-6 shadow-sm transition-all hover:shadow-md">
       <div className="from-primary/10 pointer-events-none absolute top-0 right-0 h-32 w-32 rounded-tr-[32px] bg-linear-to-bl to-transparent" />
 
       <div className="relative z-10 mb-6 flex items-start justify-between">

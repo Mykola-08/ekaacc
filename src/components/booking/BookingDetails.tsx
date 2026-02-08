@@ -294,7 +294,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
             {/* Image */}
             {(service.images?.[0] || service.image_url) && (
-              <div className="bg-muted relative mb-10 aspect-video overflow-hidden rounded-[24px] border border-black/5 shadow-sm">
+              <div className="bg-muted relative mb-10 aspect-video overflow-hidden rounded-[20px] border border-black/5 shadow-sm">
                 <Image
                   src={service.images?.[0] || service.image_url || ''}
                   alt={service.name}
@@ -328,7 +328,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         href={`/book/${service.id}?variantId=${variant.id}`}
                         scroll={false}
                         className={cn(
-                          'group flex cursor-pointer items-center justify-between rounded-2xl border p-5 transition-all',
+                          'group flex cursor-pointer items-center justify-between rounded-[20px] border p-5 transition-all',
                           isActive
                             ? 'bg-primary/5 border-primary/20 shadow-sm'
                             : 'border-white/20 bg-white/40 backdrop-blur-xl hover:border-black/5 hover:bg-white/60'
@@ -366,7 +366,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
               </div>
             )}
 
-            <div className="rounded-[24px] border border-white/20 bg-white/40 p-8 shadow-sm backdrop-blur-xl">
+            <div className="rounded-[20px] border border-white/20 bg-white/40 p-8 shadow-sm backdrop-blur-xl">
               <h3 className="text-foreground mb-4 text-lg font-semibold tracking-tight">
                 What to expect
               </h3>
@@ -388,7 +388,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
 
           {/* Right Column: Sticky Booking Card */}
           <div className="animate-in slide-in-from-bottom-12 w-full shrink-0 delay-100 duration-500 lg:sticky lg:top-24 lg:w-105">
-            <div className="rounded-[24px] border border-white/40 bg-white/60 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur-2xl">
+            <div className="rounded-[20px] border border-white/40 bg-white/60 p-8 shadow-[0_8px_40px_rgba(0,0,0,0.04)] backdrop-blur-2xl">
               {/* Family / User Selection */}
               {!loadingUser && userProfile && familyMembers.length > 0 && (
                 <div className="mb-6 inline-flex w-full rounded-full border border-black/5 bg-black/5 p-1">
@@ -470,7 +470,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                   Select Date & Time
                 </h3>
 
-                <div className="mb-6 rounded-2xl border border-white/20 bg-white/40 p-4 shadow-sm">
+                <div className="mb-6 rounded-[20px] border border-white/20 bg-white/40 p-4 shadow-sm">
                   <Calendar
                     mode="single"
                     selected={date}

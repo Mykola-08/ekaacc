@@ -61,7 +61,7 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-background border-border rounded-2xl p-8 shadow-2xl sm:max-w-md">
+      <DialogContent className="bg-background border-border rounded-[20px] p-8 shadow-2xl sm:max-w-md">
         <DialogHeader className="mb-4">
           <DialogTitle className="text-foreground text-2xl font-bold">Complete Session</DialogTitle>
         </DialogHeader>

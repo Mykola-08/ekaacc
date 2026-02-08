@@ -288,7 +288,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="rounded-2xl p-2 transition-colors duration-200 hover:bg-gray-100 md:hidden"
+                className="rounded-[20px] p-2 transition-colors duration-200 hover:bg-gray-100 md:hidden"
               >
                 {isMenuOpen ? (
                   <X className="h-5 w-5 text-gray-700" />

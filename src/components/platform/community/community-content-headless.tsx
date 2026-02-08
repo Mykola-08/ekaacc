@@ -32,7 +32,7 @@ export function CommunityContentHeadless() {
           <input
             type="text"
             placeholder="Search topics..."
-            className="border-border bg-card w-full rounded-2xl border py-3 pr-4 pl-12 shadow-sm transition-all focus:border-transparent focus:ring-2 focus:ring-black md:w-64"
+            className="border-border bg-card w-full rounded-[20px] border py-3 pr-4 pl-12 shadow-sm transition-all focus:border-transparent focus:ring-2 focus:ring-black md:w-64"
           />
         </div>
       </div>
@@ -53,7 +53,7 @@ export function CommunityContentHeadless() {
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 {/* Event Card 1 */}
-                <div className="group bg-card border-border cursor-pointer rounded-2xl border p-5 transition-all hover:border-gray-300">
+                <div className="group bg-card border-border cursor-pointer rounded-[20px] border p-5 transition-all hover:border-gray-300">
                   <div className="mb-3 flex items-start justify-between">
                     <span className="text-muted-foreground text-xs font-bold uppercase">
                       Tomorrow
@@ -80,7 +80,7 @@ export function CommunityContentHeadless() {
                 </div>
 
                 {/* Event Card 2 */}
-                <div className="group bg-card border-border cursor-pointer rounded-2xl border p-5 transition-all hover:border-gray-300">
+                <div className="group bg-card border-border cursor-pointer rounded-[20px] border p-5 transition-all hover:border-gray-300">
                   <div className="mb-3 flex items-start justify-between">
                     <span className="text-muted-foreground text-xs font-bold uppercase">
                       Nov 12
@@ -132,7 +132,7 @@ export function CommunityContentHeadless() {
                   <div key={i} className="group flex cursor-pointer gap-4">
                     <div
                       className={cn(
-                        'flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl text-lg font-bold',
+                        'flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] text-lg font-bold',
                         topic.avatar
                       )}
                     >
@@ -154,7 +154,7 @@ export function CommunityContentHeadless() {
                   </div>
                 ))}
               </div>
-              <div className="bg-muted/30 mt-8 rounded-2xl border border-dashed border-gray-100 p-6 text-center">
+              <div className="bg-muted/30 mt-8 rounded-[20px] border border-dashed border-gray-100 p-6 text-center">
                 <h4 className="text-foreground mb-2 font-bold">Have something to share?</h4>
                 <p className="text-muted-foreground mb-4 text-sm">
                   Start a new discussion topic or ask a question.
@@ -201,7 +201,7 @@ export function CommunityContentHeadless() {
           </div>
 
           {/* Suggested Connections */}
-          <div className="bg-card rounded-2xl border border-gray-100 p-8 shadow-sm">
+          <div className="bg-card rounded-[20px] border border-gray-100 p-8 shadow-sm">
             <h3 className="text-foreground mb-6 flex items-center gap-2 font-bold">
               <Users className="text-muted-foreground/80 h-5 w-5" />
               Suggested for you

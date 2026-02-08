@@ -108,10 +108,10 @@ export default function CasosSection() {
               <AnimateIn key={problem.id} delay={index * 0.1}>
                 <Link
                   href={problem.href}
-                  className="group ease-out-quart block rounded-2xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 hover:shadow-lg"
+                  className="group ease-out-quart block rounded-[20px] border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 hover:shadow-lg"
                 >
                   <div
-                    className={`h-14 w-14 rounded-2xl ${getColorClasses(problem.color)} ease-out-quart mb-6 flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110`}
+                    className={`h-14 w-14 rounded-[20px] ${getColorClasses(problem.color)} ease-out-quart mb-6 flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110`}
                   >
                     <ProblemIcon className="h-7 w-7" />
                   </div>

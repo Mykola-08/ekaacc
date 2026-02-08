@@ -192,7 +192,7 @@ export default function CasosContent() {
               <Link
                 key={problem.id}
                 href={`/cases/${problem.id}`}
-                className="group card relative flex h-full flex-col overflow-hidden rounded-3xl border border-transparent bg-white p-8 transition-all duration-300 hover:border-gray-100/50 hover:shadow-xl" // Added card class just in case, but custom styling is prevalent
+                className="group card relative flex h-full flex-col overflow-hidden rounded-[20px] border border-transparent bg-white p-8 transition-all duration-300 hover:border-gray-100/50 hover:shadow-xl" // Added card class just in case, but custom styling is prevalent
               >
                 {/* Hover Gradient Background */}
                 <div
@@ -201,7 +201,7 @@ export default function CasosContent() {
 
                 <div className="relative z-10">
                   <div
-                    className={`h-14 w-14 rounded-2xl ${colors.bg} ${colors.text} mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
+                    className={`h-14 w-14 rounded-[20px] ${colors.bg} ${colors.text} mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}
                   >
                     <Icon className="h-7 w-7" />
                   </div>
@@ -237,7 +237,7 @@ export default function CasosContent() {
             {additionalProblemsKeys.map((key) => (
               <div
                 key={key}
-                className="group flex cursor-default items-center rounded-2xl bg-gray-50 p-4 transition-colors duration-200 hover:bg-blue-50/50"
+                className="group flex cursor-default items-center rounded-[20px] bg-gray-50 p-4 transition-colors duration-200 hover:bg-blue-50/50"
               >
                 <div className="mr-4 h-2 w-2 rounded-full bg-blue-400/50 transition-colors group-hover:bg-blue-500" />
                 <span className="font-medium text-gray-700 transition-colors group-hover:text-blue-800">

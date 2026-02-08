@@ -148,7 +148,7 @@ export default function DynamicPriceCalculator({
   // Empty state when no service selected
   if (!serviceId || !duration) {
     return (
-      <div className={`rounded-2xl bg-gray-50 p-6 dark:bg-gray-800 ${className}`}>
+      <div className={`rounded-[20px] bg-gray-50 p-6 dark:bg-gray-800 ${className}`}>
         <div className="mb-4 flex items-center space-x-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-100 dark:bg-yellow-900/30">
             <Euro className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
@@ -167,7 +167,7 @@ export default function DynamicPriceCalculator({
   // Loading state
   if (loading) {
     return (
-      <div className={`rounded-2xl bg-gray-50 p-6 dark:bg-gray-800 ${className}`}>
+      <div className={`rounded-[20px] bg-gray-50 p-6 dark:bg-gray-800 ${className}`}>
         <div className="flex items-center space-x-3">
           <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-yellow-500"></div>
           <span className="text-gray-600 dark:text-gray-400">Calculant preu...</span>
@@ -180,7 +180,7 @@ export default function DynamicPriceCalculator({
   if (error) {
     return (
       <div
-        className={`rounded-2xl border border-red-200 bg-red-50 p-6 dark:border-red-800 dark:bg-red-900/20 ${className}`}
+        className={`rounded-[20px] border border-red-200 bg-red-50 p-6 dark:border-red-800 dark:bg-red-900/20 ${className}`}
       >
         <div className="mb-4 flex items-start space-x-3">
           <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-red-500" />
@@ -204,7 +204,7 @@ export default function DynamicPriceCalculator({
   if (!selectedDate || !selectedTime) {
     return (
       <div
-        className={`rounded-2xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20 ${className}`}
+        className={`rounded-[20px] border border-blue-200 bg-blue-50 p-6 dark:border-blue-800 dark:bg-blue-900/20 ${className}`}
       >
         <div className="flex items-center space-x-3">
           <Info className="h-5 w-5 text-blue-500" />
@@ -220,7 +220,7 @@ export default function DynamicPriceCalculator({
   if (!priceBreakdown) {
     return (
       <div
-        className={`rounded-2xl border border-amber-200 bg-amber-50 p-6 dark:border-amber-800 dark:bg-amber-900/20 ${className}`}
+        className={`rounded-[20px] border border-amber-200 bg-amber-50 p-6 dark:border-amber-800 dark:bg-amber-900/20 ${className}`}
       >
         <div className="flex items-center space-x-3">
           <AlertCircle className="h-5 w-5 text-amber-500" />
@@ -237,7 +237,7 @@ export default function DynamicPriceCalculator({
 
   return (
     <div
-      className={`rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 ${className}`}
+      className={`rounded-[20px] border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900 ${className}`}
     >
       {/* Header */}
       <div className="mb-6 flex items-center justify-between">

@@ -93,14 +93,14 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
             {/* Stats Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
               {/* Next Session Card */}
-              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5" />
                 <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
                 <div className="relative z-10 mb-4 flex items-center justify-between">
                   <span className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
                     {t('dashboard.stats.nextSession')}
                   </span>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-100 shadow-lg dark:from-blue-900/40 dark:to-indigo-900/40">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-br from-blue-100 to-indigo-100 shadow-lg dark:from-blue-900/40 dark:to-indigo-900/40">
                     <Calendar className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                 </div>
@@ -119,14 +119,14 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
               </div>
 
               {/* Credits Card */}
-              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5" />
                 <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-emerald-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
                 <div className="relative z-10 mb-4 flex items-center justify-between">
                   <span className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
                     {t('dashboard.stats.credits')}
                   </span>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-100 to-teal-100 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40">
                     <CreditCard className="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
                   </div>
                 </div>
@@ -142,14 +142,14 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
               </div>
 
               {/* Wellness Score Card */}
-              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-violet-500/5 to-purple-500/5" />
                 <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-violet-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
                 <div className="relative z-10 mb-4 flex items-center justify-between">
                   <span className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
                     {t('dashboard.stats.wellnessScore')}
                   </span>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-100 to-purple-100 shadow-lg dark:from-violet-900/40 dark:to-purple-900/40">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-br from-violet-100 to-purple-100 shadow-lg dark:from-violet-900/40 dark:to-purple-900/40">
                     <Activity className="h-6 w-6 text-violet-600 dark:text-violet-400" />
                   </div>
                 </div>
@@ -167,14 +167,14 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
               </div>
 
               {/* Streak Card */}
-              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+              <div className="group from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:shadow-2xl">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-orange-500/5 to-amber-500/5" />
                 <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-orange-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
                 <div className="relative z-10 mb-4 flex items-center justify-between">
                   <span className="text-muted-foreground text-sm font-bold tracking-wider uppercase">
                     {t('dashboard.stats.streak')}
                   </span>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 shadow-lg dark:from-orange-900/40 dark:to-amber-900/40">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-gradient-to-br from-orange-100 to-amber-100 shadow-lg dark:from-orange-900/40 dark:to-amber-900/40">
                     <TrendingUp className="h-6 w-6 text-orange-600 dark:text-orange-400" />
                   </div>
                 </div>
@@ -192,7 +192,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
             {/* Main Content Grid */}
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {/* Upcoming Sessions Section */}
-              <div className="from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-8 shadow-xl backdrop-blur-sm transition-all duration-300 hover:shadow-2xl lg:col-span-2">
+              <div className="from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-8 shadow-xl backdrop-blur-sm transition-all duration-300 hover:shadow-2xl lg:col-span-2">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5" />
                 <div className="relative z-10 mb-8 flex items-center justify-between">
                   <div className="space-y-1">
@@ -210,8 +210,8 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
 
                 <div className="relative z-10 space-y-4">
                   {/* Session Item 1 */}
-                  <div className="group hover:bg-card/50 border-border/30 hover:border-primary/30 flex cursor-pointer items-center gap-5 rounded-2xl border p-5 shadow-md backdrop-blur-sm transition-all hover:shadow-lg">
-                    <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl border-0 bg-gradient-to-br from-orange-100 to-amber-100 text-orange-600 shadow-lg dark:from-orange-900/40 dark:to-amber-900/40 dark:text-orange-400">
+                  <div className="group hover:bg-card/50 border-border/30 hover:border-primary/30 flex cursor-pointer items-center gap-5 rounded-[20px] border p-5 shadow-md backdrop-blur-sm transition-all hover:shadow-lg">
+                    <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-[20px] border-0 bg-gradient-to-br from-orange-100 to-amber-100 text-orange-600 shadow-lg dark:from-orange-900/40 dark:to-amber-900/40 dark:text-orange-400">
                       <span className="text-xs font-bold tracking-wide uppercase">Oct</span>
                       <span className="text-2xl font-bold">22</span>
                     </div>
@@ -231,8 +231,8 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
                   </div>
 
                   {/* Session Item 2 */}
-                  <div className="group hover:bg-card/50 border-border/30 hover:border-primary/30 flex cursor-pointer items-center gap-5 rounded-2xl border p-5 shadow-md backdrop-blur-sm transition-all hover:shadow-lg">
-                    <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl border-0 bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-600 shadow-lg dark:from-blue-900/40 dark:to-indigo-900/40 dark:text-blue-400">
+                  <div className="group hover:bg-card/50 border-border/30 hover:border-primary/30 flex cursor-pointer items-center gap-5 rounded-[20px] border p-5 shadow-md backdrop-blur-sm transition-all hover:shadow-lg">
+                    <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-[20px] border-0 bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-600 shadow-lg dark:from-blue-900/40 dark:to-indigo-900/40 dark:text-blue-400">
                       <span className="text-xs font-bold tracking-wide uppercase">Oct</span>
                       <span className="text-2xl font-bold">28</span>
                     </div>
@@ -254,7 +254,7 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
               </div>
 
               {/* Promo/Feature Content */}
-              <div className="from-card via-card/95 to-card/90 text-foreground group relative flex flex-col justify-between overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm lg:col-span-1">
+              <div className="from-card via-card/95 to-card/90 text-foreground group relative flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm lg:col-span-1">
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
                 <div className="pointer-events-none absolute top-0 right-0 h-80 w-80 translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-3xl transition-transform duration-700 group-hover:scale-110" />
 
@@ -294,10 +294,10 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
             </div>
           </TabPanel>
 
-          <TabPanel className="from-card via-card to-card/95 animate-slide-up relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-12 text-center shadow-xl backdrop-blur-sm">
+          <TabPanel className="from-card via-card to-card/95 animate-slide-up relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-12 text-center shadow-xl backdrop-blur-sm">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5" />
             <div className="relative z-10 mx-auto max-w-md">
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-100 shadow-xl dark:from-blue-900/40 dark:to-indigo-900/40">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-gradient-to-br from-blue-100 to-indigo-100 shadow-xl dark:from-blue-900/40 dark:to-indigo-900/40">
                 <Calendar className="h-10 w-10 text-blue-600 dark:text-blue-400" />
               </div>
               <h3 className="text-foreground mb-3 text-2xl font-bold">Full Booking Schedule</h3>
@@ -308,10 +308,10 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
             </div>
           </TabPanel>
 
-          <TabPanel className="from-card via-card to-card/95 animate-slide-up relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-12 text-center shadow-xl backdrop-blur-sm">
+          <TabPanel className="from-card via-card to-card/95 animate-slide-up relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-12 text-center shadow-xl backdrop-blur-sm">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5" />
             <div className="relative z-10 mx-auto max-w-md">
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-xl dark:from-emerald-900/40 dark:to-teal-900/40">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-100 to-teal-100 shadow-xl dark:from-emerald-900/40 dark:to-teal-900/40">
                 <CreditCard className="h-10 w-10 text-emerald-600 dark:text-emerald-400" />
               </div>
               <h3 className="text-foreground mb-3 text-2xl font-bold">Wallet Management</h3>

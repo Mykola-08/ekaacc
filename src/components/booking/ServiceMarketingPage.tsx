@@ -67,7 +67,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
 
       {/* Content Container (Overlapping Hero) */}
       <div className="relative z-30 mx-auto -mt-24 max-w-5xl px-6">
-        <div className="glass-card animate-slide-up rounded-3xl p-8 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] md:p-16">
+        <div className="glass-card animate-slide-up rounded-[20px] p-8 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.08)] md:p-16">
           <Link href="/services">
             <Button variant="ghost" className="mb-10 pl-0 transition-all hover:pl-2">
               <ArrowLeft className="mr-2 h-5 w-5" />
@@ -80,7 +80,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
               <p className="whitespace-pre-line">{service.description}</p>
             </div>
 
-            <div className="bg-card/40 h-fit rounded-3xl border border-white/50 p-8 backdrop-blur-md">
+            <div className="bg-card/40 h-fit rounded-[20px] border border-white/50 p-8 backdrop-blur-md">
               <h3 className="mb-6 font-serif text-2xl text-blue-800">Benefits</h3>
 
               <ul className="space-y-4">
@@ -124,7 +124,7 @@ export function ServiceMarketingPage({ service, canEdit }: ServiceMarketingPageP
                   key={variant.id || 'standard'}
                   href={`/book/${service.id}?variantId=${variant.id || ''}`}
                 >
-                  <div className="glass-card group hover:bg-card/80 relative h-full rounded-3xl transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:shadow-xl">
+                  <div className="glass-card group hover:bg-card/80 relative h-full rounded-[20px] transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:shadow-xl">
                     <div className="flex h-full flex-col p-8">
                       <div className="absolute top-0 right-0 -mt-4 -mr-4 p-8 opacity-0 transition-opacity group-hover:opacity-100">
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white">

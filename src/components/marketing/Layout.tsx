@@ -290,7 +290,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="hover:bg-muted rounded-2xl p-2 transition-colors duration-200 md:hidden"
+                className="hover:bg-muted rounded-[20px] p-2 transition-colors duration-200 md:hidden"
               >
                 {isMenuOpen ? (
                   <X className="text-foreground/90 h-5 w-5" />

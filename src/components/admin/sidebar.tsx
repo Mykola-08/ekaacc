@@ -113,7 +113,7 @@ export function AdminSidebar({ className }: { className?: string }) {
   return (
     <aside
       className={cn(
-        'bg-card border-border hidden w-[280px] shrink-0 flex-col overflow-hidden rounded-2xl border md:flex',
+        'bg-card border-border hidden w-[280px] shrink-0 flex-col overflow-hidden rounded-[20px] border md:flex',
         className
       )}
     >

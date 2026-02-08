@@ -94,7 +94,7 @@ export function TherapistDashboard() {
         {stats.map((stat, i) => (
           <div
             key={i}
-            className="group relative overflow-hidden rounded-2xl border border-black/5 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-md"
+            className="group relative overflow-hidden rounded-[20px] border border-black/5 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-md"
           >
             <div className="flex items-start justify-between">
               <div>
@@ -123,7 +123,7 @@ export function TherapistDashboard() {
         style={{ animationDelay: '100ms' }}
       >
         {/* Today's Schedule */}
-        <div className="flex h-full flex-col rounded-2xl border border-black/5 bg-white p-8 shadow-sm lg:col-span-2">
+        <div className="flex h-full flex-col rounded-[20px] border border-black/5 bg-white p-8 shadow-sm lg:col-span-2">
           <div className="mb-8 flex items-center justify-between">
             <div>
               <h2 className="text-foreground text-xl font-bold">Today's Schedule</h2>
@@ -183,7 +183,7 @@ export function TherapistDashboard() {
         </div>
 
         {/* Pending Actions */}
-        <div className="h-full rounded-2xl border border-black/5 bg-white p-8 shadow-sm">
+        <div className="h-full rounded-[20px] border border-black/5 bg-white p-8 shadow-sm">
           <div className="mb-8 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-50">
               <AlertCircle className="h-5 w-5 text-amber-600" />
@@ -202,7 +202,7 @@ export function TherapistDashboard() {
                 Complete Note &rarr;
               </button>
             </div>
-            <div className="bg-muted/30 rounded-2xl border border-black/5 p-4">
+            <div className="bg-muted/30 rounded-[20px] border border-black/5 p-4">
               <h4 className="text-foreground mb-1 font-bold">New Patient Request</h4>
               <p className="text-muted-foreground mb-3 text-sm">
                 Robert Fox requested an appointment

@@ -84,7 +84,7 @@ export function FamilyList({ members }: { members: any[] }) {
       </div>
 
       <Dialog open={!!deletingId} onOpenChange={(open) => !open && setDeletingId(null)}>
-        <DialogContent className="bg-card overflow-hidden rounded-[24px] border-none p-0 shadow-2xl sm:max-w-100">
+        <DialogContent className="bg-card overflow-hidden rounded-[20px] border-none p-0 shadow-2xl sm:max-w-100">
           <div className="flex flex-col items-center p-8 pb-6 text-center">
             <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-50">
               <AlertCircle className="h-8 w-8 text-red-500" />

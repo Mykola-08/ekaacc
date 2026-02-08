@@ -45,7 +45,7 @@ export function CommunityList({ posts }: CommunityListProps) {
 
       <div className="space-y-4">
         {posts.length === 0 ? (
-          <Card className="bg-card border-muted flex flex-col items-center justify-center rounded-3xl border-2 border-dashed py-20 shadow-none">
+          <Card className="bg-card border-muted flex flex-col items-center justify-center rounded-[20px] border-2 border-dashed py-20 shadow-none">
             <MessageSquare className="text-muted-foreground/50 mb-4 h-12 w-12" />
             <h3 className="text-foreground mb-2 text-xl font-bold tracking-tight">No posts yet</h3>
             <p className="text-muted-foreground">Be the first to share your thoughts.</p>
@@ -53,7 +53,7 @@ export function CommunityList({ posts }: CommunityListProps) {
         ) : (
           posts.map((post, idx) => (
             <Link href={`/community/${post.id}`} key={post.id} className="group block">
-              <Card className="bg-card border-border overflow-hidden rounded-2xl border p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:p-8">
+              <Card className="bg-card border-border overflow-hidden rounded-[20px] border p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:p-8">
                 <div className="flex flex-col gap-6 md:flex-row">
                   {/* Avatar Placeholder */}
                   <div className="shrink-0">

@@ -139,21 +139,26 @@
 
   /* Utility Classes */
   .rounded-apple {
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
   }
 
   .text-balance {
     text-wrap: balance;
   }
 
-  /* Service Category Pills */
+  /* Service Category Pills - Apple Standard */
   .service-pill {
     @apply relative overflow-hidden transition-all duration-500 ease-out;
-    @apply hover:scale-105 hover:shadow-2xl;
-    border-radius: var(--apple-border-radius-large);
+    @apply hover:scale-105;
+    border-radius: 1.75rem; /* 28px - Large Apple radius */
     background-size: cover;
     background-position: center;
     min-height: 320px;
+    box-shadow: var(--shadow-base);
+  }
+
+  .service-pill:hover {
+    box-shadow: var(--shadow-xl);
   }
 
   .service-pill::before {
@@ -166,15 +171,16 @@
     @apply from-black/30 via-black/40 to-black/70;
   }
 
-  /* UNIFIED BUTTON SYSTEM */
+  /* UNIFIED BUTTON SYSTEM - Apple Standard */
   .btn {
     @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
     @apply px-6 py-3 sm:px-8 sm:py-4;
     @apply hover:scale-[1.01] active:scale-[0.99];
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
     font-size: 14px;
     letter-spacing: -0.016em;
     min-height: 44px;
+    box-shadow: var(--shadow-base);
   }
 
   @media (min-width: 640px) {
@@ -192,7 +198,7 @@
     @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
     @apply px-6 py-3 sm:px-8 sm:py-4;
     @apply hover:scale-[1.01] active:scale-[0.99];
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
     font-size: 14px;
     letter-spacing: -0.016em;
     min-height: 44px;
@@ -211,16 +217,22 @@
 
   .btn-primary {
     @apply bg-blue-600 text-white hover:bg-blue-700;
-    @apply shadow-lg hover:shadow-xl;
+    box-shadow: var(--shadow-base);
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--shadow-lg);
   }
 
   .btn-accent {
-    @apply text-[#000035] shadow-lg hover:shadow-xl;
+    @apply text-[#000035];
     background-color: #ffb405; /* EKA Gold */
+    box-shadow: var(--shadow-base);
   }
 
   .btn-accent:hover {
     background-color: #e8a204;
+    box-shadow: var(--shadow-lg);
   }
 
   .btn-secondary {
@@ -237,15 +249,15 @@
     @apply border-2 border-gray-200 bg-transparent text-gray-700 hover:bg-gray-50 hover:text-gray-900;
   }
 
-  /* UNIFIED CARD SYSTEM */
+  /* UNIFIED CARD SYSTEM - Apple Standard */
   .card,
   .apple-card {
     @apply bg-white dark:bg-gray-900;
     @apply border dark:border-gray-800/50;
     @apply transition-all duration-500 ease-out;
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
     border-color: var(--border-subtle);
-    box-shadow: var(--apple-shadow);
+    box-shadow: var(--shadow-base);
   }
 
   @media (min-width: 768px) {
@@ -258,7 +270,7 @@
   .card:hover,
   .apple-card:hover {
     border-color: var(--border-strong);
-    box-shadow: var(--apple-shadow-hover);
+    box-shadow: var(--shadow-lg);
   }
 
   .card-interactive {
@@ -267,15 +279,15 @@
 
   .card-interactive:hover {
     @apply -translate-y-1;
-    box-shadow: var(--apple-shadow-hover);
+    box-shadow: var(--shadow-lg);
   }
 
   .apple-card-flat {
     @apply bg-white dark:bg-gray-900;
     @apply border border-gray-200/30 dark:border-gray-800/30;
     @apply transition-all duration-300 ease-out;
-    border-radius: var(--apple-border-radius);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    border-radius: 1.25rem; /* Apple standard 20px */
+    box-shadow: var(--shadow-sm);
   }
 
   .apple-card-glass {
@@ -283,12 +295,17 @@
     @apply border border-white/20 dark:border-gray-800/20;
     @apply backdrop-blur-xl;
     @apply transition-all duration-500 ease-out;
-    border-radius: var(--apple-border-radius);
-    box-shadow: var(--apple-shadow);
+    border-radius: 1.25rem; /* Apple standard 20px */
+    box-shadow: var(--shadow-base);
   }
 
   .card-hover {
-    @apply hover:-translate-y-1 hover:shadow-xl;
+    @apply hover:-translate-y-1;
+    transition: all 300ms cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-lg);
   }
 
   /* Apple-style sections */
@@ -387,12 +404,12 @@
     line-height: 0.9;
   }
 
-  /* Form elements */
+  /* Form elements - Apple Standard */
   .apple-input,
   .input-field {
     @apply w-full px-4 py-4 text-lg;
     @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
     @apply transition-all duration-200;
     @apply focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
     @apply placeholder-gray-400 dark:placeholder-gray-500;
@@ -403,7 +420,7 @@
   .apple-select {
     @apply w-full px-4 py-4 text-lg;
     @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
     @apply transition-all duration-200;
     @apply focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
     font-weight: 400;
@@ -503,7 +520,7 @@
 
   .faq-item {
     @apply overflow-hidden border border-gray-200/50 transition-all duration-300;
-    border-radius: var(--apple-border-radius);
+    border-radius: 1.25rem; /* Apple standard 20px */
   }
 
   .faq-question {
@@ -821,17 +838,29 @@ html {
   @apply hover:shadow-lg;
 }
 
-/* Revision 360 specific styles */
+/* Revision 360 specific styles - Unified with Apple standard */
 .btn-360-primary {
-  @apply rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 font-semibold text-zinc-900 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95;
+  @apply rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 font-semibold text-zinc-900 transition-all duration-300 hover:scale-105 active:scale-95;
+  box-shadow: var(--shadow-base);
+}
+
+.btn-360-primary:hover {
+  box-shadow: var(--shadow-lg);
 }
 
 .btn-360-secondary {
-  @apply rounded-lg border border-amber-500/30 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 text-amber-200 transition-all duration-300 hover:scale-105 hover:border-amber-500/50 hover:bg-zinc-700/70;
+  border-radius: 1.25rem; /* Apple standard 20px */
+  @apply border border-amber-500/30 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 text-amber-200 transition-all duration-300 hover:scale-105 hover:border-amber-500/50 hover:bg-zinc-700/70;
 }
 
 .card-360-hover {
-  @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:shadow-amber-500/10;
+  @apply transition-all duration-300;
+  box-shadow: var(--shadow-base);
+}
+
+.card-360-hover:hover {
+  @apply -translate-y-2;
+  box-shadow: var(--shadow-lg);
 }
 
 /* VIP Gold Shimmer Effect */

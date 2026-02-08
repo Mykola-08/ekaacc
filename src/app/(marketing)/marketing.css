@@ -139,7 +139,7 @@
 
   /* Utility Classes */
   .rounded-apple {
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
   }
 
   .text-balance {
@@ -176,7 +176,7 @@
     @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
     @apply px-6 py-3 sm:px-8 sm:py-4;
     @apply hover:scale-[1.01] active:scale-[0.99];
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     font-size: 14px;
     letter-spacing: -0.016em;
     min-height: 44px;
@@ -198,7 +198,7 @@
     @apply inline-flex items-center justify-center font-medium transition-all duration-300 ease-out;
     @apply px-6 py-3 sm:px-8 sm:py-4;
     @apply hover:scale-[1.01] active:scale-[0.99];
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     font-size: 14px;
     letter-spacing: -0.016em;
     min-height: 44px;
@@ -255,7 +255,7 @@
     @apply bg-white dark:bg-gray-900;
     @apply border dark:border-gray-800/50;
     @apply transition-all duration-500 ease-out;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     border-color: var(--border-subtle);
     box-shadow: var(--shadow-base);
   }
@@ -286,7 +286,7 @@
     @apply bg-white dark:bg-gray-900;
     @apply border border-gray-200/30 dark:border-gray-800/30;
     @apply transition-all duration-300 ease-out;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     box-shadow: var(--shadow-sm);
   }
 
@@ -295,7 +295,7 @@
     @apply border border-white/20 dark:border-gray-800/20;
     @apply backdrop-blur-xl;
     @apply transition-all duration-500 ease-out;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     box-shadow: var(--shadow-base);
   }
 
@@ -409,7 +409,7 @@
   .input-field {
     @apply w-full px-4 py-4 text-lg;
     @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     @apply transition-all duration-200;
     @apply focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
     @apply placeholder-gray-400 dark:placeholder-gray-500;
@@ -420,7 +420,7 @@
   .apple-select {
     @apply w-full px-4 py-4 text-lg;
     @apply border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
     @apply transition-all duration-200;
     @apply focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
     font-weight: 400;
@@ -520,7 +520,7 @@
 
   .faq-item {
     @apply overflow-hidden border border-gray-200/50 transition-all duration-300;
-    border-radius: 1.25rem; /* Apple standard 20px */
+    border-radius: var(--radius); /* Apple standard using CSS variable */
   }
 
   .faq-question {
@@ -849,7 +849,7 @@ html {
 }
 
 .btn-360-secondary {
-  border-radius: 1.25rem; /* Apple standard 20px */
+  border-radius: var(--radius); /* Apple standard using CSS variable */
   @apply border border-amber-500/30 bg-gradient-to-r from-zinc-700/50 to-zinc-600/50 text-amber-200 transition-all duration-300 hover:scale-105 hover:border-amber-500/50 hover:bg-zinc-700/70;
 }
 

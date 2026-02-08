@@ -54,9 +54,9 @@ export default function AppleHero() {
           </div>
         </AnimateIn>
 
-        {/* Main Title - Apple-like typography */}
+        {/* Main Title - Apple-like typography with accessibility */}
         <AnimateIn delay={0.4} duration={0.8}>
-          <h1 className="mb-10 text-6xl font-light tracking-tight text-white drop-shadow-2xl md:text-8xl lg:text-9xl">
+          <h1 className="mb-10 text-6xl font-normal tracking-tight text-white drop-shadow-2xl md:text-8xl lg:text-9xl">
             {t('hero.title')}
           </h1>
         </AnimateIn>

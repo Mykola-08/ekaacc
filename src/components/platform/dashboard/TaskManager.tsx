@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTaskStore, Task } from '@/stores/taskStore';
+import { useTaskStore, Task } from '@/store/taskStore';
 import { MorphingActionButton } from '@/components/ui';
 import { Trash2, CheckCircle2, Circle, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';

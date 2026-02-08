@@ -67,25 +67,21 @@ export const viewport: Viewport = {
   themeColor: '#ffffff',
 };
 
-export default function RootLayout({
+export default function MarketingLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="font-sans">
-        <SmoothScrolling>
-          <LanguageProvider>
-            <DiscountProvider>
-              <BookingProvider>
-                <GlobalErrorReporter />
-                <MainLayout>{children}</MainLayout>
-              </BookingProvider>
-            </DiscountProvider>
-          </LanguageProvider>
-        </SmoothScrolling>
-      </body>
-    </html>
+    <SmoothScrolling>
+      <LanguageProvider>
+        <DiscountProvider>
+          <BookingProvider>
+            <GlobalErrorReporter />
+            <MainLayout>{children}</MainLayout>
+          </BookingProvider>
+        </DiscountProvider>
+      </LanguageProvider>
+    </SmoothScrolling>
   );
 }

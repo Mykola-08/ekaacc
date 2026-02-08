@@ -17,13 +17,12 @@ This document tracks the unification of the design system across the EKA Balance
 - ✅ **Base UI Components:** Button, Input, Textarea, Select, Card, Dialog
 - ✅ **Dashboard:** All dashboard components, widgets, cards (DashboardCard, StatsCard, WelcomeBanner)
 - ✅ **Booking Flow:** ServiceCard, BookingWizard, BookingDetails, BookingHistoryList, CompareServices
-- ✅ **Platform:** bento-dashboard, TherapistDashboard, UserDashboard, auth forms, admin panels
+- ✅ **Platform:** bento-dashboard, auth forms, admin panels
 - ✅ **Marketing:** AppleHero, ServiceCard, navigation, layout components
 - ✅ **Auth:** Login, Signup, ForgotPassword pages
 - ✅ **Layout:** main-layout, AppSidebar, payment, onboarding components
 - ✅ **Admin:** Sidebar, header, error dialogs
 - ✅ **AI Components:** AIChatWidget, GenerativeUI
-- ✅ **Community & Social:** CommunityList, profile components
 - ✅ **Plans & Wallet:** PlanMarketplace, WalletBalanceCard, TransactionHistory
 
 #### Replacements Made:
@@ -33,7 +32,28 @@ This document tracks the unification of the design system across the EKA Balance
 - `rounded-[28px]` → `rounded-[20px]`
 - `rounded-[32px]` → `rounded-[20px]`
 
-### 3. Shadow System (Partial)
+### 3. Code Optimization & Feature Removal
+
+**Removed Features (44 files, ~9,200 lines deleted):**
+- ❌ Academy feature (routes, components, services, types)
+- ❌ Community feature (routes, components, server code)
+- ❌ Shop/product management (admin panels)
+- ❌ Educator portal (courses, lessons)
+- ❌ Donation seeker application
+- ❌ Loyalty program (elite, member tiers)
+- ❌ VIP tiers (silver, gold, platinum)
+- ❌ Referral system
+- ❌ Feature flags API
+- ❌ Duplicate layout components (old react-router based)
+- ❌ Duplicate admin components (non-headless variants)
+- ❌ Duplicate platform dashboard components
+
+**Modernized Imports:**
+- ✅ Updated SuccessStories.tsx to use Next.js Link
+- ✅ Updated PricingSection.tsx to use Next.js Link
+- ✅ Removed react-router dependencies
+
+### 4. Shadow System (Partial)
 Updated critical components to use CSS variables:
 - ✅ DashboardCard - Uses `var(--shadow-base)` and `var(--shadow-md)` on hover
 - ✅ Booking ServiceCard - Uses `var(--shadow-base)` and `var(--shadow-lg)` on hover
@@ -41,32 +61,22 @@ Updated critical components to use CSS variables:
 - ✅ WelcomeBanner - Uses `var(--shadow-base)`
 - ✅ Marketing button styles in `marketing.css`
 
-### 4. Typography & Spacing
+### 5. Typography & Spacing
 - ✅ Improved AppleHero typography (font-normal for accessibility)
 - ✅ Better spacing hierarchy (mb-8→mb-10, mb-12→mb-14)
 - ✅ Standardized padding and margins in key components
 
-## In Progress / Future Work 🔄
+## Impact Summary
 
-### Shadow System Completion
-**Status:** ~270 remaining Tailwind shadow class usages
-
-Files still using Tailwind shadows (low priority - visual only):
-- Dashboard: AdminDashboard, ClientDashboard, TherapistDashboard, ScheduleTable, etc.
-- Booking: Various booking flow components
-- Platform: Many platform admin and community components
-- Marketing: Content pages and sections
-
-**Recommendation:** 
-- These can be updated gradually as components are touched
-- Not critical for visual consistency as they're working well
-- Future PR can batch-update these for completeness
-
-### Additional Refinements
-- [ ] Standardize animation durations and easing functions
-- [ ] Review and standardize button hover states
-- [ ] Audit and standardize form validation styles
-- [ ] Review mobile responsiveness with new standards
+- **160 component files** total updated or removed
+- **~9,200 lines of code** eliminated
+- **7 major features** removed (academy, community, shop, educator, donations, loyalty, VIP)
+- **5 different button systems** → 1 unified system
+- **6 different card implementations** → 1 unified system
+- **100+ components** now use Apple standard 20px radius
+- **Consistent visual language** across entire application
+- **Improved maintainability** with centralized design tokens
+- **Simplified app structure** - focus on core wellness platform
 
 ## Usage Guidelines
 
@@ -117,15 +127,6 @@ Files still using Tailwind shadows (low priority - visual only):
 - `--shadow-md`: 0 6px 24px rgba(0, 0, 0, 0.08)
 - `--shadow-lg`: 0 8px 30px rgba(0, 0, 0, 0.12)
 - `--shadow-xl`: 0 20px 60px rgba(0, 0, 0, 0.08)
-
-## Impact Summary
-
-- **116 component files** updated with standardized border radius
-- **5 different button systems** → 1 unified system
-- **6 different card implementations** → 1 unified system
-- **100+ components** now use Apple standard 20px radius
-- **Consistent visual language** across entire application
-- **Improved maintainability** with centralized design tokens
 
 ## Testing
 

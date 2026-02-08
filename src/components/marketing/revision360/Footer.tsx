@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Heart, Mail, Phone, MapPin } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { useLanguage } from '@/context/marketing/LanguageContext';
 import LanguageSelector from './LanguageSelector';
 
 export default function Footer() {
@@ -30,7 +30,7 @@ export default function Footer() {
           >
             <div className="flex items-center space-x-3">
               <motion.img 
-                src="/eka_logo.png"
+                src="/images/eka_logo.png"
                 alt={t('alt.ekaLogo')}
                 className="w-12 h-12 object-contain opacity-80"
                 whileHover={{ 
@@ -38,7 +38,7 @@ export default function Footer() {
                   rotate: 360,
                   opacity: 1
                 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.6 }}
               />
               <div>
                 <h3 className="text-xl font-medium text-amber-100/90">
@@ -151,7 +151,7 @@ export default function Footer() {
                   }}
                   viewport={{ once: true }}
                 >
-                  • {service}
+                  - {service}
                 </motion.p>
               ))}
             </div>

@@ -1,39 +1,94 @@
-﻿'use client';
 
-import * as React from 'react';
-import {
-  SidebarProvider,
-  SidebarInset,
-} from '@/components/ui/sidebar';
-import { TooltipProvider } from '@/components/ui/tooltip';
-import { NavSidebar } from '@/components/marketing/NavSidebar';
-import { Header } from '@/components/marketing/Header';
+import type { Metadata, Viewport } from "next";
+import "@/styles/globals.css";
+import "./marketing.css";
+import MainLayout from "@/components/marketing/MainLayout";
+import { LanguageProvider } from '@/context/marketing/LanguageContext';
+import { DiscountProvider } from '@/context/marketing/DiscountContext';
+import { BookingProvider } from '@/components/marketing/BookingProvider';
+import SmoothScrolling from "@/components/marketing/SmoothScrolling";
 
-export default function MarketingLayout({
+export const metadata: Metadata = {
+  metadataBase: new URL('https://ekabalance.com'),
+  title: {
+    default: "EKA Balance - Teràpies Integratives",
+    template: "%s | EKA Balance",
+  },
+  description: "Serveis premium de benestar amb teràpies integratives.",
+  applicationName: "EKA Balance",
+  keywords: [
+    "teràpies integratives",
+    "kinesiologia",
+    "benestar",
+    "massatge terapèutic",
+    "Feldenkrais",
+    "Barcelona",
+  ],
+  authors: [{ name: "EKA Balance" }],
+  creator: "EKA Balance",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "EKA Balance - Teràpies Integratives",
+    description: "Serveis premium de benestar amb teràpies integratives.",
+    url: "/",
+    siteName: "EKA Balance",
+    images: [
+      {
+        url: "/images/eka_logo.png",
+        width: 512,
+        height: 512,
+        alt: "EKA Balance logo",
+      },
+    ],
+    locale: "ca_ES",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EKA Balance - Teràpies Integratives",
+    description: "Serveis premium de benestar amb teràpies integratives.",
+    images: ["/images/eka_logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: '/images/eka_logo.png',
+    apple: '/images/eka_logo.png',
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff",
+};
+
+export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <SidebarProvider
-      style={{
-        "--sidebar-width": "19rem",
-        "--sidebar-width-mobile": "18rem",
-      } as React.CSSProperties}
-    >
-      <TooltipProvider>
-        <NavSidebar variant="floating" />
-        <SidebarInset className="app-shell app-shell-inset transition-all duration-500">
-          <div className="app-shell-card">
-            <Header />
-            <main className="app-shell-main">
-              <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000">
-                {children}
-              </div>
-            </main>
-          </div>
-        </SidebarInset>
-      </TooltipProvider>
-    </SidebarProvider>
+    <html lang="en">
+      <body className="font-sans">
+        <SmoothScrolling>
+          <LanguageProvider>
+            <DiscountProvider>
+              <BookingProvider>
+                <MainLayout>
+                  {children}
+                </MainLayout>
+              </BookingProvider>
+            </DiscountProvider>
+          </LanguageProvider>
+        </SmoothScrolling>
+      </body>
+    </html>
   );
 }
+
+

@@ -334,3 +334,4 @@ export function SettingsContent({ currentUser }: SettingsContentProps) {
     </PageContainer>
   );
 }
+

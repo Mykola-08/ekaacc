@@ -139,3 +139,4 @@ export function TherapistPaymentTerminal({ staffId }: { staffId?: string }) {
     </div>
   );
 }
+

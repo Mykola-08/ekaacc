@@ -1,5 +1,5 @@
 import { TrendingDown, TrendingUp, Star } from 'lucide-react';
-import { useDiscount } from '@/context/DiscountContext';
+import { useDiscount } from '@/context/marketing/DiscountContext';
 
 interface PriceDisplayProps {
   basePriceCents: number;
@@ -37,7 +37,7 @@ export default function PriceDisplay({
   return (
     <div className={`flex items-center space-x-2 ${className}`}>
       {/* Main Price */}
-      <div className={`font-light text-foreground dark:text-white ${sizeClasses[size]}`}>
+      <div className={`font-light text-gray-900 dark:text-white tabular-nums ${sizeClasses[size]}`}>
         {formatPrice(actualFinalPrice)}
       </div>
 
@@ -47,7 +47,7 @@ export default function PriceDisplay({
           {hasDiscount && (
             <>
               <TrendingDown className="w-4 h-4 text-green-500" />
-              <span className="text-sm text-muted-foreground dark:text-muted-foreground/80 line-through">
+              <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                 {formatPrice(basePriceCents)}
               </span>
             </>
@@ -56,7 +56,7 @@ export default function PriceDisplay({
           {hasSurcharge && (
             <>
               <TrendingUp className="w-4 h-4 text-orange-500" />
-              <span className="text-sm text-muted-foreground dark:text-muted-foreground/80 line-through">
+              <span className="text-sm text-gray-500 dark:text-gray-400 line-through">
                 {formatPrice(basePriceCents)}
               </span>
             </>
@@ -74,5 +74,6 @@ export default function PriceDisplay({
     </div>
   );
 }
+
 
 

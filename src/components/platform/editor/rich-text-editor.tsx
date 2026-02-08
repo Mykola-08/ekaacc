@@ -333,3 +333,4 @@ const isHotkey = (hotkey: string, event: any) => {
 
   return event.key === key
 }
+

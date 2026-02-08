@@ -1,8 +1,8 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { SERVICES_DATA } from '@/shared/constants';
+import { SERVICES_DATA } from '@/shared/marketing/constants';
 import { useLanguage } from '@/context/LanguageContext';
-import { Button } from '@/components/ui';
+import { Button } from '@/components/ui/button';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { ArrowRight01Icon } from '@hugeicons/core-free-icons';
 
@@ -43,7 +43,7 @@ export default function ServiceCategoryPills() {
             Els nostres serveis
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Descobreix la nostra gamma completa de terÃ pies personalitzades
+            Descobreix la nostra gamma completa de teràpies personalitzades
             per restaurar l'equilibri i promoure el teu benestar integral
           </p>
         </div>
@@ -94,3 +94,6 @@ export default function ServiceCategoryPills() {
     </section>
   );
 }
+
+
+

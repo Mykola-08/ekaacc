@@ -78,3 +78,4 @@ function FeatureRow({ label, tooltip, classic, premium, royal }: any) {
         </tr>
     );
 }
+

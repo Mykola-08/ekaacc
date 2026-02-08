@@ -175,3 +175,4 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
     </div>
   );
 }
+

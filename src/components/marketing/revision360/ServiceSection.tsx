@@ -1,7 +1,6 @@
-import { useState, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { ChevronDown, ChevronRight } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
+import { motion } from 'framer-motion';
+import { Clock3 } from 'lucide-react';
+import { useLanguage } from '@/context/marketing/LanguageContext';
 
 interface ServiceStep {
   number: string;
@@ -12,263 +11,123 @@ interface ServiceStep {
 }
 
 export default function ServiceSection() {
-  const [expandedStep, setExpandedStep] = useState<number | null>(null);
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
-
   const { t } = useLanguage();
 
   const steps: ServiceStep[] = [
     {
-      number: "01",
+      number: '01',
       title: t('service.step1.title'),
       description: t('service.step1.description'),
       details: [
         t('service.step1.details.1'),
         t('service.step1.details.2'),
         t('service.step1.details.3'),
-        t('service.step1.details.4')
+        t('service.step1.details.4'),
       ],
-      duration: "45 minuts"
+      duration: '45 min',
     },
     {
-      number: "02", 
+      number: '02',
       title: t('service.step2.title'),
       description: t('service.step2.description'),
       details: [
         t('service.step2.details.1'),
         t('service.step2.details.2'),
         t('service.step2.details.3'),
-        t('service.step2.details.4')
+        t('service.step2.details.4'),
       ],
-      duration: "60 minuts"
+      duration: '60 min',
     },
     {
-      number: "03",
+      number: '03',
       title: t('service.step3.title'),
       description: t('service.step3.description'),
       details: [
         t('service.step3.details.1'),
         t('service.step3.details.2'),
         t('service.step3.details.3'),
-        t('service.step3.details.4')
+        t('service.step3.details.4'),
       ],
-      duration: "90 minuts"
+      duration: '90 min',
     },
     {
-      number: "04",
+      number: '04',
       title: t('service.step4.title'),
       description: t('service.step4.description'),
       details: [
         t('service.step4.details.1'),
         t('service.step4.details.2'),
         t('service.step4.details.3'),
-        t('service.step4.details.4')
+        t('service.step4.details.4'),
       ],
-      duration: "30 minuts"
-    }
+      duration: '30 min',
+    },
   ];
 
   return (
-    <motion.section 
-      ref={ref}
-      className="py-24 sm:py-32 bg-black relative overflow-hidden"
-      style={{ opacity, y }}
-    >
-      {/* Ambient Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-0 w-96 h-96 bg-amber-900/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-yellow-900/10 rounded-full blur-[100px]" />
-      </div>
-
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div 
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 20 }}
+    <section id="process" className="relative py-20 sm:py-24">
+      <div className="section-container">
+        <motion.div
+          className="max-w-3xl"
+          initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3 }}
+          transition={{ duration: 0.45 }}
         >
-          <motion.h2 
-            className="text-4xl sm:text-5xl md:text-6xl font-light text-transparent bg-clip-text bg-linear-to-r from-amber-100 via-amber-200 to-amber-400 mb-8 leading-tight tracking-tight"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-          >
-            {t('service.title')}
-          </motion.h2>
-          <motion.p 
-            className="text-lg sm:text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4 }}
-          >
-            {t('service.subtitle')}
-          </motion.p>
+          <h2 className="text-3xl sm:text-5xl font-semibold text-white">{t('service.title')}</h2>
+          <p className="mt-4 text-zinc-300 text-base sm:text-lg leading-relaxed">{t('service.subtitle')}</p>
         </motion.div>
 
-        <div className="space-y-6">
+        <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {steps.map((step, index) => (
-            <motion.div
-              key={index}
-              className="group relative overflow-hidden rounded-2xl bg-linear-to-r from-zinc-800/50 to-zinc-700/30 border border-amber-500/20"
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+            <motion.article
+              key={step.number}
+              className="rounded-2xl border border-white/10 bg-white/5 p-6 sm:p-7 backdrop-blur-sm"
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.05 }}
-              whileHover={{ 
-                borderColor: "rgba(245, 158, 11, 0.4)",
-                scale: 1.01,
-                transition: { duration: 0.2 }
-              }}
+              transition={{ duration: 0.35, delay: index * 0.08 }}
             >
-              {/* Golden glow on hover */}
-              <motion.div 
-                className="absolute inset-0 bg-linear-to-r from-amber-500/5 to-yellow-400/5"
-                initial={{ opacity: 0 }}
-                whileHover={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              />
-              
-              <div className="relative p-8">
-                <div
-                  className="flex items-center justify-between cursor-pointer"
-                  onClick={() => setExpandedStep(expandedStep === index ? null : index)}
-                >
-                  <div className="flex items-center space-x-6">
-                    <div className="text-3xl font-light text-amber-400/80">
-                      {step.number}
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-semibold text-amber-100 mb-2">
-                        {step.title}
-                      </h3>
-                      <p className="text-zinc-300 leading-relaxed max-w-2xl">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-4">
-                    <span className="text-sm text-amber-300 font-medium">
-                      {step.duration}
-                    </span>
-                    <motion.div
-                      animate={{ rotate: expandedStep === index ? 90 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {expandedStep === index ? (
-                        <ChevronDown className="w-6 h-6 text-amber-400" />
-                      ) : (
-                        <ChevronRight className="w-6 h-6 text-amber-400" />
-                      )}
-                    </motion.div>
-                  </div>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.12em] text-amber-200/80">Step {step.number}</p>
+                  <h3 className="mt-2 text-xl font-semibold text-white">{step.title}</h3>
+                  <p className="mt-2 text-zinc-300 leading-relaxed">{step.description}</p>
                 </div>
-
-                {/* Expanded content */}
-                <motion.div
-                  initial={false}
-                  animate={{ 
-                    height: expandedStep === index ? 'auto' : 0,
-                    opacity: expandedStep === index ? 1 : 0
-                  }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  {expandedStep === index && (
-                    <motion.div 
-                      className="pl-16 space-y-4 mt-6"
-                      initial={{ opacity: 0, y: -20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.2 }}
-                    >
-                      <h4 className="text-lg font-semibold text-amber-200">{t('service.expect')}</h4>
-                      <ul className="space-y-2">
-                        {step.details.map((detail, detailIndex) => (
-                          <motion.li 
-                            key={detailIndex} 
-                            className="flex items-start space-x-3"
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: 0.1 * detailIndex }}
-                          >
-                            <motion.div 
-                              className="w-2 h-2 bg-amber-400 rounded-full mt-2 shrink-0"
-                              animate={{ 
-                                scale: [1, 1.2, 1],
-                                opacity: [0.7, 1, 0.7]
-                              }}
-                              transition={{ 
-                                duration: 2,
-                                repeat: Infinity,
-                                ease: "easeInOut",
-                                delay: detailIndex * 0.2
-                              }}
-                            />
-                            <span className="text-zinc-300">{detail}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-                    </motion.div>
-                  )}
-                </motion.div>
+                <div className="inline-flex items-center gap-2 rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-1 text-xs font-medium text-amber-100 whitespace-nowrap">
+                  <Clock3 className="h-3.5 w-3.5" />
+                  {step.duration}
+                </div>
               </div>
-            </motion.div>
+
+              <div className="mt-5 border-t border-white/10 pt-4">
+                <p className="text-sm font-medium text-amber-200">{t('service.expect')}</p>
+                <ul className="mt-3 space-y-2">
+                  {step.details.map((detail, detailIndex) => (
+                    <li key={detailIndex} className="flex items-start gap-3 text-sm sm:text-base text-zinc-300">
+                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-300 shrink-0" />
+                      <span>{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.article>
           ))}
         </div>
 
-        {/* Total session info */}
-        <motion.div 
-          className="mt-12 text-center p-8 bg-linear-to-r from-amber-500/10 to-yellow-400/10 rounded-2xl border border-amber-500/30"
-          initial={{ opacity: 0, y: 15 }}
+        <motion.div
+          className="mt-8 rounded-2xl border border-amber-300/25 bg-amber-300/10 p-6 sm:p-7"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.4 }}
-          whileHover={{ 
-            borderColor: "rgba(245, 158, 11, 0.5)",
-            scale: 1.02,
-            transition: { duration: 0.2 }
-          }}
+          transition={{ duration: 0.35 }}
         >
-          <motion.p 
-            className="text-amber-200 text-lg font-medium mb-2"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-          >
-            {t('service.total.title')}
-          </motion.p>
-          <motion.p 
-            className="text-3xl font-light text-amber-100 mb-2"
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-          >
-            {t('service.total.duration')}
-          </motion.p>
-          <motion.p 
-            className="text-zinc-300"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-          >
-            {t('service.total.note')}
-          </motion.p>
+          <p className="text-sm uppercase tracking-[0.11em] text-amber-200/85">{t('service.total.title')}</p>
+          <p className="mt-2 text-2xl sm:text-3xl font-semibold text-white">{t('service.total.duration')}</p>
+          <p className="mt-2 text-zinc-200/90">{t('service.total.note')}</p>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 }
 

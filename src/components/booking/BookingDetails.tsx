@@ -535,3 +535,4 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
         </div>
     );
 }
+

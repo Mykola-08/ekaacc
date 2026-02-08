@@ -770,3 +770,4 @@ export default function AIInsightsPage() {
   </PageContainer>
  );
 }
+

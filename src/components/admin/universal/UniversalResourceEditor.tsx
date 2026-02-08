@@ -148,3 +148,4 @@ export function UniversalResourceEditor({ table, id }: { table: string, id: stri
         </Card>
     );
 }
+

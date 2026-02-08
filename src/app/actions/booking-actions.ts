@@ -43,3 +43,4 @@ export async function getUpcomingSession() {
 
     return upcoming || null;
 }
+

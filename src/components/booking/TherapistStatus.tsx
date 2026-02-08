@@ -29,3 +29,4 @@ export function TherapistStatus({ staffId, roomName = 'global_staff_presence' }:
         </span>
     );
 }
+

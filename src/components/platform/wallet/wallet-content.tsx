@@ -191,3 +191,4 @@ export function WalletContent({ initialBalance, initialPlans, initialTransaction
     </PageContainer>
   );
 }
+

@@ -3,3 +3,4 @@ import { CommunityContentHeadless } from "@/components/platform/community/commun
 export default function CommunityPage() {
  return <CommunityContentHeadless />
 }
+

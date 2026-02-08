@@ -49,30 +49,30 @@ export default class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="min-h-screen bg-muted/30 flex items-center justify-center p-4">
-          <div className="bg-card rounded-3xl shadow-xl max-w-md w-full p-8 text-center">
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl shadow-xl max-w-md w-full p-8 text-center">
             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <AlertTriangle className="w-10 h-10 text-red-500" />
             </div>
             
-            <h1 className="text-2xl font-bold text-foreground mb-4">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Ups! Alguna cosa ha anat malament
             </h1>
             
-            <p className="text-muted-foreground mb-8">
+            <p className="text-gray-600 mb-8">
               Ho sentim, s'ha produït un error inesperat. Prova de recarregar la pàgina o torna a l'inici.
             </p>
 
             {this.state.error && (
               <details className="mb-6 text-left" open>
-                <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground/90 font-medium">
+                <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700 font-medium">
                   Detalls de l'error
                 </summary>
-                <div className="mt-4 p-4 bg-muted rounded-lg border border-border">
+                <div className="mt-4 p-4 bg-gray-100 rounded-lg border border-gray-200">
                   <p className="font-mono text-sm font-bold text-red-700 mb-2">
                     {this.state.error.name}: {this.state.error.message}
                   </p>
-                  <pre className="text-xs text-foreground/90 whitespace-pre-wrap overflow-auto max-h-60">
+                  <pre className="text-xs text-gray-700 whitespace-pre-wrap overflow-auto max-h-60">
                     {this.state.errorInfo?.componentStack}
                   </pre>
                 </div>
@@ -90,7 +90,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               
               <button
                 onClick={this.handleGoHome}
-                className="inline-flex items-center justify-center px-6 py-3 bg-gray-200 hover:bg-gray-300 text-foreground font-medium rounded-xl transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-900 font-medium rounded-xl transition-colors"
               >
                 <Home className="w-4 h-4 mr-2" />
                 Anar a l'inici
@@ -146,3 +146,4 @@ export function ErrorFallback({
     </div>
   );
 }
+

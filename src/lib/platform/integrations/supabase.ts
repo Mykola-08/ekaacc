@@ -39,3 +39,4 @@ export class SupabaseIntegration extends BaseIntegration {
     };
   }
 }
+

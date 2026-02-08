@@ -35,13 +35,13 @@ export default function GallerySection() {
   ];
 
   return (
-    <section className="py-24 bg-card">
+    <section className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-16">
-          <h2 className="text-3xl sm:text-4xl font-light text-foreground mb-4">
+          <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-4">
             El nostre <span className="font-medium text-yellow-600">Espai</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light">
             Un refugi de pau i tranquil·litat al centre de Barcelona, dissenyat per a la teva desconnexió total.
           </p>
         </div>
@@ -51,3 +51,4 @@ export default function GallerySection() {
     </section>
   );
 }
+

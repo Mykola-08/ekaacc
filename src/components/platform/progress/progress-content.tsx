@@ -201,3 +201,4 @@ export function ProgressContent({ reports }: ProgressContentProps) {
     </PageContainer>
   );
 }
+

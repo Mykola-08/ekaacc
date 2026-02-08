@@ -172,3 +172,4 @@ function ServiceRow({ service, index }: { service: AdminService, index: number }
         </Card>
     );
 }
+

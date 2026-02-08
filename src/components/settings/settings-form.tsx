@@ -94,3 +94,4 @@ export function SettingsForm({ profile }: { profile: any }) {
     </form>
   )
 }
+

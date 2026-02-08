@@ -5,3 +5,4 @@ import { UserManagementHeadless } from '@/components/platform/admin/user-managem
 export default function AdminUsersPage() {
  return <UserManagementHeadless />;
 }
+

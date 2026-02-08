@@ -10,3 +10,4 @@ export const standardOccupations = [
   "Student",
   "Other"
 ];
+

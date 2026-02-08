@@ -1,12 +1,10 @@
-﻿'use client';
+'use client';
 
-import { Badge, Button, Card, CardContent, CardFooter, CardHeader, LazyImage } from '@/components/ui';
+import { Button } from 'keep-react';
 import Link from 'next/link';
-import { useLanguage } from '@/context/LanguageContext';
-import { useBooking } from '@/hooks/useBooking';
-import { ServiceItem } from '@/shared/types';
-import { HugeiconsIcon } from '@hugeicons/react';
-import { Tick02Icon } from '@hugeicons/core-free-icons';
+import { useLanguage } from '@/context/marketing/LanguageContext';
+import { ServiceItem } from '@/shared/marketing/types';
+import LazyImage from '@/components/marketing/LazyImage';
 
 interface ServiceCardProps {
   service: ServiceItem;
@@ -14,71 +12,77 @@ interface ServiceCardProps {
 
 export default function ServiceCard({ service }: ServiceCardProps) {
   const { t } = useLanguage();
-  const { navigateToBooking } = useBooking();
+  const colorStyles: Record<string, { text: string; dot: string }> = {
+    blue: { text: 'text-blue-600', dot: 'bg-blue-500' },
+    purple: { text: 'text-purple-600', dot: 'bg-purple-500' },
+    green: { text: 'text-green-600', dot: 'bg-green-500' },
+    orange: { text: 'text-orange-600', dot: 'bg-orange-500' },
+    indigo: { text: 'text-indigo-600', dot: 'bg-indigo-500' },
+    pink: { text: 'text-pink-600', dot: 'bg-pink-500' },
+    red: { text: 'text-red-600', dot: 'bg-red-500' },
+  };
+  const palette = colorStyles[service.color] ?? colorStyles.blue;
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-500 h-full border border-border/60 hover:border-primary/30 hover:shadow-lg">
-      <div className="relative h-56 sm:h-64 overflow-hidden rounded-3xl m-2 mb-0">
-        <div className="absolute inset-0 bg-primary/10 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+    <div className="card card-interactive h-full flex flex-col">
+      <div className="relative h-48 sm:h-56 rounded-xl overflow-hidden">
         <LazyImage
           src={service.image}
           alt={t(service.titleKey)}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-700 ease-out-quart hover:scale-105"
         />
       </div>
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className="text-xl font-bold text-eka-dark mb-2 heading-3">
+          {t(service.titleKey)}
+        </h3>
+        {/* Helper text/subtitle in orange/color */}
+        <p className={`text-sm font-medium mb-3 ${palette.text}`}>
+          {t(service.subtitleKey)}
+        </p>
 
-      <CardHeader className="pt-6 pb-0">
-        <div className="flex justify-between items-start gap-4">
-          <h3 className="text-2xl font-semibold text-foreground tracking-tight group-hover:text-primary transition-colors">
-            {t(service.titleKey)}
-          </h3>
-          {service.subtitleKey && (
-            <Badge variant="secondary" className="uppercase tracking-wider text-[11px] px-3 py-1">
-              {t(service.subtitleKey)}
-            </Badge>
-          )}
-        </div>
-      </CardHeader>
-
-      <CardContent className="pt-4 pb-0 flex flex-col grow">
-        <p className="text-muted-foreground text-base leading-relaxed mb-6 line-clamp-3 font-light">
+        <p className="text-body text-sm mb-6 line-clamp-3">
           {t(service.descriptionKey)}
         </p>
 
+        {/* Benefits List */}
         {service.benefitsKeys && service.benefitsKeys.length > 0 && (
-          <div className="mb-6 bg-muted/20 rounded-2xl p-4 border border-border/40">
-            <h4 className="text-xs font-bold text-primary uppercase tracking-wider mb-3 flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+          <div className="mb-6">
+            <h4 className="text-xs font-bold text-eka-dark uppercase tracking-wider mb-3">
               {t('services.mainBenefits') || 'Key Benefits'}
             </h4>
             <ul className="space-y-2">
               {service.benefitsKeys.slice(0, 4).map((key, i) => (
-                <li key={i} className="flex items-start text-sm text-muted-foreground/90">
-                  <HugeiconsIcon icon={Tick02Icon} size={16} className="text-primary/70 mt-0.5 mr-2" />
+                <li key={i} className="flex items-start text-sm text-gray-600">
+                  <span className={`w-1.5 h-1.5 rounded-full ${palette.dot} mt-1.5 mr-2 flex-shrink-0`} />
                   {t(key)}
                 </li>
               ))}
             </ul>
           </div>
         )}
-      </CardContent>
 
-      <CardFooter className="pt-0 pb-6 mt-auto flex flex-col gap-3">
-        <Button
-          onClick={() => navigateToBooking(service.slug || service.id)}
-          className="w-full bg-primary hover:bg-primary/95 text-white text-base py-6 rounded-full font-semibold transition-all shadow-sm hover:shadow-md hover:scale-105 active:scale-95 border-none"
-        >
-          {t('nav.bookNow')}
-        </Button>
-        <Link href={service.href} className="w-full">
-          <Button
-            variant="outline"
-            className="w-full bg-transparent hover:bg-black/5 text-foreground/70 border-black/5 text-base py-6 rounded-full transition-all"
-          >
-            {t('common.readMore') || 'Details'}
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
+        <div className="mt-auto flex gap-3 pt-4 border-t border-gray-100">
+          <Link href={service.href} className="flex-1">
+            <Button
+              variant="outline"
+              className="w-full btn btn-sm btn-secondary border-primary-200 text-primary-700 hover:bg-primary-50 rounded-xl p-2.5 normal-case"
+            >
+              {t('common.readMore') || 'Read More'}
+            </Button>
+          </Link>
+          <Link href="/booking" className="flex-1">
+            <Button
+              className="w-full btn btn-sm btn-accent rounded-xl p-2.5 normal-case border-none font-semibold"
+            >
+              {t('nav.bookNow')}
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
+
+
+

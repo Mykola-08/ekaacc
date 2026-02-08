@@ -52,3 +52,4 @@ export abstract class BaseIntegration {
     return new Response('Webhook handler not implemented for this provider', { status: 501 });
   }
 }
+

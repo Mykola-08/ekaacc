@@ -1,5 +1,8 @@
+"use client";
+
 
 import { useState, useEffect, useCallback } from 'react';
+import { Alert } from 'keep-react';
 
 declare global {
   interface Window {
@@ -49,21 +52,20 @@ function ToastComponent({ toast, onClose }: ToastProps) {
       const timer = setTimeout(() => handleClose(), toast.duration);
       return () => clearTimeout(timer);
     }
-    return () => {}; // Empty cleanup function
   }, [toast.duration, handleClose]);
 
-  const getColorClasses = () => {
+  const getKeepColor = () => {
     switch (toast.type) {
       case 'success':
-        return 'bg-green-50 text-green-900 border-green-200';
+        return 'success';
       case 'error':
-        return 'bg-red-50 text-red-900 border-red-200';
+        return 'error';
       case 'warning':
-        return 'bg-yellow-50 text-yellow-900 border-yellow-200';
+        return 'warning';
       case 'info':
-        return 'bg-blue-50 text-blue-900 border-blue-200';
+        return 'primary';
       default:
-        return 'bg-blue-50 text-blue-900 border-blue-200';
+        return 'primary';
     }
   };
 
@@ -80,8 +82,10 @@ function ToastComponent({ toast, onClose }: ToastProps) {
         }
       `}
     >
-      <div
-        className={`shadow-lg backdrop-blur-sm relative p-4 rounded-xl border ${getColorClasses()}`}
+      <Alert
+        color={getKeepColor()}
+        withBg
+        className="shadow-lg backdrop-blur-sm relative"
       >
         <div className="flex items-start justify-between">
           <div className="flex-1 min-w-0">
@@ -124,7 +128,7 @@ function ToastComponent({ toast, onClose }: ToastProps) {
             />
           </div>
         )}
-      </div>
+      </Alert>
 
       <style dangerouslySetInnerHTML={{
         __html: `
@@ -173,7 +177,7 @@ export default function ToastContainer() {
   }, []);
 
   return (
-    <div className="fixed top-4 right-4 z-100 space-y-4 pointer-events-none">
+    <div className="fixed top-4 right-4 z-[100] space-y-4 pointer-events-none">
       <div className="space-y-3">
         {toasts.map(toast => (
           <div key={toast.id} className="pointer-events-auto">
@@ -184,4 +188,5 @@ export default function ToastContainer() {
     </div>
   );
 }
+
 

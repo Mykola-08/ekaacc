@@ -35,3 +35,4 @@ export function StatsCard({ icon: Icon, label, value, colorClass = "bg-surface-c
         </div>
     );
 }
+

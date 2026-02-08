@@ -15,3 +15,4 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   </SettingsShell>
  );
 }
+

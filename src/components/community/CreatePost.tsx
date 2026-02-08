@@ -146,3 +146,4 @@ export function CreatePost({ userId }: CreatePostProps) {
     </div>
   );
 }
+

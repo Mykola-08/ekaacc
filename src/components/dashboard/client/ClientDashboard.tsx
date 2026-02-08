@@ -19,7 +19,6 @@ import {
 } from "@hugeicons/core-free-icons";
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
-import { DashboardLayout } from '@/components/dashboard/layout/DashboardLayout';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
 import { WelcomeBanner } from '../widgets/WelcomeBanner';
 import { StatsCard } from '../widgets/StatsCard';
@@ -59,7 +58,6 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
     const GreetingIcon = hour < 12 || hour < 18 ? Sun03Icon : Moon02Icon;
 
     return (
-        <DashboardLayout profile={profile}>
             <motion.div
                 className="space-y-10 max-w-6xl mx-auto pb-20"
                 initial={{ opacity: 0, scale: 0.98, y: 10 }}
@@ -237,6 +235,6 @@ export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsa
                     </div>
                 </div>
             </motion.div>
-        </DashboardLayout>
     );
 }
+

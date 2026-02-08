@@ -41,3 +41,4 @@ export function InlineSpinner({ className }: SpinnerProps) {
     </Transition>
   )
 }
+

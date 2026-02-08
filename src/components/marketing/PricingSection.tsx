@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react';
 import { CheckCircle, Sparkles, Crown, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
-import { useBooking } from '@/hooks/useBooking';
+import { useBooking } from '@/hooks/marketing/useBooking';
 import { useDiscount } from '@/context/DiscountContext';
-import { useAnalytics } from '@/hooks/useAnalytics';
-// import { supabase } from '@/lib/supabase';
+import { useAnalytics } from '@/hooks/marketing/useAnalytics';
+// import { supabase } from '@/lib/marketing/supabase';
 
 const iconMap = {
   Heart,
@@ -303,5 +303,8 @@ export default function PricingSection() {
     </section>
   );
 }
+
+
+
 
 

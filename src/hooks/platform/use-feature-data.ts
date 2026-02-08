@@ -52,3 +52,4 @@ export function useFeatureData<T>(
 
   return { data, loading, error };
 }
+

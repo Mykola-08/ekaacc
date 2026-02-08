@@ -31,3 +31,4 @@ export class ResendIntegration extends BaseIntegration {
     };
   }
 }
+

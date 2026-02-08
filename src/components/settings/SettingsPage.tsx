@@ -191,3 +191,4 @@ export function SettingsPage({ profile, identityStatus }: { profile: any, identi
         </DashboardLayout>
     );
 }
+

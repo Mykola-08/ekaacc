@@ -34,7 +34,6 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
       document.addEventListener('keydown', handleEscape);
       return () => document.removeEventListener('keydown', handleEscape);
     }
-    return () => {}; // Empty cleanup function
   }, [isOpen, onClose]);
 
   
@@ -60,7 +59,7 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
           />
           <div className="flex min-h-full items-center justify-center p-4 sm:p-6 lg:p-8">
             <motion.div 
-              className={`relative w-full ${sizeClasses[size]} transform rounded-2xl bg-linear-to-br from-zinc-900 via-zinc-800 to-zinc-900 border border-amber-500/20 shadow-2xl shadow-amber-500/10`}
+              className={`relative w-full ${sizeClasses[size]} transform rounded-2xl bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 border border-amber-500/20 shadow-2xl shadow-amber-500/10`}
               initial={{ 
                 opacity: 0, 
                 scale: 0.8,
@@ -86,7 +85,7 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
             >
           {/* Golden glow effect */}
           <motion.div 
-            className="absolute -inset-1 bg-linear-to-r from-amber-400/20 via-yellow-300/20 to-amber-400/20 rounded-2xl blur-sm"
+            className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 via-yellow-300/20 to-amber-400/20 rounded-2xl blur-sm"
             animate={{ 
               opacity: [0.5, 0.8, 0.5]
             }}
@@ -130,3 +129,4 @@ export default function Modal({ isOpen, onClose, children, title, size = 'md' }:
     </AnimatePresence>
   );
 }
+

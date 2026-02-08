@@ -136,3 +136,4 @@ export function AdminGuard({ children, fallback, loadingComponent }: AdminGuardP
 
   return <>{children}</>
 }
+

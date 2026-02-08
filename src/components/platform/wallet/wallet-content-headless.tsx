@@ -385,3 +385,4 @@ export function WalletContentHeadless({ initialBalance, initialPlans, initialTra
     </div>
   );
 }
+

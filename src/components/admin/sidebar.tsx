@@ -110,3 +110,4 @@ export function AdminSidebar({ className }: { className?: string }) {
     </aside>
   )
 }
+

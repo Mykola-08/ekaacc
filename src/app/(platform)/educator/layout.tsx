@@ -34,3 +34,4 @@ export default function EducatorLayout({ children }: { children: React.ReactNode
   </div>
  );
 }
+

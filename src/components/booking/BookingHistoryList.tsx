@@ -224,3 +224,4 @@ function BookingCard({ booking, isUpcoming, userId }: { booking: Booking, isUpco
         </div>
     );
 }
+

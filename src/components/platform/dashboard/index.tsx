@@ -21,3 +21,4 @@ export default function Dashboard({ upcomingSession, walletBalance }: { upcoming
   return <UserDashboard upcomingSession={upcomingSession} walletBalance={walletBalance} />;
 }
 
+

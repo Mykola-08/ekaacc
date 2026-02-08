@@ -31,3 +31,4 @@ export default async function CMSEditPage({ params }: { params: Promise<{ id: st
   </div>
  );
 }
+

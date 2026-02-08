@@ -108,3 +108,4 @@ function getMockMilestones(): Milestone[] {
     { id: 4, title: 'Reduce stress by 20%', completed: false, dueDate: '2025-04-01' },
   ];
 }
+

@@ -213,3 +213,4 @@ export function LoginForm({ className, enabledProviders = { google: true, x: tru
     </motion.div>
   )
 }
+

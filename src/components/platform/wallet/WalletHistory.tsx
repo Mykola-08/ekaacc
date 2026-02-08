@@ -91,3 +91,4 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
     </Card>
   );
 }
+

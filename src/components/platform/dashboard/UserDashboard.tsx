@@ -279,3 +279,4 @@ export function UserDashboard({ upcomingSession, walletBalance }: UserDashboardP
     );
 }
 
+

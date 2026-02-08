@@ -36,3 +36,4 @@ export function WalletBalanceCard({ balanceCents, currency = "EUR" }: WalletBala
     </Card>
   );
 }
+

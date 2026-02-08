@@ -160,3 +160,4 @@ export function useConsent() {
     savePreferences,
   };
 }
+

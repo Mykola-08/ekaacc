@@ -134,3 +134,4 @@ export function ResourcesPage({ initialResources }: ResourcesPageProps) {
     </DashboardLayout>
   );
 }
+

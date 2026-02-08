@@ -1,26 +1,27 @@
 {
-  "servers": {
-    "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=dopkncrqutxnchwqxloa&features=docs,account,database,debugging,development,functions,branching,storage"
-    },
-    "Vercel": {
-      "url": "https://mcp.vercel.com",
-      "type": "http"
-    },
-    "com.stripe/mcp": {
-      "type": "http",
-      "url": "https://mcp.stripe.com",
-      "gallery": "https://api.mcp.github.com",
-      "version": "0.2.4"
-    },
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
-    }
-  },
-  "inputs": []
+	"servers": {
+		"supabase": {
+			"type": "http",
+			"url": "https://mcp.supabase.com/mcp?project_ref=dopkncrqutxnchwqxloa&features=storage,branching,functions,development,debugging,database,account,docs"
+		},
+		"Vercel": {
+			"url": "https://mcp.vercel.com",
+			"type": "http"
+		},
+		"com.stripe/mcp": {
+			"type": "http",
+			"url": "https://mcp.stripe.com",
+			"gallery": "https://api.mcp.github.com",
+			"version": "0.2.4"
+		},
+		"shadcn": {
+			"command": "npx",
+			"args": [
+				"shadcn@latest",
+				"mcp"
+			],
+			"type": "stdio"
+		}
+	},
+	"inputs": []
 }

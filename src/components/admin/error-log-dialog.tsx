@@ -118,3 +118,4 @@ export function ErrorLogDialog({ log }: { log: any }) {
     </Dialog>
   )
 }
+

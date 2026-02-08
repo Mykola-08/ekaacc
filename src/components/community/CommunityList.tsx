@@ -101,3 +101,4 @@ export function CommunityList({ posts }: CommunityListProps) {
     </div>
   );
 }
+

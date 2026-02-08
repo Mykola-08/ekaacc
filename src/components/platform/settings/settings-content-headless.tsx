@@ -334,3 +334,4 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
     </div>
   );
 }
+

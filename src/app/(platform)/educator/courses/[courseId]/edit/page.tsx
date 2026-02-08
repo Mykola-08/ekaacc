@@ -149,3 +149,4 @@ export default function EditCoursePage({ params }: { params: Promise<{ courseId:
   </div>
  );
 }
+

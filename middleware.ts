@@ -111,19 +111,35 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // 4. Redirect Logic for Auth Users (Main Site)
-  // Redirect logged-in users from landing page to insights
-  if (user && pathname === '/' && !isTherapistSubdomain && !isAdminSubdomain) {
-    const redirectResponse = NextResponse.redirect(new URL('/insights', request.url))
+  // 4. Protected Routes Logic
+  const protectedPrefixes = [
+    '/dashboard',
+    '/bookings',
+    '/insights',
+    '/settings',
+    '/profile',
+    '/admin',
+    '/journal',
+    '/wallet',
+    '/therapist', // If not handled by subdomain
+    '/console'
+  ]
 
-    // Copy cookies from 'response' to 'redirectResponse'
-    response.cookies.getAll().forEach((cookie) => {
-      redirectResponse.cookies.set(cookie)
-    })
+  const isProtectedRoute = protectedPrefixes.some(prefix => pathname.startsWith(prefix))
 
-    return redirectResponse
+  if (!user && isProtectedRoute) {
+    const loginUrl = new URL('/login', request.url)
+    loginUrl.searchParams.set('next', pathname)
+    return NextResponse.redirect(loginUrl)
   }
 
+  // 5. Auth Routes Logic (Redirect logged-in users away from auth pages)
+  if (user && (pathname === '/login' || pathname === '/signup')) {
+    const dashboardUrl = new URL('/dashboard', request.url)
+    return NextResponse.redirect(dashboardUrl)
+  }
+
+  // Allow access to marketing pages and other public routes
   return response
 }
 

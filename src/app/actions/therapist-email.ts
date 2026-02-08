@@ -78,3 +78,4 @@ export async function previewTherapistEmail(type: TransactionalEmailType, data: 
         return { success: false, error: 'Failed to generate preview' };
     }
 }
+

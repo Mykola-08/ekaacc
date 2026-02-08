@@ -10,3 +10,4 @@ export interface LanguageContextType {
     confirmLanguage: (lang: Language) => void;
     languageConfirmed: boolean;
 }
+

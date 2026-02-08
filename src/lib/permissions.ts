@@ -93,3 +93,4 @@ export async function getAllUserPermissions(userId: string) {
         };
     }) || [];
 }
+

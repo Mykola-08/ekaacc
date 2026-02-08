@@ -96,3 +96,4 @@ export default function AdminDashboard() {
 
   return <AdminDashboardHeadless kpiStats={kpiStats as any} />;
 }
+

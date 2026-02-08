@@ -93,3 +93,4 @@ export function PermissionManager({ userId, userName, initialPermissions }: Perm
         </div>
     );
 }
+

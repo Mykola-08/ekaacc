@@ -37,3 +37,4 @@ export function SingleTherapistProfile({ therapist }: { therapist: any }) {
         </div>
     );
 }
+

@@ -122,3 +122,4 @@ export function useConsent() {
     checkConsent
   };
 }
+

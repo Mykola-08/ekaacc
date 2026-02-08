@@ -65,3 +65,4 @@ export function PlanUsageCard({ usage, compact }: { usage: any, compact?: boolea
         </Card>
     );
 }
+

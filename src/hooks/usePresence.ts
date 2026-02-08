@@ -52,3 +52,4 @@ export function usePresence({ roomName, user, enabled = true }: UsePresenceProps
 
   return { onlineUsers };
 }
+

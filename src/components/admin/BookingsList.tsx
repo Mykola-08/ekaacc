@@ -151,3 +151,4 @@ function BookingRow({ booking }: { booking: Booking }) {
         </Card>
     );
 }
+

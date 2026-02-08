@@ -21,3 +21,4 @@ export default function ConsentAwareWrapper({ children, category }: ConsentAware
 
   return <>{children}</>;
 }
+

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+"use client";
+
+import React, { useState, useEffect, useMemo } from 'react';
 import { Send, Phone, Mail, MapPin, CheckCircle, Loader2, Clock, MessageCircle, User, Calendar, HelpCircle, Shield, Globe, Instagram, Users } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
-// import { supabase } from '@/lib/supabase';
-import { useAnalytics } from '@/hooks/useAnalytics';
+import { useLanguage } from '@/context/marketing/LanguageContext';
+// import { supabase } from '@/lib/marketing/supabase';
+import { useAnalytics } from '@/hooks/marketing/useAnalytics';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 
@@ -26,8 +28,8 @@ type ContactFormData = z.infer<ReturnType<typeof createContactSchema>>;
 export default function ContactFormOptimized() {
   const { t } = useLanguage();
   // const { user } = useSupabaseAuth();
-  const user = null;
   const { logEvent } = useAnalytics();
+  const schema = useMemo(() => createContactSchema(t), [t]);
   
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
@@ -80,22 +82,22 @@ export default function ContactFormOptimized() {
 //   }, [user]);
 
   const services = [
-    t('contact.services.basic'),
-    t('contact.services.complete'),
-    t('contact.services.premium'),
-    t('contact.services.kinesiology'),
-    t('contact.services.nutrition'),
-    t('contact.services.review'),
-    t('contact.services.vip'),
-    t('contact.services.other')
+    t('contact.service.massageBasic'),
+    t('contact.service.massageComplete'),
+    t('contact.service.massagePremium'),
+    t('contact.service.kinesiology'),
+    t('contact.service.nutrition'),
+    t('contact.service.revision360'),
+    t('contact.service.vip'),
+    t('contact.service.other')
   ];
 
   const timeSlots = [
-    t('contact.timeSlots.morning'),
-    t('contact.timeSlots.noon'),
-    t('contact.timeSlots.afternoon'),
-    t('contact.timeSlots.evening'),
-    t('contact.timeSlots.noPreference')
+    t('contact.time.morning'),
+    t('contact.time.noon'),
+    t('contact.time.afternoon'),
+    t('contact.time.evening'),
+    t('contact.time.any')
   ];
 
   const sources = [
@@ -106,7 +108,6 @@ export default function ContactFormOptimized() {
   ];
 
   const validateField = (name: keyof ContactFormData, value: unknown) => {
-    const schema = createContactSchema(t);
     try {
       const fieldSchema = schema.shape[name];
       if (fieldSchema) {
@@ -135,7 +136,6 @@ export default function ContactFormOptimized() {
     setIsSubmitting(true);
     setServerError('');
 
-    const schema = createContactSchema(t);
     const result = schema.safeParse(formData);
 
     if (!result.success) {
@@ -196,7 +196,7 @@ export default function ContactFormOptimized() {
         animate={{ opacity: 1, scale: 1 }}
         className="max-w-2xl mx-auto"
       >
-        <div className="bg-linear-to-br from-green-50 to-emerald-50 rounded-3xl p-12 text-center border border-green-100 shadow-lg">
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-3xl p-12 text-center border border-green-100 shadow-lg">
           <motion.div 
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -205,10 +205,10 @@ export default function ContactFormOptimized() {
           >
             <CheckCircle className="w-12 h-12 text-green-600" />
           </motion.div>
-          <h3 className="text-3xl font-light text-foreground mb-4">
+          <h3 className="text-3xl font-light text-gray-900 mb-4">
             {t('contact.success.title')}
           </h3>
-          <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
+          <p className="text-gray-600 mb-8 leading-relaxed text-lg">
             {t('contact.success.message')}
           </p>
           <button
@@ -230,12 +230,12 @@ export default function ContactFormOptimized() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.5 }}
           >
-            <h2 className="text-4xl font-light text-foreground mb-6">
+            <h2 className="text-4xl font-light text-gray-900 mb-6">
               {t('contact.info.title')}
             </h2>
-            <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
+            <p className="text-gray-600 mb-8 leading-relaxed text-lg">
               {t('contact.info.subtitle')}
             </p>
           </motion.div>
@@ -251,14 +251,14 @@ export default function ContactFormOptimized() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-start space-x-4 p-6 bg-card rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
+                className="flex items-start space-x-4 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300"
               >
-                <div className={`w-12 h-12 bg-${item.color}-50 rounded-xl flex items-center justify-center shrink-0`}>
+                <div className={`w-12 h-12 bg-${item.color}-50 rounded-xl flex items-center justify-center flex-shrink-0`}>
                   <item.icon className={`w-6 h-6 text-${item.color}-600`} />
                 </div>
                 <div>
-                  <h4 className="font-medium text-foreground mb-1">{item.title}</h4>
-                  <p className="text-muted-foreground mb-2">
+                  <h4 className="font-medium text-gray-900 mb-1">{item.title}</h4>
+                  <p className="text-gray-600 mb-2">
                     {item.link ? (
                       <a href={item.link} className={`hover:text-${item.color}-600 transition-colors text-lg font-medium`}>
                         {item.content}
@@ -267,7 +267,7 @@ export default function ContactFormOptimized() {
                       <span className="text-lg">{item.content}</span>
                     )}
                   </p>
-                  <p className="text-sm text-muted-foreground">{item.sub}</p>
+                  <p className="text-sm text-gray-500">{item.sub}</p>
                 </div>
               </motion.div>
             ))}
@@ -277,24 +277,24 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-linear-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100"
+            className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-6 border border-blue-100"
           >
             <div className="flex items-start space-x-3">
-              <Clock className="w-6 h-6 text-blue-600 mt-1 shrink-0" />
+              <Clock className="w-6 h-6 text-blue-600 mt-1 flex-shrink-0" />
               <div>
-                <h4 className="font-medium text-foreground mb-3 text-lg">{t('contact.hours.title')}</h4>
+                <h4 className="font-medium text-gray-900 mb-3 text-lg">{t('contact.hours.title')}</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">{t('contact.hours.weekdays')}:</span>
-                    <span className="font-medium text-foreground bg-card px-2 py-1 rounded-md shadow-sm">9:00 - 20:00</span>
+                    <span className="text-gray-600">{t('contact.hours.weekdays')}:</span>
+                    <span className="font-medium text-gray-900 bg-white px-2 py-1 rounded-md shadow-sm">9:00 - 20:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">{t('contact.hours.saturday')}:</span>
-                    <span className="font-medium text-foreground bg-card px-2 py-1 rounded-md shadow-sm">9:00 - 18:00</span>
+                    <span className="text-gray-600">{t('contact.hours.saturday')}:</span>
+                    <span className="font-medium text-gray-900 bg-white px-2 py-1 rounded-md shadow-sm">9:00 - 18:00</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-muted-foreground">{t('contact.hours.sunday')}:</span>
-                    <span className="font-medium text-foreground bg-card px-2 py-1 rounded-md shadow-sm">10:00 - 16:00</span>
+                    <span className="text-gray-600">{t('contact.hours.sunday')}:</span>
+                    <span className="font-medium text-gray-900 bg-white px-2 py-1 rounded-md shadow-sm">10:00 - 16:00</span>
                   </div>
                 </div>
               </div>
@@ -308,15 +308,15 @@ export default function ContactFormOptimized() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-card rounded-3xl border border-border shadow-lg overflow-hidden"
+            className="bg-white rounded-3xl border border-gray-200 shadow-lg overflow-hidden"
           >
             <div className="p-8 md:p-10">
               <form onSubmit={handleSubmit} className="space-y-8">
                 <div>
-                  <h3 className="text-3xl font-light text-foreground mb-2">
+                  <h3 className="text-3xl font-light text-gray-900 mb-2">
                     {t('contact.form.title')}
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-gray-500">
                     {t('contact.form.message.placeholder')}
                   </p>
                 </div>
@@ -334,18 +334,18 @@ export default function ContactFormOptimized() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground/90">
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                       {t('contact.form.name')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <User className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
+                      <User className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                       <input
                         type="text"
                         id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.name ? 'border-red-300 bg-red-50' : 'border-border'}`}
+                        className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.name ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                         placeholder={t('contact.form.namePlaceholder')}
                       />
                     </div>
@@ -353,18 +353,18 @@ export default function ContactFormOptimized() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground/90">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                       {t('contact.form.email')} <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
+                      <Mail className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                       <input
                         type="email"
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.email ? 'border-red-300 bg-red-50' : 'border-border'}`}
+                        className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.email ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                         placeholder={t('contact.form.emailPlaceholder')}
                       />
                     </div>
@@ -374,18 +374,18 @@ export default function ContactFormOptimized() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label htmlFor="phone" className="block text-sm font-medium text-foreground/90">
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
                       {t('contact.form.phone')}
                     </label>
                     <div className="relative">
-                      <Phone className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
+                      <Phone className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                       <input
                         type="tel"
                         id="phone"
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.phone ? 'border-red-300 bg-red-50' : 'border-border'}`}
+                        className={`w-full pl-12 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                         placeholder="+34 123 456 789"
                       />
                     </div>
@@ -393,7 +393,7 @@ export default function ContactFormOptimized() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="service" className="block text-sm font-medium text-foreground/90">
+                    <label htmlFor="service" className="block text-sm font-medium text-gray-700">
                       {t('contact.form.service')}
                     </label>
                     <div className="relative">
@@ -402,7 +402,7 @@ export default function ContactFormOptimized() {
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
-                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none ${errors.service ? 'border-red-300 bg-red-50' : 'border-border'}`}
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none ${errors.service ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                       >
                         <option value="">{t('contact.form.service.placeholder')}</option>
                         {services.map((service) => (
@@ -412,7 +412,7 @@ export default function ContactFormOptimized() {
                         ))}
                       </select>
                       <div className="absolute right-4 top-3.5 pointer-events-none">
-                        <svg className="w-5 h-5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                       </div>
                     </div>
                     {errors.service && <p className="text-red-500 text-xs mt-1">{errors.service}</p>}
@@ -420,7 +420,7 @@ export default function ContactFormOptimized() {
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="message" className="block text-sm font-medium text-foreground/90">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">
                     {t('contact.form.message')} <span className="text-red-500">*</span>
                   </label>
                   <textarea
@@ -429,7 +429,7 @@ export default function ContactFormOptimized() {
                     rows={5}
                     value={formData.message}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${errors.message ? 'border-red-300 bg-red-50' : 'border-border'}`}
+                    className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none ${errors.message ? 'border-red-300 bg-red-50' : 'border-gray-200'}`}
                     placeholder={t('contact.form.message.placeholder')}
                   />
                   {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
@@ -437,7 +437,7 @@ export default function ContactFormOptimized() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
-                    <label className="block text-sm font-medium text-foreground/90">
+                    <label className="block text-sm font-medium text-gray-700">
                       {t('contact.form.preferred')}
                     </label>
                     <div className="grid grid-cols-3 gap-3">
@@ -451,7 +451,7 @@ export default function ContactFormOptimized() {
                           className={`flex flex-col items-center justify-center p-3 rounded-xl border cursor-pointer transition-all duration-200 ${
                             formData.preferred_contact === option.value 
                               ? 'border-blue-500 bg-blue-50 text-blue-700' 
-                              : 'border-border hover:border-blue-200 hover:bg-muted/30'
+                              : 'border-gray-200 hover:border-blue-200 hover:bg-gray-50'
                           }`}
                         >
                           <input
@@ -462,7 +462,7 @@ export default function ContactFormOptimized() {
                             onChange={handleChange}
                             className="sr-only"
                           />
-                          <option.icon className={`w-5 h-5 mb-1 ${formData.preferred_contact === option.value ? 'text-blue-600' : 'text-muted-foreground'}`} />
+                          <option.icon className={`w-5 h-5 mb-1 ${formData.preferred_contact === option.value ? 'text-blue-600' : 'text-gray-500'}`} />
                           <span className="text-xs font-medium">{option.label}</span>
                         </label>
                       ))}
@@ -470,17 +470,17 @@ export default function ContactFormOptimized() {
                   </div>
 
                   <div className="space-y-2">
-                    <label htmlFor="preferred_time" className="block text-sm font-medium text-foreground/90">
+                    <label htmlFor="preferred_time" className="block text-sm font-medium text-gray-700">
                       {t('contact.form.preferredTime')}
                     </label>
                     <div className="relative">
-                      <Calendar className="absolute left-4 top-3.5 w-5 h-5 text-muted-foreground/80" />
+                      <Calendar className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
                       <select
                         id="preferred_time"
                         name="preferred_time"
                         value={formData.preferred_time}
                         onChange={handleChange}
-                        className="w-full pl-12 pr-4 py-3 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
+                        className="w-full pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
                       >
                         <option value="">{t('contact.form.selectTime')}</option>
                         {timeSlots.map((slot) => (
@@ -490,14 +490,14 @@ export default function ContactFormOptimized() {
                         ))}
                       </select>
                       <div className="absolute right-4 top-3.5 pointer-events-none">
-                        <svg className="w-5 h-5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label htmlFor="source" className="block text-sm font-medium text-foreground/90">
+                  <label htmlFor="source" className="block text-sm font-medium text-gray-700">
                     {t('contact.form.source')}
                   </label>
                   <div className="relative">
@@ -506,7 +506,7 @@ export default function ContactFormOptimized() {
                       name="source"
                       value={formData.source}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 appearance-none"
                     >
                       <option value="">{t('contact.form.source.placeholder')}</option>
                       {sources.map((source) => (
@@ -516,7 +516,7 @@ export default function ContactFormOptimized() {
                       ))}
                     </select>
                     <div className="absolute right-4 top-3.5 pointer-events-none">
-                      <svg className="w-5 h-5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                      <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                   </div>
                 </div>
@@ -530,7 +530,7 @@ export default function ContactFormOptimized() {
                       onChange={handleChange}
                       className="mt-1 w-5 h-5 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                     />
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-sm text-gray-600">
                       {t('contact.form.privacy')} <span className="text-red-500">*</span>
                     </span>
                   </label>
@@ -557,8 +557,8 @@ export default function ContactFormOptimized() {
               </form>
 
               {/* Quick Contact */}
-              <div className="mt-8 pt-8 border-t border-border">
-                <p className="text-center text-muted-foreground mb-4 text-sm">
+              <div className="mt-8 pt-8 border-t border-gray-200">
+                <p className="text-center text-gray-600 mb-4 text-sm">
                   {t('contact.quick.title')}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -573,7 +573,7 @@ export default function ContactFormOptimized() {
                   </a>
                   <a
                     href="tel:+34658867133"
-                    className="inline-flex items-center justify-center bg-muted hover:bg-gray-200 text-foreground/90 font-medium px-4 py-2 rounded-lg transition-colors duration-200 text-sm shadow-sm hover:shadow-md"
+                    className="inline-flex items-center justify-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium px-4 py-2 rounded-lg transition-colors duration-200 text-sm shadow-sm hover:shadow-md"
                   >
                     <Phone className="w-4 h-4 mr-2" />
                     {t('contact.quick.call')}

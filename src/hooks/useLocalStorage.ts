@@ -98,3 +98,4 @@ export function usePreferences() {
 
   return { preferences, updatePreference, setPreferences };
 }
+

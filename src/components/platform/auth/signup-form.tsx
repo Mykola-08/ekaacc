@@ -325,3 +325,4 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
     </motion.div>
   )
 }
+

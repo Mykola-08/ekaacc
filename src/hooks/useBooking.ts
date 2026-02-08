@@ -8,3 +8,4 @@ export function useBooking() {
   }
   return context;
 }
+

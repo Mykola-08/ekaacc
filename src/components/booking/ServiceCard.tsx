@@ -79,3 +79,4 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
     </div>
   );
 }
+

@@ -17,3 +17,4 @@ export interface DiscountContextType {
     getDiscountAmount: (originalPrice: number) => number;
     isLoading: boolean;
 }
+

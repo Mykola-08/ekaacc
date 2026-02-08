@@ -250,3 +250,4 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
     </div>
   );
 }
+

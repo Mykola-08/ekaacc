@@ -5,3 +5,4 @@ export interface BookingContextType {
 }
 
 export const BookingContext = createContext<BookingContextType | undefined>(undefined);
+

@@ -193,3 +193,4 @@ export default function PaymentTerms() {
   </div>
  );
 }
+

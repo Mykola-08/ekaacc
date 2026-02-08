@@ -6956,3 +6956,4 @@ export const translations: Record<Language, Record<string, string>> = {
 
   }
 };
+

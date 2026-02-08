@@ -259,3 +259,4 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
     </div>
  );
 }
+

@@ -124,3 +124,4 @@ export function GoalTracker({ initialGoals }: { initialGoals: Goal[] }) {
         </DashboardCard>
     );
 }
+

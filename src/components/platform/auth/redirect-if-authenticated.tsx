@@ -20,3 +20,4 @@ export default function RedirectIfAuthenticated() {
 
   return null;
 }
+

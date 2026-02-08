@@ -173,3 +173,4 @@ export function TherapistDashboard({ profile, userId }: { profile: any, userId: 
         </DashboardLayout>
     );
 }
+

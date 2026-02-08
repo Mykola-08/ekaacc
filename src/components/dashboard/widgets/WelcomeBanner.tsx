@@ -59,3 +59,4 @@ export function WelcomeBanner({ title, firstName, subtitle, action, className }:
         </div>
     );
 }
+

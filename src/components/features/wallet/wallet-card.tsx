@@ -130,3 +130,4 @@ export function WalletCard() {
     </Card>
   );
 }
+

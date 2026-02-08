@@ -100,3 +100,4 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
         </DashboardCard>
     );
 }
+

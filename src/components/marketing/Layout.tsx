@@ -11,8 +11,8 @@ import LanguagePopup from '@/components/marketing/LanguagePopup';
 import CookieBanner from './CookieBanner';
 import { TDRPresentationMode } from '@/components/marketing/TDRPresentationMode';
 
-import { useClickOutside } from '@/hooks/useClickOutside';
-import { useAnalytics } from '@/hooks/useAnalytics';
+import { useClickOutside } from '@/hooks/marketing/useClickOutside';
+import { useAnalytics } from '@/hooks/marketing/useAnalytics';
 
 export default function Layout({
   children
@@ -499,6 +499,9 @@ export default function Layout({
     </div>
   );
 }
+
+
+
 
 
 

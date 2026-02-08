@@ -299,3 +299,4 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
     </div>
   )
 }
+

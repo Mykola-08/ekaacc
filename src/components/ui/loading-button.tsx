@@ -1,4 +1,4 @@
-﻿import { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Loading03Icon } from '@hugeicons/core-free-icons';
 import { Button } from '@/components/ui/button';
@@ -111,3 +111,4 @@ export function DeleteButton({ loading, ...props }: LoadingButtonProps) {
     </LoadingButton>
   );
 }
+

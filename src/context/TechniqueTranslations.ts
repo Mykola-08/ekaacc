@@ -240,3 +240,4 @@ export const techniqueTranslations = {
     'kinesiology.dialogue.p2': '— Думаю, тебе может помочь Кинезиология! Знаешь что это?'
   }
 };
+

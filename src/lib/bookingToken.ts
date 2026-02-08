@@ -27,3 +27,4 @@ export async function verifyManageToken(token: string): Promise<ManageTokenPaylo
 export function hashToken(token: string) {
   return crypto.createHash('sha256').update(token).digest('hex');
 }
+

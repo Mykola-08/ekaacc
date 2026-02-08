@@ -24,3 +24,4 @@ export function ServiceGrid({ services }: { services: Service[] }) {
     </div>
   );
 }
+

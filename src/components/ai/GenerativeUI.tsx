@@ -1846,3 +1846,4 @@ export function WalletHistoryBlock({ transactions }: { transactions: any[] }) {
     </div>
   );
 }
+

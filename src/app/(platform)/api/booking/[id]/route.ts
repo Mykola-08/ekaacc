@@ -22,3 +22,4 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   if (error || !booking) return NextResponse.json({ error: error?.message || 'Not found' }, { status: 404 });
   return NextResponse.json({ booking });
 }
+

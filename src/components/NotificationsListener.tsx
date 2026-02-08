@@ -44,3 +44,4 @@ export function NotificationsListener(): any {
 
     return null; // This component handles side effects only
 }
+

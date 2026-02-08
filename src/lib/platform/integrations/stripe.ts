@@ -57,3 +57,4 @@ export class StripeIntegration extends BaseIntegration {
     }
   }
 }
+

@@ -32,7 +32,7 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent
 } from "@/components/ui/sidebar"
-import { useLanguage } from "@/context/LanguageContext"
+import { useLanguage } from "@/context/marketing/LanguageContext"
 
 export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useLanguage()
@@ -149,3 +149,5 @@ export function NavSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   )
 }
+
+

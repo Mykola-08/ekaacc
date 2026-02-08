@@ -403,3 +403,4 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
         </div>
     );
 }
+

@@ -36,3 +36,4 @@ export function useOnlineStatus() {
 }
 
 // Component to show offline indicator - create this as a separate .tsx file
+

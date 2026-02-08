@@ -130,3 +130,4 @@ export async function prefetchData<T>(
     console.error('Prefetch failed:', error);
   }
 }
+

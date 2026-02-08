@@ -96,3 +96,4 @@ function VerificationCard({ item }: { item: any }) {
         </Card>
     );
 }
+

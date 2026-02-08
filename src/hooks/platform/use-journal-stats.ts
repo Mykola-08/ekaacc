@@ -149,3 +149,4 @@ function getMockStats(): JournalStats {
     weeklyStreak: 5,
   };
 }
+

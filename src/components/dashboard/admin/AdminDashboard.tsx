@@ -86,3 +86,4 @@ export function AdminDashboard({ profile, stats }: any) {
         </DashboardLayout>
     );
 }
+

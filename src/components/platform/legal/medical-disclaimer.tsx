@@ -7,3 +7,4 @@ export default function MedicalDisclaimer({ className = "" }: { className?: stri
     </div>
   );
 }
+

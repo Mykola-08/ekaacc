@@ -102,3 +102,4 @@ export function useStripeCheckout(): UseStripeCheckoutResult {
     error,
   };
 }
+

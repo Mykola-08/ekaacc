@@ -159,3 +159,4 @@ export function SafeComponent({
 }) {
   return <ErrorBoundary fallback={fallback}>{children}</ErrorBoundary>;
 }
+

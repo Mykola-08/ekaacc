@@ -1,5 +1,5 @@
-import { useOnlineStatus } from '@/hooks/useOnlineStatus';
-import { useLanguage } from '@/context/LanguageContext';
+import { useOnlineStatus } from '@/hooks/marketing/useOnlineStatus';
+import { useLanguage } from '@/context/marketing/LanguageContext';
 
 export function OfflineIndicator() {
   const { isOnline } = useOnlineStatus();
@@ -13,5 +13,7 @@ export function OfflineIndicator() {
     </div>
   );
 }
+
+
 
 

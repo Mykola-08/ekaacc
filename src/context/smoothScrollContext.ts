@@ -5,3 +5,4 @@ export interface SmoothScrollContextType {
 }
 
 export const SmoothScrollContext = createContext<SmoothScrollContextType | undefined>(undefined);
+

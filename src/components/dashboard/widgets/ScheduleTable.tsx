@@ -172,3 +172,4 @@ function ScheduleRow({ item }: { item: ScheduleItem }) {
         </div>
     );
 }
+

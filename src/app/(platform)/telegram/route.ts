@@ -23,3 +23,4 @@ export async function POST(req: NextRequest) {
 export async function GET(_req: NextRequest) {
     return NextResponse.json({ ok: true, message: 'Telegram Bot API is running' });
 }
+

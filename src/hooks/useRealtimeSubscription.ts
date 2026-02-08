@@ -53,3 +53,4 @@ export function useRealtimeSubscription<T extends Record<string, unknown> = Reco
     };
   }, [table, schema, event, filter, enabled, JSON.stringify(callback)]);
 }
+

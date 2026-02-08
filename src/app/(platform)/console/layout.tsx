@@ -9,3 +9,4 @@ export default function ConsoleLayout({ children }: { children: React.ReactNode 
     </UnifiedRoleGuard>
   );
 }
+

@@ -174,3 +174,4 @@ export function ClinicalNotes({ userId }: { userId: string }) {
     </div>
   );
 }
+

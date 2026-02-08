@@ -29,3 +29,4 @@ export function useBookingRealtime(onBookingUpdate?: (payload: RealtimePostgresC
 
   return { latestBookingEvent: latestEvent };
 }
+

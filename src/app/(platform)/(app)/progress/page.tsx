@@ -25,3 +25,4 @@ export default async function ProgressPage() {
 
  return <ProgressContent reports={reports} />;
 }
+

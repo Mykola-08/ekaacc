@@ -157,3 +157,4 @@ export function PaymentProofUploader({ bookingId, amountDue, onSuccess }: ProofU
     </Dialog>
   );
 }
+

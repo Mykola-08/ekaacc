@@ -267,3 +267,4 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
     </>
   );
 }
+

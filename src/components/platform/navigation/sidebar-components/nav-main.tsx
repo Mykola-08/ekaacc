@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import { HugeiconsIcon } from "@hugeicons/react"
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons"
@@ -106,3 +106,4 @@ export function NavMain({
     </SidebarGroup>
   )
 }
+

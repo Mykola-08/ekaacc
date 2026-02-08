@@ -1,41 +1,53 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Search01Icon, Notification01Icon, UserCircle02Icon } from '@hugeicons/core-free-icons';
+import { Search01Icon, Notification01Icon, UserCircle02Icon, Login01Icon, DashboardSquare01Icon } from '@hugeicons/core-free-icons';
 
 const IconSearch = (props: any) => <HugeiconsIcon icon={Search01Icon} {...props} />;
 const IconBell = (props: any) => <HugeiconsIcon icon={Notification01Icon} {...props} />;
 const IconUserCircle = (props: any) => <HugeiconsIcon icon={UserCircle02Icon} {...props} />;
+const IconLogin = (props: any) => <HugeiconsIcon icon={Login01Icon} {...props} />;
+const IconDashboard = (props: any) => <HugeiconsIcon icon={DashboardSquare01Icon} {...props} />;
 
 export function Header() {
+  // Use a simple client-side check for auth state via cookie or context if available, 
+  // but for marketing header, static "Login" is often enough, or "Dashboard" if we assume session.
+  // We can check if a cookie exists roughly or just provide both/one.
+  // For now, let's just provide a Login button that goes to /login.
+  
   return (
     <header className="app-shell-header">
       <div className="flex items-center gap-4">
         <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-primary transition-colors" />
         <Separator orientation="vertical" className="h-4" />
-        <h1 className="text-sm font-semibold tracking-tight text-foreground/80">Wellness Center</h1>
+        <Link href="/" className="text-sm font-semibold tracking-tight text-foreground/80 hover:text-primary transition-colors">
+            EKA Balance
+        </Link>
       </div>
 
       <div className="flex items-center gap-2">
-         <div className="relative group hidden md:block">
-            <IconSearch size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" />
-            <input
-              type="text"
-              placeholder="Search therapies..."
-              className="h-9 w-64 bg-primary/5 border-none rounded-full pl-10 pr-4 text-xs focus:ring-1 focus:ring-primary/20 transition-all outline-none"
-            />
+         <div className="hidden md:flex items-center gap-2 mr-2">
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex text-muted-foreground hover:text-primary">
+                <Link href="/book">Book Now</Link>
+            </Button>
          </div>
-         <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
-            <IconBell size={20} />
-         </Button>
-         <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground">
-            <IconUserCircle size={20} />
+
+         <div className="h-4 w-px bg-border/50 hidden sm:block mx-1" />
+
+         <Button asChild variant="default" size="sm" className="rounded-full px-4 shadow-sm">
+            <Link href="/login" className="flex items-center gap-2">
+                <span>Sign In</span>
+                <IconLogin size={16} />
+            </Link>
          </Button>
       </div>
     </header>
   );
 }
+
+

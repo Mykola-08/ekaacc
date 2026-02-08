@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Globe } from 'lucide-react';
-import { useLanguage } from '@/context/LanguageContext';
-import { Language } from '@/context/LanguageTypes';
+import { useLanguage } from '@/context/marketing/LanguageContext';
+import { Language } from '@/context/marketing/LanguageTypes';
 
 interface LanguageOption {
   code: Language;
@@ -82,5 +82,6 @@ export default function LanguageSelector() {
     </div>
   );
 }
+
 
 

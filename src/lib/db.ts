@@ -61,3 +61,4 @@ export const db = {
     return result.rows[0] ?? null;
   },
 };
+

@@ -52,3 +52,4 @@ export function useNotifications(userId?: string) {
 
   return { notifications, newNotification, setNotifications };
 }
+

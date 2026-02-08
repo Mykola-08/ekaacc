@@ -106,3 +106,4 @@ export default async function ProfilePage() {
         </DashboardLayout>
     );
 }
+

@@ -65,3 +65,4 @@ export async function getClientTransactions() {
 
   return data as Transaction[];
 }
+

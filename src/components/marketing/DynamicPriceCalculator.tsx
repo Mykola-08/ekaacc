@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useCallback } from 'react';
 import { 
   TrendingDown, 
@@ -92,13 +94,13 @@ export default function DynamicPriceCalculator({
         }
       }
       
-      const data = await response.json();
-      
+      const data = await response.json() as Partial<PriceBreakdown>;
+
       // Validate response data
-      if (!data || typeof (data as any).final_price_cents !== 'number') {
+      if (!data || typeof data.final_price_cents !== 'number') {
         throw new Error('Resposta del servidor invàlida');
       }
-      
+
       setPriceBreakdown(data as PriceBreakdown);
     } catch (err) {
       console.error('Error calculating price:', err);
@@ -146,14 +148,14 @@ export default function DynamicPriceCalculator({
   // Empty state when no service selected
   if (!serviceId || !duration) {
     return (
-      <div className={`bg-muted/30 dark:bg-gray-800 rounded-2xl p-6 ${className}`}>
+      <div className={`bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 ${className}`}>
         <div className="flex items-center space-x-3 mb-4">
           <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex items-center justify-center">
             <Euro className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
           </div>
           <div>
-            <h3 className="font-medium text-foreground dark:text-white">Calculadora de preu</h3>
-            <p className="text-sm text-muted-foreground dark:text-muted-foreground/80">
+            <h3 className="font-medium text-gray-900 dark:text-white">Calculadora de preu</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Selecciona sessió i durada per veure el preu
             </p>
           </div>
@@ -165,10 +167,10 @@ export default function DynamicPriceCalculator({
   // Loading state
   if (loading) {
     return (
-      <div className={`bg-muted/30 dark:bg-gray-800 rounded-2xl p-6 ${className}`}>
+      <div className={`bg-gray-50 dark:bg-gray-800 rounded-2xl p-6 ${className}`}>
         <div className="flex items-center space-x-3">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-yellow-500"></div>
-          <span className="text-muted-foreground dark:text-muted-foreground/80">Calculant preu...</span>
+          <span className="text-gray-600 dark:text-gray-400">Calculant preu...</span>
         </div>
       </div>
     );
@@ -179,7 +181,7 @@ export default function DynamicPriceCalculator({
     return (
       <div className={`bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6 ${className}`}>
         <div className="flex items-start space-x-3 mb-4">
-          <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 shrink-0" />
+          <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 flex-shrink-0" />
           <div className="flex-1">
             <p className="text-red-700 dark:text-red-400 font-medium mb-1">Error de càlcul</p>
             <p className="text-red-600 dark:text-red-400 text-sm">{error}</p>
@@ -228,7 +230,7 @@ export default function DynamicPriceCalculator({
   const hasSurcharges = priceBreakdown.modifiers.some(m => m.type === 'surcharge');
 
   return (
-    <div className={`bg-card dark:bg-gray-900 border border-border dark:border-gray-700 rounded-2xl p-6 shadow-sm ${className}`}>
+    <div className={`bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-sm ${className}`}>
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center space-x-3">
@@ -236,19 +238,19 @@ export default function DynamicPriceCalculator({
             <Euro className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
           </div>
           <div>
-            <h3 className="font-medium text-foreground dark:text-white">Preu de la sessió</h3>
-            <p className="text-sm text-muted-foreground dark:text-muted-foreground/80">
+            <h3 className="font-medium text-gray-900 dark:text-white">Preu de la sessió</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {duration} minuts
             </p>
           </div>
         </div>
         
         <div className="text-right">
-          <div className="text-2xl font-light text-foreground dark:text-white">
+          <div className="text-2xl font-light text-gray-900 dark:text-white">
             {formatPrice(priceBreakdown.final_price_cents)}
           </div>
           {priceBreakdown.final_price_cents !== priceBreakdown.base_price_cents && (
-            <div className="text-sm text-muted-foreground dark:text-muted-foreground/80 line-through">
+            <div className="text-sm text-gray-500 dark:text-gray-400 line-through">
               {formatPrice(priceBreakdown.base_price_cents)}
             </div>
           )}
@@ -259,8 +261,8 @@ export default function DynamicPriceCalculator({
       {showDetailed && priceBreakdown.modifiers.length > 0 && (
         <div className="space-y-3 mb-6">
           <div className="flex justify-between items-center text-sm">
-            <span className="text-muted-foreground dark:text-muted-foreground/80">Preu base ({duration} min)</span>
-            <span className="font-medium text-foreground dark:text-white">
+            <span className="text-gray-600 dark:text-gray-400">Preu base ({duration} min)</span>
+            <span className="font-medium text-gray-900 dark:text-white">
               {formatPrice(priceBreakdown.base_price_cents)}
             </span>
           </div>
@@ -288,9 +290,9 @@ export default function DynamicPriceCalculator({
             </div>
           ))}
           
-          <div className="border-t border-border dark:border-gray-700 pt-3 flex justify-between items-center font-medium">
-            <span className="text-foreground dark:text-white">Total</span>
-            <span className="text-xl text-foreground dark:text-white">
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-3 flex justify-between items-center font-medium">
+            <span className="text-gray-900 dark:text-white">Total</span>
+            <span className="text-xl text-gray-900 dark:text-white">
               {formatPrice(priceBreakdown.final_price_cents)}
             </span>
           </div>
@@ -324,7 +326,7 @@ export default function DynamicPriceCalculator({
       {/* Info Section */}
       <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
         <div className="flex items-start space-x-3">
-          <Info className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+          <Info className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
           <div className="text-sm">
             <p className="text-blue-900 dark:text-blue-100 font-medium mb-1">
               Preus dinàmics
@@ -338,3 +340,4 @@ export default function DynamicPriceCalculator({
     </div>
   );
 }
+

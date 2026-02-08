@@ -69,3 +69,4 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     </SmoothScrollContext.Provider>
   );
 }
+

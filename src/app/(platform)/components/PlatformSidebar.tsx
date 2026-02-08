@@ -144,3 +144,4 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
     </Sidebar>
   );
 }
+

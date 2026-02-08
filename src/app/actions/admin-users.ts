@@ -25,3 +25,4 @@ export async function updateUserRole(userId: string, role: string) {
     return { success: false, error: error.message };
   }
 }
+

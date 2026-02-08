@@ -3,3 +3,4 @@ export const sessionTypes = [
   { id: 'couples', name: 'Couples Therapy', duration: 60, price: 150, description: 'Session for couples' },
   { id: 'family', name: 'Family Therapy', duration: 60, price: 160, description: 'Session for families' },
 ];
+

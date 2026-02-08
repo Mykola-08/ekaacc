@@ -3,3 +3,4 @@ import { AcademyContentHeadless } from "@/components/platform/academy/academy-co
 export default function AcademyPage() {
  return <AcademyContentHeadless />
 }
+

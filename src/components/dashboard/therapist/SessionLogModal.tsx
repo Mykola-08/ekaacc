@@ -121,3 +121,4 @@ export function SessionLogModal({ isOpen, onClose, booking, onSuccess }: Session
         </Dialog>
     );
 }
+

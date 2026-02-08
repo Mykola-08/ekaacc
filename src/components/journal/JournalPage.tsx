@@ -133,3 +133,4 @@ export function JournalPage() {
       </DashboardLayout>
    );
 }
+

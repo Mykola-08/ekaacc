@@ -10,3 +10,4 @@ export const GET = async (req: NextRequest) => {
   // Redirect to home page after logout
   return NextResponse.redirect(new URL('/', req.url))
 }
+

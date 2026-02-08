@@ -278,3 +278,4 @@ export default function EditLessonPage({ params }: { params: Promise<{ lessonId:
   </div>
  );
 }
+

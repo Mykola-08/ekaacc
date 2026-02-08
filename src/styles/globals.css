@@ -221,7 +221,6 @@
     transform: translateY(-150%);
     transition: transform 0.15s ease;
   }
-  }
 
   .ux-skip-link:focus {
     transform: translateY(0);

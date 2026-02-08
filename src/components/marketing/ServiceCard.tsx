@@ -25,31 +25,31 @@ export default function ServiceCard({ service }: ServiceCardProps) {
 
   return (
     <div className="card card-interactive flex h-full flex-col">
-      <div className="relative h-48 overflow-hidden rounded-xl sm:h-56">
+      <div className="relative h-48 overflow-hidden sm:h-56" style={{ borderRadius: '1.25rem 1.25rem 0 0' }}>
         <LazyImage
           src={service.image}
           alt={t(service.titleKey)}
-          className="ease-out-quart h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
         />
       </div>
       <div className="flex flex-grow flex-col p-6">
-        <h3 className="text-eka-dark heading-3 mb-2 text-xl font-bold">{t(service.titleKey)}</h3>
-        {/* Helper text/subtitle in orange/color */}
-        <p className={`mb-3 text-sm font-medium ${palette.text}`}>{t(service.subtitleKey)}</p>
+        <h3 className="mb-2 text-xl font-semibold tracking-tight text-gray-900">{t(service.titleKey)}</h3>
+        {/* Helper text/subtitle in color */}
+        <p className={`mb-4 text-sm font-medium ${palette.text}`}>{t(service.subtitleKey)}</p>
 
-        <p className="text-body mb-6 line-clamp-3 text-sm">{t(service.descriptionKey)}</p>
+        <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-gray-600">{t(service.descriptionKey)}</p>
 
         {/* Benefits List */}
         {service.benefitsKeys && service.benefitsKeys.length > 0 && (
           <div className="mb-6">
-            <h4 className="text-eka-dark mb-3 text-xs font-bold tracking-wider uppercase">
+            <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-gray-900">
               {t('services.mainBenefits') || 'Key Benefits'}
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-2.5">
               {service.benefitsKeys.slice(0, 4).map((key, i) => (
                 <li key={i} className="flex items-start text-sm text-gray-600">
                   <span
-                    className={`h-1.5 w-1.5 rounded-full ${palette.dot} mt-1.5 mr-2 flex-shrink-0`}
+                    className={`mr-2 mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full ${palette.dot}`}
                   />
                   {t(key)}
                 </li>
@@ -58,17 +58,17 @@ export default function ServiceCard({ service }: ServiceCardProps) {
           </div>
         )}
 
-        <div className="mt-auto flex gap-3 border-t border-gray-100 pt-4">
+        <div className="mt-auto flex gap-3 border-t border-gray-100 pt-5">
           <Link href={service.href} className="flex-1">
             <Button
               variant="outline"
-              className="btn btn-sm btn-secondary border-primary-200 text-primary-700 hover:bg-primary-50 w-full rounded-xl p-2.5 normal-case"
+              className="w-full rounded-[20px] border border-gray-200 bg-transparent p-3 text-sm font-medium normal-case text-gray-700 transition-all duration-300 hover:bg-gray-50 hover:text-gray-900"
             >
               {t('common.readMore') || 'Read More'}
             </Button>
           </Link>
           <Link href="/book" className="flex-1">
-            <Button className="btn btn-sm btn-accent w-full rounded-xl border-none p-2.5 font-semibold normal-case">
+            <Button className="w-full rounded-[20px] border-none bg-[#FFB405] p-3 text-sm font-semibold normal-case text-[#000035] transition-all duration-300 hover:bg-[#e8a204]">
               {t('nav.bookNow')}
             </Button>
           </Link>

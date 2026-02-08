@@ -6,21 +6,21 @@ import { isSquareAppointmentsEnabled } from '@/lib/platform/config/feature-flags
 
 /**
  * Enhanced Square Webhook Handler for Bidirectional Sync
- * 
+ *
  * Handles real-time sync of booking and customer events from Square
  * and automatically syncs changes back to Square when data changes in Supabase
- * 
+ *
  * Setup Instructions:
  * 1. Set SQUARE_WEBHOOK_SIGNATURE_KEY in environment variables
  * 2. Configure webhook URL in Square Dashboard: https://your-domain.com/api/webhooks/square
  * 3. Subscribe to these event types:
  *    - booking.created
- *    - booking.updated  
+ *    - booking.updated
  *    - booking.cancelled
  *    - customer.created
  *    - customer.updated
  *    - customer.deleted
- * 
+ *
  * Security:
  * - Verifies webhook signature to ensure authenticity
  * - Validates feature flags before processing
@@ -60,10 +60,7 @@ function verifySignature(body: string, signature: string, url: string): boolean 
     hmac.update(payload);
     const hash = hmac.digest('base64');
 
-    return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(hash)
-    );
+    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(hash));
   } catch (error) {
     console.error('Signature verification error:', error);
     return false;
@@ -155,17 +152,16 @@ async function handleBookingCreated(data: any): Promise<void> {
     // Process the new booking through bidirectional sync
     const result = await bidirectionalSyncService.processInboundBooking(data, {
       direction: 'inbound',
-      conflictResolution: 'external_wins' // External source wins for new bookings
+      conflictResolution: 'external_wins', // External source wins for new bookings
     });
-    
+
     console.log(`Successfully processed new booking from Square: ${data.id}`, {
       isNew: result.isNew,
-      conflict: result.conflict
+      conflict: result.conflict,
     });
 
     // Record sync statistics
     await recordSyncStatistics('booking', 'inbound', 'create', !result.conflict, !!result.conflict);
-
   } catch (error) {
     console.error(`Failed to process new booking ${data.id} from Square:`, error);
     throw error;
@@ -191,17 +187,16 @@ async function handleBookingUpdated(data: any): Promise<void> {
     // Process the updated booking through bidirectional sync
     const result = await bidirectionalSyncService.processInboundBooking(data, {
       direction: 'inbound',
-      conflictResolution: 'merge' // Try to merge changes
+      conflictResolution: 'merge', // Try to merge changes
     });
-    
+
     console.log(`Successfully processed updated booking from Square: ${data.id}`, {
       isUpdated: result.isUpdated,
-      conflict: result.conflict
+      conflict: result.conflict,
     });
 
     // Record sync statistics
     await recordSyncStatistics('booking', 'inbound', 'update', !result.conflict, !!result.conflict);
-
   } catch (error) {
     console.error(`Failed to process updated booking ${data.id} from Square:`, error);
     throw error;
@@ -252,7 +247,6 @@ async function handleBookingCancelled(data: any): Promise<void> {
 
     // Record sync statistics
     await recordSyncStatistics('booking', 'inbound', 'delete', true, false);
-
   } catch (error) {
     console.error(`Failed to process cancelled booking ${data.id} from Square:`, error);
     throw error;
@@ -272,17 +266,22 @@ async function handleCustomerCreated(data: any): Promise<void> {
     // Process the new customer through bidirectional sync
     const result = await bidirectionalSyncService.processInboundCustomer(data, {
       direction: 'inbound',
-      conflictResolution: 'external_wins' // External source wins for new customers
+      conflictResolution: 'external_wins', // External source wins for new customers
     });
-    
+
     console.log(`Successfully processed new customer from Square: ${data.id}`, {
       isNew: result.isNew,
-      conflict: result.conflict
+      conflict: result.conflict,
     });
 
     // Record sync statistics
-    await recordSyncStatistics('customer', 'inbound', 'create', !result.conflict, !!result.conflict);
-
+    await recordSyncStatistics(
+      'customer',
+      'inbound',
+      'create',
+      !result.conflict,
+      !!result.conflict
+    );
   } catch (error) {
     console.error(`Failed to process new customer ${data.id} from Square:`, error);
     throw error;
@@ -308,17 +307,22 @@ async function handleCustomerUpdated(data: any): Promise<void> {
     // Process the updated customer through bidirectional sync
     const result = await bidirectionalSyncService.processInboundCustomer(data, {
       direction: 'inbound',
-      conflictResolution: 'merge' // Try to merge changes
+      conflictResolution: 'merge', // Try to merge changes
     });
-    
+
     console.log(`Successfully processed updated customer from Square: ${data.id}`, {
       isUpdated: result.isUpdated,
-      conflict: result.conflict
+      conflict: result.conflict,
     });
 
     // Record sync statistics
-    await recordSyncStatistics('customer', 'inbound', 'update', !result.conflict, !!result.conflict);
-
+    await recordSyncStatistics(
+      'customer',
+      'inbound',
+      'update',
+      !result.conflict,
+      !!result.conflict
+    );
   } catch (error) {
     console.error(`Failed to process updated customer ${data.id} from Square:`, error);
     throw error;
@@ -338,7 +342,10 @@ async function handleCustomerDeleted(data: any): Promise<void> {
     // Find the corresponding local customer
     let syncMetadata;
     try {
-      syncMetadata = await bidirectionalSyncService.getSyncMetadataByExternalId(data.id, 'customer');
+      syncMetadata = await bidirectionalSyncService.getSyncMetadataByExternalId(
+        data.id,
+        'customer'
+      );
     } catch (error) {
       console.warn(`No local customer found for deleted Square customer ${data.id}`);
       return;
@@ -353,7 +360,9 @@ async function handleCustomerDeleted(data: any): Promise<void> {
     try {
       await bidirectionalSyncService.updateUserProfileTimestamp(syncMetadata.local_id);
     } catch (error) {
-      throw new Error(`Failed to update local customer: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Failed to update local customer: ${error instanceof Error ? error.message : 'Unknown error'}`
+      );
     }
 
     // Update sync metadata
@@ -368,7 +377,6 @@ async function handleCustomerDeleted(data: any): Promise<void> {
 
     // Record sync statistics
     await recordSyncStatistics('customer', 'inbound', 'delete', true, false);
-
   } catch (error) {
     console.error(`Failed to process deleted customer ${data.id} from Square:`, error);
     throw error;
@@ -394,7 +402,7 @@ async function recordSyncStatistics(
       operation,
       success,
       conflict,
-      syncTimeMs: null // Will be calculated by the function
+      syncTimeMs: null, // Will be calculated by the function
     });
   } catch (error) {
     console.error('Failed to record sync statistics:', error);
@@ -427,7 +435,7 @@ async function processWebhookEvent(event: EnhancedSquareWebhookEvent): Promise<v
     }
   } catch (error) {
     console.error(`Error processing webhook event ${event.eventId}:`, error);
-    
+
     // In production, you might want to:
     // 1. Retry the webhook (Square will retry automatically)
     // 2. Send to a dead letter queue
@@ -443,19 +451,13 @@ async function processWebhookEvent(event: EnhancedSquareWebhookEvent): Promise<v
 export async function POST(req: NextRequest): Promise<NextResponse> {
   // Check if Square Appointments feature is enabled
   if (!isSquareAppointmentsEnabled()) {
-    return NextResponse.json(
-      { error: 'Square Appointments feature is disabled' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Square Appointments feature is disabled' }, { status: 503 });
   }
 
   // Check if webhook signature key is configured
   if (!SIGNATURE_KEY) {
     console.error('Square webhook handler called but SQUARE_WEBHOOK_SIGNATURE_KEY not configured');
-    return NextResponse.json(
-      { error: 'Webhook handler not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Webhook handler not configured' }, { status: 503 });
   }
 
   try {
@@ -463,10 +465,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const signature = req.headers.get('x-square-signature');
     if (!signature) {
       console.error('Missing webhook signature');
-      return NextResponse.json(
-        { error: 'Missing signature' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Missing signature' }, { status: 401 });
     }
 
     // Get request body as text for signature verification
@@ -477,10 +476,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const isValid = verifySignature(body, signature, url);
     if (!isValid) {
       console.error('Invalid webhook signature');
-      return NextResponse.json(
-        { error: 'Invalid signature' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
 
     // Parse and normalize event (Square uses snake_case, we use camelCase)
@@ -504,19 +500,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Process event asynchronously to avoid webhook timeouts
     // In production, consider using a queue (e.g., Bull, AWS SQS, Redis)
-    processWebhookEvent(event).catch(error => {
+    processWebhookEvent(event).catch((error) => {
       console.error('Error processing webhook event in background:', error);
       // In production, send to error tracking service or retry queue
     });
 
     // Return 200 immediately to acknowledge receipt
-    return NextResponse.json({ 
+    return NextResponse.json({
       received: true,
       timestamp: new Date().toISOString(),
       eventId: event.eventId,
-      message: 'Webhook received and queued for processing'
+      message: 'Webhook received and queued for processing',
     });
-
   } catch (error: any) {
     console.error('Webhook handler error:', error);
     return NextResponse.json(
@@ -531,7 +526,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
  */
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const isEnabled = isSquareAppointmentsEnabled();
-  
+
   return NextResponse.json({
     message: 'Square Appointments bidirectional sync webhook endpoint',
     enabled: isEnabled,
@@ -541,8 +536,8 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       bidirectionalSync: true,
       conflictResolution: true,
       realTimeSync: true,
-      syncStatistics: true
-    }
+      syncStatistics: true,
+    },
   });
 }
 

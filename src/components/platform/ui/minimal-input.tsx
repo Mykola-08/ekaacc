@@ -1,13 +1,13 @@
-import * as React from 'react'
-import { Input } from '@/components/platform/ui/input'
-import { cn } from '@/lib/platform/utils/css-utils'
+import * as React from 'react';
+import { Input } from '@/components/platform/ui/input';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 export interface MinimalInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
-  error?: string
-  helperText?: string
-  leftIcon?: React.ReactNode
-  rightIcon?: React.ReactNode
+  label?: string;
+  error?: string;
+  helperText?: string;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 }
 
 const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
@@ -17,13 +17,13 @@ const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
     return (
       <div className="space-y-2">
         {label && (
-          <label htmlFor={inputId} className="block text-sm font-medium text-foreground">
+          <label htmlFor={inputId} className="text-foreground block text-sm font-medium">
             {label}
           </label>
         )}
         <div className="relative">
           {leftIcon && (
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">
+            <div className="text-muted-foreground pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
               {leftIcon}
             </div>
           )}
@@ -35,21 +35,21 @@ const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
             {...props}
           />
           {rightIcon && (
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground">
+            <div className="text-muted-foreground pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
               {rightIcon}
             </div>
           )}
         </div>
         {error ? (
-          <p className="text-sm text-destructive">{error}</p>
+          <p className="text-destructive text-sm">{error}</p>
         ) : helperText ? (
-          <p className="text-sm text-muted-foreground">{helperText}</p>
+          <p className="text-muted-foreground text-sm">{helperText}</p>
         ) : null}
       </div>
-    )
+    );
   }
-)
+);
 
-MinimalInput.displayName = 'MinimalInput'
+MinimalInput.displayName = 'MinimalInput';
 
-export { MinimalInput }
+export { MinimalInput };

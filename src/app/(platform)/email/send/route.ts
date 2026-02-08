@@ -10,8 +10,11 @@ async function verifyUserAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -22,7 +25,7 @@ async function verifyUserAccess(request: NextRequest) {
 /**
  * POST /api/email/send
  * Send a transactional email to a specific user
- * 
+ *
  * Body:
  * {
  *   userId: string;
@@ -35,12 +38,9 @@ async function verifyUserAccess(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { error: authError, user } = await verifyUserAccess(request);
-    
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: authError || 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: authError || 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -78,26 +78,19 @@ export async function POST(request: NextRequest) {
       type,
       subject,
       data,
-      force
+      force,
     });
 
     if (!result.success) {
-      return NextResponse.json(
-        { error: result.error || 'Failed to send email' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: result.error || 'Failed to send email' }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
-      data: result.data
+      data: result.data,
     });
   } catch (error) {
     console.error('Send email error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

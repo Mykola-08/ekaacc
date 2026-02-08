@@ -57,4 +57,3 @@ export default function SmoothScrolling({ children }: { children: ReactNode }) {
 
   return <>{children}</>;
 }
-

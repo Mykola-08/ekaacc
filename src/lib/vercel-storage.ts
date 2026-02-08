@@ -9,7 +9,7 @@ export const edgeConfig = createClient(process.env.EDGE_CONFIG);
  * Upload a file to Vercel Blob
  */
 export const uploadToBlob = async (
-  filename: string, 
+  filename: string,
   data: string | File | Blob,
   options: { access: 'public' } = { access: 'public' }
 ): Promise<PutBlobResult> => {

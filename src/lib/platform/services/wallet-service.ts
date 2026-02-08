@@ -38,15 +38,13 @@ export const walletService = {
   ): Promise<{ success: boolean; error?: string }> => {
     try {
       // Record the transaction
-      const { error: txError } = await supabaseAdmin
-        .from('wallet_transactions')
-        .insert({
-          user_id: userId,
-          amount: credits,
-          type: 'credit',
-          payment_intent_id: paymentIntentId,
-          description: 'Stripe top-up'
-        });
+      const { error: txError } = await supabaseAdmin.from('wallet_transactions').insert({
+        user_id: userId,
+        amount: credits,
+        type: 'credit',
+        payment_intent_id: paymentIntentId,
+        description: 'Stripe top-up',
+      });
 
       if (txError) {
         return { success: false, error: txError.message };
@@ -55,7 +53,7 @@ export const walletService = {
       // Update wallet balance
       const { error: walletError } = await supabaseAdmin.rpc('increment_wallet_balance', {
         p_user_id: userId,
-        p_amount: credits
+        p_amount: credits,
       });
 
       if (walletError) {

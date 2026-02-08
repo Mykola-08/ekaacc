@@ -1,216 +1,295 @@
 # Unified System Feature Specification
 
-This document outlines the detailed feature set, sub-features, and user capabilities for the **EKA Balance Platform**, comprising the **SEO Website (Main App)** and the **Booking Application**.
+This document outlines the detailed feature set, sub-features, and user
+capabilities for the **EKA Balance Platform**, comprising the **SEO Website
+(Main App)** and the **Booking Application**.
 
-*Document generated on: January 16, 2026*
+_Document generated on: January 16, 2026_
 
 ---
 
 ## 1. Public Guest (Visitor)
-*Unauthenticated users visiting either app.*
+
+_Unauthenticated users visiting either app._
 
 ### Main App Features (`apps/seowebsite`)
 
 #### Segmented Landing Pages
+
 Tailored content views for specific user demographics and needs.
-*   **Athletes**: Focus on recovery, performance, and injury prevention.
-*   **Musicians**: Focus on repetitive strain, posture, and longevity.
-*   **Office Workers**: Focus on ergonomics, stress, and sedentary lifestyle management.
-*   **Parents**: Focus on stress relief, pre/post-natal care.
-*   **Students**: Focus on focus, anxiety, and budget-friendly options.
+
+- **Athletes**: Focus on recovery, performance, and injury prevention.
+- **Musicians**: Focus on repetitive strain, posture, and longevity.
+- **Office Workers**: Focus on ergonomics, stress, and sedentary lifestyle
+  management.
+- **Parents**: Focus on stress relief, pre/post-natal care.
+- **Students**: Focus on focus, anxiety, and budget-friendly options.
 
 #### Service Catalog Browsing
-*   **Catalog View**: Browse all available services (`/services`) with filtering.
-*   **Personalized Services**: View niche/specific offerings tailored to the user segments (`/personalized-services`).
-*   **Service Details**: Comprehensive deep-dive pages including success stories, methodology, benefits, and related products.
+
+- **Catalog View**: Browse all available services (`/services`) with filtering.
+- **Personalized Services**: View niche/specific offerings tailored to the user
+  segments (`/personalized-services`).
+- **Service Details**: Comprehensive deep-dive pages including success stories,
+  methodology, benefits, and related products.
 
 #### Pricing & Products
-*   **Pricing Tables**: Comparative views for Single Sessions, Multi-session Packages, and Monthly Subscriptions (`/pricing`).
-*   **Product Store**: Browse and purchase digital/physical goods (e.g., Gift Cards, E-books) (`/products`).
+
+- **Pricing Tables**: Comparative views for Single Sessions, Multi-session
+  Packages, and Monthly Subscriptions (`/pricing`).
+- **Product Store**: Browse and purchase digital/physical goods (e.g., Gift
+  Cards, E-books) (`/products`).
 
 #### Content Consumption
-*   **Case Studies**: detailed "Before & After" stories and clinical breakdowns (`/cases`).
-*   **Blog/Articles**: Educational health content managed via CMS.
-*   **Bio/About**: Practitioner background, philosophy, and credentials (`/about-elena`).
-*   **First-Time Guide**: "What to expect" onboarding documentation (`/first-time`).
+
+- **Case Studies**: detailed "Before & After" stories and clinical breakdowns
+  (`/cases`).
+- **Blog/Articles**: Educational health content managed via CMS.
+- **Bio/About**: Practitioner background, philosophy, and credentials
+  (`/about-elena`).
+- **First-Time Guide**: "What to expect" onboarding documentation
+  (`/first-time`).
 
 #### Engagement
-*   **Contact Form**: General inquiry submission (`/contact`).
+
+- **Contact Form**: General inquiry submission (`/contact`).
 
 #### Authentication Entry
-*   **Login/Register**: Unified access point via Magic Link or Password (`/user`).
+
+- **Login/Register**: Unified access point via Magic Link or Password (`/user`).
 
 ### Booking App Features (`apps/booking-app`)
 
 #### Booking Wizard (Public)
-*   **Select Service**: Choose from the active service catalog.
-*   **Select Variant**: Choose specific duration (e.g., 30m vs 60m), intensity, or practitioner level.
-*   **Select Add-ons**: Toggle optional extras (e.g., Aromatherapy, Extra time) if data-driven.
-*   **Calendar Availability**: Real-time view of open time slots integrated with staff schedules.
-*   **Guest Checkout**:
-    *   **Direct Payment**: Pay via Stripe (Credit Card) without prior registration.
-    *   **Account Creation**: Optional prompt to create an account during the checkout flow.
+
+- **Select Service**: Choose from the active service catalog.
+- **Select Variant**: Choose specific duration (e.g., 30m vs 60m), intensity, or
+  practitioner level.
+- **Select Add-ons**: Toggle optional extras (e.g., Aromatherapy, Extra time) if
+  data-driven.
+- **Calendar Availability**: Real-time view of open time slots integrated with
+  staff schedules.
+- **Guest Checkout**:
+  - **Direct Payment**: Pay via Stripe (Credit Card) without prior registration.
+  - **Account Creation**: Optional prompt to create an account during the
+    checkout flow.
 
 ---
 
 ## 2. Client (Standard User)
-*The core customer role. Includes all Guest features plus the following:*
+
+_The core customer role. Includes all Guest features plus the following:_
 
 ### Main App Features (`apps/seowebsite`) - Platform Area
 
 #### Dashboard (`/myaccount`)
-*   **Profile Management**: Edit Personally Identifiable Information (Name, Phone, Avatar).
-*   **Personalization**:
-    *   **Health Goals**: Select focus areas (Pain relief, Stress reduction, Flexibility).
-    *   **Preferences**: Set service preferences (Pressure intensity, Therapist gender).
-    *   **Intake Data**: Update medical history and contraindications.
+
+- **Profile Management**: Edit Personally Identifiable Information (Name, Phone,
+  Avatar).
+- **Personalization**:
+  - **Health Goals**: Select focus areas (Pain relief, Stress reduction,
+    Flexibility).
+  - **Preferences**: Set service preferences (Pressure intensity, Therapist
+    gender).
+  - **Intake Data**: Update medical history and contraindications.
 
 #### Billing & Finance (`/billing`)
-*   **Payment Methods**: securely add/remove credit cards (Stripe integration).
-*   **Invoice History**: View and download PDF receipts for past purchases.
-*   **Active Subscriptions**: View status and cancel recurring memberships.
+
+- **Payment Methods**: securely add/remove credit cards (Stripe integration).
+- **Invoice History**: View and download PDF receipts for past purchases.
+- **Active Subscriptions**: View status and cancel recurring memberships.
 
 #### Loyalty & Rewards (`/loyalty`)
-*   **Points Tracking**: Visual display of Current Balance and Lifetime Points.
-*   **History**: Transactional log of "Earned" (booking/referral) vs. "Redeemed" points.
-*   **Referral System**:
-    *   **Copy Code**: One-click clipboard copy of unique referral URL/Code.
-    *   **Track Referrals**: Dashboard of Pending (Sent) vs. Completed (Converted) referrals.
+
+- **Points Tracking**: Visual display of Current Balance and Lifetime Points.
+- **History**: Transactional log of "Earned" (booking/referral) vs. "Redeemed"
+  points.
+- **Referral System**:
+  - **Copy Code**: One-click clipboard copy of unique referral URL/Code.
+  - **Track Referrals**: Dashboard of Pending (Sent) vs. Completed (Converted)
+    referrals.
 
 #### Community (`/community`)
-*   **Groups/Discussions**: Join and view topic-based interest groups.
-*   **Posts**: Create user generated content or comment in active discussions.
+
+- **Groups/Discussions**: Join and view topic-based interest groups.
+- **Posts**: Create user generated content or comment in active discussions.
 
 #### Progress Tracking (`/progress-reports`)
-*   **Reports**: Visual health trends and session summaries generated by the therapist.
+
+- **Reports**: Visual health trends and session summaries generated by the
+  therapist.
 
 ### Booking App Features (`apps/booking-app`)
 
 #### My Bookings (`/bookings`)
-*   **Upcoming Tab**:
-    *   **Details**: View Time, Service, Location, and Therapist.
-    *   **Reschedule**: Move appointment to a new slot (logic enforces 24h/48h policy).
-    *   **Cancel**: Cancel appointment (includes dynamic refund calculation based on policy).
-    *   **Get Directions**: Link to maps/location.
-*   **History Tab**:
-    *   **Archives**: View past completed sessions.
-    *   **Rebook**: "Book Again" shortcut pre-filling service and variant.
+
+- **Upcoming Tab**:
+  - **Details**: View Time, Service, Location, and Therapist.
+  - **Reschedule**: Move appointment to a new slot (logic enforces 24h/48h
+    policy).
+  - **Cancel**: Cancel appointment (includes dynamic refund calculation based on
+    policy).
+  - **Get Directions**: Link to maps/location.
+- **History Tab**:
+  - **Archives**: View past completed sessions.
+  - **Rebook**: "Book Again" shortcut pre-filling service and variant.
 
 #### Wallet System (`/wallet`)
-*   **Digital Balance**: View current credit balance in Cents (e.g., 5000 = €50.00).
-*   **Top-Up Products**: Purchase prepaid credit packs (e.g., "Pay €45 to get €50 credit").
-*   **Transaction Log**: Audit trail of Deposits, Purchases, and Refunds.
+
+- **Digital Balance**: View current credit balance in Cents (e.g., 5000 =
+  €50.00).
+- **Top-Up Products**: Purchase prepaid credit packs (e.g., "Pay €45 to get €50
+  credit").
+- **Transaction Log**: Audit trail of Deposits, Purchases, and Refunds.
 
 #### Family Management (`/settings/family`)
-*   **Add Dependent**: Create sub-profiles for Children, Partners, or Dependents.
-*   **Manage Dependent**: Edit their name, relationship, and medical info.
-*   **Proxy Booking**: Capability to select "Book For [Name]" during the checkout flow to segregate clinical records.
+
+- **Add Dependent**: Create sub-profiles for Children, Partners, or Dependents.
+- **Manage Dependent**: Edit their name, relationship, and medical info.
+- **Proxy Booking**: Capability to select "Book For [Name]" during the checkout
+  flow to segregate clinical records.
 
 ---
 
 ## 3. Therapist (Staff)
-*Service providers. Focuses on delivery and workflow.*
+
+_Service providers. Focuses on delivery and workflow._
 
 ### Main App Features (`apps/seowebsite`) - `(platform)/therapist`
 
 #### Client Management (`/clients`)
-*   **Directory**: Searchable, filterable list of all assigned clients.
-*   **Client Profile (`/person`)**:
-    *   **Medical Context**: View detailed intake forms and health history.
-    *   **Session History**: Access past appointments for continuity of care.
-    *   **Alerts**: Prominent display of contraindications (allergies, injuries).
+
+- **Directory**: Searchable, filterable list of all assigned clients.
+- **Client Profile (`/person`)**:
+  - **Medical Context**: View detailed intake forms and health history.
+  - **Session History**: Access past appointments for continuity of care.
+  - **Alerts**: Prominent display of contraindications (allergies, injuries).
 
 #### Clinical Session Notes (`/session-notes`)
-*   **Create Note**: Interface for writing SOAP notes (Subjective, Objective, Assessment, Plan).
-*   **View History**: Read chronological history of previous notes.
-*   **Templates**: CRUD operations for note shortcuts (e.g., "Tight Trapezius", "Lower Back Protocol").
+
+- **Create Note**: Interface for writing SOAP notes (Subjective, Objective,
+  Assessment, Plan).
+- **View History**: Read chronological history of previous notes.
+- **Templates**: CRUD operations for note shortcuts (e.g., "Tight Trapezius",
+  "Lower Back Protocol").
 
 #### Financials (`/billing`)
-*   **Earnings Report**: View commission/payouts per session (if payroll is configured).
+
+- **Earnings Report**: View commission/payouts per session (if payroll is
+  configured).
 
 ### Booking App Features (`apps/booking-app`)
 
 #### Operations Dashboard
-*   **Daily Agenda**: Time-blocked schedule view.
-*   **Attendance**: Status toggles for `Completed`, `No-Show`, `Canceled`.
-*   **Manual Verification**:
-    *   **Queue**: View pending "Payment Proof" uploads (e.g., bank transfer screenshots).
-    *   **Action**: Approve (marks Booking as Paid) or Reject (triggers user notification).
+
+- **Daily Agenda**: Time-blocked schedule view.
+- **Attendance**: Status toggles for `Completed`, `No-Show`, `Canceled`.
+- **Manual Verification**:
+  - **Queue**: View pending "Payment Proof" uploads (e.g., bank transfer
+    screenshots).
+  - **Action**: Approve (marks Booking as Paid) or Reject (triggers user
+    notification).
 
 #### Calendar Sync
-*   **2-Way Sync**: Integration with Google/Outlook calendars.
-*   **Blocking**: External calendar events automatically create "Busy" blocks in the booking availability.
+
+- **2-Way Sync**: Integration with Google/Outlook calendars.
+- **Blocking**: External calendar events automatically create "Busy" blocks in
+  the booking availability.
 
 ---
 
 ## 4. Educator
-*Content creators for courses/workshops.*
+
+_Content creators for courses/workshops._
 
 ### Main App Features (`apps/seowebsite`) - `(platform)/educator`
 
 #### Course Builder (`/courses`)
-*   **Create Course**: Define Title, Description, Price, and Cover Image.
-*   **Publishing**: Toggle visibility state (Draft vs. Published).
+
+- **Create Course**: Define Title, Description, Price, and Cover Image.
+- **Publishing**: Toggle visibility state (Draft vs. Published).
 
 #### Lesson Management (`/lessons`)
-*   **Add Content**: Interface to upload Video, Rich Text, or PDF resources.
-*   **Ordering**: Drag-and-drop or index-based arrangement of lessons.
+
+- **Add Content**: Interface to upload Video, Rich Text, or PDF resources.
+- **Ordering**: Drag-and-drop or index-based arrangement of lessons.
 
 #### Student Tracking
-*   **Analytics**: View enrollment numbers and engagement metrics.
+
+- **Analytics**: View enrollment numbers and engagement metrics.
 
 ---
 
 ## 5. Admin (Superuser)
-*Full system control.*
+
+_Full system control._
 
 ### Main App Features (`apps/seowebsite`) - `(platform)/console`
 
 #### Global User Management (`/users`)
-*   **Search**: Find any user by email, name, or ID.
-*   **Edit Profile**: Administrative override of user details.
-*   **Role Assignment**: Promote/Demote users (Client <-> Therapist <-> Educator <-> Admin).
-*   **Ban/Suspend**: Revoke platform access.
+
+- **Search**: Find any user by email, name, or ID.
+- **Edit Profile**: Administrative override of user details.
+- **Role Assignment**: Promote/Demote users (Client <-> Therapist <-> Educator
+  <-> Admin).
+- **Ban/Suspend**: Revoke platform access.
 
 #### CMS (Content Management System) (`/cms`)
-*   **Page Editor**: Update text and images on public marketing pages.
-*   **Blog Engine**: Create, Edit, and Delete articles and tags.
+
+- **Page Editor**: Update text and images on public marketing pages.
+- **Blog Engine**: Create, Edit, and Delete articles and tags.
 
 #### Database Tools (`/database`)
-*   **Migrations**: View log of executed database schema changes.
-*   **Raw Data**: Direct table inspection (SQL-like interface).
+
+- **Migrations**: View log of executed database schema changes.
+- **Raw Data**: Direct table inspection (SQL-like interface).
 
 #### System Settings (`/settings`)
-*   **Feature Flags**: Toggle beta features on/off globally or per user.
-*   **Global Variables**: Configure system-wide constants (Tax rates, Default currency).
+
+- **Feature Flags**: Toggle beta features on/off globally or per user.
+- **Global Variables**: Configure system-wide constants (Tax rates, Default
+  currency).
 
 ### Booking App Features (`apps/booking-app`) - `/admin`
 
 #### Service Catalog (`/services`)
-*   **Create/Edit Service**: Define Name, Description, Base Price, Images.
-*   **Variants**: Configure duration/price permutations (e.g., "30 Mins @ $50", "60 Mins @ $90").
-*   **Add-ons**: Configure upsell items (e.g., "Aromatherapy +$10").
-*   **Visibility**: Toggle `is_public` for seasonal or hidden services.
+
+- **Create/Edit Service**: Define Name, Description, Base Price, Images.
+- **Variants**: Configure duration/price permutations (e.g., "30 Mins @ $50",
+  "60 Mins @ $90").
+- **Add-ons**: Configure upsell items (e.g., "Aromatherapy +$10").
+- **Visibility**: Toggle `is_public` for seasonal or hidden services.
 
 #### Finance & Sales (`/finance`)
-*   **Revenue Reports**: Aggregate statistics on booking volume and revenue.
-*   **Refunds**: Interface to process Stripe or Wallet refunds manually.
-*   **Disputes**: Management view for payment chargebacks.
+
+- **Revenue Reports**: Aggregate statistics on booking volume and revenue.
+- **Refunds**: Interface to process Stripe or Wallet refunds manually.
+- **Disputes**: Management view for payment chargebacks.
 
 #### Configuration
-*   **Cancellation Policy**: Set rules for deadlines (e.g., 24h) and automatic penalty fees.
-*   **Deposits**: Configure deposit logic (Full Prepayment, Partial Deposit, Pay at Venue).
-*   **Operating Hours**: Define business opening/closing times and holidays.
+
+- **Cancellation Policy**: Set rules for deadlines (e.g., 24h) and automatic
+  penalty fees.
+- **Deposits**: Configure deposit logic (Full Prepayment, Partial Deposit, Pay
+  at Venue).
+- **Operating Hours**: Define business opening/closing times and holidays.
 
 ---
 
 ## 6. Parent / Guardian (Special Client Role)
-*Sub-feature of Client context.*
+
+_Sub-feature of Client context._
 
 #### Relationship Management
-*   **Link Accounts**: Connect to Child/Dependent accounts via email invite or internal ID linking.
+
+- **Link Accounts**: Connect to Child/Dependent accounts via email invite or
+  internal ID linking.
 
 #### Proxy Actions
-*   **Book for Child**: "Book on behalf of" functionality ensures medical notes are attached to the dependent's record, not the guardian's.
-*   **Pay for Child**: Utilize the Guardian's saved payment methods (Card/Wallet) for the Dependent's session.
-*   **History Access**: Read-only or Read-Write access to booking history for all linked dependents.
+
+- **Book for Child**: "Book on behalf of" functionality ensures medical notes
+  are attached to the dependent's record, not the guardian's.
+- **Pay for Child**: Utilize the Guardian's saved payment methods (Card/Wallet)
+  for the Dependent's session.
+- **History Access**: Read-only or Read-Write access to booking history for all
+  linked dependents.

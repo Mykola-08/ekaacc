@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { cn } from '@/lib/platform/utils/css-utils'
+import * as React from 'react';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 export interface MinimalCardProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: 'default' | 'outline' | 'ghost';
@@ -9,23 +9,18 @@ export interface MinimalCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const MinimalCard = React.forwardRef<HTMLDivElement, MinimalCardProps>(
   ({ className, variant = 'default', interactive = false, children, ...props }, ref) => {
     const baseClasses = 'rounded-lg transition-all duration-200';
-    
+
     const variantClasses = {
       default: 'bg-card border border-border shadow-sm',
       outline: 'border border-border bg-card',
-      ghost: 'bg-transparent'
+      ghost: 'bg-transparent',
     };
-    
+
     const interactiveClasses = interactive ? 'hover:shadow-md cursor-pointer' : '';
-    
+
     return (
       <div
-        className={cn(
-          baseClasses,
-          variantClasses[variant],
-          interactiveClasses,
-          className
-        )}
+        className={cn(baseClasses, variantClasses[variant], interactiveClasses, className)}
         ref={ref}
         {...props}
       >
@@ -43,11 +38,7 @@ type MinimalCardHeaderProps = React.HTMLAttributes<HTMLDivElement>;
 const MinimalCardHeader = React.forwardRef<HTMLDivElement, MinimalCardHeaderProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <div
-        className={cn('flex flex-col space-y-2 p-6', className)}
-        ref={ref}
-        {...props}
-      >
+      <div className={cn('flex flex-col space-y-2 p-6', className)} ref={ref} {...props}>
         {children}
       </div>
     );
@@ -63,7 +54,10 @@ const MinimalCardTitle = React.forwardRef<HTMLParagraphElement, MinimalCardTitle
   ({ className, children, ...props }, ref) => {
     return (
       <h3
-        className={cn('text-lg font-semibold leading-none tracking-tight text-foreground', className)}
+        className={cn(
+          'text-foreground text-lg leading-none font-semibold tracking-tight',
+          className
+        )}
         ref={ref}
         {...props}
       >
@@ -81,11 +75,7 @@ type MinimalCardDescriptionProps = React.HTMLAttributes<HTMLParagraphElement>;
 const MinimalCardDescription = React.forwardRef<HTMLParagraphElement, MinimalCardDescriptionProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <p
-        className={cn('text-sm text-muted-foreground', className)}
-        ref={ref}
-        {...props}
-      >
+      <p className={cn('text-muted-foreground text-sm', className)} ref={ref} {...props}>
         {children}
       </p>
     );
@@ -115,11 +105,7 @@ type MinimalCardFooterProps = React.HTMLAttributes<HTMLDivElement>;
 const MinimalCardFooter = React.forwardRef<HTMLDivElement, MinimalCardFooterProps>(
   ({ className, children, ...props }, ref) => {
     return (
-      <div
-        className={cn('flex items-center p-6 pt-0', className)}
-        ref={ref}
-        {...props}
-      >
+      <div className={cn('flex items-center p-6 pt-0', className)} ref={ref} {...props}>
         {children}
       </div>
     );

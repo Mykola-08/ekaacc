@@ -102,7 +102,7 @@ export const bookingService = {
         created_at: data.created_at,
         payment_proof_url: data.payment_proof_url,
         notes: data.notes,
-        clientId: data.user_id // mapping for platform service compatibility
+        clientId: data.user_id, // mapping for platform service compatibility
       } as Booking;
     } catch {
       return null;
@@ -119,20 +119,23 @@ export const bookingService = {
 
       if (error) return [];
 
-      return (data || []).map((b) => ({
-        id: b.id,
-        userId: b.user_id,
-        therapistId: b.therapist_id,
-        serviceId: b.service_id,
-        slot: { start: b.scheduled_start, end: b.scheduled_end },
-        price: b.price,
-        paymentMethod: b.payment_method,
-        status: b.status,
-        created_at: b.created_at,
-        payment_proof_url: b.payment_proof_url,
-        notes: b.notes,
-        clientId: b.user_id
-      } as Booking));
+      return (data || []).map(
+        (b) =>
+          ({
+            id: b.id,
+            userId: b.user_id,
+            therapistId: b.therapist_id,
+            serviceId: b.service_id,
+            slot: { start: b.scheduled_start, end: b.scheduled_end },
+            price: b.price,
+            paymentMethod: b.payment_method,
+            status: b.status,
+            created_at: b.created_at,
+            payment_proof_url: b.payment_proof_url,
+            notes: b.notes,
+            clientId: b.user_id,
+          }) as Booking
+      );
     } catch {
       return [];
     }
@@ -152,20 +155,23 @@ export const bookingService = {
 
       if (error) return [];
 
-      return (data || []).map((b) => ({
-        id: b.id,
-        userId: b.user_id,
-        therapistId: b.therapist_id,
-        serviceId: b.service_id,
-        slot: { start: b.scheduled_start, end: b.scheduled_end },
-        price: b.price,
-        paymentMethod: b.payment_method,
-        status: b.status,
-        created_at: b.created_at,
-        payment_proof_url: b.payment_proof_url,
-        notes: b.notes,
-        clientId: b.user_id
-      } as Booking));
+      return (data || []).map(
+        (b) =>
+          ({
+            id: b.id,
+            userId: b.user_id,
+            therapistId: b.therapist_id,
+            serviceId: b.service_id,
+            slot: { start: b.scheduled_start, end: b.scheduled_end },
+            price: b.price,
+            paymentMethod: b.payment_method,
+            status: b.status,
+            created_at: b.created_at,
+            payment_proof_url: b.payment_proof_url,
+            notes: b.notes,
+            clientId: b.user_id,
+          }) as Booking
+      );
     } catch {
       return [];
     }
@@ -181,20 +187,23 @@ export const bookingService = {
 
       if (error) return [];
 
-      return (data || []).map((b) => ({
-        id: b.id,
-        userId: b.user_id,
-        therapistId: b.therapist_id,
-        serviceId: b.service_id,
-        slot: { start: b.scheduled_start, end: b.scheduled_end },
-        price: b.price,
-        paymentMethod: b.payment_method,
-        status: b.status,
-        created_at: b.created_at,
-        payment_proof_url: b.payment_proof_url,
-        notes: b.notes,
-        clientId: b.user_id
-      } as Booking));
+      return (data || []).map(
+        (b) =>
+          ({
+            id: b.id,
+            userId: b.user_id,
+            therapistId: b.therapist_id,
+            serviceId: b.service_id,
+            slot: { start: b.scheduled_start, end: b.scheduled_end },
+            price: b.price,
+            paymentMethod: b.payment_method,
+            status: b.status,
+            created_at: b.created_at,
+            payment_proof_url: b.payment_proof_url,
+            notes: b.notes,
+            clientId: b.user_id,
+          }) as Booking
+      );
     } catch {
       return [];
     }
@@ -217,7 +226,6 @@ export const bookingService = {
       if (error || !data) return null;
 
       return bookingService.getBooking(id);
-
     } catch {
       return null;
     }
@@ -246,19 +254,22 @@ export async function createBooking(params: any) {
     serviceId: params.serviceId,
     price: params.priceCents ? params.priceCents / 100 : 0,
     paymentMethod: params.paymentMode === 'wallet' ? 'wallet' : 'stripe',
-    slot: { start: params.startTime.toISOString(), end: params.endTime?.toISOString() || params.startTime.toISOString() },
+    slot: {
+      start: params.startTime.toISOString(),
+      end: params.endTime?.toISOString() || params.startTime.toISOString(),
+    },
     notes: params.notes,
     displayName: params.displayName,
-    email: params.email
+    email: params.email,
   } as any);
 }
 
 export async function getServiceAvailability(serviceId: string, date: string, variantId?: string) {
   // Mock availability for current phase to ensure UI works
-  const slots = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'].map(time => ({
+  const slots = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00'].map((time) => ({
     startTime: `${date}T${time}:00`,
     endTime: `${date}T${time}:00`,
-    staffId: 'staff-1'
+    staffId: 'staff-1',
   }));
 
   return { data: { slots }, error: null };

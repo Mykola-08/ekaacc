@@ -48,7 +48,7 @@ export function LayoutProvider({ children }: { children: React.ReactNode }) {
   const activeLayout = React.useMemo(() => {
     if (layoutMode === 'desktop') return 'desktop';
     if (layoutMode === 'mobile') return 'mobile';
-    
+
     // Responsive mode
     if (isMobileDevice) return 'mobile';
     return 'desktop';
@@ -86,4 +86,3 @@ export function useLayout() {
   }
   return context;
 }
-

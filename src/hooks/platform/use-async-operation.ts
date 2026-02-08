@@ -1,7 +1,13 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { AppError, errorHandler, ErrorContext, withRetry, RetryConfig } from '@/lib/platform/utils/error-handling';
+import {
+  AppError,
+  errorHandler,
+  ErrorContext,
+  withRetry,
+  RetryConfig,
+} from '@/lib/platform/utils/error-handling';
 
 export interface AsyncState<T> {
   data: T | null;
@@ -61,21 +67,17 @@ export function useAsyncOperation<T>(
       return;
     }
 
-    setState(prev => ({ ...prev, loading: true, error: null }));
+    setState((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
-      const result = await withRetry(
-        () => operationRef.current(),
-        retryConfig,
-        {
-          ...errorContext,
-          operation: errorContext?.operation || 'useAsyncOperation',
-        }
-      );
+      const result = await withRetry(() => operationRef.current(), retryConfig, {
+        ...errorContext,
+        operation: errorContext?.operation || 'useAsyncOperation',
+      });
 
       if (!mountedRef.current) return;
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         data: result,
         loading: false,
@@ -93,7 +95,7 @@ export function useAsyncOperation<T>(
         operation: errorContext?.operation || 'useAsyncOperation',
       });
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         loading: false,
         error: appError,
@@ -147,9 +149,9 @@ export function useAsyncOperation<T>(
     execute,
     retry,
     refetch,
-    setData: (data: T | null) => setState(prev => ({ ...prev, data })),
-    setLoading: (loading: boolean) => setState(prev => ({ ...prev, loading })),
-    setError: (error: AppError | null) => setState(prev => ({ ...prev, error })),
+    setData: (data: T | null) => setState((prev) => ({ ...prev, data })),
+    setLoading: (loading: boolean) => setState((prev) => ({ ...prev, loading })),
+    setError: (error: AppError | null) => setState((prev) => ({ ...prev, error })),
   };
 }
 
@@ -158,10 +160,7 @@ export function useAsyncOperations<T extends Record<string, any>>(
   operations: T,
   options: UseAsyncOperationOptions = {}
 ) {
-  const {
-    enabled = true,
-    ...restOptions
-  } = options;
+  const { enabled = true, ...restOptions } = options;
 
   const [states, setStates] = useState<Record<string, AsyncState<any>>>({});
   const [overallLoading, setOverallLoading] = useState(false);
@@ -170,7 +169,7 @@ export function useAsyncOperations<T extends Record<string, any>>(
   // Initialize states for all operations
   useEffect(() => {
     const initialStates: Record<string, AsyncState<any>> = {};
-    Object.keys(operations).forEach(key => {
+    Object.keys(operations).forEach((key) => {
       initialStates[key] = {
         data: null,
         loading: false,
@@ -192,14 +191,10 @@ export function useAsyncOperations<T extends Record<string, any>>(
       await Promise.allSettled(
         Object.entries(operations).map(async ([key, operation]) => {
           try {
-            const result = await withRetry(
-              operation,
-              restOptions.retryConfig,
-              {
-                ...restOptions.errorContext,
-                operation: `${restOptions.errorContext?.operation || 'useAsyncOperations'}.${key}`,
-              }
-            );
+            const result = await withRetry(operation, restOptions.retryConfig, {
+              ...restOptions.errorContext,
+              operation: `${restOptions.errorContext?.operation || 'useAsyncOperations'}.${key}`,
+            });
 
             results[key] = result;
             newStates[key] = {
@@ -225,9 +220,9 @@ export function useAsyncOperations<T extends Record<string, any>>(
       );
 
       setStates(newStates);
-      
+
       // Check if any operations failed
-      const hasErrors = Object.values(newStates).some(state => state.error !== null);
+      const hasErrors = Object.values(newStates).some((state) => state.error !== null);
       if (hasErrors) {
         setOverallError(new AppError('One or more operations failed', 'MULTIPLE_ERRORS'));
       }
@@ -260,14 +255,10 @@ export function useAsyncOperations<T extends Record<string, any>>(
       const operation = operations[key];
       if (!operation) return Promise.resolve();
 
-      return withRetry(
-        operation,
-        restOptions.retryConfig,
-        {
-          ...restOptions.errorContext,
-          operation: `${restOptions.errorContext?.operation || 'useAsyncOperations'}.${String(key)}`,
-        }
-      );
+      return withRetry(operation, restOptions.retryConfig, {
+        ...restOptions.errorContext,
+        operation: `${restOptions.errorContext?.operation || 'useAsyncOperations'}.${String(key)}`,
+      });
     },
   };
 }
@@ -281,12 +272,7 @@ export function useOptimisticOperation<T>(
     initialData?: T;
   }
 ) {
-  const {
-    optimisticData,
-    rollbackOnError = true,
-    initialData,
-    ...asyncOptions
-  } = options;
+  const { optimisticData, rollbackOnError = true, initialData, ...asyncOptions } = options;
 
   const [isOptimistic, setIsOptimistic] = useState(false);
   const [previousData, setPreviousData] = useState<T | null>(null);
@@ -311,7 +297,7 @@ export function useOptimisticOperation<T>(
     setPreviousData(asyncOperation.data);
     setIsOptimistic(true);
     setOptimisticError(null);
-    
+
     try {
       await asyncOperation.execute();
     } catch (error) {
@@ -324,7 +310,11 @@ export function useOptimisticOperation<T>(
 
   return {
     ...asyncOperation,
-    data: isOptimistic ? optimisticData : (optimisticError && !rollbackOnError ? optimisticData : asyncOperation.data),
+    data: isOptimistic
+      ? optimisticData
+      : optimisticError && !rollbackOnError
+        ? optimisticData
+        : asyncOperation.data,
     isOptimistic,
     executeOptimistic,
     rollback: () => {

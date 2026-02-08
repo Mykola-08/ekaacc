@@ -14,45 +14,60 @@ export class IntegrationManager {
 
   private initializeIntegrations() {
     // Stripe
-    this.integrations.set('stripe', new StripeIntegration({
-      enabled: true,
-      apiKey: process.env.STRIPE_SECRET_KEY,
-      webhookSecret: process.env.STRIPE_WEBHOOK_SECRET
-    }));
+    this.integrations.set(
+      'stripe',
+      new StripeIntegration({
+        enabled: true,
+        apiKey: process.env.STRIPE_SECRET_KEY,
+        webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+      })
+    );
 
     // Resend
-    this.integrations.set('resend', new ResendIntegration({
-      enabled: true,
-      apiKey: process.env.RESEND_API_KEY
-    }));
+    this.integrations.set(
+      'resend',
+      new ResendIntegration({
+        enabled: true,
+        apiKey: process.env.RESEND_API_KEY,
+      })
+    );
 
     // Supabase
-    this.integrations.set('supabase', new SupabaseIntegration({
-      enabled: true,
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-      serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY
-    }));
+    this.integrations.set(
+      'supabase',
+      new SupabaseIntegration({
+        enabled: true,
+        url: process.env.NEXT_PUBLIC_SUPABASE_URL,
+        serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+      })
+    );
 
     // Zoom
-    this.integrations.set('zoom', new ZoomIntegration({
-      enabled: true,
-      apiKey: process.env.ZOOM_CLIENT_ID,
-      apiSecret: process.env.ZOOM_CLIENT_SECRET,
-      accountId: process.env.ZOOM_ACCOUNT_ID
-    }));
+    this.integrations.set(
+      'zoom',
+      new ZoomIntegration({
+        enabled: true,
+        apiKey: process.env.ZOOM_CLIENT_ID,
+        apiSecret: process.env.ZOOM_CLIENT_SECRET,
+        accountId: process.env.ZOOM_ACCOUNT_ID,
+      })
+    );
 
     // Google Calendar
-    this.integrations.set('google-calendar', new GoogleCalendarIntegration({
-      enabled: true,
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      serviceAccountJson: process.env.GOOGLE_SERVICE_ACCOUNT_JSON
-    }));
+    this.integrations.set(
+      'google-calendar',
+      new GoogleCalendarIntegration({
+        enabled: true,
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        serviceAccountJson: process.env.GOOGLE_SERVICE_ACCOUNT_JSON,
+      })
+    );
   }
 
   async getAllStatuses() {
     const statuses = await Promise.all(
-      Array.from(this.integrations.values()).map(i => i.getStatus())
+      Array.from(this.integrations.values()).map((i) => i.getStatus())
     );
     return statuses;
   }
@@ -63,4 +78,3 @@ export class IntegrationManager {
 }
 
 export const integrationManager = new IntegrationManager();
-

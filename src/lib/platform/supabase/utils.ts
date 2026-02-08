@@ -7,9 +7,7 @@ import { supabase, supabaseAdmin } from '@/lib/platform/supabase';
 /**
  * Safely execute a Supabase query with proper type handling
  */
-export async function safeSupabaseQuery<T>(
-  query: any
-): Promise<{ data: T | null; error: any }> {
+export async function safeSupabaseQuery<T>(query: any): Promise<{ data: T | null; error: any }> {
   try {
     const result = await query;
     return { data: result.data as T | null, error: result.error };
@@ -25,9 +23,7 @@ export async function safeSupabaseInsert<T>(
   table: string,
   data: any
 ): Promise<{ data: T | null; error: any }> {
-  return safeSupabaseQuery<T>(
-    supabase.from(table).insert(data).select().single()
-  );
+  return safeSupabaseQuery<T>(supabase.from(table).insert(data).select().single());
 }
 
 /**
@@ -37,9 +33,7 @@ export async function safeSupabaseAdminInsert<T>(
   table: string,
   data: any
 ): Promise<{ data: T | null; error: any }> {
-  return safeSupabaseQuery<T>(
-    supabaseAdmin.from(table).insert(data).select().single()
-  );
+  return safeSupabaseQuery<T>(supabaseAdmin.from(table).insert(data).select().single());
 }
 
 /**
@@ -51,11 +45,11 @@ export async function safeSupabaseUpdate<T>(
   match: Record<string, any>
 ): Promise<{ data: T | null; error: any }> {
   let query = (supabase.from(table) as any).update(data);
-  
+
   Object.entries(match).forEach(([key, value]) => {
     query = query.eq(key, value);
   });
-  
+
   return safeSupabaseQuery<T>(query.select().single());
 }
 
@@ -68,11 +62,11 @@ export async function safeSupabaseAdminUpdate<T>(
   match: Record<string, any>
 ): Promise<{ data: T | null; error: any }> {
   let query = (supabaseAdmin.from(table) as any).update(data);
-  
+
   Object.entries(match).forEach(([key, value]) => {
     query = query.eq(key, value);
   });
-  
+
   return safeSupabaseQuery<T>(query.select().single());
 }
 
@@ -84,13 +78,13 @@ export async function safeSupabaseSelect<T>(
   match?: Record<string, any>
 ): Promise<{ data: T[] | null; error: any }> {
   let query = supabase.from(table).select('*');
-  
+
   if (match) {
     Object.entries(match).forEach(([key, value]) => {
       query = query.eq(key, value);
     });
   }
-  
+
   return safeSupabaseQuery<T[]>(query);
 }
 
@@ -116,11 +110,11 @@ export async function safeSupabaseSelectSingle<T>(
   match: Record<string, any>
 ): Promise<{ data: T | null; error: any }> {
   let query = supabase.from(table).select('*');
-  
+
   Object.entries(match).forEach(([key, value]) => {
     query = query.eq(key, value);
   });
-  
+
   return safeSupabaseQuery<T>(query.single());
 }
 
@@ -132,11 +126,11 @@ export async function safeSupabaseDelete(
   match: Record<string, any>
 ): Promise<{ error: any }> {
   let query = supabase.from(table).delete();
-  
+
   Object.entries(match).forEach(([key, value]) => {
     query = query.eq(key, value);
   });
-  
+
   try {
     const result = await query;
     return { error: result.error };

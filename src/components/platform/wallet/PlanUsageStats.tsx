@@ -17,18 +17,18 @@ interface PlanUsageStatsProps {
 
 export function PlanUsageStats({ plans, loading }: PlanUsageStatsProps) {
   if (loading) {
-    return <div className="space-y-4 animate-pulse">Loading Plans...</div>;
+    return <div className="animate-pulse space-y-4">Loading Plans...</div>;
   }
 
-  const activePlans = plans.filter(p => p.status === 'active');
+  const activePlans = plans.filter((p) => p.status === 'active');
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold flex items-center gap-2">
+      <h3 className="flex items-center gap-2 text-lg font-semibold">
         <Package className="h-5 w-5" />
         Your Plans
       </h3>
-      
+
       {activePlans.length === 0 ? (
         <Alert>
           <AlertCircle className="h-4 w-4" />
@@ -46,8 +46,8 @@ export function PlanUsageStats({ plans, loading }: PlanUsageStatsProps) {
 
             return (
               <Card key={plan.id} className="overflow-hidden">
-                <CardHeader className="pb-2 bg-linear-to-r from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800">
-                  <div className="flex justify-between items-center">
+                <CardHeader className="bg-linear-to-r from-blue-50 to-indigo-50 pb-2 dark:from-slate-900 dark:to-slate-800">
+                  <div className="flex items-center justify-between">
                     <CardTitle className="text-base font-medium">{plan.name}</CardTitle>
                     <Badge variant="secondary" className="bg-card/50 backdrop-blur">
                       {remaining} Left
@@ -56,15 +56,18 @@ export function PlanUsageStats({ plans, loading }: PlanUsageStatsProps) {
                 </CardHeader>
                 <CardContent className="pt-4">
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-muted-foreground">
-                      <span>Used {used} of {total} credits</span>
+                    <div className="text-muted-foreground flex justify-between text-xs">
+                      <span>
+                        Used {used} of {total} credits
+                      </span>
                       <span>{percent}%</span>
                     </div>
                     <Progress value={percent} className="h-2" />
-                    
+
                     {plan.expires_at && (
-                      <p className="text-xs text-muted-foreground pt-2">
-                        Expires {formatDistanceToNow(new Date(plan.expires_at), { addSuffix: true })}
+                      <p className="text-muted-foreground pt-2 text-xs">
+                        Expires{' '}
+                        {formatDistanceToNow(new Date(plan.expires_at), { addSuffix: true })}
                       </p>
                     )}
                   </div>
@@ -77,4 +80,3 @@ export function PlanUsageStats({ plans, loading }: PlanUsageStatsProps) {
     </div>
   );
 }
-

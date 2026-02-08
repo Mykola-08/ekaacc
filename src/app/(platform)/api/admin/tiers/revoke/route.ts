@@ -9,8 +9,11 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -40,7 +43,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json() as any;
+    const body = (await request.json()) as any;
     const { userId, tierType, tierName, reason } = body;
 
     // Validate required fields
@@ -62,10 +65,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (fetchError || !existingTier) {
-      return NextResponse.json(
-        { error: 'Active tier not found for this user' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Active tier not found for this user' }, { status: 404 });
     }
 
     // Revoke the tier
@@ -74,35 +74,30 @@ export async function POST(request: NextRequest) {
       .update({
         is_active: false,
         deactivated_at: new Date().toISOString(),
-        deactivation_reason: reason || 'Tier revoked by admin'
+        deactivation_reason: reason || 'Tier revoked by admin',
       })
       .eq('id', existingTier.id);
 
     if (revokeError) {
       console.error('Error revoking tier:', revokeError);
-      return NextResponse.json(
-        { error: 'Failed to revoke tier' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to revoke tier' }, { status: 500 });
     }
 
     // Create audit log
-    const { error: auditError } = await supabase
-      .from('tier_audit_logs')
-      .insert({
-        user_id: userId,
-        action: 'revoke',
-        tier_type: tierType,
-        tier_name: tierName,
-        performed_by: adminUser!.id,
-        reason: reason || 'Tier revoked by admin',
-        timestamp: new Date().toISOString(),
-        metadata: {
-          admin_note: reason,
-          previous_tier_id: existingTier.id,
-          deactivation_reason: reason
-        }
-      });
+    const { error: auditError } = await supabase.from('tier_audit_logs').insert({
+      user_id: userId,
+      action: 'revoke',
+      tier_type: tierType,
+      tier_name: tierName,
+      performed_by: adminUser!.id,
+      reason: reason || 'Tier revoked by admin',
+      timestamp: new Date().toISOString(),
+      metadata: {
+        admin_note: reason,
+        previous_tier_id: existingTier.id,
+        deactivation_reason: reason,
+      },
+    });
 
     if (auditError) {
       console.error('Error creating audit log:', auditError);
@@ -114,15 +109,11 @@ export async function POST(request: NextRequest) {
       message: `Successfully revoked ${tierType} ${tierName} tier from user`,
       data: {
         tierId: existingTier.id,
-        deactivatedAt: new Date().toISOString()
-      }
+        deactivatedAt: new Date().toISOString(),
+      },
     });
-
   } catch (error) {
     console.error('Tier revocation error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

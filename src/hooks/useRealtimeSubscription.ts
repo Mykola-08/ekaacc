@@ -13,7 +13,9 @@ interface UseRealtimeSubscriptionProps<T extends Record<string, unknown>> {
   enabled?: boolean;
 }
 
-export function useRealtimeSubscription<T extends Record<string, unknown> = Record<string, unknown>>({
+export function useRealtimeSubscription<
+  T extends Record<string, unknown> = Record<string, unknown>,
+>({
   table,
   schema = 'public',
   event = '*',
@@ -53,4 +55,3 @@ export function useRealtimeSubscription<T extends Record<string, unknown> = Reco
     };
   }, [table, schema, event, filter, enabled, JSON.stringify(callback)]);
 }
-

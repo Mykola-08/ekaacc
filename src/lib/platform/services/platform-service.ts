@@ -6,78 +6,97 @@ import { assessmentService } from '@/lib/platform/services/assessment-service';
 import { billingService } from '@/lib/platform/services/billing-service';
 import { userService } from '@/lib/platform/services/user-service';
 import { logger } from '@/lib/platform/services/logging';
-import { withRetry, safeOperation, AppError, ValidationError, NotFoundError } from '@/lib/platform/utils/error-handling';
+import {
+  withRetry,
+  safeOperation,
+  AppError,
+  ValidationError,
+  NotFoundError,
+} from '@/lib/platform/utils/error-handling';
 import { supabase } from '@/lib/platform/supabase';
-import { safeSupabaseInsert, safeSupabaseUpdate, safeSupabaseQuery } from '@/lib/platform/supabase/utils';
+import {
+  safeSupabaseInsert,
+  safeSupabaseUpdate,
+  safeSupabaseQuery,
+} from '@/lib/platform/supabase/utils';
 
 // Production-grade storage with proper error handling and validation
 async function safeGetItem(key: string): Promise<string | null> {
-  return await withRetry(async () => {
-    try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        return window.localStorage.getItem(key);
-      }
+  return await withRetry(
+    async () => {
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          return window.localStorage.getItem(key);
+        }
 
-      // Server-side: check Supabase user settings
-      const { data: { user } } = await (supabase.auth as any).getUser();
-      if (!user) return null;
+        // Server-side: check Supabase user settings
+        const {
+          data: { user },
+        } = await (supabase.auth as any).getUser();
+        if (!user) return null;
 
-      const { data, error } = await safeSupabaseQuery<{ value: string }>(
-        supabase
-          .from('user_settings')
-          .select('value')
-          .eq('user_id', user.id)
-          .eq('key', key)
-          .single()
-      );
+        const { data, error } = await safeSupabaseQuery<{ value: string }>(
+          supabase
+            .from('user_settings')
+            .select('value')
+            .eq('user_id', user.id)
+            .eq('key', key)
+            .single()
+        );
 
-      if (error) {
-        logger.debug(`Setting not found: ${key}`);
+        if (error) {
+          logger.debug(`Setting not found: ${key}`);
+          return null;
+        }
+
+        return data?.value || null;
+      } catch (error) {
+        logger.error(`Error getting setting: ${key}`, error as Error);
         return null;
       }
-
-      return data?.value || null;
-    } catch (error) {
-      logger.error(`Error getting setting: ${key}`, error as Error);
-      return null;
-    }
-  }, {}, { operation: 'safeGetItem', metadata: { key } });
+    },
+    {},
+    { operation: 'safeGetItem', metadata: { key } }
+  );
 }
 
 async function safeSetItem(key: string, value: string): Promise<void> {
-  await withRetry(async () => {
-    try {
-      if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.setItem(key, value);
-        return;
-      }
+  await withRetry(
+    async () => {
+      try {
+        if (typeof window !== 'undefined' && window.localStorage) {
+          window.localStorage.setItem(key, value);
+          return;
+        }
 
-      // Server-side: store in Supabase user settings
-      const { data: { user } } = await (supabase.auth as any).getUser();
-      if (!user) {
-        throw new AppError('User not authenticated', 'AUTHENTICATION_ERROR', 401);
-      }
+        // Server-side: store in Supabase user settings
+        const {
+          data: { user },
+        } = await (supabase.auth as any).getUser();
+        if (!user) {
+          throw new AppError('User not authenticated', 'AUTHENTICATION_ERROR', 401);
+        }
 
-      const { error } = await safeSupabaseInsert<any>(
-        'user_settings',
-        {
+        const { error } = await safeSupabaseInsert<any>('user_settings', {
           user_id: user.id,
           key,
           value,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
+        });
+
+        if (error) {
+          throw new AppError(`Failed to save setting: ${error.message}`, 'DATABASE_ERROR', 500);
         }
-      );
 
-      if (error) {
-        throw new AppError(`Failed to save setting: ${error.message}`, 'DATABASE_ERROR', 500);
+        logger.debug(`Setting saved: ${key}`);
+      } catch (error) {
+        logger.error(`Error saving setting: ${key}`, error as Error);
+        throw error;
       }
-
-      logger.debug(`Setting saved: ${key}`);
-    } catch (error) {
-      logger.error(`Error saving setting: ${key}`, error as Error);
-      throw error;
-    }
-  }, {}, { operation: 'safeSetItem', metadata: { key } });
+    },
+    {},
+    { operation: 'safeSetItem', metadata: { key } }
+  );
 }
 
 function normalizeValue(value: unknown): unknown {
@@ -90,13 +109,19 @@ function normalizeValue(value: unknown): unknown {
       return (value as { toDate: () => Date }).toDate().toISOString();
     }
     return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, val]) => [key, normalizeValue(val)])
+      Object.entries(value as Record<string, unknown>).map(([key, val]) => [
+        key,
+        normalizeValue(val),
+      ])
     );
   }
   return value;
 }
 
-function deepMergeSettings(target: Record<string, unknown>, source: Record<string, unknown>): Record<string, unknown> {
+function deepMergeSettings(
+  target: Record<string, unknown>,
+  source: Record<string, unknown>
+): Record<string, unknown> {
   const output: Record<string, unknown> = { ...target };
   for (const key in source) {
     if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
@@ -118,7 +143,7 @@ const fxService = {
   },
   async getUser(id: string) {
     const users = await userService.getUsers();
-    return users.find(u => u.id === id) || null;
+    return users.find((u) => u.id === id) || null;
   },
   async updateUser(id: string, data: any) {
     return userService.updateUser(id, data);
@@ -135,11 +160,11 @@ const fxService = {
     const bookings = await bookingService.getAllBookings();
     let filtered = bookings;
     if (userId) {
-      filtered = bookings.filter(b => b.clientId === userId || b.userId === userId);
+      filtered = bookings.filter((b) => b.clientId === userId || b.userId === userId);
     }
 
     // Map to Session type
-    return filtered.map(b => {
+    return filtered.map((b) => {
       const start = new Date(b.slot.start);
       const end = new Date(b.slot.end);
       const durationMinutes = (end.getTime() - start.getTime()) / 60000;
@@ -150,10 +175,13 @@ const fxService = {
         time: start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         type: b.serviceId, // placeholder for service name
         therapist: b.therapistId, // placeholder for therapist name
-        status: (b.status.charAt(0).toUpperCase() + b.status.slice(1)) as 'Upcoming' | 'Completed' | 'Canceled', // Capitalize
+        status: (b.status.charAt(0).toUpperCase() + b.status.slice(1)) as
+          | 'Upcoming'
+          | 'Completed'
+          | 'Canceled', // Capitalize
         notes: b.notes,
         duration: durationMinutes > 0 ? durationMinutes : 60,
-        userId: b.userId
+        userId: b.userId,
       };
     });
   },
@@ -169,7 +197,7 @@ const fxService = {
   },
   async getBooking(id: string) {
     const bookings = await bookingService.getAllBookings();
-    return bookings.find(b => b.id === id) || null;
+    return bookings.find((b) => b.id === id) || null;
   },
   async createBooking(data: any) {
     // Handle both old and new signatures
@@ -189,12 +217,14 @@ const fxService = {
         slot: { start: data.date, end: data.date }, // simplistic, should adjust duration
         price: 0,
         paymentMethod: 'pay_at_place',
-        notes: data.notes
+        notes: data.notes,
       });
     }
     // Handle legacy signature: createBooking(selectedClientId, therapistId, bookingDateTime, notes)
     // This is called with multiple arguments, so we need to handle it differently
-    throw new Error('Invalid booking data - use object format: { userId, therapistId, slot: {start, end}, ... }');
+    throw new Error(
+      'Invalid booking data - use object format: { userId, therapistId, slot: {start, end}, ... }'
+    );
   },
   async updateBooking(id: string, data: any) {
     return bookingService.updateBooking(id, data);
@@ -207,9 +237,9 @@ const fxService = {
     const bookings = await bookingService.getBookingsForUser(userId);
     if (userData) {
       // If additional user data is provided, merge it with the bookings
-      return bookings.map(booking => ({
+      return bookings.map((booking) => ({
         ...booking,
-        userData: userData
+        userData: userData,
       }));
     }
     return bookings;
@@ -277,7 +307,12 @@ const fxService = {
   async applyAdjustment(clientId: string, amountEUR: number, note?: string) {
     return billingService.applyAdjustment(clientId, amountEUR, note);
   },
-  async createChargeForSession(clientId: string, sessionId: string, amountEUR: number, note?: string) {
+  async createChargeForSession(
+    clientId: string,
+    sessionId: string,
+    amountEUR: number,
+    note?: string
+  ) {
     return billingService.createChargeForSession(clientId, sessionId, amountEUR, note);
   },
   async createCheckoutSessionForPackage(clientId: string, packageId: string, amountEUR: number) {
@@ -299,7 +334,7 @@ const fxService = {
   },
   async getNotification(id: string) {
     const notifications = await notificationService.listNotifications();
-    return notifications.find(n => n.id === id) || null;
+    return notifications.find((n) => n.id === id) || null;
   },
   async createNotification(data: { userId: string; title: string; body?: string; type?: string }) {
     return notificationService.createNotification(data);
@@ -323,7 +358,7 @@ const fxService = {
   },
   async getTemplate(id: string) {
     const templates = await templateService.listTemplates();
-    return templates.find(t => t.id === id) || null;
+    return templates.find((t) => t.id === id) || null;
   },
   async createTemplate(data: any) {
     return templateService.createTemplate(data);
@@ -337,99 +372,112 @@ const fxService = {
 
   // Settings with production-grade error handling
   async getSettings() {
-    return await withRetry(async () => {
-      const stored = await safeGetItem('app_settings');
-      if (stored) {
-        try {
-          return JSON.parse(stored);
-        } catch (error) {
-          logger.warn('Failed to parse settings, returning empty object', error as Error);
-          return {};
+    return await withRetry(
+      async () => {
+        const stored = await safeGetItem('app_settings');
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (error) {
+            logger.warn('Failed to parse settings, returning empty object', error as Error);
+            return {};
+          }
         }
-      }
-      return {};
-    }, {}, { operation: 'getSettings' });
+        return {};
+      },
+      {},
+      { operation: 'getSettings' }
+    );
   },
 
   async updateSettings(updates: any) {
-    return await withRetry(async () => {
-      const current = await this.getSettings();
-      const updated = deepMergeSettings(current, updates);
-      await safeSetItem('app_settings', JSON.stringify(updated));
-      logger.info('Settings updated', { updates: Object.keys(updates) });
-      return updated;
-    }, {}, { operation: 'updateSettings' });
+    return await withRetry(
+      async () => {
+        const current = await this.getSettings();
+        const updated = deepMergeSettings(current, updates);
+        await safeSetItem('app_settings', JSON.stringify(updated));
+        logger.info('Settings updated', { updates: Object.keys(updates) });
+        return updated;
+      },
+      {},
+      { operation: 'updateSettings' }
+    );
   },
 
   // File upload with proper validation and error handling
   async uploadFile(file: File, path: string) {
-    return await withRetry(async () => {
-      try {
-        // Validate file
-        if (!file || file.size === 0) {
-          throw new ValidationError('Invalid file provided');
-        }
+    return await withRetry(
+      async () => {
+        try {
+          // Validate file
+          if (!file || file.size === 0) {
+            throw new ValidationError('Invalid file provided');
+          }
 
-        // Validate file size (max 10MB)
-        const maxSize = 10 * 1024 * 1024; // 10MB
-        if (file.size > maxSize) {
-          throw new ValidationError(`File size exceeds maximum allowed size of ${maxSize} bytes`);
-        }
+          // Validate file size (max 10MB)
+          const maxSize = 10 * 1024 * 1024; // 10MB
+          if (file.size > maxSize) {
+            throw new ValidationError(`File size exceeds maximum allowed size of ${maxSize} bytes`);
+          }
 
-        // Validate file type
-        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
-        if (!allowedTypes.includes(file.type)) {
-          throw new ValidationError(`File type ${file.type} is not allowed`);
-        }
+          // Validate file type
+          const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
+          if (!allowedTypes.includes(file.type)) {
+            throw new ValidationError(`File type ${file.type} is not allowed`);
+          }
 
-        logger.info(`Uploading file: ${file.name} to ${path}`);
+          logger.info(`Uploading file: ${file.name} to ${path}`);
 
-        const { data, error } = await supabase.storage
-          .from('user-files')
-          .upload(path, file, {
+          const { data, error } = await supabase.storage.from('user-files').upload(path, file, {
             cacheControl: '3600',
             upsert: false,
           });
 
-        if (error) {
-          throw new AppError(`File upload failed: ${error.message}`, 'STORAGE_ERROR', 500);
-        }
+          if (error) {
+            throw new AppError(`File upload failed: ${error.message}`, 'STORAGE_ERROR', 500);
+          }
 
-        logger.info(`File uploaded successfully: ${file.name}`);
-        return data;
-      } catch (error) {
-        logger.error(`File upload failed: ${file.name}`, error as Error);
-        throw error;
-      }
-    }, {}, { operation: 'uploadFile', metadata: { fileName: file.name, fileSize: file.size } });
+          logger.info(`File uploaded successfully: ${file.name}`);
+          return data;
+        } catch (error) {
+          logger.error(`File upload failed: ${file.name}`, error as Error);
+          throw error;
+        }
+      },
+      {},
+      { operation: 'uploadFile', metadata: { fileName: file.name, fileSize: file.size } }
+    );
   },
 
   async getFileUrl(path: string) {
-    return await withRetry(async () => {
-      try {
-        const { data } = supabase.storage.from('user-files').getPublicUrl(path);
+    return await withRetry(
+      async () => {
+        try {
+          const { data } = supabase.storage.from('user-files').getPublicUrl(path);
 
-        if (!data?.publicUrl) {
-          throw new NotFoundError(`File not found: ${path}`);
+          if (!data?.publicUrl) {
+            throw new NotFoundError(`File not found: ${path}`);
+          }
+
+          return data.publicUrl;
+        } catch (error) {
+          logger.error(`Failed to get file URL: ${path}`, error as Error);
+          throw error;
         }
-
-        return data.publicUrl;
-      } catch (error) {
-        logger.error(`Failed to get file URL: ${path}`, error as Error);
-        throw error;
-      }
-    }, {}, { operation: 'getFileUrl', metadata: { path } });
+      },
+      {},
+      { operation: 'getFileUrl', metadata: { path } }
+    );
   },
 
   // AI Features with proper error handling and logging
   async createReport(userId: string, report: any) {
-    return await withRetry(async () => {
-      try {
-        logger.info('Creating report', { userId, reportTitle: report.title || 'Untitled' });
+    return await withRetry(
+      async () => {
+        try {
+          logger.info('Creating report', { userId, reportTitle: report.title || 'Untitled' });
 
-        const { data, error } = await safeSupabaseInsert<any>(
-          'reports',
-          {
+          const { data, error } = await safeSupabaseInsert<any>('reports', {
             user_id: userId,
             title: report.title || 'Untitled Report',
             author: report.author || 'System',
@@ -438,63 +486,80 @@ const fxService = {
             created_at: report.createdAt || new Date().toISOString(),
             date: report.date || new Date().toISOString(),
             // Add other report fields as needed
+          });
+
+          if (error) {
+            throw new AppError(`Failed to create report: ${error.message}`, 'DATABASE_ERROR', 500);
           }
-        );
 
-        if (error) {
-          throw new AppError(`Failed to create report: ${error.message}`, 'DATABASE_ERROR', 500);
+          logger.info('Report created successfully', { reportId: data?.id, userId });
+          return data;
+        } catch (error) {
+          logger.error('Create report failed', error as Error);
+          throw error;
         }
-
-        logger.info('Report created successfully', { reportId: data?.id, userId });
-        return data;
-      } catch (error) {
-        logger.error('Create report failed', error as Error);
-        throw error;
-      }
-    }, {}, { operation: 'createReport', metadata: { userId } });
+      },
+      {},
+      { operation: 'createReport', metadata: { userId } }
+    );
   },
 
   async generateAIReport(userId: string, prompt: string) {
-    return await withRetry(async () => {
-      try {
-        logger.info('Generating AI report', { userId, promptLength: prompt.length });
+    return await withRetry(
+      async () => {
+        try {
+          logger.info('Generating AI report', { userId, promptLength: prompt.length });
 
-        // Implementation would integrate with AI service
-        // For now, return a placeholder
-        throw new AppError('AI report generation not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
-      } catch (error) {
-        logger.error('AI report generation failed', error as Error);
-        throw error;
-      }
-    }, {}, { operation: 'generateAIReport', metadata: { userId } });
+          // Implementation would integrate with AI service
+          // For now, return a placeholder
+          throw new AppError('AI report generation not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+        } catch (error) {
+          logger.error('AI report generation failed', error as Error);
+          throw error;
+        }
+      },
+      {},
+      { operation: 'generateAIReport', metadata: { userId } }
+    );
   },
 
   async getAIChatResponse(prompt: string, history: any[]) {
-    return await withRetry(async () => {
-      try {
-        logger.info('Processing AI chat response', { promptLength: prompt.length, historyLength: history.length });
+    return await withRetry(
+      async () => {
+        try {
+          logger.info('Processing AI chat response', {
+            promptLength: prompt.length,
+            historyLength: history.length,
+          });
 
-        // Implementation would integrate with AI service
-        throw new AppError('AI chat response not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
-      } catch (error) {
-        logger.error('AI chat response failed', error as Error);
-        throw error;
-      }
-    }, {}, { operation: 'getAIChatResponse' });
+          // Implementation would integrate with AI service
+          throw new AppError('AI chat response not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+        } catch (error) {
+          logger.error('AI chat response failed', error as Error);
+          throw error;
+        }
+      },
+      {},
+      { operation: 'getAIChatResponse' }
+    );
   },
 
   async getAIRecommendations() {
-    return await withRetry(async () => {
-      try {
-        logger.info('Fetching AI recommendations');
+    return await withRetry(
+      async () => {
+        try {
+          logger.info('Fetching AI recommendations');
 
-        // Implementation would integrate with AI service
-        throw new AppError('AI recommendations not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
-      } catch (error) {
-        logger.error('AI recommendations failed', error as Error);
-        throw error;
-      }
-    }, {}, { operation: 'getAIRecommendations' });
+          // Implementation would integrate with AI service
+          throw new AppError('AI recommendations not implemented', 'NOT_IMPLEMENTED_ERROR', 501);
+        } catch (error) {
+          logger.error('AI recommendations failed', error as Error);
+          throw error;
+        }
+      },
+      {},
+      { operation: 'getAIRecommendations' }
+    );
   },
 };
 

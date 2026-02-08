@@ -18,7 +18,8 @@ export class StripeIntegration extends BaseIntegration {
     if (!this.config.apiKey || !this.config.webhookSecret) return false;
 
     // Validate Key Formats
-    const validApiKey = this.config.apiKey.startsWith('sk_test_') || this.config.apiKey.startsWith('sk_live_');
+    const validApiKey =
+      this.config.apiKey.startsWith('sk_test_') || this.config.apiKey.startsWith('sk_live_');
     const validWebhookSecret = this.config.webhookSecret.startsWith('whsec_');
 
     return validApiKey && validWebhookSecret;
@@ -45,16 +46,18 @@ export class StripeIntegration extends BaseIntegration {
       const body = await request.text();
       // TODO: Verify signature using Stripe SDK
       // const event = stripe.webhooks.constructEvent(body, signature, this.config.webhookSecret);
-      
+
       console.log(`[Stripe Webhook] Received event with signature: ${signature}`);
-      
-      return new Response(JSON.stringify({ received: true }), { 
+
+      return new Response(JSON.stringify({ received: true }), {
         status: 200,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       });
     } catch (err) {
-      return new Response(`Webhook Error: ${err instanceof Error ? err.message : 'Unknown Error'}`, { status: 400 });
+      return new Response(
+        `Webhook Error: ${err instanceof Error ? err.message : 'Unknown Error'}`,
+        { status: 400 }
+      );
     }
   }
 }
-

@@ -60,17 +60,15 @@ const subscriptionService = {
     tierId: string
   ): Promise<{ success: boolean; error?: string }> => {
     try {
-      const { error } = await supabaseAdmin
-        .from('subscriptions')
-        .upsert(
-          {
-            user_id: userId,
-            tier_id: tierId,
-            status: 'active',
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: 'user_id' }
-        );
+      const { error } = await supabaseAdmin.from('subscriptions').upsert(
+        {
+          user_id: userId,
+          tier_id: tierId,
+          status: 'active',
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id' }
+      );
 
       if (error) return { success: false, error: error.message };
       return { success: true };

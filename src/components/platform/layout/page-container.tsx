@@ -23,7 +23,7 @@ export function PageContainer({
           <div className="flex items-center justify-between gap-4">
             <div>
               {title && <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>}
-              {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
+              {description && <p className="text-muted-foreground mt-1 text-sm">{description}</p>}
             </div>
             {headerExtra}
           </div>

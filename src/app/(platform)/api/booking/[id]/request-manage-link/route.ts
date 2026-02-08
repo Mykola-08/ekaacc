@@ -16,8 +16,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       .select('id,email')
       .eq('id', id)
       .single();
-    if (error || !booking) return NextResponse.json({ error: error?.message || 'Not found' }, { status: 404 });
-    if (booking.email !== email) return NextResponse.json({ error: 'Email mismatch' }, { status: 403 });
+    if (error || !booking)
+      return NextResponse.json({ error: error?.message || 'Not found' }, { status: 404 });
+    if (booking.email !== email)
+      return NextResponse.json({ error: 'Email mismatch' }, { status: 403 });
     const token = await signManageToken(booking.id, 'manage', 900);
     const { error: updErr } = await supabase
       .from('booking')
@@ -29,4 +31,3 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
-

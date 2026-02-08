@@ -18,11 +18,9 @@ export function getLuminance(hex: string): number {
   const g = (rgb >> 8) & 0xff;
   const b = (rgb >> 0) & 0xff;
 
-  const sRGB = [r, g, b].map(val => {
+  const sRGB = [r, g, b].map((val) => {
     val = val / 255;
-    return val <= 0.03928
-      ? val / 12.92
-      : Math.pow((val + 0.055) / 1.055, 2.4);
+    return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
   });
 
   return 0.2126 * sRGB[0] + 0.7152 * sRGB[1] + 0.0722 * sRGB[2];
@@ -42,10 +40,7 @@ export function getContrastRatio(color1: string, color2: string): number {
 /**
  * Check if color combination meets WCAG standards
  */
-export function checkColorContrast(
-  foreground: string,
-  background: string
-): ColorContrastResult {
+export function checkColorContrast(foreground: string, background: string): ColorContrastResult {
   const ratio = getContrastRatio(foreground, background);
   const passesAA = ratio >= 4.5;
   const passesAAA = ratio >= 7;
@@ -54,7 +49,7 @@ export function checkColorContrast(
     ratio: Math.round(ratio * 100) / 100,
     passesAA,
     passesAAA,
-    level: passesAAA ? 'AAA' : passesAA ? 'AA' : 'fail'
+    level: passesAAA ? 'AAA' : passesAA ? 'AA' : 'fail',
   };
 }
 
@@ -76,18 +71,14 @@ export function getAccessibleColors(
   const baseText = useDarkText ? '#ffffff' : '#000000';
 
   // Generate muted and subtle variants
-  const muted = useDarkText
-    ? `rgba(255, 255, 255, ${0.7})`
-    : `rgba(0, 0, 0, ${0.6})`;
+  const muted = useDarkText ? `rgba(255, 255, 255, ${0.7})` : `rgba(0, 0, 0, ${0.6})`;
 
-  const subtle = useDarkText
-    ? `rgba(255, 255, 255, ${0.5})`
-    : `rgba(0, 0, 0, ${0.4})`;
+  const subtle = useDarkText ? `rgba(255, 255, 255, ${0.5})` : `rgba(0, 0, 0, ${0.4})`;
 
   return {
     text: baseText,
     muted,
-    subtle
+    subtle,
   };
 }
 
@@ -98,7 +89,7 @@ export const TOUCH_TARGETS = {
   minimum: 44, // WCAG 2.1 AA minimum
   recommended: 48, // Recommended for better usability
   icon: 24, // Standard icon size
-  iconPadding: 10 // Padding around icons to reach minimum
+  iconPadding: 10, // Padding around icons to reach minimum
 };
 
 /**
@@ -118,7 +109,7 @@ export function checkTouchTarget(
   return {
     meetsMinimum: minDimension >= TOUCH_TARGETS.minimum,
     meetsRecommended: minDimension >= TOUCH_TARGETS.recommended,
-    size: minDimension < 36 ? 'small' : minDimension < 44 ? 'medium' : 'large'
+    size: minDimension < 36 ? 'small' : minDimension < 44 ? 'medium' : 'large',
   };
 }
 
@@ -129,7 +120,7 @@ export const FOCUS_STATES = {
   width: 3,
   offset: 2,
   color: 'hsl(var(--primary))',
-  style: 'solid'
+  style: 'solid',
 };
 
 /**
@@ -138,7 +129,7 @@ export const FOCUS_STATES = {
 export const ANIMATION_SETTINGS = {
   duration: 200, // ms
   easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-  reducedMotion: '(prefers-reduced-motion: reduce)'
+  reducedMotion: '(prefers-reduced-motion: reduce)',
 };
 
 /**
@@ -153,7 +144,7 @@ export const SCREEN_READER_ONLY = {
   overflow: 'hidden',
   clip: 'rect(0, 0, 0, 0)',
   whiteSpace: 'nowrap',
-  border: '0'
+  border: '0',
 };
 
 /**
@@ -164,7 +155,7 @@ export const KEYBOARD_NAVIGATION = {
   role: 'button',
   ariaLabel: (label: string) => label,
   ariaPressed: (pressed: boolean) => pressed,
-  ariaExpanded: (expanded: boolean) => expanded
+  ariaExpanded: (expanded: boolean) => expanded,
 };
 
 /**
@@ -175,13 +166,13 @@ export const COLOR_BLINDNESS = {
     error: '🔴',
     warning: '🟡',
     success: '🟢',
-    info: '🔵'
+    info: '🔵',
   },
   alternatives: {
     red: ['#dc2626', '#b91c1c', '#991b1b'],
     green: ['#16a34a', '#15803d', '#166534'],
-    blue: ['#2563eb', '#1d4ed8', '#1e40af']
-  }
+    blue: ['#2563eb', '#1d4ed8', '#1e40af'],
+  },
 };
 
 /**
@@ -192,7 +183,7 @@ export const RESPONSIVE_BREAKPOINTS = {
   tablet: '768px', // Tablet breakpoint
   desktop: '1024px', // Desktop breakpoint
   large: '1440px', // Large desktop
-  maxContent: '80rem' // Maximum content width for readability
+  maxContent: '80rem', // Maximum content width for readability
 };
 
 /**
@@ -203,10 +194,8 @@ export const TEXT_SIZING = {
   base: '16px', // Base size
   large: '18px', // Large text
   lineHeight: 1.6, // Recommended line height
-  maxLineLength: '65ch' // Maximum line length for readability
+  maxLineLength: '65ch', // Maximum line length for readability
 };
-
-
 
 /**
  * Parse color from computed style
@@ -216,23 +205,21 @@ function parseColor(color: string): string {
   if (color.startsWith('#') || color.startsWith('rgb')) {
     return color;
   }
-  
+
   // Handle named colors by creating a temporary element
   const tempDiv = document.createElement('div');
   tempDiv.style.color = color;
   document.body.appendChild(tempDiv);
   const computedColor = window.getComputedStyle(tempDiv).color;
   document.body.removeChild(tempDiv);
-  
+
   return computedColor;
 }
 
 /**
  * Validate entire component for accessibility
  */
-export function validateComponentAccessibility(
-  element: HTMLElement
-): {
+export function validateComponentAccessibility(element: HTMLElement): {
   hasProperContrast: boolean;
   hasTouchTargets: boolean;
   hasFocusStates: boolean;
@@ -246,7 +233,7 @@ export function validateComponentAccessibility(
   const computedStyle = window.getComputedStyle(element);
   const color = parseColor(computedStyle.color);
   const backgroundColor = parseColor(computedStyle.backgroundColor);
-  
+
   let hasProperContrast = true;
   try {
     const contrastRatio = getContrastRatio(color, backgroundColor);
@@ -258,17 +245,17 @@ export function validateComponentAccessibility(
     issues.push('Unable to calculate contrast ratio');
     hasProperContrast = false;
   }
-  
+
   // Check touch targets
   const rect = element.getBoundingClientRect();
   const touchTarget = checkTouchTarget(rect.width, rect.height);
-  
+
   // Check focus states
   const hasFocus = computedStyle.outline !== 'none' || computedStyle.boxShadow.includes('focus');
-  
+
   // Check labels
   const hasLabel = Boolean(
-    element.hasAttribute('aria-label') || 
+    element.hasAttribute('aria-label') ||
     element.hasAttribute('aria-labelledby') ||
     (element.tagName === 'BUTTON' && element.textContent?.trim())
   );
@@ -285,7 +272,7 @@ export function validateComponentAccessibility(
     issues.push('Missing accessible label');
   }
 
-  const score = Math.max(0, 100 - (issues.length * 25));
+  const score = Math.max(0, 100 - issues.length * 25);
 
   return {
     hasProperContrast,
@@ -293,6 +280,6 @@ export function validateComponentAccessibility(
     hasFocusStates: hasFocus,
     hasLabels: hasLabel,
     score,
-    issues
+    issues,
   };
 }

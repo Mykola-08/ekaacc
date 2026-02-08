@@ -4706,7 +4706,7 @@ ALTER TABLE service ADD COLUMN IF NOT EXISTS slug text UNIQUE;
 CREATE INDEX IF NOT EXISTS idx_service_slug ON service(slug);
 
 -- Update existing services with slugs based on name
-UPDATE service SET slug = 'nutrition' WHERE name ILIKE '%NutriciÃ³%';
+UPDATE service SET slug = 'nutrition' WHERE name ILIKE '%Nutrició%';
 UPDATE service SET slug = 'massage' WHERE name ILIKE '%Massage%' OR name ILIKE '%Massatge%';
 UPDATE service SET slug = 'kinesiology' WHERE name ILIKE '%Kinesiolog%';
 UPDATE service SET slug = 'agenyz' WHERE name ILIKE '%Agenyz%';
@@ -6383,7 +6383,7 @@ INSERT INTO product_types (type_code, type_name, description, category, icon, co
     ('subscription-silver', 'Silver Subscription', 'Mid-level monthly subscription with more sessions and priority booking', 'subscription', 'medal', '#C0C0C0', false, 15),
     ('subscription-gold', 'Gold Subscription', 'Premium monthly subscription with preferential attention and extended services', 'subscription', 'medal', '#FFD700', false, 16),
     ('subscription-diamond', 'Diamond Subscription', 'Ultimate tier with all services included', 'subscription', 'gem', '#B9F2FF', false, 17),
-    ('vip-prive', 'EKA PrivÃ© VIP', 'Top tier VIP service with 24h support and home visits', 'subscription', 'star', '#FFD700', false, 18),
+    ('vip-prive', 'EKA Privé VIP', 'Top tier VIP service with 24h support and home visits', 'subscription', 'star', '#FFD700', false, 18),
     ('free-consultation', 'Free Consultation', 'Complimentary initial consultation', 'consultation', 'message-circle', '#22C55E', true, 19),
     ('individual-session', 'Individual Session', 'Base individual therapy session (massage, kinesiology, osteobalance, emotions)', 'therapy', 'user', '#3B82F6', true, 20)
 ON CONFLICT (type_code) DO NOTHING;
@@ -6436,7 +6436,7 @@ BEGIN
                 WHEN ep.name ILIKE '%diamond%' THEN 'subscription-diamond'
                 WHEN ep.name ILIKE '%priv%' OR ep.name ILIKE '%vip%' THEN 'vip-prive'
                 WHEN ep.name ILIKE '%free%consult%' THEN 'free-consultation'
-                WHEN ep.name ILIKE '%individual%' OR ep.name ILIKE '%sesiÃ³n%' OR ep.name ILIKE '%session%' THEN 'individual-session'
+                WHEN ep.name ILIKE '%individual%' OR ep.name ILIKE '%sesión%' OR ep.name ILIKE '%session%' THEN 'individual-session'
                 ELSE 'individual-session'
             END)
         )
@@ -8755,9 +8755,9 @@ create policy "Staff can manage all proofs" on payment_proof for all using (
 -- These act as "Services" but logic will treat them as credit purchases
 insert into service (id, name, description, type, is_public, metadata)
 values 
-  (gen_random_uuid(), 'Wallet Credit 50â‚¬', 'Add 50 EUR to your digital wallet', 'wallet_credit', true, '{"credit_amount": 5000}'),
-  (gen_random_uuid(), 'Wallet Credit 100â‚¬', 'Add 100 EUR to your digital wallet (5% Bonus)', 'wallet_credit', true, '{"credit_amount": 10500, "bonus": 500}'),
-  (gen_random_uuid(), 'Wallet Credit 200â‚¬', 'Add 200 EUR to your digital wallet (10% Bonus)', 'wallet_credit', true, '{"credit_amount": 22000, "bonus": 2000}')
+  (gen_random_uuid(), 'Wallet Credit 50€', 'Add 50 EUR to your digital wallet', 'wallet_credit', true, '{"credit_amount": 5000}'),
+  (gen_random_uuid(), 'Wallet Credit 100€', 'Add 100 EUR to your digital wallet (5% Bonus)', 'wallet_credit', true, '{"credit_amount": 10500, "bonus": 500}'),
+  (gen_random_uuid(), 'Wallet Credit 200€', 'Add 200 EUR to your digital wallet (10% Bonus)', 'wallet_credit', true, '{"credit_amount": 22000, "bonus": 2000}')
 on conflict do nothing; -- IDs are random, so this won't dedup well unless we use specific UUIDs. 
 -- In production, we'd use upsert by name or fixed UUIDs. This is illustrative.
 
@@ -8962,8 +8962,8 @@ begin
     -- Translations for Psychology
     insert into service_translations (service_id, language_code, name, description)
     values 
-        (v_psychology_id, 'es', 'SesiÃ³n de PsicologÃ­a', 'SesiÃ³n de terapia profesional adaptada a tus necesidades.'),
-        (v_psychology_id, 'ca', 'SessiÃ³ de Psicologia', 'SessiÃ³ de terÃ pia professional adaptada a les teves necessitats.')
+        (v_psychology_id, 'es', 'Sesión de Psicología', 'Sesión de terapia profesional adaptada a tus necesidades.'),
+        (v_psychology_id, 'ca', 'Sessió de Psicologia', 'Sessió de teràpia professional adaptada a les teves necessitats.')
     on conflict (service_id, language_code) do update set name=excluded.name;
 
     -- Variants: Rubi vs BCN, 60 vs 90
@@ -10712,9 +10712,9 @@ create policy "Staff can manage all proofs" on payment_proof for all using (
 -- 4.3 SEED DATA: WALLET TOP-UP PRODUCTS
 insert into service (id, name, description, type, is_public, metadata)
 values 
-  (gen_random_uuid(), 'Wallet Credit 50â‚¬', 'Add 50 EUR to your digital wallet', 'wallet_credit', true, '{"credit_amount": 5000}'),
-  (gen_random_uuid(), 'Wallet Credit 100â‚¬', 'Add 100 EUR to your digital wallet (5% Bonus)', 'wallet_credit', true, '{"credit_amount": 10500, "bonus": 500}'),
-  (gen_random_uuid(), 'Wallet Credit 200â‚¬', 'Add 200 EUR to your digital wallet (10% Bonus)', 'wallet_credit', true, '{"credit_amount": 22000, "bonus": 2000}')
+  (gen_random_uuid(), 'Wallet Credit 50€', 'Add 50 EUR to your digital wallet', 'wallet_credit', true, '{"credit_amount": 5000}'),
+  (gen_random_uuid(), 'Wallet Credit 100€', 'Add 100 EUR to your digital wallet (5% Bonus)', 'wallet_credit', true, '{"credit_amount": 10500, "bonus": 500}'),
+  (gen_random_uuid(), 'Wallet Credit 200€', 'Add 200 EUR to your digital wallet (10% Bonus)', 'wallet_credit', true, '{"credit_amount": 22000, "bonus": 2000}')
 on conflict do nothing;
 
 -- 4.4 FUNCTION: Verify Payment Proof
@@ -11910,33 +11910,62 @@ begin
 end;
 \$\$ language plpgsql security definer;
 
- 
- - -   A D M I N :   C a n c e l   B o o k i n g   ( w i t h   a u d i t )  
- c r e a t e   o r   r e p l a c e   f u n c t i o n   a d m i n _ c a n c e l _ b o o k i n g (  
-     p _ b o o k i n g _ i d   u u i d ,  
-     p _ r e a s o n   t e x t ,  
-     p _ p e r f o r m e d _ b y   u u i d  
- )   r e t u r n s   b o o l e a n   a s   $ $  
- d e c l a r e  
-     v _ b o o k i n g   b o o k i n g % R O W T Y P E ;  
- b e g i n  
-     s e l e c t   *   i n t o   v _ b o o k i n g   f r o m   b o o k i n g   w h e r e   i d   =   p _ b o o k i n g _ i d ;  
-     i f   n o t   f o u n d   t h e n   r a i s e   e x c e p t i o n   ' B o o k i n g   n o t   f o u n d ' ;   e n d   i f ;  
-  
-     u p d a t e   b o o k i n g  
-     s e t   s t a t u s   =   ' c a n c e l l e d ' ,   - -   A s s u m i n g   ' c a n c e l l e d '   i s   a   v a l i d   s t a t u s   e n u m   o r   t e x t  
-             m e t a d a t a   =   m e t a d a t a   | |   j s o n b _ b u i l d _ o b j e c t (  
-                 ' c a n c e l l a t i o n _ r e a s o n ' ,   p _ r e a s o n ,  
-                 ' c a n c e l l e d _ b y ' ,   p _ p e r f o r m e d _ b y ,  
-                 ' c a n c e l l e d _ a t ' ,   n o w ( )  
-             )  
-     w h e r e   i d   =   p _ b o o k i n g _ i d ;  
-  
-     - -   N O T E :   I f   t h i s   w a s   p a i d   b y   P l a n   C r e d i t s ,   w e   s h o u l d   t e c h n i c a l l y   r e f u n d   t h e   c r e d i t .  
-     - -   T h i s   r e q u i r e s   m o r e   c o m p l e x   l o g i c   t o   f i n d   t h e   u s a g e   l o g   a n d   r e v e r s e   i t .  
-     - -   F o r   M V P / S p e e d ,   w e   l e a v e   i t   t o   m a n u a l   a d j u s t m e n t   o r   f u t u r e   e n h a n c e m e n t .  
-  
-     r e t u r n   t r u e ;  
- e n d ;  
- $ $   l a n g u a g e   p l p g s q l   s e c u r i t y   d e f i n e r ;  
+
+ 
+ - -   A D M I N :   C a n c e l   B o o k i n g   ( w i t h   a u d i t ) 
+ 
+ c r e a t e   o r   r e p l a c e   f u n c t i o n   a d m i n _ c a n c e l _ b o o k i n g ( 
+ 
+     p _ b o o k i n g _ i d   u u i d , 
+ 
+     p _ r e a s o n   t e x t , 
+ 
+     p _ p e r f o r m e d _ b y   u u i d 
+ 
+ )   r e t u r n s   b o o l e a n   a s   $ $ 
+ 
+ d e c l a r e 
+ 
+     v _ b o o k i n g   b o o k i n g % R O W T Y P E ; 
+ 
+ b e g i n 
+ 
+     s e l e c t   *   i n t o   v _ b o o k i n g   f r o m   b o o k i n g   w h e r e   i d   =   p _ b o o k i n g _ i d ; 
+ 
+     i f   n o t   f o u n d   t h e n   r a i s e   e x c e p t i o n   ' B o o k i n g   n o t   f o u n d ' ;   e n d   i f ; 
+ 
+ 
+ 
+     u p d a t e   b o o k i n g 
+ 
+     s e t   s t a t u s   =   ' c a n c e l l e d ' ,   - -   A s s u m i n g   ' c a n c e l l e d '   i s   a   v a l i d   s t a t u s   e n u m   o r   t e x t 
+ 
+             m e t a d a t a   =   m e t a d a t a   | |   j s o n b _ b u i l d _ o b j e c t ( 
+ 
+                 ' c a n c e l l a t i o n _ r e a s o n ' ,   p _ r e a s o n , 
+ 
+                 ' c a n c e l l e d _ b y ' ,   p _ p e r f o r m e d _ b y , 
+ 
+                 ' c a n c e l l e d _ a t ' ,   n o w ( ) 
+ 
+             ) 
+ 
+     w h e r e   i d   =   p _ b o o k i n g _ i d ; 
+ 
+ 
+ 
+     - -   N O T E :   I f   t h i s   w a s   p a i d   b y   P l a n   C r e d i t s ,   w e   s h o u l d   t e c h n i c a l l y   r e f u n d   t h e   c r e d i t . 
+ 
+     - -   T h i s   r e q u i r e s   m o r e   c o m p l e x   l o g i c   t o   f i n d   t h e   u s a g e   l o g   a n d   r e v e r s e   i t . 
+ 
+     - -   F o r   M V P / S p e e d ,   w e   l e a v e   i t   t o   m a n u a l   a d j u s t m e n t   o r   f u t u r e   e n h a n c e m e n t . 
+ 
+ 
+ 
+     r e t u r n   t r u e ; 
+ 
+ e n d ; 
+ 
+ $ $   l a n g u a g e   p l p g s q l   s e c u r i t y   d e f i n e r ; 
+ 
  

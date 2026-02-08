@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
 import { Textarea } from '@/components/platform/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/platform/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
 import { toast } from 'sonner';
 
@@ -34,12 +40,12 @@ export function BroadcastForm() {
       const res = await fetch('/api/admin/broadcast', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-            subject, 
-            content, 
-            groupId, 
-            topic,
-            templateData 
+        body: JSON.stringify({
+          subject,
+          content,
+          groupId,
+          topic,
+          templateData,
         }),
       });
 
@@ -105,25 +111,25 @@ export function BroadcastForm() {
         </div>
 
         {topic === 'product_launch' && (
-            <div className="space-y-2">
-                <label className="text-sm font-medium">Product Name</label>
-                <Input
-                    placeholder="e.g. Super Feature 2.0"
-                    value={templateData.productName || ''}
-                    onChange={(e) => setTemplateData({...templateData, productName: e.target.value})}
-                />
-            </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Product Name</label>
+            <Input
+              placeholder="e.g. Super Feature 2.0"
+              value={templateData.productName || ''}
+              onChange={(e) => setTemplateData({ ...templateData, productName: e.target.value })}
+            />
+          </div>
         )}
 
         {topic === 'promotional' && (
-            <div className="space-y-2">
-                <label className="text-sm font-medium">Promo Code (Optional)</label>
-                <Input
-                    placeholder="e.g. SAVE20"
-                    value={templateData.promoCode || ''}
-                    onChange={(e) => setTemplateData({...templateData, promoCode: e.target.value})}
-                />
-            </div>
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Promo Code (Optional)</label>
+            <Input
+              placeholder="e.g. SAVE20"
+              value={templateData.promoCode || ''}
+              onChange={(e) => setTemplateData({ ...templateData, promoCode: e.target.value })}
+            />
+          </div>
         )}
 
         <div className="space-y-2">
@@ -143,4 +149,3 @@ export function BroadcastForm() {
     </Card>
   );
 }
-

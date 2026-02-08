@@ -67,7 +67,10 @@ export interface UseTiersReturn {
   isLoading: boolean;
   error: string | null;
   fetchUserTiers: () => Promise<void>;
-  validateTierUpgrade: (tierType: 'vip' | 'loyalty', targetTier: VIPTier | LoyaltyTier) => Promise<TierValidationResult>;
+  validateTierUpgrade: (
+    tierType: 'vip' | 'loyalty',
+    targetTier: VIPTier | LoyaltyTier
+  ) => Promise<TierValidationResult>;
   refreshTierData: () => Promise<void>;
 }
 
@@ -96,17 +99,17 @@ export function useTiers(): UseTiersReturn {
       const response = await fetch(`/api/user/tiers/status`, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) {
-        const errorData = await response.json() as any;
+        const errorData = (await response.json()) as any;
         throw new Error(errorData.error || 'Failed to fetch tier data');
       }
 
-      const data = await response.json() as any;
+      const data = (await response.json()) as any;
       setTierData(data.data);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch tier data';
@@ -121,49 +124,52 @@ export function useTiers(): UseTiersReturn {
     }
   }, [user, toast]);
 
-  const validateTierUpgrade = useCallback(async (
-    tierType: 'vip' | 'loyalty', 
-    targetTier: VIPTier | LoyaltyTier
-  ): Promise<TierValidationResult> => {
-    if (!user) {
-      throw new Error('User not authenticated');
-    }
-
-    try {
-      const token = await getAuthToken();
-      if (!token) {
-        throw new Error('No authentication token available');
+  const validateTierUpgrade = useCallback(
+    async (
+      tierType: 'vip' | 'loyalty',
+      targetTier: VIPTier | LoyaltyTier
+    ): Promise<TierValidationResult> => {
+      if (!user) {
+        throw new Error('User not authenticated');
       }
 
-      const response = await fetch(`/api/user/tiers/status`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          targetTierType: tierType,
-          targetTierName: targetTier,
-        }),
-      });
+      try {
+        const token = await getAuthToken();
+        if (!token) {
+          throw new Error('No authentication token available');
+        }
 
-      if (!response.ok) {
-        const errorData = await response.json() as any;
-        throw new Error(errorData.error || 'Failed to validate tier upgrade');
+        const response = await fetch(`/api/user/tiers/status`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            targetTierType: tierType,
+            targetTierName: targetTier,
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = (await response.json()) as any;
+          throw new Error(errorData.error || 'Failed to validate tier upgrade');
+        }
+
+        const data = (await response.json()) as any;
+        return data.data;
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to validate tier upgrade';
+        toast({
+          title: 'Error',
+          description: message,
+          variant: 'destructive',
+        });
+        throw err;
       }
-
-      const data = await response.json() as any;
-      return data.data;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to validate tier upgrade';
-      toast({
-        title: 'Error',
-        description: message,
-        variant: 'destructive',
-      });
-      throw err;
-    }
-  }, [user, toast]);
+    },
+    [user, toast]
+  );
 
   const refreshTierData = useCallback(async () => {
     await fetchUserTiers();
@@ -172,7 +178,9 @@ export function useTiers(): UseTiersReturn {
   // Helper function to get auth token
   const getAuthToken = async (): Promise<string | null> => {
     try {
-      const { data: { session } } = await (supabase.auth as any).getSession();
+      const {
+        data: { session },
+      } = await (supabase.auth as any).getSession();
       return session?.access_token || null;
     } catch {
       return null;
@@ -231,9 +239,23 @@ export interface UseAdminTiersReturn {
   };
   isLoading: boolean;
   error: string | null;
-  assignTier: (userId: string, tierType: 'vip' | 'loyalty', tierName: VIPTier | LoyaltyTier, reason?: string) => Promise<void>;
-  revokeTier: (userId: string, tierType: 'vip' | 'loyalty', tierName: VIPTier | LoyaltyTier, reason?: string) => Promise<void>;
-  validateTierEligibility: (userId: string, tierType: 'vip' | 'loyalty', tierName: VIPTier | LoyaltyTier) => Promise<TierValidationResult>;
+  assignTier: (
+    userId: string,
+    tierType: 'vip' | 'loyalty',
+    tierName: VIPTier | LoyaltyTier,
+    reason?: string
+  ) => Promise<void>;
+  revokeTier: (
+    userId: string,
+    tierType: 'vip' | 'loyalty',
+    tierName: VIPTier | LoyaltyTier,
+    reason?: string
+  ) => Promise<void>;
+  validateTierEligibility: (
+    userId: string,
+    tierType: 'vip' | 'loyalty',
+    tierName: VIPTier | LoyaltyTier
+  ) => Promise<TierValidationResult>;
   fetchAuditLogs: (filters?: any) => Promise<void>;
   fetchAnalytics: () => Promise<void>;
 }
@@ -254,185 +276,197 @@ export function useAdminTiers(): UseAdminTiersReturn {
     }
   }, [user, hasPermission]);
 
-  const assignTier = useCallback(async (
-    userId: string,
-    tierType: 'vip' | 'loyalty',
-    tierName: VIPTier | LoyaltyTier,
-    reason?: string
-  ) => {
-    verifyAdminAccess();
-    setIsLoading(true);
-    setError(null);
+  const assignTier = useCallback(
+    async (
+      userId: string,
+      tierType: 'vip' | 'loyalty',
+      tierName: VIPTier | LoyaltyTier,
+      reason?: string
+    ) => {
+      verifyAdminAccess();
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      const token = await getAuthToken();
-      const response = await fetch('/api/admin/tiers/assign', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          tierType,
-          tierName,
-          reason,
-        }),
-      });
+      try {
+        const token = await getAuthToken();
+        const response = await fetch('/api/admin/tiers/assign', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId,
+            tierType,
+            tierName,
+            reason,
+          }),
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json() as any;
-        throw new Error(errorData.error || 'Failed to assign tier');
+        if (!response.ok) {
+          const errorData = (await response.json()) as any;
+          throw new Error(errorData.error || 'Failed to assign tier');
+        }
+
+        toast({
+          title: 'Success',
+          description: `Successfully assigned ${tierType} ${tierName} tier`,
+        });
+
+        // Refresh data
+        await fetchAnalytics();
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to assign tier';
+        setError(message);
+        toast({
+          title: 'Error',
+          description: message,
+          variant: 'destructive',
+        });
+        throw err;
+      } finally {
+        setIsLoading(false);
       }
+    },
+    [verifyAdminAccess, toast]
+  );
 
-      toast({
-        title: 'Success',
-        description: `Successfully assigned ${tierType} ${tierName} tier`,
-      });
+  const revokeTier = useCallback(
+    async (
+      userId: string,
+      tierType: 'vip' | 'loyalty',
+      tierName: VIPTier | LoyaltyTier,
+      reason?: string
+    ) => {
+      verifyAdminAccess();
+      setIsLoading(true);
+      setError(null);
 
-      // Refresh data
-      await fetchAnalytics();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to assign tier';
-      setError(message);
-      toast({
-        title: 'Error',
-        description: message,
-        variant: 'destructive',
-      });
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [verifyAdminAccess, toast]);
+      try {
+        const token = await getAuthToken();
+        const response = await fetch('/api/admin/tiers/revoke', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId,
+            tierType,
+            tierName,
+            reason,
+          }),
+        });
 
-  const revokeTier = useCallback(async (
-    userId: string,
-    tierType: 'vip' | 'loyalty',
-    tierName: VIPTier | LoyaltyTier,
-    reason?: string
-  ) => {
-    verifyAdminAccess();
-    setIsLoading(true);
-    setError(null);
+        if (!response.ok) {
+          const errorData = (await response.json()) as any;
+          throw new Error(errorData.error || 'Failed to revoke tier');
+        }
 
-    try {
-      const token = await getAuthToken();
-      const response = await fetch('/api/admin/tiers/revoke', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          tierType,
-          tierName,
-          reason,
-        }),
-      });
+        toast({
+          title: 'Success',
+          description: `Successfully revoked ${tierType} ${tierName} tier`,
+        });
 
-      if (!response.ok) {
-        const errorData = await response.json() as any;
-        throw new Error(errorData.error || 'Failed to revoke tier');
+        // Refresh data
+        await fetchAnalytics();
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to revoke tier';
+        setError(message);
+        toast({
+          title: 'Error',
+          description: message,
+          variant: 'destructive',
+        });
+        throw err;
+      } finally {
+        setIsLoading(false);
       }
+    },
+    [verifyAdminAccess, toast]
+  );
 
-      toast({
-        title: 'Success',
-        description: `Successfully revoked ${tierType} ${tierName} tier`,
-      });
+  const validateTierEligibility = useCallback(
+    async (
+      userId: string,
+      tierType: 'vip' | 'loyalty',
+      tierName: VIPTier | LoyaltyTier
+    ): Promise<TierValidationResult> => {
+      verifyAdminAccess();
 
-      // Refresh data
-      await fetchAnalytics();
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to revoke tier';
-      setError(message);
-      toast({
-        title: 'Error',
-        description: message,
-        variant: 'destructive',
-      });
-      throw err;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [verifyAdminAccess, toast]);
+      try {
+        const token = await getAuthToken();
+        const response = await fetch('/api/admin/tiers/validate', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userId,
+            tierType,
+            tierName,
+          }),
+        });
 
-  const validateTierEligibility = useCallback(async (
-    userId: string,
-    tierType: 'vip' | 'loyalty',
-    tierName: VIPTier | LoyaltyTier
-  ): Promise<TierValidationResult> => {
-    verifyAdminAccess();
+        if (!response.ok) {
+          const errorData = (await response.json()) as any;
+          throw new Error(errorData.error || 'Failed to validate tier eligibility');
+        }
 
-    try {
-      const token = await getAuthToken();
-      const response = await fetch('/api/admin/tiers/validate', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId,
-          tierType,
-          tierName,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json() as any;
-        throw new Error(errorData.error || 'Failed to validate tier eligibility');
+        const data = (await response.json()) as any;
+        return data.data;
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to validate tier eligibility';
+        toast({
+          title: 'Error',
+          description: message,
+          variant: 'destructive',
+        });
+        throw err;
       }
+    },
+    [verifyAdminAccess, toast]
+  );
 
-      const data = await response.json() as any;
-      return data.data;
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to validate tier eligibility';
-      toast({
-        title: 'Error',
-        description: message,
-        variant: 'destructive',
-      });
-      throw err;
-    }
-  }, [verifyAdminAccess, toast]);
+  const fetchAuditLogs = useCallback(
+    async (filters?: any) => {
+      verifyAdminAccess();
+      setIsLoading(true);
+      setError(null);
 
-  const fetchAuditLogs = useCallback(async (filters?: any) => {
-    verifyAdminAccess();
-    setIsLoading(true);
-    setError(null);
+      try {
+        const token = await getAuthToken();
+        const params = new URLSearchParams(filters || {});
+        const response = await fetch(`/api/admin/tiers/audit-logs?${params}`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-    try {
-      const token = await getAuthToken();
-      const params = new URLSearchParams(filters || {});
-      const response = await fetch(`/api/admin/tiers/audit-logs?${params}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
+        if (!response.ok) {
+          const errorData = (await response.json()) as any;
+          throw new Error(errorData.error || 'Failed to fetch audit logs');
+        }
 
-      if (!response.ok) {
-        const errorData = await response.json() as any;
-        throw new Error(errorData.error || 'Failed to fetch audit logs');
+        const data = (await response.json()) as any;
+        setAuditLogs(data.data.logs);
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Failed to fetch audit logs';
+        setError(message);
+        toast({
+          title: 'Error',
+          description: message,
+          variant: 'destructive',
+        });
+      } finally {
+        setIsLoading(false);
       }
-
-      const data = await response.json() as any;
-      setAuditLogs(data.data.logs);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to fetch audit logs';
-      setError(message);
-      toast({
-        title: 'Error',
-        description: message,
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, [verifyAdminAccess, toast]);
+    },
+    [verifyAdminAccess, toast]
+  );
 
   const fetchAnalytics = useCallback(async () => {
     verifyAdminAccess();
@@ -444,17 +478,17 @@ export function useAdminTiers(): UseAdminTiersReturn {
       const response = await fetch('/api/admin/tiers/analytics', {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) {
-        const errorData = await response.json() as any;
+        const errorData = (await response.json()) as any;
         throw new Error(errorData.error || 'Failed to fetch analytics');
       }
 
-      const data = await response.json() as any;
+      const data = (await response.json()) as any;
       setAnalytics(data.data);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch analytics';
@@ -472,7 +506,9 @@ export function useAdminTiers(): UseAdminTiersReturn {
   // Helper function to get auth token
   const getAuthToken = async (): Promise<string> => {
     try {
-      const { data: { session } } = await (supabase.auth as any).getSession();
+      const {
+        data: { session },
+      } = await (supabase.auth as any).getSession();
       return session?.access_token || '';
     } catch {
       return '';
@@ -492,4 +528,3 @@ export function useAdminTiers(): UseAdminTiersReturn {
     fetchAnalytics,
   };
 }
-

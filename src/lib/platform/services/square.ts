@@ -1,4 +1,3 @@
-
 'use server';
 
 // The Square SDK changed its exports in recent major versions. This module

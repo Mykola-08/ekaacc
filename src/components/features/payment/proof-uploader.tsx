@@ -9,17 +9,37 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Loader2, Camera, Upload, CheckCircle2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 const proofSchema = z.object({
   proofType: z.enum(['image', 'reference_code']),
   referenceCode: z.string().optional(),
   amount: z.string().refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
-    message: "Amount must be a positive number",
+    message: 'Amount must be a positive number',
   }),
 });
 
@@ -48,17 +68,17 @@ export function PaymentProofUploader({ bookingId, amountDue, onSuccess }: ProofU
     try {
       // Simulate submission of data
       // await submitProof({ ...values, bookingId });
-      
-      await new Promise(r => setTimeout(r, 2000)); // Fake delay
-      
-      toast.success("Proof Submitted", {
-        description: "Your payment verification is pending review.",
+
+      await new Promise((r) => setTimeout(r, 2000)); // Fake delay
+
+      toast.success('Proof Submitted', {
+        description: 'Your payment verification is pending review.',
       });
       setIsOpen(false);
       onSuccess?.();
     } catch (error) {
-      toast.error("Error", {
-        description: "Failed to submit proof.",
+      toast.error('Error', {
+        description: 'Failed to submit proof.',
       });
     } finally {
       setIsSubmitting(false);
@@ -73,14 +93,11 @@ export function PaymentProofUploader({ bookingId, amountDue, onSuccess }: ProofU
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Verify Payment</DialogTitle>
-          <DialogDescription>
-            Upload a receipt or enter a transaction reference.
-          </DialogDescription>
+          <DialogDescription>Upload a receipt or enter a transaction reference.</DialogDescription>
         </DialogHeader>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            
             <FormField
               control={form.control}
               name="proofType"
@@ -118,26 +135,26 @@ export function PaymentProofUploader({ bookingId, amountDue, onSuccess }: ProofU
             />
 
             {proofType === 'reference_code' && (
-               <FormField
-               control={form.control}
-               name="referenceCode"
-               render={({ field }) => (
-                 <FormItem>
-                   <FormLabel>Transaction ID / Ref</FormLabel>
-                   <FormControl>
-                     <Input placeholder="e.g. TRX-123456" {...field} />
-                   </FormControl>
-                   <FormMessage />
-                 </FormItem>
-               )}
-             />
+              <FormField
+                control={form.control}
+                name="referenceCode"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Transaction ID / Ref</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g. TRX-123456" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             )}
 
             {proofType === 'image' && (
-              <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-muted/50 transition-colors">
-                <Upload className="h-8 w-8 text-muted-foreground mb-2" />
+              <div className="border-muted-foreground/25 hover:bg-muted/50 flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed p-6 text-center transition-colors">
+                <Upload className="text-muted-foreground mb-2 h-8 w-8" />
                 <p className="text-sm font-medium">Click to upload image</p>
-                <p className="text-xs text-muted-foreground">JPG, PNG up to 5MB</p>
+                <p className="text-muted-foreground text-xs">JPG, PNG up to 5MB</p>
                 <Input type="file" className="hidden" accept="image/*" />
               </div>
             )}
@@ -157,4 +174,3 @@ export function PaymentProofUploader({ bookingId, amountDue, onSuccess }: ProofU
     </Dialog>
   );
 }
-

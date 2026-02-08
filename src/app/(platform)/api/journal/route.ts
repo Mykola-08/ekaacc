@@ -3,7 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -24,7 +27,10 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
   if (authError || !user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -43,7 +49,7 @@ export async function POST(req: NextRequest) {
       user_id: user.id,
       title,
       content,
-      mood
+      mood,
     })
     .select()
     .single();
@@ -54,4 +60,3 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json({ entry: data });
 }
-

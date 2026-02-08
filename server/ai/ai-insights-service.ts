@@ -6,7 +6,14 @@
  */
 import { db } from '@/lib/db';
 
-export type InsightType = 'wellness' | 'therapy' | 'behavioral' | 'progress' | 'recommendation' | 'mood' | 'engagement';
+export type InsightType =
+  | 'wellness'
+  | 'therapy'
+  | 'behavioral'
+  | 'progress'
+  | 'recommendation'
+  | 'mood'
+  | 'engagement';
 export type InsightPriority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface AIInsight {
@@ -75,9 +82,9 @@ export async function getActiveInsights(userId: string): Promise<AIInsight[]> {
        LIMIT 20`,
       [userId]
     );
-    return rows.map(r => ({
+    return rows.map((r) => ({
       ...r,
-      actionItems: r.actionItems || []
+      actionItems: r.actionItems || [],
     }));
   } catch (error) {
     console.error('Error fetching insights:', error);
@@ -99,9 +106,7 @@ export async function createInsight(
   expiresIn?: number // days
 ): Promise<AIInsight | null> {
   try {
-    const expiresAt = expiresIn
-      ? new Date(Date.now() + expiresIn * 24 * 60 * 60 * 1000)
-      : null;
+    const expiresAt = expiresIn ? new Date(Date.now() + expiresIn * 24 * 60 * 60 * 1000) : null;
 
     const result = await db.queryOne<AIInsight>(
       `INSERT INTO ai_insights (user_id, type, title, description, confidence,
@@ -111,9 +116,20 @@ export async function createInsight(
                  confidence, action_items as "actionItems", metadata,
                  is_active as "isActive", expires_at as "expiresAt",
                  created_at as "createdAt"`,
-      [userId, type, title, description, confidence, JSON.stringify(actionItems), metadata, expiresAt]
+      [
+        userId,
+        type,
+        title,
+        description,
+        confidence,
+        JSON.stringify(actionItems),
+        metadata,
+        expiresAt,
+      ]
     );
-    return result ? { ...result, priority: confidence >= 0.8 ? 'high' : confidence >= 0.5 ? 'medium' : 'low' } : null;
+    return result
+      ? { ...result, priority: confidence >= 0.8 ? 'high' : confidence >= 0.5 ? 'medium' : 'low' }
+      : null;
   } catch (error) {
     console.error('Error creating insight:', error);
     return null;
@@ -161,16 +177,14 @@ export async function calculateWellnessScore(userId: string): Promise<WellnessSc
     const mood = moodResult || { avg_mood: 5, entries: 0 };
     const engagement = engagementResult || { interactions: 0 };
 
-    const completionRate = bookings.total > 0
-      ? (bookings.completed / bookings.total) * 100
-      : 50;
+    const completionRate = bookings.total > 0 ? (bookings.completed / bookings.total) * 100 : 50;
     const moodScore = mood.avg_mood ? (mood.avg_mood / 10) * 100 : 50;
     const engagementScore = Math.min(100, (engagement.interactions / 10) * 100);
     const consistencyScore = mood.entries >= 7 ? 100 : mood.entries >= 3 ? 60 : 30;
 
     // Calculate overall
     const overall = Math.round(
-      (completionRate * 0.3) + (moodScore * 0.3) + (engagementScore * 0.2) + (consistencyScore * 0.2)
+      completionRate * 0.3 + moodScore * 0.3 + engagementScore * 0.2 + consistencyScore * 0.2
     );
 
     // Determine trend (compare with previous period)
@@ -196,7 +210,7 @@ export async function calculateWellnessScore(userId: string): Promise<WellnessSc
       stress: Math.round(100 - moodScore), // Inverse of mood for stress
       engagement: Math.round(engagementScore),
       consistency: Math.round(consistencyScore),
-      trend
+      trend,
     };
   } catch (error) {
     console.error('Error calculating wellness score:', error);
@@ -206,7 +220,7 @@ export async function calculateWellnessScore(userId: string): Promise<WellnessSc
       stress: 50,
       engagement: 50,
       consistency: 50,
-      trend: 'stable'
+      trend: 'stable',
     };
   }
 }
@@ -237,14 +251,17 @@ export async function detectBehavioralPatterns(userId: string): Promise<UserBeha
           patternType: 'engagement_decline',
           confidence: 0.75,
           severity: 'medium',
-          evidence: [{
-            recentCount: recentActivity.recent,
-            previousCount: recentActivity.previous,
-            declinePercentage: ((recentActivity.previous - recentActivity.recent) / recentActivity.previous) * 100
-          }],
+          evidence: [
+            {
+              recentCount: recentActivity.recent,
+              previousCount: recentActivity.previous,
+              declinePercentage:
+                ((recentActivity.previous - recentActivity.recent) / recentActivity.previous) * 100,
+            },
+          ],
           status: 'active',
           firstDetected: new Date(),
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         });
       }
 
@@ -256,13 +273,15 @@ export async function detectBehavioralPatterns(userId: string): Promise<UserBeha
           patternType: 'high_activity',
           confidence: 0.9,
           severity: 'low',
-          evidence: [{
-            recentCount: recentActivity.recent,
-            averageDaily: recentActivity.recent / 7
-          }],
+          evidence: [
+            {
+              recentCount: recentActivity.recent,
+              averageDaily: recentActivity.recent / 7,
+            },
+          ],
           status: 'active',
           firstDetected: new Date(),
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         });
       }
     }
@@ -287,14 +306,16 @@ export async function detectBehavioralPatterns(userId: string): Promise<UserBeha
           patternType: 'session_abandonment',
           confidence: cancelRate,
           severity: cancelRate > 0.5 ? 'high' : 'medium',
-          evidence: [{
-            canceledCount: bookingPattern.canceled,
-            totalCount: bookingPattern.total,
-            cancelRate: cancelRate * 100
-          }],
+          evidence: [
+            {
+              canceledCount: bookingPattern.canceled,
+              totalCount: bookingPattern.total,
+              cancelRate: cancelRate * 100,
+            },
+          ],
           status: 'active',
           firstDetected: new Date(),
-          lastUpdated: new Date()
+          lastUpdated: new Date(),
         });
       }
     }
@@ -329,7 +350,7 @@ export async function generateInsights(userId: string): Promise<AIInsight[]> {
         0.75,
         [
           { id: '1', title: 'Book a wellness session', completed: false },
-          { id: '2', title: 'Complete a mood check-in', completed: false }
+          { id: '2', title: 'Complete a mood check-in', completed: false },
         ],
         { wellnessScore: wellness.overall },
         7
@@ -348,7 +369,7 @@ export async function generateInsights(userId: string): Promise<AIInsight[]> {
           pattern.confidence,
           [
             { id: '1', title: 'Complete a quick check-in', completed: false },
-            { id: '2', title: 'Browse recommended services', completed: false }
+            { id: '2', title: 'Browse recommended services', completed: false },
           ],
           { pattern: pattern.patternType },
           14
@@ -365,7 +386,7 @@ export async function generateInsights(userId: string): Promise<AIInsight[]> {
           pattern.confidence,
           [
             { id: '1', title: 'Review available time slots', completed: false },
-            { id: '2', title: 'Set up booking reminders', completed: false }
+            { id: '2', title: 'Set up booking reminders', completed: false },
           ],
           { pattern: pattern.patternType },
           14
@@ -382,7 +403,7 @@ export async function generateInsights(userId: string): Promise<AIInsight[]> {
           pattern.confidence,
           [
             { id: '1', title: 'Explore advanced features', completed: false },
-            { id: '2', title: 'Share your progress', completed: false }
+            { id: '2', title: 'Share your progress', completed: false },
           ],
           { pattern: pattern.patternType },
           30
@@ -423,7 +444,7 @@ export async function generateInsights(userId: string): Promise<AIInsight[]> {
           0.8,
           [
             { id: '1', title: 'Talk to a therapist', completed: false },
-            { id: '2', title: 'Try a guided exercise', completed: false }
+            { id: '2', title: 'Try a guided exercise', completed: false },
           ],
           { recentAvg: moodTrend.recent_avg, olderAvg: moodTrend.older_avg },
           7
@@ -455,7 +476,7 @@ export async function completeActionItem(
 
     if (!insight) return false;
 
-    const updatedItems = (insight.action_items || []).map(item =>
+    const updatedItems = (insight.action_items || []).map((item) =>
       item.id === actionItemId ? { ...item, completed: true } : item
     );
 
@@ -521,7 +542,7 @@ export async function getAIUserProfile(userId: string): Promise<Record<string, u
       behaviorPatterns: result.behavior_patterns || [],
       preferences: result.preferences || {},
       wellnessInsights: result.wellness_insights || {},
-      adaptiveSettings: result.adaptive_settings || {}
+      adaptiveSettings: result.adaptive_settings || {},
     };
   } catch (error) {
     console.error('Error fetching AI profile:', error);

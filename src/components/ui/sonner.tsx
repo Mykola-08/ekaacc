@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import {
   CircleCheckIcon,
@@ -6,16 +6,16 @@ import {
   Loader2Icon,
   OctagonXIcon,
   TriangleAlertIcon,
-} from "lucide-react"
-import { useTheme } from "next-themes"
-import { Toaster as Sonner, type ToasterProps } from "sonner"
+} from 'lucide-react';
+import { useTheme } from 'next-themes';
+import { Toaster as Sonner, type ToasterProps } from 'sonner';
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const { theme = 'system' } = useTheme();
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={theme as ToasterProps['theme']}
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-4" />,
@@ -26,26 +26,26 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "transparent",
-          "--border-radius": "1rem", // rounded-2xl
+          '--normal-bg': 'var(--popover)',
+          '--normal-text': 'var(--popover-foreground)',
+          '--normal-border': 'transparent',
+          '--border-radius': '20px',
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
-          toast: "group toast group-[.toaster]:bg-popover group-[.toaster]:text-popover-foreground group-[.toaster]:border-none group-[.toaster]:shadow-[0_8px_30px_rgb(0,0,0,0.08)] group-[.toaster]:rounded-2xl",
-          description: "group-[.toast]:text-muted-foreground",
+          toast:
+            'group toast group-[.toaster]:bg-popover group-[.toaster]:text-popover-foreground group-[.toaster]:border-none group-[.toaster]:shadow-[0_8px_30px_rgb(0,0,0,0.08)] group-[.toaster]:rounded-[20px]',
+          description: 'group-[.toast]:text-muted-foreground',
           actionButton:
-            "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:rounded-xl",
+            'group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:rounded-xl',
           cancelButton:
-            "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground group-[.toast]:rounded-xl",
+            'group-[.toast]:bg-muted group-[.toast]:text-muted-foreground group-[.toast]:rounded-xl',
         },
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
-export { Toaster }
-
+export { Toaster };

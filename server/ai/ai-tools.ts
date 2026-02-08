@@ -22,21 +22,30 @@ export interface AITool<P = any> {
 // ============================================================================
 
 const getMyBookingsSchema = z.object({
-  status: z.enum(['scheduled', 'completed', 'canceled', 'all']).optional().describe('Filter by booking status'),
+  status: z
+    .enum(['scheduled', 'completed', 'canceled', 'all'])
+    .optional()
+    .describe('Filter by booking status'),
 });
 
 export const getMyBookings: AITool = {
-  description: 'Get a list of the current user\'s bookings (past and upcoming).',
+  description: "Get a list of the current user's bookings (past and upcoming).",
   parameters: getMyBookingsSchema,
   execute: async ({ status }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return { error: 'User not logged in' };
     }
 
-    const { data: profile } = await supabase.from('profiles').select('id').eq('auth_id', user.id).single();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('auth_id', user.id)
+      .single();
     if (!profile) return { error: 'Profile not found' };
 
     let query = supabase
@@ -80,7 +89,9 @@ export const cancelBooking: AITool = {
   }),
   execute: async ({ bookingId, reason }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const { cancelBookingAction } = await import('@/server/actions/booking-actions');
@@ -90,7 +101,8 @@ export const cancelBooking: AITool = {
 };
 
 export const bookAppointment: AITool = {
-  description: 'Book an appointment for a service at a specific time. REQUIRES a confirmed time slot from checkAvailability.',
+  description:
+    'Book an appointment for a service at a specific time. REQUIRES a confirmed time slot from checkAvailability.',
   parameters: z.object({
     serviceId: z.string().describe('The ID of the service to book'),
     serviceVariantId: z.string().optional().describe('The ID of the specific variant if known'),
@@ -98,13 +110,19 @@ export const bookAppointment: AITool = {
   }),
   execute: async ({ serviceId, serviceVariantId, dateTime }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return { error: 'You must be logged in to book an appointment.' };
     }
 
-    const { data: profile } = await supabase.from('profiles').select('full_name, phone').eq('auth_id', user.id).single();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('full_name, phone')
+      .eq('auth_id', user.id)
+      .single();
     const displayName = profile?.full_name || 'Guest User';
     const phone = profile?.phone;
 
@@ -126,7 +144,7 @@ export const bookAppointment: AITool = {
       displayName,
       phone: phone || undefined,
       paymentMode: 'full',
-      originApp: 'ai-concierge'
+      originApp: 'ai-concierge',
     });
 
     return {
@@ -135,14 +153,15 @@ export const bookAppointment: AITool = {
       message: 'Booking created successfully',
       details: {
         serviceId,
-        dateTime
-      }
+        dateTime,
+      },
     };
   },
 };
 
 export const getBookingPreview: AITool = {
-  description: 'Generate a visual booking confirmation preview for the user to review before final booking. Use this when a user selects a slot but hasn\'t confirmed yet.',
+  description:
+    "Generate a visual booking confirmation preview for the user to review before final booking. Use this when a user selects a slot but hasn't confirmed yet.",
   parameters: z.object({
     serviceId: z.string().describe('The ID of the service'),
     dateTime: z.string().describe('The selected date and time in ISO format'),
@@ -177,8 +196,8 @@ export const getBookingPreview: AITool = {
         duration: variant?.duration_min ?? service.duration_min,
         dateTime,
         variantName: variant?.name,
-        serviceVariantId
-      }
+        serviceVariantId,
+      },
     };
   },
 };
@@ -192,10 +211,16 @@ export const getWalletBalance: AITool = {
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
-    const { data: profile } = await supabase.from('profiles').select('id').eq('auth_id', user.id).single();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('auth_id', user.id)
+      .single();
     if (!profile) return { error: 'Profile not found' };
 
     const { data: wallet } = await supabase
@@ -208,17 +233,19 @@ export const getWalletBalance: AITool = {
 
     return {
       balance: wallet.balance_cents / 100,
-      currency: wallet.currency
+      currency: wallet.currency,
     };
   },
 };
 
 export const getRewardsBalance: AITool = {
-  description: 'Get the user\'s loyalty rewards points balance and recent reward activity.',
+  description: "Get the user's loyalty rewards points balance and recent reward activity.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const { data: rewards } = await supabase
@@ -232,19 +259,22 @@ export const getRewardsBalance: AITool = {
     return {
       points: rewards.points_balance,
       lifetimePoints: rewards.lifetime_points,
-      tier: rewards.tier
+      tier: rewards.tier,
     };
   },
 };
 
 export const getWalletHistory: AITool = {
-  description: 'Get a list of recent wallet transactions including deposits, purchases, and refunds.',
+  description:
+    'Get a list of recent wallet transactions including deposits, purchases, and refunds.',
   parameters: z.object({
     limit: z.number().optional().describe('Number of transactions to fetch (default 10)'),
   }),
   execute: async ({ limit = 10 }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const { WalletService } = await import('@/server/wallet/service');
@@ -252,14 +282,14 @@ export const getWalletHistory: AITool = {
     const transactions = await service.getTransactions(user.id);
 
     return {
-      transactions: transactions.slice(0, limit).map(t => ({
+      transactions: transactions.slice(0, limit).map((t) => ({
         id: t.id,
         amount: t.amount_cents / 100,
         type: t.type,
         description: t.description,
         date: t.created_at,
-        referenceId: t.reference_id
-      }))
+        referenceId: t.reference_id,
+      })),
     };
   },
 };
@@ -271,12 +301,15 @@ export const getWalletHistory: AITool = {
 export const searchServices: AITool = {
   description: 'Search for available services to book.',
   parameters: z.object({
-    query: z.string().optional().describe('Search term like \'massage\' or \'consultation\''),
+    query: z.string().optional().describe("Search term like 'massage' or 'consultation'"),
     category: z.string().optional().describe('Filter by service category'),
   }),
   execute: async ({ query, category }) => {
     const supabase = await createClient();
-    let q = supabase.from('service').select('id, name, description, price_amount, duration_min, category').eq('active', true);
+    let q = supabase
+      .from('service')
+      .select('id, name, description, price_amount, duration_min, category')
+      .eq('active', true);
 
     if (query) {
       q = q.or(`name.ilike.%${query}%,description.ilike.%${query}%`);
@@ -298,11 +331,11 @@ export const getServiceDetails: AITool = {
   execute: async ({ serviceId }) => {
     const supabase = await createClient();
 
-    const { data: service } = await supabase
+    const { data: service } = (await supabase
       .from('service')
       .select('*, service_variant(*)')
       .eq('id', serviceId)
-      .single() as { data: any, error: any };
+      .single()) as { data: any; error: any };
 
     if (!service) return { error: 'Service not found' };
 
@@ -314,8 +347,8 @@ export const getServiceDetails: AITool = {
         duration: service.duration_min,
         price: service.price_amount,
         category: service.category,
-        variants: service.service_variant || []
-      }
+        variants: service.service_variant || [],
+      },
     };
   },
 };
@@ -341,20 +374,38 @@ export const compareServices: AITool = {
 // ============================================================================
 
 export const logMoodCheckIn: AITool = {
-  description: 'Log a mood check-in entry. Call this when user wants to track their mood, emotions, or how they\'re feeling.',
+  description:
+    "Log a mood check-in entry. Call this when user wants to track their mood, emotions, or how they're feeling.",
   parameters: z.object({
     mood: z.number().min(1).max(10).describe('Mood rating from 1 (very low) to 10 (excellent)'),
     energy: z.enum(['very_low', 'low', 'moderate', 'high', 'very_high']).describe('Energy level'),
     stress: z.enum(['minimal', 'mild', 'moderate', 'high', 'severe']).describe('Stress level'),
-    notes: z.string().optional().describe('Optional notes about how they\'re feeling'),
-    emotions: z.array(z.string()).optional().describe('Array of emotions like ["happy", "anxious", "calm"]'),
-    activities: z.array(z.string()).optional().describe('Activities done today like ["exercise", "meditation"]'),
+    notes: z.string().optional().describe("Optional notes about how they're feeling"),
+    emotions: z
+      .array(z.string())
+      .optional()
+      .describe('Array of emotions like ["happy", "anxious", "calm"]'),
+    activities: z
+      .array(z.string())
+      .optional()
+      .describe('Activities done today like ["exercise", "meditation"]'),
     sleepHours: z.number().optional().describe('Hours of sleep last night'),
     sleepQuality: z.number().min(1).max(5).optional().describe('Sleep quality from 1-5'),
   }),
-  execute: async ({ mood, energy, stress, notes, emotions, activities, sleepHours, sleepQuality }) => {
+  execute: async ({
+    mood,
+    energy,
+    stress,
+    notes,
+    emotions,
+    activities,
+    sleepHours,
+    sleepQuality,
+  }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const entry = await wellnessService.createMoodEntry(user.id, {
@@ -365,7 +416,7 @@ export const logMoodCheckIn: AITool = {
       emotions,
       activities,
       sleepHours,
-      sleepQuality
+      sleepQuality,
     });
 
     if (!entry) return { error: 'Failed to save mood entry' };
@@ -377,20 +428,23 @@ export const logMoodCheckIn: AITool = {
         id: entry.id,
         mood: entry.mood,
         energy: entry.energy,
-        stress: entry.stress
-      }
+        stress: entry.stress,
+      },
     };
   },
 };
 
 export const getWellnessSummary: AITool = {
-  description: 'Get a summary of the user\'s wellness data including mood trends, common emotions, and streak.',
+  description:
+    "Get a summary of the user's wellness data including mood trends, common emotions, and streak.",
   parameters: z.object({
     period: z.enum(['day', 'week', 'month']).optional().describe('Time period for the summary'),
   }),
   execute: async ({ period = 'week' }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const summary = await wellnessService.getWellnessSummary(user.id, period);
@@ -402,31 +456,33 @@ export const getWellnessSummary: AITool = {
       commonEmotions: summary.commonEmotions.slice(0, 3),
       averageSleep: summary.averageSleep,
       streakDays: summary.streakDays,
-      totalEntries: summary.totalEntries
+      totalEntries: summary.totalEntries,
     };
   },
 };
 
 export const getMoodHistory: AITool = {
-  description: 'Get the user\'s recent mood entries for review.',
+  description: "Get the user's recent mood entries for review.",
   parameters: z.object({
     days: z.number().optional().describe('Number of days of history (default 14)'),
   }),
   execute: async ({ days = 14 }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const entries = await wellnessService.getMoodEntries(user.id, days);
 
     return {
-      entries: entries.slice(0, 10).map(e => ({
+      entries: entries.slice(0, 10).map((e) => ({
         date: e.createdAt,
         mood: e.mood,
         energy: e.energy,
         stress: e.stress,
-        emotions: e.emotions
-      }))
+        emotions: e.emotions,
+      })),
     };
   },
 };
@@ -441,7 +497,9 @@ export const setWellnessGoal: AITool = {
   }),
   execute: async ({ title, targetType, targetValue, description }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const goal = await wellnessService.createWellnessGoal(
@@ -461,32 +519,34 @@ export const setWellnessGoal: AITool = {
         id: goal.id,
         title: goal.title,
         targetType: goal.targetType,
-        targetValue: goal.targetValue
-      }
+        targetValue: goal.targetValue,
+      },
     };
   },
 };
 
 export const getWellnessGoals: AITool = {
-  description: 'Get the user\'s active wellness goals and their progress.',
+  description: "Get the user's active wellness goals and their progress.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const goals = await wellnessService.getActiveGoals(user.id);
 
     return {
-      goals: goals.map(g => ({
+      goals: goals.map((g) => ({
         id: g.id,
         title: g.title,
         targetType: g.targetType,
         targetValue: g.targetValue,
         currentValue: g.currentValue,
         progress: g.progress,
-        status: g.status
-      }))
+        status: g.status,
+      })),
     };
   },
 };
@@ -496,13 +556,19 @@ export const getWellnessGoals: AITool = {
 // ============================================================================
 
 export const getRecommendations: AITool = {
-  description: 'Get personalized recommendations for services, exercises, and actions based on user preferences and wellness data.',
+  description:
+    'Get personalized recommendations for services, exercises, and actions based on user preferences and wellness data.',
   parameters: z.object({
-    type: z.enum(['all', 'services', 'exercises', 'actions']).optional().describe('Type of recommendations to get'),
+    type: z
+      .enum(['all', 'services', 'exercises', 'actions'])
+      .optional()
+      .describe('Type of recommendations to get'),
   }),
   execute: async ({ type = 'all' }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     if (type === 'all') {
@@ -510,7 +576,7 @@ export const getRecommendations: AITool = {
       return {
         services: recs.services.slice(0, 3),
         exercises: recs.exercises.slice(0, 3),
-        actions: recs.actions.slice(0, 3)
+        actions: recs.actions.slice(0, 3),
       };
     }
 
@@ -538,7 +604,9 @@ export const getWellnessRecommendations: AITool = {
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const recommendations = await wellnessService.generateWellnessRecommendations(user.id);
@@ -552,34 +620,39 @@ export const getWellnessRecommendations: AITool = {
 // ============================================================================
 
 export const getInsights: AITool = {
-  description: 'Get AI-generated insights about the user\'s wellness journey, patterns, and progress.',
+  description:
+    "Get AI-generated insights about the user's wellness journey, patterns, and progress.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const insights = await insightsService.getActiveInsights(user.id);
 
     return {
-      insights: insights.slice(0, 5).map(i => ({
+      insights: insights.slice(0, 5).map((i) => ({
         id: i.id,
         type: i.type,
         title: i.title,
         description: i.description,
         priority: i.priority,
-        actionItems: i.actionItems?.filter(a => !a.completed).slice(0, 2)
-      }))
+        actionItems: i.actionItems?.filter((a) => !a.completed).slice(0, 2),
+      })),
     };
   },
 };
 
 export const getWellnessScore: AITool = {
-  description: 'Get the user\'s overall wellness score with breakdown by category.',
+  description: "Get the user's overall wellness score with breakdown by category.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const score = await insightsService.calculateWellnessScore(user.id);
@@ -590,9 +663,9 @@ export const getWellnessScore: AITool = {
         mood: score.mood,
         stress: score.stress,
         engagement: score.engagement,
-        consistency: score.consistency
+        consistency: score.consistency,
       },
-      trend: score.trend
+      trend: score.trend,
     };
   },
 };
@@ -605,7 +678,9 @@ export const completeInsightAction: AITool = {
   }),
   execute: async ({ insightId, actionItemId }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const success = await insightsService.completeActionItem(insightId, actionItemId, user.id);
@@ -629,13 +704,15 @@ export const rememberThis: AITool = {
   }),
   execute: async ({ content, type, importance = 3 }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const memory = await memoryService.createMemory(user.id, content, type, importance);
 
     return memory
-      ? { success: true, message: 'I\'ll remember that!' }
+      ? { success: true, message: "I'll remember that!" }
       : { error: 'Failed to save memory' };
   },
 };
@@ -643,23 +720,28 @@ export const rememberThis: AITool = {
 export const getMemories: AITool = {
   description: 'Recall stored information about the user.',
   parameters: z.object({
-    type: z.enum(['preference', 'fact', 'goal', 'observation', 'all']).optional().describe('Filter by memory type'),
+    type: z
+      .enum(['preference', 'fact', 'goal', 'observation', 'all'])
+      .optional()
+      .describe('Filter by memory type'),
   }),
   execute: async ({ type = 'all' }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const types = type === 'all' ? undefined : [type as memoryService.MemoryType];
     const memories = await memoryService.getRecentMemories(user.id, 10, types);
 
     return {
-      memories: memories.map(m => ({
+      memories: memories.map((m) => ({
         content: m.content,
         type: m.memoryType,
         importance: m.importance,
-        date: m.createdAt
-      }))
+        date: m.createdAt,
+      })),
     };
   },
 };
@@ -669,11 +751,13 @@ export const getMemories: AITool = {
 // ============================================================================
 
 export const getUserProfile: AITool = {
-  description: 'Get the user\'s profile information and preferences.',
+  description: "Get the user's profile information and preferences.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const { data: profile } = await supabase
@@ -689,7 +773,7 @@ export const getUserProfile: AITool = {
       email: profile.email,
       phone: profile.phone,
       language: profile.language,
-      preferences: profile.personalization_data || {}
+      preferences: profile.personalization_data || {},
     };
   },
 };
@@ -700,11 +784,16 @@ export const updatePreferences: AITool = {
     goals: z.array(z.string()).optional().describe('Wellness goals'),
     preferredDuration: z.number().optional().describe('Preferred session duration in minutes'),
     focusAreas: z.array(z.string()).optional().describe('Body areas to focus on'),
-    communicationStyle: z.enum(['formal', 'casual', 'supportive']).optional().describe('Preferred communication style'),
+    communicationStyle: z
+      .enum(['formal', 'casual', 'supportive'])
+      .optional()
+      .describe('Preferred communication style'),
   }),
   execute: async ({ goals, preferredDuration, focusAreas, communicationStyle }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const updates: Record<string, unknown> = {};
@@ -729,7 +818,7 @@ export const updatePreferences: AITool = {
 // ============================================================================
 
 export const createJournalEntry: AITool = {
-  description: 'Create a journal entry for the user\'s thoughts and reflections.',
+  description: "Create a journal entry for the user's thoughts and reflections.",
   parameters: z.object({
     content: z.string().describe('The journal entry content'),
     mood: z.number().min(1).max(10).optional().describe('Associated mood 1-10'),
@@ -738,7 +827,9 @@ export const createJournalEntry: AITool = {
   }),
   execute: async ({ content, mood, tags, isPrivate = true }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const { data, error } = await supabase
@@ -748,7 +839,7 @@ export const createJournalEntry: AITool = {
         content,
         mood,
         tags: tags || [],
-        is_private: isPrivate
+        is_private: isPrivate,
       })
       .select('id')
       .single();
@@ -767,7 +858,7 @@ export const createJournalEntry: AITool = {
     return {
       success: true,
       message: 'Journal entry saved',
-      entryId: data.id
+      entryId: data.id,
     };
   },
 };
@@ -779,7 +870,9 @@ export const getJournalEntries: AITool = {
   }),
   execute: async ({ limit = 5 }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const { data: entries } = await supabase
@@ -790,13 +883,13 @@ export const getJournalEntries: AITool = {
       .limit(limit);
 
     return {
-      entries: (entries || []).map(e => ({
+      entries: (entries || []).map((e) => ({
         id: e.id,
         content: e.content.substring(0, 200) + (e.content.length > 200 ? '...' : ''),
         mood: e.mood,
         tags: e.tags,
-        date: e.created_at
-      }))
+        date: e.created_at,
+      })),
     };
   },
 };
@@ -806,11 +899,14 @@ export const getJournalEntries: AITool = {
 // ============================================================================
 
 export const getPersonalizedGreeting: AITool = {
-  description: 'Get a personalized greeting based on time of day, mood, and user context. Call this to warmly greet the user.',
+  description:
+    'Get a personalized greeting based on time of day, mood, and user context. Call this to warmly greet the user.',
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { greeting: 'Hello! How can I help you today?', emoji: '👋' };
 
     const result = await personalizationService.generatePersonalizedGreeting(user.id);
@@ -819,11 +915,14 @@ export const getPersonalizedGreeting: AITool = {
 };
 
 export const suggestDailyActions: AITool = {
-  description: 'Get personalized daily action suggestions based on user\'s wellness data and patterns.',
+  description:
+    "Get personalized daily action suggestions based on user's wellness data and patterns.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const actions = await personalizationService.suggestDailyActions(user.id);
@@ -832,13 +931,16 @@ export const suggestDailyActions: AITool = {
 };
 
 export const analyzeConversation: AITool = {
-  description: 'Analyze the sentiment and emotional tone of a user message. Use this to better understand user needs.',
+  description:
+    'Analyze the sentiment and emotional tone of a user message. Use this to better understand user needs.',
   parameters: z.object({
     message: z.string().describe('The user message to analyze'),
   }),
   execute: async ({ message }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     const userId = user?.id || 'anonymous';
 
     const analysis = await personalizationService.analyzeConversationSentiment(message, userId);
@@ -847,12 +949,22 @@ export const analyzeConversation: AITool = {
 };
 
 export const generateAffirmation: AITool = {
-  description: 'Generate a personalized affirmation based on user\'s current mood and wellness status.',
+  description:
+    "Generate a personalized affirmation based on user's current mood and wellness status.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { affirmation: { text: 'You are capable of amazing things.', category: 'general', relatedToMood: false } };
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user)
+      return {
+        affirmation: {
+          text: 'You are capable of amazing things.',
+          category: 'general',
+          relatedToMood: false,
+        },
+      };
 
     const affirmation = await personalizationService.generateAffirmation(user.id);
     return { affirmation };
@@ -860,13 +972,16 @@ export const generateAffirmation: AITool = {
 };
 
 export const getProgressReport: AITool = {
-  description: 'Generate a progress report summarizing the user\'s wellness journey over a period of time.',
+  description:
+    "Generate a progress report summarizing the user's wellness journey over a period of time.",
   parameters: z.object({
     period: z.enum(['week', 'month']).optional().describe('The time period for the report'),
   }),
   execute: async ({ period = 'week' }) => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const report = await personalizationService.generateProgressReport(user.id, period);
@@ -875,11 +990,14 @@ export const getProgressReport: AITool = {
 };
 
 export const identifyPatterns: AITool = {
-  description: 'Identify behavioral patterns in the user\'s wellness data, such as mood cycles, sleep trends, and stress triggers.',
+  description:
+    "Identify behavioral patterns in the user's wellness data, such as mood cycles, sleep trends, and stress triggers.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const patterns = await personalizationService.identifyBehavioralPatterns(user.id);
@@ -888,12 +1006,24 @@ export const identifyPatterns: AITool = {
 };
 
 export const suggestBreathingExercise: AITool = {
-  description: 'Suggest a breathing exercise based on the user\'s current stress level and mood.',
+  description: "Suggest a breathing exercise based on the user's current stress level and mood.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return { exercise: { id: 'box-breathing', name: 'Box Breathing', description: 'A calming technique.', duration: 4, pattern: { inhale: 4, hold: 4, exhale: 4 }, benefits: ['Reduces stress'] } };
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user)
+      return {
+        exercise: {
+          id: 'box-breathing',
+          name: 'Box Breathing',
+          description: 'A calming technique.',
+          duration: 4,
+          pattern: { inhale: 4, hold: 4, exhale: 4 },
+          benefits: ['Reduces stress'],
+        },
+      };
 
     const exercise = await personalizationService.suggestBreathingExercise(user.id);
     return { exercise };
@@ -905,7 +1035,9 @@ export const celebrateAchievement: AITool = {
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const achievements = await personalizationService.celebrateAchievement(user.id);
@@ -918,7 +1050,9 @@ export const startGuidedMeditation: AITool = {
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const session = await personalizationService.startGuidedMeditation(user.id);
@@ -927,11 +1061,13 @@ export const startGuidedMeditation: AITool = {
 };
 
 export const getSleepInsights: AITool = {
-  description: 'Provide insights and hygiene tips regarding the user\'s sleep quality and habits.',
+  description: "Provide insights and hygiene tips regarding the user's sleep quality and habits.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const insight = await personalizationService.getSleepQualityInsights(user.id);
@@ -940,11 +1076,13 @@ export const getSleepInsights: AITool = {
 };
 
 export const getInteractiveGoalTracker: AITool = {
-  description: 'Show the user\'s active wellness goals and their current progress.',
+  description: "Show the user's active wellness goals and their current progress.",
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const tracker = await personalizationService.getInteractiveGoalTracker(user.id);
@@ -957,7 +1095,9 @@ export const getMoodCalendar: AITool = {
   parameters: z.object({}),
   execute: async () => {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return { error: 'Unauthorized' };
 
     const days = await personalizationService.getMoodCalendar(user.id);
@@ -1031,10 +1171,22 @@ export const aiTools: Record<string, AITool> = {
 
 // Tool categories for documentation
 export const toolCategories = {
-  booking: ['getMyBookings', 'checkAvailability', 'cancelBooking', 'bookAppointment', 'getBookingPreview'],
+  booking: [
+    'getMyBookings',
+    'checkAvailability',
+    'cancelBooking',
+    'bookAppointment',
+    'getBookingPreview',
+  ],
   finance: ['getWalletBalance', 'getRewardsBalance', 'getWalletHistory'],
   services: ['searchServices', 'getServiceDetails', 'compareServices'],
-  wellness: ['logMoodCheckIn', 'getWellnessSummary', 'getMoodHistory', 'setWellnessGoal', 'getWellnessGoals'],
+  wellness: [
+    'logMoodCheckIn',
+    'getWellnessSummary',
+    'getMoodHistory',
+    'setWellnessGoal',
+    'getWellnessGoals',
+  ],
   recommendations: ['getRecommendations', 'getWellnessRecommendations'],
   insights: ['getInsights', 'getWellnessScore', 'completeInsightAction'],
   memory: ['rememberThis', 'getMemories'],
@@ -1052,6 +1204,6 @@ export const toolCategories = {
     'startGuidedMeditation',
     'getSleepInsights',
     'getInteractiveGoalTracker',
-    'getMoodCalendar'
-  ]
+    'getMoodCalendar',
+  ],
 };

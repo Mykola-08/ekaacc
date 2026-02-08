@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { submitOnboardingAnswers } from './service';
 import { revalidatePath } from 'next/cache';
@@ -12,7 +12,7 @@ export async function submitOnboarding(profileId: string | undefined, answers: a
   }
 
   await submitOnboardingAnswers(profileId, answers);
-  
+
   revalidatePath('/');
   redirect('/');
 }

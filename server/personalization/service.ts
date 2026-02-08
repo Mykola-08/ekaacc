@@ -18,7 +18,7 @@ export async function getOnboardingQuestions(): Promise<OnboardingQuestion[]> {
       type: q.type,
       options: q.options,
       displayOrder: q.display_order,
-      category: q.category
+      category: q.category,
     }));
   } catch (error) {
     console.error('Error fetching onboarding questions', error);
@@ -27,25 +27,25 @@ export async function getOnboardingQuestions(): Promise<OnboardingQuestion[]> {
 }
 
 export async function submitOnboardingAnswers(
-  profileId: string, 
-  answers: { questionId: string, value: any }[]
+  profileId: string,
+  answers: { questionId: string; value: any }[]
 ): Promise<boolean> {
   if (!answers.length) return true;
 
   try {
-    // Basic implementation using loop for simplicity with PG, 
+    // Basic implementation using loop for simplicity with PG,
     // or we could construct a bulk INSERT ... ON CONFLICT statement.
     // For onboarding data (small scale), loop with Promise.all is acceptable or a transaction.
-    
+
     // Better: Transaction
     // Need access to pool to get client for transaction.
     // Assuming db exposes pool or we can just run queries sequentially.
     // db.query is a wrapper around pool.query.
-    
+
     // Since db.ts doesn't export pool directly in the wrapper shown earlier (it exports 'query'),
     // we will run sequential queries. If one fails, it might be partial state, which is acceptable for MVP
     // or we should update db.ts to expose transaction helper.
-    
+
     const queryText = `
         INSERT INTO user_onboarding_answers (profile_id, question_id, answer_data, updated_at)
         VALUES ($1, $2, $3, NOW())
@@ -53,14 +53,14 @@ export async function submitOnboardingAnswers(
         DO UPDATE SET answer_data = EXCLUDED.answer_data, updated_at = NOW()
       `;
 
-      for (const answer of answers) {
-        await db.query(queryText, [
-          profileId, 
-          answer.questionId, 
-          { value: answer.value } // Standardize value wrapper
-        ]);
-      }
-    
+    for (const answer of answers) {
+      await db.query(queryText, [
+        profileId,
+        answer.questionId,
+        { value: answer.value }, // Standardize value wrapper
+      ]);
+    }
+
     return true;
   } catch (error) {
     console.error('Error submitting onboarding answers', error);
@@ -70,11 +70,10 @@ export async function submitOnboardingAnswers(
 
 export async function getUserPersonalization(profileId: string) {
   try {
-    const { rows } = await db.query(
-      `SELECT personalization_data FROM profiles WHERE id = $1`,
-      [profileId]
-    );
-    
+    const { rows } = await db.query(`SELECT personalization_data FROM profiles WHERE id = $1`, [
+      profileId,
+    ]);
+
     if (rows.length === 0) return null;
     return rows[0]!.personalization_data;
   } catch (error) {

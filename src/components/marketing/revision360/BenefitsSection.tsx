@@ -13,15 +13,60 @@ export default function BenefitsSection() {
   const { t } = useLanguage();
 
   const benefits: Benefit[] = [
-    { icon: <Brain className="w-5 h-5" />, title: t('benefits.benefit1.title'), description: t('benefits.benefit1.description'), science: t('benefits.benefit1.science') },
-    { icon: <Heart className="w-5 h-5" />, title: t('benefits.benefit2.title'), description: t('benefits.benefit2.description'), science: t('benefits.benefit2.science') },
-    { icon: <Zap className="w-5 h-5" />, title: t('benefits.benefit3.title'), description: t('benefits.benefit3.description'), science: t('benefits.benefit3.science') },
-    { icon: <Shield className="w-5 h-5" />, title: t('benefits.benefit4.title'), description: t('benefits.benefit4.description'), science: t('benefits.benefit4.science') },
-    { icon: <Moon className="w-5 h-5" />, title: t('benefits.benefit5.title'), description: t('benefits.benefit5.description'), science: t('benefits.benefit5.science') },
-    { icon: <Smile className="w-5 h-5" />, title: t('benefits.benefit6.title'), description: t('benefits.benefit6.description'), science: t('benefits.benefit6.science') },
-    { icon: <Activity className="w-5 h-5" />, title: t('benefits.benefit7.title'), description: t('benefits.benefit7.description'), science: t('benefits.benefit7.science') },
-    { icon: <Compass className="w-5 h-5" />, title: t('benefits.benefit8.title'), description: t('benefits.benefit8.description'), science: t('benefits.benefit8.science') },
-    { icon: <Sparkles className="w-5 h-5" />, title: t('benefits.benefit9.title'), description: t('benefits.benefit9.description'), science: t('benefits.benefit9.science') },
+    {
+      icon: <Brain className="h-5 w-5" />,
+      title: t('benefits.benefit1.title'),
+      description: t('benefits.benefit1.description'),
+      science: t('benefits.benefit1.science'),
+    },
+    {
+      icon: <Heart className="h-5 w-5" />,
+      title: t('benefits.benefit2.title'),
+      description: t('benefits.benefit2.description'),
+      science: t('benefits.benefit2.science'),
+    },
+    {
+      icon: <Zap className="h-5 w-5" />,
+      title: t('benefits.benefit3.title'),
+      description: t('benefits.benefit3.description'),
+      science: t('benefits.benefit3.science'),
+    },
+    {
+      icon: <Shield className="h-5 w-5" />,
+      title: t('benefits.benefit4.title'),
+      description: t('benefits.benefit4.description'),
+      science: t('benefits.benefit4.science'),
+    },
+    {
+      icon: <Moon className="h-5 w-5" />,
+      title: t('benefits.benefit5.title'),
+      description: t('benefits.benefit5.description'),
+      science: t('benefits.benefit5.science'),
+    },
+    {
+      icon: <Smile className="h-5 w-5" />,
+      title: t('benefits.benefit6.title'),
+      description: t('benefits.benefit6.description'),
+      science: t('benefits.benefit6.science'),
+    },
+    {
+      icon: <Activity className="h-5 w-5" />,
+      title: t('benefits.benefit7.title'),
+      description: t('benefits.benefit7.description'),
+      science: t('benefits.benefit7.science'),
+    },
+    {
+      icon: <Compass className="h-5 w-5" />,
+      title: t('benefits.benefit8.title'),
+      description: t('benefits.benefit8.description'),
+      science: t('benefits.benefit8.science'),
+    },
+    {
+      icon: <Sparkles className="h-5 w-5" />,
+      title: t('benefits.benefit9.title'),
+      description: t('benefits.benefit9.description'),
+      science: t('benefits.benefit9.science'),
+    },
   ];
 
   return (
@@ -34,8 +79,10 @@ export default function BenefitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          <h2 className="text-3xl sm:text-5xl font-semibold text-white">{t('benefits.title')}</h2>
-          <p className="mt-4 text-zinc-300 text-base sm:text-lg leading-relaxed">{t('benefits.subtitle')}</p>
+          <h2 className="text-3xl font-semibold text-white sm:text-5xl">{t('benefits.title')}</h2>
+          <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
+            {t('benefits.subtitle')}
+          </p>
         </motion.div>
 
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
@@ -52,10 +99,12 @@ export default function BenefitsSection() {
                 {benefit.icon}
               </div>
               <h3 className="mt-4 text-lg font-semibold text-white">{benefit.title}</h3>
-              <p className="mt-2 text-sm sm:text-base text-zinc-300 leading-relaxed">{benefit.description}</p>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-300 sm:text-base">
+                {benefit.description}
+              </p>
               {benefit.science && (
                 <div className="mt-4 border-t border-white/10 pt-3">
-                  <p className="text-xs uppercase tracking-[0.12em] text-amber-200/85">Science</p>
+                  <p className="text-xs tracking-[0.12em] text-amber-200/85 uppercase">Science</p>
                   <p className="mt-2 text-sm text-zinc-300">{benefit.science}</p>
                 </div>
               )}
@@ -70,13 +119,9 @@ export default function BenefitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.35 }}
         >
-          <p className="text-zinc-100 italic text-base sm:text-lg">
-            "{t('benefits.philosophy')}"
-          </p>
+          <p className="text-base text-zinc-100 italic sm:text-lg">"{t('benefits.philosophy')}"</p>
         </motion.div>
       </div>
     </section>
   );
 }
-
-

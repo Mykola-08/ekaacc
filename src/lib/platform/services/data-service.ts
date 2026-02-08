@@ -105,10 +105,7 @@ const dataService = {
     data: Partial<DataUser>
   ): Promise<{ success: boolean; error?: string }> => {
     try {
-      const { error } = await supabaseAdmin
-        .from('profiles')
-        .update(data)
-        .eq('id', userId);
+      const { error } = await supabaseAdmin.from('profiles').update(data).eq('id', userId);
 
       if (error) return { success: false, error: error.message };
       return { success: true };

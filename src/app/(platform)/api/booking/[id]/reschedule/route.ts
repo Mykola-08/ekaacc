@@ -22,7 +22,10 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       .eq('id', id)
       .single();
     if (bookingErr || !booking) {
-      return NextResponse.json({ error: bookingErr?.message || 'Booking not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: bookingErr?.message || 'Booking not found' },
+        { status: 404 }
+      );
     }
     if (booking.status !== 'scheduled') {
       return NextResponse.json({ error: 'Cannot reschedule in current status' }, { status: 409 });
@@ -71,9 +74,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       .eq('id', booking.id);
     if (rotateErr) return NextResponse.json({ error: rotateErr.message }, { status: 500 });
 
-    return NextResponse.json({ bookingId: booking.id, newStartTime: newStart.toISOString(), newEndTime: newEnd.toISOString(), priceDeltaCents, manageToken: newToken });
+    return NextResponse.json({
+      bookingId: booking.id,
+      newStartTime: newStart.toISOString(),
+      newEndTime: newEnd.toISOString(),
+      priceDeltaCents,
+      manageToken: newToken,
+    });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
-

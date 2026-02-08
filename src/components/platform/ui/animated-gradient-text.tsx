@@ -7,15 +7,11 @@ interface AnimatedGradientTextProps extends React.HTMLAttributes<HTMLSpanElement
   children: React.ReactNode;
 }
 
-export function AnimatedGradientText({
-  children,
-  className,
-  ...props
-}: AnimatedGradientTextProps) {
+export function AnimatedGradientText({ children, className, ...props }: AnimatedGradientTextProps) {
   return (
     <span
       className={cn(
-        'inline-block bg-linear-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent animate-gradient',
+        'animate-gradient inline-block bg-linear-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent',
         className
       )}
       {...props}
@@ -24,4 +20,3 @@ export function AnimatedGradientText({
     </span>
   );
 }
-

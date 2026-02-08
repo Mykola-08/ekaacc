@@ -1,5 +1,5 @@
-import * as React from 'react'
-import { cn } from '@/lib/platform/utils/css-utils'
+import * as React from 'react';
+import { cn } from '@/lib/platform/utils/css-utils';
 
 export interface MinimalLayoutProps {
   children: React.ReactNode;
@@ -16,31 +16,23 @@ const MinimalLayout = React.forwardRef<HTMLDivElement, MinimalLayoutProps>(
       md: 'max-w-md',
       lg: 'max-w-lg',
       xl: 'max-w-xl',
-      '2xl': 'max-w-2xl'
+      '2xl': 'max-w-2xl',
     };
-    
+
     const paddingClasses = {
       none: '',
       sm: 'px-4 py-6',
       md: 'px-6 py-8',
-      lg: 'px-8 py-12'
+      lg: 'px-8 py-12',
     };
-    
+
     return (
       <div
-        className={cn(
-          'min-h-screen',
-          centered && 'flex items-center justify-center',
-          className
-        )}
+        className={cn('min-h-screen', centered && 'flex items-center justify-center', className)}
         ref={ref}
         {...props}
       >
-        <div className={cn(
-          'w-full',
-          maxWidthClasses[maxWidth],
-          paddingClasses[padding]
-        )}>
+        <div className={cn('w-full', maxWidthClasses[maxWidth], paddingClasses[padding])}>
           {children}
         </div>
       </div>
@@ -64,23 +56,18 @@ const MinimalGrid = React.forwardRef<HTMLDivElement, MinimalGridProps>(
       1: 'grid-cols-1',
       2: 'grid-cols-1 md:grid-cols-2',
       3: 'grid-cols-1 md:grid-cols-3',
-      4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+      4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
     };
-    
+
     const gapClasses = {
       sm: 'gap-4',
       md: 'gap-6',
-      lg: 'gap-8'
+      lg: 'gap-8',
     };
-    
+
     return (
       <div
-        className={cn(
-          'grid',
-          gridClasses[columns],
-          gapClasses[gap],
-          className
-        )}
+        className={cn('grid', gridClasses[columns], gapClasses[gap], className)}
         ref={ref}
         {...props}
       >
@@ -103,23 +90,11 @@ export interface MinimalSectionProps {
 const MinimalSection = React.forwardRef<HTMLDivElement, MinimalSectionProps>(
   ({ children, className, title, subtitle, ...props }, ref) => {
     return (
-      <section
-        className={cn('space-y-6', className)}
-        ref={ref}
-        {...props}
-      >
+      <section className={cn('space-y-6', className)} ref={ref} {...props}>
         {(title || subtitle) && (
           <div className="space-y-2">
-            {title && (
-              <h2 className="text-2xl font-semibold text-foreground">
-                {title}
-              </h2>
-            )}
-            {subtitle && (
-              <p className="text-muted-foreground">
-                {subtitle}
-              </p>
-            )}
+            {title && <h2 className="text-foreground text-2xl font-semibold">{title}</h2>}
+            {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
           </div>
         )}
         {children}

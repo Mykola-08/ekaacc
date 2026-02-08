@@ -1,4 +1,3 @@
- 
 import { useState, useEffect } from 'react';
 import { CheckCircle, Sparkles, Crown, Heart, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router';
@@ -10,61 +9,61 @@ import { useAnalytics } from '@/hooks/marketing/useAnalytics';
 const iconMap = {
   Heart,
   Sparkles,
-  Crown
+  Crown,
 };
 
 const features = [
   {
     title: 'Sense compromisos',
-    description: 'Cancel·la o canvia la teva cita fins 24h abans sense cost'
+    description: 'Cancel·la o canvia la teva cita fins 24h abans sense cost',
   },
   {
     title: 'Garantia de satisfacció',
-    description: 'Si no estàs satisfet amb la primera sessió, te la reemborsen'
+    description: 'Si no estàs satisfet amb la primera sessió, te la reemborsen',
   },
   {
     title: 'Professionals certificats',
-    description: 'Tots els nostres terapeutes tenen certificacions oficials'
+    description: 'Tots els nostres terapeutes tenen certificacions oficials',
   },
   {
     title: 'Equip professional',
-    description: 'Utilitzem només equip i productes de màxima qualitat'
-  }
+    description: 'Utilitzem només equip i productes de màxima qualitat',
+  },
 ];
 
 export default function PricingSection() {
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [plans, setPlans] = useState<any[]>([
-      {
-        id: 'basic',
-        name: 'Sessió Individual',
-        price: 60,
-        originalPrice: null,
-        description: 'Una sessió completa de 60 minuts',
-        features: ['Massatge Terapèutic', 'Kinesiologia', 'Osteopatia Suau'],
-        icon: 'Heart',
-        popular: false
-      },
-      {
-        id: 'pack3',
-        name: 'Pack Benestar (3)',
-        price: 165,
-        originalPrice: 180,
-        description: 'Pack de 3 sessions per un seguiment continu',
-        features: ['Estalvia 15€', 'Vàlid per 3 mesos', 'Transferible'],
-        icon: 'Sparkles',
-        popular: true
-      },
-      {
-        id: 'pack5',
-        name: 'Pack Transformació (5)',
-        price: 275,
-        originalPrice: 300,
-        description: 'Tractament integral per canvis profunds',
-        features: ['Estalvia 25€', 'Vàlid per 6 mesos', 'Prioritat de reserva'],
-        icon: 'Crown',
-        popular: false
-      }
+    {
+      id: 'basic',
+      name: 'Sessió Individual',
+      price: 60,
+      originalPrice: null,
+      description: 'Una sessió completa de 60 minuts',
+      features: ['Massatge Terapèutic', 'Kinesiologia', 'Osteopatia Suau'],
+      icon: 'Heart',
+      popular: false,
+    },
+    {
+      id: 'pack3',
+      name: 'Pack Benestar (3)',
+      price: 165,
+      originalPrice: 180,
+      description: 'Pack de 3 sessions per un seguiment continu',
+      features: ['Estalvia 15€', 'Vàlid per 3 mesos', 'Transferible'],
+      icon: 'Sparkles',
+      popular: true,
+    },
+    {
+      id: 'pack5',
+      name: 'Pack Transformació (5)',
+      price: 275,
+      originalPrice: 300,
+      description: 'Tractament integral per canvis profunds',
+      features: ['Estalvia 25€', 'Vàlid per 6 mesos', 'Prioritat de reserva'],
+      icon: 'Crown',
+      popular: false,
+    },
   ]);
   const { navigateToBooking } = useBooking();
   const { logEvent } = useAnalytics();
@@ -94,7 +93,7 @@ export default function PricingSection() {
         description: 'Una sessió completa de 60 minuts',
         features: ['Massatge Terapèutic', 'Kinesiologia', 'Osteopatia Suau'],
         icon: 'Heart',
-        popular: false
+        popular: false,
       },
       {
         id: 'pack3',
@@ -104,7 +103,7 @@ export default function PricingSection() {
         description: 'Pack de 3 sessions per un seguiment continu',
         features: ['Estalvia 15€', 'Vàlid per 3 mesos', 'Transferible'],
         icon: 'Sparkles',
-        popular: true
+        popular: true,
       },
       {
         id: 'pack5',
@@ -114,8 +113,8 @@ export default function PricingSection() {
         description: 'Tractament integral per canvis profunds',
         features: ['Estalvia 25€', 'Vàlid per 6 mesos', 'Prioritat de reserva'],
         icon: 'Crown',
-        popular: false
-      }
+        popular: false,
+      },
     ];
     // setPlans(staticPlans);
   }, []);
@@ -128,22 +127,21 @@ export default function PricingSection() {
   };
 
   return (
-    <section className="py-24 aurora-bg-subtle relative">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="aurora-bg-subtle relative py-24">
+      <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
-        <div className="text-center mb-20">
-          <div className="inline-flex items-center px-6 py-2 bg-yellow-50 border border-yellow-100 rounded-full mb-8">
-            <span className="text-yellow-700 font-medium text-sm uppercase tracking-wide">Tarifes transparents</span>
+        <div className="mb-20 text-center">
+          <div className="mb-8 inline-flex items-center rounded-full border border-yellow-100 bg-yellow-50 px-6 py-2">
+            <span className="text-sm font-medium tracking-wide text-yellow-700 uppercase">
+              Tarifes transparents
+            </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-light text-foreground mb-8">
-            Tria el teu{' '}
-            <span className="text-yellow-500 font-medium">
-              pla de benestar
-            </span>
+          <h2 className="text-foreground mb-8 text-4xl font-light md:text-5xl">
+            Tria el teu <span className="font-medium text-yellow-500">pla de benestar</span>
           </h2>
 
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-light">
+          <p className="text-muted-foreground mx-auto max-w-3xl text-xl font-light">
             Packs dissenyats per a cada necessitat, amb la flexibilitat i qualitat que et mereixes
           </p>
         </div>
@@ -153,29 +151,32 @@ export default function PricingSection() {
         <div className="aurora-orb aurora-orb-small absolute bottom-32 left-10 opacity-50"></div>
 
         {/* Pricing Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32">
+        <div className="mb-32 grid grid-cols-1 gap-8 lg:grid-cols-3">
           {plans.map((plan) => {
             const Icon = iconMap[plan.icon as keyof typeof iconMap] || Heart;
             const discountedPrice = calculateDiscountedPrice(plan.price);
             const originalSavings = calculateSavings(plan.price, plan.originalPrice);
             const additionalSavings = selectedDiscount ? plan.price - discountedPrice : 0;
-            const totalSavings = originalSavings + (additionalSavings > 0 ? Math.round((additionalSavings / plan.price) * 100) : 0);
+            const totalSavings =
+              originalSavings +
+              (additionalSavings > 0 ? Math.round((additionalSavings / plan.price) * 100) : 0);
 
             return (
               <div
                 key={plan.id}
-                className={`aurora-glass-card relative cursor-pointer transition-all duration-300 ${plan.popular
-                    ? 'ring-2 ring-yellow-400/50 transform scale-105'
+                className={`aurora-glass-card relative cursor-pointer transition-all duration-300 ${
+                  plan.popular
+                    ? 'scale-105 transform ring-2 ring-yellow-400/50'
                     : selectedPlan === plan.id
                       ? 'ring-2 ring-yellow-400/50'
                       : ''
-                  }`}
+                }`}
                 onClick={() => setSelectedPlan(selectedPlan === plan.id ? null : plan.id)}
               >
                 {/* Popular Badge */}
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
-                    <div className="bg-yellow-400 text-foreground px-4 py-1.5 rounded-full text-sm font-medium shadow-sm">
+                  <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2 transform">
+                    <div className="text-foreground rounded-full bg-yellow-400 px-4 py-1.5 text-sm font-medium shadow-sm">
                       Més popular
                     </div>
                   </div>
@@ -183,57 +184,52 @@ export default function PricingSection() {
 
                 {/* Savings Badge */}
                 {(originalSavings > 0 || selectedDiscount) && (
-                  <div className="absolute top-6 right-6 bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">
+                  <div className="absolute top-6 right-6 rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
                     Estalvia {totalSavings}%
                   </div>
                 )}
 
                 <div className="p-8">
                   {/* Icon & Title */}
-                  <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                      <Icon className="w-8 h-8 text-yellow-600" />
+                  <div className="mb-8 text-center">
+                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100">
+                      <Icon className="h-8 w-8 text-yellow-600" />
                     </div>
 
-                    <h3 className="text-2xl font-medium text-foreground mb-2">
-                      {plan.name}
-                    </h3>
+                    <h3 className="text-foreground mb-2 text-2xl font-medium">{plan.name}</h3>
 
-                    <p className="text-muted-foreground text-sm">
-                      {plan.description}
-                    </p>
+                    <p className="text-muted-foreground text-sm">{plan.description}</p>
                   </div>
 
                   {/* Pricing */}
-                  <div className="text-center mb-8">
+                  <div className="mb-8 text-center">
                     <div className="mb-2">
-                      <span className="text-4xl font-light text-foreground">
+                      <span className="text-foreground text-4xl font-light">
                         {formatPrice(Math.round(discountedPrice))}
                       </span>
                       {(plan.originalPrice || selectedDiscount) && (
-                        <span className="text-lg text-muted-foreground/80 line-through ml-2">
+                        <span className="text-muted-foreground/80 ml-2 text-lg line-through">
                           {formatPrice(plan.originalPrice || plan.price)}
                         </span>
                       )}
                     </div>
                     {selectedDiscount && (
-                      <div className="text-sm text-green-600 font-medium mb-2">
+                      <div className="mb-2 text-sm font-medium text-green-600">
                         {selectedDiscount.name} aplicat (-{selectedDiscount.percentage}%)
                       </div>
                     )}
-                    <div className="text-sm text-muted-foreground">
-                      {plan.sessions} sessió{plan.sessions > 1 ? 's' : ''} · Validesa {plan.validityMonths} mes{plan.validityMonths > 1 ? 'os' : ''}
+                    <div className="text-muted-foreground text-sm">
+                      {plan.sessions} sessió{plan.sessions > 1 ? 's' : ''} · Validesa{' '}
+                      {plan.validityMonths} mes{plan.validityMonths > 1 ? 'os' : ''}
                     </div>
                   </div>
 
                   {/* Features */}
-                  <ul className="space-y-3 mb-8">
+                  <ul className="mb-8 space-y-3">
                     {plan.features.map((feature: string, featureIndex: number) => (
                       <li key={featureIndex} className="flex items-start">
-                        <CheckCircle className="w-5 h-5 text-green-500 mr-3 shrink-0 mt-0.5" />
-                        <span className="text-sm text-muted-foreground">
-                          {feature}
-                        </span>
+                        <CheckCircle className="mt-0.5 mr-3 h-5 w-5 shrink-0 text-green-500" />
+                        <span className="text-muted-foreground text-sm">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -241,17 +237,18 @@ export default function PricingSection() {
                   {/* CTA Button */}
                   <button
                     onClick={() => {
-                      logEvent('select_pricing_plan', { 
-                          plan_id: plan.id, 
-                          plan_name: plan.name,
-                          price: plan.price
+                      logEvent('select_pricing_plan', {
+                        plan_id: plan.id,
+                        plan_name: plan.name,
+                        price: plan.price,
                       });
                       navigateToBooking(plan.name);
                     }}
-                    className={`w-full py-4 rounded-2xl font-medium transition-all duration-200 text-center ${plan.popular
-                        ? 'bg-yellow-400 hover:bg-yellow-500 text-foreground shadow-sm hover:shadow-md'
-                        : 'bg-muted hover:bg-gray-200 text-foreground'
-                      }`}
+                    className={`w-full rounded-2xl py-4 text-center font-medium transition-all duration-200 ${
+                      plan.popular
+                        ? 'text-foreground bg-yellow-400 shadow-sm hover:bg-yellow-500 hover:shadow-md'
+                        : 'bg-muted text-foreground hover:bg-gray-200'
+                    }`}
                   >
                     {plan.buttonText}
                   </button>
@@ -262,21 +259,14 @@ export default function PricingSection() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
-            <div
-              key={feature.title}
-              className="bg-muted/30 rounded-2xl p-6 text-center"
-            >
-              <div className="w-12 h-12 bg-yellow-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckCircle className="w-6 h-6 text-yellow-600" />
+            <div key={feature.title} className="bg-muted/30 rounded-2xl p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100">
+                <CheckCircle className="h-6 w-6 text-yellow-600" />
               </div>
-              <h4 className="font-medium text-foreground mb-2">
-                {feature.title}
-              </h4>
-              <p className="text-sm text-muted-foreground">
-                {feature.description}
-              </p>
+              <h4 className="text-foreground mb-2 font-medium">{feature.title}</h4>
+              <p className="text-muted-foreground text-sm">{feature.description}</p>
             </div>
           ))}
         </div>
@@ -284,18 +274,19 @@ export default function PricingSection() {
         {/* Bottom CTA */}
         <div className="text-center">
           <div className="bg-muted/30 rounded-2xl p-8">
-            <h3 className="text-2xl font-medium text-foreground mb-4">
+            <h3 className="text-foreground mb-4 text-2xl font-medium">
               No estàs segur quin pla triar?
             </h3>
             <p className="text-muted-foreground mb-6">
-              Fes la nostra avaluació gratuïta i descobreix quin tractament s'adapta millor a les teves necessitats
+              Fes la nostra avaluació gratuïta i descobreix quin tractament s'adapta millor a les
+              teves necessitats
             </p>
             <Link
               to="/services"
-              className="inline-flex items-center text-yellow-600 hover:text-yellow-700 font-medium transition-colors group"
+              className="group inline-flex items-center font-medium text-yellow-600 transition-colors hover:text-yellow-700"
             >
               Descobrir els nostres serveis
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
         </div>
@@ -303,8 +294,3 @@ export default function PricingSection() {
     </section>
   );
 }
-
-
-
-
-

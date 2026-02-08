@@ -16,10 +16,12 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const supabase = await createClient();
   const { data: booking, error } = await supabase
     .from('booking')
-    .select('id,start_time,end_time,status,payment_status,email,display_name,service_id,addons_json,payment_mode,deposit_cents,base_price_cents,currency,cancellation_policy')
+    .select(
+      'id,start_time,end_time,status,payment_status,email,display_name,service_id,addons_json,payment_mode,deposit_cents,base_price_cents,currency,cancellation_policy'
+    )
     .eq('id', id)
     .single();
-  if (error || !booking) return NextResponse.json({ error: error?.message || 'Not found' }, { status: 404 });
+  if (error || !booking)
+    return NextResponse.json({ error: error?.message || 'Not found' }, { status: 404 });
   return NextResponse.json({ booking });
 }
-

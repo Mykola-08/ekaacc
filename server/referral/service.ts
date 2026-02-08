@@ -1,9 +1,7 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { nanoid } from 'nanoid';
 
 export class ReferralService {
-  
   async createReferralCode(userId: string, customCode?: string) {
     const supabase = await createClient();
     const code = customCode || nanoid(8).toUpperCase(); // Simple 8 char code
@@ -13,7 +11,7 @@ export class ReferralService {
       .insert({
         code: code,
         owner_id: userId,
-        is_active: true
+        is_active: true,
       })
       .select()
       .single();
@@ -39,29 +37,27 @@ export class ReferralService {
       .select('owner_id, is_active')
       .eq('code', code)
       .single();
-      
+
     if (!data || !data.is_active) return null;
     return data;
   }
 
   async trackReferralRegistration(code: string, newUserId: string) {
     const supabase = await createClient();
-    
+
     // Validate code
     const refData = await this.validateCode(code);
     if (!refData) throw new Error('Invalid code');
-    
+
     if (refData.owner_id === newUserId) throw new Error('Cannot refer self');
 
     // Record usage
-    const { error } = await supabase
-      .from('referral_usage')
-      .insert({
-        code: code,
-        referred_user_id: newUserId,
-        status: 'pending' // Waiting for first booking
-      });
-      
+    const { error } = await supabase.from('referral_usage').insert({
+      code: code,
+      referred_user_id: newUserId,
+      status: 'pending', // Waiting for first booking
+    });
+
     if (error) throw error;
   }
 

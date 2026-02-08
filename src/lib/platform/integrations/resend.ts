@@ -16,7 +16,7 @@ export class ResendIntegration extends BaseIntegration {
 
   async checkConnection(): Promise<boolean> {
     if (!this.config.apiKey) return false;
-    
+
     // Resend API keys start with 're_' and are typically followed by a UUID-like string
     // Example: re_12345678_12345678
     const validPrefix = this.config.apiKey.startsWith('re_');
@@ -31,4 +31,3 @@ export class ResendIntegration extends BaseIntegration {
     };
   }
 }
-

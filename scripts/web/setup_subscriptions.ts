@@ -1,10 +1,9 @@
-
 import { createClient } from '@supabase/supabase-js';
 import Stripe from 'stripe';
 import * as dotenv from 'dotenv';
 import path from 'path';
 
-// Load env from apps/booking-app/.env.local or similar if possible, 
+// Load env from apps/booking-app/.env.local or similar if possible,
 // strictly we rely on the environment variables being set or passed.
 dotenv.config();
 
@@ -29,7 +28,7 @@ const SUBSCRIPTIONS = [
     currency: 'eur',
     interval: 'month',
     type: 'subscription',
-    tags: ['vip', 'membership']
+    tags: ['vip', 'membership'],
   },
   {
     name: 'Loyal Membership',
@@ -38,8 +37,8 @@ const SUBSCRIPTIONS = [
     currency: 'eur',
     interval: 'year',
     type: 'subscription',
-    tags: ['loyal', 'membership']
-  }
+    tags: ['loyal', 'membership'],
+  },
 ];
 
 async function main() {
@@ -64,18 +63,21 @@ async function main() {
     }
 
     // 2. Create Price in Stripe
-    // We check if a price with multiple params exists? 
+    // We check if a price with multiple params exists?
     // Easier to just create one if we don't store it, but we should try to find it.
     // List prices for product
     const prices = await stripe.prices.list({ product: product.id, active: true });
-    let price = prices.data.find(p => 
-      p.unit_amount === sub.priceAmount && 
-      p.currency === sub.currency && 
-      p.recurring?.interval === sub.interval
+    let price = prices.data.find(
+      (p) =>
+        p.unit_amount === sub.priceAmount &&
+        p.currency === sub.currency &&
+        p.recurring?.interval === sub.interval
     );
 
     if (!price) {
-      console.log(`Creating Stripe Price: ${sub.priceAmount/100} ${sub.currency}/${sub.interval}`);
+      console.log(
+        `Creating Stripe Price: ${sub.priceAmount / 100} ${sub.currency}/${sub.interval}`
+      );
       price = await stripe.prices.create({
         product: product.id,
         unit_amount: sub.priceAmount,
@@ -89,7 +91,7 @@ async function main() {
     // 3. Upsert into Supabase service table
     // We use name as a unique key for lookup to update if exists?
     // Or we just insert.
-    
+
     // Check if service exists by name
     const { data: existingServices } = await supabase
       .from('service')
@@ -102,22 +104,29 @@ async function main() {
     if (existingServices && existingServices.length > 0) {
       serviceId = existingServices[0]!.id;
       console.log(`Updating existing Service: ${serviceId}`);
-      await supabase.from('service').update({
-        stripe_product_id: product.id,
-        description: sub.description,
-        tags: sub.tags,
-        metadata: { type: 'subscription' }
-      }).eq('id', serviceId);
+      await supabase
+        .from('service')
+        .update({
+          stripe_product_id: product.id,
+          description: sub.description,
+          tags: sub.tags,
+          metadata: { type: 'subscription' },
+        })
+        .eq('id', serviceId);
     } else {
       console.log(`Inserting new Service`);
-      const { data: newService, error } = await supabase.from('service').insert({
-        name: sub.name,
-        description: sub.description,
-        stripe_product_id: product.id,
-        tags: sub.tags,
-        metadata: { type: 'subscription' }
-      }).select().single();
-      
+      const { data: newService, error } = await supabase
+        .from('service')
+        .insert({
+          name: sub.name,
+          description: sub.description,
+          stripe_product_id: product.id,
+          tags: sub.tags,
+          metadata: { type: 'subscription' },
+        })
+        .select()
+        .single();
+
       if (error) {
         console.error('Error inserting service:', error);
         continue;
@@ -136,11 +145,14 @@ async function main() {
 
     if (existingVariants && existingVariants.length > 0) {
       console.log(`Updating Variant: ${existingVariants[0]!.id}`);
-      await supabase.from('service_variant').update({
-        stripe_price_id: price.id,
-        name: `${sub.interval}ly`,
-        duration_min: 0 // Subscriptions don't really have duration in minutes like sessions
-      }).eq('id', existingVariants[0]!.id);
+      await supabase
+        .from('service_variant')
+        .update({
+          stripe_price_id: price.id,
+          name: `${sub.interval}ly`,
+          duration_min: 0, // Subscriptions don't really have duration in minutes like sessions
+        })
+        .eq('id', existingVariants[0]!.id);
     } else {
       console.log(`Inserting new Variant`);
       await supabase.from('service_variant').insert({
@@ -149,7 +161,7 @@ async function main() {
         duration_min: 0,
         price_amount: sub.priceAmount,
         currency: sub.currency.toUpperCase(),
-        stripe_price_id: price.id
+        stripe_price_id: price.id,
       });
     }
 

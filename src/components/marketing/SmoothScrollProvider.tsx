@@ -14,7 +14,7 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   };
@@ -24,7 +24,7 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     const handleAnchorClick = (e: Event) => {
       const target = e.target as HTMLAnchorElement;
       const href = target.getAttribute('href');
-      
+
       if (href && href.startsWith('#')) {
         e.preventDefault();
         const elementId = href.substring(1);
@@ -35,7 +35,7 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     // Add intersection observer for fade-in animations
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: '0px 0px -50px 0px',
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -69,4 +69,3 @@ export default function SmoothScrollProvider({ children }: SmoothScrollProviderP
     </SmoothScrollContext.Provider>
   );
 }
-

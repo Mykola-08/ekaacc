@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { Alert } from 'keep-react';
@@ -71,37 +70,24 @@ function ToastComponent({ toast, onClose }: ToastProps) {
 
   return (
     <div
-      className={`
-        relative overflow-hidden max-w-md w-full
-        transition-all duration-200 ease-out transform
-        ${isVisible && !isExiting
-          ? 'translate-x-0 opacity-100 scale-100'
+      className={`relative w-full max-w-md transform overflow-hidden transition-all duration-200 ease-out ${
+        isVisible && !isExiting
+          ? 'translate-x-0 scale-100 opacity-100'
           : isExiting
-            ? 'translate-x-full opacity-0 scale-95'
-            : 'translate-x-full opacity-0 scale-95'
-        }
-      `}
+            ? 'translate-x-full scale-95 opacity-0'
+            : 'translate-x-full scale-95 opacity-0'
+      } `}
     >
-      <Alert
-        color={getKeepColor()}
-        withBg
-        className="shadow-lg backdrop-blur-sm relative"
-      >
+      <Alert color={getKeepColor()} withBg className="relative shadow-lg backdrop-blur-sm">
         <div className="flex items-start justify-between">
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-medium">
-              {toast.title}
-            </h3>
-            {toast.message && (
-              <p className="mt-1 text-sm opacity-90">
-                {toast.message}
-              </p>
-            )}
+          <div className="min-w-0 flex-1">
+            <h3 className="text-sm font-medium">{toast.title}</h3>
+            {toast.message && <p className="mt-1 text-sm opacity-90">{toast.message}</p>}
             {toast.action && (
               <div className="mt-3">
                 <button
                   onClick={toast.action.onClick}
-                  className="text-sm font-medium underline hover:no-underline transition-all"
+                  className="text-sm font-medium underline transition-all hover:no-underline"
                 >
                   {toast.action.label}
                 </button>
@@ -110,7 +96,7 @@ function ToastComponent({ toast, onClose }: ToastProps) {
           </div>
           <button
             onClick={handleClose}
-            className="ml-4 text-xl leading-none hover:opacity-70 transition-opacity"
+            className="ml-4 text-xl leading-none transition-opacity hover:opacity-70"
           >
             ×
           </button>
@@ -118,26 +104,28 @@ function ToastComponent({ toast, onClose }: ToastProps) {
 
         {/* Progress bar for duration */}
         {toast.duration && toast.duration > 0 && (
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-black/10">
+          <div className="absolute right-0 bottom-0 left-0 h-1 bg-black/10">
             <div
               className="h-full bg-current opacity-30 transition-all ease-linear"
               style={{
                 animation: `shrink ${toast.duration}ms linear forwards`,
-                width: '100%'
+                width: '100%',
               }}
             />
           </div>
         )}
       </Alert>
 
-      <style dangerouslySetInnerHTML={{
-        __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
           @keyframes shrink {
             from { width: 100%; }
             to { width: 0%; }
           }
-        `
-      }} />
+        `,
+        }}
+      />
     </div>
   );
 }
@@ -152,15 +140,12 @@ export default function ToastContainer() {
       id,
       duration: toast.duration ?? 5000,
     };
-    setToasts(prev => [...prev, newToast]);
+    setToasts((prev) => [...prev, newToast]);
   };
 
   const removeToast = (id: string) => {
-    setToasts(prev => prev.filter(toast => toast.id !== id));
+    setToasts((prev) => prev.filter((toast) => toast.id !== id));
   };
-
-
-
 
   // Global toast function
   useEffect(() => {
@@ -177,9 +162,9 @@ export default function ToastContainer() {
   }, []);
 
   return (
-    <div className="fixed top-4 right-4 z-[100] space-y-4 pointer-events-none">
+    <div className="pointer-events-none fixed top-4 right-4 z-[100] space-y-4">
       <div className="space-y-3">
-        {toasts.map(toast => (
+        {toasts.map((toast) => (
           <div key={toast.id} className="pointer-events-auto">
             <ToastComponent toast={toast} onClose={removeToast} />
           </div>
@@ -188,5 +173,3 @@ export default function ToastContainer() {
     </div>
   );
 }
-
-

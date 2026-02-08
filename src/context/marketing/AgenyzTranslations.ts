@@ -1,0 +1,745 @@
+import { Language } from './LanguageTypes';
+
+export const agenyzTranslations: Record<Language, Record<string, string>> = {
+  ca: {
+    'agenyz.hero.biohacking': 'Biohacking i nutrició',
+    'agenyz.page.title': 'Nutrició cel·lular Agenyz',
+    'agenyz.page.subtitle':
+      'Suplements avançats per a la regeneració cel·lular profunda i la vitalitat.',
+    'agenyz.page.description':
+      "Descobreix el poder del biohacking amb Agenyz. Aquests suplements estan dissenyats per treballar a nivell cel·lular, restaurant l'energia, la immunitat i la joventut des de l'interior.",
+    'agenyz.cta.visitStore': 'Visita la botiga Agenyz',
+    'agenyz.hero.available': 'Disponible per comanda',
+    'agenyz.hero.science': 'Impulsat per la ciència',
+    'agenyz.buyNow': 'Comprar ara',
+    'agenyz.askExpert': 'Pregunta a un expert',
+    'agenyz.aboutProduct': 'Sobre la fórmula',
+    'agenyz.ingredients': 'Interaccions actives',
+    'agenyz.benefits': 'Beneficis clau',
+    'agenyz.usage': 'Com utilitzar',
+    'agenyz.label.type': 'Tipus',
+    'agenyz.label.bioactive': 'Bio-actiu',
+    'agenyz.label.series': 'Sèrie',
+    'agenyz.label.dnaProtection': "Protecció de l'ADN",
+    'agenyz.label.labTested': 'Provat al laboratori',
+    'agenyz.label.highBioavailability': 'Alta biodisponibilitat',
+    'agenyz.label.quality': 'Qualitat',
+    'agenyz.label.natural': 'Natural',
+    'agenyz.viewDetails': 'Veure detalls',
+    'agenyz.why.title': 'Per què Agenyz?',
+    'agenyz.why.subtitle': 'Beneficis recolzats per la ciència per al teu cos i ment.',
+    'agenyz.benefits.energy': 'Energia infinita',
+    'agenyz.benefits.energy.desc':
+      'Restaura la funció mitocondrial per a una energia diària sostinguda.',
+    'agenyz.benefits.immunity': 'Escut immunitari',
+    'agenyz.benefits.immunity.desc':
+      "Reforça les teves defenses naturals contra l'estrès i els patògens.",
+    'agenyz.benefits.brain': 'Claredat cognitiva',
+    'agenyz.benefits.brain.desc': "Millora l'enfocament, la memòria i l'agilitat mental.",
+    'agenyz.benefits.youth': 'Joventut cel·lular',
+    'agenyz.benefits.youth.desc': "Promou la regeneració i combat l'estrès oxidatiu.",
+    'agenyz.catalogue.subtitle': 'La nostra col·lecció',
+    'agenyz.catalogue.title': 'Catàleg de productes Agenyz',
+    'agenyz.catalogue.desc':
+      'Explora la nostra gamma completa de bio-additius i aliments funcionals dissenyats per a la teva salut cel·lular.',
+    'agenyz.product.cellgenetix.name': 'CellGenetiX',
+    'agenyz.product.cellgenetix.desc':
+      'Un complex antioxidant avançat amb poliprenols i astaxantina - perfecte per a aquells que volen preservar la joventut i la vitalitat.',
+    'agenyz.product.3d-matrix.name': '3D-Matrix',
+    'agenyz.product.3d-matrix.desc':
+      'La sinergia de condroprotectors, aminoàcids i antioxidants promou la restauració del cartílag articular i la producció de col·lagen.',
+    'agenyz.product.alpha-omega-q10.name': 'AlphaOmega-Q10',
+    'agenyz.product.alpha-omega-q10.desc':
+      "Complex d'antioxidants, coenzim Q10, betulina i àcids grassos omega-3 per al cor, el cervell i la bellesa.",
+    'agenyz.product.hepaart.name': 'HepaArt',
+    'agenyz.product.hepaart.desc':
+      "Un complex únic d'extractes de plantes per a la protecció del fetge i la desintoxicació.",
+    'agenyz.product.ursus.name': 'Ursus',
+    'agenyz.product.ursus.desc':
+      "Complex d'extractes de plantes i microelements per a la salut dels ronyons i del tracte urinari.",
+    'agenyz.product.slim-hit.name': 'Slim Hit',
+    'agenyz.product.slim-hit.desc':
+      "Complex per bloquejar l'absorció de greixos i carbohidrats excessius i reduir la gana.",
+    'agenyz.product.k2d3-boost.name': 'K2D3-Boost',
+    'agenyz.product.k2d3-boost.desc':
+      'Un complex únic de vitamines liposolubles i microelements per al metabolisme del calci.',
+    'agenyz.product.cellguard.name': 'CellGuard',
+    'agenyz.product.cellguard.desc':
+      'Un complex dels immunomoduladors naturals més forts destinats a protegir les cèl·lules de virus i danys.',
+    'agenyz.product.candidel.name': 'Candidel',
+    'agenyz.product.candidel.desc':
+      'Complex natural de components vegetals actius per a la protecció contra infeccions fúngiques (candida).',
+    'agenyz.product.infladel.name': 'Infladel',
+    'agenyz.product.infladel.desc':
+      'Complex de components naturals actius destinats a reduir els processos inflamatoris.',
+    'agenyz.product.serum-progressive-anti-age.name': 'Sèrum progressiu anti-edat',
+    'agenyz.product.serum-progressive-anti-age.desc':
+      "Un sèrum premium i altament efectiu per al rejoveniment profund de la pell i la reducció d'arrugues.",
+    'agenyz.product.eye-lifting-cream.name': 'Crema lifting anti-edat ulls',
+    'agenyz.product.eye-lifting-cream.desc':
+      'Crema lifting anti-edat intensiva per a la zona delicada dels ulls.',
+    'agenyz.product.hyaluronic-aqua-cream.name': 'Crema aqua hialurònica',
+    'agenyz.product.hyaluronic-aqua-cream.desc':
+      'Crema aqua hialurònica multimolecular per a una hidratació intensiva.',
+    'agenyz.product.iq-mct-powder.name': 'Pols iq-MCT',
+    'agenyz.product.iq-mct-powder.desc':
+      "Una font d'alta qualitat d'energia pura per al cor, el cervell i els músculs esquelètics. Apte per a Keto.",
+    'agenyz.product.alpha-shake-mct.name': 'Alpha Shake + MCT',
+    'agenyz.product.alpha-shake-mct.desc':
+      "Còctel de proteïnes enriquit amb oli MCT per a la sacietat i l'energia.",
+    'agenyz.product.chocolate-iq-shock.name': 'Xocolata iq-shock',
+    'agenyz.product.chocolate-iq-shock.desc':
+      'Xocolata negra sense sucre afegit, destinada a la claredat mental i la concentració cerebral.',
+    'agenyz.product.black-gold-hot.name': 'Black Gold & hot',
+    'agenyz.product.black-gold-hot.desc':
+      'Beguda calenta feta de chaga, gingebre i llimona per a la immunitat.',
+    'agenyz.product.ph-balance-cell.name': 'pH Balance Cell',
+    'agenyz.product.ph-balance-cell.desc':
+      "Complex equilibrat de minerals de l'alga Lithothamnia per regular l'equilibri àcid-base.",
+    'agenyz.product.immune-cell.name': 'Immune Cell',
+    'agenyz.product.immune-cell.desc':
+      'Beguda amb vitamines, iode i extractes per a un suport immunitari complet.',
+    'agenyz.product.sorbio-detox-cell.name': 'Sorbio Detox Cell',
+    'agenyz.product.sorbio-detox-cell.desc':
+      'Beguda per a una desintoxicació efectiva i neteja del cos.',
+    'agenyz.product.gummyz-kidyz.name': 'Gummyz KidYZ calci',
+    'agenyz.product.gummyz-kidyz.desc':
+      'Vitamines delicioses per a nens amb calci, vitamina k2 i d3.',
+    // New flagship products from agenyz.eu
+    'agenyz.product.octomagnesium.name': 'OCTOMAGNESIUM + XBi-A',
+    'agenyz.product.octomagnesium.desc':
+      "8 formes de magnesi amb vitamina B6. Suporta la funció normal del sistema nerviós i els músculs, i contribueix al manteniment d'ossos normals.",
+    'agenyz.product.cats-claw.name': "Cat's Claw + XBi - A",
+    'agenyz.product.cats-claw.desc':
+      "Combinació d'extracte d'ungla de gat i el complex XBi-A®, oferint un enfocament modern per al suport immunitari i la restauració de l'equilibri al cos.",
+    'agenyz.product.paradetox.name': 'PARADETOX + XBi-A',
+    'agenyz.product.paradetox.desc':
+      "Complex d'extractes d'absenta, llavors de carbassa, aranja i nou negre amb XBi-A® - un enfocament modern per al suport corporal i la desintoxicació suau.",
+    'agenyz.product.oculyz.name': 'OCULYZ + XBi-A',
+    'agenyz.product.oculyz.desc':
+      "Complex de salut ocular que promou l'enfortiment dels vasos sanguinis dels ulls i protegeix contra la llum blava.",
+    'agenyz.product.alfapatch.name': 'ALFAPATCH',
+    'agenyz.product.alfapatch.desc':
+      "Pegats d'escalfament muscular i articular - una innovació per donar suport a un estil de vida actiu!",
+    'agenyz.product.youth-secret.name': 'YOUTH SECRET',
+    'agenyz.product.youth-secret.desc':
+      'Fórmula anti-edat amb pèptids i protecció UV per al rejoveniment visible i la defensa de la pell a nivell cel·lular.',
+    'agenyz.product.collagen-blend.name': 'COLLAGEN BLEND PRO PEPTIDES + Biotin',
+    'agenyz.product.collagen-blend.desc':
+      'Complex de col·lagen hidrolitzat amb biotina per a la pell, el cabell i les ungles.',
+    'agenyz.product.vitamin-c-d3.name': 'VITAMIN C + XBi-A & VITAMIN D3 + XBi-A',
+    'agenyz.product.vitamin-c-d3.desc':
+      "Dissenyat pensant en el suport integral de la immunitat, l'energia i l'equilibri metabòlic.",
+    'agenyz.product.gummies-stress.name': 'GUMMIES STRESS RELIEF',
+    'agenyz.product.gummies-stress.desc':
+      "Una manera natural d'aconseguir calma i equilibri emocional cada dia.",
+    'agenyz.product.deep-reboot.name': 'SET "DEEP REBOOT PROTOCOL"',
+    'agenyz.product.deep-reboot.desc':
+      'Protocol de reinici profund: Restableix el teu sistema. Suporta la teva energia.',
+    'agenyz.category.All': 'Tots',
+    'agenyz.category.Cell Elixir': 'Elixir cel·lular',
+    'agenyz.category.3D Guard': 'Protecció 3d',
+    'agenyz.category.Beauty Drone': 'Beauty Drone',
+    'agenyz.category.Functional Food': 'Aliment funcional',
+    'agenyz.category.True Aqua': 'True Aqua',
+    'agenyz.category.KidYZ': 'KidYZ',
+    'agenyz.category.XBi-A Series': 'Sèrie XBi-A',
+    'agenyz.category.G-Keto': 'G-Keto',
+    'agenyz.category.Beauty': 'Bellesa',
+    'agenyz.category.Additional': 'Addicional',
+    'agenyz.product.CellGenetiX.features':
+      'Active Cell regeneration, telomere protection, DNA repair',
+    'agenyz.product.3D-Matrix.features': 'Joint health, skin elasticity, connective tissue support',
+    'agenyz.product.Alpha-omega-q10.features': 'Heart health, brain function, anti-aging',
+    'agenyz.product.HepaArt.features': 'Liver support, detoxification, cholesterol Balance',
+    'agenyz.product.Ursus.features': 'Kidney health, urinary tract support, mild diuretic',
+    'agenyz.product.Slim-hit.features': 'Weight management, appetite control, metabolism boost',
+    'agenyz.product.K2D3-Boost.features': 'Bone strength, immune support, calcium absorption',
+    'agenyz.product.CellGuard.features': 'Immune defense, antiviral, Cell protection',
+    'agenyz.product.Candidel.features': 'Anti-fungal, microbiome Balance, Detox',
+    'agenyz.product.Infladel.features': 'Anti-inflammatory, pain relief, recovery',
+    'agenyz.product.Serum-progressive-anti-age.features':
+      'Lifting effect, wrinkle reduction, deep hydration',
+    'agenyz.product.Eye-lifting-cream.features':
+      'Dark circles reduction, lifting, puffiness reduction',
+    'agenyz.product.Hyaluronic-aqua-cream.features': 'Deep moisture, skin barrier, radiance',
+    'agenyz.product.Iq-MCT-powder.features': 'Instant energy, brain clarity, keto support',
+    'agenyz.product.Alpha-shake-MCT.features': 'Muscle recovery, satiety, metabolism',
+    'agenyz.product.Chocolate-iq-shock.features': 'Focus, mood elevation, no sugar',
+    'agenyz.product.Black-gold-hot.features': 'Immunity warming, antioxidant, digestive aid',
+    'agenyz.product.pH-Balance-cell.features': 'Alkalizing, mineral replenishment, detox',
+    'agenyz.product.Immune-cell.features': 'Daily immunity, energy, vitality',
+    'agenyz.product.Sorbio-detox-cell.features': 'Deep detox, gut health, heavy metal removal',
+    'agenyz.product.gummyz-KidYZ.features': 'Strong bones, growth support, tasty & healthy',
+    'vip.cta.apply': 'Sol·licitar Membresia',
+    'vip.services.title': 'Serveis Exclusius',
+    'vip.services.subtitle': 'Adaptat al teu viatge de salut únic',
+    'vip.pricing.title': 'Plans de Membresia',
+    'vip.pricing.subtitle': "Tria el nivell d'atenció que et convingui",
+    'vip.cta.select': 'Seleccionar Pla',
+    'services.featuredTitle': 'Serveis Destacats',
+    'services.featuredSubtitle': 'Descobreix les nostres ofertes més populars',
+    'services.viewAll': 'Veure Tots els Serveis',
+  },
+  en: {
+    'agenyz.hero.biohacking': 'Biohacking & nutrition',
+    'agenyz.page.title': 'Agenyz cellular nutrition',
+    'agenyz.page.subtitle': 'Advanced supplements for deep cellular regeneration and vitality.',
+    'agenyz.page.description':
+      'Discover the power of biohacking with Agenyz. These supplements are designed to work at the cellular level, restoring energy, immunity, and youthfulness from the inside out.',
+    'agenyz.cta.visitStore': 'Visit Agenyz store',
+    'agenyz.hero.available': 'Available for order',
+    'agenyz.hero.science': 'Powered by Science',
+    'agenyz.why.title': 'Why Agenyz?',
+    'agenyz.why.subtitle': 'Science-backed benefits for your body and mind.',
+    'agenyz.benefits.energy': 'Infinite energy',
+    'agenyz.benefits.energy.desc': 'Restores mitochondrial function for sustained daily energy.',
+    'agenyz.benefits.immunity': 'Immune shield',
+    'agenyz.benefits.immunity.desc':
+      'Strengthens your natural defenses against stress and pathogens.',
+    'agenyz.benefits.brain': 'Cognitive clarity',
+    'agenyz.benefits.brain.desc': 'Enhances focus, memory, and mental agility.',
+    'agenyz.benefits.youth': 'Cellular youth',
+    'agenyz.benefits.youth.desc': 'Promotes regeneration and fights oxidative stress.',
+    'agenyz.catalogue.subtitle': 'Our collection',
+    'agenyz.catalogue.title': 'Agenyz product catalogue',
+    'agenyz.catalogue.desc':
+      'Explore our comprehensive range of bio-additives and Functional foods designed for your cellular health.',
+    'agenyz.product.cellgenetix.name': 'CellGenetiX',
+    'agenyz.product.cellgenetix.desc':
+      'An advanced antioxidant complex with polyprenols and astaxanthin - perfect for those who want to preserve youth and vitality.',
+    'agenyz.product.3d-matrix.name': '3D-Matrix',
+    'agenyz.product.3d-matrix.desc':
+      'The synergy of chondroprotectors, amino acids and antioxidants promotes the restoration of joint cartilage and collagen production.',
+    'agenyz.product.alpha-omega-q10.name': 'AlphaOmega-Q10',
+    'agenyz.product.alpha-omega-q10.desc':
+      'Complex of antioxidants, coenzyme q10, betulin and omega-3 fatty acids for heart, brain and beauty.',
+    'agenyz.product.hepaart.name': 'HepaArt',
+    'agenyz.product.hepaart.desc':
+      'A unique complex of plant extracts for liver protection and detoxification.',
+    'agenyz.product.ursus.name': 'Ursus',
+    'agenyz.product.ursus.desc':
+      'Complex of plant extracts and microelements for kidneys and urinary tract health.',
+    'agenyz.product.slim-hit.name': 'Slim Hit',
+    'agenyz.product.slim-hit.desc':
+      'Complex to block the absorption of excess fats and carbohydrates and reduce appetite.',
+    'agenyz.product.k2d3-boost.name': 'K2D3-Boost',
+    'agenyz.product.k2d3-boost.desc':
+      'A unique complex of fat-soluble vitamins and microelements for calcium metabolism.',
+    'agenyz.product.cellguard.name': 'CellGuard',
+    'agenyz.product.cellguard.desc':
+      'A complex of the strongest natural immunomodulators aimed at protecting cells from viruses and damage.',
+    'agenyz.product.candidel.name': 'Candidel',
+    'agenyz.product.candidel.desc':
+      'Natural complex of active plant components for protection against fungal infections (candida).',
+    'agenyz.product.infladel.name': 'Infladel',
+    'agenyz.product.infladel.desc':
+      'Complex of active natural components aimed at reducing inflammatory processes.',
+    'agenyz.product.serum-progressive-anti-age.name': 'Serum Progressive Anti-Age',
+    'agenyz.product.serum-progressive-anti-age.desc':
+      'A premium, highly effective serum for deep skin rejuvenation and wrinkle reduction.',
+    'agenyz.product.eye-lifting-cream.name': 'Anti-Age Eye Lifting Cream',
+    'agenyz.product.eye-lifting-cream.desc':
+      'Intensive anti-aging lifting cream for the delicate eye area.',
+    'agenyz.product.hyaluronic-aqua-cream.name': 'Hyaluronic Aqua Cream',
+    'agenyz.product.hyaluronic-aqua-cream.desc':
+      'Multi-molecular Hyaluronic Aqua Cream for intensive moisturizing.',
+    'agenyz.product.iq-mct-powder.name': 'IQ-MCT Powder',
+    'agenyz.product.iq-mct-powder.desc':
+      'A high-quality source of pure energy for the heart, brain, and skeletal muscles. Keto-friendly.',
+    'agenyz.product.alpha-shake-mct.name': 'Alpha Shake + MCT',
+    'agenyz.product.alpha-shake-mct.desc':
+      'Protein cocktail enriched with MCT oil for saturation and energy.',
+    'agenyz.product.chocolate-iq-shock.name': 'Chocolate iQ-Shock',
+    'agenyz.product.chocolate-iq-shock.desc':
+      'Dark chocolate with no added sugar, aimed at mental clarity and brain concentration.',
+    'agenyz.product.black-gold-hot.name': 'Black Gold & hot',
+    'agenyz.product.black-gold-hot.desc':
+      'Hot drink made from chaga, ginger and lemon for immunity.',
+    'agenyz.product.ph-balance-cell.name': 'pH Balance Cell',
+    'agenyz.product.ph-balance-cell.desc':
+      'Balanced complex of minerals from lithothamnia seaweed to regulate acid-base Balance.',
+    'agenyz.product.immune-cell.name': 'Immune Cell',
+    'agenyz.product.immune-cell.desc':
+      'Drink with vitamins, iodine and extracts for comprehensive immune support.',
+    'agenyz.product.sorbio-detox-cell.name': 'Sorbio Detox Cell',
+    'agenyz.product.sorbio-detox-cell.desc':
+      'Drink for effective detoxification and cleansing of the body.',
+    'agenyz.product.gummyz-kidyz.name': 'Gummyz KidYZ calcium',
+    'agenyz.product.gummyz-kidyz.desc':
+      'Delicious vitamins for children with calcium, vitamin k2 and d3.',
+    // New flagship products from agenyz.eu
+    'agenyz.product.octomagnesium.name': 'OCTOMAGNESIUM + XBi-A',
+    'agenyz.product.octomagnesium.desc':
+      '8 forms of magnesium with vitamin B6. Supports normal function of the nervous system and muscles, and contributes to the maintenance of normal bones.',
+    'agenyz.product.cats-claw.name': "Cat's Claw + XBi-A",
+    'agenyz.product.cats-claw.desc':
+      "Combination of Cat's Claw extract and the XBi-A® complex, offering a modern approach for immune support and restoring balance in the body.",
+    'agenyz.product.paradetox.name': 'PARADETOX + XBi-A',
+    'agenyz.product.paradetox.desc':
+      'Complex of wormwood, pumpkin seeds, grapefruit and black walnut extracts with XBi-A® - a modern approach for body support and gentle detoxification.',
+    'agenyz.product.oculyz.name': 'OCULYZ + XBi-A',
+    'agenyz.product.oculyz.desc':
+      'Eye health complex that promotes the strengthening of the blood vessels of the eyes and protects against blue light.',
+    'agenyz.product.alfapatch.name': 'ALFAPATCH',
+    'agenyz.product.alfapatch.desc':
+      'Muscle and joint warming patches - an innovation to support an active lifestyle!',
+    'agenyz.product.youth-secret.name': 'YOUTH SECRET',
+    'agenyz.product.youth-secret.desc':
+      'Anti-aging formula with peptides and UV protection for visible rejuvenation and skin defense at the cellular level.',
+    'agenyz.product.collagen-blend.name': 'COLLAGEN BLEND PRO PEPTIDES + Biotin',
+    'agenyz.product.collagen-blend.desc':
+      'Hydrolyzed collagen complex with biotin for skin, hair and nails.',
+    'agenyz.product.vitamin-c-d3.name': 'VITAMIN C + XBi-A & VITAMIN D3 + XBi-A',
+    'agenyz.product.vitamin-c-d3.desc':
+      'Designed with comprehensive support for immunity, energy and metabolic balance in mind.',
+    'agenyz.product.gummies-stress.name': 'GUMMIES STRESS RELIEF',
+    'agenyz.product.gummies-stress.desc':
+      'A natural way to achieve calm and emotional balance every day.',
+    'agenyz.product.deep-reboot.name': 'SET "DEEP REBOOT PROTOCOL"',
+    'agenyz.product.deep-reboot.desc':
+      'Deep reboot protocol: Restores your system. Supports your energy.',
+    'agenyz.product.vitamin-d3.name': 'Vitamin D3 + XBi-A',
+    'agenyz.product.vitamin-d3.desc':
+      'Vegan sun vitamin with bioavailability booster. 2000 IU + XBi-A.',
+    'agenyz.product.fungomax.name': 'FungoMax + XBi-A',
+    'agenyz.product.fungomax.desc':
+      'The power of 6 medicinal mushrooms for ultimate immune defense.',
+    'agenyz.product.ferboost.name': 'FerBoost + XBi-A',
+    'agenyz.product.ferboost.desc': '4-Source smart iron complex for anemia and energy.',
+    'agenyz.category.All': 'All',
+    'agenyz.category.Cell Elixir': 'Cell elixir',
+    'agenyz.category.3D Guard': '3d guard',
+    'agenyz.category.Beauty Drone': 'Beauty Drone',
+    'agenyz.category.Functional Food': 'Functional food',
+    'agenyz.category.True Aqua': 'True Aqua',
+    'agenyz.category.KidYZ': 'KidYZ',
+    'agenyz.category.XBi-A Series': 'XBi-A Series',
+    'agenyz.category.G-Keto': 'G-Keto',
+    'agenyz.category.Beauty': 'Beauty',
+    'agenyz.category.Additional': 'Additional',
+    'agenyz.product.CellGenetiX.features':
+      'Active Cell regeneration, telomere protection, DNA repair',
+    'agenyz.product.3D-Matrix.features': 'Joint health, skin elasticity, connective tissue support',
+    'agenyz.product.Alpha-omega-q10.features': 'Heart health, brain function, anti-aging',
+    'agenyz.product.HepaArt.features': 'Liver support, detoxification, cholesterol Balance',
+    'agenyz.product.Ursus.features': 'Kidney health, urinary tract support, mild diuretic',
+    'agenyz.product.Slim-hit.features': 'Weight management, appetite control, metabolism boost',
+    'agenyz.product.K2D3-Boost.features': 'Bone strength, immune support, calcium absorption',
+    'agenyz.product.CellGuard.features': 'Immune defense, antiviral, Cell protection',
+    'agenyz.product.Candidel.features': 'Anti-fungal, microbiome Balance, Detox',
+    'agenyz.product.Infladel.features': 'Anti-inflammatory, pain relief, recovery',
+    'agenyz.product.Serum-progressive-anti-age.features':
+      'Lifting effect, wrinkle reduction, deep hydration',
+    'agenyz.product.Eye-lifting-cream.features':
+      'Dark circles reduction, lifting, puffiness reduction',
+    'agenyz.product.Hyaluronic-aqua-cream.features': 'Deep moisture, skin barrier, radiance',
+    'agenyz.product.Iq-MCT-powder.features': 'Instant energy, brain clarity, keto support',
+    'agenyz.product.Alpha-shake-MCT.features': 'Muscle recovery, satiety, metabolism',
+    'agenyz.product.Chocolate-iq-shock.features': 'Focus, mood elevation, no sugar',
+    'agenyz.product.Black-gold-hot.features': 'Immunity warming, antioxidant, digestive aid',
+    'agenyz.product.pH-Balance-cell.features': 'Alkalizing, mineral replenishment, detox',
+    'agenyz.product.Immune-cell.features': 'Daily immunity, energy, vitality',
+    'agenyz.product.Sorbio-detox-cell.features': 'Deep detox, gut health, heavy metal removal',
+    'agenyz.product.Gummyz-KidYZ.features': 'Strong bones, growth support, tasty & healthy',
+    'agenyz.viewDetails': 'View details',
+    'agenyz.buyNow': 'Buy Now',
+    'agenyz.askExpert': 'Ask an Expert',
+    'agenyz.aboutProduct': 'About the Formula',
+    'agenyz.ingredients': 'Active Interactions',
+    'agenyz.benefits': 'Key Benefits',
+    'agenyz.usage': 'How to Use',
+    'agenyz.label.type': 'Type',
+    'agenyz.label.bioactive': 'Bio-Active',
+    'agenyz.label.series': 'Series',
+    'agenyz.label.dnaProtection': 'DNA Protection',
+    'agenyz.label.labTested': 'Lab Tested',
+    'agenyz.label.highBioavailability': 'High Bioavailability',
+    'agenyz.label.quality': 'Quality',
+    'agenyz.label.natural': 'Natural',
+    'vip.cta.apply': 'Apply for Membership',
+    'vip.services.title': 'Exclusive Services',
+    'vip.services.subtitle': 'Tailored for your unique health journey',
+    'vip.pricing.title': 'Membership Plans',
+    'vip.pricing.subtitle': 'Choose the level of care that suits you',
+    'vip.cta.select': 'Select Plan',
+    'services.featuredTitle': 'Featured Services',
+    'services.featuredSubtitle': 'Discover our most popular offerings',
+    'services.viewAll': 'View All Services',
+  },
+  es: {
+    'agenyz.hero.biohacking': 'Biohacking y nutrición',
+    'agenyz.page.title': 'Nutrición celular Agenyz',
+    'agenyz.page.subtitle':
+      'Suplementos avanzados para la regeneración celular profunda y vitalidad.',
+    'agenyz.page.description':
+      'Descubre el poder del biohacking con Agenyz. Estos suplementos están diseñados para trabajar a nivel celular, restaurando la energía, la inmunidad y la juventud desde adentro hacia afuera.',
+    'agenyz.cta.visitStore': 'Visitar tienda Agenyz',
+    'agenyz.hero.available': 'Disponible para pedido',
+    'agenyz.hero.science': 'Impulsado por la ciencia',
+    'agenyz.why.title': '¿Por qué Agenyz?',
+    'agenyz.why.subtitle': 'Beneficios respaldados por la ciencia para tu cuerpo y mente.',
+    'agenyz.benefits.energy': 'Energía infinita',
+    'agenyz.benefits.energy.desc':
+      'Restaura la función mitocondrial para una energía diaria sostenida.',
+    'agenyz.benefits.immunity': 'Escudo inmunológico',
+    'agenyz.benefits.immunity.desc':
+      'Refuerza tus defensas naturales contra el estrés y los patógenos.',
+    'agenyz.benefits.brain': 'Claridad cognitiva',
+    'agenyz.benefits.brain.desc': 'Mejora el enfoque, la memoria y la agilidad mental.',
+    'agenyz.benefits.youth': 'Juventud celular',
+    'agenyz.benefits.youth.desc': 'Promueve la regeneración y combate el estrés oxidativo.',
+    'agenyz.catalogue.subtitle': 'Nuestra colección',
+    'agenyz.catalogue.title': 'Catálogo de productos Agenyz',
+    'agenyz.catalogue.desc':
+      'Explora nuestra gama completa de bioaditivos y alimentos funcionales diseñados para tu salud celular.',
+    'agenyz.product.cellgenetix.name': 'CellGenetiX',
+    'agenyz.product.cellgenetix.desc':
+      'Un complejo antioxidante avanzado con poliprenoles y astaxantina - perfecto para quienes desean preservar la juventud y vitalidad.',
+    'agenyz.product.3d-matrix.name': '3D-Matrix',
+    'agenyz.product.3d-matrix.desc':
+      'La sinergia de condroprotectores, aminoácidos y antioxidantes promueve la restauración del cartílago articular y la producción de colágeno.',
+    'agenyz.product.alpha-omega-q10.name': 'AlphaOmega-Q10',
+    'agenyz.product.alpha-omega-q10.desc':
+      'Complejo de antioxidantes, coenzima q10, betulina y ácidos grasos omega-3 para el corazón, el cerebro y la belleza.',
+    'agenyz.product.hepaart.name': 'HepaArt',
+    'agenyz.product.hepaart.desc':
+      'Un complejo único de extractos de plantas para la protección del hígado y la desintoxicación.',
+    'agenyz.product.ursus.name': 'Ursus',
+    'agenyz.product.ursus.desc':
+      'Complejo de extractos de plantas y microelementos para la salud de los riñones y el tracto urinario.',
+    'agenyz.product.slim-hit.name': 'Slim Hit',
+    'agenyz.product.slim-hit.desc':
+      'Complejo para bloquear la absorción de grasas y carbohidratos excesivos y reducir el apetito.',
+    'agenyz.product.k2d3-boost.name': 'K2D3-Boost',
+    'agenyz.product.k2d3-boost.desc':
+      'Un complejo único de vitaminas liposolubles y microelementos para el metabolismo del calcio.',
+    'agenyz.product.cellguard.name': 'CellGuard',
+    'agenyz.product.cellguard.desc':
+      'Un complejo de los inmunomoduladores naturales más fuertes destinados a proteger las células de virus y daños.',
+    'agenyz.product.candidel.name': 'Candidel',
+    'agenyz.product.candidel.desc':
+      'Complejo natural de componentes vegetales activos para la protección contra infecciones fúngicas (candida).',
+    'agenyz.product.infladel.name': 'Infladel',
+    'agenyz.product.infladel.desc':
+      'Complejo de componentes naturales activos destinados a reducir los procesos inflamatorios.',
+    'agenyz.product.serum-progressive-anti-age.name': 'Serum Progressive Anti-Age',
+    'agenyz.product.serum-progressive-anti-age.desc':
+      'Un suero premium y altamente efectivo para el rejuvenecimiento profundo de la piel y la reducción de arrugas.',
+    'agenyz.product.eye-lifting-cream.name': 'Crema lifting anti-edad ojos',
+    'agenyz.product.eye-lifting-cream.desc':
+      'Crema lifting anti-edad intensiva para la delicada zona de los ojos.',
+    'agenyz.product.hyaluronic-aqua-cream.name': 'Crema aqua hialurónica',
+    'agenyz.product.hyaluronic-aqua-cream.desc':
+      'Crema aqua hialurónica multimolecular para una hidratación intensiva.',
+    'agenyz.product.iq-mct-powder.name': 'Polvo iq-MCT',
+    'agenyz.product.iq-mct-powder.desc':
+      'Una fuente de alta calidad de energía pura para el corazón, el cerebro y los músculos esqueléticos. Apto para keto.',
+    'agenyz.product.alpha-shake-mct.name': 'Alpha Shake + MCT',
+    'agenyz.product.alpha-shake-mct.desc':
+      'Cóctel de proteínas enriquecido con aceite MCT para la saciedad y la energía.',
+    'agenyz.product.chocolate-iq-shock.name': 'Chocolate iQ-Shock',
+    'agenyz.product.chocolate-iq-shock.desc':
+      'Chocolate negro sin azúcar añadido, destinado a la claridad mental y la concentración cerebral.',
+    'agenyz.product.black-gold-hot.name': 'Black Gold & hot',
+    'agenyz.product.black-gold-hot.desc':
+      'Bebida caliente hecha de chaga, jengibre y limón para la inmunidad.',
+    'agenyz.product.ph-balance-cell.name': 'pH Balance Cell',
+    'agenyz.product.ph-balance-cell.desc':
+      'Complejo equilibrado de minerales de la alga lithothamnia para regular el equilibrio ácido-base.',
+    'agenyz.product.immune-cell.name': 'Immune Cell',
+    'agenyz.product.immune-cell.desc':
+      'Bebida con vitaminas, yodo y extractos para un apoyo inmunológico completo.',
+    'agenyz.product.sorbio-detox-cell.name': 'Sorbio Detox Cell',
+    'agenyz.product.sorbio-detox-cell.desc':
+      'Bebida para una desintoxicación efectiva y limpieza del cuerpo.',
+    'agenyz.product.gummyz-kidyz.name': 'Gummyz KidYZ calcio',
+    'agenyz.product.gummyz-kidyz.desc':
+      'Vitaminas deliciosas para niños con calcio, vitamina k2 y d3.',
+    // New flagship products from agenyz.eu
+    'agenyz.product.octomagnesium.name': 'OCTOMAGNESIUM + XBi-A',
+    'agenyz.product.octomagnesium.desc':
+      '8 formas de magnesio con vitamina B6. Apoya la función normal del sistema nervioso y los músculos, y contribuye al mantenimiento de los huesos normales.',
+    'agenyz.product.cats-claw.name': 'Uña de Gato + XBi-A',
+    'agenyz.product.cats-claw.desc':
+      'Combinación de extracto de Uña de Gato y el complejo XBi-A®, ofreciendo un enfoque moderno para el apoyo inmunológico y la restauración del equilibrio en el cuerpo.',
+    'agenyz.product.paradetox.name': 'PARADETOX + XBi-A',
+    'agenyz.product.paradetox.desc':
+      'Complejo de extractos de ajenjo, semillas de calabaza, pomelo y nogal negro con XBi-A® - un enfoque moderno para el apoyo corporal y la desintoxicación suave.',
+    'agenyz.product.oculyz.name': 'OCULYZ + XBi-A',
+    'agenyz.product.oculyz.desc':
+      'Complejo de salud ocular que promueve el fortalecimiento de los vasos sanguíneos de los ojos y protege contra la luz azul.',
+    'agenyz.product.alfapatch.name': 'ALFAPATCH',
+    'agenyz.product.alfapatch.desc':
+      'Parches de calentamiento muscular y articular - ¡una innovación para apoyar un estilo de vida activo!',
+    'agenyz.product.youth-secret.name': 'YOUTH SECRET',
+    'agenyz.product.youth-secret.desc':
+      'Fórmula antienvejecimiento con péptidos y protección UV para el rejuvenecimiento visible y la defensa de la piel a nivel celular.',
+    'agenyz.product.collagen-blend.name': 'COLLAGEN BLEND PRO PEPTIDES + Biotin',
+    'agenyz.product.collagen-blend.desc':
+      'Complejo de colágeno hidrolizado con biotina para piel, cabello y uñas.',
+    'agenyz.product.vitamin-c-d3.name': 'VITAMINA C + XBi-A y VITAMINA D3 + XBi-A',
+    'agenyz.product.vitamin-c-d3.desc':
+      'Diseñado pensando en el apoyo integral de la inmunidad, la energía y el equilibrio metabólico.',
+    'agenyz.product.gummies-stress.name': 'GUMMIES STRESS RELIEF',
+    'agenyz.product.gummies-stress.desc':
+      'Una forma natural de lograr la calma y el equilibrio emocional todos los días.',
+    'agenyz.product.deep-reboot.name': 'SET "DEEP REBOOT PROTOCOL"',
+    'agenyz.product.deep-reboot.desc':
+      'Protocolo de reinicio profundo: Restablece tu sistema. Apoya tu energía.',
+    'agenyz.product.vitamin-d3.name': 'Vitamina D3 + XBi-A',
+    'agenyz.product.vitamin-d3.desc':
+      'Vitamina solar vegana con potenciador de biodisponibilidad. 2000 UI + XBi-A.',
+    'agenyz.product.fungomax.name': 'FungoMax + XBi-A',
+    'agenyz.product.fungomax.desc':
+      'El poder de 6 hongos medicinales para la defensa inmunológica definitiva.',
+    'agenyz.product.ferboost.name': 'FerBoost + XBi-A',
+    'agenyz.product.ferboost.desc':
+      'Complejo de hierro inteligente de 4 fuentes para anemia y energía.',
+    'agenyz.category.All': 'Todos',
+    'agenyz.category.Cell Elixir': 'Elixir celular',
+    'agenyz.category.3D Guard': 'Protección 3d',
+    'agenyz.category.Beauty Drone': 'Beauty Drone',
+    'agenyz.category.Functional Food': 'Alimento funcional',
+    'agenyz.category.True Aqua': 'True Aqua',
+    'agenyz.category.KidYZ': 'KidYZ',
+    'agenyz.category.XBi-A Series': 'Serie XBi-A',
+    'agenyz.category.G-Keto': 'G-Keto',
+    'agenyz.category.Beauty': 'Belleza',
+    'agenyz.category.Additional': 'Adicional',
+    'agenyz.product.CellGenetiX.features':
+      'Active Cell regeneration, telomere protection, DNA repair',
+    'agenyz.product.3D-Matrix.features': 'Joint health, skin elasticity, connective tissue support',
+    'agenyz.product.Alpha-omega-q10.features': 'Heart health, brain function, anti-aging',
+    'agenyz.product.HepaArt.features': 'Liver support, detoxification, cholesterol Balance',
+    'agenyz.product.Ursus.features': 'Kidney health, urinary tract support, mild diuretic',
+    'agenyz.product.Slim-hit.features': 'Weight management, appetite control, metabolism boost',
+    'agenyz.product.K2D3-Boost.features': 'Bone strength, immune support, calcium absorption',
+    'agenyz.product.CellGuard.features': 'Immune defense, antiviral, Cell protection',
+    'agenyz.product.Candidel.features': 'Anti-fungal, microbiome Balance, Detox',
+    'agenyz.product.Infladel.features': 'Anti-inflammatory, pain relief, recovery',
+    'agenyz.product.Serum-progressive-anti-age.features':
+      'Lifting effect, wrinkle reduction, deep hydration',
+    'agenyz.product.Eye-lifting-cream.features':
+      'Dark circles reduction, lifting, puffiness reduction',
+    'agenyz.product.Hyaluronic-aqua-cream.features': 'Deep moisture, skin barrier, radiance',
+    'agenyz.product.Iq-MCT-powder.features': 'Instant energy, brain clarity, keto support',
+    'agenyz.product.Alpha-shake-MCT.features': 'Muscle recovery, satiety, metabolism',
+    'agenyz.product.Chocolate-iq-shock.features': 'Focus, mood elevation, no sugar',
+    'agenyz.product.Black-gold-hot.features': 'Immunity warming, antioxidant, digestive aid',
+    'agenyz.product.pH-Balance-cell.features': 'Alkalizing, mineral replenishment, detox',
+    'agenyz.product.Immune-cell.features': 'Daily immunity, energy, vitality',
+    'agenyz.product.Sorbio-detox-cell.features': 'Deep detox, gut health, heavy metal removal',
+    'agenyz.product.Gummyz-KidYZ.features': 'Strong bones, growth support, tasty & healthy',
+    'agenyz.viewDetails': 'Ver detalles',
+    'agenyz.buyNow': 'Comprar ahora',
+    'agenyz.askExpert': 'Pregunta a un experto',
+    'agenyz.aboutProduct': 'Sobre la fórmula',
+    'agenyz.ingredients': 'Interacciones activas',
+    'agenyz.benefits': 'Beneficios clave',
+    'agenyz.usage': 'Cómo utilizar',
+    'agenyz.label.type': 'Tipo',
+    'agenyz.label.bioactive': 'Bio-activo',
+    'agenyz.label.series': 'Serie',
+    'agenyz.label.dnaProtection': 'Protección de ADN',
+    'agenyz.label.labTested': 'Probado en laboratorio',
+    'agenyz.label.highBioavailability': 'Alta biodisponibilidad',
+    'agenyz.label.quality': 'Calidad',
+    'agenyz.label.natural': 'Natural',
+    'vip.cta.apply': 'Solicitar Membresía',
+    'vip.services.title': 'Servicios Exclusivos',
+    'vip.services.subtitle': 'Adaptado a tu viaje de salud único',
+    'vip.pricing.title': 'Planes de Membresía',
+    'vip.pricing.subtitle': 'Elige el nivel de atención que más te convenga',
+    'vip.cta.select': 'Seleccionar Plan',
+    'services.featuredTitle': 'Servicios Destacados',
+    'services.featuredSubtitle': 'Descubre nuestras ofertas más populares',
+    'services.viewAll': 'Ver Todos los Servicios',
+  },
+  ru: {
+    'agenyz.hero.biohacking': 'Биохакинг и питание',
+    'agenyz.page.title': 'Клеточное питание Agenyz',
+    'agenyz.page.subtitle':
+      'Передовые добавки для глубокой клеточной регенерации и жизненной силы.',
+    'agenyz.page.description':
+      'Откройте для себя силу биохакинга с Agenyz. Эти добавки разработаны для работы на клеточном уровне, восстанавливая энергию, иммунитет и молодость изнутри.',
+    'agenyz.cta.visitStore': 'Посетить магазин Agenyz',
+    'agenyz.hero.available': 'Доступно для заказа',
+    'agenyz.hero.science': 'Основано на науке',
+    'agenyz.why.title': 'Почему Agenyz?',
+    'agenyz.why.subtitle': 'Научно обоснованные преимущества для вашего тела и разума.',
+    'agenyz.benefits.energy': 'Бесконечная энергия',
+    'agenyz.benefits.energy.desc':
+      'Восстанавливает митохондриальную функцию для устойчивой ежедневной энергии.',
+    'agenyz.benefits.immunity': 'Иммунный щит',
+    'agenyz.benefits.immunity.desc': 'Укрепляет естественную защиту от стресса и патогенов.',
+    'agenyz.benefits.brain': 'Когнитивная ясность',
+    'agenyz.benefits.brain.desc': 'Улучшает фокус, память и остроту ума.',
+    'agenyz.benefits.youth': 'Клеточная молодость',
+    'agenyz.benefits.youth.desc': 'Способствует регенерации и борется с окислительным стрессом.',
+    'agenyz.catalogue.subtitle': 'Наша коллекция',
+    'agenyz.catalogue.title': 'Каталог продукции Agenyz',
+    'agenyz.catalogue.desc':
+      'Изучите наш полный ассортимент биодобавок и функционального питания, созданных для здоровья ваших клеток.',
+    'agenyz.product.cellgenetix.name': 'CellGenetiX',
+    'agenyz.product.cellgenetix.desc':
+      'Передовой антиоксидантный комплекс с полипренолами и астаксантином - идеален для тех, кто хочет сохранить молодость и жизненную силу.',
+    'agenyz.product.3d-matrix.name': '3D-Matrix',
+    'agenyz.product.3d-matrix.desc':
+      'Синергия хондропротекторов, аминокислот и антиоксидантов способствует восстановлению суставного хряща и выработке коллагена.',
+    'agenyz.product.alpha-omega-q10.name': 'AlphaOmega-Q10',
+    'agenyz.product.alpha-omega-q10.desc':
+      'Комплекс антиоксидантов, коэнзима q10, бетулина и омега-3 жирных кислот для сердца, мозга и красоты.',
+    'agenyz.product.hepaart.name': 'HepaArt',
+    'agenyz.product.hepaart.desc':
+      'Уникальный комплекс растительных экстрактов для защиты печени и детоксикации.',
+    'agenyz.product.ursus.name': 'Ursus',
+    'agenyz.product.ursus.desc':
+      'Комплекс растительных экстрактов и микроэлементов для здоровья почек и мочевыводящих путей.',
+    'agenyz.product.slim-hit.name': 'Slim Hit',
+    'agenyz.product.slim-hit.desc':
+      'Комплекс для блокирования усвоения лишних жиров и углеводов и снижения аппетита.',
+    'agenyz.product.k2d3-boost.name': 'K2D3-Boost',
+    'agenyz.product.k2d3-boost.desc':
+      'Уникальный комплекс жирорастворимых витаминов и микроэлементов для обмена кальция.',
+    'agenyz.product.cellguard.name': 'CellGuard',
+    'agenyz.product.cellguard.desc':
+      'Комплекс сильнейших природных иммуномодуляторов, направленных на защиту клеток от вирусов и повреждений.',
+    'agenyz.product.candidel.name': 'Candidel',
+    'agenyz.product.candidel.desc':
+      'Натуральный комплекс активных растительных компонентов для защиты от грибковых инфекций (candida).',
+    'agenyz.product.infladel.name': 'Infladel',
+    'agenyz.product.infladel.desc':
+      'Комплекс активных природных компонентов, направленных на уменьшение воспалительных процессов.',
+    'agenyz.product.serum-progressive-anti-age.name': 'Сыворотка progressive anti-age',
+    'agenyz.product.serum-progressive-anti-age.desc':
+      'Премиальная, высокоэффективная сыворотка для глубокого омоложения кожи и уменьшения морщин.',
+    'agenyz.product.eye-lifting-cream.name': 'Лифтинг-крем для глаз anti-age',
+    'agenyz.product.eye-lifting-cream.desc':
+      'Интенсивный омолаживающий лифтинг-крем для нежной области вокруг глаз.',
+    'agenyz.product.hyaluronic-aqua-cream.name': 'Гиалуроновый аква-крем',
+    'agenyz.product.hyaluronic-aqua-cream.desc':
+      'Мультимолекулярный гиалуроновый аква-крем для интенсивного увлажнения.',
+    'agenyz.product.iq-mct-powder.name': 'Iq-MCT порошок',
+    'agenyz.product.iq-mct-powder.desc':
+      'Высококачественный источник чистой энергии для сердца, мозга и скелетных мышц. подходит для кето.',
+    'agenyz.product.alpha-shake-mct.name': 'Alpha Shake + MCT',
+    'agenyz.product.alpha-shake-mct.desc':
+      'Протеиновый коктейль, обогащенный маслом мст для насыщения и энергии.',
+    'agenyz.product.chocolate-iq-shock.name': 'Шоколад iq-shock',
+    'agenyz.product.chocolate-iq-shock.desc':
+      'Темный шоколад без добавления сахара, направленный на ментальную ясность и концентрацию мозга.',
+    'agenyz.product.black-gold-hot.name': 'Black Gold & hot',
+    'agenyz.product.black-gold-hot.desc':
+      'Горячий напиток из чаги, имбиря и лимона для иммунитета.',
+    'agenyz.product.ph-balance-cell.name': 'pH Balance Cell',
+    'agenyz.product.ph-balance-cell.desc':
+      'Сбалансированный комплекс минералов из водоросли литотамнии для регулирования кислотно-щелочного баланса.',
+    'agenyz.product.immune-cell.name': 'Immune Cell',
+    'agenyz.product.immune-cell.desc':
+      'Напиток с витаминами, йодом и экстрактами для комплексной поддержки иммунитета.',
+    'agenyz.product.sorbio-detox-cell.name': 'Sorbio Detox Cell',
+    'agenyz.product.sorbio-detox-cell.desc':
+      'Напиток для эффективной детоксикации и очищения организма.',
+    'agenyz.product.gummyz-kidyz.name': 'Gummyz KidYZ кальций',
+    'agenyz.product.gummyz-kidyz.desc': 'Вкусные витамины для детей с кальцием, витамином к2 и d3.',
+    // New flagship products from agenyz.eu
+    'agenyz.product.octomagnesium.name': 'OCTOMAGNESIUM + XBi-A',
+    'agenyz.product.octomagnesium.desc':
+      '8 форм магния с витамином B6. Поддерживает нормальную функцию нервной системы и мышц, способствует поддержанию нормального состояния костей.',
+    'agenyz.product.cats-claw.name': 'Кошачий коготь + XBi-A',
+    'agenyz.product.cats-claw.desc':
+      'Сочетание экстракта кошачьего когтя и комплекса XBi-A®, предлагающее современный подход к поддержке иммунитета и восстановлению баланса в организме.',
+    'agenyz.product.paradetox.name': 'PARADETOX + XBi-A',
+    'agenyz.product.paradetox.desc':
+      'Комплекс экстрактов полыни, семян тыквы, грейпфрута и черного ореха с XBi-A® — современный подход к поддержке организма и мягкой детоксикации.',
+    'agenyz.product.oculyz.name': 'OCULYZ + XBi-A',
+    'agenyz.product.oculyz.desc':
+      'Комплекс для здоровья глаз, способствующий укреплению сосудов глаз и защищающий от синего света.',
+    'agenyz.product.alfapatch.name': 'ALFAPATCH',
+    'agenyz.product.alfapatch.desc':
+      'Разогревающие пластыри для мышц и суставов — инновация для поддержки активного образа жизни!',
+    'agenyz.product.youth-secret.name': 'YOUTH SECRET',
+    'agenyz.product.youth-secret.desc':
+      'Антивозрастная формула с пептидами и УФ-защитой для заметного омоложения и защиты кожи на клеточном уровне.',
+    'agenyz.product.collagen-blend.name': 'COLLAGEN BLEND PRO PEPTIDES + Biotin',
+    'agenyz.product.collagen-blend.desc':
+      'Комплекс гидролизованного коллагена с биотином для кожи, волос и ногтей.',
+    'agenyz.product.vitamin-c-d3.name': 'ВИТАМИН C + XBi-A и ВИТАМИН D3 + XBi-A',
+    'agenyz.product.vitamin-c-d3.desc':
+      'Разработано с учетом комплексной поддержки иммунитета, энергии и метаболического баланса.',
+    'agenyz.product.gummies-stress.name': 'GUMMIES STRESS RELIEF',
+    'agenyz.product.gummies-stress.desc':
+      'Натуральный способ достижения спокойствия и эмоционального баланса каждый день.',
+    'agenyz.product.deep-reboot.name': 'SET "DEEP REBOOT PROTOCOL"',
+    'agenyz.product.deep-reboot.desc':
+      'Протокол глубокой перезагрузки: восстанавливает вашу систему. Поддерживает вашу энергию.',
+    'agenyz.product.vitamin-d3.name': 'Витамин D3 + XBi-A',
+    'agenyz.product.vitamin-d3.desc':
+      'Веганский солнечный витамин с усилителем биодоступности. 2000 МЕ + XBi-A.',
+    'agenyz.product.fungomax.name': 'FungoMax + XBi-A',
+    'agenyz.product.fungomax.desc': 'Сила 6 целебных грибов для максимальной иммунной защиты.',
+    'agenyz.product.ferboost.name': 'FerBoost + XBi-A',
+    'agenyz.product.ferboost.desc':
+      'Умный комплекс железа из 4 источников от анемии и для энергии.',
+    'agenyz.category.All': 'Все',
+    'agenyz.category.Cell Elixir': 'Клеточный эликсир',
+    'agenyz.category.3D Guard': '3d защита',
+    'agenyz.category.Beauty Drone': 'Beauty Drone',
+    'agenyz.category.Functional Food': 'Функциональное питание',
+    'agenyz.category.True Aqua': 'True Aqua',
+    'agenyz.category.KidYZ': 'KidYZ',
+    'agenyz.category.XBi-A Series': 'Серия XBi-A',
+    'agenyz.category.G-Keto': 'G-Keto',
+    'agenyz.category.Beauty': 'Красота',
+    'agenyz.category.Additional': 'Дополнительно',
+    'agenyz.product.CellGenetiX.features':
+      'Active Cell regeneration, telomere protection, DNA repair',
+    'agenyz.product.3D-Matrix.features': 'Joint health, skin elasticity, connective tissue support',
+    'agenyz.product.Alpha-omega-q10.features': 'Heart health, brain function, anti-aging',
+    'agenyz.product.HepaArt.features': 'Liver support, detoxification, cholesterol Balance',
+    'agenyz.product.Ursus.features': 'Kidney health, urinary tract support, mild diuretic',
+    'agenyz.product.Slim-hit.features': 'Weight management, appetite control, metabolism boost',
+    'agenyz.product.K2D3-Boost.features': 'Bone strength, immune support, calcium absorption',
+    'agenyz.product.CellGuard.features': 'Immune defense, antiviral, Cell protection',
+    'agenyz.product.Candidel.features': 'Anti-fungal, microbiome Balance, Detox',
+    'agenyz.product.Infladel.features': 'Anti-inflammatory, pain relief, recovery',
+    'agenyz.product.Serum-progressive-anti-age.features':
+      'Lifting effect, wrinkle reduction, deep hydration',
+    'agenyz.product.Eye-lifting-cream.features':
+      'Dark circles reduction, lifting, puffiness reduction',
+    'agenyz.product.Hyaluronic-aqua-cream.features': 'Deep moisture, skin barrier, radiance',
+    'agenyz.product.Iq-MCT-powder.features': 'Instant energy, brain clarity, keto support',
+    'agenyz.product.Alpha-shake-MCT.features': 'Muscle recovery, satiety, metabolism',
+    'agenyz.product.Chocolate-iq-shock.features': 'Focus, mood elevation, no sugar',
+    'agenyz.product.Black-gold-hot.features': 'Immunity warming, antioxidant, digestive aid',
+    'agenyz.product.pH-Balance-cell.features': 'Alkalizing, mineral replenishment, detox',
+    'agenyz.product.Immune-cell.features': 'Daily immunity, energy, vitality',
+    'agenyz.product.Sorbio-detox-cell.features': 'Deep detox, gut health, heavy metal removal',
+    'agenyz.product.Gummyz-KidYZ.features': 'Strong bones, growth support, tasty & healthy',
+    'agenyz.viewDetails': 'Подробнее',
+    'agenyz.buyNow': 'Купить сейчас',
+    'agenyz.askExpert': 'Спросить эксперта',
+    'agenyz.aboutProduct': 'О продукте',
+    'agenyz.ingredients': 'Активные компоненты',
+    'agenyz.benefits': 'Преимущества',
+    'agenyz.usage': 'Как использовать',
+    'agenyz.label.type': 'Тип',
+    'agenyz.label.bioactive': 'Биоактивный',
+    'agenyz.label.series': 'Серия',
+    'agenyz.label.dnaProtection': 'Защита ДНК',
+    'agenyz.label.labTested': 'Клинически протестировано',
+    'agenyz.label.highBioavailability': 'Высокая биодоступность',
+    'agenyz.label.quality': 'Качество',
+    'agenyz.label.natural': 'Натурально',
+    'vip.cta.apply': 'Подать заявку',
+    'vip.services.title': 'Эксклюзивные услуги',
+    'vip.services.subtitle': 'Индивидуальный подход к вашему здоровью',
+    'vip.pricing.title': 'Планы членства',
+    'vip.pricing.subtitle': 'Выберите подходящий уровень обслуживания',
+    'vip.cta.select': 'Выбрать план',
+    'services.featuredTitle': 'Популярные услуги',
+    'services.featuredSubtitle': 'Откройте для себя наши лучшие предложения',
+    'services.viewAll': 'Посмотреть все услуги',
+  },
+};

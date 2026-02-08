@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -8,6 +8,5 @@ export default function robots(): MetadataRoute.Robots {
       disallow: ['/api/', '/admin/', '/dashboard/'],
     },
     sitemap: 'https://app.ekabalance.com/sitemap.xml',
-  }
+  };
 }
-

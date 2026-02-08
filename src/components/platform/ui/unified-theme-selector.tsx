@@ -25,11 +25,11 @@ const SYSTEM_THEMES = [
   { id: 'auto', name: 'Auto', icon: Palette, color: 'from-blue-400 to-purple-500' },
 ];
 
-export function UnifiedThemeSelector({ 
-  onThemeChange, 
-  className, 
+export function UnifiedThemeSelector({
+  onThemeChange,
+  className,
   variant = 'settings',
-  showSubscriptionStatus = false 
+  showSubscriptionStatus = false,
 }: UnifiedThemeSelectorProps) {
   const { user } = useAuth();
   const { hasLoyalty, hasVip } = useActiveSubscriptions(user?.id);
@@ -65,12 +65,15 @@ export function UnifiedThemeSelector({
     }
   }, []);
 
-  const handleSystemThemeChange = useCallback((newTheme: string) => {
-    setSystemTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    applySystemTheme(newTheme);
-    onThemeChange?.(newTheme);
-  }, [applySystemTheme, onThemeChange]);
+  const handleSystemThemeChange = useCallback(
+    (newTheme: string) => {
+      setSystemTheme(newTheme);
+      localStorage.setItem('theme', newTheme);
+      applySystemTheme(newTheme);
+      onThemeChange?.(newTheme);
+    },
+    [applySystemTheme, onThemeChange]
+  );
 
   // Load subscription themes for subscription variant
   useEffect(() => {
@@ -97,35 +100,41 @@ export function UnifiedThemeSelector({
     loadThemes();
   }, [user?.id, variant]);
 
-  const handleThemeSelect = useCallback(async (themeId: string) => {
-    if (!user?.id) return;
+  const handleThemeSelect = useCallback(
+    async (themeId: string) => {
+      if (!user?.id) return;
 
-    try {
-      setSelectedTheme(themeId);
-      // Update theme preference through your preferred method
-      // This might involve calling an API or updating local storage
-      localStorage.setItem('userTheme', themeId);
-      onThemeChange?.(themeId);
-    } catch (error) {
-      console.error('Failed to set theme:', error);
-      setSelectedTheme(currentTheme);
-    }
-  }, [user?.id, currentTheme, onThemeChange]);
+      try {
+        setSelectedTheme(themeId);
+        // Update theme preference through your preferred method
+        // This might involve calling an API or updating local storage
+        localStorage.setItem('userTheme', themeId);
+        onThemeChange?.(themeId);
+      } catch (error) {
+        console.error('Failed to set theme:', error);
+        setSelectedTheme(currentTheme);
+      }
+    },
+    [user?.id, currentTheme, onThemeChange]
+  );
 
-  const isThemeLocked = useCallback((theme: Theme) => {
-    if (theme.requiredSubscription === 'vip' && !hasVip) return true;
-    if (theme.requiredSubscription === 'loyalty' && !hasLoyalty) return true;
-    return false;
-  }, [hasVip, hasLoyalty]);
+  const isThemeLocked = useCallback(
+    (theme: Theme) => {
+      if (theme.requiredSubscription === 'vip' && !hasVip) return true;
+      if (theme.requiredSubscription === 'loyalty' && !hasLoyalty) return true;
+      return false;
+    },
+    [hasVip, hasLoyalty]
+  );
 
   if (loading && variant === 'subscription') {
     return (
-      <div className={cn("grid grid-cols-2 md:grid-cols-3 gap-4", className)}>
+      <div className={cn('grid grid-cols-2 gap-4 md:grid-cols-3', className)}>
         {[1, 2, 3, 4, 5, 6].map((i) => (
           <Card key={i} className="animate-pulse">
             <CardContent className="p-4">
-              <div className="h-20 bg-muted rounded-lg mb-3" />
-              <div className="h-4 bg-muted rounded w-3/4" />
+              <div className="bg-muted mb-3 h-20 rounded-lg" />
+              <div className="bg-muted h-4 w-3/4 rounded" />
             </CardContent>
           </Card>
         ))}
@@ -135,36 +144,33 @@ export function UnifiedThemeSelector({
 
   if (variant === 'settings') {
     return (
-      <div className={cn("space-y-4", className)}>
+      <div className={cn('space-y-4', className)}>
         <div className="grid grid-cols-3 gap-4">
           {SYSTEM_THEMES.map((themeOption) => {
             const Icon = themeOption.icon;
             const isSelected = systemTheme === themeOption.id;
-            
+
             return (
               <Button
                 key={themeOption.id}
                 onClick={() => handleSystemThemeChange(themeOption.id)}
                 variant="ghost"
                 className={cn(
-                  "relative p-4 rounded-xl border-2 transition-all duration-200 h-auto flex flex-col items-stretch hover:bg-muted/80",
+                  'hover:bg-muted/80 relative flex h-auto flex-col items-stretch rounded-xl border-2 p-4 transition-all duration-200',
                   isSelected
                     ? 'border-blue-500 bg-blue-50/50 dark:border-blue-400 dark:bg-blue-950/20'
-                    : 'border-border hover:border-input bg-card dark:border-slate-700 dark:bg-primary/90'
+                    : 'border-border hover:border-input bg-card dark:bg-primary/90 dark:border-slate-700'
                 )}
               >
-                <div className={cn(
-                  "w-full h-20 rounded-lg mb-3 bg-linear-to-br",
-                  themeOption.color
-                )} />
+                <div
+                  className={cn('mb-3 h-20 w-full rounded-lg bg-linear-to-br', themeOption.color)}
+                />
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Icon className="h-4 w-4" />
                     <span className="text-sm font-medium">{themeOption.name}</span>
                   </div>
-                  {isSelected && (
-                    <Check className="h-4 w-4 text-blue-500" />
-                  )}
+                  {isSelected && <Check className="h-4 w-4 text-blue-500" />}
                 </div>
               </Button>
             );
@@ -176,15 +182,15 @@ export function UnifiedThemeSelector({
 
   if (variant === 'minimal') {
     return (
-      <div className={cn("flex gap-2", className)}>
+      <div className={cn('flex gap-2', className)}>
         {SYSTEM_THEMES.map((themeOption) => {
           const Icon = themeOption.icon;
           const isSelected = systemTheme === themeOption.id;
-          
+
           return (
             <Button
               key={themeOption.id}
-              variant={isSelected ? "default" : "outline"}
+              variant={isSelected ? 'default' : 'outline'}
               size="sm"
               onClick={() => handleSystemThemeChange(themeOption.id)}
               className="px-2"
@@ -199,58 +205,65 @@ export function UnifiedThemeSelector({
 
   // Subscription variant
   return (
-    <div className={cn("grid grid-cols-2 md:grid-cols-3 gap-4", className)}>
+    <div className={cn('grid grid-cols-2 gap-4 md:grid-cols-3', className)}>
       {themes.map((theme) => {
         const isSelected = selectedTheme === theme.id;
         const isLocked = isThemeLocked(theme);
 
         return (
-          <Card 
-            key={theme.id} 
+          <Card
+            key={theme.id}
             className={cn(
-              "cursor-pointer transition-all hover:bg-muted/80 hover:shadow-md",
-              isSelected && "ring-2 ring-blue-500",
-              isLocked && "opacity-60 cursor-not-allowed"
+              'hover:bg-muted/80 cursor-pointer transition-all hover:shadow-md',
+              isSelected && 'ring-2 ring-blue-500',
+              isLocked && 'cursor-not-allowed opacity-60'
             )}
             onClick={() => !isLocked && handleThemeSelect(theme.id)}
           >
             <CardContent className="p-4">
               <div className="relative">
-                <div 
-                  className={cn("w-full h-20 rounded-lg mb-3 bg-linear-to-br", 
-                    `from-[${theme.colors.primary}] to-[${theme.colors.secondary}]`)} 
+                <div
+                  className={cn(
+                    'mb-3 h-20 w-full rounded-lg bg-linear-to-br',
+                    `from-[${theme.colors.primary}] to-[${theme.colors.secondary}]`
+                  )}
                 />
                 {isSelected && (
-                  <div className="absolute top-2 right-2 bg-blue-500 text-white rounded-full p-1">
+                  <div className="absolute top-2 right-2 rounded-full bg-blue-500 p-1 text-white">
                     <Check className="h-3 w-3" />
                   </div>
                 )}
                 {isLocked && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-lg">
+                  <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/20">
                     <Lock className="h-6 w-6 text-white" />
                   </div>
                 )}
               </div>
-              
-              <h4 className="font-medium text-sm mb-1">{theme.name}</h4>
-              <p className="text-xs text-muted-foreground mb-2">{theme.description}</p>
-              
+
+              <h4 className="mb-1 text-sm font-medium">{theme.name}</h4>
+              <p className="text-muted-foreground mb-2 text-xs">{theme.description}</p>
+
               {showSubscriptionStatus && (
                 <div className="flex items-center justify-between">
                   {theme.requiredSubscription === 'vip' && (
-                    <Badge variant="default" className="text-xs bg-linear-to-r from-yellow-400 to-orange-500 text-white">
-                      <Sparkles className="h-3 w-3 mr-1" />
+                    <Badge
+                      variant="default"
+                      className="bg-linear-to-r from-yellow-400 to-orange-500 text-xs text-white"
+                    >
+                      <Sparkles className="mr-1 h-3 w-3" />
                       VIP
                     </Badge>
                   )}
                   {theme.requiredSubscription === 'loyalty' && (
                     <Badge variant="secondary" className="text-xs">
-                      <Timer className="h-3 w-3 mr-1" />
+                      <Timer className="mr-1 h-3 w-3" />
                       Loyalty
                     </Badge>
                   )}
                   {!theme.requiredSubscription && (
-                    <Badge variant="outline" className="text-xs">Free</Badge>
+                    <Badge variant="outline" className="text-xs">
+                      Free
+                    </Badge>
                   )}
                 </div>
               )}

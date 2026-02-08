@@ -1,9 +1,13 @@
 import { supabase } from '@/lib/platform/supabase';
-import { safeSupabaseInsert, safeSupabaseQuery, safeSupabaseUpdate } from '@/lib/platform/supabase/utils';
+import {
+  safeSupabaseInsert,
+  safeSupabaseQuery,
+  safeSupabaseUpdate,
+} from '@/lib/platform/supabase/utils';
 import { SystemRole } from '@/lib/platform/config/role-permissions';
 import { NavigationItem } from '@/lib/platform/config/navigation-config';
 
-export type AuditEventType = 
+export type AuditEventType =
   | 'navigation_access_granted'
   | 'navigation_access_denied'
   | 'permission_check_passed'
@@ -122,19 +126,18 @@ class AuditTrailService {
   /**
    * Create a new audit log entry
    */
-  async createAuditLog(entry: Omit<AuditLogEntry, 'id' | 'created_at'>): Promise<AuditLogEntry | null> {
+  async createAuditLog(
+    entry: Omit<AuditLogEntry, 'id' | 'created_at'>
+  ): Promise<AuditLogEntry | null> {
     try {
       const auditEntry: AuditLogEntry = {
         ...entry,
         id: this.generateAuditId(),
         created_at: new Date().toISOString(),
-        retention_until: this.calculateRetentionDate()
+        retention_until: this.calculateRetentionDate(),
       };
 
-      const { data, error } = await safeSupabaseInsert<any>(
-        'audit_logs',
-        auditEntry
-      );
+      const { data, error } = await safeSupabaseInsert<any>('audit_logs', auditEntry);
 
       if (error) {
         console.error('Failed to create audit log:', error);
@@ -175,8 +178,8 @@ class AuditTrailService {
         navigation_item_label: navigationItem.label,
         navigation_item_category: navigationItem.category,
         required_permissions: navigationItem.permissions,
-        ...context
-      }
+        ...context,
+      },
     });
   }
 
@@ -206,8 +209,8 @@ class AuditTrailService {
       metadata: {
         permission_group: permissionGroup,
         permission_action: permissionAction,
-        ...context
-      }
+        ...context,
+      },
     });
   }
 
@@ -239,8 +242,8 @@ class AuditTrailService {
         changed_by: changedBy,
         old_role: oldRole,
         new_role: newRole,
-        ...context
-      }
+        ...context,
+      },
     });
   }
 
@@ -267,7 +270,7 @@ class AuditTrailService {
       action: 'security_event',
       result: false,
       reason,
-      metadata: context
+      metadata: context,
     });
   }
 
@@ -280,13 +283,13 @@ class AuditTrailService {
     hasMore: boolean;
   }> {
     try {
-      let query = supabase
-        .from('audit_logs')
-        .select('*', { count: 'exact' });
+      let query = supabase.from('audit_logs').select('*', { count: 'exact' });
 
       // Apply filters
       if (filters.event_type) {
-        const eventTypes = Array.isArray(filters.event_type) ? filters.event_type : [filters.event_type];
+        const eventTypes = Array.isArray(filters.event_type)
+          ? filters.event_type
+          : [filters.event_type];
         query = query.in('event_type', eventTypes);
       }
 
@@ -350,7 +353,7 @@ class AuditTrailService {
       return {
         logs: data || [],
         total: count || 0,
-        hasMore: (data?.length || 0) === limit
+        hasMore: (data?.length || 0) === limit,
       };
     } catch (error) {
       console.error('Error querying audit logs:', error);
@@ -363,7 +366,7 @@ class AuditTrailService {
    */
   async getAuditMetrics(timeRange?: { start: Date; end: Date }): Promise<AuditMetrics> {
     const filters: AuditQueryFilters = {};
-    
+
     if (timeRange) {
       filters.date_from = timeRange.start;
       filters.date_to = timeRange.end;
@@ -387,13 +390,13 @@ class AuditTrailService {
         permission_cache_invalidated: 0,
         system_error: 0,
         configuration_changed: 0,
-        bulk_permission_update: 0
+        bulk_permission_update: 0,
       },
       events_by_severity: {
         info: 0,
         warning: 0,
         error: 0,
-        critical: 0
+        critical: 0,
       },
       events_by_user_role: {
         Admin: 0,
@@ -406,7 +409,7 @@ class AuditTrailService {
         Educator: 0,
         Accountant: 0,
         'Corporate Client': 0,
-        Custom: 0
+        Custom: 0,
       },
       events_by_result: { success: 0, failure: 0 },
       average_processing_time: 0,
@@ -414,8 +417,8 @@ class AuditTrailService {
       top_users: [],
       time_range: {
         start: timeRange?.start.toISOString() || new Date(0).toISOString(),
-        end: timeRange?.end.toISOString() || new Date().toISOString()
-      }
+        end: timeRange?.end.toISOString() || new Date().toISOString(),
+      },
     };
 
     const resourceCounts = new Map<string, number>();
@@ -423,33 +426,33 @@ class AuditTrailService {
     let totalProcessingTime = 0;
     let processingTimeCount = 0;
 
-    logs.forEach(log => {
+    logs.forEach((log) => {
       // Count by type
       metrics.events_by_type[log.event_type]++;
-      
+
       // Count by severity
       metrics.events_by_severity[log.severity]++;
-      
+
       // Count by user role
       if (log.user_role) {
         metrics.events_by_user_role[log.user_role]++;
       }
-      
+
       // Count by result
       if (log.result) {
         metrics.events_by_result.success++;
       } else {
         metrics.events_by_result.failure++;
       }
-      
+
       // Count resources
       resourceCounts.set(log.resource, (resourceCounts.get(log.resource) || 0) + 1);
-      
+
       // Count users
       if (log.user_id) {
         userCounts.set(log.user_id, (userCounts.get(log.user_id) || 0) + 1);
       }
-      
+
       // Sum processing time
       if (log.processing_time_ms) {
         totalProcessingTime += log.processing_time_ms;
@@ -458,9 +461,8 @@ class AuditTrailService {
     });
 
     // Calculate average processing time
-    metrics.average_processing_time = processingTimeCount > 0 
-      ? totalProcessingTime / processingTimeCount 
-      : 0;
+    metrics.average_processing_time =
+      processingTimeCount > 0 ? totalProcessingTime / processingTimeCount : 0;
 
     // Get top resources
     metrics.top_resources = Array.from(resourceCounts.entries())
@@ -480,39 +482,34 @@ class AuditTrailService {
   /**
    * Generate compliance report
    */
-  async generateComplianceReport(
-    timeRange: { start: Date; end: Date }
-  ): Promise<AuditComplianceReport> {
+  async generateComplianceReport(timeRange: {
+    start: Date;
+    end: Date;
+  }): Promise<AuditComplianceReport> {
     const filters: AuditQueryFilters = {
       date_from: timeRange.start,
-      date_to: timeRange.end
+      date_to: timeRange.end,
     };
 
     const { logs } = await this.queryAuditLogs(filters);
     const metrics = await this.getAuditMetrics(timeRange);
 
-    const securityEvents = logs.filter(log => 
-      log.event_type === 'security_alert_triggered' ||
-      log.event_type === 'navigation_access_denied' ||
-      log.event_type === 'permission_check_failed'
+    const securityEvents = logs.filter(
+      (log) =>
+        log.event_type === 'security_alert_triggered' ||
+        log.event_type === 'navigation_access_denied' ||
+        log.event_type === 'permission_check_failed'
     );
 
-    const unauthorizedAttempts = logs.filter(log => 
-      log.event_type === 'navigation_access_denied' &&
-      log.severity === 'warning'
+    const unauthorizedAttempts = logs.filter(
+      (log) => log.event_type === 'navigation_access_denied' && log.severity === 'warning'
     );
 
-    const permissionDenials = logs.filter(log => 
-      log.event_type === 'permission_check_failed'
-    );
+    const permissionDenials = logs.filter((log) => log.event_type === 'permission_check_failed');
 
-    const roleChanges = logs.filter(log => 
-      log.event_type === 'role_changed'
-    );
+    const roleChanges = logs.filter((log) => log.event_type === 'role_changed');
 
-    const systemErrors = logs.filter(log => 
-      log.event_type === 'system_error'
-    );
+    const systemErrors = logs.filter((log) => log.event_type === 'system_error');
 
     // Risk assessment
     const riskFactors = [];
@@ -536,7 +533,7 @@ class AuditTrailService {
     const recommendations = [
       'Regular review of permission configurations',
       'Monitor for suspicious access patterns',
-      'Implement additional security measures for high-risk events'
+      'Implement additional security measures for high-risk events',
     ];
 
     if (riskLevel === 'high' || riskLevel === 'critical') {
@@ -548,7 +545,7 @@ class AuditTrailService {
       generated_at: new Date().toISOString(),
       time_range: {
         start: timeRange.start.toISOString(),
-        end: timeRange.end.toISOString()
+        end: timeRange.end.toISOString(),
       },
       summary: {
         total_events: metrics.total_events,
@@ -556,19 +553,19 @@ class AuditTrailService {
         unauthorized_access_attempts: unauthorizedAttempts.length,
         permission_denials: permissionDenials.length,
         role_changes: roleChanges.length,
-        system_errors: systemErrors.length
+        system_errors: systemErrors.length,
       },
       risk_assessment: {
         risk_level: riskLevel,
         risk_factors: riskFactors,
-        recommendations
+        recommendations,
       },
       compliance_status: {
         data_retention: true,
         access_logging: true,
         permission_auditing: true,
-        security_monitoring: true
-      }
+        security_monitoring: true,
+      },
     };
   }
 
@@ -584,7 +581,7 @@ class AuditTrailService {
         .from('audit_logs')
         .update({
           acknowledged_by: acknowledgedBy,
-          acknowledged_at: new Date().toISOString()
+          acknowledged_at: new Date().toISOString(),
         })
         .in('id', logIds);
 
@@ -673,7 +670,15 @@ export async function logPermissionCheck(
   reason?: string,
   context?: Record<string, any>
 ) {
-  return auditTrail.logPermissionCheck(userId, userRole, permissionGroup, permissionAction, result, reason, context);
+  return auditTrail.logPermissionCheck(
+    userId,
+    userRole,
+    permissionGroup,
+    permissionAction,
+    result,
+    reason,
+    context
+  );
 }
 
 export async function logRoleChange(
@@ -696,7 +701,15 @@ export async function logSecurityEvent(
   reason?: string,
   context?: Record<string, any>
 ) {
-  return auditTrail.logSecurityEvent(eventType, severity, resource, userId, userRole, reason, context);
+  return auditTrail.logSecurityEvent(
+    eventType,
+    severity,
+    resource,
+    userId,
+    userRole,
+    reason,
+    context
+  );
 }
 
 export async function queryAuditLogs(filters?: AuditQueryFilters) {

@@ -144,10 +144,10 @@ export async function updateMemoryImportance(
  */
 export async function deleteMemory(memoryId: string, userId: string): Promise<boolean> {
   try {
-    const result = await db.query(
-      `DELETE FROM user_memory WHERE id = $1 AND user_id = $2`,
-      [memoryId, userId]
-    );
+    const result = await db.query(`DELETE FROM user_memory WHERE id = $1 AND user_id = $2`, [
+      memoryId,
+      userId,
+    ]);
     return result.rowCount !== null && result.rowCount > 0;
   } catch (error) {
     console.error('Error deleting memory:', error);
@@ -312,23 +312,44 @@ export async function extractMemoriesFromMessage(
   const lowerMessage = userMessage.toLowerCase();
 
   // Detect preferences
-  if (lowerMessage.includes('i prefer') || lowerMessage.includes('i like') || lowerMessage.includes("i don't like")) {
+  if (
+    lowerMessage.includes('i prefer') ||
+    lowerMessage.includes('i like') ||
+    lowerMessage.includes("i don't like")
+  ) {
     await createMemory(userId, userMessage, 'preference', 4);
   }
 
   // Detect goals
-  if (lowerMessage.includes('i want to') || lowerMessage.includes('my goal') || lowerMessage.includes('i need help with')) {
+  if (
+    lowerMessage.includes('i want to') ||
+    lowerMessage.includes('my goal') ||
+    lowerMessage.includes('i need help with')
+  ) {
     await createMemory(userId, userMessage, 'goal', 5);
   }
 
   // Detect mood indicators
-  const moodKeywords = ['feeling', 'stressed', 'anxious', 'happy', 'sad', 'tired', 'excited', 'overwhelmed'];
-  if (moodKeywords.some(kw => lowerMessage.includes(kw))) {
+  const moodKeywords = [
+    'feeling',
+    'stressed',
+    'anxious',
+    'happy',
+    'sad',
+    'tired',
+    'excited',
+    'overwhelmed',
+  ];
+  if (moodKeywords.some((kw) => lowerMessage.includes(kw))) {
     await createMemory(userId, userMessage, 'mood', 3, { timestamp: new Date().toISOString() });
   }
 
   // Store significant interactions
-  if (userMessage.length > 100 || lowerMessage.includes('important') || lowerMessage.includes('remember')) {
+  if (
+    userMessage.length > 100 ||
+    lowerMessage.includes('important') ||
+    lowerMessage.includes('remember')
+  ) {
     await createMemory(userId, userMessage, 'interaction', 4);
   }
 }

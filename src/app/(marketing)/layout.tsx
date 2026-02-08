@@ -1,55 +1,55 @@
-
-import type { Metadata, Viewport } from "next";
-import "@/styles/globals.css";
-import "./marketing.css";
-import MainLayout from "@/components/marketing/MainLayout";
+import type { Metadata, Viewport } from 'next';
+import '@/styles/globals.css';
+import './marketing.css';
+import MainLayout from '@/components/marketing/MainLayout';
 import { LanguageProvider } from '@/context/marketing/LanguageContext';
 import { DiscountProvider } from '@/context/marketing/DiscountContext';
 import { BookingProvider } from '@/components/marketing/BookingProvider';
-import SmoothScrolling from "@/components/marketing/SmoothScrolling";
+import SmoothScrolling from '@/components/marketing/SmoothScrolling';
+import { GlobalErrorReporter } from '@/components/observability/GlobalErrorReporter';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://ekabalance.com'),
   title: {
-    default: "EKA Balance - Teràpies Integratives",
-    template: "%s | EKA Balance",
+    default: 'EKA Balance - Teràpies Integratives',
+    template: '%s | EKA Balance',
   },
-  description: "Serveis premium de benestar amb teràpies integratives.",
-  applicationName: "EKA Balance",
+  description: 'Serveis premium de benestar amb teràpies integratives.',
+  applicationName: 'EKA Balance',
   keywords: [
-    "teràpies integratives",
-    "kinesiologia",
-    "benestar",
-    "massatge terapèutic",
-    "Feldenkrais",
-    "Barcelona",
+    'teràpies integratives',
+    'kinesiologia',
+    'benestar',
+    'massatge terapèutic',
+    'Feldenkrais',
+    'Barcelona',
   ],
-  authors: [{ name: "EKA Balance" }],
-  creator: "EKA Balance",
+  authors: [{ name: 'EKA Balance' }],
+  creator: 'EKA Balance',
   alternates: {
-    canonical: "/",
+    canonical: '/',
   },
   openGraph: {
-    title: "EKA Balance - Teràpies Integratives",
-    description: "Serveis premium de benestar amb teràpies integratives.",
-    url: "/",
-    siteName: "EKA Balance",
+    title: 'EKA Balance - Teràpies Integratives',
+    description: 'Serveis premium de benestar amb teràpies integratives.',
+    url: '/',
+    siteName: 'EKA Balance',
     images: [
       {
-        url: "/images/eka_logo.png",
+        url: '/images/eka_logo.png',
         width: 512,
         height: 512,
-        alt: "EKA Balance logo",
+        alt: 'EKA Balance logo',
       },
     ],
-    locale: "ca_ES",
-    type: "website",
+    locale: 'ca_ES',
+    type: 'website',
   },
   twitter: {
-    card: "summary_large_image",
-    title: "EKA Balance - Teràpies Integratives",
-    description: "Serveis premium de benestar amb teràpies integratives.",
-    images: ["/images/eka_logo.png"],
+    card: 'summary_large_image',
+    title: 'EKA Balance - Teràpies Integratives',
+    description: 'Serveis premium de benestar amb teràpies integratives.',
+    images: ['/images/eka_logo.png'],
   },
   robots: {
     index: true,
@@ -62,9 +62,9 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: "device-width",
+  width: 'device-width',
   initialScale: 1,
-  themeColor: "#ffffff",
+  themeColor: '#ffffff',
 };
 
 export default function RootLayout({
@@ -79,9 +79,8 @@ export default function RootLayout({
           <LanguageProvider>
             <DiscountProvider>
               <BookingProvider>
-                <MainLayout>
-                  {children}
-                </MainLayout>
+                <GlobalErrorReporter />
+                <MainLayout>{children}</MainLayout>
               </BookingProvider>
             </DiscountProvider>
           </LanguageProvider>
@@ -90,5 +89,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-

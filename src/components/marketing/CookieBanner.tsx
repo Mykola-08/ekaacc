@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -23,10 +22,10 @@ export default function CookieBanner() {
       // Restore consent if already accepted
       if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
         (window as any).gtag('consent', 'update', {
-          'ad_storage': 'granted',
-          'ad_user_data': 'granted',
-          'ad_personalization': 'granted',
-          'analytics_storage': 'granted'
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
         });
       }
     }
@@ -34,52 +33,50 @@ export default function CookieBanner() {
 
   const acceptCookies = () => {
     localStorage.setItem('ekabalance-cookie-consent', 'accepted');
-    
+
     // Update Google Consent Mode
     if (typeof window !== 'undefined' && typeof (window as any).gtag === 'function') {
       (window as any).gtag('consent', 'update', {
-        'ad_storage': 'granted',
-        'ad_user_data': 'granted',
-        'ad_personalization': 'granted',
-        'analytics_storage': 'granted'
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
       });
     }
-    
+
     setIsVisible(false);
   };
 
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white/95 backdrop-blur-lg border border-gray-200 rounded-2xl shadow-xl p-6 sm:p-8">
+    <div className="fixed right-0 bottom-0 left-0 z-50 p-4 sm:p-6">
+      <div className="mx-auto max-w-4xl">
+        <div className="rounded-2xl border border-gray-200 bg-white/95 p-6 shadow-xl backdrop-blur-lg sm:p-8">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 mt-1">
-              <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                <Cookie className="w-5 h-5 text-gray-600" />
+            <div className="mt-1 flex-shrink-0">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                <Cookie className="h-5 w-5 text-gray-600" />
               </div>
             </div>
 
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                {t('cookies.title')}
-              </h3>
-              <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-4">
+            <div className="min-w-0 flex-1">
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">{t('cookies.title')}</h3>
+              <p className="mb-4 text-sm leading-relaxed text-gray-600 sm:text-base">
                 {t('cookies.description')}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+              <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
                   <button
                     onClick={acceptCookies}
-                    className="bg-[#FFB405] hover:bg-[#e8a204] text-[#000035] font-semibold px-6 py-2 rounded-full transition-colors duration-200 text-sm"
+                    className="rounded-full bg-[#FFB405] px-6 py-2 text-sm font-semibold text-[#000035] transition-colors duration-200 hover:bg-[#e8a204]"
                   >
                     {t('cookies.accept')}
                   </button>
                   <button
                     onClick={() => setShowLanguagePopup(true)}
-                    className="text-gray-500 hover:text-blue-600 font-medium text-sm transition-colors duration-200 underline decoration-dotted"
+                    className="text-sm font-medium text-gray-500 underline decoration-dotted transition-colors duration-200 hover:text-blue-600"
                   >
                     {t('cookies.wrongLanguage')}
                   </button>
@@ -87,7 +84,7 @@ export default function CookieBanner() {
 
                 <Link
                   href="/cookie-policy"
-                  className="text-[#FFB405] hover:text-[#e8a204] font-medium text-sm transition-colors duration-200"
+                  className="text-sm font-medium text-[#FFB405] transition-colors duration-200 hover:text-[#e8a204]"
                 >
                   {t('cookies.learnMore')}
                 </Link>
@@ -96,10 +93,10 @@ export default function CookieBanner() {
 
             <button
               onClick={acceptCookies}
-              className="flex-shrink-0 p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              className="flex-shrink-0 p-2 text-gray-400 transition-colors duration-200 hover:text-gray-600"
               aria-label="Close cookie banner"
             >
-              <X className="w-5 h-5" aria-hidden="true" />
+              <X className="h-5 w-5" aria-hidden="true" />
             </button>
           </div>
         </div>
@@ -107,5 +104,3 @@ export default function CookieBanner() {
     </div>
   );
 }
-
-

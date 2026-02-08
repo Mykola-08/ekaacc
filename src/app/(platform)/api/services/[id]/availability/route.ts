@@ -4,10 +4,7 @@ import { getServiceAvailability } from '@/server/booking/service';
 // Simple mock availability generation: working hours 09:00-17:00 local, slots aligned to service duration.
 // Future: incorporate staff schedules, existing bookings, buffers, blackout windows.
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const url = new URL(req.url);
   const date = url.searchParams.get('date');
@@ -25,4 +22,3 @@ export async function GET(
 
   return NextResponse.json(result.data);
 }
-

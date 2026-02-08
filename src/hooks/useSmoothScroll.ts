@@ -8,4 +8,3 @@ export const useSmoothScroll = () => {
   }
   return context;
 };
-

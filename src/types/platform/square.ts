@@ -1,4 +1,3 @@
-
 export interface SquareWebhookEvent {
   merchant_id: string;
   type: string;
@@ -13,15 +12,15 @@ export interface SquareWebhookEvent {
 
 export interface EnhancedSquareWebhookEvent extends SquareWebhookEvent {
   // Add any enhanced properties if needed, or just aliases
-  // The code seems to expect these properties directly on the event, 
+  // The code seems to expect these properties directly on the event,
   // or maybe they were spread?
-  // Let's look at usage: "const { type, data } = event;" 
+  // Let's look at usage: "const { type, data } = event;"
   // This matches SquareWebhookEvent.
   // "eventId: event.eventId" -> this is camelCase, but Square sends snake_case event_id.
-  
+
   // It seems the code expects camelCase versions?
   // Or the type definition was extending something else.
-  
+
   eventId?: string;
   merchantId?: string;
   locationId?: string;

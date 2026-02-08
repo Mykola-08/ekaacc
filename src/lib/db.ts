@@ -1,20 +1,16 @@
 import { Pool, QueryResult, QueryResultRow } from 'pg';
+import dotenv from 'dotenv';
 
 // Ensure env vars are loaded in scripts/dev
 if (!process.env.POSTGRES_URL) {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    require('dotenv').config({ path: '.env.local' });
+    dotenv.config({ path: '.env.local' });
   } catch {
     // ignore - dotenv may not be available in production
   }
 }
 
 const connectionString = process.env.POSTGRES_URL || 'postgres://localhost:5432/placeholder';
-
-if (!process.env.POSTGRES_URL && process.env.NODE_ENV === 'production') {
-  console.warn('POSTGRES_URL is not defined in production environment');
-}
 
 // Pool configuration optimized for serverless environments
 const poolConfig = {
@@ -48,17 +44,16 @@ if (typeof process !== 'undefined') {
 
 export const db = {
   query: <T extends QueryResultRow = QueryResultRow>(
-    text: string, 
+    text: string,
     params?: unknown[]
   ): Promise<QueryResult<T>> => pool.query<T>(text, params),
-  
+
   // Convenience method for single-row queries
   queryOne: async <T extends QueryResultRow = QueryResultRow>(
-    text: string, 
+    text: string,
     params?: unknown[]
   ): Promise<T | null> => {
     const result = await pool.query<T>(text, params);
     return result.rows[0] ?? null;
   },
 };
-

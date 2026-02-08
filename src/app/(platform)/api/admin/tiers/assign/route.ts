@@ -11,8 +11,11 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -42,7 +45,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json() as any;
+    const body = (await request.json()) as any;
     const { userId, tierType, tierName, reason } = body;
 
     // Validate required fields
@@ -77,17 +80,23 @@ export async function POST(request: NextRequest) {
     // Validate tier eligibility
     let validationResult;
     if (tierType === 'vip') {
-      validationResult = await validationService.validateVIPTierEligibility(userId, tierName as VIPTier);
+      validationResult = await validationService.validateVIPTierEligibility(
+        userId,
+        tierName as VIPTier
+      );
     } else {
-      validationResult = await validationService.validateLoyaltyTierEligibility(userId, tierName as LoyaltyTier);
+      validationResult = await validationService.validateLoyaltyTierEligibility(
+        userId,
+        tierName as LoyaltyTier
+      );
     }
 
     if (!validationResult.isEligible) {
       return NextResponse.json(
-        { 
+        {
           error: 'User does not meet tier requirements',
           requirements: validationResult.missingRequirements,
-          progress: validationResult.progress
+          progress: validationResult.progress,
         },
         { status: 400 }
       );
@@ -104,10 +113,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (existingTier) {
-      return NextResponse.json(
-        { error: 'User already has this tier assigned' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'User already has this tier assigned' }, { status: 400 });
     }
 
     // Deactivate any existing tiers of the same type
@@ -128,36 +134,31 @@ export async function POST(request: NextRequest) {
         is_active: true,
         assigned_by: adminUser!.id,
         assigned_at: new Date().toISOString(),
-        reason: reason || 'Tier assigned by admin'
+        reason: reason || 'Tier assigned by admin',
       })
       .select()
       .single();
 
     if (tierError) {
       console.error('Error assigning tier:', tierError);
-      return NextResponse.json(
-        { error: 'Failed to assign tier' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to assign tier' }, { status: 500 });
     }
 
     // Create audit log
-    const { error: auditError } = await supabase
-      .from('tier_audit_logs')
-      .insert({
-        user_id: userId,
-        action: 'assign',
-        tier_type: tierType,
-        tier_name: tierName,
-        performed_by: adminUser!.id,
-        reason: reason || 'Tier assigned by admin',
-        timestamp: new Date().toISOString(),
-        metadata: {
-          admin_note: reason,
-          validation_passed: true,
-          previous_tier: existingTier?.tier_name || null
-        }
-      });
+    const { error: auditError } = await supabase.from('tier_audit_logs').insert({
+      user_id: userId,
+      action: 'assign',
+      tier_type: tierType,
+      tier_name: tierName,
+      performed_by: adminUser!.id,
+      reason: reason || 'Tier assigned by admin',
+      timestamp: new Date().toISOString(),
+      metadata: {
+        admin_note: reason,
+        validation_passed: true,
+        previous_tier: existingTier?.tier_name || null,
+      },
+    });
 
     if (auditError) {
       console.error('Error creating audit log:', auditError);
@@ -167,15 +168,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: newTier,
-      message: `Successfully assigned ${tierType} ${tierName} tier to user`
+      message: `Successfully assigned ${tierType} ${tierName} tier to user`,
     });
-
   } catch (error) {
     console.error('Tier assignment error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -194,10 +191,7 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get('userId');
 
     if (!userId) {
-      return NextResponse.json(
-        { error: 'userId parameter is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'userId parameter is required' }, { status: 400 });
     }
 
     // Get user's current tiers
@@ -209,22 +203,15 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching user tiers:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch user tiers' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch user tiers' }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
-      data: tiers
+      data: tiers,
     });
-
   } catch (error) {
     console.error('Fetch user tiers error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

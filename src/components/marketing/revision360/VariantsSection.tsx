@@ -21,7 +21,7 @@ export default function VariantsSection() {
 
   const variants: Variant[] = [
     {
-      icon: <RotateCcw className="w-6 h-6" />,
+      icon: <RotateCcw className="h-6 w-6" />,
       title: t('variants.reset.title'),
       subtitle: t('variants.reset.subtitle'),
       description: t('variants.reset.description'),
@@ -41,7 +41,7 @@ export default function VariantsSection() {
       price: 'EUR 450',
     },
     {
-      icon: <MapPin className="w-6 h-6" />,
+      icon: <MapPin className="h-6 w-6" />,
       title: t('variants.mapping.title'),
       subtitle: t('variants.mapping.subtitle'),
       description: t('variants.mapping.description'),
@@ -61,7 +61,7 @@ export default function VariantsSection() {
       price: 'EUR 350',
     },
     {
-      icon: <Compass className="w-6 h-6" />,
+      icon: <Compass className="h-6 w-6" />,
       title: t('variants.alignment.title'),
       subtitle: t('variants.alignment.subtitle'),
       description: t('variants.alignment.description'),
@@ -81,7 +81,7 @@ export default function VariantsSection() {
       price: 'EUR 280',
     },
     {
-      icon: <Sparkles className="w-6 h-6" />,
+      icon: <Sparkles className="h-6 w-6" />,
       title: t('variants.integral.title'),
       subtitle: t('variants.integral.subtitle'),
       description: t('variants.integral.description'),
@@ -112,17 +112,19 @@ export default function VariantsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.45 }}
         >
-          <h2 className="text-3xl sm:text-5xl font-semibold text-white">{t('variants.title')}</h2>
-          <p className="mt-4 text-zinc-300 text-base sm:text-lg leading-relaxed">{t('variants.subtitle')}</p>
+          <h2 className="text-3xl font-semibold text-white sm:text-5xl">{t('variants.title')}</h2>
+          <p className="mt-4 text-base leading-relaxed text-zinc-300 sm:text-lg">
+            {t('variants.subtitle')}
+          </p>
         </motion.div>
 
-        <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {variants.map((variant, index) => (
             <motion.button
               key={variant.title}
               type="button"
               onClick={() => setSelectedVariant(variant)}
-              className="text-left rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-sm transition-colors hover:bg-white/[0.08] hover:border-amber-200/35"
+              className="rounded-2xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur-sm transition-colors hover:border-amber-200/35 hover:bg-white/[0.08]"
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -133,9 +135,11 @@ export default function VariantsSection() {
               </span>
               <h3 className="mt-4 text-xl font-semibold text-white">{variant.title}</h3>
               <p className="mt-1 text-sm text-amber-200/90">{variant.subtitle}</p>
-              <p className="mt-3 text-sm text-zinc-300 leading-relaxed">{variant.description}</p>
+              <p className="mt-3 text-sm leading-relaxed text-zinc-300">{variant.description}</p>
               <div className="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
-                <span className="text-xs uppercase tracking-[0.1em] text-zinc-300/90">{variant.duration}</span>
+                <span className="text-xs tracking-[0.1em] text-zinc-300/90 uppercase">
+                  {variant.duration}
+                </span>
                 <span className="text-lg font-semibold text-amber-100">{variant.price}</span>
               </div>
             </motion.button>
@@ -154,36 +158,44 @@ export default function VariantsSection() {
             <p className="text-zinc-200">{selectedVariant.description}</p>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="text-sm uppercase tracking-[0.1em] text-amber-200">{t('variants.idealFor')}</p>
+                <p className="text-sm tracking-[0.1em] text-amber-200 uppercase">
+                  {t('variants.idealFor')}
+                </p>
                 <ul className="mt-3 space-y-2">
                   {selectedVariant.idealFor.map((item, index) => (
                     <li key={index} className="flex items-start gap-3 text-zinc-200">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-300 shrink-0" />
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
                       <span className="text-sm">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div>
-                <p className="text-sm uppercase tracking-[0.1em] text-amber-200">{t('variants.includes')}</p>
+                <p className="text-sm tracking-[0.1em] text-amber-200 uppercase">
+                  {t('variants.includes')}
+                </p>
                 <ul className="mt-3 space-y-2">
                   {selectedVariant.includes.map((item, index) => (
                     <li key={index} className="flex items-start gap-3 text-zinc-200">
-                      <span className="mt-2 h-1.5 w-1.5 rounded-full bg-amber-300 shrink-0" />
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-300" />
                       <span className="text-sm">{item}</span>
                     </li>
                   ))}
                 </ul>
               </div>
             </div>
-            <div className="rounded-xl border border-amber-300/30 bg-amber-300/10 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex flex-col gap-4 rounded-xl border border-amber-300/30 bg-amber-300/10 p-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.1em] text-amber-200">{t('variants.sessionDuration')}</p>
-                <p className="text-lg font-semibold text-white mt-1">{selectedVariant.duration}</p>
+                <p className="text-xs tracking-[0.1em] text-amber-200 uppercase">
+                  {t('variants.sessionDuration')}
+                </p>
+                <p className="mt-1 text-lg font-semibold text-white">{selectedVariant.duration}</p>
               </div>
               <div className="sm:text-right">
-                <p className="text-xs uppercase tracking-[0.1em] text-amber-200">{t('variants.investment')}</p>
-                <p className="text-2xl font-semibold text-white mt-1">{selectedVariant.price}</p>
+                <p className="text-xs tracking-[0.1em] text-amber-200 uppercase">
+                  {t('variants.investment')}
+                </p>
+                <p className="mt-1 text-2xl font-semibold text-white">{selectedVariant.price}</p>
               </div>
             </div>
           </div>
@@ -192,5 +204,3 @@ export default function VariantsSection() {
     </section>
   );
 }
-
-

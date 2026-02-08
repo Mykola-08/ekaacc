@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useConsent } from '@/hooks/platform/legal/useConsent';
@@ -21,4 +21,3 @@ export default function ConsentAwareWrapper({ children, category }: ConsentAware
 
   return <>{children}</>;
 }
-

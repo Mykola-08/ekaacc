@@ -43,8 +43,10 @@ export async function getUserPlanUsages(userId?: string) {
       .from('user_roles')
       .select('role')
       .eq('user_id', user.data.user.id);
-    
-    const isAdminOrTherapist = roles?.some(r => ['admin', 'super_admin', 'therapist'].includes(r.role));
+
+    const isAdminOrTherapist = roles?.some((r) =>
+      ['admin', 'super_admin', 'therapist'].includes(r.role)
+    );
     if (!isAdminOrTherapist) {
       throw new Error('Unauthorized');
     }
@@ -74,8 +76,10 @@ export async function getAllActivePlanUsages() {
     .from('user_roles')
     .select('role')
     .eq('user_id', user.data.user.id);
-    
-  const isAdminOrTherapist = roles?.some(r => ['admin', 'super_admin', 'therapist'].includes(r.role));
+
+  const isAdminOrTherapist = roles?.some((r) =>
+    ['admin', 'super_admin', 'therapist'].includes(r.role)
+  );
   if (!isAdminOrTherapist) throw new Error('Unauthorized');
 
   // Join with auth.users to get email? Supabase direct query to auth schemas is tricky via API sometimes.
@@ -122,15 +126,15 @@ export async function adjustPlanCredits(usageId: string, amount: number, reason:
     .from('user_roles')
     .select('role')
     .eq('user_id', user.data.user.id);
-    
-  const canEdit = roles?.some(r => ['admin', 'super_admin', 'therapist'].includes(r.role));
+
+  const canEdit = roles?.some((r) => ['admin', 'super_admin', 'therapist'].includes(r.role));
   if (!canEdit) throw new Error('Unauthorized');
 
   const { data, error } = await supabase.rpc('adjust_plan_credits', {
     p_usage_id: usageId,
     p_change_amount: amount,
     p_reason: reason,
-    p_performed_by: user.data.user.id
+    p_performed_by: user.data.user.id,
   });
 
   if (error) {
@@ -178,18 +182,18 @@ export async function assignPlanToUser(userId: string, planId: string) {
     .from('user_roles')
     .select('role')
     .eq('user_id', user.data.user.id);
-    
-  const canEdit = roles?.some(r => ['admin', 'super_admin', 'therapist'].includes(r.role));
+
+  const canEdit = roles?.some((r) => ['admin', 'super_admin', 'therapist'].includes(r.role));
   if (!canEdit) throw new Error('Unauthorized');
 
   const { data, error } = await supabase.rpc('assign_plan_to_user', {
     p_user_id: userId,
     p_plan_id: planId,
-    p_performed_by: user.data.user.id
+    p_performed_by: user.data.user.id,
   });
 
   if (error) {
-    console.error("Error assigning plan:", error);
+    console.error('Error assigning plan:', error);
     throw new Error(error.message);
   }
 
@@ -235,8 +239,8 @@ export async function createPlanCheckoutSession(planId: string, returnUrl: strin
           name: plan.name,
           description: plan.description || undefined,
           metadata: {
-             plan_id: plan.id
-          }
+            plan_id: plan.id,
+          },
         },
         unit_amount: plan.price_cents || 0,
       },
@@ -276,19 +280,19 @@ export async function createPlanDefinition(data: Partial<PlanDefinition>) {
     .from('user_roles')
     .select('role')
     .eq('user_id', user.data.user.id);
-  const isAdmin = roles?.some(r => ['admin', 'super_admin'].includes(r.role));
+  const isAdmin = roles?.some((r) => ['admin', 'super_admin'].includes(r.role));
   if (!isAdmin) throw new Error('Unauthorized');
 
   const { data: newPlan, error } = await supabase
     .from('plan_definition')
     .insert({
-       name: data.name,
-       description: data.description,
-       credits_total: data.credits_total,
-       validity_days: data.validity_days,
-       price_cents: data.price_cents,
-       currency: data.currency || 'EUR',
-       active: data.active ?? true
+      name: data.name,
+      description: data.description,
+      credits_total: data.credits_total,
+      validity_days: data.validity_days,
+      price_cents: data.price_cents,
+      currency: data.currency || 'EUR',
+      active: data.active ?? true,
     })
     .select()
     .single();
@@ -308,14 +312,14 @@ export async function updatePlanDefinition(id: string, data: Partial<PlanDefinit
     .from('user_roles')
     .select('role')
     .eq('user_id', user.data.user.id);
-  const isAdmin = roles?.some(r => ['admin', 'super_admin'].includes(r.role));
+  const isAdmin = roles?.some((r) => ['admin', 'super_admin'].includes(r.role));
   if (!isAdmin) throw new Error('Unauthorized');
 
   const { data: updated, error } = await supabase
     .from('plan_definition')
     .update({
-       ...data,
-       updated_at: new Date().toISOString()
+      ...data,
+      updated_at: new Date().toISOString(),
     })
     .eq('id', id)
     .select()
@@ -328,12 +332,16 @@ export async function updatePlanDefinition(id: string, data: Partial<PlanDefinit
 
 export async function getPlanOverallMetrics() {
   const supabase = await createClient();
-   const user = await supabase.auth.getUser();
+  const user = await supabase.auth.getUser();
   if (!user.data.user) throw new Error('Not authenticated');
-  
+
   // Admin Check
-  const { data: roles } = await supabase.from('user_roles').select('role').eq('user_id', user.data.user.id);
-  if (!roles?.some(r => ['admin', 'super_admin'].includes(r.role))) throw new Error('Unauthorized');
+  const { data: roles } = await supabase
+    .from('user_roles')
+    .select('role')
+    .eq('user_id', user.data.user.id);
+  if (!roles?.some((r) => ['admin', 'super_admin'].includes(r.role)))
+    throw new Error('Unauthorized');
 
   // Aggregate metrics
   // 1. Total Active Plans
@@ -344,15 +352,14 @@ export async function getPlanOverallMetrics() {
 
   // 2. Credits Distributed vs Used (Requires Summing, Supabase doesn't have easy sum via API without RPC, but we can fetch all or use RPC)
   // Let's use RPC for efficiency
-  const { data: stats, error } = await supabase.rpc('get_plan_usage_stats'); 
+  const { data: stats, error } = await supabase.rpc('get_plan_usage_stats');
   // I need to create this RPC (get_plan_usage_stats)
-  
+
   if (error) {
-     // Fallback if RPC doesn't exist yet
-     console.warn('RPC get_plan_usage_stats not found, returning basic count');
-     return { activeCount };
+    // Fallback if RPC doesn't exist yet
+    console.warn('RPC get_plan_usage_stats not found, returning basic count');
+    return { activeCount };
   }
-  
+
   return { activeCount, ...stats };
 }
-

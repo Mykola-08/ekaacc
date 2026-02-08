@@ -5,34 +5,48 @@ import { cn } from '@/lib/utils';
 import { ReactNode } from 'react';
 
 interface StatsCardProps {
-    icon: LucideIcon;
-    label: string;
-    value: ReactNode;
-    colorClass?: string; // e.g., "bg-blue-50 text-blue-600"
-    className?: string;
-    action?: ReactNode; // Top right icon/action
+  icon: LucideIcon;
+  label: string;
+  value: ReactNode;
+  colorClass?: string; // e.g., "bg-blue-50 text-blue-600"
+  className?: string;
+  action?: ReactNode; // Top right icon/action
 }
 
-export function StatsCard({ icon: Icon, label, value, colorClass = "bg-surface-container text-primary", className, action }: StatsCardProps) {
-    return (
-        <div className={cn(
-            "bg-surface p-6 rounded-2xl border border-border shadow-sm hover:shadow-md transition-all group flex flex-col justify-between h-44",
-            className
-        )}>
-            <div className="flex justify-between items-start">
-                <div className={cn(
-                    "w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 group-hover:scale-110",
-                    colorClass
-                )}>
-                    <Icon className="w-6 h-6" strokeWidth={2} />
-                </div>
-                {action || <ArrowUpRight className="w-5 h-5 text-muted group-hover:text-accent transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 opacity-50" />}
-            </div>
-            <div className="space-y-1">
-                <div className="text-xs font-bold text-muted uppercase tracking-[0.1em]">{label}</div>
-                <div className="text-3xl font-bold text-primary tracking-tight tabular-nums leading-none">{value}</div>
-            </div>
+export function StatsCard({
+  icon: Icon,
+  label,
+  value,
+  colorClass = 'bg-surface-container text-primary',
+  className,
+  action,
+}: StatsCardProps) {
+  return (
+    <div
+      className={cn(
+        'bg-surface border-border group flex h-44 flex-col justify-between rounded-2xl border p-6 shadow-sm transition-all hover:shadow-md',
+        className
+      )}
+    >
+      <div className="flex items-start justify-between">
+        <div
+          className={cn(
+            'flex h-12 w-12 items-center justify-center rounded-lg transition-all duration-300 group-hover:scale-110',
+            colorClass
+          )}
+        >
+          <Icon className="h-6 w-6" strokeWidth={2} />
         </div>
-    );
+        {action || (
+          <ArrowUpRight className="text-muted group-hover:text-accent h-5 w-5 opacity-50 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        )}
+      </div>
+      <div className="space-y-1">
+        <div className="text-muted text-xs font-bold tracking-[0.1em] uppercase">{label}</div>
+        <div className="text-primary text-3xl leading-none font-bold tracking-tight tabular-nums">
+          {value}
+        </div>
+      </div>
+    </div>
+  );
 }
-

@@ -4,7 +4,7 @@ interface CreateMeetParams {
   summary: string;
   description?: string;
   startTime: string; // ISO string 2024-02-03T10:00:00Z
-  endTime: string;   // ISO string
+  endTime: string; // ISO string
   attendees?: string[]; // email addresses
 }
 
@@ -38,7 +38,7 @@ export class GoogleMeetService {
         dateTime: params.endTime,
         timeZone: 'UTC',
       },
-      attendees: params.attendees?.map(email => ({ email })),
+      attendees: params.attendees?.map((email) => ({ email })),
       conferenceData: {
         createRequest: {
           requestId: Math.random().toString(36).substring(7),
@@ -62,15 +62,17 @@ export class GoogleMeetService {
     );
 
     if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        console.error('Google Meet Creation Error:', error);
-        throw new Error(`Failed to create Google Meet: ${response.statusText}`);
+      const error = await response.json().catch(() => ({}));
+      console.error('Google Meet Creation Error:', error);
+      throw new Error(`Failed to create Google Meet: ${response.statusText}`);
     }
 
     const data = await response.json();
-    
+
     // Extract meet link
-    const meetLink = data.htmlLink || data.conferenceData?.entryPoints?.find((ep: any) => ep.entryPointType === 'video')?.uri;
+    const meetLink =
+      data.htmlLink ||
+      data.conferenceData?.entryPoints?.find((ep: any) => ep.entryPointType === 'video')?.uri;
 
     return {
       meetLink: meetLink || '',
@@ -83,11 +85,11 @@ export class GoogleMeetService {
 export const googleMeetService = new GoogleMeetService();
 
 async function getAccessToken() {
-    // Placeholder for actual OAuth refresh logic
-    // This implies we have a valid access token. 
-    // Implementing full OAuth flow is outside scope of a single file drop, 
-    // but this structure allows "plugging in" the token retrieval.
-    const token = process.env.GOOGLE_ACCESS_TOKEN;
-    if (!token) throw new Error("Missing GOOGLE_ACCESS_TOKEN");
-    return token;
+  // Placeholder for actual OAuth refresh logic
+  // This implies we have a valid access token.
+  // Implementing full OAuth flow is outside scope of a single file drop,
+  // but this structure allows "plugging in" the token retrieval.
+  const token = process.env.GOOGLE_ACCESS_TOKEN;
+  if (!token) throw new Error('Missing GOOGLE_ACCESS_TOKEN');
+  return token;
 }

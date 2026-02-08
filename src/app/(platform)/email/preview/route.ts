@@ -4,7 +4,7 @@ import { TransactionalEmailService } from '@/lib/platform/services/transactional
 /**
  * POST /api/email/preview
  * Preview an email template without sending
- * 
+ *
  * Body:
  * {
  *   type: 'notification' | 'reminder' | 'result' | 'homework' | 'session_notes' | 'check_in';
@@ -19,14 +19,18 @@ export async function POST(request: NextRequest) {
 
     // Validate required fields
     if (!type || !data) {
-      return NextResponse.json(
-        { error: 'Missing required fields: type, data' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields: type, data' }, { status: 400 });
     }
 
     // Validate type
-    const validTypes = ['notification', 'reminder', 'result', 'homework', 'session_notes', 'check_in'];
+    const validTypes = [
+      'notification',
+      'reminder',
+      'result',
+      'homework',
+      'session_notes',
+      'check_in',
+    ];
     if (!validTypes.includes(type)) {
       return NextResponse.json(
         { error: `Invalid type. Must be one of: ${validTypes.join(', ')}` },
@@ -38,14 +42,11 @@ export async function POST(request: NextRequest) {
     const html = await TransactionalEmailService.renderOnly({
       type,
       data,
-      userName
+      userName,
     });
 
     if (!html) {
-      return NextResponse.json(
-        { error: 'Failed to render template' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to render template' }, { status: 500 });
     }
 
     // Return HTML for preview
@@ -57,10 +58,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Email preview error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -75,7 +73,7 @@ export async function GET(request: NextRequest) {
       title: 'New Message',
       message: 'You have received a new message from your therapist.',
       actionLabel: 'View Message',
-      actionUrl: '#'
+      actionUrl: '#',
     },
     reminder: {
       subject: 'Appointment Reminder',
@@ -84,7 +82,7 @@ export async function GET(request: NextRequest) {
       time: '2:00 PM',
       location: 'Virtual Session',
       actionLabel: 'Join Session',
-      actionUrl: '#'
+      actionUrl: '#',
     },
     result: {
       subject: 'Assessment Results',
@@ -92,10 +90,10 @@ export async function GET(request: NextRequest) {
       results: [
         { label: 'Mood Score', value: '8/10', status: 'success' },
         { label: 'Sleep Quality', value: '7/10', status: 'success' },
-        { label: 'Stress Level', value: '4/10', status: 'warning' }
+        { label: 'Stress Level', value: '4/10', status: 'warning' },
       ],
       actionLabel: 'View Details',
-      actionUrl: '#'
+      actionUrl: '#',
     },
     homework: {
       therapistName: 'Dr. Smith',
@@ -103,7 +101,7 @@ export async function GET(request: NextRequest) {
       description: 'Practice the breathing technique we discussed for 10 minutes daily.',
       dueDate: '2025-11-30',
       actionLabel: 'View Assignment',
-      actionUrl: '#'
+      actionUrl: '#',
     },
     session_notes: {
       therapistName: 'Dr. Smith',
@@ -116,8 +114,8 @@ export async function GET(request: NextRequest) {
       therapistName: 'Dr. Smith',
       message: 'How are you feeling this week? Please complete your check-in.',
       actionLabel: 'Complete Check-in',
-      actionUrl: '#'
-    }
+      actionUrl: '#',
+    },
   };
 
   const data = exampleData[type] || exampleData.notification;
@@ -125,7 +123,7 @@ export async function GET(request: NextRequest) {
   const html = await TransactionalEmailService.renderOnly({
     type: type as any,
     data,
-    userName: 'Preview User'
+    userName: 'Preview User',
   });
 
   return new NextResponse(html, {
@@ -135,4 +133,3 @@ export async function GET(request: NextRequest) {
     },
   });
 }
-

@@ -1,7 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import type { SubscriptionType, SubscriptionInterval } from '@/lib/platform/types/subscription-types';
+import type {
+  SubscriptionType,
+  SubscriptionInterval,
+} from '@/lib/platform/types/subscription-types';
 
 interface CheckoutParams {
   userId: string;
@@ -39,11 +42,11 @@ export function useStripeCheckout(): UseStripeCheckoutResult {
       });
 
       if (!response.ok) {
-        const data = await response.json() as any;
+        const data = (await response.json()) as any;
         throw new Error(data.error || 'Failed to create checkout session');
       }
 
-      const { url } = await response.json() as any;
+      const { url } = (await response.json()) as any;
 
       if (url) {
         // Redirect to Stripe Checkout
@@ -74,11 +77,11 @@ export function useStripeCheckout(): UseStripeCheckoutResult {
       });
 
       if (!response.ok) {
-        const data = await response.json() as any;
+        const data = (await response.json()) as any;
         throw new Error(data.error || 'Failed to open customer portal');
       }
 
-      const { url } = await response.json() as any;
+      const { url } = (await response.json()) as any;
 
       if (url) {
         // Redirect to Stripe Customer Portal
@@ -102,4 +105,3 @@ export function useStripeCheckout(): UseStripeCheckoutResult {
     error,
   };
 }
-

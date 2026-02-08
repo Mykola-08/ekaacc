@@ -21,15 +21,21 @@ export function useConsent() {
   const [status, setStatus] = useState<ConsentStatus>('undecided');
   const [preferences, setPreferences] = useState<ConsentPreferences>(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
-  
-  const supabase = useMemo(() => createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJibmZ5eGhld3Npdm9mdndkcHVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMwNTYzNDQsImV4cCI6MjA3ODYzMjM0NH0.beEFcpqzV7obLX0McrR-lK7V37RE0RbRTpVEKcub_Ko'
-  ), []);
+
+  const supabase = useMemo(() => {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return null;
+    }
+
+    return createClient(supabaseUrl, supabaseAnonKey);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
-    
+
     const checkConsent = async () => {
       try {
         // 1. Check Local Storage first (fastest)
@@ -44,7 +50,7 @@ export function useConsent() {
           }
           return;
         }
-        
+
         // Check for Global Privacy Control (GPC)
         // @ts-expect-error Navigator.globalPrivacyControl is not yet in standard types
         if (typeof navigator !== 'undefined' && navigator.globalPrivacyControl) {
@@ -58,6 +64,10 @@ export function useConsent() {
         }
 
         // 2. If not in local storage, check DB if user is logged in
+        if (!supabase) {
+          return;
+        }
+
         const { data: sessionData } = await (supabase.auth as any).getSession();
         if (sessionData?.session && sessionData.session.user) {
           const { data, error } = await supabase
@@ -87,7 +97,7 @@ export function useConsent() {
     };
 
     checkConsent();
-    
+
     return () => {
       mounted = false;
     };
@@ -98,11 +108,15 @@ export function useConsent() {
       // 1. Save to Local Storage
       localStorage.setItem('eka_consent_status', newStatus);
       localStorage.setItem('eka_consent_preferences', JSON.stringify(newPreferences));
-      
+
       setStatus(newStatus);
       setPreferences(newPreferences);
 
       // 2. Save to DB if logged in
+      if (!supabase) {
+        return;
+      }
+
       const { data: sessionData } = await (supabase.auth as any).getSession();
       if (sessionData?.session && sessionData.session.user) {
         await supabase.from('user_consents').insert({
@@ -111,7 +125,7 @@ export function useConsent() {
           status: newStatus,
           preferences: newPreferences,
           user_agent: navigator.userAgent,
-          version: '1.0'
+          version: '1.0',
         });
       }
     } catch (error) {
@@ -141,9 +155,10 @@ export function useConsent() {
 
   const savePreferences = (newPreferences: ConsentPreferences) => {
     // Determine status based on preferences
-    const isAllGranted = Object.values(newPreferences).every(v => v);
-    const isAllDenied = !newPreferences.analytics && !newPreferences.marketing && !newPreferences.functional;
-    
+    const isAllGranted = Object.values(newPreferences).every((v) => v);
+    const isAllDenied =
+      !newPreferences.analytics && !newPreferences.marketing && !newPreferences.functional;
+
     let newStatus: ConsentStatus = 'partial';
     if (isAllGranted) newStatus = 'granted';
     if (isAllDenied) newStatus = 'denied';
@@ -160,4 +175,3 @@ export function useConsent() {
     savePreferences,
   };
 }
-

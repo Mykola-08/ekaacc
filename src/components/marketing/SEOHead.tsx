@@ -18,7 +18,7 @@ export default function SEOHead({
   keywords = 'massatge Barcelona, kinesiologia Barcelona, teràpia benestar, Carrer Pelai, Plaça Universitat, plans VIP salut',
   image = 'https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png',
   url = 'https://ekabalance.com',
-  type = 'website'
+  type = 'website',
 }: SEOHeadProps) {
   useEffect(() => {
     // Update title
@@ -39,7 +39,7 @@ export default function SEOHead({
     // Basic Meta Tags
     setMetaTag('description', description);
     setMetaTag('keywords', keywords);
-    
+
     // Open Graph Tags
     setMetaTag('og:type', type, true);
     setMetaTag('og:title', title, true);
@@ -48,13 +48,13 @@ export default function SEOHead({
     setMetaTag('og:url', url, true);
     setMetaTag('og:locale', 'ca_ES', true);
     setMetaTag('og:site_name', 'EKA Balance', true);
-    
+
     // Twitter Card Tags
     setMetaTag('twitter:card', 'summary_large_image');
     setMetaTag('twitter:title', title);
     setMetaTag('twitter:description', description);
     setMetaTag('twitter:image', image);
-    
+
     // Additional SEO
     setMetaTag('robots', 'index, follow');
     setMetaTag('author', 'EKA Balance');
@@ -73,4 +73,3 @@ export default function SEOHead({
 
   return null;
 }
-

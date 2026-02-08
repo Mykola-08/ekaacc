@@ -1,17 +1,23 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
-import { Button } from '@/components/platform/ui/button'
-import { Badge } from '@/components/platform/ui/badge'
-import { Switch } from '@/components/platform/ui/switch'
-import { Input } from '@/components/platform/ui/input'
-import { Label } from '@/components/platform/ui/label'
-import { Textarea } from '@/components/platform/ui/textarea'
-import { 
-  Bell, 
-  AlertTriangle, 
-  CheckCircle, 
+import { useState, useEffect } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
+import { Button } from '@/components/platform/ui/button';
+import { Badge } from '@/components/platform/ui/badge';
+import { Switch } from '@/components/platform/ui/switch';
+import { Input } from '@/components/platform/ui/input';
+import { Label } from '@/components/platform/ui/label';
+import { Textarea } from '@/components/platform/ui/textarea';
+import {
+  Bell,
+  AlertTriangle,
+  CheckCircle,
   Clock,
   Send,
   Plus,
@@ -19,43 +25,43 @@ import {
   Trash2,
   Search,
   RefreshCw,
-  FileText
-} from 'lucide-react'
-import { format } from 'date-fns'
+  FileText,
+} from 'lucide-react';
+import { format } from 'date-fns';
 
 interface AdminNotification {
-  id: string
-  title: string
-  message: string
-  type: 'info' | 'warning' | 'error' | 'success'
-  recipients: 'all' | 'admins' | 'users' | 'specific'
-  recipientIds: string[]
-  isActive: boolean
-  createdAt: string
-  createdBy: string
-  expiresAt?: string
-  priority: 'low' | 'medium' | 'high'
+  id: string;
+  title: string;
+  message: string;
+  type: 'info' | 'warning' | 'error' | 'success';
+  recipients: 'all' | 'admins' | 'users' | 'specific';
+  recipientIds: string[];
+  isActive: boolean;
+  createdAt: string;
+  createdBy: string;
+  expiresAt?: string;
+  priority: 'low' | 'medium' | 'high';
 }
 
 interface NotificationTemplate {
-  id: string
-  name: string
-  title: string
-  message: string
-  type: 'info' | 'warning' | 'error' | 'success'
-  priority: 'low' | 'medium' | 'high'
+  id: string;
+  name: string;
+  title: string;
+  message: string;
+  type: 'info' | 'warning' | 'error' | 'success';
+  priority: 'low' | 'medium' | 'high';
 }
 
 export function AdminNotificationSystem() {
-  const [notifications, setNotifications] = useState<AdminNotification[]>([])
-  const [templates, setTemplates] = useState<NotificationTemplate[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [typeFilter, setTypeFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
-  const [showCreateModal, setShowCreateModal] = useState(false)
-  const [showTemplateModal, setShowTemplateModal] = useState(false)
-  const [sending, setSending] = useState(false)
+  const [notifications, setNotifications] = useState<AdminNotification[]>([]);
+  const [templates, setTemplates] = useState<NotificationTemplate[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [typeFilter, setTypeFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showTemplateModal, setShowTemplateModal] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const [newNotification, setNewNotification] = useState({
     title: '',
@@ -64,47 +70,47 @@ export function AdminNotificationSystem() {
     recipients: 'all' as const,
     recipientIds: [] as string[],
     priority: 'medium' as const,
-    expiresAt: ''
-  })
+    expiresAt: '',
+  });
 
   const [newTemplate, setNewTemplate] = useState({
     name: '',
     title: '',
     message: '',
     type: 'info' as const,
-    priority: 'medium' as const
-  })
+    priority: 'medium' as const,
+  });
 
   const fetchNotifications = async () => {
     try {
-      const response = await fetch('/api/admin/notifications')
-      if (!response.ok) throw new Error('Failed to fetch notifications')
-      const data = await response.json()
-      setNotifications(data.notifications)
-      setTemplates(data.templates)
+      const response = await fetch('/api/admin/notifications');
+      if (!response.ok) throw new Error('Failed to fetch notifications');
+      const data = await response.json();
+      setNotifications(data.notifications);
+      setTemplates(data.templates);
     } catch (error) {
-      console.error('Error fetching notifications:', error)
+      console.error('Error fetching notifications:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchNotifications()
-  }, [])
+    fetchNotifications();
+  }, []);
 
   const handleCreateNotification = async () => {
     try {
-      setSending(true)
+      setSending(true);
       const response = await fetch('/api/admin/notifications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newNotification)
-      })
-      
-      if (!response.ok) throw new Error('Failed to create notification')
-      
-      setShowCreateModal(false)
+        body: JSON.stringify(newNotification),
+      });
+
+      if (!response.ok) throw new Error('Failed to create notification');
+
+      setShowCreateModal(false);
       setNewNotification({
         title: '',
         message: '',
@@ -112,137 +118,153 @@ export function AdminNotificationSystem() {
         recipients: 'all',
         recipientIds: [],
         priority: 'medium',
-        expiresAt: ''
-      })
-      fetchNotifications()
+        expiresAt: '',
+      });
+      fetchNotifications();
     } catch (error) {
-      console.error('Error creating notification:', error)
+      console.error('Error creating notification:', error);
     } finally {
-      setSending(false)
+      setSending(false);
     }
-  }
+  };
 
   const handleCreateTemplate = async () => {
     try {
-      setSending(true)
+      setSending(true);
       const response = await fetch('/api/admin/notifications/templates', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTemplate)
-      })
-      
-      if (!response.ok) throw new Error('Failed to create template')
-      
-      setShowTemplateModal(false)
+        body: JSON.stringify(newTemplate),
+      });
+
+      if (!response.ok) throw new Error('Failed to create template');
+
+      setShowTemplateModal(false);
       setNewTemplate({
         name: '',
         title: '',
         message: '',
         type: 'info',
-        priority: 'medium'
-      })
-      fetchNotifications()
+        priority: 'medium',
+      });
+      fetchNotifications();
     } catch (error) {
-      console.error('Error creating template:', error)
+      console.error('Error creating template:', error);
     } finally {
-      setSending(false)
+      setSending(false);
     }
-  }
+  };
 
   const handleToggleNotification = async (notificationId: string, isActive: boolean) => {
     try {
       const response = await fetch(`/api/admin/notifications/${notificationId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ isActive })
-      })
-      
-      if (!response.ok) throw new Error('Failed to update notification')
-      
-      fetchNotifications()
+        body: JSON.stringify({ isActive }),
+      });
+
+      if (!response.ok) throw new Error('Failed to update notification');
+
+      fetchNotifications();
     } catch (error) {
-      console.error('Error updating notification:', error)
+      console.error('Error updating notification:', error);
     }
-  }
+  };
 
   const handleDeleteNotification = async (notificationId: string) => {
-    if (!confirm('Are you sure you want to delete this notification?')) return
-    
+    if (!confirm('Are you sure you want to delete this notification?')) return;
+
     try {
       const response = await fetch(`/api/admin/notifications/${notificationId}`, {
-        method: 'DELETE'
-      })
-      
-      if (!response.ok) throw new Error('Failed to delete notification')
-      
-      fetchNotifications()
+        method: 'DELETE',
+      });
+
+      if (!response.ok) throw new Error('Failed to delete notification');
+
+      fetchNotifications();
     } catch (error) {
-      console.error('Error deleting notification:', error)
+      console.error('Error deleting notification:', error);
     }
-  }
+  };
 
   const handleSendTestNotification = async (notificationId: string) => {
     try {
-      setSending(true)
+      setSending(true);
       const response = await fetch(`/api/admin/notifications/${notificationId}/test`, {
-        method: 'POST'
-      })
-      
-      if (!response.ok) throw new Error('Failed to send test notification')
-      
-      alert('Test notification sent successfully!')
+        method: 'POST',
+      });
+
+      if (!response.ok) throw new Error('Failed to send test notification');
+
+      alert('Test notification sent successfully!');
     } catch (error) {
-      console.error('Error sending test notification:', error)
+      console.error('Error sending test notification:', error);
     } finally {
-      setSending(false)
+      setSending(false);
     }
-  }
+  };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'info': return <Bell className="h-4 w-4 text-blue-500" />
-      case 'warning': return <AlertTriangle className="h-4 w-4 text-yellow-500" />
-      case 'error': return <AlertTriangle className="h-4 w-4 text-red-500" />
-      case 'success': return <CheckCircle className="h-4 w-4 text-green-500" />
-      default: return <Bell className="h-4 w-4 text-muted-foreground" />
+      case 'info':
+        return <Bell className="h-4 w-4 text-blue-500" />;
+      case 'warning':
+        return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
+      case 'error':
+        return <AlertTriangle className="h-4 w-4 text-red-500" />;
+      case 'success':
+        return <CheckCircle className="h-4 w-4 text-green-500" />;
+      default:
+        return <Bell className="text-muted-foreground h-4 w-4" />;
     }
-  }
+  };
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'info': return 'bg-blue-100 text-blue-800'
-      case 'warning': return 'bg-yellow-100 text-yellow-800'
-      case 'error': return 'bg-red-100 text-red-800'
-      case 'success': return 'bg-green-100 text-green-800'
-      default: return 'bg-muted text-foreground'
+      case 'info':
+        return 'bg-blue-100 text-blue-800';
+      case 'warning':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'error':
+        return 'bg-red-100 text-red-800';
+      case 'success':
+        return 'bg-green-100 text-green-800';
+      default:
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'high': return 'bg-red-100 text-red-800'
-      case 'medium': return 'bg-yellow-100 text-yellow-800'
-      case 'low': return 'bg-blue-100 text-blue-800'
-      default: return 'bg-muted text-foreground'
+      case 'high':
+        return 'bg-red-100 text-red-800';
+      case 'medium':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'low':
+        return 'bg-blue-100 text-blue-800';
+      default:
+        return 'bg-muted text-foreground';
     }
-  }
+  };
 
-  const filteredNotifications = notifications.filter(notification => {
-    const matchesSearch = notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         notification.message.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesType = typeFilter === 'all' || notification.type === typeFilter
-    const matchesStatus = statusFilter === 'all' || 
-                         (statusFilter === 'active' && notification.isActive) ||
-                         (statusFilter === 'inactive' && !notification.isActive)
-    return matchesSearch && matchesType && matchesStatus
-  })
+  const filteredNotifications = notifications.filter((notification) => {
+    const matchesSearch =
+      notification.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      notification.message.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesType = typeFilter === 'all' || notification.type === typeFilter;
+    const matchesStatus =
+      statusFilter === 'all' ||
+      (statusFilter === 'active' && notification.isActive) ||
+      (statusFilter === 'inactive' && !notification.isActive);
+    return matchesSearch && matchesType && matchesStatus;
+  });
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex h-96 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -250,20 +272,20 @@ export function AdminNotificationSystem() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Notification System</h2>
+          <h2 className="text-foreground text-2xl font-bold">Notification System</h2>
           <p className="text-muted-foreground">Manage system notifications and alerts</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={fetchNotifications}>
-            <RefreshCw className="h-4 w-4 mr-2" />
+            <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
           <Button size="sm" onClick={() => setShowCreateModal(true)}>
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="mr-2 h-4 w-4" />
             New Notification
           </Button>
           <Button variant="outline" size="sm" onClick={() => setShowTemplateModal(true)}>
-            <FileText className="h-4 w-4 mr-2" />
+            <FileText className="mr-2 h-4 w-4" />
             Templates
           </Button>
         </div>
@@ -276,10 +298,10 @@ export function AdminNotificationSystem() {
           <CardDescription>Find notifications quickly</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <div className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
+                <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                 <Input
                   placeholder="Search by title or message..."
                   value={searchTerm}
@@ -292,7 +314,7 @@ export function AdminNotificationSystem() {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
                 <option value="all">All Types</option>
                 <option value="info">Info</option>
@@ -303,7 +325,7 @@ export function AdminNotificationSystem() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md text-sm"
+                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -328,15 +350,15 @@ export function AdminNotificationSystem() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className={getTypeColor(notification.type)}>
-                    {notification.type}
-                  </Badge>
+                  <Badge className={getTypeColor(notification.type)}>{notification.type}</Badge>
                   <Badge className={getPriorityColor(notification.priority)}>
                     {notification.priority}
                   </Badge>
                   <Switch
                     checked={notification.isActive}
-                    onCheckedChange={(checked) => handleToggleNotification(notification.id, checked)}
+                    onCheckedChange={(checked) =>
+                      handleToggleNotification(notification.id, checked)
+                    }
                   />
                 </div>
               </div>
@@ -349,7 +371,10 @@ export function AdminNotificationSystem() {
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Created:</span>
-                  <span>{format(new Date(notification.createdAt), 'MMM dd, yyyy HH:mm')} by {notification.createdBy}</span>
+                  <span>
+                    {format(new Date(notification.createdAt), 'MMM dd, yyyy HH:mm')} by{' '}
+                    {notification.createdBy}
+                  </span>
                 </div>
                 {notification.expiresAt && (
                   <div className="flex items-center justify-between text-sm">
@@ -367,7 +392,7 @@ export function AdminNotificationSystem() {
                     onClick={() => handleSendTestNotification(notification.id)}
                     disabled={sending}
                   >
-                    <Send className="h-3 w-3 mr-1" />
+                    <Send className="mr-1 h-3 w-3" />
                     Test
                   </Button>
                   <Button
@@ -375,7 +400,7 @@ export function AdminNotificationSystem() {
                     size="sm"
                     onClick={() => console.log('Edit not implemented')}
                   >
-                    <Edit className="h-3 w-3 mr-1" />
+                    <Edit className="mr-1 h-3 w-3" />
                     Edit
                   </Button>
                   <Button
@@ -384,7 +409,7 @@ export function AdminNotificationSystem() {
                     onClick={() => handleDeleteNotification(notification.id)}
                     className="text-red-600 hover:text-red-700"
                   >
-                    <Trash2 className="h-3 w-3 mr-1" />
+                    <Trash2 className="mr-1 h-3 w-3" />
                     Delete
                   </Button>
                 </div>
@@ -396,8 +421,8 @@ export function AdminNotificationSystem() {
 
       {/* Create Notification Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+          <Card className="mx-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto">
             <CardHeader>
               <CardTitle>Create New Notification</CardTitle>
               <CardDescription>Send a notification to users</CardDescription>
@@ -408,7 +433,9 @@ export function AdminNotificationSystem() {
                 <Input
                   id="title"
                   value={newNotification.title}
-                  onChange={(e) => setNewNotification({ ...newNotification, title: e.target.value })}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, title: e.target.value })
+                  }
                   placeholder="Notification title"
                 />
               </div>
@@ -417,7 +444,9 @@ export function AdminNotificationSystem() {
                 <Textarea
                   id="message"
                   value={newNotification.message}
-                  onChange={(e) => setNewNotification({ ...newNotification, message: e.target.value })}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, message: e.target.value })
+                  }
                   placeholder="Notification message"
                   rows={4}
                 />
@@ -428,8 +457,10 @@ export function AdminNotificationSystem() {
                   <select
                     id="type"
                     value={newNotification.type}
-                    onChange={(e) => setNewNotification({ ...newNotification, type: e.target.value as any })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    onChange={(e) =>
+                      setNewNotification({ ...newNotification, type: e.target.value as any })
+                    }
+                    className="w-full rounded-md border border-gray-300 px-3 py-2"
                   >
                     <option value="info">Info</option>
                     <option value="warning">Warning</option>
@@ -442,8 +473,10 @@ export function AdminNotificationSystem() {
                   <select
                     id="priority"
                     value={newNotification.priority}
-                    onChange={(e) => setNewNotification({ ...newNotification, priority: e.target.value as any })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                    onChange={(e) =>
+                      setNewNotification({ ...newNotification, priority: e.target.value as any })
+                    }
+                    className="w-full rounded-md border border-gray-300 px-3 py-2"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -456,8 +489,10 @@ export function AdminNotificationSystem() {
                 <select
                   id="recipients"
                   value={newNotification.recipients}
-                  onChange={(e) => setNewNotification({ ...newNotification, recipients: e.target.value as any })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, recipients: e.target.value as any })
+                  }
+                  className="w-full rounded-md border border-gray-300 px-3 py-2"
                 >
                   <option value="all">All Users</option>
                   <option value="admins">Admins Only</option>
@@ -471,7 +506,9 @@ export function AdminNotificationSystem() {
                   id="expiresAt"
                   type="datetime-local"
                   value={newNotification.expiresAt}
-                  onChange={(e) => setNewNotification({ ...newNotification, expiresAt: e.target.value })}
+                  onChange={(e) =>
+                    setNewNotification({ ...newNotification, expiresAt: e.target.value })
+                  }
                 />
               </div>
               <div className="flex gap-3 pt-4">
@@ -497,14 +534,14 @@ export function AdminNotificationSystem() {
 
       {/* Templates Modal */}
       {showTemplateModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <Card className="w-full max-w-2xl mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black">
+          <Card className="mx-4 max-h-[90vh] w-full max-w-2xl overflow-y-auto">
             <CardHeader>
               <CardTitle>Manage Templates</CardTitle>
               <CardDescription>Create and manage notification templates</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="bg-muted/40 p-4 rounded-lg space-y-4">
+              <div className="bg-muted/40 space-y-4 rounded-lg p-4">
                 <h4 className="font-medium">New Template</h4>
                 <div>
                   <Label htmlFor="tpl-name">Template Name</Label>
@@ -530,8 +567,10 @@ export function AdminNotificationSystem() {
                     <select
                       id="tpl-type"
                       value={newTemplate.type}
-                      onChange={(e) => setNewTemplate({ ...newTemplate, type: e.target.value as any })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                      onChange={(e) =>
+                        setNewTemplate({ ...newTemplate, type: e.target.value as any })
+                      }
+                      className="w-full rounded-md border border-gray-300 px-3 py-2"
                     >
                       <option value="info">Info</option>
                       <option value="warning">Warning</option>
@@ -550,7 +589,7 @@ export function AdminNotificationSystem() {
                     rows={3}
                   />
                 </div>
-                <Button 
+                <Button
                   onClick={handleCreateTemplate}
                   disabled={sending || !newTemplate.name || !newTemplate.title}
                   className="w-full"
@@ -558,15 +597,18 @@ export function AdminNotificationSystem() {
                   Save Template
                 </Button>
               </div>
-              
+
               <div>
-                <h4 className="font-medium mb-2">Existing Templates</h4>
+                <h4 className="mb-2 font-medium">Existing Templates</h4>
                 {templates.length === 0 ? (
                   <p className="text-muted-foreground text-sm">No templates found.</p>
                 ) : (
                   <div className="grid gap-2">
-                    {templates.map(tpl => (
-                      <div key={tpl.id} className="border p-3 rounded-md flex justify-between items-center">
+                    {templates.map((tpl) => (
+                      <div
+                        key={tpl.id}
+                        className="flex items-center justify-between rounded-md border p-3"
+                      >
                         <span className="font-medium">{tpl.name}</span>
                         <Badge variant="outline">{tpl.type}</Badge>
                       </div>
@@ -585,5 +627,5 @@ export function AdminNotificationSystem() {
         </div>
       )}
     </div>
-  )
+  );
 }

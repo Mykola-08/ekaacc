@@ -1,7 +1,12 @@
 import { render } from '@react-email/render';
 import * as fs from 'fs';
 import * as path from 'path';
-import { ConfirmEmail, ResetPasswordEmail, MagicLinkEmail, ChangeEmailAddressEmail } from '../src/emails/SupabaseTemplates';
+import {
+  ConfirmEmail,
+  ResetPasswordEmail,
+  MagicLinkEmail,
+  ChangeEmailAddressEmail,
+} from '../src/emails/SupabaseTemplates';
 import { WelcomeEmail } from '../src/emails/WelcomeEmail';
 
 async function main() {
@@ -15,7 +20,10 @@ async function main() {
     { name: 'reset_password.html', component: ResetPasswordEmail },
     { name: 'magic_link.html', component: MagicLinkEmail },
     { name: 'change_email.html', component: ChangeEmailAddressEmail },
-    { name: 'welcome.html', component: () => WelcomeEmail({ name: 'User', actionUrl: 'https://ekaacc.com/dashboard' }) },
+    {
+      name: 'welcome.html',
+      component: () => WelcomeEmail({ name: 'User', actionUrl: 'https://ekaacc.com/dashboard' }),
+    },
   ];
 
   for (const { name, component } of templates) {

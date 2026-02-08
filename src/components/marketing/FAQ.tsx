@@ -21,40 +21,38 @@ const FAQ = () => {
     {
       id: 'item-1',
       question: t('faq.q1.question'),
-      answer: t('faq.q1.answer')
+      answer: t('faq.q1.answer'),
     },
     {
       id: 'item-2',
       question: t('faq.q2.question'),
-      answer: t('faq.q2.answer')
+      answer: t('faq.q2.answer'),
     },
     {
       id: 'item-3',
       question: t('faq.q3.question'),
-      answer: t('faq.q3.answer')
+      answer: t('faq.q3.answer'),
     },
     {
       id: 'item-4',
       question: t('faq.q4.question'),
-      answer: t('faq.q4.answer')
+      answer: t('faq.q4.answer'),
     },
     {
       id: 'item-5',
       question: t('faq.q5.question'),
-      answer: t('faq.q5.answer')
-    }
+      answer: t('faq.q5.answer'),
+    },
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-white">
-      <div className="max-w-3xl mx-auto px-4 sm:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-light text-gray-900 mb-4 text-balance">
+    <section className="bg-white py-16 sm:py-24">
+      <div className="mx-auto max-w-3xl px-4 sm:px-8">
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-light text-balance text-gray-900 sm:text-4xl">
             {t('faq.title')}
           </h2>
-          <p className="text-lg text-gray-600">
-            {t('faq.subtitle')}
-          </p>
+          <p className="text-lg text-gray-600">{t('faq.subtitle')}</p>
         </div>
 
         <Accordion type="single" defaultValue="item-1">
@@ -62,9 +60,7 @@ const FAQ = () => {
             <AccordionItem key={item.id} value={item.id}>
               <AccordionTrigger>{item.question}</AccordionTrigger>
               <AccordionContent>
-                <p className="leading-relaxed text-sm">
-                  {item.answer}
-                </p>
+                <p className="text-sm leading-relaxed">{item.answer}</p>
               </AccordionContent>
             </AccordionItem>
           ))}
@@ -75,7 +71,3 @@ const FAQ = () => {
 };
 
 export default FAQ;
-
-
-
-

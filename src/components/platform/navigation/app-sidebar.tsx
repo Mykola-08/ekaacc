@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 import {
   DashboardSquare01Icon,
   Shield01Icon,
@@ -15,27 +15,27 @@ import {
   Wallet01Icon,
   ActivityIcon,
   CourseIcon,
-  UserMultipleIcon
-} from "@hugeicons/core-free-icons"
+  UserMultipleIcon,
+} from '@hugeicons/core-free-icons';
 
-import { NavMain } from "@/components/platform/navigation/sidebar-components/nav-main"
-import { NavUser } from "@/components/platform/navigation/sidebar-components/nav-user"
-import { TeamSwitcher } from "@/components/platform/navigation/sidebar-components/team-switcher"
+import { NavMain } from '@/components/platform/navigation/sidebar-components/nav-main';
+import { NavUser } from '@/components/platform/navigation/sidebar-components/nav-user';
+import { TeamSwitcher } from '@/components/platform/navigation/sidebar-components/team-switcher';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/platform/ui/sidebar"
-import { useAuth } from "@/context/platform/auth-context"
-import { usePathname } from "next/navigation"
-import { useLanguage } from "@/context/LanguageContext"
+} from '@/components/platform/ui/sidebar';
+import { useAuth } from '@/context/platform/auth-context';
+import { usePathname } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user, isLoading } = useAuth()
-  const pathname = usePathname()
-  const { t } = useLanguage()
+  const { user, isLoading } = useAuth();
+  const pathname = usePathname();
+  const { t } = useLanguage();
 
   if (isLoading) {
     return (
@@ -46,157 +46,157 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </div>
         </SidebarContent>
       </Sidebar>
-    )
+    );
   }
 
   const getNavItems = () => {
     const baseItems = [
       {
         title: t('nav.dashboard'),
-        url: "/dashboard",
+        url: '/dashboard',
         icon: DashboardSquare01Icon,
-        isActive: pathname === "/dashboard" || pathname === "/home",
+        isActive: pathname === '/dashboard' || pathname === '/home',
       },
       {
         title: t('nav.profile'),
-        url: "/myaccount",
+        url: '/myaccount',
         icon: UserCircleIcon,
-        isActive: pathname === "/myaccount",
+        isActive: pathname === '/myaccount',
       },
-    ]
+    ];
 
-    if (!user) return baseItems
+    if (!user) return baseItems;
 
     if (user.role?.name === 'admin') {
       return [
         {
           title: t('nav.adminDashboard'),
-          url: "/admin",
+          url: '/admin',
           icon: Shield01Icon,
-          isActive: pathname === "/admin",
+          isActive: pathname === '/admin',
         },
         {
           title: t('nav.userManagement'),
-          url: "/admin/users",
+          url: '/admin/users',
           icon: UserGroupIcon,
-          isActive: pathname === "/admin/users",
+          isActive: pathname === '/admin/users',
         },
         {
           title: t('nav.subscriptions'),
-          url: "/admin/subscriptions",
+          url: '/admin/subscriptions',
           icon: CreditCardIcon,
-          isActive: pathname === "/admin/subscriptions",
+          isActive: pathname === '/admin/subscriptions',
         },
         {
           title: t('nav.analytics'),
-          url: "/admin/analytics",
+          url: '/admin/analytics',
           icon: ChartBarLineIcon,
-          isActive: pathname === "/admin/analytics",
+          isActive: pathname === '/admin/analytics',
         },
         {
           title: t('nav.systemSettings'),
-          url: "/admin/settings",
+          url: '/admin/settings',
           icon: Settings02Icon,
-          isActive: pathname === "/admin/settings",
+          isActive: pathname === '/admin/settings',
         },
-        ...baseItems
-      ]
+        ...baseItems,
+      ];
     }
 
     if (user.role?.name === 'therapist') {
       return [
         {
           title: t('nav.therapistDashboard'),
-          url: "/dashboard",
+          url: '/dashboard',
           icon: Briefcase01Icon,
-          isActive: pathname === "/dashboard",
+          isActive: pathname === '/dashboard',
         },
         {
           title: t('nav.clientManagement'),
-          url: "/therapist/clients",
+          url: '/therapist/clients',
           icon: UserGroupIcon,
-          isActive: pathname === "/therapist/clients",
+          isActive: pathname === '/therapist/clients',
         },
-        ...baseItems
-      ]
+        ...baseItems,
+      ];
     }
 
     if (user.role?.name === 'educator') {
       return [
         {
           title: t('nav.educatorDashboard'),
-          url: "/educator",
+          url: '/educator',
           icon: DashboardSquare01Icon,
-          isActive: pathname === "/educator",
+          isActive: pathname === '/educator',
         },
         {
           title: t('nav.myCourses'),
-          url: "/educator",
+          url: '/educator',
           icon: Book01Icon,
-          isActive: pathname === "/educator",
+          isActive: pathname === '/educator',
         },
         {
           title: t('nav.createCourse'),
-          url: "/educator/courses/new",
+          url: '/educator/courses/new',
           icon: PlusSignIcon,
-          isActive: pathname === "/educator/courses/new",
+          isActive: pathname === '/educator/courses/new',
         },
-        ...baseItems
-      ]
+        ...baseItems,
+      ];
     }
 
     return [
       ...baseItems,
       {
-        title: "Wallet",
-        url: "/wallet",
+        title: 'Wallet',
+        url: '/wallet',
         icon: Wallet01Icon,
-        isActive: pathname === "/wallet",
+        isActive: pathname === '/wallet',
       },
       {
-        title: "Progress",
-        url: "/progress",
+        title: 'Progress',
+        url: '/progress',
         icon: ActivityIcon,
-        isActive: pathname.startsWith("/progress"),
+        isActive: pathname.startsWith('/progress'),
       },
       {
-        title: "Community",
-        url: "/community",
+        title: 'Community',
+        url: '/community',
         icon: UserMultipleIcon,
-        isActive: pathname === "/community",
+        isActive: pathname === '/community',
       },
       {
-        title: "Academy",
-        url: "/academy",
+        title: 'Academy',
+        url: '/academy',
         icon: CourseIcon,
-        isActive: pathname.startsWith("/academy"),
+        isActive: pathname.startsWith('/academy'),
         items: [
           {
-            title: "Course Catalog",
-            url: "/academy",
+            title: 'Course Catalog',
+            url: '/academy',
           },
           {
-            title: "My Certificates",
-            url: "/academy/certificates",
-          }
-        ]
+            title: 'My Certificates',
+            url: '/academy/certificates',
+          },
+        ],
       },
       {
-        title: "Subscriptions",
-        url: "/subscriptions",
+        title: 'Subscriptions',
+        url: '/subscriptions',
         icon: CreditCardIcon,
-        isActive: pathname === "/subscriptions",
+        isActive: pathname === '/subscriptions',
       },
       {
-        title: "Settings",
-        url: "/settings",
+        title: 'Settings',
+        url: '/settings',
         icon: Settings02Icon,
-        isActive: pathname === "/settings",
+        isActive: pathname === '/settings',
       },
-    ]
-  }
+    ];
+  };
 
-  const navItems = getNavItems()
+  const navItems = getNavItems();
 
   return (
     <Sidebar collapsible="offcanvas" variant="floating" {...props} className="border-none">
@@ -211,6 +211,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
-

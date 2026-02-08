@@ -28,33 +28,35 @@ export function CookieBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t shadow-lg p-4 md:p-6 animate-in slide-in-from-bottom-full duration-500">
-      <div className="container mx-auto max-w-7xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+    <div className="bg-background animate-in slide-in-from-bottom-full fixed right-0 bottom-0 left-0 z-50 border-t p-4 shadow-lg duration-500 md:p-6">
+      <div className="container mx-auto flex max-w-7xl flex-col items-start justify-between gap-4 md:flex-row md:items-center">
         <div className="flex-1 pr-8">
-          <h3 className="text-lg font-semibold mb-2">We value your privacy</h3>
-          <p className="text-sm text-muted-foreground">
-            We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. Read our{' '}
-            <a 
-              href="http://localhost:9006/cookies" 
-              target="_blank" 
+          <h3 className="mb-2 text-lg font-semibold">We value your privacy</h3>
+          <p className="text-muted-foreground text-sm">
+            We use cookies to enhance your browsing experience, serve personalized ads or content,
+            and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
+            Read our{' '}
+            <a
+              href="http://localhost:9006/cookies"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline font-medium"
+              className="text-primary font-medium hover:underline"
             >
               Cookie Policy
-            </a>
-            {' '}and{' '}
-            <a 
-              href="http://localhost:9006/privacy" 
-              target="_blank" 
+            </a>{' '}
+            and{' '}
+            <a
+              href="http://localhost:9006/privacy"
+              target="_blank"
               rel="noopener noreferrer"
-              className="text-primary hover:underline font-medium"
+              className="text-primary font-medium hover:underline"
             >
               Privacy Policy
             </a>
             .
           </p>
         </div>
-        <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+        <div className="flex w-full flex-col gap-2 sm:flex-row md:w-auto">
           <Button variant="outline" onClick={handleDecline} className="w-full sm:w-auto">
             Decline
           </Button>
@@ -62,9 +64,9 @@ export function CookieBanner() {
             Accept All
           </Button>
         </div>
-        <button 
+        <button
           onClick={() => setIsVisible(false)}
-          className="absolute top-4 right-4 md:hidden text-muted-foreground hover:text-foreground"
+          className="text-muted-foreground hover:text-foreground absolute top-4 right-4 md:hidden"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
@@ -73,4 +75,3 @@ export function CookieBanner() {
     </div>
   );
 }
-

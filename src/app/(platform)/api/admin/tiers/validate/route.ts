@@ -11,8 +11,11 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -42,7 +45,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json() as any;
+    const body = (await request.json()) as any;
     const { userId, tierType, tierName } = body;
 
     // Validate required fields
@@ -79,11 +82,20 @@ export async function POST(request: NextRequest) {
     let progressResult;
 
     if (tierType === 'vip') {
-      validationResult = await validationService.validateVIPTierEligibility(userId, tierName as VIPTier);
+      validationResult = await validationService.validateVIPTierEligibility(
+        userId,
+        tierName as VIPTier
+      );
       progressResult = await validationService.getVIPTierProgress(userId, tierName as VIPTier);
     } else {
-      validationResult = await validationService.validateLoyaltyTierEligibility(userId, tierName as LoyaltyTier);
-      progressResult = await validationService.getLoyaltyTierProgress(userId, tierName as LoyaltyTier);
+      validationResult = await validationService.validateLoyaltyTierEligibility(
+        userId,
+        tierName as LoyaltyTier
+      );
+      progressResult = await validationService.getLoyaltyTierProgress(
+        userId,
+        tierName as LoyaltyTier
+      );
     }
 
     // Get current user tier information
@@ -93,8 +105,8 @@ export async function POST(request: NextRequest) {
       .eq('user_id', userId)
       .eq('is_active', true);
 
-    const currentVIPTier = currentTiers?.find(t => t.tier_type === 'vip');
-    const currentLoyaltyTier = currentTiers?.find(t => t.tier_type === 'loyalty');
+    const currentVIPTier = currentTiers?.find((t) => t.tier_type === 'vip');
+    const currentLoyaltyTier = currentTiers?.find((t) => t.tier_type === 'loyalty');
 
     return NextResponse.json({
       success: true,
@@ -105,21 +117,18 @@ export async function POST(request: NextRequest) {
         nextRequirements: progressResult.nextRequirements,
         currentTiers: {
           vip: currentVIPTier?.tier_name || null,
-          loyalty: currentLoyaltyTier?.tier_name || null
+          loyalty: currentLoyaltyTier?.tier_name || null,
         },
-        canUpgrade: validationResult.isEligible && (tierType === 'vip' ? 
-          !currentVIPTier || currentVIPTier.tier_name !== tierName :
-          !currentLoyaltyTier || currentLoyaltyTier.tier_name !== tierName
-        )
-      }
+        canUpgrade:
+          validationResult.isEligible &&
+          (tierType === 'vip'
+            ? !currentVIPTier || currentVIPTier.tier_name !== tierName
+            : !currentLoyaltyTier || currentLoyaltyTier.tier_name !== tierName),
+      },
     });
-
   } catch (error) {
     console.error('Tier validation error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -138,10 +147,7 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get('userId');
 
     if (!userId) {
-      return NextResponse.json(
-        { error: 'userId parameter is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'userId parameter is required' }, { status: 400 });
     }
 
     // Get validation service
@@ -151,24 +157,24 @@ export async function GET(request: NextRequest) {
     const vipValidations = await Promise.all([
       validationService.validateVIPTierEligibility(userId, 'silver'),
       validationService.validateVIPTierEligibility(userId, 'gold'),
-      validationService.validateVIPTierEligibility(userId, 'platinum')
+      validationService.validateVIPTierEligibility(userId, 'platinum'),
     ]);
 
     const loyaltyValidations = await Promise.all([
       validationService.validateLoyaltyTierEligibility(userId, 'member'),
-      validationService.validateLoyaltyTierEligibility(userId, 'elite')
+      validationService.validateLoyaltyTierEligibility(userId, 'elite'),
     ]);
 
     // Get progress for all tiers
     const vipProgress = await Promise.all([
       validationService.getVIPTierProgress(userId, 'silver'),
       validationService.getVIPTierProgress(userId, 'gold'),
-      validationService.getVIPTierProgress(userId, 'platinum')
+      validationService.getVIPTierProgress(userId, 'platinum'),
     ]);
 
     const loyaltyProgress = await Promise.all([
       validationService.getLoyaltyTierProgress(userId, 'member'),
-      validationService.getLoyaltyTierProgress(userId, 'elite')
+      validationService.getLoyaltyTierProgress(userId, 'elite'),
     ]);
 
     // Get current user tier information
@@ -178,8 +184,8 @@ export async function GET(request: NextRequest) {
       .eq('user_id', userId)
       .eq('is_active', true);
 
-    const currentVIPTier = currentTiers?.find(t => t.tier_type === 'vip');
-    const currentLoyaltyTier = currentTiers?.find(t => t.tier_type === 'loyalty');
+    const currentVIPTier = currentTiers?.find((t) => t.tier_type === 'vip');
+    const currentLoyaltyTier = currentTiers?.find((t) => t.tier_type === 'loyalty');
 
     return NextResponse.json({
       success: true,
@@ -190,22 +196,22 @@ export async function GET(request: NextRequest) {
             requirements: vipValidations[0].missingRequirements,
             progress: vipProgress[0].progress,
             nextRequirements: vipProgress[0].nextRequirements,
-            current: currentVIPTier?.tier_name === 'silver'
+            current: currentVIPTier?.tier_name === 'silver',
           },
           gold: {
             isEligible: vipValidations[1].isEligible,
             requirements: vipValidations[1].missingRequirements,
             progress: vipProgress[1].progress,
             nextRequirements: vipProgress[1].nextRequirements,
-            current: currentVIPTier?.tier_name === 'gold'
+            current: currentVIPTier?.tier_name === 'gold',
           },
           platinum: {
             isEligible: vipValidations[2].isEligible,
             requirements: vipValidations[2].missingRequirements,
             progress: vipProgress[2].progress,
             nextRequirements: vipProgress[2].nextRequirements,
-            current: currentVIPTier?.tier_name === 'platinum'
-          }
+            current: currentVIPTier?.tier_name === 'platinum',
+          },
         },
         loyalty: {
           member: {
@@ -213,24 +219,20 @@ export async function GET(request: NextRequest) {
             requirements: loyaltyValidations[0].missingRequirements,
             progress: loyaltyProgress[0].progress,
             nextRequirements: loyaltyProgress[0].nextRequirements,
-            current: currentLoyaltyTier?.tier_name === 'member'
+            current: currentLoyaltyTier?.tier_name === 'member',
           },
           elite: {
             isEligible: loyaltyValidations[1].isEligible,
             requirements: loyaltyValidations[1].missingRequirements,
             progress: loyaltyProgress[1].progress,
             nextRequirements: loyaltyProgress[1].nextRequirements,
-            current: currentLoyaltyTier?.tier_name === 'elite'
-          }
-        }
-      }
+            current: currentLoyaltyTier?.tier_name === 'elite',
+          },
+        },
+      },
     });
-
   } catch (error) {
     console.error('Bulk tier validation error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

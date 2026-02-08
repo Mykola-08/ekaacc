@@ -23,27 +23,36 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       .eq('id', id)
       .single();
     if (bookingErr || !booking) {
-      return NextResponse.json({ error: bookingErr?.message || 'Booking not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: bookingErr?.message || 'Booking not found' },
+        { status: 404 }
+      );
     }
     if (booking.payment_status !== 'pending') {
-      return NextResponse.json({ error: 'Payment already processed or not allowed' }, { status: 409 });
+      return NextResponse.json(
+        { error: 'Payment already processed or not allowed' },
+        { status: 409 }
+      );
     }
-    
+
     // Simulate successful payment capture
     const { error: updErr } = await supabase
       .from('booking')
-      .update({ 
-        payment_status: 'captured', 
-        stripe_payment_intent: 'manual_bypass_pay_route' 
+      .update({
+        payment_status: 'captured',
+        stripe_payment_intent: 'manual_bypass_pay_route',
       })
       .eq('id', booking.id);
-      
+
     if (updErr) {
       console.error('Failed to update booking status:', updErr);
       return NextResponse.json({ error: 'Failed to confirm payment' }, { status: 500 });
     }
 
-    await emitEvent('payment.captured', { bookingId: booking.id, paymentIntent: 'manual_bypass_pay_route' });
+    await emitEvent('payment.captured', {
+      bookingId: booking.id,
+      paymentIntent: 'manual_bypass_pay_route',
+    });
 
     const origin = req.headers.get('origin') || '';
     const successUrl = `${origin}/success?booking_id=${booking.id}&session_id=manual_pay_${booking.id}`;
@@ -53,5 +62,3 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
-
-

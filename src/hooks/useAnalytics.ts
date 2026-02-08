@@ -1,4 +1,3 @@
- 
 import { useCallback } from 'react';
 // import { supabase } from '@/lib/supabase';
 // import { useSupabaseAuth } from '@/context/SupabaseAuthContext';
@@ -7,23 +6,20 @@ export const useAnalytics = () => {
   // const { user } = useSupabaseAuth();
   const user = null;
 
-  const logEvent = useCallback(async (
-    interactionType: string,
-    metadata: Record<string, any> = {},
-    elementText?: string
-  ) => {
-    // Google Analytics Tracking
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', interactionType, {
-        event_category: metadata.category || 'interaction',
-        event_label: elementText || metadata.label,
-        value: metadata.value,
-        page_path: window.location.pathname,
-        ...metadata
-      });
-    }
+  const logEvent = useCallback(
+    async (interactionType: string, metadata: Record<string, any> = {}, elementText?: string) => {
+      // Google Analytics Tracking
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', interactionType, {
+          event_category: metadata.category || 'interaction',
+          event_label: elementText || metadata.label,
+          value: metadata.value,
+          page_path: window.location.pathname,
+          ...metadata,
+        });
+      }
 
-    /*
+      /*
     try {
       await supabase.from('user_interactions').insert({
         interaction_type: interactionType,
@@ -43,21 +39,27 @@ export const useAnalytics = () => {
       console.error('Error logging analytics event:', error);
     }
     */
-  }, [user]);
+    },
+    [user]
+  );
 
-  const logPageView = useCallback((path: string) => {
-    logEvent('page_view', { path });
-  }, [logEvent]);
+  const logPageView = useCallback(
+    (path: string) => {
+      logEvent('page_view', { path });
+    },
+    [logEvent]
+  );
 
-  const logError = useCallback((error: string, context: Record<string, any> = {}) => {
-    logEvent('error', { error, ...context });
-  }, [logEvent]);
+  const logError = useCallback(
+    (error: string, context: Record<string, any> = {}) => {
+      logEvent('error', { error, ...context });
+    },
+    [logEvent]
+  );
 
   return {
     logEvent,
     logPageView,
-    logError
+    logError,
   };
 };
-
-

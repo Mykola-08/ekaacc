@@ -31,7 +31,10 @@ const paymentService = {
     }
   },
 
-  rejectPaymentRequest: async (requestId: string, reason?: string): Promise<PaymentServiceResult> => {
+  rejectPaymentRequest: async (
+    requestId: string,
+    reason?: string
+  ): Promise<PaymentServiceResult> => {
     try {
       const { error } = await supabaseAdmin
         .from('payment_requests')
@@ -75,7 +78,7 @@ const paymentService = {
           user_id: userId,
           amount,
           description,
-          status: 'pending'
+          status: 'pending',
         })
         .select()
         .single();

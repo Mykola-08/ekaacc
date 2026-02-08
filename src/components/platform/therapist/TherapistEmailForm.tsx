@@ -4,11 +4,30 @@ import { useState, useTransition } from 'react';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
 import { Textarea } from '@/components/platform/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/platform/ui/select';
 import { Label } from '@/components/platform/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/platform/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/platform/ui/dialog';
 import { sendTherapistEmail, previewTherapistEmail } from '@/app/actions/therapist-email';
 import { TransactionalEmailType } from '@/lib/platform/services/transactional-email-service';
 import { toast } from 'sonner'; // Assuming sonner or use-toast
@@ -52,7 +71,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handlePreview = async () => {
@@ -92,10 +111,14 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
 
   const getDefaultSubject = (type: TransactionalEmailType) => {
     switch (type) {
-      case 'homework': return 'New Homework Assignment';
-      case 'session_notes': return 'Session Notes';
-      case 'check_in': return 'Checking In';
-      default: return 'Notification';
+      case 'homework':
+        return 'New Homework Assignment';
+      case 'session_notes':
+        return 'Session Notes';
+      case 'check_in':
+        return 'Checking In';
+      default:
+        return 'Notification';
     }
   };
 
@@ -113,7 +136,7 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
         return {
           sessionDate: formData.sessionDate,
           summary: formData.summary,
-          keyTakeaways: formData.keyTakeaways.split('\n').filter(line => line.trim() !== ''),
+          keyTakeaways: formData.keyTakeaways.split('\n').filter((line) => line.trim() !== ''),
           nextSessionDate: formData.nextSessionDate,
         };
       case 'check_in':
@@ -128,10 +151,12 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
   };
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="mx-auto w-full max-w-2xl">
       <CardHeader>
         <CardTitle>Send Patient Email</CardTitle>
-        <CardDescription>Send homework, session notes, or check-ins to your patients.</CardDescription>
+        <CardDescription>
+          Send homework, session notes, or check-ins to your patients.
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
@@ -141,8 +166,10 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
               <SelectValue placeholder="Select a patient..." />
             </SelectTrigger>
             <SelectContent>
-              {patients.map(patient => (
-                <SelectItem key={patient.id} value={patient.id}>{patient.name} ({patient.email})</SelectItem>
+              {patients.map((patient) => (
+                <SelectItem key={patient.id} value={patient.id}>
+                  {patient.name} ({patient.email})
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -150,7 +177,11 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
 
         <div className="space-y-2">
           <Label>Email Type</Label>
-          <Tabs value={emailType} onValueChange={(v) => setEmailType(v as TransactionalEmailType)} className="w-full">
+          <Tabs
+            value={emailType}
+            onValueChange={(v) => setEmailType(v as TransactionalEmailType)}
+            className="w-full"
+          >
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="homework">Homework</TabsTrigger>
               <TabsTrigger value="session_notes">Session Notes</TabsTrigger>
@@ -161,95 +192,159 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
 
         <div className="space-y-2">
           <Label>Subject Line</Label>
-          <Input 
-            name="subject" 
-            placeholder={getDefaultSubject(emailType)} 
-            value={formData.subject} 
-            onChange={handleInputChange} 
+          <Input
+            name="subject"
+            placeholder={getDefaultSubject(emailType)}
+            value={formData.subject}
+            onChange={handleInputChange}
           />
         </div>
 
         {emailType === 'homework' && (
-          <div className="space-y-4 border p-4 rounded-md bg-muted/40 dark:bg-primary">
+          <div className="bg-muted/40 dark:bg-primary space-y-4 rounded-md border p-4">
             <div className="space-y-2">
               <Label>Assignment Title</Label>
-              <Input name="assignmentTitle" value={formData.assignmentTitle} onChange={handleInputChange} placeholder="e.g. CBT Worksheet" />
+              <Input
+                name="assignmentTitle"
+                value={formData.assignmentTitle}
+                onChange={handleInputChange}
+                placeholder="e.g. CBT Worksheet"
+              />
             </div>
             <div className="space-y-2">
               <Label>Description</Label>
-              <Textarea name="description" value={formData.description} onChange={handleInputChange} placeholder="Instructions for the patient..." />
+              <Textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                placeholder="Instructions for the patient..."
+              />
             </div>
             <div className="space-y-2">
               <Label>Due Date</Label>
-              <Input type="date" name="dueDate" value={formData.dueDate} onChange={handleInputChange} />
+              <Input
+                type="date"
+                name="dueDate"
+                value={formData.dueDate}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <Label>Action Label</Label>
-                    <Input name="actionLabel" value={formData.actionLabel} onChange={handleInputChange} />
-                </div>
-                <div className="space-y-2">
-                    <Label>Action URL</Label>
-                    <Input name="actionUrl" value={formData.actionUrl} onChange={handleInputChange} placeholder="https://..." />
-                </div>
+              <div className="space-y-2">
+                <Label>Action Label</Label>
+                <Input
+                  name="actionLabel"
+                  value={formData.actionLabel}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Action URL</Label>
+                <Input
+                  name="actionUrl"
+                  value={formData.actionUrl}
+                  onChange={handleInputChange}
+                  placeholder="https://..."
+                />
+              </div>
             </div>
           </div>
         )}
 
         {emailType === 'session_notes' && (
-          <div className="space-y-4 border p-4 rounded-md bg-muted/40 dark:bg-primary">
+          <div className="bg-muted/40 dark:bg-primary space-y-4 rounded-md border p-4">
             <div className="space-y-2">
               <Label>Session Date</Label>
-              <Input type="date" name="sessionDate" value={formData.sessionDate} onChange={handleInputChange} />
+              <Input
+                type="date"
+                name="sessionDate"
+                value={formData.sessionDate}
+                onChange={handleInputChange}
+              />
             </div>
             <div className="space-y-2">
               <Label>Summary</Label>
-              <Textarea name="summary" value={formData.summary} onChange={handleInputChange} placeholder="Brief summary of the session..." />
+              <Textarea
+                name="summary"
+                value={formData.summary}
+                onChange={handleInputChange}
+                placeholder="Brief summary of the session..."
+              />
             </div>
             <div className="space-y-2">
               <Label>Key Takeaways (one per line)</Label>
-              <Textarea name="keyTakeaways" value={formData.keyTakeaways} onChange={handleInputChange} placeholder="- Practice breathing&#10;- Review journal" className="min-h-[100px]" />
+              <Textarea
+                name="keyTakeaways"
+                value={formData.keyTakeaways}
+                onChange={handleInputChange}
+                placeholder="- Practice breathing&#10;- Review journal"
+                className="min-h-[100px]"
+              />
             </div>
             <div className="space-y-2">
               <Label>Next Session Date</Label>
-              <Input type="datetime-local" name="nextSessionDate" value={formData.nextSessionDate} onChange={handleInputChange} />
+              <Input
+                type="datetime-local"
+                name="nextSessionDate"
+                value={formData.nextSessionDate}
+                onChange={handleInputChange}
+              />
             </div>
           </div>
         )}
 
         {emailType === 'check_in' && (
-          <div className="space-y-4 border p-4 rounded-md bg-muted/40 dark:bg-primary">
+          <div className="bg-muted/40 dark:bg-primary space-y-4 rounded-md border p-4">
             <div className="space-y-2">
               <Label>Message</Label>
-              <Textarea name="message" value={formData.message} onChange={handleInputChange} placeholder="How are you feeling today?" className="min-h-[100px]" />
+              <Textarea
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange}
+                placeholder="How are you feeling today?"
+                className="min-h-[100px]"
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <Label>Action Label (Optional)</Label>
-                    <Input name="actionLabel" value={formData.actionLabel} onChange={handleInputChange} />
-                </div>
-                <div className="space-y-2">
-                    <Label>Action URL (Optional)</Label>
-                    <Input name="actionUrl" value={formData.actionUrl} onChange={handleInputChange} placeholder="https://..." />
-                </div>
+              <div className="space-y-2">
+                <Label>Action Label (Optional)</Label>
+                <Input
+                  name="actionLabel"
+                  value={formData.actionLabel}
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label>Action URL (Optional)</Label>
+                <Input
+                  name="actionUrl"
+                  value={formData.actionUrl}
+                  onChange={handleInputChange}
+                  placeholder="https://..."
+                />
+              </div>
             </div>
           </div>
         )}
-
       </CardContent>
       <CardFooter className="flex justify-between">
         <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-            <DialogTrigger asChild>
-                <Button variant="outline" onClick={handlePreview}>Preview Email</Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                    <DialogTitle>Email Preview</DialogTitle>
-                </DialogHeader>
-                <div className="border rounded-md p-4 bg-card text-black min-h-[400px]" dangerouslySetInnerHTML={{ __html: previewHtml }} />
-            </DialogContent>
+          <DialogTrigger asChild>
+            <Button variant="outline" onClick={handlePreview}>
+              Preview Email
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-h-[80vh] max-w-3xl overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Email Preview</DialogTitle>
+            </DialogHeader>
+            <div
+              className="bg-card min-h-[400px] rounded-md border p-4 text-black"
+              dangerouslySetInnerHTML={{ __html: previewHtml }}
+            />
+          </DialogContent>
         </Dialog>
-        
+
         <Button onClick={handleSend} disabled={isPending || !selectedPatientId}>
           {isPending ? 'Sending...' : 'Send Email'}
         </Button>
@@ -257,4 +352,3 @@ export function TherapistEmailForm({ patients }: TherapistEmailFormProps) {
     </Card>
   );
 }
-

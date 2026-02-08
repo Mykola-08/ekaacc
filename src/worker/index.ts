@@ -1,4 +1,3 @@
- 
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { zValidator } from '@hono/zod-validator';
@@ -37,12 +36,15 @@ const authMiddleware = async (c: any, next: any) => {
 
 // CORS middleware configuration
 // Allows all origins for development flexibility, but should be restricted in production
-app.use('*', cors({
-  origin: '*',
-  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-}));
+app.use(
+  '*',
+  cors({
+    origin: '*',
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  })
+);
 
 // Helper function to get user from context (after auth middleware)
 function getAuthenticatedUser(c: any) {
@@ -58,50 +60,79 @@ async function initializeSessionTypes(db: D1Database) {
       const sessionTypes = [
         {
           name: 'Massatge Bàsic (1h)',
-          description: 'Sessió de massatge terapèutic d\'una hora per alleujar tensions quotidianes i millorar el benestar general',
+          description:
+            "Sessió de massatge terapèutic d'una hora per alleujar tensions quotidianes i millorar el benestar general",
           base_price_cents: 6000,
-          features: JSON.stringify(['Alleujar tensions musculars', 'Millorar circulació', 'Reduir estrès', 'Relaxació profunda']),
+          features: JSON.stringify([
+            'Alleujar tensions musculars',
+            'Millorar circulació',
+            'Reduir estrès',
+            'Relaxació profunda',
+          ]),
           category: 'Massatge',
-          is_active: 1
+          is_active: 1,
         },
         {
           name: 'Massatge Complet (1,5h)',
-          description: 'Sessió completa d\'una hora i mitja que combina tècniques diverses per un tractament integral del cos',
+          description:
+            "Sessió completa d'una hora i mitja que combina tècniques diverses per un tractament integral del cos",
           base_price_cents: 8500,
-          features: JSON.stringify(['Tractament corporal complet', 'Combinació de tècniques', 'Alleujar contractures profundes', 'Equilibri energètic']),
+          features: JSON.stringify([
+            'Tractament corporal complet',
+            'Combinació de tècniques',
+            'Alleujar contractures profundes',
+            'Equilibri energètic',
+          ]),
           category: 'Massatge',
-          is_active: 1
+          is_active: 1,
         },
         {
           name: 'Massatge Premium (2h)',
-          description: 'L\'experiència més completa: dues hores de tractament personalitzat amb tècniques avançades',
+          description:
+            "L'experiència més completa: dues hores de tractament personalitzat amb tècniques avançades",
           base_price_cents: 12000,
-          features: JSON.stringify(['Tractament personalitzat complet', 'Tècniques avançades', 'Atenció detallada', 'Màxima relaxació']),
+          features: JSON.stringify([
+            'Tractament personalitzat complet',
+            'Tècniques avançades',
+            'Atenció detallada',
+            'Màxima relaxació',
+          ]),
           category: 'Massatge',
-          is_active: 1
+          is_active: 1,
         },
         {
           name: 'Kinesiologia Barcelona (1h)',
-          description: 'Sessió de kinesiologia aplicada per equilibrar el cos i detectar desequilibris energètics',
+          description:
+            'Sessió de kinesiologia aplicada per equilibrar el cos i detectar desequilibris energètics',
           base_price_cents: 7000,
-          features: JSON.stringify(['Equilibri energètic global', 'Detecció de desequilibris', 'Reducció de l\'estrès', 'Millora de la postura']),
+          features: JSON.stringify([
+            'Equilibri energètic global',
+            'Detecció de desequilibris',
+            "Reducció de l'estrès",
+            'Millora de la postura',
+          ]),
           category: 'Equilibri',
-          is_active: 1
-        }
+          is_active: 1,
+        },
       ];
 
       for (const sessionType of sessionTypes) {
-        await db.prepare(`
+        await db
+          .prepare(
+            `
           INSERT INTO session_types (name, description, base_price_cents, features, category, is_active, created_at, updated_at)
           VALUES (?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-        `).bind(
-          sessionType.name,
-          sessionType.description,
-          sessionType.base_price_cents,
-          sessionType.features,
-          sessionType.category,
-          sessionType.is_active
-        ).run();
+        `
+          )
+          .bind(
+            sessionType.name,
+            sessionType.description,
+            sessionType.base_price_cents,
+            sessionType.features,
+            sessionType.category,
+            sessionType.is_active
+          )
+          .run();
       }
     }
   } catch (error) {
@@ -127,7 +158,8 @@ app.get('/api/session-types', async (c) => {
   try {
     await initializeSessionTypes(c.env.DB);
 
-    const sessionTypes = await c.env.DB.prepare(`
+    const sessionTypes = await c.env.DB.prepare(
+      `
       SELECT id, name, description, base_price_cents, features, category, is_active
       FROM session_types 
       WHERE is_active = 1
@@ -138,12 +170,13 @@ app.get('/api/session-types', async (c) => {
           WHEN name LIKE '%Massatge%' THEN 3
           ELSE 4
         END
-    `).all();
+    `
+    ).all();
 
     const formattedTypes = sessionTypes.results.map((type: any) => ({
       ...type,
       features: type.features ? JSON.parse(type.features) : [],
-      durations: [60, 90, 120] // Default available durations
+      durations: [60, 90, 120], // Default available durations
     }));
 
     return c.json(formattedTypes);
@@ -154,75 +187,92 @@ app.get('/api/session-types', async (c) => {
 });
 
 // Get recommendations based on user preferences
-app.post('/api/recommendations', authMiddleware, zValidator('json', z.object({
-  goals: z.array(z.string()),
-  discomfort_areas: z.array(z.string()),
-  preferred_technique: z.string(),
-  work_style: z.string(),
-  energy_level: z.number(),
-  stress_level: z.number()
-})), async (c) => {
-  try {
-    const user = getAuthenticatedUser(c);
+app.post(
+  '/api/recommendations',
+  authMiddleware,
+  zValidator(
+    'json',
+    z.object({
+      goals: z.array(z.string()),
+      discomfort_areas: z.array(z.string()),
+      preferred_technique: z.string(),
+      work_style: z.string(),
+      energy_level: z.number(),
+      stress_level: z.number(),
+    })
+  ),
+  async (c) => {
+    try {
+      const user = getAuthenticatedUser(c);
 
-    const data = c.req.valid('json');
+      const data = c.req.valid('json');
 
-    // Save recommendation data for future reference
-    await c.env.DB.prepare(`
+      // Save recommendation data for future reference
+      await c.env.DB.prepare(
+        `
       INSERT INTO user_assessments_improved (user_id, assessment_data, created_at, updated_at)
       VALUES (?, ?, datetime('now'), datetime('now'))
-    `).bind(user?.id || '', JSON.stringify(data)).run();
+    `
+      )
+        .bind(user?.id || '', JSON.stringify(data))
+        .run();
 
-    // Simple recommendation logic
-    const recommendations = [];
+      // Simple recommendation logic
+      const recommendations = [];
 
-    // Use Supabase for unified services
-    const supabaseUrl = c.env.SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co';
-    const supabaseKey = c.env.SUPABASE_ANON_KEY;
+      // Use Supabase for unified services
+      const supabaseUrl = c.env.SUPABASE_URL || 'https://placeholder.supabase.co';
+      const supabaseKey = c.env.SUPABASE_ANON_KEY;
 
-    let services: any[] = [];
+      let services: any[] = [];
 
-    if (supabaseKey) {
-      const supabase = createClient(supabaseUrl, supabaseKey);
-      const { data, error } = await supabase
-        .from('service')
-        .select('*')
-        .eq('is_public', true)
-        .eq('active', true);
-      
-      if (!error && data) {
-        services = data;
+      if (supabaseKey) {
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        const { data, error } = await supabase
+          .from('service')
+          .select('*')
+          .eq('is_public', true)
+          .eq('active', true);
+
+        if (!error && data) {
+          services = data;
+        } else {
+          console.error('Error fetching services from Supabase:', error);
+        }
       } else {
-        console.error('Error fetching services from Supabase:', error);
+        console.warn('Supabase credentials missing, skipping Unified Service fetch');
       }
-    } else {
-      console.warn('Supabase credentials missing, skipping Unified Service fetch');
-    }
 
-    // Fallback or empty if connection failed, but try to use what we found
-    if (services.length > 0) {
+      // Fallback or empty if connection failed, but try to use what we found
+      if (services.length > 0) {
         // Feldenkrais for movement and posture issues
-        if (data.discomfort_areas.includes('neck_shoulders') ||
+        if (
+          data.discomfort_areas.includes('neck_shoulders') ||
           data.discomfort_areas.includes('back_lumbar') ||
           data.goals.includes('improve_posture') ||
-          data.preferred_technique === 'feldenkrais') {
+          data.preferred_technique === 'feldenkrais'
+        ) {
           const feldenkrais = services.find((s: any) => s.name && s.name.includes('Feldenkrais'));
           if (feldenkrais) recommendations.push(feldenkrais);
         }
 
         // Massage for pain relief and relaxation
-        if (data.goals.includes('relieve_pain') ||
+        if (
+          data.goals.includes('relieve_pain') ||
           data.goals.includes('relax') ||
-          data.preferred_technique === 'therapeutic_massage') {
+          data.preferred_technique === 'therapeutic_massage'
+        ) {
           const massage = services.find((s: any) => s.name && s.name.includes('Massatge'));
           if (massage) recommendations.push(massage);
         }
 
         // Kinesiology for energy and stress
-        if (data.goals.includes('reduce_anxiety') ||
+        if (
+          data.goals.includes('reduce_anxiety') ||
           data.goals.includes('more_energy') ||
           data.stress_level > 7 ||
-          data.preferred_technique === 'kinesiology') {
+          data.preferred_technique === 'kinesiology'
+        ) {
           const kinesiology = services.find((s: any) => s.name && s.name.includes('Kinesiologia'));
           if (kinesiology) recommendations.push(kinesiology);
         }
@@ -232,35 +282,45 @@ app.post('/api/recommendations', authMiddleware, zValidator('json', z.object({
           const combined = services.find((s: any) => s.name && s.name.includes('Combinada'));
           if (combined) recommendations.push(combined);
         }
-    } else {
+      } else {
         // Fallback to D1 if Supabase fails or returns nothing (legacy support during migration)
-        const sessionTypes = await c.env.DB.prepare(`
+        const sessionTypes = await c.env.DB.prepare(
+          `
           SELECT * FROM session_types WHERE is_active = 1
-        `).all();
+        `
+        ).all();
 
         // Feldenkrais for movement and posture issues
-        if (data.discomfort_areas.includes('neck_shoulders') ||
+        if (
+          data.discomfort_areas.includes('neck_shoulders') ||
           data.discomfort_areas.includes('back_lumbar') ||
           data.goals.includes('improve_posture') ||
-          data.preferred_technique === 'feldenkrais') {
+          data.preferred_technique === 'feldenkrais'
+        ) {
           const feldenkrais = sessionTypes.results.find((s: any) => s.name.includes('Feldenkrais'));
           if (feldenkrais) recommendations.push(feldenkrais);
         }
 
         // Massage for pain relief and relaxation
-        if (data.goals.includes('relieve_pain') ||
+        if (
+          data.goals.includes('relieve_pain') ||
           data.goals.includes('relax') ||
-          data.preferred_technique === 'therapeutic_massage') {
+          data.preferred_technique === 'therapeutic_massage'
+        ) {
           const massage = sessionTypes.results.find((s: any) => s.name.includes('Massatge'));
           if (massage) recommendations.push(massage);
         }
 
         // Kinesiology for energy and stress
-        if (data.goals.includes('reduce_anxiety') ||
+        if (
+          data.goals.includes('reduce_anxiety') ||
           data.goals.includes('more_energy') ||
           data.stress_level > 7 ||
-          data.preferred_technique === 'kinesiology') {
-          const kinesiology = sessionTypes.results.find((s: any) => s.name.includes('Kinesiologia'));
+          data.preferred_technique === 'kinesiology'
+        ) {
+          const kinesiology = sessionTypes.results.find((s: any) =>
+            s.name.includes('Kinesiologia')
+          );
           if (kinesiology) recommendations.push(kinesiology);
         }
 
@@ -269,23 +329,26 @@ app.post('/api/recommendations', authMiddleware, zValidator('json', z.object({
           const combined = sessionTypes.results.find((s: any) => s.name.includes('Combinada'));
           if (combined) recommendations.push(combined);
         }
+      }
+
+      // Format recommendations
+      const formattedRecommendations = recommendations.map((rec: any) => ({
+        ...rec,
+        features: rec.metadata?.features // from Supabase jsonb
+          ? rec.metadata.features
+          : rec.features && typeof rec.features === 'string'
+            ? JSON.parse(rec.features)
+            : [], // Fallback for D1
+        durations: [60, 90, 120],
+      }));
+
+      return c.json({ recommendations: formattedRecommendations.slice(0, 3) });
+    } catch (error) {
+      console.error('Error getting recommendations:', error);
+      return c.json({ error: 'Failed to get recommendations' }, 500);
     }
-
-    // Format recommendations
-    const formattedRecommendations = recommendations.map((rec: any) => ({
-      ...rec,
-      features: rec.metadata?.features // from Supabase jsonb
-        ? rec.metadata.features 
-        : (rec.features && typeof rec.features === 'string' ? JSON.parse(rec.features) : []), // Fallback for D1
-      durations: [60, 90, 120]
-    }));
-
-    return c.json({ recommendations: formattedRecommendations.slice(0, 3) });
-  } catch (error) {
-    console.error('Error getting recommendations:', error);
-    return c.json({ error: 'Failed to get recommendations' }, 500);
   }
-});
+);
 
 // Dynamic pricing calculation endpoint
 app.get('/api/pricing/calculate', async (c) => {
@@ -301,9 +364,13 @@ app.get('/api/pricing/calculate', async (c) => {
     }
 
     // Get base service price
-    const service = await c.env.DB.prepare(`
+    const service = await c.env.DB.prepare(
+      `
       SELECT * FROM session_types WHERE id = ?
-    `).bind(serviceId).first();
+    `
+    )
+      .bind(serviceId)
+      .first();
 
     if (!service) {
       return c.json({ error: 'Service not found' }, 404);
@@ -333,7 +400,7 @@ app.get('/api/pricing/calculate', async (c) => {
         label: 'Suplement dissabte',
         amount_cents: surcharge,
         percentage: 10,
-        icon: 'weekend'
+        icon: 'weekend',
       });
     }
 
@@ -345,7 +412,7 @@ app.get('/api/pricing/calculate', async (c) => {
         label: 'Suplement diumenge',
         amount_cents: surcharge,
         percentage: 20,
-        icon: 'weekend'
+        icon: 'weekend',
       });
     }
 
@@ -353,9 +420,13 @@ app.get('/api/pricing/calculate', async (c) => {
     let isVip = false;
     if (userId) {
       try {
-        const profile = await c.env.DB.prepare(`
+        const profile = await c.env.DB.prepare(
+          `
           SELECT is_vip, vip_expires_at FROM user_profiles WHERE user_id = ?
-        `).bind(userId).first();
+        `
+        )
+          .bind(userId)
+          .first();
 
         if (profile && profile.is_vip) {
           // Check if VIP status has expired
@@ -382,7 +453,7 @@ app.get('/api/pricing/calculate', async (c) => {
           label: 'Descompte VIP',
           amount_cents: -discount,
           percentage: 5,
-          icon: 'vip'
+          icon: 'vip',
         });
       }
     }
@@ -393,7 +464,8 @@ app.get('/api/pricing/calculate', async (c) => {
     const oneHourBefore = new Date(startTime.getTime() - 60 * 60 * 1000);
     const oneHourAfter = new Date(startTime.getTime() + 60 * 60 * 1000);
 
-    const backToBackCheck = await c.env.DB.prepare(`
+    const backToBackCheck = await c.env.DB.prepare(
+      `
       SELECT COUNT(*) as count FROM appointments 
       WHERE appointment_date = ?
       AND status NOT IN ('cancelled', 'no_show')
@@ -401,13 +473,16 @@ app.get('/api/pricing/calculate', async (c) => {
         (start_time >= ? AND start_time <= ?) OR
         (end_time >= ? AND end_time <= ?)
       )
-    `).bind(
-      date,
-      oneHourBefore.toTimeString().slice(0, 5),
-      oneHourAfter.toTimeString().slice(0, 5),
-      oneHourBefore.toTimeString().slice(0, 5),
-      oneHourAfter.toTimeString().slice(0, 5)
-    ).first();
+    `
+    )
+      .bind(
+        date,
+        oneHourBefore.toTimeString().slice(0, 5),
+        oneHourAfter.toTimeString().slice(0, 5),
+        oneHourBefore.toTimeString().slice(0, 5),
+        oneHourAfter.toTimeString().slice(0, 5)
+      )
+      .first();
 
     if (backToBackCheck && Number(backToBackCheck.count) > 0) {
       hasBackToBack = true;
@@ -418,17 +493,21 @@ app.get('/api/pricing/calculate', async (c) => {
         label: 'Descompte per optimització horària',
         amount_cents: -discount,
         percentage: 10,
-        icon: 'back_to_back'
+        icon: 'back_to_back',
       });
     }
 
     // Check for high demand (>80% slots booked for that day)
     const totalSlotsForDay = 8; // Assuming 8 slots per day
-    const bookedSlots = await c.env.DB.prepare(`
+    const bookedSlots = await c.env.DB.prepare(
+      `
       SELECT COUNT(*) as count FROM appointments 
       WHERE appointment_date = ? 
       AND status NOT IN ('cancelled', 'no_show')
-    `).bind(date).first();
+    `
+    )
+      .bind(date)
+      .first();
 
     const occupancyRate = (Number(bookedSlots?.count) || 0) / totalSlotsForDay;
     if (occupancyRate > 0.8) {
@@ -439,7 +518,7 @@ app.get('/api/pricing/calculate', async (c) => {
         label: 'Alta demanda',
         amount_cents: surcharge,
         percentage: 15,
-        icon: 'high_demand'
+        icon: 'high_demand',
       });
     }
 
@@ -454,7 +533,7 @@ app.get('/api/pricing/calculate', async (c) => {
         label: 'Última franja disponible',
         amount_cents: surcharge,
         percentage: 10,
-        icon: 'last_slot'
+        icon: 'last_slot',
       });
     }
 
@@ -468,9 +547,9 @@ app.get('/api/pricing/calculate', async (c) => {
       vip_discount: isVip ? 0.05 : 0,
       back_to_back_discount: hasBackToBack ? 0.1 : 0,
       high_demand_surcharge: occupancyRate > 0.8 ? 0.15 : 0,
-      last_slot_surcharge: (time >= '18:00' && occupancyRate > 0.6) ? 0.1 : 0,
+      last_slot_surcharge: time >= '18:00' && occupancyRate > 0.6 ? 0.1 : 0,
       final_price_cents: finalPriceCents,
-      modifiers: modifiers
+      modifiers: modifiers,
     };
 
     return c.json(priceBreakdown);
@@ -495,9 +574,13 @@ app.get('/api/availability', async (c) => {
     // Get base service price
     let basePriceCents = 6000; // default
     if (serviceId) {
-      const service = await c.env.DB.prepare(`
+      const service = await c.env.DB.prepare(
+        `
         SELECT base_price_cents FROM session_types WHERE id = ?
-      `).bind(serviceId).first();
+      `
+      )
+        .bind(serviceId)
+        .first();
       if (service) {
         basePriceCents = Number(service.base_price_cents);
       }
@@ -514,21 +597,21 @@ app.get('/api/availability', async (c) => {
     const isSunday = dayOfWeek === 0;
 
     // Different schedules for weekdays vs weekends
-    const weekdaySlots = [
-      '09:00', '10:30', '12:00', '14:00', '15:30', '17:00', '18:30', '20:00'
-    ];
+    const weekdaySlots = ['09:00', '10:30', '12:00', '14:00', '15:30', '17:00', '18:30', '20:00'];
 
-    const weekendSlots = [
-      '10:00', '11:30', '14:00', '15:30', '17:00', '18:30'
-    ];
+    const weekendSlots = ['10:00', '11:30', '14:00', '15:30', '17:00', '18:30'];
 
     const availableSlots = isWeekend ? weekendSlots : weekdaySlots;
 
     // Check existing bookings for the day to determine demand
-    const existingBookings = await c.env.DB.prepare(`
+    const existingBookings = await c.env.DB.prepare(
+      `
       SELECT COUNT(*) as count FROM appointments 
       WHERE appointment_date = ? AND status NOT IN ('cancelled', 'no_show')
-    `).bind(date).first();
+    `
+    )
+      .bind(date)
+      .first();
 
     const totalSlots = availableSlots.length;
     const bookedSlots = Number(existingBookings?.count) || 0;
@@ -538,9 +621,13 @@ app.get('/api/availability', async (c) => {
     let isVip = false;
     if (userId) {
       try {
-        const profile = await c.env.DB.prepare(`
+        const profile = await c.env.DB.prepare(
+          `
           SELECT is_vip, vip_expires_at FROM user_profiles WHERE user_id = ?
-        `).bind(userId).first();
+        `
+        )
+          .bind(userId)
+          .first();
 
         if (profile && profile.is_vip) {
           if (profile.vip_expires_at) {
@@ -600,7 +687,7 @@ app.get('/api/availability', async (c) => {
         price_cents: priceCents,
         is_available: isAvailable,
         is_high_demand: isHighDemand,
-        demand_label: demandLabel || undefined
+        demand_label: demandLabel || undefined,
       };
     });
 
@@ -612,99 +699,117 @@ app.get('/api/availability', async (c) => {
 });
 
 // Create appointment
-app.post('/api/appointments', authMiddleware, zValidator('json', z.object({
-  service_id: z.number(),
-  duration_minutes: z.number(),
-  appointment_date: z.string(),
-  start_time: z.string(),
-  location: z.string(),
-  subcategory: z.string().optional(),
-  session_goals: z.object({
-    primary_goals: z.array(z.string()),
-    notes: z.string().optional()
-  }).optional()
-})), async (c) => {
-  try {
-    const user = getAuthenticatedUser(c);
+app.post(
+  '/api/appointments',
+  authMiddleware,
+  zValidator(
+    'json',
+    z.object({
+      service_id: z.number(),
+      duration_minutes: z.number(),
+      appointment_date: z.string(),
+      start_time: z.string(),
+      location: z.string(),
+      subcategory: z.string().optional(),
+      session_goals: z
+        .object({
+          primary_goals: z.array(z.string()),
+          notes: z.string().optional(),
+        })
+        .optional(),
+    })
+  ),
+  async (c) => {
+    try {
+      const user = getAuthenticatedUser(c);
 
-    const data = c.req.valid('json');
+      const data = c.req.valid('json');
 
-    // Get session type details
-    const sessionType = await c.env.DB.prepare(`
+      // Get session type details
+      const sessionType = await c.env.DB.prepare(
+        `
       SELECT * FROM session_types WHERE id = ?
-    `).bind(data.service_id).first();
+    `
+      )
+        .bind(data.service_id)
+        .first();
 
-    if (!sessionType) {
-      return c.json({ error: 'Session type not found' }, 404);
-    }
+      if (!sessionType) {
+        return c.json({ error: 'Session type not found' }, 404);
+      }
 
-    // Calculate end time
-    const startTime = new Date(`${data.appointment_date}T${data.start_time}`);
-    const endTime = new Date(startTime.getTime() + data.duration_minutes * 60000);
-    const endTimeString = endTime.toTimeString().slice(0, 5);
+      // Calculate end time
+      const startTime = new Date(`${data.appointment_date}T${data.start_time}`);
+      const endTime = new Date(startTime.getTime() + data.duration_minutes * 60000);
+      const endTimeString = endTime.toTimeString().slice(0, 5);
 
-    // Calculate final price with all modifiers
-    let finalPrice = Number(sessionType.base_price_cents);
+      // Calculate final price with all modifiers
+      let finalPrice = Number(sessionType.base_price_cents);
 
-    // Adjust for duration
-    finalPrice = Math.round(finalPrice * (data.duration_minutes / 60));
+      // Adjust for duration
+      finalPrice = Math.round(finalPrice * (data.duration_minutes / 60));
 
-    // Add subcategory price modifier if applicable
-    if (data.subcategory) {
-      const subcategoryPrices: { [key: string]: number } = {
-        'Massatge Relaxant': 0,
-        'Massatge Descontracturant': 500,
-        'Massatge Esportiu': 800
+      // Add subcategory price modifier if applicable
+      if (data.subcategory) {
+        const subcategoryPrices: { [key: string]: number } = {
+          'Massatge Relaxant': 0,
+          'Massatge Descontracturant': 500,
+          'Massatge Esportiu': 800,
+        };
+        finalPrice += subcategoryPrices[data.subcategory] || 0;
+      }
+
+      // Calculate location address
+      const locationMap: { [key: string]: string } = {
+        barcelona: 'Plaça Universitat, Barcelona',
+        online: 'Sessió virtual',
+        home: 'Al teu domicili',
       };
-      finalPrice += subcategoryPrices[data.subcategory] || 0;
-    }
 
-    // Calculate location address
-    const locationMap: { [key: string]: string } = {
-      'barcelona': 'Plaça Universitat, Barcelona',
-      'online': 'Sessió virtual',
-      'home': 'Al teu domicili'
-    };
+      // Prepare notes with subcategory info
+      let appointmentNotes = data.session_goals ? JSON.stringify(data.session_goals) : null;
+      if (data.subcategory) {
+        const notesObj = appointmentNotes ? JSON.parse(appointmentNotes) : {};
+        notesObj.subcategory = data.subcategory;
+        appointmentNotes = JSON.stringify(notesObj);
+      }
 
-    // Prepare notes with subcategory info
-    let appointmentNotes = data.session_goals ? JSON.stringify(data.session_goals) : null;
-    if (data.subcategory) {
-      const notesObj = appointmentNotes ? JSON.parse(appointmentNotes) : {};
-      notesObj.subcategory = data.subcategory;
-      appointmentNotes = JSON.stringify(notesObj);
-    }
-
-    // Create appointment
-    const result = await c.env.DB.prepare(`
+      // Create appointment
+      const result = await c.env.DB.prepare(
+        `
       INSERT INTO appointments (
         customer_id, therapist_id, service_id, appointment_date, start_time, end_time,
         status, location_type, location_address, price_cents, customer_notes,
         created_at, updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-    `).bind(
-      user?.id || '',
-      'default-therapist',
-      data.service_id,
-      data.appointment_date,
-      data.start_time,
-      endTimeString,
-      'pending',
-      data.location,
-      locationMap[data.location] || data.location,
-      finalPrice,
-      appointmentNotes
-    ).run();
+    `
+      )
+        .bind(
+          user?.id || '',
+          'default-therapist',
+          data.service_id,
+          data.appointment_date,
+          data.start_time,
+          endTimeString,
+          'pending',
+          data.location,
+          locationMap[data.location] || data.location,
+          finalPrice,
+          appointmentNotes
+        )
+        .run();
 
-    return c.json({
-      success: true,
-      appointment_id: result.meta.last_row_id,
-      message: 'Appointment created successfully'
-    });
-  } catch (error) {
-    console.error('Error creating appointment:', error);
-    return c.json({ error: 'Failed to create appointment' }, 500);
+      return c.json({
+        success: true,
+        appointment_id: result.meta.last_row_id,
+        message: 'Appointment created successfully',
+      });
+    } catch (error) {
+      console.error('Error creating appointment:', error);
+      return c.json({ error: 'Failed to create appointment' }, 500);
+    }
   }
-});
+);
 
 // Get user appointments with role-based filtering
 app.get('/api/appointments', authMiddleware, async (c) => {
@@ -768,11 +873,13 @@ app.get('/api/appointments', authMiddleware, async (c) => {
       params = [];
     }
 
-    const appointments = await c.env.DB.prepare(query).bind(...params).all();
+    const appointments = await c.env.DB.prepare(query)
+      .bind(...params)
+      .all();
 
     const formattedAppointments = appointments.results.map((apt: any) => ({
       ...apt,
-      customer_notes: apt.customer_notes ? JSON.parse(apt.customer_notes) : null
+      customer_notes: apt.customer_notes ? JSON.parse(apt.customer_notes) : null,
     }));
 
     return c.json(formattedAppointments);
@@ -783,23 +890,34 @@ app.get('/api/appointments', authMiddleware, async (c) => {
 });
 
 // AI Chat endpoint with Perplexity AI
-app.post('/api/ai-chat', authMiddleware, zValidator('json', z.object({
-  message: z.string(),
-  conversationHistory: z.array(z.object({
-    role: z.enum(['user', 'assistant']),
-    content: z.string()
-  })).optional()
-})), async (c) => {
-  try {
-    const user = getAuthenticatedUser(c);
-    const { message, conversationHistory = [] } = c.req.valid('json');
+app.post(
+  '/api/ai-chat',
+  authMiddleware,
+  zValidator(
+    'json',
+    z.object({
+      message: z.string(),
+      conversationHistory: z
+        .array(
+          z.object({
+            role: z.enum(['user', 'assistant']),
+            content: z.string(),
+          })
+        )
+        .optional(),
+    })
+  ),
+  async (c) => {
+    try {
+      const user = getAuthenticatedUser(c);
+      const { message, conversationHistory = [] } = c.req.valid('json');
 
-    if (!user?.id) {
-      return c.json({ error: 'User not authenticated' }, 401);
-    }
+      if (!user?.id) {
+        return c.json({ error: 'User not authenticated' }, 401);
+      }
 
-    // System prompt específic per EKA Balance
-    const systemPrompt = `Ets l'assistent d'IA d'EKA Balance, un centre de teràpies holístiques especialitzat en benestar integral. 
+      // System prompt específic per EKA Balance
+      const systemPrompt = `Ets l'assistent d'IA d'EKA Balance, un centre de teràpies holístiques especialitzat en benestar integral. 
 
 INFORMACIÓ DEL CENTRE:
 - Serveis: Massatge Terapèutic, Kinesiologia, Osteobalance, Mètode Feldenkrais
@@ -820,90 +938,104 @@ INSTRUCCIONS:
 
 Usuari actual: ${user.email}`;
 
-    // Preparar missatges per Perplexity
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      ...conversationHistory.slice(-6), // Últimes 6 entrades per context
-      { role: 'user', content: message }
-    ];
+      // Preparar missatges per Perplexity
+      const messages = [
+        { role: 'system', content: systemPrompt },
+        ...conversationHistory.slice(-6), // Últimes 6 entrades per context
+        { role: 'user', content: message },
+      ];
 
-    // Cridar a Perplexity AI
-    const response = await fetch('https://api.perplexity.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${c.env.PERPLEXITY_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.1-sonar-small-128k-online',
-        messages: messages,
-        max_tokens: 800,
-        temperature: 0.7,
-        top_p: 0.9,
-        return_citations: false,
-        search_domain_filter: ["ekabalance.com"],
-        search_recency_filter: "month"
-      }),
-    });
+      // Cridar a Perplexity AI
+      const response = await fetch('https://api.perplexity.ai/chat/completions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${c.env.PERPLEXITY_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'llama-3.1-sonar-small-128k-online',
+          messages: messages,
+          max_tokens: 800,
+          temperature: 0.7,
+          top_p: 0.9,
+          return_citations: false,
+          search_domain_filter: ['ekabalance.com'],
+          search_recency_filter: 'month',
+        }),
+      });
 
-    if (!response.ok) {
-      console.error('Perplexity API error:', response.status, response.statusText);
+      if (!response.ok) {
+        console.error('Perplexity API error:', response.status, response.statusText);
+        return c.json({
+          message:
+            "Ho sento, hi ha hagut un problema tècnic. Si us plau, prova-ho més tard o contacta'ns directament al 658 867 133.",
+        });
+      }
+
+      const data = (await response.json()) as any;
+      const aiMessage =
+        data.choices?.[0]?.message?.content ||
+        'Ho sento, no he pogut processar la teva consulta. Pots contactar-nos directament per obtenir ajuda.';
+
+      return c.json({ message: aiMessage });
+    } catch (error) {
+      console.error('AI Chat error:', error);
       return c.json({
-        message: 'Ho sento, hi ha hagut un problema tècnic. Si us plau, prova-ho més tard o contacta\'ns directament al 658 867 133.'
+        message:
+          'Ho sento, hi ha hagut un error inesperat. Per a assistència immediata, pots trucar-nos al 658 867 133 o enviar-nos un email a contact@ekabalance.com.',
       });
     }
-
-    const data = await response.json() as any;
-    const aiMessage = data.choices?.[0]?.message?.content || 'Ho sento, no he pogut processar la teva consulta. Pots contactar-nos directament per obtenir ajuda.';
-
-    return c.json({ message: aiMessage });
-  } catch (error) {
-    console.error('AI Chat error:', error);
-    return c.json({
-      message: 'Ho sento, hi ha hagut un error inesperat. Per a assistència immediata, pots trucar-nos al 658 867 133 o enviar-nos un email a contact@ekabalance.com.'
-    });
   }
-});
+);
 
 // Add dashboard endpoints
 addDashboardEndpoints(app);
 
-
-
 // Contact form endpoint
-app.post('/api/contact', zValidator('json', z.object({
-  name: z.string().min(1),
-  email: z.string().email(),
-  phone: z.string().optional(),
-  service: z.string().optional(),
-  message: z.string().optional(),
-  preferred_contact: z.string().optional(),
-  preferred_time: z.string().optional()
-})), async (c) => {
-  try {
-    const data = c.req.valid('json');
+app.post(
+  '/api/contact',
+  zValidator(
+    'json',
+    z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+      phone: z.string().optional(),
+      service: z.string().optional(),
+      message: z.string().optional(),
+      preferred_contact: z.string().optional(),
+      preferred_time: z.string().optional(),
+    })
+  ),
+  async (c) => {
+    try {
+      const data = c.req.valid('json');
 
-    // Save contact form submission to database
-    await c.env.DB.prepare(`
+      // Save contact form submission to database
+      await c.env.DB.prepare(
+        `
       INSERT INTO contact_submissions (
         name, email, phone, service, message, preferred_contact, preferred_time,
         created_at, updated_at
       ) VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))
-    `).bind(
-      data.name,
-      data.email,
-      data.phone || null,
-      data.service || null,
-      data.message || null,
-      data.preferred_contact || 'email',
-      data.preferred_time || null
-    ).run();
+    `
+      )
+        .bind(
+          data.name,
+          data.email,
+          data.phone || null,
+          data.service || null,
+          data.message || null,
+          data.preferred_contact || 'email',
+          data.preferred_time || null
+        )
+        .run();
 
-    return c.json({ success: true });
-  } catch (error) {
-    console.error('Error saving contact form:', error);
-    return c.json({ error: 'Failed to save contact form' }, 500);
+      return c.json({ success: true });
+    } catch (error) {
+      console.error('Error saving contact form:', error);
+      return c.json({ error: 'Failed to save contact form' }, 500);
+    }
   }
-});
+);
 
 export default app;

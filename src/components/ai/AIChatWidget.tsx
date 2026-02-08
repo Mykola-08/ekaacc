@@ -26,7 +26,7 @@ import {
   MoodCalendarResult,
   BookingPreviewBlock,
   ServiceComparisonBlock,
-  WalletHistoryBlock
+  WalletHistoryBlock,
 } from './GenerativeUI';
 import { format } from 'date-fns';
 
@@ -83,7 +83,7 @@ export function AIChatWidget() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
       });
 
@@ -100,7 +100,7 @@ export function AIChatWidget() {
         toolInvocations: [],
       };
 
-      setMessages(prev => [...prev, assistantMessage]);
+      setMessages((prev) => [...prev, assistantMessage]);
 
       const decoder = new TextDecoder();
       let done = false;
@@ -120,9 +120,9 @@ export function AIChatWidget() {
             const content = line.slice(2);
             assistantMessage = {
               ...assistantMessage,
-              content: assistantMessage.content + content
+              content: assistantMessage.content + content,
             };
-            setMessages(prev => prev.map(m => m.id === assistantId ? assistantMessage : m));
+            setMessages((prev) => prev.map((m) => (m.id === assistantId ? assistantMessage : m)));
           } else if (line.startsWith('0:')) {
             try {
               const data = JSON.parse(line.slice(2));
@@ -135,9 +135,11 @@ export function AIChatWidget() {
                 };
                 assistantMessage = {
                   ...assistantMessage,
-                  toolInvocations: [...(assistantMessage.toolInvocations || []), invocation]
+                  toolInvocations: [...(assistantMessage.toolInvocations || []), invocation],
                 };
-                setMessages(prev => prev.map(m => m.id === assistantId ? assistantMessage : m));
+                setMessages((prev) =>
+                  prev.map((m) => (m.id === assistantId ? assistantMessage : m))
+                );
               }
             } catch (e) {
               console.error('Failed to parse tool result', e);
@@ -159,7 +161,9 @@ export function AIChatWidget() {
       const date = new Date(timeStr);
       const prompt = `Book appointment for ${format(date, 'MMM d')} at ${format(date, 'h:mm a')}`;
       setInput(prompt);
-      const inputEl = document.querySelector('input[placeholder="Type a message..."]') as HTMLInputElement;
+      const inputEl = document.querySelector(
+        'input[placeholder="Type a message..."]'
+      ) as HTMLInputElement;
       if (inputEl) inputEl.focus();
     };
 
@@ -167,7 +171,9 @@ export function AIChatWidget() {
       const { name } = e.detail;
       const prompt = `Check availability for ${name}`;
       setInput(prompt);
-      const inputEl = document.querySelector('input[placeholder="Type a message..."]') as HTMLInputElement;
+      const inputEl = document.querySelector(
+        'input[placeholder="Type a message..."]'
+      ) as HTMLInputElement;
       if (inputEl) inputEl.focus();
     };
 
@@ -218,12 +224,12 @@ export function AIChatWidget() {
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed bottom-6 right-6 z-50"
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="fixed right-6 bottom-6 z-50"
           >
             <Button
               onClick={() => setIsOpen(true)}
-              className="rounded-full h-14 w-14 shadow-xl bg-zinc-900 hover:bg-zinc-800 text-white transition-transform hover:scale-105"
+              className="h-14 w-14 rounded-full bg-zinc-900 text-white shadow-xl transition-transform hover:scale-105 hover:bg-zinc-800"
             >
               <Sparkles className="h-6 w-6" />
               <span className="sr-only">Open Chat</span>
@@ -239,18 +245,20 @@ export function AIChatWidget() {
             initial={{ y: 20, opacity: 0, scale: 0.95 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 20, opacity: 0, scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed bottom-6 right-6 z-50 w-[380px] max-w-[calc(100vw-48px)] h-[600px] max-h-[calc(100vh-100px)]"
+            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="fixed right-6 bottom-6 z-50 h-[600px] max-h-[calc(100vh-100px)] w-[380px] max-w-[calc(100vw-48px)]"
           >
-            <Card className="h-full flex flex-col shadow-2xl border-zinc-200 dark:border-zinc-800 bg-zinc-50/95 overflow-hidden rounded-2xl">
-              <CardHeader className="bg-white/80 p-4 shrink-0 border-b border-zinc-100">
-                <div className="flex justify-between items-center">
+            <Card className="flex h-full flex-col overflow-hidden rounded-2xl border-zinc-200 bg-zinc-50/95 shadow-2xl dark:border-zinc-800">
+              <CardHeader className="shrink-0 border-b border-zinc-100 bg-white/80 p-4">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-zinc-100 rounded-full">
+                    <div className="rounded-full bg-zinc-100 p-2">
                       <Sparkles className="h-4 w-4 text-zinc-900" />
                     </div>
                     <div>
-                      <CardTitle className="text-base font-semibold text-zinc-900">Concierge</CardTitle>
+                      <CardTitle className="text-base font-semibold text-zinc-900">
+                        Concierge
+                      </CardTitle>
                       <p className="text-xs font-medium text-zinc-500">Wellness Assistant</p>
                     </div>
                   </div>
@@ -258,33 +266,35 @@ export function AIChatWidget() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setIsOpen(false)}
-                    className="h-8 w-8 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-600"
+                    className="h-8 w-8 rounded-full bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
                   >
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
               </CardHeader>
 
-              <CardContent className="flex-1 p-0 overflow-hidden relative bg-secondary">
-                <div ref={scrollRef} className="h-full overflow-y-auto p-4 space-y-4">
+              <CardContent className="bg-secondary relative flex-1 overflow-hidden p-0">
+                <div ref={scrollRef} className="h-full space-y-4 overflow-y-auto p-4">
                   {messages.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full text-center p-6 text-zinc-400">
-                      <Sparkles className="h-10 w-10 mb-4 text-zinc-300" />
-                      <p className="text-sm font-medium text-zinc-500">How can I support your wellness today?</p>
-                      <div className="flex flex-wrap gap-2 justify-center mt-6">
+                    <div className="flex h-full flex-col items-center justify-center p-6 text-center text-zinc-400">
+                      <Sparkles className="mb-4 h-10 w-10 text-zinc-300" />
+                      <p className="text-sm font-medium text-zinc-500">
+                        How can I support your wellness today?
+                      </p>
+                      <div className="mt-6 flex flex-wrap justify-center gap-2">
                         <Button
                           variant="outline"
                           size="sm"
-                          className="bg-white text-xs h-auto py-1.5 px-3 rounded-full border-zinc-200 text-zinc-600 shadow-sm"
-                          onClick={() => setInput("When is my next appointment?")}
+                          className="h-auto rounded-full border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-600 shadow-sm"
+                          onClick={() => setInput('When is my next appointment?')}
                         >
                           My schedule
                         </Button>
                         <Button
                           variant="outline"
                           size="sm"
-                          className="bg-white text-xs h-auto py-1.5 px-3 rounded-full border-zinc-200 text-zinc-600 shadow-sm"
-                          onClick={() => setInput("Check my wallet balance")}
+                          className="h-auto rounded-full border-zinc-200 bg-white px-3 py-1.5 text-xs text-zinc-600 shadow-sm"
+                          onClick={() => setInput('Check my wallet balance')}
                         >
                           Balance
                         </Button>
@@ -296,16 +306,16 @@ export function AIChatWidget() {
                     <div
                       key={m.id}
                       className={cn(
-                        "flex w-full mb-4",
-                        m.role === 'user' ? "justify-end" : "justify-start"
+                        'mb-4 flex w-full',
+                        m.role === 'user' ? 'justify-end' : 'justify-start'
                       )}
                     >
                       <div
                         className={cn(
-                          "max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm transition-all",
+                          'max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm transition-all',
                           m.role === 'user'
-                            ? "bg-linear-to-br from-indigo-500 to-purple-600 text-white rounded-br-none"
-                            : "bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700/50 rounded-bl-none text-slate-800 dark:text-slate-200"
+                            ? 'rounded-br-none bg-linear-to-br from-indigo-500 to-purple-600 text-white'
+                            : 'rounded-bl-none border border-slate-100 bg-white text-slate-800 dark:border-slate-700/50 dark:bg-slate-800 dark:text-slate-200'
                         )}
                       >
                         {/* Check if there are tool invocations */}
@@ -316,53 +326,153 @@ export function AIChatWidget() {
                           if (toolInvocation.result) {
                             switch (toolInvocation.toolName) {
                               case 'getMyBookings':
-                                return <BookingResult key={toolCallId} bookings={toolInvocation.result.bookings} />;
+                                return (
+                                  <BookingResult
+                                    key={toolCallId}
+                                    bookings={toolInvocation.result.bookings}
+                                  />
+                                );
                               case 'searchServices':
-                                return <ServiceResult key={toolCallId} services={toolInvocation.result.services} />;
+                                return (
+                                  <ServiceResult
+                                    key={toolCallId}
+                                    services={toolInvocation.result.services}
+                                  />
+                                );
                               case 'getWalletBalance':
                                 return <WalletResult key={toolCallId} {...toolInvocation.result} />;
                               case 'checkAvailability':
-                                return <AvailabilityResult key={toolCallId} slots={toolInvocation.result.slots} />;
+                                return (
+                                  <AvailabilityResult
+                                    key={toolCallId}
+                                    slots={toolInvocation.result.slots}
+                                  />
+                                );
                               case 'bookAppointment':
-                                return <BookingConfirmation key={toolCallId} {...toolInvocation.result} />;
+                                return (
+                                  <BookingConfirmation
+                                    key={toolCallId}
+                                    {...toolInvocation.result}
+                                  />
+                                );
                               case 'getPersonalizedGreeting':
-                                return <PersonalizedGreetingResult key={toolCallId} {...toolInvocation.result} />;
+                                return (
+                                  <PersonalizedGreetingResult
+                                    key={toolCallId}
+                                    {...toolInvocation.result}
+                                  />
+                                );
                               case 'suggestDailyActions':
-                                return <DailyActionsResult key={toolCallId} actions={toolInvocation.result.actions} />;
+                                return (
+                                  <DailyActionsResult
+                                    key={toolCallId}
+                                    actions={toolInvocation.result.actions}
+                                  />
+                                );
                               case 'generateAffirmation':
-                                return <AffirmationResult key={toolCallId} affirmation={toolInvocation.result.affirmation} />;
+                                return (
+                                  <AffirmationResult
+                                    key={toolCallId}
+                                    affirmation={toolInvocation.result.affirmation}
+                                  />
+                                );
                               case 'getProgressReport':
-                                return <ProgressReportResult key={toolCallId} report={toolInvocation.result.report} />;
+                                return (
+                                  <ProgressReportResult
+                                    key={toolCallId}
+                                    report={toolInvocation.result.report}
+                                  />
+                                );
                               case 'identifyPatterns':
-                                return <PatternInsightResult key={toolCallId} patterns={toolInvocation.result.patterns} />;
+                                return (
+                                  <PatternInsightResult
+                                    key={toolCallId}
+                                    patterns={toolInvocation.result.patterns}
+                                  />
+                                );
                               case 'suggestBreathingExercise':
-                                return <BreathingExerciseResult key={toolCallId} exercise={toolInvocation.result.exercise} />;
+                                return (
+                                  <BreathingExerciseResult
+                                    key={toolCallId}
+                                    exercise={toolInvocation.result.exercise}
+                                  />
+                                );
                               case 'celebrateAchievement':
-                                return <AchievementCelebrationResult key={toolCallId} achievements={toolInvocation.result.achievements} />;
+                                return (
+                                  <AchievementCelebrationResult
+                                    key={toolCallId}
+                                    achievements={toolInvocation.result.achievements}
+                                  />
+                                );
                               case 'startGuidedMeditation':
-                                return <MeditationResult key={toolCallId} session={toolInvocation.result.session} />;
+                                return (
+                                  <MeditationResult
+                                    key={toolCallId}
+                                    session={toolInvocation.result.session}
+                                  />
+                                );
                               case 'getSleepInsights':
-                                return <SleepInsightResult key={toolCallId} insight={toolInvocation.result.insight} />;
+                                return (
+                                  <SleepInsightResult
+                                    key={toolCallId}
+                                    insight={toolInvocation.result.insight}
+                                  />
+                                );
                               case 'getInteractiveGoalTracker':
-                                return <GoalTrackerResult key={toolCallId} tracker={toolInvocation.result.tracker} />;
+                                return (
+                                  <GoalTrackerResult
+                                    key={toolCallId}
+                                    tracker={toolInvocation.result.tracker}
+                                  />
+                                );
                               case 'getMoodCalendar':
-                                return <MoodCalendarResult key={toolCallId} days={toolInvocation.result.days} />;
+                                return (
+                                  <MoodCalendarResult
+                                    key={toolCallId}
+                                    days={toolInvocation.result.days}
+                                  />
+                                );
                               case 'getBookingPreview':
-                                return <BookingPreviewBlock key={toolCallId} preview={toolInvocation.result.preview} />;
+                                return (
+                                  <BookingPreviewBlock
+                                    key={toolCallId}
+                                    preview={toolInvocation.result.preview}
+                                  />
+                                );
                               case 'compareServices':
-                                return <ServiceComparisonBlock key={toolCallId} services={toolInvocation.result.services} />;
+                                return (
+                                  <ServiceComparisonBlock
+                                    key={toolCallId}
+                                    services={toolInvocation.result.services}
+                                  />
+                                );
                               case 'getWalletHistory':
-                                return <WalletHistoryBlock key={toolCallId} transactions={toolInvocation.result.transactions} />;
+                                return (
+                                  <WalletHistoryBlock
+                                    key={toolCallId}
+                                    transactions={toolInvocation.result.transactions}
+                                  />
+                                );
                               default:
-                                return <div key={toolCallId} className="text-xs text-muted-foreground italic mt-2 border-l-2 border-primary/20 pl-2">
-                                  Completed action: {toolInvocation.toolName}
-                                </div>;
+                                return (
+                                  <div
+                                    key={toolCallId}
+                                    className="text-muted-foreground border-primary/20 mt-2 border-l-2 pl-2 text-xs italic"
+                                  >
+                                    Completed action: {toolInvocation.toolName}
+                                  </div>
+                                );
                             }
                           } else {
-                            return <div key={toolCallId} className="flex items-center gap-2 text-xs opacity-70 italic mb-2">
-                              <Sparkles className="w-3 h-3 animate-spin" />
-                              Processing {toolInvocation.toolName}...
-                            </div>
+                            return (
+                              <div
+                                key={toolCallId}
+                                className="mb-2 flex items-center gap-2 text-xs italic opacity-70"
+                              >
+                                <Sparkles className="h-3 w-3 animate-spin" />
+                                Processing {toolInvocation.toolName}...
+                              </div>
+                            );
                           }
                         })}
 
@@ -372,12 +482,21 @@ export function AIChatWidget() {
                   ))}
 
                   {isLoading && messages[messages.length - 1]?.role === 'user' && (
-                    <div className="flex justify-start w-full mb-4">
-                      <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl rounded-bl-none px-4 py-3 shadow-sm">
+                    <div className="mb-4 flex w-full justify-start">
+                      <div className="rounded-2xl rounded-bl-none border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                         <div className="flex gap-1">
-                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                          <div className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                          <div
+                            className="h-2 w-2 animate-bounce rounded-full bg-purple-400"
+                            style={{ animationDelay: '0ms' }}
+                          ></div>
+                          <div
+                            className="h-2 w-2 animate-bounce rounded-full bg-purple-400"
+                            style={{ animationDelay: '150ms' }}
+                          ></div>
+                          <div
+                            className="h-2 w-2 animate-bounce rounded-full bg-purple-400"
+                            style={{ animationDelay: '300ms' }}
+                          ></div>
                         </div>
                       </div>
                     </div>
@@ -385,19 +504,19 @@ export function AIChatWidget() {
                 </div>
               </CardContent>
 
-              <CardFooter className="p-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800">
+              <CardFooter className="border-t border-slate-100 bg-white p-3 dark:border-slate-800 dark:bg-slate-900">
                 <form onSubmit={handleSubmit} className="flex w-full items-center gap-2">
                   <Input
                     value={input}
                     onChange={handleInputChange}
                     placeholder="Type a message..."
-                    className="flex-1 rounded-full bg-slate-100 dark:bg-slate-800 border-0 focus-visible:ring-1 focus-visible:ring-purple-500"
+                    className="flex-1 rounded-full border-0 bg-slate-100 focus-visible:ring-1 focus-visible:ring-purple-500 dark:bg-slate-800"
                   />
                   <Button
                     type="submit"
                     size="icon"
                     disabled={isLoading || !input.trim()}
-                    className="rounded-full bg-purple-600 hover:bg-purple-700 h-10 w-10 shrink-0"
+                    className="h-10 w-10 shrink-0 rounded-full bg-purple-600 hover:bg-purple-700"
                   >
                     <Send className="h-4 w-4" />
                   </Button>
@@ -410,4 +529,3 @@ export function AIChatWidget() {
     </>
   );
 }
-

@@ -1,10 +1,12 @@
 # Component Design
 
-Best practices for designing React components that are flexible, composable, and maintainable.
+Best practices for designing React components that are flexible, composable, and
+maintainable.
 
 ## Compound Components
 
-Use compound components when a component has multiple related parts that need to share state.
+Use compound components when a component has multiple related parts that need to
+share state.
 
 ```jsx
 // Good - compound components
@@ -181,12 +183,9 @@ function Card({ children, header, footer }) {
 }
 
 // Usage
-<Card
-  header={<h2>Title</h2>}
-  footer={<Button>Save</Button>}
->
+<Card header={<h2>Title</h2>} footer={<Button>Save</Button>}>
   Main content
-</Card>
+</Card>;
 ```
 
 ## The `asChild` Pattern
@@ -211,10 +210,10 @@ Allow rendering as a different element while preserving behavior:
 Implementation using Radix Slot:
 
 ```jsx
-import { Slot } from "@radix-ui/react-slot";
+import { Slot } from '@radix-ui/react-slot';
 
 function Button({ asChild, ...props }) {
-  const Comp = asChild ? Slot : "button";
+  const Comp = asChild ? Slot : 'button';
   return <Comp {...props} />;
 }
 ```
@@ -252,7 +251,7 @@ function Button({ variant, size, className, ...props }) {
 // Now these work:
 <Button data-testid="submit" aria-label="Submit form">
   Submit
-</Button>
+</Button>;
 ```
 
 ## Default Props
@@ -261,9 +260,9 @@ Use sensible defaults that work for 80% of cases:
 
 ```jsx
 function Button({
-  variant = "primary",
-  size = "md",
-  type = "button", // Not "submit" - safer default
+  variant = 'primary',
+  size = 'md',
+  type = 'button', // Not "submit" - safer default
   ...props
 }) {
   // ...
@@ -309,11 +308,7 @@ Wrap complex components in error boundaries:
 
 ```jsx
 function ComponentWithErrorBoundary({ children }) {
-  return (
-    <ErrorBoundary fallback={<ErrorFallback />}>
-      {children}
-    </ErrorBoundary>
-  );
+  return <ErrorBoundary fallback={<ErrorFallback />}>{children}</ErrorBoundary>;
 }
 ```
 
@@ -338,12 +333,12 @@ components/
 
 ```tsx
 // components/card/index.ts
-export { Card } from "./card";
-export { CardHeader } from "./card-header";
-export { CardContent } from "./card-content";
+export { Card } from './card';
+export { CardHeader } from './card-header';
+export { CardContent } from './card-content';
 
 // Or as compound component
-export { Card, CardHeader, CardContent } from "./card";
+export { Card, CardHeader, CardContent } from './card';
 ```
 
 ## Anti-Patterns to Avoid
@@ -379,4 +374,5 @@ export { Card, CardHeader, CardContent } from "./card";
 
 ### Premature Abstraction
 
-Don't create a component until you've copy-pasted it 2-3 times. Wait until patterns emerge.
+Don't create a component until you've copy-pasted it 2-3 times. Wait until
+patterns emerge.

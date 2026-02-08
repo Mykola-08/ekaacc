@@ -1,9 +1,9 @@
 /**
  * Result type for better error handling
- * 
+ *
  * Inspired by Rust's Result<T, E> and functional programming patterns.
  * Eliminates the need for try-catch blocks and provides type-safe error handling.
- * 
+ *
  * @example
  * ```typescript
  * async function fetchUser(id: string): Promise<Result<User, AppError>> {
@@ -14,7 +14,7 @@
  *     return Result.err(new AppError('User not found', 'NOT_FOUND', 404));
  *   }
  * }
- * 
+ *
  * const result = await fetchUser('123');
  * if (result.isOk()) {
  *   console.log('User:', result.value);
@@ -23,14 +23,14 @@
  * }
  * ```
  */
-export type Result<T, E = Error> = 
+export type Result<T, E = Error> =
   | { success: true; value: T; error?: never }
   | { success: false; value?: never; error: E };
 
 /**
  * Result utility class with helper methods
  */
- 
+
 export const Result = {
   /**
    * Create a successful result
@@ -63,10 +63,7 @@ export const Result = {
   /**
    * Map the value if result is successful
    */
-  map<T, U, E>(
-    result: Result<T, E>,
-    fn: (value: T) => U
-  ): Result<U, E> {
+  map<T, U, E>(result: Result<T, E>, fn: (value: T) => U): Result<U, E> {
     if (Result.isOk(result)) {
       return Result.ok(fn(result.value));
     }
@@ -76,10 +73,7 @@ export const Result = {
   /**
    * Map the error if result is failed
    */
-  mapErr<T, E, F>(
-    result: Result<T, E>,
-    fn: (error: E) => F
-  ): Result<T, F> {
+  mapErr<T, E, F>(result: Result<T, E>, fn: (error: E) => F): Result<T, F> {
     if (Result.isErr(result)) {
       return Result.err(fn(result.error));
     }
@@ -109,11 +103,7 @@ export const Result = {
   /**
    * Execute a function based on result status
    */
-  match<T, E, R>(
-    result: Result<T, E>,
-    onOk: (value: T) => R,
-    onErr: (error: E) => R
-  ): R {
+  match<T, E, R>(result: Result<T, E>, onOk: (value: T) => R, onErr: (error: E) => R): R {
     if (Result.isOk(result)) {
       return onOk(result.value);
     }
@@ -131,9 +121,7 @@ export const Result = {
       const value = await operation();
       return Result.ok(value);
     } catch (error) {
-      const mappedError = errorMapper 
-        ? errorMapper(error)
-        : (error as E);
+      const mappedError = errorMapper ? errorMapper(error) : (error as E);
       return Result.err(mappedError);
     }
   },
@@ -141,9 +129,9 @@ export const Result = {
   /**
    * Combine multiple Results - all must succeed
    */
-  all<T extends readonly unknown[], E = Error>(
-    results: { [K in keyof T]: Result<T[K], E> }
-  ): Result<T, E> {
+  all<T extends readonly unknown[], E = Error>(results: {
+    [K in keyof T]: Result<T[K], E>;
+  }): Result<T, E> {
     const values: unknown[] = [];
     for (const result of results) {
       if (Result.isErr(result)) {
@@ -157,9 +145,7 @@ export const Result = {
   /**
    * Return the first successful result
    */
-  any<T, E = Error>(
-    results: Result<T, E>[]
-  ): Result<T, E[]> {
+  any<T, E = Error>(results: Result<T, E>[]): Result<T, E[]> {
     const errors: E[] = [];
     for (const result of results) {
       if (Result.isOk(result)) {
@@ -168,18 +154,15 @@ export const Result = {
       errors.push(result.error);
     }
     return Result.err(errors);
-  }
+  },
 };
 
 /**
  * Option type for values that may or may not exist
  * Similar to Rust's Option<T>
  */
-export type Option<T> = 
-  | { some: true; value: T }
-  | { some: false; value?: never };
+export type Option<T> = { some: true; value: T } | { some: false; value?: never };
 
- 
 export const Option = {
   /**
    * Create an Option with a value
@@ -244,5 +227,5 @@ export const Option = {
       return option.value;
     }
     return defaultValue;
-  }
+  },
 };

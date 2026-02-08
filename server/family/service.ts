@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 
 export interface DependentProfile {
@@ -9,14 +8,17 @@ export interface DependentProfile {
 }
 
 export class FamilyService {
-  
   /**
    * Add a dependent (child/senior) to a user's account
    * Currently supports "Managed" dependents (no separate login)
    */
-  async addDependent(guardianId: string, profile: DependentProfile, type: 'child' | 'dependent' = 'child') {
+  async addDependent(
+    guardianId: string,
+    profile: DependentProfile,
+    type: 'child' | 'dependent' = 'child'
+  ) {
     const supabase = await createClient();
-    
+
     // In a real app, we might create a full 'auth.users' shadow record or 'guest' record.
     // For now, storing in metadata is sufficient for booking linkage.
     const { data, error } = await supabase
@@ -24,7 +26,7 @@ export class FamilyService {
       .insert({
         guardian_id: guardianId,
         type: type,
-        metadata: profile
+        metadata: profile,
       })
       .select()
       .single();
@@ -42,11 +44,13 @@ export class FamilyService {
       .from('user_relationship')
       .select('*')
       .eq('guardian_id', guardianId);
-      
-    return data?.map(rel => ({
-      id: rel.id,
-      type: rel.type,
-      ...rel.metadata // Flatten metadata for UI
-    })) || [];
+
+    return (
+      data?.map((rel) => ({
+        id: rel.id,
+        type: rel.type,
+        ...rel.metadata, // Flatten metadata for UI
+      })) || []
+    );
   }
 }

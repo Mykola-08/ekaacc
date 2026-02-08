@@ -40,12 +40,12 @@ export function useJournalStats() {
           }
 
           // Calculate average mood
-          const moodsWithValues = userEntries
-            .map(entry => entry.mood);
-          
-          const avgMood = moodsWithValues.length > 0
-            ? moodsWithValues.reduce((sum, mood) => sum + mood, 0) / moodsWithValues.length
-            : 3.5;
+          const moodsWithValues = userEntries.map((entry) => entry.mood);
+
+          const avgMood =
+            moodsWithValues.length > 0
+              ? moodsWithValues.reduce((sum, mood) => sum + mood, 0) / moodsWithValues.length
+              : 3.5;
 
           // Calculate mood trend (compare last 7 days to previous 7 days)
           const now = new Date();
@@ -53,35 +53,43 @@ export function useJournalStats() {
           const fourteenDaysAgo = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
 
           const recentMoods = userEntries
-            .filter(entry => new Date(entry.date) > sevenDaysAgo)
-            .map(entry => entry.mood);
-          
+            .filter((entry) => new Date(entry.date) > sevenDaysAgo)
+            .map((entry) => entry.mood);
+
           const previousMoods = userEntries
-            .filter(entry => {
+            .filter((entry) => {
               const date = new Date(entry.date);
               return date > fourteenDaysAgo && date <= sevenDaysAgo;
             })
-            .map(entry => entry.mood);
+            .map((entry) => entry.mood);
 
-          const recentAvg = recentMoods.length > 0
-            ? recentMoods.reduce((sum, mood) => sum + mood, 0) / recentMoods.length
-            : avgMood;
-          
-          const previousAvg = previousMoods.length > 0
-            ? previousMoods.reduce((sum, mood) => sum + mood, 0) / previousMoods.length
-            : avgMood;
+          const recentAvg =
+            recentMoods.length > 0
+              ? recentMoods.reduce((sum, mood) => sum + mood, 0) / recentMoods.length
+              : avgMood;
 
-          const moodTrend: 'up' | 'down' | 'stable' = 
-            recentAvg > previousAvg + 0.2 ? 'up' :
-            recentAvg < previousAvg - 0.2 ? 'down' : 'stable';
+          const previousAvg =
+            previousMoods.length > 0
+              ? previousMoods.reduce((sum, mood) => sum + mood, 0) / previousMoods.length
+              : avgMood;
+
+          const moodTrend: 'up' | 'down' | 'stable' =
+            recentAvg > previousAvg + 0.2
+              ? 'up'
+              : recentAvg < previousAvg - 0.2
+                ? 'down'
+                : 'stable';
 
           // Extract top themes from tags
-          const allTags: string[] = userEntries.flatMap(entry => entry.tags || []);
-          
-          const tagCounts = allTags.reduce((acc, tag) => {
-            acc[tag] = (acc[tag] || 0) + 1;
-            return acc;
-          }, {} as Record<string, number>);
+          const allTags: string[] = userEntries.flatMap((entry) => entry.tags || []);
+
+          const tagCounts = allTags.reduce(
+            (acc, tag) => {
+              acc[tag] = (acc[tag] || 0) + 1;
+              return acc;
+            },
+            {} as Record<string, number>
+          );
 
           const topThemes = Object.entries(tagCounts)
             .sort(([, a], [, b]) => b - a)
@@ -90,17 +98,20 @@ export function useJournalStats() {
 
           // Calculate writing streak
           const sortedEntryDates = userEntries
-            .map(entry => new Date(entry.date))
+            .map((entry) => new Date(entry.date))
             .sort((a, b) => b.getTime() - a.getTime());
-            
-          const uniqueDates = [...new Set(sortedEntryDates.map(d => d.toISOString().split('T')[0]))];
+
+          const uniqueDates = [
+            ...new Set(sortedEntryDates.map((d) => d.toISOString().split('T')[0])),
+          ];
 
           let streak = 0;
           if (uniqueDates.length > 0) {
             let currentDate = new Date(uniqueDates[0] as string);
             if (
               currentDate.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ||
-              currentDate.toISOString().split('T')[0] === new Date(Date.now() - 86400000).toISOString().split('T')[0]
+              currentDate.toISOString().split('T')[0] ===
+                new Date(Date.now() - 86400000).toISOString().split('T')[0]
             ) {
               streak = 1;
               for (let i = 1; i < uniqueDates.length; i++) {
@@ -127,7 +138,7 @@ export function useJournalStats() {
           setStats(getMockStats());
         }
       } catch (error) {
-        console.error("Error calculating journal stats:", error);
+        console.error('Error calculating journal stats:', error);
         setStats(getMockStats());
       } finally {
         setLoading(false);
@@ -149,4 +160,3 @@ function getMockStats(): JournalStats {
     weeklyStreak: 5,
   };
 }
-

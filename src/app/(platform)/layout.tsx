@@ -6,10 +6,10 @@ import { ThemeProvider } from '@/components/platform/providers/theme-provider';
 import { TooltipProvider } from '@/components/platform/ui/tooltip';
 import { ProgressProvider } from '@/context/platform/progress-context';
 import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-wrapper';
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import CookieConsent from '@/components/platform/consent/CookieConsent';
-import { DebugStatus } from "@/components/ui";
+import { DebugStatus } from '@/components/ui';
 import { SidebarProvider, SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { PlatformSidebar } from '@/app/(platform)/components/PlatformSidebar';
 import { Separator } from '@/components/ui/separator';
@@ -21,51 +21,51 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={cn('antialiased font-sans')}>
+    <div className={cn('font-sans antialiased')}>
       {/* <UserProvider> */}
       <LanguageProvider>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <ProgressProvider>
-          <TooltipProvider>
-            <ImpersonationWrapper>
-              <SidebarProvider>
-                <PlatformSidebar variant="floating" />
-                <SidebarInset className="app-shell app-shell-inset">
-                  <div className="app-shell-card">
-                    <header className="app-shell-header">
-                         <div className="flex items-center gap-4">
-                             <SidebarTrigger className="-ml-1 text-muted-foreground hover:text-foreground transition-colors" />
-                             <Separator orientation="vertical" className="h-4" />
-                             <span className="text-sm font-semibold tracking-tight text-foreground">Console</span>
-                         </div>
-                    </header>
-                    <main className="app-shell-main">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ProgressProvider>
+            <TooltipProvider>
+              <ImpersonationWrapper>
+                <SidebarProvider>
+                  <PlatformSidebar variant="floating" />
+                  <SidebarInset className="app-shell app-shell-inset">
+                    <div className="app-shell-card">
+                      <header className="app-shell-header">
+                        <div className="flex items-center gap-4">
+                          <SidebarTrigger className="text-muted-foreground hover:text-foreground -ml-1 transition-colors" />
+                          <Separator orientation="vertical" className="h-4" />
+                          <span className="text-foreground text-sm font-semibold tracking-tight">
+                            Console
+                          </span>
+                        </div>
+                      </header>
+                      <main id="main-content" className="app-shell-main" tabIndex={-1}>
                         <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
                           {children}
                         </div>
-                    </main>
-                  </div>
-                </SidebarInset>
-              </SidebarProvider>
+                      </main>
+                    </div>
+                  </SidebarInset>
+                </SidebarProvider>
 
-              <CookieConsent />
-              <Analytics />
-              <SpeedInsights />
-            </ImpersonationWrapper>
-            <Toaster />
-            {process.env.NODE_ENV === 'development' && <DebugStatus />}
-          </TooltipProvider>
-        </ProgressProvider>
-      </ThemeProvider>
+                <CookieConsent />
+                <Analytics />
+                <SpeedInsights />
+              </ImpersonationWrapper>
+              <Toaster />
+              {process.env.NODE_ENV === 'development' && <DebugStatus />}
+            </TooltipProvider>
+          </ProgressProvider>
+        </ThemeProvider>
       </LanguageProvider>
       {/* </UserProvider> */}
     </div>
   );
 }
-
-

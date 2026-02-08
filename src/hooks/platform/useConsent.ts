@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 
 export type ConsentPreferences = {
@@ -21,11 +21,17 @@ export function useConsent() {
   const [status, setStatus] = useState<ConsentStatus>('undecided');
   const [preferences, setPreferences] = useState<ConsentPreferences>(DEFAULT_PREFERENCES);
   const [isLoading, setIsLoading] = useState(true);
-  
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRvcGtuY3JxdXR4bmNod3F4bG9hIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3OTUwNzksImV4cCI6MjA4MzM3MTA3OX0.ctJPZcBYTfxPlQN_winPMB6wVZm8CoNOWcMKZW7FYl0'
-  );
+
+  const supabase = useMemo(() => {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      return null;
+    }
+
+    return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  }, []);
 
   useEffect(() => {
     checkConsent();
@@ -55,7 +61,13 @@ export function useConsent() {
       }
 
       // 2. If not in local storage, check DB if user is logged in
-      const { data: { session } } = await (supabase.auth as any).getSession();
+      if (!supabase) {
+        return;
+      }
+
+      const {
+        data: { session },
+      } = await (supabase.auth as any).getSession();
       if (session) {
         const { data, error } = await supabase
           .from('user_consents')
@@ -86,12 +98,18 @@ export function useConsent() {
       // 1. Save to Local Storage
       localStorage.setItem('eka_consent_status', newStatus);
       localStorage.setItem('eka_consent_preferences', JSON.stringify(newPreferences));
-      
+
       setStatus(newStatus);
       setPreferences(newPreferences);
 
       // 2. Save to DB if logged in
-      const { data: { session } } = await (supabase.auth as any).getSession();
+      if (!supabase) {
+        return;
+      }
+
+      const {
+        data: { session },
+      } = await (supabase.auth as any).getSession();
       if (session) {
         await supabase.from('user_consents').insert({
           user_id: session.user.id,
@@ -99,10 +117,10 @@ export function useConsent() {
           status: newStatus,
           preferences: newPreferences,
           user_agent: navigator.userAgent,
-          version: '1.0' // You can manage versions here
+          version: '1.0', // You can manage versions here
         });
       }
-      
+
       // 3. Apply consent (e.g., enable/disable scripts)
       // This is where you'd integrate with GTM or other tools
       if (newPreferences.analytics) {
@@ -119,7 +137,6 @@ export function useConsent() {
     preferences,
     isLoading,
     saveConsent,
-    checkConsent
+    checkConsent,
   };
 }
-

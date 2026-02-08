@@ -1,20 +1,27 @@
-'use client'
+'use client';
 
-import { useFormStatus } from 'react-dom'
-import { signup } from '@/server/auth/actions'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
-import { toast } from 'sonner'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { Loader2, Mail, Lock, User, Sparkles, CheckCircle2 } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { useFormStatus } from 'react-dom';
+import { signup } from '@/server/auth/actions';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card';
+import { toast } from 'sonner';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Loader2, Mail, Lock, User, Sparkles, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 function SubmitButton() {
-  const { pending } = useFormStatus()
+  const { pending } = useFormStatus();
   return (
     <Button
       className="w-full text-base font-semibold transition-all active:scale-95"
@@ -22,65 +29,61 @@ function SubmitButton() {
       disabled={pending}
       size="lg"
     >
-      {pending ? (
-        <Loader2 className="w-5 h-5 animate-spin" />
-      ) : (
-        "Create Account"
-      )}
+      {pending ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Create Account'}
     </Button>
-  )
+  );
 }
 
 export function SignupPage() {
-  const [successMessage, setSuccessMessage] = useState('')
-  const [errorMessage, setErrorMessage] = useState('')
-  const router = useRouter()
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
 
   async function clientAction(formData: FormData) {
-    setErrorMessage('')
-    setSuccessMessage('')
+    setErrorMessage('');
+    setSuccessMessage('');
 
     try {
-      const result = await signup(null, formData)
+      const result = await signup(null, formData);
       if (result.success) {
-        setSuccessMessage(result.message)
-        toast.success("Account Created", { description: result.message })
+        setSuccessMessage(result.message);
+        toast.success('Account Created', { description: result.message });
       } else {
-        setErrorMessage(result.message)
-        toast.error("Signup Failed", { description: result.message })
+        setErrorMessage(result.message);
+        toast.error('Signup Failed', { description: result.message });
       }
     } catch (e) {
-      setErrorMessage("An error occurred")
+      setErrorMessage('An error occurred');
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
-        <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background"></div>
+    <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4">
+      <div className="from-primary/10 via-background to-background absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]"></div>
 
       <div className="w-full max-w-sm space-y-8">
         <div className="flex flex-col items-center gap-2 text-center">
-            <Link href="/" className="mb-4">
-                <div className="h-10 w-10 rounded-xl bg-primary flex items-center justify-center shadow-sm hover:scale-105 transition-transform cursor-pointer">
-                    <span className="text-primary-foreground font-black text-lg italic">E</span>
-                </div>
-            </Link>
+          <Link href="/" className="mb-4">
+            <div className="bg-primary flex h-10 w-10 cursor-pointer items-center justify-center rounded-xl shadow-sm transition-transform hover:scale-105">
+              <span className="text-primary-foreground text-lg font-black italic">E</span>
+            </div>
+          </Link>
           <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">Create account</h1>
-            <p className="text-sm text-muted-foreground">Join EKA Balance today</p>
+            <h1 className="text-foreground text-2xl font-bold tracking-tight">Create account</h1>
+            <p className="text-muted-foreground text-sm">Join EKA Balance today</p>
           </div>
         </div>
 
-        <Card className="border border-border bg-surface/50 backdrop-blur-sm shadow-sm rounded-2xl">
+        <Card className="border-border bg-surface/50 rounded-2xl border shadow-sm backdrop-blur-sm">
           <CardContent className="pt-6">
             {successMessage ? (
               <div className="flex flex-col items-center justify-center space-y-6 py-8">
-                <div className="bg-success/10 p-4 rounded-full">
-                  <CheckCircle2 className="w-10 h-10 text-success" />
+                <div className="bg-success/10 rounded-full p-4">
+                  <CheckCircle2 className="text-success h-10 w-10" />
                 </div>
-                <div className="text-center space-y-3">
-                  <h3 className="text-xl font-bold text-foreground">Check your email</h3>
-                  <p className="text-muted-foreground text-sm max-w-sm">{successMessage}</p>
+                <div className="space-y-3 text-center">
+                  <h3 className="text-foreground text-xl font-bold">Check your email</h3>
+                  <p className="text-muted-foreground max-w-sm text-sm">{successMessage}</p>
                 </div>
                 <Button asChild variant="outline" className="mt-4 w-full">
                   <Link href="/login">Return to Login</Link>
@@ -124,7 +127,7 @@ export function SignupPage() {
                 </div>
 
                 {errorMessage && (
-                  <div className="text-sm font-medium bg-destructive/10 text-destructive p-3 rounded-md border border-destructive/20">
+                  <div className="bg-destructive/10 text-destructive border-destructive/20 rounded-md border p-3 text-sm font-medium">
                     {errorMessage}
                   </div>
                 )}
@@ -135,10 +138,10 @@ export function SignupPage() {
           </CardContent>
 
           {!successMessage && (
-            <CardFooter className="border-t border-border bg-muted/20 px-6 py-4 rounded-b-2xl">
-              <div className="text-center text-sm text-muted-foreground w-full">
-                Already have an account?{" "}
-                <Link href="/login" className="font-semibold text-primary hover:underline">
+            <CardFooter className="border-border bg-muted/20 rounded-b-2xl border-t px-6 py-4">
+              <div className="text-muted-foreground w-full text-center text-sm">
+                Already have an account?{' '}
+                <Link href="/login" className="text-primary font-semibold hover:underline">
                   Sign in
                 </Link>
               </div>
@@ -147,7 +150,5 @@ export function SignupPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
-
-

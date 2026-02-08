@@ -41,18 +41,19 @@ const tierValidationService = {
     }
   },
 
-  assignTier: async (args: { userId: string; tierId: string }): Promise<{ success: boolean; error?: string }> => {
+  assignTier: async (args: {
+    userId: string;
+    tierId: string;
+  }): Promise<{ success: boolean; error?: string }> => {
     try {
-      const { error } = await supabaseAdmin
-        .from('user_tiers')
-        .upsert(
-          {
-            user_id: args.userId,
-            tier_id: args.tierId,
-            assigned_at: new Date().toISOString(),
-          },
-          { onConflict: 'user_id,tier_id' }
-        );
+      const { error } = await supabaseAdmin.from('user_tiers').upsert(
+        {
+          user_id: args.userId,
+          tier_id: args.tierId,
+          assigned_at: new Date().toISOString(),
+        },
+        { onConflict: 'user_id,tier_id' }
+      );
 
       if (error) return { success: false, error: error.message };
       return { success: true };
@@ -96,7 +97,11 @@ const tierValidationService = {
         progress,
       };
     } catch {
-      return { isEligible: false, missingRequirements: ['Error checking eligibility'], progress: {} };
+      return {
+        isEligible: false,
+        missingRequirements: ['Error checking eligibility'],
+        progress: {},
+      };
     }
   },
 
@@ -117,11 +122,16 @@ const tierValidationService = {
 
       return {
         isEligible: currentPoints >= required,
-        missingRequirements: currentPoints < required ? [`${required - currentPoints} more points needed`] : [],
+        missingRequirements:
+          currentPoints < required ? [`${required - currentPoints} more points needed`] : [],
         progress: { points: Math.min(100, (currentPoints / required) * 100) },
       };
     } catch {
-      return { isEligible: false, missingRequirements: ['Error checking eligibility'], progress: {} };
+      return {
+        isEligible: false,
+        missingRequirements: ['Error checking eligibility'],
+        progress: {},
+      };
     }
   },
 
@@ -130,7 +140,8 @@ const tierValidationService = {
     tier: string | { id: string; requirements?: Record<string, number> }
   ): Promise<TierProgress> => {
     const eligibility = await tierValidationService.validateVIPTierEligibility(userId, tier);
-    const avgProgress = Object.values(eligibility.progress).reduce((a, b) => a + b, 0) /
+    const avgProgress =
+      Object.values(eligibility.progress).reduce((a, b) => a + b, 0) /
       Math.max(1, Object.values(eligibility.progress).length);
 
     return {

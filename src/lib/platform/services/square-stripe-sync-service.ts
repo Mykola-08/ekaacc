@@ -1,3 +1,3 @@
 export const squareStripeSyncService = {
-  syncServices: async () => {}
+  syncServices: async () => {},
 };

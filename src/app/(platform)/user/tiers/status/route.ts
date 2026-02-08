@@ -11,8 +11,11 @@ async function verifyUserAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -25,10 +28,7 @@ export async function GET(request: NextRequest) {
     // Verify user access
     const { error: authError, user } = await verifyUserAccess(request);
     if (authError) {
-      return NextResponse.json(
-        { error: authError },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: authError }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -43,14 +43,11 @@ export async function GET(request: NextRequest) {
 
     if (tierError) {
       console.error('Error fetching user tiers:', tierError);
-      return NextResponse.json(
-        { error: 'Failed to fetch user tiers' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch user tiers' }, { status: 500 });
     }
 
-    const currentVIPTier = currentTiers?.find(t => t.tier_type === 'vip');
-    const currentLoyaltyTier = currentTiers?.find(t => t.tier_type === 'loyalty');
+    const currentVIPTier = currentTiers?.find((t) => t.tier_type === 'vip');
+    const currentLoyaltyTier = currentTiers?.find((t) => t.tier_type === 'loyalty');
 
     // Get validation service
     const validationService = await getTierValidationService();
@@ -84,10 +81,12 @@ export async function GET(request: NextRequest) {
     // Get tier history
     const { data: tierHistory, error: historyError } = await supabase
       .from('tier_audit_logs')
-      .select(`
+      .select(
+        `
         *,
         admin:users!performed_by(id, email, displayName)
-      `)
+      `
+      )
       .eq('user_id', userId)
       .order('timestamp', { ascending: false })
       .limit(10);
@@ -105,14 +104,14 @@ export async function GET(request: NextRequest) {
         sessionsLimit: 0,
         supportRequests: 0,
         storageUsed: 0,
-        storageLimit: 0
+        storageLimit: 0,
       },
       loyalty: {
         pointsEarned: 0,
         pointsMultiplier: 1.0,
         discountUsed: 0,
-        discountAvailable: 0
-      }
+        discountAvailable: 0,
+      },
     };
 
     // Populate usage data based on current tiers
@@ -145,20 +144,24 @@ export async function GET(request: NextRequest) {
       success: true,
       data: {
         currentTiers: {
-          vip: currentVIPTier ? {
-            tier: currentVIPTier.tier_name,
-            assignedAt: currentVIPTier.assigned_at,
-            expiresAt: null // Add expiration logic if needed
-          } : null,
-          loyalty: currentLoyaltyTier ? {
-            tier: currentLoyaltyTier.tier_name,
-            assignedAt: currentLoyaltyTier.assigned_at,
-            expiresAt: null // Add expiration logic if needed
-          } : null
+          vip: currentVIPTier
+            ? {
+                tier: currentVIPTier.tier_name,
+                assignedAt: currentVIPTier.assigned_at,
+                expiresAt: null, // Add expiration logic if needed
+              }
+            : null,
+          loyalty: currentLoyaltyTier
+            ? {
+                tier: currentLoyaltyTier.tier_name,
+                assignedAt: currentLoyaltyTier.assigned_at,
+                expiresAt: null, // Add expiration logic if needed
+              }
+            : null,
         },
         nextTierProgress: {
           vip: nextVIPTierProgress,
-          loyalty: nextLoyaltyTierProgress
+          loyalty: nextLoyaltyTierProgress,
         },
         usage: usageData,
         history: tierHistory || [],
@@ -166,21 +169,18 @@ export async function GET(request: NextRequest) {
           hasPriorityBooking: !!currentVIPTier,
           hasDedicatedSupport: !!currentVIPTier,
           hasExclusiveContent: !!currentVIPTier,
-          hasEarlyAccess: currentVIPTier?.tier_name === 'gold' || currentVIPTier?.tier_name === 'platinum',
+          hasEarlyAccess:
+            currentVIPTier?.tier_name === 'gold' || currentVIPTier?.tier_name === 'platinum',
           hasCustomFeatures: currentVIPTier?.tier_name === 'platinum',
           hasWhiteLabel: currentVIPTier?.tier_name === 'platinum',
           pointsMultiplier: usageData.loyalty.pointsMultiplier,
-          discountPercentage: usageData.loyalty.discountAvailable
-        }
-      }
+          discountPercentage: usageData.loyalty.discountAvailable,
+        },
+      },
     });
-
   } catch (error) {
     console.error('User tier status error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -189,10 +189,7 @@ export async function POST(request: NextRequest) {
     // Verify user access
     const { error: authError, user } = await verifyUserAccess(request);
     if (authError) {
-      return NextResponse.json(
-        { error: authError },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: authError }, { status: 401 });
     }
 
     const body = await request.json();
@@ -211,9 +208,15 @@ export async function POST(request: NextRequest) {
     // Validate if user can upgrade to the target tier
     let validationResult;
     if (targetTierType === 'vip') {
-      validationResult = await validationService.validateVIPTierEligibility(userId, targetTierName as VIPTier);
+      validationResult = await validationService.validateVIPTierEligibility(
+        userId,
+        targetTierName as VIPTier
+      );
     } else {
-      validationResult = await validationService.validateLoyaltyTierEligibility(userId, targetTierName as LoyaltyTier);
+      validationResult = await validationService.validateLoyaltyTierEligibility(
+        userId,
+        targetTierName as LoyaltyTier
+      );
     }
 
     if (!validationResult.isEligible) {
@@ -223,8 +226,8 @@ export async function POST(request: NextRequest) {
           canUpgrade: false,
           reason: 'User does not meet tier requirements',
           requirements: validationResult.missingRequirements,
-          progress: validationResult.progress
-        }
+          progress: validationResult.progress,
+        },
       });
     }
 
@@ -233,15 +236,11 @@ export async function POST(request: NextRequest) {
       data: {
         canUpgrade: true,
         requirements: validationResult.missingRequirements,
-        progress: validationResult.progress
-      }
+        progress: validationResult.progress,
+      },
     });
-
   } catch (error) {
     console.error('Tier upgrade check error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

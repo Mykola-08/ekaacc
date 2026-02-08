@@ -1,4 +1,3 @@
- 
 import { useState } from 'react';
 
 export function useLocalStorage<T>(
@@ -90,7 +89,7 @@ export function usePreferences() {
   });
 
   const updatePreference = (key: string, value: any) => {
-    setPreferences(prev => ({
+    setPreferences((prev) => ({
       ...prev,
       [key]: value,
     }));
@@ -98,4 +97,3 @@ export function usePreferences() {
 
   return { preferences, updatePreference, setPreferences };
 }
-

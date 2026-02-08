@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
@@ -17,7 +17,9 @@ export interface SessionTemplate {
 
 export async function getTemplates() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');
@@ -39,7 +41,9 @@ export async function getTemplates() {
 
 export async function createTemplate(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');
@@ -47,7 +51,7 @@ export async function createTemplate(formData: FormData) {
 
   const name = formData.get('name') as string;
   const contentRaw = formData.get('content') as string;
-  const type = formData.get('type') as string || 'note';
+  const type = (formData.get('type') as string) || 'note';
 
   let content = {};
   try {
@@ -57,14 +61,12 @@ export async function createTemplate(formData: FormData) {
     content = { value: contentRaw };
   }
 
-  const { error } = await supabase
-    .from('session_templates')
-    .insert({
-      therapist_id: user.id,
-      name,
-      content,
-      type
-    });
+  const { error } = await supabase.from('session_templates').insert({
+    therapist_id: user.id,
+    name,
+    content,
+    type,
+  });
 
   if (error) {
     console.error('Error creating template:', error);
@@ -76,7 +78,9 @@ export async function createTemplate(formData: FormData) {
 
 export async function updateTemplate(id: string, formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');
@@ -84,7 +88,7 @@ export async function updateTemplate(id: string, formData: FormData) {
 
   const name = formData.get('name') as string;
   const contentRaw = formData.get('content') as string;
-  
+
   let content = {};
   try {
     content = JSON.parse(contentRaw);
@@ -97,7 +101,7 @@ export async function updateTemplate(id: string, formData: FormData) {
     .update({
       name,
       content,
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     })
     .eq('id', id)
     .eq('therapist_id', user.id);
@@ -112,7 +116,9 @@ export async function updateTemplate(id: string, formData: FormData) {
 
 export async function deleteTemplate(id: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');

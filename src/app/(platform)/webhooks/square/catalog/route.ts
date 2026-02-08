@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   try {
     const bodyText = await req.text();
     const signature = req.headers.get('x-square-hmacsha1-signature');
-    
+
     // Construct the full URL for verification
     // Note: In production, this should be the actual public URL
     const url = req.url;
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     if (event.type === 'catalog.version.updated') {
       // Trigger sync
       // We don't await this to return a 200 OK quickly to Square
-      squareStripeSyncService.syncServices().catch(err => {
+      squareStripeSyncService.syncServices().catch((err) => {
         console.error('Background sync failed:', err);
       });
     }
@@ -55,4 +55,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

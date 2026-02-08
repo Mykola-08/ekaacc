@@ -6,7 +6,7 @@ import crypto from 'crypto';
 /**
  * POST /api/email/verify/send
  * Send or resend email verification
- * 
+ *
  * Body:
  * {
  *   email: string;
@@ -19,10 +19,7 @@ export async function POST(request: NextRequest) {
     const { email, userId } = body;
 
     if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
     // Get or verify user
@@ -45,17 +42,11 @@ export async function POST(request: NextRequest) {
     }
 
     if (!user) {
-      return NextResponse.json(
-        { error: 'User not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
     if (user.email_verified) {
-      return NextResponse.json(
-        { error: 'Email already verified' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Email already verified' }, { status: 400 });
     }
 
     // Generate verification token
@@ -64,14 +55,12 @@ export async function POST(request: NextRequest) {
     expiresAt.setHours(expiresAt.getHours() + 24); // 24 hour expiry
 
     // Store token in database
-    const { error: insertError } = await supabaseAdmin
-      .from('email_verification_tokens')
-      .insert({
-        user_id: user.id,
-        token,
-        expires_at: expiresAt.toISOString(),
-        email: user.email
-      });
+    const { error: insertError } = await supabaseAdmin.from('email_verification_tokens').insert({
+      user_id: user.id,
+      token,
+      expires_at: expiresAt.toISOString(),
+      email: user.email,
+    });
 
     if (insertError) {
       // If token already exists, update it
@@ -80,7 +69,7 @@ export async function POST(request: NextRequest) {
         .update({
           token,
           expires_at: expiresAt.toISOString(),
-          created_at: new Date().toISOString()
+          created_at: new Date().toISOString(),
         })
         .eq('user_id', user.id)
         .eq('email', user.email);
@@ -93,30 +82,19 @@ export async function POST(request: NextRequest) {
     // Send verification email
     const userName = user.raw_user_meta_data?.name || 'User';
 
-    const result = await sendWelcomeEmail(
-      user.email,
-      userName,
-      verifyUrl
-    );
+    const result = await sendWelcomeEmail(user.email, userName, verifyUrl);
 
     if (!result.success) {
       console.error('Failed to send verification email:', result.error);
-      return NextResponse.json(
-        { error: 'Failed to send verification email' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to send verification email' }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Verification email sent'
+      message: 'Verification email sent',
     });
   } catch (error) {
     console.error('Send verification error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

@@ -15,11 +15,7 @@ function toHeaders(input: Readonly<Record<string, string | string[] | undefined>
   return h;
 }
 
-export const onRequestError: Instrumentation.onRequestError = async (
-  error,
-  request,
-  context
-) => {
+export const onRequestError: Instrumentation.onRequestError = async (error, request, context) => {
   const normalized = error instanceof Error ? error : new Error(String(error));
   await reportErrorToSupabase(
     {
@@ -46,5 +42,3 @@ export const onRequestError: Instrumentation.onRequestError = async (
     toHeaders(request.headers)
   );
 };
-
-

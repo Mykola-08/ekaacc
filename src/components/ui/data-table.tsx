@@ -1,6 +1,6 @@
-"use client"
+'use client';
 
-import * as React from "react"
+import * as React from 'react';
 import {
   Column,
   ColumnDef,
@@ -14,23 +14,23 @@ import {
   getSortedRowModel,
   useReactTable,
   Table as ReactTable,
-} from "@tanstack/react-table"
-import { HugeiconsIcon } from "@hugeicons/react";
-import { 
-  ArrowDown01Icon, 
-  ArrowUp01Icon, 
-  Sorting05Icon, 
-  ViewOffIcon, 
-  Settings02Icon, 
-  ArrowLeft01Icon, 
-  ArrowRight01Icon, 
-  ArrowLeftDoubleIcon, 
-  ArrowRightDoubleIcon 
-} from "@hugeicons/core-free-icons";
+} from '@tanstack/react-table';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  ArrowDown01Icon,
+  ArrowUp01Icon,
+  Sorting05Icon,
+  ViewOffIcon,
+  Settings02Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  ArrowLeftDoubleIcon,
+  ArrowRightDoubleIcon,
+} from '@hugeicons/core-free-icons';
 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -39,7 +39,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   Table,
   TableBody,
@@ -47,12 +47,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from '@/components/ui/table';
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  searchKey?: string
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  searchKey?: string;
 }
 
 export function DataTable<TData, TValue>({
@@ -60,13 +60,10 @@ export function DataTable<TData, TValue>({
   data,
   searchKey,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -85,7 +82,7 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="space-y-4">
@@ -94,19 +91,15 @@ export function DataTable<TData, TValue>({
           <div className="flex items-center py-4">
             <Input
               placeholder="Search..."
-              value={
-                (table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn(searchKey)?.setFilterValue(event.target.value)
-              }
+              value={(table.getColumn(searchKey)?.getFilterValue() as string) ?? ''}
+              onChange={(event) => table.getColumn(searchKey)?.setFilterValue(event.target.value)}
               className="max-w-sm"
             />
           </div>
         )}
         <DataTableViewOptions table={table} />
       </div>
-      <div className="rounded-4xl border-none overflow-hidden">
+      <div className="overflow-hidden rounded-[20px] border-none">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -116,12 +109,9 @@ export function DataTable<TData, TValue>({
                     <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                        : flexRender(header.column.columnDef.header, header.getContext())}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -129,26 +119,17 @@ export function DataTable<TData, TValue>({
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>
@@ -158,13 +139,12 @@ export function DataTable<TData, TValue>({
       </div>
       <DataTablePagination table={table} />
     </div>
-  )
+  );
 }
 
-interface DataTableColumnHeaderProps<TData, TValue>
-  extends React.HTMLAttributes<HTMLDivElement> {
-  column: Column<TData, TValue>
-  title: string
+interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
+  column: Column<TData, TValue>;
+  title: string;
 }
 
 export function DataTableColumnHeader<TData, TValue>({
@@ -173,22 +153,18 @@ export function DataTableColumnHeader<TData, TValue>({
   className,
 }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(className)}>{title}</div>
+    return <div className={cn(className)}>{title}</div>;
   }
 
   return (
-    <div className={cn("flex items-center space-x-2", className)}>
+    <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="-ml-3 h-8 data-[state=open]:bg-accent"
-          >
+          <Button variant="ghost" size="sm" className="data-[state=open]:bg-accent -ml-3 h-8">
             <span>{title}</span>
-            {column.getIsSorted() === "desc" ? (
+            {column.getIsSorted() === 'desc' ? (
               <HugeiconsIcon icon={ArrowDown01Icon} className="ml-2 h-4 w-4" strokeWidth={2.5} />
-            ) : column.getIsSorted() === "asc" ? (
+            ) : column.getIsSorted() === 'asc' ? (
               <HugeiconsIcon icon={ArrowUp01Icon} className="ml-2 h-4 w-4" strokeWidth={2.5} />
             ) : (
               <HugeiconsIcon icon={Sorting05Icon} className="ml-2 h-4 w-4" strokeWidth={2.5} />
@@ -197,46 +173,56 @@ export function DataTableColumnHeader<TData, TValue>({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <HugeiconsIcon icon={ArrowUp01Icon} className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" strokeWidth={2.5} />
+            <HugeiconsIcon
+              icon={ArrowUp01Icon}
+              className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+              strokeWidth={2.5}
+            />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <HugeiconsIcon icon={ArrowDown01Icon} className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" strokeWidth={2.5} />
+            <HugeiconsIcon
+              icon={ArrowDown01Icon}
+              className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+              strokeWidth={2.5}
+            />
             Desc
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <HugeiconsIcon icon={ViewOffIcon} className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" strokeWidth={2.5} />
+            <HugeiconsIcon
+              icon={ViewOffIcon}
+              className="text-muted-foreground/70 mr-2 h-3.5 w-3.5"
+              strokeWidth={2.5}
+            />
             Hide
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }
 
 interface DataTablePaginationProps<TData> {
-  table: ReactTable<TData>
+  table: ReactTable<TData>;
 }
 
-export function DataTablePagination<TData>({
-  table,
-}: DataTablePaginationProps<TData>) {
+export function DataTablePagination<TData>({ table }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
+      <div className="text-muted-foreground flex-1 text-sm">
+        {table.getFilteredSelectedRowModel().rows.length} of{' '}
         {table.getFilteredRowModel().rows.length} row(s) selected.
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           {/* Use native select or just hardcode if shadcn select is missing or painful to import without checking */}
-           <select
-            className="h-8 w-17.5 rounded-xl border-none bg-secondary/50 px-2 py-1 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          <select
+            className="bg-secondary/50 ring-offset-background placeholder:text-muted-foreground focus:ring-ring h-8 w-17.5 rounded-xl border-none px-2 py-1 text-sm focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             value={`${table.getState().pagination.pageSize}`}
             onChange={(e) => {
-              table.setPageSize(Number(e.target.value))
+              table.setPageSize(Number(e.target.value));
             }}
           >
             {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -247,8 +233,7 @@ export function DataTablePagination<TData>({
           </select>
         </div>
         <div className="flex w-25 items-center justify-center text-sm font-medium">
-          Page {table.getState().pagination.pageIndex + 1} of{" "}
-          {table.getPageCount()}
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -290,24 +275,18 @@ export function DataTablePagination<TData>({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 interface DataTableViewOptionsProps<TData> {
-  table: ReactTable<TData>
+  table: ReactTable<TData>;
 }
 
-export function DataTableViewOptions<TData>({
-  table,
-}: DataTableViewOptionsProps<TData>) {
+export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-auto hidden h-8 lg:flex"
-        >
+        <Button variant="outline" size="sm" className="ml-auto hidden h-8 lg:flex">
           <HugeiconsIcon icon={Settings02Icon} className="mr-2 h-4 w-4" strokeWidth={2.5} />
           View
         </Button>
@@ -317,10 +296,7 @@ export function DataTableViewOptions<TData>({
         <DropdownMenuSeparator />
         {table
           .getAllColumns()
-          .filter(
-            (column) =>
-              typeof column.accessorFn !== "undefined" && column.getCanHide()
-          )
+          .filter((column) => typeof column.accessorFn !== 'undefined' && column.getCanHide())
           .map((column) => {
             return (
               <DropdownMenuCheckboxItem
@@ -331,10 +307,9 @@ export function DataTableViewOptions<TData>({
               >
                 {column.id}
               </DropdownMenuCheckboxItem>
-            )
+            );
           })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }
-

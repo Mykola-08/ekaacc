@@ -1,0 +1,8017 @@
+'use client';
+
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { servicesTranslations } from './TranslationExtensions';
+import { revision360Translations } from './Revision360Translations';
+import { techniqueTranslations } from './TechniqueTranslations';
+import { agenyzTranslations } from './AgenyzTranslations';
+
+import { Language, LanguageContextType } from './LanguageTypes';
+
+// Types are imported for internal use, but not re-exported to avoid HMR issues.
+// Import types directly from './LanguageTypes'.
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+
+// Keys actively used in the UI that must always resolve in every locale.
+const guaranteedTranslations: Record<Language, Record<string, string>> = {
+  ca: {
+    'adult.cta.desc': 'Comença el teu camí de benestar amb una sessió personalitzada.',
+    'adult.cta.title': 'Preparat per començar?',
+    'adult.recommended': 'Serveis recomanats',
+    'adult.recommended.desc': 'Teràpies seleccionades per a adults i benestar integral.',
+    'booking.form.close': 'Tancar formulari',
+    'common.minutes': 'min',
+    'common.notFound': 'No trobat',
+    'contact.form.emailPlaceholder': 'El teu correu electrònic',
+    'contact.form.namePlaceholder': 'El teu nom',
+    'contact.form.title': "Envia'ns un missatge",
+    'contact.hours.saturday': 'Dissabte: amb cita prèvia',
+    'contact.hours.sunday': 'Diumenge: tancat',
+    'contact.hours.title': 'Horari',
+    'contact.hours.weekdays': 'Dilluns a divendres: 09:00 - 20:00',
+    'contact.info.email': 'Correu electrònic',
+    'contact.info.location': 'Ubicació',
+    'contact.info.metro': 'Metro proper',
+    'contact.info.phone': 'Telèfon',
+    'contact.info.response': 'Resposta en menys de 24h',
+    'contact.info.subtitle': 'Estem aquí per ajudar-te',
+    'contact.info.title': 'Informació de contacte',
+    'contact.info.whatsapp': 'WhatsApp',
+    'discounts.activeBadge': 'Actiu',
+    'discounts.apply': 'Aplicar',
+    'discovery.tension.full': 'Tot el cos',
+    'discovery.tension.head': 'Cap',
+    'discovery.tension.legs': 'Cames',
+    'discovery.tension.lumbar': 'Lumbars',
+    'discovery.tension.neck': 'Coll i espatlles',
+    'discovery.tension.none': 'Sense tensió principal',
+    'elena.approach': "T'ajudo a escoltar el cos i restaurar l'equilibri natural.",
+    'footer.readyToBegin': 'Preparat per començar?',
+    'hero.badge': 'Benestar somàtic i acompanyament integratiu',
+    'hero.subtitle':
+      'Acompanyament somàtic i de benestar per millorar la mobilitat, reduir l estrès i recuperar equilibri.',
+    'hero.firstTime': 'Primera sessió de benestar',
+    'kinesiology.page.availableToday': 'Disponible avui',
+    'kinesiology.page.bookSession': 'Reserva la teva sessió',
+    'kinesiology.page.durationsTitle': 'Durades disponibles',
+    'kinesiology.page.testimonialsTitle': 'Testimonis',
+    'nutrition.hero.badge': 'Nutrició funcional',
+    'nutrition.page.availableToday': 'Disponible avui',
+    'nutrition.page.bookSession': 'Reserva la teva sessió',
+    'nutrition.page.durationsSubtitle': "Escull la durada que millor s'adapti a tu.",
+    'nutrition.page.durationsTitle': 'Durades disponibles',
+    'nutrition.page.testimonialsTitle': 'Testimonis',
+    'onboarding.userTypes.freeWoman': 'Dona lliure',
+    'recommendations.kinesiology.emotional_description':
+      'Regulació emocional per recuperar claredat i calma.',
+    'recommendations.systemic.description': 'Treball sistèmic per alliberar bloquejos profunds.',
+    'services.disclaimerBody':
+      'Aquest contingut es informatiu. Els nostres mètodes son complementaris i no substitueixen atencio medica o psicologica.',
+    'services.disclaimerPrefix': 'Avís',
+    'services.feldenkrais.title': 'Mètode Feldenkrais',
+    'services.kinesiology.shortDesc': 'Equilibra cos, ment i energia.',
+    'services.nutrition.shortDesc': 'Nutrició funcional adaptada al teu cas.',
+    'services.title': 'Sessions personalitzades de benestar',
+    'services.subtitle':
+      'Enfocament somàtic i integratiu per mobilitat, regulació de l estrès i equilibri corporal.',
+    'services.cta': 'Explorar sessions',
+    'problems.subtitle':
+      'Situacions freqüents que acompanyem amb enfocament complementari i personalitzat.',
+    'discovery.diagnosis.title': 'Valoracio personalitzada',
+    'casos.treatment': 'Com et donem suport',
+    'technique.why': 'Per què aquesta tècnica?',
+  },
+  en: {
+    'adult.cta.desc': 'Start your wellness path with a personalized session.',
+    'adult.cta.title': 'Ready to begin?',
+    'adult.recommended': 'Recommended services',
+    'adult.recommended.desc': 'Selected therapies for adults and integral wellbeing.',
+    'booking.form.close': 'Close form',
+    'common.minutes': 'min',
+    'common.notFound': 'Not found',
+    'contact.form.emailPlaceholder': 'Your email',
+    'contact.form.namePlaceholder': 'Your name',
+    'contact.form.title': 'Send us a message',
+    'contact.hours.saturday': 'Saturday: by appointment',
+    'contact.hours.sunday': 'Sunday: closed',
+    'contact.hours.title': 'Opening hours',
+    'contact.hours.weekdays': 'Monday to Friday: 09:00 - 20:00',
+    'contact.info.email': 'Email',
+    'contact.info.location': 'Location',
+    'contact.info.metro': 'Nearest metro',
+    'contact.info.phone': 'Phone',
+    'contact.info.response': 'Response in less than 24h',
+    'contact.info.subtitle': 'We are here to help',
+    'contact.info.title': 'Contact information',
+    'contact.info.whatsapp': 'WhatsApp',
+    'discounts.activeBadge': 'Active',
+    'discounts.apply': 'Apply',
+    'discovery.tension.full': 'Whole body',
+    'discovery.tension.head': 'Head',
+    'discovery.tension.legs': 'Legs',
+    'discovery.tension.lumbar': 'Lower back',
+    'discovery.tension.neck': 'Neck and shoulders',
+    'discovery.tension.none': 'No main tension',
+    'elena.approach': 'I help you listen to your body and restore natural balance.',
+    'footer.readyToBegin': 'Ready to begin?',
+    'hero.badge': 'Somatic wellness and integrative support',
+    'hero.subtitle':
+      'Personalized somatic and wellness support to improve mobility, reduce stress, and restore everyday balance.',
+    'hero.firstTime': 'First wellness session',
+    'kinesiology.page.availableToday': 'Available today',
+    'kinesiology.page.bookSession': 'Book your session',
+    'kinesiology.page.durationsTitle': 'Available durations',
+    'kinesiology.page.testimonialsTitle': 'Testimonials',
+    'nutrition.hero.badge': 'Functional nutrition',
+    'nutrition.page.availableToday': 'Available today',
+    'nutrition.page.bookSession': 'Book your session',
+    'nutrition.page.durationsSubtitle': 'Choose the duration that fits you best.',
+    'nutrition.page.durationsTitle': 'Available durations',
+    'nutrition.page.testimonialsTitle': 'Testimonials',
+    'onboarding.userTypes.freeWoman': 'Free woman',
+    'recommendations.kinesiology.emotional_description':
+      'Emotional regulation to recover clarity and calm.',
+    'recommendations.systemic.description': 'Systemic work to release deep blockages.',
+    'services.disclaimerBody':
+      'This content is informational. Our methods are complementary and do not replace medical or mental health care.',
+    'services.disclaimerPrefix': 'Disclaimer',
+    'services.feldenkrais.title': 'Feldenkrais Method',
+    'services.kinesiology.shortDesc': 'Balance body, mind, and energy.',
+    'services.nutrition.shortDesc': 'Functional nutrition tailored to your case.',
+    'services.title': 'Personalized wellness sessions',
+    'services.subtitle':
+      'Somatic and movement support for stress relief, mobility, and sustainable wellbeing.',
+    'services.cta': 'Explore sessions',
+    'problems.subtitle':
+      'Common situations we support through complementary, non-medical wellness work.',
+    'discovery.diagnosis.title': 'Personalized assessment',
+    'casos.treatment': 'How we support you',
+    'technique.why': 'Why this technique?',
+  },
+  es: {
+    'adult.cta.desc': 'Empieza tu camino de bienestar con una sesión personalizada.',
+    'adult.cta.title': '¿Lista para empezar?',
+    'adult.recommended': 'Servicios recomendados',
+    'adult.recommended.desc': 'Terapias seleccionadas para adultos y bienestar integral.',
+    'booking.form.close': 'Cerrar formulario',
+    'common.minutes': 'min',
+    'common.notFound': 'No encontrado',
+    'contact.form.emailPlaceholder': 'Tu correo electrónico',
+    'contact.form.namePlaceholder': 'Tu nombre',
+    'contact.form.title': 'Envíanos un mensaje',
+    'contact.hours.saturday': 'Sábado: con cita previa',
+    'contact.hours.sunday': 'Domingo: cerrado',
+    'contact.hours.title': 'Horario',
+    'contact.hours.weekdays': 'Lunes a viernes: 09:00 - 20:00',
+    'contact.info.email': 'Correo electrónico',
+    'contact.info.location': 'Ubicación',
+    'contact.info.metro': 'Metro cercano',
+    'contact.info.phone': 'Teléfono',
+    'contact.info.response': 'Respuesta en menos de 24h',
+    'contact.info.subtitle': 'Estamos aquí para ayudarte',
+    'contact.info.title': 'Información de contacto',
+    'contact.info.whatsapp': 'WhatsApp',
+    'discounts.activeBadge': 'Activo',
+    'discounts.apply': 'Aplicar',
+    'discovery.tension.full': 'Todo el cuerpo',
+    'discovery.tension.head': 'Cabeza',
+    'discovery.tension.legs': 'Piernas',
+    'discovery.tension.lumbar': 'Lumbares',
+    'discovery.tension.neck': 'Cuello y hombros',
+    'discovery.tension.none': 'Sin tensión principal',
+    'elena.approach': 'Te ayudo a escuchar tu cuerpo y restaurar el equilibrio natural.',
+    'footer.readyToBegin': '¿Lista para empezar?',
+    'hero.badge': 'Bienestar somático y acompañamiento integrativo',
+    'hero.subtitle':
+      'Acompañamiento somático y de bienestar para mejorar movilidad, regular el estrés y recuperar equilibrio diario.',
+    'hero.firstTime': 'Primera sesión de bienestar',
+    'kinesiology.page.availableToday': 'Disponible hoy',
+    'kinesiology.page.bookSession': 'Reserva tu sesión',
+    'kinesiology.page.durationsTitle': 'Duraciones disponibles',
+    'kinesiology.page.testimonialsTitle': 'Testimonios',
+    'nutrition.hero.badge': 'Nutrición funcional',
+    'nutrition.page.availableToday': 'Disponible hoy',
+    'nutrition.page.bookSession': 'Reserva tu sesión',
+    'nutrition.page.durationsSubtitle': 'Elige la duración que mejor se adapte a ti.',
+    'nutrition.page.durationsTitle': 'Duraciones disponibles',
+    'nutrition.page.testimonialsTitle': 'Testimonios',
+    'onboarding.userTypes.freeWoman': 'Mujer libre',
+    'recommendations.kinesiology.emotional_description':
+      'Regulación emocional para recuperar claridad y calma.',
+    'recommendations.systemic.description': 'Trabajo sistémico para liberar bloqueos profundos.',
+    'services.disclaimerBody':
+      'Este contenido es informativo. Nuestros metodos son complementarios y no sustituyen la atencion medica o psicologica.',
+    'services.disclaimerPrefix': 'Aviso',
+    'services.feldenkrais.title': 'Método Feldenkrais',
+    'services.kinesiology.shortDesc': 'Equilibra cuerpo, mente y energía.',
+    'services.nutrition.shortDesc': 'Nutrición funcional adaptada a tu caso.',
+    'services.title': 'Sesiones personalizadas de bienestar',
+    'services.subtitle':
+      'Enfoque somático e integrativo para movilidad, regulación del estrés y equilibrio corporal.',
+    'services.cta': 'Explorar sesiones',
+    'problems.subtitle':
+      'Situaciones frecuentes que acompañamos con enfoque complementario y personalizado.',
+    'discovery.diagnosis.title': 'Valoracion personalizada',
+    'casos.treatment': 'Como te acompañamos',
+    'technique.why': '¿Por qué esta técnica?',
+  },
+  ru: {
+    'adult.cta.desc':
+      'ÐÐ°Ñ‡Ð½Ð¸Ñ‚Ðµ Ð¿ÑƒÑ‚ÑŒ Ðº Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ Ñ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ ÑÐµÑÑÐ¸Ð¸.',
+    'adult.cta.title': 'Готовы начать?',
+    'adult.recommended': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'adult.recommended.desc':
+      'ÐŸÐ¾Ð´Ð¾Ð±Ñ€Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ Ð²Ð·Ñ€Ð¾ÑÐ»Ñ‹Ñ… Ð¸ ÐºÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð¾Ð³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ.',
+    'booking.form.close': 'Закрыть форму',
+    'common.minutes': 'мин',
+    'common.notFound': 'Не найдено',
+    'contact.form.emailPlaceholder': 'Ваш email',
+    'contact.form.namePlaceholder': 'Ð’Ð°ÑˆÐµ Ð¸Ð¼Ñ',
+    'contact.form.title': 'ÐžÑ‚Ð¿Ñ€Ð°Ð²ÑŒÑ‚Ðµ Ð½Ð°Ð¼ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ',
+    'contact.hours.saturday': 'Ð¡ÑƒÐ±Ð±Ð¾Ñ‚Ð°: Ð¿Ð¾ Ð·Ð°Ð¿Ð¸ÑÐ¸',
+    'contact.hours.sunday': 'Ð’Ð¾ÑÐºÑ€ÐµÑÐµÐ½ÑŒÐµ: Ð²Ñ‹Ñ…Ð¾Ð´Ð½Ð¾Ð¹',
+    'contact.hours.title': 'Ð§Ð°ÑÑ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹',
+    'contact.hours.weekdays': 'ÐŸÐ¾Ð½ÐµÐ´ÐµÐ»ÑŒÐ½Ð¸Ðº - ÐŸÑÑ‚Ð½Ð¸Ñ†Ð°: 09:00 - 20:00',
+    'contact.info.email': 'Email',
+    'contact.info.location': 'Ð›Ð¾ÐºÐ°Ñ†Ð¸Ñ',
+    'contact.info.metro': 'Ближайшее метро',
+    'contact.info.phone': 'Телефон',
+    'contact.info.response': 'ÐžÑ‚Ð²ÐµÑ‚ Ð² Ñ‚ÐµÑ‡ÐµÐ½Ð¸Ðµ 24 Ñ‡Ð°ÑÐ¾Ð²',
+    'contact.info.subtitle': 'ÐœÑ‹ Ð·Ð´ÐµÑÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ',
+    'contact.info.title': 'ÐšÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ð½Ð°Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ',
+    'contact.info.whatsapp': 'WhatsApp',
+    'discounts.activeBadge': 'ÐÐºÑ‚Ð¸Ð²Ð½Ð¾',
+    'discounts.apply': 'Применить',
+    'discovery.tension.full': 'Ð’ÑÐµ Ñ‚ÐµÐ»Ð¾',
+    'discovery.tension.head': 'Голова',
+    'discovery.tension.legs': 'Ноги',
+    'discovery.tension.lumbar': 'ÐŸÐ¾ÑÑÐ½Ð¸Ñ†Ð°',
+    'discovery.tension.neck': 'Ð¨ÐµÑ Ð¸ Ð¿Ð»ÐµÑ‡Ð¸',
+    'discovery.tension.none': 'Ð‘ÐµÐ· Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð¹ Ð·Ð¾Ð½Ñ‹ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'elena.approach':
+      'Ð¯ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÑŽ Ð²Ð°Ð¼ ÑÐ»Ñ‹ÑˆÐ°Ñ‚ÑŒ Ñ‚ÐµÐ»Ð¾ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°Ñ‚ÑŒ ÐµÑÑ‚ÐµÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ.',
+    'footer.readyToBegin': 'Готовы начать?',
+    'hero.badge': 'Somatic wellness and integrative support',
+    'hero.subtitle':
+      'Complementary somatic support for stress relief, mobility, and everyday wellbeing.',
+    'hero.firstTime': 'First wellness session',
+    'kinesiology.page.availableToday': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ ÑÐµÐ³Ð¾Ð´Ð½Ñ',
+    'kinesiology.page.bookSession': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ',
+    'kinesiology.page.durationsTitle': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð°Ñ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'kinesiology.page.testimonialsTitle': 'Отзывы',
+    'nutrition.hero.badge': 'Функциональное питание',
+    'nutrition.page.availableToday': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ ÑÐµÐ³Ð¾Ð´Ð½Ñ',
+    'nutrition.page.bookSession': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ',
+    'nutrition.page.durationsSubtitle':
+      'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð¿Ð¾Ð´Ñ…Ð¾Ð´Ð¸Ñ‚ Ð²Ð°Ð¼ Ð»ÑƒÑ‡ÑˆÐµ Ð²ÑÐµÐ³Ð¾.',
+    'nutrition.page.durationsTitle': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð°Ñ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'nutrition.page.testimonialsTitle': 'Отзывы',
+    'onboarding.userTypes.freeWoman': 'Ð¡Ð²Ð¾Ð±Ð¾Ð´Ð½Ð°Ñ Ð¶ÐµÐ½Ñ‰Ð¸Ð½Ð°',
+    'recommendations.kinesiology.emotional_description':
+      'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð´Ð»Ñ ÑÑÐ½Ð¾ÑÑ‚Ð¸ Ð¸ Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½ÐµÐ³Ð¾ ÑÐ¿Ð¾ÐºÐ¾Ð¹ÑÑ‚Ð²Ð¸Ñ.',
+    'recommendations.systemic.description':
+      'Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ð°Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ð´Ð»Ñ ÑÐ½ÑÑ‚Ð¸Ñ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¸Ñ… Ð±Ð»Ð¾ÐºÐ¾Ð².',
+    'services.disclaimerBody':
+      'This content is informational. Our methods are complementary and do not replace medical or mental health care.',
+    'services.disclaimerPrefix': 'Важно',
+    'services.feldenkrais.title': 'Метод Фельденкрайза',
+    'services.kinesiology.shortDesc': 'Ð‘Ð°Ð»Ð°Ð½Ñ Ñ‚ÐµÐ»Ð°, ÑƒÐ¼Ð° Ð¸ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸.',
+    'services.nutrition.shortDesc':
+      'Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ Ð¿Ð¾Ð´ Ð²Ð°Ñˆ Ð·Ð°Ð¿Ñ€Ð¾Ñ.',
+    'services.title': 'Personalized wellness sessions',
+    'services.subtitle':
+      'Complementary somatic and movement support for stress regulation and body balance.',
+    'services.cta': 'Explore sessions',
+    'problems.subtitle': 'Common situations we support through complementary wellness work.',
+    'discovery.diagnosis.title': 'Personalized assessment',
+    'casos.treatment': 'How we support you',
+    'technique.why': 'ÐŸÐ¾Ñ‡ÐµÐ¼Ñƒ ÑÑ‚Ð° Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ°?',
+  },
+};
+
+// Translation files
+const translations: Record<Language, Record<string, string>> = {
+  ca: {
+    // Navigation
+    'nav.home': 'Inici',
+    'nav.services': 'Serveis',
+    'nav.personalizedServices': 'Serveis personalitzats',
+    'nav.revision360': 'Revisió 360°',
+    'nav.vip': 'VIP',
+    'nav.bookNow': 'Reservar cita',
+    'nav.contact': 'Contacte',
+    'nav.aboutElena': 'Sobre Elena',
+    'nav.casos': 'Casos reals',
+
+    // Elena Section (Profile)
+    'elena.greeting': "Hola, sóc l'Elena",
+    'elena.name': 'Elena Kucherova',
+    'elena.role': 'Especialista en integració somàtica i kinesiologia',
+    'elena.bio':
+      'La meva passió és ajudar les persones a recuperar la seva vitalitat natural a través de la connexió profunda amb el seu cos.',
+    'elena.quote':
+      'El cos té la capacitat innata de sanar-se; la meva feina és recordar-li com fer-ho.',
+    'elena.description1':
+      'Explora un enfocament únic que uneix la ciència moderna amb la saviesa somàtica ancestral.',
+    'elena.description2':
+      "Junts, crearem un camí personalitzat per alliberar tensions, restaurar l'equilibri i despertar el teu potencial de sanació.",
+    'elena.knowMore': 'Més sobre mi',
+
+    // Elena Approach & Targets
+    'elena.approach.title': 'El mètode Elena Kucherova',
+    'elena.approach.desc':
+      "Al nucli del meu treball hi ha una profunda comprensió que el cos, el cervell i les emocions són un sistema unificat. No tracto símptomes, sinó que busco la seva causa arrel, ajudant l'organisme a restaurar la seva capacitat natural d'autoregulació. El meu mètode combina tècniques avançades de treball amb el cos i el sistema nerviós: Movement Lesson, JKA (Jeremy Krauss Approach), Child’Space, Feldenkrais i Biodinàmica. És una influència suau però poderosa que reentrena el sistema nerviós, allibera tensions profundes i restaura la facilitat de moviment i la claredat mental.",
+
+    'elena.target.adults.title': 'Adults',
+    'elena.target.adults.desc':
+      "Per a aquells que senten fatiga crònica, mal d'esquena o coll, o els efectes de l'estrès i el trauma. T'ajudo a restaurar el teu estat de recursos, millorar la postura, alliberar bloquejos psicosomàtics i recuperar la lleugeresa en moure't. No és només un massatge o una teràpia; és un reinici del teu sistema nerviós per elevar la teva qualitat de vida.",
+
+    'elena.target.children.title': 'Nens',
+    'elena.target.children.desc':
+      "Suport per a un desenvolupament harmoniós des dels primers dies. Treballo amb retards motors, alteracions posturals, hiperactivitat i dificultats d'aprenentatge. Mitjançant tècniques suaus, ajudo l'infant a sentir millor el seu cos, desenvolupant coordinació, seguretat i confiança en si mateix.",
+
+    'elena.target.families.title': 'Famílies amb necessitats especials',
+    'elena.target.families.desc':
+      "Acompanyament integral per a famílies amb nens amb pc, síndromes genètics o altres necessitats del desenvolupament. Treballo no només amb l'infant perquè adquireixi noves habilitats de moviment i comunicació, sinó també amb els pares, ensenyant-vos a interactuar amb ell i a cuidar la vostra pròpia energia i benestar.",
+
+    // Dropdown items
+    'nav.officeWorkers': "Professionals d'oficina",
+    'nav.athletes': 'Esportistes',
+    'nav.artists': 'Artistes',
+    'nav.musicians': 'Músics',
+    'nav.students': 'Estudiants',
+
+    // Hero Section
+    'hero.title': 'EKA Balance',
+    'home.founder': 'Fundadora i CEO',
+    'home.elenaAlt': "Elena, terapeuta corporal d'EKA Balance",
+    'home.viewAllServices': 'Veure tots els serveis',
+    'home.elenaName': 'Elena Kucherova',
+    'hero.title.part1': 'Restaura la teva',
+    'hero.title.part2': 'vitalitat sistèmica',
+    'hero.subtitle':
+      'Restaura la teva vitalitat sistèmica. Centre de referència en teràpies somàtiques i regulació del sistema nerviós a Barcelona. Integració clínica i benestar profund.',
+    'hero.cta.primary': 'Reserva la teva sessió',
+    'hero.cta.secondary': 'Descobreix el teu camí',
+    'hero.badge': 'Excel·lència en salut integrativa',
+    'hero.stats.clients': 'Clients satisfets',
+    'hero.stats.experience': "Anys d'experiència",
+    'hero.stats.rating': 'Valoració 5 estrelles',
+
+    // About Section
+    'about.badge': 'La meva trajectòria',
+    'about.title': 'Elena Kucherova',
+    'about.role': 'Especialista en integració somàtica i kinesiologia',
+    'about.description1':
+      'Amb més de 15 anys de pràctica clínica, he perfeccionat un mètode que va més enllà del tractament convencional. La meva missió és descodificar el llenguatge del teu cos per desbloquejar la seva capacitat innata de regeneració.',
+    'about.description2':
+      "Fusiono la precisió de la neurociència aplicada amb la profunditat de les teràpies manuals. Cada sessió és una intervenció estratègica en el teu sistema nerviós per desactivar patrons de dolor i restaurar l'equilibri vital.",
+    'about.cta': 'Descobreix el mètode',
+
+    // Services Section
+    'services.badge': 'Excel·lència terapèutica',
+    'services.title': "Intervencions d'alt impacte",
+    'services.subtitle':
+      'Protocols avançats que integren manipulació estructural, reequilibri neurològic i optimització metabòlica.',
+    'services.cta': 'Explorar protocols',
+
+    // Service: Massage
+    'massage.title': 'Teràpia manual avançada',
+    'massage.desc':
+      "Reconstrucció de l'arquitectura corporal. Fusió de tècniques de teixit profund i alliberament miofascial per eliminar restriccions cròniques i recuperar la llibertat de moviment.",
+    'massage.benefit1': 'Descompressió estructural',
+    'massage.benefit2': 'Realineament postural',
+    'massage.benefit3': 'Regulació del sistema nerviós',
+    'massage.benefit4': 'Regeneració tissular',
+
+    // Service: Kinesiology
+    'kinesiology.title': 'Kinesiologia clínica',
+    'kinesiology.desc':
+      'Biofeedback de precisió. Utilitzem el test muscular neurològic per descodificar i corregir disfuncions estructurals, bioquímiques i emocionals en el seu origen.',
+    'kinesiology.benefit1': 'Diagnòstic causal',
+    'kinesiology.benefit2': 'Optimització neurològica',
+    'kinesiology.benefit3': 'Integració estructural',
+    'kinesiology.benefit4': 'Estabilitat sistèmica',
+
+    // Service: Nutrition
+    'nutrition.title': 'Nutrició funcional',
+    'nutrition.desc':
+      "Bioquímica per al rendiment. Estratègies nutricionals dissenyades per potenciar la funció cognitiva, l'estabilitat hormonal i la vitalitat cel·lular.",
+    'nutrition.benefit1': 'Optimització metabòlica',
+    'nutrition.benefit2': 'Salut de la microbiota',
+    'nutrition.benefit3': 'Rendiment cognitiu',
+    'nutrition.benefit4': 'Regulació hormonal',
+
+    // Problems / Casos Section
+    'problems.badge': 'Diagnòstic i resolució',
+    'problems.title': 'Identificació de patologies',
+    'problems.subtitle':
+      "Abordatge clínic de les disfuncions més comunes mitjançant protocols d'integració somàtica.",
+
+    // Problem: Back Pain
+    'problems.backpain.title': 'Disfunció vertebral crònica',
+    'problems.backpain.desc':
+      'Compromís estructural persistent que limita la funcionalitat i el descans.',
+    'problems.backpain.solution': 'Protocol clínic',
+    'problems.backpain.solutionDesc':
+      "Descompressió axial i reeducació neuromuscular per a l'estabilitat a llarg termini.",
+
+    // Problem: Stress
+    'problems.stress.title': 'Desregulació del sistema nerviós',
+    'problems.stress.desc':
+      'Hiperactivació simpàtica, ansietat sistèmica i alteració del cicle de son.',
+    'problems.stress.solution': 'Protocol clínic',
+    'problems.stress.solutionDesc': "Restauració del to vagal i modulació de la resposta d'estrès.",
+
+    // Problem: Fatigue
+    'problems.fatigue.title': 'Esgotament sistèmic',
+    'problems.fatigue.desc': 'Dèficit energètic crònic i recuperació metabòlica ineficient.',
+    'problems.fatigue.solution': 'Protocol clínic',
+    'problems.fatigue.solutionDesc': 'Reactivació mitocondrial i desbloqueig de vies metabòliques.',
+
+    // Problem: Injuries
+    'problems.injuries.title': 'Traumatologia esportiva',
+    'problems.injuries.desc': 'Limitacions biomecàniques que comprometen el rendiment atlètic.',
+    'problems.injuries.solution': 'Protocol clínic',
+
+    'problems.injuries.solutionDesc':
+      'Rehabilitació funcional accelerada i prevenció de recaigudes.',
+
+    // Casos Problems Details
+    // Back Pain
+    'casos.problems.backPain.symptom1':
+      'Dolor punxant, rigidesa o tensió constant a la zona lumbar, dorsal o cervical.',
+    'casos.problems.backPain.symptom2':
+      'Limitació de moviment: dificultat per girar el coll, ajupir-se o aixecar els braços.',
+    'casos.problems.backPain.symptom3':
+      "Fatiga postural: cansament intens després d'estar assegut o dret durant períodes prolongats.",
+    'casos.problems.backPain.symptom4':
+      'Sensació de càrrega o pesadesa a les espatlles, trapezi i base del crani.',
+    'casos.problems.backPain.cause1':
+      'Postures mantingudes, ergonomia deficient i hàbits posturals compensatoris.',
+    'casos.problems.backPain.cause2':
+      'Càrrega emocional somatitzada (estrès, ansietat) que es manifesta com a tensió muscular.',
+    'casos.problems.backPain.cause3': 'Sedentarisme i falta de to muscular o mobilitat articular.',
+    'casos.problems.backPain.cause4':
+      'Patrons respiratoris restringits que bloquegen el moviment natural de la columna.',
+    'casos.problems.backPain.treatment':
+      "Abordatge integral: massatge terapèutic profund, alliberament miofascial, kinesiologia per identificar l'origen (estructural, químic o emocional) i reeducació postural (Mètode Feldenkrais).",
+    'casos.problems.backPain.results':
+      "Alleujament immediat del dolor i la tensió. Recuperació de la mobilitat i l'agilitat. A llarg termini, una esquena més forta, flexible i lliure de dolor recurrent.",
+
+    // Stress
+    'casos.problems.stress.symptom1':
+      'Soroll mental constant: dificultat per aturar els pensaments i desconnectar.',
+    'casos.problems.stress.symptom2':
+      "Incapacitat per relaxar-se, sensació d'alerta permanent o dificultat per agafar el son.",
+    'casos.problems.stress.symptom3':
+      'Símptomes físics: bruxisme, tensió cervical, opressió al pit o fatiga matinal.',
+    'casos.problems.stress.symptom4':
+      "Labilitat emocional: irritabilitat, ansietat o canvis d'humor sobtats.",
+    'casos.problems.stress.cause1':
+      'Sobrecàrrega de responsabilitats, pressió laboral o familiar i falta de límits.',
+    'casos.problems.stress.cause2':
+      'Desconnexió de les pròpies necessitats i manca de temps de qualitat per a un mateix.',
+    'casos.problems.stress.cause3':
+      'Traumes no processats o situacions vitals difícils que mantenen el sistema en alerta.',
+    'casos.problems.stress.cause4':
+      'Desregulació del sistema nerviós autònom (simpaticotonia crònica).',
+    'casos.problems.stress.treatment':
+      'Regulació del sistema nerviós: kinesiologia emocional, tècniques vagals, treball corporal suau (Feldenkrais) i respiració conscient per restablir la calma interna.',
+    'casos.problems.stress.results':
+      "Recuperació de la pau mental i l'equilibri emocional. Millora de la qualitat del son i la capacitat de gestió de l'estrès. Sensació de control i benestar profund.",
+
+    // Digestive
+    'casos.problems.digestive.symptom1':
+      'Malestar digestiu: inflor, gasos, acidesa, reflux o pesadesa després dels àpats.',
+    'casos.problems.digestive.symptom2':
+      "Somnolència, boira mental o falta d'energia després de menjar.",
+    'casos.problems.digestive.symptom3':
+      'Irregularitat intestinal (restrenyiment o descomposició) i molèsties abdominals.',
+    'casos.problems.digestive.symptom4':
+      "Relació conflictiva amb el menjar o sospita d'intoleràncies.",
+    'casos.problems.digestive.cause1':
+      'Intoleràncies o sensibilitats alimentàries no diagnosticades.',
+    'casos.problems.digestive.cause2':
+      'Hàbits alimentaris inadequats: menjar ràpid, amb estrès o a deshores.',
+    'casos.problems.digestive.cause3':
+      "Eix intestí-cervell: l'estrès emocional impactant directament en la funció digestiva.",
+    'casos.problems.digestive.cause4':
+      'Disfuncions viscerals mecàniques o desequilibris de la microbiota.',
+    'casos.problems.digestive.treatment':
+      "Kinesiologia nutricional per testar aliments, massatge visceral per millorar la motilitat i pautes d'alimentació conscient i personalitzada.",
+    'casos.problems.digestive.results':
+      "Digestions lleugeres i sense molèsties. Desaparició de la inflor i recuperació de l'energia vital. Una relació sana i plaent amb l'alimentació.",
+
+    // Migraines
+    'casos.problems.migraines.symptom1':
+      'Dolor pulsàtil intens, sovint unilateral, que pot afectar la visió.',
+    'casos.problems.migraines.symptom2': 'Sensació de pressió al cap,"casc" o tensió ocular.',
+    'casos.problems.migraines.symptom3': 'Símptomes associats: nàusees, vòmits o inestabilitat.',
+    'casos.problems.migraines.symptom4':
+      'Hipersensibilitat sensorial: molèstia a la llum (fotofòbia) o als sorolls (fonofòbia).',
+    'casos.problems.migraines.cause1':
+      'Tensió cervical crònica i bloquejos a la base del crani (suboccipitals).',
+    'casos.problems.migraines.cause2':
+      "Disfunció de l'ATM (bruxisme) que irradia dolor cap al cap.",
+    'casos.problems.migraines.cause3':
+      'Sobrecàrrega mental, estrès visual o falta de descans real.',
+    'casos.problems.migraines.cause4':
+      'Factors metabòlics: desequilibris hormonals, histamina o toxicitat hepàtica.',
+    'casos.problems.migraines.treatment':
+      'Teràpia manual cranial (Osteobalance), alliberament de la tensió cervical i mandibular, i regulació del sistema nerviós i hormonal amb kinesiologia.',
+    'casos.problems.migraines.results':
+      'Reducció dràstica de la freqüència i intensitat de les crisis. En molts casos, desaparició total del dolor. Major claredat mental i benestar.',
+
+    // Low Energy
+    'casos.problems.lowEnergy.symptom1':
+      'Esgotament profund que no millora amb el descans (fatiga crònica).',
+    'casos.problems.lowEnergy.symptom2':
+      'Dificultat per concentrar-se, pèrdua de memòria o"boira mental".',
+    'casos.problems.lowEnergy.symptom3': 'Apatia, falta de motivació o sensació de buit.',
+    'casos.problems.lowEnergy.symptom4': 'Sensació de feblesa física o de"no poder amb tot".',
+    'casos.problems.lowEnergy.cause1':
+      'Burnout o estrès sostingut que ha esgotat les reserves del cos.',
+    'casos.problems.lowEnergy.cause2':
+      'Desequilibris nutricionals (dèficits de vitamines/minerals) o metabòlics.',
+    'casos.problems.lowEnergy.cause3': "Disfunció de l'eix hormonal (fatiga adrenal, tiroides).",
+    'casos.problems.lowEnergy.cause4':
+      "Bloquejos emocionals o falta de propòsit vital que drenen l'energia.",
+    'casos.problems.lowEnergy.treatment':
+      "Revitalització integral: kinesiologia per detectar fugues d'energia, suport nutricional, i treball corporal per reactivar el flux vital.",
+    'casos.problems.lowEnergy.results':
+      "Recuperació de la vitalitat i l'entusiasme. Ment clara i desperta. Capacitat per afrontar el dia a dia amb energia i alegria.",
+
+    // Discovery New Keys
+    'discovery.step.description.minChars': 'caràcters mínim',
+    'discovery.recommendation.online.note':
+      "Nota: Com que has seleccionat Online, aquest servei s'adapta per a sessions remotes.",
+
+    // Sleep
+    'casos.problems.sleep.symptom1':
+      'Insomni de conciliació: donar voltes al llit sense poder adormir-se.',
+    'casos.problems.sleep.symptom2': "Despertars nocturns freqüents o despertar-se massa d'hora.",
+    'casos.problems.sleep.symptom3':
+      'Son no reparador: despertar-se cansat, amb tensió o mal de cap.',
+    'casos.problems.sleep.symptom4':
+      "Activitat mental incessant o ansietat al moment d'anar a dormir.",
+    'casos.problems.sleep.cause1':
+      "Hiperactivació del sistema nerviós (estat d'alerta) que impedeix el descans.",
+    'casos.problems.sleep.cause2': 'Desregulació dels ritmes circadians (horaris, llum blava).',
+    'casos.problems.sleep.cause3': 'Hàbits de son inadequats o entorn poc propici.',
+    'casos.problems.sleep.cause4':
+      'Causes orgàniques: digestions pesades, dolor crònic o desequilibris hormonals.',
+    'casos.problems.sleep.treatment':
+      "Reeducació del son: tècniques de relaxació profunda, regulació del sistema nerviós (vagal), i pautes d'higiene del son personalitzades.",
+    'casos.problems.sleep.results':
+      "Son profund, continu i reparador. Despertar-se amb energia i sensació de descans real. Millora de l'estat d'ànim i la salut global.",
+
+    // Recovery
+    'casos.problems.recovery.symptom1':
+      'Dolor persistent o molèsties en una zona lesionada antigament.',
+    'casos.problems.recovery.symptom2':
+      'Limitació de mobilitat, rigidesa o sensació de fragilitat.',
+    'casos.problems.recovery.symptom3': 'Por a fer certs moviments o a recaure (kinesiofòbia).',
+    'casos.problems.recovery.symptom4':
+      'Compensacions posturals que generen dolor en altres zones.',
+    'casos.problems.recovery.cause1':
+      'Teixit cicatricial (adherències) que limita el moviment i atrapa nervis.',
+    'casos.problems.recovery.cause2':
+      'Patrons de moviment alterats per protegir la lesió (compensacions).',
+    'casos.problems.recovery.cause3':
+      'Trauma cel·lular o memòria del dolor que manté la zona en alerta.',
+    'casos.problems.recovery.cause4': 'Rehabilitació incompleta o precipitada.',
+    'casos.problems.recovery.treatment':
+      'Recuperació funcional: tractament de cicatrius, reeducació del moviment (Feldenkrais), i treball emocional per alliberar la memòria del trauma.',
+    'casos.problems.recovery.results':
+      "Recuperació total de la funcionalitat i la confiança en el cos. Moviment lliure, fluid i sense dolor. Retorn a l'activitat normal amb seguretat.",
+
+    // Contact Form
+    'contact.success.title': 'Missatge enviat correctament!',
+    'contact.success.message':
+      'Gràcies per contactar amb nosaltres. Ens posarem en contacte amb tu molt aviat.',
+    'contact.success.button': 'Enviar un altre missatge',
+    'contact.title': 'Parla amb nosaltres',
+    'contact.subtitle':
+      'Estem aquí per ajudar-te en el teu camí cap al benestar. Contacta amb nosaltres i descobreix com podem millorar la teva qualitat de vida.',
+    'contact.phone.title': 'Telèfon i WhatsApp',
+    'contact.phone.subtitle': 'WhatsApp disponible 24/7',
+    'contact.email.title': 'Email',
+    'contact.email.subtitle': 'Resposta en menys de 24h',
+    'contact.location.title': 'Ubicació',
+    'contact.location.address': 'Carrer pelai, 12\n08001 Barcelona',
+    'contact.location.subtitle': 'Metro: l1 i l2 (universitat)',
+    'contact.form.name': 'Nom complet',
+    'contact.form.email': 'Correu electrònic',
+    'contact.form.phone': 'Telèfon',
+    'contact.form.service': "Servei d'interès",
+    'contact.form.service.placeholder': 'Selecciona un servei',
+    'contact.form.time': 'Horari preferent',
+    'contact.form.time.placeholder': 'Selecciona un horari',
+    'contact.form.message': 'Missatge',
+    'contact.form.message.placeholder': "Explica'ns breument què necessites...",
+    'contact.form.preferred': 'Mètode de contacte preferit',
+    'contact.form.submit': 'Enviar missatge',
+    'contact.form.submitting': 'Enviant...',
+    'contact.form.privacy': 'Accepto la política de privacitat',
+    'contact.form.source': 'Com ens has conegut?',
+    'contact.form.source.placeholder': 'Selecciona una opció',
+    'contact.form.source.google': 'Google',
+    'contact.form.source.social': 'Xarxes socials',
+    'contact.form.source.friend': "Recomanació d'un amic",
+    'contact.form.source.other': 'Altres',
+    'contact.quick.title': "O contacta'ns directament:",
+    'contact.quick.call': 'Trucar ara',
+    'contact.error': 'Hi ha hagut un error al enviar el missatge. Si us plau, torna-ho a intentar.',
+
+    // Contact Form Options
+    'contact.service.massageBasic': 'Massatge bàsic (1h)',
+    'contact.service.massageComplete': 'Massatge complet (1,5h)',
+    'contact.service.massagePremium': 'Massatge premium (2h)',
+    'contact.service.kinesiology': 'Kinesiologia holística',
+    'contact.service.nutrition': 'Nutrició conscient',
+    'contact.service.revision360': 'Revisió 360°',
+    'contact.service.vip': 'Plans VIP',
+    'contact.service.other': 'Altres consultes',
+
+    'contact.time.morning': 'Matí (9:00 - 12:00)',
+    'contact.time.noon': 'Migdia (12:00 - 15:00)',
+    'contact.time.afternoon': 'Tarda (15:00 - 18:00)',
+    'contact.time.evening': 'Vespre (18:00 - 21:00)',
+    'contact.time.any': 'Sense preferència',
+
+    // Symptoms, causes, treatment, results labels
+    'casos.symptoms': 'Símptomes',
+    'casos.causes': 'Causes',
+    'casos.treatment': "Com t'ajudem",
+    'casos.results': 'Resultats',
+
+    // Additional problems list
+    'casos.additionalProblems.bruxism': 'Bruxisme i tensió mandibular',
+    'casos.additionalProblems.tmj': "Dolor d'ATM (articulació temporomandibular)",
+    'casos.additionalProblems.sciatica': 'Ciàtica i dolor de cames',
+    'casos.additionalProblems.shoulderPain': "Dolor d'espatlles i rigidesa",
+    'casos.additionalProblems.dizziness': 'Marejos i vèrtigos',
+    'casos.additionalProblems.irritability': 'Irritabilitat constant',
+    'casos.additionalProblems.intestinalProblems': 'Problemes intestinals',
+    'casos.additionalProblems.chronicFatigue': 'Fatiga crònica',
+    'casos.additionalProblems.socialAnxiety': 'Ansietat social',
+    'casos.additionalProblems.concentrationDifficulty': 'Dificultat per concentrar-se',
+    'casos.additionalProblems.headaches': 'Mals de cap i migranyes',
+    'casos.additionalProblems.insomnia': 'Insomni i trastorns del son',
+    'casos.additionalProblems.posture': 'Problemes posturals',
+    'casos.additionalProblems.contractures': 'Contractures musculars',
+    'casos.additionalProblems.emotionalBlock': 'Bloquejos emocionals',
+    'casos.additionalProblems.rsi': 'Lesions per esforç repetitiu',
+    'casos.additionalProblems.carpalTunnel': 'Síndrome del túnel carpià',
+    'casos.additionalProblems.plantarFasciitis': 'Fascitis plantar',
+
+    // Testimonials
+    'testimonials.title': 'Testimonis dels nostres clients',
+    'testimonials.subtitle':
+      'Descobreix les experiències reals de persones que han transformat les seves vides',
+    'testimonials.all': 'Tots',
+    'testimonials.hide': 'Ocultar',
+    'testimonials.show': 'Veure',
+    'testimonials.beforeAfter': 'Abans/després',
+    'testimonials.before': 'Abans',
+    'testimonials.after': 'Després',
+    'testimonials.also': 'També a:',
+    'testimonials.with': 'Amb',
+    'testimonials.ratings': 'Valoracions',
+    'testimonials.externalReviews': 'Pots llegir més valoracions a les nostres pàgines externes',
+    'testimonials.photo': 'Foto de',
+    'testimonials.satisfiedClient': 'Client satisfet',
+    'testimonials.sliderTitle': 'Testimonis que parlen per si sols',
+    'testimonials.sliderSubtitle':
+      'Descobreix com hem ajudat als nostres clients a assolir el seu benestar',
+
+    // Offline
+    'offline.message': 'Sense connexió a internet',
+
+    // Discounts page
+    'discounts.pageTitle': 'Descomptes - EKA Balance',
+    'discounts.pageDescription':
+      'Descobreix els nostres descomptes especials per a serveis de benestar i teràpies',
+    'discounts.badge': 'Ofertes especials',
+    'discounts.title': 'Descomptes especials',
+    'discounts.subtitle':
+      'Gaudeix de preus reduïts en els nostres serveis de benestar amb els nostres descomptes exclusius',
+    'discounts.availableTitle': 'Descomptes disponibles',
+    'discounts.availableSubtitle':
+      'Aprofita aquestes ofertes especials per començar el teu camí cap al benestar',
+
+    // SEO
+    'seo.home.title':
+      'EKA Balance - centre de teràpies holístiques a Barcelona | massatge & kinesiologia',
+    'seo.home.description':
+      'Descobreix el benestar integral a EKA Balance. Especialistes en massatge terapèutic, kinesiologia i Osteobalance a Barcelona. Reserves per WhatsApp/Telegram 658867133.',
+    'seo.home.keywords':
+      'Massatge terapèutic Barcelona, kinesiologia Barcelona, Osteobalance, centre teràpies holístiques, benestar integral, relaxació Barcelona, plaça universitat',
+    'seo.contact.title': 'Contacte - EKA Balance | centre de teràpies holístiques a Barcelona',
+    'seo.contact.description':
+      'Contacta amb EKA Balance per reserves i consultes. Centres a Barcelona i Rubí. Telefon 658 867 133, email contact@ekabalance.Com',
+    'seo.contact.keywords':
+      'Contacte EKA Balance, reserves massatge Barcelona, teràpies holístiques Rubí, centre benestar Barcelona',
+    'seo.services.title': 'Serveis de teràpies holístiques a Barcelona | EKA Balance',
+    'seo.services.description':
+      'Descobreix els nostres serveis: massatge terapèutic, kinesiologia, nutrició conscient i revisió 360°. Espai de benestar integral a Barcelona.',
+    'seo.services.keywords':
+      'Serveis terapèutics Barcelona, massatge, kinesiologia, nutrició, revisió integral, teràpies holístiques',
+    'seo.personalized.title': 'Serveis personalitzats - EKA Balance Barcelona',
+    'seo.personalized.description':
+      "Tria el servei que més s'adapta a tu: treballadors d'oficina, esportistes, artistes, músics i estudiants. Cuida el teu cos amb teràpies personalitzades.",
+    'seo.personalized.keywords':
+      'Serveis personalitzats Barcelona, massatge oficina, esportistes, artistes, músics, estudiants',
+    'seo.vip.title': 'Inner circle VIP - experiència premium exclusiva | EKA Balance',
+    'seo.vip.description':
+      "Uneix-te al cercle interior VIP d'EKA Balance. Plans Bronze, Silver i Gold Elite amb beneficis exclusius, atenció 24/7 i experiències personalitzades.",
+    'seo.vip.keywords':
+      'VIP elite Barcelona, plans exclusius salut, cercle interior wellness, control salut premium',
+    'seo.massage.title': 'Massatge terapèutic i relaxant a Barcelona | EKA Balance',
+    'seo.massage.description':
+      'Massatge terapèutic professional a Barcelona. Allibera tensions, cuida el teu cos i relaxa la ment. Sessions de 60, 90 i 120 minuts. Reserva ara.',
+
+    'seo.students.title':
+      "Teràpies per a estudiants - gestió de l'Estrès i Concentració | EKA Balance",
+    'seo.students.description':
+      "Serveis especialitzats per a estudiants: reducció de l'estrès mental, millora de la concentració i gestió de l'ansietat acadèmica. Kinesiologia i massatge per a ments joves i curioses.",
+    'seo.students.keywords':
+      'Teràpies estudiants, estrès estudis, concentració, ansietat acadèmica, kinesiologia estudiants, massatge relaxant Barcelona',
+
+    'seo.officeWorkers.title':
+      "Teràpies per a treballadors d'Oficina - Dolor Cervical i Postura | EKA Balance",
+    'seo.officeWorkers.description':
+      "Serveis especialitzats per a professionals d'oficina: alleujar dolor cervical, corregir postura, reduir estrès tecnològic. Massatge terapèutic i Feldenkrais per a qui passa hores davant l'ordinador.",
+    'seo.officeWorkers.keywords':
+      'Dolor cervical oficina, postura ordinador, estrès tecnològic, massatge terapèutic, Feldenkrais Barcelona, treballadors oficina',
+
+    'seo.musicians.title':
+      'Teràpies per a músics - expressió corporal i flow musical | EKA Balance',
+    'seo.musicians.description':
+      "Serveis especialitzats per a músics: millora de l'expressió corporal, gestió de l'ansietat escènica, optimització del flow musical. Feldenkrais i kinesiologia per a artistes del so.",
+    'seo.musicians.keywords':
+      'Teràpies músics, expressió corporal, ansietat escènica, flow musical, Feldenkrais músics, kinesiologia performance Barcelona',
+
+    'seo.athletes.title': 'Teràpies per a esportistes - recuperació i rendiment | EKA Balance',
+    'seo.athletes.description':
+      'Serveis especialitzats per a atletes: recuperació muscular, prevenció de lesions, millora del rendiment esportiu. Massatge esportiu i Osteobalance per a qui no pot parar.',
+    'seo.athletes.keywords':
+      'Recuperació esportistes, massatge esportiu, Osteobalance, prevenció lesions, rendiment atletes Barcelona',
+
+    'seo.parents.title':
+      'Teràpies per a pares i mares - recuperar energia i equilibri | EKA Balance',
+    'seo.parents.description':
+      'Serveis especialitzats per a pares i mares: recuperar energia, pau i claredat per poder cuidar sense buidar-se. Kinesiologia emocional i massatge relaxant per a qui cuida de tothom.',
+    'seo.parents.keywords':
+      'Teràpies pares mares, recuperar energia, kinesiologia emocional, equilibri familiar, cuidadors Barcelona',
+    'seo.massage.keywords':
+      'Massatge terapèutic Barcelona, massatge relaxant, contractures, dolor muscular, estrès, plaza universitat',
+    'seo.kinesiology.title': 'Kinesiologia holística a Barcelona | EKA Balance',
+    'seo.kinesiology.description':
+      "Kinesiologia holística professional a Barcelona. Troba l'equilibri entre cos, ment i emocions. Sessions de 60 i 90 minuts. Reserva ara.",
+    'seo.kinesiology.keywords':
+      'Kinesiologia Barcelona, equilibri emocional, test muscular, bloquejos emocionals, postura, coordinació',
+    'seo.nutrition.title': 'Assessorament nutricional personalitzat a Barcelona | EKA Balance',
+    'seo.nutrition.description':
+      'Nutrició conscient i personalitzada a Barcelona. Menjar bé per viure millor. Sessió inicial i seguiment personalitzat. Reserva ara.',
+    'seo.nutrition.keywords':
+      'Nutrició Barcelona, assessorament nutricional, hàbits alimentaris, energia, gestió pes, salut alimentària',
+
+    // Massage Page
+    'massage.hero.badge': 'Benestar per al cos i la ment',
+    'massage.benefits.pain': 'Alleuja el dolor muscular i articular',
+    'massage.benefits.circulation': 'Millora la circulació i la mobilitat',
+    'massage.benefits.wellbeing': 'Benestar immediat i descans de veritat',
+
+    // Kinesiology Page
+    'kinesiology.hero.badge': 'Cos, ment i emocions en equilibri',
+    'kinesiology.benefits.posture': 'Millora la postura i la coordinació',
+    'kinesiology.benefits.stress': "Redueix l'estrès i millora el descans",
+    'kinesiology.benefits.energy': 'Més autoconeixement i energia estable',
+
+    // Nutrition Page
+    'nutrition.benefits.habits': 'Hàbits alimentaris clars i sostenibles',
+    'nutrition.benefits.weight': 'Suport en la gestió del pes i la composició corporal',
+    'nutrition.benefits.prevention': 'Prevenció i salut a llarg termini',
+    'nutrition.session.first.name': 'Primera sessió',
+    'nutrition.session.first.description': 'Avaluació completa i pla personalitzat',
+    'nutrition.session.followup.name': 'Seguiment',
+    'nutrition.session.followup.description': 'Ajust del pla i resolució de dubtes',
+
+    // Discounts Page
+    'discounts.success': 'Descompte aplicat correctament!',
+    'discounts.active': 'Actiu - {percentage}% de descompte aplicat a tots els preus',
+    'discounts.remove': 'Treure descompte',
+
+    // Discovery Form
+    // Discovery Form - User Types
+    'discovery.userTypes.mother.title': 'Maternitat / paternitat',
+    'discovery.userTypes.mother.desc':
+      "Restauració de l'energia vital per sostenir la cura dels altres.",
+    'discovery.userTypes.woman.title': 'Salut femenina',
+    'discovery.userTypes.woman.desc': 'Harmonització del cicle i reconnexió somàtica.',
+    'discovery.userTypes.regular.title': 'Benestar general',
+    'discovery.userTypes.regular.desc': 'Manteniment preventiu i relaxació profunda.',
+    'discovery.userTypes.office.title': 'Perfil executiu',
+    'discovery.userTypes.office.desc': "Descompressió de l'estrès corporatiu i postural.",
+    'discovery.userTypes.athlete.title': 'Rendiment esportiu',
+    'discovery.userTypes.athlete.desc': 'Optimització biomecànica i recuperació activa.',
+
+    // Discovery Form - Emotional States
+    'discovery.emotional.stressed.title': 'Sobrecàrrega del sistema',
+    'discovery.emotional.stressed.desc': "Estat d'alerta constant i tensió acumulada.",
+    'discovery.emotional.sad.title': 'Baixa energia vital',
+    'discovery.emotional.sad.desc': 'Necessitat de reactivació i desbloqueig.',
+    'discovery.emotional.balanced.title': 'Estabilitat relativa',
+    'discovery.emotional.balanced.desc': 'Foc en el manteniment i la prevenció.',
+    'discovery.emotional.focus_physical.title': 'Enfocament somàtic',
+    'discovery.emotional.focus_physical.desc': "Prioritat en l'alleujament estructural i muscular.",
+
+    // Discovery Form - Time Commitments
+    'discovery.time.short.title': 'Sessió express (60 min)',
+    'discovery.time.short.desc': 'Intervenció focalitzada i eficient.',
+    'discovery.time.standard.title': 'Sessió completa (90 min)',
+    'discovery.time.standard.desc': 'Tractament profund i integratiu.',
+    'discovery.time.long.title': 'Immersió terapèutica (120 min)',
+    'discovery.time.long.desc': 'Transformació integral i detallada.',
+
+    // Discovery Form - Budget
+    'discovery.budget.basic.title': 'Fins a 60€',
+    'discovery.budget.basic.desc': 'Opció bàsica',
+    'discovery.budget.standard.title': '60-90€',
+    'discovery.budget.standard.desc': 'Fins a 2h, modalitat plena',
+    'discovery.budget.premium.title': 'Més de 90€',
+    'discovery.budget.premium.desc': 'Sessió llarga premium',
+
+    // Discovery Form - Recommendations
+    'discovery.recommendation.emotional.service': 'Reequilibri emocional',
+    'discovery.recommendation.emotional.desc':
+      'Teràpia holística per gestionar estrès, ansietat o tristesa. Se centra a superar problemes emocionals i recuperar harmonia i felicitat.',
+    'discovery.recommendation.emotional.benefit1': "Reducció de l'estrès",
+    'discovery.recommendation.emotional.benefit2': 'Equilibri emocional',
+    'discovery.recommendation.emotional.benefit3': 'Claredat mental',
+    'discovery.recommendation.emotional.benefit4': 'Pau interior',
+
+    'discovery.recommendation.manual.service': 'Sessió terapèutica manual',
+    'discovery.recommendation.manual.desc':
+      "Massatge terapèutic especialitzat per alleujar dolor i tensions musculars. Professionals amb experiència t'ajudaran a relaxar contractures.",
+    'discovery.recommendation.manual.benefit1': 'Alleujament del dolor',
+    'discovery.recommendation.manual.benefit2': 'Reducció de contractures',
+    'discovery.recommendation.manual.benefit3': 'Millora de la mobilitat',
+    'discovery.recommendation.manual.benefit4': 'Relaxació muscular',
+
+    'discovery.recommendation.integrative.service': 'Alleujament tensional integratiu (4 en 1)',
+    'discovery.recommendation.integrative.desc':
+      'Combina massatge, kinesiologia, osteopatia i moviments (Feldenkrais) per un alleujament profund de tensions cròniques.',
+    'discovery.recommendation.integrative.benefit1': 'Tractament integral',
+    'discovery.recommendation.integrative.benefit2': 'Alleujament profund',
+    'discovery.recommendation.integrative.benefit3': 'Combinació de tècniques',
+    'discovery.recommendation.integrative.benefit4': 'Resultats duradors',
+
+    'discovery.recommendation.relax.service': 'Massatge relaxant complet',
+    'discovery.recommendation.relax.desc':
+      'Experiència de relaxació global (física i mental), ideal si el teu objectiu és senzillament descansar i recarregar energies.',
+    'discovery.recommendation.relax.benefit1': 'Relaxació profunda',
+    'discovery.recommendation.relax.benefit2': "Reducció de l'estrès",
+    'discovery.recommendation.relax.benefit3': "Renovació d'energia",
+    'discovery.recommendation.relax.benefit4': 'Benestar general',
+
+    // Online Rec
+    'discovery.recommendation.online.service': 'Consulta online / assessorament',
+    'discovery.recommendation.online.desc':
+      'Rep orientació personalitzada sense desplaçar-te. Ideal per a seguiment, consell nutricional o dubtes.',
+    'discovery.recommendation.online.benefit1': 'Sense desplaçaments',
+    'discovery.recommendation.online.benefit2': 'Horari flexible',
+    'discovery.recommendation.online.benefit3': 'Seguiment continu',
+    'discovery.recommendation.online.benefit4': 'Pla personalitzat en pdf',
+
+    'discovery.recommendation.title': 'Recomanació personalitzada - EKA Balance',
+    'discovery.recommendation.badge': 'Recomanació personalitzada',
+    'discovery.recommendation.subtitle':
+      'Basat en les teves respostes, creiem que aquest és el millor servei per a tu:',
+    'discovery.recommendation.why': 'Per què aquesta opció?',
+    'discovery.analysis.intro': 'Hem identificat que',
+    'discovery.analysis.have': 'Tens',
+    'discovery.analysis.want': 'I vols millorar',
+    'discovery.analysis.feel': 'Per sentir-te',
+    'discovery.diagnosis.title': 'Fitxa de valoració avançada',
+    'discovery.diagnosis.profile': 'Perfil del client',
+    'discovery.diagnosis.symptoms': 'Indicadors identificats',
+    'discovery.diagnosis.rootCause': 'Possibles causes arrel',
+    'discovery.diagnosis.strategy': 'Estratègia recomanada',
+    'discovery.diagnosis.frequency': 'Freqüència suggerida',
+    'discovery.view.basic': 'Recomanació simple',
+    'discovery.view.advanced': 'Valoració completa',
+    'discovery.diagnosis.cause.posture': 'Fatiga postural (sedentarisme)',
+    'discovery.diagnosis.cause.overload': 'Sobrecàrrega muscular',
+    'discovery.diagnosis.cause.stress': 'Tensió psicosomàtica',
+    'discovery.diagnosis.cause.emotional': 'Bloqueig emocional',
+    'discovery.diagnosis.cause.metabolic': 'Desequilibri metabòlic/digestiu',
+    'discovery.diagnosis.cause.structural': 'Desequilibri estructural/mecànic',
+    'discovery.diagnosis.cause.general': 'Necessitat de manteniment/prevenció',
+    'discovery.diagnosis.strategy.structural': 'Alliberament estructural i mobilitat',
+    'discovery.diagnosis.strategy.regulation': 'Regulació del sistema nerviós',
+    'discovery.diagnosis.strategy.rebalance': 'Reequilibri cos-ment',
+    'discovery.diagnosis.freq.high': 'Intensiu (1 sessió/setmana durant 3 setmanes)',
+    'discovery.diagnosis.freq.medium': 'Manteniment (1 sessió cada 2-3 setmanes)',
+    'discovery.diagnosis.freq.low': 'Preventiu (1 sessió al mes)',
+    'discovery.goal.athlete': 'La teva recuperació esportiva',
+    'discovery.goal.office': 'La teva postura',
+    'discovery.goal.stress': 'La teva tranquil·litat',
+    'discovery.goal.pain': 'El teu confort físic',
+    'discovery.goal.general': 'El teu benestar general',
+    'discovery.feeling.relaxed': 'Relaxat/da',
+    'discovery.feeling.energized': 'Amb energia',
+    'discovery.feeling.balanced': 'En equilibri',
+    'discovery.feeling.painfree': 'Sense dolor',
+    'discovery.recommendation.book': 'Reservar aquesta sessió',
+    'discovery.recommendation.restart': 'Tornar a començar',
+
+    // Discovery Form - Steps
+    'discovery.step1.title': 'Com et defineixes?',
+    'discovery.step1.subtitle': "Selecciona l'opció que millor et descrigui",
+    'discovery.step2.title': 'On sents més tensió?',
+    'discovery.step2.subtitle': 'Pots seleccionar múltiples opcions',
+    'discovery.step3.title': 'Tens alguna condició especial?',
+    'discovery.step3.subtitle': 'Això ens ajuda a adaptar la sessió',
+    'discovery.step4.title': 'Com et sents emocionalment?',
+    'discovery.step4.subtitle': 'El benestar emocional és clau per a la salut física',
+    'discovery.step5.title': 'Quant temps tens disponible?',
+    'discovery.step5.subtitle': 'Adaptem la sessió al teu horari',
+    'discovery.step6.title': 'Quin és el teu pressupost?',
+    'discovery.step6.subtitle': 'Trobarem la millor opció per a tu',
+    'discovery.next': 'Següent',
+    'discovery.back': 'Enrere',
+    'discovery.seeRecommendation': 'Veure recomanació',
+    'common.step': 'Pas',
+    'common.of': 'De',
+
+    // Office Workers
+    'office.seo.title': "Serveis per a treballadors d'Oficina - EKA Balance Barcelona",
+    'office.seo.desc':
+      "Teràpies especialitzades per a treballadors d'oficina: alleuja tensions, millora postura i gestiona l'estrès laboral. Sessions d'1 hora per 70€.",
+    'office.seo.keywords':
+      'Massatge oficina Barcelona, estrès laboral, dolor esquena ordinador, kinesiologia treballadors',
+
+    // Athletes SEO
+    'athletes.seo.title': 'Serveis per a esportistes - EKA Balance Barcelona',
+    'athletes.seo.desc':
+      "Teràpies especialitzades per esportistes: recuperació muscular, millora de flexibilitat i gestió d'estrès pre-competició. Sessions d'1 hora per 70€.",
+    'athletes.seo.keywords':
+      'Massatge esportistes Barcelona, recuperació muscular, flexibilitat esportiva, estrès competició',
+
+    // Artists SEO
+    'artists.seo.title': 'Serveis per a artistes - EKA Balance Barcelona',
+    'artists.seo.desc':
+      "Teràpies per a artistes visuals i creadors: cura de mans, millora postural i desbloqueig creatiu. Sessions d'1 hora per 70€.",
+    'artists.seo.keywords':
+      'Massatge artistes Barcelona, dolor mans artistes, postura creativa, bloqueig creatiu',
+
+    // Musicians SEO
+    'musicians.seo.title': 'Serveis per a músics - EKA Balance Barcelona',
+    'musicians.seo.desc':
+      "Teràpies especialitzades per a músics: prevenció de lesions, millora tècnica i gestió de l'ansietat escènica. Sessions d'1 hora per 70€.",
+    'musicians.seo.keywords':
+      'Fisioteràpia músics Barcelona, lesions músics, ansietat escènica, tècnica musical',
+
+    // Students SEO
+    'students.seo.title': 'Serveis per a estudiants - EKA Balance Barcelona',
+    'students.seo.desc':
+      "Teràpies per a estudiants: gestió de l'estrès d'exàmens, millora de la concentració i correcció postural. Sessions d'1 hora per 70€.",
+    'students.seo.keywords':
+      'Estrès exàmens Barcelona, concentració estudi, postura estudiants, ansietat acadèmica',
+
+    'office.problems.pain.title': 'Dolor postural',
+    'office.problems.pain.desc':
+      "Dolor al coll, espatlles i esquena per postures incorrectes davant l'ordinador",
+    'office.problems.stress.title': 'Estrès laboral',
+    'office.problems.stress.desc':
+      'Pressió constant, deadlines i excés de responsabilitats que afecten el benestar',
+    'office.problems.sedentary.title': 'Sedentarisme',
+    'office.problems.sedentary.desc':
+      'Pèrdua de mobilitat i flexibilitat per passar massa hores assegut',
+    'office.benefits.techniques.title': 'Tècniques específiques',
+    'office.benefits.techniques.desc':
+      "Tècniques específiques per descontracturar zones afectades pel treball d'oficina",
+    'office.benefits.exercises.title': 'Correcció postural',
+    'office.benefits.exercises.desc':
+      'Exercicis i correccions posturals per prevenir futurs problemes',
+    'office.benefits.mindfulness.title': "Gestió de l'estrès",
+    'office.benefits.mindfulness.desc':
+      "Tècniques de relaxació i mindfulness adaptades a l'entorn professional",
+    'office.stats.pain': 'Reducció del dolor',
+    'office.stats.posture': 'Millora postural',
+    'office.stats.stress': 'Menys estrès',
+    'office.session.title': "Sessió terapèutica per a treballadors d'Oficina",
+    'office.session.plans': 'Veure plans',
+
+    // Contact Page
+    'contact.hero.badge': 'Estem aquí per tu',
+    'contact.hero.title': 'Contacta amb',
+    'contact.hero.titleHighlight': 'nosaltres',
+    'contact.hero.description':
+      "Estem aquí per ajudar-te en el teu camí cap al benestar. Contacta'ns per reserves, consultes o qualsevol dubte sobre els nostres serveis.",
+    'contact.whatsapp': 'WhatsApp 658 867 133',
+    'contact.callNow': 'Trucar ara',
+    'contact.faq.title': 'Preguntes freqüents',
+    'contact.faq.q1.title': 'Com puc reservar una cita?',
+    'contact.faq.q1.answer':
+      'Pots reservar una cita escrivint per WhatsApp o Telegram al 658 867 133, trucant-nos al mateix número o enviant-nos un email.',
+    'contact.faq.q2.title': 'Quina és la política de cancel·lació?',
+    'contact.faq.q2.answer':
+      'Les cancel·lacions gratuïtes es poden fer fins a 24 hores abans de la cita. Els usuaris VIP poden cancel·lar fins a 12 hores abans.',
+    'contact.faq.q3.title': 'Oferiu descomptes o plans VIP?',
+    'contact.faq.q3.answer':
+      'Sí, tenim plans VIP amb descomptes de fins al 25% i avantatges exclusius com reserves prioritàries i consultes telefòniques gratuïtes.',
+    'contact.faq.q4.title': 'Què he de portar a la primera sessió?',
+    'contact.faq.q4.answer':
+      'Porta roba còmoda, qualsevol informe mèdic rellevant i una llista dels medicaments que prens actualment. Les tovalloles les proporcionem nosaltres.',
+
+    // Booking Page Help Section
+    'booking.help.title': 'Necessites ajuda amb la reserva?',
+    'booking.help.contactDirect': "Contacta'ns directament",
+    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
+    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.hours': "Horari d'atenció",
+    'booking.help.hours.weekdays': 'Dilluns - divendres: 9:00 - 20:00',
+    'booking.help.hours.saturday': 'Dissabte: 9:00 - 14:00',
+    'booking.help.hours.sunday': 'Diumenge: tancat',
+    'booking.help.footer':
+      'Si tens qualsevol dubte sobre els nostres serveis o necessites ajuda amb la reserva, no dubtis en contactar-nos. Estem aquí per ajudar-te.',
+    'discounts.mykolaFriend.description':
+      'Descompte especial del 20% per a amics de mykola. Vàlid per a totes les sessions i serveis.',
+    'discounts.conocidoMykola.description':
+      'Descompte del 10% per a coneguts de mykola. Aplicable a tots els nostres tractaments.',
+    'discounts.off': 'Descompte',
+    'discounts.code': 'Codi',
+    'discounts.copy': 'Copiar',
+    'discounts.howToUse.title': 'Com utilitzar els descomptes',
+    'discounts.howToUse.subtitle': 'Segueix aquests passos senzills per aplicar el teu descompte',
+    'discounts.step1.title': "Contacta'ns",
+    'discounts.step1.description':
+      "Posa't en contacte amb nosaltres per WhatsApp o telèfon per reservar",
+    'discounts.step2.title': 'Menciona el codi',
+    'discounts.step2.description': 'Indica el codi de descompte quan facis la reserva',
+    'discounts.step3.title': 'Gaudeix del descompte',
+    'discounts.step3.description': "El descompte s'aplicarà automàticament al preu final",
+    'discounts.cta.title': 'Preparat per utilitzar el teu descompte?',
+    'discounts.cta.subtitle': 'Reserva la teva sessió ara i gaudeix del preu especial',
+    'discounts.cta.bookNow': 'Reservar amb descompte',
+    'discounts.cta.contact': 'Contactar',
+
+    // Personalized Services
+    'personalizedServices.title': 'Programes especialitzats',
+    'personalizedServices.subtitle':
+      "Solucions d'alt rendiment dissenyades per a les exigències específiques del teu estil de vida.",
+    'personalizedServices.cta': 'Sol·licitar programa',
+    'personalizedServices.difference.title': 'Per què triar un programa especialitzat?',
+    'personalizedServices.main.title': 'Enfocament generalista',
+    'personalizedServices.main.list1': 'Tractament genèric',
+    'personalizedServices.main.list2': 'Protocol estàndard',
+    'personalizedServices.main.list3': 'Alleujament temporal',
+    'personalizedServices.main.list4': 'Millora gradual',
+    'personalizedServices.special.title': 'Enfocament EKA expert',
+    'personalizedServices.special.list1': 'Precisió biomecànica',
+    'personalizedServices.special.list2': 'Protocols específics per activitat',
+    'personalizedServices.special.list3': 'Resolució de la causa arrel',
+    'personalizedServices.special.list4': 'Optimització del rendiment',
+    'personalizedServices.choose.title': 'Selecciona el teu perfil',
+    'personalizedServices.choose.subtitle':
+      'Cada activitat té un impacte únic en el cos. Tria la teva per veure com podem potenciar-te.',
+    'personalizedServices.bookNow.title': 'Eleva el teu potencial',
+    'personalizedServices.bookNow.subtitle':
+      'No deixis que el dolor limiti la teva carrera o passió. Reserva avui.',
+    'personalizedServices.officeWorkers': 'Executius i oficina',
+    'personalizedServices.officeWorkers.desc':
+      "Contraresta els efectes del sedentarisme i l'estrès d'alt nivell. Recupera la postura i la claredat mental.",
+    'personalizedServices.officeWorkers.benefit1':
+      'Descompressió de la columna i alliberament cervical.',
+    'personalizedServices.officeWorkers.benefit2': 'Correcció postural ergonòmica i respiratòria.',
+    'personalizedServices.officeWorkers.benefit3': "Gestió de l'estrès executiu i fatiga visual.",
+    'personalizedServices.officeWorkers.result': 'Màxima productivitat sense desgast físic.',
+    'personalizedServices.athletes': "Esportistes d'elit",
+    'personalizedServices.athletes.desc':
+      'Optimització biomecànica, prevenció de lesions i recuperació accelerada per a un rendiment superior.',
+    'personalizedServices.athletes.benefit1': 'Descàrrega muscular profunda i mobilitat articular.',
+    'personalizedServices.athletes.benefit2': 'Prevenció activa de lesions i compensacions.',
+    'personalizedServices.athletes.benefit3': 'Activació neuromuscular pre/post competició.',
+    'personalizedServices.athletes.result': 'Supera els teus límits amb un cos que respon.',
+    'personalizedServices.artists': 'Artistes visuals',
+    'personalizedServices.artists.desc':
+      'Cura especialitzada per a la motricitat fina i les postures estàtiques de llarga durada.',
+    'personalizedServices.artists.benefit1': 'Tractament específic de mans, canells i avantbraços.',
+    'personalizedServices.artists.benefit2': 'Alliberament de la cintura escapular i coll.',
+    'personalizedServices.artists.benefit3': 'Connexió cos-ment per desbloquejar la creativitat.',
+    'personalizedServices.artists.result': 'Crea sense dolor i amb total llibertat de moviment.',
+    'personalizedServices.musicians': 'Músics i intèrprets',
+    'personalizedServices.musicians.desc':
+      'Harmonització del to muscular i la postura per a una execució tècnica impecable.',
+    'personalizedServices.musicians.benefit1': 'Prevenció de tendinitis i distonies focals.',
+    'personalizedServices.musicians.benefit2': "Optimització de la postura amb l'instrument.",
+    'personalizedServices.musicians.benefit3': "Gestió de l'ansietat escènica a través del cos.",
+    'personalizedServices.musicians.result': 'Toca amb facilitat, precisió i sense tensió.',
+    'personalizedServices.students': 'Estudiants i acadèmics',
+    'personalizedServices.students.desc':
+      "Suport físic i mental per a períodes d'alta exigència intel·lectual.",
+    'personalizedServices.students.benefit1': "Alleujament de la tensió per hores d'estudi.",
+    'personalizedServices.students.benefit2': "Millora de l'oxigenació cerebral i la memòria.",
+    'personalizedServices.students.benefit3': "Regulació del son i l'ansietat abans d'exàmens.",
+    'personalizedServices.students.result': 'Ment desperta en un cos relaxat.',
+
+    // Booking page
+    'booking.title': 'Sol·licita la teva sessió - EKA Balance',
+    'booking.description':
+      'Gestiona la teva cita de benestar a Barcelona amb facilitat. Atenció personalitzada i resposta prioritària via WhatsApp.',
+    'booking.badge': 'Gestió de cites simplificada',
+    'booking.hero.title': 'Inicia el teu procés de recuperació',
+    'booking.hero.subtitle':
+      'Un sistema àgil dissenyat per connectar-te immediatament amb la solució que necessites.',
+    'booking.benefits.whatsapp': 'Atenció directa',
+    'booking.benefits.flexible': 'Flexibilitat horària',
+    'booking.benefits.confirmation': 'Confirmació immediata',
+    'booking.contact.title': 'Canals de comunicació',
+    'booking.contact.subtitle': 'Selecciona la via preferent per coordinar la teva visita.',
+    'booking.direct.title': 'Xat directe',
+    'booking.direct.description': 'Inicia una conversa immediata per agilitzar la teva reserva.',
+    'booking.direct.button': 'Obrir WhatsApp',
+    'booking.form.title': 'Assistent de reserva',
+    'booking.form.description':
+      'Prepara la teva sol·licitud amb els detalls clau per a una resposta precisa.',
+    'booking.form.button': 'Utilitzar assistent',
+    'booking.form.hide': 'Tancar assistent',
+    'booking.form.location': 'Ubicació preferent',
+    'booking.form.locationPlaceholder': 'Indica la ubicació',
+    'booking.form.timeSlot': 'Disponibilitat horària',
+    'booking.form.timeSlotPlaceholder': 'Tria el teu moment',
+    'booking.form.availability': 'Preferència de dia',
+    'booking.form.availabilityPlaceholder': 'Indica la teva disponibilitat',
+    'booking.form.objective': 'Motiu de la consulta',
+    'booking.form.objectivePlaceholder': 'Descriu breument el teu objectiu o símptoma...',
+    'booking.form.submit': 'Enviar sol·licitud',
+
+    // Options
+    'booking.options.service.massage': 'Massatge',
+    'booking.options.service.kinesiology': 'Kinesiologia',
+    'booking.options.service.osteobalance': 'Osteobalance',
+    'booking.options.service.movementLesson': 'Movement Lesson',
+    'booking.options.service.feldenkrais': 'Feldenkrais',
+    'booking.options.service.online': 'Consulta online',
+    'booking.options.service.other': 'Altres',
+
+    'booking.options.location.barcelona': 'Barcelona',
+    'booking.options.location.rubi': 'Rubí',
+    'booking.options.location.online': 'Online',
+
+    'booking.options.availability.tomorrow': 'Demà',
+    'booking.options.availability.dayAfterTomorrow': 'Demà passat',
+    'booking.options.availability.nextWeek': 'Setmana vinent',
+    'booking.options.availability.weekend': 'Cap de setmana',
+    'booking.options.availability.flexible': 'Flexible',
+
+    'booking.options.timeSlot.morning': 'Matí (9:00-12:00)',
+    'booking.options.timeSlot.noon': 'Migdia (12:00-15:00)',
+    'booking.options.timeSlot.afternoon': 'Tarda (15:00-18:00)',
+    'booking.options.timeSlot.evening': 'Vespre (18:00-21:00)',
+    'booking.form.quickTitle': 'Formulari ràpid de reserva',
+    'booking.form.nameRequired': 'Nom *',
+    'booking.form.namePlaceholder': 'El teu nom',
+    'booking.form.serviceRequired': 'Servei *',
+    'booking.form.servicePlaceholder': 'Selecciona un servei',
+    'booking.form.validationError': "Si us plau, omple almenys el nom i el servei d'interès.",
+    'booking.popup.title': 'Reserva la teva sessió',
+    'booking.popup.subtitle': "Selecciona el servei i la data que millor t'convingui",
+    'booking.whatsapp.greeting': 'Hola, sóc {name}',
+    'booking.whatsapp.greetingGeneric': "Hola Elena, m'agradaria reservar una cita.",
+    'booking.whatsapp.service': "M'agradaria reservar una sessió: {service}",
+    'booking.whatsapp.location': 'Lloc preferit: {location}',
+    'booking.whatsapp.date': 'Data preferida: {date}',
+    'booking.whatsapp.time': 'Hora preferida: {time}',
+    'booking.whatsapp.comments': 'Comentaris: {comments}',
+    'booking.whatsapp.availability': 'Disponibilitat: {availability} – {timeslot}',
+    'booking.whatsapp.thanks': 'Gràcies!',
+
+    // Athletes personalized service
+    'athletes.hero.badge': 'Especialitzat per esportistes',
+    'athletes.hero.title': 'Esportistes',
+    'athletes.hero.subtitle':
+      'Recuperació muscular, prevenció de lesions i optimització del rendiment esportiu',
+    'athletes.challenges.title': 'Problemes comuns',
+    'athletes.challenge1.title': 'Recuperació lenta',
+    'athletes.challenge1.desc':
+      'Les lesions i la fatiga muscular triguen més del necessari a recuperar-se',
+    'athletes.challenge2.title': 'Flexibilitat limitada',
+    'athletes.challenge2.desc': 'Rigidesa que redueix el rang de moviment i afecta el rendiment',
+    'athletes.challenge3.title': 'Estrès pre-competició',
+    'athletes.challenge3.desc': 'Ansietat i tensió abans de competicions importants',
+    'athletes.help.title': "Com t'ajudem",
+    'athletes.help1.title': 'Accelera la recuperació muscular',
+    'athletes.help1.desc': 'Tècniques específiques per reduir la inflamació i accelerar la curació',
+    'athletes.help2.title': 'Millora la flexibilitat i mobilitat',
+    'athletes.help2.desc': 'Exercicis dirigits per augmentar el rang de moviment',
+    'athletes.help3.title': "Gestiona l'estrès competitiu",
+    'athletes.help3.desc': 'Tècniques de relaxació per mantenir la calma sota pressió',
+    'athletes.result.title': 'Resultat',
+    'athletes.result.desc': 'Recuperació més ràpida, millor rendiment i menys lesions',
+    'athletes.stats.recovery': 'Millor recuperació',
+    'athletes.stats.flexibility': 'Més flexibilitat',
+    'athletes.stats.anxiety': 'Menys ansietat',
+    'athletes.session.title': 'Sessió per a esportistes',
+
+    // Artists personalized service
+    'artists.hero.badge': 'Especialitzat per artistes',
+    'artists.hero.title': 'Artistes',
+    'artists.hero.subtitle': 'Cura de les mans, braços i postura per a artistes visuals i creadors',
+    'artists.challenges.title': 'Problemes comuns',
+    'artists.challenge1.title': 'Dolor a les mans i canells',
+    'artists.challenge1.desc': 'Dolor per moviments repetitius durant llargues sessions de creació',
+    'artists.challenge2.title': 'Postura incorrecta',
+    'artists.challenge2.desc': 'Tensions al coll i esquena per postures prolongades mentre es crea',
+    'artists.challenge3.title': 'Bloquejos creatius',
+    'artists.challenge3.desc': 'Tensions físiques que limiten el flux creatiu i la inspiració',
+    'artists.help.title': "Com t'ajudem",
+    'artists.help1.title': 'Cura específica de mans i canells',
+    'artists.help1.desc': 'Tractaments dirigits per alleujar el dolor i prevenir lesions',
+    'artists.help2.title': 'Millora la postura de treball',
+    'artists.help2.desc': 'Correccions posturals per prevenir tensions mentre crees',
+    'artists.help3.title': 'Allibera la creativitat',
+    'artists.help3.desc': 'Elimina tensions físiques que bloquegen el procés creatiu',
+    'artists.result.title': 'Resultat esperat',
+    'artists.result.desc': 'Més comoditat, fluïdesa i creativitat en el teu procés artístic',
+    'artists.stats.confidence': 'Més confiança',
+    'artists.stats.tension': 'Menys tensió',
+    'artists.stats.anxiety': 'Menys ansietat',
+    'artists.session.title': 'Sessió per a artistes',
+    'artists.session.cta': 'Reservar sessió',
+    'artists.session.other': 'Altres serveis',
+
+    // Musicians personalized service
+    'musicians.hero.badge': 'Especialitzat per músics',
+    'musicians.hero.title': 'Músics',
+    'musicians.hero.subtitle':
+      'Teràpies especialitzades per músics: mans, braços, postura i tècnica',
+    'musicians.problems.title': 'Problemes que resolem',
+    'musicians.problems.subtitle':
+      'Els músics enfronten reptes físics únics que poden afectar la seva carrera',
+    'musicians.problem1.title': 'Lesions per esforç repetitiu',
+    'musicians.problem1.desc': 'Dolor a mans, canells i avantbraços per la pràctica intensiva',
+    'musicians.problem2.title': 'Tensions posturals',
+    'musicians.problem2.desc': 'Dolor al coll i esquena per mantenir postures específiques',
+    'musicians.problem3.title': 'Ansietat escènica',
+    'musicians.problem3.desc': "Estrès i tensió abans d'actuacions importants",
+    'musicians.problem4.title': 'Pèrdua de precisió tècnica',
+    'musicians.problem4.desc': 'La tensió afecta la coordinació i la qualitat musical',
+    'musicians.help.title': "Com t'ajudem",
+    'musicians.help1.title': 'Prevenció de lesions',
+    'musicians.help1.desc': 'Tècniques per prevenir i tractar lesions per esforç repetitiu',
+    'musicians.help2.title': 'Millora postural',
+    'musicians.help2.desc': 'Correccions específiques per la teva postura instrumental',
+    'musicians.help3.title': 'Relaxació dirigida',
+    'musicians.help3.desc': 'Tècniques per mantenir la calma i la precisió',
+    'musicians.results.title': 'Resultats que obtindràs',
+    'musicians.results.point1': 'Reducció significativa del dolor i tensions',
+    'musicians.results.point2': 'Millora de la precisió tècnica i expressivitat',
+    'musicians.results.point3': 'Major confiança i presència escènica',
+    'musicians.plans.title': 'Plans especialitzats per músics',
+    'musicians.plans.subtitle':
+      "Escull el pla que millor s'adapti a les teves necessitats musicals",
+    'musicians.plan1.name': 'Sessió individual',
+    'musicians.plan1.desc': 'Perfecte per provar els nostres serveis',
+    'musicians.plan1.benefit1': 'Avaluació completa de postura instrumental',
+    'musicians.plan1.benefit2': 'Tractament de tensions específiques',
+    'musicians.plan1.benefit3': 'Exercicis personalitzats per casa',
+    'musicians.plan1.benefit4': 'Consells de prevenció',
+    'musicians.plan1.result': 'Alleujament immediat i major consciència corporal',
+    'musicians.plan2.name': 'Paquet inicial',
+    'musicians.plan2.desc': 'Ideal per establir una base sòlida',
+    'musicians.plan2.benefit1': 'Tot del plan individual',
+    'musicians.plan2.benefit2': 'Seguiment i ajust personalitzat',
+    'musicians.plan2.benefit3': "Rutina d'exercicis progressiva",
+    'musicians.plan2.benefit4': 'Suport continuat per WhatsApp',
+    'musicians.plan2.result': 'Millores significatives en tècnica i comfort',
+    'musicians.plan2.popular': 'Més popular',
+    'musicians.plan2.save': 'Estalvies',
+    'musicians.plan3.name': 'Programa complet',
+    'musicians.plan3.desc': 'La solució completa per músics professionals',
+    'musicians.plan3.benefit1': 'Tot dels plans anteriors',
+    'musicians.plan3.benefit2': 'Plan nutricional per a músics',
+    'musicians.plan3.benefit3': 'Tècniques avançades de relaxació',
+    'musicians.plan3.benefit4': 'Revisió 360° gratuita',
+    'musicians.plan3.result': 'Transformació completa del teu benestar musical',
+    'musicians.plan.cta': 'Seleccionar',
+
+    // Students personalized service
+    'students.hero.badge': 'Especialitzat per estudiants',
+    'students.hero.title': 'Estudiants',
+    'students.hero.subtitle':
+      "Gestió de l'estrès d'estudi, millora de la concentració i cura postural",
+    'students.challenges.title': 'Problemes comuns',
+    'students.challenge1.title': "Estrès d'exàmens",
+    'students.challenge1.desc': 'Ansietat i tensió que afecten el rendiment acadèmic',
+    'students.challenge2.title': 'Concentració limitada',
+    'students.challenge2.desc':
+      "Dificultat per mantenir l'atenció durant llargues sessions d'estudi",
+    'students.challenge3.title': 'Tensions posturals',
+    'students.challenge3.desc': "Dolor d'esquena i coll per estar assegut moltes hores estudiant",
+    'students.help.title': "Com t'ajudem",
+    'students.help1.title': "Gestiona l'estrès acadèmic",
+    'students.help1.desc': "Tècniques de relaxació per reduir l'ansietat d'exàmens",
+    'students.help2.title': 'Millora la concentració',
+    'students.help2.desc': "Exercicis per augmentar la capacitat d'atenció i memòria",
+    'students.help3.title': "Corregeix la postura d'estudi",
+    'students.help3.desc': 'Ajustos posturals per prevenir dolors mentre estudies',
+    'students.result.title': 'Resultat',
+    'students.result.desc': 'Millor rendiment acadèmic, menys estrès i més energia',
+    'students.stats.concentration': 'Més concentració',
+    'students.stats.tension': 'Menys tensió',
+    'students.stats.stress': 'Menys estrès',
+    'students.session.title': 'Sessió per a estudiants',
+
+    // FAQ Section
+    'faq.title': 'Preguntes freqüents',
+    'faq.subtitle': 'Troba respostes a les preguntes més comunes sobre els nostres serveis',
+    'faq.q1.question': 'Quant dura una sessió típica?',
+    'faq.q1.answer':
+      'Les sessions solen durar entre 60 i 90 minuts, depenent del tractament escollit i les teves necessitats específiques.',
+    'faq.q2.question': 'Necessito experiència prèvia?',
+    'faq.q2.answer':
+      "No cal cap experiència prèvia. Tots els nostres tractaments s'adapten al teu nivell i necessitats específiques.",
+    'faq.q3.question': 'Amb quina freqüència hauria de venir?',
+    'faq.q3.answer':
+      'Depenent dels teus objectius, recomanem entre 1-2 sessions per setmana inicialment, i després sessions de manteniment mensuals.',
+    'faq.q4.question': 'Quins mètodes de pagament accepteu?',
+    'faq.q4.answer':
+      'Acceptem efectiu, targetes de crèdit i débito, i també bizum per a més comoditat.',
+    'faq.q5.question': 'Puc cancel·lar o reprogramar la meva cita?',
+    'faq.q5.answer':
+      "Sí, pots cancel·lar o reprogramar amb 24 hores d'antelació sense cap càrrec addicional.",
+
+    // First Time Visitor Form
+    'firstTime.seo.title': 'No saps què triar? - Troba el teu servei ideal a EKA Balance',
+    'firstTime.seo.desc':
+      'Sistema personalitzat intel·ligent per descobrir el servei de teràpia holística perfecte per a les teves necessitats específiques. Recomanacions empàtiques basades en qui ets i què busques.',
+    'firstTime.seo.keywords':
+      'No sé què triar, formulari personalitzat, recomanacions teràpia, servei ideal, Barcelona, onboarding intel·ligent',
+    'form.badge': 'Descobriment personalitzat',
+    'form.title': 'Trobem el servei perfecte per a tu',
+    'form.subtitle': "Respon unes preguntes ràpides i t'ajudarem a trobar la teràpia ideal",
+    'form.contactWhatsApp': 'Contactar per WhatsApp',
+    'form.step': 'Pas',
+    'form.of': 'De',
+    'form.previous': 'Anterior',
+    'form.next': 'Següent',
+    'form.seeRecommendation': 'Veure recomanació',
+    'form.backToForm': 'Tornar al formulari',
+    'form.close': 'Tancar',
+    'form.closeForm': 'Tancar formulari',
+
+    'form.step1.question': 'Quin és el teu perfil principal?',
+    'form.userType.officeWorker': "Treballador/a d'oficina",
+    'form.userType.officeWorkerDesc': "Passo moltes hores assegut/da davant l'ordinador",
+    'form.userType.athlete': 'Esportista',
+    'form.userType.athleteDesc': 'Faig exercici regularment o sóc atleta professional',
+    'form.userType.artist': 'Artista o creador/a',
+    'form.userType.artistDesc': 'Treballo amb les mans (pintura, escultura, artesania)',
+    'form.userType.musician': 'Músic',
+    'form.userType.musicianDesc': 'Toco instruments musicals regularment',
+    'form.userType.student': 'Estudiant',
+    'form.userType.studentDesc': 'Estudio o estic preparant exàmens',
+    'form.userType.general': 'Altres perfils',
+    'form.userType.generalDesc': 'Cap de les anteriors o combinació de vàries',
+
+    'form.step2.question': "Quins són els teus objectius? (Selecciona tots els que t'interessin)",
+    'form.goals.musclePain': 'Alleujar dolor muscular i tensions',
+    'form.goals.stress': 'Reduir estrès i ansietat',
+    'form.goals.posture': 'Millorar postura',
+    'form.goals.relaxation': 'Relaxació i desconnexió',
+    'form.goals.recovery': "Recuperació després d'exercici",
+    'form.goals.sleep': 'Millorar qualitat del son',
+    'form.goals.emotions': 'Gestionar emocions',
+    'form.goals.energy': 'Augmentar energia i vitalitat',
+
+    'form.step3.question': 'Quant de temps tens disponible per sessió?',
+    'form.time.short': "Menys d'1 hora",
+    'form.time.standard': '1-1.5 hores',
+    'form.time.long': "Més d'1.5 hores",
+
+    'form.step4.question': 'Quina experiència tens amb teràpies corporals?',
+    'form.experience.none': 'És la meva primera vegada',
+    'form.experience.noneDesc': 'Mai he rebut teràpies corporals',
+    'form.experience.some': "Tinc una mica d'experiència",
+    'form.experience.someDesc': 'He anat alguna vegada a massatges o teràpies',
+    'form.experience.experienced': 'Tinc experiència',
+    'form.experience.experiencedDesc': 'Rebeixo teràpies regularment',
+
+    'form.step5.question': "Quin tipus d'intensitat prefereixes?",
+    'form.intensity.gentle': 'Suau i relaxant',
+    'form.intensity.gentleDesc': 'Prefereixo un tractament suau i tranquil',
+    'form.intensity.medium': 'Moderada',
+    'form.intensity.mediumDesc': 'Tractament equilibrat entre relaxació i treball profund',
+    'form.intensity.deep': 'Intensa i profunda',
+    'form.intensity.deepDesc': 'Vull un treball profund per tensions específiques',
+
+    'form.recommendation.badge': 'Recomanació personalitzada',
+    'form.recommendation.title': 'El teu servei ideal',
+    'form.recommendation.subtitle':
+      'Basant-nos en el teu perfil, hem trobat el servei perfecte per a tu',
+    'form.recommendation.price': 'Preu',
+    'form.recommendation.duration': 'Durada',
+    'form.recommendation.benefits': 'Beneficis principals',
+
+    'form.recommendation.officeWorker.title': "Sessió per a treballadors d'oficina",
+    'form.recommendation.officeWorker.desc':
+      "Teràpia especialitzada per alleujar tensions del treball sedentari, millorar la postura i reduir l'estrès laboral",
+    'form.recommendation.officeWorker.benefit1': "Alleuja dolor cervical i d'esquena",
+    'form.recommendation.officeWorker.benefit2': "Millora la postura davant l'ordinador",
+    'form.recommendation.officeWorker.benefit3': "Redueix l'estrès laboral",
+    'form.recommendation.officeWorker.benefit4': 'Més energia per treballar',
+
+    'form.recommendation.athlete.title': 'Sessió per a esportistes',
+    'form.recommendation.athlete.desc':
+      'Recuperació muscular, prevenció de lesions i optimització del rendiment esportiu amb tècniques especialitzades',
+    'form.recommendation.athlete.benefit1': 'Accelera recuperació muscular',
+    'form.recommendation.athlete.benefit2': 'Prevé lesions',
+    'form.recommendation.athlete.benefit3': 'Millora flexibilitat',
+    'form.recommendation.athlete.benefit4': 'Optimitza rendiment',
+
+    'form.recommendation.artist.title': 'Sessió per a artistes',
+    'form.recommendation.artist.desc':
+      'Cura específica de mans, braços i postura per a artistes visuals. Allibera la creativitat eliminant tensions físiques',
+    'form.recommendation.artist.benefit1': 'Cura de mans i canells',
+    'form.recommendation.artist.benefit2': 'Millora postura creativa',
+    'form.recommendation.artist.benefit3': 'Allibera creativitat',
+    'form.recommendation.artist.benefit4': 'Prevé lesions per ús repetitiu',
+
+    'form.recommendation.musician.title': 'Sessió per a músics',
+    'form.recommendation.musician.desc':
+      "Teràpia especialitzada per a músics: prevenció de lesions, millora de la tècnica i gestió de l'ansietat escènica",
+    'form.recommendation.musician.benefit1': 'Prevé lesions musicals',
+    'form.recommendation.musician.benefit2': 'Millora tècnica',
+    'form.recommendation.musician.benefit3': 'Gestiona ansietat escènica',
+    'form.recommendation.musician.benefit4': 'Relaxació específica',
+
+    'form.recommendation.student.title': 'Sessió per a estudiants',
+    'form.recommendation.student.desc':
+      "Gestió de l'estrès d'estudi, millora de la concentració i cura postural per a estudiants",
+    'form.recommendation.student.benefit1': "Redueix estrès d'exàmens",
+    'form.recommendation.student.benefit2': 'Millora concentració',
+    'form.recommendation.student.benefit3': "Corregeix postura d'estudi",
+    'form.recommendation.student.benefit4': 'Més energia per estudiar',
+
+    'form.recommendation.holistic.title': 'Sessió holística integral',
+    'form.recommendation.holistic.desc':
+      'Combinació de massatge terapèutic i kinesiologia per un tractament complet del cos i les emocions',
+    'form.recommendation.holistic.benefit1': 'Tractament integral',
+    'form.recommendation.holistic.benefit2': 'Equilibri cos-ment',
+    'form.recommendation.holistic.benefit3': 'Alleuja tensions físiques',
+    'form.recommendation.holistic.benefit4': 'Gestiona emocions',
+
+    'form.recommendation.therapeutic.title': 'Massatge terapèutic',
+    'form.recommendation.therapeutic.desc':
+      'Sessió especialitzada per alleujar dolor muscular, tensions i millorar la mobilitat corporal',
+    'form.recommendation.therapeutic.benefit1': 'Alleuja dolor muscular',
+    'form.recommendation.therapeutic.benefit2': 'Millora mobilitat',
+    'form.recommendation.therapeutic.benefit3': 'Redueix tensions',
+    'form.recommendation.therapeutic.benefit4': 'Relaxació profunda',
+
+    'form.recommendation.kinesiology.title': 'Kinesiologia holística',
+    'form.recommendation.kinesiology.desc':
+      'Teràpia que combina tècniques corporals i emocionals per reequilibrar el teu estat general',
+    'form.recommendation.kinesiology.benefit1': 'Equilibri emocional',
+    'form.recommendation.kinesiology.benefit2': "Gestió de l'estrès",
+    'form.recommendation.kinesiology.benefit3': 'Millora autoconeixement',
+    'form.recommendation.kinesiology.benefit4': 'Pau interior',
+
+    'form.recommendation.discovery.title': 'Sessió de descobriment',
+    'form.recommendation.discovery.desc':
+      'Sessió inicial per explorar les teves necessitats i crear un pla personalitzat per al teu benestar',
+    'form.recommendation.discovery.benefit1': 'Avaluació completa',
+    'form.recommendation.discovery.benefit2': 'Pla personalitzat',
+    'form.recommendation.discovery.benefit3': 'Primera experiència',
+    'form.recommendation.discovery.benefit4': 'Orientació professional',
+
+    // Onboarding System
+    'onboarding.welcome.title': 'Benvinguda',
+    'onboarding.welcome.description':
+      "Cada persona és diferent. Per això, abans de recomanar-te res, volem escoltar-te. Explica'ns qui ets, què busques i com vols sentir-te. Nosaltres t'ajudarem a trobar el camí que més ressoni amb tu.",
+    'onboarding.progress.step': 'Pas',
+    'onboarding.progress.of': 'De',
+    'onboarding.processing.title': 'Personalitzant la teva experiència...',
+    'onboarding.processing.subtitle':
+      'Estem analitzant les teves respostes per trobar les millors recomanacions.',
+    'onboarding.finish': 'Finalitzar',
+    'onboarding.results.title': 'La teva experiència personalitzada està llesta',
+    'onboarding.results.subtitle': 'Segons les teves respostes, et recomanem:',
+    'onboarding.results.recommended': 'Recomanat',
+    'onboarding.results.personalizedInfo': 'Informació personalitzada',
+
+    'onboarding.questions.userType.title': 'Com et descriuries millor?',
+    'onboarding.userTypes.student': 'Estudiant',
+    'onboarding.userTypes.office': "Persona d'oficina",
+    'onboarding.userTypes.artist': 'Artista o músic',
+    'onboarding.userTypes.musician': 'Músic',
+    'onboarding.userTypes.athlete': 'Esportista',
+    'onboarding.userTypes.parent': 'Pare o mare',
+    'onboarding.userTypes.entrepreneur': 'Emprenedor/a',
+    'onboarding.userTypes.therapist': 'Terapeuta o professional del benestar',
+    'onboarding.userTypes.senior': 'Persona gran',
+    'onboarding.userTypes.other': 'Altres',
+
+    'onboarding.questions.goals.title': "Què t'agradaria millorar?",
+    'onboarding.goals.stress': "Regular el sistema nerviós i reduir l'ansietat",
+    'onboarding.goals.pain': 'Tractament del dolor físic i estructural',
+    'onboarding.goals.posture': 'Correcció postural i optimització de la mobilitat',
+    'onboarding.goals.sleep': 'Restaurar la qualitat del son profund',
+    'onboarding.goals.energy': 'Reactivació metabòlica i claredat mental',
+    'onboarding.goals.focus': 'Potenciar el rendiment cognitiu i la concentració',
+    'onboarding.goals.bodyAwareness': 'Integració somàtica i consciència corporal',
+    'onboarding.goals.feelGood': 'Benestar integral i equilibri sistèmic',
+
+    'onboarding.questions.preferredFeeling.title':
+      "Després de la sessió, com t'agradaria sentir-te?",
+    'onboarding.feelings.calm': 'Serenitat profunda i regulació nerviosa',
+    'onboarding.feelings.light': 'Descompressió física i llibertat de moviment',
+    'onboarding.feelings.energized': 'Vitalitat renovada i to muscular òptim',
+    'onboarding.feelings.focused': 'Agudesa mental i focus sostingut',
+    'onboarding.feelings.confident': 'Seguretat somàtica i presència plena',
+
+    'onboarding.questions.approach.title': "Quin tipus d'enfocament prefereixes?",
+    'onboarding.approaches.massage': 'Teràpia manual',
+    'onboarding.approaches.kinesiology': 'Kinesiologia clínica',
+    'onboarding.approaches.feldenkrais': 'Mètode Feldenkrais',
+    'onboarding.approaches.energy': 'Equilibri bioenergètic',
+    'onboarding.approaches.open': 'Obert a recomanacions clíniques',
+
+    'onboarding.questions.timePreference.title':
+      'Quant de temps vols dedicar al teu benestar avui?',
+    'onboarding.time.60min': '60 minuts',
+    'onboarding.time.90min': '90 minuts',
+    'onboarding.time.120min': '120 minuts',
+
+    'recommendations.massage.description':
+      "Teràpia manual avançada per a la restauració estructural i l'alleujament profund de la tensió acumulada.",
+    'recommendations.kinesiology.description':
+      "Kinesiologia clínica per a la regulació sistèmica i la identificació precisa de l'origen del desequilibri.",
+    'recommendations.feldenkrais.description':
+      "Reeducació neuromuscular Feldenkrais per a l'optimització biomecànica i l'alliberament de patrons restrictius.",
+
+    // Personalized Pages
+    'personalized.students.hero.title': 'Per a ments joves i curioses',
+    'personalized.students.hero.description':
+      "Quan estudies, la tensió es concentra a la ment i al coll. Et costa mantenir la concentració, et falta energia o et sents saturat? A EKA Balance t'ajudem a reconnectar amb el teu cos, millorar la postura i recuperar la calma mental.",
+    'personalized.students.understanding.title': "T'entenem perfectament",
+    'personalized.students.understanding.description1':
+      'Quan estudies, la tensió es concentra a la ment i al coll. Et costa mantenir la concentració, et falta energia o et sents saturat?',
+    'personalized.students.understanding.description2':
+      'Estudiar intensament pot generar tensions físiques i mentals que afecten el teu rendiment acadèmic.',
+    'personalized.students.understanding.callToAction':
+      "A EKA Balance t'ajudem a reconnectar amb el teu cos, millorar la postura i recuperar la calma mental.",
+    'personalized.students.services.title': 'Sessions recomanades per a tu',
+    'personalized.students.services.subtitle': 'Tractaments especialitzats per estudiants',
+    'personalized.students.services.kinesiologyStress.title': "Kinesiologia per a l'estrès mental",
+    'personalized.students.services.kinesiologyStress.description':
+      "Teràpia específica per equilibrar el sistema nerviós i gestionar l'ansietat d'exàmens.",
+    'personalized.students.services.relaxingMassage.title':
+      'Massatge relaxant + tècniques de respiració',
+    'personalized.students.services.relaxingMassage.description':
+      'Combinació de massatge terapèutic i exercicis de respiració per alleujar tensions posturals.',
+    'personalized.students.testimonial.title': "Experiència d'un estudiant",
+    'personalized.students.testimonial.quote':
+      "Després de les sessions amb Elena, puc estudiar durant més hores sense tenir dolor d'esquena i em sento molt més relaxada durant els exàmens.",
+    'personalized.students.testimonial.author': 'Maria, estudiant universitària',
+
+    'personalized.officeWorkers.hero.title': "Per a qui passa massa hores davant l'ordinador",
+    'personalized.officeWorkers.hero.description':
+      "Dolor cervical, esquena rígida, ulls cansats, ment hiperactiva. T'acompanyem a recuperar equilibri i energia.",
+    'personalized.officeWorkers.understanding.title': 'Sabem exactament com et sents',
+    'personalized.officeWorkers.understanding.description1':
+      "Dolor cervical, esquena rígida, ulls cansats, ment hiperactiva. El treball d'oficina crea patrons de tensió únics.",
+    'personalized.officeWorkers.understanding.description2':
+      "Les llargues hores davant l'ordinador generen contractures cervicals, dolor lumbar i fatiga mental.",
+    'personalized.officeWorkers.understanding.callToAction':
+      "T'acompanyem a recuperar equilibri i energia per poder treballar còmodament.",
+    'personalized.officeWorkers.services.title': 'Sessions dissenyades per a tu',
+    'personalized.officeWorkers.services.subtitle':
+      'Tractaments específics per alleujar les tensions del treball sedentari',
+    'personalized.officeWorkers.services.therapeuticMassage.title':
+      'Massatge terapèutic amb enfoc postural',
+    'personalized.officeWorkers.services.therapeuticMassage.description':
+      "Sessió especialitzada per alleujar contractures cervicals i millorar la postura davant l'ordinador.",
+    'personalized.officeWorkers.services.feldenkrais.title':
+      'Feldenkrais per desbloquejar moviments',
+    'personalized.officeWorkers.services.feldenkrais.description':
+      'Tècniques de moviment conscient per trencar patrons de rigidesa i recuperar flexibilitat.',
+    'personalized.officeWorkers.testimonial.title': "Testimoni d'un professional",
+    'personalized.officeWorkers.testimonial.quote':
+      'Treballava 8 hores diàries amb dolor constant al coll. Després del tractament amb Elena, puc treballar còmodament i tinc més energia al final del dia.',
+    'personalized.officeWorkers.testimonial.author': 'Joan, desenvolupador de software',
+
+    'personalized.musicians.hero.title': 'Per als qui viuen a través del so',
+    'personalized.musicians.hero.description':
+      'Si toques o cantes, el teu cos també és el teu instrument. Et mostrem com alliberar tensió, fluir amb el moviment i respirar millor.',
+    'personalized.musicians.understanding.title': 'El teu cos és el teu instrument',
+    'personalized.musicians.understanding.description1':
+      'Si toques o cantes, el teu cos també és el teu instrument. La tensió física afecta directament la teva capacitat musical.',
+    'personalized.musicians.understanding.description2':
+      "Les lesions per esforç repetitiu i l'ansietat escènica són reptes comuns entre músics.",
+    'personalized.musicians.understanding.callToAction':
+      'Et mostrem com alliberar tensió, fluir amb el moviment i respirar millor per potenciar la teva expressivitat.',
+    'personalized.musicians.services.title': 'Serveis especialitzats per músics',
+    'personalized.musicians.services.subtitle':
+      'Tractaments dissenyats per potenciar la teva expressió musical',
+    'personalized.musicians.services.feldenkraisExpression.title':
+      'Feldenkrais per a la coordinació i expressió corporal',
+    'personalized.musicians.services.feldenkraisExpression.description':
+      'Tècniques específiques per millorar la coordinació, fluidesa del moviment i expressivitat musical.',
+    'personalized.musicians.services.kinesiologyPerformance.title':
+      "Kinesiologia per l'ansietat escènica",
+    'personalized.musicians.services.kinesiologyPerformance.description':
+      "Teràpia per gestionar l'ansietat abans de les actuacions i millorar la confiança escènica.",
+    'personalized.musicians.testimonial.title': "Experiència d'una pianista",
+    'personalized.musicians.testimonial.quote':
+      "Les sessions m'han ajudat a tocar amb més fluïdesa i a superar els nervis abans dels concerts. Ara sento el piano com una extensió natural del meu cos.",
+    'personalized.musicians.testimonial.author': 'Anna, pianista professional',
+
+    'personalized.athletes.hero.title': 'Per als qui no poden parar, però volen cuidar-se',
+    'personalized.athletes.hero.description':
+      "Recupera el teu cos després de l'esforç, millora la flexibilitat i evita lesions.",
+    'personalized.athletes.understanding.title': 'Entenem el teu cos actiu',
+    'personalized.athletes.understanding.description1':
+      "Recupera el teu cos després de l'esforç, millora la flexibilitat i evita lesions.",
+    'personalized.athletes.understanding.description2':
+      "L'activitat física intensa requereix cures específiques per mantenir el rendiment òptim.",
+    'personalized.athletes.understanding.callToAction':
+      "T'ajudem a mantenir el teu cos en perfectes condicions per continuar donant el màxim.",
+    'personalized.athletes.services.title': 'Tractaments per a esportistes',
+    'personalized.athletes.services.subtitle': 'Recuperació i optimització del rendiment esportiu',
+    'personalized.athletes.services.sportsMassage.title':
+      "Massatge esportiu + tècniques d'equilibri muscular",
+    'personalized.athletes.services.sportsMassage.description':
+      'Tractament especialitzat per accelerar la recuperació muscular i prevenir lesions.',
+    'personalized.athletes.services.osteobalance.title': 'Osteobalance i estiraments guiats',
+    'personalized.athletes.services.osteobalance.description':
+      'Tècniques avançades per millorar la mobilitat articular i optimitzar el rendiment.',
+    'personalized.athletes.testimonial.title': "Testimoni d'un atleta",
+    'personalized.athletes.testimonial.quote':
+      'Des que vaig començar les sessions, la meva recuperació és molt més ràpida i puc entrenar amb més intensitat sense por a lesionar-me.',
+    'personalized.athletes.testimonial.author': 'Marc, corredor de marató',
+
+    'personalized.parents.hero.title': "Per a qui cuida de tothom menys d'ell mateix",
+    'personalized.parents.hero.description':
+      "T'ajudem a recuperar energia, pau i claredat per poder donar sense buidar-te.",
+    'personalized.parents.understanding.title': 'Sabem que necessites temps per a tu',
+    'personalized.parents.understanding.description1':
+      "T'ajudem a recuperar energia, pau i claredat per poder donar sense buidar-te.",
+    'personalized.parents.understanding.description2':
+      "Ser pare o mare és una tasca intensa que sovint deixa poc temps per l'autocura.",
+    'personalized.parents.understanding.callToAction':
+      "Mereix prendre't un temps per recarregar energies i estar millor per als teus.",
+    'personalized.parents.services.title': 'Sessions pensades per a pares i mares',
+    'personalized.parents.services.subtitle':
+      'Tractaments per recuperar energia i equilibri emocional',
+    'personalized.parents.services.emotionalKinesiology.title': 'Kinesiologia emocional',
+    'personalized.parents.services.emotionalKinesiology.description':
+      "Teràpia específica per gestionar l'estrès familiar i recuperar l'equilibri emocional.",
+    'personalized.parents.services.relaxingMassage.title':
+      'Massatge relaxant i consciència corporal',
+    'personalized.parents.services.relaxingMassage.description':
+      'Sessió de desconnexió profunda per alliberar tensions acumulades i recuperar energia.',
+    'personalized.parents.testimonial.title': "Experiència d'una mare",
+    'personalized.parents.testimonial.quote':
+      'Després de les sessions, em sento més pacient amb els nens i tinc més energia per gaudir realment del temps en família.',
+    'personalized.parents.testimonial.author': 'Laura, mare de dos fills',
+
+    // Common translations for personalized pages
+    'common.askQuestions': 'Fer preguntes',
+    'common.learnMore': 'Saber més',
+    'common.recommended': 'Recomanat',
+    'common.back': 'Enrere',
+    'common.continue': 'Continuar',
+    'common.disclaimer':
+      "Els serveis d'EKA Balance són de suport complementari, no mèdic. No substitueixen cap diagnòstic ni tractament professional. L'objectiu és acompanyar-te cap a més benestar, consciència i equilibri global.",
+
+    'contact.form.whatsapp': 'WhatsApp',
+    'contact.form.preferredTime': 'Horari preferit',
+    'contact.form.selectTime': 'Selecciona un horari',
+
+    // Cookie translations
+    'cookies.title': 'Utilitzem cookies per millorar la teva experiència',
+    'cookies.description':
+      "Utilitzem cookies essencials per a la funcionalitat del lloc web i analítiques anònimes per millorar els nostres serveis. No utilitzem cookies publicitàries ni de seguiment. En continuar utilitzant el nostre lloc, acceptes l'ús de cookies.",
+    'cookies.accept': 'Acceptar',
+    'cookies.learnMore': 'Saber més',
+
+    // Layout footer
+    'footer.privacyPolicy': 'Política de privacitat',
+    'footer.cookiePolicy': 'Política de cookies',
+    'footer.termsOfService': 'Condicions de servei',
+    'footer.logout': 'Sortir',
+    'footer.login': 'Entrar',
+
+    // Service pages
+    'services.page.benefits': 'Beneficis',
+    'services.page.testimonials': 'Testimonials',
+    'services.page.sessions': 'Sessions',
+    'services.page.duration': 'Durada',
+    'services.page.price': 'Preu',
+
+    // Policy pages
+    'policy.lastUpdated': 'Última actualització:',
+    'policy.introduction': 'Introducció',
+
+    'vip.plan.bronze.description': 'Cura essencial per al manteniment',
+    'vip.plan.bronze.price': '150€',
+    'vip.plan.silver.description': 'Benestar mensual complet',
+    'vip.plan.silver.price': '280€',
+    'vip.plan.gold.description': 'Transformació total i exclusivitat',
+    'vip.plan.gold.price': '500€',
+
+    'vip.service.priority.title': 'Reserva prioritària',
+    'vip.service.priority.description':
+      'Salta la cua amb franges exclusives reservades només per a tu.',
+    'vip.service.displacements.title': 'Visites a domicili',
+    'vip.service.displacements.description':
+      'Venim on siguis. Estalvia temps i gaudeix dels tractaments al teu espai.',
+    'vip.service.health.title': 'Seguiment de salut',
+    'vip.service.health.description':
+      'Revisions regulars i seguiment del progrés de la teva salut física.',
+    'vip.service.family.title': 'Beneficis familiars',
+    'vip.service.family.description':
+      'Comparteix les teves sessions i beneficis amb familiars directes.',
+
+    'vip.benefits.transferable': 'Sessions transferibles',
+    'vip.benefits.transferableDesc': 'Comparteix amb la família',
+    'vip.benefits.monthly': 'Revisió mensual',
+    'vip.benefits.monthlyDesc': 'Cura preventiva',
+    'vip.benefits.barcelona': 'Exclusiu Barcelona',
+    'vip.benefits.barcelonaDesc': 'Disponible al centre',
+    'vip.benefits.sessions': 'Sessions esteses',
+
+    'vip.stats.concierge': 'Servei concierge',
+    'vip.stats.exclusivity': 'Exclusivitat',
+    'vip.stats.clients': 'Top 1% clients',
+    'vip.stats.possibilities': 'Possibilitats',
+    'vip.stats.control': 'Control de salut',
+    'vip.stats.family': 'Pla familiar',
+
+    'vip.mostExclusive': 'Més exclusiu',
+    'vip.experienceDescription':
+      'Viu el cim del benestar dirigit a aquells que exigeixen el millor.',
+    'vip.voicesOfExcellence': "Veus d'Excel·lència",
+    'vip.testimonialsSubtitle': "El que diuen els nostres membres d'elit.",
+    'vip.tier.standard': 'Membre estàndard',
+
+    'vip.testimonials.comment1':
+      'La millor inversió que he fet per a la meva salut. El servei prioritari canvia les regles del joc.',
+    'vip.testimonials.comment2':
+      "Professionalitat en estat pur. L'Elena entén exactament el que el meu cos necessita.",
+    'vip.testimonials.comment3':
+      "Em sento renovada després de cada sessió. L'atenció al detall és inigualable.",
+
+    'vip.hero.badge': 'Ultra prèmium',
+    'vip.hero.title.beyond': 'Més enllà',
+    'vip.hero.title.wellness': 'Del benestar',
+    'vip.hero.subtitle':
+      'Entra en un món on el teu benestar és la prioritat absoluta. Tractaments exclusius, accés prioritari i atenció personalitzada.',
+    'vip.hero.cta.join': 'Uneix-te al cercle interior',
+
+    'vip.dashboard.member': 'Àrea de membres',
+    'vip.dashboard.hello': 'Hola,',
+    'vip.dashboard.status': 'Estat actual:',
+    'vip.dashboard.priorityBooking': 'Reserva prioritària',
+    'vip.dashboard.viewPlans': 'Veure plans VIP',
+
+    'vip.features.badge': 'Excel·lència',
+    'vip.features.title': "Dissenyat per a l'Elit",
+    'vip.features.subtitle': 'Descobreix què significa formar part del cercle més exclusiu.',
+    'vip.plans.badge': "Membresies d'ELIT",
+    'vip.plans.title': 'Tria la teva experiència elite',
+    'vip.plans.subtitle':
+      'Cada pla està meticulosament dissenyat per oferir una experiència inoblidable.',
+    'vip.plans.popular': 'Més exclusiu',
+    'vip.plans.perMonth': '€/Mes',
+    'vip.plans.sessions': 'Sessions exclusives mensuals',
+    'vip.plans.contact': 'Contactar per a',
+    'vip.table.title': 'Comparativa de plans',
+    'vip.table.sessions': 'Sessions incloses',
+    'vip.exclusivePrivileges': 'Privilegis exclusius',
+    'vip.testimonials.title': "Veus d'excel·lència",
+    'vip.testimonials.subtitle': "Experiències reals dels nostres membres de l'Inner Circle.",
+    'vip.testimonials.role1': 'Ceo, empresa tecnològica',
+    'vip.testimonials.role2': 'Cirurgià cardiovascular',
+    'vip.testimonials.role3': 'Emprenedora',
+    'vip.cta.badge': "L'INNER CIRCLE T'ESPERA",
+    'vip.cta.title': 'Preparat per transcendir',
+    'vip.cta.subtitle':
+      "Només els qui busquen l'excel·lència poden formar part d'aquesta experiència única. La teva transformació comença aquí.",
+    'vip.whatsapp.message':
+      "Hola, estic interessat en el pla VIP {plan}. M'agradaria rebre més informació.",
+    'vip.whatsapp.messageGeneral':
+      "Hola, estic interessat en els plans VIP inner circle. M'agradaria rebre més informació.",
+    'vip.cta.location': 'Ubicació exclusiva',
+    'vip.cta.concierge': 'Servei concierge',
+    'vip.cta.guarantee': 'Garantia total',
+
+    // VIP Plans
+    'vip.plan.bronze': 'Essencial',
+    'vip.plan.silver': 'Prestige',
+    'vip.plan.gold': 'Elite',
+    'vip.plan.platinum': 'Signature',
+
+    'vip.plan.bronze.desc': 'El punt de partida ideal per a qui busca constància i manteniment.',
+    'vip.plan.silver.desc': 'Per a aquells que necessiten un acompanyament més profund i regular.',
+    'vip.plan.gold.desc': "L'experiència completa per a una transformació integral.",
+    'vip.plan.platinum.desc': "La màxima expressió de l'exclusivitat i el servei personalitzat.",
+
+    'vip.feature.priority': 'Reserva prioritària (48h abans)',
+    'vip.feature.extended': 'Sessions esteses (+15 min)',
+    'vip.feature.support': 'Suport via WhatsApp',
+    'vip.feature.events': 'Accés a esdeveniments exclusius',
+    'vip.feature.home': 'Servei a domicili (opcional)',
+    'vip.feature.all': 'Tots els beneficis inclosos',
+    'vip.feature.gift': '1 sessió de regal per a un amic',
+    'vip.feature.consultation': 'Consulta nutricional trimestral',
+    'vip.feature.kit': 'Kit de benvinguda premium',
+    'vip.feature.concierge': 'Gestor personal de benestar',
+    'vip.feature.retreat': 'Descompte en retirs anuals',
+
+    // Missing Keys Patch
+    'hero.firstTime': 'Primera vegada?',
+    'hero.dontKnowWhatToChoose': 'No saps què triar?',
+    'hero.discoverServices': 'Descobreix els serveis',
+    'hero.stats.sessions': 'Sessions realitzades',
+    'hero.stats.countries': 'Països impactats',
+
+    'footer.address': 'Carrer de pelai',
+    'footer.email': 'Info@ekabalance.Com',
+    'footer.copyright': '© 2024 EKA Balance. Tots els drets reservats.',
+    'footer.selectLanguage': 'Selecciona idioma',
+    'footer.discounts': "Descomptes d'estiu",
+
+    'language.popup.title': 'Benvingut a EKA Balance',
+    'language.popup.subtitle': 'Si us plau, selecciona el teu idioma preferit',
+    'cookies.wrongLanguage': 'Sembla que estàs en un idioma diferent del teu navegador.',
+
+    'stats.sessions': 'Sessions',
+    'stats.clients': 'Clients',
+    'stats.experience': 'Experiència',
+    'stats.rating': 'Valoració',
+    'stats.countries': 'Països',
+    'stats.cases': 'Casos resolts',
+    'stats.response': 'Resposta ràpida',
+
+    // Casos & Problems
+    'casos.hero.badge': 'Històries reals',
+    'casos.title': 'Casos reals',
+    'casos.subtitle': "Històries d'èxit",
+    'casos.description': 'Descobreix com hem ajudat altres persones.',
+    'casos.frequentCases': 'Casos freqüents',
+    'casos.frequentCasesSubtitle': 'Patologies comunes',
+    'casos.otherCases': 'Altres casos',
+    'casos.otherCasesSubtitle': 'Altres àrees',
+    'casos.ctaTitle': 'Tens un cas similar?',
+    'casos.ctaSubtitle': 'Parla amb nosaltres',
+    'casos.discoverIdeal': 'Descobreix el tractament',
+    'casos.bookSession': 'Reservar sessió',
+    'casos.seeDetails': 'Veure detalls',
+    'casos.section.badge': 'Casos clínics',
+    'casos.section.title': 'Identificació de patologies',
+    'casos.section.titleHighlight': 'i solucions',
+    'casos.section.subtitle': 'Resolució de problemes complexos',
+    'casos.section.readMore': 'Llegir més',
+    'casos.section.viewAll': 'Veure tots',
+    'casos.section.findYourCase': 'Troba el teu cas',
+
+    'casos.problems.backPain.title': "Mal d'Esquena",
+    'casos.problems.backPain.description': 'Dolor persistent i problemes posturals.',
+    'casos.problems.stress.title': 'Estrès i ansietat',
+    'casos.problems.stress.description': 'Desregulació del sistema nerviós.',
+    'casos.problems.digestive.title': 'Problemes digestius',
+    'casos.problems.digestive.description': 'Disfunció visceral i inflor.',
+    'casos.problems.migraines.title': 'Migranyes',
+    'casos.problems.migraines.description': 'Mals de cap i tensió cranial.',
+    'casos.problems.lowEnergy.title': 'Fatiga crònica',
+    'casos.problems.lowEnergy.description': 'Esgotament sistèmic.',
+    'casos.problems.hormonal.title': 'Desequilibris hormonals',
+    'casos.problems.hormonal.description': 'Salut de la dona i cicles.',
+    'casos.problems.sleep.title': 'Trastorns del son',
+    'casos.problems.sleep.description': 'Insomni i descans pobre.',
+    'casos.problems.recovery.title': 'Recuperació',
+    'casos.problems.recovery.description': 'Post-lesió i rehabilitació.',
+
+    // Students
+    'students.problems.title': 'Reptes dels estudiants',
+    'students.problems.subtitle': "Supera l'estrès acadèmic",
+    'students.problem1.title': 'Ansietat',
+    'students.problem1.desc': 'Davant exàmens',
+    'students.problem2.title': 'Postura',
+    'students.problem2.desc': "Dolor d'estudiar",
+    'students.problem3.title': 'Concentració',
+    'students.problem3.desc': 'Dificultat de focus',
+    'students.problem4.title': 'Fatiga',
+    'students.problem4.desc': 'Cansament mental',
+    'students.results.title': 'Resultats',
+    'students.results.point1': 'Millor rendiment',
+    'students.results.point2': 'Menys estrès',
+    'students.results.point3': 'Més energia',
+    'students.plans.title': "Plans d'Estudi",
+    'students.plans.subtitle': 'Opcions per a tu',
+    'students.plan1.name': 'Sessió única',
+    'students.plan1.desc': 'Puntual',
+    'students.plan1.result': 'Alleujament',
+    'students.plan2.name': 'Pack estudi',
+    'students.plan2.desc': 'Seguiment',
+    'students.plan2.result': 'Rendiment',
+    'students.plan2.popular': 'Popular',
+    'students.plan2.save': 'Estalvi',
+    'students.plan3.name': 'Programa complet',
+    'students.plan3.desc': 'Transformació',
+    'students.plan3.result': 'Èxit',
+    'students.plan.cta': 'Tria pla',
+    'students.plan1.benefit1': 'Relax',
+    'students.plan1.benefit2': 'Focus',
+    'students.plan1.benefit3': 'Tips',
+    'students.plan1.benefit4': 'Suport',
+    'students.plan2.benefit1': '3 sessions',
+    'students.plan2.benefit2': 'Seguiment',
+    'students.plan2.benefit3': 'Prioritat',
+    'students.plan2.benefit4': 'Descompte',
+    'students.plan3.benefit1': '5 sessions',
+    'students.plan3.benefit2': 'Coaching',
+    'students.plan3.benefit3': 'WhatsApp',
+    'students.plan3.benefit4': 'Material',
+
+    // Office
+    'office.hero.badge': 'Empreses',
+    'office.hero.title': 'Benestar corporatiu',
+    'office.hero.subtitle': 'Salut a la feina',
+    'office.problems.title': "Reptes d'Oficina",
+    'office.problems.subtitle': 'Sedentarisme i estrès',
+    'office.problem1.title': "Mal d'esquena",
+    'office.problem1.desc': 'Postura estàtica',
+    'office.problem2.title': 'Vista cansada',
+    'office.problem2.desc': 'Pantalles',
+    'office.problem3.title': 'Cervicals',
+    'office.problem3.desc': 'Tensió espatlles',
+    'office.problem4.title': 'Sedentarisme',
+    'office.problem4.desc': 'Falta moviment',
+    'office.help.title': 'Solucions',
+    'office.help1.title': 'Ergonomia',
+    'office.help1.desc': 'Ajust postural',
+    'office.help2.title': 'Actvació',
+    'office.help2.desc': 'Exercicis',
+    'office.help3.title': 'Relaxació',
+    'office.help3.desc': 'Anti-estrès',
+    'office.results.title': 'Beneficis',
+    'office.results.point1': 'Productivitat',
+    'office.results.point2': 'Menys baixes',
+    'office.results.point3': 'Bon ambient',
+    'office.plans.title': 'Plans empresa',
+    'office.plans.subtitle': 'Per a equips',
+    'office.plan1.name': 'Individual',
+    'office.plan1.desc': 'Executiu',
+    'office.plan1.result': 'Focus',
+    'office.plan2.name': 'Equip petit',
+    'office.plan2.desc': '< 10 persones',
+    'office.plan2.result': 'Cohesió',
+    'office.plan2.popular': 'Recomanat',
+    'office.plan2.save': 'Deduïble',
+    'office.plan3.name': 'Departament',
+    'office.plan3.desc': 'Grans equips',
+    'office.plan3.result': 'Cultura',
+    'office.plan.cta': 'Contactar',
+    'office.plan1.benefit1': 'Anàlisi',
+    'office.plan1.benefit2': 'Tractament',
+    'office.plan1.benefit3': 'Informe',
+    'office.plan1.benefit4': 'Seguiment',
+    'office.plan2.benefit1': 'Tallers',
+    'office.plan2.benefit2': 'Grup',
+    'office.plan2.benefit3': 'Material',
+    'office.plan2.benefit4': 'Deal',
+    'office.plan3.benefit1': 'Anual',
+    'office.plan3.benefit2': 'In-house',
+    'office.plan3.benefit3': 'Events',
+    'office.plan3.benefit4': 'Dades',
+
+    // Discovery & Other
+    'discovery.location.barcelona': 'Barcelona',
+    'discovery.location.rubi': 'Rubí',
+    'discovery.location.online': 'Online',
+    'discovery.step.location.title': 'Ubicació',
+    'discovery.step.location.subtitle': 'On?',
+    'discovery.step.description.title': 'Descripció',
+    'discovery.step.description.subtitle': 'Què et passa?',
+    'discovery.step.description.placeholder': "Explica'ns...",
+
+    'common.moreInfo': 'Més info',
+    'common.readMore': 'Llegir més',
+    'common.expectedResult': 'Resultat esperat',
+    'common.bookNow': 'Reservar',
+    'common.contact': 'Contacte',
+    'common.discoverServices': 'Serveis',
+    'common.reserve': 'Reservar',
+    'common.reserveNow': 'Reservar ara',
+    'common.seePlans': 'Veure plans',
+    'common.hour': 'H',
+    'common.hours': 'Hores',
+    'common.reserveSession': 'Reserva sessió',
+    'common.seeOtherServices': 'Altres serveis',
+    'common.getStarted': 'Començar',
+    'common.price': 'Preu',
+    'common.duration': 'Duració',
+    'common.benefits': 'Beneficis',
+
+    'services.therapiesFor': 'Teràpies per',
+    'services.integralWellbeing': 'Benestar integral',
+    'services.personalizedTreatments': 'Personalitzat',
+    'services.massage.title': 'Massatge',
+    'services.massage.subtitle': 'Relax',
+    'services.massage.description': 'Descans profund',
+    'services.kinesiology.title': 'Kinesiologia',
+    'services.kinesiology.subtitle': 'Equilibri',
+    'services.kinesiology.description': 'Test muscular',
+    'services.nutrition.title': 'Nutrición',
+    'services.nutrition.subtitle': 'Salud',
+    'services.nutrition.description': 'Dieta consciente',
+    'services.revision360.title': 'Revisió 360',
+    'services.revision360.subtitle': 'Total',
+    'services.revision360.description': 'Avaluació completa',
+    'services.consultation.title': 'Consulta',
+    'services.consultation.description': 'Parlem 15 min',
+    'services.consultation.feeling': 'Claredat',
+
+    'elena.seo.title': 'Elena Kucherova bcn',
+    'elena.seo.desc': 'Teràpia somàtica Barcelona',
+    'elena.seo.keywords': 'Somàtica, Elena, Barcelona',
+    'casos.seo.title': 'Casos èxit',
+    'casos.seo.desc': 'Recuperació real',
+    'casos.seo.keywords': 'Casos, salut, resultats',
+
+    'whyChoose.title': 'Per què triar EKA Balance?',
+    'whyChoose.subtitle':
+      'Som més que un centre de teràpia; som els teus socis dedicats en el benestar holístic.',
+    'whyChoose.personalized.title': 'Plans veritablement personalitzats',
+    'whyChoose.personalized.description':
+      'El teu cos és únic, i la teva teràpia també ho hauria de ser. Adaptem cada sessió a la teva fisiologia i història específiques per obtenir resultats més ràpids i sostenibles.',
+    'whyChoose.holistic.title': 'Integració sistèmica',
+    'whyChoose.holistic.description':
+      'Tractem tot el teu ésser: estructural, químic i emocional. La veritable curació succeeix quan tots els teus sistemes treballen en harmonia.',
+    'whyChoose.experienced.title': 'Guiatge expert',
+    'whyChoose.experienced.description':
+      "Beneficia't d'anys de pràctica professional i estudi continu en modalitats globals com Feldenkrais, Osteopatia i Kinesiologia.",
+
+    'finalCta.title': 'A punt?',
+    'finalCta.subtitle': 'Reserva ja',
+
+    // Pricing Section
+    'pricing.badge': 'Tarifes transparents',
+    'pricing.title.part1': 'Tria el teu',
+    'pricing.title.part2': 'pla de benestar',
+    'pricing.subtitle':
+      'Packs dissenyats per a cada necessitat, amb la flexibilitat i qualitat que et mereixes',
+    'pricing.popular': 'Més popular',
+    'pricing.save': 'Estalvia {percent}%',
+    'pricing.discount_applied': 'Aplicat',
+    'pricing.plan.select': 'Seleccionar',
+
+    'pricing.plan.basic.name': 'Sessió individual',
+    'pricing.plan.basic.desc': 'Una sessió completa de 60 minuts',
+    'pricing.plan.pack3.name': 'Pack benestar (3)',
+    'pricing.plan.pack3.desc': 'Pack de 3 sessions per un seguiment continu',
+    'pricing.plan.pack5.name': 'Pack transformació (5)',
+    'pricing.plan.pack5.desc': 'Tractament integral per canvis profunds',
+
+    'pricing.feature.massage': 'Massatge terapèutic',
+    'pricing.feature.kinesiology': 'Kinesiologia',
+    'pricing.feature.osteopathy': 'Osteopatia suau',
+    'pricing.feature.save15': 'Estalvia 15€',
+    'pricing.feature.valid3months': 'Vàlid per 3 mesos',
+    'pricing.feature.transferable': 'Transferible',
+    'pricing.feature.save25': 'Estalvia 25€',
+    'pricing.feature.valid6months': 'Vàlid per 6 mesos',
+    'pricing.feature.priority': 'Prioritat de reserva',
+
+    'pricing.guarantee.nocommitment.title': 'Sense compromisos',
+    'pricing.guarantee.nocommitment.desc':
+      'Cancel·la o canvia la teva cita fins 24h abans sense cost',
+    'pricing.guarantee.satisfaction.title': 'Garantia de satisfacció',
+    'pricing.guarantee.satisfaction.desc':
+      'Si no estàs satisfet amb la primera sessió, te la reemborsen',
+    'pricing.guarantee.certified.title': 'Professionals certificats',
+    'pricing.guarantee.certified.desc': 'Tots els nostres terapeutes tenen certificacions oficials',
+    'pricing.guarantee.equipment.title': 'Equip professional',
+    'pricing.guarantee.equipment.desc': 'Utilitzem només equip i productes de màxima qualitat',
+
+    'pricing.cta.unsure.title': 'No estàs segur quin pla triar?',
+    'pricing.cta.unsure.subtitle':
+      "Fes la nostra avaluació gratuïta i descobreix quin tractament s'adapta millor a les teves necessitats",
+    'pricing.cta.unsure.button': 'Descobrir els nostres serveis',
+
+    // Booking Popup
+    'booking.smart.service.placeholder': 'Selecciona un servei...',
+    'booking.smart.time.placeholder': 'Ex: matins, divendres...',
+    'booking.whatsapp.name': 'Nom',
+    'booking.whatsapp.serviceLabel': 'Servei',
+    'booking.whatsapp.preference': 'Preferència horària',
+    'booking.service.other': 'Altre',
+    'booking.service.consultation': 'Consulta inicial',
+    'booking.smart.quick': 'Reserva ràpida',
+    'booking.smart.quickDesc': 'Contacta per WhatsApp directament.',
+    'booking.smart.form': 'Formulari',
+    'booking.smart.formDesc': 'Omple els detalls primer.',
+    'booking.smart.name': 'El teu nom',
+    'booking.smart.service': 'Servei',
+    'booking.smart.time': 'Horari preferit',
+    'booking.smart.send': 'Enviar per WhatsApp',
+    'booking.smart.title': 'Reserva la teva cita',
+    'booking.smart.subtitle': 'Tria com vols contactar',
+  },
+
+  en: {
+    // Navigation
+    'nav.home': 'Home',
+    'nav.services': 'Services',
+    'nav.personalizedServices': 'Personalized services',
+    'nav.revision360': '360° review',
+    'nav.vip': 'VIP',
+    'nav.bookNow': 'Book now',
+    'nav.contact': 'Contact',
+    'nav.aboutElena': 'About Elena',
+    'nav.casos': 'Cases',
+
+    // Elena Approach & Targets
+    'elena.approach.title': 'The Elena Kucherova method',
+    'elena.approach.desc':
+      'I believe that your body, mind, and emotions are not separate parts, but a single, living system. My approach goes beyond treating symptoms—I seek the root cause of your discomfort to help your body rediscover its natural ability to heal and self-regulate. By integrating advanced bodywork with nervous system re-education—using techniques like Movement Lesson, JKA, Child’Space, Feldenkrais, and Biodynamics—I offer a gentle yet profound pathway to release deep tension, rewire old patterns, and restore the joy of effortless movement.',
+
+    'elena.target.adults.title': 'For adults',
+    'elena.target.adults.desc':
+      'If you are navigating chronic fatigue, persistent back or neck pain, or the heavy toll of stress and trauma, I am here to help. Together, we will restore your inner resources, align your posture, and release psychosomatic blockages. This is more than a massage; it is a complete reset for your nervous system, empowering you to move through life with renewed lightness and vitality.',
+
+    'elena.target.children.title': 'For children',
+    'elena.target.children.desc':
+      'Supporting your child’s harmonious development from their very first days. I specialize in working with motor delays, postural challenges, hyperactivity, and learning difficulties. Through gentle, respectful touch and movement, I help children connect deeply with their bodies, fostering coordination, confidence, and a secure foundation for their future growth.',
+
+    'elena.target.families.title': 'For families with special needs',
+    'elena.target.families.desc':
+      'Comprehensive, compassionate support for families raising children with cp, genetic syndromes, or unique developmental needs. My work extends beyond the child—helping them master new skills—to include you, the parents. I guide you in supporting your child’s journey while ensuring you maintain your own energy and well-being.',
+
+    // Dropdown items
+    'nav.officeWorkers': 'Office professionals',
+    'nav.athletes': 'Athletes',
+    'nav.artists': 'Artists & creatives',
+    'nav.musicians': 'Musicians',
+    'nav.students': 'Students',
+
+    'home.founder': 'Founder & CEO',
+    'home.elenaAlt': 'Elena, EKA Balance body therapist',
+    'home.viewAllServices': 'View all services',
+    'home.elenaName': 'Elena Kucherova',
+
+    // Hero section
+    'hero.badge': 'Integrative clinical somatics',
+    'hero.title': 'EKA Balance',
+    'hero.subtitle':
+      "Restore your systemic vitality. Advanced neuro-regulation and structural integration protocols. We address the root cause of dysfunction to restore your body's innate capacity for self-regulation.",
+    'hero.firstTime': 'Initial clinical assessment',
+    'hero.dontKnowWhatToChoose': 'Request diagnostic guidance',
+    'hero.discoverServices': 'View clinical protocols',
+    'hero.stats.sessions': 'Clinical sessions',
+    'hero.stats.clients': 'Successful cases',
+    'hero.stats.experience': 'Years of expertise',
+    'hero.stats.countries': 'International certifications',
+
+    // Footer
+    'footer.address': 'Carrer pelai, 12, Barcelona, Spain',
+    'footer.email': 'Contact@ekabalance.Com',
+    'footer.copyright': '© 2024 EKA Balance. All rights reserved.',
+    'footer.selectLanguage': 'Select language',
+    'footer.discounts': 'Discounts',
+
+    // Language Popup & Cookies
+    'language.popup.title': 'Which language do you prefer?',
+    'language.popup.subtitle': 'Select your language to continue',
+    'cookies.wrongLanguage': 'Wrong language?',
+
+    // Discovery Form - Location
+    'discovery.location.barcelona': 'Barcelona',
+    'discovery.location.rubi': 'Rubí',
+    'discovery.location.online': 'Online / not nearby',
+    'discovery.step.location.title': 'Where are you located?',
+    'discovery.step.location.subtitle': 'To suggest the best option',
+    'discovery.step.description.title': 'Tell us about your case',
+    'discovery.step.description.subtitle':
+      'Briefly describe what is happening or what you are looking for (minimum 3 characters)',
+    'discovery.step.description.placeholder': 'Ex: i have had back pain for weeks...',
+
+    // Services
+    'services.massage.title': 'Advanced manual therapy',
+    'services.massage.subtitle': 'Structural integration & myofascial release',
+    'services.massage.description':
+      'Clinical Approach to musculoskeletal dysfunction. We utilize deep tissue mobilization and neuromuscular techniques to restore range of motion and eliminate chronic pain patterns.',
+    'services.kinesiology.title': 'Clinical kinesiology',
+    'services.kinesiology.subtitle': 'Neuromuscular biofeedback diagnosis',
+    'services.kinesiology.description':
+      'Precision diagnostic methodology using muscle response testing to identify physiological, structural, and emotional stressors affecting your systemic health.',
+    'services.nutrition.title': 'Metabolic optimization',
+    'services.nutrition.subtitle': 'Clinical nutrition & biochemistry',
+    'services.nutrition.description':
+      'Therapeutic nutritional strategies designed to reduce systemic inflammation, optimize metabolic function, and support neuro-endocrine regulation.',
+    'services.revision360.title': '360° clinical assessment',
+    'services.revision360.subtitle': 'Comprehensive Functional diagnosis',
+    'services.revision360.description':
+      'An exhaustive evaluation of your biomechanics, posture, and metabolic status. We generate a detailed clinical report and a personalized therapeutic roadmap.',
+    'services.therapiesFor': 'Specialized methods for',
+    'services.integralWellbeing': 'Integral wellbeing',
+    'services.personalizedTreatments':
+      'Discover treatments tailored to your unique lifestyle and needs',
+    'services.consultation.title': 'Free 15-min consultation',
+    'services.consultation.description':
+      'Unsure which path is right for you? Let’s chat for 15 minutes, no strings attached, to see how I can best support your journey.',
+    'services.consultation.feeling': 'Gain clarity on your next step',
+
+    // Common
+    'common.moreInfo': 'Learn more',
+    'common.readMore': 'Read more',
+    'common.expectedResult': 'Expected result',
+    'common.bookNow': 'Book your session',
+    'common.contact': 'Get in touch',
+    'common.discoverServices': 'Explore services',
+    'common.reserve': 'Reserve',
+    'common.reserveNow': 'Book now',
+    'common.seePlans': 'View plans',
+    'common.hour': 'Hour',
+    'common.hours': 'Hours',
+    'common.reserveSession': 'Secure your spot',
+    'common.seeOtherServices': 'View other services',
+    'common.getStarted': 'Start your journey',
+
+    // About Elena
+    'elena.greeting': "Hello, I'm Elena",
+    'elena.role': 'Specialist in somatic healing & body practices',
+    'elena.bio':
+      'I have dedicated my life to exploring the depths of therapeutic disciplines, crafting a unique, integrative Approach that honors the whole person.',
+    'elena.work.title': 'My Approach',
+    'elena.description1':
+      'I am a body therapist specializing in therapeutic massage, kinesiology, and mind-body integration. My work is grounded in the belief that True healing comes from listening to the body.',
+    'elena.description2':
+      'My goal is simple: to help you release the weight of tension and reclaim your physical and emotional well-being, so you can move through life with lightness and renewed energy.',
+    'elena.knowMore': 'Read my full story',
+    'elena.quote':
+      'The body has the innate capability to heal itself; my job is to remind it how to do so.',
+
+    // Stats
+    'stats.sessions': 'Sessions given',
+    'stats.clients': 'Lives impacted',
+    'stats.experience': 'Years of practice',
+    'stats.rating': 'Average rating',
+    'stats.countries': 'Countries studied in',
+    'stats.cases': 'Complex cases solved',
+    'stats.response': 'WhatsApp response time',
+
+    // Why choose us
+    'whyChoose.title': 'Why choose EKA Balance?',
+    'whyChoose.subtitle':
+      'We are more than a therapy center; we are your dedicated partners in holistic well-being.',
+    'whyChoose.personalized.title': 'Truly personalized plans',
+    'whyChoose.personalized.description':
+      'Your body is unique, and your therapy should be too. We tailor every session to your specific physiology and history for faster, sustainable results.',
+    'whyChoose.holistic.title': 'Systemic integration',
+    'whyChoose.holistic.description':
+      'We treat the whole you—structural, chemical, and emotional. Real healing happens when all your systems work in harmony.',
+    'whyChoose.experienced.title': 'Expert guidance',
+    'whyChoose.experienced.description':
+      'Benefit from years of professional practice and continuous study in global modalities like Feldenkrais, osteopathy, and kinesiology.',
+
+    // Final CTA
+    'finalCta.title': 'Ready to transform your health?',
+    'finalCta.subtitle':
+      'Reach out today to book your session or ask any questions. Your journey to wellness starts here.',
+
+    // Casos page
+    'casos.hero.badge': 'Success stories',
+    'casos.title': 'Pathways to healing',
+    'casos.subtitle': 'Your body is speaking. We help you listen.',
+    'casos.description':
+      'Symptoms like pain, fatigue, or tension are often just the tip of the iceberg—signals from a system seeking Balance. At EKA Balance, we don’t just silence these signals; we decode them. By addressing the root cause, we’ve helped hundreds of clients transform their relationship with their bodies. Explore these common journeys to see what’s possible for you.',
+    'casos.frequentCases': 'Most frequent cases',
+    'casos.frequentCasesSubtitle': 'Common challenges we successfully resolve every day',
+    'casos.otherCases': 'Other conditions we treat',
+    'casos.otherCasesSubtitle': 'A comprehensive list of issues we can help you overcome',
+    'casos.ctaTitle': 'We know how to help',
+    'casos.ctaSubtitle':
+      'If you recognize yourself in any of these stories, your body is asking for support. At EKA Balance, we accompany you with precise techniques, a human touch, and real results.',
+    'casos.discoverIdeal': 'Find your ideal service',
+    'casos.bookSession': 'Book your session',
+    'casos.seeDetails': 'View details',
+
+    // Casos section
+    'casos.section.badge': 'Real problems, effective solutions',
+    'casos.section.title': 'Problems we',
+    'casos.section.titleHighlight': 'solve every day',
+    'casos.section.subtitle':
+      'Hundreds of people have reclaimed their well-being with us. Discover how we can help you too.',
+    'casos.section.readMore': 'Read more',
+    'casos.section.viewAll': 'View all cases',
+    'casos.section.findYourCase': 'Find your case',
+
+    // Problems
+    'casos.problems.backPain.title': 'Chronic musculoskeletal pain',
+    'casos.problems.backPain.description':
+      'Clinical management of cervicalgia, lumbar pathology, and myofascial pain syndromes. We address the structural and Functional root causes of persistent discomfort.',
+    'casos.problems.stress.title': 'Autonomic dysregulation',
+    'casos.problems.stress.description':
+      'Therapeutic intervention for high-stress states, anxiety, and sympathetic dominance. We restore vagal tone and promote physiological equilibrium.',
+    'casos.problems.digestive.title': 'Visceral dysfunction',
+    'casos.problems.digestive.description':
+      'Integrative treatment for Functional gastrointestinal disorders. We optimize the gut-brain axis to resolve bloating, motility issues, and systemic inflammation.',
+    'casos.problems.migraines.title': 'Cephalalgia & migraine',
+    'casos.problems.migraines.description':
+      'Neuro-vascular regulation for chronic headaches. We treat cervical triggers and cranial tension patterns to reduce frequency and intensity.',
+    'casos.problems.lowEnergy.title': 'Systemic fatigue',
+    'casos.problems.lowEnergy.description':
+      'Metabolic and adrenal support for chronic exhaustion. We identify and treat the underlying bio-energetic depletions restoring vitality.',
+    'casos.problems.hormonal.title': 'Endocrine regulation',
+    'casos.problems.hormonal.description':
+      'Somatic support for hormonal health. We address cycle irregularities and menopausal transition through neuro-endocrine balancing.',
+    'casos.problems.sleep.title': 'Circadian rhythm disorders',
+    'casos.problems.sleep.description':
+      'Restoration of sleep architecture. We treat the nervous system hyperarousal that prevents deep, restorative rest.',
+    'casos.problems.recovery.title': 'Post-traumatic rehabilitation',
+    'casos.problems.recovery.description':
+      'Accelerated tissue healing and Functional restoration following injury or surgery. We minimize scar tissue and restore proprioception.',
+    'casos.problems.backPain.symptom1':
+      'Stabbing pain or constant tension in the lower back or neck',
+    'casos.problems.backPain.symptom2': 'Difficulty turning your head or Lifting your arm',
+    'casos.problems.backPain.symptom3': 'Fatigue after sitting or standing for long periods',
+    'casos.problems.backPain.symptom4': 'Feeling of heavy pressure on shoulders or head',
+    'casos.problems.backPain.cause1': 'Prolonged poor posture and ergonomics',
+    'casos.problems.backPain.cause2': 'Accumulated emotional stress stored in muscles',
+    'casos.problems.backPain.cause3': 'Lack of Movement and sedentary habits',
+    'casos.problems.backPain.cause4': 'Blocked or shallow breathing patterns',
+    'casos.problems.backPain.treatment':
+      'We use therapeutic massage, myofascial release, and kinesiology to find the root cause (stress, joint, or visceral blockage), combined with Feldenkrais for postural re-education.',
+    'casos.problems.backPain.results':
+      'Most clients feel immediate relief and improved mobility after just one session. Over time, your body relearns to support itself with effortless ease.',
+    'casos.problems.stress.symptom1': 'Racing thoughts and mental loops',
+    'casos.problems.stress.symptom2': 'Inability to relax or switch off',
+    'casos.problems.stress.symptom3': 'Jaw clenching, neck pain, or morning fatigue',
+    'casos.problems.stress.symptom4': 'Intense emotional reactions without clear cause',
+    'casos.problems.stress.cause1': 'Overwhelming responsibilities and pressure',
+    'casos.problems.stress.cause2': 'Chronic stress and lack of self-care time',
+    'casos.problems.stress.cause3': 'Unresolved trauma or difficult life events',
+    'casos.problems.stress.cause4': 'Imbalance in the autonomic nervous system',
+    'casos.problems.stress.treatment':
+      'We employ emotional kinesiology and vagal nerve techniques to soothe the nervous system, adding gentle bodywork (Feldenkrais, breathwork) to teach your body to truly"let go."',
+    'casos.problems.stress.results':
+      'Sleep improves, internal tension melts away, and you regain a sense of control and deep serenity.',
+    'casos.problems.digestive.symptom1': 'Bloating, gas, reflux, or pain after eating',
+    'casos.problems.digestive.symptom2': 'Post-meal fatigue or brain fog',
+    'casos.problems.digestive.symptom3': 'Unexplained mood swings or irritability',
+    'casos.problems.digestive.symptom4': 'Food intolerances or sensitivities',
+    'casos.problems.digestive.cause1': 'Undiagnosed Food sensitivities',
+    'casos.problems.digestive.cause2': 'Irregular eating habits or stress during meals',
+    'casos.problems.digestive.cause3': 'Emotional stress impacting gut function',
+    'casos.problems.digestive.cause4': 'Visceral restrictions affecting organ motility',
+    'casos.problems.digestive.treatment':
+      'We use nutritional kinesiology to identify sensitivities, apply gentle visceral massage, and provide personalized dietary guidance.',
+    'casos.problems.digestive.results':
+      'Digestion becomes smooth, bloating vanishes, and daily energy soars. You learn to listen to your body and nourish it correctly.',
+    'casos.problems.migraines.symptom1': 'Throbbing pain on one side of the head or neck',
+    'casos.problems.migraines.symptom2': 'Pressure behind the eyes or a"tight helmet" sensation',
+    'casos.problems.migraines.symptom3': 'Dizziness, nausea, or vertigo',
+    'casos.problems.migraines.symptom4': 'Extreme sensitivity to light and sound',
+    'casos.problems.migraines.cause1': 'Cervical misalignments and muscle tension',
+    'casos.problems.migraines.cause2': 'Jaw tension (bruxism) and TMJ issues',
+    'casos.problems.migraines.cause3': 'Sleep deprivation or mental overload',
+    'casos.problems.migraines.cause4': 'Hormonal fluctuations or dietary triggers',
+    'casos.problems.migraines.treatment':
+      'We combine cranial Osteobalance, muscle release, and vagal techniques to rebalance the nervous system, alongside breathing and posture correction.',
+    'casos.problems.migraines.results':
+      'Significant reduction in frequency and intensity. Many clients experience complete relief after addressing the cervical and cranial root causes.',
+    'casos.problems.lowEnergy.symptom1': 'Constant exhaustion despite adequate sleep',
+    'casos.problems.lowEnergy.symptom2': 'Brain fog, poor memory, and lack of focus',
+    'casos.problems.lowEnergy.symptom3': 'Apathy, irritability, or lack of motivation',
+    'casos.problems.lowEnergy.symptom4': 'Feeling like you are"running on empty"',
+    'casos.problems.lowEnergy.cause1': 'Prolonged stress leading to burnout',
+    'casos.problems.lowEnergy.cause2': 'Nutritional deficiencies or metabolic issues',
+    'casos.problems.lowEnergy.cause3': 'Hormonal imbalances (thyroid, adrenals)',
+    'casos.problems.lowEnergy.cause4': 'Emotional exhaustion and lack of purpose',
+    'casos.problems.lowEnergy.treatment':
+      'We use kinesiology to pinpoint imbalances, recommend natural supplementation, and use conscious Movement to reignite your vitality.',
+    'casos.problems.lowEnergy.results':
+      'A noticeable surge in energy, sharper mental clarity, and a more stable, positive mood.',
+    'casos.problems.sleep.symptom1': 'Trouble falling asleep or frequent waking',
+    'casos.problems.sleep.symptom2': 'Waking up tired, tense, or after intense dreams',
+    'casos.problems.sleep.symptom3': 'Racing mind the moment you lie down',
+    'casos.problems.sleep.symptom4': 'Light, restless, or unrefreshing sleep',
+    'casos.problems.sleep.cause1': 'High stress and mental hyperarousal',
+    'casos.problems.sleep.cause2': 'Circadian rhythm disruption and nervous system dysregulation',
+    'casos.problems.sleep.cause3': 'Poor sleep hygiene or lack of routine',
+    'casos.problems.sleep.cause4': 'Digestive issues or hormonal shifts',
+    'casos.problems.sleep.treatment':
+      'We integrate Feldenkrais, guided breathwork, vagal toning, and kinesiology to reset your body’s natural sleep cycles.',
+    'casos.problems.sleep.results':
+      'Restoration of deep, restorative sleep and waking up feeling truly refreshed within a few sessions.',
+    'casos.problems.recovery.symptom1': 'Lingering pain or limited range of motion',
+    'casos.problems.recovery.symptom2': 'Feeling weak, unstable, or off-Balance',
+    'casos.problems.recovery.symptom3': 'Emotional anxiety related to the injury',
+    'casos.problems.recovery.symptom4': 'Guarding or fear of moving normally',
+    'casos.problems.recovery.cause1': 'Internal scar tissue and adhesions',
+    'casos.problems.recovery.cause2': 'Compensatory Movement patterns',
+    'casos.problems.recovery.cause3': 'Physical trauma with trapped emotional stress',
+    'casos.problems.recovery.cause4': 'Cellular memory of the traumatic event',
+    'casos.problems.recovery.treatment':
+      'We use Osteobalance, fascial release, and postural re-education to heal the tissue and help you regain trust in your body.',
+    'casos.problems.recovery.results':
+      'Full recovery of mobility, elimination of pain, and a renewed sense of safety and confidence in Movement.',
+
+    // Contact Form
+    'contact.success.title': 'Message sent successfully!',
+    'contact.success.message': 'Thank you for contacting us. We will get back to you very soon.',
+    'contact.success.button': 'Send another message',
+    'contact.title': 'Talk to us',
+    'contact.subtitle':
+      'We are here to help you on your path to wellness. Contact us and discover how we can improve your quality of life.',
+    'contact.phone.title': 'Phone and WhatsApp',
+    'contact.phone.subtitle': 'WhatsApp available 24/7',
+    'contact.email.title': 'Email',
+    'contact.email.subtitle': 'Response in less than 24h',
+    'contact.location.title': 'Location',
+    'contact.location.address': 'Carrer pelai, 12\n08001 Barcelona',
+    'contact.location.subtitle': 'Metro: l1 and l2 (universitat)',
+    'contact.form.name': 'Full name',
+    'contact.form.email': 'Email address',
+    'contact.form.phone': 'Phone',
+    'contact.form.service': 'Service of interest',
+    'contact.form.service.placeholder': 'Select a service',
+    'contact.form.time': 'Preferred time',
+    'contact.form.time.placeholder': 'Select a time',
+    'contact.form.message': 'Message',
+    'contact.form.message.placeholder': 'Briefly explain what you need...',
+    'contact.form.preferred': 'Preferred contact method',
+    'contact.form.submit': 'Send message',
+    'contact.form.submitting': 'Sending...',
+    'contact.form.privacy': 'I accept the privacy policy',
+    'contact.form.source': 'How did you hear about us?',
+    'contact.form.source.placeholder': 'Select an option',
+    'contact.form.source.google': 'Google',
+    'contact.form.source.social': 'Social media',
+    'contact.form.source.friend': 'Friend recommendation',
+    'contact.form.source.other': 'Other',
+    'contact.quick.title': 'Or contact us directly:',
+    'contact.quick.call': 'Call now',
+    'contact.error': 'There was an error sending the message. Please try again.',
+
+    // Contact Form Options
+    'contact.service.massageBasic': 'Basic massage (1h)',
+    'contact.service.massageComplete': 'Complete massage (1.5h)',
+    'contact.service.massagePremium': 'Premium massage (2h)',
+    'contact.service.kinesiology': 'Holistic kinesiology',
+    'contact.service.nutrition': 'Conscious nutrition',
+    'contact.service.revision360': '360° review',
+    'contact.service.vip': 'VIP plans',
+    'contact.service.other': 'Other inquiries',
+
+    'contact.time.morning': 'Morning (9:00 - 12:00)',
+    'contact.time.noon': 'Noon (12:00 - 15:00)',
+    'contact.time.afternoon': 'Afternoon (15:00 - 18:00)',
+    'contact.time.evening': 'Evening (18:00 - 21:00)',
+    'contact.time.any': 'No preference',
+
+    // Symptoms, causes, treatment, results labels
+    'casos.symptoms': 'Symptoms',
+    'casos.causes': 'Causes',
+    'casos.treatment': 'Our Approach',
+    'casos.results': 'Results',
+
+    // Additional problems list
+    'casos.additionalProblems.bruxism': 'Bruxism and jaw tension',
+    'casos.additionalProblems.tmj': 'TMJ pain (temporomandibular joint)',
+    'casos.additionalProblems.sciatica': 'Sciatica and leg pain',
+    'casos.additionalProblems.shoulderPain': 'Shoulder pain and stiffness',
+    'casos.additionalProblems.dizziness': 'Dizziness and vertigo',
+    'casos.additionalProblems.irritability': 'Constant irritability',
+    'casos.additionalProblems.intestinalProblems': 'Intestinal problems',
+    'casos.additionalProblems.chronicFatigue': 'Chronic fatigue',
+    'casos.additionalProblems.socialAnxiety': 'Social anxiety',
+    'casos.additionalProblems.concentrationDifficulty': 'Difficulty concentrating',
+    'casos.additionalProblems.headaches': 'Headaches and migraines',
+    'casos.additionalProblems.insomnia': 'Insomnia and sleep disorders',
+    'casos.additionalProblems.posture': 'Postural problems',
+    'casos.additionalProblems.contractures': 'Muscle contractures',
+    'casos.additionalProblems.emotionalBlock': 'Emotional blockages',
+    'casos.additionalProblems.rsi': 'Repetitive strain injuries',
+    'casos.additionalProblems.carpalTunnel': 'Carpal tunnel syndrome',
+    'casos.additionalProblems.plantarFasciitis': 'Plantar fasciitis',
+
+    // Testimonials
+    'testimonials.title': 'What our clients say',
+    'testimonials.subtitle':
+      'Discover real experiences from people who have transformed their lives',
+    'testimonials.all': 'All',
+    'testimonials.hide': 'Hide',
+    'testimonials.show': 'Show',
+    'testimonials.beforeAfter': 'Before/after',
+    'testimonials.before': 'Before',
+    'testimonials.after': 'After',
+    'testimonials.also': 'Also on:',
+    'testimonials.with': 'With',
+    'testimonials.ratings': 'Ratings',
+    'testimonials.externalReviews': 'You can read more reviews on our external pages',
+    'testimonials.photo': 'Photo of',
+    'testimonials.satisfiedClient': 'Satisfied client',
+    'testimonials.sliderTitle': 'Testimonials that speak for themselves',
+    'testimonials.sliderSubtitle': 'Discover how we have helped our clients achieve their wellness',
+
+    // Offline
+    'offline.message': 'No internet connection',
+
+    // Discounts page
+    'discounts.pageTitle': 'Discounts - EKA Balance',
+    'discounts.pageDescription':
+      'Discover our special discounts for wellness services and therapies',
+    'discounts.badge': 'Special offers',
+    'discounts.title': 'Special discounts',
+    'discounts.subtitle':
+      'Enjoy reduced prices on our wellness services with our exclusive discounts',
+    'discounts.availableTitle': 'Available discounts',
+    'discounts.availableSubtitle':
+      'Take advantage of these special offers to start your wellness journey',
+    'discounts.mykolaFriend.description':
+      "Special 20% discount for mykola's friends. Valid for all sessions and services.",
+    'discounts.conocidoMykola.description':
+      "10% discount for mykola's acquaintances. Applicable to all our treatments.",
+    'discounts.off': 'Off',
+    'discounts.active': 'Active',
+    'discounts.code': 'Code',
+    'discounts.copy': 'Copy',
+    'discounts.howToUse.title': 'How to use discounts',
+    'discounts.howToUse.subtitle': 'Follow these simple steps to apply your discount',
+    'discounts.step1.title': 'Contact us',
+    'discounts.step1.description': 'Get in touch with us via WhatsApp or phone to book',
+    'discounts.step2.title': 'Mention the code',
+    'discounts.step2.description': 'Provide the discount code when making your reservation',
+    'discounts.step3.title': 'Enjoy the discount',
+    'discounts.step3.description': 'The discount will be automatically applied to the final price',
+    'discounts.cta.title': 'Ready to use your discount?',
+    'discounts.cta.subtitle': 'Book your session now and enjoy the special price',
+    'discounts.cta.bookNow': 'Book with discount',
+    'discounts.cta.contact': 'Contact',
+
+    // Personalized Services
+    'personalizedServices.title': 'Specialized programs',
+    'personalizedServices.subtitle':
+      'Discover therapies specifically adapted to your professional lifestyle',
+    'personalizedServices.cta': 'Book your session',
+    'personalizedServices.difference.title': 'Difference between services',
+    'personalizedServices.main.title': 'Main services',
+    'personalizedServices.main.list1': 'General therapeutic massage',
+    'personalizedServices.main.list2': 'Holistic kinesiology',
+    'personalizedServices.main.list3': 'Conscious nutrition',
+    'personalizedServices.main.list4': '360° review',
+    'personalizedServices.special.title': 'Personalized services',
+    'personalizedServices.special.list1': 'Adapted to your profession',
+    'personalizedServices.special.list2': 'Specific Approach for needs',
+    'personalizedServices.special.list3': 'Specialized techniques',
+    'personalizedServices.special.list4': 'Personalized follow-up',
+    'personalizedServices.choose.title': 'Choose your personalized service',
+    'personalizedServices.choose.subtitle': 'Each profession has its specific needs',
+    'personalizedServices.bookNow.title': 'Start your transformation today',
+    'personalizedServices.bookNow.subtitle':
+      'Book your personalized service and discover the difference',
+    'personalizedServices.officeWorkers': 'Executives & office professionals',
+    'personalizedServices.officeWorkers.desc':
+      'Counteract the effects of sedentary work and high-level stress. Restore posture and mental clarity.',
+    'personalizedServices.officeWorkers.benefit1': 'Relieves chronic back and neck tension',
+    'personalizedServices.officeWorkers.benefit2': 'Optimizes ergonomic posture',
+    'personalizedServices.officeWorkers.benefit3': 'Reduces cumulative stress and anxiety',
+    'personalizedServices.officeWorkers.result': 'Peak productivity without physical burnout',
+    'personalizedServices.athletes': 'Elite athletes',
+    'personalizedServices.athletes.desc':
+      'Maximize performance and accelerate recovery. Essential maintenance for the body in motion.',
+    'personalizedServices.athletes.benefit1': 'Faster muscle recovery',
+    'personalizedServices.athletes.benefit2': 'Injury prevention and flexibility',
+    'personalizedServices.athletes.benefit3': 'Performance optimization',
+    'personalizedServices.athletes.result': 'Competitive edge with reduced injury risk',
+    'personalizedServices.artists': 'Artists',
+    'personalizedServices.artists.desc':
+      'Hand, arm and posture care for visual artists and creators',
+    'personalizedServices.artists.benefit1': 'Specific care for hands and wrists',
+    'personalizedServices.artists.benefit2': 'Improves posture during creation',
+    'personalizedServices.artists.benefit3': 'Releases creativity by reducing physical tensions',
+    'personalizedServices.artists.result': 'More comfort and fluidity in the creative process',
+    'personalizedServices.musicians': 'Professional musicians',
+    'personalizedServices.musicians.desc':
+      'Fine-tuning the body-instrument connection. Prevent repetitive strain injuries.',
+    'personalizedServices.musicians.benefit1': 'Release of repetitive strain',
+    'personalizedServices.musicians.benefit2': 'Fine motor control improvement',
+    'personalizedServices.musicians.benefit3': 'Postural awareness with instrument',
+    'personalizedServices.musicians.result': 'Seamless artistic expression',
+    'personalizedServices.students': 'Academics & students',
+    'personalizedServices.students.desc':
+      'Physical and mental support for high intellectual demand. Boost focus and relieve exam stress.',
+    'personalizedServices.students.benefit1': 'Relief from study-induced tension',
+    'personalizedServices.students.benefit2': 'Enhanced cerebral oxygenation & memory',
+    'personalizedServices.students.benefit3': 'Sleep regulation',
+    'personalizedServices.students.result': 'Sharp mind in a relaxed body',
+
+    // Booking page
+    'booking.title': 'Book your session - EKA Balance',
+    'booking.description':
+      'Easily book your wellness session in Barcelona. Direct contact via WhatsApp with quick response.',
+    'booking.badge': 'Easy and quick booking',
+    'booking.hero.title': 'Request clinical session',
+    'booking.hero.subtitle':
+      'Initiate your recovery process with a personalized professional assessment',
+    'booking.benefits.whatsapp': 'Direct communication',
+    'booking.benefits.flexible': 'Priority scheduling',
+    'booking.benefits.confirmation': 'Immediate management',
+    'booking.contact.title': 'Communication channel',
+    'booking.contact.subtitle': 'Select your preferred method to coordinate the visit',
+    'booking.direct.title': 'Direct consultation',
+    'booking.direct.description': 'Contact the specialist directly to evaluate your case',
+    'booking.direct.button': 'Start consultation',
+    'booking.form.title': 'Appointment request',
+    'booking.form.description': 'Provide preliminary clinical data to prepare the session',
+    'booking.form.button': 'Start request',
+    'booking.form.hide': 'Close form',
+    'booking.form.location': 'Clinical location',
+    'booking.form.locationPlaceholder': 'Select location',
+    'booking.form.timeSlot': 'Time preference',
+    'booking.form.timeSlotPlaceholder': 'Select slot',
+    'booking.form.availability': 'Availability',
+    'booking.form.availabilityPlaceholder': 'Indicate availability',
+    'booking.form.objective': 'Reason for consultation',
+    'booking.form.objectivePlaceholder': 'Briefly describe your symptomatology...',
+    'booking.form.submit': 'Process request',
+
+    // Options
+    'booking.options.service.massage': 'Manual therapy',
+    'booking.options.service.kinesiology': 'Clinical kinesiology',
+    'booking.options.service.osteobalance': 'Osteobalance',
+    'booking.options.service.movementLesson': 'Movement Lesson',
+    'booking.options.service.feldenkrais': 'Feldenkrais method',
+    'booking.options.service.online': 'Telemedicine / online',
+    'booking.options.service.other': 'Other consultation',
+
+    'booking.options.location.barcelona': 'Barcelona',
+    'booking.options.location.rubi': 'Rubí',
+    'booking.options.location.online': 'Online',
+
+    'booking.options.availability.tomorrow': 'Tomorrow',
+    'booking.options.availability.dayAfterTomorrow': 'Day after tomorrow',
+    'booking.options.availability.nextWeek': 'Next week',
+    'booking.options.availability.weekend': 'Weekend',
+    'booking.options.availability.flexible': 'Flexible',
+
+    'booking.options.timeSlot.morning': 'Morning (9:00-12:00)',
+    'booking.options.timeSlot.noon': 'Noon (12:00-15:00)',
+    'booking.options.timeSlot.afternoon': 'Afternoon (15:00-18:00)',
+    'booking.options.timeSlot.evening': 'Evening (18:00-21:00)',
+    'booking.form.quickTitle': 'Quick booking form',
+    'booking.form.nameRequired': 'Name *',
+    'booking.form.namePlaceholder': 'Your name',
+    'booking.form.serviceRequired': 'Service *',
+    'booking.form.servicePlaceholder': 'Select a service',
+    'booking.form.validationError': 'Please fill in at least the name and the service of interest.',
+    'booking.popup.title': 'Book your session',
+    'booking.popup.subtitle': 'Select the service and date that suits you best',
+    'booking.whatsapp.greeting': 'Hi, I am {name}',
+    'booking.whatsapp.greetingGeneric': 'Hi Elena, I would like to book an appointment.',
+    'booking.whatsapp.service': 'I would like to book a session: {service}',
+    'booking.whatsapp.location': 'Preferred location: {location}',
+    'booking.whatsapp.date': 'Preferred date: {date}',
+    'booking.whatsapp.time': 'Preferred time: {time}',
+    'booking.whatsapp.comments': 'Comments: {comments}',
+
+    // Athletes personalized service
+    'athletes.hero.badge': 'Specialized for athletes',
+    'athletes.hero.title': 'Elite athletes',
+    'athletes.hero.subtitle':
+      'Biomechanical optimization, accelerated recovery, and injury prevention',
+    'athletes.challenges.title': 'Clinical challenges',
+    'athletes.challenge1.title': 'Systemic fatigue',
+    'athletes.challenge1.desc':
+      'Inefficient post-exertion recovery and allostatic load accumulation',
+    'athletes.challenge2.title': 'Biomechanical restriction',
+    'athletes.challenge2.desc': 'Functional limitations compromising Movement efficiency',
+    'athletes.challenge3.title': 'Competitive pressure',
+    'athletes.challenge3.desc': 'Autonomic nervous system dysregulation under high demand',
+    'athletes.help.title': 'Clinical intervention',
+    'athletes.help1.title': 'Tissue regeneration',
+    'athletes.help1.desc': 'Advanced protocols to accelerate muscle repair and reduce inflammation',
+    'athletes.help2.title': 'Functional optimization',
+    'athletes.help2.desc': 'Restoration of joint mobility and neuromuscular efficiency',
+    'athletes.help3.title': 'Autonomic regulation',
+    'athletes.help3.desc': 'Somatic strategies for stress control and focus',
+    'athletes.result.title': 'Clinical impact',
+    'athletes.result.desc': 'Performance maximization, athletic longevity, and physical resilience',
+    'athletes.stats.recovery': 'Optimal recovery',
+    'athletes.stats.flexibility': 'Functional mobility',
+    'athletes.stats.anxiety': 'Stress control',
+    'athletes.session.title': 'Sports protocol',
+
+    // Artists personalized service
+    'artists.hero.badge': 'Health for creators',
+    'artists.hero.title': 'Visual artists',
+    'artists.hero.subtitle': 'Functional preservation of fine motor skills and creative ergonomics',
+    'artists.challenges.title': 'Clinical challenges',
+    'artists.challenge1.title': 'Repetitive strain',
+    'artists.challenge1.desc':
+      'Microtrauma in upper extremities due to continuous technical gestures',
+    'artists.challenge2.title': 'Postural fatigue',
+    'artists.challenge2.desc': 'Musculoskeletal compromise derived from prolonged static postures',
+    'artists.challenge3.title': 'Psychosomatic block',
+    'artists.challenge3.desc': 'Physical restriction impacting creative flow and expression',
+    'artists.help.title': 'Clinical intervention',
+    'artists.help1.title': 'Motor rehabilitation',
+    'artists.help1.desc': 'Specific manual therapy to restore hand and wrist function',
+    'artists.help2.title': 'Ergonomic re-education',
+    'artists.help2.desc': 'Biomechanical optimization of the creative gesture to prevent injury',
+    'artists.help3.title': 'Somatic unblocking',
+    'artists.help3.desc': 'Release of deep tensions to facilitate artistic flow',
+    'artists.result.title': 'Clinical impact',
+    'artists.result.desc': 'Sustainability of artistic practice and freedom of Movement',
+    'artists.stats.confidence': 'Creative confidence',
+    'artists.stats.tension': 'Tension relief',
+    'artists.stats.anxiety': 'Nervous regulation',
+    'artists.session.title': 'Artist protocol',
+    'artists.session.cta': 'Request evaluation',
+    'artists.session.other': 'Other specialties',
+
+    // Musicians personalized service
+    'musicians.hero.badge': 'Performing arts medicine',
+    'musicians.hero.title': 'Professional musicians',
+    'musicians.hero.subtitle':
+      'Instrumental ergonomics, dystonia prevention, and technical gesture optimization',
+    'musicians.problems.title': 'Specific pathologies',
+    'musicians.problems.subtitle':
+      'Clinical Approach to musculoskeletal dysfunctions associated with instrumental practice',
+    'musicians.problem1.title': 'Overuse syndromes',
+    'musicians.problem1.desc': 'Tendinopathies and nerve entrapments derived from motor repetition',
+    'musicians.problem2.title': 'Postural dysfunction',
+    'musicians.problem2.desc': 'Asymmetries and muscle compensations induced by the instrument',
+    'musicians.problem3.title': 'Stage dysregulation',
+    'musicians.problem3.desc': 'Somatic manifestations of performance anxiety (tremor, sweating)',
+    'musicians.problem4.title': 'Technical deterioration',
+    'musicians.problem4.desc': 'Loss of fine motor control and neuromuscular coordination',
+    'musicians.help.title': 'Therapeutic protocol',
+    'musicians.help1.title': 'Functional rehabilitation',
+    'musicians.help1.desc': 'Advanced manual therapy to restore upper extremity biomechanics',
+    'musicians.help2.title': 'Postural re-education',
+    'musicians.help2.desc': 'Ergonomic analysis and correction of instrumental technical gesture',
+    'musicians.help3.title': 'Autonomic control',
+    'musicians.help3.desc': 'Nervous system regulation strategies for public performance',
+    'musicians.results.title': 'Clinical objectives',
+    'musicians.results.point1': 'Resolution of painful symptomatology and paresthesias',
+    'musicians.results.point2': 'Recovery of motor precision and endurance',
+    'musicians.results.point3': 'Security and control in stage execution',
+    'musicians.plans.title': 'Intervention programs',
+    'musicians.plans.subtitle': 'Select the level of clinical assistance required',
+    'musicians.plan1.name': 'Diagnostic evaluation',
+    'musicians.plan1.desc': 'Initial assessment and emergency treatment',
+    'musicians.plan1.benefit1': 'Biomechanical gesture analysis',
+    'musicians.plan1.benefit2': 'Focused manual therapy',
+    'musicians.plan1.benefit3': 'Immediate ergonomic guidelines',
+    'musicians.plan1.benefit4': 'Preliminary clinical report',
+    'musicians.plan1.result': 'Functional diagnosis and symptomatic relief',
+    'musicians.plan2.name': 'Intensive treatment',
+    'musicians.plan2.desc': 'Functional recovery protocol',
+    'musicians.plan2.benefit1': 'Everything included in evaluation',
+    'musicians.plan2.benefit2': 'Weekly evolutionary monitoring',
+    'musicians.plan2.benefit3': 'Motor readaptation program',
+    'musicians.plan2.benefit4': 'Direct telematic support',
+    'musicians.plan2.result': 'Restoration of interpretative capacity',
+    'musicians.plan2.popular': 'Recommended',
+    'musicians.plan2.save': 'Subsidized',
+    'musicians.plan3.name': 'High performance',
+    'musicians.plan3.desc': 'Integral optimization for soloists',
+    'musicians.plan3.benefit1': 'Complete intensive protocol',
+    'musicians.plan3.benefit2': 'Metabolic counseling',
+    'musicians.plan3.benefit3': 'Neuro-regulation training',
+    'musicians.plan3.benefit4': '360° multidisciplinary evaluation',
+    'musicians.plan3.result': 'Technical excellence and sustainable health',
+    'musicians.plan.cta': 'Request program',
+
+    // Students personalized service
+
+    'students.challenges.title': 'Common problems',
+    'students.challenge1.title': 'Exam stress',
+    'students.challenge1.desc': 'Anxiety and tension that affect academic performance',
+    'students.challenge2.title': 'Limited concentration',
+    'students.challenge2.desc': 'Difficulty maintaining attention during long study sessions',
+    // Students personalized service
+    'students.hero.badge': 'Cognitive performance',
+    'students.hero.title': 'Academic performance',
+    'students.hero.subtitle':
+      'Neuro-cognitive optimization, stress management, and postural ergonomics for students',
+    'students.problems.title': 'Academic challenges',
+    'students.problems.subtitle':
+      'Clinical Approach to physical and mental barriers affecting study',
+    'students.problem1.title': 'Cognitive fatigue',
+    'students.problem1.desc':
+      'Mental exhaustion and difficulty maintaining prolonged concentration',
+    'students.problem2.title': 'Static overload',
+    'students.problem2.desc': 'Cervical and lumbar pain derived from prolonged sitting posture',
+    'students.problem3.title': 'Exam anxiety',
+    'students.problem3.desc': 'Autonomic dysregulation associated with evaluative pressure',
+    'students.problem4.title': 'Sleep disorders',
+    'students.problem4.desc':
+      'Insomnia and circadian rhythm alterations affecting memory consolidation',
+    'students.help.title': 'Therapeutic protocol',
+    'students.help1.title': 'Neuro-activation',
+    'students.help1.desc': 'Strategies to optimize cerebral blood flow and mental acuity',
+    'students.help2.title': 'Ergonomic correction',
+    'students.help2.desc': 'Postural re-education to prevent static musculoskeletal damage',
+    'students.help3.title': 'Stress regulation',
+    'students.help3.desc': 'Techniques to manage cortisol levels and improve rest',
+    'students.results.title': 'Clinical objectives',
+    'students.results.point1': 'Increase in concentration capacity and retention',
+    'students.results.point2': 'Elimination of tension pain associated with study',
+    'students.results.point3': 'Optimization of rest and energy recovery',
+    'students.plans.title': 'Intervention programs',
+    'students.plans.subtitle': 'Select the level of clinical assistance required',
+    'students.plan1.name': 'Diagnostic evaluation',
+    'students.plan1.desc': 'Initial assessment and emergency treatment',
+    'students.plan1.benefit1': 'Postural and tension analysis',
+    'students.plan1.benefit2': 'Cervical manual therapy',
+    'students.plan1.benefit3': 'Basic ergonomic guidelines',
+    'students.plan1.benefit4': 'Preliminary clinical report',
+    'students.plan1.result': 'Symptomatic relief and postural awareness',
+    'students.plan2.name': 'Intensive treatment',
+    'students.plan2.desc': 'Functional recovery protocol',
+    'students.plan2.benefit1': 'Everything included in evaluation',
+    'students.plan2.benefit2': 'Weekly evolutionary monitoring',
+    'students.plan2.benefit3': 'Cognitive activation exercises',
+    'students.plan2.benefit4': 'Direct telematic support',
+    'students.plan2.result': 'Sustained improvement in academic performance',
+    'students.plan2.popular': 'Recommended',
+    'students.plan2.save': 'Subsidized',
+    'students.plan3.name': 'High performance',
+    'students.plan3.desc': 'Integral optimization for exams',
+    'students.plan3.benefit1': 'Complete intensive protocol',
+    'students.plan3.benefit2': 'Nutritional counseling for brain',
+    'students.plan3.benefit3': 'Advanced sleep hygiene',
+    'students.plan3.benefit4': '360° multidisciplinary evaluation',
+    'students.plan3.result': 'Maximum cognitive potential and health',
+    'students.plan.cta': 'Request program',
+
+    // Office Workers personalized service
+    'office.hero.badge': 'Corporate health',
+    'office.hero.title': 'Executive health',
+    'office.hero.subtitle':
+      'Ergonomics, stress management, and postural correction for the digital environment',
+    'office.problems.title': 'Occupational pathologies',
+    'office.problems.subtitle':
+      'Clinical Approach to dysfunctions derived from sedentary work and digital stress',
+    'office.problem1.title': 'Tech neck syndrome',
+    'office.problem1.desc': 'Cervical rectification and anterior head carriage from screen use',
+    'office.problem2.title': 'Chronic lumbar pain',
+    'office.problem2.desc': 'Disc compression and muscle shortening due to prolonged sitting',
+    'office.problem3.title': 'Digital burnout',
+    'office.problem3.desc': 'Nervous system exhaustion due to hyperconnectivity',
+    'office.problem4.title': 'Peripheral neuropathies',
+    'office.problem4.desc': 'Carpal tunnel and epicondylitis (mouse elbow)',
+    'office.help.title': 'Therapeutic protocol',
+    'office.help1.title': 'Postural re-education',
+    'office.help1.desc': 'Correction of spinal alignment and workstation ergonomics',
+    'office.help2.title': 'Myofascial decompression',
+    'office.help2.desc': 'Release of deep tension patterns in neck and back',
+    'office.help3.title': 'Vagal regulation',
+    'office.help3.desc': 'Techniques to deactivate the sympathetic stress response',
+    'office.results.title': 'Clinical objectives',
+    'office.results.point1': 'Restoration of painless mobility and posture',
+    'office.results.point2': 'Increase in productivity and mental clarity',
+    'office.results.point3': 'Prevention of degenerative spinal injuries',
+    'office.plans.title': 'Intervention programs',
+    'office.plans.subtitle': 'Select the level of clinical assistance required',
+    'office.plan1.name': 'Diagnostic evaluation',
+    'office.plan1.desc': 'Initial assessment and emergency treatment',
+    'office.plan1.benefit1': 'Digital ergonomic analysis',
+    'office.plan1.benefit2': 'Decompressive manual therapy',
+    'office.plan1.benefit3': 'Immediate postural guidelines',
+    'office.plan1.benefit4': 'Preliminary clinical report',
+    'office.plan1.result': 'Symptomatic relief and ergonomic awareness',
+    'office.plan2.name': 'Intensive treatment',
+    'office.plan2.desc': 'Functional recovery protocol',
+    'office.plan2.benefit1': 'Everything included in evaluation',
+    'office.plan2.benefit2': 'Weekly evolutionary monitoring',
+    'office.plan2.benefit3': 'Compensatory exercise program',
+    'office.plan2.benefit4': 'Direct telematic support',
+    'office.plan2.result': 'Sustainable correction of occupational pathology',
+    'office.plan2.popular': 'Recommended',
+    'office.plan2.save': 'Subsidized',
+    'office.plan3.name': 'Executive performance',
+    'office.plan3.desc': 'Integral optimization for leadership',
+    'office.plan3.benefit1': 'Complete intensive protocol',
+    'office.plan3.benefit2': 'Stress management coaching',
+    'office.plan3.benefit3': 'Biohacking for productivity',
+    'office.plan3.benefit4': '360° multidisciplinary evaluation',
+    'office.plan3.result': 'Maximum professional performance and health',
+    'office.plan.cta': 'Request program',
+
+    // FAQ Section
+    'faq.title': 'Frequently asked questions',
+    'faq.subtitle': 'Find answers to the most common questions about our services',
+    'faq.q1.question': 'How long does a typical session last?',
+    'faq.q1.answer':
+      'Sessions usually last between 60 and 90 minutes, depending on the chosen treatment and your specific needs.',
+    'faq.q2.question': 'Do i need prior experience?',
+    'faq.q2.answer':
+      'No prior experience is needed. All our treatments are adapted to your level and specific needs.',
+    'faq.q3.question': 'How often should i come?',
+    'faq.q3.answer':
+      'Depending on your goals, we recommend 1-2 sessions per week initially, and then monthly maintenance sessions.',
+    'faq.q4.question': 'What payment methods do you accept?',
+    'faq.q4.answer': 'We accept cash, credit and debit cards, and also bizum for convenience.',
+    'faq.q5.question': 'Can i cancel or reschedule my appointment?',
+    'faq.q5.answer':
+      'Yes, you can cancel or reschedule with 24 hours notice without any additional charge.',
+
+    // First Time Visitor Form
+    'form.badge': 'Personalized discovery',
+    'form.title': 'Find the perfect service for you',
+    'form.subtitle': "Answer a few quick questions and we'll help you find the ideal therapy",
+    'form.contactWhatsApp': 'Contact WhatsApp',
+    'form.step': 'Step',
+    'form.of': 'Of',
+    'form.previous': 'Previous',
+    'form.next': 'Next',
+    'form.seeRecommendation': 'See recommendation',
+    'form.backToForm': 'Back to form',
+    'form.close': 'Close',
+    'form.closeForm': 'Close form',
+
+    'form.step1.question': 'What is your main profile?',
+    'form.userType.officeWorker': 'Office worker',
+    'form.userType.officeWorkerDesc': 'I spend many hours sitting in front of the computer',
+    'form.userType.athlete': 'Athlete',
+    'form.userType.athleteDesc': 'I exercise regularly or am a professional athlete',
+    'form.userType.artist': 'Artist or creator',
+    'form.userType.artistDesc': 'I work with my hands (painting, sculpture, crafts)',
+    'form.userType.musician': 'Musician',
+    'form.userType.musicianDesc': 'I play musical instruments regularly',
+    'form.userType.student': 'Student',
+    'form.userType.studentDesc': 'I study or am preparing for exams',
+    'form.userType.general': 'Other profiles',
+    'form.userType.generalDesc': 'None of the above or a combination of several',
+
+    'form.step2.question': 'What are your goals? (Select all that apply)',
+    'form.goals.musclePain': 'Resolve musculoskeletal pain',
+    'form.goals.stress': 'Regulate nervous system',
+    'form.goals.posture': 'Correct postural dysfunction',
+    'form.goals.relaxation': 'Deep somatic release',
+    'form.goals.recovery': 'Accelerate tissue recovery',
+    'form.goals.sleep': 'Restore sleep architecture',
+    'form.goals.emotions': 'Emotional integration',
+    'form.goals.energy': 'Optimize metabolic vitality',
+
+    'form.step3.question': 'How much time do you have available per session?',
+    'form.time.short': 'Less than 1 hour',
+    'form.time.standard': '1-1.5 hours',
+    'form.time.long': 'More than 1.5 hours',
+
+    'form.step4.question': 'What experience do you have with body therapies?',
+    'form.experience.none': 'This is my first time',
+    'form.experience.noneDesc': 'I have never received body therapies',
+    'form.experience.some': 'I have some experience',
+    'form.experience.someDesc': 'I have been to massages or therapies occasionally',
+    'form.experience.experienced': 'I have experience',
+    'form.experience.experiencedDesc': 'I receive therapies regularly',
+
+    'form.step5.question': 'What type of intensity do you prefer?',
+    'form.intensity.gentle': 'Gentle and relaxing',
+    'form.intensity.gentleDesc': 'I prefer a gentle and calm treatment',
+    'form.intensity.medium': 'Moderate',
+    'form.intensity.mediumDesc': 'Balanced treatment between relaxation and deep work',
+    'form.intensity.deep': 'Intense and deep',
+    'form.intensity.deepDesc': 'I want deep work for specific tensions',
+
+    'form.recommendation.badge': 'Personalized recommendation',
+    'form.recommendation.title': 'Your ideal service',
+    'form.recommendation.subtitle':
+      'Based on your profile, we have found the perfect service for you',
+    'form.recommendation.price': 'Price',
+    'form.recommendation.duration': 'Duration',
+    'form.recommendation.benefits': 'Main benefits',
+
+    'form.recommendation.officeWorker.title': 'Executive decompression protocol',
+    'form.recommendation.officeWorker.desc':
+      'Clinical intervention for sedentary pathology. We treat cervicalgia, upper crossed syndrome, and cognitive fatigue.',
+    'form.recommendation.officeWorker.benefit1': 'Cervical & lumbar decompression',
+    'form.recommendation.officeWorker.benefit2': 'Ergonomic re-education',
+    'form.recommendation.officeWorker.benefit3': 'Vagal tone restoration',
+    'form.recommendation.officeWorker.benefit4': 'Cognitive clarity',
+
+    'form.recommendation.athlete.title': 'High performance protocol',
+    'form.recommendation.athlete.desc':
+      'Advanced biomechanical optimization. We accelerate tissue regeneration and correct Functional asymmetries.',
+    'form.recommendation.athlete.benefit1': 'Myofascial release',
+    'form.recommendation.athlete.benefit2': 'Injury prevention',
+    'form.recommendation.athlete.benefit3': 'Range of motion optimization',
+    'form.recommendation.athlete.benefit4': 'Metabolic recovery',
+
+    'form.recommendation.artist.title': 'Creative ergonomics protocol',
+    'form.recommendation.artist.desc':
+      'Fine motor rehabilitation for visual artists. We treat repetitive strain injuries and restore creative flow.',
+    'form.recommendation.artist.benefit1': 'Carpal tunnel prevention',
+    'form.recommendation.artist.benefit2': 'Postural stabilization',
+    'form.recommendation.artist.benefit3': 'Somatic unblocking',
+    'form.recommendation.artist.benefit4': 'Functional longevity',
+
+    'form.recommendation.musician.title': 'Performing arts medicine',
+    'form.recommendation.musician.desc':
+      'Specialized treatment for instrumentalists. We address focal dystonia, overuse syndromes, and performance anxiety.',
+    'form.recommendation.musician.benefit1': 'Technical gesture optimization',
+    'form.recommendation.musician.benefit2': 'Neuromuscular coordination',
+    'form.recommendation.musician.benefit3': 'Autonomic regulation',
+    'form.recommendation.musician.benefit4': 'Proprioceptive refinement',
+
+    'form.recommendation.student.title': 'Cognitive performance protocol',
+    'form.recommendation.student.desc':
+      'Neuro-regulation for academic excellence. We mitigate exam anxiety and optimize focus through somatic integration.',
+    'form.recommendation.student.benefit1': 'Sympathetic down-regulation',
+    'form.recommendation.student.benefit2': 'Focus enhancement',
+    'form.recommendation.student.benefit3': 'Postural correction',
+    'form.recommendation.student.benefit4': 'Adrenal support',
+
+    'form.recommendation.holistic.title': 'Integrative clinical session',
+    'form.recommendation.holistic.desc':
+      'Synergistic application of manual therapy and clinical kinesiology for systemic diagnosis and treatment.',
+    'form.recommendation.holistic.benefit1': 'Systemic diagnosis',
+    'form.recommendation.holistic.benefit2': 'Neuro-affective Balance',
+    'form.recommendation.holistic.benefit3': 'Structural alignment',
+    'form.recommendation.holistic.benefit4': 'Emotional processing',
+
+    'form.recommendation.therapeutic.title': 'Advanced manual therapy',
+    'form.recommendation.therapeutic.desc':
+      'Deep tissue mobilization for chronic pain management and Functional restoration.',
+    'form.recommendation.therapeutic.benefit1': 'Pain pattern resolution',
+    'form.recommendation.therapeutic.benefit2': 'Joint mobilization',
+    'form.recommendation.therapeutic.benefit3': 'Fascial release',
+    'form.recommendation.therapeutic.benefit4': 'Parasympathetic activation',
+
+    'form.recommendation.kinesiology.title': 'Holistic kinesiology',
+    'form.recommendation.kinesiology.desc':
+      'Therapy that combines body and emotional techniques to rebalance your general state',
+    'form.recommendation.kinesiology.benefit1': 'Emotional Balance',
+    'form.recommendation.kinesiology.benefit2': 'Stress management',
+    'form.recommendation.kinesiology.benefit3': 'Improves self-awareness',
+    'form.recommendation.kinesiology.benefit4': 'Inner peace',
+
+    'form.recommendation.discovery.title': 'Discovery session',
+    'form.recommendation.discovery.desc':
+      'Initial session to explore your needs and create a personalized plan for your wellbeing',
+    'form.recommendation.discovery.benefit1': 'Complete assessment',
+    'form.recommendation.discovery.benefit2': 'Personalized plan',
+    'form.recommendation.discovery.benefit3': 'First experience',
+    'form.recommendation.discovery.benefit4': 'Professional guidance',
+
+    // Onboarding System
+    'onboarding.welcome.title': 'Welcome',
+    'onboarding.welcome.description':
+      "Every person is different. That's why, before recommending anything, we want to listen to you. Tell us who you are, what you're looking for and how you want to feel. We'll help you find the path that resonates most with you.",
+    'onboarding.progress.step': 'Step',
+    'onboarding.progress.of': 'Of',
+    'onboarding.processing.title': 'Personalizing your experience...',
+    'onboarding.processing.subtitle':
+      "We're analyzing your responses to find the best recommendations.",
+    'onboarding.finish': 'Finish',
+    'onboarding.results.title': 'Your personalized experience is ready',
+    'onboarding.results.subtitle': 'Based on your responses, we recommend:',
+    'onboarding.results.recommended': 'Recommended',
+    'onboarding.results.personalizedInfo': 'Personalized info',
+
+    'onboarding.questions.userType.title': 'How would you best describe yourself?',
+    'onboarding.userTypes.student': 'Student',
+    'onboarding.userTypes.office': 'Office worker',
+    'onboarding.userTypes.artist': 'Artist or musician',
+    'onboarding.userTypes.musician': 'Musician',
+    'onboarding.userTypes.athlete': 'Athlete',
+    'onboarding.userTypes.parent': 'Parent',
+    'onboarding.userTypes.entrepreneur': 'Entrepreneur',
+    'onboarding.userTypes.therapist': 'Therapist or wellness professional',
+    'onboarding.userTypes.senior': 'Senior',
+    'onboarding.userTypes.other': 'Other',
+
+    'onboarding.questions.goals.title': 'What would you like to improve?',
+    'onboarding.goals.stress': 'Reduce stress and anxiety',
+    'onboarding.goals.pain': 'Relieve physical pain',
+    'onboarding.goals.posture': 'Improve posture and flexibility',
+    'onboarding.goals.sleep': 'Sleep better',
+    'onboarding.goals.energy': 'Recover energy and mental clarity',
+    'onboarding.goals.focus': 'Increase creativity and concentration',
+    'onboarding.goals.bodyAwareness': 'Connect more with your body',
+    'onboarding.goals.feelGood': 'Simply feel good',
+
+    'onboarding.questions.preferredFeeling.title': 'How would you like to feel after the session?',
+    'onboarding.feelings.calm': 'Calm and tranquil',
+    'onboarding.feelings.light': 'Light and free',
+    'onboarding.feelings.energized': 'Energized and vital',
+    'onboarding.feelings.focused': 'Mental clarity',
+    'onboarding.feelings.confident': 'Confident and present',
+
+    'onboarding.questions.approach.title': 'What type of Approach do you prefer?',
+    'onboarding.approaches.massage': 'Massage',
+    'onboarding.approaches.kinesiology': 'Kinesiology',
+    'onboarding.approaches.feldenkrais': 'Feldenkrais method',
+    'onboarding.approaches.energy': 'Energy Balance',
+    'onboarding.approaches.open': 'Open to recommendations',
+
+    'onboarding.questions.timePreference.title':
+      'How much time do you want to dedicate to your wellbeing today?',
+    'onboarding.time.60min': '60 minutes',
+    'onboarding.time.90min': '90 minutes',
+    'onboarding.time.120min': '120 minutes',
+
+    'recommendations.massage.description':
+      'Therapeutic massage session perfect for relieving tension and recovering physical Balance.',
+    'recommendations.kinesiology.description':
+      'Holistic kinesiology to Balance body, emotions and find the root of imbalances.',
+    'recommendations.feldenkrais.description':
+      'Feldenkrais method to rediscover natural Movement and release tension patterns.',
+
+    // Personalized Pages
+    'personalized.students.hero.title': 'Cognitive performance optimization',
+    'personalized.students.hero.description':
+      'Clinical support for high-demand academic environments. We optimize focus, manage exam stress, and correct study-related postural dysfunction.',
+    'personalized.students.understanding.title': 'Neuro-cognitive & postural analysis',
+    'personalized.students.understanding.description1':
+      'Academic excellence requires physiological regulation. Prolonged cognitive effort depletes neurotransmitters and creates static load on the spine.',
+    'personalized.students.understanding.description2':
+      'We address the somatic root of concentration deficits and exam anxiety.',
+    'personalized.students.understanding.callToAction':
+      'Restore your cognitive capacity and structural integrity through clinical intervention.',
+    'personalized.students.services.title': 'Clinical protocols',
+    'personalized.students.services.subtitle':
+      'Evidence-based interventions for academic performance',
+    'personalized.students.services.kinesiologyStress.title': 'Neuro-regulation therapy',
+    'personalized.students.services.kinesiologyStress.description':
+      'Targeted protocol to down-regulate the sympathetic nervous system and restore focus.',
+    'personalized.students.services.relaxingMassage.title': 'Cervical decompression',
+    'personalized.students.services.relaxingMassage.description':
+      'Manual therapy focused on releasing suboccipital tension and improving cerebral blood flow.',
+    'personalized.students.testimonial.title': 'Patient outcome',
+    'personalized.students.testimonial.quote':
+      'The protocol significantly improved my retention capacity and eliminated the chronic cervical tension during finals week.',
+    'personalized.students.testimonial.author': 'Maria, medical student',
+
+    'personalized.officeWorkers.hero.title': 'Executive health & ergonomics',
+    'personalized.officeWorkers.hero.description':
+      'Comprehensive management of sedentary pathology. We treat"tech neck", repetitive strain, and digital burnout.',
+    'personalized.officeWorkers.understanding.title': 'Occupational health assessment',
+    'personalized.officeWorkers.understanding.description1':
+      'The digital workspace imposes unnatural biomechanical loads. Static posture compresses the spine while cognitive load dysregulates the nervous system.',
+    'personalized.officeWorkers.understanding.description2':
+      'We treat the specific pathology of the modern executive: upper crossed syndrome and adrenal fatigue.',
+    'personalized.officeWorkers.understanding.callToAction':
+      'Reclaim your physiological vitality and professional productivity.',
+    'personalized.officeWorkers.services.title': 'Therapeutic interventions',
+    'personalized.officeWorkers.services.subtitle':
+      'Clinical solutions for the digital professional',
+    'personalized.officeWorkers.services.therapeuticMassage.title':
+      'Myofascial structural integration',
+    'personalized.officeWorkers.services.therapeuticMassage.description':
+      'Deep tissue work to reverse anterior head carriage and thoracic kyphosis.',
+    'personalized.officeWorkers.services.feldenkrais.title': 'Neuromuscular re-education',
+    'personalized.officeWorkers.services.feldenkrais.description':
+      'Somatic learning to restore efficient Movement patterns and prevent degenerative changes.',
+    'personalized.officeWorkers.testimonial.title': 'Clinical result',
+    'personalized.officeWorkers.testimonial.quote':
+      'The treatment resolved my chronic migraines and lumbar pain. Essential maintenance for high-performance work.',
+    'personalized.officeWorkers.testimonial.author': 'Joan, senior software engineer',
+
+    'personalized.musicians.hero.title': 'Performing arts medicine',
+    'personalized.musicians.hero.description':
+      'Specialized care for instrumentalists. We treat focal dystonia, overuse syndromes, and performance anxiety through clinical biomechanics.',
+    'personalized.musicians.understanding.title': 'The musician as elite athlete',
+    'personalized.musicians.understanding.description1':
+      'Musical performance demands extreme fine motor precision and sustained postural endurance. This creates unique neuromuscular risks.',
+    'personalized.musicians.understanding.description2':
+      'We address the specific pathophysiology of the musician: repetitive strain, nerve entrapment, and stage dysregulation.',
+    'personalized.musicians.understanding.callToAction':
+      'Optimize your technical gesture and extend your professional longevity.',
+    'personalized.musicians.services.title': 'Clinical protocols',
+    'personalized.musicians.services.subtitle':
+      'Therapeutic interventions for the performing artist',
+    'personalized.musicians.services.feldenkraisExpression.title': 'Somatic motor control',
+    'personalized.musicians.services.feldenkraisExpression.description':
+      'Neuromuscular re-education to optimize instrumental ergonomics and reduce parasitic tension.',
+    'personalized.musicians.services.kinesiologyPerformance.title': 'Performance neuro-integration',
+    'personalized.musicians.services.kinesiologyPerformance.description':
+      'Clinical protocol to resolve stage anxiety and beta-adrenergic blockage.',
+    'personalized.musicians.testimonial.title': 'Artist outcome',
+    'personalized.musicians.testimonial.quote':
+      'The treatment resolved my focal dystonia symptoms and allowed me to return to the concert stage with full confidence.',
+    'personalized.musicians.testimonial.author': 'Anna, concert pianist',
+
+    'personalized.athletes.hero.title': 'High performance recovery',
+    'personalized.athletes.hero.description':
+      'Advanced biomechanical optimization. We accelerate tissue regeneration, correct Functional asymmetries, and prevent injury.',
+    'personalized.athletes.understanding.title': 'Physiology of performance',
+    'personalized.athletes.understanding.description1':
+      'Elite performance requires rapid metabolic recovery and structural alignment. Accumulated micro-trauma leads to systemic compensation.',
+    'personalized.athletes.understanding.description2':
+      'We provide the clinical support necessary to maintain peak output without compromising structural integrity.',
+    'personalized.athletes.understanding.callToAction':
+      'Maximize your competitive edge through systemic optimization.',
+    'personalized.athletes.services.title': 'Recovery protocols',
+    'personalized.athletes.services.subtitle': 'Clinical interventions for the athlete',
+    'personalized.athletes.services.sportsMassage.title': 'Deep tissue restoration',
+    'personalized.athletes.services.sportsMassage.description':
+      'Advanced mobilization to flush metabolic waste and restore fascial elasticity.',
+    'personalized.athletes.services.osteobalance.title': 'Structural alignment',
+    'personalized.athletes.services.osteobalance.description':
+      'Precision adjustments to correct pelvic and spinal asymmetries affecting gait and power.',
+    'personalized.athletes.testimonial.title': 'Athlete outcome',
+    'personalized.athletes.testimonial.quote':
+      'My recovery time has halved, and the chronic hamstring issue is completely resolved. Essential for my training cycle.',
+    'personalized.athletes.testimonial.author': 'Marc, ultra-marathon runner',
+
+    'personalized.parents.hero.title': 'Parental vitality & recovery',
+    'personalized.parents.hero.description':
+      'Clinical support for the physical and emotional demands of parenthood. We restore energy, correct postural strain, and regulate the nervous system.',
+    'personalized.parents.understanding.title': 'Physiological restoration',
+    'personalized.parents.understanding.description1':
+      'Parenthood imposes chronic sleep deprivation and repetitive physical load (Lifting, carrying). This depletes adrenal reserves and creates structural imbalances.',
+    'personalized.parents.understanding.description2':
+      'We provide a clinical space for systemic recovery and neuro-affective regulation.',
+    'personalized.parents.understanding.callToAction':
+      'Restore your physiological baseline to sustain your caregiving capacity.',
+    'personalized.parents.services.title': 'Restoration protocols',
+    'personalized.parents.services.subtitle': 'Clinical interventions for parental health',
+    'personalized.parents.services.emotionalKinesiology.title': 'Neuro-affective integration',
+    'personalized.parents.services.emotionalKinesiology.description':
+      'Therapeutic protocol to process family stress and restore emotional homeostasis.',
+    'personalized.parents.services.relaxingMassage.title': 'Deep somatic restoration',
+    'personalized.parents.services.relaxingMassage.description':
+      'Clinical massage focused on adrenal recovery and releasing chronic holding patterns.',
+    'personalized.parents.testimonial.title': 'Patient outcome',
+    'personalized.parents.testimonial.quote':
+      'The sessions restored my energy levels and patience. It is not just relaxation; it is essential physiological maintenance.',
+    'personalized.parents.testimonial.author': 'Laura, mother of two',
+
+    'seo.students.title': 'Clinical therapy for academic performance | EKA Balance',
+    'seo.students.description':
+      'Neuro-cognitive optimization and postural correction for students. Improve focus, manage exam anxiety, and resolve study-related pain.',
+    'seo.students.keywords':
+      'Academic performance therapy, study ergonomics, exam anxiety relief, cognitive focus, student physiotherapy Barcelona',
+
+    'seo.officeWorkers.title': 'Executive health & ergonomics | EKA Balance',
+    'seo.officeWorkers.description':
+      'Clinical management of sedentary pathology. Treatment for tech neck, carpal tunnel, and digital burnout. Corporate wellness solutions.',
+    'seo.officeWorkers.keywords':
+      'Executive health, office ergonomics, tech neck treatment, corporate wellness, repetitive strain injury Barcelona',
+
+    'seo.musicians.title': 'Performing arts medicine | EKA Balance',
+    'seo.musicians.description':
+      'Specialized physiotherapy for musicians. Treatment of focal dystonia, overuse syndromes, and performance anxiety. Instrumental ergonomics.',
+    'seo.musicians.keywords':
+      'Performing arts medicine, musician physiotherapy, focal dystonia treatment, stage anxiety, instrumental ergonomics Barcelona',
+
+    'seo.athletes.title': 'Sports recovery & biomechanics | EKA Balance',
+    'seo.athletes.description':
+      'Advanced sports recovery and biomechanical optimization. Deep tissue mobilization, injury prevention, and performance enhancement.',
+    'seo.athletes.keywords':
+      'Sports recovery, biomechanical analysis, deep tissue massage, injury prevention, athlete physiotherapy Barcelona',
+
+    'seo.parents.title': 'Parental vitality & post-partum recovery | EKA Balance',
+    'seo.parents.description':
+      'Clinical support for parenthood. Adrenal recovery, postural correction, and stress management for parents. Restore your vitality.',
+    'seo.parents.keywords':
+      'Parental burnout, postpartum recovery, adrenal fatigue, stress management, parent wellness Barcelona',
+
+    // Common translations for personalized pages
+    'common.askQuestions': 'Ask questions',
+    'common.learnMore': 'Learn more',
+    'common.recommended': 'Recommended',
+    'common.back': 'Back',
+    'common.continue': 'Continue',
+    'common.disclaimer':
+      'EKA Balance services are complementary support, not medical. They do not replace any professional diagnosis or treatment. The goal is to accompany you towards more wellbeing, awareness and global Balance.',
+
+    'contact.form.whatsapp': 'WhatsApp',
+    'contact.form.preferredTime': 'Preferred time',
+    'contact.form.selectTime': 'Select a time',
+
+    // Cookie translations
+    'cookies.title': 'We use cookies to enhance your experience',
+    'cookies.description':
+      'We use essential cookies for website functionality and anonymous analytics to improve our services. We do not use advertising or tracking cookies. By continuing to use our site, you agree to our use of cookies.',
+    'cookies.accept': 'Accept all',
+    'cookies.learnMore': 'Learn more',
+
+    // Layout footer
+    'footer.privacyPolicy': 'Privacy policy',
+    'footer.cookiePolicy': 'Cookie policy',
+    'footer.termsOfService': 'Terms of service',
+    'footer.logout': 'Logout',
+    'footer.login': 'Login',
+
+    // Service pages
+    'services.page.benefits': 'Benefits',
+    'services.page.testimonials': 'Testimonials',
+    'services.page.sessions': 'Sessions',
+    'services.page.duration': 'Duration',
+    'services.page.price': 'Price',
+
+    // Policy pages
+    'policy.lastUpdated': 'Last updated:',
+    'policy.introduction': 'Introduction',
+
+    // Common
+    'common.price': 'Price',
+    'common.duration': 'Duration',
+    'common.benefits': 'Main benefits',
+
+    // Elena SEO
+    'elena.seo.title': 'Elena Kucherova - clinical somatic therapist | EKA Balance',
+    'elena.seo.desc':
+      'Specialist in neuro-integrative kinesiology and advanced manual therapy. Over 10 years of clinical experience in musculoskeletal recovery and autonomic regulation.',
+    'elena.seo.keywords':
+      'Elena Kucherova, clinical somatic therapist, neuro-integrative kinesiology, manual therapy Barcelona, musculoskeletal specialist',
+
+    // Casos SEO
+    'casos.seo.title': 'Clinical case studies & therapeutic outcomes | EKA Balance',
+    'casos.seo.desc':
+      'Evidence-based results in the treatment of chronic pain, autonomic dysregulation, and Functional rehabilitation. Real clinical protocols and patient outcomes.',
+    'casos.seo.keywords':
+      'Clinical case studies, chronic pain treatment, autonomic regulation, Functional rehabilitation, therapeutic outcomes Barcelona',
+
+    // SEO
+    'seo.home.title': 'EKA Balance - integrative clinical somatics & manual therapy Barcelona',
+    'seo.home.description':
+      'Advanced clinical center for musculoskeletal recovery and autonomic regulation. Specialized in manual therapy, clinical kinesiology, and biomechanics.',
+    'seo.home.keywords':
+      'Clinical somatics, manual therapy Barcelona, clinical kinesiology, biomechanics, musculoskeletal recovery, autonomic regulation',
+    'seo.contact.title': 'Contact - clinical appointments | EKA Balance',
+    'seo.contact.description':
+      'Schedule your clinical evaluation. Centers in Barcelona and Rubí. Professional consultation for complex musculoskeletal cases.',
+    'seo.contact.keywords':
+      'Clinical appointment, physiotherapy booking, health center Barcelona, wellness consultation',
+    'seo.services.title': 'Clinical therapeutic services | EKA Balance',
+    'seo.services.description':
+      'Evidence-based interventions: advanced manual therapy, neuro-integrative kinesiology, and clinical biomechanics. Systemic health solutions.',
+    'seo.services.keywords':
+      'Manual therapy, clinical kinesiology, biomechanics, systemic health, integrative medicine Barcelona',
+    'seo.personalized.title': 'Specialized clinical protocols | EKA Balance',
+    'seo.personalized.description':
+      'Targeted interventions for executives, elite athletes, performing artists, and academic performance. Precision medicine Approach.',
+    'seo.personalized.keywords':
+      'Executive health, sports medicine, performing arts medicine, academic performance, personalized therapy',
+    'seo.vip.title': 'Inner circle VIP - elite health management | EKA Balance',
+    'seo.vip.description':
+      'Exclusive health management for high-performance individuals. Priority access, comprehensive monitoring, and personalized clinical strategy.',
+    'seo.vip.keywords':
+      'VIP health management, executive health program, elite wellness, concierge medicine Barcelona',
+    'seo.massage.title': 'Advanced manual therapy & myofascial release | EKA Balance',
+    'seo.massage.description':
+      'Clinical manual therapy for chronic pain, structural alignment, and tissue recovery. Deep tissue mobilization and fascial release.',
+    'seo.massage.keywords':
+      'Manual therapy, myofascial release, deep tissue massage, chronic pain relief, structural integration',
+    'seo.kinesiology.title': 'Clinical kinesiology & neuro-integration | EKA Balance',
+    'seo.kinesiology.description':
+      'Integrative assessment of physiological, structural, and emotional imbalances. Bio-feedback mechanisms for systemic regulation.',
+    'seo.kinesiology.keywords':
+      'Clinical kinesiology, neuro-integration, systemic regulation, emotional Balance, muscle testing',
+    'seo.nutrition.title': 'Metabolic & nutritional counseling | EKA Balance',
+    'seo.nutrition.description':
+      'Clinical nutrition for metabolic optimization and inflammatory control. Personalized dietary strategies for systemic health.',
+    'seo.nutrition.keywords':
+      'Clinical nutrition, metabolic optimization, anti-inflammatory diet, gut health, nutritional counseling',
+
+    // Massage Page
+    'massage.hero.badge': 'Wellbeing for body and mind',
+    'massage.benefits.pain': 'Relieves muscle and joint pain',
+    'massage.benefits.circulation': 'Improves circulation and mobility',
+    'massage.benefits.wellbeing': 'Immediate wellbeing and True rest',
+
+    // Kinesiology Page
+    'kinesiology.hero.badge': 'Body, mind and emotions in Balance',
+    'kinesiology.benefits.posture': 'Improves posture and coordination',
+    'kinesiology.benefits.stress': 'Reduces stress and improves rest',
+    'kinesiology.benefits.energy': 'More self-awareness and stable energy',
+
+    // Nutrition Page
+    'nutrition.benefits.habits': 'Clear and sustainable eating habits',
+    'nutrition.benefits.weight': 'Support in weight management and body composition',
+    'nutrition.benefits.prevention': 'Prevention and long-term health',
+    'nutrition.session.first.name': 'First session',
+    'nutrition.session.first.description': 'Complete assessment and personalized plan',
+    'nutrition.session.followup.name': 'Follow-up',
+    'nutrition.session.followup.description': 'Plan adjustment and doubt resolution',
+
+    // Discounts Page
+    'discounts.success': 'Discount applied successfully!',
+    'discounts.remove': 'Remove discount',
+
+    // Discovery Form
+    // Discovery Form - User Types
+    'discovery.userTypes.mother.title': 'Parenting & caregiving',
+    'discovery.userTypes.mother.desc':
+      'I need to recharge my energy so i can keep caring for others.',
+    'discovery.userTypes.woman.title': 'Women’s health',
+    'discovery.userTypes.woman.desc':
+      'I want to reconnect with my body, cycles, and feminine vitality.',
+    'discovery.userTypes.regular.title': 'General wellness',
+    'discovery.userTypes.regular.desc':
+      'I’m looking for relaxation, Balance, and a moment for myself.',
+    'discovery.userTypes.office.title': 'Office professional',
+    'discovery.userTypes.office.desc': 'I spend hours sitting and feel the tension building up.',
+    'discovery.userTypes.athlete.title': 'Athlete / active',
+    'discovery.userTypes.athlete.desc': 'I want to optimize performance and speed up recovery.',
+
+    // Discovery Form - Emotional States
+    'discovery.emotional.stressed.title': 'Overwhelmed / anxious',
+    'discovery.emotional.stressed.desc': 'My mind won’t stop, and i find it hard to relax.',
+    'discovery.emotional.sad.title': 'Low mood / apathetic',
+    'discovery.emotional.sad.desc': 'I feel heavy or unmotivated and want a shift.',
+    'discovery.emotional.balanced.title': 'Balanced / neutral',
+    'discovery.emotional.balanced.desc': 'I feel okay emotionally, just need physical care.',
+    'discovery.emotional.focus_physical.title': 'Focus on the physical',
+    'discovery.emotional.focus_physical.desc': 'I’m not sure, let’s just treat the body.',
+
+    // Discovery Form - Time Commitments
+    'discovery.time.short.title': 'Express session (up to 1h)',
+    'discovery.time.short.desc': 'Perfect for a quick reset.',
+    'discovery.time.standard.title': 'Standard session (1-1.5h)',
+    'discovery.time.standard.desc': 'The ideal time for deep work.',
+    'discovery.time.long.title': 'Deep dive (up to 2h)',
+    'discovery.time.long.desc': 'For comprehensive, transformative care.',
+
+    // Discovery Form - Budget
+    'discovery.budget.basic.title': 'Essential (up to 60€)',
+    'discovery.budget.basic.desc': 'Focused and effective.',
+    'discovery.budget.standard.title': 'Standard (60-90€)',
+    'discovery.budget.standard.desc': 'Full therapeutic experience.',
+    'discovery.budget.premium.title': 'Premium (90€+)',
+    'discovery.budget.premium.desc': 'Extended, all-inclusive care.',
+
+    // Discovery Form - Recommendations
+    'discovery.recommendation.emotional.service': 'Emotional rebalancing',
+    'discovery.recommendation.emotional.desc':
+      'A holistic Approach to soothe stress, anxiety, or heaviness. We focus on releasing emotional weight to restore your inner harmony and joy.',
+    'discovery.recommendation.emotional.benefit1': 'Deep stress relief',
+    'discovery.recommendation.emotional.benefit2': 'Emotional clarity',
+    'discovery.recommendation.emotional.benefit3': 'Nervous system calm',
+    'discovery.recommendation.emotional.benefit4': 'Renewed inner peace',
+
+    'discovery.recommendation.manual.service': 'Therapeutic bodywork',
+    'discovery.recommendation.manual.desc':
+      'Targeted relief for pain and muscle tension. We use precise techniques to dissolve knots and restore your freedom of Movement.',
+    'discovery.recommendation.manual.benefit1': 'Immediate pain relief',
+    'discovery.recommendation.manual.benefit2': 'Muscle tension release',
+    'discovery.recommendation.manual.benefit3': 'Improved mobility',
+    'discovery.recommendation.manual.benefit4': 'Physical lightness',
+
+    'discovery.recommendation.integrative.service': 'Integrative tension relief (4-in-1)',
+    'discovery.recommendation.integrative.desc':
+      'Our signature blend of massage, kinesiology, osteopathy, and somatic Movement (Feldenkrais). The ultimate solution for chronic issues.',
+    'discovery.recommendation.integrative.benefit1': 'Holistic treatment',
+    'discovery.recommendation.integrative.benefit2': 'Root cause resolution',
+    'discovery.recommendation.integrative.benefit3': 'Multi-technique synergy',
+    'discovery.recommendation.integrative.benefit4': 'Long-lasting results',
+
+    'discovery.recommendation.relax.service': 'Deep relaxation massage',
+    'discovery.recommendation.relax.desc':
+      'A sanctuary for your senses. Ideal if your goal is to disconnect from the world and recharge your batteries completely.',
+    'discovery.recommendation.relax.benefit1': 'Profound relaxation',
+    'discovery.recommendation.relax.benefit2': 'Mental quiet',
+    'discovery.recommendation.relax.benefit3': 'Energy restoration',
+    'discovery.recommendation.relax.benefit4': 'Total well-being',
+
+    // Online Rec
+    'discovery.recommendation.online.service': 'Online consultation & guidance',
+    'discovery.recommendation.online.desc':
+      'Expert support, wherever you are. Perfect for follow-ups, nutritional planning, or somatic guidance from home.',
+    'discovery.recommendation.online.benefit1': 'Comfort of home',
+    'discovery.recommendation.online.benefit2': 'Flexible scheduling',
+    'discovery.recommendation.online.benefit3': 'Continuous support',
+    'discovery.recommendation.online.benefit4': 'Actionable pdf plan',
+
+    'discovery.recommendation.title': 'Your personalized path',
+    'discovery.recommendation.badge': 'Tailored for you',
+    'discovery.recommendation.subtitle': 'Based on your unique profile, we recommend:',
+    'discovery.recommendation.why': 'Why this is for you',
+    'discovery.analysis.intro': 'We noticed that',
+    'discovery.analysis.have': 'You are experiencing',
+    'discovery.analysis.want': 'And your goal is',
+    'discovery.analysis.feel': 'To feel',
+    'discovery.diagnosis.title': 'Professional assessment',
+    'discovery.diagnosis.profile': 'Your profile',
+    'discovery.diagnosis.symptoms': 'Key indicators',
+    'discovery.diagnosis.rootCause': 'Potential root causes',
+    'discovery.diagnosis.strategy': 'Our strategy',
+    'discovery.diagnosis.frequency': 'Recommended frequency',
+    'discovery.view.basic': 'Simple view',
+    'discovery.view.advanced': 'Detailed assessment',
+    'discovery.diagnosis.cause.posture': 'Postural fatigue (sedentary strain)',
+    'discovery.diagnosis.cause.overload': 'Muscular overload',
+    'discovery.diagnosis.cause.stress': 'Psychosomatic tension',
+    'discovery.diagnosis.cause.emotional': 'Emotional blockage',
+    'discovery.diagnosis.cause.metabolic': 'Metabolic/digestive imbalance',
+    'discovery.diagnosis.cause.structural': 'Structural/mechanical misalignment',
+    'discovery.diagnosis.cause.general': 'Need for maintenance/prevention',
+    'discovery.diagnosis.strategy.structural': 'Structural release & mobility work',
+    'discovery.diagnosis.strategy.regulation': 'Nervous system regulation',
+    'discovery.diagnosis.strategy.rebalance': 'Mind-body rebalancing',
+    'discovery.diagnosis.freq.high': 'Intensive (weekly for 3 weeks)',
+    'discovery.diagnosis.freq.medium': 'Maintenance (every 2-3 weeks)',
+    'discovery.diagnosis.freq.low': 'Preventive (monthly)',
+    'discovery.goal.athlete': 'Peak athletic recovery',
+    'discovery.goal.office': 'Postural correction',
+    'discovery.goal.stress': 'Deep peace of mind',
+    'discovery.goal.pain': 'Physical comfort',
+    'discovery.goal.general': 'Overall vitality',
+    'discovery.feeling.relaxed': 'Relaxed',
+    'discovery.feeling.energized': 'Energized',
+    'discovery.feeling.balanced': 'Balanced',
+    'discovery.feeling.painfree': 'Pain-free',
+    'discovery.recommendation.book': 'Book this session',
+    'discovery.recommendation.restart': 'Start over',
+
+    // Discovery Form - Steps
+    'discovery.step1.title': 'Tell us about yourself',
+    'discovery.step1.subtitle': 'Choose the option that resonates most',
+    'discovery.step2.title': 'Where do you hold tension?',
+    'discovery.step2.subtitle': 'Select all that apply',
+    'discovery.step3.title': 'Any specific conditions?',
+    'discovery.step3.subtitle': 'Help us tailor the session to your safety',
+    'discovery.step4.title': 'How do you feel emotionally?',
+    'discovery.step4.subtitle': 'Emotional wellbeing is key to physical health',
+    'discovery.step5.title': 'How much time do you have available?',
+    'discovery.step5.subtitle': 'We adapt the session to your schedule',
+    'discovery.step6.title': 'What is your budget?',
+    'discovery.step6.subtitle': 'We will find the best option for you',
+    'discovery.next': 'Next',
+    'discovery.back': 'Back',
+    'discovery.seeRecommendation': 'See recommendation',
+    'common.step': 'Step',
+    'common.of': 'Of',
+
+    // Office Workers
+    'office.seo.title': 'Services for office workers - EKA Balance Barcelona',
+    'office.seo.desc':
+      'Specialized therapies for office workers: relieve tension, improve posture and manage work stress. 1 hour sessions for 70€.',
+    'office.seo.keywords':
+      'Office massage Barcelona, work stress, computer back pain, kinesiology workers',
+
+    // Athletes SEO
+    'athletes.seo.title': 'Services for athletes - EKA Balance Barcelona',
+    'athletes.seo.desc':
+      'Specialized therapies for athletes: muscle recovery, flexibility improvement and pre-competition stress management. 1 hour sessions for 70€.',
+    'athletes.seo.keywords':
+      'Sports massage Barcelona, muscle recovery, sports flexibility, competition stress',
+
+    // Artists SEO
+    'artists.seo.title': 'Services for artists - EKA Balance Barcelona',
+    'artists.seo.desc':
+      'Therapies for visual artists and creators: hand care, posture improvement and creative unblocking. 1 hour sessions for 70€.',
+    'artists.seo.keywords':
+      'Artists massage Barcelona, artists hand pain, creative posture, creative block',
+
+    // Musicians SEO
+    'musicians.seo.title': 'Services for musicians - EKA Balance Barcelona',
+    'musicians.seo.desc':
+      'Specialized therapies for musicians: injury prevention, technique improvement and stage anxiety management. 1 hour sessions for 70€.',
+    'musicians.seo.keywords':
+      'Musicians physiotherapy Barcelona, musicians injuries, stage anxiety, musical technique',
+
+    // Students SEO
+    'students.seo.title': 'Services for students - EKA Balance Barcelona',
+    'students.seo.desc':
+      'Therapies for students: exam stress management, concentration improvement and postural correction. 1 hour sessions for 70€.',
+    'students.seo.keywords':
+      'Exam stress Barcelona, study concentration, student posture, academic anxiety',
+
+    'office.problems.pain.title': 'Postural pain',
+    'office.problems.pain.desc':
+      'Pain in neck, shoulders and back due to incorrect postures in front of the computer',
+    'office.problems.stress.title': 'Work stress',
+    'office.problems.stress.desc':
+      'Constant pressure, deadlines and excess responsibilities affecting wellbeing',
+    'office.problems.sedentary.title': 'Sedentary lifestyle',
+    'office.problems.sedentary.desc':
+      'Loss of mobility and flexibility from spending too many hours sitting',
+    'office.benefits.techniques.title': 'Specific techniques',
+    'office.benefits.techniques.desc':
+      'Specific techniques to decontract areas affected by office work',
+    'office.benefits.exercises.title': 'Postural correction',
+    'office.benefits.exercises.desc':
+      'Exercises and postural corrections to prevent future problems',
+    'office.benefits.mindfulness.title': 'Stress management',
+    'office.benefits.mindfulness.desc':
+      'Relaxation and mindfulness techniques adapted to the professional environment',
+
+    // Contact Page
+    'contact.hero.badge': 'We are here for you',
+    'contact.hero.title': 'Contact',
+    'contact.hero.titleHighlight': 'us',
+    'contact.hero.description':
+      'We are here to help you on your path to wellbeing. Contact us for bookings, inquiries or any questions about our services.',
+    'contact.whatsapp': 'WhatsApp 658 867 133',
+    'contact.callNow': 'Call now',
+    'contact.faq.title': 'Frequently asked questions',
+    'contact.faq.q1.title': 'How can i book an appointment?',
+    'contact.faq.q1.answer':
+      'You can book an appointment by writing via WhatsApp or Telegram at 658 867 133, calling us at the same number or sending us an email.',
+    'contact.faq.q2.title': 'What is the cancellation policy?',
+    'contact.faq.q2.answer':
+      'Free cancellations can be made up to 24 hours before the appointment. VIP users can cancel up to 12 hours before.',
+    'contact.faq.q3.title': 'Do you offer discounts or VIP plans?',
+    'contact.faq.q3.answer':
+      'Yes, we have VIP plans with discounts of up to 25% and exclusive benefits such as priority bookings and free telephone consultations.',
+    'contact.faq.q4.title': 'What should i bring to the first session?',
+    'contact.faq.q4.answer':
+      'Bring comfortable clothes, any relevant medical reports and a list of medications you are currently taking. We provide the towels.',
+
+    // Booking Page Help Section
+    'booking.help.title': 'Need help with booking?',
+    'booking.help.contactDirect': 'Contact us directly',
+    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
+    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.hours': 'Opening hours',
+    'booking.help.hours.weekdays': 'Monday - friday: 9:00 - 20:00',
+    'booking.help.hours.saturday': 'Saturday: 9:00 - 14:00',
+    'booking.help.hours.sunday': 'Sunday: closed',
+    'booking.help.footer':
+      'If you have any questions about our services or need help with booking, do not hesitate to contact us. We are here to help you.',
+    'booking.whatsapp.availability': 'Availability: {availability} – {timeslot}',
+    'booking.whatsapp.thanks': 'Thanks!',
+
+    // First Time Visitor Form
+    'firstTime.seo.title': "Don't know what to choose? - Find your ideal service at EKA Balance",
+    'firstTime.seo.desc':
+      'Intelligent personalized system to discover the perfect holistic therapy service for your specific needs. Empathetic recommendations based on who you are and what you are looking for.',
+    'firstTime.seo.keywords':
+      "Don't know what to choose, personalized form, therapy recommendations, ideal service, Barcelona, intelligent onboarding",
+
+    // VIP Section
+    'vip.plan.bronze': 'Bronze membership',
+    'vip.plan.bronze.description': 'Essential maintenance for a balanced life',
+    'vip.plan.bronze.price': '150€',
+    'vip.plan.silver': 'Silver membership',
+    'vip.plan.silver.description': 'Comprehensive monthly wellness & priority',
+    'vip.plan.silver.price': '280€',
+    'vip.plan.gold': 'Gold membership',
+    'vip.plan.gold.description': 'The ultimate transformation & total exclusivity',
+    'vip.plan.gold.price': '500€',
+
+    'vip.service.priority.title': 'Priority access',
+    'vip.service.priority.description':
+      'Skip the wait. Your schedule is our priority, with exclusive slots reserved just for you.',
+    'vip.service.displacements.title': 'Concierge home visits',
+    'vip.service.displacements.description':
+      'We bring the sanctuary to you. Save time and enjoy world-class treatments in the privacy of your home.',
+    'vip.service.health.title': 'Proactive health monitoring',
+    'vip.service.health.description':
+      'We don’t just treat; we track. Regular assessments ensure your physical health is always progressing.',
+    'vip.service.family.title': 'Family privileges',
+    'vip.service.family.description':
+      'Extend your care. Share your session credits and benefits with your immediate family.',
+
+    'vip.benefits.transferable': 'Shareable credits',
+    'vip.benefits.transferableDesc': 'Gift wellness to family',
+    'vip.benefits.monthly': 'Monthly health audit',
+    'vip.benefits.monthlyDesc': 'Preventive focus',
+    'vip.benefits.barcelona': 'Barcelona exclusive',
+    'vip.benefits.barcelonaDesc': 'City center availability',
+    'vip.benefits.sessions': 'Extended duration sessions',
+
+    'vip.stats.concierge': 'Personal concierge',
+    'vip.stats.exclusivity': 'Members only',
+    'vip.stats.clients': 'Elite clientele',
+    'vip.stats.possibilities': 'Limitless potential',
+    'vip.stats.control': 'Health mastery',
+    'vip.stats.family': 'Family inclusion',
+
+    'vip.mostExclusive': 'The pinnacle of care',
+    'vip.experienceDescription':
+      'Designed for those who refuse to compromise on their health. Experience wellness without boundaries.',
+    'vip.voicesOfExcellence': 'Voices of the elite',
+    'vip.testimonialsSubtitle': 'Hear from those who have elevated their lives with us.',
+    'vip.tier.standard': 'Standard member',
+
+    'vip.testimonials.comment1':
+      'The best investment i have made for my performance. The priority service is a game changer for my busy schedule.',
+    'vip.testimonials.comment2':
+      'Professionalism at its finest. Elena understands my body better than i do. A truly bespoke experience.',
+    'vip.testimonials.comment3':
+      'I feel renewed after every session. The attention to detail is unmatched in Barcelona.',
+
+    'vip.hero.badge': 'Ultra premium',
+    'vip.hero.title.beyond': 'Beyond',
+    'vip.hero.title.wellness': 'Wellness',
+    'vip.hero.subtitle':
+      'Step into a realm where your health is our sole focus. Unparalleled attention, priority access, and bespoke treatments designed for the few.',
+    'vip.hero.cta.join': 'Apply for membership',
+
+    'vip.dashboard.member': 'Member lounge',
+    'vip.dashboard.hello': 'Welcome back,',
+    'vip.dashboard.status': 'Membership tier:',
+    'vip.dashboard.priorityBooking': 'Book priority session',
+    'vip.dashboard.viewPlans': 'Upgrade membership',
+
+    'vip.features.badge': 'Excellence',
+    'vip.features.title': 'Curated for the elite',
+    'vip.features.subtitle':
+      'Every detail is orchestrated to provide an experience that transcends traditional therapy.',
+
+    'vip.plans.badge': 'Membership',
+    'vip.plans.title': 'Select your legacy',
+    'vip.plans.subtitle': 'Choose the level of exclusivity that matches your ambition.',
+    'vip.plans.popular': 'Most popular',
+    'vip.plans.perMonth': '/ Month',
+    'vip.plans.sessions': 'Sessions included',
+    'vip.plans.contact': 'Inquire now',
+    'vip.table.title': 'Membership comparison',
+    'vip.table.sessions': 'Sessions included',
+
+    'vip.exclusivePrivileges': 'Member privileges',
+    'vip.testimonials.title': 'Elite experiences',
+    'vip.testimonials.subtitle': 'Stories from those who demand the best.',
+    'vip.testimonials.role1': 'Ceo, tech innovator',
+    'vip.testimonials.role2': 'Cardiovascular surgeon',
+    'vip.testimonials.role3': 'International entrepreneur',
+    'vip.cta.badge': 'Join the inner circle',
+    'vip.cta.title': 'Elevate your life',
+    'vip.cta.subtitle': 'Your journey to peak performance and profound well-being starts here.',
+    'vip.whatsapp.message':
+      'Hello, I am interested in the {plan} VIP membership. I would like to apply.',
+    'vip.whatsapp.messageGeneral':
+      'Hello, i am interested in the VIP inner circle. I would like to know more.',
+    'vip.cta.location': 'Prime location',
+    'vip.cta.concierge': 'Dedicated concierge',
+    'vip.cta.guarantee': 'Satisfaction guaranteed',
+
+    // Hero Split
+    'hero.title.part1': 'Restore your',
+    'hero.title.part2': 'systemic vitality',
+    'hero.cta.primary': 'Book your session',
+    'hero.cta.secondary': 'Discover your path',
+    'hero.stats.rating': '5 star rating',
+
+    // About
+    'about.badge': 'My journey',
+    'about.title': 'Elena Kucherova',
+    'about.role': 'Somatic integration specialist',
+    'about.description1':
+      'With over 15 years of clinical practice, i have refined a method that goes beyond conventional treatment. My mission is to decode your body language to unlock its innate regeneration capacity.',
+    'about.description2':
+      'I fuse neuroscience precision with manual therapy depth. Each session is a strategic intervention in your nervous system to deactivate pain patterns and restore vital Balance.',
+    'about.cta': 'Discover the method',
+
+    // Services General
+    'services.badge': 'Therapeutic excellence',
+    'services.title': 'High impact interventions',
+    'services.subtitle':
+      'Advanced protocols integrating structural manipulation, neurological rebalancing, and metabolic optimization.',
+    'services.cta': 'Explore protocols',
+
+    // Service: Massage
+    'massage.title': 'Advanced manual therapy',
+    'massage.desc':
+      'Reconstruction of body architecture. Fusion of deep tissue techniques and myofascial release to eliminate chronic restrictions.',
+    'massage.benefit1': 'Structural decompression',
+    'massage.benefit2': 'Postural realignment',
+    'massage.benefit3': 'Nervous system regulation',
+    'massage.benefit4': 'Tissue regeneration',
+
+    // Service: Kinesiology
+    'kinesiology.title': 'Clinical kinesiology',
+    'kinesiology.desc':
+      'Precision biofeedback. We use neurological muscle testing to decode and correct structural, biochemical, and emotional dysfunctions.',
+    'kinesiology.benefit1': 'Causal diagnosis',
+    'kinesiology.benefit2': 'Neurological optimization',
+    'kinesiology.benefit3': 'Structural integration',
+    'kinesiology.benefit4': 'Systemic stability',
+
+    // Service: Nutrition
+    'nutrition.title': 'Functional nutrition',
+    'nutrition.desc':
+      'Biochemistry for performance. Nutritional strategies designed to enhance cognitive function, hormonal stability, and cellular vitality.',
+    'nutrition.benefit1': 'Metabolic optimization',
+    'nutrition.benefit2': 'Microbiota health',
+    'nutrition.benefit3': 'Cognitive performance',
+    'nutrition.benefit4': 'Hormonal regulation',
+
+    // Problems
+    'problems.badge': 'Diagnosis & resolution',
+    'problems.title': 'Pathology identification',
+    'problems.subtitle':
+      'Clinical Approach to common dysfunctions via somatic integration protocols.',
+    'problems.backpain.title': 'Chronic vertebral dysfunction',
+    'problems.backpain.desc': 'Persistent structural compromise limiting functionality.',
+    'problems.backpain.solution': 'Clinical protocol',
+    'problems.backpain.solutionDesc': 'Axial decompression and neuromuscular reeducation.',
+    'problems.stress.title': 'Nervous system dysregulation',
+    'problems.stress.desc': 'Sympathetic hyperactivation, systemic anxiety, and sleep disruption.',
+    'problems.stress.solution': 'Clinical protocol',
+    'problems.stress.solutionDesc': 'Vagal tone restoration and stress response modulation.',
+    'problems.fatigue.title': 'Systemic exhaustion',
+    'problems.fatigue.desc': 'Chronic energy deficit and inefficient metabolic recovery.',
+    'problems.fatigue.solution': 'Clinical protocol',
+    'problems.fatigue.solutionDesc': 'Mitochondrial reactivation and metabolic unblocking.',
+    'problems.injuries.title': 'Sports traumatology',
+    'problems.injuries.desc': 'Biomechanical limitations compromising athletic performance.',
+    'problems.injuries.solution': 'Clinical protocol',
+    'problems.injuries.solutionDesc': 'Accelerated Functional rehabilitation.',
+
+    // Office
+    'office.stats.pain': 'Pain reduction',
+    'office.stats.posture': 'Posture improvement',
+    'office.stats.stress': 'Less stress',
+    'office.session.title': 'Therapeutic session for office workers',
+    'office.session.plans': 'View plans',
+
+    // Students
+    'students.challenge3.title': 'Exam stress',
+    'students.challenge3.desc': 'Anxiety and pressure affecting performance',
+    'students.result.title': 'Expected results',
+    'students.result.desc': 'Improved focus and calmness',
+    'students.stats.concentration': 'Concentration',
+    'students.stats.tension': 'Tension relief',
+    'students.stats.stress': 'Stress mgmt',
+    'students.session.title': 'Student session',
+
+    // VIP
+    'vip.plan.platinum': 'Platinum VIP',
+    'vip.plan.bronze.desc': 'VIP entry level',
+    'vip.plan.silver.desc': 'Perfect for professionals',
+    'vip.plan.gold.desc': 'The ultimate VIP experience',
+    'vip.plan.platinum.desc': 'Exclusive elite access',
+    'vip.feature.priority': 'Priority access',
+    'vip.feature.extended': 'Extended sessions',
+    'vip.feature.support': '24/7 support',
+    'vip.feature.events': 'Exclusive events',
+    'vip.feature.home': 'Home service',
+    'vip.feature.all': 'All benefits included',
+    'vip.feature.gift': 'Gift session',
+    'vip.feature.consultation': 'Quarterly consultation',
+    'vip.feature.kit': 'Premium kit',
+    'vip.feature.concierge': 'Personal wellness manager',
+    'vip.feature.retreat': 'Retreat discount',
+
+    // Pricing Section
+    'pricing.badge': 'Transparent pricing',
+    'pricing.title.part1': 'Choose your',
+    'pricing.title.part2': 'wellness plan',
+    'pricing.subtitle':
+      'Packs designed for every need, with the flexibility and quality you deserve',
+    'pricing.popular': 'Most popular',
+    'pricing.save': 'Save {percent}%',
+    'pricing.discount_applied': 'Applied',
+    'pricing.plan.select': 'Select',
+
+    'pricing.plan.basic.name': 'Single session',
+    'pricing.plan.basic.desc': 'A complete 60-minute session',
+    'pricing.plan.pack3.name': 'Wellness pack (3)',
+    'pricing.plan.pack3.desc': 'Pack of 3 sessions for continuous follow-up',
+    'pricing.plan.pack5.name': 'Transformation pack (5)',
+    'pricing.plan.pack5.desc': 'Comprehensive treatment for deep changes',
+
+    'pricing.feature.massage': 'Therapeutic massage',
+    'pricing.feature.kinesiology': 'Kinesiology',
+    'pricing.feature.osteopathy': 'Gentle osteopathy',
+    'pricing.feature.save15': 'Save 15€',
+    'pricing.feature.valid3months': 'Valid for 3 months',
+    'pricing.feature.transferable': 'Transferable',
+    'pricing.feature.save25': 'Save 25€',
+    'pricing.feature.valid6months': 'Valid for 6 months',
+    'pricing.feature.priority': 'Priority booking',
+
+    'pricing.guarantee.nocommitment.title': 'No commitments',
+    'pricing.guarantee.nocommitment.desc': 'Cancel or reschedule up to 24h before without cost',
+    'pricing.guarantee.satisfaction.title': 'Satisfaction guarantee',
+    'pricing.guarantee.satisfaction.desc':
+      'If you are not satisfied with the first session, we refund you',
+    'pricing.guarantee.certified.title': 'Certified professionals',
+    'pricing.guarantee.certified.desc': 'All our therapists have official certifications',
+    'pricing.guarantee.equipment.title': 'Professional equipment',
+    'pricing.guarantee.equipment.desc': 'We use only top quality equipment and products',
+
+    'pricing.cta.unsure.title': 'Not sure which plan to choose?',
+    'pricing.cta.unsure.subtitle':
+      'Take our free assessment and discover which treatment best fits your needs',
+    'pricing.cta.unsure.button': 'Discover our services',
+
+    // Booking Popup
+    'booking.smart.service.placeholder': 'Select a service...',
+    'booking.smart.time.placeholder': 'Ex: mornings, next week...',
+    'booking.whatsapp.name': 'Name',
+    'booking.whatsapp.serviceLabel': 'Service',
+    'booking.whatsapp.preference': 'Time preference',
+    'booking.service.other': 'Other',
+    'booking.service.consultation': 'Initial consultation',
+    'booking.smart.quick': 'Quick booking',
+    'booking.smart.quickDesc': 'Contact via WhatsApp directly.',
+    'booking.smart.form': 'Form',
+    'booking.smart.formDesc': 'Fill in details first.',
+    'booking.smart.name': 'Your name',
+    'booking.smart.service': 'Service',
+    'booking.smart.time': 'Preferred time',
+    'booking.smart.send': 'Send via WhatsApp',
+    'booking.smart.title': 'Book your appointment',
+    'booking.smart.subtitle': 'Choose how you want to contact',
+  },
+  es: {
+    // Navigation
+    'nav.home': 'Inicio',
+    'nav.services': 'Servicios',
+    'nav.personalizedServices': 'Servicios personalizados',
+    'nav.revision360': 'Revisión 360°',
+    'nav.vip': 'VIP',
+    'nav.bookNow': 'Reservar cita',
+    'nav.contact': 'Contacto',
+    'nav.aboutElena': 'Sobre Elena',
+    'nav.casos': 'Casos reales',
+
+    // Elena Approach & Targets
+    'elena.approach.title': 'El método Elena Kucherova',
+    'elena.approach.desc':
+      'En el núcleo de mi trabajo yace una profunda comprensión de que el cuerpo, el cerebro y las emociones son un sistema unificado. No trato síntomas, sino que busco su causa raíz, ayudando al organismo a restaurar su capacidad natural de autorregulación. Mi método combina técnicas avanzadas de trabajo con el cuerpo y el sistema nervioso: Movement Lesson, JKA (Jeremy Krauss Approach), child’space, Feldenkrais y biodinámica. Es una influencia suave pero poderosa que reentrena el sistema nervioso, libera tensiones profundas y restaura la facilidad de movimiento y la claridad mental.',
+
+    'elena.target.adults.title': 'Adultos',
+    'elena.target.adults.desc':
+      'Para quienes sienten fatiga crónica, dolor de espalda o cuello, o los efectos del estrés y el trauma. Te ayudo a restaurar tu estado de recursos, mejorar la postura, liberar bloqueos psicosomáticos y recuperar la ligereza al moverte. No es solo un masaje o una terapia; es un reinicio de tu sistema nervioso para elevar tu calidad de vida.',
+
+    'elena.target.children.title': 'Niños',
+    'elena.target.children.desc':
+      'Apoyo para un desarrollo armonioso desde los primeros días. Trabajo con retrasos motores, alteraciones posturales, hiperactividad y dificultades de aprendizaje. Mediante técnicas suaves, ayudo al niño a sentir mejor su cuerpo, desarrollando coordinación, seguridad y confianza en sí mismo.',
+
+    'elena.target.families.title': 'Familias con necesidades especiales',
+    'elena.target.families.desc':
+      'Acompañamiento integral para familias con niños con pc, síndromes genéticos u otras necesidades del desarrollo. Trabajo no solo con el niño para que adquiera nuevas habilidades de movimiento y comunicación, sino también con los padres, enseñándoos a interactuar con él y a cuidar vuestra propia energía y bienestar.',
+
+    // Dropdown items
+    'nav.officeWorkers': 'Profesionales de oficina',
+    'nav.athletes': 'Deportistas',
+    'nav.artists': 'Artistas',
+    'nav.musicians': 'Músicos',
+    'nav.students': 'Estudiantes',
+
+    'home.founder': 'Fundadora y CEO',
+    'home.elenaAlt': 'Elena, terapeuta corporal de EKA Balance',
+    'home.viewAllServices': 'Ver todos los servicios',
+    'home.elenaName': 'Elena Kucherova',
+
+    // Hero Section
+    'hero.title': 'EKA Balance',
+    'hero.title.part1': 'Restaura tu',
+    'hero.title.part2': 'vitalidad sistémica',
+    'hero.subtitle':
+      'Restaura tu vitalidad sistémica. Centro de referencia en terapias somáticas y regulación del sistema nervioso en Barcelona. Integración clínica y bienestar profundo.',
+    'hero.cta.primary': 'Reserva tu sesión',
+    'hero.cta.secondary': 'Descubre tu camino',
+    'hero.badge': 'Excelencia en salud integrativa',
+    'hero.stats.clients': 'Pacientes tratados',
+    'hero.stats.experience': 'Años de práctica clínica',
+    'hero.stats.rating': 'Excelencia terapéutica',
+
+    // About Section
+    'elena.greeting': 'Hola, soy Elena',
+    'elena.role': 'Terapeuta corporal',
+    'elena.bio':
+      'He dedicado mi vida a explorar las profundidades de las disciplinas terapéuticas, creando un enfoque único e integrador que honra a la persona en su totalidad.',
+    'elena.work.title': 'Trabajo',
+    'elena.description1':
+      'Soy terapeuta corporal especializada en masaje terapéutico, kinesiología e integración mente-cuerpo. Mi trabajo se basa en la creencia de que la verdadera curación proviene de escuchar al cuerpo.',
+    'elena.description2':
+      'Mi objetivo es simple: ayudarte a liberar el peso de la tensión y recuperar tu bienestar físico y emocional, para que puedas moverte por la vida con ligereza y energía renovada.',
+    'elena.knowMore': 'Lee mi historia completa',
+    'elena.quote':
+      'El cuerpo tiene la capacidad innata de sanarse; mi trabajo es recordarle cómo hacerlo.',
+
+    // Services Section
+    'services.badge': 'Protocolos clínicos',
+    'services.title': 'Intervenciones terapéuticas avanzadas',
+    'services.subtitle':
+      'Metodología integrativa que fusiona terapia manual, corrección biomecánica y regulación del sistema nervioso autónomo.',
+    'services.cta': 'Explorar tratamientos',
+
+    // Service: Massage
+    'massage.title': 'Terapia manual avanzada',
+    'massage.desc':
+      'Restauración estructural profunda. Combinamos técnicas de tejido profundo con liberación miofascial para disolver la tensión crónica y restaurar la movilidad funcional.',
+    'massage.benefit1': 'Alivio del dolor estructural',
+    'massage.benefit2': 'Corrección biomecánica',
+    'massage.benefit3': 'Regulación nerviosa',
+    'massage.benefit4': 'Recuperación tisular',
+
+    // Service: Kinesiology
+    'kinesiology.title': 'Kinesiología clínica',
+    'kinesiology.desc':
+      'Diagnóstico funcional preciso. Utilizamos el test muscular para identificar desequilibrios estructurales, químicos y emocionales, corrigiéndolos desde su origen neurológico.',
+    'kinesiology.benefit1': 'Diagnóstico sistémico',
+    'kinesiology.benefit2': 'Equilibrio bioenergético',
+    'kinesiology.benefit3': 'Optimización postural',
+    'kinesiology.benefit4': 'Integración somática',
+
+    // Service: Nutrition
+    'nutrition.title': 'Nutrición clínica',
+    'nutrition.desc':
+      'Bioquímica aplicada a la salud. Planes nutricionales diseñados para optimizar la función metabólica, reparar la barrera intestinal y apoyar la neuroquímica cerebral.',
+    'nutrition.benefit1': 'Energía metabólica',
+    'nutrition.benefit2': 'Salud de la microbiota',
+    'nutrition.benefit3': 'Claridad cognitiva',
+    'nutrition.benefit4': 'Regulación hormonal',
+
+    // Problems / Casos Section
+    'problems.badge': 'Diagnóstico y resolución',
+    'problems.title': 'Identificación clínica',
+    'problems.subtitle':
+      'Análisis preciso de patologías para el desarrollo de estrategias terapéuticas efectivas.',
+
+    // Problem: Back Pain
+    'problems.backpain.title': 'Disfunción vertebral crónica',
+    'problems.backpain.desc':
+      'Malestar estructural persistente que compromete el descanso y la funcionalidad laboral.',
+    'problems.backpain.solution': 'Protocolo clínico',
+    'problems.backpain.solutionDesc':
+      'Descompresión axial y neuromodulación postural para una corrección sostenida.',
+
+    // Problem: Stress
+    'problems.stress.title': 'Desregulación del sistema nervioso',
+    'problems.stress.desc':
+      'Estado de hiperactivación, opresión torácica y ausencia de descanso reparador.',
+    'problems.stress.solution': 'Protocolo clínico',
+    'problems.stress.solutionDesc':
+      'Regulación vegetativa mediante terapia craneosacral y respiración controlada.',
+
+    // Problem: Fatigue
+    'problems.fatigue.title': 'Agotamiento sistémico',
+    'problems.fatigue.desc': 'Letargo crónico y déficit energético que persiste tras el sueño.',
+    'problems.fatigue.solution': 'Protocolo clínico',
+    'problems.fatigue.solutionDesc':
+      'Reactivación metabólica y desbloqueo bioenergético para restaurar la vitalidad.',
+
+    // Problem: Injuries
+    'problems.injuries.title': 'Rehabilitación funcional avanzada',
+    'problems.injuries.desc':
+      'Limitaciones traumáticas que reducen el rendimiento deportivo y la biomecánica.',
+    'problems.injuries.solution': 'Protocolo clínico',
+    'problems.injuries.solutionDesc':
+      'Regeneración tisular acelerada y estabilización preventiva para el alto rendimiento.',
+    'casos.problems.backPain.cause4': 'Respiración bloqueada o superficial',
+    'casos.problems.backPain.treatment':
+      'Trabajamos con masaje terapéutico, liberación miofascial, kinesiología para encontrar la causa profunda (estrés, bloqueo articular o visceral), y técnicas de reeducación postural (Feldenkrais).',
+    'casos.problems.backPain.results':
+      'Muchas personas notan alivio inmediato y más movilidad después de la primera sesión. Con el tiempo, el cuerpo reaprende a sostenerse con menos esfuerzo y más fluidez.',
+    'casos.problems.stress.symptom1': 'Pensamientos constantes y bucle mental',
+    'casos.problems.stress.symptom2': 'Dificultad para relajarse o dormir',
+    'casos.problems.stress.symptom3': 'Dolor cervical, tensión mandibular, fatiga por la mañana',
+    'casos.problems.stress.symptom4': 'Emociones intensas sin motivo aparente',
+    'casos.problems.stress.cause1': 'Exceso de responsabilidades y presión',
+    'casos.problems.stress.cause2': 'Estrés crónico y falta de tiempo para uno mismo',
+    'casos.problems.stress.cause3': 'Traumas no resueltos o experiencias difíciles',
+    'casos.problems.stress.cause4': 'Desajuste del sistema nervioso autónomo',
+    'casos.problems.stress.treatment':
+      'Utilizamos kinesiología emocional y técnicas del sistema vagal para calmar el sistema nervioso. Añadimos trabajo corporal suave (Feldenkrais, respiración consciente) para enseñar al cuerpo a"salir de la lucha".',
+    'casos.problems.stress.results':
+      'La persona vuelve a dormir mejor, disminuye la tensión interna y recupera la sensación de control y serenidad.',
+    'casos.problems.digestive.symptom1':
+      'Hinchazón abdominal, gases, reflujo o dolor después de comer',
+    'casos.problems.digestive.symptom2': 'Cansancio o somnolencia después de las comidas',
+    'casos.problems.digestive.symptom3': 'Cambios de humor o irritabilidad sin motivo',
+    'casos.problems.digestive.symptom4': 'Intolerancias alimentarias o sensibilidades',
+    'casos.problems.digestive.cause1': 'Intolerancias alimentarias no detectadas',
+    'casos.problems.digestive.cause2': 'Alimentación irregular o estrés durante las comidas',
+    'casos.problems.digestive.cause3': 'Estrés emocional que afecta la digestión',
+    'casos.problems.digestive.cause4':
+      'Bloqueos viscerales que afectan la movilidad de los órganos',
+    'casos.problems.digestive.treatment':
+      'Aplicamos kinesiología nutricional para detectar intolerancias o déficits, técnicas de masaje visceral suave y recomendaciones alimentarias personalizadas.',
+    'casos.problems.digestive.results':
+      'Mejora la digestión, desaparece la hinchazón y aumenta la energía diaria. El cliente aprende a escuchar su cuerpo y a adaptar su alimentación.',
+    'casos.problems.migraines.symptom1': 'Dolor intenso de un lado de la cabeza o en la nuca',
+    'casos.problems.migraines.symptom2': 'Presión ocular o sensación de casco',
+    'casos.problems.migraines.symptom3': 'Mareos o náuseas',
+    'casos.problems.migraines.symptom4': 'Sensibilidad a la luz y a los ruidos',
+    'casos.problems.migraines.cause1': 'Bloqueo cervical y tensión muscular',
+    'casos.problems.migraines.cause2': 'Tensión mandibular (bruxismo)',
+    'casos.problems.migraines.cause3': 'Falta de descanso o exceso de estimulación mental',
+    'casos.problems.migraines.cause4': 'Desequilibrios hormonales o alimentarios',
+    'casos.problems.migraines.treatment':
+      'Combinamos Osteobalance craneal, descarga muscular y técnicas vagales para equilibrar el sistema nervioso. También revisamos la respiración y la postura.',
+    'casos.problems.migraines.results':
+      'Reducción de la frecuencia e intensidad de las migrañas. En muchos casos, desaparecen completamente después de regular el cuello y el cráneo.',
+    'casos.problems.lowEnergy.symptom1': 'Cansancio constante a pesar de dormir bien',
+    'casos.problems.lowEnergy.symptom2': 'Baja concentración y memoria',
+    'casos.problems.lowEnergy.symptom3': 'Irritabilidad o apatía',
+    'casos.problems.lowEnergy.symptom4': 'Sensación de"funcionar con el piloto automático"',
+    'casos.problems.lowEnergy.cause1': 'Estrés prolongado y burnout',
+    'casos.problems.lowEnergy.cause2': 'Déficits nutricionales o desequilibrios metabólicos',
+    'casos.problems.lowEnergy.cause3': 'Problemas hormonales (tiroides, adrenales)',
+    'casos.problems.lowEnergy.cause4': 'Desgaste emocional y falta de propósito',
+    'casos.problems.lowEnergy.treatment':
+      'Usamos kinesiología para identificar desequilibrios químicos o emocionales, suplementación natural y técnicas de movimiento consciente.',
+    'casos.problems.lowEnergy.results':
+      'Mejora notable de la energía, claridad mental y estado de ánimo más estable.',
+    'casos.problems.sleep.symptom1': 'Dificultad para dormirse o despertares nocturnos',
+    'casos.problems.sleep.symptom2': 'Fatiga matinal, tensión o sueños intensos',
+    'casos.problems.sleep.symptom3': 'Pensamientos recurrentes antes de dormir',
+    'casos.problems.sleep.symptom4': 'Sueño ligero o poco reparador',
+    'casos.problems.sleep.cause1': 'Exceso de estrés e hiperactivación mental',
+    'casos.problems.sleep.cause2': 'Desajuste del sistema nervioso y ritmos circadianos',
+    'casos.problems.sleep.cause3': 'Falta de rutina o higiene del sueño',
+    'casos.problems.sleep.cause4': 'Problemas digestivos o hormonales',
+    'casos.problems.sleep.treatment':
+      'Integramos Feldenkrais, respiración guiada, técnicas vagales y kinesiología para equilibrar el sistema hormonal.',
+    'casos.problems.sleep.results':
+      'Mejora del sueño profundo y descanso reparador después de pocas sesiones.',
+    'casos.problems.recovery.symptom1': 'Dolor residual o limitación articular',
+    'casos.problems.recovery.symptom2': 'Sensación de debilidad o desequilibrio',
+    'casos.problems.recovery.symptom3': 'Bloqueos emocionales asociados a la lesión',
+    'casos.problems.recovery.symptom4': 'Miedo al movimiento o reactividad',
+    'casos.problems.recovery.cause1': 'Cicatrices internas y adherencias',
+    'casos.problems.recovery.cause2': 'Compensaciones musculares y posturales',
+    'casos.problems.recovery.cause3': 'Trauma físico con componente emocional',
+    'casos.problems.recovery.cause4': 'Memoria corporal de la experiencia traumática',
+    'casos.problems.recovery.treatment':
+      'Trabajamos con Osteobalance, reeducación postural y trabajo del sistema fascial. Acompañamos también la confianza corporal y la memoria del cuerpo.',
+    'casos.problems.recovery.results':
+      'Recuperación de la movilidad, alivio del dolor y sensación de seguridad en el movimiento.',
+
+    // Contact Form
+    'contact.success.title': '¡Mensaje enviado correctamente!',
+    'contact.success.message':
+      'Gracias por contactar con nosotros. Nos pondremos en contacto contigo muy pronto.',
+    'contact.success.button': 'Enviar otro mensaje',
+    'contact.title': 'Habla con nosotros',
+    'contact.subtitle':
+      'Estamos aquí para ayudarte en tu camino hacia el bienestar. Contacta con nosotros y descubre cómo podemos mejorar tu calidad de vida.',
+    'contact.phone.title': 'Teléfono y WhatsApp',
+    'contact.phone.subtitle': 'WhatsApp disponible 24/7',
+    'contact.email.title': 'Email',
+    'contact.email.subtitle': 'Respuesta en menos de 24h',
+    'contact.location.title': 'Ubicación',
+    'contact.location.address': 'Carrer pelai, 12\n08001 Barcelona',
+    'contact.location.subtitle': 'Metro: l1 y l2 (universitat)',
+    'contact.form.name': 'Nombre completo',
+    'contact.form.email': 'Correo electrónico',
+    'contact.form.phone': 'Teléfono',
+    'contact.form.service': 'Servicio de interés',
+    'contact.form.service.placeholder': 'Selecciona un servicio',
+    'contact.form.time': 'Horario preferente',
+    'contact.form.time.placeholder': 'Selecciona un horario',
+    'contact.form.message': 'Mensaje',
+    'contact.form.message.placeholder': 'Explícanos brevemente qué necesitas...',
+    'contact.form.preferred': 'Método de contacto preferido',
+    'contact.form.submit': 'Enviar mensaje',
+    'contact.form.submitting': 'Enviando...',
+    'contact.form.privacy': 'Acepto la política de privacidad',
+    'contact.form.source': '¿Cómo nos has conocido?',
+    'contact.form.source.placeholder': 'Selecciona una opción',
+    'contact.form.source.google': 'Google',
+    'contact.form.source.social': 'Redes sociales',
+    'contact.form.source.friend': 'Recomendación de un amigo',
+    'contact.form.source.other': 'Otros',
+    'contact.quick.title': 'O contáctanos directamente:',
+    'contact.quick.call': 'Llamar ahora',
+    'contact.error': 'Ha habido un error al enviar el mensaje. Por favor, inténtalo de nuevo.',
+
+    // Contact Form Options
+    'contact.service.massageBasic': 'Masaje básico (1h)',
+    'contact.service.massageComplete': 'Masaje completo (1,5h)',
+    'contact.service.massagePremium': 'Masaje premium (2h)',
+    'contact.service.kinesiology': 'Kinesiología holística',
+    'contact.service.nutrition': 'Nutrición consciente',
+    'contact.service.revision360': 'Revisión 360°',
+    'contact.service.vip': 'Planes VIP',
+    'contact.service.other': 'Otras consultas',
+
+    'contact.time.morning': 'Mañana (9:00 - 12:00)',
+    'contact.time.noon': 'Mediodía (12:00 - 15:00)',
+    'contact.time.afternoon': 'Tarde (15:00 - 18:00)',
+    'contact.time.evening': 'Noche (18:00 - 21:00)',
+    'contact.time.any': 'Sin preferencia',
+
+    // Symptoms, causes, treatment, results labels
+    'casos.symptoms': 'Síntomas',
+    'casos.causes': 'Causas',
+    'casos.treatment': 'Cómo te ayudamos',
+    'casos.results': 'Resultados',
+
+    // Additional problems list
+    'casos.additionalProblems.bruxism': 'Bruxismo y tensión mandibular',
+    'casos.additionalProblems.tmj': 'Dolor de ATM (articulación temporomandibular)',
+    'casos.additionalProblems.sciatica': 'Ciática y dolor de piernas',
+    'casos.additionalProblems.shoulderPain': 'Dolor de hombros y rigidez',
+    'casos.additionalProblems.dizziness': 'Mareos y vértigos',
+    'casos.additionalProblems.irritability': 'Irritabilidad constante',
+    'casos.additionalProblems.intestinalProblems': 'Problemas intestinales',
+    'casos.additionalProblems.chronicFatigue': 'Fatiga crónica',
+    'casos.additionalProblems.socialAnxiety': 'Ansiedad social',
+    'casos.additionalProblems.concentrationDifficulty': 'Dificultad para concentrarse',
+    'casos.additionalProblems.headaches': 'Dolores de cabeza y migrañas',
+    'casos.additionalProblems.insomnia': 'Insomnio y trastornos del sueño',
+    'casos.additionalProblems.posture': 'Problemas posturales',
+    'casos.additionalProblems.contractures': 'Contracturas musculares',
+    'casos.additionalProblems.emotionalBlock': 'Bloqueos emocionales',
+    'casos.additionalProblems.rsi': 'Lesiones por esfuerzo repetitivo',
+    'casos.additionalProblems.carpalTunnel': 'Síndrome del túnel carpiano',
+    'casos.additionalProblems.plantarFasciitis': 'Fascitis plantar',
+
+    // Testimonials
+    'testimonials.title': 'Lo que dicen nuestros clientes',
+    'testimonials.subtitle':
+      'Descubre experiencias reales de personas que han transformado sus vidas',
+    'testimonials.all': 'Todos',
+    'testimonials.hide': 'Ocultar',
+    'testimonials.show': 'Ver',
+    'testimonials.beforeAfter': 'Antes/después',
+    'testimonials.before': 'Antes',
+    'testimonials.after': 'Después',
+    'testimonials.also': 'También en:',
+    'testimonials.with': 'Con',
+    'testimonials.ratings': 'Valoraciones',
+    'testimonials.externalReviews': 'Puedes leer más valoraciones en nuestras páginas externas',
+    'testimonials.photo': 'Foto de',
+    'testimonials.satisfiedClient': 'Cliente satisfecho',
+    'testimonials.sliderTitle': 'Testimonios que hablan por sí solos',
+    'testimonials.sliderSubtitle':
+      'Descubre cómo hemos ayudado a nuestros clientes a lograr su bienestar',
+
+    // Offline
+    'offline.message': 'Sin conexión a internet',
+
+    // Discounts page
+    'discounts.pageTitle': 'Descuentos - EKA Balance',
+    'discounts.pageDescription':
+      'Descubre nuestros descuentos especiales para servicios de bienestar y terapias',
+    'discounts.badge': 'Ofertas especiales',
+    'discounts.title': 'Descuentos especiales',
+    'discounts.subtitle':
+      'Disfruta de precios reducidos en nuestros servicios de bienestar con nuestros descuentos exclusivos',
+    'discounts.availableTitle': 'Descuentos disponibles',
+    'discounts.availableSubtitle':
+      'Aprovecha estas ofertas especiales para comenzar tu camino hacia el bienestar',
+    'discounts.mykolaFriend.description':
+      'Descuento especial del 20% para amigos de mykola. Válido para todas las sesiones y servicios.',
+    'discounts.conocidoMykola.description':
+      'Descuento del 10% para conocidos de mykola. Aplicable a todos nuestros tratamientos.',
+    'discounts.off': 'Descuento',
+    'discounts.active': 'Activo',
+    'discounts.code': 'Código',
+    'discounts.copy': 'Copiar',
+    'discounts.howToUse.title': 'Cómo usar los descuentos',
+    'discounts.howToUse.subtitle': 'Sigue estos pasos sencillos para aplicar tu descuento',
+    'discounts.step1.title': 'Contáctanos',
+    'discounts.step1.description':
+      'Ponte en contacto con nosotros por WhatsApp o teléfono para reservar',
+    'discounts.step2.title': 'Menciona el código',
+    'discounts.step2.description': 'Proporciona el código de descuento al hacer tu reserva',
+    'discounts.step3.title': 'Disfruta del descuento',
+    'discounts.step3.description': 'El descuento se aplicará automáticamente al precio final',
+    'discounts.cta.title': '¿Listo para usar tu descuento?',
+    'discounts.cta.subtitle': 'Reserva tu sesión ahora y disfruta del precio especial',
+    'discounts.cta.bookNow': 'Reservar con descuento',
+    'discounts.cta.contact': 'Contactar',
+
+    // Personalized Services
+    'personalizedServices.title': 'Programas especializados',
+    'personalizedServices.subtitle':
+      'Descubre terapias adaptadas específicamente a tu profesión y estilo de vida',
+    'personalizedServices.cta': 'Reserva tu sesión',
+    'personalizedServices.difference.title': 'Diferencia entre servicios',
+    'personalizedServices.main.title': 'Servicios principales',
+    'personalizedServices.main.list1': 'Masaje terapéutico general',
+    'personalizedServices.main.list2': 'Kinesiología holística',
+    'personalizedServices.main.list3': 'Nutrición consciente',
+    'personalizedServices.main.list4': 'Revisión 360°',
+    'personalizedServices.special.title': 'Servicios personalizados',
+    'personalizedServices.special.list1': 'Adaptados a tu profesión',
+    'personalizedServices.special.list2': 'Enfoque específico para necesidades',
+    'personalizedServices.special.list3': 'Técnicas especializadas',
+    'personalizedServices.special.list4': 'Seguimiento personalizado',
+    'personalizedServices.choose.title': 'Elige tu servicio personalizado',
+    'personalizedServices.choose.subtitle': 'Cada profesión tiene sus necesidades específicas',
+    'personalizedServices.bookNow.title': 'Comienza tu transformación hoy',
+    'personalizedServices.bookNow.subtitle':
+      'Reserva tu servicio personalizado y descubre la diferencia',
+    'personalizedServices.officeWorkers': 'Ejecutivos y profesionales',
+    'personalizedServices.officeWorkers.desc':
+      'Contrarresta el sedentarismo laboral y el estrés de alto nivel. Recupera la postura y la claridad mental.',
+    'personalizedServices.officeWorkers.benefit1':
+      'Alivio de la tensión crónica en espalda y cuello',
+    'personalizedServices.officeWorkers.benefit2': 'Optimización de la postura ergonómica',
+    'personalizedServices.officeWorkers.benefit3': 'Reducción del estrés acumulado y la ansiedad',
+    'personalizedServices.officeWorkers.result': 'Máxima productividad sin desgaste físico',
+    'personalizedServices.athletes': 'Deportistas de élite',
+    'personalizedServices.athletes.desc':
+      'Maximiza tu rendimiento y acelera la recuperación. Mantenimiento esencial para el cuerpo en movimiento.',
+    'personalizedServices.athletes.benefit1': 'Recuperación muscular acelerada',
+    'personalizedServices.athletes.benefit2': 'Prevención de lesiones y flexibilidad',
+    'personalizedServices.athletes.benefit3': 'Optimización del rendimiento',
+    'personalizedServices.athletes.result': 'Ventaja competitiva con menor riesgo de lesiones',
+    'personalizedServices.artists': 'Artistas',
+    'personalizedServices.artists.desc':
+      'Cuidado de manos, brazos y postura para artistas visuales y creadores',
+    'personalizedServices.artists.benefit1': 'Cuidado específico de manos y muñecas',
+    'personalizedServices.artists.benefit2': 'Mejora la postura durante la creación',
+    'personalizedServices.artists.benefit3': 'Libera la creatividad reduciendo tensiones físicas',
+    'personalizedServices.artists.result': 'Más comodidad y fluidez en el proceso creativo',
+    'personalizedServices.musicians': 'Músicos profesionales',
+    'personalizedServices.musicians.desc':
+      'Afinación ergonómica de la conexión cuerpo-instrumento. Prevención de lesiones por repetición.',
+    'personalizedServices.musicians.benefit1': 'Liberación de tensiones repetitivas',
+    'personalizedServices.musicians.benefit2': 'Mejora del control motor fino',
+    'personalizedServices.musicians.benefit3': 'Conciencia corporal con el instrumento',
+    'personalizedServices.musicians.result': 'Expresión artística fluida',
+    'personalizedServices.students': 'Estudiantes y académicos',
+    'personalizedServices.students.desc':
+      'Apoyo físico y mental para alta exigencia intelectual. Potencia el enfoque y alivia el estrés.',
+    'personalizedServices.students.benefit1': 'Alivio de la tensión por estudio',
+    'personalizedServices.students.benefit2': 'Mejora de la oxigenación cerebral y memoria',
+    'personalizedServices.students.benefit3': 'Regulación del sueño',
+    'personalizedServices.students.result': 'Mente despierta en un cuerpo relajado',
+
+    // Booking page
+    'booking.title': 'Reserva tu sesión - EKA Balance',
+    'booking.description':
+      'Reserva fácilmente tu sesión de bienestar en Barcelona. Contacto directo por WhatsApp con respuesta rápida.',
+    'booking.badge': 'Reserva fácil y rápida',
+    'booking.hero.title': 'Solicita tu sesión clínica',
+    'booking.hero.subtitle':
+      'Inicia tu proceso de recuperación con una evaluación profesional personalizada',
+    'booking.benefits.whatsapp': 'Comunicación directa',
+    'booking.benefits.flexible': 'Agenda prioritaria',
+    'booking.benefits.confirmation': 'Gestión inmediata',
+    'booking.contact.title': 'Canal de comunicación',
+    'booking.contact.subtitle': 'Selecciona tu método preferente para coordinar la visita',
+    'booking.direct.title': 'Consulta directa',
+    'booking.direct.description': 'Contacta directamente con el especialista para evaluar tu caso',
+    'booking.direct.button': 'Iniciar consulta',
+    'booking.form.title': 'Solicitud de cita',
+    'booking.form.description': 'Facilita tus datos clínicos preliminares para preparar la sesión',
+    'booking.form.button': 'Iniciar solicitud',
+    'booking.form.hide': 'Cerrar formulario',
+    'booking.form.location': 'Sede clínica',
+    'booking.form.locationPlaceholder': 'Selecciona ubicación',
+    'booking.form.timeSlot': 'Preferencia horaria',
+    'booking.form.timeSlotPlaceholder': 'Selecciona franja',
+    'booking.form.availability': 'Disponibilidad',
+    'booking.form.availabilityPlaceholder': 'Indica tu disponibilidad',
+    'booking.form.objective': 'Motivo de consulta',
+    'booking.form.objectivePlaceholder': 'Describe brevemente tu sintomatología...',
+    'booking.form.submit': 'Tramitar solicitud',
+
+    // Options
+    'booking.options.service.massage': 'Terapia manual',
+    'booking.options.service.kinesiology': 'Kinesiología clínica',
+    'booking.options.service.osteobalance': 'Osteobalance',
+    'booking.options.service.movementLesson': 'Movement Lesson',
+    'booking.options.service.feldenkrais': 'Método Feldenkrais',
+    'booking.options.service.online': 'Telemedicina / online',
+    'booking.options.service.other': 'Otra consulta',
+
+    'booking.options.location.barcelona': 'Barcelona',
+    'booking.options.location.rubi': 'Rubí',
+    'booking.options.location.online': 'Online',
+
+    'booking.options.availability.tomorrow': 'Mañana',
+    'booking.options.availability.dayAfterTomorrow': 'Pasado mañana',
+    'booking.options.availability.nextWeek': 'Próxima semana',
+    'booking.options.availability.weekend': 'Fin de semana',
+    'booking.options.availability.flexible': 'Flexible',
+
+    'booking.options.timeSlot.morning': 'Mañana (9:00-12:00)',
+    'booking.options.timeSlot.noon': 'Mediodía (12:00-15:00)',
+    'booking.options.timeSlot.afternoon': 'Tarde (15:00-18:00)',
+    'booking.options.timeSlot.evening': 'Noche (18:00-21:00)',
+    'booking.form.quickTitle': 'Formulario rápido de reserva',
+    'booking.form.nameRequired': 'Nombre *',
+    'booking.form.namePlaceholder': 'Tu nombre',
+    'booking.form.serviceRequired': 'Servicio *',
+    'booking.form.servicePlaceholder': 'Selecciona un servicio',
+    'booking.form.validationError':
+      'Por favor, rellena al menos el nombre y el servicio de interés.',
+    'booking.popup.title': 'Reserva tu sesión',
+    'booking.popup.subtitle': 'Selecciona el servicio y la fecha que mejor te convenga',
+    'booking.whatsapp.greeting': 'Hola, soy {name}',
+    'booking.whatsapp.greetingGeneric': 'Hola Elena, me gustaría reservar una cita.',
+    'booking.whatsapp.service': 'Me gustaría reservar una sesión: {service}',
+    'booking.whatsapp.location': 'Lugar preferido: {location}',
+    'booking.whatsapp.date': 'Fecha preferida: {date}',
+    'booking.whatsapp.time': 'Hora preferida: {time}',
+    'booking.whatsapp.comments': 'Comentarios: {comments}',
+
+    // Athletes personalized service
+    'athletes.hero.badge': 'Alto rendimiento deportivo',
+    'athletes.hero.title': 'Deportistas de élite',
+    'athletes.hero.subtitle':
+      'Optimización biomecánica, recuperación acelerada y prevención de lesiones',
+    'athletes.challenges.title': 'Desafíos clínicos',
+    'athletes.challenge1.title': 'Fatiga sistémica',
+    'athletes.challenge1.desc':
+      'Recuperación ineficiente post-esfuerzo y acumulación de carga alostática',
+    'athletes.challenge2.title': 'Restricción biomecánica',
+    'athletes.challenge2.desc':
+      'Limitaciones funcionales que comprometen la eficiencia del movimiento',
+    'athletes.challenge3.title': 'Presión competitiva',
+    'athletes.challenge3.desc':
+      'Desregulación del sistema nervioso autónomo ante la alta exigencia',
+    'athletes.help.title': 'Intervención clínica',
+    'athletes.help1.title': 'Regeneración tisular',
+    'athletes.help1.desc':
+      'Protocolos avanzados para acelerar la reparación muscular y reducir la inflamación',
+    'athletes.help2.title': 'Optimización funcional',
+    'athletes.help2.desc': 'Restauración de la movilidad articular y la eficiencia neuromuscular',
+    'athletes.help3.title': 'Regulación autonómica',
+    'athletes.help3.desc': 'Estrategias somáticas para el control del estrés y la focalización',
+    'athletes.result.title': 'Impacto clínico',
+    'athletes.result.desc':
+      'Maximización del rendimiento, longevidad deportiva y resiliencia física',
+    'athletes.stats.recovery': 'Recuperación óptima',
+    'athletes.stats.flexibility': 'Movilidad funcional',
+    'athletes.stats.anxiety': 'Control del estrés',
+    'athletes.session.title': 'Protocolo deportivo',
+
+    // Artists personalized service
+    'artists.hero.badge': 'Salud para creadores',
+    'artists.hero.title': 'Artistas visuales',
+    'artists.hero.subtitle': 'Preservación funcional de la motricidad fina y ergonomía creativa',
+    'artists.challenges.title': 'Desafíos clínicos',
+    'artists.challenge1.title': 'Sobrecarga repetitiva',
+    'artists.challenge1.desc':
+      'Microtraumatismos en extremidades superiores por gestos técnicos continuados',
+    'artists.challenge2.title': 'Fatiga postural',
+    'artists.challenge2.desc':
+      'Compromiso musculoesquelético derivado de posturas estáticas prolongadas',
+    'artists.challenge3.title': 'Bloqueo psicosomático',
+    'artists.challenge3.desc': 'Restricción física que impacta en la fluidez y expresión creativa',
+    'artists.help.title': 'Intervención clínica',
+    'artists.help1.title': 'Rehabilitación de la motricidad',
+    'artists.help1.desc': 'Terapia manual específica para restaurar la función de manos y muñecas',
+    'artists.help2.title': 'Reeducación ergonómica',
+    'artists.help2.desc': 'Optimización biomecánica del gesto creativo para prevenir lesiones',
+    'artists.help3.title': 'Desbloqueo somático',
+    'artists.help3.desc': 'Liberación de tensiones profundas para facilitar el flujo artístico',
+    'artists.result.title': 'Impacto clínico',
+    'artists.result.desc': 'Sostenibilidad de la práctica artística y libertad de movimiento',
+    'artists.stats.confidence': 'Confianza creativa',
+    'artists.stats.tension': 'Alivio tensional',
+    'artists.stats.anxiety': 'Regulación nerviosa',
+    'artists.session.title': 'Protocolo para artistas',
+    'artists.session.cta': 'Solicitar evaluación',
+    'artists.session.other': 'Otras especialidades',
+
+    // Musicians personalized service
+    'musicians.hero.badge': 'Medicina de las artes escénicas',
+    'musicians.hero.title': 'Músicos profesionales',
+    'musicians.hero.subtitle':
+      'Ergonomía instrumental, prevención de distonías y optimización del gesto técnico',
+    'musicians.problems.title': 'Patologías específicas',
+    'musicians.problems.subtitle':
+      'Abordaje clínico de las disfunciones musculoesqueléticas asociadas a la práctica instrumental',
+    'musicians.problem1.title': 'Síndromes de sobrecarga',
+    'musicians.problem1.desc':
+      'Tendinopatías y atrapamientos nerviosos derivados de la repetición motriz',
+    'musicians.problem2.title': 'Disfunción postural',
+    'musicians.problem2.desc':
+      'Asimetrías y compensaciones musculares inducidas por el instrumento',
+    'musicians.problem3.title': 'Desregulación escénica',
+    'musicians.problem3.desc':
+      'Manifestaciones somáticas de la ansiedad performativa (temblor, sudoración)',
+    'musicians.problem4.title': 'Deterioro técnico',
+    'musicians.problem4.desc': 'Pérdida de control motor fino y coordinación neuromuscular',
+    'musicians.help.title': 'Protocolo terapéutico',
+    'musicians.help1.title': 'Rehabilitación funcional',
+    'musicians.help1.desc':
+      'Terapia manual avanzada para restaurar la biomecánica de la extremidad superior',
+    'musicians.help2.title': 'Reeducación postural',
+    'musicians.help2.desc': 'Análisis ergonómico y corrección del gesto técnico instrumental',
+    'musicians.help3.title': 'Control autonómico',
+    'musicians.help3.desc':
+      'Estrategias de regulación del sistema nervioso para la ejecución en público',
+    'musicians.results.title': 'Objetivos clínicos',
+    'musicians.results.point1': 'Resolución de la sintomatología dolorosa y parestesias',
+    'musicians.results.point2': 'Recuperación de la precisión motriz y la resistencia',
+    'musicians.results.point3': 'Seguridad y control en la ejecución escénica',
+    'musicians.plans.title': 'Programas de intervención',
+    'musicians.plans.subtitle': 'Selecciona el nivel de asistencia clínica requerido',
+    'musicians.plan1.name': 'Evaluación diagnóstica',
+    'musicians.plan1.desc': 'Valoración inicial y tratamiento de urgencia',
+    'musicians.plan1.benefit1': 'Análisis biomecánico del gesto',
+    'musicians.plan1.benefit2': 'Terapia manual focalizada',
+    'musicians.plan1.benefit3': 'Pautas ergonómicas inmediatas',
+    'musicians.plan1.benefit4': 'Informe clínico preliminar',
+    'musicians.plan1.result': 'Diagnóstico funcional y alivio sintomático',
+    'musicians.plan2.name': 'Tratamiento intensivo',
+    'musicians.plan2.desc': 'Protocolo de recuperación funcional',
+    'musicians.plan2.benefit1': 'Todo lo incluido en evaluación',
+    'musicians.plan2.benefit2': 'Seguimiento evolutivo semanal',
+    'musicians.plan2.benefit3': 'Programa de readaptación motriz',
+    'musicians.plan2.benefit4': 'Soporte telemático directo',
+    'musicians.plan2.result': 'Restauración de la capacidad interpretativa',
+    'musicians.plan2.popular': 'Recomendado',
+    'musicians.plan2.save': 'Bonificado',
+    'musicians.plan3.name': 'Alto rendimiento',
+    'musicians.plan3.desc': 'Optimización integral para solistas',
+    'musicians.plan3.benefit1': 'Protocolo intensivo completo',
+    'musicians.plan3.benefit2': 'Asesoramiento metabólico',
+    'musicians.plan3.benefit3': 'Entrenamiento en neuroregulación',
+    'musicians.plan3.benefit4': 'Evaluación 360° multidisciplinar',
+    'musicians.plan3.result': 'Excelencia técnica y salud sostenible',
+    'musicians.plan.cta': 'Solicitar programa',
+
+    // Students personalized service
+    'students.hero.badge': 'Especializado para estudiantes',
+    'students.hero.title': 'Estudiantes',
+    'students.hero.subtitle':
+      'Gestión del estrés de estudio, mejora de la concentración y cuidado postural',
+    'students.challenges.title': 'Problemas comunes',
+    'students.challenge1.title': 'Estrés de exámenes',
+    'students.challenge1.desc': 'Ansiedad y tensión que afectan el rendimiento académico',
+    'students.challenge2.title': 'Concentración limitada',
+    'students.challenge2.desc':
+      'Dificultad para mantener la atención durante largas sesiones de estudio',
+    'students.challenge3.title': 'Tensiones posturales',
+    'students.challenge3.desc':
+      'Dolor de espalda y cuello por estar sentado muchas horas estudiando',
+    'students.help.title': 'Cómo te ayudamos',
+    'students.help1.title': 'Gestiona el estrés académico',
+    'students.help1.desc': 'Técnicas de relajación para reducir la ansiedad de exámenes',
+    'students.help2.title': 'Mejora la concentración',
+    'students.help2.desc': 'Ejercicios para aumentar la capacidad de atención y memoria',
+    'students.help3.title': 'Corrige la postura de estudio',
+    'students.help3.desc': 'Ajustes posturales para prevenir dolores mientras estudias',
+    'students.result.title': 'Resultado',
+    'students.result.desc': 'Mejor rendimiento académico, menos estrés y más energía',
+    'students.stats.concentration': 'Más concentración',
+    'students.stats.tension': 'Menos tensión',
+    'students.stats.stress': 'Menos estrés',
+    'students.session.title': 'Sesión para estudiantes',
+
+    // Office Workers specific translations
+    'office.stats.pain': 'Menos dolor',
+    'office.stats.posture': 'Mejor postura',
+    'office.stats.stress': 'Menos estrés',
+    'office.session.title': 'Sesión para trabajadores de oficina',
+    'office.session.plans': 'Ver planes',
+
+    // FAQ Section
+    'faq.title': 'Preguntas frecuentes',
+    'faq.subtitle': 'Encuentra respuestas a las preguntas más comunes sobre nuestros servicios',
+    'faq.q1.question': '¿Cuánto dura una sesión típica?',
+    'faq.q1.answer':
+      'Las sesiones suelen durar entre 60 y 90 minutos, dependiendo del tratamiento elegido y tus necesidades específicas.',
+    'faq.q2.question': '¿Necesito experiencia previa?',
+    'faq.q2.answer':
+      'No se necesita experiencia previa. Todos nuestros tratamientos se adaptan a tu nivel y necesidades específicas.',
+    'faq.q3.question': '¿Con qué frecuencia debería venir?',
+    'faq.q3.answer':
+      'Dependiendo de tus objetivos, recomendamos 1-2 sesiones por semana inicialmente, y luego sesiones de mantenimiento mensuales.',
+    'faq.q4.question': '¿Qué métodos de pago aceptan?',
+    'faq.q4.answer':
+      'Aceptamos efectivo, tarjetas de crédito y débito, y también bizum para mayor comodidad.',
+    'faq.q5.question': '¿Puedo cancelar o reprogramar mi cita?',
+    'faq.q5.answer':
+      'Sí, puedes cancelar o reprogramar con 24 horas de antelación sin ningún cargo adicional.',
+
+    // First Time Visitor Form
+    'form.badge': 'Descubrimiento personalizado',
+    'form.title': 'Encuentra el servicio perfecto para ti',
+    'form.subtitle': 'Responde unas preguntas rápidas y te ayudaremos a encontrar la terapia ideal',
+    'form.contactWhatsApp': 'Contactar por WhatsApp',
+    'form.step': 'Paso',
+    'form.of': 'De',
+    'form.previous': 'Anterior',
+    'form.next': 'Siguiente',
+    'form.seeRecommendation': 'Ver recomendación',
+    'form.backToForm': 'Volver al formulario',
+    'form.close': 'Cerrar',
+    'form.closeForm': 'Cerrar formulario',
+
+    'form.step1.question': '¿Cuál es tu perfil principal?',
+    'form.userType.officeWorker': 'Trabajador/a de oficina',
+    'form.userType.officeWorkerDesc': 'Paso muchas horas sentado/a frente al ordenador',
+    'form.userType.athlete': 'Deportista',
+    'form.userType.athleteDesc': 'Hago ejercicio regularmente o soy atleta profesional',
+    'form.userType.artist': 'Artista o creador/a',
+    'form.userType.artistDesc': 'Trabajo con las manos (pintura, escultura, artesanía)',
+    'form.userType.musician': 'Músico',
+    'form.userType.musicianDesc': 'Toco instrumentos musicales regularmente',
+    'form.userType.student': 'Estudiante',
+    'form.userType.studentDesc': 'Estudio o estoy preparando exámenes',
+    'form.userType.general': 'Otros perfiles',
+    'form.userType.generalDesc': 'Ninguna de las anteriores o combinación de varias',
+
+    'form.step2.question': '¿Cuáles son tus objetivos? (Selecciona todos los que te interesen)',
+    'form.goals.musclePain': 'Aliviar dolor muscular y tensiones',
+    'form.goals.stress': 'Reducir estrés y ansiedad',
+    'form.goals.posture': 'Mejorar postura',
+    'form.goals.relaxation': 'Relajación y desconexión',
+    'form.goals.recovery': 'Recuperación después del ejercicio',
+    'form.goals.sleep': 'Mejorar calidad del sueño',
+    'form.goals.emotions': 'Gestionar emociones',
+    'form.goals.energy': 'Aumentar energía y vitalidad',
+
+    'form.step3.question': '¿Cuánto tiempo tienes disponible por sesión?',
+    'form.time.short': 'Menos de 1 hora',
+    'form.time.standard': '1-1.5 horas',
+    'form.time.long': 'Más de 1.5 horas',
+
+    'form.step4.question': '¿Qué experiencia tienes con terapias corporales?',
+    'form.experience.none': 'Es mi primera vez',
+    'form.experience.noneDesc': 'Nunca he recibido terapias corporales',
+    'form.experience.some': 'Tengo algo de experiencia',
+    'form.experience.someDesc': 'He ido alguna vez a masajes o terapias',
+    'form.experience.experienced': 'Tengo experiencia',
+    'form.experience.experiencedDesc': 'Recibo terapias regularmente',
+
+    'form.step5.question': '¿Qué tipo de intensidad prefieres?',
+    'form.intensity.gentle': 'Suave y relajante',
+    'form.intensity.gentleDesc': 'Prefiero un tratamiento suave y tranquilo',
+    'form.intensity.medium': 'Moderada',
+    'form.intensity.mediumDesc': 'Tratamiento equilibrado entre relajación y trabajo profundo',
+    'form.intensity.deep': 'Intensa y profunda',
+    'form.intensity.deepDesc': 'Quiero un trabajo profundo para tensiones específicas',
+
+    'form.recommendation.badge': 'Recomendación personalizada',
+    'form.recommendation.title': 'Tu servicio ideal',
+    'form.recommendation.subtitle':
+      'Basándonos en tu perfil, hemos encontrado el servicio perfecto para ti',
+    'form.recommendation.price': 'Precio',
+    'form.recommendation.duration': 'Duración',
+    'form.recommendation.benefits': 'Beneficios principales',
+
+    'form.recommendation.officeWorker.title': 'Sesión para trabajadores de oficina',
+    'form.recommendation.officeWorker.desc':
+      'Terapia especializada para aliviar tensiones del trabajo sedentario, mejorar la postura y reducir el estrés laboral',
+    'form.recommendation.officeWorker.benefit1': 'Alivia dolor cervical y de espalda',
+    'form.recommendation.officeWorker.benefit2': 'Mejora la postura frente al ordenador',
+    'form.recommendation.officeWorker.benefit3': 'Reduce el estrés laboral',
+    'form.recommendation.officeWorker.benefit4': 'Más energía para trabajar',
+
+    'form.recommendation.athlete.title': 'Sesión para deportistas',
+    'form.recommendation.athlete.desc':
+      'Recuperación muscular, prevención de lesiones y optimización del rendimiento deportivo con técnicas especializadas',
+    'form.recommendation.athlete.benefit1': 'Acelera recuperación muscular',
+    'form.recommendation.athlete.benefit2': 'Previene lesiones',
+    'form.recommendation.athlete.benefit3': 'Mejora flexibilidad',
+    'form.recommendation.athlete.benefit4': 'Optimiza rendimiento',
+
+    'form.recommendation.artist.title': 'Sesión para artistas',
+    'form.recommendation.artist.desc':
+      'Cuidado específico de manos, brazos y postura para artistas visuales. Libera la creatividad eliminando tensiones físicas',
+    'form.recommendation.artist.benefit1': 'Cuidado de manos y muñecas',
+    'form.recommendation.artist.benefit2': 'Mejora postura creativa',
+    'form.recommendation.artist.benefit3': 'Libera creatividad',
+    'form.recommendation.artist.benefit4': 'Previene lesiones por uso repetitivo',
+
+    'form.recommendation.musician.title': 'Sesión para músicos',
+    'form.recommendation.musician.desc':
+      'Terapia especializada para músicos: prevención de lesiones, mejora de la técnica y gestión de la ansiedad escénica',
+    'form.recommendation.musician.benefit1': 'Previene lesiones musicales',
+    'form.recommendation.musician.benefit2': 'Mejora técnica',
+    'form.recommendation.musician.benefit3': 'Gestiona ansiedad escénica',
+    'form.recommendation.musician.benefit4': 'Relajación específica',
+
+    'form.recommendation.student.title': 'Sesión para estudiantes',
+    'form.recommendation.student.desc':
+      'Gestión del estrés de estudio, mejora de la concentración y cuidado postural para estudiantes',
+    'form.recommendation.student.benefit1': 'Reduce estrés de exámenes',
+    'form.recommendation.student.benefit2': 'Mejora concentración',
+    'form.recommendation.student.benefit3': 'Corrige postura de estudio',
+    'form.recommendation.student.benefit4': 'Más energía para estudiar',
+
+    'form.recommendation.holistic.title': 'Sesión holística integral',
+    'form.recommendation.holistic.desc':
+      'Combinación de masaje terapéutico y kinesiología para un tratamiento completo del cuerpo y las emociones',
+    'form.recommendation.holistic.benefit1': 'Tratamiento integral',
+    'form.recommendation.holistic.benefit2': 'Equilibrio cuerpo-mente',
+    'form.recommendation.holistic.benefit3': 'Alivia tensiones físicas',
+    'form.recommendation.holistic.benefit4': 'Gestiona emociones',
+
+    'form.recommendation.therapeutic.title': 'Masaje terapéutico',
+    'form.recommendation.therapeutic.desc':
+      'Sesión especializada para aliviar dolor muscular, tensiones y mejorar la movilidad corporal',
+    'form.recommendation.therapeutic.benefit1': 'Alivia dolor muscular',
+    'form.recommendation.therapeutic.benefit2': 'Mejora movilidad',
+    'form.recommendation.therapeutic.benefit3': 'Reduce tensiones',
+    'form.recommendation.therapeutic.benefit4': 'Relajación profunda',
+
+    'form.recommendation.kinesiology.title': 'Kinesiología holística',
+    'form.recommendation.kinesiology.desc':
+      'Terapia que combina técnicas corporales y emocionales para reequilibrar tu estado general',
+
+    'form.recommendation.kinesiology.benefit1': 'Equilibrio emocional',
+    'form.recommendation.kinesiology.benefit2': 'Gestión del estrés',
+    'form.recommendation.kinesiology.benefit3': 'Mejora autoconocimiento',
+    'form.recommendation.kinesiology.benefit4': 'Paz interior',
+
+    'form.recommendation.discovery.title': 'Sesión de descubrimiento',
+    'form.recommendation.discovery.desc':
+      'Sesión inicial para explorar tus necesidades y crear un plan personalizado para tu bienestar',
+    'form.recommendation.discovery.benefit1': 'Evaluación completa',
+    'form.recommendation.discovery.benefit2': 'Plan personalizado',
+    'form.recommendation.discovery.benefit3': 'Primera experiencia',
+    'form.recommendation.discovery.benefit4': 'Orientación profesional',
+
+    'seo.students.title': 'Terapias para estudiantes | EKA Balance',
+    'seo.students.description':
+      'Alivio del estrés y mejora de la postura para estudiantes. Sesiones personalizadas para mejorar la concentración y reducir la tensión de estudio.',
+    'seo.students.keywords':
+      'Terapia estudiantes, alivio estrés estudio, corrección postura, mejora concentración, masaje estudiantes Barcelona',
+
+    'seo.officeWorkers.title': 'Bienestar para trabajadores de oficina | EKA Balance',
+    'seo.officeWorkers.description':
+      'Soluciones para el dolor de espalda, cuello y muñecas causado por el trabajo de oficina. Mejora tu postura y reduce el estrés laboral.',
+    'seo.officeWorkers.keywords':
+      'Ergonomía oficina, dolor espalda oficina, síndrome túnel carpiano, alivio estrés laboral, masaje ejecutivo Barcelona',
+
+    'seo.musicians.title': 'Fisioterapia y bienestar para músicos | EKA Balance',
+    'seo.musicians.description':
+      'Tratamientos especializados para músicos. Prevención de lesiones, mejora del rendimiento y gestión de la ansiedad escénica.',
+    'seo.musicians.keywords':
+      'Terapia músicos, lesiones músicos, ansiedad escénica, ergonomía musical, fisioterapia artes escénicas',
+
+    'seo.athletes.title': 'Recuperación y rendimiento deportivo | EKA Balance',
+    'seo.athletes.description':
+      'Masaje deportivo y terapias de recuperación para atletas. Mejora tu rendimiento, previene lesiones y recupérate más rápido.',
+    'seo.athletes.keywords':
+      'Masaje deportivo, recuperación atletas, prevención lesiones deportivas, mejora rendimiento, fisioterapia deportiva Barcelona',
+
+    'seo.parents.title': 'Bienestar y energía para padres | EKA Balance',
+    'seo.parents.description':
+      'Apoyo para padres y madres. Recupera tu energía, reduce el estrés y encuentra el equilibrio entre la vida familiar y personal.',
+    'seo.parents.keywords':
+      'Estrés parental, recuperación posparto, energía padres, bienestar familiar, masaje relajante padres',
+
+    'contact.form.whatsapp': 'WhatsApp',
+    'contact.form.preferredTime': 'Horario preferido',
+    'contact.form.selectTime': 'Selecciona un horario',
+
+    // Cookie translations
+    'cookies.title': 'Utilizamos cookies para mejorar tu experiencia',
+    'cookies.description':
+      'Utilizamos cookies esenciales para la funcionalidad del sitio web y análisis anónimos para mejorar nuestros servicios. No utilizamos cookies publicitarias ni de seguimiento. Al continuar utilizando nuestro sitio, aceptas el uso de cookies.',
+    'cookies.accept': 'Aceptar todo',
+    'cookies.learnMore': 'Más información',
+
+    // Layout footer
+    'footer.privacyPolicy': 'Política de privacidad',
+    'footer.cookiePolicy': 'Política de cookies',
+    'footer.termsOfService': 'Términos de servicio',
+    'footer.logout': 'Cerrar sesión',
+    'footer.login': 'Iniciar sesión',
+
+    // Service pages
+    'services.page.benefits': 'Beneficios',
+    'services.page.testimonials': 'Testimonios',
+    'services.page.sessions': 'Sesiones',
+    'services.page.duration': 'Duración',
+    'services.page.price': 'Precio',
+
+    // Policy pages
+    'policy.lastUpdated': 'Última actualización:',
+    'policy.introduction': 'Introducción',
+
+    // SEO
+    'seo.home.title': 'EKA Balance | masaje terapéutico y kinesiología en Barcelona',
+    'seo.home.description':
+      'Centro de bienestar integral en Barcelona. Especialistas en masaje terapéutico, kinesiología holística y terapias personalizadas para aliviar el dolor y el estrés.',
+    'seo.home.keywords':
+      'Masaje Barcelona, kinesiología, bienestar, terapia manual, dolor de espalda, estrés, relajación',
+
+    // Onboarding
+    'onboarding.welcome.title': 'Bienvenido a tu experiencia personalizada',
+    'onboarding.welcome.description':
+      'Responde unas breves preguntas para que podamos recomendarte el servicio ideal para ti.',
+    'onboarding.progress.step': 'Paso',
+    'onboarding.progress.of': 'De',
+    'onboarding.processing.title': 'Procesando tus respuestas...',
+    'onboarding.processing.subtitle':
+      'Estamos analizando tu perfil para encontrar la mejor recomendación.',
+    'onboarding.finish': 'Finalizar',
+    'onboarding.results.title': 'Tu recomendación personalizada',
+    'onboarding.results.subtitle': 'Basado en tus respuestas, te recomendamos:',
+    'onboarding.results.recommended': 'Recomendado',
+    'onboarding.results.personalizedInfo': 'Información personalizada',
+
+    // Personalized Pages SEO
+    'personalized.office.title': 'Terapias para trabajadores de oficina | EKA Balance',
+    'personalized.office.description':
+      'Alivia el dolor de espalda y el estrés laboral con nuestras terapias especializadas para trabajadores de oficina en Barcelona.',
+    'personalized.office.keywords':
+      'Masaje oficina, dolor espalda ordenador, estrés laboral, ergonomía, Barcelona',
+
+    'personalized.athletes.title': 'Masaje deportivo y recuperación | EKA Balance',
+    'personalized.athletes.description':
+      'Mejora tu rendimiento y acelera tu recuperación con nuestros masajes deportivos y terapias para atletas en Barcelona.',
+    'personalized.athletes.keywords':
+      'Masaje deportivo, recuperación muscular, lesiones deportivas, rendimiento, Barcelona',
+
+    'personalized.artists.title': 'Bienestar para artistas y creativos | EKA Balance',
+    'personalized.artists.description':
+      'Cuida tus manos y tu postura. Terapias especializadas para artistas visuales, músicos y creativos en Barcelona.',
+    'personalized.artists.keywords':
+      'Masaje artistas, dolor manos, postura creativa, bienestar creativos, Barcelona',
+
+    'personalized.musicians.title': 'Fisioterapia y masaje para músicos | EKA Balance',
+    'personalized.musicians.description':
+      'Prevención de lesiones y mejora del rendimiento para músicos. Tratamientos especializados en Barcelona.',
+    'personalized.musicians.keywords':
+      'Masaje músicos, lesiones músicos, distonía focal, postura musical, Barcelona',
+
+    'personalized.students.title': 'Relajación y concentración para estudiantes | EKA Balance',
+    'personalized.students.description':
+      'Reduce el estrés de los exámenes y mejora tu concentración con nuestras terapias para estudiantes en Barcelona.',
+    'personalized.students.keywords':
+      'Estrés exámenes, concentración, postura estudio, masaje estudiantes, Barcelona',
+
+    'personalized.parents.title': 'Bienestar para padres y madres | EKA Balance',
+    'personalized.parents.description':
+      'Encuentra tu momento de paz. Terapias para aliviar el estrés y la fatiga de la crianza en Barcelona.',
+    'personalized.parents.keywords':
+      'Estrés padres, posparto, fatiga crianza, masaje relax, Barcelona',
+
+    // Common
+    'common.price': 'Precio',
+    'common.duration': 'Duración',
+    'common.benefits': 'Beneficios',
+    'common.book': 'Reservar',
+    'common.learnMore': 'Saber más',
+    'common.back': 'Atrás',
+    'common.next': 'Siguiente',
+    'common.submit': 'Enviar',
+    'common.loading': 'Cargando...',
+    'common.error': 'Error',
+    'common.success': 'Éxito',
+    'common.required': 'Requerido',
+    'common.optional': 'Opcional',
+    'common.close': 'Cerrar',
+    'common.menu': 'Menú',
+    'common.home': 'Inicio',
+    'common.services': 'Servicios',
+    'common.about': 'Sobre nosotros',
+    'common.faq': 'Preguntas frecuentes',
+    'common.privacy': 'Privacidad',
+    'common.terms': 'Términos',
+    'common.cookies': 'Cookies',
+    'common.copyright': 'Derechos de autor',
+    'common.language': 'Idioma',
+    'common.spanish': 'Español',
+    'common.english': 'Inglés',
+    'common.catalan': 'Catalán',
+    'common.russian': 'Ruso',
+
+    // Elena SEO
+    'elena.seo.title': 'Sobre Elena | terapeuta holística en Barcelona',
+    'elena.seo.desc':
+      'Conoce a Elena, terapeuta especializada en masaje, kinesiología y bienestar integral. Más de 10 años de experiencia ayudando a personas a recuperar su equilibrio.',
+    'elena.seo.keywords':
+      'Elena terapeuta, masaje Barcelona, kinesiología, terapeuta holística, bienestar',
+
+    // Casos SEO
+    'casos.seo.title': 'Casos de éxito y tratamientos | EKA Balance',
+    'casos.seo.desc':
+      'Descubre cómo hemos ayudado a nuestros clientes a superar dolor de espalda, estrés, ansiedad y otros problemas de salud con nuestras terapias personalizadas.',
+    'casos.seo.keywords':
+      'Casos éxito, testimonios masaje, tratamiento dolor espalda, alivio estrés, resultados terapia',
+
+    // Contact SEO
+    'seo.contact.title': 'Contacto y reservas | EKA Balance Barcelona',
+    'seo.contact.description':
+      'Reserva tu cita en EKA Balance. Estamos en el centro de Barcelona. Contacta por WhatsApp, teléfono o email.',
+    'seo.contact.keywords':
+      'Contacto EKA Balance, reservar masaje Barcelona, cita kinesiología, ubicación centro bienestar',
+
+    // Services SEO
+    'seo.services.title': 'Servicios de bienestar y terapias | EKA Balance',
+    'seo.services.description':
+      'Explora nuestra gama de servicios: masaje terapéutico, kinesiología, nutrición consciente y planes personalizados para tu salud.',
+    'seo.services.keywords':
+      'Servicios bienestar, masaje terapéutico, kinesiología holística, nutrición, terapias Barcelona',
+
+    // Personalized SEO
+    'seo.personalized.title': 'Terapias personalizadas por profesión | EKA Balance',
+    'seo.personalized.description':
+      'Tratamientos adaptados a tu estilo de vida: oficina, deporte, arte, música o estudios. Encuentra el equilibrio en tu día a día.',
+    'seo.personalized.keywords':
+      'Terapias personalizadas, masaje oficina, masaje deportivo, salud músicos, bienestar artistas',
+
+    // VIP SEO
+    'seo.vip.title': 'Club VIP y membresías | EKA Balance',
+    'seo.vip.description':
+      'Únete a nuestro club exclusivo y disfruta de descuentos, prioridad en reservas y seguimiento personalizado para tu bienestar continuo.',
+    'seo.vip.keywords':
+      'Club VIP bienestar, membresía masaje, descuentos terapia, salud exclusiva Barcelona',
+
+    // Massage SEO
+    'seo.massage.title': 'Masaje terapéutico y relajante | EKA Balance',
+    'seo.massage.description':
+      'Alivia tensiones y dolor muscular con nuestros masajes terapéuticos. Técnicas personalizadas para tu recuperación y descanso.',
+    'seo.massage.keywords':
+      'Masaje terapéutico, masaje relajante, descontracturante, dolor muscular, Barcelona',
+
+    // Kinesiology SEO
+    'seo.kinesiology.title': 'Kinesiología holística y emocional | EKA Balance',
+    'seo.kinesiology.description':
+      'Equilibra cuerpo y mente con kinesiología. Detecta y trata el origen de tus problemas físicos y emocionales.',
+    'seo.kinesiology.keywords':
+      'Kinesiología holística, test muscular, equilibrio emocional, terapia natural, Barcelona',
+
+    // Nutrition SEO
+    'seo.nutrition.title': 'Nutrición consciente y saludable | EKA Balance',
+    'seo.nutrition.description':
+      'Mejora tu salud con asesoramiento nutricional personalizado. Aprende a comer bien para tener más energía y vitalidad.',
+    'seo.nutrition.keywords':
+      'Nutrición consciente, dieta saludable, asesoramiento nutricional, energía vital, Barcelona',
+
+    // Massage Page
+    'massage.hero.badge': 'El arte del tacto curativo',
+    'massage.benefits.pain': 'Alivia el dolor muscular y articular',
+    'massage.benefits.circulation': 'Mejora la circulación y la movilidad',
+    'massage.benefits.wellbeing': 'Bienestar inmediato y descanso real',
+
+    // Kinesiology Page
+    'kinesiology.hero.badge': 'Cuerpo, mente y emociones en equilibrio',
+    'kinesiology.benefits.posture': 'Mejora la postura y la coordinación',
+    'kinesiology.benefits.stress': 'Reduce el estrés y mejora el descanso',
+    'kinesiology.benefits.energy': 'Más autoconocimiento y energía estable',
+
+    // Nutrition Page
+    'nutrition.benefits.habits': 'Hábitos alimentarios claros y sostenibles',
+    'nutrition.benefits.weight': 'Apoyo en gestión de peso y composición corporal',
+    'nutrition.benefits.prevention': 'Prevención y salud a largo plazo',
+    'nutrition.session.first.name': 'Primera sesión',
+    'nutrition.session.first.description': 'Valoración completa y plan personalizado',
+    'nutrition.session.followup.name': 'Seguimiento',
+    'nutrition.session.followup.description': 'Ajuste del plan y resolución de dudas',
+
+    // Discounts Page
+    'discounts.success': '¡Descuento aplicado con éxito!',
+    'discounts.remove': 'Eliminar descuento',
+
+    // Personalized Pages - Detailed Content
+    'personalized.students.hero.title': 'Rendimiento académico',
+    'personalized.students.hero.description':
+      'Optimización cognitiva y regulación del estrés para estudiantes de alta exigencia.',
+    'personalized.students.understanding.title': 'Análisis del contexto académico',
+    'personalized.students.understanding.description1':
+      'La carga cognitiva sostenida y la presión evaluativa generan desregulación nerviosa y fatiga sistémica.',
+    'personalized.students.understanding.description2':
+      'Implementamos protocolos para potenciar la función ejecutiva y preservar la salud durante periodos críticos.',
+    'personalized.students.understanding.callToAction': 'Solicitar evaluación',
+    'personalized.students.services.title': 'Protocolos académicos',
+    'personalized.students.services.subtitle':
+      'Intervenciones clínicas para la optimización del estudio',
+    'personalized.students.services.kinesiologyStress.title': 'Neuroregulación del estrés',
+    'personalized.students.services.kinesiologyStress.description':
+      'Equilibrio del sistema nervioso autónomo para mitigar la ansiedad pre-examen.',
+    'personalized.students.services.relaxingMassage.title': 'Masaje relajante',
+    'personalized.students.services.relaxingMassage.description':
+      'Libera la tensión acumulada en cuello y espalda por el estudio.',
+    'personalized.students.testimonial.title': 'Lo que dicen los estudiantes',
+    'personalized.students.testimonial.quote':
+      '"me ayudó muchísimo a concentrarme mejor y a dormir antes de los exámenes."',
+    'personalized.students.testimonial.author': 'Laura, estudiante de medicina',
+
+    'personalized.officeWorkers.hero.title': 'Salud corporativa',
+    'personalized.officeWorkers.hero.description':
+      'Ergonomía clínica y gestión del estrés para el entorno ejecutivo.',
+    'personalized.officeWorkers.understanding.title': 'Síndrome de la sedestación',
+    'personalized.officeWorkers.understanding.description1':
+      'La estática prolongada y la carga cognitiva inducen rigidez fascial y agotamiento nervioso.',
+    'personalized.officeWorkers.understanding.description2':
+      'Aplicamos protocolos de descompresión axial y regulación vagal para restaurar la vitalidad.',
+    'personalized.officeWorkers.understanding.callToAction': 'Solicitar protocolo',
+    'personalized.officeWorkers.services.title': 'Intervención clínica',
+    'personalized.officeWorkers.services.subtitle': 'Recuperación funcional para ejecutivos',
+    'personalized.officeWorkers.services.therapeuticMassage.title': 'Terapia manual avanzada',
+    'personalized.officeWorkers.services.therapeuticMassage.description':
+      'Tratamiento profundo de la musculatura antigravitatoria y cervical.',
+    'personalized.officeWorkers.services.feldenkrais.title': 'Reeducación somática',
+    'personalized.officeWorkers.services.feldenkrais.description':
+      'Optimización de la postura sedente y la eficiencia biomecánica.',
+    'personalized.officeWorkers.testimonial.title': 'Testimonio',
+    'personalized.officeWorkers.testimonial.quote':
+      '"desde que voy a EKA Balance, mi dolor de espalda ha desaparecido."',
+    'personalized.officeWorkers.testimonial.author': 'Carlos, programador',
+
+    'personalized.musicians.hero.title': 'Medicina del músico',
+    'personalized.musicians.hero.description':
+      'Prevención de lesiones y optimización del gesto técnico instrumental.',
+    'personalized.musicians.understanding.title': 'Biomecánica instrumental',
+    'personalized.musicians.understanding.description1':
+      'La repetición motriz y la asimetría postural comprometen la integridad musculoesquelética.',
+    'personalized.musicians.understanding.description2':
+      'Restauramos la función neuromuscular para garantizar la longevidad artística y la precisión.',
+    'personalized.musicians.understanding.callToAction': 'Evaluación clínica',
+    'personalized.musicians.services.title': 'Protocolos específicos',
+    'personalized.musicians.services.subtitle': 'Alta especialización en artes escénicas',
+    'personalized.musicians.services.feldenkraisExpression.title': 'Integración funcional',
+    'personalized.musicians.services.feldenkraisExpression.description':
+      'Refinamiento de la propiocepción y la economía del movimiento.',
+    'personalized.musicians.services.kinesiologyPerformance.title': 'Neuroregulación escénica',
+    'personalized.musicians.services.kinesiologyPerformance.description':
+      'Control del sistema nervioso autónomo para la ejecución bajo presión.',
+    'personalized.musicians.testimonial.title': 'Opinión de músico',
+    'personalized.musicians.testimonial.quote':
+      '"he ganado mucha libertad de movimiento al tocar el violín."',
+    'personalized.musicians.testimonial.author': 'Ana, violinista',
+
+    'personalized.athletes.hero.title': 'Alto rendimiento',
+    'personalized.athletes.hero.description':
+      'Recuperación tisular y potenciación biomecánica para el atleta.',
+    'personalized.athletes.understanding.title': 'Fisiología del esfuerzo',
+    'personalized.athletes.understanding.description1':
+      'La carga alostática del entrenamiento requiere estrategias avanzadas de regeneración.',
+    'personalized.athletes.understanding.description2':
+      'Implementamos protocolos de descarga y alineación para maximizar la eficiencia motriz.',
+    'personalized.athletes.understanding.callToAction': 'Optimizar rendimiento',
+    'personalized.athletes.services.title': 'Intervención deportiva',
+    'personalized.athletes.services.subtitle': 'Tecnología manual aplicada al deporte',
+    'personalized.athletes.services.sportsMassage.title': 'Descarga muscular',
+    'personalized.athletes.services.sportsMassage.description':
+      'Terapia profunda para la eliminación de metabolitos y adherencias.',
+    'personalized.athletes.services.osteobalance.title': 'Alineación estructural',
+    'personalized.athletes.services.osteobalance.description':
+      'Corrección de disfunciones articulares para la eficiencia biomecánica.',
+    'personalized.athletes.testimonial.title': 'Experiencia de atleta',
+    'personalized.athletes.testimonial.quote':
+      '"mis tiempos de recuperación han mejorado notablemente."',
+    'personalized.athletes.testimonial.author': 'Marc, corredor',
+
+    'personalized.parents.hero.title': 'Salud familiar',
+    'personalized.parents.hero.description':
+      'Restauración de la vitalidad y regulación del sistema nervioso.',
+    'personalized.parents.understanding.title': 'Sostenibilidad del cuidador',
+    'personalized.parents.understanding.description1':
+      'La demanda física y emocional de la crianza impacta en la reserva adaptativa del organismo.',
+    'personalized.parents.understanding.description2':
+      'Ofrecemos un espacio clínico de contención y regeneración para prevenir el agotamiento.',
+    'personalized.parents.understanding.callToAction': 'Restaurar vitalidad',
+    'personalized.parents.services.title': 'Protocolos de bienestar',
+    'personalized.parents.services.subtitle': 'Apoyo integral a la crianza',
+    'personalized.parents.services.emotionalKinesiology.title': 'Regulación emocional',
+    'personalized.parents.services.emotionalKinesiology.description':
+      'Procesamiento del estrés parental y equilibrio neuroafectivo.',
+    'personalized.parents.services.relaxingMassage.title': 'Terapia sedativa',
+    'personalized.parents.services.relaxingMassage.description':
+      'Inducción profunda al estado parasimpático para el descanso reparador.',
+    'personalized.parents.testimonial.title': 'Testimonio de madre',
+    'personalized.parents.testimonial.quote':
+      '"es mi momento sagrado de la semana. Salgo renovada."',
+    'personalized.parents.testimonial.author': 'Sofia, madre de dos',
+
+    // Contact Page
+    'contact.hero.badge': 'Estamos aquí para ti',
+    'contact.hero.title': 'Contacta',
+    'contact.hero.titleHighlight': 'con nosotros',
+    'contact.hero.description':
+      'Estamos aquí para ayudarte en tu camino hacia el bienestar. Contáctanos para reservas, consultas o cualquier duda sobre nuestros servicios.',
+    'contact.whatsapp': 'WhatsApp 658 867 133',
+    'contact.callNow': 'Llamar ahora',
+    'contact.faq.title': 'Preguntas frecuentes',
+    'contact.faq.q1.title': '¿Cómo puedo reservar una cita?',
+    'contact.faq.q1.answer':
+      'Puedes reservar cita escribiendo por WhatsApp o Telegram al 658 867 133, llamándonos al mismo número o enviándonos un email.',
+    'contact.faq.q2.title': '¿Cuál es la política de cancelación?',
+    'contact.faq.q2.answer':
+      'Se pueden realizar cancelaciones gratuitas hasta 24 horas antes de la cita. Los usuarios VIP pueden cancelar hasta 12 horas antes.',
+    'contact.faq.q3.title': '¿Ofrecéis descuentos o planes VIP?',
+    'contact.faq.q3.answer':
+      'Sí, disponemos de planes VIP con descuentos de hasta el 25% y beneficios exclusivos como reservas prioritarias y consultas telefónicas gratuitas.',
+    'contact.faq.q4.title': '¿Qué debo llevar a la primera sesión?',
+    'contact.faq.q4.answer':
+      'Trae ropa cómoda, cualquier informe médico relevante y una lista de medicamentos que estés tomando actualmente. Nosotros proporcionamos las toallas.',
+
+    // Booking Page Help Section
+    'booking.help.title': '¿Necesitas ayuda con la reserva?',
+    'booking.help.contactDirect': 'Contáctanos directamente',
+    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
+    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.hours': 'Horario de atención',
+    'booking.help.hours.weekdays': 'Lunes - viernes: 9:00 - 20:00',
+    'booking.help.hours.saturday': 'Sábado: 9:00 - 14:00',
+    'booking.help.hours.sunday': 'Domingo: cerrado',
+    'booking.help.footer':
+      'Si tienes alguna duda sobre nuestros servicios o necesitas ayuda con la reserva, no dudes en contactarnos. Estamos aquí para ayudarte.',
+    'booking.whatsapp.availability': 'Disponibilidad: {availability} – {timeslot}',
+    'booking.whatsapp.thanks': '¡Gracias!',
+
+    // Common
+    'common.askQuestions': 'Hacer preguntas',
+    'common.recommended': 'Recomendado',
+    'common.continue': 'Continuar',
+    'common.disclaimer':
+      'Los servicios de EKA Balance son de acompañamiento y bienestar, no sustituyen el tratamiento médico.',
+
+    // VIP Section
+    'vip.plan.bronze': 'Membresía bronce',
+    'vip.plan.bronze.description': 'Mantenimiento esencial para una vida equilibrada',
+    'vip.plan.bronze.price': '150€',
+    'vip.plan.silver': 'Membresía plata',
+    'vip.plan.silver.description': 'Bienestar mensual completo y prioridad',
+    'vip.plan.silver.price': '280€',
+    'vip.plan.gold': 'Membresía oro',
+    'vip.plan.gold.description': 'La transformación definitiva y exclusividad total',
+    'vip.plan.gold.price': '500€',
+
+    'vip.service.priority.title': 'Acceso prioritario',
+    'vip.service.priority.description':
+      'Sin esperas. Tu agenda es nuestra prioridad, con franjas exclusivas reservadas solo para ti.',
+    'vip.service.displacements.title': 'Visitas concierge a domicilio',
+    'vip.service.displacements.description':
+      'Llevamos el santuario a tu hogar. Ahorra tiempo y disfruta de tratamientos de clase mundial en tu privacidad.',
+    'vip.service.health.title': 'Monitorización proactiva de salud',
+    'vip.service.health.description':
+      'No solo tratamos; hacemos seguimiento. Evaluaciones regulares aseguran que tu salud física siempre progrese.',
+    'vip.service.family.title': 'Privilegios familiares',
+    'vip.service.family.description':
+      'Extiende tu cuidado. Comparte tus créditos de sesión y beneficios con tu familia inmediata.',
+
+    'vip.benefits.transferable': 'Créditos compartibles',
+    'vip.benefits.transferableDesc': 'Regala bienestar a tu familia',
+    'vip.benefits.monthly': 'Auditoría de salud mensual',
+    'vip.benefits.monthlyDesc': 'Enfoque preventivo',
+    'vip.benefits.barcelona': 'Exclusivo Barcelona',
+    'vip.benefits.barcelonaDesc': 'Disponibilidad en el centro',
+    'vip.benefits.sessions': 'Sesiones de duración extendida',
+
+    'vip.stats.concierge': 'Concierge personal',
+    'vip.stats.exclusivity': 'Solo miembros',
+    'vip.stats.clients': 'Clientela de élite',
+    'vip.stats.possibilities': 'Potencial ilimitado',
+    'vip.stats.control': 'Maestría en salud',
+    'vip.stats.family': 'Inclusión familiar',
+
+    'vip.mostExclusive': 'La cima del cuidado',
+    'vip.experienceDescription':
+      'Diseñado para aquellos que se niegan a comprometer su salud. Experimenta el bienestar sin límites.',
+    'vip.voicesOfExcellence': 'Voces de la élite',
+    'vip.testimonialsSubtitle': 'Escucha a quienes han elevado sus vidas con nosotros.',
+    'vip.tier.standard': 'Miembro estándar',
+
+    'vip.testimonials.comment1':
+      'La mejor inversión que he hecho para mi rendimiento. El servicio prioritario cambia las reglas del juego para mi agenda ocupada.',
+    'vip.testimonials.comment2':
+      'Profesionalidad en su máxima expresión. Elena entiende mi cuerpo mejor que yo. Una experiencia verdaderamente a medida.',
+    'vip.testimonials.comment3':
+      'Me siento renovado después de cada sesión. La atención al detalle es inigualable en Barcelona.',
+
+    'vip.hero.badge': 'Ultra premium',
+    'vip.hero.title.beyond': 'Más allá',
+    'vip.hero.title.wellness': 'Del bienestar',
+    'vip.hero.subtitle':
+      'Entra en un reino donde tu salud es nuestro único foco. Atención inigualable, acceso prioritario y tratamientos a medida diseñados para unos pocos.',
+    'vip.hero.cta.join': 'Solicitar membresía',
+
+    'vip.dashboard.member': 'Salón de miembros',
+    'vip.dashboard.hello': 'Bienvenido de nuevo,',
+    'vip.dashboard.status': 'Nivel de membresía:',
+    'vip.dashboard.priorityBooking': 'Reservar sesión prioritaria',
+    'vip.dashboard.viewPlans': 'Mejorar membresía',
+
+    'vip.features.badge': 'Excelencia',
+    'vip.features.title': 'Curado para la élite',
+    'vip.features.subtitle':
+      'Cada detalle está orquestado para proporcionar una experiencia que trasciende la terapia tradicional.',
+
+    'vip.plans.badge': 'Membresía',
+    'vip.plans.title': 'Selecciona tu legado',
+    'vip.plans.subtitle': 'Elige el nivel de exclusividad que coincida con tu ambición.',
+    'vip.plans.popular': 'Más popular',
+    'vip.plans.perMonth': '/ Mes',
+    'vip.plans.sessions': 'Sesiones incluidas',
+    'vip.plans.contact': 'Consultar ahora',
+    'vip.table.title': 'Comparación de membresías',
+    'vip.table.sessions': 'Sesiones incluidas',
+
+    'vip.exclusivePrivileges': 'Privilegios de miembro',
+    'vip.testimonials.title': 'Experiencias de élite',
+    'vip.testimonials.subtitle': 'Historias de quienes exigen lo mejor.',
+    'vip.testimonials.role1': 'Ceo, innovador tecnológico',
+    'vip.testimonials.role2': 'Cirujano cardiovascular',
+    'vip.testimonials.role3': 'Emprendedor internacional',
+    'vip.cta.badge': 'Únete al círculo interior',
+    'vip.cta.title': 'Eleva tu vida',
+    'vip.cta.subtitle': 'Tu viaje hacia el máximo rendimiento y bienestar profundo comienza aquí.',
+    'vip.whatsapp.message':
+      'Hola, estoy interesado en la membresía VIP {plan}. Me gustaría solicitarla.',
+    'vip.whatsapp.messageGeneral':
+      'Hola, estoy interesado en el círculo interior VIP. Me gustaría saber más.',
+    'vip.cta.location': 'Ubicación prime',
+    'vip.cta.concierge': 'Concierge dedicado',
+    'vip.cta.guarantee': 'Satisfacción garantizada',
+
+    // Discovery Form
+    // Discovery Form - User Types
+    'discovery.userTypes.mother.title': 'Crianza y cuidado',
+    'discovery.userTypes.mother.desc':
+      'Necesito recargar mi energía para poder seguir cuidando a los demás.',
+    'discovery.userTypes.woman.title': 'Salud femenina',
+    'discovery.userTypes.woman.desc':
+      'Quiero reconectar con mi cuerpo, mis ciclos y mi vitalidad femenina.',
+    'discovery.userTypes.regular.title': 'Bienestar general',
+    'discovery.userTypes.regular.desc': 'Busco relajación, equilibrio y un momento para mí.',
+    'discovery.userTypes.office.title': 'Profesional de oficina',
+    'discovery.userTypes.office.desc': 'Paso horas sentado y siento cómo se acumula la tensión.',
+    'discovery.userTypes.athlete.title': 'Atleta / activo',
+    'discovery.userTypes.athlete.desc':
+      'Quiero optimizar mi rendimiento y acelerar la recuperación.',
+
+    // Discovery Form - Emotional States
+    'discovery.emotional.stressed.title': 'Abrumado / ansioso',
+    'discovery.emotional.stressed.desc': 'Mi mente no para y me cuesta relajarme.',
+    'discovery.emotional.sad.title': 'Bajo de ánimo / apático',
+    'discovery.emotional.sad.desc': 'Me siento pesado o desmotivado y quiero un cambio.',
+    'discovery.emotional.balanced.title': 'Equilibrado / neutral',
+    'discovery.emotional.balanced.desc':
+      'Me siento bien emocionalmente, solo necesito cuidado físico.',
+    'discovery.emotional.focus_physical.title': 'Enfoque en lo físico',
+    'discovery.emotional.focus_physical.desc': 'No estoy seguro, tratemos solo el cuerpo.',
+
+    // Discovery Form - Time Commitments
+    'discovery.time.short.title': 'Sesión exprés (hasta 1h)',
+    'discovery.time.short.desc': 'Perfecto para un reinicio rápido.',
+    'discovery.time.standard.title': 'Sesión estándar (1-1.5h)',
+    'discovery.time.standard.desc': 'El tiempo ideal para un trabajo profundo.',
+    'discovery.time.long.title': 'Inmersión profunda (hasta 2h)',
+    'discovery.time.long.desc': 'Para un cuidado integral y transformador.',
+
+    // Discovery Form - Budget
+    'discovery.budget.basic.title': 'Esencial (hasta 60€)',
+    'discovery.budget.basic.desc': 'Enfocado y efectivo.',
+    'discovery.budget.standard.title': 'Estándar (60-90€)',
+    'discovery.budget.standard.desc': 'Experiencia terapéutica completa.',
+    'discovery.budget.premium.title': 'Premium (90€+)',
+    'discovery.budget.premium.desc': 'Cuidado extendido y todo incluido.',
+
+    // Discovery Form - Recommendations
+    'discovery.recommendation.emotional.service': 'Reequilibrio emocional',
+    'discovery.recommendation.emotional.desc':
+      'Un enfoque holístico para calmar el estrés, la ansiedad o la pesadez. Nos enfocamos en liberar la carga emocional para restaurar tu armonía interior y alegría.',
+    'discovery.recommendation.emotional.benefit1': 'Alivio profundo del estrés',
+    'discovery.recommendation.emotional.benefit2': 'Claridad emocional',
+    'discovery.recommendation.emotional.benefit3': 'Calma del sistema nervioso',
+    'discovery.recommendation.emotional.benefit4': 'Paz interior renovada',
+
+    'discovery.recommendation.manual.service': 'Trabajo corporal terapéutico',
+    'discovery.recommendation.manual.desc':
+      'Alivio dirigido para el dolor y la tensión muscular. Utilizamos técnicas precisas para disolver nudos y restaurar tu libertad de movimiento.',
+    'discovery.recommendation.manual.benefit1': 'Alivio inmediato del dolor',
+    'discovery.recommendation.manual.benefit2': 'Liberación de tensión muscular',
+    'discovery.recommendation.manual.benefit3': 'Movilidad mejorada',
+    'discovery.recommendation.manual.benefit4': 'Ligereza física',
+
+    'discovery.recommendation.integrative.service': 'Alivio de tensión integrativo (4 en 1)',
+    'discovery.recommendation.integrative.desc':
+      'Nuestra mezcla exclusiva de masaje, kinesiología, osteopatía y movimiento somático (Feldenkrais). La solución definitiva para problemas crónicos.',
+    'discovery.recommendation.integrative.benefit1': 'Tratamiento holístico',
+    'discovery.recommendation.integrative.benefit2': 'Resolución de causa raíz',
+    'discovery.recommendation.integrative.benefit3': 'Sinergia multi-técnica',
+    'discovery.recommendation.integrative.benefit4': 'Resultados duraderos',
+
+    'discovery.recommendation.relax.service': 'Masaje de relajación profunda',
+    'discovery.recommendation.relax.desc':
+      'Un santuario para tus sentidos. Ideal si tu objetivo es desconectar del mundo y recargar tus baterías completamente.',
+    'discovery.recommendation.relax.benefit1': 'Relajación profunda',
+    'discovery.recommendation.relax.benefit2': 'Quietud mental',
+    'discovery.recommendation.relax.benefit3': 'Restauración de energía',
+    'discovery.recommendation.relax.benefit4': 'Bienestar total',
+
+    // Online Rec
+    'discovery.recommendation.online.service': 'Consulta y orientación online',
+    'discovery.recommendation.online.desc':
+      'Apoyo experto, estés donde estés. Perfecto para seguimientos, planificación nutricional u orientación somática desde casa.',
+    'discovery.recommendation.online.benefit1': 'Comodidad del hogar',
+    'discovery.recommendation.online.benefit2': 'Horario flexible',
+    'discovery.recommendation.online.benefit3': 'Apoyo continuo',
+    'discovery.recommendation.online.benefit4': 'Plan de acción en pdf',
+
+    'discovery.recommendation.title': 'Tu camino personalizado',
+    'discovery.recommendation.badge': 'A medida para ti',
+    'discovery.recommendation.subtitle': 'Basado en tu perfil único, recomendamos:',
+    'discovery.recommendation.why': 'Por qué esto es para ti',
+    'discovery.analysis.intro': 'Notamos que',
+    'discovery.analysis.have': 'Estás experimentando',
+    'discovery.analysis.want': 'Y tu objetivo es',
+    'discovery.analysis.feel': 'Sentirte',
+    'discovery.diagnosis.title': 'Evaluación profesional',
+    'discovery.diagnosis.profile': 'Tu perfil',
+    'discovery.diagnosis.symptoms': 'Indicadores clave',
+    'discovery.diagnosis.rootCause': 'Posibles causas raíz',
+    'discovery.diagnosis.strategy': 'Nuestra estrategia',
+    'discovery.diagnosis.frequency': 'Frecuencia recomendada',
+    'discovery.view.basic': 'Vista simple',
+    'discovery.view.advanced': 'Evaluación detallada',
+    'discovery.diagnosis.cause.posture': 'Fatiga postural (tensión sedentaria)',
+    'discovery.diagnosis.cause.overload': 'Sobrecarga muscular',
+    'discovery.diagnosis.cause.stress': 'Tensión psicosomática',
+    'discovery.diagnosis.cause.emotional': 'Bloqueo emocional',
+    'discovery.diagnosis.cause.metabolic': 'Desequilibrio metabólico/digestivo',
+    'discovery.diagnosis.cause.structural': 'Desalineación estructural/mecánica',
+    'discovery.diagnosis.cause.general': 'Necesidad de mantenimiento/prevención',
+    'discovery.diagnosis.strategy.structural': 'Liberación estructural y trabajo de movilidad',
+    'discovery.diagnosis.strategy.regulation': 'Regulación del sistema nervioso',
+    'discovery.diagnosis.strategy.rebalance': 'Reequilibrio mente-cuerpo',
+    'discovery.diagnosis.freq.high': 'Intensivo (semanal por 3 semanas)',
+    'discovery.diagnosis.freq.medium': 'Mantenimiento (cada 2-3 semanas)',
+    'discovery.diagnosis.freq.low': 'Preventivo (mensual)',
+    'discovery.goal.athlete': 'Recuperación atlética máxima',
+    'discovery.goal.office': 'Corrección postural',
+    'discovery.goal.stress': 'Paz mental profunda',
+    'discovery.goal.pain': 'Confort físico',
+    'discovery.goal.general': 'Vitalidad general',
+    'discovery.feeling.relaxed': 'Relajado',
+    'discovery.feeling.energized': 'Energizado',
+    'discovery.feeling.balanced': 'Equilibrado',
+    'discovery.feeling.painfree': 'Sin dolor',
+    'discovery.recommendation.book': 'Reservar esta sesión',
+    'discovery.recommendation.restart': 'Empezar de nuevo',
+
+    // Discovery Form - Steps
+    'discovery.step1.title': 'Cuéntanos sobre ti',
+    'discovery.step1.subtitle': 'Elige la opción que más resuene contigo',
+    'discovery.step2.title': '¿Dónde acumulas tensión?',
+    'discovery.step2.subtitle': 'Selecciona todas las que apliquen',
+    'discovery.step3.title': '¿Alguna condición específica?',
+    'discovery.step3.subtitle': 'Ayúdanos a adaptar la sesión a tu seguridad',
+    'discovery.step4.title': '¿Cómo te sientes emocionalmente?',
+    'discovery.step4.subtitle': 'El bienestar emocional es clave para la salud física',
+    'discovery.step5.title': '¿De cuánto tiempo dispones?',
+    'discovery.step5.subtitle': 'Adaptamos la sesión a tu horario',
+    'discovery.step6.title': '¿Cuál es tu presupuesto?',
+    'discovery.step6.subtitle': 'Encontraremos la mejor opción para ti',
+    'discovery.next': 'Siguiente',
+    'discovery.back': 'Atrás',
+    'discovery.seeRecommendation': 'Ver recomendación',
+    'common.step': 'Paso',
+    'common.of': 'De',
+
+    // Office Workers SEO
+    'office.seo.title': 'Servicios para trabajadores de oficina - EKA Balance Barcelona',
+    'office.seo.desc':
+      'Terapias especializadas para oficinistas: alivia la tensión, mejora la postura y gestiona el estrés laboral. Sesiones de 1 hora por 70€.',
+    'office.seo.keywords':
+      'Masaje oficina Barcelona, estrés laboral, dolor de espalda ordenador, kinesiología trabajadores',
+
+    // Athletes SEO
+    'athletes.seo.title': 'Servicios para deportistas - EKA Balance Barcelona',
+    'athletes.seo.desc':
+      'Terapias especializadas para atletas: recuperación muscular, mejora de flexibilidad y gestión del estrés pre-competición. Sesiones de 1 hora por 70€.',
+    'athletes.seo.keywords':
+      'Masaje deportivo Barcelona, recuperación muscular, flexibilidad deportiva, estrés competición',
+
+    // Artists SEO
+    'artists.seo.title': 'Servicios para artistas - EKA Balance Barcelona',
+    'artists.seo.desc':
+      'Terapias para artistas visuales y creadores: cuidado de manos, mejora postural y desbloqueo creativo. Sesiones de 1 hora por 70€.',
+    'artists.seo.keywords':
+      'Masaje artistas Barcelona, dolor manos artistas, postura creativa, bloqueo creativo',
+
+    // Musicians SEO
+    'musicians.seo.title': 'Servicios para músicos - EKA Balance Barcelona',
+    'musicians.seo.desc':
+      'Terapias especializadas para músicos: prevención de lesiones, mejora técnica y gestión de ansiedad escénica. Sesiones de 1 hora por 70€.',
+    'musicians.seo.keywords':
+      'Fisioterapia músicos Barcelona, lesiones músicos, ansiedad escénica, técnica musical',
+
+    // Students SEO
+    'students.seo.title': 'Servicios para estudiantes - EKA Balance Barcelona',
+    'students.seo.desc':
+      'Terapias para estudiantes: gestión de estrés de exámenes, mejora de concentración y corrección postural. Sesiones de 1 hora por 70€.',
+    'students.seo.keywords':
+      'Estrés exámenes Barcelona, concentración estudio, postura estudiante, ansiedad académica',
+
+    'office.problems.pain.title': 'Dolor postural',
+    'office.problems.pain.desc':
+      'Dolor en cuello, hombros y espalda debido a posturas incorrectas frente al ordenador',
+    'office.problems.stress.title': 'Estrés laboral',
+    'office.problems.stress.desc':
+      'Presión constante, plazos y exceso de responsabilidades que afectan al bienestar',
+    'office.problems.sedentary.title': 'Sedentarismo',
+    'office.problems.sedentary.desc':
+      'Pérdida de movilidad y flexibilidad por pasar demasiadas horas sentado',
+    'office.benefits.techniques.title': 'Técnicas específicas',
+    'office.benefits.techniques.desc':
+      'Técnicas específicas para descontracturar zonas afectadas por el trabajo de oficina',
+    'office.benefits.exercises.title': 'Corrección postural',
+    'office.benefits.exercises.desc':
+      'Ejercicios y correcciones posturales para prevenir futuros problemas',
+    'office.benefits.mindfulness.title': 'Gestión del estrés',
+    'office.benefits.mindfulness.desc':
+      'Técnicas de relajación y mindfulness adaptadas al entorno profesional',
+
+    // First Time Visitor Form
+    'firstTime.seo.title': '¿No sabes qué elegir? - Encuentra tu servicio ideal en EKA Balance',
+    'firstTime.seo.desc':
+      'Sistema inteligente personalizado para descubrir la terapia holística perfecta para tus necesidades específicas. Recomendaciones empáticas basadas en quién eres y qué buscas.',
+    'firstTime.seo.keywords':
+      'No sé qué elegir, formulario personalizado, recomendaciones terapia, servicio ideal, Barcelona, onboarding inteligente',
+
+    // Casos details (partial)
+    'casos.problems.backPain.symptom1': 'Dolor punzante, rigidez o tensión constante.',
+    'casos.problems.backPain.symptom2': 'Limitación de movimiento.',
+    'casos.problems.backPain.symptom3': 'Fatiga postural.',
+    'casos.problems.backPain.symptom4': 'Sensación de pesadez.',
+    'casos.problems.backPain.cause1': 'Posturas mantenidas y ergonomía deficiente.',
+    'casos.problems.backPain.cause2': 'Carga emocional somatizada.',
+    'casos.problems.backPain.cause3': 'Sedentarismo.',
+
+    // Onboarding
+    'onboarding.questions.userType.title': '¿Cómo te defines?',
+    'onboarding.userTypes.student': 'Estudiante',
+    'onboarding.userTypes.office': 'Oficina / ejecutivo',
+    'onboarding.userTypes.artist': 'Artista / creativo',
+    'onboarding.userTypes.musician': 'Músico',
+    'onboarding.userTypes.athlete': 'Deportista',
+    'onboarding.userTypes.parent': 'Padre / madre',
+    'onboarding.userTypes.entrepreneur': 'Emprendedor',
+    'onboarding.userTypes.therapist': 'Terapeuta',
+    'onboarding.userTypes.senior': 'Senior',
+    'onboarding.userTypes.other': 'Otro',
+    'onboarding.questions.goals.title': '¿Cuál es tu objetivo principal?',
+    'onboarding.goals.stress': 'Estrés y ansiedad',
+    'onboarding.goals.pain': 'Dolor o molestias',
+    'onboarding.goals.posture': 'Mejorar postura',
+    'onboarding.goals.sleep': 'Dormir mejor',
+    'onboarding.goals.energy': 'Más energía',
+    'onboarding.goals.focus': 'Enfoque mental',
+    'onboarding.goals.bodyAwareness': 'Conciencia corporal',
+    'onboarding.goals.feelGood': 'Sentirme bien',
+    'onboarding.questions.preferredFeeling.title': '¿Cómo quieres sentirte?',
+    'onboarding.feelings.calm': 'Calmado/a',
+    'onboarding.feelings.light': 'Ligero/a',
+    'onboarding.feelings.energized': 'Con energía',
+    'onboarding.feelings.focused': 'Enfocado/a',
+    'onboarding.feelings.confident': 'Seguro/a',
+    'onboarding.questions.approach.title': '¿Qué enfoque prefieres?',
+    'onboarding.approaches.massage': 'Masaje / manual',
+    'onboarding.approaches.kinesiology': 'Kinesiología / test',
+    'onboarding.approaches.feldenkrais': 'Movimiento / Feldenkrais',
+    'onboarding.approaches.energy': 'Energético',
+    'onboarding.approaches.open': 'Abierto a sugerencias',
+    'onboarding.questions.timePreference.title': 'Duración preferida',
+    'onboarding.time.60min': '60 minutos',
+    'onboarding.time.90min': '90 minutos',
+    'onboarding.time.120min': '120 minutos',
+
+    // Recommendations
+    'recommendations.massage.description':
+      'Terapia manual para liberar tensión y restaurar la estructura.',
+    'recommendations.kinesiology.description':
+      'Equilibrio del sistema nervioso y emocional mediante test muscular.',
+    'recommendations.feldenkrais.description':
+      'Reeducación del movimiento para una vida sin dolor.',
+
+    // VIP (missing)
+    'vip.plan.platinum': 'Platino VIP',
+    'vip.plan.bronze.desc': 'Entrada al mundo VIP',
+    'vip.plan.silver.desc': 'Perfecto para profesionales',
+    'vip.plan.gold.desc': 'La experiencia VIP definitiva',
+    'vip.plan.platinum.desc': 'Acceso élite exclusivo',
+    'vip.feature.priority': 'Acceso prioritario',
+    'vip.feature.extended': 'Sesiones extendidas',
+    'vip.feature.support': 'Soporte 24/7',
+    'vip.feature.events': 'Eventos exclusivos',
+    'vip.feature.home': 'Servicio a domicilio',
+    'vip.feature.all': 'Todos los beneficios',
+    'vip.feature.gift': 'Sesión de regalo',
+    'vip.feature.consultation': 'Consulta trimestral',
+    'vip.feature.kit': 'Kit premium',
+    'vip.feature.concierge': 'Gestor personal',
+    'vip.feature.retreat': 'Descuento en retiros',
+
+    // Missing Keys Patch
+    'hero.firstTime': '¿Primera vez?',
+    'hero.dontKnowWhatToChoose': '¿No sabes qué elegir?',
+    'hero.discoverServices': 'Descubre los servicios',
+    'hero.stats.sessions': 'Sesiones realizadas',
+    'hero.stats.countries': 'Países impactados',
+
+    'footer.address': 'Calle de pelai',
+    'footer.email': 'Info@ekabalance.Com',
+    'footer.copyright': '© 2024 EKA Balance. Todos los derechos reservados.',
+    'footer.selectLanguage': 'Selecciona idioma',
+    'footer.discounts': 'Descuentos de verano',
+
+    'language.popup.title': 'Bienvenido a EKA Balance',
+    'language.popup.subtitle': 'Por favor, selecciona tu idioma preferido',
+    'cookies.wrongLanguage': 'Parece que estás en un idioma diferente al de tu navegador.',
+
+    'stats.sessions': 'Sesiones',
+    'stats.clients': 'Clientes',
+    'stats.experience': 'Experiencia',
+    'stats.rating': 'Valoración',
+    'stats.countries': 'Países',
+    'stats.cases': 'Casos resueltos',
+    'stats.response': 'Respuesta rápida',
+
+    // Casos & Problems
+    'casos.hero.badge': 'Historias reales',
+    'casos.title': 'Casos reales',
+    'casos.subtitle': 'Historias de éxito',
+    'casos.description': 'Descubre cómo hemos ayudado a otros.',
+    'casos.frequentCases': 'Casos frecuentes',
+    'casos.frequentCasesSubtitle': 'Patologías comunes',
+    'casos.otherCases': 'Otros casos',
+    'casos.otherCasesSubtitle': 'Otras áreas',
+    'casos.ctaTitle': '¿Tienes un caso similar?',
+    'casos.ctaSubtitle': 'Habla con nosotros',
+    'casos.discoverIdeal': 'Descubre el tratamiento',
+    'casos.bookSession': 'Reservar sesión',
+    'casos.seeDetails': 'Ver detalles',
+    'casos.section.badge': 'Casos clínicos',
+    'casos.section.title': 'Identificación de patologías',
+    'casos.section.titleHighlight': 'y soluciones',
+    'casos.section.subtitle': 'Resolución de problemas complejos',
+    'casos.section.readMore': 'Leer más',
+    'casos.section.viewAll': 'Ver todos',
+    'casos.section.findYourCase': 'Encuentra tu caso',
+
+    'casos.problems.backPain.title': 'Dolor de espalda',
+    'casos.problems.backPain.description': 'Dolor persistente y problemas posturales.',
+    'casos.problems.stress.title': 'Estrés y ansiedad',
+    'casos.problems.stress.description': 'Desregulación del sistema nervioso.',
+    'casos.problems.digestive.title': 'Problemes digestius',
+    'casos.problems.digestive.description': 'Disfunción visceral e hinchazón.',
+    'casos.problems.migraines.title': 'Migrañas',
+    'casos.problems.migraines.description': 'Dolores de cabeza y tensión craneal.',
+    'casos.problems.lowEnergy.title': 'Fatiga crónica',
+    'casos.problems.lowEnergy.description': 'Agotamiento sistémico.',
+    'casos.problems.hormonal.title': 'Desequilibrios hormonales',
+    'casos.problems.hormonal.description': 'Salud de la mujer y ciclos.',
+    'casos.problems.sleep.title': 'Trastornos del sueño',
+    'casos.problems.sleep.description': 'Insomnio y mal descanso.',
+    'casos.problems.recovery.title': 'Recuperación',
+    'casos.problems.recovery.description': 'Post-lesión y rehabilitación.',
+
+    // Students
+    'students.problems.title': 'Retos de los estudiantes',
+    'students.problems.subtitle': 'Supera el estrés académico',
+    'students.problem1.title': 'Ansiedad',
+    'students.problem1.desc': 'Ante exámenes',
+    'students.problem2.title': 'Postura',
+    'students.problem2.desc': 'Dolor al estudiar',
+    'students.problem3.title': 'Concentración',
+    'students.problem3.desc': 'Dificultad de foco',
+    'students.problem4.title': 'Fatiga',
+    'students.problem4.desc': 'Cansancio mental',
+    'students.results.title': 'Resultados',
+    'students.results.point1': 'Mejor rendimiento',
+    'students.results.point2': 'Menos estrés',
+    'students.results.point3': 'Más energía',
+    'students.plans.title': 'Planes de estudio',
+    'students.plans.subtitle': 'Opciones para ti',
+    'students.plan1.name': 'Sesión única',
+    'students.plan1.desc': 'Puntual',
+    'students.plan1.result': 'Alivio',
+    'students.plan2.name': 'Pack estudio',
+    'students.plan2.desc': 'Seguimiento',
+    'students.plan2.result': 'Rendimiento',
+    'students.plan2.popular': 'Popular',
+    'students.plan2.save': 'Ahorro',
+    'students.plan3.name': 'Programa completo',
+    'students.plan3.desc': 'Transformación',
+    'students.plan3.result': 'Éxito',
+    'students.plan.cta': 'Elige plan',
+    'students.plan1.benefit1': 'Relax',
+    'students.plan1.benefit2': 'Foco',
+    'students.plan1.benefit3': 'Tips',
+    'students.plan1.benefit4': 'Soporte',
+    'students.plan2.benefit1': '3 sesiones',
+    'students.plan2.benefit2': 'Seguimiento',
+    'students.plan2.benefit3': 'Prioridad',
+    'students.plan2.benefit4': 'Descuento',
+    'students.plan3.benefit1': '5 sesiones',
+    'students.plan3.benefit2': 'Coaching',
+    'students.plan3.benefit3': 'WhatsApp',
+    'students.plan3.benefit4': 'Material',
+
+    // Office
+    'office.hero.badge': 'Empresas',
+    'office.hero.title': 'Bienestar corporativo',
+    'office.hero.subtitle': 'Salud en el trabajo',
+    'office.problems.title': 'Retos de oficina',
+    'office.problems.subtitle': 'Sedentarismo y estrés',
+    'office.problem1.title': 'Dolor de espalda',
+    'office.problem1.desc': 'Postura estática',
+    'office.problem2.title': 'Vista cansada',
+    'office.problem2.desc': 'Pantallas',
+    'office.problem3.title': 'Cervicales',
+    'office.problem3.desc': 'Tensión hombros',
+    'office.problem4.title': 'Sedentarismo',
+    'office.problem4.desc': 'Falta movimiento',
+    'office.help.title': 'Soluciones',
+    'office.help1.title': 'Ergonomía',
+    'office.help1.desc': 'Ajuste postural',
+    'office.help2.title': 'Activación',
+    'office.help2.desc': 'Ejercicios',
+    'office.help3.title': 'Relajación',
+    'office.help3.desc': 'Anti-estrés',
+    'office.results.title': 'Beneficios',
+    'office.results.point1': 'Productividad',
+    'office.results.point2': 'Menos bajas',
+    'office.results.point3': 'Buen ambiente',
+    'office.plans.title': 'Planes empresa',
+    'office.plans.subtitle': 'Para equipos',
+    'office.plan1.name': 'Individual',
+    'office.plan1.desc': 'Ejecutivo',
+    'office.plan1.result': 'Foco',
+    'office.plan2.name': 'Equipo pequeño',
+    'office.plan2.desc': '< 10 personas',
+    'office.plan2.result': 'Cohesión',
+    'office.plan2.popular': 'Recomendado',
+    'office.plan2.save': 'Deducible',
+    'office.plan3.name': 'Departamento',
+    'office.plan3.desc': 'Grandes equipos',
+    'office.plan3.result': 'Cultura',
+    'office.plan.cta': 'Contactar',
+    'office.plan1.benefit1': 'Análisis',
+    'office.plan1.benefit2': 'Tratamiento',
+    'office.plan1.benefit3': 'Informe',
+    'office.plan1.benefit4': 'Seguimiento',
+    'office.plan2.benefit1': 'Talleres',
+    'office.plan2.benefit2': 'Grupo',
+    'office.plan2.benefit3': 'Material',
+    'office.plan2.benefit4': 'Deal',
+    'office.plan3.benefit1': 'Anual',
+    'office.plan3.benefit2': 'In-house',
+    'office.plan3.benefit3': 'Eventos',
+    'office.plan3.benefit4': 'Datos',
+
+    // Discovery & Other
+    'discovery.location.barcelona': 'Barcelona',
+    'discovery.location.rubi': 'Rubí',
+    'discovery.location.online': 'Online',
+    'discovery.step.location.title': 'Ubicación',
+    'discovery.step.location.subtitle': '¿Dónde?',
+    'discovery.step.description.title': 'Descripción',
+    'discovery.step.description.subtitle': '¿Qué te pasa?',
+    'discovery.step.description.placeholder': 'Cuéntanos...',
+
+    'common.moreInfo': 'Más info',
+    'common.readMore': 'Leer más',
+    'common.expectedResult': 'Resultado esperado',
+    'common.bookNow': 'Reservar',
+    'common.contact': 'Contacto',
+    'common.discoverServices': 'Servicios',
+    'common.reserve': 'Reservar',
+    'common.reserveNow': 'Reservar ahora',
+    'common.seePlans': 'Ver planes',
+    'common.hour': 'H',
+    'common.hours': 'Horas',
+    'common.reserveSession': 'Reserva sesión',
+    'common.seeOtherServices': 'Otros servicios',
+    'common.getStarted': 'Comenzar',
+
+    'services.therapiesFor': 'Terapias para',
+    'services.integralWellbeing': 'Bienestar integral',
+    'services.personalizedTreatments': 'Personalizado',
+    'services.massage.title': 'Masaje',
+    'services.massage.subtitle': 'Relax',
+    'services.massage.description': 'Descanso profundo',
+    'services.kinesiology.title': 'Kinesiología',
+    'services.kinesiology.subtitle': 'Equilibrio',
+    'services.kinesiology.description': 'Test muscular',
+    'services.nutrition.title': 'Nutrición',
+    'services.nutrition.subtitle': 'Salud',
+    'services.nutrition.description': 'Dieta consciente',
+    'services.revision360.title': 'Revisión 360',
+    'services.revision360.subtitle': 'Total',
+    'services.revision360.description': 'Evaluación completa',
+    'services.consultation.title': 'Consulta',
+    'services.consultation.description': 'Hablamos 15 min',
+    'services.consultation.feeling': 'Claridad',
+
+    'whyChoose.title': '¿Por qué elegir EKA Balance?',
+    'whyChoose.subtitle':
+      'Somos más que un centro de terapia; somos tus socios dedicados en el bienestar holístico.',
+    'whyChoose.personalized.title': 'Planes verdaderamente personalizados',
+    'whyChoose.personalized.description':
+      'Tu cuerpo es único, y tu terapia también debería serlo. Adaptamos cada sesión a tu fisiología e historia específicas para obtener resultados más rápidos y sostenibles.',
+    'whyChoose.holistic.title': 'Integración sistémica',
+    'whyChoose.holistic.description':
+      'Tratamos todo tu ser: estructural, químico y emocional. La verdadera curación ocurre cuando todos tus sistemas trabajan en armonía.',
+    'whyChoose.experienced.title': 'Guía experta',
+    'whyChoose.experienced.description':
+      'Benefíciate de años de práctica profesional y estudio continuo en modalidades globales como Feldenkrais, osteopatía y kinesiología.',
+
+    'finalCta.title': '¿Listo?',
+    'finalCta.subtitle': 'Reserva ya',
+
+    // Pricing Section
+    'pricing.badge': 'Tarifas transparentes',
+    'pricing.title.part1': 'Elige tu',
+    'pricing.title.part2': 'plan de bienestar',
+    'pricing.subtitle':
+      'Packs diseñados para cada necesidad, con la flexibilidad y calidad que te mereces',
+    'pricing.popular': 'Más popular',
+    'pricing.save': 'Ahorra {percent}%',
+    'pricing.discount_applied': 'Aplicado',
+    'pricing.plan.select': 'Seleccionar',
+
+    'pricing.plan.basic.name': 'Sesión individual',
+    'pricing.plan.basic.desc': 'Una sesión completa de 60 minutos',
+    'pricing.plan.pack3.name': 'Pack bienestar (3)',
+    'pricing.plan.pack3.desc': 'Pack de 3 sesiones para un seguimiento continuo',
+    'pricing.plan.pack5.name': 'Pack transformación (5)',
+    'pricing.plan.pack5.desc': 'Tratamiento integral para cambios profundos',
+
+    'pricing.feature.massage': 'Masaje terapéutico',
+    'pricing.feature.kinesiology': 'Kinesiología',
+    'pricing.feature.osteopathy': 'Osteopatía suave',
+    'pricing.feature.save15': 'Ahorra 15€',
+    'pricing.feature.valid3months': 'Válido por 3 meses',
+    'pricing.feature.transferable': 'Transferible',
+    'pricing.feature.save25': 'Ahorra 25€',
+    'pricing.feature.valid6months': 'Válido por 6 meses',
+    'pricing.feature.priority': 'Prioridad de reserva',
+
+    'pricing.guarantee.nocommitment.title': 'Sin compromisos',
+    'pricing.guarantee.nocommitment.desc': 'Cancela o cambia tu cita hasta 24h antes sin coste',
+    'pricing.guarantee.satisfaction.title': 'Garantía de satisfacción',
+    'pricing.guarantee.satisfaction.desc':
+      'Si no estás satisfecho con la primera sesión, te la reembolsamos',
+    'pricing.guarantee.certified.title': 'Profesionales certificados',
+    'pricing.guarantee.certified.desc':
+      'Todos nuestros terapeutas tienen certificaciones oficiales',
+    'pricing.guarantee.equipment.title': 'Equipo profesional',
+    'pricing.guarantee.equipment.desc': 'Utilizamos solo equipo y productos de máxima calidad',
+
+    'pricing.cta.unsure.title': '¿No estás seguro de qué plan elegir?',
+    'pricing.cta.unsure.subtitle':
+      'Haz nuestra evaluación gratuita y descubre qué tratamiento se adapta mejor a tus necesidades',
+    'pricing.cta.unsure.button': 'Descubrir nuestros servicios',
+
+    // Booking Popup
+    'booking.smart.service.placeholder': 'Selecciona un servicio...',
+    'booking.smart.time.placeholder': 'Ej: mañanas, próxima semana...',
+    'booking.whatsapp.name': 'Nombre',
+    'booking.whatsapp.serviceLabel': 'Servicio',
+    'booking.whatsapp.preference': 'Preferencia horaria',
+    'booking.service.other': 'Otro',
+    'booking.service.consultation': 'Consulta inicial',
+    'booking.smart.quick': 'Reserva rápida',
+    'booking.smart.quickDesc': 'Contactar por WhatsApp directamente.',
+    'booking.smart.form': 'Formulario',
+    'booking.smart.formDesc': 'Rellenar detalles primero.',
+    'booking.smart.name': 'Tu nombre',
+    'booking.smart.service': 'Servicio',
+    'booking.smart.time': 'Horario preferido',
+    'booking.smart.send': 'Enviar por WhatsApp',
+    'booking.smart.title': 'Reserva tu cita',
+    'booking.smart.subtitle': 'Elige cómo quieres contactar',
+  },
+
+  ru: {
+    // Navigation
+    'nav.home': 'Ð“Ð»Ð°Ð²Ð½Ð°Ñ',
+    'nav.services': 'Ð£ÑÐ»ÑƒÐ³Ð¸',
+    'nav.personalizedServices': 'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'nav.revision360': 'ÐžÐ±Ð·Ð¾Ñ€ 360°',
+    'nav.vip': 'VIP',
+    'nav.bookNow': 'Забронировать',
+    'nav.contact': 'Контакты',
+    'nav.aboutElena': 'О елене',
+    'nav.casos': 'Случаи',
+
+    // Elena Approach & Targets
+    'elena.approach.title': 'Метод елены кучеры',
+    'elena.approach.desc':
+      'Ð’ Ð¾ÑÐ½Ð¾Ð²Ðµ Ð¼Ð¾ÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð»ÐµÐ¶Ð¸Ñ‚ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ðµ Ð¿Ð¾Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾ Ñ‚ÐµÐ»Ð¾, Ð¼Ð¾Ð·Ð³ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¸ — ÑÑ‚Ð¾ ÐµÐ´Ð¸Ð½Ð°Ñ ÑÐ¸ÑÑ‚ÐµÐ¼Ð°. Ð¯ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽ Ð½Ðµ Ñ ÑÐ¸Ð¼Ð¿Ñ‚Ð¾Ð¼Ð°Ð¼Ð¸, Ð° Ð¸Ñ‰Ñƒ Ð¸Ñ… Ð¿ÐµÑ€Ð²Ð¾Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñƒ, Ð¿Ð¾Ð¼Ð¾Ð³Ð°Ñ Ð¾Ñ€Ð³Ð°Ð½Ð¸Ð·Ð¼Ñƒ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÐµÑÑ‚ÐµÑÑ‚Ð²ÐµÐ½Ð½ÑƒÑŽ ÑÐ¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚ÑŒ Ðº ÑÐ°Ð¼Ð¾Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ð¸. ÐœÐ¾Ð¹ Ð¼ÐµÑ‚Ð¾Ð´ Ð¾Ð±ÑŠÐµÐ´Ð¸Ð½ÑÐµÑ‚ Ð¿ÐµÑ€ÐµÐ´Ð¾Ð²Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ñ‚ÐµÐ»Ð¾Ð¼ Ð¸ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ð¾Ð¹: Movement Lesson, JKA (Jeremy Krauss Approach), child’space, Feldenkrais Ð¸ Ð±Ð¸Ð¾Ð´Ð¸Ð½Ð°Ð¼Ð¸ÐºÑƒ. Ð­Ñ‚Ð¾ Ð¼ÑÐ³ÐºÐ¾Ðµ, Ð½Ð¾ Ð¼Ð¾Ñ‰Ð½Ð¾Ðµ Ð²Ð¾Ð·Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ Ð¿ÐµÑ€ÐµÐ¾Ð±ÑƒÑ‡Ð°ÐµÑ‚ Ð½ÐµÑ€Ð²Ð½ÑƒÑŽ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ, ÑÐ½Ð¸Ð¼Ð°ÐµÑ‚ Ð³Ð»ÑƒÐ±Ð¸Ð½Ð½Ñ‹Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ Ð¸ Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð»ÐµÐ³ÐºÐ¾ÑÑ‚ÑŒ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¸ ÑÑÐ½Ð¾ÑÑ‚ÑŒ ÑƒÐ¼Ð°.',
+
+    'elena.target.adults.title': 'Ð’Ð·Ñ€Ð¾ÑÐ»Ñ‹Ðµ',
+    'elena.target.adults.desc':
+      'Ð”Ð»Ñ Ñ‚ÐµÑ…, ÐºÑ‚Ð¾ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÐµÑ‚ Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÑƒÑŽ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ, Ð±Ð¾Ð»Ð¸ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ ÑˆÐµÐµ, Ð¿Ð¾ÑÐ»ÐµÐ´ÑÑ‚Ð²Ð¸Ñ ÑÑ‚Ñ€ÐµÑÑÐ° Ð¸Ð»Ð¸ Ñ‚Ñ€Ð°Ð²Ð¼. Ð¯ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÑŽ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ñ€ÐµÑÑƒÑ€ÑÐ½Ð¾Ðµ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ, ÑƒÐ»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ Ð¾ÑÐ°Ð½ÐºÑƒ, ÑÐ½ÑÑ‚ÑŒ Ð¿ÑÐ¸Ñ…Ð¾ÑÐ¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð±Ð»Ð¾ÐºÐ¸ Ð¸ Ð²ÐµÑ€Ð½ÑƒÑ‚ÑŒ Ñ€Ð°Ð´Ð¾ÑÑ‚ÑŒ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ. Ð­Ñ‚Ð¾ Ð½Ðµ Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð¼Ð°ÑÑÐ°Ð¶ Ð¸Ð»Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ, ÑÑ‚Ð¾ Ð¿ÐµÑ€ÐµÐ·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Ð²Ð°ÑˆÐµÐ¹ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹ Ð´Ð»Ñ Ð±Ð¾Ð»ÐµÐµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²ÐµÐ½Ð½Ð¾Ð¹ Ð¶Ð¸Ð·Ð½Ð¸.',
+
+    'elena.target.children.title': 'Дети',
+    'elena.target.children.desc':
+      'ÐŸÐ¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° Ð³Ð°Ñ€Ð¼Ð¾Ð½Ð¸Ñ‡Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð·Ð²Ð¸Ñ‚Ð¸Ñ Ñ€ÐµÐ±ÐµÐ½ÐºÐ° Ñ Ð¿ÐµÑ€Ð²Ñ‹Ñ… Ð´Ð½ÐµÐ¹ Ð¶Ð¸Ð·Ð½Ð¸. Ð¯ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽ Ñ Ð·Ð°Ð´ÐµÑ€Ð¶ÐºÐ°Ð¼Ð¸ Ð¼Ð¾Ñ‚Ð¾Ñ€Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð·Ð²Ð¸Ñ‚Ð¸Ñ, Ð½Ð°Ñ€ÑƒÑˆÐµÐ½Ð¸ÑÐ¼Ð¸ Ð¾ÑÐ°Ð½ÐºÐ¸, Ð³Ð¸Ð¿ÐµÑ€Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð¸ ÑÐ»Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑÐ¼Ð¸ Ð² Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ð¸. ÐœÑÐ³ÐºÐ¸Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÑŽÑ‚ Ñ€ÐµÐ±ÐµÐ½ÐºÑƒ Ð»ÑƒÑ‡ÑˆÐµ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ðµ Ñ‚ÐµÐ»Ð¾, Ñ€Ð°Ð·Ð²Ð¸Ð²Ð°Ñ‚ÑŒ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ†Ð¸ÑŽ Ð¸ ÑƒÐ²ÐµÑ€ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð² ÑÐµÐ±Ðµ.',
+
+    'elena.target.families.title': 'Ð¡ÐµÐ¼ÑŒÐ¸ Ñ Ð¾ÑÐ¾Ð±ÐµÐ½Ð½Ñ‹Ð¼Ð¸ Ð´ÐµÑ‚ÑŒÐ¼Ð¸',
+    'elena.target.families.desc':
+      'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð¾Ðµ ÑÐ¾Ð¿Ñ€Ð¾Ð²Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ ÑÐµÐ¼ÐµÐ¹ Ñ Ð´ÐµÑ‚ÑŒÐ¼Ð¸ Ñ Ð´Ñ†Ð¿, Ð³ÐµÐ½ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¼Ð¸ ÑÐ¸Ð½Ð´Ñ€Ð¾Ð¼Ð°Ð¼Ð¸ Ð¸Ð»Ð¸ Ð´Ñ€ÑƒÐ³Ð¸Ð¼Ð¸ Ð¾ÑÐ¾Ð±ÐµÐ½Ð½Ð¾ÑÑ‚ÑÐ¼Ð¸ Ñ€Ð°Ð·Ð²Ð¸Ñ‚Ð¸Ñ. Ð¯ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽ Ð½Ðµ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ñ Ñ€ÐµÐ±ÐµÐ½ÐºÐ¾Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¾Ð½ Ð¾ÑÐ²Ð°Ð¸Ð²Ð°Ð» Ð½Ð¾Ð²Ñ‹Ðµ Ð½Ð°Ð²Ñ‹ÐºÐ¸ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¸ ÐºÐ¾Ð¼Ð¼ÑƒÐ½Ð¸ÐºÐ°Ñ†Ð¸Ð¸, Ð½Ð¾ Ð¸ Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑÐ¼Ð¸, Ð¾Ð±ÑƒÑ‡Ð°Ñ Ð²Ð°Ñ Ð²Ð·Ð°Ð¸Ð¼Ð¾Ð´ÐµÐ¹ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ Ñ Ð½Ð¸Ð¼ Ð¸ Ð·Ð°Ð±Ð¾Ñ‚Ð¸Ñ‚ÑŒÑÑ Ð¾ ÑÐ¾Ð±ÑÑ‚Ð²ÐµÐ½Ð½Ð¾Ð¹ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð¸ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¸.',
+
+    // Dropdown items
+    'nav.officeWorkers': 'ÐžÑ„Ð¸ÑÐ½Ñ‹Ðµ Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¸',
+    'nav.athletes': 'Ð¡Ð¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ñ‹',
+    'nav.artists': 'ÐÑ€Ñ‚Ð¸ÑÑ‚Ñ‹',
+    'nav.musicians': 'Музыканты',
+    'nav.students': 'Студенты',
+
+    'home.founder': 'ÐžÑÐ½Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒ Ð¸ CEO',
+    'home.elenaAlt': 'Ð•Ð»ÐµÐ½Ð°, Ñ‚ÐµÐ»ÐµÑÐ½Ñ‹Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚ EKA Balance',
+    'home.viewAllServices': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð²ÑÐµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'home.elenaName': 'Елена Кучерова',
+
+    // Hero section
+    'hero.badge': 'Ð•ÑÑ‚ÐµÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¹ ÑÐ¿Ð¾ÑÐ¾Ð± Ð¸ÑÑ†ÐµÐ»ÐµÐ½Ð¸Ñ',
+    'hero.title': 'EKA Balance',
+    'hero.subtitle':
+      'ÐžÐ·Ð´Ð¾Ñ€Ð¾Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²Ð¾, ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÑŽÑ‰ÐµÐµÑÑ Ð½Ð° Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð¼ Ð¼Ð°ÑÑÐ°Ð¶Ðµ, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚ÐµÑ€Ð°Ð¿Ð¸ÑÑ… Ð² ÑÐµÑ€Ð´Ñ†Ðµ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ñ‹',
+    'hero.firstTime': 'Это ваш первый раз?',
+    'hero.dontKnowWhatToChoose': 'ÐÐµ Ð·Ð½Ð°ÐµÑ‚Ðµ, Ñ Ñ‡ÐµÐ³Ð¾ Ð½Ð°Ñ‡Ð°Ñ‚ÑŒ?',
+    'hero.discoverServices': 'ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð½Ð°ÑˆÐ¸ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'hero.stats.sessions': 'ÐŸÑ€Ð¾Ð²ÐµÐ´ÐµÐ½Ð½Ñ‹Ñ… ÑÐµÑÑÐ¸Ð¹',
+    'hero.stats.clients': 'Измененных жизней',
+    'hero.stats.experience': 'Лет практики',
+    'hero.stats.countries': 'Международных обучений',
+    // Footer
+    'footer.address': 'Carrer pelai, 12, Barcelona, Spain',
+    'footer.email': 'Contact@ekabalance.Com',
+    'footer.copyright': '© 2024 EKA Balance. Ð’ÑÐµ Ð¿Ñ€Ð°Ð²Ð° Ð·Ð°Ñ‰Ð¸Ñ‰ÐµÐ½Ñ‹.',
+    'footer.selectLanguage': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ·Ñ‹Ðº',
+    'footer.discounts': 'Скидки',
+
+    // Language Popup & Cookies
+    'language.popup.title': 'ÐšÐ°ÐºÐ¾Ð¹ ÑÐ·Ñ‹Ðº Ð²Ñ‹ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ñ‡Ð¸Ñ‚Ð°ÐµÑ‚Ðµ?',
+    'language.popup.subtitle': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²Ð°Ñˆ ÑÐ·Ñ‹Ðº, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÑŒ',
+    'cookies.wrongLanguage': 'ÐÐµ Ñ‚Ð¾Ñ‚ ÑÐ·Ñ‹Ðº?',
+
+    // Discovery Form - Location
+    'discovery.location.barcelona': 'Ð‘Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+    'discovery.location.rubi': 'Руби',
+    'discovery.location.online': 'ÐžÐ½Ð»Ð°Ð¹Ð½ / Ñ Ð½Ðµ Ñ€ÑÐ´Ð¾Ð¼',
+    'discovery.step.location.title': 'Ð“Ð´Ðµ Ð²Ñ‹ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÐµÑÑŒ?',
+    'discovery.step.location.subtitle': 'Чтобы предложить лучший вариант',
+
+    // Services
+    'services.massage.title': 'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'services.massage.subtitle':
+      'Ð‘Ð¾Ð»ÑŒÑˆÐµ, Ñ‡ÐµÐ¼ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð¸Ðµ: Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ',
+    'services.massage.description':
+      'Ð˜ÑÐ¿Ñ‹Ñ‚Ð°Ð¹Ñ‚Ðµ Ð½Ð°ÑÑ‚Ð¾ÑÑ‰ÑƒÑŽ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÑƒÑŽ Ð¿ÐµÑ€ÐµÐ·Ð°Ð³Ñ€ÑƒÐ·ÐºÑƒ. ÐœÑ‹ ÑÐ¾Ñ‡ÐµÑ‚Ð°ÐµÐ¼ Ð¼Ð¸Ð¾Ñ„Ð°ÑÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ñ€ÐµÐ»Ð¸Ð· Ñ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¸Ð¼Ð¸ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ°Ð¼Ð¸ Ð´Ð»Ñ Ñ€Ð°ÑÑ‚Ð²Ð¾Ñ€ÐµÐ½Ð¸Ñ Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð¸ ÑƒÑÐ¿Ð¾ÐºÐ¾ÐµÐ½Ð¸Ñ ÑƒÐ¼Ð°. Ð­Ñ‚Ð¾ Ð½Ðµ Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð¿Ñ€Ð¸ÑÑ‚Ð½Ñ‹Ðµ Ð¾Ñ‰ÑƒÑ‰ÐµÐ½Ð¸Ñ Ð½Ð° Ñ‡Ð°Ñ; ÑÑ‚Ð¾ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ðµ.',
+    'services.kinesiology.title': 'Ð¥Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'services.kinesiology.subtitle': 'Ð Ð°ÑÑˆÐ¸Ñ„Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐ¸Ð³Ð½Ð°Ð»Ñ‹ Ð²Ð°ÑˆÐµÐ³Ð¾ Ñ‚ÐµÐ»Ð°',
+    'services.kinesiology.description':
+      'Ð’Ð°ÑˆÐµ Ñ‚ÐµÐ»Ð¾ Ñ…Ñ€Ð°Ð½Ð¸Ñ‚ Ð¾Ñ‚Ð²ÐµÑ‚Ñ‹. Ð¡ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ñ‚Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ð³Ð¾ Ñ‚ÐµÑÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¼Ñ‹ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ð¼ ÑÐºÑ€Ñ‹Ñ‚Ñ‹Ðµ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ¸ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½ÑÐ° — Ð±ÑƒÐ´ÑŒ Ñ‚Ð¾ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ‚Ñ€Ð°Ð²Ð¼Ð°, ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÑÑ Ð¸Ð»Ð¸ Ð±Ð¸Ð¾Ñ…Ð¸Ð¼Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚Ð¸. ÐšÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ — ÑÑ‚Ð¾ ÐºÐ»ÑŽÑ‡ Ðº Ð¿Ð¾Ð½Ð¸Ð¼Ð°Ð½Ð¸ÑŽ Ñ‚Ð¾Ð³Ð¾, Ñ‡Ñ‚Ð¾ Ð¸Ð¼ÐµÐ½Ð½Ð¾ Ð½ÑƒÐ¶Ð½Ð¾ Ð²Ð°ÑˆÐµÐ¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ðµ Ð¿Ñ€ÑÐ¼Ð¾ ÑÐµÐ¹Ñ‡Ð°Ñ Ð´Ð»Ñ Ð¸ÑÑ†ÐµÐ»ÐµÐ½Ð¸Ñ.',
+    'services.nutrition.title': 'ÐžÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ',
+    'services.nutrition.subtitle':
+      'ÐŸÐ¸Ñ‚Ð°Ð¹Ñ‚Ðµ ÑÐ²Ð¾ÑŽ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½ÑƒÑŽ ÑÐ¸Ð»Ñƒ, Ð¸ÑÑ†ÐµÐ»ÑÐ¹Ñ‚ÐµÑÑŒ Ð¸Ð·Ð½ÑƒÑ‚Ñ€Ð¸',
+    'services.nutrition.description':
+      'ÐŸÐ¸Ñ‚Ð°Ð½Ð¸Ðµ — ÑÑ‚Ð¾ Ð±Ð¸Ð¾Ñ…Ð¸Ð¼Ð¸Ñ, Ð° Ð½Ðµ Ð¿Ñ€Ð¾ÑÑ‚Ð¾ ÐºÐ°Ð»Ð¾Ñ€Ð¸Ð¸. ÐœÑ‹ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð°Ñ‚Ñ‹Ð²Ð°ÐµÐ¼ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ð»Ð°Ð½Ñ‹ Ð´Ð»Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð²Ð°ÑˆÐµÐ¹ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸, Ð¾Ð·Ð´Ð¾Ñ€Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ ÐºÐ¸ÑˆÐµÑ‡Ð½Ð¸ÐºÐ° Ð¸ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹.',
+    'services.revision360.title': 'ÐžÐ±Ð·Ð¾Ñ€ 360°',
+    'services.revision360.subtitle': 'ÐšÐ°Ñ€Ñ‚Ð° Ð²Ð°ÑˆÐµÐ³Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ',
+    'services.revision360.description':
+      'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð°Ñ Ð´Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑÐµÑÑÐ¸Ñ, Ð°Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÑŽÑ‰Ð°Ñ Ð¾ÑÐ°Ð½ÐºÑƒ, Ð¿Ð°Ñ‚Ñ‚ÐµÑ€Ð½Ñ‹ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¸ Ð¼ÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ Ð´Ð»Ñ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ñ Ñ‚Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ Ð¼Ð°Ñ€ÑˆÑ€ÑƒÑ‚Ð° Ðº Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸ÑŽ.',
+    'services.therapiesFor': 'ÐœÐµÑ‚Ð¾Ð´Ñ‹ Ð´Ð»Ñ',
+    'services.integralWellbeing': 'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð¾Ð³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+    'services.personalizedTreatments':
+      'ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹, Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ðº Ð²Ð°ÑˆÐ¸Ð¼ ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ð¼ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑÐ¼',
+    'services.consultation.title': 'Ð‘ÐµÑÐ¿Ð»Ð°Ñ‚Ð½Ð°Ñ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ñ 15 Ð¼Ð¸Ð½',
+    'services.consultation.description':
+      'ÐÐµ ÑƒÐ²ÐµÑ€ÐµÐ½Ñ‹? ÐŸÐ¾Ð³Ð¾Ð²Ð¾Ñ€Ð¸Ð¼ 15 Ð¼Ð¸Ð½ÑƒÑ‚ Ð±ÐµÐ· Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð², Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð½ÑÑ‚ÑŒ, Ñ‡ÐµÐ¼ Ñ Ð¼Ð¾Ð³Ñƒ Ð²Ð°Ð¼ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ.',
+    'services.consultation.feeling': 'Ð¯ÑÐ½Ð¾ÑÑ‚ÑŒ Ð½Ð° Ð²Ð°ÑˆÐµÐ¼ Ð¿ÑƒÑ‚Ð¸',
+
+    // Common
+    'common.moreInfo': 'Подробнее',
+    'common.readMore': 'Читать далее',
+    'common.expectedResult': 'Ожидаемый результат',
+    'common.bookNow': 'Забронировать',
+    'common.contact': 'Контакт',
+    'common.discoverServices': 'ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð½Ð°ÑˆÐ¸ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'common.reserve': 'Забронировать',
+    'common.reserveNow': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÐ¹Ñ‡Ð°Ñ',
+    'common.seePlans': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð¿Ð»Ð°Ð½Ñ‹',
+    'common.hour': 'Час',
+    'common.hours': 'Часов',
+    'common.reserveSession': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ',
+    'common.seeOtherServices': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð´Ñ€ÑƒÐ³Ð¸Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'common.getStarted': 'ÐÐ°Ñ‡Ð°Ñ‚ÑŒ',
+
+    // About Section
+    'elena.greeting': 'Ð—Ð´Ñ€Ð°Ð²ÑÑ‚Ð²ÑƒÐ¹Ñ‚Ðµ, Ñ Ð•Ð»ÐµÐ½Ð°',
+    'elena.role': 'Ð¢ÐµÐ»ÐµÑÐ½Ñ‹Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚',
+    'elena.bio':
+      'Ð¯ Ð¿Ð¾ÑÐ²ÑÑ‚Ð¸Ð»Ð° ÑÐ²Ð¾ÑŽ Ð¶Ð¸Ð·Ð½ÑŒ Ð¸Ð·ÑƒÑ‡ÐµÐ½Ð¸ÑŽ Ð³Ð»ÑƒÐ±Ð¸Ð½ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð´Ð¸ÑÑ†Ð¸Ð¿Ð»Ð¸Ð½, ÑÐ¾Ð·Ð´Ð°Ð²Ð°Ñ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¹, Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¿Ð¾Ð´Ñ…Ð¾Ð´, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ñ‡Ñ‚Ð¸Ñ‚ Ñ‡ÐµÐ»Ð¾Ð²ÐµÐºÐ° ÐºÐ°Ðº ÐµÐ´Ð¸Ð½Ð¾Ðµ Ñ†ÐµÐ»Ð¾Ðµ.',
+    'elena.work.title': 'Мой подход',
+    'elena.description1':
+      'Ð¯ Ñ‚ÐµÐ»ÐµÑÐ½Ñ‹Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚, ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÑŽÑ‰Ð¸Ð¹ÑÑ Ð½Ð° Ð»ÐµÑ‡ÐµÐ±Ð½Ð¾Ð¼ Ð¼Ð°ÑÑÐ°Ð¶Ðµ, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð¸ Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ†Ð¸Ð¸ ÑƒÐ¼Ð° Ð¸ Ñ‚ÐµÐ»Ð°. ÐœÐ¾Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð° Ð½Ð° ÑƒÐ±ÐµÐ¶Ð´ÐµÐ½Ð¸Ð¸, Ñ‡Ñ‚Ð¾ Ð¸ÑÑ‚Ð¸Ð½Ð½Ð¾Ðµ Ð¸ÑÑ†ÐµÐ»ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¸Ñ…Ð¾Ð´Ð¸Ñ‚ Ñ‡ÐµÑ€ÐµÐ· ÑƒÐ¼ÐµÐ½Ð¸Ðµ ÑÐ»ÑƒÑˆÐ°Ñ‚ÑŒ ÑÐ²Ð¾Ðµ Ñ‚ÐµÐ»Ð¾.',
+    'elena.description2':
+      'ÐœÐ¾Ñ Ñ†ÐµÐ»ÑŒ Ð¿Ñ€Ð¾ÑÑ‚Ð°: Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ð²Ð°Ð¼ ÑÐ±Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ Ð³Ñ€ÑƒÐ· Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ñ‹ Ð¼Ð¾Ð³Ð»Ð¸ Ð¸Ð´Ñ‚Ð¸ Ð¿Ð¾ Ð¶Ð¸Ð·Ð½Ð¸ Ñ Ð»ÐµÐ³ÐºÐ¾ÑÑ‚ÑŒÑŽ Ð¸ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ð¾Ð¹ ÑÐ½ÐµÑ€Ð³Ð¸ÐµÐ¹.',
+    'elena.knowMore': 'Ð§Ð¸Ñ‚Ð°Ñ‚ÑŒ Ð¼Ð¾ÑŽ Ð¿Ð¾Ð»Ð½ÑƒÑŽ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ',
+    'elena.quote':
+      'Ð¢ÐµÐ»Ð¾ Ð¾Ð±Ð»Ð°Ð´Ð°ÐµÑ‚ Ð²Ñ€Ð¾Ð¶Ð´ÐµÐ½Ð½Ð¾Ð¹ ÑÐ¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð¸ÑÑ†ÐµÐ»ÑÑ‚ÑŒ ÑÐµÐ±Ñ; Ð¼Ð¾Ñ Ð·Ð°Ð´Ð°Ñ‡Ð° — Ð½Ð°Ð¿Ð¾Ð¼Ð½Ð¸Ñ‚ÑŒ ÐµÐ¼Ñƒ, ÐºÐ°Ðº ÑÑ‚Ð¾ Ð´ÐµÐ»Ð°Ñ‚ÑŒ.',
+
+    // Services Section
+    'services.badge': 'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ ÑÐ¾Ð²ÐµÑ€ÑˆÐµÐ½ÑÑ‚Ð²Ð¾',
+    'services.title': 'Ð’Ð¼ÐµÑˆÐ°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð° Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð³Ð¾ Ð²Ð¾Ð·Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ',
+    'services.subtitle':
+      'ÐŸÐµÑ€ÐµÐ´Ð¾Ð²Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð»Ñ‹, Ð¾Ð±ÑŠÐµÐ´Ð¸Ð½ÑÑŽÑ‰Ð¸Ðµ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½ÑƒÑŽ Ð¼Ð°Ð½Ð¸Ð¿ÑƒÐ»ÑÑ†Ð¸ÑŽ, Ð½ÐµÐ²Ñ€Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÑƒÑŽ Ð±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€Ð¾Ð²ÐºÑƒ Ð¸ Ð¼ÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÑƒÑŽ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸ÑŽ.',
+    'services.cta': 'Изучить протоколы',
+
+    // Service: Massage
+    'massage.title': 'ÐŸÑ€Ð¾Ð´Ð²Ð¸Ð½ÑƒÑ‚Ð°Ñ Ð¼Ð°Ð½ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ',
+    'massage.desc':
+      'Ð ÐµÐºÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ†Ð¸Ñ Ð°Ñ€Ñ…Ð¸Ñ‚ÐµÐºÑ‚ÑƒÑ€Ñ‹ Ñ‚ÐµÐ»Ð°. Ð¡Ð»Ð¸ÑÐ½Ð¸Ðµ Ñ‚ÐµÑ…Ð½Ð¸Ðº Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¸Ñ… Ñ‚ÐºÐ°Ð½ÐµÐ¹ Ð¸ Ð¼Ð¸Ð¾Ñ„Ð°ÑÑ†Ð¸Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ñ€ÐµÐ»Ð¸Ð·Ð° Ð´Ð»Ñ ÑƒÑÑ‚Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ð¹ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ ÑÐ²Ð¾Ð±Ð¾Ð´Ñ‹ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ.',
+    'massage.benefit1': 'Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð°Ñ Ð´ÐµÐºÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¸Ñ',
+    'massage.benefit2': 'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð²Ñ‹Ñ€Ð°Ð²Ð½Ð¸Ð²Ð°Ð½Ð¸Ðµ',
+    'massage.benefit3': 'Ð ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹',
+    'massage.benefit4': 'Ð ÐµÐ³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ñ Ñ‚ÐºÐ°Ð½ÐµÐ¹',
+
+    // Service: Kinesiology
+    'kinesiology.title': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'kinesiology.desc':
+      'Ð‘Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¾Ð±Ñ€Ð°Ñ‚Ð½Ð°Ñ ÑÐ²ÑÐ·ÑŒ Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð¹ Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚Ð¸. ÐœÑ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ Ð½ÐµÐ²Ñ€Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ñ‹Ð¹ Ñ‚ÐµÑÑ‚ Ð´Ð»Ñ Ñ€Ð°ÑÑˆÐ¸Ñ„Ñ€Ð¾Ð²ÐºÐ¸ Ð¸ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ñ‹Ñ…, Ð±Ð¸Ð¾Ñ…Ð¸Ð¼Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð¸ÑÑ„ÑƒÐ½ÐºÑ†Ð¸Ð¹ Ð² Ð¸Ñ… Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐµ.',
+    'kinesiology.benefit1': 'ÐŸÑ€Ð¸Ñ‡Ð¸Ð½Ð½Ð°Ñ Ð´Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸ÐºÐ°',
+    'kinesiology.benefit2': 'ÐÐµÐ²Ñ€Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ',
+    'kinesiology.benefit3': 'Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð°Ñ Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ†Ð¸Ñ',
+    'kinesiology.benefit4': 'Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ð°Ñ ÑÑ‚Ð°Ð±Ð¸Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+
+    // Service: Nutrition
+    'nutrition.title': 'Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ Ð½ÑƒÑ‚Ñ€Ð¸Ñ†Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'nutrition.desc':
+      'Ð‘Ð¸Ð¾Ñ…Ð¸Ð¼Ð¸Ñ Ð´Ð»Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸. Ð¡Ñ‚Ñ€Ð°Ñ‚ÐµÐ³Ð¸Ð¸ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ñ, Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð»Ñ ÑƒÑÐ¸Ð»ÐµÐ½Ð¸Ñ ÐºÐ¾Ð³Ð½Ð¸Ñ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¹, Ð³Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ ÑÑ‚Ð°Ð±Ð¸Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ ÐºÐ»ÐµÑ‚Ð¾Ñ‡Ð½Ð¾Ð¹ Ð²Ð¸Ñ‚Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸.',
+    'nutrition.benefit1': 'ÐœÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ',
+    'nutrition.benefit2': 'Здоровье микробиоты',
+    'nutrition.benefit3': 'ÐšÐ¾Ð³Ð½Ð¸Ñ‚Ð¸Ð²Ð½Ð°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'nutrition.benefit4': 'Ð“Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ',
+
+    // Problems / Casos Section
+    'problems.badge': 'Ð”Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸ÐºÐ° Ð¸ Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ',
+    'problems.title': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¸Ð´ÐµÐ½Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ†Ð¸Ñ',
+    'problems.subtitle':
+      'Ð¢Ð¾Ñ‡Ð½Ñ‹Ð¹ Ð°Ð½Ð°Ð»Ð¸Ð· Ð¿Ð°Ñ‚Ð¾Ð»Ð¾Ð³Ð¸Ð¹ Ð´Ð»Ñ Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸ ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… ÑÑ‚Ñ€Ð°Ñ‚ÐµÐ³Ð¸Ð¹.',
+
+    // Problem: Back Pain
+    'problems.backpain.title': 'Ð¥Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð²ÐµÑ€Ñ‚ÐµÐ±Ñ€Ð°Ð»ÑŒÐ½Ð°Ñ Ð´Ð¸ÑÑ„ÑƒÐ½ÐºÑ†Ð¸Ñ',
+    'problems.backpain.desc':
+      'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ñ‹Ð¹ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ñ‹Ð¹ Ð´Ð¸ÑÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚, Ð½Ð°Ñ€ÑƒÑˆÐ°ÑŽÑ‰Ð¸Ð¹ Ð¾Ñ‚Ð´Ñ‹Ñ… Ð¸ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½ÑƒÑŽ Ð´ÐµÑÑ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ.',
+    'problems.backpain.solution': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð»',
+    'problems.backpain.solutionDesc':
+      'ÐžÑÐµÐ²Ð°Ñ Ð´ÐµÐºÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¸Ñ Ð¸ Ð¿Ð¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð°Ñ Ð½ÐµÐ¹Ñ€Ð¾Ð¼Ð¾Ð´ÑƒÐ»ÑÑ†Ð¸Ñ Ð´Ð»Ñ ÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸.',
+
+    // Problem: Stress
+    'problems.stress.title': 'Ð”Ð¸ÑÑ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹',
+    'problems.stress.desc':
+      'Ð¡Ð¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð³Ð¸Ð¿ÐµÑ€Ð²Ð¾Ð·Ð±ÑƒÐ¶Ð´ÐµÐ½Ð¸Ñ, Ñ‚Ð¾Ñ€Ð°ÐºÐ°Ð»ÑŒÐ½Ð¾Ðµ ÑÐ¶Ð°Ñ‚Ð¸Ðµ Ð¸ Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð³Ð¾ Ð¾Ñ‚Ð´Ñ‹Ñ…Ð°.',
+    'problems.stress.solution': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð»',
+    'problems.stress.solutionDesc':
+      'Ð’ÐµÐ³ÐµÑ‚Ð°Ñ‚Ð¸Ð²Ð½Ð°Ñ Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ñ‡ÐµÑ€ÐµÐ· ÐºÑ€Ð°Ð½Ð¸Ð¾ÑÐ°ÐºÑ€Ð°Ð»ÑŒÐ½ÑƒÑŽ Ñ‚ÐµÑ€Ð°Ð¿Ð¸ÑŽ Ð¸ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ð¸Ñ€ÑƒÐµÐ¼Ð¾Ðµ Ð´Ñ‹Ñ…Ð°Ð½Ð¸Ðµ.',
+
+    // Problem: Fatigue
+    'problems.fatigue.title': 'Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ð¾Ðµ Ð¸ÑÑ‚Ð¾Ñ‰ÐµÐ½Ð¸Ðµ',
+    'problems.fatigue.desc':
+      'Ð¥Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð»ÐµÑ‚Ð°Ñ€Ð³Ð¸Ñ Ð¸ ÑÐ½ÐµÑ€Ð³ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð´ÐµÑ„Ð¸Ñ†Ð¸Ñ‚, ÑÐ¾Ñ…Ñ€Ð°Ð½ÑÑŽÑ‰Ð¸Ð¹ÑÑ Ð¿Ð¾ÑÐ»Ðµ ÑÐ½Ð°.',
+    'problems.fatigue.solution': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð»',
+    'problems.fatigue.solutionDesc':
+      'ÐœÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ€ÐµÐ°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ Ð¸ Ð±Ð¸Ð¾ÑÐ½ÐµÑ€Ð³ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ€Ð°Ð·Ð±Ð»Ð¾ÐºÐ¸Ñ€Ð¾Ð²ÐºÐ° Ð´Ð»Ñ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð²Ð¸Ñ‚Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸.',
+
+    // Problem: Injuries
+    'problems.injuries.title':
+      'ÐŸÑ€Ð¾Ð´Ð²Ð¸Ð½ÑƒÑ‚Ð°Ñ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ Ñ€ÐµÐ°Ð±Ð¸Ð»Ð¸Ñ‚Ð°Ñ†Ð¸Ñ',
+    'problems.injuries.desc':
+      'Ð¢Ñ€Ð°Ð²Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ñ, ÑÐ½Ð¸Ð¶Ð°ÑŽÑ‰Ð¸Ðµ ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½ÑƒÑŽ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¸ Ð±Ð¸Ð¾Ð¼ÐµÑ…Ð°Ð½Ð¸ÐºÑƒ.',
+    'problems.injuries.solution': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ñ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð»',
+    'problems.injuries.solutionDesc':
+      'Ð£ÑÐºÐ¾Ñ€ÐµÐ½Ð½Ð°Ñ Ñ€ÐµÐ³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ñ Ñ‚ÐºÐ°Ð½ÐµÐ¹ Ð¸ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑÑ‚Ð°Ð±Ð¸Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð´Ð»Ñ Ð¿Ð¸ÐºÐ¾Ð²Ð¾Ð¹ Ñ„Ð¾Ñ€Ð¼Ñ‹.',
+
+    // Final CTA
+    'finalCta.title': 'Ð“Ð¾Ñ‚Ð¾Ð²Ñ‹ Ð½Ð°Ñ‡Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Ð¿ÑƒÑ‚ÑŒ Ðº Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ?',
+    'finalCta.subtitle':
+      'Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ Ð¸Ð»Ð¸ Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ Ð»ÑŽÐ±Ñ‹Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹',
+
+    // Casos page
+    'casos.hero.badge': 'Ð ÐµÐ°Ð»ÑŒÐ½Ñ‹Ðµ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸',
+    'casos.title': 'ÐŸÑƒÑ‚Ð¸ Ðº Ð¸ÑÑ†ÐµÐ»ÐµÐ½Ð¸ÑŽ',
+    'casos.subtitle':
+      'Ð’Ð°ÑˆÐµ Ñ‚ÐµÐ»Ð¾ Ñ€Ð°ÑÑÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ Ð¸ÑÑ‚Ð¾Ñ€Ð¸ÑŽ. ÐœÑ‹ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÐµÐ¼ Ð¿ÐµÑ€ÐµÐ¿Ð¸ÑÐ°Ñ‚ÑŒ ÐµÑ‘.',
+    'casos.description':
+      'Ð¡Ð¸Ð¼Ð¿Ñ‚Ð¾Ð¼Ñ‹, Ñ‚Ð°ÐºÐ¸Ðµ ÐºÐ°Ðº Ð±Ð¾Ð»ÑŒ, ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ, Ñ‡Ð°ÑÑ‚Ð¾ ÑÐ²Ð»ÑÑŽÑ‚ÑÑ Ð»Ð¸ÑˆÑŒ Ð²ÐµÑ€Ñ…ÑƒÑˆÐºÐ¾Ð¹ Ð°Ð¹ÑÐ±ÐµÑ€Ð³Ð° — ÑÐ¸Ð³Ð½Ð°Ð»Ð°Ð¼Ð¸ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹, Ð¸Ñ‰ÑƒÑ‰ÐµÐ¹ Ñ€Ð°Ð²Ð½Ð¾Ð²ÐµÑÐ¸Ñ. Ð’ EKA Balance Ð¼Ñ‹ Ð½Ðµ Ð·Ð°Ð³Ð»ÑƒÑˆÐ°ÐµÐ¼ ÑÑ‚Ð¸ ÑÐ¸Ð³Ð½Ð°Ð»Ñ‹, Ð¼Ñ‹ Ð¸Ñ… Ñ€Ð°ÑÑˆÐ¸Ñ„Ñ€Ð¾Ð²Ñ‹Ð²Ð°ÐµÐ¼. Ð£ÑÑ‚Ñ€Ð°Ð½ÑÑ Ð¿ÐµÑ€Ð²Ð¾Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñƒ, Ð¼Ñ‹ Ð¿Ð¾Ð¼Ð¾Ð³Ð»Ð¸ ÑÐ¾Ñ‚Ð½ÑÐ¼ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð¾Ð² Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¸ Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ñ Ñ Ñ‚ÐµÐ»Ð¾Ð¼. Ð˜Ð·ÑƒÑ‡Ð¸Ñ‚Ðµ ÑÑ‚Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð½ÑÑ‚ÑŒ, Ñ‡Ñ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ Ð´Ð»Ñ Ð²Ð°Ñ.',
+    'casos.frequentCases': 'Ð¡Ð°Ð¼Ñ‹Ðµ Ñ‡Ð°ÑÑ‚Ñ‹Ðµ ÑÐ»ÑƒÑ‡Ð°Ð¸',
+    'casos.frequentCasesSubtitle':
+      'ÐžÐ±Ñ‹Ñ‡Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¼Ñ‹ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ Ð»ÐµÑ‡Ð¸Ð¼ ÐºÐ°Ð¶Ð´Ñ‹Ð¹ Ð´ÐµÐ½ÑŒ',
+    'casos.otherCases': 'Ð”Ñ€ÑƒÐ³Ð¸Ðµ ÑÐ»ÑƒÑ‡Ð°Ð¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¼Ñ‹ Ñ‚Ð°ÐºÐ¶Ðµ Ð»ÐµÑ‡Ð¸Ð¼',
+    'casos.otherCasesSubtitle':
+      'ÐŸÐ¾Ð»Ð½Ñ‹Ð¹ ÑÐ¿Ð¸ÑÐ¾Ðº Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¼Ñ‹ Ð¼Ð¾Ð¶ÐµÐ¼ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ð²Ð°Ð¼ Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ',
+    'casos.ctaTitle': 'Мы уже знаем, как вам помочь',
+    'casos.ctaSubtitle':
+      'Ð•ÑÐ»Ð¸ Ð²Ñ‹ ÑƒÐ·Ð½Ð°Ð»Ð¸ ÑÐµÐ±Ñ Ð² ÐºÐ°ÐºÐ¾Ð¼-Ñ‚Ð¾ Ð¸Ð· ÑÑ‚Ð¸Ñ… ÑÐ»ÑƒÑ‡Ð°ÐµÐ², ÑÑ‚Ð¾ Ð·Ð½Ð°Ñ‡Ð¸Ñ‚, Ñ‡Ñ‚Ð¾ Ð²Ð°ÑˆÐµ Ñ‚ÐµÐ»Ð¾ Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ñ. Ð’ EKA Balance Ð¼Ñ‹ ÑÐ¾Ð¿Ñ€Ð¾Ð²Ð¾Ð¶Ð´Ð°ÐµÐ¼ Ð²Ð°Ñ Ñ‚Ð¾Ñ‡Ð½Ñ‹Ð¼Ð¸ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ°Ð¼Ð¸, Ñ‡ÐµÐ»Ð¾Ð²ÐµÑ‡ÐµÑÐºÐ¸Ð¼ Ð²Ð·Ð³Ð»ÑÐ´Ð¾Ð¼ Ð¸ Ñ€ÐµÐ°Ð»ÑŒÐ½Ñ‹Ð¼Ð¸ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð°Ð¼Ð¸.',
+    'casos.discoverIdeal': 'ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð²Ð°ÑˆÑƒ Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½ÑƒÑŽ ÑƒÑÐ»ÑƒÐ³Ñƒ',
+    'casos.bookSession': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ',
+    'casos.seeDetails': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð´ÐµÑ‚Ð°Ð»Ð¸',
+
+    // Casos section
+    'casos.section.badge': 'Ð ÐµÐ°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹, ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ñ‹Ðµ Ñ€ÐµÑˆÐµÐ½Ð¸Ñ',
+    'casos.section.title': 'Проблемы, которые мы',
+    'casos.section.titleHighlight': 'решаем каждый день',
+    'casos.section.subtitle':
+      'Ð¡Ð¾Ñ‚Ð½Ð¸ Ð»ÑŽÐ´ÐµÐ¹ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ð»Ð¸ ÑÐ²Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ñ Ð½Ð°Ð¼Ð¸. Ð£Ð·Ð½Ð°Ð¹Ñ‚Ðµ, ÐºÐ°Ðº Ð¼Ñ‹ Ð¼Ð¾Ð¶ÐµÐ¼ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ð²Ð°Ð¼.',
+    'casos.section.readMore': 'Читать больше',
+    'casos.section.viewAll': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð²ÑÐµ ÑÐ»ÑƒÑ‡Ð°Ð¸',
+    'casos.section.findYourCase': 'ÐÐ°Ð¹Ñ‚Ð¸ Ð²Ð°Ñˆ ÑÐ»ÑƒÑ‡Ð°Ð¹',
+
+    // Problems
+    'casos.problems.backPain.title': 'Ð‘Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ ÑˆÐµÐµ',
+    'casos.problems.backPain.description':
+      'ÐžÐ´Ð½Ð° Ð¸Ð· ÑÐ°Ð¼Ñ‹Ñ… Ñ‡Ð°ÑÑ‚Ñ‹Ñ… Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½ Ð¾Ð±Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ. ÐŸÐ¾ÑÑÐ½Ð¸Ñ‡Ð½Ð°Ñ Ð±Ð¾Ð»ÑŒ, ÑˆÐµÐ¹Ð½Ñ‹Ðµ ÐºÐ¾Ð½Ñ‚Ñ€Ð°ÐºÑ‚ÑƒÑ€Ñ‹, ÑÐºÐ¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ñ‚Ð¾ Ð¾Ñ‰ÑƒÑ‰ÐµÐ½Ð¸Ðµ, Ñ‡Ñ‚Ð¾"Ð½ÐµÑÐµÑˆÑŒ Ð²ÐµÑÑŒ Ð¼Ð¸Ñ€ Ð½Ð° ÑÐ¿Ð¸Ð½Ðµ".',
+    'casos.problems.stress.title': 'Ð¡Ñ‚Ñ€ÐµÑÑ Ð¸ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð°',
+    'casos.problems.stress.description':
+      'Ð¢ÐµÐ»Ð¾ Ð²Ñ…Ð¾Ð´Ð¸Ñ‚ Ð²"Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½ÑƒÑŽ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ñƒ" Ð¸ Ð½Ðµ Ð·Ð½Ð°ÐµÑ‚, ÐºÐ°Ðº Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒÑÑ. Ð¼Ð½Ð¾Ð³Ð¸Ðµ Ð»ÑŽÐ´Ð¸ Ð¿Ñ€Ð¸Ñ…Ð¾Ð´ÑÑ‚ Ñ ÑÐµÑ€Ð´Ñ†ÐµÐ±Ð¸ÐµÐ½Ð¸ÐµÐ¼, Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸ÐµÐ¼ Ð² Ð³Ñ€ÑƒÐ´Ð¸, Ð±ÐµÑÑÐ¾Ð½Ð½Ð¸Ñ†ÐµÐ¹ Ð¸Ð»Ð¸ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾Ð¼ ÑƒÐ´ÑƒÑˆÑŒÑ.',
+    'casos.problems.digestive.title': 'ÐŸÑ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹ Ñ Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ€ÐµÐ½Ð¸ÐµÐ¼',
+    'casos.problems.digestive.description':
+      'ÐšÐ¾Ð³Ð´Ð° Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ€Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ ÑÐ¸ÑÑ‚ÐµÐ¼Ð° Ð±Ð»Ð¾ÐºÐ¸Ñ€ÑƒÐµÑ‚ÑÑ, Ñ‚Ñ€ÑƒÐ´Ð½Ð¾ Ð¿ÐµÑ€ÐµÐ²Ð°Ñ€Ð¸Ð²Ð°Ñ‚ÑŒ Ð½Ðµ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÐ´Ñƒ —Ð½Ð¾ Ñ‚Ð°ÐºÐ¶Ðµ ÑÐ¼Ð¾Ñ†Ð¸Ð¸ Ð¸ Ð¿Ð¾Ð²ÑÐµÐ´Ð½ÐµÐ²Ð½ÑƒÑŽ Ð¶Ð¸Ð·Ð½ÑŒ.',
+    'casos.problems.migraines.title': 'ÐœÐ¸Ð³Ñ€ÐµÐ½Ð¸ Ð¸ Ñ‡ÐµÑ€ÐµÐ¿Ð½Ð¾Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ',
+    'casos.problems.migraines.description':
+      'ÐŸÐ¾Ð²Ñ‚Ð¾Ñ€ÑÑŽÑ‰Ð¸ÐµÑÑ Ð³Ð¾Ð»Ð¾Ð²Ð½Ñ‹Ðµ Ð±Ð¾Ð»Ð¸, Ñ„Ð¾Ñ‚Ð¾Ñ„Ð¾Ð±Ð¸Ñ, Ð·Ð²ÑƒÐºÐ¸ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð±ÐµÑÐ¿Ð¾ÐºÐ¾ÑÑ‚ Ð¸Ð»Ð¸ ÐºÑ€Ð°Ð¹Ð½ÑÑ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ. Ð Ð°Ð·ÑƒÐ¼ Ð½Ðµ Ð¼Ð¾Ð¶ÐµÑ‚ Ñ‚ÐµÑ‡ÑŒ, ÐºÐ¾Ð³Ð´Ð° Ñ‚ÐµÐ»Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¾.',
+    'casos.problems.lowEnergy.title':
+      'ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð¸Ð»Ð¸ Ð½Ð¸Ð·ÐºÐ°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'casos.problems.lowEnergy.description':
+      'ÐšÐ¾Ð³Ð´Ð° Ð²ÑÐµ Ð´Ð°ÐµÑ‚ÑÑ Ñ Ñ‚Ñ€ÑƒÐ´Ð¾Ð¼, ÐºÐ¾Ð³Ð´Ð° Ð¿Ñ€Ð¾ÑÑ‹Ð¿Ð°ÐµÑˆÑŒÑÑ ÑƒÑÑ‚Ð°Ð²ÑˆÐ¸Ð¼ Ð¸Ð»Ð¸ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÐµÑˆÑŒ, Ñ‡Ñ‚Ð¾ Ñ‚ÐµÐ»Ð¾"Ð½Ðµ Ð¾Ñ‚Ð²ÐµÑ‡Ð°ÐµÑ‚". ÑÑ‚Ð¾ Ð½Ðµ Ð»ÐµÐ½ÑŒ —ÑÑ‚Ð¾ Ð½ÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½ÐµÐ¹ Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ð¸.',
+    'casos.problems.hormonal.title':
+      'Ð“Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹ Ð¸Ð»Ð¸ Ð½ÐµÑ€ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ñ‹Ðµ Ñ†Ð¸ÐºÐ»Ñ‹',
+    'casos.problems.hormonal.description':
+      'Ð–ÐµÐ½ÑÐºÐ¾Ðµ Ñ‚ÐµÐ»Ð¾ Ð³Ð¾Ð²Ð¾Ñ€Ð¸Ñ‚ Ñ‡ÐµÑ€ÐµÐ· Ñ†Ð¸ÐºÐ». ÐšÐ¾Ð³Ð´Ð° ÐµÑÑ‚ÑŒ Ð±Ð¾Ð»ÑŒ, Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ Ð¸Ð»Ð¸ Ð¸ÑÑ‚Ð¾Ñ‰ÐµÐ½Ð¸Ðµ, ÑÑ‚Ð¾ Ð¾Ð·Ð½Ð°Ñ‡Ð°ÐµÑ‚, Ñ‡Ñ‚Ð¾ Ñ‡Ñ‚Ð¾-Ñ‚Ð¾ Ð½Ðµ Ð² Ñ€Ð°Ð²Ð½Ð¾Ð²ÐµÑÐ¸Ð¸.',
+    'casos.problems.sleep.title': 'Ð¢Ñ€ÑƒÐ´Ð½Ð¾ÑÑ‚Ð¸ ÑÐ¾ ÑÐ½Ð¾Ð¼',
+    'casos.problems.sleep.description':
+      'Ð Ð°Ð·ÑƒÐ¼ Ð½Ðµ Ð¾ÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÑ‚ÑÑ, Ñ‚ÐµÐ»Ð¾ Ñ‚Ð¾Ð¶Ðµ. ÐžÑ‚Ð´Ñ‹Ñ… Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼ Ð´Ð»Ñ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¸ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ñ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¸ Ð¿ÑÐ¸Ñ…Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ.',
+    'casos.problems.recovery.title': 'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾ÑÐ»Ðµ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹',
+    'casos.problems.recovery.description':
+      'ÐŸÐ¾ÑÐ»Ðµ Ð¿Ð°Ð´ÐµÐ½Ð¸Ñ, Ð¾Ð¿ÐµÑ€Ð°Ñ†Ð¸Ð¸ Ð¸Ð»Ð¸ Ð½ÐµÑÑ‡Ð°ÑÑ‚Ð½Ð¾Ð³Ð¾ ÑÐ»ÑƒÑ‡Ð°Ñ Ñ‚ÐµÐ»Ð¾ Ð¼Ð¾Ð¶ÐµÑ‚ Ð¾ÑÑ‚Ð°Ñ‚ÑŒÑÑ ÑÐ¾ ÑÐºÐ¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð¸Ð»Ð¸ ÑÑ‚Ñ€Ð°Ñ…Ð¾Ð¼ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ.',
+
+    // Casos Problems Details
+    // Back Pain
+    'casos.problems.backPain.symptom1':
+      'ÐžÑÑ‚Ñ€Ð°Ñ Ð±Ð¾Ð»ÑŒ, ÑÐºÐ¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð² Ð¿Ð¾ÑÑÐ½Ð¸Ñ†Ðµ, Ð³Ñ€ÑƒÐ´Ð½Ð¾Ð¼ Ð¾Ñ‚Ð´ÐµÐ»Ðµ Ð¸Ð»Ð¸ ÑˆÐµÐµ.',
+    'casos.problems.backPain.symptom2':
+      'ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸: Ñ‚Ñ€ÑƒÐ´Ð½Ð¾ Ð¿Ð¾Ð²ÐµÑ€Ð½ÑƒÑ‚ÑŒ Ð³Ð¾Ð»Ð¾Ð²Ñƒ, Ð½Ð°ÐºÐ»Ð¾Ð½Ð¸Ñ‚ÑŒÑÑ Ð¸Ð»Ð¸ Ð¿Ð¾Ð´Ð½ÑÑ‚ÑŒ Ñ€ÑƒÐºÐ¸.',
+    'casos.problems.backPain.symptom3':
+      'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð°Ñ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ: ÑÐ¸Ð»ÑŒÐ½Ð¾Ðµ ÑƒÑ‚Ð¾Ð¼Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾ÑÐ»Ðµ Ð´Ð¾Ð»Ð³Ð¾Ð³Ð¾ ÑÐ¸Ð´ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ ÑÑ‚Ð¾ÑÐ½Ð¸Ñ.',
+    'casos.problems.backPain.symptom4':
+      'ÐžÑ‰ÑƒÑ‰ÐµÐ½Ð¸Ðµ Ñ‚ÑÐ¶ÐµÑÑ‚Ð¸ Ð¸Ð»Ð¸ Ð³Ñ€ÑƒÐ·Ð° Ð½Ð° Ð¿Ð»ÐµÑ‡Ð°Ñ…, Ñ‚Ñ€Ð°Ð¿ÐµÑ†Ð¸Ð¸ Ð¸ Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ñ‡ÐµÑ€ÐµÐ¿Ð°.',
+    'casos.problems.backPain.cause1':
+      'Ð”Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑÑ‚Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¿Ð¾Ð·Ñ‹, Ð¿Ð»Ð¾Ñ…Ð°Ñ ÑÑ€Ð³Ð¾Ð½Ð¾Ð¼Ð¸ÐºÐ° Ð¸ ÐºÐ¾Ð¼Ð¿ÐµÐ½ÑÐ°Ñ‚Ð¾Ñ€Ð½Ñ‹Ðµ Ð¿Ñ€Ð¸Ð²Ñ‹Ñ‡ÐºÐ¸.',
+    'casos.problems.backPain.cause2':
+      'Ð¡Ð¾Ð¼Ð°Ñ‚Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð³Ñ€ÑƒÐ· (ÑÑ‚Ñ€ÐµÑÑ, Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð°), Ð¿Ñ€Ð¾ÑÐ²Ð»ÑÑŽÑ‰Ð¸Ð¹ÑÑ ÐºÐ°Ðº Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ñ‹Ð¹ Ð¿Ð°Ð½Ñ†Ð¸Ñ€ÑŒ.',
+    'casos.problems.backPain.cause3':
+      'Ð“Ð¸Ð¿Ð¾Ð´Ð¸Ð½Ð°Ð¼Ð¸Ñ Ð¸ Ð½ÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ð³Ð¾ Ñ‚Ð¾Ð½ÑƒÑÐ° Ð¸Ð»Ð¸ ÑÑƒÑÑ‚Ð°Ð²Ð½Ð¾Ð¹ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸.',
+    'casos.problems.backPain.cause4':
+      'ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð½Ñ‹Ðµ Ð¿Ð°Ñ‚Ñ‚ÐµÑ€Ð½Ñ‹ Ð´Ñ‹Ñ…Ð°Ð½Ð¸Ñ, Ð±Ð»Ð¾ÐºÐ¸Ñ€ÑƒÑŽÑ‰Ð¸Ðµ ÐµÑÑ‚ÐµÑÑ‚Ð²ÐµÐ½Ð½Ð¾Ðµ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð·Ð²Ð¾Ð½Ð¾Ñ‡Ð½Ð¸ÐºÐ°.',
+    'casos.problems.backPain.treatment':
+      'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ñ‹Ð¹ Ð¿Ð¾Ð´Ñ…Ð¾Ð´: Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¸Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð¼Ð¸Ð¾Ñ„Ð°ÑÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ñ€ÐµÐ»Ð¸Ð·, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð´Ð»Ñ Ð¿Ð¾Ð¸ÑÐºÐ° Ð¿ÐµÑ€Ð²Ð¾Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñ‹ (ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾Ð¹, Ñ…Ð¸Ð¼Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð¸Ð»Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹) Ð¸ Ð¿ÐµÑ€ÐµÐ¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¾ÑÐ°Ð½ÐºÐ¸ (Ð¼ÐµÑ‚Ð¾Ð´ Ñ„ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð·Ð°).',
+    'casos.problems.backPain.results':
+      'ÐœÐ³Ð½Ð¾Ð²ÐµÐ½Ð½Ð¾Ðµ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ðµ Ð±Ð¾Ð»Ð¸ Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ. Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð¸ Ð»ÐµÐ³ÐºÐ¾ÑÑ‚Ð¸. Ð’ Ð´Ð¾Ð»Ð³Ð¾ÑÑ€Ð¾Ñ‡Ð½Ð¾Ð¹ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ðµ — Ð±Ð¾Ð»ÐµÐµ ÑÐ¸Ð»ÑŒÐ½Ð°Ñ, Ð³Ð¸Ð±ÐºÐ°Ñ ÑÐ¿Ð¸Ð½Ð° Ð±ÐµÐ· Ñ€ÐµÑ†Ð¸Ð´Ð¸Ð²Ð¸Ñ€ÑƒÑŽÑ‰ÐµÐ¹ Ð±Ð¾Ð»Ð¸.',
+
+    // Stress
+    'casos.problems.stress.symptom1':
+      'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ñ‹Ð¹ Ð¼ÐµÐ½Ñ‚Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑˆÑƒÐ¼: Ð½ÐµÐ²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð¿Ð¾Ñ‚Ð¾Ðº Ð¼Ñ‹ÑÐ»ÐµÐ¹ Ð¸ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡Ð¸Ñ‚ÑŒÑÑ.',
+    'casos.problems.stress.symptom2':
+      'ÐÐµÑÐ¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚ÑŒ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð¸Ñ‚ÑŒÑÑ, Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ð¹ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¸ Ð¸Ð»Ð¸ Ñ‚Ñ€ÑƒÐ´Ð½Ð¾ÑÑ‚Ð¸ Ñ Ð·Ð°ÑÑ‹Ð¿Ð°Ð½Ð¸ÐµÐ¼.',
+    'casos.problems.stress.symptom3':
+      'Ð¤Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ ÑÐ¸Ð¼Ð¿Ñ‚Ð¾Ð¼Ñ‹: Ð±Ñ€ÑƒÐºÑÐ¸Ð·Ð¼, Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð² ÑˆÐµÐµ, ÑÐ´Ð°Ð²Ð»ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð² Ð³Ñ€ÑƒÐ´Ð¸ Ð¸Ð»Ð¸ ÑƒÑ‚Ñ€ÐµÐ½Ð½ÑÑ Ñ€Ð°Ð·Ð±Ð¸Ñ‚Ð¾ÑÑ‚ÑŒ.',
+    'casos.problems.stress.symptom4':
+      'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ Ð»Ð°Ð±Ð¸Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ: Ñ€Ð°Ð·Ð´Ñ€Ð°Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ, Ð±ÐµÑÐ¿Ð¾ÐºÐ¾Ð¹ÑÑ‚Ð²Ð¾ Ð¸Ð»Ð¸ Ñ€ÐµÐ·ÐºÐ¸Ðµ Ð¿ÐµÑ€ÐµÐ¿Ð°Ð´Ñ‹ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ñ.',
+    'casos.problems.stress.cause1':
+      'ÐŸÐµÑ€ÐµÐ³Ñ€ÑƒÐ·ÐºÐ° Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒÑŽ, Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐµ Ð¸Ð»Ð¸ ÑÐµÐ¼ÐµÐ¹Ð½Ð¾Ðµ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¸ Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ Ð»Ð¸Ñ‡Ð½Ñ‹Ñ… Ð³Ñ€Ð°Ð½Ð¸Ñ†.',
+    'casos.problems.stress.cause2':
+      'ÐŸÐ¾Ñ‚ÐµÑ€Ñ ÐºÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ð° Ñ ÑÐ¾Ð±ÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ð¼Ð¸ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑÐ¼Ð¸ Ð¸ Ð½ÐµÑ…Ð²Ð°Ñ‚ÐºÐ° ÐºÐ°Ñ‡ÐµÑÑ‚Ð²ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð´Ð»Ñ ÑÐµÐ±Ñ.',
+    'casos.problems.stress.cause3':
+      'ÐÐµÐ¿Ñ€Ð¾Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹ Ð¸Ð»Ð¸ ÑÐ»Ð¾Ð¶Ð½Ñ‹Ðµ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ñ‹Ðµ ÑÐ¸Ñ‚ÑƒÐ°Ñ†Ð¸Ð¸, ÑƒÐ´ÐµÑ€Ð¶Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ðµ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ Ð² Ñ€ÐµÐ¶Ð¸Ð¼Ðµ"Ð±ÐµÐ¹ Ð¸Ð»Ð¸ Ð±ÐµÐ³Ð¸".',
+    'casos.problems.stress.cause4':
+      'Ð”Ð¸ÑÑ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð²ÐµÐ³ÐµÑ‚Ð°Ñ‚Ð¸Ð²Ð½Ð¾Ð¹ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹ (Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑÐ¸Ð¼Ð¿Ð°Ñ‚Ð¸ÐºÐ¾Ñ‚Ð¾Ð½Ð¸Ñ).',
+    'casos.problems.stress.treatment':
+      'Ð ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹: ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ð²Ð°Ð³Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸, Ð¼ÑÐ³ÐºÐ°Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ñ Ñ‚ÐµÐ»Ð¾Ð¼ (Ñ„ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð·) Ð¸ Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ðµ Ð´Ñ‹Ñ…Ð°Ð½Ð¸Ðµ Ð´Ð»Ñ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½ÐµÐ³Ð¾ Ð¿Ð¾ÐºÐ¾Ñ.',
+    'casos.problems.stress.results':
+      'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð´ÑƒÑˆÐµÐ²Ð½Ð¾Ð³Ð¾ Ñ€Ð°Ð²Ð½Ð¾Ð²ÐµÑÐ¸Ñ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð±Ð°Ð»Ð°Ð½ÑÐ°. Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð° ÑÐ½Ð° Ð¸ ÑÐ¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚Ð¸ ÑÐ¿Ñ€Ð°Ð²Ð»ÑÑ‚ÑŒÑÑ ÑÐ¾ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼. Ð§ÑƒÐ²ÑÑ‚Ð²Ð¾ ÐºÐ¾Ð½Ñ‚Ñ€Ð¾Ð»Ñ Ð¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ.',
+
+    // Digestive
+    'casos.problems.digestive.symptom1':
+      'ÐŸÐ¸Ñ‰ÐµÐ²Ð°Ñ€Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð´Ð¸ÑÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚: Ð²Ð·Ð´ÑƒÑ‚Ð¸Ðµ, Ð³Ð°Ð·Ñ‹, ÐºÐ¸ÑÐ»Ð¾Ñ‚Ð½Ð¾ÑÑ‚ÑŒ, Ñ€ÐµÑ„Ð»ÑŽÐºÑ Ð¸Ð»Ð¸ Ñ‚ÑÐ¶ÐµÑÑ‚ÑŒ Ð¿Ð¾ÑÐ»Ðµ ÐµÐ´Ñ‹.',
+    'casos.problems.digestive.symptom2':
+      'Ð¡Ð¾Ð½Ð»Ð¸Ð²Ð¾ÑÑ‚ÑŒ,"Ð¼Ð¾Ð·Ð³Ð¾Ð²Ð¾Ð¹ Ñ‚ÑƒÐ¼Ð°Ð½" Ð¸Ð»Ð¸ ÑƒÐ¿Ð°Ð´Ð¾Ðº ÑÐ¸Ð» Ð¿Ð¾ÑÐ»Ðµ Ð¿Ñ€Ð¸ÐµÐ¼Ð° Ð¿Ð¸Ñ‰Ð¸.',
+    'casos.problems.digestive.symptom3':
+      'ÐÐµÑ€ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ñ‹Ð¹ ÑÑ‚ÑƒÐ» (Ð·Ð°Ð¿Ð¾Ñ€Ñ‹ Ð¸Ð»Ð¸ Ð´Ð¸Ð°Ñ€ÐµÑ) Ð¸ Ð±Ð¾Ð»Ð¸ Ð² Ð¶Ð¸Ð²Ð¾Ñ‚Ðµ.',
+    'casos.problems.digestive.symptom4':
+      'Ð¡Ð»Ð¾Ð¶Ð½Ñ‹Ðµ Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ñ Ñ ÐµÐ´Ð¾Ð¹ Ð¸Ð»Ð¸ Ð¿Ð¾Ð´Ð¾Ð·Ñ€ÐµÐ½Ð¸Ðµ Ð½Ð° Ð½ÐµÐ¿ÐµÑ€ÐµÐ½Ð¾ÑÐ¸Ð¼Ð¾ÑÑ‚ÑŒ.',
+    'casos.problems.digestive.cause1':
+      'ÐÐµÐ´Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ Ð½ÐµÐ¿ÐµÑ€ÐµÐ½Ð¾ÑÐ¸Ð¼Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ.',
+    'casos.problems.digestive.cause2':
+      'ÐÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ð¸Ñ‰ÐµÐ²Ñ‹Ðµ Ð¿Ñ€Ð¸Ð²Ñ‹Ñ‡ÐºÐ¸: ÐµÐ´Ð° Ð½Ð° Ð±ÐµÐ³Ñƒ, Ð² ÑÑ‚Ñ€ÐµÑÑÐµ Ð¸Ð»Ð¸ Ð² Ð½ÐµÐ¿Ð¾Ð´Ñ…Ð¾Ð´ÑÑ‰ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ.',
+    'casos.problems.digestive.cause3':
+      'ÐžÑÑŒ ÐºÐ¸ÑˆÐµÑ‡Ð½Ð¸Ðº-Ð¼Ð¾Ð·Ð³: ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÑÑ, Ð½Ð°Ð¿Ñ€ÑÐ¼ÑƒÑŽ Ð²Ð»Ð¸ÑÑŽÑ‰Ð¸Ð¹ Ð½Ð° Ñ„ÑƒÐ½ÐºÑ†Ð¸ÑŽ Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ€ÐµÐ½Ð¸Ñ.',
+    'casos.problems.digestive.cause4':
+      'ÐœÐµÑ…Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð²Ð¸ÑÑ†ÐµÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð´Ð¸ÑÑ„ÑƒÐ½ÐºÑ†Ð¸Ð¸ Ð¸Ð»Ð¸ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ Ð¼Ð¸ÐºÑ€Ð¾Ð±Ð¸Ð¾Ñ‚Ñ‹.',
+    'casos.problems.digestive.treatment':
+      'ÐÑƒÑ‚Ñ€Ð¸Ñ†Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð´Ð»Ñ Ñ‚ÐµÑÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¾Ð², Ð²Ð¸ÑÑ†ÐµÑ€Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð¼Ð¾Ñ‚Ð¾Ñ€Ð¸ÐºÐ¸ Ð¸ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾ Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ð¼Ñƒ Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð¼Ñƒ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸ÑŽ.',
+    'casos.problems.digestive.results':
+      'Ð›ÐµÐ³ÐºÐ¾Ðµ Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ€ÐµÐ½Ð¸Ðµ Ð±ÐµÐ· Ð´Ð¸ÑÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚Ð°. Ð˜ÑÑ‡ÐµÐ·Ð½Ð¾Ð²ÐµÐ½Ð¸Ðµ Ð²Ð·Ð´ÑƒÑ‚Ð¸Ñ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð¾Ð¹ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸. Ð—Ð´Ð¾Ñ€Ð¾Ð²Ñ‹Ðµ Ð¸ Ð¿Ñ€Ð¸ÑÑ‚Ð½Ñ‹Ðµ Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ñ Ñ ÐµÐ´Ð¾Ð¹.',
+
+    // Migraines
+    'casos.problems.migraines.symptom1':
+      'Ð˜Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ð°Ñ Ð¿ÑƒÐ»ÑŒÑÐ¸Ñ€ÑƒÑŽÑ‰Ð°Ñ Ð±Ð¾Ð»ÑŒ, Ñ‡Ð°ÑÑ‚Ð¾ Ð¾Ð´Ð½Ð¾ÑÑ‚Ð¾Ñ€Ð¾Ð½Ð½ÑÑ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ Ð¼Ð¾Ð¶ÐµÑ‚ Ð²Ð»Ð¸ÑÑ‚ÑŒ Ð½Ð° Ð·Ñ€ÐµÐ½Ð¸Ðµ.',
+    'casos.problems.migraines.symptom2':
+      'ÐžÑ‰ÑƒÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ñ Ð² Ð³Ð¾Ð»Ð¾Ð²Ðµ,"ÑˆÐ»ÐµÐ¼Ð°" Ð¸Ð»Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ Ð² Ð³Ð»Ð°Ð·Ð°Ñ….',
+    'casos.problems.migraines.symptom3':
+      'Ð¡Ð¾Ð¿ÑƒÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ ÑÐ¸Ð¼Ð¿Ñ‚Ð¾Ð¼Ñ‹: Ñ‚Ð¾ÑˆÐ½Ð¾Ñ‚Ð°, Ñ€Ð²Ð¾Ñ‚Ð° Ð¸Ð»Ð¸ Ð½ÐµÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ð¾ÑÑ‚ÑŒ.',
+    'casos.problems.migraines.symptom4':
+      'Ð¡ÐµÐ½ÑÐ¾Ñ€Ð½Ð°Ñ Ð³Ð¸Ð¿ÐµÑ€Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ: Ð½ÐµÐ¿ÐµÑ€ÐµÐ½Ð¾ÑÐ¸Ð¼Ð¾ÑÑ‚ÑŒ ÑÐ²ÐµÑ‚Ð° (Ñ„Ð¾Ñ‚Ð¾Ñ„Ð¾Ð±Ð¸Ñ) Ð¸Ð»Ð¸ Ð·Ð²ÑƒÐºÐ¾Ð² (Ñ„Ð¾Ð½Ð¾Ñ„Ð¾Ð±Ð¸Ñ).',
+    'casos.problems.migraines.cause1':
+      'Ð¥Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð² ÑˆÐµÐµ Ð¸ Ð±Ð»Ð¾ÐºÐ¸ Ð² Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ñ‡ÐµÑ€ÐµÐ¿Ð° (Ð¿Ð¾Ð´Ð·Ð°Ñ‚Ñ‹Ð»Ð¾Ñ‡Ð½Ñ‹Ðµ Ð¼Ñ‹ÑˆÑ†Ñ‹).',
+    'casos.problems.migraines.cause2':
+      'Ð”Ð¸ÑÑ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð²Ð½Ñ‡Ñ (Ð±Ñ€ÑƒÐºÑÐ¸Ð·Ð¼), Ð¸Ñ€Ñ€Ð°Ð´Ð¸Ð¸Ñ€ÑƒÑŽÑ‰Ð°Ñ Ð±Ð¾Ð»ÑŒ Ð² Ð³Ð¾Ð»Ð¾Ð²Ñƒ.',
+    'casos.problems.migraines.cause3':
+      'Ð£Ð¼ÑÑ‚Ð²ÐµÐ½Ð½Ð°Ñ Ð¿ÐµÑ€ÐµÐ³Ñ€ÑƒÐ·ÐºÐ°, Ð·Ñ€Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÑÑ Ð¸Ð»Ð¸ Ð½ÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº Ð½Ð°ÑÑ‚Ð¾ÑÑ‰ÐµÐ³Ð¾ Ð¾Ñ‚Ð´Ñ‹Ñ…Ð°.',
+    'casos.problems.migraines.cause4':
+      'ÐœÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ñ„Ð°ÐºÑ‚Ð¾Ñ€Ñ‹: Ð³Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ, Ð³Ð¸ÑÑ‚Ð°Ð¼Ð¸Ð½ Ð¸Ð»Ð¸ Ñ‚Ð¾ÐºÑÐ¸Ñ‡ÐµÑÐºÐ°Ñ Ð½Ð°Ð³Ñ€ÑƒÐ·ÐºÐ° Ð½Ð° Ð¿ÐµÑ‡ÐµÐ½ÑŒ.',
+    'casos.problems.migraines.treatment':
+      'ÐšÑ€Ð°Ð½Ð¸Ð°Ð»ÑŒÐ½Ð°Ñ Ð¼Ð°Ð½ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ (Ð¾ÑÑ‚ÐµÐ¾Ð±Ð°Ð»Ð°Ð½Ñ), Ð¾ÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ ÑˆÐµÐ¹Ð½Ð¾Ð³Ð¾ Ð¸ Ñ‡ÐµÐ»ÑŽÑÑ‚Ð½Ð¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ, Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ Ð¸ Ð³Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸.',
+    'casos.problems.migraines.results':
+      'Ð Ð°Ð´Ð¸ÐºÐ°Ð»ÑŒÐ½Ð¾Ðµ ÑÐ½Ð¸Ð¶ÐµÐ½Ð¸Ðµ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ñ‹ Ð¸ Ð¸Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ð¾ÑÑ‚Ð¸ Ð¿Ñ€Ð¸ÑÑ‚ÑƒÐ¿Ð¾Ð². Ð’Ð¾ Ð¼Ð½Ð¾Ð³Ð¸Ñ… ÑÐ»ÑƒÑ‡Ð°ÑÑ… — Ð¿Ð¾Ð»Ð½Ð¾Ðµ Ð¸ÑÑ‡ÐµÐ·Ð½Ð¾Ð²ÐµÐ½Ð¸Ðµ Ð±Ð¾Ð»Ð¸. Ð¯ÑÐ½Ð¾ÑÑ‚ÑŒ ÑƒÐ¼Ð° Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ ÑÐ°Ð¼Ð¾Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¸Ñ.',
+
+    // Low Energy
+    'casos.problems.lowEnergy.symptom1':
+      'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ¾Ðµ Ð¸ÑÑ‚Ð¾Ñ‰ÐµÐ½Ð¸Ðµ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ Ð½Ðµ Ð¿Ñ€Ð¾Ñ…Ð¾Ð´Ð¸Ñ‚ Ð¿Ð¾ÑÐ»Ðµ Ð¾Ñ‚Ð´Ñ‹Ñ…Ð° (Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ).',
+    'casos.problems.lowEnergy.symptom2':
+      'Ð¢Ñ€ÑƒÐ´Ð½Ð¾ÑÑ‚Ð¸ Ñ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸ÐµÐ¹, Ð¿Ð¾Ñ‚ÐµÑ€Ñ Ð¿Ð°Ð¼ÑÑ‚Ð¸ Ð¸Ð»Ð¸"Ð¼Ð¾Ð·Ð³Ð¾Ð²Ð¾Ð¹ Ñ‚ÑƒÐ¼Ð°Ð½".',
+    'casos.problems.lowEnergy.symptom3':
+      'ÐÐ¿Ð°Ñ‚Ð¸Ñ, Ð¾Ñ‚ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ Ð¼Ð¾Ñ‚Ð¸Ð²Ð°Ñ†Ð¸Ð¸ Ð¸Ð»Ð¸ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾ Ð²Ð½ÑƒÑ‚Ñ€ÐµÐ½Ð½ÐµÐ¹ Ð¿ÑƒÑÑ‚Ð¾Ñ‚Ñ‹.',
+    'casos.problems.lowEnergy.symptom4':
+      'ÐžÑ‰ÑƒÑ‰ÐµÐ½Ð¸Ðµ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ ÑÐ»Ð°Ð±Ð¾ÑÑ‚Ð¸ Ð¸Ð»Ð¸"Ð½ÐµÑÐ¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚Ð¸ ÑÐ¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒÑÑ".',
+    'casos.problems.lowEnergy.cause1':
+      'Ð’Ñ‹Ð³Ð¾Ñ€Ð°Ð½Ð¸Ðµ Ð¸Ð»Ð¸ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÑÑ, Ð¸ÑÑ‚Ð¾Ñ‰Ð¸Ð²ÑˆÐ¸Ð¹ Ñ€ÐµÑÑƒÑ€ÑÑ‹ Ð¾Ñ€Ð³Ð°Ð½Ð¸Ð·Ð¼Ð°.',
+    'casos.problems.lowEnergy.cause2':
+      'ÐÑƒÑ‚Ñ€Ð¸Ñ†Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ (Ð´ÐµÑ„Ð¸Ñ†Ð¸Ñ‚ Ð²Ð¸Ñ‚Ð°Ð¼Ð¸Ð½Ð¾Ð²/Ð¼Ð¸Ð½ÐµÑ€Ð°Ð»Ð¾Ð²) Ð¸Ð»Ð¸ Ð¼ÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð½Ð°Ñ€ÑƒÑˆÐµÐ½Ð¸Ñ.',
+    'casos.problems.lowEnergy.cause3':
+      'Ð”Ð¸ÑÑ„ÑƒÐ½ÐºÑ†Ð¸Ñ Ð³Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð¾ÑÐ¸ (ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ Ð½Ð°Ð´Ð¿Ð¾Ñ‡ÐµÑ‡Ð½Ð¸ÐºÐ¾Ð², Ñ‰Ð¸Ñ‚Ð¾Ð²Ð¸Ð´Ð½Ð°Ñ Ð¶ÐµÐ»ÐµÐ·Ð°).',
+    'casos.problems.lowEnergy.cause4':
+      'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð±Ð»Ð¾ÐºÐ¸ Ð¸Ð»Ð¸ Ð¿Ð¾Ñ‚ÐµÑ€Ñ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð¾Ð¹ Ñ†ÐµÐ»Ð¸, Ð¸ÑÑ‚Ð¾Ñ‰Ð°ÑŽÑ‰Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸ÑŽ.',
+    'casos.problems.lowEnergy.treatment':
+      'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð°Ñ Ñ€ÐµÐ²Ð¸Ñ‚Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ: ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð´Ð»Ñ Ð¾Ð±Ð½Ð°Ñ€ÑƒÐ¶ÐµÐ½Ð¸Ñ ÑƒÑ‚ÐµÑ‡ÐµÐº ÑÐ½ÐµÑ€Ð³Ð¸Ð¸, Ð½ÑƒÑ‚Ñ€Ð¸Ñ†Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° Ð¸ Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ñ Ñ‚ÐµÐ»Ð¾Ð¼ Ð´Ð»Ñ Ñ€ÐµÐ°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ð¸ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð¿Ð¾Ñ‚Ð¾ÐºÐ°.',
+    'casos.problems.lowEnergy.results':
+      'Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ñ‹Ñ… ÑÐ¸Ð» Ð¸ ÑÐ½Ñ‚ÑƒÐ·Ð¸Ð°Ð·Ð¼Ð°. Ð¯ÑÐ½Ñ‹Ð¹ Ð¸ Ð±Ð¾Ð´Ñ€Ñ‹Ð¹ ÑƒÐ¼. Ð¡Ð¿Ð¾ÑÐ¾Ð±Ð½Ð¾ÑÑ‚ÑŒ ÑÐ¿Ñ€Ð°Ð²Ð»ÑÑ‚ÑŒÑÑ Ñ Ð¿Ð¾Ð²ÑÐµÐ´Ð½ÐµÐ²Ð½Ñ‹Ð¼Ð¸ Ð´ÐµÐ»Ð°Ð¼Ð¸ Ñ ÑÐ½ÐµÑ€Ð³Ð¸ÐµÐ¹ Ð¸ Ñ€Ð°Ð´Ð¾ÑÑ‚ÑŒÑŽ.',
+
+    // Discovery New Keys
+    'discovery.step.description.minChars': 'ÑÐ¸Ð¼Ð²Ð¾Ð»Ð¾Ð² Ð¼Ð¸Ð½Ð¸Ð¼ÑƒÐ¼',
+    'discovery.recommendation.online.note':
+      'ÐŸÑ€Ð¸Ð¼ÐµÑ‡Ð°Ð½Ð¸Ðµ: ÐŸÐ¾ÑÐºÐ¾Ð»ÑŒÐºÑƒ Ð²Ñ‹ Ð²Ñ‹Ð±Ñ€Ð°Ð»Ð¸ ÐžÐ½Ð»Ð°Ð¹Ð½, ÑÑ‚Ð° ÑƒÑÐ»ÑƒÐ³Ð° Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð° Ð´Ð»Ñ Ð´Ð¸ÑÑ‚Ð°Ð½Ñ†Ð¸Ð¾Ð½Ð½Ñ‹Ñ… ÑÐµÐ°Ð½ÑÐ¾Ð².',
+
+    // Sleep
+    'casos.problems.sleep.symptom1':
+      'Ð˜Ð½ÑÐ¾Ð¼Ð½Ð¸Ñ Ð·Ð°ÑÑ‹Ð¿Ð°Ð½Ð¸Ñ: Ð²Ð¾Ñ€Ð¾Ñ‡Ð°Ð½Ð¸Ðµ Ð² Ð¿Ð¾ÑÑ‚ÐµÐ»Ð¸ Ð±ÐµÐ· Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ ÑƒÑÐ½ÑƒÑ‚ÑŒ.',
+    'casos.problems.sleep.symptom2':
+      'Ð§Ð°ÑÑ‚Ñ‹Ðµ Ð½Ð¾Ñ‡Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ð±ÑƒÐ¶Ð´ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ ÑÐ»Ð¸ÑˆÐºÐ¾Ð¼ Ñ€Ð°Ð½Ð½Ð¸Ð¹ Ð¿Ð¾Ð´ÑŠÐµÐ¼.',
+    'casos.problems.sleep.symptom3':
+      'ÐÐµÐ²Ð¾ÑÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ð¹ ÑÐ¾Ð½: Ð¿Ñ€Ð¾Ð±ÑƒÐ¶Ð´ÐµÐ½Ð¸Ðµ Ñ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒÑŽ, Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸ÐµÐ¼ Ð¸Ð»Ð¸ Ð³Ð¾Ð»Ð¾Ð²Ð½Ð¾Ð¹ Ð±Ð¾Ð»ÑŒÑŽ.',
+    'casos.problems.sleep.symptom4':
+      'ÐÐµÐ¿Ñ€ÐµÐºÑ€Ð°Ñ‰Ð°ÑŽÑ‰Ð°ÑÑÑ ÑƒÐ¼ÑÑ‚Ð²ÐµÐ½Ð½Ð°Ñ Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð° Ð¿ÐµÑ€ÐµÐ´ ÑÐ½Ð¾Ð¼.',
+    'casos.problems.sleep.cause1':
+      'Ð“Ð¸Ð¿ÐµÑ€Ð°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹ (ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¸), Ð¿Ñ€ÐµÐ¿ÑÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð°Ñ Ð¾Ñ‚Ð´Ñ‹Ñ…Ñƒ.',
+    'casos.problems.sleep.cause2':
+      'Ð”Ð¸ÑÑ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ñ†Ð¸Ñ€ÐºÐ°Ð´Ð½Ñ‹Ñ… Ñ€Ð¸Ñ‚Ð¼Ð¾Ð² (Ñ€ÐµÐ¶Ð¸Ð¼, ÑÐ¸Ð½Ð¸Ð¹ ÑÐ²ÐµÑ‚).',
+    'casos.problems.sleep.cause3':
+      'ÐÐµÐ¿Ð¾Ð´Ñ…Ð¾Ð´ÑÑ‰Ð¸Ðµ Ð¿Ñ€Ð¸Ð²Ñ‹Ñ‡ÐºÐ¸ ÑÐ½Ð° Ð¸Ð»Ð¸ Ð½ÐµÐ±Ð»Ð°Ð³Ð¾Ð¿Ñ€Ð¸ÑÑ‚Ð½Ð°Ñ Ð¾Ð±ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ°.',
+    'casos.problems.sleep.cause4':
+      'ÐžÑ€Ð³Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñ‹: Ñ‚ÑÐ¶ÐµÐ»Ð¾Ðµ Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ€ÐµÐ½Ð¸Ðµ, Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð±Ð¾Ð»ÑŒ Ð¸Ð»Ð¸ Ð³Ð¾Ñ€Ð¼Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ.',
+    'casos.problems.sleep.treatment':
+      'ÐŸÐµÑ€ÐµÐ¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ ÑÐ½Ð°: Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð¹ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ð¸, Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹ (Ð²Ð°Ð³Ð°Ð»ÑŒÐ½Ð¾Ð¹), Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾ Ð³Ð¸Ð³Ð¸ÐµÐ½Ðµ ÑÐ½Ð°.',
+    'casos.problems.sleep.results':
+      'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ¸Ð¹, Ð½ÐµÐ¿Ñ€ÐµÑ€Ñ‹Ð²Ð½Ñ‹Ð¹ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ð¹ ÑÐ¾Ð½. ÐŸÑ€Ð¾Ð±ÑƒÐ¶Ð´ÐµÐ½Ð¸Ðµ Ñ ÑÐ½ÐµÑ€Ð³Ð¸ÐµÐ¹ Ð¸ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾Ð¼ Ð½Ð°ÑÑ‚Ð¾ÑÑ‰ÐµÐ³Ð¾ Ð¾Ñ‚Ð´Ñ‹Ñ…Ð°. Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ñ Ð¸ Ð¾Ð±Ñ‰ÐµÐ³Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ.',
+
+    // Recovery
+    'casos.problems.recovery.symptom1':
+      'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð°Ñ Ð±Ð¾Ð»ÑŒ Ð¸Ð»Ð¸ Ð´Ð¸ÑÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚ Ð² Ð·Ð¾Ð½Ðµ ÑÑ‚Ð°Ñ€Ð¾Ð¹ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹.',
+    'casos.problems.recovery.symptom2':
+      'ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸, ÑÐºÐ¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ Ð¸Ð»Ð¸ Ð¾Ñ‰ÑƒÑ‰ÐµÐ½Ð¸Ðµ Ñ…Ñ€ÑƒÐ¿ÐºÐ¾ÑÑ‚Ð¸.',
+    'casos.problems.recovery.symptom3':
+      'Ð¡Ñ‚Ñ€Ð°Ñ… ÑÐ¾Ð²ÐµÑ€ÑˆÐ°Ñ‚ÑŒ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÐµÐ½Ð½Ñ‹Ðµ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¸Ð»Ð¸ ÑÑ‚Ñ€Ð°Ñ… Ñ€ÐµÑ†Ð¸Ð´Ð¸Ð²Ð° (ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ñ„Ð¾Ð±Ð¸Ñ).',
+    'casos.problems.recovery.symptom4':
+      'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÐºÐ¾Ð¼Ð¿ÐµÐ½ÑÐ°Ñ†Ð¸Ð¸, Ð²Ñ‹Ð·Ñ‹Ð²Ð°ÑŽÑ‰Ð¸Ðµ Ð±Ð¾Ð»ÑŒ Ð² Ð´Ñ€ÑƒÐ³Ð¸Ñ… Ð·Ð¾Ð½Ð°Ñ….',
+    'casos.problems.recovery.cause1':
+      'Ð ÑƒÐ±Ñ†Ð¾Ð²Ð°Ñ Ñ‚ÐºÐ°Ð½ÑŒ (ÑÐ¿Ð°Ð¹ÐºÐ¸), Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°ÑŽÑ‰Ð°Ñ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ðµ Ð¸ Ð·Ð°Ñ‰ÐµÐ¼Ð»ÑÑŽÑ‰Ð°Ñ Ð½ÐµÑ€Ð²Ñ‹.',
+    'casos.problems.recovery.cause2':
+      'Ð˜Ð·Ð¼ÐµÐ½ÐµÐ½Ð½Ñ‹Ðµ Ð¿Ð°Ñ‚Ñ‚ÐµÑ€Ð½Ñ‹ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð·Ð°Ñ‰Ð¸Ñ‚Ñ‹ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹ (ÐºÐ¾Ð¼Ð¿ÐµÐ½ÑÐ°Ñ†Ð¸Ð¸).',
+    'casos.problems.recovery.cause3':
+      'ÐšÐ»ÐµÑ‚Ð¾Ñ‡Ð½Ð°Ñ Ñ‚Ñ€Ð°Ð²Ð¼Ð° Ð¸Ð»Ð¸ Ð¿Ð°Ð¼ÑÑ‚ÑŒ Ð¾ Ð±Ð¾Ð»Ð¸, ÑƒÐ´ÐµÑ€Ð¶Ð¸Ð²Ð°ÑŽÑ‰Ð°Ñ Ð·Ð¾Ð½Ñƒ Ð² ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ð¸ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¸.',
+    'casos.problems.recovery.cause4':
+      'ÐÐµÐ·Ð°Ð²ÐµÑ€ÑˆÐµÐ½Ð½Ð°Ñ Ð¸Ð»Ð¸ Ð¿Ð¾ÑÐ¿ÐµÑˆÐ½Ð°Ñ Ñ€ÐµÐ°Ð±Ð¸Ð»Ð¸Ñ‚Ð°Ñ†Ð¸Ñ.',
+    'casos.problems.recovery.treatment':
+      'Ð¤ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ: Ñ€Ð°Ð±Ð¾Ñ‚Ð° ÑÐ¾ ÑˆÑ€Ð°Ð¼Ð°Ð¼Ð¸, Ð¿ÐµÑ€ÐµÐ¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ (Ñ„ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð·) Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ð° Ð´Ð»Ñ Ð¾ÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ð¿Ð°Ð¼ÑÑ‚Ð¸ Ð¾ Ñ‚Ñ€Ð°Ð²Ð¼Ðµ.',
+    'casos.problems.recovery.results':
+      'ÐŸÐ¾Ð»Ð½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ Ð´Ð¾Ð²ÐµÑ€Ð¸Ñ Ðº Ñ‚ÐµÐ»Ñƒ. Ð¡Ð²Ð¾Ð±Ð¾Ð´Ð½Ð¾Ðµ, Ð¿Ð»Ð°Ð²Ð½Ð¾Ðµ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ðµ Ð±ÐµÐ· Ð±Ð¾Ð»Ð¸. Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ðº Ð½Ð¾Ñ€Ð¼Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚Ð¸ Ñ ÑƒÐ²ÐµÑ€ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒÑŽ.',
+
+    // Contact Form
+    'contact.success.title': 'Ð¡Ð¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¾!',
+    'contact.success.message':
+      'Ð¡Ð¿Ð°ÑÐ¸Ð±Ð¾, Ñ‡Ñ‚Ð¾ ÑÐ²ÑÐ·Ð°Ð»Ð¸ÑÑŒ Ñ Ð½Ð°Ð¼Ð¸. ÐœÑ‹ Ð¾Ñ‚Ð²ÐµÑ‚Ð¸Ð¼ Ð²Ð°Ð¼ Ð¾Ñ‡ÐµÐ½ÑŒ ÑÐºÐ¾Ñ€Ð¾.',
+    'contact.success.button': 'ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ ÐµÑ‰Ðµ Ð¾Ð´Ð½Ð¾ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ',
+    'contact.title': 'ÐŸÐ¾Ð³Ð¾Ð²Ð¾Ñ€Ð¸Ñ‚Ðµ Ñ Ð½Ð°Ð¼Ð¸',
+    'contact.subtitle':
+      'ÐœÑ‹ Ð·Ð´ÐµÑÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ð²Ð°Ð¼ Ð½Ð° Ð¿ÑƒÑ‚Ð¸ Ðº Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ. Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸ Ð¸ ÑƒÐ·Ð½Ð°Ð¹Ñ‚Ðµ, ÐºÐ°Ðº Ð¼Ñ‹ Ð¼Ð¾Ð¶ÐµÐ¼ ÑƒÐ»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð²Ð°ÑˆÐµÐ¹ Ð¶Ð¸Ð·Ð½Ð¸.',
+    'contact.phone.title': 'Телефон и WhatsApp',
+    'contact.phone.subtitle': 'WhatsApp Ð´Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½ 24/7',
+    'contact.email.title': 'Email',
+    'contact.email.subtitle': 'ÐžÑ‚Ð²ÐµÑ‚ Ð¼ÐµÐ½ÐµÐµ Ñ‡ÐµÐ¼ Ð·Ð° 24 Ñ‡Ð°ÑÐ°',
+    'contact.location.title': 'Расположение',
+    'contact.location.address': 'Carrer pelai, 12\n08001 Barcelona',
+    'contact.location.subtitle': 'Метро: l1 и l2 (universitat)',
+    'contact.form.name': 'ÐŸÐ¾Ð»Ð½Ð¾Ðµ Ð¸Ð¼Ñ',
+    'contact.form.email': 'Ð­Ð»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð½Ð°Ñ Ð¿Ð¾Ñ‡Ñ‚Ð°',
+    'contact.form.phone': 'Телефон',
+    'contact.form.service': 'Ð˜Ð½Ñ‚ÐµÑ€ÐµÑÑƒÑŽÑ‰Ð°Ñ ÑƒÑÐ»ÑƒÐ³Ð°',
+    'contact.form.service.placeholder': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑƒÑÐ»ÑƒÐ³Ñƒ',
+    'contact.form.time': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ',
+    'contact.form.time.placeholder': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²Ñ€ÐµÐ¼Ñ',
+    'contact.form.message': 'Сообщение',
+    'contact.form.message.placeholder':
+      'ÐšÑ€Ð°Ñ‚ÐºÐ¾ Ð¾Ð±ÑŠÑÑÐ½Ð¸Ñ‚Ðµ, Ñ‡Ñ‚Ð¾ Ð²Ð°Ð¼ Ð½ÑƒÐ¶Ð½Ð¾...',
+    'contact.form.preferred': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÑÐ¿Ð¾ÑÐ¾Ð± ÑÐ²ÑÐ·Ð¸',
+    'contact.form.submit': 'ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ðµ',
+    'contact.form.submitting': 'Отправка...',
+    'contact.form.privacy':
+      'Ð¯ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÑŽ Ð¿Ð¾Ð»Ð¸Ñ‚Ð¸ÐºÑƒ ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'contact.form.source': 'ÐšÐ°Ðº Ð²Ñ‹ ÑƒÐ·Ð½Ð°Ð»Ð¸ Ð¾ Ð½Ð°Ñ?',
+    'contact.form.source.placeholder': 'Выберите вариант',
+    'contact.form.source.google': 'Google',
+    'contact.form.source.social': 'Ð¡Ð¾Ñ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÐµÑ‚Ð¸',
+    'contact.form.source.friend': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ñ Ð´Ñ€ÑƒÐ³Ð°',
+    'contact.form.source.other': 'Другое',
+    'contact.quick.title': 'Ð˜Ð»Ð¸ ÑÐ²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¼ÑƒÑŽ:',
+    'contact.quick.call': 'ÐŸÐ¾Ð·Ð²Ð¾Ð½Ð¸Ñ‚ÑŒ ÑÐµÐ¹Ñ‡Ð°Ñ',
+    'contact.error':
+      'ÐŸÑ€Ð¾Ð¸Ð·Ð¾ÑˆÐ»Ð° Ð¾ÑˆÐ¸Ð±ÐºÐ° Ð¿Ñ€Ð¸ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²ÐºÐµ ÑÐ¾Ð¾Ð±Ñ‰ÐµÐ½Ð¸Ñ. ÐŸÐ¾Ð¶Ð°Ð»ÑƒÐ¹ÑÑ‚Ð°, Ð¿Ð¾Ð¿Ñ€Ð¾Ð±ÑƒÐ¹Ñ‚Ðµ ÐµÑ‰Ðµ Ñ€Ð°Ð·.',
+
+    // Contact Form Options
+    'contact.service.massageBasic': 'Ð‘Ð°Ð·Ð¾Ð²Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ (1Ñ‡)',
+    'contact.service.massageComplete': 'ÐŸÐ¾Ð»Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ (1,5Ñ‡)',
+    'contact.service.massagePremium': 'ÐŸÑ€ÐµÐ¼Ð¸ÑƒÐ¼ Ð¼Ð°ÑÑÐ°Ð¶ (2Ñ‡)',
+    'contact.service.kinesiology': 'Ð¥Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'contact.service.nutrition': 'ÐžÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ',
+    'contact.service.revision360': 'ÐžÐ±Ð·Ð¾Ñ€ 360°',
+    'contact.service.vip': 'VIP планы',
+    'contact.service.other': 'Ð”Ñ€ÑƒÐ³Ð¸Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹',
+
+    'contact.time.morning': 'Утро (9:00 - 12:00)',
+    'contact.time.noon': 'Полдень (12:00 - 15:00)',
+    'contact.time.afternoon': 'День (15:00 - 18:00)',
+    'contact.time.evening': 'Вечер (18:00 - 21:00)',
+    'contact.time.any': 'Без предпочтений',
+
+    // Symptoms, causes, treatment, results labels
+    'casos.symptoms': 'Симптомы',
+    'casos.causes': 'Причины',
+    'casos.treatment': 'ÐÐ°Ñˆ Ð¿Ð¾Ð´Ñ…Ð¾Ð´',
+    'casos.results': 'Результаты',
+
+    // Additional problems list
+    'casos.additionalProblems.bruxism': 'Ð‘Ñ€ÑƒÐºÑÐ¸Ð·Ð¼ Ð¸ Ñ‡ÐµÐ»ÑŽÑÑ‚Ð½Ð¾Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ',
+    'casos.additionalProblems.tmj':
+      'Ð‘Ð¾Ð»ÑŒ Ð²Ð½Ñ‡Ñ (Ð²Ð¸ÑÐ¾Ñ‡Ð½Ð¾-Ð½Ð¸Ð¶Ð½ÐµÑ‡ÐµÐ»ÑŽÑÑ‚Ð½Ð¾Ð¹ ÑÑƒÑÑ‚Ð°Ð²)',
+    'casos.additionalProblems.sciatica': 'Ð˜ÑˆÐ¸Ð°Ñ Ð¸ Ð±Ð¾Ð»ÑŒ Ð² Ð½Ð¾Ð³Ð°Ñ…',
+    'casos.additionalProblems.shoulderPain': 'Ð‘Ð¾Ð»ÑŒ Ð² Ð¿Ð»ÐµÑ‡Ð°Ñ… Ð¸ ÑÐºÐ¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ',
+    'casos.additionalProblems.dizziness': 'Ð“Ð¾Ð»Ð¾Ð²Ð¾ÐºÑ€ÑƒÐ¶ÐµÐ½Ð¸Ñ Ð¸ Ð²ÐµÑ€Ñ‚Ð¸Ð³Ð¾',
+    'casos.additionalProblems.irritability': 'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð°Ñ Ñ€Ð°Ð·Ð´Ñ€Ð°Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'casos.additionalProblems.intestinalProblems': 'Кишечные проблемы',
+    'casos.additionalProblems.chronicFatigue': 'Ð¥Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ',
+    'casos.additionalProblems.socialAnxiety': 'Ð¡Ð¾Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð°Ñ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð°',
+    'casos.additionalProblems.concentrationDifficulty':
+      'Ð¢Ñ€ÑƒÐ´Ð½Ð¾ÑÑ‚Ð¸ Ñ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸ÐµÐ¹',
+    'casos.additionalProblems.headaches': 'Головные боли и мигрени',
+    'casos.additionalProblems.insomnia': 'Ð‘ÐµÑÑÐ¾Ð½Ð½Ð¸Ñ†Ð° Ð¸ Ð½Ð°Ñ€ÑƒÑˆÐµÐ½Ð¸Ñ ÑÐ½Ð°',
+    'casos.additionalProblems.posture': 'ÐŸÑ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹ Ñ Ð¾ÑÐ°Ð½ÐºÐ¾Ð¹',
+    'casos.additionalProblems.contractures': 'ÐœÑ‹ÑˆÐµÑ‡Ð½Ñ‹Ðµ ÑÐ¿Ð°Ð·Ð¼Ñ‹',
+    'casos.additionalProblems.emotionalBlock': 'Эмоциональные блоки',
+    'casos.additionalProblems.rsi': 'Ð¢Ñ€Ð°Ð²Ð¼Ñ‹ Ð¾Ñ‚ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÑÑŽÑ‰Ð¸Ñ…ÑÑ Ð½Ð°Ð³Ñ€ÑƒÐ·Ð¾Ðº',
+    'casos.additionalProblems.carpalTunnel': 'Ð¡Ð¸Ð½Ð´Ñ€Ð¾Ð¼ Ð·Ð°Ð¿ÑÑÑ‚Ð½Ð¾Ð³Ð¾ ÐºÐ°Ð½Ð°Ð»Ð°',
+    'casos.additionalProblems.plantarFasciitis': 'ÐŸÐ»Ð°Ð½Ñ‚Ð°Ñ€Ð½Ñ‹Ð¹ Ñ„Ð°ÑÑ†Ð¸Ð¸Ñ‚',
+
+    // Testimonials
+    'testimonials.title': 'Отзывы наших клиентов',
+    'testimonials.subtitle':
+      'ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ñ€ÐµÐ°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¾Ð¿Ñ‹Ñ‚ Ð»ÑŽÐ´ÐµÐ¹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¸Ð·Ð¼ÐµÐ½Ð¸Ð»Ð¸ ÑÐ²Ð¾ÑŽ Ð¶Ð¸Ð·Ð½ÑŒ',
+    'testimonials.all': 'Ð’ÑÐµ',
+    'testimonials.hide': 'Скрыть',
+    'testimonials.show': 'Показать',
+    'testimonials.beforeAfter': 'Ð”Ð¾/Ð¿Ð¾ÑÐ»Ðµ',
+    'testimonials.before': 'До',
+    'testimonials.after': 'ÐŸÐ¾ÑÐ»Ðµ',
+    'testimonials.also': 'Также на:',
+    'testimonials.with': 'С',
+    'testimonials.ratings': 'Оценок',
+    'testimonials.externalReviews':
+      'Ð’Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¿Ñ€Ð¾Ñ‡Ð¸Ñ‚Ð°Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¾Ñ‚Ð·Ñ‹Ð²Ð¾Ð² Ð½Ð° Ð½Ð°ÑˆÐ¸Ñ… Ð²Ð½ÐµÑˆÐ½Ð¸Ñ… ÑÑ‚Ñ€Ð°Ð½Ð¸Ñ†Ð°Ñ…',
+    'testimonials.photo': 'Фото',
+    'testimonials.satisfiedClient': 'Довольный клиент',
+    'testimonials.sliderTitle': 'ÐžÑ‚Ð·Ñ‹Ð²Ñ‹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð³Ð¾Ð²Ð¾Ñ€ÑÑ‚ ÑÐ°Ð¼Ð¸ Ð·Ð° ÑÐµÐ±Ñ',
+    'testimonials.sliderSubtitle':
+      'Ð£Ð·Ð½Ð°Ð¹Ñ‚Ðµ, ÐºÐ°Ðº Ð¼Ñ‹ Ð¿Ð¾Ð¼Ð¾Ð³Ð»Ð¸ Ð½Ð°ÑˆÐ¸Ð¼ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°Ð¼ Ð´Ð¾ÑÑ‚Ð¸Ñ‡ÑŒ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+
+    // Offline
+    'offline.message': 'ÐÐµÑ‚ Ð¿Ð¾Ð´ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ðº Ð¸Ð½Ñ‚ÐµÑ€Ð½ÐµÑ‚Ñƒ',
+
+    // Discounts page
+    'discounts.pageTitle': 'Скидки - EKA Balance',
+    'discounts.pageDescription':
+      'ÐžÑ‚ÐºÑ€Ð¾Ð¹Ñ‚Ðµ Ð½Ð°ÑˆÐ¸ ÑÐ¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÐºÐ¸Ð´ÐºÐ¸ Ð½Ð° Ð¾Ð·Ð´Ð¾Ñ€Ð¾Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸ Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸',
+    'discounts.badge': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð¿Ñ€ÐµÐ´Ð»Ð¾Ð¶ÐµÐ½Ð¸Ñ',
+    'discounts.title': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÐºÐ¸Ð´ÐºÐ¸',
+    'discounts.subtitle':
+      'ÐÐ°ÑÐ»Ð°Ð¶Ð´Ð°Ð¹Ñ‚ÐµÑÑŒ ÑÐ½Ð¸Ð¶ÐµÐ½Ð½Ñ‹Ð¼Ð¸ Ñ†ÐµÐ½Ð°Ð¼Ð¸ Ð½Ð° Ð½Ð°ÑˆÐ¸ Ð¾Ð·Ð´Ð¾Ñ€Ð¾Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸ Ñ Ð½Ð°ÑˆÐ¸Ð¼Ð¸ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¼Ð¸ ÑÐºÐ¸Ð´ÐºÐ°Ð¼Ð¸',
+    'discounts.availableTitle': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ñ‹Ðµ ÑÐºÐ¸Ð´ÐºÐ¸',
+    'discounts.availableSubtitle':
+      'Ð’Ð¾ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚ÐµÑÑŒ ÑÑ‚Ð¸Ð¼Ð¸ ÑÐ¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¼Ð¸ Ð¿Ñ€ÐµÐ´Ð»Ð¾Ð¶ÐµÐ½Ð¸ÑÐ¼Ð¸, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð½Ð°Ñ‡Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Ð¿ÑƒÑ‚ÑŒ Ðº Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ',
+    'discounts.mykolaFriend.description':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ð°Ñ ÑÐºÐ¸Ð´ÐºÐ° 20% Ð´Ð»Ñ Ð´Ñ€ÑƒÐ·ÐµÐ¹ Ð¼Ð¸ÐºÐ¾Ð»Ñ‹. Ð”ÐµÐ¹ÑÑ‚Ð²ÑƒÐµÑ‚ Ð½Ð° Ð²ÑÐµ ÑÐµÑÑÐ¸Ð¸ Ð¸ ÑƒÑÐ»ÑƒÐ³Ð¸.',
+    'discounts.conocidoMykola.description':
+      'Ð¡ÐºÐ¸Ð´ÐºÐ° 10% Ð´Ð»Ñ Ð·Ð½Ð°ÐºÐ¾Ð¼Ñ‹Ñ… Ð¼Ð¸ÐºÐ¾Ð»Ñ‹. ÐŸÑ€Ð¸Ð¼ÐµÐ½Ð¸Ð¼Ð¾ ÐºÐ¾ Ð²ÑÐµÐ¼ Ð½Ð°ÑˆÐ¸Ð¼ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ð°Ð¼.',
+    'discounts.off': 'Скидка',
+    'discounts.active': 'ÐÐºÑ‚Ð¸Ð²Ð½Ð¾',
+    'discounts.code': 'Код',
+    'discounts.copy': 'Копировать',
+    'discounts.howToUse.title': 'ÐšÐ°Ðº Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÐ¸Ð´ÐºÐ¸',
+    'discounts.howToUse.subtitle':
+      'Ð¡Ð»ÐµÐ´ÑƒÐ¹Ñ‚Ðµ ÑÑ‚Ð¸Ð¼ Ð¿Ñ€Ð¾ÑÑ‚Ñ‹Ð¼ ÑˆÐ°Ð³Ð°Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ñ€Ð¸Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð²Ð°ÑˆÑƒ ÑÐºÐ¸Ð´ÐºÑƒ',
+    'discounts.step1.title': 'Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸',
+    'discounts.step1.description':
+      'Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸ Ñ‡ÐµÑ€ÐµÐ· WhatsApp Ð¸Ð»Ð¸ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½ Ð´Ð»Ñ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ',
+    'discounts.step2.title': 'Ð£Ð¿Ð¾Ð¼ÑÐ½Ð¸Ñ‚Ðµ ÐºÐ¾Ð´',
+    'discounts.step2.description':
+      'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ ÐºÐ¾Ð´ ÑÐºÐ¸Ð´ÐºÐ¸ Ð¿Ñ€Ð¸ Ð¾Ñ„Ð¾Ñ€Ð¼Ð»ÐµÐ½Ð¸Ð¸ Ð±Ñ€Ð¾Ð½Ð¸',
+    'discounts.step3.title': 'ÐÐ°ÑÐ»Ð°Ð¶Ð´Ð°Ð¹Ñ‚ÐµÑÑŒ ÑÐºÐ¸Ð´ÐºÐ¾Ð¹',
+    'discounts.step3.description':
+      'Ð¡ÐºÐ¸Ð´ÐºÐ° Ð±ÑƒÐ´ÐµÑ‚ Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÐµÐ½Ð° Ðº Ð¸Ñ‚Ð¾Ð³Ð¾Ð²Ð¾Ð¹ Ñ†ÐµÐ½Ðµ',
+    'discounts.cta.title': 'Ð“Ð¾Ñ‚Ð¾Ð²Ñ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð²Ð°ÑˆÑƒ ÑÐºÐ¸Ð´ÐºÑƒ?',
+    'discounts.cta.subtitle':
+      'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐµÑÑÐ¸ÑŽ ÑÐµÐ¹Ñ‡Ð°Ñ Ð¸ Ð½Ð°ÑÐ»Ð°Ð¶Ð´Ð°Ð¹Ñ‚ÐµÑÑŒ ÑÐ¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ñ†ÐµÐ½Ð¾Ð¹',
+    'discounts.cta.bookNow': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ¾ ÑÐºÐ¸Ð´ÐºÐ¾Ð¹',
+    'discounts.cta.contact': 'Ð¡Ð²ÑÐ·Ð°Ñ‚ÑŒÑÑ',
+
+    // Personalized Services
+    'personalizedServices.title': 'Специализированные программы',
+    'personalizedServices.subtitle':
+      'Ð’Ñ‹ÑÐ¾ÐºÐ¾ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ñ‹Ðµ Ñ€ÐµÑˆÐµÐ½Ð¸Ñ, Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð»Ñ ÑÐ¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ñ‚Ñ€ÐµÐ±Ð¾Ð²Ð°Ð½Ð¸Ð¹ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¾Ð±Ñ€Ð°Ð·Ð° Ð¶Ð¸Ð·Ð½Ð¸.',
+    'personalizedServices.cta': 'Ð—Ð°Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñƒ',
+    'personalizedServices.difference.title':
+      'ÐŸÐ¾Ñ‡ÐµÐ¼Ñƒ ÑÑ‚Ð¾Ð¸Ñ‚ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½ÑƒÑŽ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñƒ?',
+    'personalizedServices.main.title': 'Общий подход',
+    'personalizedServices.main.list1': 'Общее лечение',
+    'personalizedServices.main.list2': 'Стандартный протокол',
+    'personalizedServices.main.list3': 'Временное облегчение',
+    'personalizedServices.main.list4': 'ÐŸÐ¾ÑÑ‚ÐµÐ¿ÐµÐ½Ð½Ð¾Ðµ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ',
+    'personalizedServices.special.title': 'Ð­ÐºÑÐ¿ÐµÑ€Ñ‚Ð½Ñ‹Ð¹ Ð¿Ð¾Ð´Ñ…Ð¾Ð´ EKA',
+    'personalizedServices.special.list1': 'Ð‘Ð¸Ð¾Ð¼ÐµÑ…Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒ',
+    'personalizedServices.special.list2':
+      'ÐŸÑ€Ð¾Ñ‚Ð¾ÐºÐ¾Ð»Ñ‹, ÑÐ¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡Ð½Ñ‹Ðµ Ð´Ð»Ñ Ð´ÐµÑÑ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'personalizedServices.special.list3': 'Ð£ÑÑ‚Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ Ð¿ÐµÑ€Ð²Ð¾Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñ‹',
+    'personalizedServices.special.list4':
+      'ÐžÐ¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'personalizedServices.choose.title': 'Выберите ваш профиль',
+    'personalizedServices.choose.subtitle':
+      'ÐšÐ°Ð¶Ð´Ð°Ñ Ð´ÐµÑÑ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ð¾Ðµ Ð²Ð»Ð¸ÑÐ½Ð¸Ðµ Ð½Ð° Ñ‚ÐµÐ»Ð¾. Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ²Ð¾ÑŽ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑƒÐ²Ð¸Ð´ÐµÑ‚ÑŒ, ÐºÐ°Ðº Ð¼Ñ‹ Ð¼Ð¾Ð¶ÐµÐ¼ Ð²Ð°Ñ ÑƒÑÐ¸Ð»Ð¸Ñ‚ÑŒ.',
+    'personalizedServices.bookNow.title': 'Ð Ð°ÑÐºÑ€Ð¾Ð¹Ñ‚Ðµ ÑÐ²Ð¾Ð¹ Ð¿Ð¾Ñ‚ÐµÐ½Ñ†Ð¸Ð°Ð»',
+    'personalizedServices.bookNow.subtitle':
+      'ÐÐµ Ð¿Ð¾Ð·Ð²Ð¾Ð»ÑÐ¹Ñ‚Ðµ Ð±Ð¾Ð»Ð¸ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°Ñ‚ÑŒ Ð²Ð°ÑˆÑƒ ÐºÐ°Ñ€ÑŒÐµÑ€Ñƒ Ð¸Ð»Ð¸ ÑÑ‚Ñ€Ð°ÑÑ‚ÑŒ. Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐµÐ³Ð¾Ð´Ð½Ñ.',
+    'personalizedServices.officeWorkers':
+      'Ð ÑƒÐºÐ¾Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»Ð¸ Ð¸ Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ðµ ÑÐ¾Ñ‚Ñ€ÑƒÐ´Ð½Ð¸ÐºÐ¸',
+    'personalizedServices.officeWorkers.desc':
+      'ÐŸÑ€Ð¾Ñ‚Ð¸Ð²Ð¾Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ ÑÑ„Ñ„ÐµÐºÑ‚Ð°Ð¼ ÑÐ¸Ð´ÑÑ‡ÐµÐ³Ð¾ Ð¾Ð±Ñ€Ð°Ð·Ð° Ð¶Ð¸Ð·Ð½Ð¸ Ð¸ ÑÑ‚Ñ€ÐµÑÑÐ° Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð³Ð¾ ÑƒÑ€Ð¾Ð²Ð½Ñ. Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¾ÑÐ°Ð½ÐºÐ¸ Ð¸ ÑÑÐ½Ð¾ÑÑ‚Ð¸ ÑƒÐ¼Ð°.',
+    'personalizedServices.officeWorkers.benefit1':
+      'Ð”ÐµÐºÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¸Ñ Ð¿Ð¾Ð·Ð²Ð¾Ð½Ð¾Ñ‡Ð½Ð¸ÐºÐ° Ð¸ Ð¾ÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ ÑˆÐµÐ¹Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚Ð´ÐµÐ»Ð°.',
+    'personalizedServices.officeWorkers.benefit2':
+      'Ð­Ñ€Ð³Ð¾Ð½Ð¾Ð¼Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¸ Ð´Ñ‹Ñ…Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸.',
+    'personalizedServices.officeWorkers.benefit3':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼ Ð¸ Ð·Ñ€Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒÑŽ.',
+    'personalizedServices.officeWorkers.result':
+      'ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ð°Ñ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ Ð±ÐµÐ· Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¸ÑÑ‚Ð¾Ñ‰ÐµÐ½Ð¸Ñ.',
+    'personalizedServices.athletes': 'Ð­Ð»Ð¸Ñ‚Ð½Ñ‹Ðµ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ñ‹',
+    'personalizedServices.athletes.desc':
+      'Ð‘Ð¸Ð¾Ð¼ÐµÑ…Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ, Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ñ‚Ñ€Ð°Ð²Ð¼ Ð¸ ÑƒÑÐºÐ¾Ñ€ÐµÐ½Ð½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ð¿Ñ€ÐµÐ²Ð¾ÑÑ…Ð¾Ð´Ð½Ñ‹Ñ… Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð².',
+    'personalizedServices.athletes.benefit1':
+      'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ°Ñ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð°Ñ Ñ€Ð°Ð·Ð³Ñ€ÑƒÐ·ÐºÐ° Ð¸ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚ÑŒ ÑÑƒÑÑ‚Ð°Ð²Ð¾Ð².',
+    'personalizedServices.athletes.benefit2':
+      'ÐÐºÑ‚Ð¸Ð²Ð½Ð¾Ðµ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ñ‚Ñ€Ð°Ð²Ð¼ Ð¸ ÐºÐ¾Ð¼Ð¿ÐµÐ½ÑÐ°Ñ†Ð¸Ð¹.',
+    'personalizedServices.athletes.benefit3':
+      'ÐÐµÐ¹Ñ€Ð¾Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð°Ñ Ð°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ Ð´Ð¾/Ð¿Ð¾ÑÐ»Ðµ ÑÐ¾Ñ€ÐµÐ²Ð½Ð¾Ð²Ð°Ð½Ð¸Ð¹.',
+    'personalizedServices.athletes.result':
+      'ÐŸÑ€ÐµÐ¾Ð´Ð¾Ð»ÐµÐ²Ð°Ð¹Ñ‚Ðµ ÑÐ²Ð¾Ð¸ Ð¿Ñ€ÐµÐ´ÐµÐ»Ñ‹ Ñ Ñ‚ÐµÐ»Ð¾Ð¼, ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ðµ Ð¾Ñ‚ÐºÐ»Ð¸ÐºÐ°ÐµÑ‚ÑÑ.',
+    'personalizedServices.artists': 'Визуальные художники',
+    'personalizedServices.artists.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ ÑƒÑ…Ð¾Ð´ Ð·Ð° Ð¼ÐµÐ»ÐºÐ¾Ð¹ Ð¼Ð¾Ñ‚Ð¾Ñ€Ð¸ÐºÐ¾Ð¹ Ð¸ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼Ð¸ ÑÑ‚Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¼Ð¸ Ð¿Ð¾Ð·Ð°Ð¼Ð¸.',
+    'personalizedServices.artists.benefit1':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð»ÐµÑ‡ÐµÐ½Ð¸Ðµ Ñ€ÑƒÐº, Ð·Ð°Ð¿ÑÑÑ‚Ð¸Ð¹ Ð¸ Ð¿Ñ€ÐµÐ´Ð¿Ð»ÐµÑ‡Ð¸Ð¹.',
+    'personalizedServices.artists.benefit2':
+      'ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ Ð¿Ð»ÐµÑ‡ÐµÐ²Ð¾Ð³Ð¾ Ð¿Ð¾ÑÑÐ° Ð¸ ÑˆÐµÐ¸.',
+    'personalizedServices.artists.benefit3':
+      'Ð¡Ð²ÑÐ·ÑŒ Ñ‚ÐµÐ»Ð° Ð¸ Ñ€Ð°Ð·ÑƒÐ¼Ð° Ð´Ð»Ñ Ñ€Ð°Ð·Ð±Ð»Ð¾ÐºÐ¸Ñ€Ð¾Ð²ÐºÐ¸ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð°.',
+    'personalizedServices.artists.result':
+      'Ð¢Ð²Ð¾Ñ€Ð¸Ñ‚Ðµ Ð±ÐµÐ· Ð±Ð¾Ð»Ð¸ Ð¸ Ñ Ð¿Ð¾Ð»Ð½Ð¾Ð¹ ÑÐ²Ð¾Ð±Ð¾Ð´Ð¾Ð¹ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¹.',
+    'personalizedServices.musicians': 'ÐœÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ñ‹ Ð¸ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»Ð¸',
+    'personalizedServices.musicians.desc':
+      'Ð“Ð°Ñ€Ð¼Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ð³Ð¾ Ñ‚Ð¾Ð½ÑƒÑÐ° Ð¸ Ð¾ÑÐ°Ð½ÐºÐ¸ Ð´Ð»Ñ Ð±ÐµÐ·ÑƒÐ¿Ñ€ÐµÑ‡Ð½Ð¾Ð³Ð¾ Ñ‚ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¸ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ.',
+    'personalizedServices.musicians.benefit1':
+      'ÐŸÑ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ñ‚ÐµÐ½Ð´Ð¸Ð½Ð¸Ñ‚Ð¾Ð² Ð¸ Ñ„Ð¾ÐºÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ð´Ð¸ÑÑ‚Ð¾Ð½Ð¸Ð¹.',
+    'personalizedServices.musicians.benefit2':
+      'ÐžÐ¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸ Ñ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ð¾Ð¼.',
+    'personalizedServices.musicians.benefit3':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ¸Ð¼ Ð²Ð¾Ð»Ð½ÐµÐ½Ð¸ÐµÐ¼ Ñ‡ÐµÑ€ÐµÐ· Ñ‚ÐµÐ»Ð¾.',
+    'personalizedServices.musicians.result':
+      'Ð˜Ð³Ñ€Ð°Ð¹Ñ‚Ðµ Ñ Ð»ÐµÐ³ÐºÐ¾ÑÑ‚ÑŒÑŽ, Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚ÑŒÑŽ Ð¸ Ð±ÐµÐ· Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ.',
+    'personalizedServices.students': 'Студенты и академики',
+    'personalizedServices.students.desc':
+      'Ð¤Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¸ Ð¼ÐµÐ½Ñ‚Ð°Ð»ÑŒÐ½Ð°Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° Ð² Ð¿ÐµÑ€Ð¸Ð¾Ð´Ñ‹ Ð²Ñ‹ÑÐ¾ÐºÐ¾Ð¹ Ð¸Ð½Ñ‚ÐµÐ»Ð»ÐµÐºÑ‚ÑƒÐ°Ð»ÑŒÐ½Ð¾Ð¹ Ð½Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸.',
+    'personalizedServices.students.benefit1':
+      'Ð¡Ð½ÑÑ‚Ð¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ Ð¾Ñ‚ Ñ‡Ð°ÑÐ¾Ð² ÑƒÑ‡ÐµÐ±Ñ‹.',
+    'personalizedServices.students.benefit2':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð¾ÐºÑÐ¸Ð³ÐµÐ½Ð°Ñ†Ð¸Ð¸ Ð¼Ð¾Ð·Ð³Ð° Ð¸ Ð¿Ð°Ð¼ÑÑ‚Ð¸.',
+    'personalizedServices.students.benefit3':
+      'Ð ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ ÑÐ½Ð° Ð¸ Ñ‚Ñ€ÐµÐ²Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð¿ÐµÑ€ÐµÐ´ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð°Ð¼Ð¸.',
+    'personalizedServices.students.result': 'Ð¯ÑÐ½Ñ‹Ð¹ ÑƒÐ¼ Ð² Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð½Ð¾Ð¼ Ñ‚ÐµÐ»Ðµ.',
+
+    // Booking page
+    'booking.title': 'Ð—Ð°Ð¿Ñ€Ð¾ÑÐ¸Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ - EKA Balance',
+    'booking.description':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÐ¹Ñ‚Ðµ Ð²Ð°ÑˆÐµÐ¹ Ð·Ð°Ð¿Ð¸ÑÑŒÑŽ Ð½Ð° Ð¾Ð·Ð´Ð¾Ñ€Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ Ñ Ð»ÐµÐ³ÐºÐ¾ÑÑ‚ÑŒÑŽ. ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ Ð¸ Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð½Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚ Ñ‡ÐµÑ€ÐµÐ· WhatsApp.',
+    'booking.badge': 'Ð£Ð¿Ñ€Ð¾Ñ‰ÐµÐ½Ð½Ð¾Ðµ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð·Ð°Ð¿Ð¸ÑÑÐ¼Ð¸',
+    'booking.hero.title': 'ÐÐ°Ñ‡Ð½Ð¸Ñ‚Ðµ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ',
+    'booking.hero.subtitle':
+      'Ð“Ð¸Ð±ÐºÐ°Ñ ÑÐ¸ÑÑ‚ÐµÐ¼Ð°, Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ð°Ñ Ð´Ð»Ñ Ð½ÐµÐ¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾Ð³Ð¾ ÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ñ Ð²Ð°Ñ Ñ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ð¼ Ñ€ÐµÑˆÐµÐ½Ð¸ÐµÐ¼.',
+    'booking.benefits.whatsapp': 'ÐŸÑ€ÑÐ¼Ð°Ñ ÑÐ²ÑÐ·ÑŒ',
+    'booking.benefits.flexible': 'Ð“Ð¸Ð±ÐºÐ¾ÑÑ‚ÑŒ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ°',
+    'booking.benefits.confirmation': 'Мгновенное подтверждение',
+    'booking.contact.title': 'ÐšÐ°Ð½Ð°Ð»Ñ‹ ÑÐ²ÑÐ·Ð¸',
+    'booking.contact.subtitle':
+      'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ ÑÐ¿Ð¾ÑÐ¾Ð± Ð´Ð»Ñ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ†Ð¸Ð¸ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð²Ð¸Ð·Ð¸Ñ‚Ð°.',
+    'booking.direct.title': 'ÐŸÑ€ÑÐ¼Ð¾Ð¹ Ñ‡Ð°Ñ‚',
+    'booking.direct.description':
+      'ÐÐ°Ñ‡Ð½Ð¸Ñ‚Ðµ Ð´Ð¸Ð°Ð»Ð¾Ð³ Ð½ÐµÐ¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾, Ñ‡Ñ‚Ð¾Ð±Ñ‹ ÑƒÑÐºÐ¾Ñ€Ð¸Ñ‚ÑŒ Ð²Ð°ÑˆÐµ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ.',
+    'booking.direct.button': 'Открыть WhatsApp',
+    'booking.form.title': 'ÐÑÑÐ¸ÑÑ‚ÐµÐ½Ñ‚ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ',
+    'booking.form.description':
+      'ÐŸÐ¾Ð´Ð³Ð¾Ñ‚Ð¾Ð²ÑŒÑ‚Ðµ Ð²Ð°Ñˆ Ð·Ð°Ð¿Ñ€Ð¾Ñ Ñ ÐºÐ»ÑŽÑ‡ÐµÐ²Ñ‹Ð¼Ð¸ Ð´ÐµÑ‚Ð°Ð»ÑÐ¼Ð¸ Ð´Ð»Ñ Ñ‚Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚Ð²ÐµÑ‚Ð°.',
+    'booking.form.button': 'Ð˜ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð°ÑÑÐ¸ÑÑ‚ÐµÐ½Ñ‚',
+    'booking.form.hide': 'Ð—Ð°ÐºÑ€Ñ‹Ñ‚ÑŒ Ð°ÑÑÐ¸ÑÑ‚ÐµÐ½Ñ‚',
+    'booking.form.location': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð¼ÐµÑÑ‚Ð¾Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ',
+    'booking.form.locationPlaceholder': 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð¼ÐµÑÑ‚Ð¾Ð¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ',
+    'booking.form.timeSlot': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ÑÑ‚ÑŒ Ð¿Ð¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸',
+    'booking.form.timeSlotPlaceholder': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²Ð°ÑˆÐµ Ð²Ñ€ÐµÐ¼Ñ',
+    'booking.form.availability': 'Предпочтение по дню',
+    'booking.form.availabilityPlaceholder': 'Ð£ÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð²Ð°ÑˆÑƒ Ð´Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ÑÑ‚ÑŒ',
+    'booking.form.objective': 'ÐŸÑ€Ð¸Ñ‡Ð¸Ð½Ð° Ð¾Ð±Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ',
+    'booking.form.objectivePlaceholder':
+      'ÐšÑ€Ð°Ñ‚ÐºÐ¾ Ð¾Ð¿Ð¸ÑˆÐ¸Ñ‚Ðµ Ð²Ð°ÑˆÑƒ Ñ†ÐµÐ»ÑŒ Ð¸Ð»Ð¸ ÑÐ¸Ð¼Ð¿Ñ‚Ð¾Ð¼...',
+    'booking.form.submit': 'ÐžÑ‚Ð¿Ñ€Ð°Ð²Ð¸Ñ‚ÑŒ Ð·Ð°Ð¿Ñ€Ð¾Ñ',
+
+    // Options
+    'booking.options.service.massage': 'ÐœÐ°ÑÑÐ°Ð¶',
+    'booking.options.service.kinesiology': 'ÐšÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'booking.options.service.osteobalance': 'ÐžÑÑ‚ÐµÐ¾Ð±Ð°Ð»Ð°Ð½Ñ',
+    'booking.options.service.movementLesson': 'Ð£Ñ€Ð¾Ðº Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ',
+    'booking.options.service.feldenkrais': 'Фельденкрайз',
+    'booking.options.service.online': 'ÐžÐ½Ð»Ð°Ð¹Ð½ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ñ',
+    'booking.options.service.other': 'Другое',
+
+    'booking.options.location.barcelona': 'Ð‘Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+    'booking.options.location.rubi': 'Руби',
+    'booking.options.location.online': 'Онлайн',
+
+    'booking.options.availability.tomorrow': 'Завтра',
+    'booking.options.availability.dayAfterTomorrow': 'ÐŸÐ¾ÑÐ»ÐµÐ·Ð°Ð²Ñ‚Ñ€Ð°',
+    'booking.options.availability.nextWeek': 'ÐÐ° ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹ Ð½ÐµÐ´ÐµÐ»Ðµ',
+    'booking.options.availability.weekend': 'Выходные',
+    'booking.options.availability.flexible': 'Гибкий график',
+
+    'booking.options.timeSlot.morning': 'Утро (9:00-12:00)',
+    'booking.options.timeSlot.noon': 'Полдень (12:00-15:00)',
+    'booking.options.timeSlot.afternoon': 'День (15:00-18:00)',
+    'booking.options.timeSlot.evening': 'Вечер (18:00-21:00)',
+    'booking.form.quickTitle': 'Ð‘Ñ‹ÑÑ‚Ñ€Ð°Ñ Ñ„Ð¾Ñ€Ð¼Ð° Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ',
+    'booking.form.nameRequired': 'Ð˜Ð¼Ñ *',
+    'booking.form.namePlaceholder': 'Ð’Ð°ÑˆÐµ Ð¸Ð¼Ñ',
+    'booking.form.serviceRequired': 'Ð£ÑÐ»ÑƒÐ³Ð° *',
+    'booking.form.servicePlaceholder': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑƒÑÐ»ÑƒÐ³Ñƒ',
+    'booking.form.validationError':
+      'ÐŸÐ¾Ð¶Ð°Ð»ÑƒÐ¹ÑÑ‚Ð°, Ð·Ð°Ð¿Ð¾Ð»Ð½Ð¸Ñ‚Ðµ Ñ…Ð¾Ñ‚Ñ Ð±Ñ‹ Ð¸Ð¼Ñ Ð¸ Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÑƒÑŽÑ‰ÑƒÑŽ ÑƒÑÐ»ÑƒÐ³Ñƒ.',
+    'booking.popup.title': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐµÐ°Ð½Ñ',
+    'booking.popup.subtitle':
+      'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑƒÑÐ»ÑƒÐ³Ñƒ Ð¸ Ð´Ð°Ñ‚Ñƒ, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð²Ð°Ð¼ Ð¿Ð¾Ð´Ñ…Ð¾Ð´ÑÑ‚',
+    'booking.whatsapp.greeting': 'Ð—Ð´Ñ€Ð°Ð²ÑÑ‚Ð²ÑƒÐ¹Ñ‚Ðµ, Ñ {name}',
+    'booking.whatsapp.greetingGeneric':
+      'Ð—Ð´Ñ€Ð°Ð²ÑÑ‚Ð²ÑƒÐ¹Ñ‚Ðµ, Ð•Ð»ÐµÐ½Ð°, Ñ Ñ…Ð¾Ñ‚ÐµÐ» Ð±Ñ‹ Ð·Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒÑÑ Ð½Ð° Ð¿Ñ€Ð¸ÐµÐ¼.',
+    'booking.whatsapp.service': 'Ð¯ Ñ…Ð¾Ñ‚ÐµÐ» Ð±Ñ‹ Ð·Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÐ°Ð½Ñ: {service}',
+    'booking.whatsapp.location': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð¼ÐµÑÑ‚Ð¾: {location}',
+    'booking.whatsapp.date': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ð´Ð°Ñ‚Ð°: {date}',
+    'booking.whatsapp.time': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ: {time}',
+    'booking.whatsapp.comments': 'Комментарии: {comments}',
+
+    // Athletes personalized service
+    'athletes.hero.badge': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾ Ð´Ð»Ñ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð²',
+    'athletes.hero.title': 'Ð¡Ð¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ñ‹',
+    'athletes.hero.subtitle':
+      'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¼Ñ‹ÑˆÑ†, Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ñ‚Ñ€Ð°Ð²Ð¼ Ð¸ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð²',
+    'athletes.challenges.title': 'Общие проблемы',
+    'athletes.challenge1.title': 'ÐœÐµÐ´Ð»ÐµÐ½Ð½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ',
+    'athletes.challenge1.desc':
+      'Ð¢Ñ€Ð°Ð²Ð¼Ñ‹ Ð¸ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð°Ñ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÑŽÑ‚ÑÑ Ð´Ð¾Ð»ÑŒÑˆÐµ, Ñ‡ÐµÐ¼ Ð½ÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ð¾',
+    'athletes.challenge2.title': 'ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð½Ð°Ñ Ð³Ð¸Ð±ÐºÐ¾ÑÑ‚ÑŒ',
+    'athletes.challenge2.desc':
+      'Ð¡ÐºÐ¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ ÑƒÐ¼ÐµÐ½ÑŒÑˆÐ°ÐµÑ‚ Ð´Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¹ Ð¸ Ð²Ð»Ð¸ÑÐµÑ‚ Ð½Ð° Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'athletes.challenge3.title': 'Ð¡Ñ‚Ñ€ÐµÑÑ Ð¿ÐµÑ€ÐµÐ´ ÑÐ¾Ñ€ÐµÐ²Ð½Ð¾Ð²Ð°Ð½Ð¸ÑÐ¼Ð¸',
+    'athletes.challenge3.desc':
+      'Ð¢Ñ€ÐµÐ²Ð¾Ð³Ð° Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð¿ÐµÑ€ÐµÐ´ Ð²Ð°Ð¶Ð½Ñ‹Ð¼Ð¸ ÑÐ¾Ñ€ÐµÐ²Ð½Ð¾Ð²Ð°Ð½Ð¸ÑÐ¼Ð¸',
+    'athletes.help.title': 'Как мы помогаем',
+    'athletes.help1.title': 'Ð£ÑÐºÐ¾Ñ€ÑÐµÑ‚ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¼Ñ‹ÑˆÑ†',
+    'athletes.help1.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð´Ð»Ñ ÑƒÐ¼ÐµÐ½ÑŒÑˆÐµÐ½Ð¸Ñ Ð²Ð¾ÑÐ¿Ð°Ð»ÐµÐ½Ð¸Ñ Ð¸ ÑƒÑÐºÐ¾Ñ€ÐµÐ½Ð¸Ñ Ð·Ð°Ð¶Ð¸Ð²Ð»ÐµÐ½Ð¸Ñ',
+    'athletes.help2.title': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ð³Ð¸Ð±ÐºÐ¾ÑÑ‚ÑŒ Ð¸ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚ÑŒ',
+    'athletes.help2.desc':
+      'Ð¦ÐµÐ»ÐµÐ½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð½Ñ‹Ðµ ÑƒÐ¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ñ Ð´Ð»Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸Ñ Ð´Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½Ð° Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¹',
+    'athletes.help3.title': 'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ ÑÐ¾Ñ€ÐµÐ²Ð½Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¼ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼',
+    'athletes.help3.desc':
+      'Ð¢ÐµÑ…Ð½Ð¸ÐºÐ¸ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ð¸ Ð´Ð»Ñ ÑÐ¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ñ ÑÐ¿Ð¾ÐºÐ¾Ð¹ÑÑ‚Ð²Ð¸Ñ Ð¿Ð¾Ð´ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸ÐµÐ¼',
+    'athletes.result.title': 'Результат',
+    'athletes.result.desc':
+      'Ð‘Ð¾Ð»ÐµÐµ Ð±Ñ‹ÑÑ‚Ñ€Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ, Ð»ÑƒÑ‡ÑˆÐ°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ Ð¸ Ð¼ÐµÐ½ÑŒÑˆÐµ Ñ‚Ñ€Ð°Ð²Ð¼',
+    'athletes.stats.recovery': 'Ð›ÑƒÑ‡ÑˆÐµÐµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ',
+    'athletes.stats.flexibility': 'Ð‘Ð¾Ð»ÑŒÑˆÐµ Ð³Ð¸Ð±ÐºÐ¾ÑÑ‚Ð¸',
+    'athletes.stats.anxiety': 'Меньше тревоги',
+    'athletes.session.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð²',
+
+    // Artists personalized service
+    'artists.hero.badge': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾ Ð´Ð»Ñ Ð°Ñ€Ñ‚Ð¸ÑÑ‚Ð¾Ð²',
+    'artists.hero.title': 'ÐÑ€Ñ‚Ð¸ÑÑ‚Ñ‹',
+    'artists.hero.subtitle':
+      'Ð£Ñ…Ð¾Ð´ Ð·Ð° Ñ€ÑƒÐºÐ°Ð¼Ð¸, Ñ€ÑƒÐºÐ°Ð¼Ð¸ Ð¸ Ð¾ÑÐ°Ð½ÐºÐ¾Ð¹ Ð´Ð»Ñ Ð²Ð¸Ð·ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð² Ð¸ Ñ‚Ð²Ð¾Ñ€Ñ†Ð¾Ð²',
+    'artists.challenges.title': 'Общие проблемы',
+    'artists.challenge1.title': 'Ð‘Ð¾Ð»ÑŒ Ð² Ñ€ÑƒÐºÐ°Ñ… Ð¸ Ð·Ð°Ð¿ÑÑÑ‚ÑŒÑÑ…',
+    'artists.challenge1.desc':
+      'Ð‘Ð¾Ð»ÑŒ Ð¾Ñ‚ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÑÑŽÑ‰Ð¸Ñ…ÑÑ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¹ Ð²Ð¾ Ð²Ñ€ÐµÐ¼Ñ Ð´Ð¾Ð»Ð³Ð¸Ñ… Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÐºÐ¸Ñ… ÑÐµÑÑÐ¸Ð¹',
+    'artists.challenge2.title': 'ÐÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð°Ñ Ð¾ÑÐ°Ð½ÐºÐ°',
+    'artists.challenge2.desc':
+      'ÐÐ°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ ÑˆÐµÐ¸ Ð¸ ÑÐ¿Ð¸Ð½Ñ‹ Ð¾Ñ‚ Ð´Ð»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ñ… Ð¿Ð¾Ð· Ð²Ð¾ Ð²Ñ€ÐµÐ¼Ñ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð°',
+    'artists.challenge3.title': 'Ð¢Ð²Ð¾Ñ€Ñ‡ÐµÑÐºÐ¸Ðµ Ð±Ð»Ð¾ÐºÐ¸',
+    'artists.challenge3.desc':
+      'Ð¤Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ, Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ðµ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ð¾Ñ‚Ð¾Ðº Ð¸ Ð²Ð´Ð¾Ñ…Ð½Ð¾Ð²ÐµÐ½Ð¸Ðµ',
+    'artists.help.title': 'Как мы помогаем',
+    'artists.help1.title':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ ÑƒÑ…Ð¾Ð´ Ð·Ð° Ñ€ÑƒÐºÐ°Ð¼Ð¸ Ð¸ Ð·Ð°Ð¿ÑÑÑ‚ÑŒÑÐ¼Ð¸',
+    'artists.help1.desc':
+      'Ð¦ÐµÐ»ÐµÐ½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ñ‹ Ð´Ð»Ñ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ñ Ð±Ð¾Ð»Ð¸ Ð¸ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ Ñ‚Ñ€Ð°Ð²Ð¼',
+    'artists.help2.title': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ñ€Ð°Ð±Ð¾Ñ‡ÑƒÑŽ Ð¾ÑÐ°Ð½ÐºÑƒ',
+    'artists.help2.desc':
+      'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸ Ð´Ð»Ñ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ Ð²Ð¾ Ð²Ñ€ÐµÐ¼Ñ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð°',
+    'artists.help3.title': 'ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´Ð°ÐµÑ‚ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð¾',
+    'artists.help3.desc':
+      'Ð£ÑÑ‚Ñ€Ð°Ð½ÑÐµÑ‚ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ, Ð±Ð»Ð¾ÐºÐ¸Ñ€ÑƒÑŽÑ‰Ð¸Ðµ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¿Ñ€Ð¾Ñ†ÐµÑÑ',
+    'artists.result.title': 'Ожидаемый результат',
+    'artists.result.desc':
+      'Ð‘Ð¾Ð»ÑŒÑˆÐµ ÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚Ð°, Ð¿Ð»Ð°Ð²Ð½Ð¾ÑÑ‚Ð¸ Ð¸ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð° Ð² Ð²Ð°ÑˆÐµÐ¼ Ñ…ÑƒÐ´Ð¾Ð¶ÐµÑÑ‚Ð²ÐµÐ½Ð½Ð¾Ð¼ Ð¿Ñ€Ð¾Ñ†ÐµÑÑÐµ',
+    'artists.stats.confidence': 'Ð‘Ð¾Ð»ÑŒÑˆÐµ ÑƒÐ²ÐµÑ€ÐµÐ½Ð½Ð¾ÑÑ‚Ð¸',
+    'artists.stats.tension': 'ÐœÐµÐ½ÑŒÑˆÐµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'artists.stats.anxiety': 'Меньше тревоги',
+    'artists.session.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð°Ñ€Ñ‚Ð¸ÑÑ‚Ð¾Ð²',
+    'artists.session.cta': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÑÑÐ¸ÑŽ',
+    'artists.session.other': 'Ð”Ñ€ÑƒÐ³Ð¸Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+
+    // Musicians personalized service
+    'musicians.hero.badge': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²',
+    'musicians.hero.title': 'Музыканты',
+    'musicians.hero.subtitle':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²: Ñ€ÑƒÐºÐ¸, Ñ€ÑƒÐºÐ¸, Ð¾ÑÐ°Ð½ÐºÐ° Ð¸ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ°',
+    'musicians.problems.title': 'Проблемы, которые мы решаем',
+    'musicians.problems.subtitle':
+      'ÐœÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ñ‹ ÑÑ‚Ð°Ð»ÐºÐ¸Ð²Ð°ÑŽÑ‚ÑÑ Ñ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¼Ð¸ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ð¼Ð¸ Ð²Ñ‹Ð·Ð¾Ð²Ð°Ð¼Ð¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð¼Ð¾Ð³ÑƒÑ‚ Ð¿Ð¾Ð²Ð»Ð¸ÑÑ‚ÑŒ Ð½Ð° Ð¸Ñ… ÐºÐ°Ñ€ÑŒÐµÑ€Ñƒ',
+    'musicians.problem1.title': 'Ð¢Ñ€Ð°Ð²Ð¼Ñ‹ Ð¾Ñ‚ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÑÑŽÑ‰Ð¸Ñ…ÑÑ Ð½Ð°Ð³Ñ€ÑƒÐ·Ð¾Ðº',
+    'musicians.problem1.desc':
+      'Ð‘Ð¾Ð»ÑŒ Ð² Ñ€ÑƒÐºÐ°Ñ…, Ð·Ð°Ð¿ÑÑÑ‚ÑŒÑÑ… Ð¸ Ð¿Ñ€ÐµÐ´Ð¿Ð»ÐµÑ‡ÑŒÑÑ… Ð¾Ñ‚ Ð¸Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ð¾Ð¹ Ð¿Ñ€Ð°ÐºÑ‚Ð¸ÐºÐ¸',
+    'musicians.problem2.title': 'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'musicians.problem2.desc':
+      'Ð‘Ð¾Ð»ÑŒ Ð² ÑˆÐµÐµ Ð¸ ÑÐ¿Ð¸Ð½Ðµ Ð¾Ñ‚ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ñ ÑÐ¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¿Ð¾Ð·',
+    'musicians.problem3.title': 'Ð¡Ñ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð°',
+    'musicians.problem3.desc':
+      'Ð¡Ñ‚Ñ€ÐµÑÑ Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð¿ÐµÑ€ÐµÐ´ Ð²Ð°Ð¶Ð½Ñ‹Ð¼Ð¸ Ð²Ñ‹ÑÑ‚ÑƒÐ¿Ð»ÐµÐ½Ð¸ÑÐ¼Ð¸',
+    'musicians.problem4.title': 'ÐŸÐ¾Ñ‚ÐµÑ€Ñ Ñ‚ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚Ð¸',
+    'musicians.problem4.desc':
+      'ÐÐ°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð²Ð»Ð¸ÑÐµÑ‚ Ð½Ð° ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ†Ð¸ÑŽ Ð¸ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð¾Ðµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾',
+    'musicians.help.title': 'Как мы помогаем',
+    'musicians.help1.title': 'Предотвращение травм',
+    'musicians.help1.desc':
+      'Ð¢ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð´Ð»Ñ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ñ‚Ñ€Ð°Ð²Ð¼ Ð¾Ñ‚ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÑÑŽÑ‰Ð¸Ñ…ÑÑ Ð½Ð°Ð³Ñ€ÑƒÐ·Ð¾Ðº',
+    'musicians.help2.title': 'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð¾Ðµ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ',
+    'musicians.help2.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸ Ð´Ð»Ñ Ð²Ð°ÑˆÐµÐ¹ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð¾ÑÐ°Ð½ÐºÐ¸',
+    'musicians.help3.title': 'Ð¦ÐµÐ»ÐµÐ½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð½Ð°Ñ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+    'musicians.help3.desc':
+      'Ð¢ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð´Ð»Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ñ ÑÐ¿Ð¾ÐºÐ¾Ð¹ÑÑ‚Ð²Ð¸Ñ Ð¸ Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚Ð¸',
+    'musicians.results.title': 'Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ñ‹, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… Ð²Ñ‹ Ð´Ð¾ÑÑ‚Ð¸Ð³Ð½ÐµÑ‚Ðµ',
+    'musicians.results.point1':
+      'Ð—Ð½Ð°Ñ‡Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ ÑƒÐ¼ÐµÐ½ÑŒÑˆÐµÐ½Ð¸Ðµ Ð±Ð¾Ð»Ð¸ Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'musicians.results.point2':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ñ‚ÐµÑ…Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ñ‚Ð¾Ñ‡Ð½Ð¾ÑÑ‚Ð¸ Ð¸ Ð²Ñ‹Ñ€Ð°Ð·Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'musicians.results.point3':
+      'Ð‘Ð¾Ð»ÑŒÑˆÐ°Ñ ÑƒÐ²ÐµÑ€ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð¸ ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¿Ñ€Ð¸ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ',
+    'musicians.plans.title':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ð»Ð°Ð½Ñ‹ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²',
+    'musicians.plans.subtitle':
+      'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿Ð»Ð°Ð½, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð»ÑƒÑ‡ÑˆÐµ Ð²ÑÐµÐ³Ð¾ Ð¿Ð¾Ð´Ñ…Ð¾Ð´Ð¸Ñ‚ Ð²Ð°ÑˆÐ¸Ð¼ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ñ‹Ð¼ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑÐ¼',
+    'musicians.plan1.name': 'Ð˜Ð½Ð´Ð¸Ð²Ð¸Ð´ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ ÑÐµÑÑÐ¸Ñ',
+    'musicians.plan1.desc': 'Ð˜Ð´ÐµÐ°Ð»ÑŒÐ½Ð¾ Ð´Ð»Ñ Ð¿Ñ€Ð¾Ð±Ñ‹ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³',
+    'musicians.plan1.benefit1':
+      'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¾Ñ†ÐµÐ½ÐºÐ° Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð¾ÑÐ°Ð½ÐºÐ¸',
+    'musicians.plan1.benefit2': 'Ð›ÐµÑ‡ÐµÐ½Ð¸Ðµ ÑÐ¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ð¹',
+    'musicians.plan1.benefit3':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð¾Ð¼Ð°ÑˆÐ½Ð¸Ðµ ÑƒÐ¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ñ',
+    'musicians.plan1.benefit4': 'Советы по профилактике',
+    'musicians.plan1.result':
+      'ÐÐµÐ¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾Ðµ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ðµ Ð¸ Ð±Ð¾Ð»ÑŒÑˆÐ°Ñ Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾ÑÑ‚ÑŒ Ñ‚ÐµÐ»Ð°',
+    'musicians.plan2.name': 'ÐÐ°Ñ‡Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¿Ð°ÐºÐµÑ‚',
+    'musicians.plan2.desc':
+      'Ð˜Ð´ÐµÐ°Ð»ÑŒÐ½Ð¾ Ð´Ð»Ñ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¿Ñ€Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ Ð¾ÑÐ½Ð¾Ð²Ð°Ð½Ð¸Ñ',
+    'musicians.plan2.benefit1': 'Ð’ÑÐµ Ð¸Ð· Ð¸Ð½Ð´Ð¸Ð²Ð¸Ð´ÑƒÐ°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð¿Ð»Ð°Ð½Ð°',
+    'musicians.plan2.benefit2':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð¼Ð¾Ð½Ð¸Ñ‚Ð¾Ñ€Ð¸Ð½Ð³ Ð¸ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²ÐºÐ°',
+    'musicians.plan2.benefit3': 'ÐŸÑ€Ð¾Ð³Ñ€ÐµÑÑÐ¸Ð²Ð½Ð°Ñ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð° ÑƒÐ¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ð¹',
+    'musicians.plan2.benefit4': 'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð°Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° Ñ‡ÐµÑ€ÐµÐ· WhatsApp',
+    'musicians.plan2.result':
+      'Ð—Ð½Ð°Ñ‡Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð² Ñ‚ÐµÑ…Ð½Ð¸ÐºÐµ Ð¸ ÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚Ðµ',
+    'musicians.plan2.popular': 'Ð¡Ð°Ð¼Ñ‹Ð¹ Ð¿Ð¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ‹Ð¹',
+    'musicians.plan2.save': 'Ð’Ñ‹ ÑÐºÐ¾Ð½Ð¾Ð¼Ð¸Ñ‚Ðµ',
+    'musicians.plan3.name': 'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð°',
+    'musicians.plan3.desc':
+      'ÐŸÐ¾Ð»Ð½Ð¾Ðµ Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²',
+    'musicians.plan3.benefit1': 'Ð’ÑÐµ Ð¸Ð· Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð¸Ñ… Ð¿Ð»Ð°Ð½Ð¾Ð²',
+    'musicians.plan3.benefit2': 'ÐŸÐ¸Ñ‚Ð°Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð¿Ð»Ð°Ð½ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²',
+    'musicians.plan3.benefit3': 'ÐŸÑ€Ð¾Ð´Ð²Ð¸Ð½ÑƒÑ‚Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ð¸',
+    'musicians.plan3.benefit4': 'Ð‘ÐµÑÐ¿Ð»Ð°Ñ‚Ð½Ñ‹Ð¹ Ð¾Ð±Ð·Ð¾Ñ€ 360°',
+    'musicians.plan3.result':
+      'ÐŸÐ¾Ð»Ð½Ð°Ñ Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+    'musicians.plan.cta': 'Выбрать',
+
+    // Students personalized service
+    'students.hero.badge': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+    'students.hero.title': 'Студенты',
+    'students.hero.subtitle':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼ ÑƒÑ‡ÐµÐ±Ñ‹, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ð¸ Ð¸ ÑƒÑ…Ð¾Ð´ Ð·Ð° Ð¾ÑÐ°Ð½ÐºÐ¾Ð¹',
+    'students.challenges.title': 'Общие проблемы',
+    'students.challenge1.title': 'Ð¡Ñ‚Ñ€ÐµÑÑ Ð¾Ñ‚ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð¾Ð²',
+    'students.challenge1.desc':
+      'Ð¢Ñ€ÐµÐ²Ð¾Ð³Ð° Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ, Ð²Ð»Ð¸ÑÑŽÑ‰Ð¸Ðµ Ð½Ð° Ð°ÐºÐ°Ð´ÐµÐ¼Ð¸Ñ‡ÐµÑÐºÑƒÑŽ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'students.challenge2.title': 'ÐžÐ³Ñ€Ð°Ð½Ð¸Ñ‡ÐµÐ½Ð½Ð°Ñ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ñ',
+    'students.challenge2.desc':
+      'Ð¢Ñ€ÑƒÐ´Ð½Ð¾ÑÑ‚ÑŒ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ñ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ñ Ð²Ð¾ Ð²Ñ€ÐµÐ¼Ñ Ð´Ð¾Ð»Ð³Ð¸Ñ… ÑƒÑ‡ÐµÐ±Ð½Ñ‹Ñ… ÑÐµÑÑÐ¸Ð¹',
+    'students.challenge3.title': 'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'students.challenge3.desc':
+      'Ð‘Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ ÑˆÐµÐµ Ð¾Ñ‚ ÑÐ¸Ð´ÐµÐ½Ð¸Ñ Ð¼Ð½Ð¾Ð³Ð¸Ðµ Ñ‡Ð°ÑÑ‹ Ð·Ð° ÑƒÑ‡ÐµÐ±Ð¾Ð¹',
+    'students.help.title': 'Как мы помогаем',
+    'students.help1.title': 'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ Ð°ÐºÐ°Ð´ÐµÐ¼Ð¸Ñ‡ÐµÑÐºÐ¸Ð¼ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼',
+    'students.help1.desc':
+      'Ð¢ÐµÑ…Ð½Ð¸ÐºÐ¸ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ð¸ Ð´Ð»Ñ ÑƒÐ¼ÐµÐ½ÑŒÑˆÐµÐ½Ð¸Ñ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¸ Ð¾Ñ‚ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð¾Ð²',
+    'students.help2.title': 'Улучшает концентрацию',
+    'students.help2.desc':
+      'Ð£Ð¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ñ Ð´Ð»Ñ ÑƒÐ²ÐµÐ»Ð¸Ñ‡ÐµÐ½Ð¸Ñ Ð¿Ñ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð²Ð½Ð¸Ð¼Ð°Ð½Ð¸Ñ Ð¸ Ð¿Ð°Ð¼ÑÑ‚Ð¸',
+    'students.help3.title': 'ÐšÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€ÑƒÐµÑ‚ ÑƒÑ‡ÐµÐ±Ð½ÑƒÑŽ Ð¾ÑÐ°Ð½ÐºÑƒ',
+    'students.help3.desc':
+      'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²ÐºÐ¸ Ð´Ð»Ñ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ Ð±Ð¾Ð»Ð¸ Ð²Ð¾ Ð²Ñ€ÐµÐ¼Ñ ÑƒÑ‡ÐµÐ±Ñ‹',
+    'students.result.title': 'Результат',
+    'students.result.desc':
+      'Ð›ÑƒÑ‡ÑˆÐ°Ñ Ð°ÐºÐ°Ð´ÐµÐ¼Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ, Ð¼ÐµÐ½ÑŒÑˆÐµ ÑÑ‚Ñ€ÐµÑÑÐ° Ð¸ Ð±Ð¾Ð»ÑŒÑˆÐµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸',
+    'students.stats.concentration': 'Больше концентрации',
+    'students.stats.tension': 'ÐœÐµÐ½ÑŒÑˆÐµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'students.stats.stress': 'ÐœÐµÐ½ÑŒÑˆÐµ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'students.session.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+
+    // Office Workers specific translations
+    'office.stats.pain': 'Меньше боли',
+    'office.stats.posture': 'Ð›ÑƒÑ‡ÑˆÐ°Ñ Ð¾ÑÐ°Ð½ÐºÐ°',
+    'office.stats.stress': 'ÐœÐµÐ½ÑŒÑˆÐµ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'office.session.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ñ… Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¾Ð²',
+    'office.session.plans': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ð¿Ð»Ð°Ð½Ñ‹',
+
+    // FAQ Section
+    'faq.title': 'Ð§Ð°ÑÑ‚Ð¾ Ð·Ð°Ð´Ð°Ð²Ð°ÐµÐ¼Ñ‹Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹',
+    'faq.subtitle':
+      'ÐÐ°Ð¹Ð´Ð¸Ñ‚Ðµ Ð¾Ñ‚Ð²ÐµÑ‚Ñ‹ Ð½Ð° ÑÐ°Ð¼Ñ‹Ðµ Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÐµÐ½Ð½Ñ‹Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹ Ð¾ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³Ð°Ñ…',
+    'faq.q1.question': 'Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð´Ð»Ð¸Ñ‚ÑÑ Ñ‚Ð¸Ð¿Ð¸Ñ‡Ð½Ð°Ñ ÑÐµÑÑÐ¸Ñ?',
+    'faq.q1.answer':
+      'Ð¡ÐµÑÑÐ¸Ð¸ Ð¾Ð±Ñ‹Ñ‡Ð½Ð¾ Ð´Ð»ÑÑ‚ÑÑ Ð¾Ñ‚ 60 Ð´Ð¾ 90 Ð¼Ð¸Ð½ÑƒÑ‚, Ð² Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ Ð²Ñ‹Ð±Ñ€Ð°Ð½Ð½Ð¾Ð³Ð¾ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð¸ Ð²Ð°ÑˆÐ¸Ñ… ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ñ… Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÐµÐ¹.',
+    'faq.q2.question': 'ÐÑƒÐ¶ÐµÐ½ Ð»Ð¸ Ð¼Ð½Ðµ Ð¿Ñ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð¸Ð¹ Ð¾Ð¿Ñ‹Ñ‚?',
+    'faq.q2.answer':
+      'ÐŸÑ€ÐµÐ´Ñ‹Ð´ÑƒÑ‰Ð¸Ð¹ Ð¾Ð¿Ñ‹Ñ‚ Ð½Ðµ Ð½ÑƒÐ¶ÐµÐ½. Ð’ÑÐµ Ð½Ð°ÑˆÐ¸ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ñ‹ Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€ÑƒÑŽÑ‚ÑÑ Ðº Ð²Ð°ÑˆÐµÐ¼Ñƒ ÑƒÑ€Ð¾Ð²Ð½ÑŽ Ð¸ ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ð¼ Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑÐ¼.',
+    'faq.q3.question': 'ÐšÐ°Ðº Ñ‡Ð°ÑÑ‚Ð¾ Ð¼Ð½Ðµ ÑÐ»ÐµÐ´ÑƒÐµÑ‚ Ð¿Ñ€Ð¸Ñ…Ð¾Ð´Ð¸Ñ‚ÑŒ?',
+    'faq.q3.answer':
+      'Ð’ Ð·Ð°Ð²Ð¸ÑÐ¸Ð¼Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ Ð²Ð°ÑˆÐ¸Ñ… Ñ†ÐµÐ»ÐµÐ¹, Ð¼Ñ‹ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼ 1-2 ÑÐµÑÑÐ¸Ð¸ Ð² Ð½ÐµÐ´ÐµÐ»ÑŽ Ð¿ÐµÑ€Ð²Ð¾Ð½Ð°Ñ‡Ð°Ð»ÑŒÐ½Ð¾, Ð° Ð·Ð°Ñ‚ÐµÐ¼ ÐµÐ¶ÐµÐ¼ÐµÑÑÑ‡Ð½Ñ‹Ðµ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ðµ ÑÐµÑÑÐ¸Ð¸.',
+    'faq.q4.question': 'ÐšÐ°ÐºÐ¸Ðµ ÑÐ¿Ð¾ÑÐ¾Ð±Ñ‹ Ð¾Ð¿Ð»Ð°Ñ‚Ñ‹ Ð²Ñ‹ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚Ðµ?',
+    'faq.q4.answer':
+      'ÐœÑ‹ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÐ¼ Ð½Ð°Ð»Ð¸Ñ‡Ð½Ñ‹Ðµ, ÐºÑ€ÐµÐ´Ð¸Ñ‚Ð½Ñ‹Ðµ Ð¸ Ð´ÐµÐ±ÐµÑ‚Ð¾Ð²Ñ‹Ðµ ÐºÐ°Ñ€Ñ‚Ñ‹, Ð° Ñ‚Ð°ÐºÐ¶Ðµ bizum Ð´Ð»Ñ ÑƒÐ´Ð¾Ð±ÑÑ‚Ð²Ð°.',
+    'faq.q5.question': 'ÐœÐ¾Ð³Ñƒ Ð»Ð¸ Ñ Ð¾Ñ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¸Ð»Ð¸ Ð¿ÐµÑ€ÐµÐ½ÐµÑÑ‚Ð¸ Ð²ÑÑ‚Ñ€ÐµÑ‡Ñƒ?',
+    'faq.q5.answer':
+      'Ð”Ð°, Ð²Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð¾Ñ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð¸Ð»Ð¸ Ð¿ÐµÑ€ÐµÐ½ÐµÑÑ‚Ð¸ Ð·Ð° 24 Ñ‡Ð°ÑÐ° Ð±ÐµÐ· Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ð¿Ð»Ð°Ñ‚Ñ‹.',
+
+    // First Time Visitor Form
+    'form.badge': 'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ',
+    'form.title': 'ÐÐ°Ð¹Ð´Ð¸Ñ‚Ðµ Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½ÑƒÑŽ ÑƒÑÐ»ÑƒÐ³Ñƒ Ð´Ð»Ñ Ð²Ð°Ñ',
+    'form.subtitle':
+      'ÐžÑ‚Ð²ÐµÑ‚ÑŒÑ‚Ðµ Ð½Ð° Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð±Ñ‹ÑÑ‚Ñ€Ñ‹Ñ… Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ¾Ð², Ð¸ Ð¼Ñ‹ Ð¿Ð¾Ð¼Ð¾Ð¶ÐµÐ¼ Ð²Ð°Ð¼ Ð½Ð°Ð¹Ñ‚Ð¸ Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½ÑƒÑŽ Ñ‚ÐµÑ€Ð°Ð¿Ð¸ÑŽ',
+    'form.contactWhatsApp': 'Ð¡Ð²ÑÐ·Ð°Ñ‚ÑŒÑÑ Ñ‡ÐµÑ€ÐµÐ· WhatsApp',
+    'form.step': 'Шаг',
+    'form.of': 'Из',
+    'form.previous': 'Предыдущий',
+    'form.next': 'Следующий',
+    'form.seeRecommendation': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸ÑŽ',
+    'form.backToForm': 'Ð’ÐµÑ€Ð½ÑƒÑ‚ÑŒÑÑ Ðº Ñ„Ð¾Ñ€Ð¼Ðµ',
+    'form.close': 'Закрыть',
+    'form.closeForm': 'Закрыть форму',
+
+    'discovery.step.description.title': 'Ð Ð°ÑÑÐºÐ°Ð¶Ð¸Ñ‚Ðµ Ð½Ð°Ð¼ Ð¾ Ð²Ð°ÑˆÐµÐ¼ ÑÐ»ÑƒÑ‡Ð°Ðµ',
+    'discovery.step.description.subtitle':
+      'ÐžÐ¿Ð¸ÑˆÐ¸Ñ‚Ðµ Ð²Ð°ÑˆÐ¸ ÑÐ¸Ð¼Ð¿Ñ‚Ð¾Ð¼Ñ‹, Ð±Ð¾Ð»ÑŒ Ð¸Ð»Ð¸ Ñ‚Ð¾, Ñ‡ÐµÐ³Ð¾ Ð²Ñ‹ Ñ…Ð¾Ñ‚Ð¸Ñ‚Ðµ Ð´Ð¾ÑÑ‚Ð¸Ñ‡ÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¼Ñ‹ Ð¼Ð¾Ð³Ð»Ð¸ ÑÑ‚Ð¾ Ð¿Ñ€Ð¾Ð°Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ.',
+    'discovery.step.description.placeholder':
+      'ÐÐ°Ð¿Ñ€Ð¸Ð¼ÐµÑ€: Ñƒ Ð¼ÐµÐ½Ñ Ð±Ð¾Ð»Ð¸Ñ‚ Ð¿Ð¾ÑÑÐ½Ð¸Ñ†Ð°, ÐºÐ¾Ð³Ð´Ð° Ñ Ð´Ð¾Ð»Ð³Ð¾ ÑÐ¸Ð¶Ñƒ, Ð¸ Ð² Ð¿Ð¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ Ñ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÑŽ ÑÐ¸Ð»ÑŒÐ½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÑÑ...',
+
+    'form.step1.question': 'ÐšÐ°ÐºÐ¾Ð¹ Ð²Ð°Ñˆ Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ?',
+    'form.userType.officeWorker': 'ÐžÑ„Ð¸ÑÐ½Ñ‹Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸Ðº',
+    'form.userType.officeWorkerDesc':
+      'Ð¯ Ð¿Ñ€Ð¾Ð²Ð¾Ð¶Ñƒ Ð¼Ð½Ð¾Ð³Ð¾ Ñ‡Ð°ÑÐ¾Ð² ÑÐ¸Ð´Ñ Ð¿ÐµÑ€ÐµÐ´ ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð¼',
+    'form.userType.athlete': 'Ð¡Ð¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½',
+    'form.userType.athleteDesc':
+      'Ð¯ Ñ€ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ð¾ Ð·Ð°Ð½Ð¸Ð¼Ð°ÑŽÑÑŒ ÑÐ¿Ð¾Ñ€Ñ‚Ð¾Ð¼ Ð¸Ð»Ð¸ ÑÐ²Ð»ÑÑŽÑÑŒ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¼ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð¼',
+    'form.userType.artist': 'ÐÑ€Ñ‚Ð¸ÑÑ‚ Ð¸Ð»Ð¸ Ñ‚Ð²Ð¾Ñ€ÐµÑ†',
+    'form.userType.artistDesc':
+      'Ð¯ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽ Ñ€ÑƒÐºÐ°Ð¼Ð¸ (Ð¶Ð¸Ð²Ð¾Ð¿Ð¸ÑÑŒ, ÑÐºÑƒÐ»ÑŒÐ¿Ñ‚ÑƒÑ€Ð°, Ñ€ÐµÐ¼ÐµÑÐ»Ð°)',
+    'form.userType.musician': 'Музыкант',
+    'form.userType.musicianDesc':
+      'Ð¯ Ñ€ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ð¾ Ð¸Ð³Ñ€Ð°ÑŽ Ð½Ð° Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ð°Ñ…',
+    'form.userType.student': 'Студент',
+    'form.userType.studentDesc': 'Ð¯ ÑƒÑ‡ÑƒÑÑŒ Ð¸Ð»Ð¸ Ð³Ð¾Ñ‚Ð¾Ð²Ð»ÑŽÑÑŒ Ðº ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð°Ð¼',
+    'form.userType.general': 'Другие профили',
+    'form.userType.generalDesc':
+      'ÐÐ¸ Ð¾Ð´Ð¸Ð½ Ð¸Ð· Ð²Ñ‹ÑˆÐµÐ¿ÐµÑ€ÐµÑ‡Ð¸ÑÐ»ÐµÐ½Ð½Ñ‹Ñ… Ð¸Ð»Ð¸ ÐºÐ¾Ð¼Ð±Ð¸Ð½Ð°Ñ†Ð¸Ñ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¸Ñ…',
+
+    'form.step2.question':
+      'ÐšÐ°ÐºÐ¾Ð²Ñ‹ Ð²Ð°ÑˆÐ¸ Ñ†ÐµÐ»Ð¸? (Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²ÑÐµ Ð¿Ð¾Ð´Ñ…Ð¾Ð´ÑÑ‰Ð¸Ðµ)',
+    'form.goals.musclePain': 'ÐžÐ±Ð»ÐµÐ³Ñ‡Ð¸Ñ‚ÑŒ Ð¼Ñ‹ÑˆÐµÑ‡Ð½ÑƒÑŽ Ð±Ð¾Ð»ÑŒ Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ',
+    'form.goals.stress': 'Ð¡Ð½Ð¸Ð·Ð¸Ñ‚ÑŒ ÑÑ‚Ñ€ÐµÑÑ Ð¸ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ñƒ',
+    'form.goals.posture': 'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ Ð¾ÑÐ°Ð½ÐºÑƒ',
+    'form.goals.relaxation': 'Ð Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð¸Ðµ Ð¸ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ðµ',
+    'form.goals.recovery': 'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾ÑÐ»Ðµ ÑƒÐ¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ð¹',
+    'form.goals.sleep': 'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚ÑŒ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾ ÑÐ½Ð°',
+    'form.goals.emotions': 'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÑ‚ÑŒ ÑÐ¼Ð¾Ñ†Ð¸ÑÐ¼Ð¸',
+    'form.goals.energy': 'Ð£Ð²ÐµÐ»Ð¸Ñ‡Ð¸Ñ‚ÑŒ ÑÐ½ÐµÑ€Ð³Ð¸ÑŽ Ð¸ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½ÑƒÑŽ ÑÐ¸Ð»Ñƒ',
+
+    'form.step3.question': 'Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ñƒ Ð²Ð°Ñ ÐµÑÑ‚ÑŒ Ð½Ð° ÑÐµÑÑÐ¸ÑŽ?',
+    'form.time.short': 'ÐœÐµÐ½ÐµÐµ 1 Ñ‡Ð°ÑÐ°',
+    'form.time.standard': '1-1,5 Ñ‡Ð°ÑÐ°',
+    'form.time.long': 'Ð‘Ð¾Ð»ÐµÐµ 1,5 Ñ‡Ð°ÑÐ¾Ð²',
+
+    'form.step4.question':
+      'ÐšÐ°ÐºÐ¾Ð¹ Ñƒ Ð²Ð°Ñ Ð¾Ð¿Ñ‹Ñ‚ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ Ñ‚ÐµÐ»ÐµÑÐ½Ñ‹Ð¼Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸ÑÐ¼Ð¸?',
+    'form.experience.none': 'Это мой первый раз',
+    'form.experience.noneDesc':
+      'Ð¯ Ð½Ð¸ÐºÐ¾Ð³Ð´Ð° Ð½Ðµ Ð¿Ð¾Ð»ÑƒÑ‡Ð°Ð» Ñ‚ÐµÐ»ÐµÑÐ½Ñ‹Ñ… Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¹',
+    'form.experience.some': 'Ð£ Ð¼ÐµÐ½Ñ ÐµÑÑ‚ÑŒ Ð½ÐµÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð¾Ð¿Ñ‹Ñ‚',
+    'form.experience.someDesc': 'Ð¯ Ð¸Ð½Ð¾Ð³Ð´Ð° Ñ…Ð¾Ð´Ð¸Ð» Ð½Ð° Ð¼Ð°ÑÑÐ°Ð¶ Ð¸Ð»Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸',
+    'form.experience.experienced': 'Ð£ Ð¼ÐµÐ½Ñ ÐµÑÑ‚ÑŒ Ð¾Ð¿Ñ‹Ñ‚',
+    'form.experience.experiencedDesc': 'Ð¯ Ñ€ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ð¾ Ð¿Ð¾Ð»ÑƒÑ‡Ð°ÑŽ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸',
+
+    'form.step5.question':
+      'ÐšÐ°ÐºÐ¾Ð¹ Ñ‚Ð¸Ð¿ Ð¸Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ð¾ÑÑ‚Ð¸ Ð²Ñ‹ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ñ‡Ð¸Ñ‚Ð°ÐµÑ‚Ðµ?',
+    'form.intensity.gentle': 'ÐœÑÐ³ÐºÐ¸Ð¹ Ð¸ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹',
+    'form.intensity.gentleDesc':
+      'Ð¯ Ð¿Ñ€ÐµÐ´Ð¿Ð¾Ñ‡Ð¸Ñ‚Ð°ÑŽ Ð¼ÑÐ³ÐºÐ¾Ðµ Ð¸ ÑÐ¿Ð¾ÐºÐ¾Ð¹Ð½Ð¾Ðµ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹',
+    'form.intensity.medium': 'Умеренный',
+    'form.intensity.mediumDesc':
+      'Ð¡Ð±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð¼ÐµÐ¶Ð´Ñƒ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð¸ÐµÐ¼ Ð¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ð¾Ð¹',
+    'form.intensity.deep': 'Ð˜Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ñ‹Ð¹ Ð¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¸Ð¹',
+    'form.intensity.deepDesc':
+      'Ð¯ Ñ…Ð¾Ñ‡Ñƒ Ð³Ð»ÑƒÐ±Ð¾ÐºÑƒÑŽ Ñ€Ð°Ð±Ð¾Ñ‚Ñƒ Ð´Ð»Ñ ÐºÐ¾Ð½ÐºÑ€ÐµÑ‚Ð½Ñ‹Ñ… Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ð¹',
+
+    'form.recommendation.badge': 'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ñ',
+    'form.recommendation.title': 'Ð’Ð°ÑˆÐ° Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½Ð°Ñ ÑƒÑÐ»ÑƒÐ³Ð°',
+    'form.recommendation.subtitle':
+      'ÐÐ° Ð¾ÑÐ½Ð¾Ð²Ðµ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ñ Ð¼Ñ‹ Ð½Ð°ÑˆÐ»Ð¸ Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½ÑƒÑŽ ÑƒÑÐ»ÑƒÐ³Ñƒ Ð´Ð»Ñ Ð²Ð°Ñ',
+    'form.recommendation.price': 'Цена',
+    'form.recommendation.duration': 'ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'form.recommendation.benefits': 'ÐžÑÐ½Ð¾Ð²Ð½Ñ‹Ðµ Ð¿Ñ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°',
+
+    'form.recommendation.officeWorker.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ñ… Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¾Ð²',
+    'form.recommendation.officeWorker.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ñ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ Ð¾Ñ‚ ÑÐ¸Ð´ÑÑ‡ÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸ Ð¸ ÑÐ½Ð¸Ð¶ÐµÐ½Ð¸Ñ Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ³Ð¾ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'form.recommendation.officeWorker.benefit1':
+      'ÐžÐ±Ð»ÐµÐ³Ñ‡Ð°ÐµÑ‚ Ð±Ð¾Ð»ÑŒ Ð² ÑˆÐµÐµ Ð¸ ÑÐ¿Ð¸Ð½Ðµ',
+    'form.recommendation.officeWorker.benefit2':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ð¾ÑÐ°Ð½ÐºÑƒ Ð·Ð° ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð¼',
+    'form.recommendation.officeWorker.benefit3': 'Ð¡Ð½Ð¸Ð¶Ð°ÐµÑ‚ Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ',
+    'form.recommendation.officeWorker.benefit4': 'Ð‘Ð¾Ð»ÑŒÑˆÐµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð´Ð»Ñ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹',
+
+    'form.recommendation.athlete.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð²',
+    'form.recommendation.athlete.desc':
+      'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¼Ñ‹ÑˆÑ†, Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ñ‚Ñ€Ð°Ð²Ð¼ Ð¸ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð² ÑÐ¾ ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ°Ð¼Ð¸',
+    'form.recommendation.athlete.benefit1': 'Ð£ÑÐºÐ¾Ñ€ÑÐµÑ‚ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¼Ñ‹ÑˆÑ†',
+    'form.recommendation.athlete.benefit2': 'Предотвращает травмы',
+    'form.recommendation.athlete.benefit3': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ð³Ð¸Ð±ÐºÐ¾ÑÑ‚ÑŒ',
+    'form.recommendation.athlete.benefit4':
+      'ÐžÐ¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð¸Ñ€ÑƒÐµÑ‚ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+
+    'form.recommendation.artist.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð°Ñ€Ñ‚Ð¸ÑÑ‚Ð¾Ð²',
+    'form.recommendation.artist.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑƒÑ…Ð¾Ð´ Ð·Ð° Ñ€ÑƒÐºÐ°Ð¼Ð¸, Ñ€ÑƒÐºÐ°Ð¼Ð¸ Ð¸ Ð¾ÑÐ°Ð½ÐºÐ¾Ð¹ Ð´Ð»Ñ Ð²Ð¸Ð·ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð². ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´Ð°ÐµÑ‚ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð¾, ÑƒÑÑ‚Ñ€Ð°Ð½ÑÑ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'form.recommendation.artist.benefit1': 'Ð£Ñ…Ð¾Ð´ Ð·Ð° Ñ€ÑƒÐºÐ°Ð¼Ð¸ Ð¸ Ð·Ð°Ð¿ÑÑÑ‚ÑŒÑÐ¼Ð¸',
+    'form.recommendation.artist.benefit2': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÐºÑƒÑŽ Ð¾ÑÐ°Ð½ÐºÑƒ',
+    'form.recommendation.artist.benefit3': 'ÐžÑÐ²Ð¾Ð±Ð¾Ð¶Ð´Ð°ÐµÑ‚ Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð¾',
+    'form.recommendation.artist.benefit4':
+      'ÐŸÑ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹ Ð¾Ñ‚ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÑÑŽÑ‰ÐµÐ³Ð¾ÑÑ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ',
+
+    'form.recommendation.musician.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²',
+    'form.recommendation.musician.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð²: Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ñ‚Ñ€Ð°Ð²Ð¼, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð¸ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¾Ð¹',
+    'form.recommendation.musician.benefit1': 'Предотвращает музыкальные травмы',
+    'form.recommendation.musician.benefit2': 'Улучшает технику',
+    'form.recommendation.musician.benefit3':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¾Ð¹',
+    'form.recommendation.musician.benefit4': 'Ð¡Ð¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+
+    'form.recommendation.student.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+    'form.recommendation.student.desc':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼ Ð¾Ñ‚ ÑƒÑ‡ÐµÐ±Ñ‹, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ð¸ Ð¸ Ð¿Ð¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÑƒÑ…Ð¾Ð´ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+    'form.recommendation.student.benefit1': 'Ð¡Ð½Ð¸Ð¶Ð°ÐµÑ‚ ÑÑ‚Ñ€ÐµÑÑ Ð¾Ñ‚ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð¾Ð²',
+    'form.recommendation.student.benefit2': 'Улучшает концентрацию',
+    'form.recommendation.student.benefit3':
+      'ÐšÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€ÑƒÐµÑ‚ Ð¾ÑÐ°Ð½ÐºÑƒ Ð¿Ñ€Ð¸ ÑƒÑ‡ÐµÐ±Ðµ',
+    'form.recommendation.student.benefit4': 'Ð‘Ð¾Ð»ÑŒÑˆÐµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð´Ð»Ñ ÑƒÑ‡ÐµÐ±Ñ‹',
+
+    'form.recommendation.holistic.title':
+      'Ð˜Ð½Ñ‚ÐµÐ³Ñ€Ð°Ð»ÑŒÐ½Ð°Ñ Ñ…Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑÐµÑÑÐ¸Ñ',
+    'form.recommendation.holistic.desc':
+      'ÐšÐ¾Ð¼Ð±Ð¸Ð½Ð°Ñ†Ð¸Ñ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¼Ð°ÑÑÐ°Ð¶Ð° Ð¸ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð´Ð»Ñ Ð¿Ð¾Ð»Ð½Ð¾Ð³Ð¾ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ñ‚ÐµÐ»Ð° Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¹',
+    'form.recommendation.holistic.benefit1': 'Интегральное методы работы',
+    'form.recommendation.holistic.benefit2': 'Ð‘Ð°Ð»Ð°Ð½Ñ Ñ‚ÐµÐ»Ð° Ð¸ Ñ€Ð°Ð·ÑƒÐ¼Ð°',
+    'form.recommendation.holistic.benefit3':
+      'ÐžÐ±Ð»ÐµÐ³Ñ‡Ð°ÐµÑ‚ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'form.recommendation.holistic.benefit4': 'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÐµÑ‚ ÑÐ¼Ð¾Ñ†Ð¸ÑÐ¼Ð¸',
+
+    'form.recommendation.therapeutic.title': 'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'form.recommendation.therapeutic.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ ÑÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ñ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ð¹ Ð±Ð¾Ð»Ð¸, Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ð¹ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ñ‚ÐµÐ»ÐµÑÐ½Ð¾Ð¹ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸',
+    'form.recommendation.therapeutic.benefit1': 'Облегчает мышечную боль',
+    'form.recommendation.therapeutic.benefit2': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚ÑŒ',
+    'form.recommendation.therapeutic.benefit3': 'Ð¡Ð½Ð¸Ð¶Ð°ÐµÑ‚ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ',
+    'form.recommendation.therapeutic.benefit4': 'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ°Ñ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+
+    'form.recommendation.kinesiology.title': 'Ð¥Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'form.recommendation.kinesiology.desc':
+      'Ð¢ÐµÑ€Ð°Ð¿Ð¸Ñ, ÐºÐ¾Ñ‚Ð¾Ñ€Ð°Ñ ÑÐ¾Ñ‡ÐµÑ‚Ð°ÐµÑ‚ Ñ‚ÐµÐ»ÐµÑÐ½Ñ‹Ðµ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð´Ð»Ñ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð±Ð°Ð»Ð°Ð½ÑÐ° Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¾Ð±Ñ‰ÐµÐ³Ð¾ ÑÐ¾ÑÑ‚Ð¾ÑÐ½Ð¸Ñ',
+    'form.recommendation.kinesiology.benefit1': 'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ',
+    'form.recommendation.kinesiology.benefit2': 'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼',
+    'form.recommendation.kinesiology.benefit3': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ ÑÐ°Ð¼Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð¸Ðµ',
+    'form.recommendation.kinesiology.benefit4': 'Внутренний покой',
+
+    'form.recommendation.discovery.title': 'Ð¡ÐµÑÑÐ¸Ñ Ð¾Ñ‚ÐºÑ€Ñ‹Ñ‚Ð¸Ñ',
+    'form.recommendation.discovery.desc':
+      'ÐÐ°Ñ‡Ð°Ð»ÑŒÐ½Ð°Ñ ÑÐµÑÑÐ¸Ñ Ð´Ð»Ñ Ð¸Ð·ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð²Ð°ÑˆÐ¸Ñ… Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÐµÐ¹ Ð¸ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ñ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ð³Ð¾ Ð¿Ð»Ð°Ð½Ð° Ð´Ð»Ñ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+    'form.recommendation.discovery.benefit1': 'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¾Ñ†ÐµÐ½ÐºÐ°',
+    'form.recommendation.discovery.benefit2': 'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð¿Ð»Ð°Ð½',
+    'form.recommendation.discovery.benefit3': 'Первый опыт',
+    'form.recommendation.discovery.benefit4':
+      'ÐŸÑ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ñ€ÑƒÐºÐ¾Ð²Ð¾Ð´ÑÑ‚Ð²Ð¾',
+
+    'seo.students.title': 'Ð¢ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð² | EKA Balance',
+    'seo.students.description':
+      'Ð¡Ð½ÑÑ‚Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ° Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð¾ÑÐ°Ð½ÐºÐ¸ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð². ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ ÑÐµÑÑÐ¸Ð¸ Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ð¸ Ð¸ ÑÐ½Ð¸Ð¶ÐµÐ½Ð¸Ñ ÑƒÑ‡ÐµÐ±Ð½Ð¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ.',
+    'seo.students.keywords':
+      'Ð¢ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð², ÑÐ½ÑÑ‚Ð¸Ðµ ÑƒÑ‡ÐµÐ±Ð½Ð¾Ð³Ð¾ ÑÑ‚Ñ€ÐµÑÑÐ°, ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ð¸, Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'seo.officeWorkers.title':
+      'Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ñ… Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¾Ð² | EKA Balance',
+    'seo.officeWorkers.description':
+      'Ð ÐµÑˆÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð±Ð¾Ð»Ð¸ Ð² ÑÐ¿Ð¸Ð½Ðµ, ÑˆÐµÐµ Ð¸ Ð·Ð°Ð¿ÑÑÑ‚ÑŒÑÑ…, Ð²Ñ‹Ð·Ð²Ð°Ð½Ð½Ð¾Ð¹ Ð¾Ñ„Ð¸ÑÐ½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ð¾Ð¹. Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ Ð¾ÑÐ°Ð½ÐºÑƒ Ð¸ ÑÐ½Ð¸Ð·ÑŒÑ‚Ðµ Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ.',
+    'seo.officeWorkers.keywords':
+      'ÐžÑ„Ð¸ÑÐ½Ð°Ñ ÑÑ€Ð³Ð¾Ð½Ð¾Ð¼Ð¸ÐºÐ°, Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¾Ñ„Ð¸Ñ, ÑÐ¸Ð½Ð´Ñ€Ð¾Ð¼ Ð·Ð°Ð¿ÑÑÑ‚Ð½Ð¾Ð³Ð¾ ÐºÐ°Ð½Ð°Ð»Ð°, ÑÐ½ÑÑ‚Ð¸Ðµ Ñ€Ð°Ð±Ð¾Ñ‡ÐµÐ³Ð¾ ÑÑ‚Ñ€ÐµÑÑÐ°, Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ñ€ÑƒÐºÐ¾Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'seo.musicians.title':
+      'Ð¤Ð¸Ð·Ð¸Ð¾Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð¸ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð² | EKA Balance',
+    'seo.musicians.description':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ñ‹ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð². ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐ° Ñ‚Ñ€Ð°Ð²Ð¼, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¾Ð¹.',
+    'seo.musicians.keywords':
+      'Ð¢ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð², Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð², ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð°, Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð°Ñ ÑÑ€Ð³Ð¾Ð½Ð¾Ð¼Ð¸ÐºÐ°, Ñ„Ð¸Ð·Ð¸Ð¾Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð¸ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÑÐºÐ¸Ñ… Ð¸ÑÐºÑƒÑÑÑ‚Ð²',
+
+    'seo.athletes.title':
+      'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¸ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ | EKA Balance',
+    'seo.athletes.description':
+      'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð². Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÑÐ²Ð¾Ð¸ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ñ‹, Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‚Ð¸Ñ‚Ðµ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°Ð¹Ñ‚ÐµÑÑŒ Ð±Ñ‹ÑÑ‚Ñ€ÐµÐµ.',
+    'seo.athletes.keywords':
+      'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð², Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐ° ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ñ… Ñ‚Ñ€Ð°Ð²Ð¼, ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸, ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ð°Ñ Ñ„Ð¸Ð·Ð¸Ð¾Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'seo.parents.title':
+      'Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð¸ ÑÐ½ÐµÑ€Ð³Ð¸Ñ Ð´Ð»Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹ | EKA Balance',
+    'seo.parents.description':
+      'ÐŸÐ¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° Ð´Ð»Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹. Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ ÑÐ½ÐµÑ€Ð³Ð¸ÑŽ, ÑÐ½Ð¸Ð·ÑŒÑ‚Ðµ ÑÑ‚Ñ€ÐµÑÑ Ð¸ Ð½Ð°Ð¹Ð´Ð¸Ñ‚Ðµ Ð±Ð°Ð»Ð°Ð½Ñ Ð¼ÐµÐ¶Ð´Ñƒ ÑÐµÐ¼ÐµÐ¹Ð½Ð¾Ð¹ Ð¸ Ð»Ð¸Ñ‡Ð½Ð¾Ð¹ Ð¶Ð¸Ð·Ð½ÑŒÑŽ.',
+    'seo.parents.keywords':
+      'Ð Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÑÐºÐ¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ, Ð¿Ð¾ÑÐ»ÐµÑ€Ð¾Ð´Ð¾Ð²Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ, ÑÐ½ÐµÑ€Ð³Ð¸Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹, ÑÐµÐ¼ÐµÐ¹Ð½Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ, Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹',
+
+    // Common translations for personalized pages
+    'common.askQuestions': 'Ð—Ð°Ð´Ð°Ñ‚ÑŒ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹',
+    'common.learnMore': 'Узнать больше',
+    'common.recommended': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÑ‚ÑÑ',
+    'common.back': 'Назад',
+    'common.continue': 'Продолжить',
+    'common.disclaimer':
+      'Ð£ÑÐ»ÑƒÐ³Ð¸ EKA Balance ÑÐ²Ð»ÑÑŽÑ‚ÑÑ Ð´Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¾Ð¹, Ð° Ð½Ðµ Ð¼ÐµÐ´Ð¸Ñ†Ð¸Ð½ÑÐºÐ¾Ð¹. ÐžÐ½Ð¸ Ð½Ðµ Ð·Ð°Ð¼ÐµÐ½ÑÑŽÑ‚ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½ÑƒÑŽ Ð´Ð¸Ð°Ð³Ð½Ð¾ÑÑ‚Ð¸ÐºÑƒ Ð¸Ð»Ð¸ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹. Ð¦ÐµÐ»ÑŒ - ÑÐ¾Ð¿Ñ€Ð¾Ð²Ð¾Ð¶Ð´Ð°Ñ‚ÑŒ Ð²Ð°Ñ Ðº Ð±Ð¾Ð»ÑŒÑˆÐµÐ¼Ñƒ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ, Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸ Ð¸ Ð³Ð»Ð¾Ð±Ð°Ð»ÑŒÐ½Ð¾Ð¼Ñƒ Ð±Ð°Ð»Ð°Ð½ÑÑƒ.',
+
+    'contact.form.whatsapp': 'WhatsApp',
+    'contact.form.preferredTime': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ',
+    'contact.form.selectTime': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²Ñ€ÐµÐ¼Ñ',
+
+    // Cookie translations
+    'cookies.title':
+      'ÐœÑ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ Ñ„Ð°Ð¹Ð»Ñ‹ cookie Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¾Ð¿Ñ‹Ñ‚Ð°',
+    'cookies.description':
+      'ÐœÑ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ Ð¾ÑÐ½Ð¾Ð²Ð½Ñ‹Ðµ Ñ„Ð°Ð¹Ð»Ñ‹ cookie Ð´Ð»Ñ Ñ„ÑƒÐ½ÐºÑ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð²ÐµÐ±-ÑÐ°Ð¹Ñ‚Ð° Ð¸ Ð°Ð½Ð¾Ð½Ð¸Ð¼Ð½ÑƒÑŽ Ð°Ð½Ð°Ð»Ð¸Ñ‚Ð¸ÐºÑƒ Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³. ÐœÑ‹ Ð½Ðµ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ Ñ€ÐµÐºÐ»Ð°Ð¼Ð½Ñ‹Ðµ Ñ„Ð°Ð¹Ð»Ñ‹ cookie Ð¸Ð»Ð¸ Ñ„Ð°Ð¹Ð»Ñ‹ Ð¾Ñ‚ÑÐ»ÐµÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ. ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð°Ñ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÑŒ Ð½Ð°Ñˆ ÑÐ°Ð¹Ñ‚, Ð²Ñ‹ ÑÐ¾Ð³Ð»Ð°ÑˆÐ°ÐµÑ‚ÐµÑÑŒ Ð½Ð° Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ðµ Ñ„Ð°Ð¹Ð»Ð¾Ð² cookie.',
+    'cookies.accept': 'ÐŸÑ€Ð¸Ð½ÑÑ‚ÑŒ Ð²ÑÐµ',
+    'cookies.learnMore': 'Узнать больше',
+
+    // Layout footer
+    'footer.privacyPolicy': 'ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° ÐºÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'footer.cookiePolicy': 'ÐŸÐ¾Ð»Ð¸Ñ‚Ð¸ÐºÐ° Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ñ„Ð°Ð¹Ð»Ð¾Ð² cookie',
+    'footer.termsOfService': 'Ð£ÑÐ»Ð¾Ð²Ð¸Ñ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ',
+    'footer.logout': 'Выход',
+    'footer.login': 'Вход',
+
+    // Service pages
+    'services.page.benefits': 'ÐŸÑ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°',
+    'services.page.testimonials': 'Отзывы',
+    'services.page.sessions': 'Ð¡ÐµÐ°Ð½ÑÑ‹',
+    'services.page.duration': 'ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'services.page.price': 'Цена',
+
+    // Policy pages
+    'policy.lastUpdated': 'ÐŸÐ¾ÑÐ»ÐµÐ´Ð½ÐµÐµ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ:',
+    'policy.introduction': 'Введение',
+
+    // SEO
+    'seo.home.title':
+      'EKA Balance | Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð¸ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ',
+    'seo.home.description':
+      'Ð¦ÐµÐ½Ñ‚Ñ€ ÐºÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð¾Ð³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ. Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸ÑÑ‚Ñ‹ Ð¿Ð¾ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð¼Ñƒ Ð¼Ð°ÑÑÐ°Ð¶Ñƒ, Ñ…Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ñ‚ÐµÑ€Ð°Ð¿Ð¸ÑÐ¼ Ð´Ð»Ñ ÑÐ½ÑÑ‚Ð¸Ñ Ð±Ð¾Ð»Ð¸ Ð¸ ÑÑ‚Ñ€ÐµÑÑÐ°.',
+    'seo.home.keywords':
+      'ÐœÐ°ÑÑÐ°Ð¶ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ, Ð¼Ð°Ð½ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ, Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ, ÑÑ‚Ñ€ÐµÑÑ, Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+
+    // Onboarding
+    'onboarding.welcome.title':
+      'Ð”Ð¾Ð±Ñ€Ð¾ Ð¿Ð¾Ð¶Ð°Ð»Ð¾Ð²Ð°Ñ‚ÑŒ Ð² Ð²Ð°Ñˆ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð¾Ð¿Ñ‹Ñ‚',
+    'onboarding.welcome.description':
+      'ÐžÑ‚Ð²ÐµÑ‚ÑŒÑ‚Ðµ Ð½Ð° Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ ÐºÐ¾Ñ€Ð¾Ñ‚ÐºÐ¸Ñ… Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ¾Ð², Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¼Ñ‹ Ð¼Ð¾Ð³Ð»Ð¸ Ð¿Ð¾Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð¾Ð²Ð°Ñ‚ÑŒ Ð²Ð°Ð¼ Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½ÑƒÑŽ ÑƒÑÐ»ÑƒÐ³Ñƒ.',
+    'onboarding.progress.step': 'Шаг',
+    'onboarding.progress.of': 'Из',
+    'onboarding.processing.title': 'Обработка ваших ответов...',
+    'onboarding.processing.subtitle':
+      'Мы анализируем ваш профиль, чтобы найти лучшую рекомендацию.',
+    'onboarding.finish': 'Завершить',
+    'onboarding.results.title':
+      'Ð’Ð°ÑˆÐ° Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ñ',
+    'onboarding.results.subtitle':
+      'ÐÐ° Ð¾ÑÐ½Ð¾Ð²Ðµ Ð²Ð°ÑˆÐ¸Ñ… Ð¾Ñ‚Ð²ÐµÑ‚Ð¾Ð² Ð¼Ñ‹ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼:',
+    'onboarding.results.recommended': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÑ‚ÑÑ',
+    'onboarding.results.personalizedInfo':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ',
+
+    // Personalized Pages SEO
+    'personalized.office.title':
+      'Ð¢ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ñ… Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¾Ð² | EKA Balance',
+    'personalized.office.description':
+      'ÐžÐ±Ð»ÐµÐ³Ñ‡Ð¸Ñ‚Ðµ Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¹ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ñ… Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ.',
+    'personalized.office.keywords':
+      'ÐžÑ„Ð¸ÑÐ½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€, Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ, ÑÑ€Ð³Ð¾Ð½Ð¾Ð¼Ð¸ÐºÐ°, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'personalized.athletes.title':
+      'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ | EKA Balance',
+    'personalized.athletes.description':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÑÐ²Ð¾Ð¸ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ñ‹ Ð¸ ÑƒÑÐºÐ¾Ñ€ÑŒÑ‚Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ñ… Ð¼Ð°ÑÑÐ°Ð¶ÐµÐ¹ Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¹ Ð´Ð»Ñ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ.',
+    'personalized.athletes.keywords':
+      'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¼Ñ‹ÑˆÑ†, ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ðµ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹, Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'personalized.artists.title':
+      'Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð´Ð»Ñ Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð² Ð¸ Ñ‚Ð²Ð¾Ñ€Ñ†Ð¾Ð² | EKA Balance',
+    'personalized.artists.description':
+      'ÐŸÐ¾Ð·Ð°Ð±Ð¾Ñ‚ÑŒÑ‚ÐµÑÑŒ Ð¾ ÑÐ²Ð¾Ð¸Ñ… Ñ€ÑƒÐºÐ°Ñ… Ð¸ Ð¾ÑÐ°Ð½ÐºÐµ. Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ Ð²Ð¸Ð·ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð², Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð² Ð¸ Ñ‚Ð²Ð¾Ñ€Ñ†Ð¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ.',
+    'personalized.artists.keywords':
+      'ÐœÐ°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð², Ð±Ð¾Ð»ÑŒ Ð² Ñ€ÑƒÐºÐ°Ñ…, Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÐºÐ°Ñ Ð¾ÑÐ°Ð½ÐºÐ°, Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ñ‚Ð²Ð¾Ñ€Ñ†Ð¾Ð², Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'personalized.musicians.title':
+      'Ð¤Ð¸Ð·Ð¸Ð¾Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð¸ Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð² | EKA Balance',
+    'personalized.musicians.description':
+      'ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐ° Ñ‚Ñ€Ð°Ð²Ð¼ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð². Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ñ‹ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ.',
+    'personalized.musicians.keywords':
+      'ÐœÐ°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð², Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð², Ñ„Ð¾ÐºÐ°Ð»ÑŒÐ½Ð°Ñ Ð´Ð¸ÑÑ‚Ð¾Ð½Ð¸Ñ, Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð°Ñ Ð¾ÑÐ°Ð½ÐºÐ°, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'personalized.students.title':
+      'Ð ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ Ð¸ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ñ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð² | EKA Balance',
+    'personalized.students.description':
+      'Ð¡Ð½Ð¸Ð·ÑŒÑ‚Ðµ ÑÑ‚Ñ€ÐµÑÑ Ð¾Ñ‚ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð¾Ð² Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸ÑŽ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¹ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ.',
+    'personalized.students.keywords':
+      'Ð¡Ñ‚Ñ€ÐµÑÑ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ñ‹, ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ñ, ÑƒÑ‡ÐµÐ±Ð½Ð°Ñ Ð¾ÑÐ°Ð½ÐºÐ°, Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð², Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    'personalized.parents.title': 'Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð´Ð»Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹ | EKA Balance',
+    'personalized.parents.description':
+      'ÐÐ°Ð¹Ð´Ð¸Ñ‚Ðµ ÑÐ²Ð¾Ð¹ Ð¼Ð¾Ð¼ÐµÐ½Ñ‚ Ð¿Ð¾ÐºÐ¾Ñ. Ð¢ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ ÑÐ½ÑÑ‚Ð¸Ñ ÑÑ‚Ñ€ÐµÑÑÐ° Ð¸ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚Ð¸ Ð¾Ñ‚ Ð²Ð¾ÑÐ¿Ð¸Ñ‚Ð°Ð½Ð¸Ñ Ð´ÐµÑ‚ÐµÐ¹ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ.',
+    'personalized.parents.keywords':
+      'Ð¡Ñ‚Ñ€ÐµÑÑ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹, Ð¿Ð¾ÑÐ»ÐµÑ€Ð¾Ð´Ð¾Ð²Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ, ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ Ð²Ð¾ÑÐ¿Ð¸Ñ‚Ð°Ð½Ð¸Ñ, Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Common
+    'common.price': 'Цена',
+    'common.duration': 'ÐŸÑ€Ð¾Ð´Ð¾Ð»Ð¶Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'common.benefits': 'ÐŸÑ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°',
+    'common.book': 'Забронировать',
+    'common.next': 'Далее',
+    'common.submit': 'Отправить',
+    'common.loading': 'Загрузка...',
+    'common.error': 'Ошибка',
+    'common.success': 'Ð£ÑÐ¿ÐµÑ…',
+    'common.required': 'ÐžÐ±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾',
+    'common.optional': 'ÐÐµÐ¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð¾',
+    'common.close': 'Закрыть',
+    'common.menu': 'Меню',
+    'common.home': 'Ð“Ð»Ð°Ð²Ð½Ð°Ñ',
+    'common.services': 'Ð£ÑÐ»ÑƒÐ³Ð¸',
+    'common.about': 'Ðž Ð½Ð°Ñ',
+    'common.blog': 'Блог',
+    'common.faq': 'Ð§Ð°ÑÑ‚Ð¾ Ð·Ð°Ð´Ð°Ð²Ð°ÐµÐ¼Ñ‹Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹',
+    'common.privacy': 'ÐšÐ¾Ð½Ñ„Ð¸Ð´ÐµÐ½Ñ†Ð¸Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'common.terms': 'Условия',
+    'common.cookies': 'Файлы cookie',
+    'common.copyright': 'ÐÐ²Ñ‚Ð¾Ñ€ÑÐºÐ¾Ðµ Ð¿Ñ€Ð°Ð²Ð¾',
+    'common.language': 'Язык',
+    'common.spanish': 'Ð˜ÑÐ¿Ð°Ð½ÑÐºÐ¸Ð¹',
+    'common.english': 'Английский',
+    'common.catalan': 'ÐšÐ°Ñ‚Ð°Ð»Ð°Ð½ÑÐºÐ¸Ð¹',
+    'common.russian': 'Ð ÑƒÑÑÐºÐ¸Ð¹',
+
+    // Elena SEO
+    'elena.seo.title':
+      'Ðž ÐµÐ»ÐµÐ½Ðµ | Ñ…Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ',
+    'elena.seo.desc':
+      'ÐŸÐ¾Ð·Ð½Ð°ÐºÐ¾Ð¼ÑŒÑ‚ÐµÑÑŒ Ñ ÐµÐ»ÐµÐ½Ð¾Ð¹, Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¾Ð¼, ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€ÑƒÑŽÑ‰Ð¸Ð¼ÑÑ Ð½Ð° Ð¼Ð°ÑÑÐ°Ð¶Ðµ, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð¸ ÐºÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð¾Ð¼ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¸. Ð‘Ð¾Ð»ÐµÐµ 10 Ð»ÐµÑ‚ Ð¾Ð¿Ñ‹Ñ‚Ð° Ð¿Ð¾Ð¼Ð¾Ñ‰Ð¸ Ð»ÑŽÐ´ÑÐ¼ Ð² Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ð¸ Ð±Ð°Ð»Ð°Ð½ÑÐ°.',
+    'elena.seo.keywords':
+      'Ð•Ð»ÐµÐ½Ð° Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚, Ð¼Ð°ÑÑÐ°Ð¶ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ñ…Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚, Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ',
+
+    // Casos SEO
+    'casos.seo.title': 'Ð˜ÑÑ‚Ð¾Ñ€Ð¸Ð¸ ÑƒÑÐ¿ÐµÑ…Ð° Ð¸ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ | EKA Balance',
+    'casos.seo.desc':
+      'Ð£Ð·Ð½Ð°Ð¹Ñ‚Ðµ, ÐºÐ°Ðº Ð¼Ñ‹ Ð¿Ð¾Ð¼Ð¾Ð³Ð»Ð¸ Ð½Ð°ÑˆÐ¸Ð¼ ÐºÐ»Ð¸ÐµÐ½Ñ‚Ð°Ð¼ Ð¿Ñ€ÐµÐ¾Ð´Ð¾Ð»ÐµÑ‚ÑŒ Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ, ÑÑ‚Ñ€ÐµÑÑ, Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ñƒ Ð¸ Ð´Ñ€ÑƒÐ³Ð¸Ðµ Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹ ÑÐ¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµÐ¼ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¹.',
+    'casos.seo.keywords':
+      'Ð˜ÑÑ‚Ð¾Ñ€Ð¸Ð¸ ÑƒÑÐ¿ÐµÑ…Ð°, Ð¾Ñ‚Ð·Ñ‹Ð²Ñ‹ Ð¼Ð°ÑÑÐ°Ð¶, Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð±Ð¾Ð»Ð¸ Ð² ÑÐ¿Ð¸Ð½Ðµ, ÑÐ½ÑÑ‚Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ°, Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ñ‹ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸',
+
+    // Contact SEO
+    'seo.contact.title':
+      'ÐšÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ñ‹ Ð¸ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ | EKA Balance Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+    'seo.contact.description':
+      'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ Ð²ÑÑ‚Ñ€ÐµÑ‡Ñƒ Ð² EKA Balance. ÐœÑ‹ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ð¼ÑÑ Ð² Ñ†ÐµÐ½Ñ‚Ñ€Ðµ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ñ‹. Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ‡ÐµÑ€ÐµÐ· WhatsApp, Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½ Ð¸Ð»Ð¸ ÑÐ»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð½ÑƒÑŽ Ð¿Ð¾Ñ‡Ñ‚Ñƒ.',
+    'seo.contact.keywords':
+      'ÐšÐ¾Ð½Ñ‚Ð°ÐºÑ‚Ñ‹ EKA Balance, Ð·Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð¼Ð°ÑÑÐ°Ð¶ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°, Ð·Ð°Ð¿Ð¸ÑÑŒ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ñ€Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ñ†ÐµÐ½Ñ‚Ñ€Ð° Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+
+    // Services SEO
+    'seo.services.title': 'Ð£ÑÐ»ÑƒÐ³Ð¸ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ Ð¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ | EKA Balance',
+    'seo.services.description':
+      'Ð˜Ð·ÑƒÑ‡Ð¸Ñ‚Ðµ Ð½Ð°Ñˆ ÑÐ¿ÐµÐºÑ‚Ñ€ ÑƒÑÐ»ÑƒÐ³: Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ð»Ð°Ð½Ñ‹ Ð´Ð»Ñ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ.',
+    'seo.services.keywords':
+      'Ð£ÑÐ»ÑƒÐ³Ð¸ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ, Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ñ…Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ, Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Personalized SEO
+    'seo.personalized.title':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð¿Ð¾ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¸ | EKA Balance',
+    'seo.personalized.description':
+      'Ð›ÐµÑ‡ÐµÐ½Ð¸Ðµ, Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ðº Ð²Ð°ÑˆÐµÐ¼Ñƒ Ð¾Ð±Ñ€Ð°Ð·Ñƒ Ð¶Ð¸Ð·Ð½Ð¸: Ð¾Ñ„Ð¸Ñ, ÑÐ¿Ð¾Ñ€Ñ‚, Ð¸ÑÐºÑƒÑÑÑ‚Ð²Ð¾, Ð¼ÑƒÐ·Ñ‹ÐºÐ° Ð¸Ð»Ð¸ ÑƒÑ‡ÐµÐ±Ð°. ÐÐ°Ð¹Ð´Ð¸Ñ‚Ðµ Ð±Ð°Ð»Ð°Ð½Ñ Ð² ÑÐ²Ð¾ÐµÐ¹ Ð¿Ð¾Ð²ÑÐµÐ´Ð½ÐµÐ²Ð½Ð¾Ð¹ Ð¶Ð¸Ð·Ð½Ð¸.',
+    'seo.personalized.keywords':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸, Ð¾Ñ„Ð¸ÑÐ½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð², Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð²',
+
+    // VIP SEO
+    'seo.vip.title': 'VIP ÐºÐ»ÑƒÐ± Ð¸ Ñ‡Ð»ÐµÐ½ÑÑ‚Ð²Ð¾ | EKA Balance',
+    'seo.vip.description':
+      'ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½ÑÐ¹Ñ‚ÐµÑÑŒ Ðº Ð½Ð°ÑˆÐµÐ¼Ñƒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾Ð¼Ñƒ ÐºÐ»ÑƒÐ±Ñƒ Ð¸ Ð½Ð°ÑÐ»Ð°Ð¶Ð´Ð°Ð¹Ñ‚ÐµÑÑŒ ÑÐºÐ¸Ð´ÐºÐ°Ð¼Ð¸, Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð¾Ð¼ Ð² Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼ Ð¼Ð¾Ð½Ð¸Ñ‚Ð¾Ñ€Ð¸Ð½Ð³Ð¾Ð¼ Ð´Ð»Ñ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ð³Ð¾ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ.',
+    'seo.vip.keywords':
+      'VIP ÐºÐ»ÑƒÐ± Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ, Ñ‡Ð»ÐµÐ½ÑÑ‚Ð²Ð¾ Ð¼Ð°ÑÑÐ°Ð¶, ÑÐºÐ¸Ð´ÐºÐ¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ, ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Massage SEO
+    'seo.massage.title':
+      'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¸ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ | EKA Balance',
+    'seo.massage.description':
+      'Ð¡Ð½Ð¸Ð¼Ð¸Ñ‚Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð¸ Ð¼Ñ‹ÑˆÐµÑ‡Ð½ÑƒÑŽ Ð±Ð¾Ð»ÑŒ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¼Ð°ÑÑÐ°Ð¶ÐµÐ¹. ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð´Ð»Ñ Ð²Ð°ÑˆÐµÐ³Ð¾ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¸ Ð¾Ñ‚Ð´Ñ‹Ñ…Ð°.',
+    'seo.massage.keywords':
+      'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, ÑÐ½ÑÑ‚Ð¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ, Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð°Ñ Ð±Ð¾Ð»ÑŒ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Kinesiology SEO
+    'seo.kinesiology.title':
+      'Ð¥Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ | EKA Balance',
+    'seo.kinesiology.description':
+      'Ð¡Ð±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€ÑƒÐ¹Ñ‚Ðµ Ñ‚ÐµÐ»Ð¾ Ð¸ Ñ€Ð°Ð·ÑƒÐ¼ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸. ÐžÐ±Ð½Ð°Ñ€ÑƒÐ¶ÑŒÑ‚Ðµ Ð¸ Ð»ÐµÑ‡Ð¸Ñ‚Ðµ Ð¿Ñ€Ð¸Ñ‡Ð¸Ð½Ñƒ Ð²Ð°ÑˆÐ¸Ñ… Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼.',
+    'seo.kinesiology.keywords':
+      'Ð¥Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ, Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ñ‹Ð¹ Ñ‚ÐµÑÑ‚, ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ, ÐµÑÑ‚ÐµÑÑ‚Ð²ÐµÐ½Ð½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Nutrition SEO
+    'seo.nutrition.title': 'ÐžÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ðµ Ð¸ Ð·Ð´Ð¾Ñ€Ð¾Ð²Ð¾Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ | EKA Balance',
+    'seo.nutrition.description':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÑÐ²Ð¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ð¹ Ð¿Ð¾ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸ÑŽ. ÐÐ°ÑƒÑ‡Ð¸Ñ‚ÐµÑÑŒ Ð¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ð¾ Ð¿Ð¸Ñ‚Ð°Ñ‚ÑŒÑÑ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸Ð¼ÐµÑ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð¸ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð¾Ð¹ ÑÐ¸Ð»Ñ‹.',
+    'seo.nutrition.keywords':
+      'ÐžÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾Ðµ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ, Ð·Ð´Ð¾Ñ€Ð¾Ð²Ð°Ñ Ð´Ð¸ÐµÑ‚Ð°, ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸ÑŽ, Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð°Ñ ÑÐ½ÐµÑ€Ð³Ð¸Ñ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Massage Page
+    'massage.hero.badge': 'Ð˜ÑÐºÑƒÑÑÑ‚Ð²Ð¾ Ñ†ÐµÐ»Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ð³Ð¾ Ð¿Ñ€Ð¸ÐºÐ¾ÑÐ½Ð¾Ð²ÐµÐ½Ð¸Ñ',
+    'massage.benefits.pain': 'ÐžÐ±Ð»ÐµÐ³Ñ‡Ð°ÐµÑ‚ Ð¼Ñ‹ÑˆÐµÑ‡Ð½ÑƒÑŽ Ð¸ ÑÑƒÑÑ‚Ð°Ð²Ð½ÑƒÑŽ Ð±Ð¾Ð»ÑŒ',
+    'massage.benefits.circulation':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ ÐºÑ€Ð¾Ð²Ð¾Ð¾Ð±Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ðµ Ð¸ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚ÑŒ',
+    'massage.benefits.wellbeing':
+      'ÐÐµÐ¼ÐµÐ´Ð»ÐµÐ½Ð½Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð¸ Ð½Ð°ÑÑ‚Ð¾ÑÑ‰Ð¸Ð¹ Ð¾Ñ‚Ð´Ñ‹Ñ…',
+
+    // Kinesiology Page
+    'kinesiology.hero.badge': 'Ð¢ÐµÐ»Ð¾, Ñ€Ð°Ð·ÑƒÐ¼ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¸ Ð² Ñ€Ð°Ð²Ð½Ð¾Ð²ÐµÑÐ¸Ð¸',
+    'kinesiology.benefits.posture': 'Ð£Ð»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ð¾ÑÐ°Ð½ÐºÑƒ Ð¸ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ†Ð¸ÑŽ',
+    'kinesiology.benefits.stress': 'Ð¡Ð½Ð¸Ð¶Ð°ÐµÑ‚ ÑÑ‚Ñ€ÐµÑÑ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐ°ÐµÑ‚ Ð¾Ñ‚Ð´Ñ‹Ñ…',
+    'kinesiology.benefits.energy':
+      'Ð‘Ð¾Ð»ÑŒÑˆÐµ ÑÐ°Ð¼Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð¸Ñ Ð¸ ÑÑ‚Ð°Ð±Ð¸Ð»ÑŒÐ½Ð¾Ð¹ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸',
+
+    // Nutrition Page
+    'nutrition.benefits.habits':
+      'Ð§ÐµÑ‚ÐºÐ¸Ðµ Ð¸ ÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ñ‹Ðµ Ð¿Ð¸Ñ‰ÐµÐ²Ñ‹Ðµ Ð¿Ñ€Ð¸Ð²Ñ‹Ñ‡ÐºÐ¸',
+    'nutrition.benefits.weight':
+      'ÐŸÐ¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ° Ð² ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ð¸ Ð²ÐµÑÐ¾Ð¼ Ð¸ ÑÐ¾ÑÑ‚Ð°Ð²Ð¾Ð¼ Ñ‚ÐµÐ»Ð°',
+    'nutrition.benefits.prevention':
+      'ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐ° Ð¸ Ð´Ð¾Ð»Ð³Ð¾ÑÑ€Ð¾Ñ‡Ð½Ð¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ',
+    'nutrition.session.first.name': 'ÐŸÐµÑ€Ð²Ð°Ñ ÑÐµÑÑÐ¸Ñ',
+    'nutrition.session.first.description':
+      'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¾Ñ†ÐµÐ½ÐºÐ° Ð¸ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ð¿Ð»Ð°Ð½',
+    'nutrition.session.followup.name': 'ÐŸÐ¾ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐµ Ð½Ð°Ð±Ð»ÑŽÐ´ÐµÐ½Ð¸Ðµ',
+    'nutrition.session.followup.description':
+      'ÐšÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° Ð¿Ð»Ð°Ð½Ð° Ð¸ Ñ€ÐµÑˆÐµÐ½Ð¸Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ¾Ð²',
+
+    // Discounts Page
+    'discounts.success': 'Ð¡ÐºÐ¸Ð´ÐºÐ° ÑƒÑÐ¿ÐµÑˆÐ½Ð¾ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÐµÐ½Ð°!',
+    'discounts.remove': 'Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ ÑÐºÐ¸Ð´ÐºÑƒ',
+
+    // Discovery Form
+    // Discovery Form - User Types
+    'discovery.userTypes.mother.title': 'ÐœÐ°Ñ‚ÐµÑ€Ð¸Ð½ÑÑ‚Ð²Ð¾ / Ð¾Ñ‚Ñ†Ð¾Ð²ÑÑ‚Ð²Ð¾',
+    'discovery.userTypes.mother.desc':
+      'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð¾Ð¹ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸ Ð´Ð»Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ñ Ð·Ð°Ð±Ð¾Ñ‚Ñ‹ Ð¾ Ð´Ñ€ÑƒÐ³Ð¸Ñ….',
+    'discovery.userTypes.woman.title': 'Ð–ÐµÐ½ÑÐºÐ¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ',
+    'discovery.userTypes.woman.desc':
+      'Ð“Ð°Ñ€Ð¼Ð¾Ð½Ð¸Ð·Ð°Ñ†Ð¸Ñ Ñ†Ð¸ÐºÐ»Ð° Ð¸ ÑÐ¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð²Ð¾ÑÑÐ¾ÐµÐ´Ð¸Ð½ÐµÐ½Ð¸Ðµ.',
+    'discovery.userTypes.regular.title': 'Общее благополучие',
+    'discovery.userTypes.regular.desc':
+      'ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ðµ Ð¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ°Ñ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ.',
+    'discovery.userTypes.office.title': 'Ð˜ÑÐ¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ',
+    'discovery.userTypes.office.desc':
+      'Ð”ÐµÐºÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¸Ñ ÐºÐ¾Ñ€Ð¿Ð¾Ñ€Ð°Ñ‚Ð¸Ð²Ð½Ð¾Ð³Ð¾ ÑÑ‚Ñ€ÐµÑÑÐ° Ð¸ Ð¾ÑÐ°Ð½ÐºÐ¸.',
+    'discovery.userTypes.athlete.title': 'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ð°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'discovery.userTypes.athlete.desc':
+      'Ð‘Ð¸Ð¾Ð¼ÐµÑ…Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¸ Ð°ÐºÑ‚Ð¸Ð²Ð½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ.',
+
+    // Discovery Form - Emotional States
+    'discovery.emotional.stressed.title': 'ÐŸÐµÑ€ÐµÐ³Ñ€ÑƒÐ·ÐºÐ° ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹',
+    'discovery.emotional.stressed.desc':
+      'Ð¡Ð¾ÑÑ‚Ð¾ÑÐ½Ð¸Ðµ Ð¿Ð¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ð¹ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¸ Ð¸ Ð½Ð°ÐºÐ¾Ð¿Ð»ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ.',
+    'discovery.emotional.sad.title': 'ÐÐ¸Ð·ÐºÐ°Ñ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð°Ñ ÑÐ½ÐµÑ€Ð³Ð¸Ñ',
+    'discovery.emotional.sad.desc':
+      'ÐŸÐ¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑŒ Ð² Ñ€ÐµÐ°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ð¸ Ð¸ Ñ€Ð°Ð·Ð±Ð»Ð¾ÐºÐ¸Ñ€Ð¾Ð²ÐºÐµ.',
+    'discovery.emotional.balanced.title': 'ÐžÑ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ ÑÑ‚Ð°Ð±Ð¸Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'discovery.emotional.balanced.desc':
+      'Ð¤Ð¾ÐºÑƒÑ Ð½Ð° Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ð¸ Ð¸ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐµ.',
+    'discovery.emotional.focus_physical.title': 'Ð¡Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ñ„Ð¾ÐºÑƒÑ',
+    'discovery.emotional.focus_physical.desc':
+      'ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚ Ð½Ð° ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾Ð¼ Ð¸ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ð¼ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ð¸.',
+
+    // Discovery Form - Time Commitments
+    'discovery.time.short.title': 'Ð­ÐºÑÐ¿Ñ€ÐµÑÑ ÑÐµÑÑÐ¸Ñ (60 Ð¼Ð¸Ð½)',
+    'discovery.time.short.desc':
+      'Ð¤Ð¾ÐºÑƒÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð¸ ÑÑ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ðµ Ð²Ð¼ÐµÑˆÐ°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²Ð¾.',
+    'discovery.time.standard.title': 'ÐŸÐ¾Ð»Ð½Ð°Ñ ÑÐµÑÑÐ¸Ñ (90 Ð¼Ð¸Ð½)',
+    'discovery.time.standard.desc': 'Глубокое и интегративное лечение.',
+    'discovery.time.long.title': 'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¿Ð¾Ð³Ñ€ÑƒÐ¶ÐµÐ½Ð¸Ðµ (120 Ð¼Ð¸Ð½)',
+    'discovery.time.long.desc':
+      'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð°Ñ Ð¸ Ð´ÐµÑ‚Ð°Ð»ÑŒÐ½Ð°Ñ Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ.',
+
+    // Discovery Form - Budget
+    'discovery.budget.basic.title': 'До 60€',
+    'discovery.budget.basic.desc': 'Базовый вариант',
+    'discovery.budget.standard.title': '60-90€',
+    'discovery.budget.standard.desc': 'Ð”Ð¾ 2Ñ‡, Ð¿Ð¾Ð»Ð½Ð°Ñ Ð¼Ð¾Ð´Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'discovery.budget.premium.title': 'Более 90€',
+    'discovery.budget.premium.desc': 'ÐŸÑ€ÐµÐ¼Ð¸ÑƒÐ¼ Ð´Ð»Ð¸Ð½Ð½Ð°Ñ ÑÐµÑÑÐ¸Ñ',
+
+    // Discovery Form - Recommendations
+    'discovery.recommendation.emotional.service':
+      'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð±Ð°Ð»Ð°Ð½ÑÐ°',
+    'discovery.recommendation.emotional.desc':
+      'Ð¥Ð¾Ð»Ð¸ÑÑ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ ÑƒÐ¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ñ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼, Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ð¾Ð¹ Ð¸Ð»Ð¸ Ð³Ñ€ÑƒÑÑ‚ÑŒÑŽ. Ð¤Ð¾ÐºÑƒÑÐ¸Ñ€ÑƒÐµÑ‚ÑÑ Ð½Ð° Ð¿Ñ€ÐµÐ¾Ð´Ð¾Ð»ÐµÐ½Ð¸Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ñ… Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ð¸ Ð³Ð°Ñ€Ð¼Ð¾Ð½Ð¸Ð¸ Ð¸ ÑÑ‡Ð°ÑÑ‚ÑŒÑ.',
+    'discovery.recommendation.emotional.benefit1': 'Ð¡Ð½Ð¸Ð¶ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'discovery.recommendation.emotional.benefit2': 'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ',
+    'discovery.recommendation.emotional.benefit3': 'Ð¯ÑÐ½Ð¾ÑÑ‚ÑŒ ÑƒÐ¼Ð°',
+    'discovery.recommendation.emotional.benefit4': 'Внутренний покой',
+
+    'discovery.recommendation.manual.service':
+      'ÐœÐ°Ð½ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑÐµÑÑÐ¸Ñ',
+    'discovery.recommendation.manual.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¹ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ñ Ð±Ð¾Ð»Ð¸ Ð¸ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ. ÐžÐ¿Ñ‹Ñ‚Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»Ñ‹ Ð¿Ð¾Ð¼Ð¾Ð³ÑƒÑ‚ Ð²Ð°Ð¼ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð¸Ñ‚ÑŒ ÐºÐ¾Ð½Ñ‚Ñ€Ð°ÐºÑ‚ÑƒÑ€Ñ‹.',
+    'discovery.recommendation.manual.benefit1': 'Облегчение боли',
+    'discovery.recommendation.manual.benefit2': 'Уменьшение контрактур',
+    'discovery.recommendation.manual.benefit3': 'Ð£Ð»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸',
+    'discovery.recommendation.manual.benefit4': 'ÐœÑ‹ÑˆÐµÑ‡Ð½Ð¾Ðµ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð¸Ðµ',
+
+    'discovery.recommendation.integrative.service':
+      'Ð˜Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ‚Ð¸Ð²Ð½Ð¾Ðµ ÑÐ½ÑÑ‚Ð¸Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ (4 Ð² 1)',
+    'discovery.recommendation.integrative.desc':
+      'Ð¡Ð¾Ñ‡ÐµÑ‚Ð°ÐµÑ‚ Ð¼Ð°ÑÑÐ°Ð¶, ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸ÑŽ, Ð¾ÑÑ‚ÐµÐ¾Ð¿Ð°Ñ‚Ð¸ÑŽ Ð¸ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ (Ñ„ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð·) Ð´Ð»Ñ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð³Ð¾ Ð¾Ð±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ñ Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ.',
+    'discovery.recommendation.integrative.benefit1': 'Интегральное методы работы',
+    'discovery.recommendation.integrative.benefit2': 'Глубокое облегчение',
+    'discovery.recommendation.integrative.benefit3': 'Сочетание техник',
+    'discovery.recommendation.integrative.benefit4': 'Длительные результаты',
+
+    'discovery.recommendation.relax.service': 'ÐŸÐ¾Ð»Ð½Ñ‹Ð¹ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'discovery.recommendation.relax.desc':
+      'ÐžÐ¿Ñ‹Ñ‚ Ð³Ð»Ð¾Ð±Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð¸Ñ (Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð¸ Ð¼ÐµÐ½Ñ‚Ð°Ð»ÑŒÐ½Ð¾Ð³Ð¾), Ð¸Ð´ÐµÐ°Ð»ÑŒÐ½Ð¾, ÐµÑÐ»Ð¸ Ð²Ð°ÑˆÐ° Ñ†ÐµÐ»ÑŒ - Ð¿Ñ€Ð¾ÑÑ‚Ð¾ Ð¾Ñ‚Ð´Ð¾Ñ…Ð½ÑƒÑ‚ÑŒ Ð¸ Ð·Ð°Ñ€ÑÐ´Ð¸Ñ‚ÑŒÑÑ ÑÐ½ÐµÑ€Ð³Ð¸ÐµÐ¹.',
+    'discovery.recommendation.relax.benefit1': 'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ°Ñ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+    'discovery.recommendation.relax.benefit2': 'Ð¡Ð½Ð¸Ð¶ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'discovery.recommendation.relax.benefit3': 'ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸',
+    'discovery.recommendation.relax.benefit4': 'Общее благополучие',
+
+    // Online Rec
+    'discovery.recommendation.online.service': 'ÐžÐ½Ð»Ð°Ð¹Ð½-ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ñ / ÑÐ¾Ð²ÐµÑ‚Ñ‹',
+    'discovery.recommendation.online.desc':
+      'ÐŸÐ¾Ð»ÑƒÑ‡Ð¸Ñ‚Ðµ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ðµ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¸, Ð½Ðµ Ð²Ñ‹Ñ…Ð¾Ð´Ñ Ð¸Ð· Ð´Ð¾Ð¼Ð°. Ð˜Ð´ÐµÐ°Ð»ÑŒÐ½Ð¾ Ð´Ð»Ñ Ð½Ð°Ð±Ð»ÑŽÐ´ÐµÐ½Ð¸Ñ, ÑÐ¾Ð²ÐµÑ‚Ð¾Ð² Ð¿Ð¾ Ð¿Ð¸Ñ‚Ð°Ð½Ð¸ÑŽ Ð¸Ð»Ð¸ Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ¾Ð².',
+    'discovery.recommendation.online.benefit1': 'Без поездок',
+    'discovery.recommendation.online.benefit2': 'Гибкий график',
+    'discovery.recommendation.online.benefit3': 'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ðµ Ð½Ð°Ð±Ð»ÑŽÐ´ÐµÐ½Ð¸Ðµ',
+    'discovery.recommendation.online.benefit4': 'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¿Ð»Ð°Ð½ Ð² pdf',
+
+    'discovery.recommendation.title':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ñ - EKA Balance',
+    'discovery.recommendation.badge':
+      'ÐŸÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð°Ñ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ñ',
+    'discovery.recommendation.subtitle':
+      'ÐÐ° Ð¾ÑÐ½Ð¾Ð²Ðµ Ð²Ð°ÑˆÐ¸Ñ… Ð¾Ñ‚Ð²ÐµÑ‚Ð¾Ð² Ð¼Ñ‹ ÑÑ‡Ð¸Ñ‚Ð°ÐµÐ¼, Ñ‡Ñ‚Ð¾ ÑÑ‚Ð¾ Ð»ÑƒÑ‡ÑˆÐ°Ñ ÑƒÑÐ»ÑƒÐ³Ð° Ð´Ð»Ñ Ð²Ð°Ñ:',
+    'discovery.recommendation.why': 'ÐŸÐ¾Ñ‡ÐµÐ¼Ñƒ ÑÑ‚Ð¾Ñ‚ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚?',
+    'discovery.analysis.intro': 'Мы определили, что',
+    'discovery.analysis.have': 'У вас',
+    'discovery.analysis.want': 'И вы хотите улучшить',
+    'discovery.analysis.feel': 'Ð§Ñ‚Ð¾Ð±Ñ‹ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÐ±Ñ',
+    'discovery.diagnosis.title': 'Ð Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð½Ð°Ñ ÐºÐ°Ñ€Ñ‚Ð° Ð¾Ñ†ÐµÐ½ÐºÐ¸',
+    'discovery.diagnosis.profile': 'Профиль клиента',
+    'discovery.diagnosis.symptoms': 'Ð’Ñ‹ÑÐ²Ð»ÐµÐ½Ð½Ñ‹Ðµ Ð¸Ð½Ð´Ð¸ÐºÐ°Ñ‚Ð¾Ñ€Ñ‹',
+    'discovery.diagnosis.rootCause': 'Возможные первопричины',
+    'discovery.diagnosis.strategy': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ð°Ñ ÑÑ‚Ñ€Ð°Ñ‚ÐµÐ³Ð¸Ñ',
+    'discovery.diagnosis.frequency': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ð°Ñ Ñ‡Ð°ÑÑ‚Ð¾Ñ‚Ð°',
+    'discovery.view.basic': 'ÐŸÑ€Ð¾ÑÑ‚Ð°Ñ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ñ',
+    'discovery.view.advanced': 'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¾Ñ†ÐµÐ½ÐºÐ°',
+    'discovery.diagnosis.cause.posture':
+      'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð°Ñ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ (ÑÐ¸Ð´ÑÑ‡Ð¸Ð¹ Ð¾Ð±Ñ€Ð°Ð· Ð¶Ð¸Ð·Ð½Ð¸)',
+    'discovery.diagnosis.cause.overload': 'ÐœÑ‹ÑˆÐµÑ‡Ð½Ð°Ñ Ð¿ÐµÑ€ÐµÐ³Ñ€ÑƒÐ·ÐºÐ°',
+    'discovery.diagnosis.cause.stress': 'ÐŸÑÐ¸Ñ…Ð¾ÑÐ¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ',
+    'discovery.diagnosis.cause.emotional': 'Эмоциональный блок',
+    'discovery.diagnosis.cause.metabolic':
+      'ÐœÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹/Ð¿Ð¸Ñ‰ÐµÐ²Ð°Ñ€Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ñ‹Ð¹ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ',
+    'discovery.diagnosis.cause.structural':
+      'Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ñ‹Ð¹/Ð¼ÐµÑ…Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½Ñ',
+    'discovery.diagnosis.cause.general':
+      'ÐŸÐ¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑŒ Ð² Ð¾Ð±ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°Ð½Ð¸Ð¸/Ð¿Ñ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐµ',
+    'discovery.diagnosis.strategy.structural':
+      'Ð¡Ñ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾Ðµ Ð¾ÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ðµ Ð¸ Ð¼Ð¾Ð±Ð¸Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'discovery.diagnosis.strategy.regulation': 'Ð ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹',
+    'discovery.diagnosis.strategy.rebalance':
+      'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð±Ð°Ð»Ð°Ð½ÑÐ° Ñ‚ÐµÐ»Ð° Ð¸ Ñ€Ð°Ð·ÑƒÐ¼Ð°',
+    'discovery.diagnosis.freq.high':
+      'Ð˜Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ñ‹Ð¹ (1 ÑÐµÐ°Ð½Ñ/Ð½ÐµÐ´ÐµÐ»ÑŽ Ð² Ñ‚ÐµÑ‡ÐµÐ½Ð¸Ðµ 3 Ð½ÐµÐ´ÐµÐ»ÑŒ)',
+    'discovery.diagnosis.freq.medium':
+      'ÐŸÐ¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ð¹ (1 ÑÐµÐ°Ð½Ñ ÐºÐ°Ð¶Ð´Ñ‹Ðµ 2-3 Ð½ÐµÐ´ÐµÐ»Ð¸)',
+    'discovery.diagnosis.freq.low': 'ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ (1 ÑÐµÐ°Ð½Ñ Ð² Ð¼ÐµÑÑÑ†)',
+    'discovery.goal.athlete': 'Ð’Ð°ÑˆÐµ ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ð¾Ðµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ',
+    'discovery.goal.office': 'Ð’Ð°ÑˆÑƒ Ð¾ÑÐ°Ð½ÐºÑƒ',
+    'discovery.goal.stress': 'Ð’Ð°ÑˆÐµ ÑÐ¿Ð¾ÐºÐ¾Ð¹ÑÑ‚Ð²Ð¸Ðµ',
+    'discovery.goal.pain': 'Ð’Ð°Ñˆ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ ÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚',
+    'discovery.goal.general': 'Ð’Ð°ÑˆÐµ Ð¾Ð±Ñ‰ÐµÐµ ÑÐ°Ð¼Ð¾Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¸Ðµ',
+    'discovery.feeling.relaxed': 'Ð Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð½Ñ‹Ð¼',
+    'discovery.feeling.energized': 'Энергичным',
+    'discovery.feeling.balanced': 'Ð¡Ð±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼',
+    'discovery.feeling.painfree': 'Без боли',
+    'discovery.recommendation.book': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÑ‚Ñƒ ÑÐµÑÑÐ¸ÑŽ',
+    'discovery.recommendation.restart': 'ÐÐ°Ñ‡Ð°Ñ‚ÑŒ ÑÐ½Ð°Ñ‡Ð°Ð»Ð°',
+
+    // Discovery Form - Steps
+    'discovery.step1.title': 'ÐšÐ°Ðº Ð²Ñ‹ ÑÐµÐ±Ñ Ð¾Ð¿Ñ€ÐµÐ´ÐµÐ»ÑÐµÑ‚Ðµ?',
+    'discovery.step1.subtitle':
+      'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð»ÑƒÑ‡ÑˆÐµ Ð²ÑÐµÐ³Ð¾ Ð²Ð°Ñ Ð¾Ð¿Ð¸ÑÑ‹Ð²Ð°ÐµÑ‚',
+    'discovery.step2.title':
+      'Ð“Ð´Ðµ Ð²Ñ‹ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÐµÑ‚Ðµ Ð½Ð°Ð¸Ð±Ð¾Ð»ÑŒÑˆÐµÐµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ?',
+    'discovery.step2.subtitle':
+      'Ð’Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ð½ÐµÑÐºÐ¾Ð»ÑŒÐºÐ¾ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ð¾Ð²',
+    'discovery.step3.title': 'Ð£ Ð²Ð°Ñ ÐµÑÑ‚ÑŒ ÐºÐ°ÐºÐ¸Ðµ-Ð»Ð¸Ð±Ð¾ Ð¾ÑÐ¾Ð±Ñ‹Ðµ ÑƒÑÐ»Ð¾Ð²Ð¸Ñ?',
+    'discovery.step3.subtitle': 'Ð­Ñ‚Ð¾ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÐµÑ‚ Ð½Ð°Ð¼ Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÐ°Ð½Ñ',
+    'discovery.step4.title': 'ÐšÐ°Ðº Ð²Ñ‹ ÑÐµÐ±Ñ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÐµÑ‚Ðµ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾?',
+    'discovery.step4.subtitle':
+      'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ ÑÐ²Ð»ÑÐµÑ‚ÑÑ ÐºÐ»ÑŽÑ‡Ð¾Ð¼ Ðº Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð¼Ñƒ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑŽ',
+    'discovery.step5.title': 'Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ñƒ Ð²Ð°Ñ ÐµÑÑ‚ÑŒ?',
+    'discovery.step5.subtitle':
+      'ÐœÑ‹ Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€ÑƒÐµÐ¼ ÑÐµÑÑÐ¸ÑŽ Ðº Ð²Ð°ÑˆÐµÐ¼Ñƒ Ñ€Ð°ÑÐ¿Ð¸ÑÐ°Ð½Ð¸ÑŽ',
+    'discovery.step6.title': 'ÐšÐ°ÐºÐ¾Ð¹ Ñƒ Ð²Ð°Ñ Ð±ÑŽÐ´Ð¶ÐµÑ‚?',
+    'discovery.step6.subtitle': 'ÐœÑ‹ Ð½Ð°Ð¹Ð´ÐµÐ¼ Ð»ÑƒÑ‡ÑˆÐ¸Ð¹ Ð²Ð°Ñ€Ð¸Ð°Ð½Ñ‚ Ð´Ð»Ñ Ð²Ð°Ñ',
+    'discovery.next': 'Далее',
+    'discovery.back': 'Назад',
+    'discovery.seeRecommendation': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸ÑŽ',
+    'common.step': 'Шаг',
+    'common.of': 'Из',
+
+    // Onboarding Questions
+    'onboarding.questions.userType.title': 'ÐšÐ°ÐºÐ¾Ð¹ Ð²Ð°Ñˆ Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ð¹ Ð¿Ñ€Ð¾Ñ„Ð¸Ð»ÑŒ?',
+    'onboarding.userTypes.student': 'Студент',
+    'onboarding.userTypes.office': 'ÐžÑ„Ð¸ÑÐ½Ñ‹Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸Ðº',
+    'onboarding.userTypes.artist': 'ÐÑ€Ñ‚Ð¸ÑÑ‚',
+    'onboarding.userTypes.musician': 'Музыкант',
+    'onboarding.userTypes.athlete': 'Ð¡Ð¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½',
+    'onboarding.userTypes.parent': 'Родитель',
+    'onboarding.userTypes.entrepreneur': 'Предприниматель',
+    'onboarding.userTypes.therapist': 'Терапевт',
+    'onboarding.userTypes.senior': 'ÐŸÐµÐ½ÑÐ¸Ð¾Ð½ÐµÑ€',
+    'onboarding.userTypes.other': 'Другое',
+
+    'onboarding.questions.goals.title': 'Что бы вы хотели улучшить?',
+    'onboarding.goals.stress':
+      'Ð ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ Ð½ÐµÑ€Ð²Ð½Ð¾Ð¹ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹ Ð¸ ÑÐ½Ð¸Ð¶ÐµÐ½Ð¸Ðµ Ñ‚Ñ€ÐµÐ²Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸',
+    'onboarding.goals.pain': 'Ð›ÐµÑ‡ÐµÐ½Ð¸Ðµ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð¸ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾Ð¹ Ð±Ð¾Ð»Ð¸',
+    'onboarding.goals.posture':
+      'ÐšÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸ Ð¸ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸',
+    'onboarding.goals.sleep': 'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð° Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð³Ð¾ ÑÐ½Ð°',
+    'onboarding.goals.energy':
+      'ÐœÐµÑ‚Ð°Ð±Ð¾Ð»Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ñ€ÐµÐ°ÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ Ð¸ ÑÑÐ½Ð¾ÑÑ‚ÑŒ ÑƒÐ¼Ð°',
+    'onboarding.goals.focus':
+      'ÐŸÐ¾Ð²Ñ‹ÑˆÐµÐ½Ð¸Ðµ ÐºÐ¾Ð³Ð½Ð¸Ñ‚Ð¸Ð²Ð½Ð¾Ð¹ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ð¸',
+    'onboarding.goals.bodyAwareness':
+      'Ð¡Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ†Ð¸Ñ Ð¸ Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð¸Ðµ Ñ‚ÐµÐ»Ð°',
+    'onboarding.goals.feelGood':
+      'Ð¦ÐµÐ»Ð¾ÑÑ‚Ð½Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð¸ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ñ‹Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ',
+
+    'onboarding.questions.preferredFeeling.title':
+      'ÐšÐ°Ðº Ð²Ñ‹ Ñ…Ð¾Ñ‚Ð¸Ñ‚Ðµ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐµÐ±Ñ Ð¿Ð¾ÑÐ»Ðµ ÑÐµÐ°Ð½ÑÐ°?',
+    'onboarding.feelings.calm':
+      'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ¾Ðµ ÑÐ¿Ð¾ÐºÐ¾Ð¹ÑÑ‚Ð²Ð¸Ðµ Ð¸ Ð½ÐµÑ€Ð²Ð½Ð°Ñ Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ñ',
+    'onboarding.feelings.light':
+      'Ð¤Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð´ÐµÐºÐ¾Ð¼Ð¿Ñ€ÐµÑÑÐ¸Ñ Ð¸ ÑÐ²Ð¾Ð±Ð¾Ð´Ð° Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ',
+    'onboarding.feelings.energized':
+      'ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ð°Ñ Ð¶Ð¸Ð·Ð½ÐµÐ½Ð½Ð°Ñ ÑÐ¸Ð»Ð° Ð¸ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ñ‹Ð¹ Ñ‚Ð¾Ð½ÑƒÑ',
+    'onboarding.feelings.focused':
+      'ÐœÐµÐ½Ñ‚Ð°Ð»ÑŒÐ½Ð°Ñ Ð¾ÑÑ‚Ñ€Ð¾Ñ‚Ð° Ð¸ ÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ñ‹Ð¹ Ñ„Ð¾ÐºÑƒÑ',
+    'onboarding.feelings.confident':
+      'Ð¡Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÑƒÐ²ÐµÑ€ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ Ð¸ Ð¿Ð¾Ð»Ð½Ð¾Ðµ Ð¿Ñ€Ð¸ÑÑƒÑ‚ÑÑ‚Ð²Ð¸Ðµ',
+
+    'onboarding.questions.approach.title': 'Какой подход вы предпочитаете?',
+    'onboarding.approaches.massage': 'ÐœÐ°Ð½ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ',
+    'onboarding.approaches.kinesiology': 'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'onboarding.approaches.feldenkrais': 'Метод фельденкрайза',
+    'onboarding.approaches.energy': 'Ð‘Ð¸Ð¾ÑÐ½ÐµÑ€Ð³ÐµÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ',
+    'onboarding.approaches.open':
+      'ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ Ð´Ð»Ñ ÐºÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ñ… Ñ€ÐµÐºÐ¾Ð¼ÐµÐ½Ð´Ð°Ñ†Ð¸Ð¹',
+
+    'onboarding.questions.timePreference.title':
+      'Ð¡ÐºÐ¾Ð»ÑŒÐºÐ¾ Ð²Ñ€ÐµÐ¼ÐµÐ½Ð¸ Ð²Ñ‹ Ñ…Ð¾Ñ‚Ð¸Ñ‚Ðµ Ð¿Ð¾ÑÐ²ÑÑ‚Ð¸Ñ‚ÑŒ ÑÐ²Ð¾ÐµÐ¼Ñƒ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ ÑÐµÐ³Ð¾Ð´Ð½Ñ?',
+    'onboarding.time.60min': '60 минут',
+    'onboarding.time.90min': '90 минут',
+    'onboarding.time.120min': '120 минут',
+
+    // Recommendations Descriptions
+    'recommendations.massage.description':
+      'ÐŸÑ€Ð¾Ð´Ð²Ð¸Ð½ÑƒÑ‚Ð°Ñ Ð¼Ð°Ð½ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾Ð³Ð¾ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð³Ð¾ ÑÐ½ÑÑ‚Ð¸Ñ Ð½Ð°ÐºÐ¾Ð¿Ð»ÐµÐ½Ð½Ð¾Ð³Ð¾ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ñ.',
+    'recommendations.kinesiology.description':
+      'ÐšÐ»Ð¸Ð½Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð´Ð»Ñ ÑÐ¸ÑÑ‚ÐµÐ¼Ð½Ð¾Ð¹ Ñ€ÐµÐ³ÑƒÐ»ÑÑ†Ð¸Ð¸ Ð¸ Ñ‚Ð¾Ñ‡Ð½Ð¾Ð³Ð¾ Ð²Ñ‹ÑÐ²Ð»ÐµÐ½Ð¸Ñ Ð¸ÑÑ‚Ð¾Ñ‡Ð½Ð¸ÐºÐ° Ð´Ð¸ÑÐ±Ð°Ð»Ð°Ð½ÑÐ°.',
+    'recommendations.feldenkrais.description':
+      'ÐÐµÐ¹Ñ€Ð¾Ð¼Ñ‹ÑˆÐµÑ‡Ð½Ð¾Ðµ Ð¿ÐµÑ€ÐµÐ¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ Ð¼ÐµÑ‚Ð¾Ð´Ñƒ Ñ„ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð·Ð° Ð´Ð»Ñ Ð±Ð¸Ð¾Ð¼ÐµÑ…Ð°Ð½Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ð¸ Ð¸ Ð¾ÑÐ²Ð¾Ð±Ð¾Ð¶Ð´ÐµÐ½Ð¸Ñ Ð¾Ñ‚ Ð¾Ð³Ñ€Ð°Ð½Ð¸Ñ‡Ð¸Ð²Ð°ÑŽÑ‰Ð¸Ñ… Ð¿Ð°Ñ‚Ñ‚ÐµÑ€Ð½Ð¾Ð².',
+
+    // Personalized Pages - Office Workers
+    'office.seo.title': 'ÐœÐ°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ° Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ | EKA Balance',
+    'office.seo.desc':
+      'ÐžÐ±Ð»ÐµÐ³Ñ‡Ð¸Ñ‚Ðµ Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ ÑˆÐµÐµ, Ð²Ñ‹Ð·Ð²Ð°Ð½Ð½ÑƒÑŽ Ð¾Ñ„Ð¸ÑÐ½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ð¾Ð¹. Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸ Ð¸ ÑÐ½Ð¸Ð¶ÐµÐ½Ð¸Ñ ÑÑ‚Ñ€ÐµÑÑÐ°.',
+    'office.seo.keywords':
+      'ÐžÑ„Ð¸ÑÐ½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ, ÑÑ€Ð³Ð¾Ð½Ð¾Ð¼Ð¸ÐºÐ°, Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+    'office.problems.pain.title': 'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð°Ñ Ð±Ð¾Ð»ÑŒ',
+    'office.problems.pain.desc':
+      'Ð‘Ð¾Ð»ÑŒ Ð² ÑˆÐµÐµ, Ð¿Ð»ÐµÑ‡Ð°Ñ… Ð¸ ÑÐ¿Ð¸Ð½Ðµ Ð¸Ð·-Ð·Ð° Ð½ÐµÐ¿Ñ€Ð°Ð²Ð¸Ð»ÑŒÐ½Ñ‹Ñ… Ð¿Ð¾Ð· Ð¿ÐµÑ€ÐµÐ´ ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð¼',
+    'office.problems.stress.title': 'Ð Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ ÑÑ‚Ñ€ÐµÑÑ',
+    'office.problems.stress.desc':
+      'ÐŸÐ¾ÑÑ‚Ð¾ÑÐ½Ð½Ð¾Ðµ Ð´Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ, ÑÑ€Ð¾ÐºÐ¸ Ð¸ Ð¸Ð·Ð±Ñ‹Ñ‚Ð¾Ðº Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÐµÐ½Ð½Ð¾ÑÑ‚Ð¸, Ð²Ð»Ð¸ÑÑŽÑ‰Ð¸Ðµ Ð½Ð° Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ',
+    'office.problems.sedentary.title': 'Ð¡Ð¸Ð´ÑÑ‡Ð¸Ð¹ Ð¾Ð±Ñ€Ð°Ð· Ð¶Ð¸Ð·Ð½Ð¸',
+    'office.problems.sedentary.desc':
+      'ÐŸÐ¾Ñ‚ÐµÑ€Ñ Ð¿Ð¾Ð´Ð²Ð¸Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ð¸ Ð³Ð¸Ð±ÐºÐ¾ÑÑ‚Ð¸ Ð¸Ð·-Ð·Ð° ÑÐ»Ð¸ÑˆÐºÐ¾Ð¼ Ð´Ð¾Ð»Ð³Ð¾Ð³Ð¾ ÑÐ¸Ð´ÐµÐ½Ð¸Ñ',
+    'office.benefits.techniques.title': 'Ð¡Ð¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸',
+    'office.benefits.techniques.desc':
+      'Ð¡Ð¿ÐµÑ†Ð¸Ñ„Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ñ‚ÐµÑ…Ð½Ð¸ÐºÐ¸ Ð´Ð»Ñ ÑÐ½ÑÑ‚Ð¸Ñ ÐºÐ¾Ð½Ñ‚Ñ€Ð°ÐºÑ‚ÑƒÑ€ Ð² Ð·Ð¾Ð½Ð°Ñ…, Ð¿Ð¾ÑÑ‚Ñ€Ð°Ð´Ð°Ð²ÑˆÐ¸Ñ… Ð¾Ñ‚ Ð¾Ñ„Ð¸ÑÐ½Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹',
+    'office.benefits.exercises.title': 'ÐŸÐ¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ð°Ñ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ñ',
+    'office.benefits.exercises.desc':
+      'Ð£Ð¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ñ Ð¸ Ð¿Ð¾ÑÑ‚ÑƒÑ€Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸ Ð´Ð»Ñ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ Ð±ÑƒÐ´ÑƒÑ‰Ð¸Ñ… Ð¿Ñ€Ð¾Ð±Ð»ÐµÐ¼',
+    'office.benefits.mindfulness.title': 'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼',
+    'office.benefits.mindfulness.desc':
+      'Ð¢ÐµÑ…Ð½Ð¸ÐºÐ¸ Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ð¸ Ð¸ Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸, Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ðº Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ ÑÑ€ÐµÐ´Ðµ',
+
+    // Personalized Pages - Athletes
+    'athletes.seo.title': 'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶ Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ | EKA Balance',
+    'athletes.seo.desc':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÑÐ²Ð¾Ð¸ Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ñ‹ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°Ð¹Ñ‚ÐµÑÑŒ Ð±Ñ‹ÑÑ‚Ñ€ÐµÐµ Ñ Ð½Ð°ÑˆÐ¸Ð¼Ð¸ ÑÐ¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¼Ð¸ Ð¼Ð°ÑÑÐ°Ð¶Ð°Ð¼Ð¸. ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐ° Ñ‚Ñ€Ð°Ð²Ð¼ Ð¸ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ð¼Ñ‹ÑˆÑ†.',
+    'athletes.seo.keywords':
+      'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶, Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ, Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹, Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Personalized Pages - Artists
+    'artists.seo.title':
+      'Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ Ð´Ð»Ñ Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ | EKA Balance',
+    'artists.seo.desc':
+      'ÐŸÐ¾Ð·Ð°Ð±Ð¾Ñ‚ÑŒÑ‚ÐµÑÑŒ Ð¾ ÑÐ²Ð¾Ð¸Ñ… Ñ€ÑƒÐºÐ°Ñ… Ð¸ Ñ‚ÐµÐ»Ðµ. Ð¢ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð´Ð»Ñ Ð²Ð¸Ð·ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ñ… Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð² Ð¸ Ñ‚Ð²Ð¾Ñ€Ñ†Ð¾Ð², ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¼ Ð½ÑƒÐ¶Ð½Ð¾ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Ñ€Ð°Ð±Ð¾Ñ‡Ð¸Ð¹ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚ Ð² Ñ„Ð¾Ñ€Ð¼Ðµ.',
+    'artists.seo.keywords':
+      'ÐœÐ°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ñ…ÑƒÐ´Ð¾Ð¶Ð½Ð¸ÐºÐ¾Ð², Ð±Ð¾Ð»ÑŒ Ð² Ñ€ÑƒÐºÐ°Ñ…, Ñ‚Ð²Ð¾Ñ€Ñ‡ÐµÑÑ‚Ð²Ð¾, Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Personalized Pages - Musicians
+    'musicians.seo.title':
+      'Ð¤Ð¸Ð·Ð¸Ð¾Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ | EKA Balance',
+    'musicians.seo.desc':
+      'ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸ÐºÐ° Ð¸ Ð¼ÐµÑ‚Ð¾Ð´Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹ Ñ‚Ñ€Ð°Ð²Ð¼ Ñƒ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð². Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÑÐ²Ð¾ÑŽ Ñ‚ÐµÑ…Ð½Ð¸ÐºÑƒ Ð¸ ÑÐ½Ð¸Ð·ÑŒÑ‚Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ñ Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒÑŽ Ð½Ð°ÑˆÐ¸Ñ… ÑÐ¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ñ… Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¹.',
+    'musicians.seo.keywords':
+      'ÐœÐ°ÑÑÐ°Ð¶ Ð´Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð², Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹, Ð¾ÑÐ°Ð½ÐºÐ°, Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð°Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Personalized Pages - Students
+    'students.seo.title':
+      'Ð ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð² Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ðµ | EKA Balance',
+    'students.seo.desc':
+      'Ð‘Ð¾Ñ€Ð¸Ñ‚ÐµÑÑŒ ÑÐ¾ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼ Ð¾Ñ‚ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð¾Ð² Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐ°Ð¹Ñ‚Ðµ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸ÑŽ. Ð¢ÐµÑ€Ð°Ð¿Ð¸Ð¸, Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð², ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¼ Ð½ÑƒÐ¶Ð½Ð¾ Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ð½Ð° Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼Ðµ.',
+    'students.seo.keywords':
+      'Ð¡Ñ‚Ñ€ÐµÑÑ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð², ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ñ, ÑÐºÐ·Ð°Ð¼ÐµÐ½Ñ‹, ÑƒÑ‡ÐµÐ±Ð½Ð°Ñ Ð¾ÑÐ°Ð½ÐºÐ°, Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+
+    // Personalized Pages - First Time
+    'firstTime.seo.title': 'Ð’Ð°Ñˆ Ð¿ÐµÑ€Ð²Ñ‹Ð¹ Ð²Ð¸Ð·Ð¸Ñ‚ | EKA Balance Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+    'firstTime.seo.desc':
+      'Ð£Ð·Ð½Ð°Ð¹Ñ‚Ðµ, Ñ‡ÐµÐ³Ð¾ Ð¾Ð¶Ð¸Ð´Ð°Ñ‚ÑŒ Ð½Ð° Ð²Ð°ÑˆÐµÐ¹ Ð¿ÐµÑ€Ð²Ð¾Ð¹ ÑÐµÑÑÐ¸Ð¸. ÐœÑ‹ Ð¿Ñ€Ð¾Ð²ÐµÐ´ÐµÐ¼ Ð²Ð°Ñ ÑˆÐ°Ð³ Ð·Ð° ÑˆÐ°Ð³Ð¾Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ñ‹ Ñ‡ÑƒÐ²ÑÑ‚Ð²Ð¾Ð²Ð°Ð»Ð¸ ÑÐµÐ±Ñ ÐºÐ¾Ð¼Ñ„Ð¾Ñ€Ñ‚Ð½Ð¾ Ð¸ Ñ€Ð°ÑÑÐ»Ð°Ð±Ð»ÐµÐ½Ð½Ð¾.',
+    'firstTime.seo.keywords':
+      'ÐŸÐµÑ€Ð²Ñ‹Ð¹ Ð²Ð¸Ð·Ð¸Ñ‚, Ð¼Ð°ÑÑÐ°Ð¶ Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°, Ñ‡ÐµÐ³Ð¾ Ð¾Ð¶Ð¸Ð´Ð°Ñ‚ÑŒ, Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ, Ñ€ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+
+    // Personalized Pages - Detailed Content
+    'personalized.students.hero.title': 'Студенты',
+    'personalized.students.hero.description':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ Ð°ÐºÐ°Ð´ÐµÐ¼Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ ÑƒÑÐ¿ÐµÐ²Ð°ÐµÐ¼Ð¾ÑÑ‚Ð¸.',
+    'personalized.students.understanding.title': 'Мы понимаем ваши проблемы',
+    'personalized.students.understanding.description1':
+      'Ð”Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð¾Ð² Ð¸ Ð´Ð¾Ð»Ð³Ð¸Ðµ Ñ‡Ð°ÑÑ‹ ÑƒÑ‡ÐµÐ±Ñ‹ Ð¼Ð¾Ð³ÑƒÑ‚ Ð¿Ð¾Ð²Ð»Ð¸ÑÑ‚ÑŒ Ð½Ð° Ð²Ð°ÑˆÐµ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð¸ Ð¿ÑÐ¸Ñ…Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ.',
+    'personalized.students.understanding.description2':
+      'ÐœÑ‹ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÐµÐ¼ Ð²Ð°Ð¼ Ð½Ð°Ð¹Ñ‚Ð¸ Ð±Ð°Ð»Ð°Ð½Ñ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ñ‹ Ð¼Ð¾Ð³Ð»Ð¸ Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ñ‚ÑŒ Ð½Ð° Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼Ðµ, Ð½Ðµ Ð¶ÐµÑ€Ñ‚Ð²ÑƒÑ ÑÐ²Ð¾Ð¸Ð¼ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÐµÐ¼.',
+    'personalized.students.understanding.callToAction': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐµÑÑÐ¸ÑŽ',
+    'personalized.students.services.title': 'Ð ÐµÐºÐ¾Ð¼ÐµÐ½Ð´ÑƒÐµÐ¼Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'personalized.students.services.subtitle':
+      'Ð¢ÐµÑ€Ð°Ð¿Ð¸Ð¸, Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+    'personalized.students.services.kinesiologyStress.title':
+      'ÐšÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð¾Ñ‚ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'personalized.students.services.kinesiologyStress.description':
+      'Ð¡Ð±Ð°Ð»Ð°Ð½ÑÐ¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐ²Ð¾ÑŽ Ð½ÐµÑ€Ð²Ð½ÑƒÑŽ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ Ð¸ ÑÐ½Ð¸Ð·ÑŒÑ‚Ðµ Ñ‚Ñ€ÐµÐ²Ð¾Ð³Ñƒ Ð¿ÐµÑ€ÐµÐ´ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð°Ð¼Ð¸.',
+    'personalized.students.services.relaxingMassage.title': 'Ð Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'personalized.students.services.relaxingMassage.description':
+      'Ð¡Ð½Ð¸Ð¼Ð¸Ñ‚Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ, Ð½Ð°ÐºÐ¾Ð¿Ð¸Ð²ÑˆÐµÐµÑÑ Ð² ÑˆÐµÐµ Ð¸ ÑÐ¿Ð¸Ð½Ðµ Ð¸Ð·-Ð·Ð° ÑƒÑ‡ÐµÐ±Ñ‹.',
+    'personalized.students.testimonial.title': 'Ð§Ñ‚Ð¾ Ð³Ð¾Ð²Ð¾Ñ€ÑÑ‚ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ñ‹',
+    'personalized.students.testimonial.quote':
+      '"ÑÑ‚Ð¾ Ð¾Ñ‡ÐµÐ½ÑŒ Ð¿Ð¾Ð¼Ð¾Ð³Ð»Ð¾ Ð¼Ð½Ðµ Ð»ÑƒÑ‡ÑˆÐµ ÐºÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒÑÑ Ð¸ ÑÐ¿Ð°Ñ‚ÑŒ Ð¿ÐµÑ€ÐµÐ´ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð°Ð¼Ð¸."',
+    'personalized.students.testimonial.author': 'Ð›Ð°ÑƒÑ€Ð°, ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚ÐºÐ° Ð¼ÐµÐ´Ð¸Ñ†Ð¸Ð½Ñ‹',
+
+    'personalized.officeWorkers.hero.title': 'ÐžÑ„Ð¸ÑÐ½Ñ‹Ðµ Ñ€Ð°Ð±Ð¾Ñ‚Ð½Ð¸ÐºÐ¸',
+    'personalized.officeWorkers.hero.description':
+      'ÐžÐ±Ð»ÐµÐ³Ñ‡ÐµÐ½Ð¸Ðµ Ð±Ð¾Ð»Ð¸ Ð¸ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ñ Ð¾ÑÐ°Ð½ÐºÐ¸.',
+    'personalized.officeWorkers.understanding.title': 'Ð’Ð»Ð¸ÑÐ½Ð¸Ðµ ÑÐ¸Ð´ÑÑ‡ÐµÐ¹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹',
+    'personalized.officeWorkers.understanding.description1':
+      'ÐœÐ½Ð¾Ð³Ð¾Ñ‡Ð°ÑÐ¾Ð²Ð¾Ðµ ÑÐ¸Ð´ÐµÐ½Ð¸Ðµ Ð¿ÐµÑ€ÐµÐ´ ÐºÐ¾Ð¼Ð¿ÑŒÑŽÑ‚ÐµÑ€Ð¾Ð¼ Ð¼Ð¾Ð¶ÐµÑ‚ Ð²Ñ‹Ð·Ð²Ð°Ñ‚ÑŒ Ñ…Ñ€Ð¾Ð½Ð¸Ñ‡ÐµÑÐºÐ¸Ðµ Ð±Ð¾Ð»Ð¸ Ð¸ ÑƒÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ.',
+    'personalized.officeWorkers.understanding.description2':
+      'ÐÐ°ÑˆÐ¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ Ð½Ð°Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ñ‹ Ð½Ð° Ð¿Ñ€Ð¾Ñ‚Ð¸Ð²Ð¾Ð´ÐµÐ¹ÑÑ‚Ð²Ð¸Ðµ ÑÑ‚Ð¸Ð¼ ÑÑ„Ñ„ÐµÐºÑ‚Ð°Ð¼ Ð¸ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ðµ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð° Ð²Ð°ÑˆÐµÐ¹ Ñ‚Ñ€ÑƒÐ´Ð¾Ð²Ð¾Ð¹ Ð¶Ð¸Ð·Ð½Ð¸.',
+    'personalized.officeWorkers.understanding.callToAction':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ ÑÐ²Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ',
+    'personalized.officeWorkers.services.title': 'Ð£ÑÐ»ÑƒÐ³Ð¸ Ð´Ð»Ñ Ð²Ð°Ñ',
+    'personalized.officeWorkers.services.subtitle': 'Ð ÐµÑˆÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð¾Ñ„Ð¸ÑÐ½Ð¾Ð¹ ÑÑ€ÐµÐ´Ñ‹',
+    'personalized.officeWorkers.services.therapeuticMassage.title':
+      'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'personalized.officeWorkers.services.therapeuticMassage.description':
+      'Ð“Ð»ÑƒÐ±Ð¾ÐºÐ°Ñ Ð¿Ñ€Ð¾Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° ÐºÐ¾Ð½Ñ‚Ñ€Ð°ÐºÑ‚ÑƒÑ€ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ ÑˆÐµÐµ.',
+    'personalized.officeWorkers.services.feldenkrais.title': 'Метод фельденкрайза',
+    'personalized.officeWorkers.services.feldenkrais.description':
+      'ÐÐ°ÑƒÑ‡Ð¸Ñ‚ÐµÑÑŒ ÑÐ¸Ð´ÐµÑ‚ÑŒ Ð¸ Ð´Ð²Ð¸Ð³Ð°Ñ‚ÑŒÑÑ Ñ Ð±Ð¾Ð»ÑŒÑˆÐµÐ¹ Ð»ÐµÐ³ÐºÐ¾ÑÑ‚ÑŒÑŽ Ð¸ Ð¼ÐµÐ½ÑŒÑˆÐ¸Ð¼Ð¸ ÑƒÑÐ¸Ð»Ð¸ÑÐ¼Ð¸.',
+    'personalized.officeWorkers.testimonial.title': 'Отзыв',
+    'personalized.officeWorkers.testimonial.quote':
+      '"Ñ Ñ‚ÐµÑ… Ð¿Ð¾Ñ€ ÐºÐ°Ðº Ñ Ñ…Ð¾Ð¶Ñƒ Ð² EKA Balance, Ð¼Ð¾Ñ Ð±Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ Ð¸ÑÑ‡ÐµÐ·Ð»Ð°."',
+    'personalized.officeWorkers.testimonial.author': 'ÐšÐ°Ñ€Ð»Ð¾Ñ, Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð¸ÑÑ‚',
+
+    'personalized.musicians.hero.title': 'Музыканты',
+    'personalized.musicians.hero.description':
+      'Ð£Ñ…Ð¾Ð´ Ð·Ð° Ñ‚ÐµÐ»Ð¾Ð¼ Ð´Ð»Ñ Ð»ÑƒÑ‡ÑˆÐµÐ³Ð¾ Ð¸ÑÐ¿Ð¾Ð»Ð½ÐµÐ½Ð¸Ñ.',
+    'personalized.musicians.understanding.title': 'Ð’Ð°ÑˆÐµ Ñ‚ÐµÐ»Ð¾ - Ð²Ð°Ñˆ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚',
+    'personalized.musicians.understanding.description1':
+      'Ð˜Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ð°Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð»ÑŒÐ½Ð°Ñ Ð¿Ñ€Ð°ÐºÑ‚Ð¸ÐºÐ° Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ Ð¾ÑÐ¾Ð±Ð¾Ð³Ð¾ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ ÑƒÑ…Ð¾Ð´Ð° Ð´Ð»Ñ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‰ÐµÐ½Ð¸Ñ Ñ‚Ñ€Ð°Ð²Ð¼.',
+    'personalized.musicians.understanding.description2':
+      'ÐœÑ‹ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÐµÐ¼ Ð²Ð°Ð¼ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð¸Ð²Ð°Ñ‚ÑŒ Ð²Ð°ÑˆÐµ Ñ‚ÐµÐ»Ð¾ Ð½Ð°ÑÑ‚Ñ€Ð¾ÐµÐ½Ð½Ñ‹Ð¼, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð²Ñ‹ Ð¼Ð¾Ð³Ð»Ð¸ Ð¸Ð³Ñ€Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾.',
+    'personalized.musicians.understanding.callToAction':
+      'ÐŸÐ¾Ð·Ð°Ð±Ð¾Ñ‚ÑŒÑ‚ÐµÑÑŒ Ð¾ ÑÐ²Ð¾ÐµÐ¼ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ðµ',
+    'personalized.musicians.services.title': 'Ð¡Ð¿ÐµÑ†Ð¸Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'personalized.musicians.services.subtitle': 'Ð”Ð»Ñ Ð¼ÑƒÐ·Ñ‹ÐºÐ°Ð½Ñ‚Ð¾Ð² Ð²ÑÐµÑ… ÑƒÑ€Ð¾Ð²Ð½ÐµÐ¹',
+    'personalized.musicians.services.feldenkraisExpression.title':
+      'Ð¤ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð· Ð´Ð»Ñ Ð²Ñ‹Ñ€Ð°Ð·Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'personalized.musicians.services.feldenkraisExpression.description':
+      'Ð£Ð»ÑƒÑ‡ÑˆÐ¸Ñ‚Ðµ Ð¾ÑÐ¾Ð·Ð½Ð°Ð½Ð¸Ðµ Ñ‚ÐµÐ»Ð° Ð¸ ÑÐ²ÑÐ·ÑŒ Ñ Ð¸Ð½ÑÑ‚Ñ€ÑƒÐ¼ÐµÐ½Ñ‚Ð¾Ð¼.',
+    'personalized.musicians.services.kinesiologyPerformance.title':
+      'ÐšÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ Ð´Ð»Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸',
+    'personalized.musicians.services.kinesiologyPerformance.description':
+      'ÐžÐ¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ†Ð¸ÑŽ Ð¸ ÑÐ½Ð¸Ð·ÑŒÑ‚Ðµ ÑÑ†ÐµÐ½Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð½Ð°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ.',
+    'personalized.musicians.testimonial.title': 'Мнение музыканта',
+    'personalized.musicians.testimonial.quote':
+      '"Ñ Ð¾Ð±Ñ€ÐµÐ»Ð° Ð±Ð¾Ð»ÑŒÑˆÑƒÑŽ ÑÐ²Ð¾Ð±Ð¾Ð´Ñƒ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¹ Ð¿Ñ€Ð¸ Ð¸Ð³Ñ€Ðµ Ð½Ð° ÑÐºÑ€Ð¸Ð¿ÐºÐµ."',
+    'personalized.musicians.testimonial.author': 'ÐÐ½Ð°, ÑÐºÑ€Ð¸Ð¿Ð°Ñ‡ÐºÐ°',
+
+    'personalized.athletes.hero.title': 'Ð¡Ð¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ñ‹',
+    'personalized.athletes.hero.description':
+      'ÐžÐ¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ.',
+    'personalized.athletes.understanding.title':
+      'ÐŸÐ¾Ð´Ð½Ð¸Ð¼Ð¸Ñ‚Ðµ ÑÐ²Ð¾Ðµ Ñ‚ÐµÐ»Ð¾ Ð½Ð° Ð½Ð¾Ð²Ñ‹Ð¹ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ',
+    'personalized.athletes.understanding.description1':
+      'Ð˜Ð½Ñ‚ÐµÐ½ÑÐ¸Ð²Ð½Ñ‹Ðµ Ñ‚Ñ€ÐµÐ½Ð¸Ñ€Ð¾Ð²ÐºÐ¸ Ñ‚Ñ€ÐµÐ±ÑƒÑŽÑ‚ Ð°Ð´ÐµÐºÐ²Ð°Ñ‚Ð½Ð¾Ð³Ð¾ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¸Ð·Ð±ÐµÐ¶Ð°Ñ‚ÑŒ Ð¿ÐµÑ€ÐµÑ‚Ñ€ÐµÐ½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾ÑÑ‚Ð¸.',
+    'personalized.athletes.understanding.description2':
+      'ÐÐ°ÑˆÐ¸ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸ ÑƒÑÐºÐ¾Ñ€ÑÑŽÑ‚ Ð²Ð°ÑˆÐµ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¸ Ð¿Ð¾Ð¼Ð¾Ð³Ð°ÑŽÑ‚ Ð¿Ñ€ÐµÐ´Ð¾Ñ‚Ð²Ñ€Ð°Ñ‚Ð¸Ñ‚ÑŒ Ñ‚Ñ€Ð°Ð²Ð¼Ñ‹.',
+    'personalized.athletes.understanding.callToAction':
+      'Ð£Ð²ÐµÐ»Ð¸Ñ‡ÑŒÑ‚Ðµ ÑÐ²Ð¾ÑŽ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'personalized.athletes.services.title': 'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ðµ ÑƒÑÐ»ÑƒÐ³Ð¸',
+    'personalized.athletes.services.subtitle': 'Ð”Ð»Ñ Ð°Ñ‚Ð»ÐµÑ‚Ð¾Ð² Ð¸ Ð»ÑŽÐ±Ð¸Ñ‚ÐµÐ»ÐµÐ¹',
+    'personalized.athletes.services.sportsMassage.title': 'Ð¡Ð¿Ð¾Ñ€Ñ‚Ð¸Ð²Ð½Ñ‹Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'personalized.athletes.services.sportsMassage.description':
+      'ÐŸÐ¾Ð´Ð³Ð¾Ñ‚Ð¾Ð²ÑŒÑ‚Ðµ Ð¼Ñ‹ÑˆÑ†Ñ‹ Ð¸ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÐµÑÑŒ Ð¿Ð¾ÑÐ»Ðµ Ð½Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸.',
+    'personalized.athletes.services.osteobalance.title': 'ÐžÑÑ‚ÐµÐ¾Ð±Ð°Ð»Ð°Ð½Ñ',
+    'personalized.athletes.services.osteobalance.description':
+      'ÐœÑÐ³ÐºÐ¾Ðµ ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾Ðµ Ð²Ñ‹Ñ€Ð°Ð²Ð½Ð¸Ð²Ð°Ð½Ð¸Ðµ Ð´Ð»Ñ ÑƒÐ»ÑƒÑ‡ÑˆÐµÐ½Ð¸Ñ Ð±Ð¸Ð¾Ð¼ÐµÑ…Ð°Ð½Ð¸ÐºÐ¸.',
+    'personalized.athletes.testimonial.title': 'ÐžÐ¿Ñ‹Ñ‚ ÑÐ¿Ð¾Ñ€Ñ‚ÑÐ¼ÐµÐ½Ð°',
+    'personalized.athletes.testimonial.quote':
+      '"Ð¼Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ Ð²Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ñ Ð·Ð°Ð¼ÐµÑ‚Ð½Ð¾ ÑƒÐ»ÑƒÑ‡ÑˆÐ¸Ð»Ð¾ÑÑŒ."',
+    'personalized.athletes.testimonial.author': 'Марк, бегун',
+
+    'personalized.parents.hero.title': 'Родители',
+    'personalized.parents.hero.description':
+      'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ ÑÐ½ÐµÑ€Ð³Ð¸ÑŽ Ð¸ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ.',
+    'personalized.parents.understanding.title':
+      'Ð—Ð°Ð±Ð¾Ñ‚Ð¸Ñ‚ÑŒÑÑ Ð¾ ÑÐµÐ±Ðµ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð·Ð°Ð±Ð¾Ñ‚Ð¸Ñ‚ÑŒÑÑ Ð¾ Ð½Ð¸Ñ…',
+    'personalized.parents.understanding.description1':
+      'Ð’Ð¾ÑÐ¿Ð¸Ñ‚Ð°Ð½Ð¸Ðµ Ð´ÐµÑ‚ÐµÐ¹ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ Ð¼Ð½Ð¾Ð³Ð¾ ÑÐ¸Ð», Ð¸ Ð¼Ñ‹ Ñ‡Ð°ÑÑ‚Ð¾ Ð·Ð°Ð±Ñ‹Ð²Ð°ÐµÐ¼ Ð¾ ÑÐ¾Ð±ÑÑ‚Ð²ÐµÐ½Ð½Ñ‹Ñ… Ð¿Ð¾Ñ‚Ñ€ÐµÐ±Ð½Ð¾ÑÑ‚ÑÑ….',
+    'personalized.parents.understanding.description2':
+      'ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð»Ð°Ð³Ð°ÐµÐ¼ Ð²Ð°Ð¼ Ð¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²Ð¾, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿ÐµÑ€ÐµÐ·Ð°Ñ€ÑÐ´Ð¸Ñ‚ÑŒÑÑ Ð¸ Ð½Ð°Ð¹Ñ‚Ð¸ ÑÐ²Ð¾Ð¹ Ð±Ð°Ð»Ð°Ð½Ñ.',
+    'personalized.parents.understanding.callToAction': 'Ð£Ð´ÐµÐ»Ð¸Ñ‚Ðµ Ð²Ñ€ÐµÐ¼Ñ ÑÐµÐ±Ðµ',
+    'personalized.parents.services.title': 'Ð£ÑÐ»ÑƒÐ³Ð¸ Ð´Ð»Ñ Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÐµÐ¹',
+    'personalized.parents.services.subtitle': 'Семейное благополучие',
+    'personalized.parents.services.emotionalKinesiology.title':
+      'Ð­Ð¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð°Ñ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'personalized.parents.services.emotionalKinesiology.description':
+      'Ð£Ð¿Ñ€Ð°Ð²Ð»ÑÐ¹Ñ‚Ðµ ÑÑ‚Ñ€ÐµÑÑÐ¾Ð¼ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸ÑÐ¼Ð¸ Ð²Ð¾ÑÐ¿Ð¸Ñ‚Ð°Ð½Ð¸Ñ.',
+    'personalized.parents.services.relaxingMassage.title': 'Ð Ð°ÑÑÐ»Ð°Ð±Ð»ÑÑŽÑ‰Ð¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'personalized.parents.services.relaxingMassage.description':
+      'ÐœÐ¾Ð¼ÐµÐ½Ñ‚ Ð¿Ð¾ÐºÐ¾Ñ Ð¸ Ð¿Ð¾Ð»Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ.',
+    'personalized.parents.testimonial.title': 'Отзыв мамы',
+    'personalized.parents.testimonial.quote':
+      '"ÑÑ‚Ð¾ Ð¼Ð¾Ð¹ ÑÐ²ÑÑ‰ÐµÐ½Ð½Ñ‹Ð¹ Ð¼Ð¾Ð¼ÐµÐ½Ñ‚ Ð½ÐµÐ´ÐµÐ»Ð¸. Ñ Ð²Ñ‹Ñ…Ð¾Ð¶Ñƒ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð½Ð¾Ð¹."',
+    'personalized.parents.testimonial.author': 'Ð¡Ð¾Ñ„Ð¸Ñ, Ð¼Ð°Ð¼Ð° Ð´Ð²Ð¾Ð¸Ñ… Ð´ÐµÑ‚ÐµÐ¹',
+
+    // Contact Page
+    'contact.hero.badge': 'ÐœÑ‹ Ð·Ð´ÐµÑÑŒ Ð´Ð»Ñ Ð²Ð°Ñ',
+    'contact.hero.title': 'Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ',
+    'contact.hero.titleHighlight': 'с нами',
+    'contact.hero.description':
+      'ÐœÑ‹ Ð·Ð´ÐµÑÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ð²Ð°Ð¼ Ð½Ð° Ð¿ÑƒÑ‚Ð¸ Ðº Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ. Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸ Ð´Ð»Ñ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ, Ð·Ð°Ð¿Ñ€Ð¾ÑÐ¾Ð² Ð¸Ð»Ð¸ Ð»ÑŽÐ±Ñ‹Ñ… Ð²Ð¾Ð¿Ñ€Ð¾ÑÐ¾Ð² Ð¾ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³Ð°Ñ….',
+    'contact.whatsapp': 'WhatsApp 658 867 133',
+    'contact.callNow': 'ÐŸÐ¾Ð·Ð²Ð¾Ð½Ð¸Ñ‚ÑŒ ÑÐµÐ¹Ñ‡Ð°Ñ',
+    'contact.faq.title': 'Ð§Ð°ÑÑ‚Ð¾ Ð·Ð°Ð´Ð°Ð²Ð°ÐµÐ¼Ñ‹Ðµ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹',
+    'contact.faq.q1.title': 'ÐšÐ°Ðº Ñ Ð¼Ð¾Ð³Ñƒ Ð·Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð²ÑÑ‚Ñ€ÐµÑ‡Ñƒ?',
+    'contact.faq.q1.answer':
+      'Ð’Ñ‹ Ð¼Ð¾Ð¶ÐµÑ‚Ðµ Ð·Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ Ð²ÑÑ‚Ñ€ÐµÑ‡Ñƒ, Ð½Ð°Ð¿Ð¸ÑÐ°Ð² Ð² WhatsApp Ð¸Ð»Ð¸ Telegram Ð¿Ð¾ Ð½Ð¾Ð¼ÐµÑ€Ñƒ 658 867 133, Ð¿Ð¾Ð·Ð²Ð¾Ð½Ð¸Ð² Ð½Ð°Ð¼ Ð¿Ð¾ Ñ‚Ð¾Ð¼Ñƒ Ð¶Ðµ Ð½Ð¾Ð¼ÐµÑ€Ñƒ Ð¸Ð»Ð¸ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð¸Ð² Ð½Ð°Ð¼ ÑÐ»ÐµÐºÑ‚Ñ€Ð¾Ð½Ð½Ð¾Ðµ Ð¿Ð¸ÑÑŒÐ¼Ð¾.',
+    'contact.faq.q2.title': 'Какова политика отмены?',
+    'contact.faq.q2.answer':
+      'Ð‘ÐµÑÐ¿Ð»Ð°Ñ‚Ð½Ð°Ñ Ð¾Ñ‚Ð¼ÐµÐ½Ð° Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð° Ð·Ð° 24 Ñ‡Ð°ÑÐ° Ð´Ð¾ Ð²ÑÑ‚Ñ€ÐµÑ‡Ð¸. VIP-Ð¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ñ‚ÐµÐ»Ð¸ Ð¼Ð¾Ð³ÑƒÑ‚ Ð¾Ñ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð·Ð° 12 Ñ‡Ð°ÑÐ¾Ð².',
+    'contact.faq.q3.title': 'Ð’Ñ‹ Ð¿Ñ€ÐµÐ´Ð»Ð°Ð³Ð°ÐµÑ‚Ðµ ÑÐºÐ¸Ð´ÐºÐ¸ Ð¸Ð»Ð¸ VIP-Ð¿Ð»Ð°Ð½Ñ‹?',
+    'contact.faq.q3.answer':
+      'Ð”Ð°, Ñƒ Ð½Ð°Ñ ÐµÑÑ‚ÑŒ VIP-Ð¿Ð»Ð°Ð½Ñ‹ ÑÐ¾ ÑÐºÐ¸Ð´ÐºÐ°Ð¼Ð¸ Ð´Ð¾ 25% Ð¸ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¼Ð¸ Ð¿Ñ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°Ð¼Ð¸, Ñ‚Ð°ÐºÐ¸Ð¼Ð¸ ÐºÐ°Ðº Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð½Ð¾Ðµ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð¸ Ð±ÐµÑÐ¿Ð»Ð°Ñ‚Ð½Ñ‹Ðµ Ñ‚ÐµÐ»ÐµÑ„Ð¾Ð½Ð½Ñ‹Ðµ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ð¸.',
+    'contact.faq.q4.title': 'Ð§Ñ‚Ð¾ Ð¼Ð½Ðµ Ð½ÑƒÐ¶Ð½Ð¾ Ð²Ð·ÑÑ‚ÑŒ Ð½Ð° Ð¿ÐµÑ€Ð²ÑƒÑŽ ÑÐµÑÑÐ¸ÑŽ?',
+    'contact.faq.q4.answer':
+      'Ð’Ð¾Ð·ÑŒÐ¼Ð¸Ñ‚Ðµ ÑƒÐ´Ð¾Ð±Ð½ÑƒÑŽ Ð¾Ð´ÐµÐ¶Ð´Ñƒ, Ð»ÑŽÐ±Ñ‹Ðµ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÑŽÑ‰Ð¸Ðµ Ð¼ÐµÐ´Ð¸Ñ†Ð¸Ð½ÑÐºÐ¸Ðµ Ð·Ð°ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¸Ñ Ð¸ ÑÐ¿Ð¸ÑÐ¾Ðº Ð»ÐµÐºÐ°Ñ€ÑÑ‚Ð², ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ðµ Ð²Ñ‹ Ð¿Ñ€Ð¸Ð½Ð¸Ð¼Ð°ÐµÑ‚Ðµ Ð² Ð½Ð°ÑÑ‚Ð¾ÑÑ‰ÐµÐµ Ð²Ñ€ÐµÐ¼Ñ. ÐœÑ‹ Ð¿Ñ€ÐµÐ´Ð¾ÑÑ‚Ð°Ð²Ð»ÑÐµÐ¼ Ð¿Ð¾Ð»Ð¾Ñ‚ÐµÐ½Ñ†Ð°.',
+
+    // Booking Page Help Section
+    'booking.help.title': 'ÐÑƒÐ¶Ð½Ð° Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒ Ñ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼?',
+    'booking.help.contactDirect': 'Ð¡Ð²ÑÐ¶Ð¸Ñ‚ÐµÑÑŒ Ñ Ð½Ð°Ð¼Ð¸ Ð½Ð°Ð¿Ñ€ÑÐ¼ÑƒÑŽ',
+    'booking.help.email': 'ðŸ“§ Contact@ekabalance.Com',
+    'booking.help.address': 'ðŸ“ Carrer pelai, 12, Barcelona',
+    'booking.help.hours': 'Ð§Ð°ÑÑ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ñ‹',
+    'booking.help.hours.weekdays': 'ÐŸÐ¾Ð½ÐµÐ´ÐµÐ»ÑŒÐ½Ð¸Ðº - Ð¿ÑÑ‚Ð½Ð¸Ñ†Ð°: 9:00 - 20:00',
+    'booking.help.hours.saturday': 'Суббота: 9:00 - 14:00',
+    'booking.help.hours.sunday': 'Ð’Ð¾ÑÐºÑ€ÐµÑÐµÐ½ÑŒÐµ: Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¾',
+    'booking.help.footer':
+      'Ð•ÑÐ»Ð¸ Ñƒ Ð²Ð°Ñ ÐµÑÑ‚ÑŒ ÐºÐ°ÐºÐ¸Ðµ-Ð»Ð¸Ð±Ð¾ Ð²Ð¾Ð¿Ñ€Ð¾ÑÑ‹ Ð¾ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³Ð°Ñ… Ð¸Ð»Ð¸ Ð²Ð°Ð¼ Ð½ÑƒÐ¶Ð½Ð° Ð¿Ð¾Ð¼Ð¾Ñ‰ÑŒ Ñ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸ÐµÐ¼, Ð½Ðµ ÑÑ‚ÐµÑÐ½ÑÐ¹Ñ‚ÐµÑÑŒ Ð¾Ð±Ñ€Ð°Ñ‰Ð°Ñ‚ÑŒÑÑ Ðº Ð½Ð°Ð¼. ÐœÑ‹ Ð·Ð´ÐµÑÑŒ, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ð¾Ð¼Ð¾Ñ‡ÑŒ Ð²Ð°Ð¼.',
+    'booking.whatsapp.availability': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ÑÑ‚ÑŒ: {availability} – {timeslot}',
+    'booking.whatsapp.thanks': 'Спасибо!',
+    // VIP Section
+    'vip.plan.bronze': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿ bronze',
+    'vip.plan.bronze.description':
+      'ÐÐµÐ¾Ð±Ñ…Ð¾Ð´Ð¸Ð¼Ñ‹Ð¹ ÑƒÑ…Ð¾Ð´ Ð´Ð»Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶Ð°Ð½Ð¸Ñ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ',
+    'vip.plan.bronze.price': '150€',
+    'vip.plan.silver': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿ silver',
+    'vip.plan.silver.description': 'ÐŸÐ¾Ð»Ð½Ð¾Ðµ ÐµÐ¶ÐµÐ¼ÐµÑÑÑ‡Ð½Ð¾Ðµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ',
+    'vip.plan.silver.price': '280€',
+    'vip.plan.gold': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿ Gold',
+    'vip.plan.gold.description':
+      'ÐŸÐ¾Ð»Ð½Ð°Ñ Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ Ð¸ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ',
+    'vip.plan.gold.price': '500€',
+
+    'vip.service.priority.title': 'Приоритетное бронирование',
+    'vip.service.priority.description':
+      'Ð‘ÐµÐ· Ð¾Ñ‡ÐµÑ€ÐµÐ´ÐµÐ¹, Ñ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¼Ð¸ ÑÐ»Ð¾Ñ‚Ð°Ð¼Ð¸, Ð·Ð°Ñ€ÐµÐ·ÐµÑ€Ð²Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ð¼Ð¸ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð´Ð»Ñ Ð²Ð°Ñ.',
+    'vip.service.displacements.title': 'Визиты на дом',
+    'vip.service.displacements.description':
+      'ÐœÑ‹ Ð¿Ñ€Ð¸ÐµÐ·Ð¶Ð°ÐµÐ¼ Ðº Ð²Ð°Ð¼. Ð­ÐºÐ¾Ð½Ð¾Ð¼ÑŒÑ‚Ðµ Ð²Ñ€ÐµÐ¼Ñ Ð¸ Ð½Ð°ÑÐ»Ð°Ð¶Ð´Ð°Ð¹Ñ‚ÐµÑÑŒ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ð°Ð¼Ð¸ Ð² ÑÐ²Ð¾ÐµÐ¼ Ð¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÑ‚Ð²Ðµ.',
+    'vip.service.health.title': 'ÐœÐ¾Ð½Ð¸Ñ‚Ð¾Ñ€Ð¸Ð½Ð³ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ',
+    'vip.service.health.description':
+      'Ð ÐµÐ³ÑƒÐ»ÑÑ€Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ¸ Ð¸ Ð¾Ñ‚ÑÐ»ÐµÐ¶Ð¸Ð²Ð°Ð½Ð¸Ðµ Ð¿Ñ€Ð¾Ð³Ñ€ÐµÑÑÐ° Ð²Ð°ÑˆÐµÐ³Ð¾ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð³Ð¾ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ.',
+    'vip.service.family.title': 'Ð¡ÐµÐ¼ÐµÐ¹Ð½Ñ‹Ðµ Ð¿Ñ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°',
+    'vip.service.family.description':
+      'Ð”ÐµÐ»Ð¸Ñ‚ÐµÑÑŒ ÑÐ²Ð¾Ð¸Ð¼Ð¸ ÑÐµÐ°Ð½ÑÐ°Ð¼Ð¸ Ð¸ Ð¿Ñ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°Ð¼Ð¸ Ñ Ð±Ð»Ð¸Ð·ÐºÐ¸Ð¼Ð¸ Ñ€Ð¾Ð´ÑÑ‚Ð²ÐµÐ½Ð½Ð¸ÐºÐ°Ð¼Ð¸.',
+    'vip.benefits.transferable': 'ÐŸÐµÑ€ÐµÐ´Ð°Ð²Ð°ÐµÐ¼Ñ‹Ðµ ÑÐµÐ°Ð½ÑÑ‹',
+    'vip.benefits.transferableDesc': 'ÐŸÐ¾Ð´ÐµÐ»Ð¸Ñ‚ÐµÑÑŒ Ñ ÑÐµÐ¼ÑŒÐµÐ¹',
+    'vip.benefits.monthly': 'Ð•Ð¶ÐµÐ¼ÐµÑÑÑ‡Ð½Ð°Ñ Ð¿Ñ€Ð¾Ð²ÐµÑ€ÐºÐ°',
+    'vip.benefits.monthlyDesc': 'ÐŸÑ€Ð¾Ñ„Ð¸Ð»Ð°ÐºÑ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ ÑƒÑ…Ð¾Ð´',
+    'vip.benefits.barcelona': 'Ð­ÐºÑÐºÐ»ÑŽÐ·Ð¸Ð² Ð±Ð°Ñ€ÑÐµÐ»Ð¾Ð½Ð°',
+    'vip.benefits.barcelonaDesc': 'Ð”Ð¾ÑÑ‚ÑƒÐ¿Ð½Ð¾ Ð² Ñ†ÐµÐ½Ñ‚Ñ€Ðµ',
+    'vip.benefits.sessions': 'Ð Ð°ÑÑˆÐ¸Ñ€ÐµÐ½Ð½Ñ‹Ðµ ÑÐµÐ°Ð½ÑÑ‹',
+
+    'vip.stats.concierge': 'ÐšÐ¾Ð½ÑÑŒÐµÑ€Ð¶-ÑÐµÑ€Ð²Ð¸Ñ',
+    'vip.stats.exclusivity': 'Ð­ÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ',
+    'vip.stats.clients': 'Топ 1% клиентов',
+    'vip.stats.possibilities': 'Ð’Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸',
+    'vip.stats.control': 'ÐšÐ¾Ð½Ñ‚Ñ€Ð¾Ð»ÑŒ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÑ',
+    'vip.stats.family': 'Семейный план',
+
+    'vip.mostExclusive': 'Ð¡Ð°Ð¼Ñ‹Ð¹ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ð¹',
+    'vip.experienceDescription':
+      'ÐžÑ‰ÑƒÑ‚Ð¸Ñ‚Ðµ Ð²ÐµÑ€ÑˆÐ¸Ð½Ñƒ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ, ÑÐ¾Ð·Ð´Ð°Ð½Ð½ÑƒÑŽ Ð´Ð»Ñ Ñ‚ÐµÑ…, ÐºÑ‚Ð¾ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ Ð»ÑƒÑ‡ÑˆÐµÐ³Ð¾.',
+    'vip.voicesOfExcellence': 'Ð“Ð¾Ð»Ð¾ÑÐ° ÑÐ¾Ð²ÐµÑ€ÑˆÐµÐ½ÑÑ‚Ð²Ð°',
+    'vip.testimonialsSubtitle':
+      'Ð§Ñ‚Ð¾ Ð³Ð¾Ð²Ð¾Ñ€ÑÑ‚ Ð½Ð°ÑˆÐ¸ ÑÐ»Ð¸Ñ‚Ð½Ñ‹Ðµ Ñ‡Ð»ÐµÐ½Ñ‹ Ð¾ ÑÐ²Ð¾ÐµÐ¼ Ð¾Ð¿Ñ‹Ñ‚Ðµ.',
+    'vip.tier.standard': 'Ð¡Ñ‚Ð°Ð½Ð´Ð°Ñ€Ñ‚Ð½Ñ‹Ð¹ ÑƒÑ‡Ð°ÑÑ‚Ð½Ð¸Ðº',
+
+    'vip.testimonials.comment1':
+      'Ð›ÑƒÑ‡ÑˆÐ°Ñ Ð¸Ð½Ð²ÐµÑÑ‚Ð¸Ñ†Ð¸Ñ Ð² Ð¼Ð¾Ðµ Ð·Ð´Ð¾Ñ€Ð¾Ð²ÑŒÐµ. ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð½Ñ‹Ð¹ ÑÐµÑ€Ð²Ð¸Ñ Ð¼ÐµÐ½ÑÐµÑ‚ Ð¿Ñ€Ð°Ð²Ð¸Ð»Ð° Ð¸Ð³Ñ€Ñ‹.',
+    'vip.testimonials.comment2':
+      'ÐŸÑ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»Ð¸Ð·Ð¼ Ð² Ð»ÑƒÑ‡ÑˆÐµÐ¼ Ð²Ð¸Ð´Ðµ. Ð•Ð»ÐµÐ½Ð° Ñ‚Ð¾Ñ‡Ð½Ð¾ Ð¿Ð¾Ð½Ð¸Ð¼Ð°ÐµÑ‚, Ñ‡Ñ‚Ð¾ Ð½ÑƒÐ¶Ð½Ð¾ Ð¼Ð¾ÐµÐ¼Ñƒ Ñ‚ÐµÐ»Ñƒ.',
+    'vip.testimonials.comment3':
+      'Ð¯ Ñ‡ÑƒÐ²ÑÑ‚Ð²ÑƒÑŽ Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð¿Ð¾ÑÐ»Ðµ ÐºÐ°Ð¶Ð´Ð¾Ð³Ð¾ ÑÐµÐ°Ð½ÑÐ°. Ð’Ð½Ð¸Ð¼Ð°Ð½Ð¸Ðµ Ðº Ð´ÐµÑ‚Ð°Ð»ÑÐ¼ Ð½ÐµÐ¿Ñ€ÐµÐ²Ð·Ð¾Ð¹Ð´ÐµÐ½Ð½Ð¾.',
+
+    'vip.hero.badge': 'Ультра премиум',
+    'vip.hero.title.beyond': 'За пределами',
+    'vip.hero.title.wellness': 'Ð‘Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+    'vip.hero.subtitle':
+      'Ð’Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ Ð² Ð¼Ð¸Ñ€, Ð³Ð´Ðµ Ð²Ð°ÑˆÐµ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ðµ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð°Ð±ÑÐ¾Ð»ÑŽÑ‚Ð½Ñ‹Ð¼ Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð¾Ð¼. Ð­ÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ†ÐµÐ´ÑƒÑ€Ñ‹, Ð¿Ñ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿ Ð¸ Ð¸Ð½Ð´Ð¸Ð²Ð¸Ð´ÑƒÐ°Ð»ÑŒÐ½Ñ‹Ð¹ ÑƒÑ…Ð¾Ð´.',
+    'vip.hero.cta.join': 'Ð’ÑÑ‚ÑƒÐ¿Ð¸Ñ‚ÑŒ Ð² inner circle',
+
+    'vip.dashboard.member': 'Ð—Ð¾Ð½Ð° ÑƒÑ‡Ð°ÑÑ‚Ð½Ð¸ÐºÐ°',
+    'vip.dashboard.hello': 'Привет,',
+    'vip.dashboard.status': 'Ð¢ÐµÐºÑƒÑ‰Ð¸Ð¹ ÑÑ‚Ð°Ñ‚ÑƒÑ:',
+    'vip.dashboard.priorityBooking': 'Приоритетное бронирование',
+    'vip.dashboard.viewPlans': 'ÐŸÐ¾ÑÐ¼Ð¾Ñ‚Ñ€ÐµÑ‚ÑŒ VIP Ð¿Ð»Ð°Ð½Ñ‹',
+
+    'vip.features.badge': 'Ð¡Ð¾Ð²ÐµÑ€ÑˆÐµÐ½ÑÑ‚Ð²Ð¾',
+    'vip.features.title': 'Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¾ Ð´Ð»Ñ ÑÐ»Ð¸Ñ‚Ñ‹',
+    'vip.features.subtitle':
+      'ÐšÐ°Ð¶Ð´Ð°Ñ Ð´ÐµÑ‚Ð°Ð»ÑŒ Ð±Ñ‹Ð»Ð° Ð¿Ñ€Ð¾Ð´ÑƒÐ¼Ð°Ð½Ð°, Ñ‡Ñ‚Ð¾Ð±Ñ‹ Ð¿Ñ€ÐµÐ´Ð»Ð¾Ð¶Ð¸Ñ‚ÑŒ Ð¾Ð¿Ñ‹Ñ‚, Ð²Ñ‹Ñ…Ð¾Ð´ÑÑ‰Ð¸Ð¹ Ð·Ð° Ñ€Ð°Ð¼ÐºÐ¸ Ð¿Ñ€Ð¾ÑÑ‚Ð¾Ð¹ Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ð¸.',
+
+    'vip.plans.badge': 'Ð§Ð»ÐµÐ½ÑÑ‚Ð²Ð¾',
+    'vip.plans.title': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ²Ð¾Ð¹ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ',
+    'vip.plans.subtitle':
+      'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑƒÑ€Ð¾Ð²ÐµÐ½ÑŒ ÑÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾ÑÑ‚Ð¸, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²ÑƒÐµÑ‚ Ð²Ð°ÑˆÐµÐ¼Ñƒ Ð¾Ð±Ñ€Ð°Ð·Ñƒ Ð¶Ð¸Ð·Ð½Ð¸.',
+    'vip.plans.popular': 'Ð¡Ð°Ð¼Ñ‹Ð¹ Ð¿Ð¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ‹Ð¹',
+    'vip.plans.perMonth': '/ ÐœÐµÑÑÑ†',
+    'vip.plans.sessions': 'Ð¡ÐµÐ°Ð½ÑÐ¾Ð² Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾',
+    'vip.plans.contact': 'Ð¡Ð²ÑÐ·Ð°Ñ‚ÑŒÑÑ Ð´Ð»Ñ',
+    'vip.table.title': 'Сравнение планов',
+    'vip.table.sessions': 'Ð¡ÐµÐ°Ð½ÑÑ‹ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ñ‹',
+
+    'vip.exclusivePrivileges': 'Ð­ÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ñ‹Ðµ Ð¿Ñ€Ð¸Ð²Ð¸Ð»ÐµÐ³Ð¸Ð¸',
+    'vip.testimonials.title': 'Элитный опыт',
+    'vip.testimonials.subtitle':
+      'Ð£ÑÐ»Ñ‹ÑˆÑŒÑ‚Ðµ Ñ‚ÐµÑ…, ÐºÑ‚Ð¾ Ð²Ñ‹Ð±Ñ€Ð°Ð» Ð¿ÑƒÑ‚ÑŒ ÑÐ¾Ð²ÐµÑ€ÑˆÐµÐ½ÑÑ‚Ð²Ð°.',
+    'vip.testimonials.role1': 'Ceo, Ñ‚ÐµÑ…Ð½Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ°Ñ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ñ',
+    'vip.testimonials.role2': 'Ð¡ÐµÑ€Ð´ÐµÑ‡Ð½Ð¾-ÑÐ¾ÑÑƒÐ´Ð¸ÑÑ‚Ñ‹Ð¹ Ñ…Ð¸Ñ€ÑƒÑ€Ð³',
+    'vip.testimonials.role3': 'Предприниматель',
+    'vip.cta.badge': 'ÐŸÑ€Ð¸ÑÐ¾ÐµÐ´Ð¸Ð½ÑÐ¹Ñ‚ÐµÑÑŒ',
+    'vip.cta.title': 'ÐŸÑ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¸Ñ‚Ðµ ÑÐ²Ð¾ÑŽ Ð¶Ð¸Ð·Ð½ÑŒ',
+    'vip.cta.subtitle':
+      'Ð’Ð°Ñˆ Ð¿ÑƒÑ‚ÑŒ Ðº Ð¿Ð¸ÐºÐ¾Ð²Ð¾Ð¹ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ÑÑ‚Ð¸ Ð¸ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¾Ð¼Ñƒ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸ÑŽ Ð½Ð°Ñ‡Ð¸Ð½Ð°ÐµÑ‚ÑÑ Ð·Ð´ÐµÑÑŒ.',
+    'vip.whatsapp.message':
+      'Ð—Ð´Ñ€Ð°Ð²ÑÑ‚Ð²ÑƒÐ¹Ñ‚Ðµ, Ð¼ÐµÐ½Ñ Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÑƒÐµÑ‚ VIP-Ð¿Ð»Ð°Ð½ {plan}. Ñ Ñ…Ð¾Ñ‚ÐµÐ» Ð±Ñ‹ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸.',
+    'vip.whatsapp.messageGeneral':
+      'Ð—Ð´Ñ€Ð°Ð²ÑÑ‚Ð²ÑƒÐ¹Ñ‚Ðµ, Ð¼ÐµÐ½Ñ Ð¸Ð½Ñ‚ÐµÑ€ÐµÑÑƒÑŽÑ‚ VIP-Ð¿Ð»Ð°Ð½Ñ‹ inner circle. Ð¯ Ñ…Ð¾Ñ‚ÐµÐ» Ð±Ñ‹ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¸Ð½Ñ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ð¸.',
+    'vip.cta.location': 'Ð­ÐºÑÐºÐ»ÑŽÐ·Ð¸Ð²Ð½Ð¾Ðµ Ñ€Ð°ÑÐ¿Ð¾Ð»Ð¾Ð¶ÐµÐ½Ð¸Ðµ',
+    'vip.cta.concierge': 'ÐšÐ¾Ð½ÑÑŒÐµÑ€Ð¶-ÑÐµÑ€Ð²Ð¸Ñ',
+    'vip.cta.guarantee': 'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð³Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ',
+
+    // Hero Missing
+    'hero.title.part1': 'Ð’Ð¾ÑÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚Ðµ',
+    'hero.title.part2': 'ÑÐ¸ÑÑ‚ÐµÐ¼Ð½ÑƒÑŽ Ð²Ð¸Ñ‚Ð°Ð»ÑŒÐ½Ð¾ÑÑ‚ÑŒ',
+    'hero.cta.primary': 'Ð—Ð°Ð¿Ð¸ÑÐ°Ñ‚ÑŒÑÑ Ð½Ð° ÑÐµÐ°Ð½Ñ',
+    'hero.cta.secondary': 'Ð£Ð·Ð½Ð°Ñ‚ÑŒ ÑÐ²Ð¾Ð¹ Ð¿ÑƒÑ‚ÑŒ',
+    'hero.stats.rating': 'Рейтинг 5 звезд',
+
+    // VIP Missing Details
+    'vip.plan.platinum': 'Platinum VIP',
+    'vip.plan.bronze.desc': 'Вход в VIP',
+    'vip.plan.silver.desc': 'Ð”Ð»Ñ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»Ð¾Ð²',
+    'vip.plan.gold.desc': 'ÐœÐ°ÐºÑÐ¸Ð¼Ð°Ð»ÑŒÐ½Ñ‹Ð¹ Ð¾Ð¿Ñ‹Ñ‚',
+    'vip.plan.platinum.desc': 'Ð­Ð»Ð¸Ñ‚Ð½Ñ‹Ð¹ Ð´Ð¾ÑÑ‚ÑƒÐ¿',
+    'vip.feature.priority': 'Приоритет',
+    'vip.feature.extended': 'Ð”Ð»Ð¸Ð½Ð½Ñ‹Ðµ ÑÐµÑÑÐ¸Ð¸',
+    'vip.feature.support': '24/7 поддержка',
+    'vip.feature.events': 'Ð¡Ð¾Ð±Ñ‹Ñ‚Ð¸Ñ',
+    'vip.feature.home': 'Выезд на дом',
+    'vip.feature.all': 'Ð’ÑÐµ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð¾',
+    'vip.feature.gift': 'ÐŸÐ¾Ð´Ð°Ñ€Ð¾Ñ‡Ð½Ñ‹Ð¹ ÑÐµÐ°Ð½Ñ',
+    'vip.feature.consultation': 'ÐšÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ñ',
+    'vip.feature.kit': 'Premium набор',
+    'vip.feature.concierge': 'Личный менеджер',
+    'vip.feature.retreat': 'Скидка на ретриты',
+
+    // Missing Keys Patch
+    'stats.sessions': 'Сессии',
+    'stats.clients': 'Клиенты',
+    'stats.experience': 'Опыт',
+    'stats.rating': 'Рейтинг',
+    'stats.countries': 'Страны',
+    'stats.cases': 'Ð ÐµÑˆÐµÐ½Ð½Ñ‹Ðµ ÐºÐµÐ¹ÑÑ‹',
+    'stats.response': 'Ð‘Ñ‹ÑÑ‚Ñ€Ñ‹Ð¹ Ð¾Ñ‚Ð²ÐµÑ‚',
+
+    // Students
+    'students.problems.title': 'ÐŸÑ€Ð¾Ð±Ð»ÐµÐ¼Ñ‹ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+    'students.problems.subtitle': 'ÐŸÑ€ÐµÐ¾Ð´Ð¾Ð»ÐµÐ¹ ÑƒÑ‡ÐµÐ±Ð½Ñ‹Ð¹ ÑÑ‚Ñ€ÐµÑÑ',
+    'students.problem1.title': 'Тревога',
+    'students.problem1.desc': 'ÐŸÐµÑ€ÐµÐ´ ÑÐºÐ·Ð°Ð¼ÐµÐ½Ð°Ð¼Ð¸',
+    'students.problem2.title': 'ÐžÑÐ°Ð½ÐºÐ°',
+    'students.problem2.desc': 'Боль от учебы',
+    'students.problem3.title': 'ÐšÐ¾Ð½Ñ†ÐµÐ½Ñ‚Ñ€Ð°Ñ†Ð¸Ñ',
+    'students.problem3.desc': 'Ð¡Ð»Ð¾Ð¶Ð½Ð¾ÑÑ‚Ð¸ Ñ Ñ„Ð¾ÐºÑƒÑÐ¾Ð¼',
+    'students.problem4.title': 'Ð£ÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ',
+    'students.problem4.desc': 'Ð£Ð¼ÑÑ‚Ð²ÐµÐ½Ð½Ð¾Ðµ ÑƒÑ‚Ð¾Ð¼Ð»ÐµÐ½Ð¸Ðµ',
+    'students.results.title': 'Результаты',
+    'students.results.point1': 'Ð›ÑƒÑ‡ÑˆÐ°Ñ ÑƒÑÐ¿ÐµÐ²Ð°ÐµÐ¼Ð¾ÑÑ‚ÑŒ',
+    'students.results.point2': 'ÐœÐµÐ½ÑŒÑˆÐµ ÑÑ‚Ñ€ÐµÑÑÐ°',
+    'students.results.point3': 'Ð‘Ð¾Ð»ÑŒÑˆÐµ ÑÐ½ÐµÑ€Ð³Ð¸Ð¸',
+    'students.plans.title': 'ÐŸÐ»Ð°Ð½Ñ‹ Ð´Ð»Ñ ÑÑ‚ÑƒÐ´ÐµÐ½Ñ‚Ð¾Ð²',
+    'students.plans.subtitle': 'Ð’Ð°Ñ€Ð¸Ð°Ð½Ñ‚Ñ‹ Ð´Ð»Ñ Ð²Ð°Ñ',
+    'students.plan1.name': 'Разовая сессия',
+    'students.plan1.desc': 'Точечно',
+    'students.plan1.result': 'Облегчение',
+    'students.plan2.name': 'Пакет"учеба"',
+    'students.plan2.desc': 'Сопровождение',
+    'students.plan2.result': 'Ð­Ñ„Ñ„ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ',
+    'students.plan2.popular': 'ÐŸÐ¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ‹Ð¹',
+    'students.plan2.save': 'Выгода',
+    'students.plan3.name': 'ÐŸÐ¾Ð»Ð½Ð°Ñ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ð°',
+    'students.plan3.desc': 'Ð¢Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ',
+    'students.plan3.result': 'Ð£ÑÐ¿ÐµÑ…',
+    'students.plan.cta': 'Выбрать план',
+    'students.plan1.benefit1': 'Релакс',
+    'students.plan1.benefit2': 'Ð¤Ð¾ÐºÑƒÑ',
+    'students.plan1.benefit3': 'Советы',
+    'students.plan1.benefit4': 'Поддержка',
+    'students.plan2.benefit1': '3 сессии',
+    'students.plan2.benefit2': 'Контроль',
+    'students.plan2.benefit3': 'Приоритет',
+    'students.plan2.benefit4': 'Скидка',
+    'students.plan3.benefit1': '5 сессий',
+    'students.plan3.benefit2': 'Коучинг',
+    'students.plan3.benefit3': 'WhatsApp',
+    'students.plan3.benefit4': 'Материалы',
+
+    // Office
+    'office.hero.badge': 'Ð”Ð»Ñ ÐºÐ¾Ð¼Ð¿Ð°Ð½Ð¸Ð¹',
+    'office.hero.title': 'Корпоративное здоровье',
+    'office.hero.subtitle': 'Здоровье на работе',
+    'office.problems.title': 'ÐžÑ„Ð¸ÑÐ½Ñ‹Ðµ Ð²Ñ‹Ð·Ð¾Ð²Ñ‹',
+    'office.problems.subtitle': 'Ð¡Ð¸Ð´ÑÑ‡Ð¸Ð¹ Ð¾Ð±Ñ€Ð°Ð· Ð¶Ð¸Ð·Ð½Ð¸ Ð¸ ÑÑ‚Ñ€ÐµÑÑ',
+    'office.problem1.title': 'Ð‘Ð¾Ð»ÑŒ Ð² ÑÐ¿Ð¸Ð½Ðµ',
+    'office.problem1.desc': 'Ð¡Ñ‚Ð°Ñ‚Ð¸Ñ‡Ð½Ð°Ñ Ð¿Ð¾Ð·Ð°',
+    'office.problem2.title': 'Ð£ÑÑ‚Ð°Ð»Ð¾ÑÑ‚ÑŒ Ð³Ð»Ð°Ð·',
+    'office.problem2.desc': 'Экраны',
+    'office.problem3.title': 'Шея',
+    'office.problem3.desc': 'ÐÐ°Ð¿Ñ€ÑÐ¶ÐµÐ½Ð¸Ðµ Ð¿Ð»ÐµÑ‡',
+    'office.problem4.title': 'Ð“Ð¸Ð¿Ð¾Ð´Ð¸Ð½Ð°Ð¼Ð¸Ñ',
+    'office.problem4.desc': 'ÐÐµÐ´Ð¾ÑÑ‚Ð°Ñ‚Ð¾Ðº Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ',
+    'office.help.title': 'Ð ÐµÑˆÐµÐ½Ð¸Ñ',
+    'office.help1.title': 'Эргономика',
+    'office.help1.desc': 'ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° Ð¿Ð¾Ð·Ñ‹',
+    'office.help2.title': 'ÐÐºÑ‚Ð¸Ð²Ð°Ñ†Ð¸Ñ',
+    'office.help2.desc': 'Ð£Ð¿Ñ€Ð°Ð¶Ð½ÐµÐ½Ð¸Ñ',
+    'office.help3.title': 'Ð ÐµÐ»Ð°ÐºÑÐ°Ñ†Ð¸Ñ',
+    'office.help3.desc': 'ÐÐ½Ñ‚Ð¸-ÑÑ‚Ñ€ÐµÑÑ',
+    'office.results.title': 'ÐŸÑ€ÐµÐ¸Ð¼ÑƒÑ‰ÐµÑÑ‚Ð²Ð°',
+    'office.results.point1': 'ÐŸÑ€Ð¾Ð´ÑƒÐºÑ‚Ð¸Ð²Ð½Ð¾ÑÑ‚ÑŒ',
+    'office.results.point2': 'Меньше больничных',
+    'office.results.point3': 'ÐÑ‚Ð¼Ð¾ÑÑ„ÐµÑ€Ð°',
+    'office.plans.title': 'Корпоративные планы',
+    'office.plans.subtitle': 'Ð”Ð»Ñ ÐºÐ¾Ð¼Ð°Ð½Ð´',
+    'office.plan1.name': 'Индивидуальный',
+    'office.plan1.desc': 'Executive',
+    'office.plan1.result': 'Ð¤Ð¾ÐºÑƒÑ',
+    'office.plan2.name': 'ÐœÐ°Ð»Ð°Ñ ÐºÐ¾Ð¼Ð°Ð½Ð´Ð°',
+    'office.plan2.desc': '< 10 человек',
+    'office.plan2.result': 'Ð¡Ð¿Ð»Ð¾Ñ‡ÐµÐ½Ð½Ð¾ÑÑ‚ÑŒ',
+    'office.plan2.popular': 'Рекомендуем',
+    'office.plan2.save': 'Выгодно',
+    'office.plan3.name': 'Департамент',
+    'office.plan3.desc': 'Большие команды',
+    'office.plan3.result': 'Культура',
+    'office.plan.cta': 'Ð¡Ð²ÑÐ·Ð°Ñ‚ÑŒÑÑ',
+    'office.plan1.benefit1': 'Анализ',
+    'office.plan1.benefit2': 'Лечение',
+    'office.plan1.benefit3': 'Отчет',
+    'office.plan1.benefit4': 'Контроль',
+    'office.plan2.benefit1': 'Воркшопы',
+    'office.plan2.benefit2': 'Группа',
+    'office.plan2.benefit3': 'Материалы',
+    'office.plan2.benefit4': 'Сделка',
+    'office.plan3.benefit1': 'Годовой',
+    'office.plan3.benefit2': 'Ð’ Ð¾Ñ„Ð¸ÑÐµ',
+    'office.plan3.benefit3': 'Ивенты',
+    'office.plan3.benefit4': 'Данные',
+
+    'whyChoose.title': 'Почему выбирают EKA Balance?',
+    'whyChoose.subtitle':
+      'ÐœÑ‹ Ð±Ð¾Ð»ÑŒÑˆÐµ, Ñ‡ÐµÐ¼ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ñ†ÐµÐ½Ñ‚Ñ€; Ð¼Ñ‹ Ð²Ð°ÑˆÐ¸ Ð¿Ñ€ÐµÐ´Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ð°Ñ€Ñ‚Ð½ÐµÑ€Ñ‹ Ð² Ñ†ÐµÐ»Ð¾ÑÑ‚Ð½Ð¾Ð¼ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð¸.',
+    'whyChoose.personalized.title':
+      'Ð˜ÑÑ‚Ð¸Ð½Ð½Ð¾ Ð¿ÐµÑ€ÑÐ¾Ð½Ð°Ð»Ð¸Ð·Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ð»Ð°Ð½Ñ‹',
+    'whyChoose.personalized.description':
+      'Ð’Ð°ÑˆÐµ Ñ‚ÐµÐ»Ð¾ ÑƒÐ½Ð¸ÐºÐ°Ð»ÑŒÐ½Ð¾, Ð¸ Ð²Ð°ÑˆÐ° Ñ‚ÐµÑ€Ð°Ð¿Ð¸Ñ Ñ‚Ð¾Ð¶Ðµ Ð´Ð¾Ð»Ð¶Ð½Ð° Ð±Ñ‹Ñ‚ÑŒ Ñ‚Ð°ÐºÐ¾Ð¹. ÐœÑ‹ Ð°Ð´Ð°Ð¿Ñ‚Ð¸Ñ€ÑƒÐµÐ¼ ÐºÐ°Ð¶Ð´ÑƒÑŽ ÑÐµÑÑÐ¸ÑŽ Ðº Ð²Ð°ÑˆÐµÐ¹ Ñ„Ð¸Ð·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ð¸ Ð¸ Ð¸ÑÑ‚Ð¾Ñ€Ð¸Ð¸ Ð´Ð»Ñ Ð±Ð¾Ð»ÐµÐµ Ð±Ñ‹ÑÑ‚Ñ€Ñ‹Ñ… Ð¸ ÑƒÑÑ‚Ð¾Ð¹Ñ‡Ð¸Ð²Ñ‹Ñ… Ñ€ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚Ð¾Ð².',
+    'whyChoose.holistic.title': 'Ð¡Ð¸ÑÑ‚ÐµÐ¼Ð½Ð°Ñ Ð¸Ð½Ñ‚ÐµÐ³Ñ€Ð°Ñ†Ð¸Ñ',
+    'whyChoose.holistic.description':
+      'ÐœÑ‹ Ð»ÐµÑ‡Ð¸Ð¼ Ð²Ð°Ñ Ñ†ÐµÐ»Ð¸ÐºÐ¾Ð¼ — ÑÑ‚Ñ€ÑƒÐºÑ‚ÑƒÑ€Ð½Ð¾, Ñ…Ð¸Ð¼Ð¸Ñ‡ÐµÑÐºÐ¸ Ð¸ ÑÐ¼Ð¾Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾. Ð˜ÑÑ‚Ð¸Ð½Ð½Ð¾Ðµ Ð¸ÑÑ†ÐµÐ»ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð¸ÑÑ…Ð¾Ð´Ð¸Ñ‚, ÐºÐ¾Ð³Ð´Ð° Ð²ÑÐµ Ð²Ð°ÑˆÐ¸ ÑÐ¸ÑÑ‚ÐµÐ¼Ñ‹ Ñ€Ð°Ð±Ð¾Ñ‚Ð°ÑŽÑ‚ Ð² Ð³Ð°Ñ€Ð¼Ð¾Ð½Ð¸Ð¸.',
+    'whyChoose.experienced.title': 'Ð­ÐºÑÐ¿ÐµÑ€Ñ‚Ð½Ð¾Ðµ Ñ€ÑƒÐºÐ¾Ð²Ð¾Ð´ÑÑ‚Ð²Ð¾',
+    'whyChoose.experienced.description':
+      'Ð’Ð¾ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐ¹Ñ‚ÐµÑÑŒ Ð³Ð¾Ð´Ð°Ð¼Ð¸ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð¿Ñ€Ð°ÐºÑ‚Ð¸ÐºÐ¸ Ð¸ Ð½ÐµÐ¿Ñ€ÐµÑ€Ñ‹Ð²Ð½Ð¾Ð³Ð¾ Ð¾Ð±ÑƒÑ‡ÐµÐ½Ð¸Ñ Ð¼Ð¸Ñ€Ð¾Ð²Ñ‹Ð¼ Ð¼ÐµÑ‚Ð¾Ð´Ð¸ÐºÐ°Ð¼, Ñ‚Ð°ÐºÐ¸Ð¼ ÐºÐ°Ðº Ñ„ÐµÐ»ÑŒÐ´ÐµÐ½ÐºÑ€Ð°Ð¹Ð·, Ð¾ÑÑ‚ÐµÐ¾Ð¿Ð°Ñ‚Ð¸Ñ Ð¸ ÐºÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ.',
+
+    // Pricing Section
+    'pricing.badge': 'Прозрачные тарифы',
+    'pricing.title.part1': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ²Ð¾Ð¹',
+    'pricing.title.part2': 'Ð¿Ð»Ð°Ð½ Ð±Ð»Ð°Ð³Ð¾Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ',
+    'pricing.subtitle':
+      'ÐŸÐ°ÐºÐµÑ‚Ñ‹, Ñ€Ð°Ð·Ñ€Ð°Ð±Ð¾Ñ‚Ð°Ð½Ð½Ñ‹Ðµ Ð´Ð»Ñ Ð»ÑŽÐ±Ñ‹Ñ… Ð½ÑƒÐ¶Ð´, Ñ Ð³Ð¸Ð±ÐºÐ¾ÑÑ‚ÑŒÑŽ Ð¸ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð¾Ð¼, ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… Ð²Ñ‹ Ð·Ð°ÑÐ»ÑƒÐ¶Ð¸Ð²Ð°ÐµÑ‚Ðµ',
+    'pricing.popular': 'Ð¡Ð°Ð¼Ñ‹Ð¹ Ð¿Ð¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ‹Ð¹',
+    'pricing.save': 'Экономия {percent}%',
+    'pricing.discount_applied': 'Применено',
+    'pricing.plan.select': 'Выбрать',
+
+    'pricing.plan.basic.name': 'Ð˜Ð½Ð´Ð¸Ð²Ð¸Ð´ÑƒÐ°Ð»ÑŒÐ½Ð°Ñ ÑÐµÑÑÐ¸Ñ',
+    'pricing.plan.basic.desc': 'ÐŸÐ¾Ð»Ð½Ð°Ñ ÑÐµÑÑÐ¸Ñ 60 Ð¼Ð¸Ð½ÑƒÑ‚',
+    'pricing.plan.pack3.name': 'Пакет благополучие (3)',
+    'pricing.plan.pack3.desc':
+      'ÐŸÐ°ÐºÐµÑ‚ Ð¸Ð· 3 ÑÐµÑÑÐ¸Ð¹ Ð´Ð»Ñ Ð½ÐµÐ¿Ñ€ÐµÑ€Ñ‹Ð²Ð½Ð¾Ð³Ð¾ Ð¾Ñ‚ÑÐ»ÐµÐ¶Ð¸Ð²Ð°Ð½Ð¸Ñ',
+    'pricing.plan.pack5.name': 'ÐŸÐ°ÐºÐµÑ‚ Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼Ð°Ñ†Ð¸Ñ (5)',
+    'pricing.plan.pack5.desc':
+      'ÐšÐ¾Ð¼Ð¿Ð»ÐµÐºÑÐ½Ð¾Ðµ Ð»ÐµÑ‡ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ð³Ð»ÑƒÐ±Ð¾ÐºÐ¸Ñ… Ð¸Ð·Ð¼ÐµÐ½ÐµÐ½Ð¸Ð¹',
+
+    'pricing.feature.massage': 'Ð¢ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¸Ð¹ Ð¼Ð°ÑÑÐ°Ð¶',
+    'pricing.feature.kinesiology': 'ÐšÐ¸Ð½ÐµÐ·Ð¸Ð¾Ð»Ð¾Ð³Ð¸Ñ',
+    'pricing.feature.osteopathy': 'ÐœÑÐ³ÐºÐ°Ñ Ð¾ÑÑ‚ÐµÐ¾Ð¿Ð°Ñ‚Ð¸Ñ',
+    'pricing.feature.save15': 'Ð­ÐºÐ¾Ð½Ð¾Ð¼Ð¸Ñ 15€',
+    'pricing.feature.valid3months': 'Ð”ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÐµÐ½ 3 Ð¼ÐµÑÑÑ†Ð°',
+    'pricing.feature.transferable': 'Можно передавать',
+    'pricing.feature.save25': 'Ð­ÐºÐ¾Ð½Ð¾Ð¼Ð¸Ñ 25€',
+    'pricing.feature.valid6months': 'Ð”ÐµÐ¹ÑÑ‚Ð²Ð¸Ñ‚ÐµÐ»ÐµÐ½ 6 Ð¼ÐµÑÑÑ†ÐµÐ²',
+    'pricing.feature.priority': 'ÐŸÑ€Ð¸Ð¾Ñ€Ð¸Ñ‚ÐµÑ‚ Ð±Ñ€Ð¾Ð½Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ',
+
+    'pricing.guarantee.nocommitment.title': 'Ð‘ÐµÐ· Ð¾Ð±ÑÐ·Ð°Ñ‚ÐµÐ»ÑŒÑÑ‚Ð²',
+    'pricing.guarantee.nocommitment.desc':
+      'ÐžÑ‚Ð¼ÐµÐ½Ð° Ð¸Ð»Ð¸ Ð¿ÐµÑ€ÐµÐ½Ð¾Ñ Ð·Ð°Ð¿Ð¸ÑÐ¸ Ð·Ð° 24 Ñ‡Ð°ÑÐ° Ð±ÐµÐ· Ð¾Ð¿Ð»Ð°Ñ‚Ñ‹',
+    'pricing.guarantee.satisfaction.title': 'Ð“Ð°Ñ€Ð°Ð½Ñ‚Ð¸Ñ ÑƒÐ´Ð¾Ð²Ð»ÐµÑ‚Ð²Ð¾Ñ€ÐµÐ½Ð½Ð¾ÑÑ‚Ð¸',
+    'pricing.guarantee.satisfaction.desc':
+      'Ð•ÑÐ»Ð¸ Ð²Ñ‹ Ð½Ðµ ÑƒÐ´Ð¾Ð²Ð»ÐµÑ‚Ð²Ð¾Ñ€ÐµÐ½Ñ‹ Ð¿ÐµÑ€Ð²Ð¾Ð¹ ÑÐµÑÑÐ¸ÐµÐ¹, Ð¼Ñ‹ Ð²ÐµÑ€Ð½ÐµÐ¼ Ð²Ð°Ð¼ Ð´ÐµÐ½ÑŒÐ³Ð¸',
+    'pricing.guarantee.certified.title':
+      'Ð¡ÐµÑ€Ñ‚Ð¸Ñ„Ð¸Ñ†Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ñ‹Ðµ Ð¿Ñ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»Ñ‹',
+    'pricing.guarantee.certified.desc':
+      'Ð’ÑÐµ Ð½Ð°ÑˆÐ¸ Ñ‚ÐµÑ€Ð°Ð¿ÐµÐ²Ñ‚Ñ‹ Ð¸Ð¼ÐµÑŽÑ‚ Ð¾Ñ„Ð¸Ñ†Ð¸Ð°Ð»ÑŒÐ½Ñ‹Ðµ ÑÐµÑ€Ñ‚Ð¸Ñ„Ð¸ÐºÐ°Ñ‚Ñ‹',
+    'pricing.guarantee.equipment.title': 'ÐŸÑ€Ð¾Ñ„ÐµÑÑÐ¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ðµ Ð¾Ð±Ð¾Ñ€ÑƒÐ´Ð¾Ð²Ð°Ð½Ð¸Ðµ',
+    'pricing.guarantee.equipment.desc':
+      'ÐœÑ‹ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÐ¼ Ñ‚Ð¾Ð»ÑŒÐºÐ¾ Ð¾Ð±Ð¾Ñ€ÑƒÐ´Ð¾Ð²Ð°Ð½Ð¸Ðµ Ð¸ Ð¿Ñ€Ð¾Ð´ÑƒÐºÑ‚Ñ‹ Ð²Ñ‹ÑÑˆÐµÐ³Ð¾ ÐºÐ°Ñ‡ÐµÑÑ‚Ð²Ð°',
+
+    'pricing.cta.unsure.title': 'ÐÐµ ÑƒÐ²ÐµÑ€ÐµÐ½Ñ‹, ÐºÐ°ÐºÐ¾Ð¹ Ð¿Ð»Ð°Ð½ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ?',
+    'pricing.cta.unsure.subtitle':
+      'ÐŸÑ€Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ Ð½Ð°ÑˆÑƒ Ð±ÐµÑÐ¿Ð»Ð°Ñ‚Ð½ÑƒÑŽ Ð¾Ñ†ÐµÐ½ÐºÑƒ Ð¸ ÑƒÐ·Ð½Ð°Ð¹Ñ‚Ðµ, ÐºÐ°ÐºÐ¾Ðµ Ð»ÐµÑ‡ÐµÐ½Ð¸Ðµ Ð»ÑƒÑ‡ÑˆÐµ Ð²ÑÐµÐ³Ð¾ Ð¿Ð¾Ð´Ñ…Ð¾Ð´Ð¸Ñ‚ Ð´Ð»Ñ Ð²Ð°ÑˆÐ¸Ñ… Ð½ÑƒÐ¶Ð´',
+    'pricing.cta.unsure.button': 'Ð£Ð·Ð½Ð°Ñ‚ÑŒ Ð¾ Ð½Ð°ÑˆÐ¸Ñ… ÑƒÑÐ»ÑƒÐ³Ð°Ñ…',
+
+    // Booking Popup
+    'booking.smart.service.placeholder': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑƒÑÐ»ÑƒÐ³Ñƒ...',
+    'booking.smart.time.placeholder':
+      'ÐÐ°Ð¿Ñ€Ð¸Ð¼ÐµÑ€: ÑƒÑ‚Ñ€Ð¾Ð¼, Ð½Ð° ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹ Ð½ÐµÐ´ÐµÐ»Ðµ...',
+    'booking.whatsapp.name': 'Ð˜Ð¼Ñ',
+    'booking.whatsapp.serviceLabel': 'Ð£ÑÐ»ÑƒÐ³Ð°',
+    'booking.whatsapp.preference': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ',
+    'booking.service.other': 'Другое',
+    'booking.service.consultation': 'ÐŸÐµÑ€Ð²Ð¸Ñ‡Ð½Ð°Ñ ÐºÐ¾Ð½ÑÑƒÐ»ÑŒÑ‚Ð°Ñ†Ð¸Ñ',
+    'booking.smart.quick': 'Ð‘Ñ‹ÑÑ‚Ñ€Ð°Ñ Ð·Ð°Ð¿Ð¸ÑÑŒ',
+    'booking.smart.quickDesc': 'Ð¡Ð²ÑÐ·Ð°Ñ‚ÑŒÑÑ Ñ‡ÐµÑ€ÐµÐ· WhatsApp Ð½Ð°Ð¿Ñ€ÑÐ¼ÑƒÑŽ.',
+    'booking.smart.form': 'Форма',
+    'booking.smart.formDesc': 'Заполнить детали.',
+    'booking.smart.name': 'Ð’Ð°ÑˆÐµ Ð¸Ð¼Ñ',
+    'booking.smart.service': 'Ð£ÑÐ»ÑƒÐ³Ð°',
+    'booking.smart.time': 'ÐŸÑ€ÐµÐ´Ð¿Ð¾Ñ‡Ñ‚Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ Ð²Ñ€ÐµÐ¼Ñ',
+    'booking.smart.send': 'Отправить в WhatsApp',
+    'booking.smart.title': 'Ð—Ð°Ð±Ñ€Ð¾Ð½Ð¸Ñ€ÑƒÐ¹Ñ‚Ðµ ÑÐµÐ°Ð½Ñ',
+    'booking.smart.subtitle': 'Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ ÑÐ¿Ð¾ÑÐ¾Ð± ÑÐ²ÑÐ·Ð¸',
+  },
+};
+
+// Detect browser language
+const detectBrowserLanguage = (): Language => {
+  const browserLang = navigator.language.toLowerCase();
+
+  if (browserLang.startsWith('ca')) return 'ca';
+  if (browserLang.startsWith('es')) return 'es';
+  if (browserLang.startsWith('ru')) return 'ru';
+  if (browserLang.startsWith('en')) return 'en';
+
+  // Default to English for unsupported languages
+  return 'en';
+};
+
+// Get language from localStorage or detect browser language
+const getInitialLanguage = (): Language => {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('eka-language') as Language;
+    if (saved && ['ca', 'en', 'es', 'ru'].includes(saved)) {
+      return saved;
+    }
+    return detectBrowserLanguage();
+  }
+  return 'en';
+};
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  // Always initialize with 'en' to match server rendering and avoid hydration mismatch
+  const [language, setLanguageState] = useState<Language>('en');
+  const [showLanguagePopup, setShowLanguagePopup] = useState(false);
+  const [languageConfirmed, setLanguageConfirmed] = useState(false);
+
+  useEffect(() => {
+    // Determine language after mount (client-only)
+    const initial = getInitialLanguage();
+    if (initial !== 'en') {
+      setLanguageState(initial);
+    }
+
+    // Check local storage for confirmation status
+    if (localStorage.getItem('eka-language-confirmed') === 'true') {
+      setLanguageConfirmed(true);
+    }
+  }, []);
+
+  const confirmLanguage = (lang: Language) => {
+    setLanguage(lang);
+    localStorage.setItem('eka-language-confirmed', 'true');
+    setLanguageConfirmed(true);
+    setShowLanguagePopup(false);
+  };
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('eka-language', lang);
+    }
+  };
+
+  const t = (key: string, params?: Record<string, string | number>): string => {
+    // Guaranteed overrides first, then standard translation sources
+    let text =
+      (guaranteedTranslations[language] as Record<string, string>)?.[key] ||
+      (guaranteedTranslations.en as Record<string, string>)?.[key] ||
+      (translations[language] as Record<string, string>)?.[key] ||
+      (servicesTranslations[language] as Record<string, string>)?.[key] ||
+      (revision360Translations[language] as Record<string, string>)?.[key] ||
+      (techniqueTranslations[language] as Record<string, string>)?.[key] ||
+      (agenyzTranslations[language] as Record<string, string>)?.[key] ||
+      (translations.en as Record<string, string>)?.[key] ||
+      (servicesTranslations.en as Record<string, string>)?.[key] ||
+      (revision360Translations.en as Record<string, string>)?.[key] ||
+      (techniqueTranslations.en as Record<string, string>)?.[key] ||
+      (agenyzTranslations.en as Record<string, string>)?.[key] ||
+      key;
+
+    if (params) {
+      Object.entries(params).forEach(([paramKey, value]) => {
+        text = text.replace(new RegExp(`{${paramKey}}`, 'g'), String(value));
+      });
+    }
+
+    return text;
+  };
+
+  useEffect(() => {
+    // Set HTML lang attribute
+    document.documentElement.lang = language;
+  }, [language]);
+
+  return (
+    <LanguageContext.Provider
+      value={{
+        language,
+        setLanguage,
+        t,
+        showLanguagePopup,
+        setShowLanguagePopup,
+        confirmLanguage,
+        languageConfirmed,
+      }}
+    >
+      {children}
+    </LanguageContext.Provider>
+  );
+}
+
+export function useLanguage(): LanguageContextType {
+  const context = useContext(LanguageContext);
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return context;
+}

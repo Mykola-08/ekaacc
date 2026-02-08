@@ -16,11 +16,13 @@ body {
 
 ### Font Subsetting
 
-Subset fonts based on content, alphabet, or relevant language(s) to minimize file size. Only include the characters you actually use.
+Subset fonts based on content, alphabet, or relevant language(s) to minimize
+file size. Only include the characters you actually use.
 
 ### Preventing Layout Shift
 
-**Font weight:** Never change font weight on hover or selected states. This causes layout shift.
+**Font weight:** Never change font weight on hover or selected states. This
+causes layout shift.
 
 ```css
 /* Bad - causes layout shift */
@@ -40,7 +42,8 @@ Subset fonts based on content, alphabet, or relevant language(s) to minimize fil
 }
 ```
 
-**Tabular numbers:** Use `font-variant-numeric: tabular-nums` for numbers that change dynamically (counters, prices, timers).
+**Tabular numbers:** Use `font-variant-numeric: tabular-nums` for numbers that
+change dynamically (counters, prices, timers).
 
 ```css
 .counter {
@@ -75,7 +78,8 @@ h3 {
 
 ### Letter Spacing by Size
 
-Larger text needs tighter letter spacing; smaller text needs looser spacing. Use a Text component to pair font sizes with their optimal letter spacing:
+Larger text needs tighter letter spacing; smaller text needs looser spacing. Use
+a Text component to pair font sizes with their optimal letter spacing:
 
 ```tsx
 // Letter spacing is handled inside the Text component
@@ -106,11 +110,13 @@ Use shadows instead of normal borders for better blending with backgrounds:
 box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
 ```
 
-This blends better with varying background colors and avoids the harsh border look.
+This blends better with varying background colors and avoids the harsh border
+look.
 
 ### Hairline Borders
 
-Use 0.5px borders on retina displays for crisp, subtle dividers. Define a CSS variable that adapts to screen density:
+Use 0.5px borders on retina displays for crisp, subtle dividers. Define a CSS
+variable that adapts to screen density:
 
 ```css
 :root {
@@ -127,15 +133,18 @@ Use 0.5px borders on retina displays for crisp, subtle dividers. Define a CSS va
 }
 ```
 
-This gives you sharp 0.5px lines on retina screens while falling back to 1px on standard displays. Works for borders, dividers, and any fine UI details.
+This gives you sharp 0.5px lines on retina screens while falling back to 1px on
+standard displays. Works for borders, dividers, and any fine UI details.
 
 ### Gradients
 
-**Eased gradients:** Use eased gradients over linear gradients when using solid colors. Linear gradients have visible banding; eased gradients are smoother.
+**Eased gradients:** Use eased gradients over linear gradients when using solid
+colors. Linear gradients have visible banding; eased gradients are smoother.
 
 Tool: https://larsenwork.com/easing-gradients/
 
-**Mask over gradient:** Prefer `mask-image` over gradients for fades. Masks work better with varying content.
+**Mask over gradient:** Prefer `mask-image` over gradients for fades. Masks work
+better with varying content.
 
 ```css
 .fade-bottom {
@@ -145,11 +154,13 @@ Tool: https://larsenwork.com/easing-gradients/
 
 ### Scrollable Content
 
-Do not apply fade on scrollable lists or scrollable components. The fade restricts the viewable area and cuts off content.
+Do not apply fade on scrollable lists or scrollable components. The fade
+restricts the viewable area and cuts off content.
 
 ### Scrollbars
 
-Do not replace page scrollbars with custom ones. Only customize scrollbars in smaller elements like code snippets:
+Do not replace page scrollbars with custom ones. Only customize scrollbars in
+smaller elements like code snippets:
 
 ```css
 .code-block::-webkit-scrollbar {
@@ -165,7 +176,8 @@ Do not replace page scrollbars with custom ones. Only customize scrollbars in sm
 
 ### Focus Outlines
 
-Do not change the default outline color to anything other than grey, black, or white. Custom colored outlines often clash with the interface.
+Do not change the default outline color to anything other than grey, black, or
+white. Custom colored outlines often clash with the interface.
 
 ## Layout
 
@@ -190,7 +202,8 @@ Use a fixed z-index scale. Avoid arbitrary values like `z-index: 9999`.
 }
 ```
 
-**Better approach:** Avoid z-index entirely when possible. Use `isolation: isolate` or `position: relative` to create new stacking contexts.
+**Better approach:** Avoid z-index entirely when possible. Use
+`isolation: isolate` or `position: relative` to create new stacking contexts.
 
 ```css
 .card {
@@ -200,7 +213,8 @@ Use a fixed z-index scale. Avoid arbitrary values like `z-index: 9999`.
 
 ### Safe Areas
 
-Account for device safe areas (notches, home indicators) with the `env()` function:
+Account for device safe areas (notches, home indicators) with the `env()`
+function:
 
 ```css
 .footer {
@@ -214,7 +228,8 @@ Account for device safe areas (notches, home indicators) with the `env()` functi
 
 ### Scroll Margins
 
-Set `scroll-margin-top` for scrollable elements to ensure proper space above elements when scrolling to anchors:
+Set `scroll-margin-top` for scrollable elements to ensure proper space above
+elements when scrolling to anchors:
 
 ```css
 [id] {
@@ -224,7 +239,8 @@ Set `scroll-margin-top` for scrollable elements to ensure proper space above ele
 
 ### Grid Text Truncation
 
-When using grids, ensure text within cells is truncated when needed using `line-clamp`:
+When using grids, ensure text within cells is truncated when needed using
+`line-clamp`:
 
 ```css
 .grid-cell-text {
@@ -239,7 +255,8 @@ When using grids, ensure text within cells is truncated when needed using `line-
 
 ### Theme Variables
 
-Use a numerical scale for color variables so you can easily switch between light and dark themes by replacing variables:
+Use a numerical scale for color variables so you can easily switch between light
+and dark themes by replacing variables:
 
 ```css
 :root {
@@ -248,7 +265,7 @@ Use a numerical scale for color variables so you can easily switch between light
   --gray-12: #171717;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --gray-1: #171717;
   --gray-2: #1f1f1f;
   --gray-12: #fafafa;
@@ -257,7 +274,9 @@ Use a numerical scale for color variables so you can easily switch between light
 
 ### Tailwind Dark Mode
 
-Do not use Tailwind's `dark:` modifier to adjust colors manually. Use CSS variables and flip them instead. This keeps the code cleaner and more maintainable.
+Do not use Tailwind's `dark:` modifier to adjust colors manually. Use CSS
+variables and flip them instead. This keeps the code cleaner and more
+maintainable.
 
 ```css
 /* Good - variables flip automatically */
@@ -276,7 +295,8 @@ Do not use Tailwind's `dark:` modifier to adjust colors manually. Use CSS variab
 
 ### Pointer Events
 
-Decorative elements should disable `pointer-events` to not hijack events from interactive elements beneath them:
+Decorative elements should disable `pointer-events` to not hijack events from
+interactive elements beneath them:
 
 ```css
 .decorative-bg {
@@ -296,7 +316,8 @@ Illustrations made in code should have disabled text selection:
 
 ## Refresh Behavior
 
-Refresh should cause no flash of content in interactive components. Ensure initial state stays consistent by:
+Refresh should cause no flash of content in interactive components. Ensure
+initial state stays consistent by:
 
 - Storing state in localStorage/sessionStorage
 - Using proper SSR hydration

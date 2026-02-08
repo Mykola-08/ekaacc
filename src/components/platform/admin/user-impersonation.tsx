@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import { Search, Shield, AlertTriangle, Eye, LogOut } from 'lucide-react'
-import { Input } from '@/components/platform/ui/input'
-import { Button } from '@/components/platform/ui/button'
-import { Card, CardContent } from '@/components/platform/ui/card'
-import { Badge } from '@/components/platform/ui/badge'
-import { Alert, AlertDescription } from '@/components/platform/ui/alert'
-import { ScrollArea } from '@/components/platform/ui/scroll-area'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'
+import React, { useState, useEffect } from 'react';
+import { Search, Shield, AlertTriangle, Eye, LogOut } from 'lucide-react';
+import { Input } from '@/components/platform/ui/input';
+import { Button } from '@/components/platform/ui/button';
+import { Card, CardContent } from '@/components/platform/ui/card';
+import { Badge } from '@/components/platform/ui/badge';
+import { Alert, AlertDescription } from '@/components/platform/ui/alert';
+import { ScrollArea } from '@/components/platform/ui/scroll-area';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
 import {
   Dialog,
   DialogContent,
@@ -16,72 +16,77 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/platform/ui/dialog'
-import { Label } from '@/components/platform/ui/label'
-import { Textarea } from '@/components/platform/ui/textarea'
-import { useToast } from '@/hooks/platform/ui/use-toast'
-import { supabase } from '@/lib/platform/supabase'
+} from '@/components/platform/ui/dialog';
+import { Label } from '@/components/platform/ui/label';
+import { Textarea } from '@/components/platform/ui/textarea';
+import { useToast } from '@/hooks/platform/ui/use-toast';
+import { supabase } from '@/lib/platform/supabase';
 
 interface User {
-  id: string
-  email: string
-  username: string | null
-  full_name: string | null
-  avatar_url: string | null
+  id: string;
+  email: string;
+  username: string | null;
+  full_name: string | null;
+  avatar_url: string | null;
   role: {
-    name: string
-    description: string | null
-  }
-  created_at: string
-  last_active: string | null
+    name: string;
+    description: string | null;
+  };
+  created_at: string;
+  last_active: string | null;
 }
 
 interface UserImpersonationDialogProps {
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onImpersonate: (userId: string, reason: string) => Promise<void>
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onImpersonate: (userId: string, reason: string) => Promise<void>;
 }
 
-export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: UserImpersonationDialogProps) {
-
-  const { toast } = useToast()
-  const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedUser, setSelectedUser] = useState<User | null>(null)
-  const [impersonationReason, setImpersonationReason] = useState('')
-  const [isImpersonating, setIsImpersonating] = useState(false)
+export function UserImpersonationDialog({
+  open,
+  onOpenChange,
+  onImpersonate,
+}: UserImpersonationDialogProps) {
+  const { toast } = useToast();
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [impersonationReason, setImpersonationReason] = useState('');
+  const [isImpersonating, setIsImpersonating] = useState(false);
 
   // Fetch users for impersonation
   useEffect(() => {
     if (open) {
-      fetchUsers()
+      fetchUsers();
     }
-  }, [open])
+  }, [open]);
 
   const fetchUsers = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const { data, error } = await supabase
         .from('user_profiles')
-        .select(`
+        .select(
+          `
           *,
           user_role_assignments!inner(
             role_id,
             user_roles!inner(name, description)
           )
-        `)
+        `
+        )
         .order('created_at', { ascending: false })
-        .limit(50)
+        .limit(50);
 
       if (error) {
-        console.error('Error fetching users:', error)
+        console.error('Error fetching users:', error);
         toast({
           title: 'Error',
           description: 'Failed to fetch users',
-          variant: 'destructive'
-        })
-        return
+          variant: 'destructive',
+        });
+        return;
       }
 
       const formattedUsers = data.map((user: any) => ({
@@ -92,82 +97,87 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
         avatar_url: user.avatar_url,
         role: {
           name: user.user_role_assignments.user_roles.name,
-          description: user.user_role_assignments.user_roles.description
+          description: user.user_role_assignments.user_roles.description,
         },
         created_at: user.created_at,
-        last_active: user.updated_at
-      }))
+        last_active: user.updated_at,
+      }));
 
-      setUsers(formattedUsers)
+      setUsers(formattedUsers);
     } catch (error) {
-      console.error('Error fetching users:', error)
+      console.error('Error fetching users:', error);
       toast({
         title: 'Error',
         description: 'An unexpected error occurred',
-        variant: 'destructive'
-      })
+        variant: 'destructive',
+      });
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const filteredUsers = users.filter(user => 
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredUsers = users.filter(
+    (user) =>
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.username?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.full_name?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleImpersonate = async () => {
     if (!selectedUser || !impersonationReason.trim()) {
       toast({
         title: 'Validation Error',
         description: 'Please select a user and provide a reason for impersonation',
-        variant: 'destructive'
-      })
-      return
+        variant: 'destructive',
+      });
+      return;
     }
 
-    setIsImpersonating(true)
+    setIsImpersonating(true);
     try {
-      await onImpersonate(selectedUser.id, impersonationReason)
-      onOpenChange(false)
-      setSelectedUser(null)
-      setImpersonationReason('')
+      await onImpersonate(selectedUser.id, impersonationReason);
+      onOpenChange(false);
+      setSelectedUser(null);
+      setImpersonationReason('');
     } catch (error) {
-      console.error('Impersonation error:', error)
+      console.error('Impersonation error:', error);
       toast({
         title: 'Impersonation Failed',
         description: error instanceof Error ? error.message : 'Failed to start impersonation',
-        variant: 'destructive'
-      })
+        variant: 'destructive',
+      });
     } finally {
-      setIsImpersonating(false)
+      setIsImpersonating(false);
     }
-  }
+  };
 
   const getRoleBadgeColor = (roleName: string) => {
     switch (roleName.toLowerCase()) {
       case 'admin':
-        return 'destructive'
+        return 'destructive';
       case 'therapist':
-        return 'default'
+        return 'default';
       case 'user':
-        return 'secondary'
+        return 'secondary';
       default:
-        return 'outline'
+        return 'outline';
     }
-  }
+  };
 
   const getInitials = (name: string | null, email: string) => {
     if (name) {
-      return name.split(' ').map(n => n[0]).join('').toUpperCase()
+      return name
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase();
     }
-    return email.substring(0, 2).toUpperCase()
-  }
+    return email.substring(0, 2).toUpperCase();
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[80vh]">
+      <DialogContent className="max-h-[80vh] max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Shield className="h-5 w-5" />
@@ -182,14 +192,14 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
           <Alert>
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription>
-              You are about to impersonate another user. All actions taken during impersonation will be logged.
-              Make sure to provide a valid reason for this action.
+              You are about to impersonate another user. All actions taken during impersonation will
+              be logged. Make sure to provide a valid reason for this action.
             </AlertDescription>
           </Alert>
 
           <div className="space-y-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
               <Input
                 placeholder="Search users by email, username, or name..."
                 value={searchTerm}
@@ -198,14 +208,14 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
               />
             </div>
 
-            <ScrollArea className="h-[300px] border rounded-lg">
-              <div className="p-4 space-y-2">
+            <ScrollArea className="h-[300px] rounded-lg border">
+              <div className="space-y-2 p-4">
                 {loading ? (
-                  <div className="flex items-center justify-center h-32">
+                  <div className="flex h-32 items-center justify-center">
                     <div className="text-muted-foreground">Loading users...</div>
                   </div>
                 ) : filteredUsers.length === 0 ? (
-                  <div className="flex items-center justify-center h-32">
+                  <div className="flex h-32 items-center justify-center">
                     <div className="text-muted-foreground">No users found</div>
                   </div>
                 ) : (
@@ -213,7 +223,7 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
                     <Card
                       key={user.id}
                       className={`cursor-pointer transition-colors ${
-                        selectedUser?.id === user.id ? 'ring-2 ring-primary' : ''
+                        selectedUser?.id === user.id ? 'ring-primary ring-2' : ''
                       }`}
                       onClick={() => setSelectedUser(user)}
                     >
@@ -225,21 +235,21 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
                               {getInitials(user.full_name, user.email)}
                             </AvatarFallback>
                           </Avatar>
-                          <div className="flex-1 min-w-0">
+                          <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <p className="font-medium truncate">{user.full_name || user.username || user.email}</p>
+                              <p className="truncate font-medium">
+                                {user.full_name || user.username || user.email}
+                              </p>
                               <Badge variant={getRoleBadgeColor(user.role?.name)}>
                                 {user.role?.name}
                               </Badge>
                             </div>
-                            <p className="text-sm text-muted-foreground truncate">{user.email}</p>
-                            <p className="text-xs text-muted-foreground">
+                            <p className="text-muted-foreground truncate text-sm">{user.email}</p>
+                            <p className="text-muted-foreground text-xs">
                               Member since {new Date(user.created_at).toLocaleDateString()}
                             </p>
                           </div>
-                          {selectedUser?.id === user.id && (
-                            <Eye className="h-5 w-5 text-primary" />
-                          )}
+                          {selectedUser?.id === user.id && <Eye className="text-primary h-5 w-5" />}
                         </div>
                       </CardContent>
                     </Card>
@@ -267,9 +277,9 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
           <Button
             variant="outline"
             onClick={() => {
-              onOpenChange(false)
-              setSelectedUser(null)
-              setImpersonationReason('')
+              onOpenChange(false);
+              setSelectedUser(null);
+              setImpersonationReason('');
             }}
             disabled={isImpersonating}
           >
@@ -281,12 +291,12 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
           >
             {isImpersonating ? (
               <>
-                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                <div className="mr-2 h-4 w-4 animate-spin rounded-full border-b-2 border-white" />
                 Starting Impersonation...
               </>
             ) : (
               <>
-                <Eye className="h-4 w-4 mr-2" />
+                <Eye className="mr-2 h-4 w-4" />
                 Start Impersonation
               </>
             )}
@@ -294,51 +304,52 @@ export function UserImpersonationDialog({ open, onOpenChange, onImpersonate }: U
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 
 interface ImpersonationBannerProps {
   impersonation: {
-    originalUserEmail?: string
-    targetUserEmail?: string
-    originalUserId?: string
-    targetUserId?: string
-    reason?: string
-    startedAt: string
-  }
-  onEndImpersonation: () => void
+    originalUserEmail?: string;
+    targetUserEmail?: string;
+    originalUserId?: string;
+    targetUserId?: string;
+    reason?: string;
+    startedAt: string;
+  };
+  onEndImpersonation: () => void;
 }
 
-export function ImpersonationBanner({ impersonation, onEndImpersonation }: ImpersonationBannerProps) {
-  const [isEnding, setIsEnding] = useState(false)
+export function ImpersonationBanner({
+  impersonation,
+  onEndImpersonation,
+}: ImpersonationBannerProps) {
+  const [isEnding, setIsEnding] = useState(false);
 
   const handleEndImpersonation = async () => {
-    setIsEnding(true)
+    setIsEnding(true);
     try {
-      await onEndImpersonation()
+      await onEndImpersonation();
     } catch (error) {
-      console.error('Error ending impersonation:', error)
+      console.error('Error ending impersonation:', error);
     } finally {
-      setIsEnding(false)
+      setIsEnding(false);
     }
-  }
+  };
 
   return (
-    <div className="bg-amber-100 border-b border-amber-200 px-4 py-3">
-      <div className="flex items-center justify-between max-w-7xl mx-auto">
+    <div className="border-b border-amber-200 bg-amber-100 px-4 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
         <div className="flex items-center gap-3">
           <Shield className="h-5 w-5 text-amber-600" />
           <div className="text-sm">
             <span className="font-medium text-amber-800">
               Impersonating: {impersonation.targetUserEmail || impersonation.targetUserId || 'User'}
             </span>
-            <span className="text-amber-700 ml-2">
+            <span className="ml-2 text-amber-700">
               (Original: {impersonation.originalUserEmail || 'Admin'})
             </span>
             {impersonation.reason && (
-              <span className="text-amber-600 ml-2">
-                • Reason: {impersonation.reason}
-              </span>
+              <span className="ml-2 text-amber-600">• Reason: {impersonation.reason}</span>
             )}
           </div>
         </div>
@@ -351,17 +362,17 @@ export function ImpersonationBanner({ impersonation, onEndImpersonation }: Imper
         >
           {isEnding ? (
             <>
-              <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-amber-700 mr-2" />
+              <div className="mr-2 h-3 w-3 animate-spin rounded-full border-b-2 border-amber-700" />
               Ending...
             </>
           ) : (
             <>
-              <LogOut className="h-3 w-3 mr-2" />
+              <LogOut className="mr-2 h-3 w-3" />
               End Impersonation
             </>
           )}
         </Button>
       </div>
     </div>
-  )
+  );
 }

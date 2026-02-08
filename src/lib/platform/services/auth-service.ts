@@ -1,22 +1,25 @@
-import { supabase } from '@/lib/platform/supabase'
-import type { User } from '@supabase/supabase-js'
+import { supabase } from '@/lib/platform/supabase';
+import type { User } from '@supabase/supabase-js';
 
 /**
  * Get current user from session (server-side)
  */
 export async function getCurrentUser(): Promise<User | null> {
   try {
-    const { data: { user }, error } = await (supabase.auth as any).getUser()
-    
+    const {
+      data: { user },
+      error,
+    } = await (supabase.auth as any).getUser();
+
     if (error) {
-      console.error('Error getting current user:', error)
-      return null
+      console.error('Error getting current user:', error);
+      return null;
     }
-    
-    return user
+
+    return user;
   } catch (error) {
-    console.error('Error in getCurrentUser:', error)
-    return null
+    console.error('Error in getCurrentUser:', error);
+    return null;
   }
 }
 
@@ -24,15 +27,15 @@ export async function getCurrentUser(): Promise<User | null> {
  * Get current user with role information
  */
 export async function getCurrentUserWithRole(): Promise<{
-  user: User | null
-  role: string | null
-  isAdmin: boolean
+  user: User | null;
+  role: string | null;
+  isAdmin: boolean;
 } | null> {
   try {
-    const user = await getCurrentUser()
-    
+    const user = await getCurrentUser();
+
     if (!user) {
-      return null
+      return null;
     }
 
     // Get user role from database
@@ -40,27 +43,27 @@ export async function getCurrentUserWithRole(): Promise<{
       .from('users')
       .select('role')
       .eq('id', user.id)
-      .single()
+      .single();
 
     if (error) {
-      console.error('Error getting user role:', error)
+      console.error('Error getting user role:', error);
       return {
         user,
         role: null,
-        isAdmin: false
-      }
+        isAdmin: false,
+      };
     }
 
-    const role = userData?.role || 'user'
-    const isAdmin = role === 'admin'
+    const role = userData?.role || 'user';
+    const isAdmin = role === 'admin';
 
     return {
       user,
       role,
-      isAdmin
-    }
+      isAdmin,
+    };
   } catch (error) {
-    console.error('Error in getCurrentUserWithRole:', error)
-    return null
+    console.error('Error in getCurrentUserWithRole:', error);
+    return null;
   }
 }

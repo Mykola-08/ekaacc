@@ -11,16 +11,16 @@ type Timestamp = Date;
 // WALLET TYPES
 // ==========================================
 
-export type TransactionType = 
-  | 'credit'           // Money added to wallet
-  | 'debit'            // Money removed from wallet
-  | 'purchase'         // Service/feature purchase
-  | 'refund'           // Refund from cancelled service
-  | 'payment_confirmed'// Payment request confirmed
-  | 'loyalty_reward'   // Loyalty program reward
-  | 'referral_reward'  // Referral program reward
+export type TransactionType =
+  | 'credit' // Money added to wallet
+  | 'debit' // Money removed from wallet
+  | 'purchase' // Service/feature purchase
+  | 'refund' // Refund from cancelled service
+  | 'payment_confirmed' // Payment request confirmed
+  | 'loyalty_reward' // Loyalty program reward
+  | 'referral_reward' // Referral program reward
   | 'admin_adjustment' // Manual adjustment by admin
-  | 'promotion';       // Promotional credit
+  | 'promotion'; // Promotional credit
 
 export type TransactionStatus = 'completed' | 'pending' | 'failed' | 'cancelled';
 
@@ -82,14 +82,14 @@ export interface PaymentRequest {
   description: string;
   proofImageUrl?: string; // Screenshot of Bizum transfer or receipt
   proofText?: string; // Transaction reference or notes
-  
+
   // Confirmation
   confirmedBy?: string; // Admin or Therapist user ID
   confirmedByName?: string;
   confirmedByRole?: 'Admin' | 'Therapist';
   confirmedAt?: Timestamp | string;
   rejectionReason?: string;
-  
+
   // Metadata
   metadata?: {
     reference?: string;
@@ -97,7 +97,7 @@ export interface PaymentRequest {
     notes?: string;
     [key: string]: any;
   };
-  
+
   // Timestamps
   createdAt: Timestamp | string;
   updatedAt: Timestamp | string;
@@ -109,7 +109,7 @@ export interface PaymentRequest {
 // ==========================================
 
 export type LoyaltyTier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum' | 'Diamond';
-export type LoyaltyPointAction = 
+export type LoyaltyPointAction =
   | 'session_completed'
   | 'service_purchased'
   | 'referral_success'
@@ -153,7 +153,13 @@ export const LOYALTY_TIERS: LoyaltyTierConfig[] = [
     tier: 'Gold',
     minPoints: 1500,
     maxPoints: 4999,
-    benefits: ['Priority support', '10% discount', 'Birthday bonus', 'Free monthly session', 'Early access to new services'],
+    benefits: [
+      'Priority support',
+      '10% discount',
+      'Birthday bonus',
+      'Free monthly session',
+      'Early access to new services',
+    ],
     discountPercentage: 10,
     pointsMultiplier: 1.5,
     rewardMultiplier: 1.25,
@@ -162,7 +168,14 @@ export const LOYALTY_TIERS: LoyaltyTierConfig[] = [
     tier: 'Platinum',
     minPoints: 5000,
     maxPoints: 9999,
-    benefits: ['VIP support', '15% discount', 'Birthday bonus', 'Free monthly session', 'Personal therapy plan', 'Exclusive events'],
+    benefits: [
+      'VIP support',
+      '15% discount',
+      'Birthday bonus',
+      'Free monthly session',
+      'Personal therapy plan',
+      'Exclusive events',
+    ],
     discountPercentage: 15,
     pointsMultiplier: 2,
     rewardMultiplier: 1.5,
@@ -171,7 +184,15 @@ export const LOYALTY_TIERS: LoyaltyTierConfig[] = [
     tier: 'Diamond',
     minPoints: 10000,
     maxPoints: null,
-    benefits: ['Dedicated support', '20% discount', 'Birthday bonus', '2 free monthly sessions', 'Personal therapy plan', 'Exclusive events', 'Concierge service'],
+    benefits: [
+      'Dedicated support',
+      '20% discount',
+      'Birthday bonus',
+      '2 free monthly sessions',
+      'Personal therapy plan',
+      'Exclusive events',
+      'Concierge service',
+    ],
     discountPercentage: 20,
     pointsMultiplier: 2.5,
     rewardMultiplier: 2,
@@ -255,22 +276,22 @@ export interface Referral {
   refereeName: string;
   refereeEmail: string;
   status: ReferralStatus;
-  
+
   // Rewards
   referrerRewardAmount: number; // EUR credited to referrer wallet
   referrerRewardPoints: number; // Loyalty points for referrer
   refereeRewardAmount: number; // EUR credited to referee wallet
   refereeRewardPoints: number; // Loyalty points for referee
-  
+
   // Reward status
   referrerRewardPaid: boolean;
   refereeRewardPaid: boolean;
   rewardsPaidAt?: Timestamp | string;
-  
+
   // Completion requirements
   completionRequirement?: string; // e.g., "First session completed"
   completedAt?: Timestamp | string;
-  
+
   // Timestamps
   registeredAt: Timestamp | string;
   createdAt: Timestamp | string;
@@ -336,19 +357,19 @@ export interface Purchase {
   status: PurchaseStatus;
   paymentMethod: 'wallet';
   transactionId?: string; // Link to wallet transaction
-  
+
   // Fulfillment
   isFulfilled: boolean;
   fulfilledAt?: Timestamp | string;
   fulfilledBy?: string;
-  
+
   // Metadata
   metadata?: {
     loyaltyPointsEarned?: number;
     sessionId?: string;
     [key: string]: any;
   };
-  
+
   createdAt: Timestamp | string;
   updatedAt: Timestamp | string;
 }

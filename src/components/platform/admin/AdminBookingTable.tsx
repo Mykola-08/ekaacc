@@ -13,20 +13,20 @@ import {
 } from '@/components/platform/ui/table';
 import { Button } from '@/components/platform/ui/button';
 import { Input } from '@/components/platform/ui/input';
-import { 
-  Pagination, 
-  PaginationContent, 
-  PaginationItem, 
-  PaginationLink, 
-  PaginationNext, 
-  PaginationPrevious 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 } from '@/components/platform/ui/pagination';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/platform/ui/select';
 import { Badge } from '@/components/platform/ui/badge';
 import { useToast } from '@/hooks/platform/ui/use-toast';
@@ -77,20 +77,24 @@ export function AdminBookingTable() {
 
   const statusColor = (status: string) => {
     switch (status) {
-      case 'scheduled': return 'default'; // primary/black
-      case 'completed': return 'success'; // green-ish usually, but we'll use outline or similar if not defined
-      case 'canceled': return 'destructive';
-      default: return 'secondary';
+      case 'scheduled':
+        return 'default'; // primary/black
+      case 'completed':
+        return 'success'; // green-ish usually, but we'll use outline or similar if not defined
+      case 'canceled':
+        return 'destructive';
+      default:
+        return 'secondary';
     }
   };
 
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Search by name, email or ID..." 
+        <div className="relative max-w-sm flex-1">
+          <Search className="text-muted-foreground absolute top-2.5 left-2.5 h-4 w-4" />
+          <Input
+            placeholder="Search by name, email or ID..."
             className="pl-8"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -108,7 +112,7 @@ export function AdminBookingTable() {
           </SelectContent>
         </Select>
         <Button variant="outline" onClick={() => fetchBookings()}>
-           Refresh
+          Refresh
         </Button>
       </div>
 
@@ -128,8 +132,8 @@ export function AdminBookingTable() {
             {loading ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
-                  <div className="flex justify-center items-center">
-                    <Loader2 className="h-6 w-6 animate-spin mr-2" />
+                  <div className="flex items-center justify-center">
+                    <Loader2 className="mr-2 h-6 w-6 animate-spin" />
                     Loading...
                   </div>
                 </TableCell>
@@ -137,7 +141,7 @@ export function AdminBookingTable() {
             ) : bookings.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="h-24 text-center">
-                   No bookings found.
+                  No bookings found.
                 </TableCell>
               </TableRow>
             ) : (
@@ -148,7 +152,7 @@ export function AdminBookingTable() {
                       <span className="font-medium">
                         {format(new Date(booking.start_time), 'MMM d, yyyy')}
                       </span>
-                      <span className="text-xs text-muted-foreground">
+                      <span className="text-muted-foreground text-xs">
                         {format(new Date(booking.start_time), 'HH:mm')}
                       </span>
                     </div>
@@ -156,28 +160,28 @@ export function AdminBookingTable() {
                   <TableCell>
                     <div className="flex flex-col">
                       <span>{booking.customer_name || 'Guest'}</span>
-                      <span className="text-xs text-muted-foreground">{booking.customer_email}</span>
+                      <span className="text-muted-foreground text-xs">
+                        {booking.customer_email}
+                      </span>
                     </div>
                   </TableCell>
                   <TableCell>{booking.service_name}</TableCell>
                   <TableCell>
-                    <Badge variant={statusColor(booking.status) as any}>
-                      {booking.status}
-                    </Badge>
+                    <Badge variant={statusColor(booking.status) as any}>{booking.status}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col">
-                       <span className="capitalize">{booking.payment_status}</span>
-                       <span className="text-xs text-muted-foreground">
-                         €{(booking.amount_cents / 100).toFixed(2)}
-                       </span>
+                      <span className="capitalize">{booking.payment_status}</span>
+                      <span className="text-muted-foreground text-xs">
+                        €{(booking.amount_cents / 100).toFixed(2)}
+                      </span>
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
                     {booking.status === 'scheduled' && (
-                      <Button 
-                        variant="ghost" 
-                        size="icon" 
+                      <Button
+                        variant="ghost"
+                        size="icon"
                         onClick={() => handleCancel(booking.id)}
                         title="Cancel Booking"
                       >
@@ -196,18 +200,22 @@ export function AdminBookingTable() {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <PaginationPrevious 
-                onClick={() => setPage(p => Math.max(1, p - 1))}
+              <PaginationPrevious
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
                 className={page === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
               />
             </PaginationItem>
             <PaginationItem>
-               <span className="px-4">Page {page} of {totalPages}</span>
+              <span className="px-4">
+                Page {page} of {totalPages}
+              </span>
             </PaginationItem>
             <PaginationItem>
-              <PaginationNext 
-                onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                className={page === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+              <PaginationNext
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                className={
+                  page === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'
+                }
               />
             </PaginationItem>
           </PaginationContent>
@@ -216,4 +224,3 @@ export function AdminBookingTable() {
     </div>
   );
 }
-

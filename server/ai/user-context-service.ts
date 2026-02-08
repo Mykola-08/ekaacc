@@ -125,7 +125,7 @@ export async function buildUserContext(userId: string): Promise<UserContext | nu
       financialData,
       interactionData,
       memoriesData,
-      insightsData
+      insightsData,
     ] = await Promise.all([
       getProfileContext(userId),
       getPreferencesContext(userId),
@@ -134,7 +134,7 @@ export async function buildUserContext(userId: string): Promise<UserContext | nu
       getFinancialContext(userId),
       getInteractionContext(userId),
       getMemoriesContext(userId),
-      getInsightsContext(userId)
+      getInsightsContext(userId),
     ]);
 
     if (!profileData) return null;
@@ -157,7 +157,7 @@ export async function buildUserContext(userId: string): Promise<UserContext | nu
       interactions: interactionData,
       memories: memoriesData,
       insights: insightsData,
-      computed
+      computed,
     };
   } catch (error) {
     console.error('Error building user context:', error);
@@ -201,7 +201,7 @@ async function getProfileContext(userId: string): Promise<UserProfile | null> {
     language: profile.language || 'en',
     timezone: profile.timezone,
     occupation: profile.personalization_data?.occupation as string,
-    createdAt: profile.created_at
+    createdAt: profile.created_at,
   };
 }
 
@@ -212,7 +212,10 @@ async function getPreferencesContext(userId: string): Promise<UserPreferencesDat
   const prefs = await getUserPreferences(userId);
 
   // Get onboarding answers
-  const onboardingAnswers = await db.query<{ question_key: string; answer_data: { value: unknown } }>(
+  const onboardingAnswers = await db.query<{
+    question_key: string;
+    answer_data: { value: unknown };
+  }>(
     `SELECT oq.question_key, uoa.answer_data
      FROM user_onboarding_answers uoa
      JOIN onboarding_questions oq ON uoa.question_id = oq.id
@@ -235,7 +238,7 @@ async function getPreferencesContext(userId: string): Promise<UserPreferencesDat
   return {
     ...prefs,
     onboardingAnswers: answers,
-    personalizationData: pd?.personalization_data || {}
+    personalizationData: pd?.personalization_data || {},
   };
 }
 
@@ -253,14 +256,14 @@ async function getWellnessContext(userId: string): Promise<WellnessContext> {
     moodTrend: summary.moodTrend,
     streakDays: summary.streakDays,
     lastCheckIn: lastEntry?.createdAt,
-    recentMoods: entries.slice(0, 5).map(e => ({
+    recentMoods: entries.slice(0, 5).map((e) => ({
       date: e.createdAt,
       mood: e.mood,
-      stress: e.stress
+      stress: e.stress,
     })),
-    commonEmotions: summary.commonEmotions.map(e => e.emotion),
+    commonEmotions: summary.commonEmotions.map((e) => e.emotion),
     averageSleep: summary.averageSleep,
-    stressDistribution: summary.stressDistribution
+    stressDistribution: summary.stressDistribution,
   };
 }
 
@@ -320,9 +323,9 @@ async function getBookingContext(userId: string): Promise<BookingContext> {
     canceledBookings: Number(stats?.canceled || 0),
     upcomingBookings: Number(stats?.upcoming || 0),
     lastBookingDate: stats?.last_booking,
-    frequentServices: services.rows.map(s => s.name),
-    preferredDays: (patterns?.preferred_days || []).filter(Boolean).map(d => d.trim()),
-    preferredTimes: patterns?.preferred_times || []
+    frequentServices: services.rows.map((s) => s.name),
+    preferredDays: (patterns?.preferred_days || []).filter(Boolean).map((d) => d.trim()),
+    preferredTimes: patterns?.preferred_times || [],
   };
 }
 
@@ -354,7 +357,7 @@ async function getFinancialContext(userId: string): Promise<FinancialContext> {
     rewardsPoints: rewards?.points_balance || 0,
     rewardsTier: rewards?.tier || 'bronze',
     totalSpent: (Number(spending?.total) || 0) / 100,
-    averageSpend: (Number(spending?.avg) || 0) / 100
+    averageSpend: (Number(spending?.avg) || 0) / 100,
   };
 }
 
@@ -395,7 +398,7 @@ async function getInteractionContext(userId: string): Promise<InteractionContext
     lastInteractionDate: stats?.last_interaction,
     commonInteractionTypes: stats?.common_types || [],
     conversationCount: Number(conversations?.count || 0),
-    averageMessagesPerConversation: Number(conversations?.avg_messages || 0)
+    averageMessagesPerConversation: Number(conversations?.avg_messages || 0),
   };
 }
 
@@ -406,10 +409,13 @@ async function getMemoriesContext(userId: string): Promise<MemoryContext> {
   const memories = await getRecentMemories(userId, 50);
   const important = await getImportantMemories(userId);
 
-  const preferences = memories.filter(m => m.memoryType === 'preference').map(m => m.content);
-  const goals = memories.filter(m => m.memoryType === 'goal').map(m => m.content);
-  const facts = memories.filter(m => m.memoryType === 'fact').map(m => m.content);
-  const observations = memories.filter(m => m.memoryType === 'observation').slice(0, 5).map(m => m.content);
+  const preferences = memories.filter((m) => m.memoryType === 'preference').map((m) => m.content);
+  const goals = memories.filter((m) => m.memoryType === 'goal').map((m) => m.content);
+  const facts = memories.filter((m) => m.memoryType === 'fact').map((m) => m.content);
+  const observations = memories
+    .filter((m) => m.memoryType === 'observation')
+    .slice(0, 5)
+    .map((m) => m.content);
 
   return {
     totalMemories: memories.length,
@@ -417,7 +423,7 @@ async function getMemoriesContext(userId: string): Promise<MemoryContext> {
     goals: goals.slice(0, 5),
     facts: facts.slice(0, 10),
     recentObservations: observations,
-    importantItems: important.slice(0, 10).map(m => m.content)
+    importantItems: important.slice(0, 10).map((m) => m.content),
   };
 }
 
@@ -438,13 +444,13 @@ async function getInsightsContext(userId: string): Promise<InsightContext> {
   }
 
   return {
-    activeInsights: insights.slice(0, 5).map(i => ({
+    activeInsights: insights.slice(0, 5).map((i) => ({
       title: i.title,
       type: i.type,
-      priority: i.priority
+      priority: i.priority,
     })),
     pendingActions: pendingActions.slice(0, 5),
-    wellnessScore: (profile?.wellnessInsights as any)?.score || 50
+    wellnessScore: (profile?.wellnessInsights as any)?.score || 50,
   };
 }
 
@@ -533,7 +539,7 @@ function computeDerivedContext(
     engagementLevel,
     nextBestAction,
     personalizedGreeting,
-    suggestedTopics: suggestedTopics.slice(0, 4)
+    suggestedTopics: suggestedTopics.slice(0, 4),
   };
 }
 
@@ -548,7 +554,8 @@ export function formatContextForAI(context: UserContext): string {
   if (context.profile.fullName) lines.push(`- Name: ${context.profile.fullName}`);
   lines.push(`- User type: ${context.computed.userType}`);
   lines.push(`- Engagement level: ${context.computed.engagementLevel}`);
-  if (context.profile.language !== 'en') lines.push(`- Preferred language: ${context.profile.language}`);
+  if (context.profile.language !== 'en')
+    lines.push(`- Preferred language: ${context.profile.language}`);
 
   // Goals and preferences
   if (context.preferences.goals.length > 0) {
@@ -592,7 +599,9 @@ export function formatContextForAI(context: UserContext): string {
       lines.push(`- Wallet balance: $${context.financial.walletBalance.toFixed(2)}`);
     }
     if (context.financial.rewardsPoints > 0) {
-      lines.push(`- Rewards: ${context.financial.rewardsPoints} points (${context.financial.rewardsTier})`);
+      lines.push(
+        `- Rewards: ${context.financial.rewardsPoints} points (${context.financial.rewardsTier})`
+      );
     }
   }
 
@@ -711,12 +720,24 @@ export async function extractAndStoreLearnings(
 
     // Extract mood indicators
     const moodKeywords = [
-      'feeling', 'stressed', 'anxious', 'happy', 'sad', 'tired',
-      'excited', 'overwhelmed', 'worried', 'calm', 'peaceful',
-      'frustrated', 'angry', 'depressed', 'hopeful'
+      'feeling',
+      'stressed',
+      'anxious',
+      'happy',
+      'sad',
+      'tired',
+      'excited',
+      'overwhelmed',
+      'worried',
+      'calm',
+      'peaceful',
+      'frustrated',
+      'angry',
+      'depressed',
+      'hopeful',
     ];
 
-    if (moodKeywords.some(kw => lowerMessage.includes(kw))) {
+    if (moodKeywords.some((kw) => lowerMessage.includes(kw))) {
       await db.query(
         `INSERT INTO user_memory (user_id, content, memory_type, importance, metadata)
          VALUES ($1, $2, 'mood', 3, $3)`,
@@ -729,7 +750,11 @@ export async function extractAndStoreLearnings(
       await db.query(
         `INSERT INTO user_memory (user_id, content, memory_type, importance, metadata)
          VALUES ($1, $2, 'interaction', 2, $3)`,
-        [userId, userMessage.substring(0, 500), { extractedAt: new Date().toISOString(), hasResponse: true }]
+        [
+          userId,
+          userMessage.substring(0, 500),
+          { extractedAt: new Date().toISOString(), hasResponse: true },
+        ]
       );
     }
 
@@ -737,7 +762,12 @@ export async function extractAndStoreLearnings(
     await db.query(
       `INSERT INTO ai_interactions (user_id, type, context, metadata)
        VALUES ($1, $2, $3, $4)`,
-      [userId, 'chat_message', { messageLength: userMessage.length }, { timestamp: new Date().toISOString() }]
+      [
+        userId,
+        'chat_message',
+        { messageLength: userMessage.length },
+        { timestamp: new Date().toISOString() },
+      ]
     );
   } catch (error) {
     console.error('Error extracting learnings:', error);
@@ -761,9 +791,10 @@ export async function updateUserBehaviorPatterns(userId: string): Promise<void> 
 
     // Calculate patterns
     const patterns = {
-      interactionFrequency: recentInteractions.rows.reduce((sum, r) => sum + Number(r.count), 0) / 7,
-      preferredInteractionTypes: recentInteractions.rows.slice(0, 3).map(r => r.type),
-      lastUpdated: new Date().toISOString()
+      interactionFrequency:
+        recentInteractions.rows.reduce((sum, r) => sum + Number(r.count), 0) / 7,
+      preferredInteractionTypes: recentInteractions.rows.slice(0, 3).map((r) => r.type),
+      lastUpdated: new Date().toISOString(),
     };
 
     // Update profile

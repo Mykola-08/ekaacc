@@ -31,7 +31,7 @@ export function useActiveSubscriptions(userId: string | undefined): UseActiveSub
       try {
         const service = await getSubscriptionService();
         const userSubs = await service.getUserSubscriptions(userId);
-        const activeSubs = userSubs.filter(sub => sub.status === 'active');
+        const activeSubs = userSubs.filter((sub) => sub.status === 'active');
         setSubscriptions(activeSubs);
       } catch (error) {
         console.error('Failed to load subscriptions:', error);
@@ -44,9 +44,9 @@ export function useActiveSubscriptions(userId: string | undefined): UseActiveSub
     loadSubscriptions();
   }, [userId]);
 
-  const hasLoyalty = subscriptions.some(sub => sub.type === 'loyalty');
-  const hasVip = subscriptions.some(sub => sub.type === 'vip');
-  const activeTypes = subscriptions.map(sub => sub.type);
+  const hasLoyalty = subscriptions.some((sub) => sub.type === 'loyalty');
+  const hasVip = subscriptions.some((sub) => sub.type === 'vip');
+  const activeTypes = subscriptions.map((sub) => sub.type);
 
   return {
     subscriptions,
@@ -56,4 +56,3 @@ export function useActiveSubscriptions(userId: string | undefined): UseActiveSub
     loading,
   };
 }
-

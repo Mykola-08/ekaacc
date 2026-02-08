@@ -6,7 +6,8 @@ Touch devices, mobile considerations, keyboard navigation, and accessibility.
 
 ### Hover Effects
 
-Disable hover effects on touch devices. Touch devices trigger hover on tap, causing false positives:
+Disable hover effects on touch devices. Touch devices trigger hover on tap,
+causing false positives:
 
 ```css
 /* Only apply hover on devices that support it */
@@ -17,11 +18,13 @@ Disable hover effects on touch devices. Touch devices trigger hover on tap, caus
 }
 ```
 
-**Important:** Don't rely on hover effects for the UI to work properly. Hover should enhance, not enable functionality.
+**Important:** Don't rely on hover effects for the UI to work properly. Hover
+should enhance, not enable functionality.
 
 ### Touch Action
 
-Disable `touch-action` for custom components that implement pan and zoom gestures to prevent interference from native behavior:
+Disable `touch-action` for custom components that implement pan and zoom
+gestures to prevent interference from native behavior:
 
 ```css
 .custom-canvas {
@@ -34,7 +37,9 @@ Disable `touch-action` for custom components that implement pan and zoom gesture
 Set `touch-action: manipulation` to prevent double-tap zoom on controls:
 
 ```css
-button, a, input {
+button,
+a,
+input {
   touch-action: manipulation;
 }
 ```
@@ -73,7 +78,8 @@ Or use padding:
 
 ### Video Autoplay
 
-Apply `muted` and `playsinline` to `<video>` tags to autoplay on iOS without opening a fullscreen video popup:
+Apply `muted` and `playsinline` to `<video>` tags to autoplay on iOS without
+opening a fullscreen video popup:
 
 ```html
 <video autoplay muted playsinline loop>
@@ -96,7 +102,8 @@ const modKey = isMac ? 'Cmd' : 'Ctrl';
 
 ### Tab Order
 
-Tabbing should work consistently across the site. Users should only be able to tab through visible elements:
+Tabbing should work consistently across the site. Users should only be able to
+tab through visible elements:
 
 ```css
 /* Hide from tab order when not visible */
@@ -123,7 +130,8 @@ function handleFocus(e) {
 
 ### Focus Management
 
-When opening modals or dialogs, move focus to the first interactive element or the modal itself. When closing, return focus to the trigger element.
+When opening modals or dialogs, move focus to the first interactive element or
+the modal itself. When closing, return focus to the trigger element.
 
 ## Accessibility
 
@@ -155,11 +163,13 @@ Illustrations built in code should have proper `aria-label` attribute:
 
 ### Reduced Motion
 
-See [animations.md](animations.md) for `prefers-reduced-motion` implementation. Every animation needs reduced motion support.
+See [animations.md](animations.md) for `prefers-reduced-motion` implementation.
+Every animation needs reduced motion support.
 
 ### Videos
 
-For users who prefer reduced motion, show play buttons instead of autoplaying videos:
+For users who prefer reduced motion, show play buttons instead of autoplaying
+videos:
 
 ```jsx
 const prefersReducedMotion = window.matchMedia(
@@ -171,12 +181,13 @@ const prefersReducedMotion = window.matchMedia(
   controls={prefersReducedMotion}
   muted
   playsinline
-/>
+/>;
 ```
 
 ### Time-Limited Actions
 
-Ensure any time-limited action is frozen when the user switches tabs. Use the `visibilitychange` event:
+Ensure any time-limited action is frozen when the user switches tabs. Use the
+`visibilitychange` event:
 
 ```js
 let timeoutId;
@@ -198,7 +209,8 @@ document.addEventListener('visibilitychange', () => {
 
 ## Feedback
 
-Ensure feedback components are visible on the page. Feedback is important—don't hide it behind hover states or modals.
+Ensure feedback components are visible on the page. Feedback is important—don't
+hide it behind hover states or modals.
 
 ## Tooltips
 
@@ -212,7 +224,8 @@ Tooltips should have a delay before appearing to prevent accidental activation:
 }
 ```
 
-**Sequential tooltips:** Once a tooltip is open, hovering over other tooltips should open them with no delay and no animation. Track "warm" state:
+**Sequential tooltips:** Once a tooltip is open, hovering over other tooltips
+should open them with no delay and no animation. Track "warm" state:
 
 ```jsx
 const [isWarm, setIsWarm] = useState(false);
@@ -223,7 +236,9 @@ const [isWarm, setIsWarm] = useState(false);
 
 ### Submenus
 
-Apply a safe-area for submenus using clippath to ensure diagonal movement works. Users should be able to move diagonally from parent menu to submenu without the submenu closing.
+Apply a safe-area for submenus using clippath to ensure diagonal movement works.
+Users should be able to move diagonally from parent menu to submenu without the
+submenu closing.
 
 ```css
 .submenu-trigger::after {

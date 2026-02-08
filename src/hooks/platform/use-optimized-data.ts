@@ -1,6 +1,6 @@
 /**
  * Optimized Data Loading Hook
- * 
+ *
  * Uses React Query-like patterns for data fetching with caching
  */
 
@@ -57,7 +57,7 @@ export function useOptimizedData<T>({
 
     try {
       const result = await fetcher();
-      
+
       if (isMountedRef.current) {
         setData(result);
         dataCache.set(cacheKey, { data: result, timestamp: Date.now() });
@@ -104,7 +104,7 @@ export function clearDataCache(keyPattern?: string) {
         keysToDelete.push(key);
       }
     });
-    keysToDelete.forEach(key => dataCache.delete(key));
+    keysToDelete.forEach((key) => dataCache.delete(key));
   } else {
     dataCache.clear();
   }
@@ -130,4 +130,3 @@ export async function prefetchData<T>(
     console.error('Prefetch failed:', error);
   }
 }
-

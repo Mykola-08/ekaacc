@@ -59,5 +59,3 @@ export function GlobalErrorReporter() {
 
   return null;
 }
-
-

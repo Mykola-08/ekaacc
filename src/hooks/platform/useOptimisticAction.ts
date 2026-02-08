@@ -4,7 +4,7 @@ import { useOptimistic, useState, useTransition } from 'react';
 
 /**
  * A hook to handle optimistic UI updates for async actions.
- * 
+ *
  * @param initialState The initial state of the data
  * @param reducer A function that takes the current state and an optimistic value, and returns the new optimistic state
  */
@@ -35,4 +35,3 @@ export function useOptimisticAction<T, U>(
     runAction,
   };
 }
-

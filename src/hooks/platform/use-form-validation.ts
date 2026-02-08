@@ -53,7 +53,9 @@ export interface UseFormValidationReturn<T extends Record<string, any>> {
   validateForm: () => Promise<boolean>;
   handleChange: (field: keyof T) => (value: any) => void;
   handleBlur: (field: keyof T) => () => void;
-  handleSubmit: (onSubmit: (data: T) => Promise<void> | void) => (e?: React.FormEvent) => Promise<void>;
+  handleSubmit: (
+    onSubmit: (data: T) => Promise<void> | void
+  ) => (e?: React.FormEvent) => Promise<void>;
   reset: () => void;
 }
 
@@ -81,187 +83,201 @@ export function useFormValidation<T extends Record<string, any>>(
   const [touched, setTouched] = useState<Record<string, boolean>>({});
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const sanitizeValue = useCallback((value: any, field: keyof T): any => {
-    const fieldConfig = config.fields[field as string];
-    if (fieldConfig?.sanitize) {
-      return fieldConfig.sanitize(value);
-    }
-
-    // Default sanitization
-    if (typeof value === 'string') {
-      return value.trim();
-    }
-    return value;
-  }, [config.fields]);
-
-  const validateFieldValue = useCallback(async (
-    field: keyof T,
-    value: any,
-    formData: T
-  ): Promise<ValidationErrorState[]> => {
-    const fieldConfig = config.fields[field as string];
-    if (!fieldConfig) return [];
-
-    const fieldErrors: ValidationErrorState[] = [];
-    const sanitizedValue = sanitizeBeforeValidation ? sanitizeValue(value, field) : value;
-
-    for (const rule of fieldConfig.rules) {
-      // Required validation
-      if (rule.required && (sanitizedValue === null || sanitizedValue === undefined || sanitizedValue === '')) {
-        fieldErrors.push({
-          field: field as string,
-          message: rule.message || `${String(field)} is required`,
-          type: 'required',
-          value: sanitizedValue,
-        });
-        continue;
+  const sanitizeValue = useCallback(
+    (value: any, field: keyof T): any => {
+      const fieldConfig = config.fields[field as string];
+      if (fieldConfig?.sanitize) {
+        return fieldConfig.sanitize(value);
       }
 
-      // Skip other validations if field is empty and not required
-      if (sanitizedValue === null || sanitizedValue === undefined || sanitizedValue === '') {
-        continue;
+      // Default sanitization
+      if (typeof value === 'string') {
+        return value.trim();
       }
+      return value;
+    },
+    [config.fields]
+  );
 
-      // String length validations
-      if (typeof sanitizedValue === 'string') {
-        if (rule.minLength && sanitizedValue.length < rule.minLength) {
+  const validateFieldValue = useCallback(
+    async (field: keyof T, value: any, formData: T): Promise<ValidationErrorState[]> => {
+      const fieldConfig = config.fields[field as string];
+      if (!fieldConfig) return [];
+
+      const fieldErrors: ValidationErrorState[] = [];
+      const sanitizedValue = sanitizeBeforeValidation ? sanitizeValue(value, field) : value;
+
+      for (const rule of fieldConfig.rules) {
+        // Required validation
+        if (
+          rule.required &&
+          (sanitizedValue === null || sanitizedValue === undefined || sanitizedValue === '')
+        ) {
           fieldErrors.push({
             field: field as string,
-            message: rule.message || `${String(field)} must be at least ${rule.minLength} characters`,
-            type: 'minLength',
+            message: rule.message || `${String(field)} is required`,
+            type: 'required',
             value: sanitizedValue,
           });
+          continue;
         }
 
-        if (rule.maxLength && sanitizedValue.length > rule.maxLength) {
-          fieldErrors.push({
-            field: field as string,
-            message: rule.message || `${String(field)} must be no more than ${rule.maxLength} characters`,
-            type: 'maxLength',
-            value: sanitizedValue,
-          });
+        // Skip other validations if field is empty and not required
+        if (sanitizedValue === null || sanitizedValue === undefined || sanitizedValue === '') {
+          continue;
         }
 
-        // Pattern validation
-        if (rule.pattern && !rule.pattern.test(sanitizedValue)) {
-          fieldErrors.push({
-            field: field as string,
-            message: rule.message || `${String(field)} format is invalid`,
-            type: 'pattern',
-            value: sanitizedValue,
-          });
-        }
-      }
-
-      // Number validations
-      if (typeof sanitizedValue === 'number') {
-        if (rule.min !== undefined && sanitizedValue < rule.min) {
-          fieldErrors.push({
-            field: field as string,
-            message: rule.message || `${String(field)} must be at least ${rule.min}`,
-            type: 'min',
-            value: sanitizedValue,
-          });
-        }
-
-        if (rule.max !== undefined && sanitizedValue > rule.max) {
-          fieldErrors.push({
-            field: field as string,
-            message: rule.message || `${String(field)} must be no more than ${rule.max}`,
-            type: 'max',
-            value: sanitizedValue,
-          });
-        }
-      }
-
-      // Custom validation
-      if (rule.custom) {
-        try {
-          const customResult = await Promise.resolve(rule.custom(sanitizedValue, formData));
-          if (customResult !== true) {
+        // String length validations
+        if (typeof sanitizedValue === 'string') {
+          if (rule.minLength && sanitizedValue.length < rule.minLength) {
             fieldErrors.push({
               field: field as string,
-              message: typeof customResult === 'string' ? customResult : rule.message || `${String(field)} is invalid`,
-              type: 'custom',
+              message:
+                rule.message || `${String(field)} must be at least ${rule.minLength} characters`,
+              type: 'minLength',
               value: sanitizedValue,
             });
           }
-        } catch (error) {
-          logger.error('Custom validation error', error as Error, { field, value: sanitizedValue });
-          fieldErrors.push({
-            field: field as string,
-            message: 'Validation failed',
-            type: 'custom_error',
-            value: sanitizedValue,
-          });
+
+          if (rule.maxLength && sanitizedValue.length > rule.maxLength) {
+            fieldErrors.push({
+              field: field as string,
+              message:
+                rule.message ||
+                `${String(field)} must be no more than ${rule.maxLength} characters`,
+              type: 'maxLength',
+              value: sanitizedValue,
+            });
+          }
+
+          // Pattern validation
+          if (rule.pattern && !rule.pattern.test(sanitizedValue)) {
+            fieldErrors.push({
+              field: field as string,
+              message: rule.message || `${String(field)} format is invalid`,
+              type: 'pattern',
+              value: sanitizedValue,
+            });
+          }
+        }
+
+        // Number validations
+        if (typeof sanitizedValue === 'number') {
+          if (rule.min !== undefined && sanitizedValue < rule.min) {
+            fieldErrors.push({
+              field: field as string,
+              message: rule.message || `${String(field)} must be at least ${rule.min}`,
+              type: 'min',
+              value: sanitizedValue,
+            });
+          }
+
+          if (rule.max !== undefined && sanitizedValue > rule.max) {
+            fieldErrors.push({
+              field: field as string,
+              message: rule.message || `${String(field)} must be no more than ${rule.max}`,
+              type: 'max',
+              value: sanitizedValue,
+            });
+          }
+        }
+
+        // Custom validation
+        if (rule.custom) {
+          try {
+            const customResult = await Promise.resolve(rule.custom(sanitizedValue, formData));
+            if (customResult !== true) {
+              fieldErrors.push({
+                field: field as string,
+                message:
+                  typeof customResult === 'string'
+                    ? customResult
+                    : rule.message || `${String(field)} is invalid`,
+                type: 'custom',
+                value: sanitizedValue,
+              });
+            }
+          } catch (error) {
+            logger.error('Custom validation error', error as Error, {
+              field,
+              value: sanitizedValue,
+            });
+            fieldErrors.push({
+              field: field as string,
+              message: 'Validation failed',
+              type: 'custom_error',
+              value: sanitizedValue,
+            });
+          }
         }
       }
-    }
 
-    return fieldErrors;
-  }, [config.fields, sanitizeBeforeValidation, sanitizeValue]);
+      return fieldErrors;
+    },
+    [config.fields, sanitizeBeforeValidation, sanitizeValue]
+  );
 
-  const validateField = useCallback(async (field: keyof T, valueOverride?: any, dataOverride?: T): Promise<boolean> => {
-    if (abortControllerRef.current) {
-      abortControllerRef.current.abort();
-    }
-    abortControllerRef.current = new AbortController();
-
-    setIsValidating(true);
-    setTouched(prev => ({ ...prev, [field as string]: true }));
-
-    try {
-      const valueToValidate = valueOverride !== undefined ? valueOverride : data[field];
-      const dataToUse = dataOverride || data;
-      const fieldErrors = await validateFieldValue(field, valueToValidate, dataToUse);
-      
-      if (abortControllerRef.current.signal.aborted) {
-        return false;
+  const validateField = useCallback(
+    async (field: keyof T, valueOverride?: any, dataOverride?: T): Promise<boolean> => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
       }
+      abortControllerRef.current = new AbortController();
 
-      const fieldHasErrors = fieldErrors.length > 0;
-      
-      setErrors(prev => {
-        const newErrors = { ...prev };
+      setIsValidating(true);
+      setTouched((prev) => ({ ...prev, [field as string]: true }));
+
+      try {
+        const valueToValidate = valueOverride !== undefined ? valueOverride : data[field];
+        const dataToUse = dataOverride || data;
+        const fieldErrors = await validateFieldValue(field, valueToValidate, dataToUse);
+
+        if (abortControllerRef.current.signal.aborted) {
+          return false;
+        }
+
+        const fieldHasErrors = fieldErrors.length > 0;
+
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          if (fieldHasErrors) {
+            newErrors[field as string] = fieldErrors[0].message;
+          } else {
+            delete newErrors[field as string];
+          }
+          return newErrors;
+        });
+
+        setValidationErrors((prev) => [...prev.filter((e) => e.field !== field), ...fieldErrors]);
+
         if (fieldHasErrors) {
-          newErrors[field as string] = fieldErrors[0].message;
-        } else {
-          delete newErrors[field as string];
+          if (logValidationErrors) {
+            logger.warn(`Validation failed for field ${String(field)}`, {
+              field,
+              value: valueToValidate,
+              errors: fieldErrors,
+            });
+          }
+          onValidationError?.(fieldErrors);
         }
-        return newErrors;
-      });
 
-      setValidationErrors(prev => [
-        ...prev.filter(e => e.field !== field),
-        ...fieldErrors,
-      ]);
-
-      if (fieldHasErrors) {
-        if (logValidationErrors) {
-          logger.warn(`Validation failed for field ${String(field)}`, {
-            field,
-            value: valueToValidate,
-            errors: fieldErrors,
-          });
-        }
-        onValidationError?.(fieldErrors);
+        return !fieldHasErrors;
+      } catch (error) {
+        logger.error('Field validation error', error as Error, { field });
+        return false;
+      } finally {
+        setIsValidating(false);
       }
-
-      return !fieldHasErrors;
-    } catch (error) {
-      logger.error('Field validation error', error as Error, { field });
-      return false;
-    } finally {
-      setIsValidating(false);
-    }
-  }, [data, validateFieldValue, logValidationErrors, onValidationError]);
+    },
+    [data, validateFieldValue, logValidationErrors, onValidationError]
+  );
 
   const validateForm = useCallback(async (): Promise<boolean> => {
     setIsValidating(true);
-    
+
     try {
       const allErrors: ValidationErrorState[] = [];
-      
+
       for (const field of Object.keys(config.fields) as Array<keyof T>) {
         const fieldErrors = await validateFieldValue(field, data[field], data);
         allErrors.push(...fieldErrors);
@@ -271,7 +287,7 @@ export function useFormValidation<T extends Record<string, any>>(
 
       // Group errors by field
       const fieldErrors: Record<string, string> = {};
-      allErrors.forEach(error => {
+      allErrors.forEach((error) => {
         if (!fieldErrors[error.field]) {
           fieldErrors[error.field] = error.message;
         }
@@ -299,31 +315,41 @@ export function useFormValidation<T extends Record<string, any>>(
     } finally {
       setIsValidating(false);
     }
-  }, [data, config.fields, validateFieldValue, logValidationErrors, onValidationError, onValidationSuccess]);
+  }, [
+    data,
+    config.fields,
+    validateFieldValue,
+    logValidationErrors,
+    onValidationError,
+    onValidationSuccess,
+  ]);
 
-  const setFieldValue = useCallback((field: keyof T, value: any) => {
-    const sanitizedValue = sanitizeValue(value, field);
-    setData(prev => ({ ...prev, [field]: sanitizedValue }));
-    
-    // Auto-validate on change if configured
-    const fieldConfig = config.fields[field as string];
-    if (fieldConfig?.validateOnChange ?? config.validateOnChange) {
-      const newData = { ...data, [field]: sanitizedValue };
-      validateField(field, sanitizedValue, newData);
-    }
-  }, [config.fields, config.validateOnChange, sanitizeValue, validateField, data]);
+  const setFieldValue = useCallback(
+    (field: keyof T, value: any) => {
+      const sanitizedValue = sanitizeValue(value, field);
+      setData((prev) => ({ ...prev, [field]: sanitizedValue }));
+
+      // Auto-validate on change if configured
+      const fieldConfig = config.fields[field as string];
+      if (fieldConfig?.validateOnChange ?? config.validateOnChange) {
+        const newData = { ...data, [field]: sanitizedValue };
+        validateField(field, sanitizedValue, newData);
+      }
+    },
+    [config.fields, config.validateOnChange, sanitizeValue, validateField, data]
+  );
 
   const setFieldError = useCallback((field: keyof T, error: string) => {
-    setErrors(prev => ({ ...prev, [field]: error }));
+    setErrors((prev) => ({ ...prev, [field]: error }));
   }, []);
 
   const clearFieldError = useCallback((field: keyof T) => {
-    setErrors(prev => {
+    setErrors((prev) => {
       const newErrors = { ...prev };
       delete newErrors[field as string];
       return newErrors;
     });
-    setValidationErrors(prev => prev.filter(e => e.field !== field));
+    setValidationErrors((prev) => prev.filter((e) => e.field !== field));
   }, []);
 
   const clearAllErrors = useCallback(() => {
@@ -331,22 +357,28 @@ export function useFormValidation<T extends Record<string, any>>(
     setValidationErrors([]);
   }, []);
 
-  const handleChange = useCallback((field: keyof T) => (value: any) => {
-    setFieldValue(field, value);
-  }, [setFieldValue]);
+  const handleChange = useCallback(
+    (field: keyof T) => (value: any) => {
+      setFieldValue(field, value);
+    },
+    [setFieldValue]
+  );
 
-  const handleBlur = useCallback((field: keyof T) => () => {
-    setTouched(prev => ({ ...prev, [field as string]: true }));
-    
-    // Auto-validate on blur if configured
-    const fieldConfig = config.fields[field as string];
-    if (fieldConfig?.validateOnBlur ?? config.validateOnBlur) {
-      validateField(field);
-    }
-  }, [config.fields, config.validateOnBlur, validateField]);
+  const handleBlur = useCallback(
+    (field: keyof T) => () => {
+      setTouched((prev) => ({ ...prev, [field as string]: true }));
 
-  const handleSubmit = useCallback((onSubmit: (data: T) => Promise<void> | void) => 
-    async (e?: React.FormEvent) => {
+      // Auto-validate on blur if configured
+      const fieldConfig = config.fields[field as string];
+      if (fieldConfig?.validateOnBlur ?? config.validateOnBlur) {
+        validateField(field);
+      }
+    },
+    [config.fields, config.validateOnBlur, validateField]
+  );
+
+  const handleSubmit = useCallback(
+    (onSubmit: (data: T) => Promise<void> | void) => async (e?: React.FormEvent) => {
       if (e) {
         e.preventDefault();
       }
@@ -368,14 +400,17 @@ export function useFormValidation<T extends Record<string, any>>(
         await onSubmit(sanitizedData);
       } catch (error) {
         logger.error('Form submission error', error as Error);
-        const appError = error instanceof AppError ? error : new ValidationError('Submission failed');
-        
-        setErrors(prev => ({
+        const appError =
+          error instanceof AppError ? error : new ValidationError('Submission failed');
+
+        setErrors((prev) => ({
           ...prev,
           _form: appError.message,
         }));
       }
-    }, [data, config.sanitizeOnSubmit, sanitizeValue, validateForm]);
+    },
+    [data, config.sanitizeOnSubmit, sanitizeValue, validateForm]
+  );
 
   const reset = useCallback(() => {
     setData(initialData);
@@ -444,7 +479,10 @@ export const validationRules = {
 };
 
 // Utility functions
-export function createFieldConfig(rules: ValidationRule[], options: Partial<FieldConfig> = {}): FieldConfig {
+export function createFieldConfig(
+  rules: ValidationRule[],
+  options: Partial<FieldConfig> = {}
+): FieldConfig {
   return {
     rules,
     validateOnChange: true,

@@ -8,13 +8,16 @@ let supabaseAdmin: SupabaseClient | null = null;
 
 async function getSupabaseAdmin(): Promise<SupabaseClient> {
   if (supabaseAdmin) return supabaseAdmin;
-  
+
   const serviceKey = await getSupabaseServiceRoleKey();
-  supabaseAdmin = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
-    serviceKey
-  );
-  
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  if (!supabaseUrl) {
+    throw new Error('NEXT_PUBLIC_SUPABASE_URL is required');
+  }
+
+  supabaseAdmin = createClient(supabaseUrl, serviceKey);
+
   return supabaseAdmin;
 }
 
@@ -39,18 +42,18 @@ let stripeClient: Stripe | null = null;
 
 async function getStripeClient(): Promise<Stripe | null> {
   if (stripeClient) return stripeClient;
-  
+
   const secretKey = await getStripeSecretKey();
   if (!secretKey) {
     console.error('STRIPE_SECRET_KEY is missing');
     return null;
   }
-  
+
   stripeClient = new Stripe(secretKey, {
     apiVersion: '2025-01-27.acacia' as Stripe.LatestApiVersion,
     maxNetworkRetries: 2,
   });
-  
+
   return stripeClient;
 }
 
@@ -80,15 +83,12 @@ async function getOrCreateStripeCustomer(
 
   // 2. Search Stripe by email (prevent duplicates for Guests or unsynced Users)
   const existingCustomers = await stripe.customers.list({ email: email, limit: 1 });
-  
+
   if (existingCustomers.data.length > 0) {
     const customerId = existingCustomers.data[0]!.id;
     // Link back to profile if user exists but wasn't linked
     if (userId) {
-      await admin
-        .from('user_profiles')
-        .update({ stripe_customer_id: customerId })
-        .eq('id', userId);
+      await admin.from('user_profiles').update({ stripe_customer_id: customerId }).eq('id', userId);
     }
     return customerId;
   }
@@ -98,8 +98,8 @@ async function getOrCreateStripeCustomer(
     email,
     name,
     metadata: {
-      supabase_user_id: userId || 'guest'
-    }
+      supabase_user_id: userId || 'guest',
+    },
   });
 
   // Link new customer to profile
@@ -113,7 +113,9 @@ async function getOrCreateStripeCustomer(
   return newCustomer.id;
 }
 
-export async function createCheckoutSession(params: CreateCheckoutSessionParams): Promise<CheckoutResult> {
+export async function createCheckoutSession(
+  params: CreateCheckoutSessionParams
+): Promise<CheckoutResult> {
   const { bookingId, origin, serviceName, price, customerEmail, customerName } = params;
 
   const stripe = await getStripeClient();
@@ -172,11 +174,11 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
       },
       payment_intent_data: {
         metadata: {
-          bookingId
-        }
+          bookingId,
+        },
       },
       // Expire session after 30 minutes
-      expires_at: Math.floor(Date.now() / 1000) + (30 * 60),
+      expires_at: Math.floor(Date.now() / 1000) + 30 * 60,
     } as any);
 
     if (!session.url) {
@@ -185,12 +187,12 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
 
     await emitEvent('payment.session_created', { bookingId, sessionId: session.id });
 
-    return { 
-      data: { 
-        sessionId: session.id, 
-        url: session.url 
-      }, 
-      error: null 
+    return {
+      data: {
+        sessionId: session.id,
+        url: session.url,
+      },
+      error: null,
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown payment error';

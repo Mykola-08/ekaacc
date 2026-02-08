@@ -1,8 +1,8 @@
-"use server"
+'use server';
 
-import { db } from "@/lib/db";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+import { db } from '@/lib/db';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export type Post = {
   id: string;
@@ -12,7 +12,7 @@ export type Post = {
   createdAt: string;
   likesCount: number;
   userId: string;
-}
+};
 
 export async function getPosts(): Promise<Post[]> {
   const query = `
@@ -28,22 +28,22 @@ export async function getPosts(): Promise<Post[]> {
     ORDER BY p.created_at DESC
     LIMIT 50;
   `;
-  
+
   const { rows } = await db.query(query);
-  return rows.map(row => ({
+  return rows.map((row) => ({
     ...row,
-    createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : row.createdAt
+    createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : row.createdAt,
   })) as Post[];
 }
 
 export async function createPost(formData: FormData) {
-  const title = formData.get("title") as string;
-  const content = formData.get("content") as string;
-  const category = formData.get("category") as string || "general";
-  const userId = formData.get("userId") as string;
+  const title = formData.get('title') as string;
+  const content = formData.get('content') as string;
+  const category = (formData.get('category') as string) || 'general';
+  const userId = formData.get('userId') as string;
 
   if (!title || !content || !userId) {
-      throw new Error("Missing fields");
+    throw new Error('Missing fields');
   }
 
   const query = `
@@ -53,8 +53,8 @@ export async function createPost(formData: FormData) {
   `;
 
   await db.query(query, [userId, title, content, category]);
-  revalidatePath("/community");
-  redirect("/community");
+  revalidatePath('/community');
+  redirect('/community');
 }
 
 export async function getPost(id: string): Promise<Post | null> {
@@ -68,7 +68,7 @@ export async function getPost(id: string): Promise<Post | null> {
     content: row.content,
     category: row.category,
     createdAt: row.created_at.toISOString(),
-    likesCount: row.likes_count, 
-    userId: row.user_id 
+    likesCount: row.likes_count,
+    userId: row.user_id,
   } as Post;
 }

@@ -1,6 +1,15 @@
 import React from 'react';
 
-export function SettingsShell({ children, title, description, className }: { children: React.ReactNode; title?: string; description?: string, className?: string }) {
-  return <div className={`space-y-6 animate-fade-in ${className || ''}`}>{children}</div>;
+export function SettingsShell({
+  children,
+  title,
+  description,
+  className,
+}: {
+  children: React.ReactNode;
+  title?: string;
+  description?: string;
+  className?: string;
+}) {
+  return <div className={`animate-fade-in space-y-6 ${className || ''}`}>{children}</div>;
 }
-

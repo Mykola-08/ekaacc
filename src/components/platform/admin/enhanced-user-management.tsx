@@ -1,14 +1,20 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
-import { Button } from '@/components/platform/ui/button'
-import { Badge } from '@/components/platform/ui/badge'
-import { Input } from '@/components/platform/ui/input'
-import { Label } from '@/components/platform/ui/label'
-import { 
-  Users, 
-  Search, 
+import { useState, useEffect } from 'react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
+import { Button } from '@/components/platform/ui/button';
+import { Badge } from '@/components/platform/ui/badge';
+import { Input } from '@/components/platform/ui/input';
+import { Label } from '@/components/platform/ui/label';
+import {
+  Users,
+  Search,
   Download,
   RefreshCw,
   Edit,
@@ -17,34 +23,34 @@ import {
   Mail,
   MoreHorizontal,
   CheckCircle,
-  UserMinus
-} from 'lucide-react'
-import { format } from 'date-fns'
+  UserMinus,
+} from 'lucide-react';
+import { format } from 'date-fns';
 
 interface User {
-  id: string
-  email: string
-  fullName: string
-  role: string
-  status: 'active' | 'suspended' | 'pending'
-  createdAt: string
-  lastLoginAt: string
-  emailVerified: boolean
-  loginCount: number
-  preferences: any
+  id: string;
+  email: string;
+  fullName: string;
+  role: string;
+  status: 'active' | 'suspended' | 'pending';
+  createdAt: string;
+  lastLoginAt: string;
+  emailVerified: boolean;
+  loginCount: number;
+  preferences: any;
 }
 
 export function EnhancedUserManagement() {
-  const [users, setUsers] = useState<User[]>([])
-  const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [roleFilter, setRoleFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [pageSize] = useState(50)
-  const [bulkOperationLoading, setBulkOperationLoading] = useState(false)
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pageSize] = useState(50);
+  const [bulkOperationLoading, setBulkOperationLoading] = useState(false);
 
   const fetchUsers = async () => {
     try {
@@ -53,61 +59,61 @@ export function EnhancedUserManagement() {
         limit: pageSize.toString(),
         search: searchTerm,
         role: roleFilter,
-        status: statusFilter
-      })
+        status: statusFilter,
+      });
 
-      const response = await fetch(`/api/admin/users/enhanced?${params}`)
-      if (!response.ok) throw new Error('Failed to fetch users')
-      const data = await response.json()
-      
-      setUsers(data.users)
-      setTotalPages(data.totalPages)
+      const response = await fetch(`/api/admin/users/enhanced?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch users');
+      const data = await response.json();
+
+      setUsers(data.users);
+      setTotalPages(data.totalPages);
     } catch (error) {
-      console.error('Error fetching users:', error)
+      console.error('Error fetching users:', error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchUsers()
-  }, [currentPage, searchTerm, roleFilter, statusFilter])
+    fetchUsers();
+  }, [currentPage, searchTerm, roleFilter, statusFilter]);
 
   const handleBulkOperation = async (operation: string) => {
     if (selectedUsers.length === 0) {
-      alert('Please select at least one user')
-      return
+      alert('Please select at least one user');
+      return;
     }
 
     if (!confirm(`Are you sure you want to ${operation} ${selectedUsers.length} user(s)?`)) {
-      return
+      return;
     }
 
     try {
-      setBulkOperationLoading(true)
+      setBulkOperationLoading(true);
       const response = await fetch('/api/admin/users/bulk', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: operation,
           userIds: selectedUsers,
-          details: {}
-        })
-      })
+          details: {},
+        }),
+      });
 
-      if (!response.ok) throw new Error('Bulk operation failed')
-      
-      setSelectedUsers([])
-      fetchUsers()
-      alert(`Successfully ${operation}d ${selectedUsers.length} user(s)`)
+      if (!response.ok) throw new Error('Bulk operation failed');
+
+      setSelectedUsers([]);
+      fetchUsers();
+      alert(`Successfully ${operation}d ${selectedUsers.length} user(s)`);
     } catch (error) {
-      console.error('Error performing bulk operation:', error)
-      alert('Failed to perform bulk operation')
+      console.error('Error performing bulk operation:', error);
+      alert('Failed to perform bulk operation');
     } finally {
-      setBulkOperationLoading(false)
+      setBulkOperationLoading(false);
       // setShowBulkModal(false) // Assuming modal state not implemented or needs to be removed
     }
-  }
+  };
 
   const handleExport = async (format: 'csv' | 'json') => {
     try {
@@ -116,72 +122,77 @@ export function EnhancedUserManagement() {
         format,
         search: searchTerm,
         role: roleFilter,
-        status: statusFilter
-      })
+        status: statusFilter,
+      });
 
-      const response = await fetch(`/api/admin/reports?${params}`)
-      if (!response.ok) throw new Error('Failed to export users')
-      
-      const blob = await response.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `users-export-${new Date().toISOString()}.${format}`
-      document.body.appendChild(a)
-      a.click()
-      window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
+      const response = await fetch(`/api/admin/reports?${params}`);
+      if (!response.ok) throw new Error('Failed to export users');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `users-export-${new Date().toISOString()}.${format}`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
     } catch (error) {
-      console.error('Error exporting users:', error)
+      console.error('Error exporting users:', error);
     }
-  }
+  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <Badge className="bg-green-100 text-green-800">Active</Badge>
+        return <Badge className="bg-green-100 text-green-800">Active</Badge>;
       case 'suspended':
-        return <Badge className="bg-red-100 text-red-800">Suspended</Badge>
+        return <Badge className="bg-red-100 text-red-800">Suspended</Badge>;
       case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>
+        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
       default:
-        return <Badge variant="secondary">{status}</Badge>
+        return <Badge variant="secondary">{status}</Badge>;
     }
-  }
+  };
 
   const getRoleBadge = (role: string) => {
     switch (role) {
       case 'admin':
-        return <Badge className="bg-purple-100 text-purple-800"><Shield className="h-3 w-3 mr-1" />Admin</Badge>
+        return (
+          <Badge className="bg-purple-100 text-purple-800">
+            <Shield className="mr-1 h-3 w-3" />
+            Admin
+          </Badge>
+        );
       case 'user':
-        return <Badge className="bg-blue-100 text-blue-800">User</Badge>
+        return <Badge className="bg-blue-100 text-blue-800">User</Badge>;
       default:
-        return <Badge variant="outline">{role}</Badge>
+        return <Badge variant="outline">{role}</Badge>;
     }
-  }
+  };
 
   const handleSelectAll = () => {
     if (selectedUsers.length === users.length) {
-      setSelectedUsers([])
+      setSelectedUsers([]);
     } else {
-      setSelectedUsers(users.map(user => user.id))
+      setSelectedUsers(users.map((user) => user.id));
     }
-  }
+  };
 
   const handleSelectUser = (userId: string) => {
     if (selectedUsers.includes(userId)) {
-      setSelectedUsers(selectedUsers.filter(id => id !== userId))
+      setSelectedUsers(selectedUsers.filter((id) => id !== userId));
     } else {
-      setSelectedUsers([...selectedUsers, userId])
+      setSelectedUsers([...selectedUsers, userId]);
     }
-  }
+  };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-96">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div className="flex h-96 items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -189,29 +200,21 @@ export function EnhancedUserManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">User Management</h2>
+          <h2 className="text-foreground text-2xl font-bold">User Management</h2>
           <p className="text-muted-foreground">Manage users, roles, and access permissions</p>
         </div>
         <div className="flex items-center gap-3">
           <Button variant="outline" size="sm" onClick={fetchUsers}>
-            <RefreshCw className="h-4 w-4 mr-2" />
+            <RefreshCw className="mr-2 h-4 w-4" />
             Refresh
           </Button>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleExport('csv')}
-            >
-              <Download className="h-4 w-4 mr-2" />
+            <Button variant="outline" size="sm" onClick={() => handleExport('csv')}>
+              <Download className="mr-2 h-4 w-4" />
               CSV
             </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => handleExport('json')}
-            >
-              <Download className="h-4 w-4 mr-2" />
+            <Button variant="outline" size="sm" onClick={() => handleExport('json')}>
+              <Download className="mr-2 h-4 w-4" />
               JSON
             </Button>
           </div>
@@ -228,7 +231,7 @@ export function EnhancedUserManagement() {
           <div className="space-y-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground/80 h-4 w-4" />
+              <Search className="text-muted-foreground/80 absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
               <Input
                 placeholder="Search by name, email, or ID..."
                 value={searchTerm}
@@ -245,7 +248,7 @@ export function EnhancedUserManagement() {
                   id="role-filter"
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2"
                 >
                   <option value="all">All Roles</option>
                   <option value="admin">Admin</option>
@@ -258,7 +261,7 @@ export function EnhancedUserManagement() {
                   id="status-filter"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                  className="w-full rounded-md border border-gray-300 px-3 py-2"
                 >
                   <option value="all">All Status</option>
                   <option value="active">Active</option>
@@ -270,7 +273,7 @@ export function EnhancedUserManagement() {
 
             {/* Bulk Operations */}
             {selectedUsers.length > 0 && (
-              <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
+              <div className="flex items-center justify-between rounded-lg bg-blue-50 p-4">
                 <span className="text-sm text-blue-800">
                   {selectedUsers.length} user(s) selected
                 </span>
@@ -281,7 +284,7 @@ export function EnhancedUserManagement() {
                     onClick={() => handleBulkOperation('activate')}
                     disabled={bulkOperationLoading}
                   >
-                    <CheckCircle className="h-3 w-3 mr-1" />
+                    <CheckCircle className="mr-1 h-3 w-3" />
                     Activate
                   </Button>
                   <Button
@@ -290,7 +293,7 @@ export function EnhancedUserManagement() {
                     onClick={() => handleBulkOperation('suspend')}
                     disabled={bulkOperationLoading}
                   >
-                    <UserMinus className="h-3 w-3 mr-1" />
+                    <UserMinus className="mr-1 h-3 w-3" />
                     Suspend
                   </Button>
                   <Button
@@ -300,7 +303,7 @@ export function EnhancedUserManagement() {
                     disabled={bulkOperationLoading}
                     className="text-red-600 hover:text-red-700"
                   >
-                    <Trash2 className="h-3 w-3 mr-1" />
+                    <Trash2 className="mr-1 h-3 w-3" />
                     Delete
                   </Button>
                 </div>
@@ -328,8 +331,8 @@ export function EnhancedUserManagement() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-border">
-                  <th className="text-left py-3 px-4">
+                <tr className="border-border border-b">
+                  <th className="px-4 py-3 text-left">
                     <input
                       type="checkbox"
                       checked={selectedUsers.length === users.length && users.length > 0}
@@ -337,18 +340,18 @@ export function EnhancedUserManagement() {
                       className="rounded border-gray-300"
                     />
                   </th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">User</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Role</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Status</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Created</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Last Login</th>
-                  <th className="text-left py-3 px-4 font-medium text-foreground">Actions</th>
+                  <th className="text-foreground px-4 py-3 text-left font-medium">User</th>
+                  <th className="text-foreground px-4 py-3 text-left font-medium">Role</th>
+                  <th className="text-foreground px-4 py-3 text-left font-medium">Status</th>
+                  <th className="text-foreground px-4 py-3 text-left font-medium">Created</th>
+                  <th className="text-foreground px-4 py-3 text-left font-medium">Last Login</th>
+                  <th className="text-foreground px-4 py-3 text-left font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="border-b border-gray-100 hover:bg-muted/30">
-                    <td className="py-3 px-4">
+                  <tr key={user.id} className="hover:bg-muted/30 border-b border-gray-100">
+                    <td className="px-4 py-3">
                       <input
                         type="checkbox"
                         checked={selectedUsers.includes(user.id)}
@@ -356,32 +359,32 @@ export function EnhancedUserManagement() {
                         className="rounded border-gray-300"
                       />
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3">
                       <div>
-                        <div className="font-medium text-foreground">{user.fullName}</div>
-                        <div className="text-muted-foreground text-xs flex items-center gap-1">
+                        <div className="text-foreground font-medium">{user.fullName}</div>
+                        <div className="text-muted-foreground flex items-center gap-1 text-xs">
                           <Mail className="h-3 w-3" />
                           {user.email}
                         </div>
                       </div>
                     </td>
-                    <td className="py-3 px-4">
-                      {getRoleBadge(user.role)}
+                    <td className="px-4 py-3">{getRoleBadge(user.role)}</td>
+                    <td className="px-4 py-3">{getStatusBadge(user.status)}</td>
+                    <td className="px-4 py-3">
+                      <div className="text-foreground">
+                        {format(new Date(user.createdAt), 'MMM dd, yyyy')}
+                      </div>
                     </td>
-                    <td className="py-3 px-4">
-                      {getStatusBadge(user.status)}
-                    </td>
-                    <td className="py-3 px-4">
-                      <div className="text-foreground">{format(new Date(user.createdAt), 'MMM dd, yyyy')}</div>
-                    </td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3">
                       {user.lastLoginAt ? (
-                        <div className="text-foreground">{format(new Date(user.lastLoginAt), 'MMM dd, yyyy')}</div>
+                        <div className="text-foreground">
+                          {format(new Date(user.lastLoginAt), 'MMM dd, yyyy')}
+                        </div>
                       ) : (
                         <div className="text-muted-foreground/80 text-xs">Never</div>
                       )}
                     </td>
-                    <td className="py-3 px-4">
+                    <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <Button variant="ghost" size="sm">
                           <Edit className="h-3 w-3" />
@@ -399,8 +402,8 @@ export function EnhancedUserManagement() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6">
-              <div className="text-sm text-muted-foreground">
+            <div className="mt-6 flex items-center justify-between">
+              <div className="text-muted-foreground text-sm">
                 Showing page {currentPage} of {totalPages}
               </div>
               <div className="flex gap-2">
@@ -426,5 +429,5 @@ export function EnhancedUserManagement() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

@@ -31,14 +31,8 @@ function getForwardedIp(forwardedFor: string | null): string | null {
   return first || null;
 }
 
-export async function reportErrorToSupabase(
-  input: ErrorReportInput,
-  requestHeaders?: Headers
-) {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+export async function reportErrorToSupabase(input: ErrorReportInput, requestHeaders?: Headers) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return;
   }
 
@@ -100,4 +94,3 @@ export async function reportServerRuntimeError(error: unknown, context?: JsonRec
     context,
   });
 }
-

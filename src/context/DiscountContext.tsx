@@ -22,16 +22,37 @@ export function DiscountProvider({ children }: { children: React.ReactNode }) {
     const fetchDiscounts = async () => {
       // Fallback discounts (Supabase removed)
       const fallbackDiscounts: Discount[] = [
-        { id: '1', name: 'Amic Mykola', percentage: 20, code: 'MYKOLA20', description: 'Descompte especial del 20% per a amics de Mykola', isActive: true },
-        { id: '2', name: 'Conegut Mykola', percentage: 10, code: 'MYKOLA10', description: 'Descompte del 10% per a coneguts de Mykola', isActive: true },
-        { id: '3', name: 'Benvinguda', percentage: 20, code: 'WELCOME20', description: 'Descompte de benvinguda', isActive: true }
+        {
+          id: '1',
+          name: 'Amic Mykola',
+          percentage: 20,
+          code: 'MYKOLA20',
+          description: 'Descompte especial del 20% per a amics de Mykola',
+          isActive: true,
+        },
+        {
+          id: '2',
+          name: 'Conegut Mykola',
+          percentage: 10,
+          code: 'MYKOLA10',
+          description: 'Descompte del 10% per a coneguts de Mykola',
+          isActive: true,
+        },
+        {
+          id: '3',
+          name: 'Benvinguda',
+          percentage: 20,
+          code: 'WELCOME20',
+          description: 'Descompte de benvinguda',
+          isActive: true,
+        },
       ];
       setAvailableDiscounts(fallbackDiscounts);
-      
+
       // Check for saved discount
       const savedDiscountCode = localStorage.getItem('eka-applied-discount');
       if (savedDiscountCode) {
-        const discount = fallbackDiscounts.find(d => d.code === savedDiscountCode);
+        const discount = fallbackDiscounts.find((d) => d.code === savedDiscountCode);
         if (discount) {
           setSelectedDiscount(discount);
         } else {
@@ -45,30 +66,36 @@ export function DiscountProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const applyDiscount = async (code: string): Promise<boolean> => {
-    const discount = availableDiscounts.find(
-      d => d.code.toLowerCase() === code.toLowerCase()
-    );
+    const discount = availableDiscounts.find((d) => d.code.toLowerCase() === code.toLowerCase());
 
     if (discount) {
       setSelectedDiscount(discount);
       localStorage.setItem('eka-applied-discount', discount.code);
 
       // Log the interaction
-      logEvent('apply_discount', {
-        discount_id: discount.id,
-        discount_name: discount.name,
-        percentage: discount.percentage,
-        success: true
-      }, code);
+      logEvent(
+        'apply_discount',
+        {
+          discount_id: discount.id,
+          discount_name: discount.name,
+          percentage: discount.percentage,
+          success: true,
+        },
+        code
+      );
 
       return true;
     }
 
     // Log failed attempt
-    logEvent('apply_discount_failed', {
-      success: false,
-      reason: 'Invalid code'
-    }, code);
+    logEvent(
+      'apply_discount_failed',
+      {
+        success: false,
+        reason: 'Invalid code',
+      },
+      code
+    );
 
     return false;
   };
@@ -86,32 +113,30 @@ export function DiscountProvider({ children }: { children: React.ReactNode }) {
 
   const getDiscountAmount = (originalPrice: number): number => {
     if (!selectedDiscount) return 0;
-    return Math.round((originalPrice * selectedDiscount.percentage) / 100 * 100) / 100;
+    return Math.round(((originalPrice * selectedDiscount.percentage) / 100) * 100) / 100;
   };
 
   return (
-    <DiscountContext.Provider value={{
-      selectedDiscount,
-      availableDiscounts,
-      applyDiscount,
-      removeDiscount,
-      calculateDiscountedPrice,
-      getDiscountAmount,
-      isLoading
-    }}>
+    <DiscountContext.Provider
+      value={{
+        selectedDiscount,
+        availableDiscounts,
+        applyDiscount,
+        removeDiscount,
+        calculateDiscountedPrice,
+        getDiscountAmount,
+        isLoading,
+      }}
+    >
       {children}
     </DiscountContext.Provider>
   );
 }
 
-
- 
 export function useDiscount() {
   const context = React.useContext(DiscountContext);
   if (context === undefined) {
     throw new Error('useDiscount must be used within a DiscountProvider');
   }
   return context;
-};
-
-
+}

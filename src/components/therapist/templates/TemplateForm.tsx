@@ -52,11 +52,11 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
   let defaultContent = '';
   if (template?.content) {
     if (typeof template.content === 'string') {
-        defaultContent = template.content;
+      defaultContent = template.content;
     } else if (template.content.value) {
-        defaultContent = template.content.value;
+      defaultContent = template.content.value;
     } else {
-        defaultContent = JSON.stringify(template.content, null, 2);
+      defaultContent = JSON.stringify(template.content, null, 2);
     }
   }
 
@@ -133,9 +133,7 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
                   <SelectItem value="task">Task List</SelectItem>
                 </SelectContent>
               </Select>
-              <FormDescription>
-                Categorize this template for easier filtering.
-              </FormDescription>
+              <FormDescription>Categorize this template for easier filtering.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -154,22 +152,21 @@ export function TemplateForm({ template, onSuccess }: TemplateFormProps) {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                You can enter text or JSON structure.
-              </FormDescription>
+              <FormDescription>You can enter text or JSON structure.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
         <div className="flex justify-end gap-2">
-            <Button type="button" variant="outline" onClick={onSuccess}>Cancel</Button>
-            <Button type="submit" disabled={isSubmitting}>
+          <Button type="button" variant="outline" onClick={onSuccess}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? 'Saving...' : template ? 'Update Template' : 'Create Template'}
-            </Button>
+          </Button>
         </div>
       </form>
     </Form>
   );
 }
-

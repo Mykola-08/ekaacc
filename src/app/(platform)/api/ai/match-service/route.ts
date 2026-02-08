@@ -11,13 +11,13 @@ let supabase: SupabaseClient | null = null;
 async function getSupabaseClient() {
   if (!supabase) {
     const serviceKey = await getSupabaseServiceRoleKey();
-    if (!serviceKey || serviceKey === 'placeholder-service-key-for-build') {
-      throw new Error('Supabase Service Role Key is required for this API route');
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+    if (!supabaseUrl) {
+      throw new Error('NEXT_PUBLIC_SUPABASE_URL is required for this API route');
     }
-    supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://dopkncrqutxnchwqxloa.supabase.co',
-      serviceKey
-    );
+
+    supabase = createClient(supabaseUrl, serviceKey);
   }
   return supabase;
 }
@@ -25,8 +25,12 @@ async function getSupabaseClient() {
 export async function POST(req: Request) {
   try {
     const apiKey = await getOpenAIApiKey();
+    if (!apiKey) {
+      return NextResponse.json({ error: 'OPENAI_API_KEY is not configured' }, { status: 500 });
+    }
+
     const openai = createOpenAI({
-      apiKey: apiKey || 'placeholder',
+      apiKey,
     });
 
     const { query } = await req.json();
@@ -58,7 +62,9 @@ export async function POST(req: Request) {
       model: openai('gpt-4o'),
       schema: z.object({
         serviceId: z.string().describe('The ID of the best matching service'),
-        reason: z.string().describe('A short, empathetic explanation of why this service is a good fit'),
+        reason: z
+          .string()
+          .describe('A short, empathetic explanation of why this service is a good fit'),
         confidence: z.number().describe('Confidence score between 0 and 1'),
       }),
       prompt: `
@@ -81,4 +87,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-

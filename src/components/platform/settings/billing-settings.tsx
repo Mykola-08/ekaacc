@@ -1,9 +1,15 @@
-
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 import { Badge } from '@/components/platform/ui/badge';
 import { Loader2, Check, AlertTriangle } from 'lucide-react';
 import { createClient } from '@/lib/platform/supabase/client';
@@ -35,7 +41,9 @@ export function BillingSettings() {
 
   const fetchBillingData = async () => {
     try {
-      const { data: { user } } = await (supabase.auth as any).getUser();
+      const {
+        data: { user },
+      } = await (supabase.auth as any).getUser();
       if (!user) return;
 
       // Fetch active subscription
@@ -53,7 +61,6 @@ export function BillingSettings() {
       // Fetch invoices (mock or real if table populated)
       // const { data: invoiceData } = await supabase.from('invoices').select('*').eq('user_id', user.id).limit(5);
       // setInvoices(invoiceData || []);
-      
     } catch (error) {
       console.error('Error fetching billing data:', error);
     } finally {
@@ -79,7 +86,11 @@ export function BillingSettings() {
   };
 
   if (loading) {
-    return <div className="flex justify-center p-8"><Loader2 className="h-8 w-8 animate-spin" /></div>;
+    return (
+      <div className="flex justify-center p-8">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    );
   }
 
   return (
@@ -99,22 +110,24 @@ export function BillingSettings() {
                     {subscription.status}
                   </Badge>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {subscription.cancel_at_period_end 
+                <p className="text-muted-foreground mt-1 text-sm">
+                  {subscription.cancel_at_period_end
                     ? `Ends on ${new Date(subscription.current_period_end).toLocaleDateString()}`
-                    : `Renews on ${new Date(subscription.current_period_end).toLocaleDateString()}`
-                  }
+                    : `Renews on ${new Date(subscription.current_period_end).toLocaleDateString()}`}
                 </p>
               </div>
               <div className="text-right">
                 <p className="text-2xl font-bold">
-                  {new Intl.NumberFormat('en-US', { style: 'currency', currency: subscription.tier.currency }).format(subscription.tier.monthly_price)}
-                  <span className="text-sm font-normal text-muted-foreground">/month</span>
+                  {new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: subscription.tier.currency,
+                  }).format(subscription.tier.monthly_price)}
+                  <span className="text-muted-foreground text-sm font-normal">/month</span>
                 </p>
               </div>
             </div>
           ) : (
-            <div className="text-center py-6">
+            <div className="py-6 text-center">
               <p className="text-muted-foreground mb-4">You are currently on the Free plan.</p>
               <Button onClick={() => router.push('/pricing')}>Upgrade Plan</Button>
             </div>
@@ -139,28 +152,41 @@ export function BillingSettings() {
           {invoices.length > 0 ? (
             <div className="space-y-4">
               {invoices.map((invoice) => (
-                <div key={invoice.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+                <div
+                  key={invoice.id}
+                  className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0"
+                >
                   <div>
-                    <p className="font-medium">{new Date(invoice.created_at).toLocaleDateString()}</p>
-                    <p className="text-sm text-muted-foreground">{invoice.number}</p>
+                    <p className="font-medium">
+                      {new Date(invoice.created_at).toLocaleDateString()}
+                    </p>
+                    <p className="text-muted-foreground text-sm">{invoice.number}</p>
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-medium">
-                      {new Intl.NumberFormat('en-US', { style: 'currency', currency: invoice.currency }).format(invoice.amount_paid / 100)}
+                      {new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: invoice.currency,
+                      }).format(invoice.amount_paid / 100)}
                     </span>
                     <Button variant="ghost" size="sm" asChild>
-                      <a href={invoice.hosted_invoice_url} target="_blank" rel="noopener noreferrer">View</a>
+                      <a
+                        href={invoice.hosted_invoice_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View
+                      </a>
                     </Button>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-sm text-muted-foreground">No invoices found.</p>
+            <p className="text-muted-foreground text-sm">No invoices found.</p>
           )}
         </CardContent>
       </Card>
     </div>
   );
 }
-

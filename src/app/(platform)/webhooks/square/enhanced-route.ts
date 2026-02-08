@@ -6,20 +6,20 @@ import { isSquareAppointmentsEnabled } from '@/lib/platform/config/feature-flags
 
 /**
  * Enhanced Square Webhook Handler for Appointments
- * 
+ *
  * Handles real-time sync of booking and customer events
  * Supports both immediate processing and queue-based processing
- * 
+ *
  * Setup Instructions:
  * 1. Set SQUARE_WEBHOOK_SIGNATURE_KEY in environment variables
  * 2. Configure webhook URL in Square Dashboard: https://your-domain.com/api/webhooks/square
  * 3. Subscribe to these event types:
  *    - booking.created
- *    - booking.updated  
+ *    - booking.updated
  *    - booking.cancelled
  *    - customer.created
  *    - customer.updated
- * 
+ *
  * Security:
  * - Verifies webhook signature to ensure authenticity
  * - Validates feature flags before processing
@@ -57,10 +57,7 @@ function verifySignature(body: string, signature: string, url: string): boolean 
     hmac.update(payload);
     const hash = hmac.digest('base64');
 
-    return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(hash)
-    );
+    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(hash));
   } catch (error) {
     console.error('Signature verification error:', error);
     return false;
@@ -149,7 +146,7 @@ async function handleBookingCreated(data: any): Promise<void> {
   try {
     // Process the new booking through our sync service
     await squareAppointmentsService.processBooking(data);
-    
+
     console.log(`Successfully processed new booking: ${data.id}`);
   } catch (error) {
     console.error(`Failed to process new booking ${data.id}:`, error);
@@ -169,7 +166,7 @@ async function handleBookingUpdated(data: any): Promise<void> {
   try {
     // Process the updated booking through our sync service
     await squareAppointmentsService.processBooking(data);
-    
+
     console.log(`Successfully processed updated booking: ${data.id}`);
   } catch (error) {
     console.error(`Failed to process updated booking ${data.id}:`, error);
@@ -189,7 +186,7 @@ async function handleBookingCancelled(data: any): Promise<void> {
   try {
     // Update local booking status to cancelled
     // await updateBookingStatus(data.id, 'cancelled');
-    
+
     console.log(`Successfully processed cancelled booking: ${data.id}`);
   } catch (error) {
     console.error(`Failed to process cancelled booking ${data.id}:`, error);
@@ -209,7 +206,7 @@ async function handleCustomerCreated(data: any): Promise<void> {
   try {
     // Process the new customer through our sync service
     await squareAppointmentsService.processCustomer(data);
-    
+
     console.log(`Successfully processed new customer: ${data.id}`);
   } catch (error) {
     console.error(`Failed to process new customer ${data.id}:`, error);
@@ -229,7 +226,7 @@ async function handleCustomerUpdated(data: any): Promise<void> {
   try {
     // Process the updated customer through our sync service
     await squareAppointmentsService.processCustomer(data);
-    
+
     console.log(`Successfully processed updated customer: ${data.id}`);
   } catch (error) {
     console.error(`Failed to process updated customer ${data.id}:`, error);
@@ -249,7 +246,7 @@ async function handleCustomerDeleted(data: any): Promise<void> {
   try {
     // Archive or delete local customer record
     // await archiveCustomer(data.id);
-    
+
     console.log(`Successfully processed deleted customer: ${data.id}`);
   } catch (error) {
     console.error(`Failed to process deleted customer ${data.id}:`, error);
@@ -279,7 +276,7 @@ async function processWebhookEvent(event: EnhancedSquareWebhookEvent): Promise<v
     }
   } catch (error) {
     console.error(`Error processing webhook event ${event.eventId}:`, error);
-    
+
     // In production, you might want to:
     // 1. Retry the webhook (Square will retry automatically)
     // 2. Send to a dead letter queue
@@ -294,19 +291,13 @@ async function processWebhookEvent(event: EnhancedSquareWebhookEvent): Promise<v
 export async function POST(req: NextRequest): Promise<NextResponse> {
   // Check if Square Appointments feature is enabled
   if (!isSquareAppointmentsEnabled()) {
-    return NextResponse.json(
-      { error: 'Square Appointments feature is disabled' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Square Appointments feature is disabled' }, { status: 503 });
   }
 
   // Check if webhook signature key is configured
   if (!SIGNATURE_KEY) {
     console.error('Square webhook handler called but SQUARE_WEBHOOK_SIGNATURE_KEY not configured');
-    return NextResponse.json(
-      { error: 'Webhook handler not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Webhook handler not configured' }, { status: 503 });
   }
 
   try {
@@ -314,10 +305,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const signature = req.headers.get('x-square-signature');
     if (!signature) {
       console.error('Missing webhook signature');
-      return NextResponse.json(
-        { error: 'Missing signature' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Missing signature' }, { status: 401 });
     }
 
     // Get request body as text for signature verification
@@ -328,10 +316,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const isValid = verifySignature(body, signature, url);
     if (!isValid) {
       console.error('Invalid webhook signature');
-      return NextResponse.json(
-        { error: 'Invalid signature' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
     }
 
     // Parse and normalize event (Square uses snake_case, we use camelCase)
@@ -356,18 +341,17 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Process event asynchronously
     // In production, consider using a queue (e.g., Bull, AWS SQS, Redis)
-    processWebhookEvent(event).catch(error => {
+    processWebhookEvent(event).catch((error) => {
       console.error('Error processing webhook event:', error);
       // In production, send to error tracking service
     });
 
     // Return 200 immediately to acknowledge receipt
-    return NextResponse.json({ 
+    return NextResponse.json({
       received: true,
       timestamp: event.timestamp,
       eventId: event.eventId,
     });
-
   } catch (error: any) {
     console.error('Webhook handler error:', error);
     return NextResponse.json(
@@ -382,7 +366,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
  */
 export async function GET(req: NextRequest): Promise<NextResponse> {
   const isEnabled = isSquareAppointmentsEnabled();
-  
+
   return NextResponse.json({
     message: 'Square Appointments webhook endpoint',
     enabled: isEnabled,

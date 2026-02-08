@@ -22,16 +22,26 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       .eq('id', id)
       .single();
     if (bookingErr || !booking) {
-      return NextResponse.json({ error: bookingErr?.message || 'Booking not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: bookingErr?.message || 'Booking not found' },
+        { status: 404 }
+      );
     }
     if (booking.status !== 'scheduled') {
-      return NextResponse.json({ error: 'Cannot cancel booking in current status' }, { status: 409 });
+      return NextResponse.json(
+        { error: 'Cannot cancel booking in current status' },
+        { status: 409 }
+      );
     }
 
     const start = new Date(booking.start_time);
     const now = new Date();
     const diffHours = (start.getTime() - now.getTime()) / 3600000;
-    const policy = booking.cancellation_policy || { deadlineOffsetHours: 24, refundPercent: 0, feeCents: 0 };
+    const policy = booking.cancellation_policy || {
+      deadlineOffsetHours: 24,
+      refundPercent: 0,
+      feeCents: 0,
+    };
     let refundablePercent = 0;
     if (diffHours >= policy.deadlineOffsetHours) {
       refundablePercent = policy.refundPercent;
@@ -41,12 +51,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
       priceCents?: number;
     }
     const addons = (booking.addons_json || []) as BookingAddon[];
-    const amountBasis = booking.payment_mode === 'deposit' 
-      ? booking.deposit_cents 
-      : booking.base_price_cents + addons.reduce((s: number, a: BookingAddon) => s + (a.priceCents || 0), 0);
+    const amountBasis =
+      booking.payment_mode === 'deposit'
+        ? booking.deposit_cents
+        : booking.base_price_cents +
+          addons.reduce((s: number, a: BookingAddon) => s + (a.priceCents || 0), 0);
     const refundCents = Math.round(amountBasis * (refundablePercent / 100));
 
-    // Stripe refund removed. 
+    // Stripe refund removed.
     // In a real scenario without Stripe, this would be a manual refund or store credit.
     console.log(`Skipping automatic refund of ${refundCents} cents for booking ${booking.id}`);
 
@@ -68,10 +80,14 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     }
 
     await emitEvent('booking.cancelled', { bookingId: booking.id, refundCents });
-    return NextResponse.json({ bookingId: booking.id, status: 'canceled', refundCents, manageToken: newToken });
+    return NextResponse.json({
+      bookingId: booking.id,
+      status: 'canceled',
+      refundCents,
+      manageToken: newToken,
+    });
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : 'Unknown error';
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
-

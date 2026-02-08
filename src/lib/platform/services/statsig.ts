@@ -17,7 +17,7 @@ export async function initStatsig(): Promise<void> {
   if (!secret) return;
   if (!initPromise) {
     initPromise = Statsig.initialize(secret, {
-      environment: { tier: process.env.NODE_ENV || 'development' }
+      environment: { tier: process.env.NODE_ENV || 'development' },
     }).then(() => {
       initialized = true;
     });
@@ -25,16 +25,19 @@ export async function initStatsig(): Promise<void> {
   return initPromise;
 }
 
-export async function checkFeature(key: string, user: { userID?: string; custom?: Record<string, unknown> } = {}): Promise<boolean> {
+export async function checkFeature(
+  key: string,
+  user: { userID?: string; custom?: Record<string, unknown> } = {}
+): Promise<boolean> {
   const cacheKey = `${user.userID || 'anon'}:${key}`;
   const cached = gateCache.get(cacheKey);
   const now = Date.now();
   if (cached && cached.expires > now) return cached.value;
   await initStatsig();
   if (!initialized) return false;
-  const statsigUser: StatsigUser = { 
-    userID: user.userID || 'anonymous', 
-    customIDs: {} as Record<string, string>
+  const statsigUser: StatsigUser = {
+    userID: user.userID || 'anonymous',
+    customIDs: {} as Record<string, string>,
   };
   const value = Statsig.checkGateSync(statsigUser, key);
   gateCache.set(cacheKey, { value, expires: now + CACHE_TTL_MS });
@@ -42,12 +45,15 @@ export async function checkFeature(key: string, user: { userID?: string; custom?
   return value;
 }
 
-export async function getConfig<T extends Record<string, unknown>>(key: string, user: { userID?: string; custom?: Record<string, unknown> } = {}): Promise<T | null> {
+export async function getConfig<T extends Record<string, unknown>>(
+  key: string,
+  user: { userID?: string; custom?: Record<string, unknown> } = {}
+): Promise<T | null> {
   await initStatsig();
   if (!initialized) return null;
-  const statsigUser: StatsigUser = { 
-    userID: user.userID || 'anonymous', 
-    customIDs: {} as Record<string, string>
+  const statsigUser: StatsigUser = {
+    userID: user.userID || 'anonymous',
+    customIDs: {} as Record<string, string>,
   };
   const config = Statsig.getConfigSync(statsigUser, key);
   return (config?.value as T) ?? null;

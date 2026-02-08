@@ -72,11 +72,11 @@ export type StatCard = {
   index?: number;
 };
 
-export type UserRole = "Patient" | "Therapist" | "Admin";
+export type UserRole = 'Patient' | 'Therapist' | 'Admin';
 
-export type VipTier = "Bronze" | "Silver" | "Gold" | "Platinum" | "Diamond";
-export type LoyalTier = "Normal" | "Plus" | "Pro" | "ProMax";
-export type SubscriptionType = "Free" | "Loyal" | "VIP";
+export type VipTier = 'Bronze' | 'Silver' | 'Gold' | 'Platinum' | 'Diamond';
+export type LoyalTier = 'Normal' | 'Plus' | 'Pro' | 'ProMax';
+export type SubscriptionType = 'Free' | 'Loyal' | 'VIP';
 
 export type User = {
   id: string;
@@ -91,7 +91,7 @@ export type User = {
   initials: string;
   createdAt?: string;
   lastActive?: string; // Last activity timestamp
-  
+
   // Supabase user_metadata compatibility
   user_metadata?: {
     displayName?: string;
@@ -104,7 +104,7 @@ export type User = {
     isDonor?: boolean;
     [key: string]: any; // Allow any additional metadata
   };
-  
+
   // Profile Information
   bio?: string;
   location?: string;
@@ -153,36 +153,36 @@ export type User = {
 
   // Therapist-only visible fields
   therapistVisible?: {
-      birthday?: string;
-      preferences?: {
-        likesTea?: boolean;
-        likesCoffee?: boolean;
-        favoriteDrink?: string;
-        hobbies?: string[];
-        favoriteActivities?: string[];
-        dietaryRestrictions?: string;
-        sleepPattern?: string;
-        exerciseFrequency?: string;
-        notes?: string;
-      };
-      additionalNotes?: string;
+    birthday?: string;
+    preferences?: {
+      likesTea?: boolean;
+      likesCoffee?: boolean;
+      favoriteDrink?: string;
+      hobbies?: string[];
+      favoriteActivities?: string[];
+      dietaryRestrictions?: string;
+      sleepPattern?: string;
+      exerciseFrequency?: string;
+      notes?: string;
     };
-  
-    // Therapist notes and reminders
-    therapistNotes?: Array<{
-      therapistId: string;
-      note: string;
-      createdAt: string;
-      updatedAt?: string;
-    }>;
-  
-    followUpReminders?: Array<{
-      therapistId: string;
-      reminder: string;
-      dueDate: string;
-      completed?: boolean;
-      completedAt?: string;
-    }>;
+    additionalNotes?: string;
+  };
+
+  // Therapist notes and reminders
+  therapistNotes?: Array<{
+    therapistId: string;
+    note: string;
+    createdAt: string;
+    updatedAt?: string;
+  }>;
+
+  followUpReminders?: Array<{
+    therapistId: string;
+    reminder: string;
+    dueDate: string;
+    completed?: boolean;
+    completedAt?: string;
+  }>;
   // Therapist-specific fields
   therapistProfile?: {
     specializations?: string[]; // e.g., ['anxiety', 'depression', 'trauma']
@@ -203,7 +203,7 @@ export type User = {
     hourlyRate?: number;
     acceptingNewClients?: boolean;
   };
-  
+
   // Privacy & Visibility Settings
   profileVisibility?: {
     showEmail?: boolean;
@@ -214,14 +214,14 @@ export type User = {
     showToAdmins?: boolean;
     publicProfile?: boolean;
   };
-  
+
   // Account Status
   accountStatus?: 'active' | 'suspended' | 'pending' | 'deactivated';
   suspendedReason?: string;
   suspendedUntil?: string;
   lastLoginAt?: string;
   profileCompleteness?: number; // 0-100
-  
+
   goal?: {
     description?: string;
     targetSessions: number;
@@ -235,7 +235,7 @@ export type User = {
     occupation?: string;
     occupationType?: 'student' | 'employed' | 'self-employed' | 'unemployed' | 'retired' | 'other';
     livingSituation?: string; // e.g., "alone", "with family", "with roommates"
-    
+
     // Primary Goals & Challenges
     therapeuticGoals?: string[]; // Main reasons for using EKA
     currentChallenges?: string[]; // Current problems/pain points
@@ -243,7 +243,7 @@ export type User = {
     mentalHealthGoals?: string[]; // Mental wellness objectives
     primaryGoal?: string; // Main focus goal
     secondaryGoals?: string[]; // Additional goals
-    
+
     // Lifestyle & Context
     lifestyleFactors?: {
       workStressLevel?: 1 | 2 | 3 | 4 | 5;
@@ -252,42 +252,42 @@ export type User = {
       dietQuality?: 1 | 2 | 3 | 4 | 5;
       socialSupport?: 1 | 2 | 3 | 4 | 5;
     };
-    
+
     // Sports & Physical Activity
     sportsActivities?: string[]; // e.g., "running", "yoga", "swimming", "gym"
     activityLevel?: 'sedentary' | 'light' | 'moderate' | 'active' | 'very-active';
     fitnessGoals?: string[];
-    
+
     // Hobbies & Interests
     hobbies?: string[]; // e.g., "reading", "music", "art", "gaming"
     interests?: string[]; // Broader interests
     favoriteActivities?: string[];
     leisureTime?: 'none' | 'little' | 'moderate' | 'plenty';
-    
+
     // Preferences & Approaches
     preferredApproaches?: string[]; // e.g., "mindfulness", "physical therapy", "talk therapy"
     communicationStyle?: 'formal' | 'casual' | 'empathetic' | 'direct';
     motivations?: string[]; // What drives them
     expectations?: string; // What they expect from EKA
-    
+
     // Personality & Traits
     personalityTraits?: string[]; // e.g., "introverted", "analytical", "creative"
     copingMechanisms?: string[]; // How they currently cope with challenges
     emotionalState?: 'stable' | 'fluctuating' | 'challenged';
     mood?: number; // Current mood score (1-10)
-    
+
     // Previous Experience
     previousTherapyExperience?: boolean;
     previousTherapyTypes?: string[];
     whatWorkedBefore?: string;
     whatDidntWork?: string;
-    
+
     // Additional Context
     culturalBackground?: string;
     languagePreference?: string;
     religiousBeliefs?: string;
     importantValues?: string[];
-    
+
     // AI-Generated Insights
     aiPersonaProfile?: string; // AI-generated summary of user personality
     aiRecommendedApproaches?: string[]; // AI-recommended therapy types
@@ -295,7 +295,7 @@ export type User = {
     aiPersonalizationScore?: number; // 0-100, how well we know the user
     aiPersonalizedGreeting?: string; // Personalized welcome message
     aiMotivationalQuotes?: string[]; // Curated motivational messages
-    
+
     // Legacy fields (keeping for backward compatibility)
     goals?: string;
     values?: string;
@@ -305,7 +305,7 @@ export type User = {
     lifeStage?: string;
     supportSystem?: string;
   };
-  
+
   // User Activity Tracking & Behavioral Data
   activityData?: {
     // Session Patterns
@@ -315,7 +315,7 @@ export type User = {
     completedSessions?: number;
     canceledSessions?: number;
     lastSessionDate?: string;
-    
+
     // App Usage Patterns
     mostVisitedPages?: string[]; // Track which pages user visits most
     featureUsage?: {
@@ -329,7 +329,7 @@ export type User = {
     totalLogins?: number;
     lastActiveDate?: string;
     averageTimeSpent?: number; // minutes per session
-    
+
     // Engagement Metrics
     completedExercises?: number;
     journalEntries?: number;
@@ -339,13 +339,13 @@ export type User = {
       date: string;
       type: 'goal' | 'streak' | 'session' | 'exercise';
     }>;
-    
+
     // Preferences Learned from Behavior
     preferredExerciseTypes?: string[];
     preferredTherapistGender?: 'male' | 'female' | 'no-preference';
     preferredCommunicationMethod?: 'chat' | 'video' | 'phone' | 'in-person';
     responseTimePreference?: 'immediate' | 'same-day' | 'flexible';
-    
+
     // Progress Indicators
     progressTrend?: 'improving' | 'stable' | 'declining' | 'fluctuating';
     wellnessScoreHistory?: Array<{
@@ -358,7 +358,7 @@ export type User = {
       note?: string;
     }>;
   };
-  
+
   // Personalized Recommendations
   recommendations?: {
     sessions?: Array<{
@@ -382,7 +382,7 @@ export type User = {
     therapists?: string[]; // IDs of recommended therapists
     nextSteps?: string[]; // Suggested actions
   };
-  
+
   // Personalized Messages & Feedback
   personalizedContent?: {
     welcomeMessage?: string; // Custom greeting based on user data
@@ -435,7 +435,7 @@ export type User = {
   totalReceived?: number; // in EUR
   donationSeekerApproved?: boolean;
   donationSeekerReason?: string;
-  
+
   // Loyalty Points
   loyaltyPoints?: {
     current?: number;
@@ -443,7 +443,7 @@ export type User = {
     tier?: 'bronze' | 'silver' | 'gold' | 'platinum';
     lastUpdated?: string;
   };
-  
+
   // Relationships
   linkedChildren?: string[]; // Array of user IDs
   linkedParent?: string; // User ID of parent
@@ -455,9 +455,9 @@ export type User = {
 };
 
 export type TriageResult = {
-    top: {
-        therapyId: string;
-        reason: string;
+  top: {
+    therapyId: string;
+    reason: string;
     therapistNotes?: Array<{
       therapistId: string;
       note: string;
@@ -472,21 +472,20 @@ export type TriageResult = {
       completed?: boolean;
       completedAt?: string;
     }>;
-        plan: {
-            sessions: number;
-            freq: string;
-        };
+    plan: {
+      sessions: number;
+      freq: string;
     };
-    alts: {
-        therapyId: string;
-    }[];
-    square: {
-        serviceId: string;
-        locationId: string;
-        bookingLink: string;
-    };
-}
-
+  };
+  alts: {
+    therapyId: string;
+  }[];
+  square: {
+    serviceId: string;
+    locationId: string;
+    bookingLink: string;
+  };
+};
 
 export type VipBenefit = {
   id: string;
@@ -494,30 +493,30 @@ export type VipBenefit = {
   limit: string | number;
   used: number;
   status: 'available' | 'used' | 'expires';
-}
+};
 
 export type VipHistoryItem = {
-    benefitId: string;
-    at: string;
-    value: string;
-}
+  benefitId: string;
+  at: string;
+  value: string;
+};
 
 export type VipData = {
-    active: boolean;
-    tier: string;
-    renewal: string;
-    since: string;
-    benefits: VipBenefit[];
-    history: VipHistoryItem[];
-    insights: {
-        savingsEUR: number;
-        monthUses: number;
-    }
-}
+  active: boolean;
+  tier: string;
+  renewal: string;
+  since: string;
+  benefits: VipBenefit[];
+  history: VipHistoryItem[];
+  insights: {
+    savingsEUR: number;
+    monthUses: number;
+  };
+};
 
 export type VipPlan = {
   id: string;
-  tier: "Bronze Elite" | "Silver Elite" | "Gold Elite";
+  tier: 'Bronze Elite' | 'Silver Elite' | 'Gold Elite';
   pricePerMonthEUR: number;
   sessionsPerMonth: number;
   sessionDurationMinutes: number;

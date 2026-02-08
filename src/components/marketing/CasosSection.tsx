@@ -24,7 +24,7 @@ export default function CasosSection() {
       descriptionKey: 'casos.problems.backPain.description',
       icon: Activity,
       color: 'blue',
-      href: '/cases/back-pain'
+      href: '/cases/back-pain',
     },
     {
       id: 'stress-anxiety',
@@ -32,7 +32,7 @@ export default function CasosSection() {
       descriptionKey: 'casos.problems.stress.description',
       icon: Brain,
       color: 'purple',
-      href: '/cases/stress-anxiety'
+      href: '/cases/stress-anxiety',
     },
     {
       id: 'digestive-problems',
@@ -40,7 +40,7 @@ export default function CasosSection() {
       descriptionKey: 'casos.problems.digestive.description',
       icon: Heart,
       color: 'green',
-      href: '/cases/digestive-problems'
+      href: '/cases/digestive-problems',
     },
     {
       id: 'migraines',
@@ -48,7 +48,7 @@ export default function CasosSection() {
       descriptionKey: 'casos.problems.migraines.description',
       icon: Brain,
       color: 'red',
-      href: '/cases/migraines'
+      href: '/cases/migraines',
     },
     {
       id: 'low-energy',
@@ -56,7 +56,7 @@ export default function CasosSection() {
       descriptionKey: 'casos.problems.lowEnergy.description',
       icon: Zap,
       color: 'orange',
-      href: '/cases/low-energy'
+      href: '/cases/low-energy',
     },
     {
       id: 'sleep-difficulties',
@@ -64,8 +64,8 @@ export default function CasosSection() {
       descriptionKey: 'casos.problems.sleep.description',
       icon: Moon,
       color: 'indigo',
-      href: '/cases/sleep-difficulties'
-    }
+      href: '/cases/sleep-difficulties',
+    },
   ];
 
   const getColorClasses = (color: string) => {
@@ -76,55 +76,57 @@ export default function CasosSection() {
       orange: 'bg-orange-50 border-orange-200 text-orange-700 hover:bg-orange-100',
       indigo: 'bg-indigo-50 border-indigo-200 text-indigo-700 hover:bg-indigo-100',
       pink: 'bg-pink-50 border-pink-200 text-pink-700 hover:bg-pink-100',
-      red: 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100'
+      red: 'bg-red-50 border-red-200 text-red-700 hover:bg-red-100',
     };
     return colors[color as keyof typeof colors] || colors.blue;
   };
 
   return (
-    <section className="py-16 sm:py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center px-6 py-2 bg-primary-50 border border-primary-100 rounded-full mb-8">
-            <span className="text-primary-700 font-medium text-sm uppercase tracking-wide">{t('casos.section.badge')}</span>
+    <section className="bg-gray-50 py-16 sm:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+        <div className="mb-16 text-center">
+          <div className="bg-primary-50 border-primary-100 mb-8 inline-flex items-center rounded-full border px-6 py-2">
+            <span className="text-primary-700 text-sm font-medium tracking-wide uppercase">
+              {t('casos.section.badge')}
+            </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-eka-dark mb-6">
+          <h2 className="text-eka-dark mb-6 text-3xl font-bold sm:text-4xl lg:text-5xl">
             {t('casos.section.title')}{' '}
             <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               {t('casos.section.titleHighlight')}
             </span>
           </h2>
 
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {t('casos.section.subtitle')}
-          </p>
+          <p className="mx-auto max-w-3xl text-xl text-gray-600">{t('casos.section.subtitle')}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {featuredProblems.map((problem, index) => {
             const ProblemIcon = problem.icon;
             return (
               <AnimateIn key={problem.id} delay={index * 0.1}>
                 <Link
                   href={problem.href}
-                  className="group bg-white rounded-2xl p-6 border border-gray-200 hover:border-gray-300 hover:shadow-lg transition-all duration-300 ease-out-quart block"
+                  className="group ease-out-quart block rounded-2xl border border-gray-200 bg-white p-6 transition-all duration-300 hover:border-gray-300 hover:shadow-lg"
                 >
-                  <div className={`w-14 h-14 rounded-2xl ${getColorClasses(problem.color)} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 ease-out-quart border shadow-sm`}>
-                    <ProblemIcon className="w-7 h-7" />
+                  <div
+                    className={`h-14 w-14 rounded-2xl ${getColorClasses(problem.color)} ease-out-quart mb-6 flex items-center justify-center border shadow-sm transition-transform duration-300 group-hover:scale-110`}
+                  >
+                    <ProblemIcon className="h-7 w-7" />
                   </div>
 
-                  <h3 className="text-xl font-semibold text-eka-dark mb-3 group-hover:text-primary-600 transition-colors duration-200 ease-out-quart">
+                  <h3 className="text-eka-dark group-hover:text-primary-600 ease-out-quart mb-3 text-xl font-semibold transition-colors duration-200">
                     {t(problem.titleKey)}
                   </h3>
 
-                  <p className="text-gray-600 mb-4 leading-relaxed line-clamp-3">
+                  <p className="mb-4 line-clamp-3 leading-relaxed text-gray-600">
                     {t(problem.descriptionKey)}
                   </p>
 
-                  <div className="flex items-center text-primary-600 font-medium">
+                  <div className="text-primary-600 flex items-center font-medium">
                     {t('casos.section.readMore')}
-                    <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform duration-200 ease-out-quart" />
+                    <ArrowRight className="ease-out-quart ml-1 h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
                 </Link>
               </AnimateIn>
@@ -133,8 +135,8 @@ export default function CasosSection() {
         </div>
 
         {/* Other Cases List */}
-        <div className="max-w-4xl mx-auto mb-16 text-center">
-          <h3 className="text-2xl font-light text-eka-dark mb-8">{t('casos.other.title')}</h3>
+        <div className="mx-auto mb-16 max-w-4xl text-center">
+          <h3 className="text-eka-dark mb-8 text-2xl font-light">{t('casos.other.title')}</h3>
           <div className="flex flex-wrap justify-center gap-4">
             {[
               'casos.other.money',
@@ -142,9 +144,12 @@ export default function CasosSection() {
               'casos.other.selfworth',
               'casos.other.family',
               'casos.other.work',
-              'casos.other.trauma'
+              'casos.other.trauma',
             ].map((key) => (
-              <span key={key} className="px-6 py-3 bg-white border border-gray-200 rounded-full text-gray-600 shadow-sm hover:shadow-md hover:border-primary-200 hover:text-primary-600 transition-all duration-200 ease-out-quart cursor-default">
+              <span
+                key={key}
+                className="hover:border-primary-200 hover:text-primary-600 ease-out-quart cursor-default rounded-full border border-gray-200 bg-white px-6 py-3 text-gray-600 shadow-sm transition-all duration-200 hover:shadow-md"
+              >
                 {t(key)}
               </span>
             ))}
@@ -153,17 +158,17 @@ export default function CasosSection() {
 
         {/* View All Cases */}
         <div className="text-center">
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
               href="/cases"
-              className="inline-flex items-center bg-accent hover:bg-accent-dark text-eka-dark font-semibold px-8 py-4 rounded-full transition-all duration-200 ease-out-quart shadow-lg hover:shadow-xl hover:scale-[1.02]"
+              className="bg-accent hover:bg-accent-dark text-eka-dark ease-out-quart inline-flex items-center rounded-full px-8 py-4 font-semibold shadow-lg transition-all duration-200 hover:scale-[1.02] hover:shadow-xl"
             >
               {t('casos.section.viewAll')}
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
               href="/first-time"
-              className="inline-flex items-center bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-full transition-all duration-200 ease-out-quart"
+              className="ease-out-quart inline-flex items-center rounded-full bg-gray-100 px-6 py-3 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-200"
             >
               {t('casos.section.findYourCase')}
             </Link>
@@ -173,5 +178,3 @@ export default function CasosSection() {
     </section>
   );
 }
-
-

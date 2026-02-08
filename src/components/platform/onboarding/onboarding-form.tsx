@@ -6,7 +6,13 @@ import { useAuth } from '@/lib/platform/supabase/auth';
 import { supabase } from '@/lib/platform/supabase';
 import { Button } from '@/components/platform/ui/button';
 import { Textarea } from '@/components/platform/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/platform/ui/select';
 import { Checkbox } from '@/components/platform/ui/checkbox';
 import { Label } from '@/components/platform/ui/label';
 
@@ -30,8 +36,14 @@ export default function OnboardingForm() {
 
     const preferences = {
       role,
-      goals: goals.split(',').map(g => g.trim()).filter(Boolean),
-      concerns: concerns.split(',').map(c => c.trim()).filter(Boolean),
+      goals: goals
+        .split(',')
+        .map((g) => g.trim())
+        .filter(Boolean),
+      concerns: concerns
+        .split(',')
+        .map((c) => c.trim())
+        .filter(Boolean),
       tone,
       notify_tips: notifyTips,
       user_id: user.id,
@@ -39,25 +51,26 @@ export default function OnboardingForm() {
 
     try {
       // Persist preferences to Supabase
-      const { error } = await supabase
-        .from('user_preferences')
-        .upsert(preferences);
-      
+      const { error } = await supabase.from('user_preferences').upsert(preferences);
+
       if (error) throw error;
 
       // Redirect to dashboard
       router.push('/dashboard');
     } catch (error) {
-      console.error("Failed to save onboarding data:", error);
+      console.error('Failed to save onboarding data:', error);
       alert('There was an error saving your preferences. Please try again.');
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-lg mx-auto p-8 bg-card rounded-lg shadow-md border border-border">
-      <h2 className="text-2xl font-bold text-foreground">Tell Us About Yourself</h2>
-      
+    <form
+      onSubmit={handleSubmit}
+      className="bg-card border-border mx-auto max-w-lg space-y-6 rounded-lg border p-8 shadow-md"
+    >
+      <h2 className="text-foreground text-2xl font-bold">Tell Us About Yourself</h2>
+
       <div className="space-y-2">
         <Label htmlFor="role">What is your primary role?</Label>
         <Select value={role} onValueChange={setRole}>
@@ -76,21 +89,21 @@ export default function OnboardingForm() {
 
       <div className="space-y-2">
         <Label htmlFor="goals">What are your therapy goals? (comma-separated)</Label>
-        <Textarea 
-          id="goals" 
-          value={goals} 
-          onChange={e => setGoals(e.target.value)} 
-          placeholder="e.g., reduce anxiety, improve sleep, build confidence" 
+        <Textarea
+          id="goals"
+          value={goals}
+          onChange={(e) => setGoals(e.target.value)}
+          placeholder="e.g., reduce anxiety, improve sleep, build confidence"
         />
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="concerns">Any specific concerns? (comma-separated)</Label>
-        <Textarea 
-          id="concerns" 
-          value={concerns} 
-          onChange={e => setConcerns(e.target.value)} 
-          placeholder="e.g., work stress, relationship issues, self-esteem" 
+        <Textarea
+          id="concerns"
+          value={concerns}
+          onChange={(e) => setConcerns(e.target.value)}
+          placeholder="e.g., work stress, relationship issues, self-esteem"
         />
       </div>
 
@@ -109,12 +122,12 @@ export default function OnboardingForm() {
       </div>
 
       <div className="flex items-center space-x-2">
-        <Checkbox 
-          id="notifyTips" 
-          checked={notifyTips} 
-          onCheckedChange={(checked) => setNotifyTips(checked as boolean)} 
+        <Checkbox
+          id="notifyTips"
+          checked={notifyTips}
+          onCheckedChange={(checked) => setNotifyTips(checked as boolean)}
         />
-        <Label htmlFor="notifyTips" className="text-sm text-muted-foreground font-normal">
+        <Label htmlFor="notifyTips" className="text-muted-foreground text-sm font-normal">
           Send me daily wellness tips
         </Label>
       </div>
@@ -125,4 +138,3 @@ export default function OnboardingForm() {
     </form>
   );
 }
-

@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import * as React from 'react'
-import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { cn } from '@/lib/platform/utils/css-utils'
-import { Button } from '@/components/platform/ui/button'
+import * as React from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { cn } from '@/lib/platform/utils/css-utils';
+import { Button } from '@/components/platform/ui/button';
 
 import {
   Sidebar,
@@ -14,17 +14,21 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/platform/ui/sidebar'
+} from '@/components/platform/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/platform/ui/dropdown-menu'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/platform/ui/collapsible'
-import { useAuth } from '@/lib/platform/supabase/auth'
+} from '@/components/platform/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/platform/ui/collapsible';
+import { useAuth } from '@/lib/platform/supabase/auth';
 import {
   LayoutDashboard,
   Calendar,
@@ -42,24 +46,24 @@ import {
   ChevronRight,
   Sparkles,
   CreditCard,
-} from 'lucide-react'
+} from 'lucide-react';
 
 interface NavGroup {
-  title: string
-  items: NavItem[]
+  title: string;
+  items: NavItem[];
 }
 
 interface NavItem {
-  title: string
-  url: string
-  icon: React.ElementType
-  badge?: string
-  items?: NavSubItem[]
+  title: string;
+  url: string;
+  icon: React.ElementType;
+  badge?: string;
+  items?: NavSubItem[];
 }
 
 interface NavSubItem {
-  title: string
-  url: string
+  title: string;
+  url: string;
 }
 
 const patientNavigation: NavGroup[] = [
@@ -159,7 +163,7 @@ const patientNavigation: NavGroup[] = [
       },
     ],
   },
-]
+];
 
 const therapistNavigation: NavGroup[] = [
   {
@@ -202,7 +206,7 @@ const therapistNavigation: NavGroup[] = [
       },
     ],
   },
-]
+];
 
 const adminNavigation: NavGroup[] = [
   {
@@ -230,55 +234,52 @@ const adminNavigation: NavGroup[] = [
       },
     ],
   },
-]
+];
 
 export function AppSidebar07() {
-  const pathname = usePathname()
-  const router = useRouter()
-  const { user, signOut } = useAuth()
-  const { state } = useSidebar()
-  const isExpanded = state === 'expanded'
+  const pathname = usePathname();
+  const router = useRouter();
+  const { user, signOut } = useAuth();
+  const { state } = useSidebar();
+  const isExpanded = state === 'expanded';
 
   // Determine which navigation to show based on current path
   const getNavigationGroups = () => {
-    if (pathname?.startsWith('/admin')) return adminNavigation
-    if (pathname?.startsWith('/therapist')) return therapistNavigation
-    return patientNavigation
-  }
+    if (pathname?.startsWith('/admin')) return adminNavigation;
+    if (pathname?.startsWith('/therapist')) return therapistNavigation;
+    return patientNavigation;
+  };
 
-  const navigationGroups = getNavigationGroups()
+  const navigationGroups = getNavigationGroups();
 
   const handleSignOut = async () => {
-    await signOut()
-    router.push('/login')
-  }
+    await signOut();
+    router.push('/login');
+  };
 
   const getUserInitials = () => {
-    if (!user?.email) return 'U'
-    return user.email
-      .split('@')[0]
-      .substring(0, 2)
-      .toUpperCase()
-  }
+    if (!user?.email) return 'U';
+    return user.email.split('@')[0].substring(0, 2).toUpperCase();
+  };
 
   return (
     <Sidebar>
-      <SidebarHeader className="bg-linear-to-br from-purple-50 to-blue-50 border-b border-purple-100">
+      <SidebarHeader className="border-b border-purple-100 bg-linear-to-br from-purple-50 to-blue-50">
         <div className="flex items-center gap-2 px-3 py-4">
-          <div className={cn(
-            "flex aspect-square size-8 items-center justify-center rounded-lg bg-linear-to-br from-purple-600 to-blue-600 text-white shadow-lg",
-            !isExpanded && "size-8"
-          )}>
+          <div
+            className={cn(
+              'flex aspect-square size-8 items-center justify-center rounded-lg bg-linear-to-br from-purple-600 to-blue-600 text-white shadow-lg',
+              !isExpanded && 'size-8'
+            )}
+          >
             <Heart className="size-4" />
           </div>
           {isExpanded && (
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-semibold bg-clip-text text-transparent bg-linear-to-r from-purple-600 to-blue-600">
+              <span className="truncate bg-linear-to-r from-purple-600 to-blue-600 bg-clip-text font-semibold text-transparent">
                 EKA Account
               </span>
-              <span className="truncate text-xs text-muted-foreground">
-                Wellness Platform
-              </span>
+              <span className="text-muted-foreground truncate text-xs">Wellness Platform</span>
             </div>
           )}
         </div>
@@ -288,14 +289,14 @@ export function AppSidebar07() {
         {navigationGroups.map((group) => (
           <div key={group.title} className="mb-6">
             {isExpanded && (
-              <h3 className="mb-2 px-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+              <h3 className="text-muted-foreground mb-2 px-3 text-xs font-semibold tracking-wider uppercase">
                 {group.title}
               </h3>
             )}
             <SidebarMenu>
               {group.items.map((item) => {
-                const isActive = pathname === item.url
-                const Icon = item.icon
+                const isActive = pathname === item.url;
+                const Icon = item.icon;
 
                 if (item.items) {
                   return (
@@ -308,8 +309,8 @@ export function AppSidebar07() {
                           <Button
                             variant="ghost"
                             className={cn(
-                              "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
-                              "hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 transition-all duration-200"
+                              'h-auto w-full justify-start gap-3 px-3 py-2 font-normal',
+                              'transition-all duration-200 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700'
                             )}
                           >
                             <Icon className="size-4 shrink-0" />
@@ -322,14 +323,14 @@ export function AppSidebar07() {
                           </Button>
                         </CollapsibleTrigger>
                         {isExpanded && (
-                          <CollapsibleContent className="pl-7 space-y-1">
+                          <CollapsibleContent className="space-y-1 pl-7">
                             {item.items.map((subItem) => (
                               <Button
                                 key={subItem.title}
                                 variant="ghost"
                                 className={cn(
-                                  "w-full justify-start gap-3 px-3 py-2 h-auto font-normal text-sm",
-                                  pathname === subItem.url && "bg-accent text-accent-foreground"
+                                  'h-auto w-full justify-start gap-3 px-3 py-2 text-sm font-normal',
+                                  pathname === subItem.url && 'bg-accent text-accent-foreground'
                                 )}
                                 asChild
                               >
@@ -342,7 +343,7 @@ export function AppSidebar07() {
                         )}
                       </SidebarMenuItem>
                     </Collapsible>
-                  )
+                  );
                 }
 
                 return (
@@ -350,9 +351,9 @@ export function AppSidebar07() {
                     <Button
                       variant="ghost"
                       className={cn(
-                        "w-full justify-start gap-3 px-3 py-2 h-auto font-normal",
-                        isActive && "bg-purple-100 text-purple-700 border border-purple-200",
-                        "hover:bg-purple-50 hover:text-purple-700 hover:border-purple-200 transition-all duration-200"
+                        'h-auto w-full justify-start gap-3 px-3 py-2 font-normal',
+                        isActive && 'border border-purple-200 bg-purple-100 text-purple-700',
+                        'transition-all duration-200 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700'
                       )}
                       asChild
                     >
@@ -371,7 +372,7 @@ export function AppSidebar07() {
                       </Link>
                     </Button>
                   </SidebarMenuItem>
-                )
+                );
               })}
             </SidebarMenu>
           </div>
@@ -384,34 +385,25 @@ export function AppSidebar07() {
             <Button
               variant="ghost"
               className={cn(
-                "w-full justify-start gap-3 px-3 py-2 h-auto",
-                "hover:bg-accent hover:text-accent-foreground"
+                'h-auto w-full justify-start gap-3 px-3 py-2',
+                'hover:bg-accent hover:text-accent-foreground'
               )}
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user?.user_metadata?.avatar_url} alt={user?.email} />
-                <AvatarFallback className="rounded-lg">
-                  {getUserInitials()}
-                </AvatarFallback>
+                <AvatarFallback className="rounded-lg">{getUserInitials()}</AvatarFallback>
               </Avatar>
               {isExpanded && (
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">
                     {user?.user_metadata?.full_name || 'User'}
                   </span>
-                  <span className="truncate text-xs text-muted-foreground">
-                    {user?.email}
-                  </span>
+                  <span className="text-muted-foreground truncate text-xs">{user?.email}</span>
                 </div>
               )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-56"
-            side="right"
-            align="end"
-            sideOffset={4}
-          >
+          <DropdownMenuContent className="w-56" side="right" align="end" sideOffset={4}>
             <DropdownMenuItem asChild>
               <Link href="/myaccount" className="cursor-pointer">
                 <Users className="mr-2 h-4 w-4" />
@@ -433,6 +425,5 @@ export function AppSidebar07() {
         </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
-

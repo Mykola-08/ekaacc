@@ -30,7 +30,7 @@ export {
   type MemoryType,
   type UserMemory,
   type ConversationMessage,
-  type Conversation
+  type Conversation,
 } from './ai-memory-service';
 
 // Insights Service - AI-generated insights and analytics
@@ -49,7 +49,7 @@ export {
   type AIInsight,
   type ActionItem,
   type WellnessScore,
-  type UserBehaviorPattern
+  type UserBehaviorPattern,
 } from './ai-insights-service';
 
 // Wellness Service - Mood and health tracking
@@ -72,7 +72,7 @@ export {
   type MoodEntry,
   type WellnessSummary,
   type WellnessGoal,
-  type DailyCheckIn
+  type DailyCheckIn,
 } from './wellness-service';
 
 // Recommendation Engine - Personalized suggestions
@@ -89,7 +89,7 @@ export {
   type Recommendation,
   type ServiceRecommendation,
   type ExerciseRecommendation,
-  type UserPreferences
+  type UserPreferences,
 } from './recommendation-engine';
 
 // User Context Service - Comprehensive user data for AI
@@ -107,5 +107,5 @@ export {
   type InteractionContext,
   type MemoryContext,
   type InsightContext,
-  type ComputedContext
+  type ComputedContext,
 } from './user-context-service';

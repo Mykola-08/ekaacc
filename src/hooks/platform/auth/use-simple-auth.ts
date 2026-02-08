@@ -1,17 +1,17 @@
-import { useAuth } from '@/context/platform/auth-context'
+import { useAuth } from '@/context/platform/auth-context';
 
 /**
  * Simple auth hook that provides essential auth functionality
  * This is a wrapper around useAuth to provide a cleaner API
  */
 export function useSimpleAuth() {
-  const auth = useAuth()
+  const auth = useAuth();
 
   // Map Supabase user to AuthUser interface
-  const user = auth.user
+  const user = auth.user;
 
-  const isLoading = auth.isLoading
-  const isAuthenticated = auth.isAuthenticated
+  const isLoading = auth.isLoading;
+  const isAuthenticated = auth.isAuthenticated;
 
   return {
     // User data
@@ -44,14 +44,14 @@ export function useSimpleAuth() {
 
     // Refresh user data
     refreshUser: auth.refreshUser,
-  }
+  };
 }
 
 /**
  * Hook to check if user has specific permissions
  */
 export function usePermissions() {
-  const auth = useAuth()
+  const auth = useAuth();
 
   return {
     canReadUsers: auth.hasPermission('users.read'),
@@ -64,14 +64,14 @@ export function usePermissions() {
     canReadRoles: auth.hasPermission('roles.read'),
     canWriteRoles: auth.hasPermission('roles.write'),
     canDeleteRoles: auth.hasPermission('roles.delete'),
-  }
+  };
 }
 
 /**
  * Hook to get user preferences
  */
 export function useUserPreferences() {
-  const auth = useAuth()
+  const auth = useAuth();
 
   return {
     preferences: auth.user?.preferences,
@@ -81,5 +81,5 @@ export function useUserPreferences() {
     emailNotifications: auth.user?.preferences?.email_notifications ?? true,
     pushNotifications: auth.user?.preferences?.push_notifications ?? true,
     updatePreferences: auth.updatePreferences,
-  }
+  };
 }

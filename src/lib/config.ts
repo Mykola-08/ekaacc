@@ -16,14 +16,14 @@ async function loadAllConfigs(): Promise<void> {
     return Promise.resolve();
   }
   if (isLoading && loadPromise) return loadPromise;
-  
+
   isLoading = true;
   loadPromise = (async () => {
     try {
       const { rows } = await db.query<{ key: string; value: string }>(
         'SELECT key, value FROM app_config'
       );
-      
+
       // Clear and repopulate cache
       for (const key of Object.keys(cache)) delete cache[key];
       for (const row of rows) {
@@ -40,40 +40,54 @@ async function loadAllConfigs(): Promise<void> {
       loadPromise = null;
     }
   })();
-  
+
   return loadPromise;
 }
 
 export async function getConfig(key: string): Promise<string | undefined> {
   const now = Date.now();
-  
+
   // If cache is stale, reload all configs
   if (now - lastLoad >= CACHE_TTL_MS) {
     await loadAllConfigs();
   }
-  
+
   return CONFIG_DB_ENABLED ? cache[key] : undefined;
 }
 
 // Pre-load configs on module import in production
 if (process.env.NODE_ENV === 'production' && process.env.CONFIG_DB_PRELOAD === '1') {
-  loadAllConfigs().catch(() => {/* ignore initial load errors */});
+  loadAllConfigs().catch(() => {
+    /* ignore initial load errors */
+  });
+}
+
+async function getRequiredConfigOrEnv(configKey: string, envKey: string): Promise<string> {
+  const fromDb = await getConfig(configKey);
+  const fromEnv = process.env[envKey];
+  const value = fromDb || fromEnv;
+
+  if (!value) {
+    throw new Error(`Missing required configuration: ${configKey} or ${envKey}`);
+  }
+
+  return value;
 }
 
 export async function getBookingTokenSecret(): Promise<string> {
-  return (await getConfig('BOOKING_TOKEN_SECRET')) || process.env.BOOKING_TOKEN_SECRET || 'fallback-insecure';
+  return getRequiredConfigOrEnv('BOOKING_TOKEN_SECRET', 'BOOKING_TOKEN_SECRET');
 }
 
 export async function getStripeSecretKey(): Promise<string> {
-  return (await getConfig('STRIPE_SECRET_KEY')) || process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+  return getRequiredConfigOrEnv('STRIPE_SECRET_KEY', 'STRIPE_SECRET_KEY');
 }
 
 export async function getStripeWebhookSecret(): Promise<string> {
-  return (await getConfig('STRIPE_WEBHOOK_SECRET')) || process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
+  return getRequiredConfigOrEnv('STRIPE_WEBHOOK_SECRET', 'STRIPE_WEBHOOK_SECRET');
 }
 
 export async function getSupabaseServiceRoleKey(): Promise<string> {
-  return (await getConfig('SUPABASE_SERVICE_ROLE_KEY')) || process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-service-key-for-build';
+  return getRequiredConfigOrEnv('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_ROLE_KEY');
 }
 
 export async function getOpenAIApiKey(): Promise<string | undefined> {
@@ -101,4 +115,3 @@ export function invalidateConfigCache(): void {
   for (const key of Object.keys(cache)) delete cache[key];
   lastLoad = 0;
 }
-

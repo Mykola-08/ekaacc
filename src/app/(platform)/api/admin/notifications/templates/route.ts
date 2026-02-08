@@ -1,25 +1,25 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/platform/supabase'
-import { getCurrentUser } from '@/lib/platform/services/auth-service'
+import { NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/platform/supabase';
+import { getCurrentUser } from '@/lib/platform/services/auth-service';
 
 // POST /api/admin/notifications/templates - Create notification template
 export async function POST(request: NextRequest) {
   try {
-    const currentUser = await getCurrentUser()
+    const currentUser = await getCurrentUser();
     if (!currentUser) {
-      return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Check admin permissions
     if (currentUser.role !== 'admin') {
-      return NextResponse.json({ error: 'Admin access required' }, { status: 403 })
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
-    const templateData = await request.json() as any as any
-    
+    const templateData = (await request.json()) as any as any;
+
     // Validate required fields
     if (!templateData.name || !templateData.title || !templateData.message) {
-      return NextResponse.json({ error: 'Name, title, and message are required' }, { status: 400 })
+      return NextResponse.json({ error: 'Name, title, and message are required' }, { status: 400 });
     }
 
     const { data: template, error } = await supabase
@@ -30,20 +30,19 @@ export async function POST(request: NextRequest) {
         message: templateData.message,
         type: templateData.type || 'info',
         priority: templateData.priority || 'medium',
-        created_by: currentUser.id
+        created_by: currentUser.id,
       })
       .select()
-      .single()
+      .single();
 
     if (error) {
-      console.error('Error creating template:', error)
-      return NextResponse.json({ error: 'Failed to create template' }, { status: 500 })
+      console.error('Error creating template:', error);
+      return NextResponse.json({ error: 'Failed to create template' }, { status: 500 });
     }
 
-    return NextResponse.json({ template })
-
+    return NextResponse.json({ template });
   } catch (error) {
-    console.error('Error in POST /api/admin/notifications/templates:', error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    console.error('Error in POST /api/admin/notifications/templates:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

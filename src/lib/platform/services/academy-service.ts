@@ -68,7 +68,7 @@ export const academyService = {
       article_text: '',
       video_url: '',
       questions: [],
-      ...data
+      ...data,
     };
   },
   updateModule: async (id: string, data: Partial<Module>): Promise<Module> => {
@@ -85,7 +85,7 @@ export const academyService = {
       is_published: false,
       article_text: '',
       video_url: '',
-      questions: []
+      questions: [],
     };
   },
   updateLesson: async (id: string, data: Partial<Lesson>): Promise<Lesson> => {
@@ -99,7 +99,7 @@ export const academyService = {
       article_text: '',
       video_url: '',
       questions: [],
-      ...data
+      ...data,
     };
   },
 };

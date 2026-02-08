@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key';
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !supabaseServiceKey) {
+    return null;
+  }
+
+  return createClient(supabaseUrl, supabaseServiceKey);
+}
 
 /**
  * GET /api/email/verify?token=xxx
@@ -11,6 +18,17 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
  */
 export async function GET(request: NextRequest) {
   try {
+    const supabase = getSupabase();
+    if (!supabase) {
+      return new NextResponse(
+        `<html><body><h1>Verification unavailable</h1><p>Service configuration is missing.</p></body></html>`,
+        {
+          status: 500,
+          headers: { 'Content-Type': 'text/html' },
+        }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
@@ -19,7 +37,7 @@ export async function GET(request: NextRequest) {
         `<html><body><h1>Invalid verification link</h1><p>The verification token is missing.</p></body></html>`,
         {
           status: 400,
-          headers: { 'Content-Type': 'text/html' }
+          headers: { 'Content-Type': 'text/html' },
         }
       );
     }
@@ -36,7 +54,7 @@ export async function GET(request: NextRequest) {
         `<html><body><h1>Invalid verification link</h1><p>This verification link is invalid or has already been used.</p></body></html>`,
         {
           status: 400,
-          headers: { 'Content-Type': 'text/html' }
+          headers: { 'Content-Type': 'text/html' },
         }
       );
     }
@@ -48,16 +66,15 @@ export async function GET(request: NextRequest) {
         `<html><body><h1>Verification link expired</h1><p>This verification link has expired. Please request a new one.</p></body></html>`,
         {
           status: 400,
-          headers: { 'Content-Type': 'text/html' }
+          headers: { 'Content-Type': 'text/html' },
         }
       );
     }
 
     // Mark email as verified
-    const { error: updateError } = await supabase.auth.admin.updateUserById(
-      tokenData.user_id,
-      { email_confirm: true }
-    );
+    const { error: updateError } = await supabase.auth.admin.updateUserById(tokenData.user_id, {
+      email_confirm: true,
+    });
 
     if (updateError) {
       console.error('Failed to verify email:', updateError);
@@ -65,16 +82,13 @@ export async function GET(request: NextRequest) {
         `<html><body><h1>Verification failed</h1><p>An error occurred while verifying your email.</p></body></html>`,
         {
           status: 500,
-          headers: { 'Content-Type': 'text/html' }
+          headers: { 'Content-Type': 'text/html' },
         }
       );
     }
 
     // Delete used token
-    await supabase
-      .from('email_verification_tokens')
-      .delete()
-      .eq('token', token);
+    await supabase.from('email_verification_tokens').delete().eq('token', token);
 
     // Redirect to success page
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -85,9 +99,8 @@ export async function GET(request: NextRequest) {
       `<html><body><h1>Verification failed</h1><p>An unexpected error occurred.</p></body></html>`,
       {
         status: 500,
-        headers: { 'Content-Type': 'text/html' }
+        headers: { 'Content-Type': 'text/html' },
       }
     );
   }
 }
-

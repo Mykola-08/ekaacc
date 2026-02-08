@@ -66,7 +66,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
 
   const t = (key: string, params?: Record<string, string | number>): string => {
     // First check main translations, then extended translations
-    let text = (translations[language] as Record<string, string>)?.[key] ||
+    let text =
+      (translations[language] as Record<string, string>)?.[key] ||
       (servicesTranslations[language] as Record<string, string>)?.[key] ||
       (revision360Translations[language] as Record<string, string>)?.[key] ||
       (techniqueTranslations[language] as Record<string, string>)?.[key] ||
@@ -91,27 +92,26 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, [language]);
 
   return (
-    <LanguageContext.Provider value={{
-      language,
-      setLanguage,
-      t,
-      showLanguagePopup,
-      setShowLanguagePopup,
-      confirmLanguage,
-      languageConfirmed
-    }}>
+    <LanguageContext.Provider
+      value={{
+        language,
+        setLanguage,
+        t,
+        showLanguagePopup,
+        setShowLanguagePopup,
+        confirmLanguage,
+        languageConfirmed,
+      }}
+    >
       {children}
     </LanguageContext.Provider>
   );
 }
 
- 
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider');
   }
   return context;
-};
-
-
+}

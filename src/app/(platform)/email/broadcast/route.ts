@@ -10,8 +10,11 @@ async function verifyUserAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -22,7 +25,7 @@ async function verifyUserAccess(request: NextRequest) {
 /**
  * POST /api/email/broadcast
  * Send a broadcast email to a group of users
- * 
+ *
  * Body:
  * {
  *   subject: string;
@@ -35,12 +38,9 @@ async function verifyUserAccess(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const { error: authError, user } = await verifyUserAccess(request);
-    
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: authError || 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: authError || 'Unauthorized' }, { status: 401 });
     }
 
     // Check if user is admin
@@ -76,10 +76,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (groupError || !group) {
-      return NextResponse.json(
-        { error: 'Group not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
     // Send the broadcast
@@ -95,14 +92,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       sentCount: result.count,
-      groupName: group.name
+      groupName: group.name,
     });
   } catch (error) {
     console.error('Broadcast email error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-

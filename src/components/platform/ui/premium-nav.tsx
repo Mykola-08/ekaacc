@@ -1,8 +1,8 @@
-import * as React from 'react'
-import { cva, type VariantProps } from 'class-variance-authority'
-import { cn } from '@/lib/platform/utils/css-utils'
-import { ChevronDown, Menu, X, Search, User, Settings, LogOut, ExternalLink } from 'lucide-react'
-import Link from 'next/link'
+import * as React from 'react';
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/platform/utils/css-utils';
+import { ChevronDown, Menu, X, Search, User, Settings, LogOut, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 
 const premiumNavVariants = cva(
   'relative flex items-center justify-between transition-all duration-300',
@@ -38,7 +38,7 @@ const premiumNavVariants = cva(
       rounded: false,
     },
   }
-)
+);
 
 const premiumNavItemVariants = cva(
   'relative flex items-center gap-2 text-sm font-medium transition-all duration-200 cursor-pointer',
@@ -90,191 +90,190 @@ const premiumNavItemVariants = cva(
       },
     ],
   }
-)
+);
 
-const premiumNavLogoVariants = cva(
-  'flex items-center gap-3 transition-all duration-300',
-  {
-    variants: {
-      size: {
-        sm: 'text-lg',
-        md: 'text-xl',
-        lg: 'text-2xl',
-        xl: 'text-3xl',
-      },
-      variant: {
-        default: 'text-neutral-900',
-        glass: 'text-white',
-        minimal: 'text-neutral-900',
-        elevated: 'text-neutral-900',
-        dark: 'text-white',
-        gradient: 'text-primary-700',
-      },
+const premiumNavLogoVariants = cva('flex items-center gap-3 transition-all duration-300', {
+  variants: {
+    size: {
+      sm: 'text-lg',
+      md: 'text-xl',
+      lg: 'text-2xl',
+      xl: 'text-3xl',
     },
-    defaultVariants: {
-      size: 'md',
-      variant: 'default',
+    variant: {
+      default: 'text-neutral-900',
+      glass: 'text-white',
+      minimal: 'text-neutral-900',
+      elevated: 'text-neutral-900',
+      dark: 'text-white',
+      gradient: 'text-primary-700',
     },
-  }
-)
+  },
+  defaultVariants: {
+    size: 'md',
+    variant: 'default',
+  },
+});
 
 export interface PremiumNavProps
-  extends React.HTMLAttributes<HTMLElement>,
-    VariantProps<typeof premiumNavVariants> {
-  logo?: React.ReactNode
-  logoText?: string
-  items?: NavItem[]
-  rightItems?: NavItem[]
-  mobileBreakpoint?: 'sm' | 'md' | 'lg' | 'xl'
-  search?: boolean
-  userMenu?: boolean
-  transparent?: boolean
-  scrolled?: boolean
-  onSearch?: (query: string) => void
-  onLogoClick?: () => void
+  extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof premiumNavVariants> {
+  logo?: React.ReactNode;
+  logoText?: string;
+  items?: NavItem[];
+  rightItems?: NavItem[];
+  mobileBreakpoint?: 'sm' | 'md' | 'lg' | 'xl';
+  search?: boolean;
+  userMenu?: boolean;
+  transparent?: boolean;
+  scrolled?: boolean;
+  onSearch?: (query: string) => void;
+  onLogoClick?: () => void;
 }
 
 export interface NavItem {
-  label: string
-  href?: string
-  onClick?: () => void
-  icon?: React.ReactNode
-  dropdown?: NavItem[]
-  external?: boolean
-  badge?: string | number
-  active?: boolean
+  label: string;
+  href?: string;
+  onClick?: () => void;
+  icon?: React.ReactNode;
+  dropdown?: NavItem[];
+  external?: boolean;
+  badge?: string | number;
+  active?: boolean;
 }
 
 const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
-  ({ 
-    className, 
-    variant, 
-    size, 
-    sticky, 
-    rounded,
-    logo,
-    logoText = 'Premium',
-    items = [],
-    rightItems = [],
-    mobileBreakpoint = 'lg',
-    search = false,
-    userMenu = false,
-    transparent = false,
-    scrolled = false,
-    onSearch,
-    onLogoClick,
-    ...props 
-  }, ref) => {
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false)
-    const [isSearchOpen, setIsSearchOpen] = React.useState(false)
-    const [searchQuery, setSearchQuery] = React.useState('')
-    const [scrolledState, setScrolledState] = React.useState(scrolled)
-    const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null)
+  (
+    {
+      className,
+      variant,
+      size,
+      sticky,
+      rounded,
+      logo,
+      logoText = 'Premium',
+      items = [],
+      rightItems = [],
+      mobileBreakpoint = 'lg',
+      search = false,
+      userMenu = false,
+      transparent = false,
+      scrolled = false,
+      onSearch,
+      onLogoClick,
+      ...props
+    },
+    ref
+  ) => {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+    const [isSearchOpen, setIsSearchOpen] = React.useState(false);
+    const [searchQuery, setSearchQuery] = React.useState('');
+    const [scrolledState, setScrolledState] = React.useState(scrolled);
+    const [activeDropdown, setActiveDropdown] = React.useState<string | null>(null);
 
     // Handle scroll effects
     React.useEffect(() => {
       if (transparent) {
         const handleScroll = () => {
-          setScrolledState(window.scrollY > 20)
-        }
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
+          setScrolledState(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
       }
       return () => {}; // Empty cleanup function
-    }, [transparent])
+    }, [transparent]);
 
     const handleSearch = (e: React.FormEvent) => {
-      e.preventDefault()
-      onSearch?.(searchQuery)
-    }
+      e.preventDefault();
+      onSearch?.(searchQuery);
+    };
 
     const handleDropdownToggle = (label: string) => {
-      setActiveDropdown(activeDropdown === label ? null : label)
-    }
+      setActiveDropdown(activeDropdown === label ? null : label);
+    };
 
     // Mobile menu toggle
     const toggleMobileMenu = () => {
-      setIsMobileMenuOpen(!isMobileMenuOpen)
-    }
+      setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
 
     // Close mobile menu when clicking outside
     React.useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
         if (isMobileMenuOpen) {
-          setIsMobileMenuOpen(false)
+          setIsMobileMenuOpen(false);
         }
         if (activeDropdown) {
-          setActiveDropdown(null)
+          setActiveDropdown(null);
         }
-      }
-      document.addEventListener('click', handleClickOutside)
-      return () => document.removeEventListener('click', handleClickOutside)
-    }, [isMobileMenuOpen, activeDropdown])
+      };
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }, [isMobileMenuOpen, activeDropdown]);
 
     const mobileBreakpointClass = {
       sm: 'sm:hidden',
       md: 'md:hidden',
       lg: 'lg:hidden',
       xl: 'xl:hidden',
-    }[mobileBreakpoint]
+    }[mobileBreakpoint];
 
     const desktopBreakpointClass = {
       sm: 'hidden sm:flex',
       md: 'hidden md:flex',
       lg: 'hidden lg:flex',
       xl: 'hidden xl:flex',
-    }[mobileBreakpoint]
+    }[mobileBreakpoint];
 
     // Determine effective variant based on scroll state
-    const effectiveVariant = transparent && !scrolledState ? 'glass' : variant
-    
+    const effectiveVariant = transparent && !scrolledState ? 'glass' : variant;
+
     // Map main nav variants to item variants
     const getItemVariant = (mainVariant: string | null | undefined) => {
-      if (!mainVariant) return 'default'
+      if (!mainVariant) return 'default';
       switch (mainVariant) {
         case 'gradient':
         case 'elevated':
-          return 'primary'
+          return 'primary';
         case 'dark':
-          return 'minimal'
+          return 'minimal';
         default:
-          return 'default'
+          return 'default';
       }
-    }
+    };
 
     return (
       <nav
         ref={ref}
         className={cn(
-          premiumNavVariants({ 
-            variant: effectiveVariant, 
-            size, 
-            sticky, 
-            rounded: scrolledState || rounded 
+          premiumNavVariants({
+            variant: effectiveVariant,
+            size,
+            sticky,
+            rounded: scrolledState || rounded,
           }),
           transparent && scrolledState && 'bg-card/90 backdrop-blur-xl',
           className
         )}
         {...props}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
           {/* Logo */}
-          <div 
+          <div
             className={cn(
               premiumNavLogoVariants({ size, variant: effectiveVariant }),
-              "cursor-pointer select-none"
+              'cursor-pointer select-none'
             )}
             onClick={onLogoClick}
           >
             {logo || (
-              <span className="font-bold bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+              <span className="from-primary-600 to-secondary-600 bg-linear-to-r bg-clip-text font-bold text-transparent">
                 {logoText}
               </span>
             )}
           </div>
 
           {/* Desktop Navigation */}
-          <div className={cn(desktopBreakpointClass, "items-center gap-2")}>
+          <div className={cn(desktopBreakpointClass, 'items-center gap-2')}>
             {items.map((item) => (
               <PremiumNavItem
                 key={item.label}
@@ -287,19 +286,19 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
           </div>
 
           {/* Right Section */}
-          <div className={cn(desktopBreakpointClass, "items-center gap-2")}>
+          <div className={cn(desktopBreakpointClass, 'items-center gap-2')}>
             {search && (
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className={cn(
                   premiumNavItemVariants({ variant: getItemVariant(effectiveVariant) }),
-                  "p-2"
+                  'p-2'
                 )}
               >
-                <Search className="w-4 h-4" />
+                <Search className="h-4 w-4" />
               </button>
             )}
-            
+
             {rightItems.map((item) => (
               <PremiumNavItem
                 key={item.label}
@@ -319,42 +318,38 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
             className={cn(
               premiumNavItemVariants({ variant: getItemVariant(effectiveVariant) }),
               mobileBreakpointClass,
-              "p-2"
+              'p-2'
             )}
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
 
         {/* Search Bar */}
         {search && isSearchOpen && (
-          <div className={cn(desktopBreakpointClass, "mt-4")}>
-            <form onSubmit={handleSearch} className="relative max-w-md mx-auto">
+          <div className={cn(desktopBreakpointClass, 'mt-4')}>
+            <form onSubmit={handleSearch} className="relative mx-auto max-w-md">
               <input
                 type="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search..."
-                className="w-full px-4 py-2 pl-10 pr-4 rounded-full border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                className="focus:ring-primary-500/20 focus:border-primary-500 w-full rounded-full border border-neutral-200 px-4 py-2 pr-4 pl-10 focus:ring-2 focus:outline-none"
                 autoFocus
               />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+              <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
             </form>
           </div>
         )}
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className={cn(mobileBreakpointClass, "mt-4 pb-4 border-t border-inherit")}>
+          <div className={cn(mobileBreakpointClass, 'mt-4 border-t border-inherit pb-4')}>
             <div className="flex flex-col gap-2 pt-4">
               {items.map((item) => (
-                <MobileNavItem
-                  key={item.label}
-                  item={item}
-                  variant={effectiveVariant}
-                />
+                <MobileNavItem key={item.label} item={item} variant={effectiveVariant} />
               ))}
-              
+
               {search && (
                 <form onSubmit={handleSearch} className="relative mt-2">
                   <input
@@ -362,32 +357,28 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
-                    className="w-full px-4 py-2 pl-10 pr-4 rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary-500/20 focus:border-primary-500"
+                    className="focus:ring-primary-500/20 focus:border-primary-500 w-full rounded-lg border border-neutral-200 px-4 py-2 pr-4 pl-10 focus:ring-2 focus:outline-none"
                   />
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400" />
+                  <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                 </form>
               )}
 
               {rightItems.map((item) => (
-                <MobileNavItem
-                  key={item.label}
-                  item={item}
-                  variant={effectiveVariant}
-                />
+                <MobileNavItem key={item.label} item={item} variant={effectiveVariant} />
               ))}
 
               {userMenu && (
-                <div className="pt-4 border-t border-inherit">
+                <div className="border-t border-inherit pt-4">
                   <MobileNavItem
-                    item={{ label: 'Profile', icon: <User className="w-4 h-4" /> }}
+                    item={{ label: 'Profile', icon: <User className="h-4 w-4" /> }}
                     variant={effectiveVariant}
                   />
                   <MobileNavItem
-                    item={{ label: 'Settings', icon: <Settings className="w-4 h-4" /> }}
+                    item={{ label: 'Settings', icon: <Settings className="h-4 w-4" /> }}
                     variant={effectiveVariant}
                   />
                   <MobileNavItem
-                    item={{ label: 'Logout', icon: <LogOut className="w-4 h-4" /> }}
+                    item={{ label: 'Logout', icon: <LogOut className="h-4 w-4" /> }}
                     variant={effectiveVariant}
                   />
                 </div>
@@ -396,157 +387,138 @@ const PremiumNav = React.forwardRef<HTMLElement, PremiumNavProps>(
           </div>
         )}
       </nav>
-    )
+    );
   }
-)
+);
 
-PremiumNav.displayName = 'PremiumNav'
+PremiumNav.displayName = 'PremiumNav';
 
 // Sub-components
-const PremiumNavItem = ({ 
-  item, 
+const PremiumNavItem = ({
+  item,
   variant,
   active,
-  onDropdownToggle 
-}: { 
-  item: NavItem
-  variant: any
-  active?: boolean
-  onDropdownToggle?: () => void
+  onDropdownToggle,
+}: {
+  item: NavItem;
+  variant: any;
+  active?: boolean;
+  onDropdownToggle?: () => void;
 }) => {
-  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = React.useState(false);
 
   const handleClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
+    e.stopPropagation();
     if (item.dropdown) {
-      setIsDropdownOpen(!isDropdownOpen)
-      onDropdownToggle?.()
+      setIsDropdownOpen(!isDropdownOpen);
+      onDropdownToggle?.();
     } else {
-      item.onClick?.()
+      item.onClick?.();
     }
-  }
+  };
 
   const content = (
-    <div className={cn(
-      premiumNavItemVariants({ variant, active: active || item.active }),
-      "relative"
-    )}>
+    <div
+      className={cn(premiumNavItemVariants({ variant, active: active || item.active }), 'relative')}
+    >
       {item.icon && <span className="shrink-0">{item.icon}</span>}
       <span>{item.label}</span>
-      {item.dropdown && <ChevronDown className="w-3 h-3 transition-transform" />}
+      {item.dropdown && <ChevronDown className="h-3 w-3 transition-transform" />}
       {item.badge && (
-        <span className="px-1.5 py-0.5 text-xs font-medium bg-primary-100 text-primary-700 rounded-full">
+        <span className="bg-primary-100 text-primary-700 rounded-full px-1.5 py-0.5 text-xs font-medium">
           {item.badge}
         </span>
       )}
-      {item.external && <ExternalLink className="w-3 h-3" />}
+      {item.external && <ExternalLink className="h-3 w-3" />}
     </div>
-  )
+  );
 
   if (item.href && !item.dropdown) {
     return (
       <Link href={item.href} onClick={item.onClick}>
         {content}
       </Link>
-    )
+    );
   }
 
   return (
     <div className="relative">
-      <div onClick={handleClick}>
-        {content}
-      </div>
-      
+      <div onClick={handleClick}>{content}</div>
+
       {item.dropdown && isDropdownOpen && (
-        <div className="absolute top-full left-0 mt-1 w-48 bg-card rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+        <div className="bg-card absolute top-full left-0 z-50 mt-1 w-48 rounded-lg border border-neutral-200 py-1 shadow-lg">
           {item.dropdown.map((dropdownItem) => (
             <Link
               key={dropdownItem.label}
               href={dropdownItem.href || '#'}
               onClick={dropdownItem.onClick}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
             >
               {dropdownItem.icon && <span className="shrink-0">{dropdownItem.icon}</span>}
               <span>{dropdownItem.label}</span>
-              {dropdownItem.external && <ExternalLink className="w-3 h-3 ml-auto" />}
+              {dropdownItem.external && <ExternalLink className="ml-auto h-3 w-3" />}
             </Link>
           ))}
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-const MobileNavItem = ({ 
-  item, 
-  variant 
-}: { 
-  item: NavItem
-  variant: any
-}) => {
+const MobileNavItem = ({ item, variant }: { item: NavItem; variant: any }) => {
   const content = (
-    <div className={cn(
-      premiumNavItemVariants({ variant }),
-      "w-full"
-    )}>
+    <div className={cn(premiumNavItemVariants({ variant }), 'w-full')}>
       {item.icon && <span className="shrink-0">{item.icon}</span>}
       <span>{item.label}</span>
       {item.badge && (
-        <span className="px-1.5 py-0.5 text-xs font-medium bg-primary-100 text-primary-700 rounded-full ml-auto">
+        <span className="bg-primary-100 text-primary-700 ml-auto rounded-full px-1.5 py-0.5 text-xs font-medium">
           {item.badge}
         </span>
       )}
-      {item.external && <ExternalLink className="w-3 h-3 ml-auto" />}
+      {item.external && <ExternalLink className="ml-auto h-3 w-3" />}
     </div>
-  )
+  );
 
   if (item.href) {
     return (
       <Link href={item.href} onClick={item.onClick}>
         {content}
       </Link>
-    )
+    );
   }
 
-  return (
-    <div onClick={item.onClick}>
-      {content}
-    </div>
-  )
-}
+  return <div onClick={item.onClick}>{content}</div>;
+};
 
 const UserMenu = ({ variant }: { variant: any }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const menuItems = [
-    { label: 'Profile', icon: <User className="w-4 h-4" />, href: '/profile' },
-    { label: 'Settings', icon: <Settings className="w-4 h-4" />, href: '/settings' },
-    { label: 'Logout', icon: <LogOut className="w-4 h-4" />, onClick: () => console.log('Logout') },
-  ]
+    { label: 'Profile', icon: <User className="h-4 w-4" />, href: '/profile' },
+    { label: 'Settings', icon: <Settings className="h-4 w-4" />, href: '/settings' },
+    { label: 'Logout', icon: <LogOut className="h-4 w-4" />, onClick: () => console.log('Logout') },
+  ];
 
   return (
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          premiumNavItemVariants({ variant }),
-          "p-2"
-        )}
+        className={cn(premiumNavItemVariants({ variant }), 'p-2')}
       >
-        <User className="w-4 h-4" />
+        <User className="h-4 w-4" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-48 bg-card rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+        <div className="bg-card absolute top-full right-0 z-50 mt-1 w-48 rounded-lg border border-neutral-200 py-1 shadow-lg">
           {menuItems.map((item) => (
             <Link
               key={item.label}
               href={item.href || '#'}
               onClick={() => {
-                setIsOpen(false)
-                item.onClick?.()
+                setIsOpen(false);
+                item.onClick?.();
               }}
-              className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 text-sm text-neutral-700 transition-colors hover:bg-neutral-50"
             >
               {item.icon}
               <span>{item.label}</span>
@@ -555,7 +527,7 @@ const UserMenu = ({ variant }: { variant: any }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export { PremiumNav, premiumNavVariants, premiumNavItemVariants, premiumNavLogoVariants }
+export { PremiumNav, premiumNavVariants, premiumNavItemVariants, premiumNavLogoVariants };

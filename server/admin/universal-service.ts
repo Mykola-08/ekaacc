@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 
 /**
@@ -7,12 +6,13 @@ import { createClient } from '@/lib/supabase/server';
  * or check 'super_admin' role in every call.
  */
 export class AdminUniversalService {
-
   // CAUTION: This function should check for super_admin role strictly
   private async getAdminClient() {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     // Check role
     const { data: roleData } = await supabase
       .from('user_roles')
@@ -23,7 +23,7 @@ export class AdminUniversalService {
     if (roleData?.role !== 'super_admin' && roleData?.role !== 'admin') {
       throw new Error('Unauthorized');
     }
-    
+
     return supabase;
   }
 
@@ -37,13 +37,13 @@ export class AdminUniversalService {
     // Admin can cancel even if policy says no
     const { error } = await supabase
       .from('booking')
-      .update({ 
-        status: 'canceled', 
+      .update({
+        status: 'canceled',
         payment_status: 'refunded', // Trigger refund webhook logic
-        notes: `Admin Cancel: ${reason}` 
+        notes: `Admin Cancel: ${reason}`,
       })
       .eq('id', bookingId);
-      
+
     if (error) throw error;
   }
 
@@ -52,7 +52,7 @@ export class AdminUniversalService {
     // Direct SQL injection for points
     const { error } = await supabase.rpc('increment_points', {
       p_user_id: userId,
-      p_amount: pointsDelta
+      p_amount: pointsDelta,
     });
     return error;
   }

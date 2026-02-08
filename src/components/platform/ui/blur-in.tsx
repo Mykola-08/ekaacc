@@ -9,13 +9,7 @@ interface BlurInProps extends React.HTMLAttributes<HTMLDivElement> {
   duration?: number;
 }
 
-export function BlurIn({
-  children,
-  className,
-  delay = 0,
-  duration = 0.4,
-  ...props
-}: BlurInProps) {
+export function BlurIn({ children, className, delay = 0, duration = 0.4, ...props }: BlurInProps) {
   return (
     <div
       className={cn('animate-blur-in', className)}
@@ -29,4 +23,3 @@ export function BlurIn({
     </div>
   );
 }
-

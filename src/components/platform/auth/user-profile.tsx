@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { useSimpleAuth, useUserPreferences } from '@/hooks/platform/auth/use-simple-auth'
-import { Button } from '@/components/platform/ui/button'
-import { Badge } from '@/components/platform/ui/badge'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { useSimpleAuth, useUserPreferences } from '@/hooks/platform/auth/use-simple-auth';
+import { Button } from '@/components/platform/ui/button';
+import { Badge } from '@/components/platform/ui/badge';
 import {
   Form,
   FormControl,
@@ -14,29 +14,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/platform/ui/form'
-import { Input } from '@/components/platform/ui/input'
-import { Textarea } from '@/components/platform/ui/textarea'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'
-import { Switch } from '@/components/platform/ui/switch'
+} from '@/components/platform/ui/form';
+import { Input } from '@/components/platform/ui/input';
+import { Textarea } from '@/components/platform/ui/textarea';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+import { Switch } from '@/components/platform/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select'
-import { User, Mail, UserCircle, Settings, Bell, Palette, Globe } from 'lucide-react'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs'
+} from '@/components/platform/ui/select';
+import { User, Mail, UserCircle, Settings, Bell, Palette, Globe } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
 
 const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
-  username: z.string().min(3, 'Username must be at least 3 characters').regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores').optional(),
+  username: z
+    .string()
+    .min(3, 'Username must be at least 3 characters')
+    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores')
+    .optional(),
   bio: z.string().max(500, 'Bio must be less than 500 characters').optional(),
-})
+});
 
-type ProfileFormValues = z.infer<typeof profileSchema>
+type ProfileFormValues = z.infer<typeof profileSchema>;
 
 const preferencesSchema = z.object({
   theme: z.enum(['light', 'dark', 'system']),
@@ -44,17 +54,17 @@ const preferencesSchema = z.object({
   timezone: z.string().min(3, 'Timezone must be at least 3 characters'),
   emailNotifications: z.boolean(),
   pushNotifications: z.boolean(),
-})
+});
 
-type PreferencesFormValues = z.infer<typeof preferencesSchema>
+type PreferencesFormValues = z.infer<typeof preferencesSchema>;
 
 interface UserProfileProps {
-  className?: string
+  className?: string;
 }
 
 export function UserProfile({ className }: UserProfileProps) {
-  const { user, updateProfile, isLoading } = useSimpleAuth()
-  const { preferences, updatePreferences } = useUserPreferences()
+  const { user, updateProfile, isLoading } = useSimpleAuth();
+  const { preferences, updatePreferences } = useUserPreferences();
 
   const profileForm = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -63,7 +73,7 @@ export function UserProfile({ className }: UserProfileProps) {
       username: user?.profile?.username || '',
       bio: user?.profile?.bio || '',
     },
-  })
+  });
 
   const preferencesForm = useForm<PreferencesFormValues>({
     resolver: zodResolver(preferencesSchema),
@@ -74,21 +84,21 @@ export function UserProfile({ className }: UserProfileProps) {
       emailNotifications: preferences?.email_notifications || true,
       pushNotifications: preferences?.push_notifications || false,
     },
-  })
+  });
 
   async function onProfileSubmit(values: ProfileFormValues) {
     const { error } = await updateProfile({
       full_name: values.fullName,
       username: values.username,
       bio: values.bio,
-    })
+    });
 
     if (error) {
       profileForm.setError('root', {
         message: error.message,
-      })
+      });
     } else {
-      profileForm.reset(values)
+      profileForm.reset(values);
     }
   }
 
@@ -99,14 +109,14 @@ export function UserProfile({ className }: UserProfileProps) {
       timezone: values.timezone,
       email_notifications: values.emailNotifications,
       push_notifications: values.pushNotifications,
-    })
+    });
 
     if (error) {
       preferencesForm.setError('root', {
         message: error.message,
-      })
+      });
     } else {
-      preferencesForm.reset(values)
+      preferencesForm.reset(values);
     }
   }
 
@@ -118,7 +128,7 @@ export function UserProfile({ className }: UserProfileProps) {
           <CardDescription>Please sign in to view your profile</CardDescription>
         </CardHeader>
       </Card>
-    )
+    );
   }
 
   return (
@@ -148,7 +158,7 @@ export function UserProfile({ className }: UserProfileProps) {
           </TabsList>
 
           <TabsContent value="profile" className="space-y-4">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="mb-6 flex items-center gap-4">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={user.profile?.avatar_url || undefined} />
                 <AvatarFallback>
@@ -156,9 +166,13 @@ export function UserProfile({ className }: UserProfileProps) {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="text-lg font-semibold">{user.profile?.full_name || 'Unknown User'}</h3>
-                <p className="text-sm text-muted-foreground">{user.email}</p>
-                <Badge variant="outline" className="mt-1">{user.role?.name}</Badge>
+                <h3 className="text-lg font-semibold">
+                  {user.profile?.full_name || 'Unknown User'}
+                </h3>
+                <p className="text-muted-foreground text-sm">{user.email}</p>
+                <Badge variant="outline" className="mt-1">
+                  {user.role?.name}
+                </Badge>
               </div>
             </div>
 
@@ -201,7 +215,7 @@ export function UserProfile({ className }: UserProfileProps) {
                     <FormItem>
                       <FormLabel>Bio</FormLabel>
                       <FormControl>
-                        <Textarea 
+                        <Textarea
                           placeholder="Tell us about yourself"
                           className="resize-none"
                           rows={4}
@@ -227,7 +241,10 @@ export function UserProfile({ className }: UserProfileProps) {
 
           <TabsContent value="preferences" className="space-y-4">
             <Form {...preferencesForm}>
-              <form onSubmit={preferencesForm.handleSubmit(onPreferencesSubmit)} className="space-y-4">
+              <form
+                onSubmit={preferencesForm.handleSubmit(onPreferencesSubmit)}
+                className="space-y-4"
+              >
                 <FormField
                   control={preferencesForm.control}
                   name="theme"
@@ -301,26 +318,24 @@ export function UserProfile({ className }: UserProfileProps) {
 
           <TabsContent value="notifications" className="space-y-4">
             <Form {...preferencesForm}>
-              <form onSubmit={preferencesForm.handleSubmit(onPreferencesSubmit)} className="space-y-4">
+              <form
+                onSubmit={preferencesForm.handleSubmit(onPreferencesSubmit)}
+                className="space-y-4"
+              >
                 <FormField
                   control={preferencesForm.control}
                   name="emailNotifications"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base flex items-center gap-2">
+                        <FormLabel className="flex items-center gap-2 text-base">
                           <Mail className="h-4 w-4" />
                           Email Notifications
                         </FormLabel>
-                        <FormDescription>
-                          Receive notifications via email
-                        </FormDescription>
+                        <FormDescription>Receive notifications via email</FormDescription>
                       </div>
                       <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -332,7 +347,7 @@ export function UserProfile({ className }: UserProfileProps) {
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
-                        <FormLabel className="text-base flex items-center gap-2">
+                        <FormLabel className="flex items-center gap-2 text-base">
                           <Bell className="h-4 w-4" />
                           Push Notifications
                         </FormLabel>
@@ -341,10 +356,7 @@ export function UserProfile({ className }: UserProfileProps) {
                         </FormDescription>
                       </div>
                       <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -363,5 +375,5 @@ export function UserProfile({ className }: UserProfileProps) {
         </Tabs>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -1,28 +1,28 @@
-'use client'
+'use client';
 
 /**
  * Quick Actions Toolbar for Therapists
  * Provides fast access to common therapist actions during sessions
  */
 
-import React, { useState } from 'react'
-import { 
-  FileText, 
-  Calendar, 
-  Clock, 
-  Bell, 
+import React, { useState } from 'react';
+import {
+  FileText,
+  Calendar,
+  Clock,
+  Bell,
   Check,
   AlertCircle,
   Sparkles,
-  Archive
-} from 'lucide-react'
-import { Button } from '@/components/platform/ui/button'
+  Archive,
+} from 'lucide-react';
+import { Button } from '@/components/platform/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/platform/ui/tooltip'
+} from '@/components/platform/ui/tooltip';
 import {
   Dialog,
   DialogContent,
@@ -30,74 +30,74 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/platform/ui/dialog'
-import { Textarea } from '@/components/platform/ui/textarea'
-import { Label } from '@/components/platform/ui/label'
-import { Input } from '@/components/platform/ui/input'
-import { toast } from 'sonner'
+} from '@/components/platform/ui/dialog';
+import { Textarea } from '@/components/platform/ui/textarea';
+import { Label } from '@/components/platform/ui/label';
+import { Input } from '@/components/platform/ui/input';
+import { toast } from 'sonner';
 
 interface QuickActionsToolbarProps {
-  userId?: string
-  sessionId?: string
-  onAction?: (action: string, data?: any) => void
+  userId?: string;
+  sessionId?: string;
+  onAction?: (action: string, data?: any) => void;
 }
 
 export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickActionsToolbarProps) {
-  const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false)
-  const [isReminderDialogOpen, setIsReminderDialogOpen] = useState(false)
-  const [note, setNote] = useState('')
-  const [reminder, setReminder] = useState('')
-  const [reminderDate, setReminderDate] = useState('')
+  const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false);
+  const [isReminderDialogOpen, setIsReminderDialogOpen] = useState(false);
+  const [note, setNote] = useState('');
+  const [reminder, setReminder] = useState('');
+  const [reminderDate, setReminderDate] = useState('');
 
   const handleQuickNote = () => {
     if (!note.trim()) {
-      toast.error('Please enter a note')
-      return
+      toast.error('Please enter a note');
+      return;
     }
-    
-    onAction?.('quick-note', { note, userId, sessionId, timestamp: new Date().toISOString() })
-    toast.success('Quick note saved')
-    setNote('')
-    setIsNoteDialogOpen(false)
-  }
+
+    onAction?.('quick-note', { note, userId, sessionId, timestamp: new Date().toISOString() });
+    toast.success('Quick note saved');
+    setNote('');
+    setIsNoteDialogOpen(false);
+  };
 
   const handleSetReminder = () => {
     if (!reminder.trim() || !reminderDate) {
-      toast.error('Please fill in all fields')
-      return
+      toast.error('Please fill in all fields');
+      return;
     }
-    
-    onAction?.('set-reminder', { reminder, date: reminderDate, userId, sessionId })
-    toast.success('Reminder set successfully')
-    setReminder('')
-    setReminderDate('')
-    setIsReminderDialogOpen(false)
-  }
+
+    onAction?.('set-reminder', { reminder, date: reminderDate, userId, sessionId });
+    toast.success('Reminder set successfully');
+    setReminder('');
+    setReminderDate('');
+    setIsReminderDialogOpen(false);
+  };
 
   const handleGenerateReport = () => {
-    onAction?.('generate-report', { userId, sessionId })
-    toast.success('Generating AI-powered session report...')
-  }
+    onAction?.('generate-report', { userId, sessionId });
+    toast.success('Generating AI-powered session report...');
+  };
 
   const handleScheduleFollowUp = () => {
-    onAction?.('schedule-followup', { userId, sessionId })
-    toast.success('Opening follow-up scheduler...')
-  }
+    onAction?.('schedule-followup', { userId, sessionId });
+    toast.success('Opening follow-up scheduler...');
+  };
 
   const handleEndSession = () => {
-    onAction?.('end-session', { userId, sessionId, endTime: new Date().toISOString() })
-    toast.success('Session marked as complete')
-  }
+    onAction?.('end-session', { userId, sessionId, endTime: new Date().toISOString() });
+    toast.success('Session marked as complete');
+  };
 
   const handleFlagConcern = () => {
-    onAction?.('flag-concern', { userId, sessionId, flaggedAt: new Date().toISOString() })
-    toast.warning('Session flagged for review')
-  }
+    onAction?.('flag-concern', { userId, sessionId, flaggedAt: new Date().toISOString() });
+    toast.warning('Session flagged for review');
+  };
 
   const handleArchiveSession = () => {
-    onAction?.('archive-session', { userId, sessionId })
-    toast.success('Session archived')
-  }
+    onAction?.('archive-session', { userId, sessionId });
+    toast.success('Session archived');
+  };
 
   const actions = [
     {
@@ -156,11 +156,11 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
       color: 'text-muted-foreground',
       onClick: handleArchiveSession,
     },
-  ]
+  ];
 
   return (
-    <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-      <div className="bg-background border rounded-lg shadow-lg p-2 flex items-center gap-2">
+    <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transform">
+      <div className="bg-background flex items-center gap-2 rounded-lg border p-2 shadow-lg">
         <TooltipProvider>
           {actions.map((action) => {
             if (action.id === 'quick-note') {
@@ -176,7 +176,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="font-medium">{action.label}</p>
-                      <p className="text-xs text-muted-foreground">{action.description}</p>
+                      <p className="text-muted-foreground text-xs">{action.description}</p>
                     </TooltipContent>
                   </Tooltip>
                   <DialogContent>
@@ -202,19 +202,21 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
                         <Button variant="outline" onClick={() => setIsNoteDialogOpen(false)}>
                           Cancel
                         </Button>
-                        <Button onClick={handleQuickNote}>
-                          Save Note
-                        </Button>
+                        <Button onClick={handleQuickNote}>Save Note</Button>
                       </div>
                     </div>
                   </DialogContent>
                 </Dialog>
-              )
+              );
             }
 
             if (action.id === 'set-reminder') {
               return (
-                <Dialog key={action.id} open={isReminderDialogOpen} onOpenChange={setIsReminderDialogOpen}>
+                <Dialog
+                  key={action.id}
+                  open={isReminderDialogOpen}
+                  onOpenChange={setIsReminderDialogOpen}
+                >
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <DialogTrigger asChild>
@@ -225,7 +227,7 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className="font-medium">{action.label}</p>
-                      <p className="text-xs text-muted-foreground">{action.description}</p>
+                      <p className="text-muted-foreground text-xs">{action.description}</p>
                     </TooltipContent>
                   </Tooltip>
                   <DialogContent>
@@ -260,14 +262,12 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
                         <Button variant="outline" onClick={() => setIsReminderDialogOpen(false)}>
                           Cancel
                         </Button>
-                        <Button onClick={handleSetReminder}>
-                          Set Reminder
-                        </Button>
+                        <Button onClick={handleSetReminder}>Set Reminder</Button>
                       </div>
                     </div>
                   </DialogContent>
                 </Dialog>
-              )
+              );
             }
 
             return (
@@ -284,19 +284,18 @@ export function QuickActionsToolbar({ userId, sessionId, onAction }: QuickAction
                 </TooltipTrigger>
                 <TooltipContent>
                   <p className="font-medium">{action.label}</p>
-                  <p className="text-xs text-muted-foreground">{action.description}</p>
+                  <p className="text-muted-foreground text-xs">{action.description}</p>
                 </TooltipContent>
               </Tooltip>
-            )
+            );
           })}
         </TooltipProvider>
       </div>
-      
+
       {/* Keyboard shortcuts hint */}
-      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-xs text-muted-foreground whitespace-nowrap">
-        Press <kbd className="px-1 py-0.5 bg-muted rounded">Ctrl+Q</kbd> for quick actions
+      <div className="text-muted-foreground absolute -bottom-8 left-1/2 -translate-x-1/2 transform text-xs whitespace-nowrap">
+        Press <kbd className="bg-muted rounded px-1 py-0.5">Ctrl+Q</kbd> for quick actions
       </div>
     </div>
-  )
+  );
 }
-

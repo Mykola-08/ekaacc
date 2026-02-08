@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from '@/components/platform/ui/table';
 import { Badge } from '@/components/platform/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/platform/ui/card';
@@ -24,8 +24,10 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
   if (loading) {
     return (
       <Card>
-        <CardHeader><CardTitle>Transaction History</CardTitle></CardHeader>
-        <CardContent className="h-32 flex items-center justify-center text-muted-foreground">
+        <CardHeader>
+          <CardTitle>Transaction History</CardTitle>
+        </CardHeader>
+        <CardContent className="text-muted-foreground flex h-32 items-center justify-center">
           Loading history...
         </CardContent>
       </Card>
@@ -34,9 +36,11 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
 
   const getTypeIcon = (type: string, amount: number) => {
     if (type === 'plan_credit') return <Clock className="h-4 w-4 text-blue-500" />;
-    return amount > 0 
-      ? <ArrowDownLeft className="h-4 w-4 text-green-500" />
-      : <ArrowUpRight className="h-4 w-4 text-red-500" />;
+    return amount > 0 ? (
+      <ArrowDownLeft className="h-4 w-4 text-green-500" />
+    ) : (
+      <ArrowUpRight className="h-4 w-4 text-red-500" />
+    );
   };
 
   const formatAmount = (type: string, amount: number) => {
@@ -53,7 +57,7 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
       </CardHeader>
       <CardContent>
         {transactions.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-4">No transactions found</p>
+          <p className="text-muted-foreground py-4 text-center text-sm">No transactions found</p>
         ) : (
           <div className="rounded-md border">
             <Table>
@@ -70,15 +74,17 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
                   <TableRow key={tx.id}>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                         {getTypeIcon(tx.type, tx.amount)}
-                         <span className="capitalize text-xs">{tx.type.replace('_', ' ')}</span>
+                        {getTypeIcon(tx.type, tx.amount)}
+                        <span className="text-xs capitalize">{tx.type.replace('_', ' ')}</span>
                       </div>
                     </TableCell>
                     <TableCell>{tx.description}</TableCell>
-                    <TableCell className="text-xs text-muted-foreground">
+                    <TableCell className="text-muted-foreground text-xs">
                       {format(new Date(tx.created_at), 'MMM d, HH:mm')}
                     </TableCell>
-                    <TableCell className={`text-right font-medium ${tx.amount > 0 ? 'text-green-600' : 'text-muted-foreground'}`}>
+                    <TableCell
+                      className={`text-right font-medium ${tx.amount > 0 ? 'text-green-600' : 'text-muted-foreground'}`}
+                    >
                       {formatAmount(tx.type, tx.amount)}
                     </TableCell>
                   </TableRow>
@@ -91,4 +97,3 @@ export function WalletHistory({ transactions, loading }: WalletHistoryProps) {
     </Card>
   );
 }
-

@@ -16,7 +16,7 @@ export class SupabaseIntegration extends BaseIntegration {
 
   async checkConnection(): Promise<boolean> {
     if (!this.config.url || !this.config.serviceKey) return false;
-    
+
     try {
       // Validate URL
       const url = new URL(this.config.url);
@@ -39,4 +39,3 @@ export class SupabaseIntegration extends BaseIntegration {
     };
   }
 }
-

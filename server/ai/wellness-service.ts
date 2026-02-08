@@ -65,15 +65,39 @@ export interface DailyCheckIn {
 
 // Predefined options for UI
 export const EMOTIONS = [
-  'happy', 'calm', 'grateful', 'hopeful', 'confident',
-  'anxious', 'sad', 'frustrated', 'overwhelmed', 'tired',
-  'angry', 'lonely', 'confused', 'motivated', 'peaceful'
+  'happy',
+  'calm',
+  'grateful',
+  'hopeful',
+  'confident',
+  'anxious',
+  'sad',
+  'frustrated',
+  'overwhelmed',
+  'tired',
+  'angry',
+  'lonely',
+  'confused',
+  'motivated',
+  'peaceful',
 ] as const;
 
 export const ACTIVITIES = [
-  'exercise', 'meditation', 'therapy', 'socializing', 'work',
-  'hobby', 'rest', 'outdoors', 'creative', 'learning',
-  'family', 'self-care', 'travel', 'volunteering', 'reading'
+  'exercise',
+  'meditation',
+  'therapy',
+  'socializing',
+  'work',
+  'hobby',
+  'rest',
+  'outdoors',
+  'creative',
+  'learning',
+  'family',
+  'self-care',
+  'travel',
+  'volunteering',
+  'reading',
 ] as const;
 
 /**
@@ -101,7 +125,7 @@ export async function createMoodEntry(
         data.notes || null,
         data.activities || [],
         data.emotions || [],
-        { source: 'app', timestamp: new Date().toISOString() }
+        { source: 'app', timestamp: new Date().toISOString() },
       ]
     );
 
@@ -125,10 +149,7 @@ export async function createMoodEntry(
 /**
  * Get recent mood entries for a user
  */
-export async function getMoodEntries(
-  userId: string,
-  days: number = 30
-): Promise<MoodEntry[]> {
+export async function getMoodEntries(userId: string, days: number = 30): Promise<MoodEntry[]> {
   try {
     const { rows } = await db.query<MoodEntry>(
       `SELECT id, user_id as "userId", mood, energy, stress,
@@ -162,7 +183,7 @@ export async function getTodaysMoodEntry(userId: string): Promise<MoodEntry | nu
       [userId]
     );
   } catch (error) {
-    console.error('Error fetching today\'s entry:', error);
+    console.error("Error fetching today's entry:", error);
     return null;
   }
 }
@@ -177,7 +198,7 @@ export async function getWellnessSummary(
   const intervalMap = {
     day: '1 day',
     week: '7 days',
-    month: '30 days'
+    month: '30 days',
   };
 
   try {
@@ -267,7 +288,7 @@ export async function getWellnessSummary(
       mild: 0,
       moderate: 0,
       high: 0,
-      severe: 0
+      severe: 0,
     };
     for (const s of stressStats.rows) {
       stressDistribution[s.stress] = Number(s.count);
@@ -277,12 +298,18 @@ export async function getWellnessSummary(
       period,
       averageMood: Math.round((stats?.avg_mood || 5) * 10) / 10,
       moodTrend: trend,
-      commonEmotions: emotionStats.rows.map(e => ({ emotion: e.emotion, count: Number(e.count) })),
-      commonActivities: activityStats.rows.map(a => ({ activity: a.activity, count: Number(a.count) })),
+      commonEmotions: emotionStats.rows.map((e) => ({
+        emotion: e.emotion,
+        count: Number(e.count),
+      })),
+      commonActivities: activityStats.rows.map((a) => ({
+        activity: a.activity,
+        count: Number(a.count),
+      })),
       averageSleep: Math.round((stats?.avg_sleep || 7) * 10) / 10,
       stressDistribution,
       totalEntries: Number(stats?.total || 0),
-      streakDays: Number(streakResult?.streak || 0)
+      streakDays: Number(streakResult?.streak || 0),
     };
   } catch (error) {
     console.error('Error calculating wellness summary:', error);
@@ -295,7 +322,7 @@ export async function getWellnessSummary(
       averageSleep: 7,
       stressDistribution: { minimal: 0, mild: 0, moderate: 0, high: 0, severe: 0 },
       totalEntries: 0,
-      streakDays: 0
+      streakDays: 0,
     };
   }
 }
@@ -409,10 +436,10 @@ export async function getMoodChartData(
        ORDER BY date ASC`,
       [userId]
     );
-    return rows.map(r => ({
+    return rows.map((r) => ({
       date: r.date,
       mood: Math.round(Number(r.mood) * 10) / 10,
-      stress: Math.round(Number(r.stress) * 10) / 10
+      stress: Math.round(Number(r.stress) * 10) / 10,
     }));
   } catch (error) {
     console.error('Error fetching chart data:', error);
@@ -425,8 +452,15 @@ export async function getMoodChartData(
  */
 export async function generateWellnessRecommendations(
   userId: string
-): Promise<{ type: string; title: string; description: string; priority: 'low' | 'medium' | 'high' }[]> {
-  const recommendations: { type: string; title: string; description: string; priority: 'low' | 'medium' | 'high' }[] = [];
+): Promise<
+  { type: string; title: string; description: string; priority: 'low' | 'medium' | 'high' }[]
+> {
+  const recommendations: {
+    type: string;
+    title: string;
+    description: string;
+    priority: 'low' | 'medium' | 'high';
+  }[] = [];
 
   try {
     const summary = await getWellnessSummary(userId, 'week');
@@ -437,8 +471,9 @@ export async function generateWellnessRecommendations(
       recommendations.push({
         type: 'check_in',
         title: 'Daily Check-In',
-        description: "You haven't logged your mood today. A quick check-in helps track your wellness journey.",
-        priority: 'medium'
+        description:
+          "You haven't logged your mood today. A quick check-in helps track your wellness journey.",
+        priority: 'medium',
       });
     }
 
@@ -448,18 +483,20 @@ export async function generateWellnessRecommendations(
         type: 'therapy',
         title: 'Consider Talking to Someone',
         description: 'Your mood has been lower than usual. Speaking with a therapist might help.',
-        priority: 'high'
+        priority: 'high',
       });
     }
 
     // High stress recommendations
-    const highStressCount = (summary.stressDistribution.high || 0) + (summary.stressDistribution.severe || 0);
+    const highStressCount =
+      (summary.stressDistribution.high || 0) + (summary.stressDistribution.severe || 0);
     if (highStressCount > summary.totalEntries / 2) {
       recommendations.push({
         type: 'relaxation',
         title: 'Stress Relief Techniques',
-        description: 'You\'ve been experiencing high stress. Try guided breathing or meditation exercises.',
-        priority: 'high'
+        description:
+          "You've been experiencing high stress. Try guided breathing or meditation exercises.",
+        priority: 'high',
       });
     }
 
@@ -468,8 +505,9 @@ export async function generateWellnessRecommendations(
       recommendations.push({
         type: 'sleep',
         title: 'Improve Sleep Habits',
-        description: 'You\'re averaging less than 6 hours of sleep. Consider adjusting your sleep routine.',
-        priority: 'medium'
+        description:
+          "You're averaging less than 6 hours of sleep. Consider adjusting your sleep routine.",
+        priority: 'medium',
       });
     }
 
@@ -479,7 +517,7 @@ export async function generateWellnessRecommendations(
         type: 'celebration',
         title: 'Great Consistency!',
         description: `You've checked in ${summary.streakDays} days in a row. Keep up the amazing work!`,
-        priority: 'low'
+        priority: 'low',
       });
     }
 
@@ -488,15 +526,15 @@ export async function generateWellnessRecommendations(
       recommendations.push({
         type: 'progress',
         title: 'Positive Trend',
-        description: 'Your mood has been improving! Whatever you\'re doing, it\'s working.',
-        priority: 'low'
+        description: "Your mood has been improving! Whatever you're doing, it's working.",
+        priority: 'low',
       });
     } else if (summary.moodTrend === 'declining') {
       recommendations.push({
         type: 'support',
-        title: 'We\'re Here for You',
-        description: 'Your mood has been trending down. Don\'t hesitate to reach out for support.',
-        priority: 'high'
+        title: "We're Here for You",
+        description: "Your mood has been trending down. Don't hesitate to reach out for support.",
+        priority: 'high',
       });
     }
 

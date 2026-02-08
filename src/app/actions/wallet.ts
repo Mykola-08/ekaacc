@@ -7,7 +7,9 @@ import { revalidatePath } from 'next/cache';
 
 export async function getWalletBalanceAction() {
   const supabase = await createClient();
-  const { data: { user } } = await (supabase.auth as any).getUser();
+  const {
+    data: { user },
+  } = await (supabase.auth as any).getUser();
 
   if (!user) {
     return { error: 'Unauthorized' };
@@ -23,7 +25,9 @@ export async function getWalletBalanceAction() {
 
 export async function createWalletTopUpIntentAction(amount: number) {
   const supabase = await createClient();
-  const { data: { user } } = await (supabase.auth as any).getUser();
+  const {
+    data: { user },
+  } = await (supabase.auth as any).getUser();
 
   if (!user) {
     return { error: 'Unauthorized' };
@@ -49,13 +53,15 @@ export type Transaction = {
 
 export async function getClientTransactions() {
   const supabase = await createClient(); // Use custom client wrapper here to match file context
-  const { data: { user } } = await (supabase.auth as any).getUser();
+  const {
+    data: { user },
+  } = await (supabase.auth as any).getUser();
 
   if (!user) throw new Error('Not authenticated');
 
   const { data, error } = await supabase.rpc('get_client_transactions', {
     p_user_id: user.id,
-    p_limit: 50
+    p_limit: 50,
   });
 
   if (error) {
@@ -65,4 +71,3 @@ export async function getClientTransactions() {
 
   return data as Transaction[];
 }
-

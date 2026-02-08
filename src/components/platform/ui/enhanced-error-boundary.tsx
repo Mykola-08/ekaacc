@@ -5,7 +5,14 @@ import { ErrorBoundary } from '@/components/platform/providers/error-boundary';
 import { logger } from '@/lib/platform/services/logging';
 import { errorHandler, AppError, ErrorContext } from '@/lib/platform/utils/error-handling';
 import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 import { AlertTriangle, RefreshCw, Home, Bug, Mail } from 'lucide-react';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { SurfacePanel } from '@/components/platform/eka/surface-panel';
@@ -39,7 +46,10 @@ interface EnhancedErrorBoundaryState {
 /**
  * Enhanced Error Boundary with advanced error handling and user feedback
  */
-export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps, EnhancedErrorBoundaryState> {
+export class EnhancedErrorBoundary extends Component<
+  EnhancedErrorBoundaryProps,
+  EnhancedErrorBoundaryState
+> {
   private resetKeys: Array<string | number> = [];
 
   constructor(props: EnhancedErrorBoundaryProps) {
@@ -179,68 +189,66 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
     return (
       <PageContainer>
         <SurfacePanel className="flex items-center justify-center p-4">
-          <Card className={cn("max-w-2xl w-full", this.props.className)} role="alert">
+          <Card className={cn('w-full max-w-2xl', this.props.className)} role="alert">
             <CardHeader>
-              <div className="flex items-center gap-2 text-destructive mb-4">
+              <div className="text-destructive mb-4 flex items-center gap-2">
                 <AlertTriangle className="h-6 w-6" />
-                <h1 className="text-2xl font-semibold leading-none tracking-tight">Something went wrong</h1>
+                <h1 className="text-2xl leading-none font-semibold tracking-tight">
+                  Something went wrong
+                </h1>
               </div>
               <CardDescription>
-                We apologize for the inconvenience. This error has been automatically reported to our team.
+                We apologize for the inconvenience. This error has been automatically reported to
+                our team.
               </CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-4">
               {process.env.NODE_ENV === 'development' && error && (
-                <div className="rounded-lg bg-muted p-4 text-sm">
-                  <p className="font-semibold text-destructive mb-2">Error Details:</p>
-                  <pre className="whitespace-pre-wrap text-xs overflow-auto max-h-40">
+                <div className="bg-muted rounded-lg p-4 text-sm">
+                  <p className="text-destructive mb-2 font-semibold">Error Details:</p>
+                  <pre className="max-h-40 overflow-auto text-xs whitespace-pre-wrap">
                     {error.toString()}
                   </pre>
                   {this.state.errorInfo && (
-                    <pre className="whitespace-pre-wrap text-xs overflow-auto max-h-40 mt-2 text-muted-foreground">
+                    <pre className="text-muted-foreground mt-2 max-h-40 overflow-auto text-xs whitespace-pre-wrap">
                       {this.state.errorInfo.componentStack}
                     </pre>
                   )}
                 </div>
               )}
 
-              <div className="text-sm text-muted-foreground">
+              <div className="text-muted-foreground text-sm">
                 <p>
-                  <strong>Error Reference:</strong> <code className="bg-muted px-1 py-0.5 rounded text-xs">{errorId}</code>
+                  <strong>Error Reference:</strong>{' '}
+                  <code className="bg-muted rounded px-1 py-0.5 text-xs">{errorId}</code>
                 </p>
-                <p className="mt-2">
-                  Please include this reference code when contacting support.
-                </p>
+                <p className="mt-2">Please include this reference code when contacting support.</p>
               </div>
 
               {this.props.showErrorReport && (
                 <div className="space-y-4">
                   {!showFeedbackForm ? (
-                    <Button
-                      onClick={this.handleReportBug}
-                      variant="outline"
-                      className="w-full"
-                    >
+                    <Button onClick={this.handleReportBug} variant="outline" className="w-full">
                       <Bug className="mr-2 h-4 w-4" />
                       Report this issue
                     </Button>
                   ) : (
                     <div className="space-y-4">
                       {this.state.feedbackError && (
-                        <div className="text-sm text-destructive font-medium">
+                        <div className="text-destructive text-sm font-medium">
                           {this.state.feedbackError}
                         </div>
                       )}
                       <div>
-                        <label htmlFor="feedback" className="block text-sm font-medium mb-2">
+                        <label htmlFor="feedback" className="mb-2 block text-sm font-medium">
                           What were you trying to do when this error occurred?
                         </label>
                         <textarea
                           id="feedback"
                           value={userFeedback}
                           onChange={(e) => this.setState({ userFeedback: e.target.value })}
-                          className="w-full min-h-25 p-3 border-none bg-secondary/50 rounded-xl resize-none"
+                          className="bg-secondary/50 min-h-25 w-full resize-none rounded-xl border-none p-3"
                           placeholder="Please describe what happened..."
                         />
                       </div>
@@ -254,7 +262,9 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
                           Submit Feedback
                         </Button>
                         <Button
-                          onClick={() => this.setState({ showFeedbackForm: false, userFeedback: '' })}
+                          onClick={() =>
+                            this.setState({ showFeedbackForm: false, userFeedback: '' })
+                          }
                           variant="outline"
                           className="flex-1"
                         >
@@ -267,8 +277,13 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
               )}
             </CardContent>
 
-            <CardFooter className="flex gap-2 flex-wrap">
-              <Button onClick={this.handleReset} variant="default" className="flex-1 sm:flex-none" autoFocus>
+            <CardFooter className="flex flex-wrap gap-2">
+              <Button
+                onClick={this.handleReset}
+                variant="default"
+                className="flex-1 sm:flex-none"
+                autoFocus
+              >
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Try Again
               </Button>
@@ -303,8 +318,8 @@ export class EnhancedErrorBoundary extends Component<EnhancedErrorBoundaryProps,
 /**
  * Safe Component wrapper with enhanced error boundary
  */
-export function SafeEnhancedComponent({ 
-  children, 
+export function SafeEnhancedComponent({
+  children,
   fallback,
   fallbackComponent,
   onError,
@@ -331,11 +346,11 @@ export function SafeEnhancedComponent({
 /**
  * Error boundary for specific sections of the app
  */
-export function SectionErrorBoundary({ 
-  children, 
+export function SectionErrorBoundary({
+  children,
   sectionName,
   onError,
-}: { 
+}: {
   children: ReactNode;
   sectionName: string;
   onError?: (error: Error, errorInfo: ErrorInfo) => void;
@@ -350,8 +365,9 @@ export function SectionErrorBoundary({
             <CardTitle className="text-destructive">Error in {sectionName}</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground">
-              This section encountered an error. Try refreshing or contact support if the problem persists.
+            <p className="text-muted-foreground text-sm">
+              This section encountered an error. Try refreshing or contact support if the problem
+              persists.
             </p>
           </CardContent>
           <CardFooter>
@@ -367,4 +383,3 @@ export function SectionErrorBoundary({
     </EnhancedErrorBoundary>
   );
 }
-

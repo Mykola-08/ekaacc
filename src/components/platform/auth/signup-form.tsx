@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import * as z from 'zod'
-import { Button } from '@/components/platform/ui/button'
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { Button } from '@/components/platform/ui/button';
 import {
   Form,
   FormControl,
@@ -12,36 +12,42 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/platform/ui/form'
-import { Input } from '@/components/platform/ui/input'
-import { Card, CardContent } from '@/components/platform/ui/card'
-import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth'
-import Link from 'next/link'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Loader2, Mail, Lock, User, UserCircle, Sparkles, CheckCircle2 } from 'lucide-react'
+} from '@/components/platform/ui/form';
+import { Input } from '@/components/platform/ui/input';
+import { Card, CardContent } from '@/components/platform/ui/card';
+import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
+import Link from 'next/link';
+import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Loader2, Mail, Lock, User, UserCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 
-const signUpSchema = z.object({
-  fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
-  username: z.string().min(3, 'Username must be at least 3 characters').regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores').optional(),
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-})
+const signUpSchema = z
+  .object({
+    fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),
+    username: z
+      .string()
+      .min(3, 'Username must be at least 3 characters')
+      .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores')
+      .optional(),
+    email: z.string().email('Please enter a valid email address'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  });
 
-type SignUpFormValues = z.infer<typeof signUpSchema>
+type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 interface SignUpFormProps {
-  onSuccess?: () => void
-  onError?: (error: string) => void
-  planId?: string
+  onSuccess?: () => void;
+  onError?: (error: string) => void;
+  planId?: string;
 }
 
 export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
-  const { signUp, isLoading } = useSimpleAuth()
+  const { signUp, isLoading } = useSimpleAuth();
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpSchema),
@@ -52,7 +58,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
       password: '',
       confirmPassword: '',
     },
-  })
+  });
 
   async function onSubmit(values: SignUpFormValues) {
     const { error } = await signUp({
@@ -61,15 +67,15 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
       fullName: values.fullName,
       username: values.username,
       planId: planId,
-    })
-    
+    });
+
     if (error) {
-      onError?.(error.message)
+      onError?.(error.message);
       form.setError('root', {
         message: error.message,
-      })
+      });
     } else {
-      onSuccess?.()
+      onSuccess?.();
     }
   }
 
@@ -78,39 +84,39 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-      className="w-full max-w-lg mx-auto"
+      className="mx-auto w-full max-w-lg"
     >
-      <Card className="rounded-2xl border-0 shadow-2xl bg-gradient-to-br from-card via-card to-card/95 backdrop-blur-xl overflow-hidden relative">
+      <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
         {/* Decorative gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-blue-500/5 to-purple-500/5 pointer-events-none" />
-        <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-        <div className="absolute bottom-0 right-0 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 translate-x-1/2 pointer-events-none" />
-        
-        <CardContent className="p-8 md:p-10 relative">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-blue-500/5 to-purple-500/5" />
+        <div className="pointer-events-none absolute top-0 left-0 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-500/10 blur-3xl" />
+        <div className="pointer-events-none absolute right-0 bottom-0 h-72 w-72 translate-x-1/2 translate-y-1/2 rounded-full bg-purple-500/10 blur-3xl" />
+
+        <CardContent className="relative p-8 md:p-10">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1, duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
-            className='flex flex-col items-center text-center gap-4 mb-8'
+            className="mb-8 flex flex-col items-center gap-4 text-center"
           >
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 rounded-2xl blur-xl opacity-30 animate-pulse" />
-              <div className="relative bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 p-3 rounded-2xl shadow-lg">
-                <Image 
-                  src='/eka_logo.png' 
-                  alt='EKA' 
-                  width={40} 
-                  height={40} 
-                  className='rounded-lg'
+              <div className="absolute inset-0 animate-pulse rounded-2xl bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 opacity-30 blur-xl" />
+              <div className="relative rounded-2xl bg-gradient-to-br from-emerald-500 via-blue-500 to-purple-600 p-3 shadow-lg">
+                <Image
+                  src="/eka_logo.png"
+                  alt="EKA"
+                  width={40}
+                  height={40}
+                  className="rounded-lg"
                 />
               </div>
             </div>
-            <div className='space-y-2'>
-              <h1 className='text-3xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-transparent'>
+            <div className="space-y-2">
+              <h1 className="from-foreground to-foreground/70 bg-gradient-to-br bg-clip-text text-3xl font-bold tracking-tight text-transparent">
                 Create Account
               </h1>
-              <p className='text-sm text-muted-foreground font-medium'>
+              <p className="text-muted-foreground text-sm font-medium">
                 Start your wellness journey today
               </p>
             </div>
@@ -119,7 +125,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               {/* Two-column layout for full name and username */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -130,14 +136,16 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     name="fullName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-semibold text-foreground/90">Full Name</FormLabel>
+                        <FormLabel className="text-foreground/90 text-sm font-semibold">
+                          Full Name
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                             <Input
                               placeholder="John Doe"
                               autoComplete="name"
-                              className="rounded-xl h-11 pl-10 bg-muted/40 border-border/50 focus:bg-background transition-colors"
+                              className="bg-muted/40 border-border/50 focus:bg-background h-11 rounded-xl pl-10 transition-colors"
                               {...field}
                             />
                           </div>
@@ -159,14 +167,16 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     name="username"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-semibold text-foreground/90">Username</FormLabel>
+                        <FormLabel className="text-foreground/90 text-sm font-semibold">
+                          Username
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <UserCircle className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <UserCircle className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                             <Input
                               placeholder="johndoe"
                               autoComplete="username"
-                              className="rounded-xl h-11 pl-10 bg-muted/40 border-border/50 focus:bg-background transition-colors"
+                              className="bg-muted/40 border-border/50 focus:bg-background h-11 rounded-xl pl-10 transition-colors"
                               {...field}
                             />
                           </div>
@@ -178,7 +188,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                   />
                 </motion.div>
               </div>
-              
+
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -189,15 +199,17 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-semibold text-foreground/90">Email Address</FormLabel>
+                      <FormLabel className="text-foreground/90 text-sm font-semibold">
+                        Email Address
+                      </FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                          <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                           <Input
                             type="email"
                             placeholder="name@example.com"
                             autoComplete="email"
-                            className="rounded-xl h-11 pl-10 bg-muted/40 border-border/50 focus:bg-background transition-colors"
+                            className="bg-muted/40 border-border/50 focus:bg-background h-11 rounded-xl pl-10 transition-colors"
                             {...field}
                           />
                         </div>
@@ -207,8 +219,8 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                   )}
                 />
               </motion.div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -219,15 +231,17 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-semibold text-foreground/90">Password</FormLabel>
+                        <FormLabel className="text-foreground/90 text-sm font-semibold">
+                          Password
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Lock className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                             <Input
                               type="password"
                               placeholder="••••••••"
                               autoComplete="new-password"
-                              className="rounded-xl h-11 pl-10 bg-muted/40 border-border/50 focus:bg-background transition-colors"
+                              className="bg-muted/40 border-border/50 focus:bg-background h-11 rounded-xl pl-10 transition-colors"
                               {...field}
                             />
                           </div>
@@ -249,15 +263,17 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     name="confirmPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-semibold text-foreground/90">Confirm Password</FormLabel>
+                        <FormLabel className="text-foreground/90 text-sm font-semibold">
+                          Confirm Password
+                        </FormLabel>
                         <FormControl>
                           <div className="relative">
-                            <CheckCircle2 className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <CheckCircle2 className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                             <Input
                               type="password"
                               placeholder="••••••••"
                               autoComplete="new-password"
-                              className="rounded-xl h-11 pl-10 bg-muted/40 border-border/50 focus:bg-background transition-colors"
+                              className="bg-muted/40 border-border/50 focus:bg-background h-11 rounded-xl pl-10 transition-colors"
                               {...field}
                             />
                           </div>
@@ -277,7 +293,7 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <FormMessage className="text-center bg-destructive/10 px-4 py-3 rounded-xl border border-destructive/20">
+                    <FormMessage className="bg-destructive/10 border-destructive/20 rounded-xl border px-4 py-3 text-center">
                       {form.formState.errors.root.message}
                     </FormMessage>
                   </motion.div>
@@ -292,14 +308,14 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
               >
                 <Button
                   type="submit"
-                  className="w-full rounded-xl h-12 font-semibold bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 hover:from-emerald-700 hover:via-blue-700 hover:to-purple-700 shadow-lg shadow-blue-500/25 transition-all hover:scale-105 active:scale-95 hover:shadow-xl hover:shadow-blue-500/30"
+                  className="h-12 w-full rounded-xl bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600 font-semibold shadow-lg shadow-blue-500/25 transition-all hover:scale-105 hover:from-emerald-700 hover:via-blue-700 hover:to-purple-700 hover:shadow-xl hover:shadow-blue-500/30 active:scale-95"
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" />
                   ) : (
                     <span className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4" />
+                      <Sparkles className="h-4 w-4" />
                       Create Account
                     </span>
                   )}
@@ -315,7 +331,10 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
             className="mt-6 text-center text-sm"
           >
             <span className="text-muted-foreground">Already have an account? </span>
-            <Link href="/login" className="font-bold text-primary hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+            <Link
+              href="/login"
+              className="text-primary hover:text-primary/80 inline-flex items-center gap-1 font-bold transition-colors"
+            >
               Sign in
               <span className="inline-block transition-transform group-hover:translate-x-1">→</span>
             </Link>
@@ -323,6 +342,5 @@ export function SignUpForm({ onSuccess, onError, planId }: SignUpFormProps) {
         </CardContent>
       </Card>
     </motion.div>
-  )
+  );
 }
-

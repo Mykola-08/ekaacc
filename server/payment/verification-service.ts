@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 
 export interface PaymentProofInput {
@@ -10,13 +9,12 @@ export interface PaymentProofInput {
 }
 
 export class PaymentVerificationService {
-
   /**
    * Submit a payment proof (e.g. Bank Transfer screenshot)
    */
   async submitProof(userId: string | null, input: PaymentProofInput) {
     const supabase = await createClient();
-    
+
     // If userId is null (guest), we proceed with null
     const { data, error } = await supabase
       .from('payment_proof')
@@ -27,13 +25,13 @@ export class PaymentVerificationService {
         proof_url: input.proofUrl,
         reference_code: input.referenceCode,
         amount_cents: input.amountCents,
-        status: 'pending'
+        status: 'pending',
       })
       .select()
       .single();
 
     if (error) throw error;
-    
+
     // Optionally update booking status to 'pending_verification' if schema allows
     if (input.bookingId) {
       await supabase
@@ -64,7 +62,7 @@ export class PaymentVerificationService {
       bookingId,
       proofType: 'cash_log',
       amountCents,
-      referenceCode: `CASH-${new Date().getTime()}`
+      referenceCode: `CASH-${new Date().getTime()}`,
     };
 
     // We try to use the customer ref if it's a UUID (User ID), otherwise null
@@ -74,13 +72,23 @@ export class PaymentVerificationService {
     const proof = await this.submitProof(customerId, proofInput);
 
     // 3. Auto-Verify
-    return await this.reviewProof(proof.id, therapistUserId, 'verified', 'Cash payment confirmed by therapist');
+    return await this.reviewProof(
+      proof.id,
+      therapistUserId,
+      'verified',
+      'Cash payment confirmed by therapist'
+    );
   }
 
   /**
    * Admin/Staff: Review and Verify Proof
    */
-  async reviewProof(proofId: string, verifierId: string, status: 'verified' | 'rejected', notes?: string) {
+  async reviewProof(
+    proofId: string,
+    verifierId: string,
+    status: 'verified' | 'rejected',
+    notes?: string
+  ) {
     const supabase = await createClient();
 
     // Call the RPC function defined in migration
@@ -88,7 +96,7 @@ export class PaymentVerificationService {
       p_proof_id: proofId,
       p_verifier_id: verifierId,
       p_status: status,
-      p_notes: notes || ''
+      p_notes: notes || '',
     });
 
     if (error) throw error;
@@ -102,14 +110,16 @@ export class PaymentVerificationService {
     const supabase = await createClient();
     const { data } = await supabase
       .from('payment_proof')
-      .select(`
+      .select(
+        `
         *,
         booking:booking(id, service_id, start_time, display_name),
         user:auth.users(email)
-      `)
+      `
+      )
       .eq('status', 'pending')
       .order('created_at', { ascending: false });
-      
+
     return data;
   }
 
@@ -119,7 +129,7 @@ export class PaymentVerificationService {
    */
   async getTherapistPendingProofs(staffAuthId: string) {
     const supabase = await createClient();
-    
+
     // 1. Get Staff ID
     const { data: staff } = await supabase
       .from('staff')
@@ -133,15 +143,17 @@ export class PaymentVerificationService {
     // !inner ensures we only get proofs that HAVE a booking that matches the filter
     const { data } = await supabase
       .from('payment_proof')
-      .select(`
+      .select(
+        `
         *,
         booking:booking!inner(id, service_id, start_time, display_name, staff_id),
         user:auth.users(email)
-      `)
+      `
+      )
       .eq('status', 'pending')
       .eq('booking.staff_id', staff.id)
       .order('created_at', { ascending: false });
-      
+
     return data;
   }
 }

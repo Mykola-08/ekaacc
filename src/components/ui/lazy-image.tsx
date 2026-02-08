@@ -11,12 +11,7 @@ interface LazyImageProps {
   onLoad?: () => void;
 }
 
-export function LazyImage({
-  src,
-  alt,
-  className = '',
-  onLoad
-}: LazyImageProps) {
+export function LazyImage({ src, alt, className = '', onLoad }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const handleLoad = () => {
@@ -38,12 +33,9 @@ export function LazyImage({
         )}
       />
 
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-muted animate-pulse" />
-      )}
+      {!isLoaded && <div className="bg-muted absolute inset-0 animate-pulse" />}
     </div>
   );
 }
 
 export default LazyImage;
-

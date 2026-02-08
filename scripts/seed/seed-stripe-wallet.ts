@@ -1,4 +1,3 @@
-
 import { Stripe } from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -11,20 +10,20 @@ const WALLET_PRODUCTS = [
     name: 'Wallet Top-up 50€',
     amount: 5000,
     currency: 'eur',
-    metadata: { credit_amount: '5000', type: 'wallet_credit' }
+    metadata: { credit_amount: '5000', type: 'wallet_credit' },
   },
   {
     name: 'Wallet Top-up 100€ + 5€ Bonus',
     amount: 10000,
     currency: 'eur',
-    metadata: { credit_amount: '10500', type: 'wallet_credit', bonus: '500' }
+    metadata: { credit_amount: '10500', type: 'wallet_credit', bonus: '500' },
   },
   {
     name: 'Wallet Top-up 200€ + 20€ Bonus',
     amount: 20000,
     currency: 'eur',
-    metadata: { credit_amount: '22000', type: 'wallet_credit', bonus: '2000' }
-  }
+    metadata: { credit_amount: '22000', type: 'wallet_credit', bonus: '2000' },
+  },
 ];
 
 async function seedStripe() {

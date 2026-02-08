@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { supabase, supabaseAdmin } from '@/lib/platform/supabase'
-import { getCurrentUser } from '@/lib/platform/supabase'
+import { NextRequest, NextResponse } from 'next/server';
+import { supabase, supabaseAdmin } from '@/lib/platform/supabase';
+import { getCurrentUser } from '@/lib/platform/supabase';
 
 // Helper function to get user by ID with full profile data
 async function getUserById(userId: string) {
@@ -8,13 +8,13 @@ async function getUserById(userId: string) {
     .from('user_profiles')
     .select('*, user_role_assignments!inner(role_id, user_roles!inner(name, description))')
     .eq('id', userId)
-    .single()
+    .single();
 
   if (profileError) {
-    throw new Error(`Failed to fetch user profile: ${profileError.message}`)
+    throw new Error(`Failed to fetch user profile: ${profileError.message}`);
   }
 
-  return profile
+  return profile;
 }
 
 // Helper function to get user permissions
@@ -22,13 +22,13 @@ async function getUserPermissions(roleId: string) {
   const { data: permissions, error: permissionsError } = await supabaseAdmin
     .from('role_permissions')
     .select('permissions!inner(*)')
-    .eq('role_id', roleId)
+    .eq('role_id', roleId);
 
   if (permissionsError) {
-    throw new Error(`Failed to fetch user permissions: ${permissionsError.message}`)
+    throw new Error(`Failed to fetch user permissions: ${permissionsError.message}`);
   }
 
-  return permissions?.map(p => p.permissions) || []
+  return permissions?.map((p) => p.permissions) || [];
 }
 
 // Check if current user has admin permission to impersonate
@@ -37,57 +37,54 @@ async function canImpersonate(userId: string) {
     .from('user_role_assignments')
     .select('role_id, user_roles!inner(name)')
     .eq('user_id', userId)
-    .single()
+    .single();
 
   if (error || !roleAssignment) {
-    return false
+    return false;
   }
 
   // Check if user has admin role or specific impersonate permission
   const { data: permissions } = await supabaseAdmin
     .from('role_permissions')
     .select('permissions!inner(name)')
-    .eq('role_id', roleAssignment.role_id)
+    .eq('role_id', roleAssignment.role_id);
 
-  const permissionNames = permissions?.map(p => (p as any).permissions?.name).filter(Boolean) || []
-  
-  return permissionNames.includes('admin.impersonate') || 
-         permissionNames.includes('admin.full_access') ||
-         (roleAssignment.user_roles as any)?.name === 'admin'
+  const permissionNames =
+    permissions?.map((p) => (p as any).permissions?.name).filter(Boolean) || [];
+
+  return (
+    permissionNames.includes('admin.impersonate') ||
+    permissionNames.includes('admin.full_access') ||
+    (roleAssignment.user_roles as any)?.name === 'admin'
+  );
 }
 
 export async function POST(request: NextRequest) {
   try {
     // Get current authenticated user
-    const currentUser = await getCurrentUser()
+    const currentUser = await getCurrentUser();
     if (!currentUser) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Parse request body
-    const { targetUserId, reason } = await request.json() as any
+    const { targetUserId, reason } = (await request.json()) as any;
     if (!targetUserId) {
-      return NextResponse.json(
-        { error: 'Target user ID is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Target user ID is required' }, { status: 400 });
     }
 
     // Check if current user can impersonate
-    const hasImpersonatePermission = await canImpersonate(currentUser.id)
+    const hasImpersonatePermission = await canImpersonate(currentUser.id);
     if (!hasImpersonatePermission) {
       return NextResponse.json(
         { error: 'Insufficient permissions to impersonate users' },
         { status: 403 }
-      )
+      );
     }
 
     // Get target user data
-    const targetUserProfile = await getUserById(targetUserId)
-    const targetUserPermissions = await getUserPermissions(targetUserProfile.role_id)
+    const targetUserProfile = await getUserById(targetUserId);
+    const targetUserPermissions = await getUserPermissions(targetUserProfile.role_id);
 
     // Log impersonation start (simplified audit logging)
     await supabaseAdmin.from('audit_logs').insert({
@@ -98,10 +95,10 @@ export async function POST(request: NextRequest) {
       details: {
         reason,
         targetUserEmail: targetUserProfile.email,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
-      created_at: new Date().toISOString()
-    })
+      created_at: new Date().toISOString(),
+    });
 
     // Create impersonation session data
     const impersonationData = {
@@ -113,8 +110,8 @@ export async function POST(request: NextRequest) {
       targetUserPermissions,
       reason,
       startedAt: new Date().toISOString(),
-      sessionId: crypto.randomUUID()
-    }
+      sessionId: crypto.randomUUID(),
+    };
 
     return NextResponse.json({
       success: true,
@@ -127,7 +124,7 @@ export async function POST(request: NextRequest) {
           name: targetUserProfile.user_role_assignments.user_roles.name,
           description: targetUserProfile.user_role_assignments.user_roles.description,
           is_active: true,
-          created_at: targetUserProfile.created_at
+          created_at: targetUserProfile.created_at,
         },
         permissions: targetUserPermissions,
         profile: {
@@ -137,47 +134,37 @@ export async function POST(request: NextRequest) {
           avatar_url: targetUserProfile.avatar_url,
           bio: targetUserProfile.bio,
           created_at: targetUserProfile.created_at,
-          updated_at: targetUserProfile.updated_at
+          updated_at: targetUserProfile.updated_at,
         },
         preferences: {
           theme: 'system',
           language: 'en',
           timezone: 'UTC',
           email_notifications: true,
-          push_notifications: true
-        }
-      }
-    })
-
+          push_notifications: true,
+        },
+      },
+    });
   } catch (error) {
-    console.error('Impersonation error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error('Impersonation error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 // Stop impersonation endpoint
 export async function DELETE(request: NextRequest) {
   try {
-    const currentUser = await getCurrentUser()
+    const currentUser = await getCurrentUser();
     if (!currentUser) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
-    const { searchParams } = new URL(request.url)
-    const targetUserId = searchParams.get('targetUserId')
-    const reason = searchParams.get('reason') || 'User ended impersonation'
+    const { searchParams } = new URL(request.url);
+    const targetUserId = searchParams.get('targetUserId');
+    const reason = searchParams.get('reason') || 'User ended impersonation';
 
     if (!targetUserId) {
-      return NextResponse.json(
-        { error: 'Target user ID is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Target user ID is required' }, { status: 400 });
     }
 
     // Log impersonation end (simplified audit logging)
@@ -188,21 +175,17 @@ export async function DELETE(request: NextRequest) {
       resource_id: targetUserId,
       details: {
         reason,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       },
-      created_at: new Date().toISOString()
-    })
+      created_at: new Date().toISOString(),
+    });
 
     return NextResponse.json({
       success: true,
-      message: 'Impersonation ended successfully'
-    })
-
+      message: 'Impersonation ended successfully',
+    });
   } catch (error) {
-    console.error('End impersonation error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    console.error('End impersonation error:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

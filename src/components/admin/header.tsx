@@ -1,16 +1,16 @@
-"use client"
+'use client';
 
-import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { AdminSidebarContent } from "@/components/admin/sidebar"
-import { Menu, Sun, Bell } from "lucide-react"
-import { useState } from "react"
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { AdminSidebarContent } from '@/components/admin/sidebar';
+import { Menu, Sun, Bell } from 'lucide-react';
+import { useState } from 'react';
 
 export function AdminHeader() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   return (
-    <header className="h-16 bg-card rounded-2xl border border-border flex items-center justify-between px-6 shrink-0">
+    <header className="bg-card border-border flex h-16 shrink-0 items-center justify-between rounded-2xl border px-6">
       <div className="flex items-center gap-4">
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
@@ -19,23 +19,25 @@ export function AdminHeader() {
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="p-0 w-[280px] bg-card border-r border-border rounded-r-[36px]">
-             {/* Pass onClick to close the sheet when a link is clicked */}
+          <SheetContent
+            side="left"
+            className="bg-card border-border w-[280px] rounded-r-[36px] border-r p-0"
+          >
+            {/* Pass onClick to close the sheet when a link is clicked */}
             <AdminSidebarContent onClick={() => setOpen(false)} />
           </SheetContent>
         </Sheet>
-        <h1 className="font-semibold text-lg">Dashboard</h1>
+        <h1 className="text-lg font-semibold">Dashboard</h1>
       </div>
-      
+
       <div className="flex items-center gap-2">
         <Button variant="ghost" size="icon">
-            <Sun className="h-5 w-5 text-muted-foreground" />
+          <Sun className="text-muted-foreground h-5 w-5" />
         </Button>
         <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5 text-muted-foreground" />
+          <Bell className="text-muted-foreground h-5 w-5" />
         </Button>
       </div>
     </header>
-  )
+  );
 }
-

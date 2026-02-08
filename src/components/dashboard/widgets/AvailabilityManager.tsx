@@ -1,132 +1,166 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from "@/components/ui/button";
-import { Check, X, Clock, Calendar as CalendarIcon, Save } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { Check, X, Clock, Calendar as CalendarIcon, Save } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
-import { toast } from "sonner";
+import { toast } from 'sonner';
 import { StatsCard } from './StatsCard';
 
 const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const HOURS = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+const HOURS = [
+  '09:00',
+  '10:00',
+  '11:00',
+  '12:00',
+  '13:00',
+  '14:00',
+  '15:00',
+  '16:00',
+  '17:00',
+  '18:00',
+];
 
 // Mock initial state: true = available, false = blocked
-const INITIAL_AVAILABILITY = DAYS.reduce((acc, day) => {
-    acc[day] = HOURS.reduce((hAcc, hour) => {
+const INITIAL_AVAILABILITY = DAYS.reduce(
+  (acc, day) => {
+    acc[day] = HOURS.reduce(
+      (hAcc, hour) => {
         hAcc[hour] = true; // Default all open
         return hAcc;
-    }, {} as Record<string, boolean>);
+      },
+      {} as Record<string, boolean>
+    );
     return acc;
-}, {} as Record<string, Record<string, boolean>>);
+  },
+  {} as Record<string, Record<string, boolean>>
+);
 
 export function AvailabilityManager() {
-    const [availability, setAvailability] = useState(INITIAL_AVAILABILITY);
-    const [hasChanges, setHasChanges] = useState(false);
+  const [availability, setAvailability] = useState(INITIAL_AVAILABILITY);
+  const [hasChanges, setHasChanges] = useState(false);
 
-    const toggleSlot = (day: string, hour: string) => {
-        if (!availability[day]) return;
+  const toggleSlot = (day: string, hour: string) => {
+    if (!availability[day]) return;
 
-        setAvailability(prev => ({
-            ...prev,
-            [day]: {
-                ...prev[day],
-                [hour]: !prev[day]?.[hour]
-            }
-        }));
-        setHasChanges(true);
-    };
+    setAvailability((prev) => ({
+      ...prev,
+      [day]: {
+        ...prev[day],
+        [hour]: !prev[day]?.[hour],
+      },
+    }));
+    setHasChanges(true);
+  };
 
-    const handleSave = () => {
-        // Mock save
-        toast.success("Availability updated successfully");
-        setHasChanges(false);
-    };
+  const handleSave = () => {
+    // Mock save
+    toast.success('Availability updated successfully');
+    setHasChanges(false);
+  };
 
-    return (
-        <div className="space-y-8">
-            <DashboardHeader title="Availability" subtitle="Manage your weekly working hours and time blocks.">
-                <Button
-                    onClick={handleSave}
-                    disabled={!hasChanges}
-                    className={cn(
-                        "rounded-lg h-10 px-6 font-bold transition-all",
-                        hasChanges ? "bg-foreground text-background shadow-lg shadow-foreground/20 hover:bg-foreground/90 hover:scale-105 active:scale-95" : "bg-secondary text-muted-foreground opacity-50 cursor-not-allowed"
-                    )}
-                >
-                    <Save className="w-4 h-4 mr-2" strokeWidth={2.5} />
-                    Save Changes
-                </Button>
-            </DashboardHeader>
+  return (
+    <div className="space-y-8">
+      <DashboardHeader
+        title="Availability"
+        subtitle="Manage your weekly working hours and time blocks."
+      >
+        <Button
+          onClick={handleSave}
+          disabled={!hasChanges}
+          className={cn(
+            'h-10 rounded-lg px-6 font-bold transition-all',
+            hasChanges
+              ? 'bg-foreground text-background shadow-foreground/20 hover:bg-foreground/90 shadow-lg hover:scale-105 active:scale-95'
+              : 'bg-secondary text-muted-foreground cursor-not-allowed opacity-50'
+          )}
+        >
+          <Save className="mr-2 h-4 w-4" strokeWidth={2.5} />
+          Save Changes
+        </Button>
+      </DashboardHeader>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {/* Quick Stats */}
-                <StatsCard
-                    icon={Clock}
-                    label="Weekly Hours"
-                    value="40h"
-                    colorClass="bg-card text-foreground"
-                />
-                <StatsCard
-                    icon={CalendarIcon}
-                    label="Days Active"
-                    value="5/7"
-                    colorClass="bg-card text-foreground"
-                />
-            </div>
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        {/* Quick Stats */}
+        <StatsCard
+          icon={Clock}
+          label="Weekly Hours"
+          value="40h"
+          colorClass="bg-card text-foreground"
+        />
+        <StatsCard
+          icon={CalendarIcon}
+          label="Days Active"
+          value="5/7"
+          colorClass="bg-card text-foreground"
+        />
+      </div>
 
-            <div className="bg-card rounded-2xl border border-border shadow-sm p-6 md:p-8 overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead>
-                            <tr>
-                                <th className="text-left font-bold text-muted-foreground pb-6 w-20 uppercase text-xs tracking-wider">Time</th>
-                                {DAYS.map(day => (
-                                    <th key={day} className="text-center font-bold text-foreground pb-6 min-w-[80px] text-sm uppercase tracking-wider">{day}</th>
-                                ))}
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-border">
-                            {HOURS.map(hour => (
-                                <tr key={hour} className="group hover:bg-secondary/50 transition-colors">
-                                    <td className="py-4 font-mono text-xs font-bold text-muted-foreground group-hover:text-foreground transition-colors">{hour}</td>
-                                    {DAYS.map(day => {
-                                        const isAvailable = availability[day]?.[hour] ?? false;
-                                        return (
-                                            <td key={`${day}-${hour}`} className="p-2 text-center">
-                                                <button
-                                                    onClick={() => toggleSlot(day, hour)}
-                                                    className={cn(
-                                                        "w-full h-10 rounded-lg transition-all duration-200 flex items-center justify-center border-2",
-                                                        isAvailable 
-                                                            ? "bg-card border-transparent hover:border-primary text-primary" 
-                                                            : "bg-transparent border-border text-muted hover:bg-secondary"
-                                                    )}
-                                                >
-                                                    {isAvailable ? <Check className="w-4 h-4" strokeWidth={3} /> : <X className="w-4 h-4" />}
-                                                </button>
-                                            </td>
-                                        );
-                                    })}
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div className="mt-8 flex items-center justify-center gap-8 text-sm font-bold text-muted-foreground">
-                <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-md bg-primary/10 border-2 border-primary/20 flex items-center justify-center text-primary">
-                         <Check className="w-3 h-3" strokeWidth={4} />
-                    </div>
-                    <span className="text-foreground">Available</span>
-                </div>
-                <div className="flex items-center gap-3">
-                    <div className="w-5 h-5 rounded-md bg-border border-2 border-transparent"></div>
-                    <span>Blocked</span>
-                </div>
-            </div>
+      <div className="bg-card border-border overflow-hidden rounded-2xl border p-6 shadow-sm md:p-8">
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th className="text-muted-foreground w-20 pb-6 text-left text-xs font-bold tracking-wider uppercase">
+                  Time
+                </th>
+                {DAYS.map((day) => (
+                  <th
+                    key={day}
+                    className="text-foreground min-w-[80px] pb-6 text-center text-sm font-bold tracking-wider uppercase"
+                  >
+                    {day}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-border divide-y">
+              {HOURS.map((hour) => (
+                <tr key={hour} className="group hover:bg-secondary/50 transition-colors">
+                  <td className="text-muted-foreground group-hover:text-foreground py-4 font-mono text-xs font-bold transition-colors">
+                    {hour}
+                  </td>
+                  {DAYS.map((day) => {
+                    const isAvailable = availability[day]?.[hour] ?? false;
+                    return (
+                      <td key={`${day}-${hour}`} className="p-2 text-center">
+                        <button
+                          onClick={() => toggleSlot(day, hour)}
+                          className={cn(
+                            'flex h-10 w-full items-center justify-center rounded-lg border-2 transition-all duration-200',
+                            isAvailable
+                              ? 'bg-card hover:border-primary text-primary border-transparent'
+                              : 'border-border text-muted hover:bg-secondary bg-transparent'
+                          )}
+                        >
+                          {isAvailable ? (
+                            <Check className="h-4 w-4" strokeWidth={3} />
+                          ) : (
+                            <X className="h-4 w-4" />
+                          )}
+                        </button>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
+      </div>
+      <div className="text-muted-foreground mt-8 flex items-center justify-center gap-8 text-sm font-bold">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 border-primary/20 text-primary flex h-5 w-5 items-center justify-center rounded-md border-2">
+            <Check className="h-3 w-3" strokeWidth={4} />
+          </div>
+          <span className="text-foreground">Available</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="bg-border h-5 w-5 rounded-md border-2 border-transparent"></div>
+          <span>Blocked</span>
+        </div>
+      </div>
+    </div>
+  );
 }
-

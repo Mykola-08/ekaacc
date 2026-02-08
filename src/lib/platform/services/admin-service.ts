@@ -29,12 +29,12 @@ export class AdminService {
     }
   }
 
-  async updateUserRole(userId: string, role: string): Promise<{ success: boolean; error?: string }> {
+  async updateUserRole(
+    userId: string,
+    role: string
+  ): Promise<{ success: boolean; error?: string }> {
     try {
-      const { error } = await supabaseAdmin
-        .from('profiles')
-        .update({ role })
-        .eq('id', userId);
+      const { error } = await supabaseAdmin.from('profiles').update({ role }).eq('id', userId);
 
       if (error) {
         return { success: false, error: error.message };

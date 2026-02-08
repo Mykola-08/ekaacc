@@ -1,30 +1,56 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
 import { Badge } from '@/components/platform/ui/badge';
 import { Alert, AlertDescription } from '@/components/platform/ui/alert';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/platform/ui/table';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/platform/ui/dialog';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/platform/ui/form';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/platform/ui/table';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/platform/ui/dialog';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/platform/ui/form';
 import { Input } from '@/components/platform/ui/input';
 import { Textarea } from '@/components/platform/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/platform/ui/select';
 import { Switch } from '@/components/platform/ui/switch';
 import { Label } from '@/components/platform/ui/label';
 import { useAuth } from '@/context/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
 import { useToast } from '@/hooks/platform/ui/use-toast';
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Search, 
-  RefreshCw, 
-  AlertTriangle, 
-  CheckCircle
-} from 'lucide-react';
+import { Plus, Edit, Trash2, Search, RefreshCw, AlertTriangle, CheckCircle } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -42,13 +68,17 @@ const productSchema = z.object({
   stripeProductId: z.string().optional(),
   stripePriceId: z.string().optional(),
   images: z.array(z.string()).optional(),
-  variations: z.array(z.object({
-    name: z.string(),
-    price: z.number(),
-    duration: z.number().optional(),
-    description: z.string().optional()
-  })).optional(),
-  isActive: z.boolean().optional()
+  variations: z
+    .array(
+      z.object({
+        name: z.string(),
+        price: z.number(),
+        duration: z.number().optional(),
+        description: z.string().optional(),
+      })
+    )
+    .optional(),
+  isActive: z.boolean().optional(),
 });
 
 type ProductFormData = z.infer<typeof productSchema>;
@@ -116,14 +146,14 @@ export function ProductManagementPanel() {
       availability: 'active',
       isActive: true,
       images: [],
-      variations: []
-    }
+      variations: [],
+    },
   });
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      
+
       const { data, error } = await supabase
         .from('products')
         .select('*')
@@ -136,7 +166,7 @@ export function ProductManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to fetch products',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -146,18 +176,18 @@ export function ProductManagementPanel() {
   const syncWithStripe = async (productId: string) => {
     try {
       setIsSyncing(true);
-      
+
       const response = await fetch(`/api/stripe/sync-product/${productId}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json' },
       });
-      
+
       const data = await response.json();
-      
+
       if (data.success) {
         toast({
           title: 'Success',
-          description: 'Product synced with Stripe successfully'
+          description: 'Product synced with Stripe successfully',
         });
         fetchProducts();
       } else {
@@ -168,7 +198,7 @@ export function ProductManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to sync with Stripe',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     } finally {
       setIsSyncing(false);
@@ -184,7 +214,7 @@ export function ProductManagementPanel() {
           .update({
             ...data,
             updated_at: new Date().toISOString(),
-            sync_status: 'pending'
+            sync_status: 'pending',
           })
           .eq('id', selectedProduct.id);
 
@@ -192,24 +222,22 @@ export function ProductManagementPanel() {
 
         toast({
           title: 'Success',
-          description: 'Product updated successfully'
+          description: 'Product updated successfully',
         });
       } else {
         // Create new product
-        const { error } = await supabase
-          .from('products')
-          .insert({
-            ...data,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            sync_status: 'pending'
-          });
+        const { error } = await supabase.from('products').insert({
+          ...data,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          sync_status: 'pending',
+        });
 
         if (error) throw error;
 
         toast({
           title: 'Success',
-          description: 'Product created successfully'
+          description: 'Product created successfully',
         });
       }
 
@@ -222,23 +250,20 @@ export function ProductManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to save product',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     }
   };
 
   const handleDeleteProduct = async (productId: string) => {
     try {
-      const { error } = await supabase
-        .from('products')
-        .delete()
-        .eq('id', productId);
+      const { error } = await supabase.from('products').delete().eq('id', productId);
 
       if (error) throw error;
 
       toast({
         title: 'Success',
-        description: 'Product deleted successfully'
+        description: 'Product deleted successfully',
       });
 
       fetchProducts();
@@ -247,19 +272,20 @@ export function ProductManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to delete product',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     }
   };
 
-  const filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
-  const categories = [...new Set(products.map(p => p.category))];
+  const categories = [...new Set(products.map((p) => p.category))];
 
   useEffect(() => {
     fetchProducts();
@@ -269,9 +295,7 @@ export function ProductManagementPanel() {
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>
-          You don't have permission to access product management.
-        </AlertDescription>
+        <AlertDescription>You don't have permission to access product management.</AlertDescription>
       </Alert>
     );
   }
@@ -279,7 +303,7 @@ export function ProductManagementPanel() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Product Management</h1>
           <p className="text-muted-foreground">
@@ -304,7 +328,7 @@ export function ProductManagementPanel() {
             <div className="flex-1">
               <Label htmlFor="search">Search Products</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                 <Input
                   id="search"
                   placeholder="Search by name or description..."
@@ -322,7 +346,7 @@ export function ProductManagementPanel() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
-                  {categories.map(category => (
+                  {categories.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category}
                     </SelectItem>
@@ -338,9 +362,7 @@ export function ProductManagementPanel() {
       <Card>
         <CardHeader>
           <CardTitle>Products</CardTitle>
-          <CardDescription>
-            View and manage your products with Stripe sync status
-          </CardDescription>
+          <CardDescription>View and manage your products with Stripe sync status</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -376,7 +398,7 @@ export function ProductManagementPanel() {
                       <TableCell className="font-medium">
                         <div>
                           <div>{product.name}</div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-muted-foreground text-sm">
                             {product.shortDescription}
                           </div>
                         </div>
@@ -388,12 +410,15 @@ export function ProductManagementPanel() {
                         <Badge variant="outline">{product.difficulty}</Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge 
+                        <Badge
                           variant={
-                            product.availability === 'active' ? 'default' :
-                            product.availability === 'vip_only' ? 'secondary' :
-                            product.availability === 'corporate_only' ? 'secondary' :
-                            'outline'
+                            product.availability === 'active'
+                              ? 'default'
+                              : product.availability === 'vip_only'
+                                ? 'secondary'
+                                : product.availability === 'corporate_only'
+                                  ? 'secondary'
+                                  : 'outline'
                           }
                         >
                           {product.availability.replace('_', ' ')}
@@ -406,7 +431,7 @@ export function ProductManagementPanel() {
                           ) : product.syncStatus === 'error' ? (
                             <AlertTriangle className="h-4 w-4 text-red-500" />
                           ) : (
-                            <RefreshCw className="h-4 w-4 text-yellow-500 animate-spin" />
+                            <RefreshCw className="h-4 w-4 animate-spin text-yellow-500" />
                           )}
                           <span className="text-sm capitalize">{product.syncStatus}</span>
                         </div>
@@ -458,18 +483,18 @@ export function ProductManagementPanel() {
 
       {/* Product Creation/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-h-[90vh] max-w-4xl overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {selectedProduct ? 'Edit Product' : 'Create Product'}
-            </DialogTitle>
+            <DialogTitle>{selectedProduct ? 'Edit Product' : 'Create Product'}</DialogTitle>
             <DialogDescription>
-              {selectedProduct ? 'Update product details and Stripe integration' : 'Create a new product with Stripe integration'}
+              {selectedProduct
+                ? 'Update product details and Stripe integration'
+                : 'Create a new product with Stripe integration'}
             </DialogDescription>
           </DialogHeader>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleProductSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <FormField
                   control={form.control as any}
                   name="name"
@@ -491,12 +516,12 @@ export function ProductManagementPanel() {
                     <FormItem>
                       <FormLabel>Price (EUR)</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
-                          step="0.01" 
+                        <Input
+                          type="number"
+                          step="0.01"
                           placeholder="0.00"
                           {...field}
-                          onChange={e => field.onChange(parseFloat(e.target.value))}
+                          onChange={(e) => field.onChange(parseFloat(e.target.value))}
                         />
                       </FormControl>
                       <FormMessage />
@@ -511,11 +536,11 @@ export function ProductManagementPanel() {
                     <FormItem>
                       <FormLabel>Duration (minutes)</FormLabel>
                       <FormControl>
-                        <Input 
-                          type="number" 
+                        <Input
+                          type="number"
                           placeholder="60"
                           {...field}
-                          onChange={e => field.onChange(parseInt(e.target.value))}
+                          onChange={(e) => field.onChange(parseInt(e.target.value))}
                         />
                       </FormControl>
                       <FormMessage />
@@ -619,10 +644,7 @@ export function ProductManagementPanel() {
                         </FormDescription>
                       </div>
                       <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Switch checked={field.value} onCheckedChange={field.onChange} />
                       </FormControl>
                     </FormItem>
                   )}
@@ -643,9 +665,7 @@ export function ProductManagementPanel() {
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>
-                      {field.value?.length || 0}/100 characters
-                    </FormDescription>
+                    <FormDescription>{field.value?.length || 0}/100 characters</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -660,7 +680,7 @@ export function ProductManagementPanel() {
                     <FormControl>
                       <Textarea
                         placeholder="Detailed product description"
-                        className="resize-none h-32"
+                        className="h-32 resize-none"
                         {...field}
                       />
                     </FormControl>
@@ -705,17 +725,20 @@ export function ProductManagementPanel() {
                           <FormControl>
                             <Input placeholder="price_..." {...field} />
                           </FormControl>
-                          <FormDescription>
-                            Leave empty to auto-create Stripe price
-                          </FormDescription>
+                          <FormDescription>Leave empty to auto-create Stripe price</FormDescription>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
 
                     {selectedProduct.stripeProductId && (
-                      <div className="text-sm text-muted-foreground">
-                        <p>Last sync: {selectedProduct.lastSyncAt ? new Date(selectedProduct.lastSyncAt).toLocaleString() : 'Never'}</p>
+                      <div className="text-muted-foreground text-sm">
+                        <p>
+                          Last sync:{' '}
+                          {selectedProduct.lastSyncAt
+                            ? new Date(selectedProduct.lastSyncAt).toLocaleString()
+                            : 'Never'}
+                        </p>
                         {selectedProduct.syncError && (
                           <p className="text-red-500">Sync error: {selectedProduct.syncError}</p>
                         )}
@@ -726,11 +749,15 @@ export function ProductManagementPanel() {
               )}
 
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => {
-                  setIsDialogOpen(false);
-                  setSelectedProduct(null);
-                  form.reset();
-                }}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsDialogOpen(false);
+                    setSelectedProduct(null);
+                    form.reset();
+                  }}
+                >
                   Cancel
                 </Button>
                 <Button type="submit">

@@ -2,9 +2,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const packageJson = JSON.parse(
-  readFileSync(join(process.cwd(), 'package.json'), 'utf8')
-);
+const packageJson = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'));
 const packageVersion = packageJson.version ?? '0.0.0';
 
 function getGitCommitSha() {
@@ -25,7 +23,6 @@ const appBuildTimestamp = new Date().toISOString();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  
   reactStrictMode: true,
   generateBuildId: async () => appBuildId,
   env: {

@@ -1,7 +1,7 @@
-"use server"
+'use server';
 
-import { db } from "@/lib/db";
-import { Booking } from "@/types/booking";
+import { db } from '@/lib/db';
+import { Booking } from '@/types/booking';
 
 export async function getAdminBookings(): Promise<Booking[]> {
   const query = `
@@ -36,32 +36,35 @@ export async function getAdminBookings(): Promise<Booking[]> {
     ORDER BY b.created_at DESC
     LIMIT 100;
   `;
-  
+
   const { rows } = await db.query(query);
-  return rows.map(row => ({
+  return rows.map((row) => ({
     ...row,
     addons: row.addons || [],
     startTime: row.startTime instanceof Date ? row.startTime.toISOString() : row.startTime,
     endTime: row.endTime instanceof Date ? row.endTime.toISOString() : row.endTime,
     createdAt: row.createdAt instanceof Date ? row.createdAt.toISOString() : row.createdAt,
     updatedAt: row.updatedAt instanceof Date ? row.updatedAt.toISOString() : row.updatedAt,
-    reservationExpiresAt: row.reservationExpiresAt instanceof Date ? row.reservationExpiresAt.toISOString() : row.reservationExpiresAt
+    reservationExpiresAt:
+      row.reservationExpiresAt instanceof Date
+        ? row.reservationExpiresAt.toISOString()
+        : row.reservationExpiresAt,
   })) as Booking[];
 }
 
 export type AdminService = {
-  id: string
-  name: string
-  description: string
-  isPublic: boolean
-  active: boolean
-  imageUrl: string
-  tags: string[]
-  metadata: any
-}
+  id: string;
+  name: string;
+  description: string;
+  isPublic: boolean;
+  active: boolean;
+  imageUrl: string;
+  tags: string[];
+  metadata: any;
+};
 
 export async function getAdminServices(): Promise<AdminService[]> {
-    const query = `
+  const query = `
       SELECT
         id,
         name,
@@ -74,6 +77,6 @@ export async function getAdminServices(): Promise<AdminService[]> {
       FROM service
       ORDER BY name ASC;
     `;
-    const { rows } = await db.query(query);
-    return rows as AdminService[];
+  const { rows } = await db.query(query);
+  return rows as AdminService[];
 }

@@ -44,51 +44,42 @@ export default function ProgressIndicator({
             <div key={step.id} className="flex items-start space-x-4">
               <div className="flex flex-col items-center">
                 <div
-                  className={`
-                    w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 transform
-                    ${isCompleted 
-                      ? 'bg-green-500 text-white scale-110' 
-                      : isCurrent 
-                        ? 'bg-blue-500 text-white ring-4 ring-blue-200 animate-pulse' 
-                        : 'bg-gray-200 text-muted-foreground'
-                    }
-                  `}
+                  className={`flex h-10 w-10 transform items-center justify-center rounded-full transition-all duration-500 ${
+                    isCompleted
+                      ? 'scale-110 bg-green-500 text-white'
+                      : isCurrent
+                        ? 'animate-pulse bg-blue-500 text-white ring-4 ring-blue-200'
+                        : 'text-muted-foreground bg-gray-200'
+                  } `}
                 >
                   {isCompleted ? (
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="h-5 w-5" />
                   ) : (
                     <span className="text-sm font-medium">{index + 1}</span>
                   )}
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`
-                      w-0.5 h-12 mt-2 transition-all duration-500
-                      ${isCompleted ? 'bg-green-500' : 'bg-gray-200'}
-                    `}
+                    className={`mt-2 h-12 w-0.5 transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-gray-200'} `}
                   />
                 )}
               </div>
-              
+
               {showLabels && (
                 <div className="flex-1 pb-8">
                   <h3
-                    className={`
-                      font-medium transition-colors duration-300
-                      ${isCompleted 
-                        ? 'text-green-700' 
-                        : isCurrent 
-                          ? 'text-blue-700' 
+                    className={`font-medium transition-colors duration-300 ${
+                      isCompleted
+                        ? 'text-green-700'
+                        : isCurrent
+                          ? 'text-blue-700'
                           : 'text-muted-foreground'
-                      }
-                    `}
+                    } `}
                   >
                     {step.title}
                   </h3>
                   {step.description && (
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {step.description}
-                    </p>
+                    <p className="text-muted-foreground mt-1 text-sm">{step.description}</p>
                   )}
                 </div>
               )}
@@ -109,52 +100,43 @@ export default function ProgressIndicator({
           <div key={step.id} className="flex items-center">
             <div className="flex flex-col items-center">
               <div
-                className={`
-                  w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 transform
-                  ${isCompleted 
-                    ? 'bg-green-500 text-white scale-110' 
-                    : isCurrent 
-                      ? 'bg-blue-500 text-white ring-4 ring-blue-200 animate-pulse' 
-                      : 'bg-gray-200 text-muted-foreground'
-                  }
-                `}
+                className={`flex h-10 w-10 transform items-center justify-center rounded-full transition-all duration-500 ${
+                  isCompleted
+                    ? 'scale-110 bg-green-500 text-white'
+                    : isCurrent
+                      ? 'animate-pulse bg-blue-500 text-white ring-4 ring-blue-200'
+                      : 'text-muted-foreground bg-gray-200'
+                } `}
               >
                 {isCompleted ? (
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="h-5 w-5" />
                 ) : (
                   <span className="text-sm font-medium">{index + 1}</span>
                 )}
               </div>
-              
+
               {showLabels && (
-                <div className="mt-2 text-center max-w-24">
+                <div className="mt-2 max-w-24 text-center">
                   <p
-                    className={`
-                      text-sm font-medium transition-colors duration-300
-                      ${isCompleted 
-                        ? 'text-green-700' 
-                        : isCurrent 
-                          ? 'text-blue-700' 
+                    className={`text-sm font-medium transition-colors duration-300 ${
+                      isCompleted
+                        ? 'text-green-700'
+                        : isCurrent
+                          ? 'text-blue-700'
                           : 'text-muted-foreground'
-                      }
-                    `}
+                    } `}
                   >
                     {step.title}
                   </p>
                 </div>
               )}
             </div>
-            
+
             {index < steps.length - 1 && (
               <div
-                className={`
-                  flex-1 h-0.5 mx-4 transition-all duration-500
-                  ${isCompleted ? 'bg-green-500' : 'bg-gray-200'}
-                `}
+                className={`mx-4 h-0.5 flex-1 transition-all duration-500 ${isCompleted ? 'bg-green-500' : 'bg-gray-200'} `}
                 style={{
-                  background: isCompleted 
-                    ? 'hsl(var(--chart-2))' 
-                    : 'hsl(var(--border))',
+                  background: isCompleted ? 'hsl(var(--chart-2))' : 'hsl(var(--border))',
                 }}
               />
             )}
@@ -199,11 +181,7 @@ export function CircularProgress({
 
   return (
     <div className={`relative inline-flex items-center justify-center ${className}`}>
-      <svg
-        width={size}
-        height={size}
-        className="transform -rotate-90"
-      >
+      <svg width={size} height={size} className="-rotate-90 transform">
         {/* Background circle */}
         <circle
           cx={size / 2}
@@ -213,7 +191,7 @@ export function CircularProgress({
           strokeWidth={strokeWidth}
           fill="transparent"
         />
-        
+
         {/* Progress circle */}
         <circle
           cx={size / 2}
@@ -228,10 +206,10 @@ export function CircularProgress({
           className="transition-all duration-1000 ease-out"
         />
       </svg>
-      
+
       {showPercentage && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-2xl font-bold text-foreground/90">
+          <span className="text-foreground/90 text-2xl font-bold">
             {Math.round(animatedPercentage)}%
           </span>
         </div>
@@ -239,4 +217,3 @@ export function CircularProgress({
     </div>
   );
 }
-

@@ -1,4 +1,4 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -20,6 +20,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
-  ]
+  ];
 }
-

@@ -9,7 +9,13 @@ import { getWellnessSummary } from './wellness-service';
 import { getRecentMemories } from './ai-memory-service';
 import { getActiveInsights } from './ai-insights-service';
 
-export type RecommendationType = 'service' | 'exercise' | 'article' | 'therapist' | 'action' | 'goal';
+export type RecommendationType =
+  | 'service'
+  | 'exercise'
+  | 'article'
+  | 'therapist'
+  | 'action'
+  | 'goal';
 export type RecommendationPriority = 'low' | 'medium' | 'high' | 'critical';
 
 export interface Recommendation {
@@ -67,7 +73,7 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
     preferredDuration: 60,
     focusAreas: [],
     stressLevel: 5,
-    activityLevel: 'moderate'
+    activityLevel: 'moderate',
   };
 
   try {
@@ -92,7 +98,10 @@ export async function getUserPreferences(userId: string): Promise<UserPreference
     }
 
     // Get from onboarding answers
-    const onboardingAnswers = await db.query<{ question_key: string; answer_data: { value: unknown } }>(
+    const onboardingAnswers = await db.query<{
+      question_key: string;
+      answer_data: { value: unknown };
+    }>(
       `SELECT oq.question_key, uoa.answer_data
        FROM user_onboarding_answers uoa
        JOIN onboarding_questions oq ON uoa.question_id = oq.id
@@ -170,7 +179,7 @@ export async function generateServiceRecommendations(
     );
 
     // Score each service based on user preferences
-    const scoredServices = services.map(service => {
+    const scoredServices = services.map((service) => {
       let score = 0.5; // Base score
       const reasons: string[] = [];
 
@@ -186,11 +195,17 @@ export async function generateServiceRecommendations(
         }
 
         // Special matching rules
-        if (goalLower.includes('stress') && (nameLower.includes('relax') || nameLower.includes('massage'))) {
+        if (
+          goalLower.includes('stress') &&
+          (nameLower.includes('relax') || nameLower.includes('massage'))
+        ) {
           score += 0.15;
           reasons.push('Good for stress relief');
         }
-        if (goalLower.includes('pain') && (nameLower.includes('therapy') || nameLower.includes('physical'))) {
+        if (
+          goalLower.includes('pain') &&
+          (nameLower.includes('therapy') || nameLower.includes('physical'))
+        ) {
           score += 0.15;
           reasons.push('Helps with pain management');
         }
@@ -224,7 +239,7 @@ export async function generateServiceRecommendations(
       return {
         service,
         score: Math.min(1, score),
-        reasons
+        reasons,
       };
     });
 
@@ -244,9 +259,9 @@ export async function generateServiceRecommendations(
         serviceName: item.service.name,
         price: item.service.price_amount,
         duration: item.service.duration_min,
-        matchScore: Math.round(item.score * 100)
+        matchScore: Math.round(item.score * 100),
       },
-      actionUrl: `/services/${item.service.id}`
+      actionUrl: `/services/${item.service.id}`,
     }));
   } catch (error) {
     console.error('Error generating service recommendations:', error);
@@ -269,20 +284,90 @@ export async function generateExerciseRecommendations(
 
     // Define exercise library (could be from DB)
     const exercises = [
-      { id: 'breathing-1', name: 'Deep Breathing', duration: 5, difficulty: 'beginner' as const, category: 'breathing', forStress: true },
-      { id: 'breathing-2', name: 'Box Breathing', duration: 10, difficulty: 'beginner' as const, category: 'breathing', forStress: true },
-      { id: 'meditation-1', name: 'Guided Meditation', duration: 10, difficulty: 'beginner' as const, category: 'meditation', forMood: true },
-      { id: 'meditation-2', name: 'Body Scan Meditation', duration: 15, difficulty: 'intermediate' as const, category: 'meditation', forSleep: true },
-      { id: 'stretch-1', name: 'Morning Stretch Routine', duration: 10, difficulty: 'beginner' as const, category: 'movement', forEnergy: true },
-      { id: 'stretch-2', name: 'Desk Break Stretches', duration: 5, difficulty: 'beginner' as const, category: 'movement', forPain: true },
-      { id: 'mindfulness-1', name: 'Gratitude Practice', duration: 5, difficulty: 'beginner' as const, category: 'mindfulness', forMood: true },
-      { id: 'mindfulness-2', name: 'Mindful Walking', duration: 15, difficulty: 'beginner' as const, category: 'mindfulness', forStress: true },
-      { id: 'sleep-1', name: 'Sleep Preparation Routine', duration: 20, difficulty: 'beginner' as const, category: 'sleep', forSleep: true },
-      { id: 'focus-1', name: 'Concentration Exercise', duration: 10, difficulty: 'intermediate' as const, category: 'focus', forFocus: true }
+      {
+        id: 'breathing-1',
+        name: 'Deep Breathing',
+        duration: 5,
+        difficulty: 'beginner' as const,
+        category: 'breathing',
+        forStress: true,
+      },
+      {
+        id: 'breathing-2',
+        name: 'Box Breathing',
+        duration: 10,
+        difficulty: 'beginner' as const,
+        category: 'breathing',
+        forStress: true,
+      },
+      {
+        id: 'meditation-1',
+        name: 'Guided Meditation',
+        duration: 10,
+        difficulty: 'beginner' as const,
+        category: 'meditation',
+        forMood: true,
+      },
+      {
+        id: 'meditation-2',
+        name: 'Body Scan Meditation',
+        duration: 15,
+        difficulty: 'intermediate' as const,
+        category: 'meditation',
+        forSleep: true,
+      },
+      {
+        id: 'stretch-1',
+        name: 'Morning Stretch Routine',
+        duration: 10,
+        difficulty: 'beginner' as const,
+        category: 'movement',
+        forEnergy: true,
+      },
+      {
+        id: 'stretch-2',
+        name: 'Desk Break Stretches',
+        duration: 5,
+        difficulty: 'beginner' as const,
+        category: 'movement',
+        forPain: true,
+      },
+      {
+        id: 'mindfulness-1',
+        name: 'Gratitude Practice',
+        duration: 5,
+        difficulty: 'beginner' as const,
+        category: 'mindfulness',
+        forMood: true,
+      },
+      {
+        id: 'mindfulness-2',
+        name: 'Mindful Walking',
+        duration: 15,
+        difficulty: 'beginner' as const,
+        category: 'mindfulness',
+        forStress: true,
+      },
+      {
+        id: 'sleep-1',
+        name: 'Sleep Preparation Routine',
+        duration: 20,
+        difficulty: 'beginner' as const,
+        category: 'sleep',
+        forSleep: true,
+      },
+      {
+        id: 'focus-1',
+        name: 'Concentration Exercise',
+        duration: 10,
+        difficulty: 'intermediate' as const,
+        category: 'focus',
+        forFocus: true,
+      },
     ];
 
     // Score exercises based on user needs
-    const scoredExercises = exercises.map(exercise => {
+    const scoredExercises = exercises.map((exercise) => {
       let score = 0.3;
       let reason = 'Recommended exercise';
 
@@ -341,9 +426,9 @@ export async function generateExerciseRecommendations(
           exerciseName: item.exercise.name,
           duration: item.exercise.duration,
           difficulty: item.exercise.difficulty,
-          category: item.exercise.category
+          category: item.exercise.category,
         },
-        actionUrl: `/exercises/${item.exercise.id}`
+        actionUrl: `/exercises/${item.exercise.id}`,
       });
     }
 
@@ -366,7 +451,7 @@ export async function generateActionRecommendations(userId: string): Promise<Rec
 
     // Check for incomplete action items from insights
     for (const insight of insights) {
-      const incompleteActions = (insight.actionItems || []).filter(a => !a.completed);
+      const incompleteActions = (insight.actionItems || []).filter((a) => !a.completed);
       for (const action of incompleteActions.slice(0, 2)) {
         actions.push({
           id: `rec-action-${insight.id}-${action.id}`,
@@ -376,7 +461,7 @@ export async function generateActionRecommendations(userId: string): Promise<Rec
           reason: `From insight: ${insight.title}`,
           priority: insight.priority,
           confidence: insight.confidence,
-          data: { insightId: insight.id, actionId: action.id }
+          data: { insightId: insight.id, actionId: action.id },
         });
       }
     }
@@ -404,7 +489,7 @@ export async function generateActionRecommendations(userId: string): Promise<Rec
           priority: daysSinceLastBooking > 30 ? 'high' : 'medium',
           confidence: 0.8,
           data: { daysSinceLastBooking },
-          actionUrl: '/book'
+          actionUrl: '/book',
         });
       }
     } else {
@@ -413,12 +498,13 @@ export async function generateActionRecommendations(userId: string): Promise<Rec
         id: 'rec-action-first-booking',
         type: 'action',
         title: 'Book Your First Session',
-        description: 'Start your wellness journey by booking your first session with one of our therapists.',
+        description:
+          'Start your wellness journey by booking your first session with one of our therapists.',
         reason: 'New user recommendation',
         priority: 'high',
         confidence: 0.9,
         data: {},
-        actionUrl: '/book'
+        actionUrl: '/book',
       });
     }
 
@@ -428,12 +514,13 @@ export async function generateActionRecommendations(userId: string): Promise<Rec
         id: 'rec-action-set-goals',
         type: 'action',
         title: 'Set Your Wellness Goals',
-        description: 'Setting clear goals helps us personalize your experience and track your progress.',
+        description:
+          'Setting clear goals helps us personalize your experience and track your progress.',
         reason: 'Personalization suggestion',
         priority: 'medium',
         confidence: 0.85,
         data: {},
-        actionUrl: '/settings/goals'
+        actionUrl: '/settings/goals',
       });
     }
 
@@ -455,7 +542,7 @@ export async function getAllRecommendations(userId: string): Promise<{
   const [services, exercises, actions] = await Promise.all([
     generateServiceRecommendations(userId, 5),
     generateExerciseRecommendations(userId, 3),
-    generateActionRecommendations(userId)
+    generateActionRecommendations(userId),
   ]);
 
   return { services, exercises, actions };
@@ -488,7 +575,12 @@ export async function getRecommendationHistory(
   days: number = 30
 ): Promise<{ id: string; type: string; action: string; createdAt: Date }[]> {
   try {
-    const { rows } = await db.query<{ id: string; recommendation_id: string; action: string; created_at: Date }>(
+    const { rows } = await db.query<{
+      id: string;
+      recommendation_id: string;
+      action: string;
+      created_at: Date;
+    }>(
       `SELECT id, recommendation_id, action, created_at
        FROM recommendation_interactions
        WHERE user_id = $1 AND created_at > NOW() - INTERVAL '${days} days'
@@ -496,11 +588,11 @@ export async function getRecommendationHistory(
        LIMIT 100`,
       [userId]
     );
-    return rows.map(r => ({
+    return rows.map((r) => ({
       id: r.id,
       type: r.recommendation_id,
       action: r.action,
-      createdAt: r.created_at
+      createdAt: r.created_at,
     }));
   } catch (error) {
     console.error('Error fetching recommendation history:', error);

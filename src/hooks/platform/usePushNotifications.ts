@@ -3,10 +3,8 @@ import { useState, useEffect } from 'react';
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 
 function urlBase64ToUint8Array(base64String: string) {
-  const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-    .replace(/-/g, '+')
-    .replace(/_/g, '/');
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
 
   const rawData = window.atob(base64);
   const outputArray = new Uint8Array(rawData.length);
@@ -25,9 +23,9 @@ export function usePushNotifications() {
   useEffect(() => {
     if (typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window) {
       // Register service worker
-      navigator.serviceWorker.register('/sw.js').then(reg => {
+      navigator.serviceWorker.register('/sw.js').then((reg) => {
         setRegistration(reg);
-        reg.pushManager.getSubscription().then(sub => {
+        reg.pushManager.getSubscription().then((sub) => {
           if (sub) {
             setSubscription(sub);
             setIsSubscribed(true);
@@ -39,8 +37,8 @@ export function usePushNotifications() {
 
   const subscribeToPush = async () => {
     if (!registration || !VAPID_PUBLIC_KEY) {
-        console.error('No registration or VAPID key');
-        return;
+      console.error('No registration or VAPID key');
+      return;
     }
 
     try {
@@ -73,4 +71,3 @@ export function usePushNotifications() {
     subscription,
   };
 }
-

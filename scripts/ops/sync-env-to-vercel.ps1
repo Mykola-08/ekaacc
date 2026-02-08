@@ -18,8 +18,8 @@ $envVars = @{
     "POSTGRES_HOST" = "[REDACTED]"
     "POSTGRES_DATABASE" = "postgres"
     "POSTGRES_PRISMA_URL" = "[REDACTED]"
-    "POSTGRES_URL_NON_POOLING" = "postgres://postgres.dopkncrqutxnchwqxloa:x6tgW4EsRa1nSK3Q@aws-0-eu-central-1.pooler.supabase.com:5432/postgres?sslmode=require"
-    "PAYLOAD_SECRET" = "your-secret-key-here"
+    "POSTGRES_URL_NON_POOLING" = "[REDACTED]"
+    "PAYLOAD_SECRET" = "[REDACTED]"
 }
 
 Write-Host "Syncing environment variables to Vercel..."

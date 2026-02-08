@@ -14,19 +14,19 @@ interface InViewProps {
   className?: string;
 }
 
-export function InView({ 
-  children, 
+export function InView({
+  children,
   variants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } },
-  transition = { duration: 0.3, ease: "easeOut" },
-  className 
+  transition = { duration: 0.3, ease: 'easeOut' },
+  className,
 }: InViewProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
   const controls = useAnimation();
 
   useEffect(() => {
     if (isInView) {
-      controls.start("visible");
+      controls.start('visible');
     }
   }, [isInView, controls]);
 
@@ -53,20 +53,21 @@ interface TextShimmerProps {
 export function TextShimmer({ children, className }: TextShimmerProps) {
   return (
     <motion.span
-      className={cn("relative inline-block", className)}
-      initial={{ backgroundPosition: "-200%" }}
-      animate={{ backgroundPosition: "200%" }}
+      className={cn('relative inline-block', className)}
+      initial={{ backgroundPosition: '-200%' }}
+      animate={{ backgroundPosition: '200%' }}
       transition={{
         duration: 2,
-        ease: "easeInOut",
+        ease: 'easeInOut',
         repeat: Infinity,
-        repeatType: "loop"
+        repeatType: 'loop',
       }}
       style={{
-        background: "linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%)",
-        backgroundSize: "200% 100%",
-        WebkitBackgroundClip: "text",
-        backgroundClip: "text",
+        background:
+          'linear-gradient(90deg, transparent 30%, rgba(255, 255, 255, 0.8) 50%, transparent 70%)',
+        backgroundSize: '200% 100%',
+        WebkitBackgroundClip: 'text',
+        backgroundClip: 'text',
       }}
     >
       {children}
@@ -86,13 +87,9 @@ export function AnimatedNumber({ value, className }: AnimatedNumberProps) {
       className={className}
       initial={{ scale: 0.8 }}
       animate={{ scale: 1 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      <motion.span
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4 }}
-      >
+      <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }}>
         {value}
       </motion.span>
     </motion.span>
@@ -111,14 +108,14 @@ export function Tilt({ children, className, onClick }: TiltProps) {
     <motion.div
       className={className}
       onClick={onClick}
-      whileHover={{ 
+      whileHover={{
         scale: 1.02,
       }}
       whileTap={{ scale: 0.98 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 500, 
-        damping: 30 
+      transition={{
+        type: 'spring',
+        stiffness: 500,
+        damping: 30,
       }}
     >
       {children}
@@ -138,7 +135,7 @@ export function Magnetic({ children, className }: MagneticProps) {
       className={className}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
     >
       {children}
     </motion.div>
@@ -154,9 +151,9 @@ interface BorderTrailProps {
 export function BorderTrail({ children, className }: BorderTrailProps) {
   return (
     <motion.div
-      className={cn("relative", className)}
+      className={cn('relative', className)}
       whileHover={{
-        boxShadow: "0 0 20px rgba(255, 193, 7, 0.3)"
+        boxShadow: '0 0 20px rgba(255, 193, 7, 0.3)',
       }}
       transition={{ duration: 0.3 }}
     >
@@ -165,7 +162,7 @@ export function BorderTrail({ children, className }: BorderTrailProps) {
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
         style={{
-          background: "linear-gradient(45deg, transparent, rgba(255, 193, 7, 0.1), transparent)",
+          background: 'linear-gradient(45deg, transparent, rgba(255, 193, 7, 0.1), transparent)',
         }}
       />
       {children}
@@ -184,14 +181,14 @@ export function GlowEffect({ children, className }: GlowEffectProps) {
     <motion.div
       className={className}
       initial={{ opacity: 0.7 }}
-      animate={{ 
+      animate={{
         opacity: [0.7, 1, 0.7],
-        scale: [1, 1.05, 1]
+        scale: [1, 1.05, 1],
       }}
       transition={{
         duration: 2,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: 'easeInOut',
       }}
     >
       {children}
@@ -207,18 +204,19 @@ interface AnimatedBackgroundProps {
 export function AnimatedBackground({ className }: AnimatedBackgroundProps) {
   return (
     <motion.div
-      className={cn("absolute inset-0", className)}
+      className={cn('absolute inset-0', className)}
       initial={{ opacity: 0 }}
-      animate={{ 
+      animate={{
         opacity: [0.1, 0.3, 0.1],
       }}
       transition={{
         duration: 4,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: 'easeInOut',
       }}
       style={{
-        background: "radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.1) 0%, transparent 50%)"
+        background:
+          'radial-gradient(circle at 50% 50%, rgba(255, 193, 7, 0.1) 0%, transparent 50%)',
       }}
     />
   );
@@ -232,11 +230,9 @@ interface SpotlightProps {
 
 export function Spotlight({ children, className }: SpotlightProps) {
   return (
-    <motion.div
-      className={cn("relative", className)}
-    >
+    <motion.div className={cn('relative', className)}>
       <motion.div
-        className="absolute inset-0 bg-gradient-radial from-white/20 via-transparent to-transparent opacity-0"
+        className="bg-gradient-radial absolute inset-0 from-white/20 via-transparent to-transparent opacity-0"
         whileHover={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
       />
@@ -253,20 +249,19 @@ interface CursorProps {
 export function Cursor({ className }: CursorProps) {
   return (
     <motion.div
-      className={cn("fixed top-0 left-0 w-4 h-4 pointer-events-none z-50 mix-blend-difference", className)}
+      className={cn(
+        'pointer-events-none fixed top-0 left-0 z-50 h-4 w-4 mix-blend-difference',
+        className
+      )}
       animate={{
         scale: [1, 1.2, 1],
-        opacity: [0.7, 1, 0.7]
+        opacity: [0.7, 1, 0.7],
       }}
       transition={{
         duration: 2,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: 'easeInOut',
       }}
     />
   );
 }
-
-
-
-

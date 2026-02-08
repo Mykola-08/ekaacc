@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 
 export interface ServiceProduct {
@@ -11,7 +10,6 @@ export interface ServiceProduct {
 }
 
 export class CatalogService {
-  
   /**
    * Get all wallet top-up options
    */
@@ -23,7 +21,7 @@ export class CatalogService {
       .eq('type', 'wallet_credit')
       .eq('active', true)
       .order('metadata->>credit_amount', { ascending: true }); // Sort by value
-      
+
     return data;
   }
 
@@ -34,14 +32,16 @@ export class CatalogService {
     const supabase = await createClient();
     const { data } = await supabase
       .from('service')
-      .select(`
+      .select(
+        `
         *,
         variants:service_variant(*)
-      `)
+      `
+      )
       .eq('type', 'service')
       .eq('is_public', true)
       .eq('active', true);
-      
+
     return data;
   }
 
@@ -56,7 +56,7 @@ export class CatalogService {
       .eq('type', 'reward')
       .eq('active', true)
       .order('metadata->>point_cost', { ascending: true });
-      
+
     return data;
   }
 
@@ -72,11 +72,11 @@ export class CatalogService {
         description: input.description,
         type: input.type,
         metadata: input.metadata || {},
-        is_public: true
+        is_public: true,
       })
       .select()
       .single();
-      
+
     if (error) throw error;
     return data;
   }

@@ -31,26 +31,27 @@ export default function LoadingButton({
 }: LoadingButtonProps) {
   const isDisabled = disabled || loading;
 
-  let mappedVariant: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link" = "default";
-  let colorClass = "";
+  let mappedVariant: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' =
+    'default';
+  let colorClass = '';
 
   if (color === 'error') {
-    mappedVariant = "destructive";
+    mappedVariant = 'destructive';
   } else if (color === 'secondary') {
-    mappedVariant = "secondary";
+    mappedVariant = 'secondary';
   } else if (color === 'success') {
-    colorClass = "bg-green-600 hover:bg-green-700 text-white";
+    colorClass = 'bg-green-600 hover:bg-green-700 text-white';
   } else if (variant === 'outline') {
-    mappedVariant = "outline";
+    mappedVariant = 'outline';
   } else if (variant === 'link') {
-    mappedVariant = "link";
+    mappedVariant = 'link';
   } else if (variant === 'softBg') {
-    mappedVariant = "secondary";
+    mappedVariant = 'secondary';
   }
 
-  let mappedSize: "default" | "sm" | "lg" | "icon" = "default";
-  if (size === 'xs' || size === 'sm') mappedSize = "sm";
-  else if (size === 'lg' || size === 'xl' || size === '2xl') mappedSize = "lg";
+  let mappedSize: 'default' | 'sm' | 'lg' | 'icon' = 'default';
+  if (size === 'xs' || size === 'sm') mappedSize = 'sm';
+  else if (size === 'lg' || size === 'xl' || size === '2xl') mappedSize = 'lg';
 
   return (
     <Button
@@ -61,39 +62,28 @@ export default function LoadingButton({
       size={mappedSize}
       className={cn(loading ? 'cursor-wait' : '', colorClass, className)}
     >
-      {loading && (
-        <HugeiconsIcon icon={Loading03Icon} className="w-4 h-4 mr-2 animate-spin" />
-      )}
+      {loading && <HugeiconsIcon icon={Loading03Icon} className="mr-2 h-4 w-4 animate-spin" />}
       {loading && loadingText ? loadingText : children}
     </Button>
   );
 }
 
-export function SaveButton({ 
-  loading, 
-  saved, 
-  ...props 
-}: LoadingButtonProps & { saved?: boolean }) {
+export function SaveButton({ loading, saved, ...props }: LoadingButtonProps & { saved?: boolean }) {
   return (
     <LoadingButton
       {...props}
-      color={saved ? 'success' : (props.color || 'primary')}
+      color={saved ? 'success' : props.color || 'primary'}
       loading={loading}
       loadingText="Saving..."
     >
-      {saved ? 'Saved' : (props.children || 'Save')}
+      {saved ? 'Saved' : props.children || 'Save'}
     </LoadingButton>
   );
 }
 
 export function SubmitButton({ loading, ...props }: LoadingButtonProps) {
   return (
-    <LoadingButton
-      {...props}
-      type="submit"
-      loading={loading}
-      loadingText="Sending..."
-    >
+    <LoadingButton {...props} type="submit" loading={loading} loadingText="Sending...">
       {props.children || 'Submit'}
     </LoadingButton>
   );
@@ -101,14 +91,8 @@ export function SubmitButton({ loading, ...props }: LoadingButtonProps) {
 
 export function DeleteButton({ loading, ...props }: LoadingButtonProps) {
   return (
-    <LoadingButton
-      {...props}
-      color="error"
-      loading={loading}
-      loadingText="Deleting..."
-    >
+    <LoadingButton {...props} color="error" loading={loading} loadingText="Deleting...">
       {props.children || 'Delete'}
     </LoadingButton>
   );
 }
-

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useEffect, useState, createContext, useContext } from 'react';
 import { StatsigClient } from '@statsig/js-client';
 
@@ -16,7 +16,11 @@ interface StatsigProviderProps {
   children: React.ReactNode;
 }
 
-export function StatsigProvider({ userID = 'anonymous', initialFlags = {}, children }: StatsigProviderProps) {
+export function StatsigProvider({
+  userID = 'anonymous',
+  initialFlags = {},
+  children,
+}: StatsigProviderProps) {
   const [flags, setFlags] = useState<Record<string, boolean>>(initialFlags);
   const [ready, setReady] = useState(false);
 
@@ -36,7 +40,7 @@ export function StatsigProvider({ userID = 'anonymous', initialFlags = {}, child
         if (cancelled) return;
         // Hydrate known gates from initial list if present
         const merged = { ...initialFlags };
-        Object.keys(merged).forEach(k => {
+        Object.keys(merged).forEach((k) => {
           merged[k] = client!.checkGate(k);
         });
         setFlags(merged);
@@ -46,8 +50,8 @@ export function StatsigProvider({ userID = 'anonymous', initialFlags = {}, child
         if (!cancelled) setReady(true);
       }
     })();
-    return () => { 
-      cancelled = true; 
+    return () => {
+      cancelled = true;
       if (client) {
         client.shutdown();
       }

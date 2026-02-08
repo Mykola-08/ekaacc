@@ -24,8 +24,8 @@ export const useTaskStore = create<TaskState>()(
       tasks: [],
       addTask: async (task) => {
         // Imitate API delay for morphing effect
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+
         set((state) => ({
           tasks: [
             ...state.tasks,

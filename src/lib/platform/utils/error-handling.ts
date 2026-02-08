@@ -103,7 +103,7 @@ export const DEFAULT_RETRY_CONFIG: RetryConfig = {
     if (error instanceof AppError) {
       return error.statusCode >= 500 || error.code === 'NETWORK_ERROR';
     }
-    
+
     // Retry on common network/transient errors
     const retryableErrors = [
       'ECONNREFUSED',
@@ -114,10 +114,9 @@ export const DEFAULT_RETRY_CONFIG: RetryConfig = {
       'NetworkError',
       'TimeoutError',
     ];
-    
-    return retryableErrors.some(retryable => 
-      error.message.includes(retryable) || 
-      error.name.includes(retryable)
+
+    return retryableErrors.some(
+      (retryable) => error.message.includes(retryable) || error.name.includes(retryable)
     );
   },
 };
@@ -188,9 +187,7 @@ export class ErrorHandler {
       'schema',
       'constraint',
     ];
-    return validationKeywords.some(keyword => 
-      error.message.toLowerCase().includes(keyword)
-    );
+    return validationKeywords.some((keyword) => error.message.toLowerCase().includes(keyword));
   }
 
   private isAuthenticationError(error: Error): boolean {
@@ -201,9 +198,7 @@ export class ErrorHandler {
       'expired token',
       'login required',
     ];
-    return authKeywords.some(keyword => 
-      error.message.toLowerCase().includes(keyword)
-    );
+    return authKeywords.some((keyword) => error.message.toLowerCase().includes(keyword));
   }
 
   private isAuthorizationError(error: Error): boolean {
@@ -214,45 +209,22 @@ export class ErrorHandler {
       'insufficient',
       'not allowed',
     ];
-    return authzKeywords.some(keyword => 
-      error.message.toLowerCase().includes(keyword)
-    );
+    return authzKeywords.some((keyword) => error.message.toLowerCase().includes(keyword));
   }
 
   private isNotFoundError(error: Error): boolean {
-    const notFoundKeywords = [
-      'not found',
-      'does not exist',
-      'no such',
-      'missing',
-    ];
-    return notFoundKeywords.some(keyword => 
-      error.message.toLowerCase().includes(keyword)
-    );
+    const notFoundKeywords = ['not found', 'does not exist', 'no such', 'missing'];
+    return notFoundKeywords.some((keyword) => error.message.toLowerCase().includes(keyword));
   }
 
   private isConflictError(error: Error): boolean {
-    const conflictKeywords = [
-      'conflict',
-      'duplicate',
-      'already exists',
-      'unique constraint',
-    ];
-    return conflictKeywords.some(keyword => 
-      error.message.toLowerCase().includes(keyword)
-    );
+    const conflictKeywords = ['conflict', 'duplicate', 'already exists', 'unique constraint'];
+    return conflictKeywords.some((keyword) => error.message.toLowerCase().includes(keyword));
   }
 
   private isRateLimitError(error: Error): boolean {
-    const rateLimitKeywords = [
-      'rate limit',
-      'too many',
-      'quota exceeded',
-      'throttled',
-    ];
-    return rateLimitKeywords.some(keyword => 
-      error.message.toLowerCase().includes(keyword)
-    );
+    const rateLimitKeywords = ['rate limit', 'too many', 'quota exceeded', 'throttled'];
+    return rateLimitKeywords.some((keyword) => error.message.toLowerCase().includes(keyword));
   }
 }
 
@@ -268,37 +240,39 @@ export async function withRetry<T>(
 
   for (let attempt = 0; attempt <= retryConfig.maxRetries; attempt++) {
     try {
-      logger.debug(`Attempting operation: ${context?.operation || 'unknown'} (attempt ${attempt + 1})`);
+      logger.debug(
+        `Attempting operation: ${context?.operation || 'unknown'} (attempt ${attempt + 1})`
+      );
       const result = await operation();
-      
+
       if (attempt > 0) {
-        logger.info(`Operation succeeded after ${attempt + 1} attempts`, { 
+        logger.info(`Operation succeeded after ${attempt + 1} attempts`, {
           operation: context?.operation,
           attempts: attempt + 1,
         });
       }
-      
+
       return result;
     } catch (error: any) {
       lastError = error;
-      
+
       if (attempt < retryConfig.maxRetries && retryConfig.retryCondition(error)) {
         const delay = Math.min(
           retryConfig.retryDelay * Math.pow(retryConfig.backoffMultiplier, attempt),
           retryConfig.maxDelay
         );
-        
+
         logger.warn(`Operation failed, retrying in ${delay}ms`, {
           operation: context?.operation,
           attempt: attempt + 1,
           maxRetries: retryConfig.maxRetries,
           error: error.message,
         });
-        
-        await new Promise(resolve => setTimeout(resolve, delay));
+
+        await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }
-      
+
       // No more retries
       break;
     }
@@ -314,20 +288,17 @@ export async function withRetry<T>(
   throw lastError || new Error('Operation failed');
 }
 
-export function createErrorBoundary(
-  operation: string,
-  fallback?: (error: AppError) => any
-) {
+export function createErrorBoundary(operation: string, fallback?: (error: AppError) => any) {
   return async <T>(fn: () => Promise<T>): Promise<T> => {
     try {
       return await fn();
     } catch (error: any) {
       const appError = errorHandler.handleError(error, { operation });
-      
+
       if (fallback) {
         return fallback(appError) as T;
       }
-      
+
       throw appError;
     }
   };

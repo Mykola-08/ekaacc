@@ -15,17 +15,17 @@ export function ReferralWidget() {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(`https://eka.app/join?ref=${referralCode}`);
-    toast.success("Referral link copied to clipboard!");
+    toast.success('Referral link copied to clipboard!');
   };
 
   const progress = (points / nextReward) * 100;
 
   return (
-    <Card className="border-emerald-100 dark:border-emerald-900/50 bg-linear-to-b from-white to-emerald-50/20 dark:from-background dark:to-emerald-950/10">
+    <Card className="dark:from-background border-emerald-100 bg-linear-to-b from-white to-emerald-50/20 dark:border-emerald-900/50 dark:to-emerald-950/10">
       <CardHeader>
         <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-500">
-            <Gift className="w-5 h-5" />
-            <span className="text-sm font-bold uppercase tracking-widest">Rewards Program</span>
+          <Gift className="h-5 w-5" />
+          <span className="text-sm font-bold tracking-widest uppercase">Rewards Program</span>
         </div>
         <CardTitle className="text-2xl">Invite Friends, Get Sessions</CardTitle>
         <CardDescription>
@@ -33,35 +33,37 @@ export function ReferralWidget() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        
         {/* Progress Section */}
         <div className="space-y-2">
-            <div className="flex justify-between text-sm font-medium">
-                <span className="flex items-center gap-2"><Award className="w-4 h-4 text-amber-500" /> My Points: {points}</span>
-                <span className="text-muted-foreground">{nextReward - points} to next reward</span>
-            </div>
-            <Progress value={progress} className="h-2" />
-            <p className="text-xs text-muted-foreground text-right">Reach {nextReward} pts for a free 30min session</p>
+          <div className="flex justify-between text-sm font-medium">
+            <span className="flex items-center gap-2">
+              <Award className="h-4 w-4 text-amber-500" /> My Points: {points}
+            </span>
+            <span className="text-muted-foreground">{nextReward - points} to next reward</span>
+          </div>
+          <Progress value={progress} className="h-2" />
+          <p className="text-muted-foreground text-right text-xs">
+            Reach {nextReward} pts for a free 30min session
+          </p>
         </div>
 
         {/* Link Section */}
         <div className="flex gap-2">
-            <div className="grid flex-1 gap-2">
-                <Input 
-                    readOnly 
-                    value={`https://eka.app/join?ref=${referralCode}`} 
-                    className="bg-background text-muted-foreground"
-                />
-            </div>
-            <Button onClick={copyToClipboard} size="icon" variant="outline">
-                <Copy className="h-4 w-4" />
-            </Button>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                <Share2 className="h-4 w-4 mr-2" /> Share
-            </Button>
+          <div className="grid flex-1 gap-2">
+            <Input
+              readOnly
+              value={`https://eka.app/join?ref=${referralCode}`}
+              className="bg-background text-muted-foreground"
+            />
+          </div>
+          <Button onClick={copyToClipboard} size="icon" variant="outline">
+            <Copy className="h-4 w-4" />
+          </Button>
+          <Button className="bg-emerald-600 text-white hover:bg-emerald-700">
+            <Share2 className="mr-2 h-4 w-4" /> Share
+          </Button>
         </div>
       </CardContent>
     </Card>
   );
 }
-

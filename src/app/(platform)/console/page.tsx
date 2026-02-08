@@ -10,14 +10,14 @@ import { AdminDashboardHeadless } from '@/components/platform/admin/admin-dashbo
 export default function AdminDashboard() {
   const { toast } = useToast();
   const { user } = useAuth();
-  
+
   const [stats, setStats] = useState({
     totalUsers: 0,
     activeUsers: 0,
     totalSessions: 0,
     totalRevenue: 0,
     recentUsers: [] as User[],
-    recentSessions: [] as Session[]
+    recentSessions: [] as Session[],
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,59 +26,66 @@ export default function AdminDashboard() {
       const dataService = await getDataService();
       const [users, sessions] = await Promise.all([
         dataService.getAllUsers(),
-        dataService.getSessions()
+        dataService.getSessions(),
       ]);
 
       const totalUsers = users.length;
       // Filter active users (last 7 days)
-      const activeUsers = users.filter((u: any) => 
-        u.lastActive && new Date(u.lastActive) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      const activeUsers = users.filter(
+        (u: any) =>
+          u.lastActive && new Date(u.lastActive) > new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       ).length;
-      
+
       const totalSessions = sessions.length;
-      const totalRevenue = sessions.reduce((sum: number, session: any) => sum + (session.price || 0), 0);
+      const totalRevenue = sessions.reduce(
+        (sum: number, session: any) => sum + (session.price || 0),
+        0
+      );
 
-      const recentUsers = users.sort((a: any, b: any) => 
-        new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-      ).slice(0, 10);
-      
-      const recentSessions = sessions.sort((a: any, b: any) => 
-        new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime()
-      ).slice(0, 10);
+      const recentUsers = users
+        .sort(
+          (a: any, b: any) =>
+            new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
+        )
+        .slice(0, 10);
 
-      setStats({ 
-        totalUsers, 
-        activeUsers, 
-        totalSessions, 
-        totalRevenue, 
-        recentUsers: recentUsers as any, 
-        recentSessions: recentSessions as any 
+      const recentSessions = sessions
+        .sort((a: any, b: any) => new Date(b.date || 0).getTime() - new Date(a.date || 0).getTime())
+        .slice(0, 10);
+
+      setStats({
+        totalUsers,
+        activeUsers,
+        totalSessions,
+        totalRevenue,
+        recentUsers: recentUsers as any,
+        recentSessions: recentSessions as any,
       });
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-      toast({ 
-        title: 'Error', 
-        description: 'Failed to load dashboard data. Using mock data for display.', 
-        variant: 'destructive' 
+      toast({
+        title: 'Error',
+        description: 'Failed to load dashboard data. Using mock data for display.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
     }
   }, [toast]);
 
-  useEffect(() => { 
-    fetchDashboardData(); 
+  useEffect(() => {
+    fetchDashboardData();
   }, [fetchDashboardData]);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[600px] bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-950 dark:to-blue-950/30">
-        <div className="text-center space-y-4">
+      <div className="flex min-h-[600px] items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-950 dark:to-blue-950/30">
+        <div className="space-y-4 text-center">
           <div className="relative">
-            <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl animate-pulse" />
-            <div className="relative animate-spin w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full mx-auto shadow-lg" />
+            <div className="absolute inset-0 animate-pulse rounded-full bg-blue-500/20 blur-xl" />
+            <div className="relative mx-auto h-16 w-16 animate-spin rounded-full border-4 border-blue-600 border-t-transparent shadow-lg" />
           </div>
-          <p className="text-muted-foreground font-semibold text-lg">Loading dashboard...</p>
+          <p className="text-muted-foreground text-lg font-semibold">Loading dashboard...</p>
         </div>
       </div>
     );
@@ -86,14 +93,13 @@ export default function AdminDashboard() {
 
   // Adapt stats for headless component
   const kpiStats = {
-      users_total: stats.totalUsers,
-      revenue_mtd: stats.totalRevenue,
-      users_growth_pct: 12, // Mock growth for now
-      revenue_growth_pct: 8, 
-      active_users: stats.activeUsers,
-      systemHealth: 'healthy' as const
+    users_total: stats.totalUsers,
+    revenue_mtd: stats.totalRevenue,
+    users_growth_pct: 12, // Mock growth for now
+    revenue_growth_pct: 8,
+    active_users: stats.activeUsers,
+    systemHealth: 'healthy' as const,
   };
 
   return <AdminDashboardHeadless kpiStats={kpiStats as any} />;
 }
-

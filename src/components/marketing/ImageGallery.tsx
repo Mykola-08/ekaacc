@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
@@ -29,7 +29,7 @@ const Lightbox: React.FC<LightboxProps> = ({
   currentIndex,
   onClose,
   onPrevious,
-  onNext
+  onNext,
 }) => {
   const currentImage = images[currentIndex];
 
@@ -45,9 +45,9 @@ const Lightbox: React.FC<LightboxProps> = ({
         type="button"
         onClick={onClose}
         aria-label="Close image viewer"
-        className="absolute top-6 right-6 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 z-10"
+        className="absolute top-6 right-6 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
       >
-        <X className="w-6 h-6" />
+        <X className="h-6 w-6" />
       </button>
 
       {/* Navigation buttons */}
@@ -57,38 +57,36 @@ const Lightbox: React.FC<LightboxProps> = ({
             type="button"
             onClick={onPrevious}
             aria-label="View previous image"
-            className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 z-10"
+            className="absolute top-1/2 left-6 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="h-6 w-6" />
           </button>
           <button
             type="button"
             onClick={onNext}
             aria-label="View next image"
-            className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-200 z-10"
+            className="absolute top-1/2 right-6 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md transition-all duration-200 hover:bg-white/30"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="h-6 w-6" />
           </button>
         </>
       )}
 
       {/* Image container */}
-      <div className="flex items-center justify-center h-full p-12">
-        <div className="max-w-7xl max-h-full">
+      <div className="flex h-full items-center justify-center p-12">
+        <div className="max-h-full max-w-7xl">
           <img
             src={currentImage.url}
             alt={currentImage.alt}
-            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
           />
           {currentImage.caption && (
             <div className="mt-6 text-center">
-              <p className="text-white/90 text-lg">{currentImage.caption}</p>
+              <p className="text-lg text-white/90">{currentImage.caption}</p>
             </div>
           )}
         </div>
       </div>
-
-      
     </div>
   );
 };
@@ -110,14 +108,10 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
         setLightboxOpen(false);
       }
       if (event.key === 'ArrowLeft') {
-        setCurrentImageIndex((prev) =>
-          prev === 0 ? images.length - 1 : prev - 1
-        );
+        setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
       }
       if (event.key === 'ArrowRight') {
-        setCurrentImageIndex((prev) =>
-          prev === images.length - 1 ? 0 : prev + 1
-        );
+        setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
       }
     };
 
@@ -139,15 +133,11 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
   };
 
   const goToPrevious = () => {
-    setCurrentImageIndex((prev) => 
-      prev === 0 ? images.length - 1 : prev - 1
-    );
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const goToNext = () => {
-    setCurrentImageIndex((prev) => 
-      prev === images.length - 1 ? 0 : prev + 1
-    );
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   if (images.length === 0) return null;
@@ -160,23 +150,23 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
             key={image.url}
             type="button"
             aria-label={`Open image: ${image.alt}`}
-            className="relative group cursor-pointer overflow-hidden rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            className="group relative cursor-pointer overflow-hidden rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             onClick={() => openLightbox(index)}
           >
             <img
               src={image.url}
               alt={image.alt}
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-              <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-90 group-hover:scale-100">
-                <ZoomIn className="w-6 h-6 text-gray-700" />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-all duration-300 group-hover:bg-black/20">
+              <div className="flex h-12 w-12 scale-90 items-center justify-center rounded-full bg-white/90 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:scale-100 group-hover:opacity-100">
+                <ZoomIn className="h-6 w-6 text-gray-700" />
               </div>
             </div>
             {image.caption && (
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-                <p className="text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                <p className="text-sm text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   {image.caption}
                 </p>
               </div>
@@ -197,4 +187,3 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
     </>
   );
 }
-

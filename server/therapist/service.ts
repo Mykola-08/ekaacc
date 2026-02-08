@@ -21,6 +21,6 @@ export async function getActiveTherapists(): Promise<StaffProfile[]> {
 }
 
 export async function getSingleActiveTherapist(): Promise<StaffProfile | null> {
-    const therapists = await getActiveTherapists();
-    return therapists.length === 1 ? therapists[0] ?? null : null;
+  const therapists = await getActiveTherapists();
+  return therapists.length === 1 ? (therapists[0] ?? null) : null;
 }

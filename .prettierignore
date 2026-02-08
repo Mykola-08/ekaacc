@@ -18,6 +18,8 @@ build
 .vscode
 .idea
 *.swp
+.claude
+.aitk
 *.swo
 
 # OS

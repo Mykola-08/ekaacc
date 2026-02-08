@@ -1,6 +1,5 @@
-import { PaymentResult } from "@/components/payment/PaymentResult";
+import { PaymentResult } from '@/components/payment/PaymentResult';
 
 export default function Page() {
- return <PaymentResult status="cancel" />;
+  return <PaymentResult status="cancel" />;
 }
-

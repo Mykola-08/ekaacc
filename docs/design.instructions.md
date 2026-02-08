@@ -1,12 +1,16 @@
 # COMPREHENSIVE PLATFORM UX GUIDE
+
 ## Therapy Booking & Wellness Platform
 
 ---
 
 ## System Architecture Overview
+
 Your platform consists of:
+
 1. **Booking Application** (booking-app) - Service scheduling & payments
-2. **Platform Website** (seowebsite) - Client dashboard, wallet, community, academy
+2. **Platform Website** (seowebsite) - Client dashboard, wallet, community,
+   academy
 3. **Therapist Portal** (/therapist) - Session management, clinical tools
 4. **Admin Console** (/console) - Platform management
 5. **Unified Authentication** (Supabase) - Single login across all apps
@@ -18,7 +22,9 @@ Your platform consists of:
 ### 👤 CLIENT USER EXPERIENCE
 
 #### Dashboard (/dashboard)
+
 **Must-Have Features:**
+
 - [ ] Personalized greeting animation (slide-in name)
 - [ ] "Next Session" widget with real-time sync from Booking App
   - Show session date, time, therapist name, service type
@@ -39,6 +45,7 @@ Your platform consists of:
   - CTA button to Booking Wizard
 
 **Nice-to-Have Features:**
+
 - [ ] Session history mini-list (last 3 sessions)
   - Expandable to full history
   - Each session shows date, therapist, notes preview (if available)
@@ -49,15 +56,19 @@ Your platform consists of:
   - Pulses when session is within 24 hours
 
 #### Booking Wizard Enhancement
+
 **Current**: Service selection → Availability → Checkout
 
 **Improvements to Add:**
+
 - [ ] **Smart Recommendations**
   - Show "Popular Choice" badge on most-booked service variant
-  - Show "Your History": If user booked 60-min sessions before, highlight that option
+  - Show "Your History": If user booked 60-min sessions before, highlight that
+    option
   - "Based on your last session" suggestions
 - [ ] **Multi-Step Progress Indicator**
-  - Visual progress bar: Step 1 (Service) → Step 2 (Availability) → Step 3 (Checkout)
+  - Visual progress bar: Step 1 (Service) → Step 2 (Availability) → Step 3
+    (Checkout)
   - Current step highlighted, completed steps show checkmark
 - [ ] **Availability Calendar Enhancements**
   - Color-coded slots: Green (available), Gray (booked), Red (unavailable)
@@ -83,9 +94,11 @@ Your platform consists of:
   - "What to expect" info card
 
 #### Wallet System (/wallet)
+
 **Current**: Balance display, top-up options, savings tracker
 
 **Enhancements:**
+
 - [ ] **Visual Balance Indicator**
   - Animated balance counter (counts up when top-up completes)
   - Balance with currency symbol (€) in large font
@@ -121,7 +134,9 @@ Your platform consists of:
   - Tracker showing referred users and credits earned
 
 #### Progress & Health (/progress)
+
 **Must-Have:**
+
 - [ ] **Assessment Management**
   - List of available assessments with descriptions
   - "Complete Assessment" button
@@ -149,6 +164,7 @@ Your platform consists of:
   - "Download Report" as PDF button
 
 **Nice-to-Have:**
+
 - [ ] **Before/After Session Prompts**
   - 30 minutes before session: Notification asking to fill pre-assessment
   - 1 hour after session: Prompt to fill post-assessment
@@ -163,7 +179,9 @@ Your platform consists of:
   - Display in profile or on dashboard
 
 #### Community Forum (/community)
+
 **Currently In Development - Essential Features:**
+
 - [ ] **Forum Structure**
   - Categories: General, Wellness, Support
   - Each category shows:
@@ -192,7 +210,9 @@ Your platform consists of:
   - Thread badge showing new replies since last visit
 
 #### Academy (/academy)
+
 **Currently Planned - Must-Have Structure:**
+
 - [ ] **Course Library**
   - Grid or list of available courses
   - Course cards show:
@@ -237,11 +257,13 @@ Your platform consists of:
 ### 🥼 THERAPIST EXPERIENCE
 
 #### Therapist Portal (/therapist)
+
 **Current**: Daily agenda, patient list, clinical tools
 
 **Must-Have UX Features:**
 
 **Daily Agenda/Calendar View**
+
 - [ ] **Timeline View (Default)**
   - Horizontal timeline for today's sessions
   - Each session card shows:
@@ -272,6 +294,7 @@ Your platform consists of:
   - "More Options" → Reschedule, cancel, message
 
 **Patient List & Management**
+
 - [ ] **Recent Patients Widget**
   - Shows last 5 patients seen
   - Patient card includes:
@@ -294,6 +317,7 @@ Your platform consists of:
     - Action menu (View, Message, View Notes, Archive)
 
 **Session Notes & Documentation**
+
 - [ ] **Clinical Notes Editor**
   - Rich text editor with formatting
   - Timestamp auto-added (session date/time)
@@ -313,7 +337,8 @@ Your platform consists of:
 - [ ] **Before/After Session Assessment Tracking**
   - Pre-Session Assessment
     - Form appears before session time
-    - Collects: Pain level (1-10 slider), Mobility (scale), Mood (emoji picker), Notes
+    - Collects: Pain level (1-10 slider), Mobility (scale), Mood (emoji picker),
+      Notes
     - Timestamp recorded
   - Post-Session Assessment
     - Form appears after session ends
@@ -324,6 +349,7 @@ Your platform consists of:
   - Graph view: Progress over time (if multiple sessions)
 
 **Patient Progress Dashboard** (visible to therapist)
+
 - [ ] **Patient Overview Card**
   - Patient name, age, contact
   - Treatment plan summary
@@ -346,6 +372,7 @@ Your platform consists of:
     - "View Full Note" link
 
 **Pending Tasks & Notifications**
+
 - [ ] **Task System**
   - Auto-generated tasks from system:
     - "Complete notes for [Patient] - Session on [Date]"
@@ -372,6 +399,7 @@ Your platform consists of:
   - Mark as read/unread
 
 **Calendar Integration (Google Calendar Sync)**
+
 - [ ] **Integration Setup**
   - One-time Google OAuth connection
   - Button: "Connect Google Calendar"
@@ -385,13 +413,15 @@ Your platform consists of:
     - Join link (if telehealth)
     - Location (clinic address)
   - Therapist can edit event in Google Calendar, changes sync back to platform
-  - Time conflicts detected: Warning if therapist books conflicting session in Google Calendar
+  - Time conflicts detected: Warning if therapist books conflicting session in
+    Google Calendar
 - [ ] **Calendar View in Portal**
   - Embedded Google Calendar mini-view (if API allows)
   - or "View in Google Calendar" button
   - Shows personal events + session events color-coded
 
 **Schedule Management**
+
 - [ ] **Availability Settings**
   - Open/close times for each day
   - Break times
@@ -412,6 +442,7 @@ Your platform consists of:
   - Shows conflicting sessions in modal
 
 **Patient Messaging** (if implemented)
+
 - [ ] **Message Inbox**
   - List of conversations with patients
   - Badge showing unread count
@@ -434,9 +465,11 @@ Your platform consists of:
 ### 🛠️ ADMIN EXPERIENCE
 
 #### Admin Dashboard (/admin)
+
 **Key Features:**
 
 **KPI Overview Dashboard**
+
 - [ ] **Main Metrics Cards**
   - Revenue (MTD)
     - Large number in green or primary color
@@ -459,6 +492,7 @@ Your platform consists of:
   - Charts update on date change
 
 **Booking Management (/admin/bookings)**
+
 - [ ] **Master Booking Table**
   - Columns:
     - Booking ID (clickable, links to detail view)
@@ -515,6 +549,7 @@ Your platform consists of:
   - "Apply to X selected" button
 
 **Service Catalog Management (/admin/services)**
+
 - [ ] **Service List View**
   - Table with columns:
     - Service Name (clickable)
@@ -543,8 +578,10 @@ Your platform consists of:
   - Publish/Draft status
 - [ ] **Service Visibility Control**
   - Toggle: Public (visible in booking wizard) / Hidden (draft)
-  - When toggling to Public: Confirmation modal asking "This will make service visible to all users"
-  - When toggling to Hidden: Option to keep existing bookings or block new bookings
+  - When toggling to Public: Confirmation modal asking "This will make service
+    visible to all users"
+  - When toggling to Hidden: Option to keep existing bookings or block new
+    bookings
 - [ ] **Service Analytics** (if data available)
   - Total bookings for this service
   - Revenue from service
@@ -552,6 +589,7 @@ Your platform consists of:
   - Average rating/feedback (if collection feature exists)
 
 **User Administration (/admin/users)**
+
 - [ ] **User List**
   - Table with columns:
     - User name (clickable)
@@ -583,7 +621,8 @@ Your platform consists of:
   - Notes field: Admin can add internal notes about user
 - [ ] **Impersonation/Ghost Mode**
   - "Impersonate User" button
-  - Confirmation modal: "You will view this user's dashboard. They will NOT be notified."
+  - Confirmation modal: "You will view this user's dashboard. They will NOT be
+    notified."
   - Admin gets logged in as that user (session context)
   - Clear banner at top: "You are viewing as [User Name] (Admin Mode)"
   - Admin sees exactly what user sees
@@ -595,6 +634,7 @@ Your platform consists of:
 ### ⚙️ SUPER ADMIN CONSOLE (/console)
 
 **System Health Monitoring**
+
 - [ ] **Error Log Dashboard**
   - List of recent errors with:
     - Error message
@@ -608,6 +648,7 @@ Your platform consists of:
   - Alert email when critical error occurs
 
 **Content Management (CMS)**
+
 - [ ] **Blog Management**
   - List of articles
   - Create/Edit article form:
@@ -644,14 +685,21 @@ Your platform consists of:
 ## 🎨 DASHBOARD DESIGN BEST PRACTICES
 
 ### Layout Principles
+
 **Golden Rules:**
-1. **Information Hierarchy**: Most important metrics first (top-left), least important bottom-right
-2. **Visual Scanning Path**: Eye naturally moves: top-left → top-right → middle → bottom
-3. **Grouping**: Related metrics should be visually grouped (cards, sections, colors)
+
+1. **Information Hierarchy**: Most important metrics first (top-left), least
+   important bottom-right
+2. **Visual Scanning Path**: Eye naturally moves: top-left → top-right → middle
+   → bottom
+3. **Grouping**: Related metrics should be visually grouped (cards, sections,
+   colors)
 4. **Whitespace**: Don't crowd. Use breathing room between elements
-5. **Consistency**: Same metric always in same position (date range selector at top, always)
+5. **Consistency**: Same metric always in same position (date range selector at
+   top, always)
 
 ### Metric Card Design
+
 ```
 ┌─────────────────────────────┐
 │ Metric Label (small, gray)  │
@@ -661,6 +709,7 @@ Your platform consists of:
 ```
 
 ### Chart Best Practices
+
 - **Line charts**: Trends over time (revenue, user growth)
 - **Bar charts**: Categorical comparison (bookings by service)
 - **Pie/Donut**: Parts of a whole (payment status breakdown)
@@ -669,6 +718,7 @@ Your platform consists of:
 - Tooltip: On hover, show exact values
 
 ### Table Best Practices
+
 - **Sortable headers**: Click to sort ascending/descending
 - **Sticky header**: Stays visible when scrolling
 - **Alternating row colors**: Aids readability
@@ -681,7 +731,9 @@ Your platform consists of:
 ## 📱 USER PROFILE ENHANCEMENTS
 
 ### Client Profile (/profile or /account)
+
 **Required Fields:**
+
 - [ ] Basic Info:
   - Full Name
   - Email (verified)
@@ -710,7 +762,9 @@ Your platform consists of:
   - Subscription tier display (current plan)
 
 ### Therapist Profile
+
 **Professional Info:**
+
 - [ ] Credentials
   - Full Name
   - License number
@@ -738,6 +792,7 @@ Your platform consists of:
 ### Client-Facing Recommendations
 
 **Booking Wizard Improvements:**
+
 - [ ] **Smart Service Recommendations**
   - Show "Recommended for you" section above popular services
   - Criteria:
@@ -749,8 +804,10 @@ Your platform consists of:
   - Algorithm: Collaborative filtering if dataset grows
 
 **Dashboard Personalization:**
+
 - [ ] **Dynamic Greeting**
-  - Morning (6am-12pm): "Good morning, [Name]! Ready to prioritize your wellness?"
+  - Morning (6am-12pm): "Good morning, [Name]! Ready to prioritize your
+    wellness?"
   - Afternoon (12pm-6pm): "Good afternoon, [Name]! How's your day going?"
   - Evening (6pm-12am): "Good evening, [Name]! Time to wind down?"
   - Based on user's timezone
@@ -766,10 +823,12 @@ Your platform consists of:
   - Show new course releases matching user's interests
 
 **Notification Personalization:**
+
 - [ ] **Smart Timing**
   - Send reminders based on user's typical check-in time
   - If user always books on weekends: Recommend booking on Friday afternoon
-  - Learn from patterns: If user ignores certain notification types, reduce frequency
+  - Learn from patterns: If user ignores certain notification types, reduce
+    frequency
 - [ ] **Content Personalization**
   - Wellness tips related to user's goals
   - Progress celebration messages when goals achieved
@@ -778,6 +837,7 @@ Your platform consists of:
 ### Therapist Portal Personalization
 
 **Patient Insights:**
+
 - [ ] **Progress Visualization**
   - Show patient's trend improvement (pre/post assessments)
   - Highlight areas of significant improvement (celebrate wins)
@@ -796,6 +856,7 @@ Your platform consists of:
 ### Admin Analytics & Insights
 
 **Booking Patterns:**
+
 - [ ] **Peak Hours Analysis**
   - Show which times are most booked
   - Recommendation: "Your most popular slots are Tuesday 2-4pm"
@@ -816,6 +877,7 @@ Your platform consists of:
 ### Cross-App Features
 
 **Smart Notifications System**
+
 - [ ] **In-App Toast Notifications** (small, non-intrusive)
   - Success: "✓ Session booked!"
   - Error: "× Payment failed. Please try again."
@@ -838,6 +900,7 @@ Your platform consists of:
   - Deep link to relevant screen
 
 **Data Export & Reporting**
+
 - [ ] **Client Self-Service Exports**
   - "Export My Data" button
   - Downloads as CSV or JSON
@@ -858,6 +921,7 @@ Your platform consists of:
   - Email export link or direct download
 
 **Help & Support**
+
 - [ ] **Contextual Help**
   - Question mark icon on complex features
   - Hover shows tooltip explanation
@@ -876,7 +940,9 @@ Your platform consists of:
 ## 📊 FEATURE IMPLEMENTATION PRIORITY
 
 ### Phase 1: Core UX Polish (Weeks 1-2)
+
 **Must ship these first:**
+
 - Confirmation modals for destructive actions
 - Form validation with real-time feedback
 - Loading indicators (spinners, skeleton screens)
@@ -888,6 +954,7 @@ Your platform consists of:
 - Responsive design on mobile
 
 ### Phase 2: Enhanced User Features (Weeks 3-4)
+
 - Dashboard personalization (greeting, smart widgets)
 - Wallet transaction history
 - Assessment tracking (before/after sessions)
@@ -898,6 +965,7 @@ Your platform consists of:
 - Admin impersonation (Ghost Mode)
 
 ### Phase 3: Community & Academy (Weeks 5-6)
+
 - Forum threading and discussions
 - Course enrollment and lesson viewer
 - Quiz system
@@ -905,6 +973,7 @@ Your platform consists of:
 - Course progress tracking
 
 ### Phase 4: Advanced Personalization (Weeks 7-8)
+
 - Smart booking recommendations
 - Goal-based course suggestions
 - Revenue analytics dashboard
@@ -912,6 +981,7 @@ Your platform consists of:
 - Notification timing optimization
 
 ### Phase 5: Polish & Optimization (Weeks 9+)
+
 - Haptic feedback on mobile
 - Advanced analytics (charts)
 - Data export functionality
@@ -924,6 +994,7 @@ Your platform consists of:
 ## ✅ FINAL IMPLEMENTATION CHECKLIST
 
 ### Universal UX Standards (All Pages)
+
 - [ ] Confirmation modals for destructive actions (delete, cancel, logout)
 - [ ] Form validation feedback (real-time, inline, visual checkmarks)
 - [ ] Loading indicators (spinners, skeleton screens, progress bars)
@@ -938,7 +1009,9 @@ Your platform consists of:
 - [ ] Consistent color palette (success green, error red, info blue, etc.)
 
 ### Role-Specific Features
+
 **Clients:**
+
 - [ ] Dashboard with personalized greeting
 - [ ] Next session widget with real-time sync
 - [ ] Booking wizard with smart recommendations
@@ -949,6 +1022,7 @@ Your platform consists of:
 - [ ] Academy course enrollment
 
 **Therapists:**
+
 - [ ] Daily agenda/calendar views
 - [ ] Patient list and directory
 - [ ] Session notes editor with templates
@@ -959,6 +1033,7 @@ Your platform consists of:
 - [ ] Schedule availability settings
 
 **Admins:**
+
 - [ ] KPI dashboard with charts
 - [ ] Booking management with filtering
 - [ ] Service catalog management
@@ -968,6 +1043,7 @@ Your platform consists of:
 - [ ] Content management (blog, legal docs)
 
 ### Performance & Reliability
+
 - [ ] Skeleton screens during data loading
 - [ ] Progressive loading (critical content first)
 - [ ] Network error handling with retry
@@ -985,7 +1061,8 @@ Your platform consists of:
 1. **Start simple**: Get core functionality working first, then add polish
 2. **Test with users**: Watch how real people use your app
 3. **Performance matters**: Smooth animations = better than fancy but slow
-4. **Consistency is key**: A small set of consistent interactions beats many random ones
+4. **Consistency is key**: A small set of consistent interactions beats many
+   random ones
 5. **Accessibility = better for everyone**: Keyboard navigation helps all users
 6. **Animation timing**: 150-350ms is the sweet spot for responsiveness
 7. **Less is more**: Every animation should have a purpose

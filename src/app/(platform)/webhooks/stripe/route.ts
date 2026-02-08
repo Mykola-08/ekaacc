@@ -9,7 +9,7 @@ export const runtime = 'nodejs';
 /**
  * Webhook handler for Stripe subscription events
  * Endpoint: /api/webhooks/stripe
- * 
+ *
  * NOTE: This is a simplified implementation. In production, you would need
  * to implement the full subscription service methods.
  */
@@ -67,9 +67,11 @@ export async function POST(req: NextRequest) {
             .from('subscriptions')
             .update({
               status: subscriptionUpdated.status,
-              current_period_end: new Date((subscriptionUpdated as any).current_period_end * 1000).toISOString(),
+              current_period_end: new Date(
+                (subscriptionUpdated as any).current_period_end * 1000
+              ).toISOString(),
               cancel_at_period_end: subscriptionUpdated.cancel_at_period_end,
-              updated_at: new Date().toISOString()
+              updated_at: new Date().toISOString(),
             })
             .eq('stripe_subscription_id', subscriptionUpdated.id);
           if (error) console.error('Failed to update subscription:', error);
@@ -88,7 +90,7 @@ export async function POST(req: NextRequest) {
             .update({
               status: 'cancelled',
               cancelled_at: new Date().toISOString(),
-              updated_at: new Date().toISOString()
+              updated_at: new Date().toISOString(),
             })
             .eq('stripe_subscription_id', subscriptionDeleted.id);
           if (error) console.error('Failed to cancel subscription:', error);
@@ -112,7 +114,7 @@ export async function POST(req: NextRequest) {
       case 'payment_intent.succeeded':
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log('Payment intent succeeded:', paymentIntent.id);
-        
+
         const { metadata, amount } = paymentIntent;
         const type = metadata.type;
         const userId = metadata.userId;
@@ -123,7 +125,12 @@ export async function POST(req: NextRequest) {
           if (amountCredits > 0) {
             try {
               const { walletService } = await import('@/lib/platform/services/wallet-service');
-              await walletService.processStripeTopUp(userId, amountCredits, paymentIntent.id, amountPaid);
+              await walletService.processStripeTopUp(
+                userId,
+                amountCredits,
+                paymentIntent.id,
+                amountPaid
+              );
               console.log(`Processed wallet top-up for user ${userId}: ${amountCredits} credits`);
             } catch (e) {
               console.warn('Wallet service unavailable during top-up processing:', e);
@@ -139,7 +146,7 @@ export async function POST(req: NextRequest) {
                 payment_status: 'paid',
                 stripe_payment_intent_id: paymentIntent.id,
                 amount_paid: amount / 100,
-                updated_at: new Date().toISOString()
+                updated_at: new Date().toISOString(),
               })
               .eq('id', bookingId);
             if (error) {
@@ -160,9 +167,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   } catch (error) {
     console.error('Webhook handler error:', error);
-    return NextResponse.json(
-      { error: 'Webhook handler failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
 }

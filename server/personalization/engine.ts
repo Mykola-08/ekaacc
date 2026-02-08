@@ -64,8 +64,8 @@ export async function getPersonalizationProfile(userId: string): Promise<Persona
       completedExercises: 0,
       journalEntries: 0,
       mostVisitedPages: [],
-      featureUsage: {}
-    }
+      featureUsage: {},
+    },
   };
 
   try {
@@ -73,10 +73,7 @@ export async function getPersonalizationProfile(userId: string): Promise<Persona
     const profileData = await db.queryOne<{
       full_name: string;
       personalization_data: Record<string, unknown>;
-    }>(
-      `SELECT full_name, personalization_data FROM profiles WHERE auth_id = $1`,
-      [userId]
-    );
+    }>(`SELECT full_name, personalization_data FROM profiles WHERE auth_id = $1`, [userId]);
 
     if (profileData) {
       defaultProfile.name = profileData.full_name;
@@ -86,7 +83,10 @@ export async function getPersonalizationProfile(userId: string): Promise<Persona
     }
 
     // Get onboarding answers
-    const onboardingData = await db.query<{ question_key: string; answer_data: { value: unknown } }>(
+    const onboardingData = await db.query<{
+      question_key: string;
+      answer_data: { value: unknown };
+    }>(
       `SELECT oq.question_key, uoa.answer_data
        FROM user_onboarding_answers uoa
        JOIN onboarding_questions oq ON uoa.question_id = oq.id
@@ -160,7 +160,11 @@ export function generateWelcomeMessage(profile: PersonalizationProfile): string 
   const name = profile.name?.split(' ')[0] || '';
 
   // Students with goals get special messaging
-  if (profile.occupation === 'student' && profile.therapeuticGoals && profile.therapeuticGoals.length > 0) {
+  if (
+    profile.occupation === 'student' &&
+    profile.therapeuticGoals &&
+    profile.therapeuticGoals.length > 0
+  ) {
     return `${greeting}${name ? `, ${name}` : ''}! Ready to work on ${profile.therapeuticGoals[0]?.toLowerCase()}?`;
   }
 
@@ -188,7 +192,7 @@ export function generateMotivationalMessages(profile: PersonalizationProfile): s
   for (const goal of profile.therapeuticGoals) {
     const goalLower = goal.toLowerCase();
     if (goalLower.includes('stress')) {
-      messages.push('Taking time for yourself is not selfish - it\'s necessary.');
+      messages.push("Taking time for yourself is not selfish - it's necessary.");
     }
     if (goalLower.includes('sleep')) {
       messages.push('Quality rest is the foundation of wellness.');
@@ -201,7 +205,7 @@ export function generateMotivationalMessages(profile: PersonalizationProfile): s
   // Progress-based messages
   if (profile.progressTrend === 'improving') {
     messages.push('Your progress is showing! Keep going!');
-    messages.push('You\'re on the right track. Trust the process.');
+    messages.push("You're on the right track. Trust the process.");
   }
 
   // Streak-based messages
@@ -216,7 +220,7 @@ export function generateMotivationalMessages(profile: PersonalizationProfile): s
 
   // High stress messages
   if (profile.workStressLevel >= 7) {
-    messages.push('Remember to breathe. You\'re handling more than you think.');
+    messages.push("Remember to breathe. You're handling more than you think.");
   }
 
   // Default messages if none generated
@@ -237,23 +241,33 @@ export function generateSessionRecommendations(profile: PersonalizationProfile):
   description: string;
   priority: 'low' | 'medium' | 'high';
 }[] {
-  const recommendations: { title: string; description: string; priority: 'low' | 'medium' | 'high' }[] = [];
+  const recommendations: {
+    title: string;
+    description: string;
+    priority: 'low' | 'medium' | 'high';
+  }[] = [];
 
   // Stress-based recommendations
-  if (profile.therapeuticGoals.some(g => g.toLowerCase().includes('stress')) || profile.workStressLevel >= 4) {
+  if (
+    profile.therapeuticGoals.some((g) => g.toLowerCase().includes('stress')) ||
+    profile.workStressLevel >= 4
+  ) {
     recommendations.push({
       title: 'Stress Management Session',
       description: 'Learn techniques to manage daily stress effectively.',
-      priority: 'high'
+      priority: 'high',
     });
   }
 
   // Sleep-based recommendations
-  if (profile.therapeuticGoals.some(g => g.toLowerCase().includes('sleep')) || profile.sleepQuality <= 2) {
+  if (
+    profile.therapeuticGoals.some((g) => g.toLowerCase().includes('sleep')) ||
+    profile.sleepQuality <= 2
+  ) {
     recommendations.push({
       title: 'Sleep Hygiene Workshop',
       description: 'Improve your sleep quality with proven techniques.',
-      priority: 'high'
+      priority: 'high',
     });
   }
 
@@ -262,7 +276,7 @@ export function generateSessionRecommendations(profile: PersonalizationProfile):
     recommendations.push({
       title: 'Athletic Mindset Coaching',
       description: 'Mental training to enhance your athletic performance.',
-      priority: 'medium'
+      priority: 'medium',
     });
   }
 
@@ -271,7 +285,7 @@ export function generateSessionRecommendations(profile: PersonalizationProfile):
     recommendations.push({
       title: 'Student Success Session',
       description: 'Balance academics with mental wellness.',
-      priority: 'medium'
+      priority: 'medium',
     });
   }
 
@@ -280,7 +294,7 @@ export function generateSessionRecommendations(profile: PersonalizationProfile):
     recommendations.push({
       title: 'Advanced Wellness Strategies',
       description: 'Take your wellness practice to the next level.',
-      priority: 'medium'
+      priority: 'medium',
     });
   }
 
@@ -302,7 +316,7 @@ export function generateExerciseRecommendations(profile: PersonalizationProfile)
     exercises.push({
       type: 'Deep Breathing',
       duration: 5,
-      reason: 'Quick stress relief for your busy day'
+      reason: 'Quick stress relief for your busy day',
     });
   }
 
@@ -311,16 +325,16 @@ export function generateExerciseRecommendations(profile: PersonalizationProfile)
     exercises.push({
       type: 'Evening Wind-Down',
       duration: 10,
-      reason: 'Prepare your mind for better sleep'
+      reason: 'Prepare your mind for better sleep',
     });
   }
 
   // Focus goals
-  if (profile.therapeuticGoals.some(g => g.toLowerCase().includes('focus'))) {
+  if (profile.therapeuticGoals.some((g) => g.toLowerCase().includes('focus'))) {
     exercises.push({
       type: 'Concentration Meditation',
       duration: 10,
-      reason: 'Sharpen your focus and clarity'
+      reason: 'Sharpen your focus and clarity',
     });
   }
 
@@ -329,12 +343,12 @@ export function generateExerciseRecommendations(profile: PersonalizationProfile)
     exercises.push({
       type: 'Mindfulness Meditation',
       duration: 10,
-      reason: 'A great daily wellness practice'
+      reason: 'A great daily wellness practice',
     });
     exercises.push({
       type: 'Gratitude Journal',
       duration: 5,
-      reason: 'Cultivate positivity in your day'
+      reason: 'Cultivate positivity in your day',
     });
   }
 
@@ -352,7 +366,7 @@ export function generateFeedbackMessages(profile: PersonalizationProfile): Feedb
     messages.push({
       type: 'celebration',
       message: 'Congratulations on completing your first session!',
-      priority: 'high'
+      priority: 'high',
     });
   }
 
@@ -360,8 +374,8 @@ export function generateFeedbackMessages(profile: PersonalizationProfile): Feedb
   if (profile.activityData.loginStreak === 7) {
     messages.push({
       type: 'celebration',
-      message: 'One week streak! You\'re building a great habit.',
-      priority: 'high'
+      message: "One week streak! You're building a great habit.",
+      priority: 'high',
     });
   }
 
@@ -370,7 +384,7 @@ export function generateFeedbackMessages(profile: PersonalizationProfile): Feedb
     messages.push({
       type: 'tip',
       message: 'Try journaling to track your thoughts and progress.',
-      priority: 'medium'
+      priority: 'medium',
     });
   }
 
@@ -379,7 +393,7 @@ export function generateFeedbackMessages(profile: PersonalizationProfile): Feedb
     messages.push({
       type: 'encouragement',
       message: 'Your wellness metrics are trending up. Keep it going!',
-      priority: 'medium'
+      priority: 'medium',
     });
   }
 
@@ -387,8 +401,8 @@ export function generateFeedbackMessages(profile: PersonalizationProfile): Feedb
   if (profile.progressTrend === 'declining') {
     messages.push({
       type: 'reminder',
-      message: 'Remember, setbacks are part of the journey. We\'re here for you.',
-      priority: 'high'
+      message: "Remember, setbacks are part of the journey. We're here for you.",
+      priority: 'high',
     });
   }
 
@@ -447,7 +461,7 @@ export async function generatePersonalizedData(userId: string): Promise<{
     motivationalMessages: generateMotivationalMessages(profile),
     celebrationMessages: [],
     checkInMessages: [],
-    feedbackMessages: generateFeedbackMessages(profile)
+    feedbackMessages: generateFeedbackMessages(profile),
   };
 
   // Add celebration messages
@@ -467,13 +481,13 @@ export async function generatePersonalizedData(userId: string): Promise<{
   const recommendations = {
     sessions: generateSessionRecommendations(profile),
     exercises: generateExerciseRecommendations(profile),
-    nextSteps: generateNextSteps(profile)
+    nextSteps: generateNextSteps(profile),
   };
 
   return {
     personalizedContent,
     recommendations,
-    profile
+    profile,
   };
 }
 

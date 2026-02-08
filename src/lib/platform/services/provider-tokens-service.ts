@@ -54,9 +54,7 @@ export async function saveProviderTokens(
   }
 
   try {
-    const expiresAt = expiresIn
-      ? new Date(Date.now() + expiresIn * 1000).toISOString()
-      : undefined;
+    const expiresAt = expiresIn ? new Date(Date.now() + expiresIn * 1000).toISOString() : undefined;
 
     const { error } = await supabaseAdmin.from('provider_tokens').upsert(
       {

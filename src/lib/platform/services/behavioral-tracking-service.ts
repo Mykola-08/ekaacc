@@ -3,7 +3,8 @@ import { supabaseAdmin } from '@/lib/platform/supabase';
 
 export interface UserInteraction {
   user_id: string;
-  interaction_type: string; pattern_type?: string;
+  interaction_type: string;
+  pattern_type?: string;
   page_path?: string;
   element_id?: string;
   metadata?: Record<string, unknown>;
@@ -11,7 +12,8 @@ export interface UserInteraction {
 }
 
 export interface BehavioralPattern {
-  type: string; pattern_type?: string;
+  type: string;
+  pattern_type?: string;
   frequency: number;
   lastOccurrence: string;
 }

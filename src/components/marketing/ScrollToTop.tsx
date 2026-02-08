@@ -15,7 +15,7 @@ export default function ScrollToTop() {
 
         window.scrollTo({
           top: offsetPosition,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }
       return;
@@ -27,4 +27,3 @@ export default function ScrollToTop() {
 
   return null;
 }
-

@@ -35,10 +35,10 @@ async function ensureAdmin() {
     .from('user_roles')
     .select('role')
     .eq('user_id', user.data.user.id);
-    
-  const isAdmin = roles?.some(r => ['admin', 'super_admin'].includes(r.role));
+
+  const isAdmin = roles?.some((r) => ['admin', 'super_admin'].includes(r.role));
   if (!isAdmin) throw new Error('Unauthorized');
-  
+
   return supabase;
 }
 
@@ -46,24 +46,24 @@ async function ensureAdmin() {
 export async function getAdminKPIStats(): Promise<AdminKPI> {
   const supabase = await ensureAdmin();
   const { data, error } = await supabase.rpc('get_admin_kpi_stats');
-  
+
   if (error) {
     console.error('KPI Error:', error);
     throw new Error('Failed to fetch KPIs');
   }
-  
+
   return data as AdminKPI;
 }
 
 // --- Booking Management ---
 export async function getAdminBookings(page = 1, limit = 10, status?: string, search?: string) {
   const supabase = await ensureAdmin();
-  
+
   const { data, error } = await supabase.rpc('get_admin_bookings', {
     p_page: page,
     p_limit: limit,
     p_status: status || null,
-    p_search: search || null
+    p_search: search || null,
   });
 
   if (error) {
@@ -73,25 +73,27 @@ export async function getAdminBookings(page = 1, limit = 10, status?: string, se
 
   // Extract total count from first row if exists, else 0
   const total = data && data.length > 0 ? Number(data[0].total_count) : 0;
-  
-  return { 
-    bookings: data as AdminBooking[], 
-    total 
+
+  return {
+    bookings: data as AdminBooking[],
+    total,
   };
 }
 
 export async function adminCancelBooking(bookingId: string, reason = 'Admin Cancelled') {
   const supabase = await ensureAdmin();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { error } = await supabase.rpc('admin_cancel_booking', {
     p_booking_id: bookingId,
     p_reason: reason,
-    p_performed_by: user?.id
+    p_performed_by: user?.id,
   });
 
   if (error) throw new Error(error.message);
-  
+
   revalidatePath('/admin/bookings');
 }
 
@@ -103,4 +105,3 @@ export async function getAdminUsers(page = 1, limit = 20) {
   // For now return empty or simple profile fetch
   return [];
 }
-

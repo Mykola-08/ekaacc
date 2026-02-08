@@ -73,5 +73,3 @@ export async function sendClientErrorReport(report: ClientErrorReport) {
     console.error('Failed to submit client error report:', error);
   }
 }
-
-

@@ -1,15 +1,29 @@
-'use client'
+'use client';
 
 /**
  * CRM-style User Management Component for Admins and Therapists
  * Provides comprehensive user profile viewing, filtering, and management
  */
 
-import React, { useState, useEffect } from 'react'
-import { Search, Filter, Download, Mail, Phone, Calendar, Activity, UserCheck, UserX, MoreVertical, Eye, Edit, Trash2 } from 'lucide-react'
-import { Button } from '@/components/platform/ui/button'
-import { Input } from '@/components/platform/ui/input'
-import { Badge } from '@/components/platform/ui/badge'
+import React, { useState, useEffect } from 'react';
+import {
+  Search,
+  Filter,
+  Download,
+  Mail,
+  Phone,
+  Calendar,
+  Activity,
+  UserCheck,
+  UserX,
+  MoreVertical,
+  Eye,
+  Edit,
+  Trash2,
+} from 'lucide-react';
+import { Button } from '@/components/platform/ui/button';
+import { Input } from '@/components/platform/ui/input';
+import { Badge } from '@/components/platform/ui/badge';
 import {
   Table,
   TableBody,
@@ -17,7 +31,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table'
+} from '@/components/platform/ui/table';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,39 +39,45 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/platform/ui/dropdown-menu'
+} from '@/components/platform/ui/dropdown-menu';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar'
+} from '@/components/platform/ui/select';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
 
 interface User {
-  id: string
-  name: string
-  email: string
-  role: string
-  status: 'active' | 'inactive' | 'pending'
-  lastActive?: string
-  sessionsCount?: number
-  tier?: string
-  joinedDate: string
-  avatarUrl?: string
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: 'active' | 'inactive' | 'pending';
+  lastActive?: string;
+  sessionsCount?: number;
+  tier?: string;
+  joinedDate: string;
+  avatarUrl?: string;
 }
 
 export function UserManagementCRM() {
-  const [users, setUsers] = useState<User[]>([])
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([])
-  const [searchTerm, setSearchTerm] = useState('')
-  const [roleFilter, setRoleFilter] = useState<string>('all')
-  const [statusFilter, setStatusFilter] = useState<string>('all')
-  const [tierFilter, setTierFilter] = useState<string>('all')
-  const [sortBy, setSortBy] = useState<string>('name')
-  const [loading, setLoading] = useState(true)
+  const [users, setUsers] = useState<User[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [roleFilter, setRoleFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [tierFilter, setTierFilter] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('name');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // TODO: Replace with actual API call
@@ -72,7 +92,7 @@ export function UserManagementCRM() {
         sessionsCount: 15,
         tier: 'premium',
         joinedDate: '2024-01-15',
-        avatarUrl: undefined
+        avatarUrl: undefined,
       },
       {
         id: '2',
@@ -84,89 +104,97 @@ export function UserManagementCRM() {
         sessionsCount: 45,
         tier: 'vip',
         joinedDate: '2023-11-20',
-        avatarUrl: undefined
+        avatarUrl: undefined,
       },
       // Add more mock data as needed
-    ]
-    
-    setUsers(mockUsers)
-    setFilteredUsers(mockUsers)
-    setLoading(false)
-  }, [])
+    ];
+
+    setUsers(mockUsers);
+    setFilteredUsers(mockUsers);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
-    let filtered = [...users]
+    let filtered = [...users];
 
     // Search filter
     if (searchTerm) {
-      filtered = filtered.filter(user =>
-        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      filtered = filtered.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
     // Role filter
     if (roleFilter !== 'all') {
-      filtered = filtered.filter(user => user.role === roleFilter)
+      filtered = filtered.filter((user) => user.role === roleFilter);
     }
 
     // Status filter
     if (statusFilter !== 'all') {
-      filtered = filtered.filter(user => user.status === statusFilter)
+      filtered = filtered.filter((user) => user.status === statusFilter);
     }
 
     // Tier filter
     if (tierFilter !== 'all') {
-      filtered = filtered.filter(user => user.tier === tierFilter)
+      filtered = filtered.filter((user) => user.tier === tierFilter);
     }
 
     // Sort
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'name':
-          return a.name.localeCompare(b.name)
+          return a.name.localeCompare(b.name);
         case 'email':
-          return a.email.localeCompare(b.email)
+          return a.email.localeCompare(b.email);
         case 'sessions':
-          return (b.sessionsCount || 0) - (a.sessionsCount || 0)
+          return (b.sessionsCount || 0) - (a.sessionsCount || 0);
         case 'joined':
-          return new Date(b.joinedDate).getTime() - new Date(a.joinedDate).getTime()
+          return new Date(b.joinedDate).getTime() - new Date(a.joinedDate).getTime();
         case 'lastActive':
-          return new Date(b.lastActive || 0).getTime() - new Date(a.lastActive || 0).getTime()
+          return new Date(b.lastActive || 0).getTime() - new Date(a.lastActive || 0).getTime();
         default:
-          return 0
+          return 0;
       }
-    })
+    });
 
-    setFilteredUsers(filtered)
-  }, [searchTerm, roleFilter, statusFilter, tierFilter, sortBy, users])
+    setFilteredUsers(filtered);
+  }, [searchTerm, roleFilter, statusFilter, tierFilter, sortBy, users]);
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'> = {
       active: 'default',
       inactive: 'secondary',
-      pending: 'outline'
-    }
-    return <Badge variant={variants[status] || 'default'}>{status}</Badge>
-  }
+      pending: 'outline',
+    };
+    return <Badge variant={variants[status] || 'default'}>{status}</Badge>;
+  };
 
   const getTierBadge = (tier?: string) => {
-    if (!tier) return null
+    if (!tier) return null;
     const colors: Record<string, string> = {
       basic: 'bg-muted text-foreground',
       premium: 'bg-blue-100 text-blue-800',
-      vip: 'bg-purple-100 text-purple-800'
-    }
+      vip: 'bg-purple-100 text-purple-800',
+    };
     return (
-      <Badge className={colors[tier] || 'bg-muted text-foreground'}>
-        {tier.toUpperCase()}
-      </Badge>
-    )
-  }
+      <Badge className={colors[tier] || 'bg-muted text-foreground'}>{tier.toUpperCase()}</Badge>
+    );
+  };
 
   const exportToCSV = () => {
-    const headers = ['Name', 'Email', 'Role', 'Status', 'Tier', 'Sessions', 'Joined', 'Last Active']
-    const rows = filteredUsers.map(user => [
+    const headers = [
+      'Name',
+      'Email',
+      'Role',
+      'Status',
+      'Tier',
+      'Sessions',
+      'Joined',
+      'Last Active',
+    ];
+    const rows = filteredUsers.map((user) => [
       user.name,
       user.email,
       user.role,
@@ -174,21 +202,18 @@ export function UserManagementCRM() {
       user.tier || '',
       user.sessionsCount || 0,
       user.joinedDate,
-      user.lastActive || ''
-    ])
-    
-    const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.join(','))
-    ].join('\n')
-    
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`
-    a.click()
-  }
+      user.lastActive || '',
+    ]);
+
+    const csvContent = [headers.join(','), ...rows.map((row) => row.join(','))].join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `users-export-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+  };
 
   return (
     <div className="space-y-6">
@@ -201,7 +226,7 @@ export function UserManagementCRM() {
           </p>
         </div>
         <Button onClick={exportToCSV} variant="outline">
-          <Download className="w-4 h-4 mr-2" />
+          <Download className="mr-2 h-4 w-4" />
           Export CSV
         </Button>
       </div>
@@ -211,12 +236,12 @@ export function UserManagementCRM() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
+            <UserCheck className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{users.length}</div>
-            <p className="text-xs text-muted-foreground">
-              {users.filter(u => u.status === 'active').length} active
+            <p className="text-muted-foreground text-xs">
+              {users.filter((u) => u.status === 'active').length} active
             </p>
           </CardContent>
         </Card>
@@ -224,39 +249,39 @@ export function UserManagementCRM() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Patients</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <Activity className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {users.filter(u => u.role === 'Patient').length}
+              {users.filter((u) => u.role === 'Patient').length}
             </div>
-            <p className="text-xs text-muted-foreground">Active patients</p>
+            <p className="text-muted-foreground text-xs">Active patients</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Therapists</CardTitle>
-            <UserCheck className="h-4 w-4 text-muted-foreground" />
+            <UserCheck className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {users.filter(u => u.role === 'Therapist').length}
+              {users.filter((u) => u.role === 'Therapist').length}
             </div>
-            <p className="text-xs text-muted-foreground">Active therapists</p>
+            <p className="text-muted-foreground text-xs">Active therapists</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Sessions</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
+            <Calendar className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {users.reduce((sum, u) => sum + (u.sessionsCount || 0), 0)}
             </div>
-            <p className="text-xs text-muted-foreground">All time</p>
+            <p className="text-muted-foreground text-xs">All time</p>
           </CardContent>
         </Card>
       </div>
@@ -270,7 +295,7 @@ export function UserManagementCRM() {
         <CardContent>
           <div className="grid gap-4 md:grid-cols-5">
             <div className="relative md:col-span-2">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="text-muted-foreground absolute top-2.5 left-2 h-4 w-4" />
               <Input
                 placeholder="Search by name or email..."
                 value={searchTerm}
@@ -317,7 +342,7 @@ export function UserManagementCRM() {
           </div>
 
           <div className="mt-4 flex items-center gap-2">
-            <span className="text-sm text-muted-foreground">Sort by:</span>
+            <span className="text-muted-foreground text-sm">Sort by:</span>
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue />
@@ -376,12 +401,15 @@ export function UserManagementCRM() {
                         <Avatar>
                           <AvatarImage src={user.avatarUrl} />
                           <AvatarFallback>
-                            {user.name.split(' ').map(n => n[0]).join('')}
+                            {user.name
+                              .split(' ')
+                              .map((n) => n[0])
+                              .join('')}
                           </AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="font-medium">{user.name}</div>
-                          <div className="text-sm text-muted-foreground">{user.email}</div>
+                          <div className="text-muted-foreground text-sm">{user.email}</div>
                         </div>
                       </div>
                     </TableCell>
@@ -391,9 +419,7 @@ export function UserManagementCRM() {
                     <TableCell>{user.sessionsCount || 0}</TableCell>
                     <TableCell>
                       <div className="text-sm">
-                        {user.lastActive
-                          ? new Date(user.lastActive).toLocaleDateString()
-                          : 'Never'}
+                        {user.lastActive ? new Date(user.lastActive).toLocaleDateString() : 'Never'}
                       </div>
                     </TableCell>
                     <TableCell>
@@ -437,6 +463,5 @@ export function UserManagementCRM() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
-

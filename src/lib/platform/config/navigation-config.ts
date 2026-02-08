@@ -1,4 +1,8 @@
-import { SystemRole, PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
+import {
+  SystemRole,
+  PermissionGroup,
+  PermissionAction,
+} from '@/lib/platform/config/role-permissions';
 
 export interface NavigationItem {
   id: string;
@@ -22,7 +26,7 @@ export interface NavigationPermission {
   conditions?: Record<string, any>;
 }
 
-export type NavigationCategory = 
+export type NavigationCategory =
   | 'dashboard'
   | 'appointments'
   | 'patients'
@@ -38,12 +42,15 @@ export type NavigationCategory =
 
 export interface NavigationConfig {
   items: NavigationItem[];
-  categories: Record<NavigationCategory, {
-    label: string;
-    icon: string;
-    order: number;
-    description: string;
-  }>;
+  categories: Record<
+    NavigationCategory,
+    {
+      label: string;
+      icon: string;
+      order: number;
+      description: string;
+    }
+  >;
 }
 
 export const NAVIGATION_CONFIG: NavigationConfig = {
@@ -52,76 +59,76 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       label: 'Dashboard',
       icon: 'LayoutDashboard',
       order: 1,
-      description: 'Overview and key metrics'
+      description: 'Overview and key metrics',
     },
     appointments: {
       label: 'Appointments',
       icon: 'Calendar',
       order: 2,
-      description: 'Scheduling and booking management'
+      description: 'Scheduling and booking management',
     },
     patients: {
       label: 'Patients',
       icon: 'Users',
       order: 3,
-      description: 'Patient management and records'
+      description: 'Patient management and records',
     },
     therapy: {
       label: 'Therapy',
       icon: 'Heart',
       order: 4,
-      description: 'Therapy tools and resources'
+      description: 'Therapy tools and resources',
     },
     reports: {
       label: 'Reports',
       icon: 'FileText',
       order: 5,
-      description: 'Analytics and reporting'
+      description: 'Analytics and reporting',
     },
     administration: {
       label: 'Administration',
       icon: 'Settings',
       order: 6,
-      description: 'System administration'
+      description: 'System administration',
     },
     settings: {
       label: 'Settings',
       icon: 'UserCog',
       order: 7,
-      description: 'User preferences and configuration'
+      description: 'User preferences and configuration',
     },
     content: {
       label: 'Content',
       icon: 'FileEdit',
       order: 8,
-      description: 'Content management'
+      description: 'Content management',
     },
     analytics: {
       label: 'Analytics',
       icon: 'BarChart3',
       order: 9,
-      description: 'Data analysis and insights'
+      description: 'Data analysis and insights',
     },
     communication: {
       label: 'Communication',
       icon: 'MessageSquare',
       order: 10,
-      description: 'Messaging and notifications'
+      description: 'Messaging and notifications',
     },
     billing: {
       label: 'Billing',
       icon: 'CreditCard',
       order: 11,
-      description: 'Payment and billing management'
+      description: 'Payment and billing management',
     },
     tools: {
       label: 'Tools',
       icon: 'Wrench',
       order: 12,
-      description: 'Additional tools and utilities'
-    }
+      description: 'Additional tools and utilities',
+    },
   },
-  
+
   items: [
     // Dashboard Items
     {
@@ -133,9 +140,9 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       order: 1,
       permissions: [
         { group: 'patient_data', action: 'view_own' },
-        { group: 'analytics', action: 'read' }
+        { group: 'analytics', action: 'read' },
       ],
-      metadata: { universal: true }
+      metadata: { universal: true },
     },
     {
       id: 'dashboard',
@@ -144,9 +151,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'LayoutDashboard',
       category: 'dashboard',
       order: 2,
-      permissions: [
-        { group: 'analytics', action: 'read' }
-      ]
+      permissions: [{ group: 'analytics', action: 'read' }],
     },
     {
       id: 'therapist-dashboard',
@@ -155,12 +160,10 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'UserCheck',
       category: 'dashboard',
       order: 3,
-      permissions: [
-        { group: 'therapist_tools', action: 'read' }
-      ],
-      metadata: { roleSpecific: 'Therapist' }
+      permissions: [{ group: 'therapist_tools', action: 'read' }],
+      metadata: { roleSpecific: 'Therapist' },
     },
-    
+
     // Appointment Items
     {
       id: 'appointments',
@@ -169,9 +172,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Calendar',
       category: 'appointments',
       order: 1,
-      permissions: [
-        { group: 'appointment_management', action: 'read' }
-      ]
+      permissions: [{ group: 'appointment_management', action: 'read' }],
     },
     {
       id: 'booking',
@@ -180,9 +181,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'CalendarPlus',
       category: 'appointments',
       order: 2,
-      permissions: [
-        { group: 'appointment_management', action: 'create' }
-      ]
+      permissions: [{ group: 'appointment_management', action: 'create' }],
     },
     {
       id: 'therapist-bookings',
@@ -192,11 +191,11 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       category: 'appointments',
       order: 3,
       permissions: [
-        { group: 'appointment_management', action: 'read', conditions: { assigned: true } }
+        { group: 'appointment_management', action: 'read', conditions: { assigned: true } },
       ],
-      metadata: { roleSpecific: 'Therapist' }
+      metadata: { roleSpecific: 'Therapist' },
     },
-    
+
     // Patient Items
     {
       id: 'patients',
@@ -205,9 +204,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Users',
       category: 'patients',
       order: 1,
-      permissions: [
-        { group: 'user_management', action: 'read', conditions: { role: 'Patient' } }
-      ]
+      permissions: [{ group: 'user_management', action: 'read', conditions: { role: 'Patient' } }],
     },
     {
       id: 'clients',
@@ -217,9 +214,13 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       category: 'patients',
       order: 2,
       permissions: [
-        { group: 'user_management', action: 'read', conditions: { role: 'Patient', assigned: true } }
+        {
+          group: 'user_management',
+          action: 'read',
+          conditions: { role: 'Patient', assigned: true },
+        },
       ],
-      metadata: { roleSpecific: 'Therapist' }
+      metadata: { roleSpecific: 'Therapist' },
     },
     {
       id: 'person-profile',
@@ -228,12 +229,10 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'User',
       category: 'patients',
       order: 3,
-      permissions: [
-        { group: 'patient_data', action: 'view_own', conditions: { assigned: true } }
-      ],
-      metadata: { roleSpecific: 'Therapist' }
+      permissions: [{ group: 'patient_data', action: 'view_own', conditions: { assigned: true } }],
+      metadata: { roleSpecific: 'Therapist' },
     },
-    
+
     // Therapy Items
     {
       id: 'sessions',
@@ -242,9 +241,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Video',
       category: 'therapy',
       order: 1,
-      permissions: [
-        { group: 'appointment_management', action: 'read' }
-      ]
+      permissions: [{ group: 'appointment_management', action: 'read' }],
     },
     {
       id: 'journal',
@@ -253,9 +250,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'BookOpen',
       category: 'therapy',
       order: 2,
-      permissions: [
-        { group: 'patient_data', action: 'view_own' }
-      ]
+      permissions: [{ group: 'patient_data', action: 'view_own' }],
     },
     {
       id: 'goals',
@@ -264,9 +259,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Target',
       category: 'therapy',
       order: 3,
-      permissions: [
-        { group: 'patient_data', action: 'view_own' }
-      ]
+      permissions: [{ group: 'patient_data', action: 'view_own' }],
     },
     {
       id: 'tools',
@@ -275,9 +268,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Wrench',
       category: 'therapy',
       order: 4,
-      permissions: [
-        { group: 'therapist_tools', action: 'read' }
-      ]
+      permissions: [{ group: 'therapist_tools', action: 'read' }],
     },
     {
       id: 'templates',
@@ -286,12 +277,10 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'FileText',
       category: 'therapy',
       order: 5,
-      permissions: [
-        { group: 'therapist_tools', action: 'read' }
-      ],
-      metadata: { roleSpecific: 'Therapist' }
+      permissions: [{ group: 'therapist_tools', action: 'read' }],
+      metadata: { roleSpecific: 'Therapist' },
     },
-    
+
     // Reports Items
     {
       id: 'reports',
@@ -300,9 +289,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'FileText',
       category: 'reports',
       order: 1,
-      permissions: [
-        { group: 'analytics', action: 'read' }
-      ]
+      permissions: [{ group: 'analytics', action: 'read' }],
     },
     {
       id: 'progress-reports',
@@ -311,9 +298,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'TrendingUp',
       category: 'reports',
       order: 2,
-      permissions: [
-        { group: 'patient_data', action: 'view_own' }
-      ]
+      permissions: [{ group: 'patient_data', action: 'view_own' }],
     },
     {
       id: 'donations-reports',
@@ -322,9 +307,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Heart',
       category: 'reports',
       order: 3,
-      permissions: [
-        { group: 'financial_management', action: 'read' }
-      ]
+      permissions: [{ group: 'financial_management', action: 'read' }],
     },
     {
       id: 'ai-insights',
@@ -333,12 +316,10 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Brain',
       category: 'reports',
       order: 4,
-      permissions: [
-        { group: 'analytics', action: 'read' }
-      ],
-      isBeta: true
+      permissions: [{ group: 'analytics', action: 'read' }],
+      isBeta: true,
     },
-    
+
     // Administration Items
     {
       id: 'admin',
@@ -347,9 +328,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Shield',
       category: 'administration',
       order: 1,
-      permissions: [
-        { group: 'system_settings', action: 'manage' }
-      ]
+      permissions: [{ group: 'system_settings', action: 'manage' }],
     },
     {
       id: 'users',
@@ -358,9 +337,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Users',
       category: 'administration',
       order: 2,
-      permissions: [
-        { group: 'user_management', action: 'manage' }
-      ]
+      permissions: [{ group: 'user_management', action: 'manage' }],
     },
     {
       id: 'subscriptions',
@@ -369,9 +346,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'CreditCard',
       category: 'administration',
       order: 3,
-      permissions: [
-        { group: 'product_management', action: 'manage' }
-      ]
+      permissions: [{ group: 'product_management', action: 'manage' }],
     },
     {
       id: 'payments',
@@ -380,9 +355,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'DollarSign',
       category: 'administration',
       order: 4,
-      permissions: [
-        { group: 'financial_management', action: 'manage' }
-      ]
+      permissions: [{ group: 'financial_management', action: 'manage' }],
     },
     {
       id: 'community-setup',
@@ -391,11 +364,9 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Users',
       category: 'administration',
       order: 5,
-      permissions: [
-        { group: 'system_settings', action: 'update' }
-      ]
+      permissions: [{ group: 'system_settings', action: 'update' }],
     },
-    
+
     // Settings Items
     {
       id: 'settings',
@@ -404,10 +375,8 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Settings',
       category: 'settings',
       order: 1,
-      permissions: [
-        { group: 'system_settings', action: 'read' }
-      ],
-      metadata: { universal: true }
+      permissions: [{ group: 'system_settings', action: 'read' }],
+      metadata: { universal: true },
     },
     {
       id: 'myaccount',
@@ -416,10 +385,8 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'User',
       category: 'settings',
       order: 2,
-      permissions: [
-        { group: 'patient_data', action: 'view_own' }
-      ],
-      metadata: { universal: true }
+      permissions: [{ group: 'patient_data', action: 'view_own' }],
+      metadata: { universal: true },
     },
     {
       id: 'personalization',
@@ -428,9 +395,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Palette',
       category: 'settings',
       order: 3,
-      permissions: [
-        { group: 'system_settings', action: 'update' }
-      ]
+      permissions: [{ group: 'system_settings', action: 'update' }],
     },
     {
       id: 'subscription-settings',
@@ -439,9 +404,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'CreditCard',
       category: 'settings',
       order: 4,
-      permissions: [
-        { group: 'product_management', action: 'read' }
-      ]
+      permissions: [{ group: 'product_management', action: 'read' }],
     },
     {
       id: 'loyalty',
@@ -450,10 +413,8 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Award',
       category: 'settings',
       order: 5,
-      permissions: [
-        { group: 'product_management', action: 'read' }
-      ],
-      requiresSubscription: true
+      permissions: [{ group: 'product_management', action: 'read' }],
+      requiresSubscription: true,
     },
     {
       id: 'privacy-controls',
@@ -462,12 +423,10 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Shield',
       category: 'settings',
       order: 6,
-      permissions: [
-        { group: 'patient_data', action: 'view_own' }
-      ],
-      metadata: { universal: true }
+      permissions: [{ group: 'patient_data', action: 'view_own' }],
+      metadata: { universal: true },
     },
-    
+
     // Content Items
     {
       id: 'forms',
@@ -476,9 +435,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'FileText',
       category: 'content',
       order: 1,
-      permissions: [
-        { group: 'content_management', action: 'read' }
-      ]
+      permissions: [{ group: 'content_management', action: 'read' }],
     },
     {
       id: 'therapists',
@@ -487,11 +444,9 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'UserSearch',
       category: 'content',
       order: 2,
-      permissions: [
-        { group: 'content_management', action: 'read' }
-      ]
+      permissions: [{ group: 'content_management', action: 'read' }],
     },
-    
+
     // Communication Items
     {
       id: 'messages',
@@ -500,11 +455,9 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'MessageSquare',
       category: 'communication',
       order: 1,
-      permissions: [
-        { group: 'communication', action: 'read' }
-      ]
+      permissions: [{ group: 'communication', action: 'read' }],
     },
-    
+
     // Analytics Items
     {
       id: 'progress',
@@ -513,11 +466,9 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'TrendingUp',
       category: 'analytics',
       order: 1,
-      permissions: [
-        { group: 'patient_data', action: 'view_own' }
-      ]
+      permissions: [{ group: 'patient_data', action: 'view_own' }],
     },
-    
+
     // Additional Tools
     {
       id: 'donation-seeker',
@@ -526,9 +477,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Heart',
       category: 'tools',
       order: 1,
-      permissions: [
-        { group: 'system_settings', action: 'read' }
-      ]
+      permissions: [{ group: 'system_settings', action: 'read' }],
     },
     {
       id: 'verificator',
@@ -537,9 +486,7 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'CheckCircle',
       category: 'tools',
       order: 2,
-      permissions: [
-        { group: 'system_settings', action: 'read' }
-      ]
+      permissions: [{ group: 'system_settings', action: 'read' }],
     },
     {
       id: 'donations',
@@ -548,32 +495,30 @@ export const NAVIGATION_CONFIG: NavigationConfig = {
       icon: 'Heart',
       category: 'tools',
       order: 3,
-      permissions: [
-        { group: 'financial_management', action: 'read' }
-      ]
-    }
-  ]
+      permissions: [{ group: 'financial_management', action: 'read' }],
+    },
+  ],
 };
 
 // Helper functions for navigation filtering
 export function getNavigationItemsByCategory(category: NavigationCategory): NavigationItem[] {
-  return NAVIGATION_CONFIG.items.filter(item => item.category === category);
+  return NAVIGATION_CONFIG.items.filter((item) => item.category === category);
 }
 
 export function getNavigationItemsByRole(role: SystemRole): NavigationItem[] {
-  return NAVIGATION_CONFIG.items.filter(item => {
+  return NAVIGATION_CONFIG.items.filter((item) => {
     // Check if item has role-specific metadata
     if (item.metadata?.roleSpecific && item.metadata.roleSpecific !== role) {
       return false;
     }
-    
+
     // Check if item is universal (accessible to all authenticated users)
     if (item.metadata?.universal) {
       return true;
     }
-    
+
     // Check permissions
-    return item.permissions.some(permission => {
+    return item.permissions.some((permission) => {
       // This will be checked by the permission service
       return true; // Return true here, actual permission check happens in the service
     });
@@ -582,23 +527,23 @@ export function getNavigationItemsByRole(role: SystemRole): NavigationItem[] {
 
 export function getFlattenedNavigationItems(items: NavigationItem[]): NavigationItem[] {
   const flattened: NavigationItem[] = [];
-  
-  items.forEach(item => {
+
+  items.forEach((item) => {
     flattened.push(item);
     if (item.children) {
       flattened.push(...getFlattenedNavigationItems(item.children));
     }
   });
-  
+
   return flattened;
 }
 
 export function findNavigationItemById(id: string): NavigationItem | undefined {
   const flattened = getFlattenedNavigationItems(NAVIGATION_CONFIG.items);
-  return flattened.find(item => item.id === id);
+  return flattened.find((item) => item.id === id);
 }
 
 export function findNavigationItemByHref(href: string): NavigationItem | undefined {
   const flattened = getFlattenedNavigationItems(NAVIGATION_CONFIG.items);
-  return flattened.find(item => item.href === href);
+  return flattened.find((item) => item.href === href);
 }

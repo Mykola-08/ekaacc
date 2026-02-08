@@ -1,13 +1,47 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 import { Button } from '@/components/platform/ui/button';
 import { Alert, AlertDescription } from '@/components/platform/ui/alert';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/platform/ui/table';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/platform/ui/dialog';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/platform/ui/select';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/platform/ui/form';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/platform/ui/table';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/platform/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/platform/ui/select';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/platform/ui/form';
 import { Input } from '@/components/platform/ui/input';
 import { Textarea } from '@/components/platform/ui/textarea';
 import { Checkbox } from '@/components/platform/ui/checkbox';
@@ -16,14 +50,7 @@ import { RoleBadge } from '@/components/platform/role-guard';
 import { useAuth } from '@/context/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
 import { useToast } from '@/hooks/platform/ui/use-toast';
-import { 
-  UserPlus, 
-  Edit, 
-  Search, 
-  AlertTriangle, 
-  CheckCircle,
-  XCircle
-} from 'lucide-react';
+import { UserPlus, Edit, Search, AlertTriangle, CheckCircle, XCircle } from 'lucide-react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -33,7 +60,7 @@ const roleAssignmentSchema = z.object({
   role: z.string().min(1, 'Role is required'),
   reason: z.string().min(1, 'Reason is required'),
   expiresAt: z.string().optional(),
-  isActive: z.boolean().optional()
+  isActive: z.boolean().optional(),
 });
 
 type RoleAssignmentFormData = z.infer<typeof roleAssignmentSchema>;
@@ -76,18 +103,19 @@ export function RoleManagementPanel() {
   const form = useForm<RoleAssignmentFormData>({
     resolver: zodResolver(roleAssignmentSchema),
     defaultValues: {
-      isActive: true
-    }
+      isActive: true,
+    },
   });
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      
+
       // Fetch users with their current roles
       const { data, error } = await supabase
         .from('users')
-        .select(`
+        .select(
+          `
           id,
           email,
           name,
@@ -99,22 +127,24 @@ export function RoleManagementPanel() {
             assigned_at,
             assigned_by
           )
-        `)
+        `
+        )
         .order('created_at', { ascending: false });
 
       if (error) throw error;
 
-      const usersWithRoles: UserWithRole[] = (data as any)?.map((user: any) => ({
-        id: user.id,
-        email: user.email,
-        name: user.name || 'Unknown',
-        role: user.user_roles?.[0]?.role || 'Patient',
-        isActive: user.user_roles?.[0]?.is_active ?? true,
-        assignedAt: user.user_roles?.[0]?.assigned_at || '',
-        assignedBy: user.user_roles?.[0]?.assigned_by || '',
-        lastLoginAt: user.last_login_at || '',
-        accountStatus: user.account_status || 'pending'
-      })) || [];
+      const usersWithRoles: UserWithRole[] =
+        (data as any)?.map((user: any) => ({
+          id: user.id,
+          email: user.email,
+          name: user.name || 'Unknown',
+          role: user.user_roles?.[0]?.role || 'Patient',
+          isActive: user.user_roles?.[0]?.is_active ?? true,
+          assignedAt: user.user_roles?.[0]?.assigned_at || '',
+          assignedBy: user.user_roles?.[0]?.assigned_by || '',
+          lastLoginAt: user.last_login_at || '',
+          accountStatus: user.account_status || 'pending',
+        })) || [];
 
       setUsers(usersWithRoles);
     } catch (error) {
@@ -122,7 +152,7 @@ export function RoleManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to fetch users',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     } finally {
       setLoading(false);
@@ -133,27 +163,30 @@ export function RoleManagementPanel() {
     try {
       const { data, error } = await supabase
         .from('role_assignments_log')
-        .select(`
+        .select(
+          `
           *,
           user:users!role_assignments_log_user_id_fkey(email),
           assignedByUser:users!role_assignments_log_assigned_by_fkey(email)
-        `)
+        `
+        )
         .order('created_at', { ascending: false })
         .limit(50);
 
       if (error) throw error;
 
-      const logs: RoleAssignmentLog[] = (data as any)?.map((log: any) => ({
-        id: log.id,
-        userId: log.user_id,
-        userEmail: log.user?.email || 'Unknown',
-        oldRole: log.old_role,
-        newRole: log.new_role,
-        assignedBy: log.assigned_by,
-        assignedByEmail: log.assignedByUser?.email || 'Unknown',
-        reason: log.reason,
-        createdAt: log.created_at
-      })) || [];
+      const logs: RoleAssignmentLog[] =
+        (data as any)?.map((log: any) => ({
+          id: log.id,
+          userId: log.user_id,
+          userEmail: log.user?.email || 'Unknown',
+          oldRole: log.old_role,
+          newRole: log.new_role,
+          assignedBy: log.assigned_by,
+          assignedByEmail: log.assignedByUser?.email || 'Unknown',
+          reason: log.reason,
+          createdAt: log.created_at,
+        })) || [];
 
       setRoleLogs(logs);
     } catch (error) {
@@ -161,9 +194,10 @@ export function RoleManagementPanel() {
     }
   };
 
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         user.email.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredUsers = users.filter((user) => {
+    const matchesSearch =
+      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = selectedRole === 'all' || user.role === selectedRole;
     return matchesSearch && matchesRole;
   });
@@ -173,45 +207,41 @@ export function RoleManagementPanel() {
       if (!currentUser?.id) return;
 
       // Log the role assignment
-      const { error: logError } = await supabase
-        .from('role_assignments_log')
-        .insert({
-          user_id: data.userId,
-          old_role: selectedUser?.role || null,
-          new_role: data.role,
-          assigned_by: currentUser.id,
-          reason: data.reason,
-          metadata: {
-            isActive: data.isActive,
-            expiresAt: data.expiresAt
-          }
-        } as any);
+      const { error: logError } = await supabase.from('role_assignments_log').insert({
+        user_id: data.userId,
+        old_role: selectedUser?.role || null,
+        new_role: data.role,
+        assigned_by: currentUser.id,
+        reason: data.reason,
+        metadata: {
+          isActive: data.isActive,
+          expiresAt: data.expiresAt,
+        },
+      } as any);
 
       if (logError) throw logError;
 
       // Update user role
-      const { error: roleError } = await supabase
-        .from('user_roles')
-        .upsert({
-          user_id: data.userId,
-          role: data.role,
-          is_active: data.isActive,
-          assigned_by: currentUser.id,
-          assigned_at: new Date().toISOString(),
-          expires_at: data.expiresAt || null
-        });
+      const { error: roleError } = await supabase.from('user_roles').upsert({
+        user_id: data.userId,
+        role: data.role,
+        is_active: data.isActive,
+        assigned_by: currentUser.id,
+        assigned_at: new Date().toISOString(),
+        expires_at: data.expiresAt || null,
+      });
 
       if (roleError) throw roleError;
 
       toast({
         title: 'Success',
-        description: 'Role assigned successfully'
+        description: 'Role assigned successfully',
       });
 
       setIsAssignDialogOpen(false);
       setSelectedUser(null);
       form.reset();
-      
+
       // Refresh data
       fetchUsers();
       fetchRoleLogs();
@@ -220,7 +250,7 @@ export function RoleManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to assign role',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     }
   };
@@ -236,7 +266,7 @@ export function RoleManagementPanel() {
 
       toast({
         title: 'Success',
-        description: `User ${!currentStatus ? 'activated' : 'deactivated'} successfully`
+        description: `User ${!currentStatus ? 'activated' : 'deactivated'} successfully`,
       });
 
       fetchUsers();
@@ -245,7 +275,7 @@ export function RoleManagementPanel() {
       toast({
         title: 'Error',
         description: 'Failed to update user status',
-        variant: 'destructive'
+        variant: 'destructive',
       });
     }
   };
@@ -259,9 +289,7 @@ export function RoleManagementPanel() {
     return (
       <Alert variant="destructive">
         <AlertTriangle className="h-4 w-4" />
-        <AlertDescription>
-          You don't have permission to access role management.
-        </AlertDescription>
+        <AlertDescription>You don't have permission to access role management.</AlertDescription>
       </Alert>
     );
   }
@@ -269,7 +297,7 @@ export function RoleManagementPanel() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Role Management</h1>
           <p className="text-muted-foreground">
@@ -294,7 +322,7 @@ export function RoleManagementPanel() {
             <div className="flex-1">
               <Label htmlFor="search">Search Users</Label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform" />
                 <Input
                   id="search"
                   placeholder="Search by name or email..."
@@ -332,9 +360,7 @@ export function RoleManagementPanel() {
       <Card>
         <CardHeader>
           <CardTitle>Users & Roles</CardTitle>
-          <CardDescription>
-            View and manage user role assignments
-          </CardDescription>
+          <CardDescription>View and manage user role assignments</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
@@ -383,7 +409,9 @@ export function RoleManagementPanel() {
                         </div>
                       </TableCell>
                       <TableCell>
-                        {user.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString() : 'Never'}
+                        {user.lastLoginAt
+                          ? new Date(user.lastLoginAt).toLocaleDateString()
+                          : 'Never'}
                       </TableCell>
                       <TableCell>
                         <div className="flex gap-2">
@@ -427,32 +455,33 @@ export function RoleManagementPanel() {
       <Card>
         <CardHeader>
           <CardTitle>Role Assignment History</CardTitle>
-          <CardDescription>
-            Recent role changes and assignments
-          </CardDescription>
+          <CardDescription>Recent role changes and assignments</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {roleLogs.length === 0 ? (
-              <p className="text-muted-foreground text-center py-4">
+              <p className="text-muted-foreground py-4 text-center">
                 No role assignment history available
               </p>
             ) : (
               roleLogs.map((log) => (
-                <div key={log.id} className="flex items-center justify-between p-4 border rounded-lg">
+                <div
+                  key={log.id}
+                  className="flex items-center justify-between rounded-lg border p-4"
+                >
                   <div className="space-y-1">
-                    <p className="font-medium">
-                      {log.userEmail}
+                    <p className="font-medium">{log.userEmail}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {log.oldRole
+                        ? `${log.oldRole} → ${log.newRole}`
+                        : `Assigned as ${log.newRole}`}
                     </p>
-                    <p className="text-sm text-muted-foreground">
-                      {log.oldRole ? `${log.oldRole} → ${log.newRole}` : `Assigned as ${log.newRole}`}
-                    </p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-muted-foreground text-xs">
                       By {log.assignedByEmail} • {new Date(log.createdAt).toLocaleString()}
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-sm text-muted-foreground">Reason:</p>
+                    <p className="text-muted-foreground text-sm">Reason:</p>
                     <p className="text-sm">{log.reason}</p>
                   </div>
                 </div>
@@ -553,17 +582,12 @@ export function RoleManagementPanel() {
                 control={form.control as any}
                 name="isActive"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormItem className="flex flex-row items-start space-y-0 space-x-3">
                     <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
+                      <Checkbox checked={field.value} onCheckedChange={field.onChange} />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel>
-                        Active Role
-                      </FormLabel>
+                      <FormLabel>Active Role</FormLabel>
                       <FormDescription>
                         User can access resources based on this role
                       </FormDescription>
@@ -573,7 +597,11 @@ export function RoleManagementPanel() {
               />
 
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsAssignDialogOpen(false)}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setIsAssignDialogOpen(false)}
+                >
                   Cancel
                 </Button>
                 <Button type="submit">Assign Role</Button>

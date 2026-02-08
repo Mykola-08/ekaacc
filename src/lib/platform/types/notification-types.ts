@@ -1,6 +1,6 @@
 // Notification types and configuration for all user roles
 
-export type NotificationType = 
+export type NotificationType =
   | 'session_reminder'
   | 'session_confirmed'
   | 'session_cancelled'
@@ -30,7 +30,7 @@ export type NotificationType =
 
 export type NotificationPriority = 'low' | 'medium' | 'high' | 'urgent';
 
-export type NotificationCategory = 
+export type NotificationCategory =
   | 'sessions'
   | 'reports'
   | 'donations'
@@ -300,7 +300,9 @@ export const adminNotificationConfig: NotificationConfig[] = [
   },
 ];
 
-export function getNotificationConfigForRole(role: 'Patient' | 'Therapist' | 'Admin'): NotificationConfig[] {
+export function getNotificationConfigForRole(
+  role: 'Patient' | 'Therapist' | 'Admin'
+): NotificationConfig[] {
   switch (role) {
     case 'Patient':
       return patientNotificationConfig;
@@ -326,7 +328,9 @@ export function getCategoryColor(category: NotificationCategory): string {
   return colors[category] || 'text-muted-foreground';
 }
 
-export function getPriorityBadgeVariant(priority: NotificationPriority): 'default' | 'secondary' | 'destructive' | 'outline' {
+export function getPriorityBadgeVariant(
+  priority: NotificationPriority
+): 'default' | 'secondary' | 'destructive' | 'outline' {
   switch (priority) {
     case 'urgent':
       return 'destructive';

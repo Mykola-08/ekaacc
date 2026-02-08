@@ -9,17 +9,12 @@ interface PredictiveLinkProps extends LinkProps {
   prefetchThreshold?: number;
 }
 
-export function PredictiveLink({ 
-  children, 
+export function PredictiveLink({
+  children,
   prefetchThreshold = 150,
-  ...props 
+  ...props
 }: PredictiveLinkProps) {
   void prefetchThreshold;
 
-  return (
-    <Link {...props}>
-      {children}
-    </Link>
-  );
+  return <Link {...props}>{children}</Link>;
 }
-

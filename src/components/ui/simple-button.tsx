@@ -9,25 +9,25 @@ interface SimpleButtonProps {
   type?: 'button' | 'submit' | 'reset';
 }
 
-export function SimpleButton({ 
-  children, 
-  onClick, 
-  className = '', 
+export function SimpleButton({
+  children,
+  onClick,
+  className = '',
   disabled = false,
-  type = 'button'
+  type = 'button',
 }: SimpleButtonProps) {
   return (
     <motion.button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${className} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+      className={`rounded-[16px] font-medium ${className} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
       whileHover={disabled ? {} : { scale: 1.05 }}
       whileTap={disabled ? {} : { scale: 0.95 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 500, 
-        damping: 30 
+      transition={{
+        type: 'spring',
+        stiffness: 500,
+        damping: 30,
       }}
     >
       {children}
@@ -45,14 +45,14 @@ interface SimpleLinkProps {
   rel?: string;
 }
 
-export function SimpleLink({ 
-  children, 
-  to, 
+export function SimpleLink({
+  children,
+  to,
   href,
-  onClick, 
+  onClick,
   className = '',
   target,
-  rel
+  rel,
 }: SimpleLinkProps) {
   return (
     <motion.a
@@ -63,15 +63,13 @@ export function SimpleLink({
       rel={rel}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      transition={{ 
-        type: "spring", 
-        stiffness: 500, 
-        damping: 30 
+      transition={{
+        type: 'spring',
+        stiffness: 500,
+        damping: 30,
       }}
     >
       {children}
     </motion.a>
   );
 }
-
-

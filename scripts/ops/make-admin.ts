@@ -20,13 +20,13 @@ async function promoteUser(email: string) {
 
   // 1. Get User ID
   const { data: users, error: userError } = await supabase.auth.admin.listUsers();
-  
+
   if (userError) {
     console.error('Error fetching users:', userError.message);
     return;
   }
 
-  const user = users.users.find(u => u.email === email);
+  const user = users.users.find((u) => u.email === email);
 
   if (!user) {
     console.error(`User with email ${email} not found.`);
@@ -51,12 +51,13 @@ async function promoteUser(email: string) {
   console.log(`Admin Role ID: ${adminRoleId}`);
 
   // 3. Assign Role
-  const { error: assignError } = await supabase
-    .from('user_role_assignments')
-    .upsert({
+  const { error: assignError } = await supabase.from('user_role_assignments').upsert(
+    {
       user_id: user.id,
       role_id: adminRoleId,
-    }, { onConflict: 'user_id, role_id' });
+    },
+    { onConflict: 'user_id, role_id' }
+  );
 
   if (assignError) {
     console.error('Error assigning role:', assignError.message);

@@ -3,9 +3,8 @@ import { integrationManager } from '@/lib/platform/integrations/manager';
 
 export async function GET() {
   const statuses = await integrationManager.getAllStatuses();
-  
+
   return NextResponse.json({
-    integrations: statuses
+    integrations: statuses,
   });
 }
-

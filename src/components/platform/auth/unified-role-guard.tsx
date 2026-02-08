@@ -2,7 +2,11 @@
 
 import React, { ReactNode, useMemo } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
-import { SystemRole, PermissionGroup, PermissionAction } from '@/lib/platform/config/role-permissions';
+import {
+  SystemRole,
+  PermissionGroup,
+  PermissionAction,
+} from '@/lib/platform/config/role-permissions';
 import { Alert, AlertDescription, AlertTitle } from '@/components/platform/ui/alert';
 import { Button } from '@/components/platform/ui/button';
 import { useRouter } from 'next/navigation';
@@ -38,7 +42,7 @@ export function UnifiedRoleGuard({
   requiredResource,
   fallback,
   loadingFallback,
-  redirectTo = '/dashboard'
+  redirectTo = '/dashboard',
 }: UnifiedRoleGuardProps) {
   const { user, hasPermission, canAccessResource, loading } = useAuth();
   const router = useRouter();
@@ -55,14 +59,14 @@ export function UnifiedRoleGuard({
         // Ignore localStorage errors
       }
     }
-    
+
     if (!user) return [];
     return user.role?.name ? [user.role.name] : [];
   }, [user, allowedRoles]);
 
   const hasRoleAccess = useMemo(() => {
     if (!allowedRoles || allowedRoles.length === 0) return true;
-    return effectiveRoles.some(role => allowedRoles.includes(role as SystemRole));
+    return effectiveRoles.some((role) => allowedRoles.includes(role as SystemRole));
   }, [effectiveRoles, allowedRoles]);
 
   const hasPermissionAccess = useMemo(() => {
@@ -82,68 +86,70 @@ export function UnifiedRoleGuard({
     return loadingFallback ? (
       <>{loadingFallback}</>
     ) : (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex min-h-[400px] items-center justify-center">
+        <div className="border-primary h-8 w-8 animate-spin rounded-full border-b-2"></div>
       </div>
     );
   }
 
   // Handle unauthorized access
   if (!user) {
-    return fallback || (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Alert className="max-w-md">
-          <AlertTriangle className="h-4 w-4" />
-          <AlertTitle>Authentication Required</AlertTitle>
-          <AlertDescription>
-            Please sign in to access this content.
-          </AlertDescription>
-          <div className="mt-4">
-            <Button onClick={() => router.push('/login')} size="sm">
-              Sign In
-            </Button>
-          </div>
-        </Alert>
-      </div>
+    return (
+      fallback || (
+        <div className="flex min-h-[400px] items-center justify-center">
+          <Alert className="max-w-md">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Authentication Required</AlertTitle>
+            <AlertDescription>Please sign in to access this content.</AlertDescription>
+            <div className="mt-4">
+              <Button onClick={() => router.push('/login')} size="sm">
+                Sign In
+              </Button>
+            </div>
+          </Alert>
+        </div>
+      )
     );
   }
 
   if (!isAuthorized) {
-    return fallback || (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <Alert className="max-w-md" variant="destructive">
-          <Shield className="h-4 w-4" />
-          <AlertTitle>Access Denied</AlertTitle>
-          <AlertDescription>
-            You don't have the required permissions to access this content.
-            {allowedRoles && (
-              <>
-                <br />
-                Required roles: {allowedRoles.join(', ')}
-                <br />
-                Your role: {user.role?.name}
-              </>
-            )}
-            {requiredPermission && (
-              <>
-                <br />
-                Required: {requiredPermission.group} - {requiredPermission.action}
-              </>
-            )}
-            {requiredResource && (
-              <>
-                <br />
-                Resource: {requiredResource.resource} - {requiredResource.action}
-              </>
-            )}
-          </AlertDescription>
-          <div className="mt-4">
-            <Button onClick={() => router.push(redirectTo)} size="sm" variant="outline">
-              Go to Dashboard
-            </Button>
-          </div>
-        </Alert>
-      </div>
+    return (
+      fallback || (
+        <div className="flex min-h-[400px] items-center justify-center">
+          <Alert className="max-w-md" variant="destructive">
+            <Shield className="h-4 w-4" />
+            <AlertTitle>Access Denied</AlertTitle>
+            <AlertDescription>
+              You don't have the required permissions to access this content.
+              {allowedRoles && (
+                <>
+                  <br />
+                  Required roles: {allowedRoles.join(', ')}
+                  <br />
+                  Your role: {user.role?.name}
+                </>
+              )}
+              {requiredPermission && (
+                <>
+                  <br />
+                  Required: {requiredPermission.group} - {requiredPermission.action}
+                </>
+              )}
+              {requiredResource && (
+                <>
+                  <br />
+                  Resource: {requiredResource.resource} - {requiredResource.action}
+                </>
+              )}
+            </AlertDescription>
+            <div className="mt-4">
+              <Button onClick={() => router.push(redirectTo)} size="sm" variant="outline">
+                Go to Dashboard
+              </Button>
+            </div>
+          </Alert>
+        </div>
+      )
     );
   }
 
@@ -184,7 +190,9 @@ export function RoleBadge({ role, className = '' }: RoleBadgeProps) {
   };
 
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${getRoleColor(role)} ${className}`}>
+    <span
+      className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${getRoleColor(role)} ${className}`}
+    >
       {role}
     </span>
   );
@@ -202,11 +210,11 @@ interface PermissionCheckProps {
 
 export function PermissionCheck({ permission, fallback, children }: PermissionCheckProps) {
   const { hasPermission } = useAuth();
-  
+
   if (!hasPermission(permission)) {
     return fallback ? <>{fallback}</> : null;
   }
-  
+
   return <>{children}</>;
 }
 
@@ -218,13 +226,19 @@ interface ResourceAccessProps {
   children: ReactNode;
 }
 
-export function ResourceAccess({ resource, action, context, fallback, children }: ResourceAccessProps) {
+export function ResourceAccess({
+  resource,
+  action,
+  context,
+  fallback,
+  children,
+}: ResourceAccessProps) {
   const { canAccessResource } = useAuth();
-  
+
   if (!canAccessResource(resource, action, context)) {
     return fallback ? <>{fallback}</> : null;
   }
-  
+
   return <>{children}</>;
 }
 
@@ -244,7 +258,7 @@ export function useHasRole(role: SystemRole): boolean {
     }
     return user?.role?.name ? [user.role.name] : [];
   }, [user]);
-  
+
   return effectiveRoles.includes(role);
 }
 
@@ -278,6 +292,6 @@ export function useIsStaff(): boolean {
     }
     return user?.role?.name ? [user.role.name] : [];
   }, [user]);
-  
+
   return effectiveRoles.includes('Admin') || effectiveRoles.includes('Therapist');
 }

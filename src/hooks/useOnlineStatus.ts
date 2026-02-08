@@ -12,7 +12,7 @@ export function useOnlineStatus() {
     const handleOnline = () => {
       setIsOnline(true);
       if (wasOffline) {
-        toast.success('Connexió restaurada', 'Ja pots continuar utilitzant l\'aplicació');
+        toast.success('Connexió restaurada', "Ja pots continuar utilitzant l'aplicació");
         setWasOffline(false);
       }
     };
@@ -36,4 +36,3 @@ export function useOnlineStatus() {
 }
 
 // Component to show offline indicator - create this as a separate .tsx file
-

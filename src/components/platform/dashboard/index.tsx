@@ -6,7 +6,13 @@ import { useLanguage } from '@/context/LanguageContext';
 import { UserDashboard } from './UserDashboard';
 import { TherapistDashboard } from './TherapistDashboard';
 
-export default function Dashboard({ upcomingSession, walletBalance }: { upcomingSession?: any, walletBalance?: number }) {
+export default function Dashboard({
+  upcomingSession,
+  walletBalance,
+}: {
+  upcomingSession?: any;
+  walletBalance?: number;
+}) {
   const { user, isLoading } = useAuth();
   const { t } = useLanguage();
 
@@ -20,5 +26,3 @@ export default function Dashboard({ upcomingSession, walletBalance }: { upcoming
 
   return <UserDashboard upcomingSession={upcomingSession} walletBalance={walletBalance} />;
 }
-
-

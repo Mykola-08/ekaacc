@@ -9,8 +9,11 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -45,58 +48,53 @@ export async function GET(request: NextRequest) {
     const endDate = searchParams.get('endDate');
 
     // Build date filter
-    const dateFilter = startDate && endDate ? 
-      `assigned_at.gte.${startDate},assigned_at.lte.${endDate}` : 
-      '';
+    const dateFilter =
+      startDate && endDate ? `assigned_at.gte.${startDate},assigned_at.lte.${endDate}` : '';
 
     // Get tier distribution
-    const { data: tierDistribution, error: tierError } = await (supabase
-      .from('user_tiers')
-      .select('tier_type, tier_name, count(*)')
-      .eq('is_active', true) as any)
-      .group('tier_type, tier_name');
+    const { data: tierDistribution, error: tierError } = await (
+      supabase
+        .from('user_tiers')
+        .select('tier_type, tier_name, count(*)')
+        .eq('is_active', true) as any
+    ).group('tier_type, tier_name');
 
     if (tierError) {
       console.error('Error fetching tier distribution:', tierError);
-      return NextResponse.json(
-        { error: 'Failed to fetch tier distribution' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch tier distribution' }, { status: 500 });
     }
 
     // Get recent tier assignments
     const { data: recentAssignments, error: recentError } = await supabase
       .from('tier_audit_logs')
-      .select(`
+      .select(
+        `
         *,
         user:users!user_id(id, email, displayName),
         admin:users!performed_by(id, email, displayName)
-      `)
+      `
+      )
       .order('timestamp', { ascending: false })
       .limit(10);
 
     if (recentError) {
       console.error('Error fetching recent assignments:', recentError);
-      return NextResponse.json(
-        { error: 'Failed to fetch recent assignments' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch recent assignments' }, { status: 500 });
     }
 
     // Get tier activity by date
-    const { data: activityByDate, error: activityError } = await (supabase
-      .from('tier_audit_logs')
-      .select('action, timestamp::date, count(*)')
-      .gte('timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()) as any)
+    const { data: activityByDate, error: activityError } = await (
+      supabase
+        .from('tier_audit_logs')
+        .select('action, timestamp::date, count(*)')
+        .gte('timestamp', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()) as any
+    )
       .group('action, timestamp::date')
       .order('timestamp::date', { ascending: false });
 
     if (activityError) {
       console.error('Error fetching activity by date:', activityError);
-      return NextResponse.json(
-        { error: 'Failed to fetch activity by date' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch activity by date' }, { status: 500 });
     }
 
     // Get total tier users
@@ -107,70 +105,78 @@ export async function GET(request: NextRequest) {
 
     if (countError) {
       console.error('Error fetching total tier users:', countError);
-      return NextResponse.json(
-        { error: 'Failed to fetch total tier users' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch total tier users' }, { status: 500 });
     }
 
     // Get action statistics
-    const { data: actionStats, error: statsError } = await (supabase
-      .from('tier_audit_logs')
-      .select('action, count(*)') as any)
-      .group('action');
+    const { data: actionStats, error: statsError } = await (
+      supabase.from('tier_audit_logs').select('action, count(*)') as any
+    ).group('action');
 
     if (statsError) {
       console.error('Error fetching action statistics:', statsError);
-      return NextResponse.json(
-        { error: 'Failed to fetch action statistics' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch action statistics' }, { status: 500 });
     }
 
     // Process the data for dashboard
     const processedData = {
       overview: {
         totalTierUsers: totalTierUsers || 0,
-        totalVipUsers: tierDistribution?.filter((t: any) => t.tier_type === 'vip').reduce((sum: number, t: any) => sum + parseInt(t.count), 0) || 0,
-        totalLoyaltyUsers: tierDistribution?.filter((t: any) => t.tier_type === 'loyalty').reduce((sum: number, t: any) => sum + parseInt(t.count), 0) || 0,
-        recentActivity: recentAssignments?.length || 0
+        totalVipUsers:
+          tierDistribution
+            ?.filter((t: any) => t.tier_type === 'vip')
+            .reduce((sum: number, t: any) => sum + parseInt(t.count), 0) || 0,
+        totalLoyaltyUsers:
+          tierDistribution
+            ?.filter((t: any) => t.tier_type === 'loyalty')
+            .reduce((sum: number, t: any) => sum + parseInt(t.count), 0) || 0,
+        recentActivity: recentAssignments?.length || 0,
       },
       tierDistribution: {
         vip: {
-          silver: tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'silver')?.count || 0,
-          gold: tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'gold')?.count || 0,
-          platinum: tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'platinum')?.count || 0
+          silver:
+            tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'silver')
+              ?.count || 0,
+          gold:
+            tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'gold')
+              ?.count || 0,
+          platinum:
+            tierDistribution?.find((t: any) => t.tier_type === 'vip' && t.tier_name === 'platinum')
+              ?.count || 0,
         },
         loyalty: {
-          member: tierDistribution?.find((t: any) => t.tier_type === 'loyalty' && t.tier_name === 'member')?.count || 0,
-          elite: tierDistribution?.find((t: any) => t.tier_type === 'loyalty' && t.tier_name === 'elite')?.count || 0
-        }
+          member:
+            tierDistribution?.find(
+              (t: any) => t.tier_type === 'loyalty' && t.tier_name === 'member'
+            )?.count || 0,
+          elite:
+            tierDistribution?.find((t: any) => t.tier_type === 'loyalty' && t.tier_name === 'elite')
+              ?.count || 0,
+        },
       },
       activityStats: {
-        totalActions: actionStats?.reduce((sum: number, stat: any) => sum + parseInt(stat.count), 0) || 0,
+        totalActions:
+          actionStats?.reduce((sum: number, stat: any) => sum + parseInt(stat.count), 0) || 0,
         assignCount: actionStats?.find((s: any) => s.action === 'assign')?.count || 0,
         revokeCount: actionStats?.find((s: any) => s.action === 'revoke')?.count || 0,
         upgradeCount: actionStats?.find((s: any) => s.action === 'upgrade')?.count || 0,
-        downgradeCount: actionStats?.find((s: any) => s.action === 'downgrade')?.count || 0
+        downgradeCount: actionStats?.find((s: any) => s.action === 'downgrade')?.count || 0,
       },
       recentActivity: recentAssignments || [],
-      activityByDate: activityByDate?.map((item: any) => ({
-        date: item.timestamp,
-        action: item.action,
-        count: parseInt(item.count)
-      })) || []
+      activityByDate:
+        activityByDate?.map((item: any) => ({
+          date: item.timestamp,
+          action: item.action,
+          count: parseInt(item.count),
+        })) || [],
     };
 
     return NextResponse.json({
       success: true,
-      data: processedData
+      data: processedData,
     });
-
   } catch (error) {
     console.error('Tier analytics error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

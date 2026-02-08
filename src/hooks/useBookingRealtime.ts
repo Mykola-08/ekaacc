@@ -12,15 +12,22 @@ export interface Booking {
   [key: string]: any;
 }
 
-export function useBookingRealtime(onBookingUpdate?: (payload: RealtimePostgresChangesPayload<Booking>) => void) {
-  const [latestEvent, setLatestEvent] = useState<RealtimePostgresChangesPayload<Booking> | null>(null);
+export function useBookingRealtime(
+  onBookingUpdate?: (payload: RealtimePostgresChangesPayload<Booking>) => void
+) {
+  const [latestEvent, setLatestEvent] = useState<RealtimePostgresChangesPayload<Booking> | null>(
+    null
+  );
 
-  const handleUpdate = useCallback((payload: RealtimePostgresChangesPayload<Booking>) => {
-    setLatestEvent(payload);
-    if (onBookingUpdate) {
-      onBookingUpdate(payload);
-    }
-  }, [onBookingUpdate]);
+  const handleUpdate = useCallback(
+    (payload: RealtimePostgresChangesPayload<Booking>) => {
+      setLatestEvent(payload);
+      if (onBookingUpdate) {
+        onBookingUpdate(payload);
+      }
+    },
+    [onBookingUpdate]
+  );
 
   useRealtimeSubscription<Booking>({
     table: 'booking',
@@ -29,4 +36,3 @@ export function useBookingRealtime(onBookingUpdate?: (payload: RealtimePostgresC
 
   return { latestBookingEvent: latestEvent };
 }
-

@@ -1,14 +1,24 @@
 import OpenAI from 'openai';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 import { aiTools } from '@/server/ai/ai-tools';
-import { buildUserContext, formatContextForAI, extractAndStoreLearnings, updateUserBehaviorPatterns } from '@/server/ai/user-context-service';
+import {
+  buildUserContext,
+  formatContextForAI,
+  extractAndStoreLearnings,
+  updateUserBehaviorPatterns,
+} from '@/server/ai/user-context-service';
 import { createClient } from '@/lib/supabase/server';
 
 export const runtime = 'nodejs';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY || 'sk-dummy-key-for-build',
-});
+function getOpenAIClient(): OpenAI {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY is not configured');
+  }
+
+  return new OpenAI({ apiKey });
+}
 
 const AI_INSTRUCTIONS = `
 ## Core Identity
@@ -97,13 +107,24 @@ const getTools = () => {
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
+  let openai: OpenAI;
+  try {
+    openai = getOpenAIClient();
+  } catch (error) {
+    return Response.json(
+      { error: error instanceof Error ? error.message : 'OPENAI_API_KEY is not configured' },
+      { status: 500 }
+    );
+  }
 
   let userContextString = '';
   let userId: string | null = null;
 
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       userId = user.id;
       const context = await buildUserContext(user.id);
@@ -114,26 +135,36 @@ export async function POST(req: Request) {
   }
 
   const systemPrompt = buildSystemPrompt(userContextString);
-  const fullMessages = [
-    { role: 'system', content: systemPrompt },
-    ...messages
-  ];
+  const fullMessages = [{ role: 'system', content: systemPrompt }, ...messages];
 
   const encoder = new TextEncoder();
 
   // ============================================================================
   // ALGORITHMIC ROUTING (Optimization)
   // ============================================================================
-  const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop()?.content?.toLowerCase() || '';
+  const lastUserMessage =
+    messages
+      .filter((m: any) => m.role === 'user')
+      .pop()
+      ?.content?.toLowerCase() || '';
 
   // Simple Greeting Intent
-  const isSimpleGreeting = /^(hi|hello|hey|good morning|good afternoon|good evening|greeting|hi there|hello there)$/.test(lastUserMessage.trim());
+  const isSimpleGreeting =
+    /^(hi|hello|hey|good morning|good afternoon|good evening|greeting|hi there|hello there)$/.test(
+      lastUserMessage.trim()
+    );
 
   // Status/What can I do Intent
-  const isStatusIntent = /^(what should i do|what to do today|daily actions|suggest something|how is my day|anything for me)$/.test(lastUserMessage.trim());
+  const isStatusIntent =
+    /^(what should i do|what to do today|daily actions|suggest something|how is my day|anything for me)$/.test(
+      lastUserMessage.trim()
+    );
 
   // Wallet Intent
-  const isWalletIntent = /^(wallet|balance|my wallet|how much money|transactions|wallet history)$/.test(lastUserMessage.trim());
+  const isWalletIntent =
+    /^(wallet|balance|my wallet|how much money|transactions|wallet history)$/.test(
+      lastUserMessage.trim()
+    );
 
   if (userId && (isSimpleGreeting || isStatusIntent || isWalletIntent)) {
     const stream = new ReadableStream({
@@ -156,12 +187,16 @@ export async function POST(req: Request) {
 
           if (toolName && result) {
             // Push tool result directly
-            controller.enqueue(encoder.encode(`0:${JSON.stringify({
-              type: 'tool-result',
-              toolName,
-              args: toolArgs,
-              result
-            })}\n`));
+            controller.enqueue(
+              encoder.encode(
+                `0:${JSON.stringify({
+                  type: 'tool-result',
+                  toolName,
+                  args: toolArgs,
+                  result,
+                })}\n`
+              )
+            );
 
             // Generate a simple algorithmic response text based on the result
             let responseText = '';
@@ -170,7 +205,7 @@ export async function POST(req: Request) {
               if (result.moodAcknowledgment) responseText += ' ' + result.moodAcknowledgment;
               if (result.contextTip) responseText += '\n\n' + result.contextTip;
             } else if (isStatusIntent) {
-              responseText = "Here are some things you could focus on today:";
+              responseText = 'Here are some things you could focus on today:';
             } else if (isWalletIntent) {
               responseText = `You currently have ${result.balance} ${result.currency} in your wallet.`;
             }
@@ -182,7 +217,7 @@ export async function POST(req: Request) {
           console.error('Algorithmic routing error:', err);
           controller.error(err);
         }
-      }
+      },
     });
 
     return new Response(stream, {
@@ -216,7 +251,7 @@ export async function POST(req: Request) {
             currentMessages.push(message as any);
 
             // Send neutral update to UI that tools are working (optional protocol chunk)
-            // controller.enqueue(encoder.encode('__TOOL_CALLING__')); 
+            // controller.enqueue(encoder.encode('__TOOL_CALLING__'));
 
             for (const toolCall of message.tool_calls) {
               const toolName = (toolCall as any).function.name;
@@ -241,12 +276,16 @@ export async function POST(req: Request) {
               } as any);
 
               // Push the tool result to the stream as well so UI can render it
-              controller.enqueue(encoder.encode(`0:${JSON.stringify({
-                type: 'tool-result',
-                toolName,
-                args: toolArgs,
-                result
-              })}\n`));
+              controller.enqueue(
+                encoder.encode(
+                  `0:${JSON.stringify({
+                    type: 'tool-result',
+                    toolName,
+                    args: toolArgs,
+                    result,
+                  })}\n`
+                )
+              );
             }
             retryCount++;
             continue;
@@ -272,9 +311,9 @@ export async function POST(req: Request) {
           if (userId && messages.length > 0) {
             const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
             if (lastUserMessage?.content) {
-              extractAndStoreLearnings(userId, lastUserMessage.content, fullText).catch(() => { });
+              extractAndStoreLearnings(userId, lastUserMessage.content, fullText).catch(() => {});
               if (Math.random() < 0.1) {
-                updateUserBehaviorPatterns(userId).catch(() => { });
+                updateUserBehaviorPatterns(userId).catch(() => {});
               }
             }
           }
@@ -296,4 +335,3 @@ export async function POST(req: Request) {
     },
   });
 }
-

@@ -6,7 +6,8 @@ Inputs, buttons, forms, and interactive controls.
 
 ### Labels
 
-Clicking the input label should focus the input field. Always associate labels with inputs:
+Clicking the input label should focus the input field. Always associate labels
+with inputs:
 
 ```html
 <label for="email">Email</label>
@@ -37,11 +38,7 @@ Use appropriate `type` attributes:
 Disable `spellcheck` and `autocomplete` most of the time for cleaner UX:
 
 ```html
-<input
-  type="text"
-  spellcheck="false"
-  autocomplete="off"
-/>
+<input type="text" spellcheck="false" autocomplete="off" />
 ```
 
 ### 1Password Integration
@@ -55,6 +52,7 @@ Disable 1Password autocomplete when not needed:
 ### Input Decorations
 
 Prefix and suffix decorations (icons, labels) should be:
+
 - Absolutely positioned on top of the text input with padding
 - Not placed next to the input as siblings
 - Should trigger focus on the input when clicked
@@ -80,10 +78,7 @@ Prefix and suffix decorations (icons, labels) should be:
 For clickable icons (like clear button):
 
 ```jsx
-<button
-  className="input-icon-button"
-  onClick={() => inputRef.current?.focus()}
->
+<button className="input-icon-button" onClick={() => inputRef.current?.focus()}>
   <SearchIcon />
 </button>
 ```
@@ -93,7 +88,9 @@ For clickable icons (like clear button):
 Ensure input font size is at least 16px to prevent zooming on iOS:
 
 ```css
-input, textarea, select {
+input,
+textarea,
+select {
   font-size: 16px;
 }
 ```
@@ -109,7 +106,7 @@ Inputs smaller than 16px cause iOS Safari to zoom in on focus.
 // Check for touch device before autofocus
 const isTouchDevice = 'ontouchstart' in window;
 
-<input autoFocus={!isTouchDevice} />
+<input autoFocus={!isTouchDevice} />;
 ```
 
 ## Forms
@@ -119,7 +116,7 @@ const isTouchDevice = 'ontouchstart' in window;
 Inputs should be wrapped with a `<form>` to submit by pressing Enter:
 
 ```html
-<form onSubmit={handleSubmit}>
+<form onSubmit="{handleSubmit}">
   <input type="text" />
   <button type="submit">Submit</button>
 </form>
@@ -127,7 +124,8 @@ Inputs should be wrapped with a `<form>` to submit by pressing Enter:
 
 ### Keyboard Submission
 
-Ensure `Cmd+Enter` (Mac) / `Ctrl+Enter` (Windows) submits the form, especially for textareas:
+Ensure `Cmd+Enter` (Mac) / `Ctrl+Enter` (Windows) submits the form, especially
+for textareas:
 
 ```jsx
 function handleKeyDown(e) {
@@ -143,6 +141,7 @@ function handleKeyDown(e) {
 - When linking to a form, prefill content based on the request context
 
 Example: If a user clicks "Change username", prefill with:
+
 > "I'd like to change my username to:"
 
 If you can prefill any user data based on the logged-in user, do that.
@@ -151,15 +150,16 @@ If you can prefill any user data based on the logged-in user, do that.
 
 ### Semantic Elements
 
-A button should always be a `<button>`. Don't add click events on elements that aren't buttons:
+A button should always be a `<button>`. Don't add click events on elements that
+aren't buttons:
 
 ```html
 <!-- Good -->
-<button onClick={handleClick}>Click me</button>
+<button onClick="{handleClick}">Click me</button>
 
 <!-- Bad -->
-<div onClick={handleClick}>Click me</div>
-<span onClick={handleClick}>Click me</span>
+<div onClick="{handleClick}">Click me</div>
+<span onClick="{handleClick}">Click me</span>
 ```
 
 ### Disabled After Submission
@@ -178,12 +178,13 @@ const [isSubmitting, setIsSubmitting] = useState(false);
   }}
 >
   {isSubmitting ? 'Submitting...' : 'Submit'}
-</button>
+</button>;
 ```
 
 ### Button Shortcuts
 
-If a button's action can also be performed with a keyboard shortcut, show that shortcut as a tooltip on the button:
+If a button's action can also be performed with a keyboard shortcut, show that
+shortcut as a tooltip on the button:
 
 ```jsx
 <Tooltip content="Save (Cmd+S)">
@@ -205,7 +206,8 @@ Add `transform: scale(0.97)` on `:active` to make buttons feel responsive:
 
 ### Dead Zones
 
-Avoid dead zones on checkboxes and controls. The space between label and control should also be clickable:
+Avoid dead zones on checkboxes and controls. The space between label and control
+should also be clickable:
 
 ```css
 .checkbox-wrapper {
@@ -247,7 +249,8 @@ For better UX, use a proper confirmation modal instead of `confirm()`.
 
 ## Component Libraries
 
-Use Base UI for accessible component primitives. If it doesn't fit the codebase, use whatever else fits, but ensure accessibility is maintained.
+Use Base UI for accessible component primitives. If it doesn't fit the codebase,
+use whatever else fits, but ensure accessibility is maintained.
 
 ## Error Handling
 

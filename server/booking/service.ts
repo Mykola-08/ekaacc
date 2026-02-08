@@ -45,7 +45,9 @@ export async function fetchService(serviceId: string) {
   try {
     // Use a single query with JOIN for better performance
     // Updated to support lookup by UUID or Slug
-    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(serviceId);
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      serviceId
+    );
 
     const { rows } = await db.query(
       `SELECT s.id, s.name, s.description, s.stripe_product_id, s.metadata, s.image_url, s.images, s.tags,
@@ -66,8 +68,8 @@ export async function fetchService(serviceId: string) {
     // Process joined results - first row has service data, all rows have variant data
     const serviceRow = rows[0]!;
     const variants = rows
-      .filter(r => r.variant_id) // Only rows with variant data
-      .map(v => ({
+      .filter((r) => r.variant_id) // Only rows with variant data
+      .map((v) => ({
         id: v.variant_id,
         name: v.variant_name,
         description: v.variant_description,
@@ -76,7 +78,7 @@ export async function fetchService(serviceId: string) {
         currency: v.currency,
         stripe_price_id: v.stripe_price_id,
         features: v.features || [],
-        comparison_label: v.comparison_label || null
+        comparison_label: v.comparison_label || null,
       }));
 
     // Backfill top-level price/duration from first variant (lowest price)
@@ -93,7 +95,7 @@ export async function fetchService(serviceId: string) {
       images: serviceRow.images,
       price: defaultVariant.price,
       duration: defaultVariant.duration,
-      variants
+      variants,
     };
 
     // Cache the result
@@ -123,13 +125,13 @@ export async function listServiceBookings(serviceId: string, startIso: string, e
     );
 
     // Map to expected format if needed, or return as is
-    const mappedRows = rows.map(row => {
+    const mappedRows = rows.map((row) => {
       return {
         ...row,
         date: new Date(row.start_time).toISOString().split('T')[0],
         time: (new Date(row.start_time).toISOString().split('T')[1] || '').substring(0, 5),
         start_time: row.start_time,
-        end_time: row.end_time
+        end_time: row.end_time,
       };
     });
 
@@ -189,7 +191,7 @@ export async function listServices() {
       is_active: s.active,
       location: s.location || null,
       image_url: s.image_url || null,
-      version: s.version || null
+      version: s.version || null,
     }));
 
     const result = { data: mappedData, error: null as string | null };
@@ -226,9 +228,9 @@ export async function getBookingById(bookingId: string) {
         name: booking.service_name,
         duration: booking.service_duration,
         price: booking.service_price,
-        description: booking.service_description
+        description: booking.service_description,
       },
-      staff: null // We don't have staff table join yet
+      staff: null, // We don't have staff table join yet
     };
 
     return { data: result, error: null as string | null };
@@ -256,7 +258,7 @@ export async function getBookingStats() {
         const pStatus = b.payment_status || 'unknown';
         acc[pStatus] = (acc[pStatus] || 0) + 1;
         return acc;
-      }, {})
+      }, {}),
     };
 
     return { data: stats };
@@ -275,13 +277,13 @@ export async function checkDatabaseHealth() {
       healthy: true,
       timestamp: new Date().toISOString(),
       responseTimeMs: responseTime,
-      error: null as string | null
+      error: null as string | null,
     };
   } catch (err) {
     return {
       healthy: false,
       error: String(err),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 }
@@ -348,7 +350,9 @@ export async function createBooking(params: CreateBookingParams) {
     // RESTRICTION CHECK
     if (service.requires_identity_verification || (service.min_trust_score || 0) > 0) {
       // We must check the user's status.
-      const { rows: scoreRows } = await db.query('SELECT calculate_trust_score($1) as score', [email]);
+      const { rows: scoreRows } = await db.query('SELECT calculate_trust_score($1) as score', [
+        email,
+      ]);
       const userScore = scoreRows[0]?.score || 50; // Default 50
 
       // Check Trust Score
@@ -356,10 +360,13 @@ export async function createBooking(params: CreateBookingParams) {
         return { error: 'Booking restricted: Trust score requirement not met.', status: 403 };
       }
 
-      // Check Identity 
+      // Check Identity
       if (service.requires_identity_verification) {
         if (!userId) {
-          return { error: 'This service requires identity verification. Please log in.', status: 403 };
+          return {
+            error: 'This service requires identity verification. Please log in.',
+            status: 403,
+          };
         }
       }
     }
@@ -435,8 +442,8 @@ export async function createBooking(params: CreateBookingParams) {
       if (schedules.length > 0) {
         for (const s of schedules) {
           const durationHours = finalDuration / 60;
-          if (startHour >= s.start_hour && (startHour + durationHours) <= s.end_hour) {
-            const staffOverlap = overlapping.some(b => b.staff_id === s.staff_id);
+          if (startHour >= s.start_hour && startHour + durationHours <= s.end_hour) {
+            const staffOverlap = overlapping.some((b) => b.staff_id === s.staff_id);
             if (!staffOverlap) {
               finalStaffId = s.staff_id;
               break;
@@ -476,7 +483,6 @@ export async function createBooking(params: CreateBookingParams) {
           finalPriceCents = Math.max(0, finalPriceCents - discountCents);
           finalDepositCents = Math.max(0, finalDepositCents - discountCents);
         }
-
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'Failed to redeem reward';
         console.error('[Booking] Reward redemption failed:', err);
@@ -517,18 +523,27 @@ export async function createBooking(params: CreateBookingParams) {
 
       if (plan.user_id !== userId) return { error: 'Plan belongs to another user', status: 403 };
       if (plan.status !== 'active') return { error: 'Plan is not active', status: 400 };
-      if ((plan.credits_total - plan.credits_used) < 1) return { error: 'Insufficient plan credits', status: 402 };
+      if (plan.credits_total - plan.credits_used < 1)
+        return { error: 'Insufficient plan credits', status: 402 };
 
       initialPaymentStatus = 'captured';
     }
 
     // --- REPUTATION POLICY CHECK ---
-    let reputationPolicy: BookingPolicy = { canBook: true, requiredDepositPercent: 50, allowPayLater: false, rejectionReason: '' };
+    let reputationPolicy: BookingPolicy = {
+      canBook: true,
+      requiredDepositPercent: 50,
+      allowPayLater: false,
+      rejectionReason: '',
+    };
     // Only check reputation if not using prepaid plan (plan is safe) and not fully covered by reward
     if (!usePlanUsageId) {
       reputationPolicy = await ReputationService.getPolicyForService(email, finalPriceCents);
       if (!reputationPolicy.canBook) {
-        return { error: reputationPolicy.rejectionReason || 'Booking declined based on account policy.', status: 403 };
+        return {
+          error: reputationPolicy.rejectionReason || 'Booking declined based on account policy.',
+          status: 403,
+        };
       }
     }
     // -------------------------------
@@ -540,7 +555,10 @@ export async function createBooking(params: CreateBookingParams) {
     const manageToken = await signManageToken(id, 'manage', reservationTTLMinutes * 60);
     const manageTokenHash = hashToken(manageToken);
 
-    const addonsTotal = addons.reduce((sum: number, a: BookingAddon) => sum + (a.priceCents || 0), 0);
+    const addonsTotal = addons.reduce(
+      (sum: number, a: BookingAddon) => sum + (a.priceCents || 0),
+      0
+    );
     const totalCents = finalPriceCents + addonsTotal;
 
     if (paymentMode === 'deposit' && !rewardId && !usePlanUsageId) {
@@ -549,12 +567,17 @@ export async function createBooking(params: CreateBookingParams) {
         return { error: 'Deposit amount required for deposit mode', status: 400 };
       }
 
-      // 2. Check Min Percentage 
+      // 2. Check Min Percentage
       if (reputationPolicy.requiredDepositPercent > 0) {
-        const requiredAmount = Math.floor(totalCents * (reputationPolicy.requiredDepositPercent / 100));
+        const requiredAmount = Math.floor(
+          totalCents * (reputationPolicy.requiredDepositPercent / 100)
+        );
         // Allow small margin of error (e.g. 1 cent)
-        if (finalDepositCents < (requiredAmount - 1)) {
-          return { error: `Insufficient deposit. Your account requires a ${reputationPolicy.requiredDepositPercent}% deposit.`, status: 400 };
+        if (finalDepositCents < requiredAmount - 1) {
+          return {
+            error: `Insufficient deposit. Your account requires a ${reputationPolicy.requiredDepositPercent}% deposit.`,
+            status: 400,
+          };
         }
       }
     }
@@ -570,15 +593,15 @@ export async function createBooking(params: CreateBookingParams) {
     let zoomMeetingId: string | null = null;
 
     if (service.location === 'video' || service.location === 'online') {
-       const meeting = await ZoomService.createMeeting(
-          `${service.name} with ${displayName || email}`, 
-          start.toISOString(), 
-          finalDuration
-       );
-       if (meeting) {
-          zoomJoinUrl = meeting.join_url;
-          zoomMeetingId = meeting.id;
-       }
+      const meeting = await ZoomService.createMeeting(
+        `${service.name} with ${displayName || email}`,
+        start.toISOString(),
+        finalDuration
+      );
+      if (meeting) {
+        zoomJoinUrl = meeting.join_url;
+        zoomMeetingId = meeting.id;
+      }
     }
     // ------------------------
 
@@ -592,11 +615,32 @@ export async function createBooking(params: CreateBookingParams) {
         metadata, customer_tags, zoom_join_url, zoom_meeting_id
       ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)`,
       [
-        id, service.id, finalVariantId, originApp, userId || null, finalStaffId, start.toISOString(), end.toISOString(), finalDuration,
-        finalPriceCents, 'EUR', email, phone, displayName,
-        JSON.stringify(addons), paymentMode, paymentMode === 'deposit' ? finalDepositCents : 0, initialPaymentStatus,
-        'scheduled', JSON.stringify(cancellationPolicy), reservationExpiresAt.toISOString(), manageTokenHash,
-        metadata, customerTags, zoomJoinUrl, zoomMeetingId
+        id,
+        service.id,
+        finalVariantId,
+        originApp,
+        userId || null,
+        finalStaffId,
+        start.toISOString(),
+        end.toISOString(),
+        finalDuration,
+        finalPriceCents,
+        'EUR',
+        email,
+        phone,
+        displayName,
+        JSON.stringify(addons),
+        paymentMode,
+        paymentMode === 'deposit' ? finalDepositCents : 0,
+        initialPaymentStatus,
+        'scheduled',
+        JSON.stringify(cancellationPolicy),
+        reservationExpiresAt.toISOString(),
+        manageTokenHash,
+        metadata,
+        customerTags,
+        zoomJoinUrl,
+        zoomMeetingId,
       ]
     );
 
@@ -606,12 +650,20 @@ export async function createBooking(params: CreateBookingParams) {
       } catch (err) {
         console.error('Failed to consume plan credit:', err);
         // Rollback booking
-        await db.query("UPDATE booking SET status = 'canceled', payment_status = 'failed' WHERE id = $1", [id]);
+        await db.query(
+          "UPDATE booking SET status = 'canceled', payment_status = 'failed' WHERE id = $1",
+          [id]
+        );
         return { error: 'Failed to process plan credit deduction', status: 500 };
       }
     }
 
-    await emitEvent('booking.created', { bookingId: id, serviceId: service.id, startTime, staffId: finalStaffId });
+    await emitEvent('booking.created', {
+      bookingId: id,
+      serviceId: service.id,
+      startTime,
+      staffId: finalStaffId,
+    });
 
     return {
       data: {
@@ -624,9 +676,8 @@ export async function createBooking(params: CreateBookingParams) {
         reservationExpiresAt: reservationExpiresAt.toISOString(),
         staffId: finalStaffId,
       },
-      error: null as string | null
+      error: null as string | null,
     };
-
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
     console.error('Error creating booking:', error);
@@ -634,7 +685,11 @@ export async function createBooking(params: CreateBookingParams) {
   }
 }
 
-export async function getServiceAvailability(serviceId: string, date: string, serviceVariantId?: string) {
+export async function getServiceAvailability(
+  serviceId: string,
+  date: string,
+  serviceVariantId?: string
+) {
   try {
     // 1. Fetch service
     const { rows: serviceRows } = await db.query(
@@ -691,7 +746,10 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         start.setHours(hour, 0, 0, 0);
         const end = new Date(start.getTime() + durationMin * 60000);
 
-        if (end.getHours() > sched.end_hour || (end.getHours() === sched.end_hour && end.getMinutes() > 0)) {
+        if (
+          end.getHours() > sched.end_hour ||
+          (end.getHours() === sched.end_hour && end.getMinutes() > 0)
+        ) {
           break; // Exceeds shift
         }
 
@@ -706,10 +764,12 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         const overlapping = (bookings as BookingRow[]).some((b) => {
           const bStart = new Date(b.start_time);
           const bEnd = new Date(b.end_time);
-          return b.staff_id === staffId &&
+          return (
+            b.staff_id === staffId &&
             bStart < end &&
             bEnd > start &&
-            ['pending', 'authorized', 'captured'].includes(b.payment_status);
+            ['pending', 'authorized', 'captured'].includes(b.payment_status)
+          );
         });
 
         if (!overlapping) {
@@ -726,9 +786,8 @@ export async function getServiceAvailability(serviceId: string, date: string, se
         generatedAt: new Date().toISOString(),
         durationMinutes: durationMin,
       },
-      error: null as string | null
+      error: null as string | null,
     };
-
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Internal Server Error';
     console.error('Error getting availability:', error);
@@ -736,7 +795,11 @@ export async function getServiceAvailability(serviceId: string, date: string, se
   }
 }
 
-export async function updateBookingPaymentStatus(bookingId: string, status: 'captured' | 'failed', stripePaymentIntentId?: string) {
+export async function updateBookingPaymentStatus(
+  bookingId: string,
+  status: 'captured' | 'failed',
+  stripePaymentIntentId?: string
+) {
   try {
     const bookingStatus = status === 'captured' ? 'scheduled' : 'canceled';
     await db.query(

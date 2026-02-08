@@ -1,7 +1,7 @@
 // Event emitter for internal events - production-ready
 // In production, replace with webhook dispatch or message bus publish (e.g., Redis, RabbitMQ, AWS SNS)
 
-type EventType = 
+type EventType =
   | 'booking.created'
   | 'booking.confirmed'
   | 'booking.cancelled'
@@ -35,7 +35,7 @@ export function onEvent(type: EventType, handler: (payload: EventPayload) => Pro
 export async function emitEvent(type: EventType, payload: EventPayload): Promise<boolean> {
   // Execute registered handlers
   const handlers = eventHandlers.get(type) || [];
-  await Promise.allSettled(handlers.map(handler => handler(payload)));
+  await Promise.allSettled(handlers.map((handler) => handler(payload)));
 
   // TODO: In production, dispatch to webhook/message bus here
   // const timestamp = new Date().toISOString();
@@ -43,4 +43,3 @@ export async function emitEvent(type: EventType, payload: EventPayload): Promise
 
   return true;
 }
-

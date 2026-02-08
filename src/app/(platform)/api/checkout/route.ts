@@ -5,10 +5,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const origin = req.headers.get('origin') || '';
-    
+
     const result = await createCheckoutSession({
       ...body,
-      origin
+      origin,
     });
 
     if (result.error) {
@@ -22,4 +22,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
-

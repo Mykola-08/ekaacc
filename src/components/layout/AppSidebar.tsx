@@ -23,7 +23,7 @@ import {
   UserCircleIcon,
   Settings01Icon,
   Logout01Icon,
-  GridViewIcon
+  GridViewIcon,
 } from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 
@@ -44,12 +44,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <div className="flex items-center gap-2 px-4 py-2">
-            <div className="h-6 w-6 rounded bg-primary/20 flex items-center justify-center">
-                <div className="h-3 w-3 bg-primary rounded-full" />
-            </div>
-            <span className="font-semibold text-lg tracking-tight group-data-[collapsible=icon]:hidden">
-                EKA App
-            </span>
+          <div className="bg-primary/20 flex h-6 w-6 items-center justify-center rounded">
+            <div className="bg-primary h-3 w-3 rounded-full" />
+          </div>
+          <span className="text-lg font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
+            EKA App
+          </span>
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -59,8 +59,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton 
-                    asChild 
+                  <SidebarMenuButton
+                    asChild
                     tooltip={item.title}
                     isActive={pathname === item.url || pathname?.startsWith(item.url + '/')}
                   >
@@ -76,17 +76,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-         <SidebarMenu>
-            <SidebarMenuItem>
-                <SidebarMenuButton>
-                    <HugeiconsIcon icon={Logout01Icon} className="h-4 w-4" />
-                    <span>Sign out</span>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
-         </SidebarMenu>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton>
+              <HugeiconsIcon icon={Logout01Icon} className="h-4 w-4" />
+              <span>Sign out</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
 }
-

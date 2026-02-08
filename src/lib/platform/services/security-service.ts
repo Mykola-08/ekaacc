@@ -1,7 +1,7 @@
 import { SystemRole } from '@/lib/platform/config/role-permissions';
 import { NavigationItem } from '@/lib/platform/config/navigation-config';
 
-export type SecurityEventType = 
+export type SecurityEventType =
   | 'unauthorized_access_attempt'
   | 'permission_denied'
   | 'role_change'
@@ -85,7 +85,7 @@ class SecurityMonitoringService {
   private notificationConfig: SecurityNotificationConfig;
   private alertThresholds: Record<SecuritySeverity, number>;
   private rateLimiter: Map<string, number[]> = new Map();
-  
+
   constructor() {
     this.notificationConfig = {
       enabled: true,
@@ -95,16 +95,16 @@ class SecurityMonitoringService {
       rateLimiting: {
         enabled: true,
         maxAlertsPerHour: 50,
-        burstThreshold: 10
+        burstThreshold: 10,
       },
-      destinations: {}
+      destinations: {},
     };
 
     this.alertThresholds = {
       low: 10,
       medium: 5,
       high: 1,
-      critical: 1
+      critical: 1,
     };
 
     this.startCleanupInterval();
@@ -118,7 +118,7 @@ class SecurityMonitoringService {
       id: this.generateEventId(),
       ...eventData,
       timestamp: new Date().toISOString(),
-      processed: false
+      processed: false,
     };
 
     this.events.push(event);
@@ -155,7 +155,7 @@ class SecurityMonitoringService {
       reason,
       ipAddress: context?.ipAddress || 'unknown',
       userAgent: context?.userAgent || 'unknown',
-      metadata: context
+      metadata: context,
     });
   }
 
@@ -180,7 +180,7 @@ class SecurityMonitoringService {
       reason: `Missing permission: ${requiredPermission}`,
       ipAddress: context?.ipAddress || 'unknown',
       userAgent: context?.userAgent || 'unknown',
-      metadata: context
+      metadata: context,
     });
   }
 
@@ -210,8 +210,8 @@ class SecurityMonitoringService {
         href: item.href,
         label: item.label,
         category: item.category,
-        ...context
-      }
+        ...context,
+      },
     });
   }
 
@@ -236,7 +236,7 @@ class SecurityMonitoringService {
       reason: 'Suspicious behavior detected',
       ipAddress: context?.ipAddress || 'unknown',
       userAgent: context?.userAgent || 'unknown',
-      metadata: context
+      metadata: context,
     });
   }
 
@@ -257,37 +257,33 @@ class SecurityMonitoringService {
     let filteredEvents = [...this.events];
 
     if (filters?.type) {
-      filteredEvents = filteredEvents.filter(e => e.type === filters.type);
+      filteredEvents = filteredEvents.filter((e) => e.type === filters.type);
     }
     if (filters?.severity) {
-      filteredEvents = filteredEvents.filter(e => e.severity === filters.severity);
+      filteredEvents = filteredEvents.filter((e) => e.severity === filters.severity);
     }
     if (filters?.userId) {
-      filteredEvents = filteredEvents.filter(e => e.userId === filters.userId);
+      filteredEvents = filteredEvents.filter((e) => e.userId === filters.userId);
     }
     if (filters?.userRole) {
-      filteredEvents = filteredEvents.filter(e => e.userRole === filters.userRole);
+      filteredEvents = filteredEvents.filter((e) => e.userRole === filters.userRole);
     }
     if (filters?.resource) {
-      filteredEvents = filteredEvents.filter(e => e.resource === filters.resource);
+      filteredEvents = filteredEvents.filter((e) => e.resource === filters.resource);
     }
     if (filters?.processed !== undefined) {
-      filteredEvents = filteredEvents.filter(e => e.processed === filters.processed);
+      filteredEvents = filteredEvents.filter((e) => e.processed === filters.processed);
     }
     if (filters?.startDate) {
-      filteredEvents = filteredEvents.filter(e => 
-        new Date(e.timestamp) >= filters.startDate!
-      );
+      filteredEvents = filteredEvents.filter((e) => new Date(e.timestamp) >= filters.startDate!);
     }
     if (filters?.endDate) {
-      filteredEvents = filteredEvents.filter(e => 
-        new Date(e.timestamp) <= filters.endDate!
-      );
+      filteredEvents = filteredEvents.filter((e) => new Date(e.timestamp) <= filters.endDate!);
     }
 
     // Sort by timestamp (newest first)
-    filteredEvents.sort((a, b) => 
-      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    filteredEvents.sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
 
     if (filters?.limit) {
@@ -311,24 +307,24 @@ class SecurityMonitoringService {
     let filteredAlerts = [...this.alerts];
 
     if (filters?.acknowledged !== undefined) {
-      filteredAlerts = filteredAlerts.filter(a => a.acknowledged === filters.acknowledged);
+      filteredAlerts = filteredAlerts.filter((a) => a.acknowledged === filters.acknowledged);
     }
     if (filters?.severity) {
-      filteredAlerts = filteredAlerts.filter(a => a.severity === filters.severity);
+      filteredAlerts = filteredAlerts.filter((a) => a.severity === filters.severity);
     }
     if (filters?.type) {
-      filteredAlerts = filteredAlerts.filter(a => a.type === filters.type);
+      filteredAlerts = filteredAlerts.filter((a) => a.type === filters.type);
     }
     if (filters?.userId) {
-      filteredAlerts = filteredAlerts.filter(a => a.userId === filters.userId);
+      filteredAlerts = filteredAlerts.filter((a) => a.userId === filters.userId);
     }
     if (filters?.autoResolved !== undefined) {
-      filteredAlerts = filteredAlerts.filter(a => a.autoResolved === filters.autoResolved);
+      filteredAlerts = filteredAlerts.filter((a) => a.autoResolved === filters.autoResolved);
     }
 
     // Sort by timestamp (newest first)
-    filteredAlerts.sort((a, b) => 
-      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    filteredAlerts.sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
     );
 
     if (filters?.limit) {
@@ -342,7 +338,7 @@ class SecurityMonitoringService {
    * Acknowledge security alert
    */
   acknowledgeAlert(alertId: string, acknowledgedBy: string): boolean {
-    const alert = this.alerts.find(a => a.id === alertId);
+    const alert = this.alerts.find((a) => a.id === alertId);
     if (!alert) return false;
 
     alert.acknowledged = true;
@@ -357,9 +353,9 @@ class SecurityMonitoringService {
    */
   getMetrics(timeRange?: { start: Date; end: Date }): SecurityMetrics {
     let events = this.events;
-    
+
     if (timeRange) {
-      events = events.filter(e => {
+      events = events.filter((e) => {
         const eventTime = new Date(e.timestamp);
         return eventTime >= timeRange.start && eventTime <= timeRange.end;
       });
@@ -373,39 +369,33 @@ class SecurityMonitoringService {
       route_validation_failure: 0,
       permission_cache_miss: 0,
       system_error: 0,
-      suspicious_activity: 0
+      suspicious_activity: 0,
     };
 
     const eventsBySeverity: Record<SecuritySeverity, number> = {
       low: 0,
       medium: 0,
       high: 0,
-      critical: 0
+      critical: 0,
     };
 
     const resourceCounts: Map<string, number> = new Map();
     const userCounts: Map<string, number> = new Map();
 
-    events.forEach(event => {
+    events.forEach((event) => {
       eventsByType[event.type]++;
       eventsBySeverity[event.severity]++;
-      
-      resourceCounts.set(
-        event.resource,
-        (resourceCounts.get(event.resource) || 0) + 1
-      );
-      
+
+      resourceCounts.set(event.resource, (resourceCounts.get(event.resource) || 0) + 1);
+
       if (event.userId) {
-        userCounts.set(
-          event.userId,
-          (userCounts.get(event.userId) || 0) + 1
-        );
+        userCounts.set(event.userId, (userCounts.get(event.userId) || 0) + 1);
       }
     });
 
-    const activeAlerts = this.alerts.filter(a => !a.acknowledged && !a.autoResolved).length;
-    const acknowledgedAlerts = this.alerts.filter(a => a.acknowledged).length;
-    const autoResolvedAlerts = this.alerts.filter(a => a.autoResolved).length;
+    const activeAlerts = this.alerts.filter((a) => !a.acknowledged && !a.autoResolved).length;
+    const acknowledgedAlerts = this.alerts.filter((a) => a.acknowledged).length;
+    const autoResolvedAlerts = this.alerts.filter((a) => a.autoResolved).length;
 
     const topResources = Array.from(resourceCounts.entries())
       .sort(([, a], [, b]) => b - a)
@@ -428,8 +418,8 @@ class SecurityMonitoringService {
       topUsers,
       timeRange: {
         start: timeRange?.start.toISOString() || new Date(0).toISOString(),
-        end: timeRange?.end.toISOString() || new Date().toISOString()
-      }
+        end: timeRange?.end.toISOString() || new Date().toISOString(),
+      },
     };
   }
 
@@ -475,7 +465,7 @@ class SecurityMonitoringService {
       low: 1,
       medium: 2,
       high: 3,
-      critical: 4
+      critical: 4,
     };
 
     const thresholdLevel = severityLevels[this.notificationConfig.severityThreshold];
@@ -489,19 +479,20 @@ class SecurityMonitoringService {
     switch (event.type) {
       case 'unauthorized_access_attempt':
         return event.severity === 'high' || event.severity === 'critical';
-      
+
       case 'permission_denied':
         // Check for repeated permission denials
-        const recentDenials = this.events.filter(e => 
-          e.type === 'permission_denied' &&
-          e.userId === event.userId &&
-          new Date(e.timestamp) > new Date(Date.now() - 5 * 60 * 1000) // Last 5 minutes
+        const recentDenials = this.events.filter(
+          (e) =>
+            e.type === 'permission_denied' &&
+            e.userId === event.userId &&
+            new Date(e.timestamp) > new Date(Date.now() - 5 * 60 * 1000) // Last 5 minutes
         );
         return recentDenials.length >= 3;
-      
+
       case 'suspicious_activity':
         return event.severity === 'high' || event.severity === 'critical';
-      
+
       default:
         return true;
     }
@@ -517,10 +508,10 @@ class SecurityMonitoringService {
 
     const now = Date.now();
     const windowStart = now - 60 * 60 * 1000; // 1 hour window
-    
+
     const alerts = this.rateLimiter.get(identifier) || [];
-    const recentAlerts = alerts.filter(timestamp => timestamp > windowStart);
-    
+    const recentAlerts = alerts.filter((timestamp) => timestamp > windowStart);
+
     // Update rate limiter
     this.rateLimiter.set(identifier, [...recentAlerts, now]);
 
@@ -540,7 +531,7 @@ class SecurityMonitoringService {
       route_validation_failure: 'Route Validation Failure',
       permission_cache_miss: 'Permission Cache Miss',
       system_error: 'System Error',
-      suspicious_activity: 'Suspicious Activity'
+      suspicious_activity: 'Suspicious Activity',
     };
 
     const title = titles[event.type] || 'Security Alert';
@@ -558,7 +549,7 @@ class SecurityMonitoringService {
       resource: event.resource,
       timestamp: event.timestamp,
       acknowledged: false,
-      autoResolved: false
+      autoResolved: false,
     };
   }
 
@@ -581,7 +572,7 @@ class SecurityMonitoringService {
     // This would integrate with your notification system
     // For now, we'll just log it
     console.warn(`Security Alert: ${alert.title} - ${alert.description}`);
-    
+
     // TODO: Implement actual notification sending
     // - Email notifications
     // - Webhook notifications
@@ -608,12 +599,15 @@ class SecurityMonitoringService {
    */
   private startCleanupInterval(): void {
     // Clean up old events every hour
-    setInterval(() => {
-      const cutoffDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // 7 days
-      this.events = this.events.filter(e => new Date(e.timestamp) >= cutoffDate);
-      this.alerts = this.alerts.filter(a => new Date(a.timestamp) >= cutoffDate);
-      this.rateLimiter.clear(); // Clear rate limiter periodically
-    }, 60 * 60 * 1000);
+    setInterval(
+      () => {
+        const cutoffDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // 7 days
+        this.events = this.events.filter((e) => new Date(e.timestamp) >= cutoffDate);
+        this.alerts = this.alerts.filter((a) => new Date(a.timestamp) >= cutoffDate);
+        this.rateLimiter.clear(); // Clear rate limiter periodically
+      },
+      60 * 60 * 1000
+    );
   }
 }
 
@@ -642,7 +636,13 @@ export function logPermissionDenied(
   requiredPermission: string,
   context?: Record<string, any>
 ) {
-  return securityMonitoring.logPermissionDenied(userId, userRole, resource, requiredPermission, context);
+  return securityMonitoring.logPermissionDenied(
+    userId,
+    userRole,
+    resource,
+    requiredPermission,
+    context
+  );
 }
 
 export function logNavigationAccess(

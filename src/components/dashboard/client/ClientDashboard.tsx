@@ -2,21 +2,21 @@
 
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { 
-    Calendar01Icon, 
-    Clock01Icon, 
-    PlusSignIcon, 
-    ArrowUpRight01Icon, 
-    Wallet01Icon, 
-    Shield01Icon, 
-    Cancel01Icon, 
-    ActivityIcon,
-    Moon02Icon,
-    Sun03Icon
-} from "@hugeicons/core-free-icons";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { HugeiconsIcon } from '@hugeicons/react';
+import {
+  Calendar01Icon,
+  Clock01Icon,
+  PlusSignIcon,
+  ArrowUpRight01Icon,
+  Wallet01Icon,
+  Shield01Icon,
+  Cancel01Icon,
+  ActivityIcon,
+  Moon02Icon,
+  Sun03Icon,
+} from '@hugeicons/core-free-icons';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
 import { DashboardHeader } from '@/components/dashboard/layout/DashboardHeader';
@@ -30,211 +30,322 @@ import { IdentityVerificationForm } from '@/components/identity/IdentityVerifica
 import { MoodCheckIn } from '../widgets/MoodCheckIn';
 import { JournalTeaser } from '../widgets/JournalTeaser';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, X } from 'lucide-react';
+import { AlertTriangle, Shield, X } from 'lucide-react';
 import {
-    MorphingActionButton,
-    ProgressRing,
-    MotivationalQuote,
-    CountdownTimer
+  MorphingActionButton,
+  ProgressRing,
+  MotivationalQuote,
+  CountdownTimer,
 } from '@/components/ui';
 import { useRouter } from 'next/navigation';
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
-export function ClientDashboard({ profile, wallet, nextBooking, plans, activeUsage, goals }: any) {
-    const { t } = useLanguage();
-    const router = useRouter();
-    const [showIdentity, setShowIdentity] = useState(profile?.identity_status !== 'verified');
-    const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+export function ClientDashboard({
+  profile,
+  wallet,
+  nextBooking,
+  plans,
+  activeUsage,
+  goals,
+  recentErrors = [],
+}: any) {
+  const { t } = useLanguage();
+  const router = useRouter();
+  const [showIdentity, setShowIdentity] = useState(profile?.identity_status !== 'verified');
+  const [bookingStatus, setBookingStatus] = useState<'idle' | 'loading' | 'success' | 'error'>(
+    'idle'
+  );
 
-    const handleBookClick = () => {
-        setBookingStatus('loading');
-        setTimeout(() => {
-            router.push('/book');
-        }, 800);
-    };
+  const handleBookClick = () => {
+    setBookingStatus('loading');
+    setTimeout(() => {
+      router.push('/book');
+    }, 800);
+  };
 
-    const hour = new Date().getHours();
-    const greeting = hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening';
-    const GreetingIcon = hour < 12 || hour < 18 ? Sun03Icon : Moon02Icon;
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Morning' : hour < 18 ? 'Afternoon' : 'Evening';
+  const GreetingIcon = hour < 12 || hour < 18 ? Sun03Icon : Moon02Icon;
+  const quickActions = [
+    {
+      title: 'Book a Session',
+      description: 'Find availability and schedule your next visit.',
+      href: '/book',
+      icon: Calendar01Icon,
+    },
+    {
+      title: 'My Bookings',
+      description: 'Review upcoming and past appointments.',
+      href: '/bookings',
+      icon: Clock01Icon,
+    },
+    {
+      title: 'Journal',
+      description: 'Track mood, progress, and personal notes.',
+      href: '/journal',
+      icon: ActivityIcon,
+    },
+    {
+      title: 'Plans',
+      description: 'Browse memberships and manage your benefits.',
+      href: '/plans',
+      icon: PlusSignIcon,
+    },
+    {
+      title: 'All Features',
+      description: 'Explore all available tools and pages in one place.',
+      href: '/features',
+      icon: ActivityIcon,
+    },
+  ];
 
-    return (
-            <motion.div
-                className="space-y-10 max-w-6xl mx-auto pb-20"
-                initial={{ opacity: 0, scale: 0.98, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{
-                    duration: 0.4,
-                    ease: [0.25, 1, 0.5, 1],
-                }}
-            >
-                <DashboardHeader title="Wellness Dashboard" showDate={true} />
+  return (
+    <motion.div
+      className="mx-auto max-w-7xl space-y-8 pb-20 font-sans"
+      initial={{ opacity: 0, scale: 0.98, y: 10 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      transition={{
+        duration: 0.4,
+        ease: [0.25, 1, 0.5, 1],
+      }}
+    >
+      {/* Header is now handled by Layout + Simplified Page Title */}
+      {/* <DashboardHeader title="Wellness Dashboard" showDate={true} /> */}
 
-                {/* Primary User Focus - Simplified High Contrast */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                    {/* Welcome & Main Action */}
-                    <div className="lg:col-span-2 space-y-10">
-                        <section className="bg-card border border-border/40 rounded-[36px] p-10 shadow-xl shadow-foreground/5 relative overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5">
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-3 mb-4">
-                                    <div className="p-2 rounded-full bg-primary/10 text-primary">
-                                        <HugeiconsIcon icon={GreetingIcon} className="size-5" strokeWidth={2.5} />
-                                    </div>
-                                    <span className="text-sm font-bold uppercase tracking-widest text-primary/70">Daily Update</span>
-                                </div>
-                                <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4 tracking-tight leading-tight">
-                                    Good {greeting}, <span className="text-primary italic">{profile.first_name || 'Member'}</span>.
-                                </h1>
-                                <p className="text-muted-foreground text-xl mb-10 max-w-lg leading-relaxed opacity-90">
-                                    Your wellness journey is moving forward. You have {wallet?.balance_cents ? 'funds available' : 'no active balance'} and {nextBooking ? 'an upcoming session.' : 'no sessions scheduled today.'}
-                                </p>
-                                
-                                <div className="flex flex-wrap gap-5">
-                                    <Button
-                                        onClick={handleBookClick}
-                                        disabled={bookingStatus === 'loading'}
-                                        size="lg"
-                                        className="rounded-full px-10 h-14 text-lg font-bold shadow-2xl shadow-primary/30 hover:shadow-primary/40 transition-all active:scale-95 group-hover:-translate-y-1"
-                                    >
-                                        {bookingStatus === 'loading' ? 'Scheduling...' : 'Book a Session'}
-                                    </Button>
-                                    <Link href="/wallet">
-                                        <Button variant="outline" size="lg" className="rounded-full px-8 h-14 text-base font-bold border-2 hover:bg-secondary/50 transition-all border-border/50">
-                                            Manage Wallet
-                                        </Button>
-                                    </Link>
-                                </div>
-                            </div>
-                            
-                            {/* Decorative Background Element */}
-                            <div className="absolute right-0 top-0 w-80 h-80 bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4 pointer-events-none group-hover:bg-primary/10 transition-colors duration-700" />
-                        </section>
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        {/* Welcome & Main Action */}
+        <div className="space-y-8 lg:col-span-2">
+          {/* Hero Section - Clean White */}
+          <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[32px] border border-gray-100 bg-white p-8 shadow-sm">
+            <div className="relative z-10">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-blue-600">
+                <HugeiconsIcon icon={GreetingIcon} className="size-4" strokeWidth={2.5} />
+                <span className="text-[11px] font-bold tracking-wider uppercase">Daily Update</span>
+              </div>
+              <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900">
+                Good {greeting},{' '}
+                <span className="text-blue-600">{profile.first_name || 'Member'}</span>.
+              </h1>
+              <p className="mb-8 max-w-lg text-lg leading-relaxed text-gray-500">
+                Your wellness journey is moving forward. You have{' '}
+                {wallet?.balance_cents ? 'funds available' : 'no active balance'} and{' '}
+                {nextBooking ? 'an upcoming session.' : 'no sessions scheduled today.'}
+              </p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            {/* Next Session */}
-                            <Card className="p-8 rounded-[36px] border border-border/40 bg-card shadow-lg shadow-foreground/5 flex flex-col justify-between min-h-[240px] hover:border-primary/30 transition-all duration-300 hover:shadow-xl group">
-                                <div className="flex items-center justify-between mb-6">
-                                    <div className="flex items-center gap-2">
-                                        <div className="size-3 rounded-full bg-primary animate-pulse" />
-                                        <span className="text-xs font-bold text-primary uppercase tracking-widest">Next Up</span>
-                                    </div>
-                                    <div className="p-2 rounded-xl bg-secondary/50 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                                        <HugeiconsIcon icon={Calendar01Icon} className="size-5" strokeWidth={2.5} />
-                                    </div>
-                                </div>
-                                {nextBooking ? (
-                                    <div className="space-y-6">
-                                        <div>
-                                            <div className="text-2xl font-bold tracking-tight text-foreground leading-tight">{nextBooking.service?.name}</div>
-                                            <div className="flex items-center gap-2 text-muted-foreground mt-2 font-semibold">
-                                                <HugeiconsIcon icon={Clock01Icon} className="size-4" strokeWidth={2.5} />
-                                                <span className="text-sm">{format(new Date(nextBooking.start_time), 'EEEE, MMM d @ h:mm a')}</span>
-                                            </div>
-                                        </div>
-                                        <Button asChild variant="secondary" className="w-full rounded-2xl h-12 font-bold hover:bg-primary/10 hover:text-primary transition-all">
-                                            <Link href={`/bookings/${nextBooking.id}`}>View Details</Link>
-                                        </Button>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-col h-full justify-between">
-                                        <p className="text-muted-foreground font-semibold text-lg opacity-80">No confirmed sessions coming up soon.</p>
-                                        <Link href="/book" className="text-sm font-bold text-primary hover:underline flex items-center gap-1 group/link">
-                                            Check availability <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" strokeWidth={2.5} />
-                                        </Link>
-                                    </div>
-                                )}
-                            </Card>
+              <div className="flex flex-wrap gap-4">
+                <Button
+                  onClick={handleBookClick}
+                  disabled={bookingStatus === 'loading'}
+                  size="lg"
+                  className="h-12 rounded-2xl bg-blue-600 px-8 text-base font-bold shadow-lg shadow-blue-500/20 transition-all hover:bg-blue-700"
+                >
+                  {bookingStatus === 'loading' ? 'Scheduling...' : 'Book a Session'}
+                </Button>
+                <Link href="/wallet">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="h-12 rounded-2xl border-gray-200 px-6 text-base font-bold text-gray-700 hover:bg-gray-50"
+                  >
+                    Manage Wallet
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          </section>
 
-                            {/* Simple Wallet Balance */}
-                            <Card className="p-8 rounded-[36px] border border-border/40 bg-card shadow-lg shadow-foreground/5 flex flex-col justify-between min-h-[240px] hover:border-primary/30 transition-all duration-300 hover:shadow-xl group">
-                                <div className="flex items-center justify-between mb-6">
-                                    <span className="text-xs font-bold text-muted-foreground/60 uppercase tracking-widest">Balance</span>
-                                    <div className="p-2 rounded-xl bg-secondary/50 group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                                        <HugeiconsIcon icon={Wallet01Icon} className="size-5" strokeWidth={2.5} />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="text-5xl font-serif font-bold text-foreground tabular-nums tracking-tighter">
-                                        €{(wallet?.balance_cents || 0) / 100}
-                                    </div>
-                                    <p className="text-sm font-medium text-muted-foreground mt-3 opacity-90">Available for booking sessions</p>
-                                </div>
-                                <div className="mt-6 pt-6 border-t border-border/30">
-                                    <Link href="/wallet" className="text-sm font-bold text-primary hover:underline flex items-center gap-1 group/link">
-                                        Add funds <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" strokeWidth={2.5} />
-                                    </Link>
-                                </div>
-                            </Card>
-                        </div>
-
-                        {/* Goal Tracker */}
-                        <div className="pt-6">
-                             <div className="flex items-center justify-between mb-6 px-1">
-                                <h3 className="text-2xl font-serif font-bold tracking-tight">Your Focus</h3>
-                                <div className="p-1 rounded-full bg-primary/5">
-                                    <HugeiconsIcon icon={ActivityIcon} className="size-5 text-primary/40" strokeWidth={2.5} />
-                                </div>
-                             </div>
-                             <div className="bg-card border border-border/40 rounded-[36px] p-2 shadow-sm overflow-hidden">
-                                <GoalTracker initialGoals={goals || []} />
-                             </div>
-                        </div>
-                    </div>
-
-                    {/* Sidebar / Secondary Actions */}
-                    <div className="space-y-8">
-                        {/* Daily Mood Check-In */}
-                        <div className="bg-card border border-border/40 rounded-[36px] p-8 shadow-lg shadow-foreground/5">
-                            <h3 className="font-bold text-xl font-serif text-foreground mb-6">Daily Check-in</h3>
-                            <MoodCheckIn />
-                        </div>
-
-                        <AnimatePresence>
-                            {showIdentity && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: -10 }}
-                                    className="p-6 bg-primary/5 rounded-3xl border border-primary/10 relative overflow-hidden"
-                                >
-                                    <button
-                                        onClick={() => setShowIdentity(false)}
-                                        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10 p-1 hover:bg-background/50 rounded-full transition-colors"
-                                    >
-                                        <X className="w-4 h-4" />
-                                    </button>
-                                    <div className="flex items-center gap-3 mb-3 text-primary">
-                                        <Shield className="w-5 h-5" />
-                                        <h3 className="font-bold">Verify Identity</h3>
-                                    </div>
-                                    <p className="text-sm text-muted-foreground mb-4">Complete verification to unlock all platform features.</p>
-                                    <IdentityVerificationForm currentStatus={profile?.identity_status || 'none'} />
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-
-                        {/* Journal or Quote - Simplified */}
-                        <MotivationalQuote />
-                    </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {/* Next Session */}
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-blue-100">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                  NEXT UP
+                </span>
+                <div className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-colors group-hover:bg-blue-50 group-hover:text-blue-500">
+                  <HugeiconsIcon icon={Calendar01Icon} className="size-5" strokeWidth={2.5} />
                 </div>
-
-                {/* Marketplace / History Section */}
-                <div className="pt-8 border-t border-border">
-                    {!activeUsage && plans && plans.length > 0 && (
-                        <div className="space-y-6">
-                            <div className="flex items-center justify-between">
-                                <h3 className="text-xl font-bold font-serif">Membership Plans</h3>
-                                <Link href="/plans" className="text-sm font-bold text-primary hover:underline">View all</Link>
-                            </div>
-                            <PlanMarketplace plans={plans.slice(0, 2)} />
-                        </div>
-                    )}
-
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-bold px-1 tracking-tight">Recent Activity</h3>
-                        <RecentActivity />
+              </div>
+              {nextBooking ? (
+                <div className="space-y-4">
+                  <div>
+                    <div className="text-xl font-bold tracking-tight text-gray-900">
+                      {nextBooking.service?.name}
                     </div>
+                    <div className="mt-1 flex items-center gap-2 text-sm font-medium text-gray-500">
+                      <HugeiconsIcon icon={Clock01Icon} className="size-4" strokeWidth={2.5} />
+                      <span>
+                        {format(new Date(nextBooking.start_time), 'EEEE, MMM d @ h:mm a')}
+                      </span>
+                    </div>
+                  </div>
+                  <Button
+                    asChild
+                    variant="secondary"
+                    className="h-10 w-full rounded-xl bg-gray-50 font-bold text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                  >
+                    <Link href={`/bookings/${nextBooking.id}`}>View Details</Link>
+                  </Button>
                 </div>
-            </motion.div>
-    );
+              ) : (
+                <div className="flex h-full flex-col justify-end">
+                  <p className="mb-4 font-medium text-gray-400">No confirmed sessions.</p>
+                  <Link
+                    href="/book"
+                    className="group/link flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline"
+                  >
+                    Check availability{' '}
+                    <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
+                  </Link>
+                </div>
+              )}
+            </Card>
+
+            {/* Wallet Balance */}
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-emerald-100">
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                  BALANCE
+                </span>
+                <div className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-colors group-hover:bg-emerald-50 group-hover:text-emerald-500">
+                  <HugeiconsIcon icon={Wallet01Icon} className="size-5" strokeWidth={2.5} />
+                </div>
+              </div>
+              <div>
+                <div className="text-4xl font-bold tracking-tight text-gray-900">
+                  €{(wallet?.balance_cents || 0) / 100}
+                </div>
+                <p className="mt-2 text-xs font-medium text-gray-400">Available funds</p>
+              </div>
+              <div className="mt-4 border-t border-gray-50 pt-4">
+                <Link
+                  href="/wallet"
+                  className="group/link flex items-center gap-1 text-sm font-bold text-emerald-600 hover:underline"
+                >
+                  Add funds{' '}
+                  <HugeiconsIcon icon={ArrowUpRight01Icon} className="size-4" strokeWidth={2.5} />
+                </Link>
+              </div>
+            </Card>
+          </div>
+
+          {/* Goal Tracker */}
+          <div className="pt-2">
+            <div className="overflow-hidden rounded-[32px] border border-gray-100 bg-white p-2 shadow-sm">
+              <GoalTracker initialGoals={goals || []} />
+            </div>
+          </div>
+
+          <section className="pt-2">
+            <h3 className="mb-4 px-1 text-lg font-bold text-gray-900">Quick Actions</h3>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {quickActions.map((action) => (
+                <Link
+                  key={action.href}
+                  href={action.href}
+                  className="group flex items-start gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-blue-100 hover:shadow-md"
+                >
+                  <div className="rounded-xl bg-gray-50 p-3 text-gray-600 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                    <HugeiconsIcon icon={action.icon} className="size-5" strokeWidth={2.5} />
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-900">{action.title}</h4>
+                    <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                      {action.description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* Sidebar / Secondary Actions */}
+        <div className="space-y-6">
+          {/* Daily Mood Check-In */}
+          <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm">
+            <h3 className="mb-4 text-lg font-bold text-gray-900">Daily Check-in</h3>
+            <MoodCheckIn />
+          </div>
+
+          <AnimatePresence>
+            {showIdentity && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="relative overflow-hidden rounded-[32px] border border-blue-100 bg-blue-50 p-6"
+              >
+                <button
+                  onClick={() => setShowIdentity(false)}
+                  className="absolute top-4 right-4 z-10 rounded-full p-1 text-blue-400 transition-colors hover:text-blue-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+                <div className="mb-2 flex items-center gap-3 text-blue-700">
+                  <Shield className="h-5 w-5" />
+                  <h3 className="font-bold">Verify Identity</h3>
+                </div>
+                <p className="mb-4 text-xs leading-relaxed text-blue-600/80">
+                  Complete verification to unlock all features.
+                </p>
+                <IdentityVerificationForm currentStatus={profile?.identity_status || 'none'} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="rounded-[32px] border border-gray-100 bg-white p-6 shadow-sm">
+            <div className="mb-4 flex items-center gap-2">
+              <HugeiconsIcon
+                icon={ActivityIcon}
+                className="h-4 w-4 text-gray-400"
+                strokeWidth={2.5}
+              />
+              <h3 className="text-lg font-bold text-gray-900">System Status</h3>
+            </div>
+            {recentErrors.length === 0 ? (
+              <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-600">
+                <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></span>
+                Normal Operation
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {recentErrors.map((error: any) => (
+                  <div key={error.id} className="rounded-xl border border-red-100 bg-red-50 p-3">
+                    <p className="text-xs leading-snug font-semibold text-red-900">
+                      {error.message}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Journal or Quote - Simplified */}
+          <div className="overflow-hidden rounded-[32px]">
+            <MotivationalQuote />
+          </div>
+        </div>
+      </div>
+
+      {/* Marketplace / History Section */}
+      <div className="border-t border-gray-100 pt-8">
+        {!activeUsage && plans && plans.length > 0 && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h3 className="font-serif text-xl font-bold">Membership Plans</h3>
+              <Link href="/plans" className="text-primary text-sm font-bold hover:underline">
+                View all
+              </Link>
+            </div>
+            <PlanMarketplace plans={plans.slice(0, 2)} />
+          </div>
+        )}
+
+        <div className="space-y-4">
+          <h3 className="px-1 text-lg font-bold tracking-tight">Recent Activity</h3>
+          <RecentActivity />
+        </div>
+      </div>
+    </motion.div>
+  );
 }
-

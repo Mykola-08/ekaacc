@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/platform/ui/dialog";
+} from '@/components/platform/ui/dialog';
 import { useState } from 'react';
 
 export function MobileNav() {
@@ -36,7 +36,7 @@ export function MobileNav() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background p-2 pb-safe">
+    <div className="bg-background pb-safe fixed right-0 bottom-0 left-0 z-50 border-t p-2">
       <div className="flex items-center justify-around">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -46,8 +46,8 @@ export function MobileNav() {
               key={item.url}
               href={item.url}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 rounded-md p-2 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-                isActive ? "text-primary" : "text-muted-foreground"
+                'hover:bg-accent hover:text-accent-foreground flex flex-col items-center justify-center gap-1 rounded-md p-2 text-xs font-medium transition-colors',
+                isActive ? 'text-primary' : 'text-muted-foreground'
               )}
             >
               <Icon className="h-5 w-5" />
@@ -61,7 +61,7 @@ export function MobileNav() {
             <Button
               variant="ghost"
               className={cn(
-                "flex flex-col items-center justify-center gap-1 rounded-md p-2 h-auto text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground text-muted-foreground"
+                'hover:bg-accent hover:text-accent-foreground text-muted-foreground flex h-auto flex-col items-center justify-center gap-1 rounded-md p-2 text-xs font-medium transition-colors'
               )}
             >
               <Monitor className="h-5 w-5" />
@@ -72,15 +72,22 @@ export function MobileNav() {
             <DialogHeader>
               <DialogTitle>Switch to Desktop View?</DialogTitle>
               <DialogDescription>
-                This will switch the layout to the full desktop version. You can switch back to mobile view in your settings.
+                This will switch the layout to the full desktop version. You can switch back to
+                mobile view in your settings.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setShowFullVersionDialog(false)}>Cancel</Button>
-              <Button onClick={() => {
-                toggleFullVersion();
-                setShowFullVersionDialog(false);
-              }}>Switch</Button>
+              <Button variant="outline" onClick={() => setShowFullVersionDialog(false)}>
+                Cancel
+              </Button>
+              <Button
+                onClick={() => {
+                  toggleFullVersion();
+                  setShowFullVersionDialog(false);
+                }}
+              >
+                Switch
+              </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
@@ -88,4 +95,3 @@ export function MobileNav() {
     </div>
   );
 }
-

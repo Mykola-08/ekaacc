@@ -20,10 +20,10 @@ export interface BookingPolicy {
 }
 
 export class ReputationService {
-  
   static async getReputation(email: string): Promise<ReputationScore> {
     // Fetch detailed stats
-    const { rows } = await db.query(`
+    const { rows } = await db.query(
+      `
       SELECT 
         COUNT(*) FILTER (WHERE status = 'completed') as completed_count,
         COALESCE(SUM(base_price_cents) FILTER (WHERE status = 'completed'), 0) as completed_value,
@@ -32,7 +32,9 @@ export class ReputationService {
         COUNT(*) as total_count
       FROM booking
       WHERE email = $1
-    `, [email]);
+    `,
+      [email]
+    );
 
     const stats = rows[0]!;
     const completedCount = parseInt(stats.completed_count || '0');
@@ -46,10 +48,10 @@ export class ReputationService {
     // Positive factors
     // 1. Reliability
     score += completedCount * 10;
-    
+
     // 2. Value (Price paid)
     // Add 1 point for every 100 EUR spent lifetime
-    score += Math.floor(completedValue / 10000); 
+    score += Math.floor(completedValue / 10000);
 
     // Negative factors
     score -= noShowCount * 50; // Heavy penalty for wasting time
@@ -60,18 +62,18 @@ export class ReputationService {
 
     // Determine Level based on Score and Red Flags
     let level: ReputationScore['level'] = 'neutral';
-    
+
     // Logic hierarchy
     if (noShowCount > 2 || score < 30) {
-        level = 'risky';
+      level = 'risky';
     } else if (totalCount === 0) {
-        level = 'new';
+      level = 'new';
     } else if (score >= 80) {
-        level = 'vip';
+      level = 'vip';
     } else if (score >= 60) {
-        level = 'trusted';
+      level = 'trusted';
     } else {
-        level = 'neutral';
+      level = 'neutral';
     }
 
     return {
@@ -82,74 +84,78 @@ export class ReputationService {
         completedValueCents: completedValue,
         noShows: noShowCount,
         cancellations: canceledCount,
-        totalBookings: totalCount
-      }
+        totalBookings: totalCount,
+      },
     };
   }
 
   /**
    * Calculates the required deposit and booking permission based on user reputation.
    */
-  static async getPolicyForService(email: string, servicePriceCents: number): Promise<BookingPolicy> {
+  static async getPolicyForService(
+    email: string,
+    servicePriceCents: number
+  ): Promise<BookingPolicy> {
     const reputation = await this.getReputation(email);
 
     // 1. Risky Users
     if (reputation.level === 'risky') {
-       // If strict no-show history, block booking
-       if (reputation.metrics.noShows >= 5) {
-         return { 
-            canBook: false, 
-            requiredDepositPercent: 100, 
-            allowPayLater: false, 
-            rejectionReason: 'Booking privileges suspended due to multiple no-shows.' 
-         };
-       }
-       // Otherwise require 100% upfront
-       return { 
-           canBook: true, 
-           requiredDepositPercent: 100, 
-           allowPayLater: false 
-       };
+      // If strict no-show history, block booking
+      if (reputation.metrics.noShows >= 5) {
+        return {
+          canBook: false,
+          requiredDepositPercent: 100,
+          allowPayLater: false,
+          rejectionReason: 'Booking privileges suspended due to multiple no-shows.',
+        };
+      }
+      // Otherwise require 100% upfront
+      return {
+        canBook: true,
+        requiredDepositPercent: 100,
+        allowPayLater: false,
+      };
     }
 
     // 2. New Users
     if (reputation.level === 'new') {
-        // Standard policy: 50% deposit
-        return { 
-            canBook: true, 
-            requiredDepositPercent: 50, 
-            allowPayLater: false 
-        };
+      // Standard policy: 50% deposit
+      return {
+        canBook: true,
+        requiredDepositPercent: 50,
+        allowPayLater: false,
+      };
     }
 
     // 3. VIP Users
     if (reputation.level === 'vip') {
-        // Benefit: No deposit required, Pay at venue available
-        return { 
-            canBook: true, 
-            requiredDepositPercent: 0, 
-            allowPayLater: true 
-        };
+      // Benefit: No deposit required, Pay at venue available
+      return {
+        canBook: true,
+        requiredDepositPercent: 0,
+        allowPayLater: true,
+      };
     }
 
     // 4. Trusted Users
     if (reputation.level === 'trusted') {
-         // Benefit: Reduced deposit (20%) or pay later for small amounts
-         if (servicePriceCents < 5000) { // < 50 EUR
-             return { canBook: true, requiredDepositPercent: 0, allowPayLater: true };
-         }
-         return { 
-             canBook: true, 
-             requiredDepositPercent: 20, 
-             allowPayLater: false 
-         };
+      // Benefit: Reduced deposit (20%) or pay later for small amounts
+      if (servicePriceCents < 5000) {
+        // < 50 EUR
+        return { canBook: true, requiredDepositPercent: 0, allowPayLater: true };
+      }
+      return {
+        canBook: true,
+        requiredDepositPercent: 20,
+        allowPayLater: false,
+      };
     }
 
     // 5. Neutral (Default)
-    return { 
-        canBook: true, 
-        requiredDepositPercent: 50, 
-        allowPayLater: false 
+    return {
+      canBook: true,
+      requiredDepositPercent: 50,
+      allowPayLater: false,
     };
   }
 }

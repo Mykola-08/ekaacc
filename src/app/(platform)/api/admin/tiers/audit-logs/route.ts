@@ -9,8 +9,11 @@ async function verifyAdminAccess(request: NextRequest) {
   }
 
   const token = authHeader.split(' ')[1];
-  const { data: { user }, error } = await supabase.auth.getUser(token);
-  
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser(token);
+
   if (error || !user) {
     return { error: 'Invalid token', user: null };
   }
@@ -54,11 +57,13 @@ export async function GET(request: NextRequest) {
     // Build query
     let query = supabase
       .from('tier_audit_logs')
-      .select(`
+      .select(
+        `
         *,
         user:users!user_id(id, email, displayName),
         admin:users!performed_by(id, email, displayName)
-      `)
+      `
+      )
       .order('timestamp', { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -95,10 +100,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Error fetching audit logs:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch audit logs' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch audit logs' }, { status: 500 });
     }
 
     // Get summary statistics
@@ -110,7 +112,7 @@ export async function GET(request: NextRequest) {
       assign: 0,
       revoke: 0,
       upgrade: 0,
-      downgrade: 0
+      downgrade: 0,
     };
 
     if (stats) {
@@ -120,10 +122,13 @@ export async function GET(request: NextRequest) {
         .not('action', 'is', null);
 
       if (actionData) {
-        const counts = actionData.reduce((acc, log) => {
-          acc[log.action] = (acc[log.action] || 0) + 1;
-          return acc;
-        }, {} as Record<string, number>);
+        const counts = actionData.reduce(
+          (acc, log) => {
+            acc[log.action] = (acc[log.action] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>
+        );
 
         Object.assign(actionCounts, counts);
       }
@@ -137,21 +142,17 @@ export async function GET(request: NextRequest) {
           total: count || 0,
           limit,
           offset,
-          hasMore: (count || 0) > offset + limit
+          hasMore: (count || 0) > offset + limit,
         },
         stats: {
           totalActions: count || 0,
-          actionCounts
-        }
-      }
+          actionCounts,
+        },
+      },
     });
-
   } catch (error) {
     console.error('Audit logs error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -166,44 +167,34 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const body = await request.json() as any;
+    const body = (await request.json()) as any;
     const { logIds } = body;
 
     if (!Array.isArray(logIds) || logIds.length === 0) {
-      return NextResponse.json(
-        { error: 'logIds must be a non-empty array' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'logIds must be a non-empty array' }, { status: 400 });
     }
 
     // Delete audit logs (soft delete by marking as deleted)
     const { error: deleteError } = await supabase
       .from('tier_audit_logs')
-      .update({ 
+      .update({
         deleted: true,
-        deleted_at: new Date().toISOString()
+        deleted_at: new Date().toISOString(),
       })
       .in('id', logIds);
 
     if (deleteError) {
       console.error('Error deleting audit logs:', deleteError);
-      return NextResponse.json(
-        { error: 'Failed to delete audit logs' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to delete audit logs' }, { status: 500 });
     }
 
     return NextResponse.json({
       success: true,
       message: `Successfully deleted ${logIds.length} audit log entries`,
-      deletedCount: logIds.length
+      deletedCount: logIds.length,
     });
-
   } catch (error) {
     console.error('Delete audit logs error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -9,7 +9,11 @@ export interface ManageTokenPayload {
   exp?: number; // seconds since epoch
 }
 
-export async function signManageToken(bookingId: string, scope: 'view' | 'manage', ttlSeconds = 900) {
+export async function signManageToken(
+  bookingId: string,
+  scope: 'view' | 'manage',
+  ttlSeconds = 900
+) {
   const secret = await getBookingTokenSecret();
   const payload: ManageTokenPayload = { bookingId, scope };
   return jwt.sign(payload, secret, { expiresIn: ttlSeconds });
@@ -27,4 +31,3 @@ export async function verifyManageToken(token: string): Promise<ManageTokenPaylo
 export function hashToken(token: string) {
   return crypto.createHash('sha256').update(token).digest('hex');
 }
-

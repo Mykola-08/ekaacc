@@ -4,7 +4,14 @@ import { cn } from '@/lib/platform/utils/css-utils';
 import { motion } from 'framer-motion';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -21,10 +28,8 @@ export function LoadingSpinner({ size = 'md', className, message }: LoadingSpinn
 
   return (
     <div className={cn('flex flex-col items-center justify-center gap-2', className)}>
-      <Loader2 role="status" className={cn('animate-spin text-primary', sizeClasses[size])} />
-      {message && (
-        <p className="text-sm text-muted-foreground animate-pulse">{message}</p>
-      )}
+      <Loader2 role="status" className={cn('text-primary animate-spin', sizeClasses[size])} />
+      {message && <p className="text-muted-foreground animate-pulse text-sm">{message}</p>}
     </div>
   );
 }
@@ -60,13 +65,17 @@ interface CardSkeletonProps {
   showFooter?: boolean;
 }
 
-export function CardSkeleton({ className, showHeader = true, showFooter = true }: CardSkeletonProps) {
+export function CardSkeleton({
+  className,
+  showHeader = true,
+  showFooter = true,
+}: CardSkeletonProps) {
   return (
     <Card role="article" className={cn('animate-pulse', className)}>
       {showHeader && (
         <CardHeader>
-          <div className="h-6 bg-muted rounded w-3/4 mb-2" />
-          <div className="h-4 bg-muted rounded w-1/2" />
+          <div className="bg-muted mb-2 h-6 w-3/4 rounded" />
+          <div className="bg-muted h-4 w-1/2 rounded" />
         </CardHeader>
       )}
       <CardContent>
@@ -74,7 +83,7 @@ export function CardSkeleton({ className, showHeader = true, showFooter = true }
       </CardContent>
       {showFooter && (
         <CardFooter>
-          <div className="h-10 bg-muted rounded w-24" />
+          <div className="bg-muted h-10 w-24 rounded" />
         </CardFooter>
       )}
     </Card>
@@ -96,12 +105,12 @@ export function ErrorState({
   error,
   onRetry,
   onGoHome,
-  className
+  className,
 }: ErrorStateProps) {
   return (
-    <Card className={cn('max-w-lg w-full', className)}>
+    <Card className={cn('w-full max-w-lg', className)}>
       <CardHeader>
-        <div className="flex items-center gap-2 text-destructive mb-4">
+        <div className="text-destructive mb-4 flex items-center gap-2">
           <AlertCircle className="h-6 w-6" />
           <CardTitle>{title}</CardTitle>
         </div>
@@ -110,13 +119,13 @@ export function ErrorState({
 
       {error && process.env.NODE_ENV === 'development' && (
         <CardContent>
-          <div className="rounded-lg bg-muted p-4 text-sm">
-            <p className="font-semibold text-destructive mb-2">Error Details:</p>
-            <pre className="whitespace-pre-wrap text-xs overflow-auto max-h-40">
+          <div className="bg-muted rounded-lg p-4 text-sm">
+            <p className="text-destructive mb-2 font-semibold">Error Details:</p>
+            <pre className="max-h-40 overflow-auto text-xs whitespace-pre-wrap">
               {error.message}
             </pre>
             {error.stack && (
-              <pre className="whitespace-pre-wrap text-xs overflow-auto max-h-40 mt-2 text-muted-foreground">
+              <pre className="text-muted-foreground mt-2 max-h-40 overflow-auto text-xs whitespace-pre-wrap">
                 {error.stack}
               </pre>
             )}
@@ -124,7 +133,7 @@ export function ErrorState({
         </CardContent>
       )}
 
-      <CardFooter className="flex gap-2 flex-wrap">
+      <CardFooter className="flex flex-wrap gap-2">
         {onRetry && (
           <Button onClick={onRetry} variant="default" className="flex-1 sm:flex-none">
             <RefreshCw className="mr-2 h-4 w-4" />
@@ -166,7 +175,7 @@ export function LoadingContainer({
 }: LoadingContainerProps) {
   if (isLoading) {
     return (
-      <div className={cn('flex items-center justify-center min-h-[200px]', className)}>
+      <div className={cn('flex min-h-[200px] items-center justify-center', className)}>
         <LoadingSpinner message={loadingMessage} />
       </div>
     );
@@ -174,13 +183,8 @@ export function LoadingContainer({
 
   if (isError) {
     return (
-      <div className={cn('flex items-center justify-center min-h-[200px]', className)}>
-        <ErrorState
-          title={errorTitle}
-          message={errorMessage}
-          error={error}
-          onRetry={onRetry}
-        />
+      <div className={cn('flex min-h-[200px] items-center justify-center', className)}>
+        <ErrorState title={errorTitle} message={errorMessage} error={error} onRetry={onRetry} />
       </div>
     );
   }
@@ -214,13 +218,10 @@ export function AsyncContent({
   }
 
   if (isError) {
-    return errorComponent || (
-      <LoadingContainer
-        isLoading={false}
-        isError={true}
-        error={error}
-        onRetry={onRetry}
-      />
+    return (
+      errorComponent || (
+        <LoadingContainer isLoading={false} isError={true} error={error} onRetry={onRetry} />
+      )
     );
   }
 
@@ -232,16 +233,16 @@ export function TableSkeleton({ rows = 5, columns = 4 }: { rows?: number; column
   return (
     <div data-testid="table-skeleton" className="space-y-2">
       {/* Header */}
-      <div className="flex gap-2 pb-2 border-b">
+      <div className="flex gap-2 border-b pb-2">
         {Array.from({ length: columns }).map((_, i) => (
-          <span key={i} className="h-4 bg-muted rounded flex-1" />
+          <span key={i} className="bg-muted h-4 flex-1 rounded" />
         ))}
       </div>
       {/* Rows */}
       {Array.from({ length: rows }).map((_, i) => (
         <div key={i} className="flex gap-2 py-2">
           {Array.from({ length: columns }).map((_, j) => (
-            <span key={j} className="h-4 bg-muted rounded flex-1" />
+            <span key={j} className="bg-muted h-4 flex-1 rounded" />
           ))}
         </div>
       ))}
@@ -254,11 +255,11 @@ export function FormSkeleton({ fields = 3 }: { fields?: number }) {
     <div data-testid="form-skeleton" className="space-y-4">
       {Array.from({ length: fields }).map((_, i) => (
         <div key={i} className="space-y-2">
-          <span className="h-4 bg-muted rounded w-24 block" />
-          <span className="h-10 bg-muted rounded block" />
+          <span className="bg-muted block h-4 w-24 rounded" />
+          <span className="bg-muted block h-10 rounded" />
         </div>
       ))}
-      <div className="h-10 bg-muted rounded w-24" />
+      <div className="bg-muted h-10 w-24 rounded" />
     </div>
   );
 }
@@ -266,8 +267,8 @@ export function FormSkeleton({ fields = 3 }: { fields?: number }) {
 export function ChartSkeleton() {
   return (
     <div data-testid="chart-skeleton" className="space-y-4">
-      <div className="h-6 bg-muted rounded w-32" />
-      <div className="h-64 bg-muted rounded" />
+      <div className="bg-muted h-6 w-32 rounded" />
+      <div className="bg-muted h-64 rounded" />
     </div>
   );
 }

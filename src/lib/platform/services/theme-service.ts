@@ -11,10 +11,7 @@ export interface IThemeService {
 const themeService: IThemeService = {
   getAllThemes: async (): Promise<Theme[]> => {
     try {
-      const { data, error } = await supabaseAdmin
-        .from('themes')
-        .select('*')
-        .eq('active', true);
+      const { data, error } = await supabaseAdmin.from('themes').select('*').eq('active', true);
 
       if (error) return [];
       return (data || []) as Theme[];
@@ -38,7 +35,10 @@ const themeService: IThemeService = {
     }
   },
 
-  setUserTheme: async (userId: string, theme: string): Promise<{ success: boolean; error?: string }> => {
+  setUserTheme: async (
+    userId: string,
+    theme: string
+  ): Promise<{ success: boolean; error?: string }> => {
     try {
       const { error } = await supabaseAdmin
         .from('user_preferences')

@@ -21,7 +21,7 @@ export function TierProgressIndicator({
   tierName,
   className,
   showDetails = true,
-  animated = true
+  animated = true,
 }: TierProgressProps) {
   const progressPercentage = Math.min((currentProgress / targetProgress) * 100, 100);
   const isComplete = currentProgress >= targetProgress;
@@ -30,38 +30,39 @@ export function TierProgressIndicator({
     <div className={cn('w-full space-y-4', className)}>
       {/* Progress Bar */}
       <div className="space-y-2">
-        <div className="flex justify-between items-center">
-          <span className="text-sm font-medium text-foreground/90">
-            Progress to {tierName}
-          </span>
-          <span className="text-sm text-muted-foreground">
+        <div className="flex items-center justify-between">
+          <span className="text-foreground/90 text-sm font-medium">Progress to {tierName}</span>
+          <span className="text-muted-foreground text-sm">
             {currentProgress} / {targetProgress}
           </span>
         </div>
-        
-        <div className="relative w-full h-3 bg-gray-200 rounded-full overflow-hidden" role="progressbar" aria-valuenow={currentProgress} aria-valuemin={0} aria-valuemax={targetProgress}>
+
+        <div
+          className="relative h-3 w-full overflow-hidden rounded-full bg-gray-200"
+          role="progressbar"
+          aria-valuenow={currentProgress}
+          aria-valuemin={0}
+          aria-valuemax={targetProgress}
+        >
           <div
             className={cn(
-              'absolute top-0 left-0 h-full transition-all duration-500 ease-out rounded-full',
+              'absolute top-0 left-0 h-full rounded-full transition-all duration-500 ease-out',
               isComplete ? 'bg-green-500' : 'bg-linear-to-r from-blue-500 to-purple-500',
               animated && 'animate-pulse'
             )}
             style={{ width: `${progressPercentage}%` }}
           />
-          
+
           {isComplete && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <CheckCircle className="h-4 w-4 text-white animate-bounce" />
+              <CheckCircle className="h-4 w-4 animate-bounce text-white" />
             </div>
           )}
         </div>
-        
-        <div className="flex justify-between text-xs text-muted-foreground">
+
+        <div className="text-muted-foreground flex justify-between text-xs">
           <span>0%</span>
-          <span className={cn(
-            'font-semibold',
-            isComplete ? 'text-green-600' : 'text-blue-600'
-          )}>
+          <span className={cn('font-semibold', isComplete ? 'text-green-600' : 'text-blue-600')}>
             {Math.round(progressPercentage)}%
           </span>
           <span>100%</span>
@@ -71,31 +72,33 @@ export function TierProgressIndicator({
       {/* Requirements List */}
       {showDetails && (
         <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-foreground">Requirements:</h4>
-          
+          <h4 className="text-foreground text-sm font-semibold">Requirements:</h4>
+
           <div className="space-y-2">
             {requirements.map((requirement, index) => (
               <div
                 key={index}
                 className={cn(
-                  'flex items-center gap-3 p-3 rounded-lg border transition-all duration-200',
+                  'flex items-center gap-3 rounded-lg border p-3 transition-all duration-200',
                   index < Math.ceil(requirements.length * (currentProgress / targetProgress))
-                    ? 'bg-green-50 border-green-200'
+                    ? 'border-green-200 bg-green-50'
                     : 'bg-muted/30 border-border'
                 )}
               >
                 {index < Math.ceil(requirements.length * (currentProgress / targetProgress)) ? (
-                  <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+                  <CheckCircle className="h-4 w-4 shrink-0 text-green-500" />
                 ) : (
-                  <Circle className="h-4 w-4 text-muted-foreground/80 shrink-0" />
+                  <Circle className="text-muted-foreground/80 h-4 w-4 shrink-0" />
                 )}
-                
-                <span className={cn(
-                  'text-sm',
-                  index < Math.ceil(requirements.length * (currentProgress / targetProgress))
-                    ? 'text-green-700 line-through'
-                    : 'text-foreground/90'
-                )}>
+
+                <span
+                  className={cn(
+                    'text-sm',
+                    index < Math.ceil(requirements.length * (currentProgress / targetProgress))
+                      ? 'text-green-700 line-through'
+                      : 'text-foreground/90'
+                  )}
+                >
                   {requirement}
                 </span>
               </div>
@@ -107,19 +110,19 @@ export function TierProgressIndicator({
       {/* Next Requirements Preview */}
       {nextRequirements.length > 0 && (
         <div className="space-y-2">
-          <h4 className="text-sm font-semibold text-foreground flex items-center gap-2">
+          <h4 className="text-foreground flex items-center gap-2 text-sm font-semibold">
             <ArrowUp className="h-4 w-4" />
             Next Level Requirements:
           </h4>
-          
+
           <div className="space-y-1">
             {nextRequirements.slice(0, 3).map((requirement, index) => (
               <div
                 key={index}
-                className="flex items-center gap-3 p-2 rounded-lg bg-muted border border-border"
+                className="bg-muted border-border flex items-center gap-3 rounded-lg border p-2"
               >
-                <Lock className="h-3 w-3 text-muted-foreground/80 shrink-0" />
-                <span className="text-xs text-muted-foreground">{requirement}</span>
+                <Lock className="text-muted-foreground/80 h-3 w-3 shrink-0" />
+                <span className="text-muted-foreground text-xs">{requirement}</span>
               </div>
             ))}
           </div>
@@ -128,7 +131,7 @@ export function TierProgressIndicator({
 
       {/* Completion Message */}
       {isComplete && (
-        <div className="p-4 bg-green-100 border border-green-200 rounded-lg">
+        <div className="rounded-lg border border-green-200 bg-green-100 p-4">
           <div className="flex items-center gap-3">
             <CheckCircle className="h-5 w-5 text-green-600" />
             <span className="text-sm font-medium text-green-800">
@@ -156,12 +159,12 @@ export function CircularTierProgress({
   strokeWidth = 4,
   className,
   showPercentage = true,
-  animated = true
+  animated = true,
 }: CircularTierProgressProps) {
   const sizeConfig = {
     sm: { diameter: 60, fontSize: 'text-sm' },
     md: { diameter: 80, fontSize: 'text-base' },
-    lg: { diameter: 120, fontSize: 'text-lg' }
+    lg: { diameter: 120, fontSize: 'text-lg' },
   };
 
   const { diameter, fontSize } = sizeConfig[size];
@@ -175,7 +178,7 @@ export function CircularTierProgress({
       <svg
         width={diameter}
         height={diameter}
-        className={cn('transform -rotate-90', animated && 'animate-pulse')}
+        className={cn('-rotate-90 transform', animated && 'animate-pulse')}
       >
         {/* Background circle */}
         <circle
@@ -186,7 +189,7 @@ export function CircularTierProgress({
           strokeWidth={strokeWidth}
           fill="none"
         />
-        
+
         {/* Progress circle */}
         <circle
           cx={diameter / 2}
@@ -198,12 +201,9 @@ export function CircularTierProgress({
           strokeDasharray={strokeDasharray}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
-          className={cn(
-            'transition-all duration-1000 ease-out',
-            animated && 'animate-pulse'
-          )}
+          className={cn('transition-all duration-1000 ease-out', animated && 'animate-pulse')}
         />
-        
+
         {/* Gradient definition */}
         <defs>
           <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -212,12 +212,10 @@ export function CircularTierProgress({
           </linearGradient>
         </defs>
       </svg>
-      
+
       {showPercentage && (
         <div className={cn('absolute inset-0 flex items-center justify-center', fontSize)}>
-          <span className="font-semibold text-foreground/90">
-            {Math.round(progress)}%
-          </span>
+          <span className="text-foreground/90 font-semibold">{Math.round(progress)}%</span>
         </div>
       )}
     </div>
@@ -238,33 +236,33 @@ export interface TierBenefitsListProps {
 export function TierBenefitsList({
   benefits,
   className,
-  showUnavailable = false
+  showUnavailable = false,
 }: TierBenefitsListProps) {
-  const availableBenefits = benefits.filter(b => b.available);
-  const unavailableBenefits = benefits.filter(b => !b.available);
+  const availableBenefits = benefits.filter((b) => b.available);
+  const unavailableBenefits = benefits.filter((b) => !b.available);
 
   return (
     <div className={cn('space-y-3', className)}>
       {/* Available Benefits */}
       <div className="space-y-2">
-        <h4 className="text-sm font-semibold text-green-700 flex items-center gap-2">
+        <h4 className="flex items-center gap-2 text-sm font-semibold text-green-700">
           <CheckCircle className="h-4 w-4" />
           Available Benefits
         </h4>
-        
+
         <div className="space-y-2">
           {availableBenefits.map((benefit, index) => (
             <div
               key={index}
-              className="flex items-start gap-3 p-3 bg-green-50 border border-green-200 rounded-lg"
+              className="flex items-start gap-3 rounded-lg border border-green-200 bg-green-50 p-3"
             >
-              <div className="shrink-0 mt-0.5">
+              <div className="mt-0.5 shrink-0">
                 {benefit.icon || <CheckCircle className="h-4 w-4 text-green-500" />}
               </div>
-              
-              <div className="flex-1 min-w-0">
+
+              <div className="min-w-0 flex-1">
                 <p className="text-sm font-medium text-green-800">{benefit.name}</p>
-                <p className="text-xs text-green-600 mt-1">{benefit.description}</p>
+                <p className="mt-1 text-xs text-green-600">{benefit.description}</p>
               </div>
             </div>
           ))}
@@ -273,25 +271,25 @@ export function TierBenefitsList({
 
       {/* Unavailable Benefits */}
       {showUnavailable && unavailableBenefits.length > 0 && (
-        <div className="space-y-2 mt-4">
-          <h4 className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+        <div className="mt-4 space-y-2">
+          <h4 className="text-muted-foreground flex items-center gap-2 text-sm font-semibold">
             <Lock className="h-4 w-4" />
             Locked Benefits
           </h4>
-          
+
           <div className="space-y-2">
             {unavailableBenefits.map((benefit, index) => (
               <div
                 key={index}
-                className="flex items-start gap-3 p-3 bg-muted/30 border border-border rounded-lg opacity-60"
+                className="bg-muted/30 border-border flex items-start gap-3 rounded-lg border p-3 opacity-60"
               >
-                <div className="shrink-0 mt-0.5">
-                  <Lock className="h-4 w-4 text-muted-foreground/80" />
+                <div className="mt-0.5 shrink-0">
+                  <Lock className="text-muted-foreground/80 h-4 w-4" />
                 </div>
-                
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-muted-foreground">{benefit.name}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{benefit.description}</p>
+
+                <div className="min-w-0 flex-1">
+                  <p className="text-muted-foreground text-sm font-medium">{benefit.name}</p>
+                  <p className="text-muted-foreground mt-1 text-xs">{benefit.description}</p>
                 </div>
               </div>
             ))}

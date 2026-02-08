@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { useIntersectionObserver } from '@/hooks/marketing/useIntersectionObserver';
@@ -69,7 +69,9 @@ export default function AnimatedCounter({
 
   return (
     <span ref={elementRef} className={`tabular-nums ${className}`}>
-      {prefix}{displayValue}{suffix}
+      {prefix}
+      {displayValue}
+      {suffix}
     </span>
   );
 }
@@ -83,14 +85,7 @@ export function CurrencyCounter({
   amount: number;
   currency?: string;
 }) {
-  return (
-    <AnimatedCounter
-      {...props}
-      end={amount}
-      decimals={2}
-      suffix={currency}
-    />
-  );
+  return <AnimatedCounter {...props} end={amount} decimals={2} suffix={currency} />;
 }
 
 // Counter for percentages
@@ -100,15 +95,5 @@ export function PercentageCounter({
 }: Omit<AnimatedCounterProps, 'end' | 'suffix'> & {
   percentage: number;
 }) {
-  return (
-    <AnimatedCounter
-      {...props}
-      end={percentage}
-      decimals={1}
-      suffix="%"
-    />
-  );
+  return <AnimatedCounter {...props} end={percentage} decimals={1} suffix="%" />;
 }
-
-
-

@@ -1,4 +1,6 @@
-module.exports = {
+// Plugin handled by string name
+
+const config = {
   printWidth: 100,
   tabWidth: 2,
   useTabs: false,
@@ -11,7 +13,7 @@ module.exports = {
   bracketSameLine: false,
   arrowParens: 'always',
   endOfLine: 'lf',
-  plugins: [require('prettier-plugin-tailwindcss')],
+  plugins: ['prettier-plugin-tailwindcss'],
   overrides: [
     {
       files: '*.md',
@@ -28,3 +30,5 @@ module.exports = {
     },
   ],
 };
+
+export default config;

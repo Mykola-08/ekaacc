@@ -1,4 +1,4 @@
-'use server'
+'use server';
 
 import { AdminService } from '@/lib/platform/services/admin-service';
 import { revalidatePath } from 'next/cache';
@@ -25,4 +25,3 @@ export async function updateUserRole(userId: string, role: string) {
     return { success: false, error: error.message };
   }
 }
-

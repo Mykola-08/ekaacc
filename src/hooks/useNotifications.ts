@@ -22,7 +22,7 @@ export function useNotifications(userId?: string) {
     if (payload.eventType === 'INSERT') {
       const newNotif = payload.new;
       setNewNotification(newNotif);
-      setNotifications(prev => [newNotif, ...prev]);
+      setNotifications((prev) => [newNotif, ...prev]);
     }
   }, []);
 
@@ -37,19 +37,18 @@ export function useNotifications(userId?: string) {
   useEffect(() => {
     if (!userId) return;
     const fetchNotifs = async () => {
-        const supabase = createClient();
-        const { data } = await supabase
-            .from('app_notifications')
-            .select('*')
-            .eq('recipient_id', userId)
-            .order('created_at', { ascending: false })
-            .limit(10);
-        
-        if (data) setNotifications(data as AppNotification[]);
+      const supabase = createClient();
+      const { data } = await supabase
+        .from('app_notifications')
+        .select('*')
+        .eq('recipient_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (data) setNotifications(data as AppNotification[]);
     };
     fetchNotifs();
   }, [userId]);
 
   return { notifications, newNotification, setNotifications };
 }
-

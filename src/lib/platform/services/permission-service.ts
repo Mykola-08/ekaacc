@@ -1,9 +1,15 @@
-import { SystemRole, hasPermission, PermissionGroup, PermissionAction, SYSTEM_ROLES } from '@/lib/platform/config/role-permissions';
-import { 
-  NavigationItem, 
-  NavigationPermission, 
+import {
+  SystemRole,
+  hasPermission,
+  PermissionGroup,
+  PermissionAction,
+  SYSTEM_ROLES,
+} from '@/lib/platform/config/role-permissions';
+import {
+  NavigationItem,
+  NavigationPermission,
   NAVIGATION_CONFIG,
-  getFlattenedNavigationItems 
+  getFlattenedNavigationItems,
 } from '@/lib/platform/config/navigation-config';
 
 export interface PermissionCheckResult {
@@ -55,14 +61,14 @@ class PermissionService {
     context?: Record<string, any>
   ): PermissionCheckResult {
     const startTime = Date.now();
-    
+
     try {
       // Validate that the user role exists
       const roleDefinition = SYSTEM_ROLES[userRole];
       if (!roleDefinition) {
         return {
           hasAccess: false,
-          reason: `Invalid role: ${userRole}`
+          reason: `Invalid role: ${userRole}`,
         };
       }
 
@@ -70,7 +76,7 @@ class PermissionService {
       if (item.metadata?.universal) {
         return {
           hasAccess: true,
-          reason: 'Universal access granted'
+          reason: 'Universal access granted',
         };
       }
 
@@ -78,7 +84,7 @@ class PermissionService {
       if (item.metadata?.roleSpecific && item.metadata.roleSpecific !== userRole) {
         return {
           hasAccess: false,
-          reason: `Role-specific item requires ${item.metadata.roleSpecific} role`
+          reason: `Role-specific item requires ${item.metadata.roleSpecific} role`,
         };
       }
 
@@ -89,12 +95,16 @@ class PermissionService {
       for (const permission of item.permissions) {
         // Add appropriate context based on permission group and action
         const enhancedContext = { ...context, ...permission.conditions };
-        
+
         // For patient_data view_own, automatically add own: true if userId matches
-        if (permission.group === 'patient_data' && permission.action === 'view_own' && context?.userId) {
+        if (
+          permission.group === 'patient_data' &&
+          permission.action === 'view_own' &&
+          context?.userId
+        ) {
           enhancedContext.own = true;
         }
-        
+
         const hasRequiredPermission = hasPermission(
           userRole,
           permission.group,
@@ -113,9 +123,9 @@ class PermissionService {
       const result: PermissionCheckResult = {
         hasAccess: hasAnyPermission,
         missingPermissions: missingPermissions.length > 0 ? missingPermissions : undefined,
-        reason: hasAnyPermission 
-          ? 'Permission granted' 
-          : `Missing required permissions: ${missingPermissions.map(p => `${p.group}:${p.action}`).join(', ')}`
+        reason: hasAnyPermission
+          ? 'Permission granted'
+          : `Missing required permissions: ${missingPermissions.map((p) => `${p.group}:${p.action}`).join(', ')}`,
       };
 
       // Log permission check for audit trail
@@ -127,13 +137,13 @@ class PermissionService {
         result: result.hasAccess,
         reason: result.reason,
         ipAddress: context?.ipAddress,
-        userAgent: context?.userAgent
+        userAgent: context?.userAgent,
       });
 
       return result;
     } catch (error) {
       console.error('Error checking navigation permission:', error);
-      
+
       this.logPermissionCheck({
         userId: context?.userId || 'unknown',
         userRole,
@@ -142,12 +152,12 @@ class PermissionService {
         result: false,
         reason: `Error during permission check: ${error instanceof Error ? error.message : 'Unknown error'}`,
         ipAddress: context?.ipAddress,
-        userAgent: context?.userAgent
+        userAgent: context?.userAgent,
       });
 
       return {
         hasAccess: false,
-        reason: 'System error during permission check'
+        reason: 'System error during permission check',
       };
     } finally {
       const executionTime = Date.now() - startTime;
@@ -167,7 +177,7 @@ class PermissionService {
   ): NavigationItem[] {
     const cacheKey = `${userId}:${userRole}`;
     const cached = this.cache.get(cacheKey);
-    
+
     // Check cache validity
     if (cached && Date.now() - cached.timestamp < cached.ttl) {
       return cached.accessibleItems;
@@ -180,7 +190,7 @@ class PermissionService {
     for (const item of NAVIGATION_CONFIG.items) {
       const permissionResult = this.checkNavigationPermission(userRole, item, {
         ...context,
-        userId
+        userId,
       });
 
       if (permissionResult.hasAccess) {
@@ -197,7 +207,7 @@ class PermissionService {
       accessibleItems,
       restrictedItems,
       timestamp: Date.now(),
-      ttl: this.CACHE_TTL
+      ttl: this.CACHE_TTL,
     });
 
     return accessibleItems;
@@ -213,14 +223,14 @@ class PermissionService {
   ): NavigationItem[] {
     const cacheKey = `${userId}:${userRole}`;
     const cached = this.cache.get(cacheKey);
-    
+
     if (cached && Date.now() - cached.timestamp < cached.ttl) {
       return cached.restrictedItems;
     }
 
     // If cache miss, get accessible items which will populate cache
     this.getAccessibleNavigationItems(userId, userRole, context);
-    
+
     // Return cached restricted items
     const updatedCached = this.cache.get(cacheKey);
     return updatedCached?.restrictedItems || [];
@@ -234,13 +244,14 @@ class PermissionService {
     route: string,
     context?: Record<string, any>
   ): PermissionCheckResult {
-    const item = getFlattenedNavigationItems(NAVIGATION_CONFIG.items)
-      .find(item => item.href === route);
+    const item = getFlattenedNavigationItems(NAVIGATION_CONFIG.items).find(
+      (item) => item.href === route
+    );
 
     if (!item) {
       return {
         hasAccess: false,
-        reason: 'Route not found in navigation configuration'
+        reason: 'Route not found in navigation configuration',
       };
     }
 
@@ -297,7 +308,7 @@ class PermissionService {
       hitRate: 0, // Would need to track hits/misses
       missRate: 0,
       oldestEntry: oldestTimestamp,
-      newestEntry: newestTimestamp
+      newestEntry: newestTimestamp,
     };
   }
 
@@ -321,25 +332,25 @@ class PermissionService {
 
     // Apply filters
     if (filters?.userId) {
-      logs = logs.filter(log => log.userId === filters.userId);
+      logs = logs.filter((log) => log.userId === filters.userId);
     }
     if (filters?.userRole) {
-      logs = logs.filter(log => log.userRole === filters.userRole);
+      logs = logs.filter((log) => log.userRole === filters.userRole);
     }
     if (filters?.action) {
-      logs = logs.filter(log => log.action === filters.action);
+      logs = logs.filter((log) => log.action === filters.action);
     }
     if (filters?.resource) {
-      logs = logs.filter(log => log.resource === filters.resource);
+      logs = logs.filter((log) => log.resource === filters.resource);
     }
     if (filters?.result !== undefined) {
-      logs = logs.filter(log => log.result === filters.result);
+      logs = logs.filter((log) => log.result === filters.result);
     }
     if (filters?.startDate) {
-      logs = logs.filter(log => new Date(log.timestamp) >= filters.startDate!);
+      logs = logs.filter((log) => new Date(log.timestamp) >= filters.startDate!);
     }
     if (filters?.endDate) {
-      logs = logs.filter(log => new Date(log.timestamp) <= filters.endDate!);
+      logs = logs.filter((log) => new Date(log.timestamp) <= filters.endDate!);
     }
 
     // Apply limit
@@ -355,28 +366,28 @@ class PermissionService {
    */
   getSecurityAlerts(): PermissionAuditLog[] {
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-    
-    return this.auditLogs.filter(log => {
-      const logTime = new Date(log.timestamp);
-      
-      // Failed access attempts in the last hour
-      if (!log.result && logTime >= oneHourAgo) {
-        return true;
-      }
 
-      // Multiple failed attempts by same user
-      const userFailedAttempts = this.auditLogs.filter(l => 
-        l.userId === log.userId && 
-        !l.result && 
-        new Date(l.timestamp) >= oneHourAgo
-      );
+    return this.auditLogs
+      .filter((log) => {
+        const logTime = new Date(log.timestamp);
 
-      if (userFailedAttempts.length >= 5) {
-        return true;
-      }
+        // Failed access attempts in the last hour
+        if (!log.result && logTime >= oneHourAgo) {
+          return true;
+        }
 
-      return false;
-    }).slice(-50); // Limit to 50 most recent alerts
+        // Multiple failed attempts by same user
+        const userFailedAttempts = this.auditLogs.filter(
+          (l) => l.userId === log.userId && !l.result && new Date(l.timestamp) >= oneHourAgo
+        );
+
+        if (userFailedAttempts.length >= 5) {
+          return true;
+        }
+
+        return false;
+      })
+      .slice(-50); // Limit to 50 most recent alerts
   }
 
   // Private methods
@@ -385,9 +396,10 @@ class PermissionService {
     // Prevent cache from growing too large
     if (this.cache.size >= this.MAX_CACHE_SIZE) {
       // Remove oldest entry
-      const oldestKey = Array.from(this.cache.entries())
-        .sort(([, a], [, b]) => a.timestamp - b.timestamp)[0]?.[0];
-      
+      const oldestKey = Array.from(this.cache.entries()).sort(
+        ([, a], [, b]) => a.timestamp - b.timestamp
+      )[0]?.[0];
+
       if (oldestKey) {
         this.cache.delete(oldestKey);
       }
@@ -400,7 +412,7 @@ class PermissionService {
     const log: PermissionAuditLog = {
       id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       ...logData,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
     this.auditLogs.push(log);
@@ -413,9 +425,7 @@ class PermissionService {
 
   private cleanupAuditLogs(): void {
     const cutoffDate = new Date(Date.now() - this.AUDIT_LOG_RETENTION);
-    this.auditLogs = this.auditLogs.filter(log => 
-      new Date(log.timestamp) >= cutoffDate
-    );
+    this.auditLogs = this.auditLogs.filter((log) => new Date(log.timestamp) >= cutoffDate);
   }
 
   private startCleanupInterval(): void {
@@ -430,9 +440,12 @@ class PermissionService {
     }, 60 * 1000);
 
     // Clean up old audit logs every hour
-    setInterval(() => {
-      this.cleanupAuditLogs();
-    }, 60 * 60 * 1000);
+    setInterval(
+      () => {
+        this.cleanupAuditLogs();
+      },
+      60 * 60 * 1000
+    );
   }
 }
 
@@ -468,7 +481,9 @@ export function invalidateUserPermissionCache(userId: string): void {
   permissionService.invalidateUserCache(userId);
 }
 
-export function getPermissionAuditLogs(filters?: Parameters<typeof permissionService.getAuditLogs>[0]) {
+export function getPermissionAuditLogs(
+  filters?: Parameters<typeof permissionService.getAuditLogs>[0]
+) {
   return permissionService.getAuditLogs(filters);
 }
 

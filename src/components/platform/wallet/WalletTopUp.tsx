@@ -3,7 +3,13 @@
 import { useState, useEffect } from 'react';
 import { getWalletBalanceAction, createWalletTopUpIntentAction } from '@/app/actions/wallet';
 import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/platform/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/platform/ui/label';
 import { toast } from 'sonner';
@@ -53,12 +59,12 @@ export function WalletTopUp() {
   };
 
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
+    <div className="mx-auto max-w-4xl space-y-6">
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Current Balance</CardTitle>
-            <Wallet className="h-4 w-4 text-muted-foreground" />
+            <Wallet className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
@@ -69,11 +75,11 @@ export function WalletTopUp() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Savings</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="text-muted-foreground h-4 w-4" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">€0.00</div>
-            <p className="text-xs text-muted-foreground">From volume discounts</p>
+            <p className="text-muted-foreground text-xs">From volume discounts</p>
           </CardContent>
         </Card>
       </div>
@@ -86,20 +92,24 @@ export function WalletTopUp() {
         <CardContent>
           {!clientSecret ? (
             <div className="space-y-6">
-              <RadioGroup 
-                value={selectedAmount.toString()} 
+              <RadioGroup
+                value={selectedAmount.toString()}
                 onValueChange={(v) => setSelectedAmount(parseInt(v))}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                className="grid grid-cols-1 gap-4 md:grid-cols-3"
               >
                 {TOP_UP_OPTIONS.map((option) => (
                   <div key={option.amount}>
-                    <RadioGroupItem value={option.amount.toString()} id={`opt-${option.amount}`} className="peer sr-only" />
+                    <RadioGroupItem
+                      value={option.amount.toString()}
+                      id={`opt-${option.amount}`}
+                      className="peer sr-only"
+                    />
                     <Label
                       htmlFor={`opt-${option.amount}`}
-                      className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer"
+                      className="border-muted bg-popover hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary flex cursor-pointer flex-col items-center justify-between rounded-md border-2 p-4"
                     >
                       <span className="text-xl font-bold">€{option.amount}</span>
-                      <span className="text-sm text-muted-foreground">{option.label}</span>
+                      <span className="text-muted-foreground text-sm">{option.label}</span>
                       {option.bonus > 0 && (
                         <span className="mt-2 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800">
                           +{option.bonus}% Bonus
@@ -129,4 +139,3 @@ export function WalletTopUp() {
     </div>
   );
 }
-

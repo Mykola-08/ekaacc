@@ -1,14 +1,18 @@
 # EKA Account - Mental Health & Wellness Platform
 
-A comprehensive Next.js application for mental health and wellness management with AI-powered insights, therapist booking, and personalized care.
+A comprehensive Next.js application for mental health and wellness management
+with AI-powered insights, therapist booking, and personalized care.
 
 ## Architecture
 
-The project is built with Next.js 16 and unified into a single-application structure for maximum simplicity and development speed.
+The project is built with Next.js 16 and unified into a single-application
+structure for maximum simplicity and development speed.
 
 The application includes:
+
 - **Marketing Pages**: Public-facing content and SEO-optimized pages
-- **Platform Features**: Dashboard, booking, admin, therapist portal, and all core functionality
+- **Platform Features**: Dashboard, booking, admin, therapist portal, and all
+  core functionality
 - **API Routes**: Backend services and integrations
 
 ## Table of Contents
@@ -29,16 +33,21 @@ The application includes:
 ## Features
 
 ### For Users/Patients
-- **AI-Powered Insights**: Personalized wellness recommendations using GPT, Claude, and Gemini
+
+- **AI-Powered Insights**: Personalized wellness recommendations using GPT,
+  Claude, and Gemini
 - **Mood & Journal Tracking**: Daily mood logging with private journaling
-- **Goal Setting & Progress**: Track wellness goals with visual progress indicators
+- **Goal Setting & Progress**: Track wellness goals with visual progress
+  indicators
 - **Therapist Booking**: Schedule sessions with certified therapists
 - **Secure Messaging**: Direct communication with care providers
-- **Subscription Tiers**: Flexible pricing with Free, Basic, Premium, and Enterprise plans
+- **Subscription Tiers**: Flexible pricing with Free, Basic, Premium, and
+  Enterprise plans
 - **Loyalty Program**: Earn points and rewards for engagement
 - **Community Features**: Connect with others on similar wellness journeys
 
 ### For Therapists
+
 - **Client Management**: Comprehensive client dashboard and profiles
 - **Session Scheduling**: Integrated booking system with Square
 - **Session Notes**: Secure documentation and progress tracking
@@ -46,6 +55,7 @@ The application includes:
 - **Availability Management**: Set custom schedules and time slots
 
 ### For Admins
+
 - **User Management**: Complete user administration interface
 - **Subscription Management**: Control tiers and billing
 - **Analytics Dashboard**: Platform usage and performance metrics
@@ -55,6 +65,7 @@ The application includes:
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
@@ -64,6 +75,7 @@ The application includes:
 - **Animations**: Framer Motion
 
 ### Backend & Infrastructure
+
 - **Database**: PostgreSQL (Supabase)
 - **Payments**: Stripe
 - **Booking System**: Square
@@ -72,17 +84,20 @@ The application includes:
 - **Feature Flags**: Statsig
 
 ### AI Services
+
 - **OpenAI**: GPT-4 for insights and chat
 - **Anthropic**: Claude for advanced analysis
 - **Google AI**: Gemini for multimodal capabilities
 
 ### Testing & Quality
+
 - **Unit Testing**: Jest + React Testing Library
 - **E2E Testing**: Playwright
 - **Load Testing**: k6
 - **Linting**: ESLint + Prettier
 
 ### Deployment
+
 - **Hosting**: Vercel
 - **CI/CD**: GitHub Actions
 - **Monitoring**: Vercel Analytics
@@ -91,16 +106,19 @@ The application includes:
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js** 20.x or higher (22.x recommended) - [Download](https://nodejs.org/)
+- **Node.js** 20.x or higher (22.x recommended) -
+  [Download](https://nodejs.org/)
 - **npm** 10.x or higher (comes with Node.js)
 - **Git** - [Download](https://git-scm.com/)
 
 You'll also need accounts for the following services:
 
-- **Supabase** - [Sign up](https://supabase.com/) for database and authentication
+- **Supabase** - [Sign up](https://supabase.com/) for database and
+  authentication
 - **Stripe** - [Sign up](https://stripe.com/) for payment processing
 - **Resend** - [Sign up](https://resend.com/) for transactional emails
-- **Square** (Optional) - [Sign up](https://squareup.com/) for booking management
+- **Square** (Optional) - [Sign up](https://squareup.com/) for booking
+  management
 
 ## Installation
 
@@ -127,7 +145,8 @@ This installs all dependencies for the monorepo workspaces.
 cp .env.example .env.local
 ```
 
-Edit `.env.local` with your service credentials. See [Environment Variables](#environment-variables) for details.
+Edit `.env.local` with your service credentials. See
+[Environment Variables](#environment-variables) for details.
 
 ### 4. Set up the database
 
@@ -150,6 +169,7 @@ npm run dev
 ```
 
 This will start the application:
+
 - **Main Application**: [http://localhost:9002](http://localhost:9002)
 
 ## Project Structure
@@ -178,124 +198,142 @@ ekaacc/
 
 Add these to `.env.local` (or project secrets) as needed:
 
-| Variable | Purpose |
-|----------|---------|
-| `PUBLIC_ROUTES` | Comma-separated list of additional unauthenticated routes |
-| `RATE_LIMIT_MAX_REQUESTS` | Override per-minute in-memory rate limit (default 120) |
-| `BOT_PROTECTION_ENABLED` | Set to `true` to enable UA-based bot blocking in middleware |
-| `BOT_PROTECTION_BLOCK_LIST` | Comma list of substrings to match against `User-Agent` |
-| `VERCEL_ANALYTICS_ENABLED` | Future flag for conditional analytics loading |
-| `RESEND_API_KEY` | API key for Resend email service (required for email sending) |
-| `RESEND_AUDIENCE_ID` | Optional audience ID for contact sync |
-| `ACCESS_TOKEN_RATE_LIMIT` | Max requests per-minute to /api/auth/access-token (default 40) |
+| Variable                                 | Purpose                                                         |
+| ---------------------------------------- | --------------------------------------------------------------- |
+| `PUBLIC_ROUTES`                          | Comma-separated list of additional unauthenticated routes       |
+| `RATE_LIMIT_MAX_REQUESTS`                | Override per-minute in-memory rate limit (default 120)          |
+| `BOT_PROTECTION_ENABLED`                 | Set to `true` to enable UA-based bot blocking in middleware     |
+| `BOT_PROTECTION_BLOCK_LIST`              | Comma list of substrings to match against `User-Agent`          |
+| `VERCEL_ANALYTICS_ENABLED`               | Future flag for conditional analytics loading                   |
+| `RESEND_API_KEY`                         | API key for Resend email service (required for email sending)   |
+| `RESEND_AUDIENCE_ID`                     | Optional audience ID for contact sync                           |
+| `ACCESS_TOKEN_RATE_LIMIT`                | Max requests per-minute to /api/auth/access-token (default 40)  |
 | `ACCESS_TOKEN_REFRESH_THRESHOLD_SECONDS` | Seconds before expiry to trigger automatic refresh (default 60) |
-| `UPSTASH_REDIS_REST_URL` | Upstash Redis REST URL for distributed rate limiting |
-| `UPSTASH_REDIS_REST_TOKEN` | Upstash Redis REST token |
-| `RATE_LIMIT_WINDOW_SECONDS` | Global request rate limit window size (default 60) |
-| `STATSIG_API_KEY` | Statsig console API key for feature flags/experiments |
+| `UPSTASH_REDIS_REST_URL`                 | Upstash Redis REST URL for distributed rate limiting            |
+| `UPSTASH_REDIS_REST_TOKEN`               | Upstash Redis REST token                                        |
+| `RATE_LIMIT_WINDOW_SECONDS`              | Global request rate limit window size (default 60)              |
+| `STATSIG_API_KEY`                        | Statsig console API key for feature flags/experiments           |
 
-Secrets for production should be pushed to Vercel (`vercel env add ...`) and Supabase (`supabase secrets set ...`). Refer to `wiki/RESEND_INTEGRATION.md` and security docs for details.
+Secrets for production should be pushed to Vercel (`vercel env add ...`) and
+Supabase (`supabase secrets set ...`). Refer to `wiki/RESEND_INTEGRATION.md` and
+security docs for details.
 
 ### Statsig Setup
 
 1. Obtain a console API key from Statsig (format `console-xxxx`).
 2. Add to local dev: append to `.env.local`:
-	```bash
-	STATSIG_API_KEY=console-your-key
-	```
+   ```bash
+   STATSIG_API_KEY=console-your-key
+   ```
 3. Add to Vercel:
-	```powershell
-	vercel env add STATSIG_API_KEY production
-	vercel env add STATSIG_API_KEY preview
-	vercel env add STATSIG_API_KEY development
-	```
+   ```powershell
+   vercel env add STATSIG_API_KEY production
+   vercel env add STATSIG_API_KEY preview
+   vercel env add STATSIG_API_KEY development
+   ```
 4. Add to Supabase secrets (for Edge Functions / server usage):
-	```powershell
-	supabase secrets set STATSIG_API_KEY=console-your-key
-	```
+   ```powershell
+   supabase secrets set STATSIG_API_KEY=console-your-key
+   ```
 5. Rotate every 90 days; update all scopes and redeploy.
 
 Automated setup (script):
+
 ```powershell
 ./scripts/setup-statsig.ps1 -StatsigKey console-your-key
 # or
 $env:STATSIG_API_KEY="console-your-key"; ./scripts/setup-statsig.ps1
 ```
 
-MCP Limitation: Current MCP tooling in this repo cannot directly write Vercel or Supabase secrets; the script wraps the respective CLIs.
+MCP Limitation: Current MCP tooling in this repo cannot directly write Vercel or
+Supabase secrets; the script wraps the respective CLIs.
 
 #### Server vs Client Keys
 
-| Key | Purpose | Exposure |
-|-----|---------|----------|
-| `STATSIG_API_KEY` | Console operations / MCP remote | Server only |
-| `STATSIG_SERVER_SECRET` | Server-side gate/config evaluation | Server only (NEVER bundle) |
-| `NEXT_PUBLIC_STATSIG_CLIENT_KEY` | Client-side gating (optional) | Public |
+| Key                              | Purpose                            | Exposure                   |
+| -------------------------------- | ---------------------------------- | -------------------------- |
+| `STATSIG_API_KEY`                | Console operations / MCP remote    | Server only                |
+| `STATSIG_SERVER_SECRET`          | Server-side gate/config evaluation | Server only (NEVER bundle) |
+| `NEXT_PUBLIC_STATSIG_CLIENT_KEY` | Client-side gating (optional)      | Public                     |
 
 #### Basic Usage (Server)
+
 ```ts
 import { isFlagEnabled, getAllFlags } from './src/services/featureFlags';
 
 const flags = await getAllFlags({ userId: 'user_123' });
 if (flags.ai_insights_enabled) {
-	// load AI insights module
+  // load AI insights module
 }
 ```
 
 #### Client Usage (Optional)
-If you add `NEXT_PUBLIC_STATSIG_CLIENT_KEY`, you can evaluate gates client-side with `statsig-js`:
+
+If you add `NEXT_PUBLIC_STATSIG_CLIENT_KEY`, you can evaluate gates client-side
+with `statsig-js`:
+
 ```ts
 import Statsig from 'statsig-js';
-await Statsig.initialize(process.env.NEXT_PUBLIC_STATSIG_CLIENT_KEY!, { userID: 'user_123' });
+await Statsig.initialize(process.env.NEXT_PUBLIC_STATSIG_CLIENT_KEY!, {
+  userID: 'user_123',
+});
 const enabled = Statsig.checkGate('ai_insights_enabled');
 ```
 
 Provide graceful fallbacks for any client gating to avoid UI flicker.
 
 ### API Route Prefetch
+
 Flags are available at `GET /api/flags`:
+
 ```bash
 curl https://your-app-domain/api/flags
 ```
+
 Returns:
+
 ```json
 { "flags": { "ai_insights_enabled": true, "wallet_enabled": false, ... } }
 ```
 
 ### Provider Integration
+
 Use server component prefetch + client hydration:
+
 ```tsx
 import { PrefetchedFlags } from '@/components/examples/FlagsStatus';
 
 export default async function DashboardPage() {
-	return <PrefetchedFlags userId="user_123" />;
+  return <PrefetchedFlags userId="user_123" />;
 }
 ```
 
 ### Comprehensive Flag List
-| Flag | Purpose | Default Fallback |
-|------|---------|------------------|
-| ai_insights_enabled | AI recommendations | true |
-| ai_chat_enabled | Conversational AI chat | true |
-| journal_enabled | Mood & journal tracking | true |
-| goals_enabled | Goal management UI | true |
-| messaging_enabled | Secure user/provider messaging | true |
-| community_enabled | Forums & community threads | true |
-| therapist_portal_enabled | Therapist dashboard access | true |
-| therapist_booking_enabled | Booking flow & scheduling | true |
-| admin_dashboard_enabled | Administrative panels | true |
-| analytics_enabled | Analytics dashboards | true |
-| subscription_tiers_enabled | Tier gating logic | true |
-| wallet_enabled | User wallet / stored value | false |
-| loyalty_program_enabled | Engagement rewards program | true |
-| referrals_enabled | Referral / invitations | true |
-| square_integration_enabled | Square scheduling/payments | true |
-| stripe_billing_enabled | Stripe billing flows | true |
-| onboarding_flow_v2_enabled | New onboarding experiment | false |
-| impersonation_enabled | Admin user impersonation | true |
-| feature_flags_ui_enabled | Flag management UI surface | false |
+
+| Flag                       | Purpose                        | Default Fallback |
+| -------------------------- | ------------------------------ | ---------------- |
+| ai_insights_enabled        | AI recommendations             | true             |
+| ai_chat_enabled            | Conversational AI chat         | true             |
+| journal_enabled            | Mood & journal tracking        | true             |
+| goals_enabled              | Goal management UI             | true             |
+| messaging_enabled          | Secure user/provider messaging | true             |
+| community_enabled          | Forums & community threads     | true             |
+| therapist_portal_enabled   | Therapist dashboard access     | true             |
+| therapist_booking_enabled  | Booking flow & scheduling      | true             |
+| admin_dashboard_enabled    | Administrative panels          | true             |
+| analytics_enabled          | Analytics dashboards           | true             |
+| subscription_tiers_enabled | Tier gating logic              | true             |
+| wallet_enabled             | User wallet / stored value     | false            |
+| loyalty_program_enabled    | Engagement rewards program     | true             |
+| referrals_enabled          | Referral / invitations         | true             |
+| square_integration_enabled | Square scheduling/payments     | true             |
+| stripe_billing_enabled     | Stripe billing flows           | true             |
+| onboarding_flow_v2_enabled | New onboarding experiment      | false            |
+| impersonation_enabled      | Admin user impersonation       | true             |
+| feature_flags_ui_enabled   | Flag management UI surface     | false            |
 
 Use `FeatureGate` for client-only sections:
+
 ```tsx
 <FeatureGate flag="wallet_enabled" fallback={<div>Wallet coming soon" />}> <WalletPanel /> </FeatureGate>
 ```
@@ -303,6 +341,7 @@ Use `FeatureGate` for client-only sections:
 ## Authentication & Security
 
 ### Authentication Flow
+
 1. User signs up via `/signup` (email/password)
 2. Supabase handles authentication
 3. User profile automatically created via database trigger
@@ -310,6 +349,7 @@ Use `FeatureGate` for client-only sections:
 5. JWT token stored in secure httpOnly cookie
 
 ### Security Features
+
 - Row Level Security (RLS) on all database tables
 - API route protection with middleware
 - Rate limiting on sensitive endpoints
@@ -321,6 +361,7 @@ Use `FeatureGate` for client-only sections:
 ## UI/UX
 
 ### Design System
+
 - **Component Library**: shadcn/ui (Radix UI + Tailwind)
 - **Styling**: Tailwind CSS with custom design tokens
 - **Icons**: Lucide React
@@ -328,6 +369,7 @@ Use `FeatureGate` for client-only sections:
 - **Themes**: Light/Dark mode support
 
 ### Responsive Design
+
 - Mobile-first approach
 - Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
 - Touch-optimized for mobile devices
@@ -336,6 +378,7 @@ Use `FeatureGate` for client-only sections:
 ## Testing
 
 ### Unit Tests
+
 ```bash
 npm test                # Run all tests
 npm run test:watch      # Watch mode
@@ -343,6 +386,7 @@ npm run test:coverage   # Coverage report
 ```
 
 ### End-to-End Tests
+
 ```bash
 npm run test:e2e        # Run Playwright tests
 npm run test:e2e:ui     # Interactive UI mode
@@ -350,6 +394,7 @@ npm run test:e2e:debug  # Debug mode
 ```
 
 ### Load Testing
+
 ```bash
 npm run test:load       # Basic load test
 npm run test:load:api   # API stress test
@@ -359,16 +404,19 @@ npm run test:load:spike # Spike test
 ## Building for Production
 
 ### Build the application:
+
 ```bash
 npm run build
 ```
 
 ### Type checking:
+
 ```bash
 npm run typecheck
 ```
 
 ### Linting:
+
 ```bash
 npm run lint
 ```
@@ -377,9 +425,12 @@ npm run lint
 
 ### Vercel Deployment (Recommended)
 
-This is a Turborepo monorepo optimized for Vercel deployment. See the [Vercel Deployment Guide](./VERCEL_DEPLOYMENT_GUIDE.md) for comprehensive step-by-step instructions.
+This is a Turborepo monorepo optimized for Vercel deployment. See the
+[Vercel Deployment Guide](./VERCEL_DEPLOYMENT_GUIDE.md) for comprehensive
+step-by-step instructions.
 
 **Quick Deploy:**
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -392,6 +443,7 @@ vercel --prod
 ```
 
 **Important:** Before deploying, ensure you have:
+
 - ✅ All environment variables configured in Vercel dashboard
 
 - ✅ Supabase RLS policies configured
@@ -399,31 +451,34 @@ vercel --prod
 
 ### Environment Variables for Production
 
-Required variables (see [VERCEL_DEPLOYMENT_GUIDE.md](./VERCEL_DEPLOYMENT_GUIDE.md) for complete list):
-
-
-
+Required variables (see
+[VERCEL_DEPLOYMENT_GUIDE.md](./VERCEL_DEPLOYMENT_GUIDE.md) for complete list):
 
 **Supabase:**
+
 - `SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 
 **Stripe:**
+
 - `STRIPE_SECRET_KEY` / `STRIPE_WEBHOOK_SECRET`
 
 **Other:**
+
 - `RESEND_API_KEY` - Email service
 - `NEXT_PUBLIC_APP_URL` - Your app URL
 
 ### Deployment Verification
 
 After deployment, run the health check:
+
 ```bash
 node scripts/verify-deployment.js your-domain.vercel.app
 ```
 
 ### Manual Deployment Steps:
+
 1. Set all environment variables in your hosting platform
 2. Run database migrations (Supabase handles this automatically)
 3. Configure custom domain and SSL in Vercel dashboard
@@ -433,6 +488,7 @@ node scripts/verify-deployment.js your-domain.vercel.app
 ## API Integrations
 
 ### Configured Services
+
 - **Supabase**: Database, authentication, storage
 - **Stripe**: Subscription management, payment processing
 - **Square**: Booking management, payment processing
@@ -441,18 +497,21 @@ node scripts/verify-deployment.js your-domain.vercel.app
 - **Google AI**: Gemini for multimodal AI capabilities
 
 ### Webhook Endpoints
+
 - `/api/webhooks/stripe` - Stripe events
 - `/api/webhooks/square` - Square booking events
 
 ## Database Schema
 
 ### Core Tables
+
 - `user_profiles` - Extended user information
 - `user_roles` / `user_role_assignments` - Role-based access control
 - `permissions` / `role_permissions` - Granular permissions
 - `user_preferences` - User settings
 
 ### Feature Tables
+
 - `journal_entries` - Mood and journal tracking
 - `goals` / `progress_entries` - Goal management
 - `bookings` / `sessions` - Appointment scheduling
@@ -462,12 +521,15 @@ node scripts/verify-deployment.js your-domain.vercel.app
 - `loyalty_points` / `loyalty_transactions` - Rewards program
 - `community_posts` - Community features
 
-See [DATABASE_REQUIREMENTS.md](./DATABASE_REQUIREMENTS.md) for complete schema documentation.
+See [DATABASE_REQUIREMENTS.md](./DATABASE_REQUIREMENTS.md) for complete schema
+documentation.
 
 ## Configuration
 
 ### Feature Flags
+
 Enable or disable features via environment variables:
+
 ```bash
 FEATURE_FLAG_AI_INSIGHTS=true
 FEATURE_FLAG_COMMUNITY=true
@@ -476,11 +538,13 @@ FEATURE_FLAG_SUBSCRIPTIONS=true
 ```
 
 ### AI Service Selection
+
 Configure which AI service to use for different features in your app logic.
 
 ## Roadmap
 
 ### Current Version: 0.1.0
+
 - Core authentication and user management
 - Basic dashboard and navigation
 - Therapist booking system
@@ -490,6 +554,7 @@ Configure which AI service to use for different features in your app logic.
 - Admin panel
 
 ### Upcoming Features
+
 - [ ] Mobile app (React Native)
 - [ ] Video call integration
 - [ ] Advanced analytics dashboard
@@ -510,6 +575,7 @@ Contributions are welcome! Please follow these steps:
 5. Open a Pull Request
 
 ### Code Style
+
 - Use TypeScript for type safety
 - Follow ESLint configuration
 - Use Prettier for formatting
@@ -518,11 +584,15 @@ Contributions are welcome! Please follow these steps:
 
 ## Documentation
 
-- [Database Setup Guide](./DATABASE_SETUP_GUIDE.md) - Complete database setup instructions
-- [Production Deployment Guide](./PRODUCTION_DEPLOYMENT_GUIDE.md) - Deploy to production
-- [Database Requirements](./DATABASE_REQUIREMENTS.md) - Detailed schema documentation
+- [Database Setup Guide](./DATABASE_SETUP_GUIDE.md) - Complete database setup
+  instructions
+- [Production Deployment Guide](./PRODUCTION_DEPLOYMENT_GUIDE.md) - Deploy to
+  production
+- [Database Requirements](./DATABASE_REQUIREMENTS.md) - Detailed schema
+  documentation
 - [Migration Guide](./MIGRATION_GUIDE.md) - Component migration to shadcn/ui
-- [Implementation Progress](./IMPLEMENTATION_PROGRESS.md) - Current project status
+- [Implementation Progress](./IMPLEMENTATION_PROGRESS.md) - Current project
+  status
 
 ## Known Issues
 
@@ -532,13 +602,16 @@ Contributions are welcome! Please follow these steps:
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the LICENSE file for
+details.
 
 ## Support
 
 For support and questions:
+
 - Check the [documentation](./docs)
-- Review [closed issues](https://github.com/Mykola-08/ekaacc/issues?q=is%3Aissue+is%3Aclosed)
+- Review
+  [closed issues](https://github.com/Mykola-08/ekaacc/issues?q=is%3Aissue+is%3Aclosed)
 - Open a [new issue](https://github.com/Mykola-08/ekaacc/issues/new)
 
 ## Acknowledgments

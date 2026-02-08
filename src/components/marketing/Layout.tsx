@@ -14,11 +14,7 @@ import { TDRPresentationMode } from '@/components/marketing/TDRPresentationMode'
 import { useClickOutside } from '@/hooks/marketing/useClickOutside';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
 
-export default function Layout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
   const { logPageView } = useAnalytics();
@@ -65,8 +61,6 @@ export default function Layout({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-
   // Navigation items
   interface NavItem {
     name: string;
@@ -80,11 +74,11 @@ export default function Layout({
   const navigation: NavItem[] = [
     {
       name: t('nav.services'),
-      href: '/services'
+      href: '/services',
     },
     {
       name: 'Agenyz',
-      href: '/agenyz'
+      href: '/agenyz',
     },
     {
       name: t('nav.personalizedServices'),
@@ -96,15 +90,15 @@ export default function Layout({
         { name: t('nav.artists'), href: '/services/artists' },
         { name: t('nav.musicians'), href: '/services/musicians' },
         { name: t('nav.students'), href: '/services/students' },
-      ]
+      ],
     },
     {
       name: t('nav.casos'),
-      href: '/cases'
+      href: '/cases',
     },
     {
       name: t('nav.revision360'),
-      href: '/360-revision'
+      href: '/360-revision',
     },
     /* {
       name: t('nav.vip'),
@@ -120,50 +114,61 @@ export default function Layout({
     return location.pathname.startsWith(path);
   };
 
-
-
   return (
-    <div className="min-h-screen bg-card">
+    <div className="bg-card min-h-screen">
       <OfflineIndicator />
 
       {/* Navigation with scroll effect */}
-      <nav className={`sticky top-0 z-50 transition-all duration-300`} style={{
-        backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)'
-      }}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? 'h-14' : 'h-16'
-            }`}>
+      <nav
+        className={`sticky top-0 z-50 transition-all duration-300`}
+        style={{
+          backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)',
+        }}
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <div
+            className={`flex items-center justify-between transition-all duration-300 ${
+              isScrolled ? 'h-14' : 'h-16'
+            }`}
+          >
             {/* Logo Only - Left Side */}
-            <Link to="/" className="flex items-center shrink-0 group relative">
+            <Link to="/" className="group relative flex shrink-0 items-center">
               <Image
                 src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
                 alt="EKA Balance Logo"
                 width={40}
                 height={40}
-                className={`transition-all duration-300 ${isScrolled ? 'w-8 h-8' : 'w-10 h-10'
-                  } object-contain`}
+                className={`transition-all duration-300 ${
+                  isScrolled ? 'h-8 w-8' : 'h-10 w-10'
+                } object-contain`}
               />
             </Link>
 
             {/* Desktop Navigation - Centered */}
-            <div className="hidden md:flex items-center justify-center flex-1 mx-8">
+            <div className="mx-8 hidden flex-1 items-center justify-center md:flex">
               <div className="flex items-center space-x-2">
-                {navigation.map(item => (
-                  <div key={item.name} className={`nav-item ${item.hasDropdown ? 'relative' : ''}`}
-                    ref={item.hasDropdown ? personalServicesRef : undefined}>
+                {navigation.map((item) => (
+                  <div
+                    key={item.name}
+                    className={`nav-item ${item.hasDropdown ? 'relative' : ''}`}
+                    ref={item.hasDropdown ? personalServicesRef : undefined}
+                  >
                     {item.hasDropdown ? (
                       <>
                         <Link
                           to={item.href}
-                          className={`nav-trigger font-medium transition-all duration-200 flex items-center px-5 py-3 rounded-xl hover:bg-card/60 ${isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
-                            }`}
+                          className={`nav-trigger hover:bg-card/60 flex items-center rounded-xl px-5 py-3 font-medium transition-all duration-200 ${
+                            isActivePath(item.href)
+                              ? 'text-primary'
+                              : 'text-primary-foreground hover:text-primary'
+                          }`}
                           onMouseEnter={openDropdown}
                           onMouseLeave={scheduleHide}
                           onFocus={openDropdown}
                           onBlur={scheduleHide}
                         >
                           {item.name}
-                          <ChevronDown className="ml-1 w-4 h-4" />
+                          <ChevronDown className="ml-1 h-4 w-4" />
                         </Link>
 
                         {/* Hover bridge for seamless navigation */}
@@ -178,7 +183,9 @@ export default function Layout({
                         <div
                           className={`nav-dropdown ${showPersonalServices ? 'is-open' : ''}`}
                           style={{
-                            backgroundColor: isScrolled ? 'rgba(245, 245, 247, 0.9)' : 'var(--background)',
+                            backgroundColor: isScrolled
+                              ? 'rgba(245, 245, 247, 0.9)'
+                              : 'var(--background)',
                             backdropFilter: isScrolled ? 'blur(20px)' : 'none',
                             WebkitBackdropFilter: isScrolled ? 'blur(20px)' : 'none',
                           }}
@@ -197,9 +204,9 @@ export default function Layout({
                               key={dropdownItem.name}
                               to={dropdownItem.href}
                               onClick={() => setShowPersonalServices(false)}
-                              className="flex items-center justify-center h-12 text-sm font-medium transition-colors duration-200 text-primary-foreground hover:text-primary"
+                              className="text-primary-foreground hover:text-primary flex h-12 items-center justify-center text-sm font-medium transition-colors duration-200"
                               style={{
-                                marginBottom: index < item.dropdownItems!.length - 1 ? '8px' : '0'
+                                marginBottom: index < item.dropdownItems!.length - 1 ? '8px' : '0',
                               }}
                               role="menuitem"
                             >
@@ -212,7 +219,7 @@ export default function Layout({
                       <a
                         href={item.href}
                         rel="noopener noreferrer"
-                        className="font-medium transition-all duration-200 px-5 py-3 rounded-xl hover:bg-card/60 text-primary-foreground hover:text-primary"
+                        className="hover:bg-card/60 text-primary-foreground hover:text-primary rounded-xl px-5 py-3 font-medium transition-all duration-200"
                         onClick={(e) => {
                           e.preventDefault();
                           window.open(item.href, '_blank', 'noopener,noreferrer');
@@ -223,10 +230,13 @@ export default function Layout({
                     ) : (
                       <Link
                         to={item.href}
-                        className={`font-medium transition-all duration-200 px-5 py-3 rounded-xl hover:bg-card/60 ${item.isGold
-                            ? 'gold-shimmer font-black bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 border border-yellow-200/50 hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
-                            : isActivePath(item.href) ? 'text-primary' : 'text-primary-foreground hover:text-primary'
-                          }`}
+                        className={`hover:bg-card/60 rounded-xl px-5 py-3 font-medium transition-all duration-200 ${
+                          item.isGold
+                            ? 'gold-shimmer border border-yellow-200/50 bg-linear-to-r from-amber-50 via-yellow-50 to-amber-50 font-black hover:from-yellow-100 hover:via-amber-100 hover:to-yellow-100'
+                            : isActivePath(item.href)
+                              ? 'text-primary'
+                              : 'text-primary-foreground hover:text-primary'
+                        }`}
                       >
                         {item.name}
                       </Link>
@@ -237,7 +247,7 @@ export default function Layout({
             </div>
 
             {/* Right side actions */}
-            <div className="flex items-center space-x-2 sm:space-x-4 shrink-0">
+            <div className="flex shrink-0 items-center space-x-2 sm:space-x-4">
               {/* EKA Account Link - HIDDEN FOR NOW */}
 
               {/* Login / User Profile - HIDDEN FOR NOW
@@ -271,8 +281,8 @@ export default function Layout({
 
               {/* Reserva Button */}
               <Link
-                to="/booking"
-                className="hidden sm:inline-flex bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 py-3 rounded-full transition-colors duration-200"
+                to="/book"
+                className="bg-primary hover:bg-primary/90 text-primary-foreground hidden rounded-full px-6 py-3 font-semibold transition-colors duration-200 sm:inline-flex"
               >
                 {t('nav.bookNow')}
               </Link>
@@ -280,12 +290,12 @@ export default function Layout({
               {/* Mobile menu button */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-2xl hover:bg-muted transition-colors duration-200"
+                className="hover:bg-muted rounded-2xl p-2 transition-colors duration-200 md:hidden"
               >
                 {isMenuOpen ? (
-                  <X className="w-5 h-5 text-foreground/90" />
+                  <X className="text-foreground/90 h-5 w-5" />
                 ) : (
-                  <Menu className="w-5 h-5 text-foreground/90" />
+                  <Menu className="text-foreground/90 h-5 w-5" />
                 )}
               </button>
             </div>
@@ -293,9 +303,9 @@ export default function Layout({
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="md:hidden border-t border-gray-100 py-3">
+            <div className="border-t border-gray-100 py-3 md:hidden">
               <div className="space-y-1">
-                {navigation.map(item => (
+                {navigation.map((item) => (
                   <div key={item.name}>
                     {item.isExternal ? (
                       <a
@@ -306,7 +316,7 @@ export default function Layout({
                           setIsMenuOpen(false);
                           window.open(item.href, '_blank', 'noopener,noreferrer');
                         }}
-                        className="block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 text-foreground/90 hover:bg-muted/30"
+                        className="text-foreground/90 hover:bg-muted/30 block rounded-xl px-4 py-3 text-base font-medium transition-colors duration-200"
                       >
                         {item.name}
                       </a>
@@ -314,22 +324,25 @@ export default function Layout({
                       <Link
                         to={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className={`block px-4 py-3 rounded-xl font-medium text-base transition-colors duration-200 ${item.isGold
-                            ? 'text-amber-600 bg-amber-50 border border-amber-100 font-bold'
-                            : isActivePath(item.href) ? 'text-primary bg-primary/10' : 'text-foreground/90 hover:bg-muted/30'
-                          }`}
+                        className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors duration-200 ${
+                          item.isGold
+                            ? 'border border-amber-100 bg-amber-50 font-bold text-amber-600'
+                            : isActivePath(item.href)
+                              ? 'text-primary bg-primary/10'
+                              : 'text-foreground/90 hover:bg-muted/30'
+                        }`}
                       >
                         {item.name}
                       </Link>
                     )}
                     {item.hasDropdown && (
-                      <div className="ml-4 space-y-1 mt-2">
-                        {item.dropdownItems?.map(dropdownItem => (
+                      <div className="mt-2 ml-4 space-y-1">
+                        {item.dropdownItems?.map((dropdownItem) => (
                           <Link
                             key={dropdownItem.name}
                             to={dropdownItem.href}
                             onClick={() => setIsMenuOpen(false)}
-                            className="block px-4 py-2 text-sm text-muted-foreground hover:bg-muted/30 rounded-lg"
+                            className="text-muted-foreground hover:bg-muted/30 block rounded-lg px-4 py-2 text-sm"
                           >
                             {dropdownItem.name}
                           </Link>
@@ -340,7 +353,7 @@ export default function Layout({
                 ))}
 
                 {/* Mobile Reserva */}
-                <div className="pt-2 border-t border-gray-100 mt-2 space-y-2">
+                <div className="mt-2 space-y-2 border-t border-gray-100 pt-2">
                   {/* EKA Account Link - HIDDEN FOR NOW */}
 
                   {/* 
@@ -368,9 +381,9 @@ export default function Layout({
                   */}
 
                   <Link
-                    to="/booking"
+                    to="/book"
                     onClick={() => setIsMenuOpen(false)}
-                    className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-4 py-3 rounded-xl text-center transition-colors duration-200"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground block w-full rounded-xl px-4 py-3 text-center font-semibold transition-colors duration-200"
                   >
                     {t('nav.bookNow')}
                   </Link>
@@ -382,11 +395,7 @@ export default function Layout({
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1">
-        {children}
-      </main>
-
-
+      <main className="flex-1">{children}</main>
 
       {/* Toast Notifications */}
       <ToastContainer />
@@ -396,26 +405,25 @@ export default function Layout({
       <LanguagePopup />
       <TDRPresentationMode />
 
-
-
-
-
       {/* Fixed Mobile Bottom CTA */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-card/80 backdrop-blur-md border-t border-border md:hidden z-50 pb-safe">
+      <div className="bg-card/80 border-border pb-safe fixed right-0 bottom-0 left-0 z-50 border-t p-4 backdrop-blur-md md:hidden">
         <Link
-          to="/booking"
-          className="block w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-center py-4 rounded-xl shadow-lg transition-transform active:scale-[0.98]"
+          to="/book"
+          className="bg-primary hover:bg-primary/90 text-primary-foreground block w-full rounded-xl py-4 text-center font-bold shadow-lg transition-transform active:scale-[0.98]"
         >
           {t('nav.bookNow')}
         </Link>
       </div>
 
       {/* Footer */}
-      <footer className="py-12 sm:py-16 bg-gray-900 text-white mb-24 md:mb-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+      <footer className="mb-24 bg-gray-900 py-12 text-white sm:py-16 md:mb-0">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6">
           {/* Logo */}
-          <Link to="/" className="flex items-center justify-center space-x-3 mb-8 group w-fit mx-auto">
-            <div className="relative w-10 h-10">
+          <Link
+            to="/"
+            className="group mx-auto mb-8 flex w-fit items-center justify-center space-x-3"
+          >
+            <div className="relative h-10 w-10">
               <Image
                 src="https://5tghbndjb61dnqaj.public.blob.vercel-storage.com/eka_logo.png"
                 alt="EKA Balance Logo"
@@ -428,7 +436,7 @@ export default function Layout({
           </Link>
 
           {/* Contact Info */}
-          <div className="space-y-2 mb-8 text-gray-100">
+          <div className="mb-8 space-y-2 text-gray-100">
             <p>{t('footer.address')}</p>
             <p>{t('footer.email')}</p>
           </div>
@@ -438,25 +446,25 @@ export default function Layout({
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-3">
               <Link
                 to="/discounts"
-                className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 {t('footer.discounts')}
               </Link>
               <Link
                 to="/privacy-policy"
-                className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 {t('footer.privacyPolicy')}
               </Link>
               <Link
                 to="/cookie-policy"
-                className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 {t('footer.cookiePolicy')}
               </Link>
               <Link
                 to="/terms-of-service"
-                className="text-gray-300 hover:text-white transition-colors duration-200 text-sm font-medium"
+                className="text-sm font-medium text-gray-300 transition-colors duration-200 hover:text-white"
               >
                 {t('footer.termsOfService')}
               </Link>
@@ -465,19 +473,20 @@ export default function Layout({
 
           {/* Language Selector */}
           <div className="mb-8">
-            <div className="flex items-center justify-center space-x-2 mb-4">
-              <Globe className="w-4 h-4 text-muted-foreground/80" />
-              <span className="text-sm text-muted-foreground/80">{t('footer.selectLanguage')}</span>
+            <div className="mb-4 flex items-center justify-center space-x-2">
+              <Globe className="text-muted-foreground/80 h-4 w-4" />
+              <span className="text-muted-foreground/80 text-sm">{t('footer.selectLanguage')}</span>
             </div>
             <div className="flex justify-center space-x-4">
               {(['ca', 'en', 'es', 'ru'] as Language[]).map((lang) => (
                 <button
                   key={lang}
                   onClick={() => setLanguage(lang)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${language === lang
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                    }`}
+                  className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                    language === lang
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
                 >
                   {lang === 'ca' && 'Català'}
                   {lang === 'en' && 'English'}
@@ -490,18 +499,10 @@ export default function Layout({
 
           {/* Copyright */}
           <div className="border-t border-gray-800 pt-8">
-            <p className="text-sm text-muted-foreground/80">
-              {t('footer.copyright')}
-            </p>
+            <p className="text-muted-foreground/80 text-sm">{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
-
-
-
-
-

@@ -29,12 +29,12 @@ export function useFeatureData<T>(
     const fetcher = source === 'firebase' ? fetchFirebase : fetchMock;
 
     fetcher()
-      .then(result => {
+      .then((result) => {
         if (isMounted) {
           setData(result);
         }
       })
-      .catch(e => {
+      .catch((e) => {
         if (isMounted) {
           setError(e?.message || 'Unknown error');
         }
@@ -52,4 +52,3 @@ export function useFeatureData<T>(
 
   return { data, loading, error };
 }
-

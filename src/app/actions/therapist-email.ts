@@ -1,12 +1,18 @@
 'use server';
 
 import { createClient } from '@/lib/platform/supabase/server';
-import { TransactionalEmailService, TransactionalEmailType } from '@/lib/platform/services/transactional-email-service';
+import {
+  TransactionalEmailService,
+  TransactionalEmailType,
+} from '@/lib/platform/services/transactional-email-service';
 import { revalidatePath } from 'next/cache';
 
 export async function sendTherapistEmail(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await (supabase.auth as any).getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await (supabase.auth as any).getUser();
 
   if (authError || !user) {
     return { success: false, error: 'Unauthorized' };
@@ -19,14 +25,14 @@ export async function sendTherapistEmail(formData: FormData) {
   const patientId = formData.get('patientId') as string;
   const type = formData.get('type') as TransactionalEmailType;
   const subject = formData.get('subject') as string;
-  
+
   // Parse dynamic data based on type
   const dataStr = formData.get('data') as string;
   let emailData = {};
   try {
-      emailData = JSON.parse(dataStr);
+    emailData = JSON.parse(dataStr);
   } catch (e) {
-      return { success: false, error: 'Invalid data format' };
+    return { success: false, error: 'Invalid data format' };
   }
 
   if (!patientId || !type || !subject) {
@@ -58,24 +64,25 @@ export async function sendTherapistEmail(formData: FormData) {
 }
 
 export async function previewTherapistEmail(type: TransactionalEmailType, data: any) {
-    const supabase = await createClient();
-    const { data: { user } } = await (supabase.auth as any).getUser();
-    
-    if (!user) return { html: '' };
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await (supabase.auth as any).getUser();
 
-    const userName = 'Patient Name'; // Placeholder for preview
-    const therapistName = user.user_metadata?.full_name || 'Dr. Therapist';
+  if (!user) return { html: '' };
 
-    try {
-        const html = await TransactionalEmailService.renderOnly({
-            type,
-            data: { ...data, therapistName },
-            userName
-        });
-        return { success: true, html };
-    } catch (error) {
-        console.error('Preview error:', error);
-        return { success: false, error: 'Failed to generate preview' };
-    }
+  const userName = 'Patient Name'; // Placeholder for preview
+  const therapistName = user.user_metadata?.full_name || 'Dr. Therapist';
+
+  try {
+    const html = await TransactionalEmailService.renderOnly({
+      type,
+      data: { ...data, therapistName },
+      userName,
+    });
+    return { success: true, html };
+  } catch (error) {
+    console.error('Preview error:', error);
+    return { success: false, error: 'Failed to generate preview' };
+  }
 }
-

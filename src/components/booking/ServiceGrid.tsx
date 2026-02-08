@@ -5,23 +5,22 @@ import { ServiceCard } from './ServiceCard';
 
 export function ServiceGrid({ services }: { services: Service[] }) {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full animate-zoom-in'>
+    <div className="animate-zoom-in grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
       {services.length > 0 ? (
         services.map((service, index) => (
-          <div 
-            key={service.id} 
-            className='h-full flex animate-slide-up'
+          <div
+            key={service.id}
+            className="animate-slide-up flex h-full"
             style={{ animationDelay: `${index * 100}ms` }}
           >
             <ServiceCard service={service} variant={'default'} />
           </div>
         ))
       ) : (
-        <div className='col-span-full text-center py-20 text-muted-foreground glass-card rounded-2xl'>
+        <div className="text-muted-foreground glass-card col-span-full rounded-2xl py-20 text-center">
           No services available at the moment.
         </div>
       )}
     </div>
   );
 }
-

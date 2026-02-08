@@ -1,7 +1,7 @@
 const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!;
 const publicAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-const API_URL = process.env.NEXT_PUBLIC_SUPABASE_URL 
+const API_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/make-server-1ccf6811` // Adjust if needed
   : `https://${projectId}.supabase.co/functions/v1/make-server-1ccf6811`;
 
@@ -26,18 +26,23 @@ const USER_KEY = 'eka_user';
 /**
  * Sign up a new user
  */
-export async function signUp(email: string, password: string, name?: string, phone?: string): Promise<{ user?: User; error?: string }> {
+export async function signUp(
+  email: string,
+  password: string,
+  name?: string,
+  phone?: string
+): Promise<{ user?: User; error?: string }> {
   try {
     const response = await fetch(`${API_URL}/auth/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${publicAnonKey}`
+        Authorization: `Bearer ${publicAnonKey}`,
       },
-      body: JSON.stringify({ email, password, name, phone })
+      body: JSON.stringify({ email, password, name, phone }),
     });
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (!response.ok) {
       return { error: data.error || data.details || 'Failed to create account' };
@@ -54,18 +59,21 @@ export async function signUp(email: string, password: string, name?: string, pho
 /**
  * Sign in existing user
  */
-export async function signIn(email: string, password: string): Promise<{ user?: User; error?: string }> {
+export async function signIn(
+  email: string,
+  password: string
+): Promise<{ user?: User; error?: string }> {
   try {
     const response = await fetch(`${API_URL}/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${publicAnonKey}`
+        Authorization: `Bearer ${publicAnonKey}`,
       },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ email, password }),
     });
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (!response.ok) {
       return { error: data.error || data.details || 'Invalid email or password' };
@@ -76,7 +84,7 @@ export async function signIn(email: string, password: string): Promise<{ user?: 
       access_token: data.session.access_token,
       refresh_token: data.session.refresh_token,
       expires_at: data.session.expires_at,
-      user: data.user
+      user: data.user,
     };
 
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
@@ -95,13 +103,13 @@ export async function signIn(email: string, password: string): Promise<{ user?: 
 export async function signOut(): Promise<void> {
   try {
     const session = getSession();
-    
+
     if (session?.access_token) {
       await fetch(`${API_URL}/auth/signout`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${session.access_token}`
-        }
+          Authorization: `Bearer ${session.access_token}`,
+        },
       });
     }
   } catch (error) {
@@ -122,7 +130,7 @@ export function getSession(): Session | null {
     if (!sessionStr) return null;
 
     const session: Session = JSON.parse(sessionStr);
-    
+
     // Check if token is expired
     if (session.expires_at && session.expires_at * 1000 < Date.now()) {
       // Token expired, try to refresh
@@ -168,12 +176,12 @@ export async function refreshSession(refreshToken: string): Promise<boolean> {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${publicAnonKey}`
+        Authorization: `Bearer ${publicAnonKey}`,
       },
-      body: JSON.stringify({ refresh_token: refreshToken })
+      body: JSON.stringify({ refresh_token: refreshToken }),
     });
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (!response.ok) {
       // Refresh failed, clear session
@@ -189,7 +197,7 @@ export async function refreshSession(refreshToken: string): Promise<boolean> {
         access_token: data.session.access_token,
         refresh_token: data.session.refresh_token,
         expires_at: data.session.expires_at,
-        user: currentUser
+        user: currentUser,
       };
 
       localStorage.setItem(SESSION_KEY, JSON.stringify(newSession));
@@ -222,11 +230,11 @@ export async function verifySession(): Promise<User | null> {
     const response = await fetch(`${API_URL}/auth/user`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${session.access_token}`
-      }
+        Authorization: `Bearer ${session.access_token}`,
+      },
     });
 
-    const data = await response.json() as any;
+    const data = (await response.json()) as any;
 
     if (!response.ok) {
       // Session invalid, clear storage

@@ -28,4 +28,3 @@ export class ZoomIntegration extends BaseIntegration {
     };
   }
 }
-

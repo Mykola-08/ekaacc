@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { supabaseAdmin } from '@/lib/platform/supabase';
 
-type TaskStatus = 'success' | 'failed'
+type TaskStatus = 'success' | 'failed';
 
 export async function GET(request: NextRequest) {
   // Verify the request is authorized
@@ -13,9 +13,9 @@ export async function GET(request: NextRequest) {
 
   try {
     const results: {
-      cleanup_expired_insights: TaskStatus | null,
-      cleanup_expired_payment_requests: TaskStatus | null,
-      cleanup_old_analytics_data: TaskStatus | null,
+      cleanup_expired_insights: TaskStatus | null;
+      cleanup_expired_payment_requests: TaskStatus | null;
+      cleanup_old_analytics_data: TaskStatus | null;
     } = {
       cleanup_expired_insights: null,
       cleanup_expired_payment_requests: null,
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     // Run cleanup tasks
     // These functions are defined in the database schema
-    
+
     // 1. Cleanup expired insights
     const { error: error1 } = await supabaseAdmin.rpc('cleanup_expired_insights');
     if (error1) console.error('Error cleaning up insights:', error1);
@@ -40,14 +40,13 @@ export async function GET(request: NextRequest) {
     if (error3) console.error('Error cleaning up analytics data:', error3);
     results.cleanup_old_analytics_data = error3 ? 'failed' : 'success';
 
-    return NextResponse.json({ 
-      ok: true, 
+    return NextResponse.json({
+      ok: true,
       timestamp: new Date().toISOString(),
-      results 
+      results,
     });
   } catch (error) {
     console.error('Cron job failed:', error);
     return NextResponse.json({ ok: false, error: 'Internal Server Error' }, { status: 500 });
   }
 }
-

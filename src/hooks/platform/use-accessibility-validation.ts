@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import { 
-  checkColorContrast, 
-  checkTouchTarget, 
+import {
+  checkColorContrast,
+  checkTouchTarget,
   validateComponentAccessibility,
   TEXT_SIZING,
-  ANIMATION_SETTINGS 
+  ANIMATION_SETTINGS,
 } from '@/lib/platform/utils/accessibility-utils';
 
 export interface AccessibilityValidation {
@@ -48,15 +48,17 @@ export function useAccessibilityValidation(
     const touchTarget = checkTouchTarget(rect.width, rect.height);
 
     // Check for focus states
-    const hasFocusStates = computedStyle.outline !== 'none' || 
-                          computedStyle.boxShadow.includes('focus') ||
-                          element.matches(':focus-visible');
+    const hasFocusStates =
+      computedStyle.outline !== 'none' ||
+      computedStyle.boxShadow.includes('focus') ||
+      element.matches(':focus-visible');
 
     // Check for labels
-    const hasLabels = element.hasAttribute('aria-label') || 
-                     element.hasAttribute('aria-labelledby') ||
-                     element.getAttribute('role') === 'button' ||
-                     element.tagName === 'BUTTON';
+    const hasLabels =
+      element.hasAttribute('aria-label') ||
+      element.hasAttribute('aria-labelledby') ||
+      element.getAttribute('role') === 'button' ||
+      element.tagName === 'BUTTON';
 
     // Simulate contrast check (would need proper color parsing in production)
     const contrast = checkColorContrast('#000000', '#ffffff');
@@ -72,7 +74,7 @@ export function useAccessibilityValidation(
       issues.push('Missing accessible labels');
     }
 
-    const overallScore = Math.max(0, 100 - (issues.length * 25));
+    const overallScore = Math.max(0, 100 - issues.length * 25);
 
     setValidation({
       contrast,
@@ -80,7 +82,7 @@ export function useAccessibilityValidation(
       focusStates: hasFocusStates,
       labels: hasLabels,
       overallScore,
-      issues
+      issues,
     });
   }, [ref, ...dependencies]);
 
@@ -111,9 +113,7 @@ export function useReducedMotion(): boolean {
 /**
  * Hook to validate text sizing
  */
-export function useTextSizingValidation(
-  ref: React.RefObject<HTMLElement>
-): {
+export function useTextSizingValidation(ref: React.RefObject<HTMLElement>): {
   isReadable: boolean;
   fontSize: number;
   lineHeight: number;
@@ -146,7 +146,7 @@ export function useTextSizingValidation(
       isReadable: issues.length === 0,
       fontSize,
       lineHeight,
-      issues
+      issues,
     });
   }, [ref]);
 
@@ -156,10 +156,10 @@ export function useTextSizingValidation(
 /**
  * Component to display accessibility validation results
  */
-export function AccessibilityIndicator({ 
-  validation 
-}: { 
-  validation: AccessibilityValidation | null 
+export function AccessibilityIndicator({
+  validation,
+}: {
+  validation: AccessibilityValidation | null;
 }) {
   if (!validation) return null;
 
@@ -175,45 +175,91 @@ export function AccessibilityIndicator({
     return '❌';
   };
 
-  return React.createElement('div', {
-    className: "fixed bottom-4 right-4 bg-card border border-border rounded-lg shadow-lg p-4 max-w-sm z-50"
-  }, [
-    React.createElement('div', {
-      key: 'header',
-      className: "flex items-center gap-2 mb-2"
-    }, [
-      React.createElement('span', {
-        key: 'icon',
-        className: "text-lg"
-      }, getScoreIcon(validation.overallScore)),
-      React.createElement('span', {
-        key: 'score',
-        className: `font-semibold ${getScoreColor(validation.overallScore)}`
-      }, `Accessibility Score: ${validation.overallScore}%`)
-    ]),
-    validation.issues.length > 0 && React.createElement('div', {
-      key: 'issues',
-      className: "space-y-1"
-    }, [
-      React.createElement('p', {
-        key: 'issues-title',
-        className: "text-sm font-medium text-foreground"
-      }, 'Issues:'),
-      React.createElement('ul', {
-        key: 'issues-list',
-        className: "text-xs text-muted-foreground space-y-1"
-      }, validation.issues.map((issue, index) => 
-        React.createElement('li', { key: index }, `• ${issue}`)
-      ))
-    ]),
-    React.createElement('div', {
-      key: 'details',
-      className: "mt-3 text-xs text-muted-foreground"
-    }, [
-      React.createElement('p', { key: 'contrast' }, `Contrast: ${validation.contrast.ratio}:1 (${validation.contrast.level})`),
-      React.createElement('p', { key: 'touch' }, `Touch target: ${validation.touchTarget.size}`),
-      React.createElement('p', { key: 'focus' }, `Focus states: ${validation.focusStates ? '✅' : '❌'}`),
-      React.createElement('p', { key: 'labels' }, `Labels: ${validation.labels ? '✅' : '❌'}`)
-    ])
-  ]);
+  return React.createElement(
+    'div',
+    {
+      className:
+        'fixed bottom-4 right-4 bg-card border border-border rounded-lg shadow-lg p-4 max-w-sm z-50',
+    },
+    [
+      React.createElement(
+        'div',
+        {
+          key: 'header',
+          className: 'flex items-center gap-2 mb-2',
+        },
+        [
+          React.createElement(
+            'span',
+            {
+              key: 'icon',
+              className: 'text-lg',
+            },
+            getScoreIcon(validation.overallScore)
+          ),
+          React.createElement(
+            'span',
+            {
+              key: 'score',
+              className: `font-semibold ${getScoreColor(validation.overallScore)}`,
+            },
+            `Accessibility Score: ${validation.overallScore}%`
+          ),
+        ]
+      ),
+      validation.issues.length > 0 &&
+        React.createElement(
+          'div',
+          {
+            key: 'issues',
+            className: 'space-y-1',
+          },
+          [
+            React.createElement(
+              'p',
+              {
+                key: 'issues-title',
+                className: 'text-sm font-medium text-foreground',
+              },
+              'Issues:'
+            ),
+            React.createElement(
+              'ul',
+              {
+                key: 'issues-list',
+                className: 'text-xs text-muted-foreground space-y-1',
+              },
+              validation.issues.map((issue, index) =>
+                React.createElement('li', { key: index }, `• ${issue}`)
+              )
+            ),
+          ]
+        ),
+      React.createElement(
+        'div',
+        {
+          key: 'details',
+          className: 'mt-3 text-xs text-muted-foreground',
+        },
+        [
+          React.createElement(
+            'p',
+            { key: 'contrast' },
+            `Contrast: ${validation.contrast.ratio}:1 (${validation.contrast.level})`
+          ),
+          React.createElement(
+            'p',
+            { key: 'touch' },
+            `Touch target: ${validation.touchTarget.size}`
+          ),
+          React.createElement(
+            'p',
+            { key: 'focus' },
+            `Focus states: ${validation.focusStates ? '✅' : '❌'}`
+          ),
+          React.createElement('p', { key: 'labels' }, `Labels: ${validation.labels ? '✅' : '❌'}`),
+        ]
+      ),
+    ]
+  );
 }

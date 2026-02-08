@@ -8,7 +8,7 @@ const projectRef = 'dopkncrqutxnchwqxloa';
 const password = process.env.POSTGRES_PASSWORD;
 
 if (!password) {
-  console.error("No POSTGRES_PASSWORD found in .env");
+  console.error('No POSTGRES_PASSWORD found in .env');
   process.exit(1);
 }
 
@@ -19,24 +19,24 @@ const connectionString = `postgres://postgres:${password}@db.${projectRef}.supab
 
 console.log(`Testing Direct Connection: ${connectionString.replace(password, '****')}`);
 
-const client = new Client({ 
+const client = new Client({
   connectionString,
-  ssl: { rejectUnauthorized: false }
+  ssl: { rejectUnauthorized: false },
 });
 
 async function main() {
   try {
     await client.connect();
-    console.log("✅ SUCCESS! Connected via Direct Connection.");
-    
+    console.log('✅ SUCCESS! Connected via Direct Connection.');
+
     // Try to get region info if possible, or just confirm it works.
     const res = await client.query('SELECT version();');
-    console.log("DB Version:", res.rows[0].version);
-    
+    console.log('DB Version:', res.rows[0].version);
+
     await client.end();
     process.exit(0);
   } catch (err: any) {
-    console.error("❌ Failed Direct Connection:", err.message);
+    console.error('❌ Failed Direct Connection:', err.message);
     await client.end();
     process.exit(1);
   }

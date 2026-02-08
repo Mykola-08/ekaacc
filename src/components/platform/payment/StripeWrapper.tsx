@@ -1,1 +1,1 @@
-export const StripeWrapper = ({children}: any) => <>{children}</>;
+export const StripeWrapper = ({ children }: any) => <>{children}</>;

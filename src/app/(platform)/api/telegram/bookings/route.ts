@@ -18,7 +18,7 @@ export async function GET(req: NextRequest) {
     .single();
 
   if (userError || !user) {
-      return NextResponse.json({ bookings: [] });
+    return NextResponse.json({ bookings: [] });
   }
 
   // Fetch bookings for this user
@@ -27,11 +27,11 @@ export async function GET(req: NextRequest) {
     .from('booking')
     .select('*, service(name)')
     .order('start_time', { ascending: false });
-    
+
   if (user.email) {
-      query = query.or(`customer_reference_id.eq.${user.id},email.eq.${user.email}`);
+    query = query.or(`customer_reference_id.eq.${user.id},email.eq.${user.email}`);
   } else {
-      query = query.eq('customer_reference_id', user.id);
+    query = query.eq('customer_reference_id', user.id);
   }
 
   const { data: bookings, error } = await query;
@@ -42,4 +42,3 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ bookings });
 }
-

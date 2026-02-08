@@ -9,51 +9,49 @@ import { Activity } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export function RecentAdminActivity() {
-    const [events, setEvents] = useState<any[]>([]);
-    const supabase = createClient();
-    const router = useRouter();
+  const [events, setEvents] = useState<any[]>([]);
+  const supabase = createClient();
+  const router = useRouter();
 
-    useEffect(() => {
-        const fetchEvents = async () => {
-            const { data } = await supabase
-                .from('booking')
-                .select('*, profiles:profile_id(first_name, last_name)')
-                .order('created_at', { ascending: false })
-                .limit(5);
-            
-            if (data) setEvents(data);
-        };
-        fetchEvents();
-    }, []);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data } = await supabase
+        .from('booking')
+        .select('*, profiles:profile_id(first_name, last_name)')
+        .order('created_at', { ascending: false })
+        .limit(5);
 
-    return (
-        <DashboardCard
-            title="Platform Activity"
-            icon={Activity}
-            className="h-auto"
-            variant="default"
-        >
-            <div className="space-y-3 mt-2">
-                {events.map((event, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-card border border-border hover:border-primary/20 hover:bg-primary/5 transition-colors">
-                        <div className="flex items-center gap-3">
-                            <div className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                            <div className="text-[13px] text-muted-foreground leading-snug">
-                                <span className="font-bold text-foreground">{event.profiles?.first_name}</span> booked a session
-                            </div>
-                        </div>
-                        <div className="text-xs text-muted-foreground uppercase font-bold tracking-wider whitespace-nowrap ml-2">
-                            {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
-                        </div>
-                    </div>
-                ))}
-                {events.length === 0 && (
-                     <div className="text-center py-8 text-muted-foreground text-sm italic">
-                        No recent activity detected.
-                     </div>
-                )}
+      if (data) setEvents(data);
+    };
+    fetchEvents();
+  }, []);
+
+  return (
+    <DashboardCard title="Platform Activity" icon={Activity} className="h-auto" variant="default">
+      <div className="mt-2 space-y-3">
+        {events.map((event, idx) => (
+          <div
+            key={idx}
+            className="bg-card border-border hover:border-primary/20 hover:bg-primary/5 flex items-center justify-between rounded-xl border p-3 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="h-2.5 w-2.5 animate-pulse rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+              <div className="text-muted-foreground text-[13px] leading-snug">
+                <span className="text-foreground font-bold">{event.profiles?.first_name}</span>{' '}
+                booked a session
+              </div>
             </div>
-        </DashboardCard>
-    );
+            <div className="text-muted-foreground ml-2 text-xs font-bold tracking-wider whitespace-nowrap uppercase">
+              {formatDistanceToNow(new Date(event.created_at), { addSuffix: true })}
+            </div>
+          </div>
+        ))}
+        {events.length === 0 && (
+          <div className="text-muted-foreground py-8 text-center text-sm italic">
+            No recent activity detected.
+          </div>
+        )}
+      </div>
+    </DashboardCard>
+  );
 }
-

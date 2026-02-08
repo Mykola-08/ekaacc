@@ -21,7 +21,9 @@ export default function PersonalBlock() {
     setAdvice('');
     try {
       // TODO: Implement AI advice functionality with Supabase
-      setAdvice('AI advice feature coming soon! This functionality is being migrated from Firebase to Supabase.');
+      setAdvice(
+        'AI advice feature coming soon! This functionality is being migrated from Firebase to Supabase.'
+      );
     } catch (error) {
       setAdvice('An error occurred while getting advice. Please try again.');
     } finally {
@@ -31,7 +33,7 @@ export default function PersonalBlock() {
 
   if (authLoading) {
     return (
-      <Card className="bg-card dark:bg-gray-800/50 border-none shadow-sm">
+      <Card className="bg-card border-none shadow-sm dark:bg-gray-800/50">
         <CardHeader>
           <Skeleton className="h-6 w-3/4" />
         </CardHeader>
@@ -46,14 +48,16 @@ export default function PersonalBlock() {
 
   if (!user) {
     return (
-      <div className="bg-yellow-50 border border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-800/50 rounded-lg p-4">
+      <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-800/50 dark:bg-yellow-900/20">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="h-4 w-4 text-yellow-500 mt-0.5" />
+          <AlertTriangle className="mt-0.5 h-4 w-4 text-yellow-500" />
           <div className="flex-1">
-            <h4 className="text-sm font-medium text-yellow-700 dark:text-yellow-300">Please Login</h4>
-            <p className="text-sm text-yellow-600 dark:text-yellow-400 mt-1">
+            <h4 className="text-sm font-medium text-yellow-700 dark:text-yellow-300">
+              Please Login
+            </h4>
+            <p className="mt-1 text-sm text-yellow-600 dark:text-yellow-400">
               Please login to access personalized AI-powered advice.
-        </p>
+            </p>
           </div>
         </div>
       </div>
@@ -61,13 +65,16 @@ export default function PersonalBlock() {
   }
 
   return (
-    <Card className="bg-card dark:bg-gray-800/50 border-none shadow-sm">
+    <Card className="bg-card border-none shadow-sm dark:bg-gray-800/50">
       <CardHeader>
         <CardTitle>AI-Powered Guidance</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="guidance-question" className="text-sm font-medium text-muted-foreground dark:text-gray-300">
+          <Label
+            htmlFor="guidance-question"
+            className="text-muted-foreground text-sm font-medium dark:text-gray-300"
+          >
             Ask me anything about your wellness journey
           </Label>
           <div className="flex gap-2">
@@ -80,24 +87,23 @@ export default function PersonalBlock() {
               className="grow"
               onKeyUp={(e) => e.key === 'Enter' && handleAsk()}
             />
-            <Button 
-              onClick={handleAsk} 
-              disabled={loading || !question}
-            >
+            <Button onClick={handleAsk} disabled={loading || !question}>
               {loading ? 'Asking...' : 'Ask'}
             </Button>
           </div>
         </div>
 
         {advice && (
-          <div className="bg-blue-50 border border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/50 rounded-lg p-4">
+          <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800/50 dark:bg-blue-900/20">
             <div className="flex items-start gap-3">
-              <Lightbulb className="h-4 w-4 text-blue-500 mt-0.5" />
+              <Lightbulb className="mt-0.5 h-4 w-4 text-blue-500" />
               <div className="flex-1">
-                <h4 className="text-sm font-medium text-blue-700 dark:text-blue-300">Your Personalized Advice</h4>
-                <p className="text-sm text-blue-600 dark:text-blue-400 whitespace-pre-wrap mt-1">
+                <h4 className="text-sm font-medium text-blue-700 dark:text-blue-300">
+                  Your Personalized Advice
+                </h4>
+                <p className="mt-1 text-sm whitespace-pre-wrap text-blue-600 dark:text-blue-400">
                   {advice}
-            </p>
+                </p>
               </div>
             </div>
           </div>
@@ -106,4 +112,3 @@ export default function PersonalBlock() {
     </Card>
   );
 }
-

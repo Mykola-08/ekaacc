@@ -1,4 +1,3 @@
- 
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 interface UseDebouncedInputOptions {
@@ -23,18 +22,24 @@ export function useDebouncedInput(
     changeRef.current = onChange;
   });
 
-  const debouncedCommit = useCallback((value: string) => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      commitRef.current?.(value);
-    }, delay);
-  }, [delay]);
+  const debouncedCommit = useCallback(
+    (value: string) => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        commitRef.current?.(value);
+      }, delay);
+    },
+    [delay]
+  );
 
-  const handleChange = useCallback((value: string) => {
-    setLocalValue(value);
-    changeRef.current?.(value);
-    debouncedCommit(value);
-  }, [debouncedCommit]);
+  const handleChange = useCallback(
+    (value: string) => {
+      setLocalValue(value);
+      changeRef.current?.(value);
+      debouncedCommit(value);
+    },
+    [debouncedCommit]
+  );
 
   const handleBlur = useCallback(() => {
     clearTimeout(timeoutRef.current);
@@ -59,7 +64,7 @@ export function useDebouncedInput(
     handleBlur,
     inputProps: {
       value: localValue,
-      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => 
+      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
         handleChange(e.target.value),
       onBlur: handleBlur,
     },
@@ -77,11 +82,13 @@ export function useDebouncedCallback<T extends (...args: any[]) => any>(
     callbackRef.current = callback;
   });
 
-  return useCallback((...args: Parameters<T>) => {
-    clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      callbackRef.current(...args);
-    }, delay);
-  }, [delay]);
+  return useCallback(
+    (...args: Parameters<T>) => {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = setTimeout(() => {
+        callbackRef.current(...args);
+      }, delay);
+    },
+    [delay]
+  );
 }
-

@@ -31,7 +31,7 @@ export abstract class BaseIntegration {
   }
 
   abstract checkConnection(): Promise<boolean>;
-  
+
   protected async getExtraDetails(): Promise<Record<string, any>> {
     return {};
   }
@@ -52,4 +52,3 @@ export abstract class BaseIntegration {
     return new Response('Webhook handler not implemented for this provider', { status: 501 });
   }
 }
-

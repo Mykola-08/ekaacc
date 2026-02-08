@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { createClient } from "@/lib/platform/legal/supabase";
+import { createClient } from '@/lib/platform/legal/supabase';
 
 export type ConsentPreferences = {
   essential: boolean;
@@ -50,8 +50,10 @@ export function useConsent() {
       }
 
       // 2. Check Supabase (if logged in)
-      const { data: { session } } = await (supabase.auth as any).getSession();
-      
+      const {
+        data: { session },
+      } = await (supabase.auth as any).getSession();
+
       if (session?.user) {
         const { data, error } = await supabase
           .from('user_consents')
@@ -65,7 +67,7 @@ export function useConsent() {
         if (data && !error) {
           setStatus(data.status as ConsentStatus);
           setPreferences(data.preferences as ConsentPreferences);
-          
+
           // Sync back to local storage to keep them in sync
           localStorage.setItem('eka_consent_status', data.status);
           localStorage.setItem('eka_consent_preferences', JSON.stringify(data.preferences));
@@ -83,24 +85,24 @@ export function useConsent() {
       // 1. Save to Local Storage
       localStorage.setItem('eka_consent_status', newStatus);
       localStorage.setItem('eka_consent_preferences', JSON.stringify(newPreferences));
-      
+
       setStatus(newStatus);
       setPreferences(newPreferences);
 
       // 2. Save to Supabase (if logged in)
-      const { data: { session } } = await (supabase.auth as any).getSession();
-      
+      const {
+        data: { session },
+      } = await (supabase.auth as any).getSession();
+
       if (session?.user) {
-        const { error } = await supabase
-          .from('user_consents')
-          .insert({
-            user_id: session.user.id,
-            consent_type: 'cookies',
-            status: newStatus,
-            preferences: newPreferences,
-            user_agent: navigator.userAgent,
-            version: '1.0' // Could be dynamic
-          });
+        const { error } = await supabase.from('user_consents').insert({
+          user_id: session.user.id,
+          consent_type: 'cookies',
+          status: newStatus,
+          preferences: newPreferences,
+          user_agent: navigator.userAgent,
+          version: '1.0', // Could be dynamic
+        });
 
         if (error) {
           console.error('Error saving consent to DB:', error);
@@ -121,7 +123,6 @@ export function useConsent() {
     preferences,
     isLoading,
     saveConsent,
-    checkConsent
+    checkConsent,
   };
 }
-

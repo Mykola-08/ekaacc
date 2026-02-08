@@ -21,7 +21,7 @@ export interface Service {
   duration: number; // in minutes
   category?: string | null;
   is_active: boolean;
-  
+
   stripe_product_id?: string | null;
   stripe_price_id?: string | null;
   metadata?: Record<string, unknown> | null;

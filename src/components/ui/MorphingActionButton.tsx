@@ -26,7 +26,6 @@ export function MorphingActionButton({
   disabled,
   ...props
 }: MorphingActionButtonProps) {
-  
   const isIdle = status === 'idle';
   const isLoading = status === 'loading';
   const isSuccess = status === 'success';
@@ -35,16 +34,17 @@ export function MorphingActionButton({
   return (
     <Button
       className={cn(
-        "relative overflow-hidden transition-all duration-300 min-w-30",
-        (isSuccess || isError) && "cursor-default",
-        isSuccess && "bg-emerald-500 hover:bg-emerald-600 text-white border-emerald-500",
-        isError && "bg-destructive hover:bg-destructive/90 text-destructive-foreground border-destructive",
+        'relative min-w-30 overflow-hidden transition-all duration-300',
+        (isSuccess || isError) && 'cursor-default',
+        isSuccess && 'border-emerald-500 bg-emerald-500 text-white hover:bg-emerald-600',
+        isError &&
+          'bg-destructive hover:bg-destructive/90 text-destructive-foreground border-destructive',
         className
       )}
       disabled={isLoading || disabled}
       {...props}
     >
-      <AnimatePresence mode='wait' initial={false}>
+      <AnimatePresence mode="wait" initial={false}>
         {isIdle && (
           <motion.div
             key="idle"
@@ -57,7 +57,7 @@ export function MorphingActionButton({
             <span>{idleLabel}</span>
           </motion.div>
         )}
-        
+
         {isLoading && (
           <motion.div
             key="loading"
@@ -98,4 +98,3 @@ export function MorphingActionButton({
     </Button>
   );
 }
-

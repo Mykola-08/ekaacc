@@ -1,4 +1,4 @@
-import { Skeleton } from "../ui/skeleton"
+import { Skeleton } from '../ui/skeleton';
 
 /**
  * Used for project grids and dashboard items.
@@ -6,8 +6,8 @@ import { Skeleton } from "../ui/skeleton"
  */
 export function CardSkeleton() {
   return (
-    <div className="rounded-xl border bg-card text-card-foreground shadow-sm">
-      <div className="p-6 flex flex-col space-y-3">
+    <div className="bg-card text-card-foreground rounded-xl border shadow-sm">
+      <div className="flex flex-col space-y-3 p-6">
         <Skeleton className="h-31.25 w-full rounded-xl" />
         <div className="space-y-2">
           <Skeleton className="h-4 w-62.5" />
@@ -15,7 +15,7 @@ export function CardSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /**
@@ -28,7 +28,7 @@ export function ProjectStatsSkeleton() {
         <Skeleton key={i} className="h-30 w-full rounded-xl" />
       ))}
     </div>
-  )
+  );
 }
 
 /**
@@ -36,11 +36,10 @@ export function ProjectStatsSkeleton() {
  */
 export function LoadingSkeleton() {
   return (
-    <div className="space-y-2 w-full">
+    <div className="w-full space-y-2">
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-[90%]" />
       <Skeleton className="h-4 w-[80%]" />
     </div>
-  )
+  );
 }
-

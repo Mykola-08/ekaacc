@@ -40,8 +40,10 @@ export class PersonalizationEngine {
 
     // Based on goals
     if (personalization?.therapeuticGoals) {
-      personalization.therapeuticGoals.forEach(goal => {
-        messages.push(`Every small step toward ${goal.toLowerCase()} is progress. You're doing great!`);
+      personalization.therapeuticGoals.forEach((goal) => {
+        messages.push(
+          `Every small step toward ${goal.toLowerCase()} is progress. You're doing great!`
+        );
       });
     }
 
@@ -63,15 +65,17 @@ export class PersonalizationEngine {
 
     // Based on engagement
     if (activityData?.loginStreak && activityData.loginStreak > 7) {
-      messages.push(`${activityData.loginStreak} days of commitment! Your dedication is remarkable!`);
+      messages.push(
+        `${activityData.loginStreak} days of commitment! Your dedication is remarkable!`
+      );
     }
 
     // Default motivational messages
     if (messages.length === 0) {
       messages.push(
         "You're stronger than you think!",
-        "Every day is a new opportunity to grow",
-        "Your wellbeing journey matters. Keep going!"
+        'Every day is a new opportunity to grow',
+        'Your wellbeing journey matters. Keep going!'
       );
     }
 
@@ -92,7 +96,11 @@ export class PersonalizationEngine {
     const { personalization, activityData } = user;
 
     // Based on goals
-    if (personalization?.therapeuticGoals?.includes('Reduce stress') || (personalization?.lifestyleFactors?.workStressLevel && personalization.lifestyleFactors.workStressLevel >= 4)) {
+    if (
+      personalization?.therapeuticGoals?.includes('Reduce stress') ||
+      (personalization?.lifestyleFactors?.workStressLevel &&
+        personalization.lifestyleFactors.workStressLevel >= 4)
+    ) {
       recommendations.push({
         title: 'Stress Management Session',
         description: 'Learn practical techniques to manage daily stress and find calm',
@@ -102,7 +110,11 @@ export class PersonalizationEngine {
       });
     }
 
-    if (personalization?.therapeuticGoals?.includes('Improve sleep') || (personalization?.lifestyleFactors?.sleepQuality && personalization.lifestyleFactors.sleepQuality <= 2)) {
+    if (
+      personalization?.therapeuticGoals?.includes('Improve sleep') ||
+      (personalization?.lifestyleFactors?.sleepQuality &&
+        personalization.lifestyleFactors.sleepQuality <= 2)
+    ) {
       recommendations.push({
         title: 'Sleep Hygiene Workshop',
         description: 'Develop better sleep habits for restorative rest',
@@ -135,12 +147,16 @@ export class PersonalizationEngine {
     }
 
     // Based on engagement patterns
-    if (activityData?.completedSessions && activityData.completedSessions > 5 && activityData?.progressTrend === 'improving') {
+    if (
+      activityData?.completedSessions &&
+      activityData.completedSessions > 5 &&
+      activityData?.progressTrend === 'improving'
+    ) {
       recommendations.push({
         title: 'Advanced Wellness Strategies',
         description: 'Take your wellness journey to the next level',
         type: 'advanced',
-        reason: 'You\'ve made great progress and are ready for more advanced techniques',
+        reason: "You've made great progress and are ready for more advanced techniques",
         priority: 'medium',
       });
     }
@@ -172,7 +188,10 @@ export class PersonalizationEngine {
     const { personalization } = user;
 
     // Based on stress level
-    if (personalization?.lifestyleFactors?.workStressLevel && personalization.lifestyleFactors.workStressLevel >= 4) {
+    if (
+      personalization?.lifestyleFactors?.workStressLevel &&
+      personalization.lifestyleFactors.workStressLevel >= 4
+    ) {
       exercises.push({
         name: '5-Minute Breathing Exercise',
         type: 'breathing',
@@ -182,7 +201,10 @@ export class PersonalizationEngine {
     }
 
     // Based on activity level
-    if (personalization?.activityLevel === 'sedentary' || personalization?.activityLevel === 'light') {
+    if (
+      personalization?.activityLevel === 'sedentary' ||
+      personalization?.activityLevel === 'light'
+    ) {
       exercises.push({
         name: 'Gentle Stretching Routine',
         type: 'physical',
@@ -264,7 +286,11 @@ export class PersonalizationEngine {
     }
 
     // Tips based on activity
-    if (activityData?.featureUsage?.journal === 0 && activityData?.totalLogins && activityData.totalLogins > 3) {
+    if (
+      activityData?.featureUsage?.journal === 0 &&
+      activityData?.totalLogins &&
+      activityData.totalLogins > 3
+    ) {
       messages.push({
         message: `Tip: Try the journal feature! Reflection can deepen your self-awareness and track your progress.`,
         type: 'tip',
@@ -285,8 +311,10 @@ export class PersonalizationEngine {
 
     // Reminders based on inactivity
     const lastActive = activityData?.lastActiveDate ? new Date(activityData.lastActiveDate) : null;
-    const daysSinceActive = lastActive ? Math.floor((Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24)) : 0;
-    
+    const daysSinceActive = lastActive
+      ? Math.floor((Date.now() - lastActive.getTime()) / (1000 * 60 * 60 * 24))
+      : 0;
+
     if (daysSinceActive >= 7 && personalization?.therapeuticGoals) {
       messages.push({
         message: `👋 We've missed you! Ready to continue working on ${personalization.therapeuticGoals[0]}?`,
@@ -314,7 +342,11 @@ export class PersonalizationEngine {
     }
 
     // For active users
-    if (activityData?.completedSessions && activityData.completedSessions > 0 && activityData.completedSessions < 5) {
+    if (
+      activityData?.completedSessions &&
+      activityData.completedSessions > 0 &&
+      activityData.completedSessions < 5
+    ) {
       steps.push('Continue your session journey');
       steps.push('Try the journaling feature');
       steps.push('Track your progress metrics');
@@ -372,10 +404,13 @@ export class PersonalizationEngine {
   /**
    * Track user activity
    */
-  static trackActivity(user: User, activity: {
-    type: 'page-visit' | 'feature-use' | 'session-complete' | 'exercise-complete' | 'login';
-    data?: any;
-  }): Partial<User['activityData']> {
+  static trackActivity(
+    user: User,
+    activity: {
+      type: 'page-visit' | 'feature-use' | 'session-complete' | 'exercise-complete' | 'login';
+      data?: any;
+    }
+  ): Partial<User['activityData']> {
     const currentData = user.activityData || {};
     const updates: Partial<User['activityData']> = {
       lastActiveDate: new Date().toISOString(),

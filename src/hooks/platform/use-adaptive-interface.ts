@@ -40,37 +40,43 @@ export const useAdaptiveInterface = () => {
   const behavioralService = useMemo(() => BehavioralTrackingService.getInstance(), []);
 
   // Define default settings and state
-  const getDefaultSettings = useCallback((): AdaptiveSettings => ({
-    theme: 'auto',
-    colorScheme: 'calming',
-    fontSize: 'medium',
-    contrast: 'normal',
-    reducedMotion: false,
-    screenReaderOptimized: false,
-    keyboardNavigation: true,
-    highContrastMode: false,
-    notificationFrequency: 'balanced',
-    dashboardLayout: 'standard',
-    contentDensity: 'balanced',
-    aiRecommendations: true,
-    moodBasedAdaptation: true,
-    timeBasedAdaptation: true,
-    behavioralAdaptation: true,
-    therapyStyle: 'supportive',
-    communicationTone: 'friendly',
-    preferredContent: ['mindfulness', 'exercises', 'education']
-  }), []);
+  const getDefaultSettings = useCallback(
+    (): AdaptiveSettings => ({
+      theme: 'auto',
+      colorScheme: 'calming',
+      fontSize: 'medium',
+      contrast: 'normal',
+      reducedMotion: false,
+      screenReaderOptimized: false,
+      keyboardNavigation: true,
+      highContrastMode: false,
+      notificationFrequency: 'balanced',
+      dashboardLayout: 'standard',
+      contentDensity: 'balanced',
+      aiRecommendations: true,
+      moodBasedAdaptation: true,
+      timeBasedAdaptation: true,
+      behavioralAdaptation: true,
+      therapyStyle: 'supportive',
+      communicationTone: 'friendly',
+      preferredContent: ['mindfulness', 'exercises', 'education'],
+    }),
+    []
+  );
 
-  const getDefaultAdaptiveState = useCallback((): AdaptiveState => ({
-    currentTheme: 'light',
-    currentColorScheme: 'calming',
-    currentLayout: 'standard',
-    currentContentDensity: 'balanced',
-    recommendedActions: [],
-    adaptiveMessages: [],
-    uiModifications: {},
-    isAdaptiveMode: false
-  }), []);
+  const getDefaultAdaptiveState = useCallback(
+    (): AdaptiveState => ({
+      currentTheme: 'light',
+      currentColorScheme: 'calming',
+      currentLayout: 'standard',
+      currentContentDensity: 'balanced',
+      recommendedActions: [],
+      adaptiveMessages: [],
+      uiModifications: {},
+      isAdaptiveMode: false,
+    }),
+    []
+  );
 
   const [settings, setSettings] = useState<AdaptiveSettings>(getDefaultSettings());
   const [adaptiveState, setAdaptiveState] = useState<AdaptiveState>(getDefaultAdaptiveState());
@@ -79,13 +85,13 @@ export const useAdaptiveInterface = () => {
   const loadSettings = useCallback(async () => {
     try {
       setIsLoading(true);
-      
+
       // Load from localStorage
       const savedSettings = localStorage.getItem('personalization-settings');
       if (savedSettings) {
         try {
           const parsed = JSON.parse(savedSettings);
-          setSettings(prev => ({ ...prev, ...parsed }));
+          setSettings((prev) => ({ ...prev, ...parsed }));
         } catch (error) {
           console.error('Error parsing saved settings:', error);
         }
@@ -103,23 +109,26 @@ export const useAdaptiveInterface = () => {
     }
   }, [user]);
 
-  const saveSettings = useCallback(async (newSettings: Partial<AdaptiveSettings>) => {
-    try {
-      const updatedSettings = { ...settings, ...newSettings };
-      setSettings(updatedSettings);
-      
-      // Save to localStorage
-      localStorage.setItem('personalization-settings', JSON.stringify(updatedSettings));
-      
-      // Save to user profile if authenticated
-      if (user) {
-        // This would typically call an API to save user settings
-        console.log('Saving adaptive settings to user profile:', updatedSettings);
+  const saveSettings = useCallback(
+    async (newSettings: Partial<AdaptiveSettings>) => {
+      try {
+        const updatedSettings = { ...settings, ...newSettings };
+        setSettings(updatedSettings);
+
+        // Save to localStorage
+        localStorage.setItem('personalization-settings', JSON.stringify(updatedSettings));
+
+        // Save to user profile if authenticated
+        if (user) {
+          // This would typically call an API to save user settings
+          console.log('Saving adaptive settings to user profile:', updatedSettings);
+        }
+      } catch (error) {
+        console.error('Error saving settings:', error);
       }
-    } catch (error) {
-      console.error('Error saving settings:', error);
-    }
-  }, [settings, user]);
+    },
+    [settings, user]
+  );
 
   const applyMoodBasedAdaptations = useCallback(async () => {
     if (!user) return;
@@ -128,20 +137,19 @@ export const useAdaptiveInterface = () => {
       // Get recent mood data
       const behavioralData = await behavioralService.getUserBehavioralInsights(user.id);
       const recentMoodInteractions = behavioralData.recentInteractions
-        .filter(i => i.interaction_type === 'mood_logged')
+        .filter((i) => i.interaction_type === 'mood_logged')
         .slice(0, 7); // Last 7 mood logs
 
       if (recentMoodInteractions.length === 0) return;
 
       // Analyze mood patterns
       const moodCounts: Record<string, number> = {};
-      recentMoodInteractions.forEach(interaction => {
+      recentMoodInteractions.forEach((interaction) => {
         const mood = interaction.metadata?.mood || 'neutral';
         moodCounts[mood as string] = (moodCounts[mood as string] || 0) + 1;
       });
 
-      const dominantMood = Object.entries(moodCounts)
-        .sort(([,a], [,b]) => b - a)[0][0];
+      const dominantMood = Object.entries(moodCounts).sort(([, a], [, b]) => b - a)[0][0];
 
       // Adapt based on dominant mood
       let newColorScheme = settings.colorScheme;
@@ -153,7 +161,7 @@ export const useAdaptiveInterface = () => {
         case 'depressed':
           newColorScheme = 'calming';
           newLayout = 'compact';
-          messages.push('We\'ve switched to a calming interface to help you feel more comfortable.');
+          messages.push("We've switched to a calming interface to help you feel more comfortable.");
           break;
         case 'anxious':
         case 'stressed':
@@ -165,24 +173,24 @@ export const useAdaptiveInterface = () => {
         case 'content':
           newColorScheme = 'energizing';
           newLayout = 'detailed';
-          messages.push('Great mood! We\'ve enabled more features for you to explore.');
+          messages.push("Great mood! We've enabled more features for you to explore.");
           break;
         case 'excited':
         case 'motivated':
           newColorScheme = 'energizing';
           newLayout = 'detailed';
-          messages.push('Your energy is high! We\'ve added more interactive elements.');
+          messages.push("Your energy is high! We've added more interactive elements.");
           break;
         default:
           newColorScheme = 'neutral';
           newLayout = 'standard';
       }
 
-      setAdaptiveState(prev => ({
+      setAdaptiveState((prev) => ({
         ...prev,
         currentColorScheme: newColorScheme,
         currentLayout: newLayout,
-        adaptiveMessages: messages
+        adaptiveMessages: messages,
       }));
     } catch (error) {
       console.error('Error applying mood-based adaptations:', error);
@@ -193,7 +201,7 @@ export const useAdaptiveInterface = () => {
     const now = new Date();
     const hour = now.getHours();
     const dayOfWeek = now.getDay();
-    
+
     let newTheme = settings.theme;
     let newContentDensity = settings.contentDensity;
     const messages: string[] = [];
@@ -221,11 +229,11 @@ export const useAdaptiveInterface = () => {
       messages.push('Weekend mode: more time for self-care activities.');
     }
 
-    setAdaptiveState(prev => ({
+    setAdaptiveState((prev) => ({
       ...prev,
       currentTheme: newTheme,
       currentContentDensity: newContentDensity,
-      adaptiveMessages: [...prev.adaptiveMessages, ...messages]
+      adaptiveMessages: [...prev.adaptiveMessages, ...messages],
     }));
   }, [settings.theme, settings.contentDensity]);
 
@@ -234,44 +242,44 @@ export const useAdaptiveInterface = () => {
 
     try {
       const behavioralData = await behavioralService.getUserBehavioralInsights(user.id);
-      
+
       // Analyze engagement patterns
       const recentInteractions = behavioralData.recentInteractions.slice(0, 30);
-      const sessionFrequency = behavioralData.patterns.filter(p => 
-        p.pattern_type === 'session_frequency_drop'
+      const sessionFrequency = behavioralData.patterns.filter(
+        (p) => p.pattern_type === 'session_frequency_drop'
       ).length;
-      
-      const engagementDecline = behavioralData.patterns.filter(p => 
-        p.pattern_type === 'engagement_decline'
+
+      const engagementDecline = behavioralData.patterns.filter(
+        (p) => p.pattern_type === 'engagement_decline'
       ).length;
 
       const messages: string[] = [];
       const actions: string[] = [];
 
       if (sessionFrequency > 0) {
-        messages.push('We noticed you haven\'t had sessions recently. Everything okay?');
+        messages.push("We noticed you haven't had sessions recently. Everything okay?");
         actions.push('Schedule a check-in session');
       }
 
       if (engagementDecline > 0) {
-        messages.push('Your engagement has decreased. Let\'s make things more interesting.');
+        messages.push("Your engagement has decreased. Let's make things more interesting.");
         actions.push('Try a new activity or exercise');
       }
 
       // Check for positive patterns
-      const positiveProgress = behavioralData.patterns.filter(p => 
-        p.pattern_type === 'positive_progress'
+      const positiveProgress = behavioralData.patterns.filter(
+        (p) => p.pattern_type === 'positive_progress'
       ).length;
 
       if (positiveProgress > 0) {
-        messages.push('You\'re making great progress! Keep it up! 🎉');
+        messages.push("You're making great progress! Keep it up! 🎉");
         actions.push('Celebrate your achievements');
       }
 
-      setAdaptiveState(prev => ({
+      setAdaptiveState((prev) => ({
         ...prev,
         recommendedActions: actions,
-        adaptiveMessages: [...prev.adaptiveMessages, ...messages]
+        adaptiveMessages: [...prev.adaptiveMessages, ...messages],
       }));
     } catch (error) {
       console.error('Error applying behavioral adaptations:', error);
@@ -281,8 +289,11 @@ export const useAdaptiveInterface = () => {
   const applyVisualAdaptations = useCallback(() => {
     // Apply theme
     document.documentElement.classList.remove('light', 'dark', 'high-contrast');
-    if (adaptiveState.currentTheme === 'dark' || 
-        (adaptiveState.currentTheme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (
+      adaptiveState.currentTheme === 'dark' ||
+      (adaptiveState.currentTheme === 'auto' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
       document.documentElement.classList.add('dark');
     }
     if (settings.highContrastMode) {
@@ -290,8 +301,8 @@ export const useAdaptiveInterface = () => {
     }
 
     // Apply font size
-    const fontSizeScale = settings.fontSize === 'small' ? '0.875' : 
-                         settings.fontSize === 'large' ? '1.125' : '1';
+    const fontSizeScale =
+      settings.fontSize === 'small' ? '0.875' : settings.fontSize === 'large' ? '1.125' : '1';
     document.documentElement.style.setProperty('--font-size-scale', fontSizeScale);
 
     // Apply reduced motion
@@ -308,13 +319,17 @@ export const useAdaptiveInterface = () => {
   }, [adaptiveState.currentTheme, adaptiveState.currentColorScheme, settings]);
 
   const applyAdaptiveFeatures = useCallback(async () => {
-    if (!settings.aiRecommendations && !settings.moodBasedAdaptation && 
-        !settings.timeBasedAdaptation && !settings.behavioralAdaptation) {
-      setAdaptiveState(prev => ({ ...prev, isAdaptiveMode: false }));
+    if (
+      !settings.aiRecommendations &&
+      !settings.moodBasedAdaptation &&
+      !settings.timeBasedAdaptation &&
+      !settings.behavioralAdaptation
+    ) {
+      setAdaptiveState((prev) => ({ ...prev, isAdaptiveMode: false }));
       return;
     }
 
-    setAdaptiveState(prev => ({ ...prev, isAdaptiveMode: true }));
+    setAdaptiveState((prev) => ({ ...prev, isAdaptiveMode: true }));
 
     // Apply mood-based adaptations
     if (settings.moodBasedAdaptation && user) {
@@ -333,7 +348,14 @@ export const useAdaptiveInterface = () => {
 
     // Apply theme and visual adaptations
     applyVisualAdaptations();
-  }, [settings, user, applyMoodBasedAdaptations, applyTimeBasedAdaptations, applyBehavioralAdaptations, applyVisualAdaptations]);
+  }, [
+    settings,
+    user,
+    applyMoodBasedAdaptations,
+    applyTimeBasedAdaptations,
+    applyBehavioralAdaptations,
+    applyVisualAdaptations,
+  ]);
 
   const getAdaptiveMessage = useCallback(() => {
     if (adaptiveState.adaptiveMessages.length === 0) return null;
@@ -341,9 +363,9 @@ export const useAdaptiveInterface = () => {
   }, [adaptiveState.adaptiveMessages]);
 
   const dismissAdaptiveMessage = useCallback((index: number) => {
-    setAdaptiveState(prev => ({
+    setAdaptiveState((prev) => ({
       ...prev,
-      adaptiveMessages: prev.adaptiveMessages.filter((_, i) => i !== index)
+      adaptiveMessages: prev.adaptiveMessages.filter((_, i) => i !== index),
     }));
   }, []);
 
@@ -351,11 +373,14 @@ export const useAdaptiveInterface = () => {
     return adaptiveState.recommendedActions;
   }, [adaptiveState.recommendedActions]);
 
-  const isFeatureRecommended = useCallback((featureId: string) => {
-    return adaptiveState.recommendedActions.some(action => 
-      action.toLowerCase().includes(featureId.toLowerCase())
-    );
-  }, [adaptiveState.recommendedActions]);
+  const isFeatureRecommended = useCallback(
+    (featureId: string) => {
+      return adaptiveState.recommendedActions.some((action) =>
+        action.toLowerCase().includes(featureId.toLowerCase())
+      );
+    },
+    [adaptiveState.recommendedActions]
+  );
 
   const getUIModifications = useCallback(() => {
     return {
@@ -366,7 +391,7 @@ export const useAdaptiveInterface = () => {
       fontSize: settings.fontSize,
       reducedMotion: settings.reducedMotion,
       highContrast: settings.highContrastMode,
-      ...adaptiveState.uiModifications
+      ...adaptiveState.uiModifications,
     };
   }, [adaptiveState, settings]);
 
@@ -385,7 +410,7 @@ export const useAdaptiveInterface = () => {
     adaptiveState,
     isLoading,
     isAdaptiveMode: adaptiveState.isAdaptiveMode,
-    
+
     // Methods
     saveSettings,
     loadSettings,
@@ -394,7 +419,7 @@ export const useAdaptiveInterface = () => {
     getRecommendedActions,
     isFeatureRecommended,
     getUIModifications,
-    applyAdaptiveFeatures
+    applyAdaptiveFeatures,
   };
 };
 

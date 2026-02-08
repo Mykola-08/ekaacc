@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!bot) {
-        return NextResponse.json({ ok: false, error: 'Bot not initialized' }, { status: 500 });
+      return NextResponse.json({ ok: false, error: 'Bot not initialized' }, { status: 500 });
     }
     const body = await req.json();
     await bot.handleUpdate(body);
@@ -21,6 +21,5 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET(_req: NextRequest) {
-    return NextResponse.json({ ok: true, message: 'Telegram Bot API is running' });
+  return NextResponse.json({ ok: true, message: 'Telegram Bot API is running' });
 }
-

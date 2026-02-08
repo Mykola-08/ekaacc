@@ -19,4 +19,3 @@ export type RouteKey = keyof typeof ROUTES;
 export function route(key: RouteKey): string {
   return ROUTES[key];
 }
-

@@ -25,7 +25,7 @@ export class ZoomService {
     const response = await fetch(tokenUrl, {
       method: 'POST',
       headers: {
-        'Authorization': `Basic ${auth}`,
+        Authorization: `Basic ${auth}`,
       },
     });
 
@@ -37,7 +37,11 @@ export class ZoomService {
     return data.access_token;
   }
 
-  static async createMeeting(topic: string, startTime: string, durationMinutes: number = 60): Promise<ZoomMeeting | null> {
+  static async createMeeting(
+    topic: string,
+    startTime: string,
+    durationMinutes: number = 60
+  ): Promise<ZoomMeeting | null> {
     const clientId = await getZoomClientId();
     if (!clientId) {
       console.log('Zoom credentials missing. Generating mock meeting link.');
@@ -53,7 +57,7 @@ export class ZoomService {
       const response = await fetch('https://api.zoom.us/v2/users/me/meetings', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${accessToken}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({

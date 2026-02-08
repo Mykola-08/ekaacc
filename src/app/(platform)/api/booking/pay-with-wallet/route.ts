@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
@@ -11,16 +10,18 @@ export async function POST(req: Request) {
     }
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Call the RPC function for atomic wallet payment
-    const { data, error } = await supabase.rpc('pay_booking_with_wallet', { 
+    const { data, error } = await supabase.rpc('pay_booking_with_wallet', {
       p_booking_id: bookingId,
-      p_user_id: user.id 
+      p_user_id: user.id,
     });
 
     if (error) {
@@ -36,4 +37,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-

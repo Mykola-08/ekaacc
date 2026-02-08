@@ -38,11 +38,11 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const currentUser: User | null = user
-    ? {
+    ? ({
         id: user.id,
         name: user.displayName || user.email || 'User',
         email: user.email || '',
-      } as any
+      } as any)
     : null;
 
   const value = {
@@ -52,11 +52,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     isLoading: authLoading || isLoading,
   };
 
-  return (
-    <UserContext.Provider value={value}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
 export const useUserContext = () => {
@@ -69,4 +65,3 @@ export const useUserContext = () => {
 
 // Alias for backwards compatibility
 export const useUser = useUserContext;
-

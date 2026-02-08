@@ -1,4 +1,4 @@
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -14,9 +14,8 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/eka_logo.png',
         sizes: 'any',
         type: 'image/png',
-        purpose: 'any'
-      }
-    ]
-  }
+        purpose: 'any',
+      },
+    ],
+  };
 }
-

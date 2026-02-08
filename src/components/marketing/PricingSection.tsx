@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CheckCircle, Sparkles, Crown, Heart, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import { useBooking } from '@/hooks/marketing/useBooking';
 import { useDiscount } from '@/context/DiscountContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
@@ -192,7 +192,7 @@ export default function PricingSection() {
                 <div className="p-8">
                   {/* Icon & Title */}
                   <div className="mb-8 text-center">
-                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100">
+                    <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[20px] bg-yellow-100">
                       <Icon className="h-8 w-8 text-yellow-600" />
                     </div>
 
@@ -244,7 +244,7 @@ export default function PricingSection() {
                       });
                       navigateToBooking(plan.name);
                     }}
-                    className={`w-full rounded-2xl py-4 text-center font-medium transition-all duration-200 ${
+                    className={`w-full rounded-[20px] py-4 text-center font-medium transition-all duration-200 ${
                       plan.popular
                         ? 'text-foreground bg-yellow-400 shadow-sm hover:bg-yellow-500 hover:shadow-md'
                         : 'bg-muted text-foreground hover:bg-gray-200'
@@ -261,8 +261,8 @@ export default function PricingSection() {
         {/* Features Grid */}
         <div className="mb-16 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature) => (
-            <div key={feature.title} className="bg-muted/30 rounded-2xl p-6 text-center">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-yellow-100">
+            <div key={feature.title} className="bg-muted/30 rounded-[20px] p-6 text-center">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-[20px] bg-yellow-100">
                 <CheckCircle className="h-6 w-6 text-yellow-600" />
               </div>
               <h4 className="text-foreground mb-2 font-medium">{feature.title}</h4>
@@ -273,7 +273,7 @@ export default function PricingSection() {
 
         {/* Bottom CTA */}
         <div className="text-center">
-          <div className="bg-muted/30 rounded-2xl p-8">
+          <div className="bg-muted/30 rounded-[20px] p-8">
             <h3 className="text-foreground mb-4 text-2xl font-medium">
               No estàs segur quin pla triar?
             </h3>

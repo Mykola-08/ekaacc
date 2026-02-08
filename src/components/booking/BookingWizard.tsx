@@ -229,7 +229,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
     <div className="container flex max-w-5xl flex-col gap-8 px-4 py-12 md:flex-row md:px-6">
       {/* Sidebar Summary */}
       <div className="animate-in fade-in slide-in-from-right-8 order-2 w-full duration-700 md:order-1 md:w-1/3">
-        <div className="bg-card border-border sticky top-24 overflow-hidden rounded-[24px] border shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+        <div className="bg-card border-border sticky top-24 overflow-hidden rounded-[20px] border shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
           <div className="bg-muted relative h-48">
             {/* Image Placeholder */}
             <div className="text-muted-foreground/20 absolute inset-0 flex items-center justify-center">
@@ -313,7 +313,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
         <div className="animate-in fade-in slide-in-from-bottom-4 space-y-8 duration-500">
           {step === 'time' && (
             <div className="grid gap-8 lg:grid-cols-2">
-              <div className="bg-card border-border rounded-[24px] border p-6 shadow-sm">
+              <div className="bg-card border-border rounded-[20px] border p-6 shadow-sm">
                 <Calendar
                   mode="single"
                   selected={date}
@@ -387,7 +387,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
           )}
 
           {step === 'details' && (
-            <div className="bg-card border-border rounded-[24px] border p-8 shadow-sm">
+            <div className="bg-card border-border rounded-[20px] border p-8 shadow-sm">
               <Tabs defaultValue="guest" value={user ? 'guest' : undefined} className="w-full">
                 {!user && (
                   <TabsList className="bg-secondary mb-8 grid h-12 w-full grid-cols-2 rounded-full p-1">
@@ -512,7 +512,7 @@ export function BookingWizard({ service, variantId }: BookingWizardProps) {
 
           {step === 'payment' && (
             <div className="space-y-6">
-              <div className="bg-card border-border rounded-[24px] border p-8 shadow-sm">
+              <div className="bg-card border-border rounded-[20px] border p-8 shadow-sm">
                 <h3 className="text-foreground mb-6 flex items-center gap-3 text-xl font-bold">
                   <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-full">
                     <HugeiconsIcon icon={CreditCardIcon} className="h-5 w-5" />

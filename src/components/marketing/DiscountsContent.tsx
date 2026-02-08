@@ -38,7 +38,7 @@ export default function DiscountsContent() {
             initial={{ opacity: 0, y: -20, x: 20 }}
             animate={{ opacity: 1, y: 0, x: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-24 right-4 z-50 flex items-center space-x-3 rounded-2xl bg-green-500 px-6 py-4 text-white shadow-lg"
+            className="fixed top-24 right-4 z-50 flex items-center space-x-3 rounded-[20px] bg-green-500 px-6 py-4 text-white shadow-lg"
           >
             <Check className="h-5 w-5" />
             <span className="font-medium">
@@ -88,14 +88,14 @@ export default function DiscountsContent() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
+                className="group relative overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm transition-all duration-300 hover:shadow-xl"
               >
                 {/* Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-white to-purple-50/50 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
                 {/* Header */}
                 <div className="relative mb-6 flex items-start justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 transition-transform duration-300 group-hover:scale-110">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-gradient-to-br from-blue-100 to-blue-50 text-blue-600 transition-transform duration-300 group-hover:scale-110">
                     <Percent className="h-7 w-7" />
                   </div>
                   {discount.isActive && (
@@ -192,7 +192,7 @@ export default function DiscountsContent() {
               },
             ].map((step, idx) => (
               <div key={idx} className="p-6 text-center">
-                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 shadow-sm">
+                <div className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-[20px] bg-blue-50 text-blue-600 shadow-sm">
                   {React.cloneElement(step.icon as React.ReactElement<{ className?: string }>, {
                     className: 'w-6 h-6',
                   })}

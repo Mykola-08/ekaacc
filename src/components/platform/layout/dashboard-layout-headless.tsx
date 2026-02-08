@@ -75,7 +75,7 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
                         isActive
                           ? 'bg-secondary text-foreground shadow-sm'
                           : 'text-muted-foreground hover:text-foreground hover:bg-accent/50',
-                        'group flex gap-x-3 rounded-2xl p-3 text-sm leading-6 font-semibold transition-all duration-200'
+                        'group flex gap-x-3 rounded-[20px] p-3 text-sm leading-6 font-semibold transition-all duration-200'
                       )}
                     >
                       <item.icon
@@ -96,7 +96,7 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
           </li>
 
           <li className="mt-auto">
-            <div className="from-primary group relative cursor-pointer overflow-hidden rounded-3xl bg-linear-to-br to-blue-600 p-5 shadow-lg shadow-blue-900/10 transition-transform duration-300 hover:scale-105">
+            <div className="from-primary group relative cursor-pointer overflow-hidden rounded-[20px] bg-linear-to-br to-blue-600 p-5 shadow-lg shadow-blue-900/10 transition-transform duration-300 hover:scale-105">
               <div className="absolute top-0 right-0 -mt-8 -mr-8 h-24 w-24 rounded-full bg-white/10 blur-2xl transition-colors group-hover:bg-white/20"></div>
               <div className="relative">
                 <p className="mb-1 text-lg font-bold text-white">Premium Plan</p>
@@ -130,7 +130,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       </button>
 
       {/* Search / Title */}
-      <div className="bg-secondary/50 border-border/50 hidden w-96 items-center gap-4 rounded-2xl border px-4 py-2 md:flex">
+      <div className="bg-secondary/50 border-border/50 hidden w-96 items-center gap-4 rounded-[20px] border px-4 py-2 md:flex">
         <Search className="text-muted-foreground h-4 w-4" />
         <input
           type="text"
@@ -165,7 +165,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95"
           >
-            <MenuItems className="bg-card border-border absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-2xl border py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
+            <MenuItems className="bg-card border-border absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-[20px] border py-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
               <MenuItem>
                 {({ active }) => (
                   <a
@@ -238,7 +238,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       </Transition>
 
       {/* Desktop Sidebar Pill */}
-      <aside className="bg-card border-border/60 animate-in slide-in-from-left-4 hidden w-[280px] shrink-0 flex-col rounded-2xl border shadow-sm duration-300 lg:flex">
+      <aside className="bg-card border-border/60 animate-in slide-in-from-left-4 hidden w-[280px] shrink-0 flex-col rounded-[20px] border shadow-sm duration-300 lg:flex">
         <SidebarContent />
       </aside>
 
@@ -246,7 +246,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
       <div className="flex min-w-0 flex-1 flex-col gap-4 overflow-hidden">
         <HeaderPill />
 
-        <main className="bg-card border-border/60 animate-in fade-in flex-1 overflow-auto rounded-2xl border p-4 shadow-sm duration-300 md:p-6">
+        <main className="bg-card border-border/60 animate-in fade-in flex-1 overflow-auto rounded-[20px] border p-4 shadow-sm duration-300 md:p-6">
           <div className="mx-auto h-full max-w-7xl">{children}</div>
         </main>
       </div>

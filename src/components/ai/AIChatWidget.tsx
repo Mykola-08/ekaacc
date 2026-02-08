@@ -248,7 +248,7 @@ export function AIChatWidget() {
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             className="fixed right-6 bottom-6 z-50 h-[600px] max-h-[calc(100vh-100px)] w-[380px] max-w-[calc(100vw-48px)]"
           >
-            <Card className="flex h-full flex-col overflow-hidden rounded-2xl border-zinc-200 bg-zinc-50/95 shadow-2xl dark:border-zinc-800">
+            <Card className="flex h-full flex-col overflow-hidden rounded-[20px] border-zinc-200 bg-zinc-50/95 shadow-2xl dark:border-zinc-800">
               <CardHeader className="shrink-0 border-b border-zinc-100 bg-white/80 p-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -312,7 +312,7 @@ export function AIChatWidget() {
                     >
                       <div
                         className={cn(
-                          'max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-sm transition-all',
+                          'max-w-[85%] rounded-[20px] px-4 py-3 text-sm shadow-sm transition-all',
                           m.role === 'user'
                             ? 'rounded-br-none bg-linear-to-br from-indigo-500 to-purple-600 text-white'
                             : 'rounded-bl-none border border-slate-100 bg-white text-slate-800 dark:border-slate-700/50 dark:bg-slate-800 dark:text-slate-200'
@@ -483,7 +483,7 @@ export function AIChatWidget() {
 
                   {isLoading && messages[messages.length - 1]?.role === 'user' && (
                     <div className="mb-4 flex w-full justify-start">
-                      <div className="rounded-2xl rounded-bl-none border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+                      <div className="rounded-[20px] rounded-bl-none border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800">
                         <div className="flex gap-1">
                           <div
                             className="h-2 w-2 animate-bounce rounded-full bg-purple-400"

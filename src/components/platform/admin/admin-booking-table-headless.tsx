@@ -100,7 +100,7 @@ export function AdminBookingTableHeadless() {
           <input
             type="text"
             placeholder="Search bookings..."
-            className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-2xl border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
+            className="bg-muted/30 focus:bg-card text-foreground placeholder:text-muted-foreground/80 w-full rounded-[20px] border-transparent py-3 pr-4 pl-10 font-medium transition-all duration-200 outline-none focus:border-blue-500"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -108,7 +108,7 @@ export function AdminBookingTableHeadless() {
 
         <Listbox value={filterStatus} onChange={setFilterStatus}>
           <div className="relative z-20 mt-1 w-full sm:w-48">
-            <ListboxButton className="bg-card relative w-full cursor-pointer rounded-2xl py-3 pr-10 pl-4 text-left shadow-sm ring-1 ring-gray-200 ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
+            <ListboxButton className="bg-card relative w-full cursor-pointer rounded-[20px] py-3 pr-10 pl-4 text-left shadow-sm ring-1 ring-gray-200 ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
               <span className="block truncate capitalize">
                 {statusOptions.find((o) => o.id === filterStatus)?.name || 'Filter'}
               </span>
@@ -122,7 +122,7 @@ export function AdminBookingTableHeadless() {
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <ListboxOptions className="bg-card ring-opacity-5 absolute mt-1 max-h-60 w-full overflow-auto rounded-2xl py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm">
+              <ListboxOptions className="bg-card ring-opacity-5 absolute mt-1 max-h-60 w-full overflow-auto rounded-[20px] py-1 text-base shadow-lg ring-1 ring-black focus:outline-none sm:text-sm">
                 {statusOptions.map((opt) => (
                   <ListboxOption
                     key={opt.id}
@@ -157,7 +157,7 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Table */}
-      <div className="bg-card overflow-hidden rounded-3xl ring-1 ring-gray-200">
+      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-gray-200">
         {loading ? (
           <div className="flex items-center justify-center p-20">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
@@ -259,7 +259,7 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Pagination */}
-      <div className="border-border bg-card flex items-center justify-between rounded-3xl border-t px-4 py-3 ring-1 ring-gray-100 sm:px-6">
+      <div className="border-border bg-card flex items-center justify-between rounded-[20px] border-t px-4 py-3 ring-1 ring-gray-100 sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}

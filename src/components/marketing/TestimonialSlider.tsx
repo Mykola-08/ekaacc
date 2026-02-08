@@ -178,7 +178,7 @@ export default function TestimonialSlider({
               >
                 {testimonials.map((testimonial) => (
                   <div key={testimonial.id} className="w-full shrink-0 px-4">
-                    <div className="bg-card/95 rounded-3xl border border-white/50 p-8 text-center shadow-sm backdrop-blur-sm md:p-12">
+                    <div className="bg-card/95 rounded-[20px] border border-white/50 p-8 text-center shadow-sm backdrop-blur-sm md:p-12">
                       {/* Rating */}
                       <div className="mb-6 flex justify-center">
                         {[...Array(testimonial.rating)].map((_, i) => (

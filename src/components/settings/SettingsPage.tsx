@@ -102,10 +102,10 @@ export function SettingsPage({
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-card border-border/50 rounded-[24px] border p-10 shadow-sm"
+                className="bg-card border-border/50 rounded-[20px] border p-10 shadow-sm"
               >
                 <h2 className="text-foreground mb-10 flex items-center gap-4 text-2xl font-bold">
-                  <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
+                  <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-[20px]">
                     <HugeiconsIcon icon={UserIcon} size={24} strokeWidth={2.5} />
                   </div>
                   Personal Information
@@ -113,13 +113,13 @@ export function SettingsPage({
                 <div className="flex flex-col items-start gap-12 md:flex-row">
                   <div className="flex flex-col items-center gap-6">
                     <div className="group relative cursor-pointer">
-                      <Avatar className="border-secondary h-40 w-40 overflow-hidden rounded-[32px] border-4 shadow-xl">
+                      <Avatar className="border-secondary h-40 w-40 overflow-hidden rounded-[20px] border-4 shadow-xl">
                         <AvatarImage src={profile?.avatar_url} />
-                        <AvatarFallback className="bg-secondary text-foreground rounded-[32px] text-3xl font-black">
+                        <AvatarFallback className="bg-secondary text-foreground rounded-[20px] text-3xl font-black">
                           {profile?.full_name?.substring(0, 2) || 'ME'}
                         </AvatarFallback>
                       </Avatar>
-                      <div className="absolute inset-0 flex items-center justify-center rounded-[32px] bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                      <div className="absolute inset-0 flex items-center justify-center rounded-[20px] bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
                         <HugeiconsIcon icon={Camera01Icon} size={32} className="text-white" />
                       </div>
                     </div>
@@ -137,7 +137,7 @@ export function SettingsPage({
                         <Label className="text-muted-foreground ml-1 font-bold">Full Name</Label>
                         <Input
                           defaultValue={profile?.full_name}
-                          className="bg-secondary h-14 rounded-2xl border-none px-6 text-lg font-medium"
+                          className="bg-secondary h-14 rounded-[20px] border-none px-6 text-lg font-medium"
                         />
                       </div>
                       <div className="space-y-3">
@@ -145,7 +145,7 @@ export function SettingsPage({
                         <Input
                           defaultValue={profile?.email}
                           disabled
-                          className="bg-secondary/50 text-muted-foreground h-14 rounded-2xl border-none px-6 text-lg font-medium"
+                          className="bg-secondary/50 text-muted-foreground h-14 rounded-[20px] border-none px-6 text-lg font-medium"
                         />
                       </div>
                       <div className="space-y-3">
@@ -153,12 +153,12 @@ export function SettingsPage({
                         <Input
                           defaultValue={profile?.phone || ''}
                           placeholder="+1 234 567 890"
-                          className="bg-secondary h-14 rounded-2xl border-none px-6 text-lg font-medium"
+                          className="bg-secondary h-14 rounded-[20px] border-none px-6 text-lg font-medium"
                         />
                       </div>
                     </div>
                     <div className="pt-4 text-right">
-                      <Button className="bg-primary h-14 rounded-2xl px-10 font-bold text-white shadow-xl transition-transform hover:scale-105">
+                      <Button className="bg-primary h-14 rounded-[20px] px-10 font-bold text-white shadow-xl transition-transform hover:scale-105">
                         Save Changes
                       </Button>
                     </div>
@@ -170,22 +170,22 @@ export function SettingsPage({
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="bg-card border-border/50 rounded-[24px] border p-10 shadow-sm"
+                className="bg-card border-border/50 rounded-[20px] border p-10 shadow-sm"
               >
                 <h2 className="text-foreground mb-10 flex items-center gap-4 text-2xl font-bold">
-                  <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
+                  <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-[20px]">
                     <HugeiconsIcon icon={Tick02Icon} size={24} strokeWidth={2.5} />
                   </div>
                   Preferences
                 </h2>
                 <div className="space-y-6">
-                  <div className="bg-secondary flex items-center justify-between rounded-2xl p-6">
+                  <div className="bg-secondary flex items-center justify-between rounded-[20px] p-6">
                     <Label className="text-foreground text-lg font-bold">
                       Public Profile (Social Features)
                     </Label>
                     <Switch checked={true} />
                   </div>
-                  <div className="bg-secondary flex items-center justify-between rounded-2xl p-6">
+                  <div className="bg-secondary flex items-center justify-between rounded-[20px] p-6">
                     <Label className="text-foreground text-lg font-bold">
                       Share Goals Progress
                     </Label>
@@ -206,16 +206,16 @@ export function SettingsPage({
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-card border-border/50 rounded-[24px] border p-10 shadow-sm"
+              className="bg-card border-border/50 rounded-[20px] border p-10 shadow-sm"
             >
               <h2 className="text-foreground mb-10 flex items-center gap-4 text-2xl font-bold">
-                <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
+                <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-[20px]">
                   <HugeiconsIcon icon={LockIcon} size={24} strokeWidth={2.5} />
                 </div>
                 Password & Authentication
               </h2>
               <div className="space-y-6">
-                <div className="bg-secondary flex items-center justify-between rounded-2xl p-6">
+                <div className="bg-secondary flex items-center justify-between rounded-[20px] p-6">
                   <div>
                     <div className="text-foreground text-lg font-bold">Password</div>
                     <div className="text-muted-foreground mt-1 text-sm font-medium">
@@ -231,7 +231,7 @@ export function SettingsPage({
                     Change
                   </Button>
                 </div>
-                <div className="bg-secondary flex items-center justify-between rounded-2xl p-6 opacity-60">
+                <div className="bg-secondary flex items-center justify-between rounded-[20px] p-6 opacity-60">
                   <div>
                     <div className="text-foreground text-lg font-bold">
                       Two-Factor Authentication
@@ -251,10 +251,10 @@ export function SettingsPage({
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-card border-border/50 rounded-[24px] border p-10 shadow-sm"
+              className="bg-card border-border/50 rounded-[20px] border p-10 shadow-sm"
             >
               <h2 className="text-foreground mb-10 flex items-center gap-4 text-2xl font-bold">
-                <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
+                <div className="bg-primary/10 text-primary flex h-12 w-12 items-center justify-center rounded-[20px]">
                   <HugeiconsIcon icon={Notification02Icon} size={24} strokeWidth={2.5} />
                 </div>
                 Notification Preferences
@@ -263,7 +263,7 @@ export function SettingsPage({
                 {Object.keys(notifications).map((key) => (
                   <div
                     key={key}
-                    className="bg-secondary flex items-center justify-between rounded-2xl p-6"
+                    className="bg-secondary flex items-center justify-between rounded-[20px] p-6"
                   >
                     <div className="text-foreground text-lg font-bold capitalize">
                       {key} Updates

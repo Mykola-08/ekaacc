@@ -63,7 +63,7 @@ export function ForgotPasswordPage() {
           </div>
         </div>
 
-        <Card className="border-border bg-surface/50 rounded-2xl border shadow-sm backdrop-blur-sm">
+        <Card className="border-border bg-surface/50 rounded-[20px] border shadow-sm backdrop-blur-sm">
           <CardContent className="pt-6">
             {successMessage ? (
               <div className="flex flex-col items-center justify-center space-y-6 py-4">

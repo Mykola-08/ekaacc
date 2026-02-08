@@ -117,7 +117,7 @@ export function PricingPage({ services }: PricingPageProps) {
                     ))}
                   </div>
 
-                  <div className="bg-primary-foreground/10 border-primary-foreground/10 mb-8 rounded-2xl border p-4">
+                  <div className="bg-primary-foreground/10 border-primary-foreground/10 mb-8 rounded-[20px] border p-4">
                     <div className="mb-1 flex items-end gap-2">
                       <span className="font-serif text-4xl">
                         €{(services[0]?.price || 100) * 4}

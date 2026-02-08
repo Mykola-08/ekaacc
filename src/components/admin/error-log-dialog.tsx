@@ -26,7 +26,7 @@ export function ErrorLogDialog({ log }: { log: any }) {
           View Details
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card max-h-[85vh] max-w-3xl gap-0 overflow-hidden rounded-[24px] border-none p-0 shadow-2xl">
+      <DialogContent className="bg-card max-h-[85vh] max-w-3xl gap-0 overflow-hidden rounded-[20px] border-none p-0 shadow-2xl">
         <div className="bg-muted/30 flex h-full flex-col">
           <DialogHeader className="bg-card border-border/60 border-b p-8 pb-6">
             <div className="flex items-center gap-4">

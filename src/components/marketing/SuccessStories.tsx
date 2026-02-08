@@ -1,5 +1,5 @@
 import { Star, Quote, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router';
+import Link from 'next/link';
 import Image from 'next/image';
 
 const testimonials = [
@@ -56,7 +56,7 @@ export default function SuccessStories() {
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.name}
-              className="bg-card relative transform rounded-3xl p-8 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-lg dark:bg-gray-800"
+              className="bg-card relative transform rounded-[20px] p-8 shadow-md transition-all duration-500 hover:-translate-y-2 hover:shadow-lg dark:bg-gray-800"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Quote Icon */}
@@ -110,7 +110,7 @@ export default function SuccessStories() {
           </p>
           <Link
             to="/contact"
-            className="inline-flex transform items-center rounded-2xl bg-linear-to-r from-yellow-400 to-yellow-500 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-2xl"
+            className="inline-flex transform items-center rounded-[20px] bg-linear-to-r from-yellow-400 to-yellow-500 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-2xl"
           >
             Reserva la teva sessió avui mateix
             <ArrowRight className="ml-2 h-5 w-5" />

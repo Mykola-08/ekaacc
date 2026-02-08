@@ -84,7 +84,7 @@ export function MoodCheckIn() {
   };
 
   return (
-    <Card className="border-border bg-surface group relative overflow-hidden rounded-2xl border p-8 shadow-sm transition-all hover:shadow-md">
+    <Card className="border-border bg-surface group relative overflow-hidden rounded-[20px] border p-8 shadow-sm transition-all hover:shadow-md">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h3 className="text-primary text-xl font-bold tracking-tighter">Daily Check-in</h3>

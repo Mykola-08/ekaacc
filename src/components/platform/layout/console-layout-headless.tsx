@@ -173,7 +173,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                               isActive
                                 ? 'bg-linear-to-r from-emerald-500/20 to-transparent text-emerald-400 ring-1 ring-emerald-500/50'
                                 : 'text-muted-foreground/80 hover:bg-card/5 hover:text-white',
-                              'group flex gap-x-3 rounded-2xl p-3 text-sm leading-6 font-medium transition-all duration-200'
+                              'group flex gap-x-3 rounded-[20px] p-3 text-sm leading-6 font-medium transition-all duration-200'
                             )}
                           >
                             <item.icon
@@ -194,7 +194,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                 </li>
 
                 <li className="mt-auto">
-                  <div className="bg-card/5 rounded-2xl p-4 ring-1 ring-white/10">
+                  <div className="bg-card/5 rounded-[20px] p-4 ring-1 ring-white/10">
                     <div className="flex items-center gap-3">
                       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500/20 ring-1 ring-emerald-500/50">
                         <span className="text-xs font-bold text-emerald-400">SU</span>
@@ -275,7 +275,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <MenuItems className="bg-card. absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-2xl p-1 py-2 shadow-2xl ring-1 shadow-slate-200 ring-gray-900/5 focus:outline-none">
+                    <MenuItems className="bg-card. absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-[20px] p-1 py-2 shadow-2xl ring-1 shadow-slate-200 ring-gray-900/5 focus:outline-none">
                       <div className="mb-1 border-b border-gray-100 px-3 py-2">
                         <p className="text-muted-foreground text-xs font-medium">Signed in as</p>
                         <p className="text-foreground truncate text-sm font-bold">

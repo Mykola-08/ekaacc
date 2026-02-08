@@ -25,14 +25,14 @@ interface TransactionHistoryProps {
 export function TransactionHistory({ transactions }: TransactionHistoryProps) {
   if (!transactions.length) {
     return (
-      <div className="bg-card/50 text-muted-foreground rounded-2xl py-20 text-center">
+      <div className="bg-card/50 text-muted-foreground rounded-[20px] py-20 text-center">
         <span className="text-lg font-medium">No transactions found.</span>
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl">
+    <div className="overflow-hidden rounded-[20px]">
       <Table>
         <TableHeader>
           <TableRow className="border-border border-b hover:bg-transparent">

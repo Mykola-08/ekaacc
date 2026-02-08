@@ -66,7 +66,7 @@ export function LoginForm({
       className={cn('mx-auto flex w-full max-w-sm flex-col gap-6', className)}
       {...props}
     >
-      <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-2xl border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
+      <Card className="from-card via-card to-card/95 relative overflow-hidden rounded-[20px] border-0 bg-gradient-to-br shadow-2xl backdrop-blur-xl">
         {/* Decorative gradient overlay */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5" />
         <div className="pointer-events-none absolute top-0 right-0 h-64 w-64 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-3xl" />
@@ -81,8 +81,8 @@ export function LoginForm({
               className="mb-2 flex flex-col items-center gap-4 text-center"
             >
               <div className="relative">
-                <div className="absolute inset-0 animate-pulse rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 opacity-30 blur-xl" />
-                <div className="relative rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 p-3 shadow-lg">
+                <div className="absolute inset-0 animate-pulse rounded-[20px] bg-gradient-to-br from-blue-500 to-purple-600 opacity-30 blur-xl" />
+                <div className="relative rounded-[20px] bg-gradient-to-br from-blue-500 to-purple-600 p-3 shadow-lg">
                   <Image
                     src="/eka_logo.png"
                     alt="EKA"

@@ -182,7 +182,7 @@ interface BookingConfirmationProps {
 
 export function BookingConfirmation({ bookingId, details, message }: BookingConfirmationProps) {
   return (
-    <Card className="my-2 rounded-2xl border border-emerald-100/50 bg-emerald-50/50 p-5 shadow-[0_4px_20px_rgba(16,185,129,0.05)]">
+    <Card className="my-2 rounded-[20px] border border-emerald-100/50 bg-emerald-50/50 p-5 shadow-[0_4px_20px_rgba(16,185,129,0.05)]">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100 dark:bg-green-900">
           <CheckCircle2 className="h-6 w-6 text-green-600 dark:text-green-400" />
@@ -311,7 +311,7 @@ interface ServiceDetailResultProps {
 
 export function ServiceDetailResult({ service }: ServiceDetailResultProps) {
   return (
-    <Card className="my-2 rounded-2xl border border-indigo-50/50 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 p-5 shadow-sm">
+    <Card className="my-2 rounded-[20px] border border-indigo-50/50 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 p-5 shadow-sm">
       <div className="mb-3 flex items-start justify-between">
         <div>
           <h4 className="text-base font-semibold">{service.name}</h4>
@@ -366,7 +366,7 @@ export function WalletResult({ balance: initialBalance, currency }: WalletResult
   });
 
   return (
-    <Card className="my-2 rounded-2xl border-0 bg-gradient-to-br from-indigo-500 to-purple-600 p-6 text-white shadow-xl">
+    <Card className="my-2 rounded-[20px] border-0 bg-gradient-to-br from-indigo-500 to-purple-600 p-6 text-white shadow-xl">
       <div className="mb-4 flex items-start justify-between">
         <span className="text-xs font-medium text-indigo-100">Digital Wallet</span>
         <CreditCard className="h-4 w-4 text-indigo-100" />
@@ -395,7 +395,7 @@ export function RewardsResult({ points, lifetimePoints, tier }: RewardsResultPro
 
   return (
     <Card
-      className={`bg-gradient-to-br p-6 ${tierColors[tier] || tierColors.bronze} my-2 rounded-2xl border-0 text-white shadow-xl`}
+      className={`bg-gradient-to-br p-6 ${tierColors[tier] || tierColors.bronze} my-2 rounded-[20px] border-0 text-white shadow-xl`}
     >
       <div className="mb-3 flex items-start justify-between">
         <span className="text-xs font-medium opacity-90">Rewards</span>
@@ -433,7 +433,7 @@ export function MoodCheckInResult({ entry, message }: MoodCheckInResultProps) {
   const moodEmoji = entry.mood >= 8 ? '😊' : entry.mood >= 6 ? '🙂' : entry.mood >= 4 ? '😐' : '😔';
 
   return (
-    <Card className="my-2 rounded-2xl border border-pink-100 bg-gradient-to-br from-pink-50/50 to-purple-50/50 p-5 shadow-sm">
+    <Card className="my-2 rounded-[20px] border border-pink-100 bg-gradient-to-br from-pink-50/50 to-purple-50/50 p-5 shadow-sm">
       <div className="mb-3 flex items-center gap-3">
         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-2xl shadow-sm dark:bg-slate-800">
           {moodEmoji}
@@ -496,7 +496,7 @@ export function WellnessSummaryResult({
         : 'text-gray-500';
 
   return (
-    <Card className="border-border my-2 rounded-2xl border bg-white p-5 shadow-sm">
+    <Card className="border-border my-2 rounded-[20px] border bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <h4 className="flex items-center gap-2 text-sm font-semibold">
           <Activity className="h-4 w-4 text-purple-500" />

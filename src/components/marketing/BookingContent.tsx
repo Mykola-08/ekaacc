@@ -132,9 +132,9 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-[400px] cursor-pointer flex-col items-center justify-center rounded-[32px] border border-amber-100 bg-amber-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-[400px] cursor-pointer flex-col items-center justify-center rounded-[20px] border border-amber-100 bg-amber-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-amber-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-amber-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
                 <Calendar className="h-10 w-10 text-amber-700" strokeWidth={1.5} />
               </div>
               <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
@@ -157,9 +157,9 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-[400px] flex-col items-center justify-center rounded-[32px] border border-emerald-100 bg-emerald-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-[400px] flex-col items-center justify-center rounded-[20px] border border-emerald-100 bg-emerald-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-emerald-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-emerald-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
                 <MessageCircle className="h-10 w-10 text-emerald-600" strokeWidth={1.5} />
               </div>
               <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">
@@ -184,9 +184,9 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="group flex min-h-[400px] flex-col items-center justify-center rounded-[32px] border border-blue-100 bg-blue-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
+              className="group flex min-h-[400px] flex-col items-center justify-center rounded-[20px] border border-blue-100 bg-blue-50 p-8 text-center shadow-sm transition-all duration-300 hover:shadow-xl"
             >
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-blue-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-[20px] bg-blue-100/50 backdrop-blur-sm transition-transform duration-300 group-hover:scale-110">
                 <Calendar className="h-10 w-10 text-blue-600" strokeWidth={1.5} />
               </div>
               <h3 className="heading-3 mb-3 text-2xl font-bold tracking-tight text-gray-900">

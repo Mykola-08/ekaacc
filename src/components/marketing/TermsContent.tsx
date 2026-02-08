@@ -75,7 +75,7 @@ export default function TermsContent() {
                 Policy
               </li>
             </ul>
-            <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-6">
+            <div className="rounded-[20px] border border-blue-100 bg-blue-50/50 p-6">
               <p className="text-gray-700">
                 <strong>Parental Consent:</strong> If you are under 16 years of age, you may not use
                 our Services. If you are between 16-18 years of age, you may only use our Services
@@ -99,7 +99,7 @@ export default function TermsContent() {
               <li>Not intended to diagnose, treat, cure, or prevent disease</li>
               <li>Not a substitute for licensed medical or mental-health care</li>
             </ul>
-            <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-6">
+            <div className="rounded-[20px] border border-yellow-200 bg-yellow-50 p-6">
               <p className="text-gray-700">
                 <strong>Important:</strong> Keep following your physician or licensed clinician
                 recommendations. If you have urgent symptoms, contact emergency services
@@ -137,7 +137,7 @@ export default function TermsContent() {
             </p>
 
             <div className="grid gap-6">
-              <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-6">
+              <div className="rounded-[20px] border border-blue-100 bg-blue-50/50 p-6">
                 <h3 className="mb-4 text-lg font-medium text-gray-900">
                   Data Protection Officer (DPO)
                 </h3>
@@ -166,7 +166,7 @@ export default function TermsContent() {
                 </p>
               </div>
 
-              <div className="rounded-2xl bg-gray-50 p-6">
+              <div className="rounded-[20px] bg-gray-50 p-6">
                 <h3 className="mb-4 text-lg font-medium text-gray-900">
                   Legal and General Inquiries
                 </h3>

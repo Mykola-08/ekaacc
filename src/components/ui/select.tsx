@@ -52,7 +52,7 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      'bg-secondary/50 ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-11 w-full items-center justify-between rounded-[16px] border-none px-4 py-2 text-sm whitespace-nowrap shadow-none focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
+      'bg-secondary/50 ring-offset-background placeholder:text-muted-foreground focus:ring-ring flex h-11 w-full items-center justify-between rounded-[20px] border-none px-4 py-2 text-sm whitespace-nowrap shadow-none focus:ring-1 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1',
       className
     )}
     {...props}
@@ -110,7 +110,7 @@ const SelectContent = React.forwardRef<
         <SelectPrimitive.Content
           ref={ref}
           className={cn(
-            'bg-popover text-popover-foreground relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-2xl border-none shadow-lg',
+            'bg-popover text-popover-foreground relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-[20px] border-none shadow-lg',
             position === 'popper' &&
               'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
             className
@@ -145,7 +145,7 @@ const SelectContent = React.forwardRef<
               animate="visible"
               exit="exit"
               className={cn(
-                'bg-popover text-popover-foreground relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-2xl border-none shadow-lg',
+                'bg-popover text-popover-foreground relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-[20px] border-none shadow-lg',
                 position === 'popper' &&
                   'data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1',
                 className

@@ -80,7 +80,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
               <h3 className="text-foreground mt-2 text-4xl font-bold">{stats.totalSessions}</h3>
               <p className="text-muted-foreground mt-2 text-sm">Completed sessions</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-transform group-hover:scale-110">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-blue-50 text-blue-600 transition-transform group-hover:scale-110">
               <Activity className="h-6 w-6" />
             </div>
           </div>
@@ -98,7 +98,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
               </h3>
               <p className="text-muted-foreground mt-2 text-sm">On a 1-10 scale</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-pink-50 text-pink-600 transition-transform group-hover:scale-110">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-pink-50 text-pink-600 transition-transform group-hover:scale-110">
               <HeartPulse className="h-6 w-6" />
             </div>
           </div>
@@ -114,7 +114,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
               <h3 className="text-foreground mt-2 text-4xl font-bold">{stats.completedGoals}</h3>
               <p className="text-muted-foreground mt-2 text-sm">Milestones achieved</p>
             </div>
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 transition-transform group-hover:scale-110">
+            <div className="flex h-12 w-12 items-center justify-center rounded-[20px] bg-amber-50 text-amber-600 transition-transform group-hover:scale-110">
               <Award className="h-6 w-6" />
             </div>
           </div>
@@ -122,7 +122,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
       </div>
 
       <TabGroup as="div" className="animate-slide-up space-y-8" style={{ animationDelay: '100ms' }}>
-        <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-2xl p-1.5">
+        <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-[20px] p-1.5">
           <Tab
             className={({ selected }) =>
               cn(
@@ -156,7 +156,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
             <div className="space-y-6">
               {progressData.length === 0 ? (
                 <div className="bg-card rounded-[24px] border border-gray-100 p-12 text-center shadow-sm">
-                  <div className="bg-muted/30 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl">
+                  <div className="bg-muted/30 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-[20px]">
                     <Target className="text-muted-foreground/80 h-8 w-8" />
                   </div>
                   <h3 className="text-foreground mb-2 text-lg font-semibold">Start your journey</h3>
@@ -168,7 +168,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                 progressData.map((report, idx) => (
                   <div
                     key={idx}
-                    className="group bg-card rounded-2xl border border-gray-100 p-8 shadow-sm transition-all duration-300 hover:shadow-lg"
+                    className="group bg-card rounded-[20px] border border-gray-100 p-8 shadow-sm transition-all duration-300 hover:shadow-lg"
                   >
                     <div className="flex flex-col gap-6 md:flex-row">
                       {/* Date Column */}
@@ -244,7 +244,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
 
           <TabPanel className="focus:outline-none">
             <div className="grid gap-6 md:grid-cols-2">
-              <div className="bg-card rounded-2xl border border-gray-100 p-8 shadow-sm">
+              <div className="bg-card rounded-[20px] border border-gray-100 p-8 shadow-sm">
                 <h3 className="text-foreground mb-6 text-xl font-bold">Mood Analysis</h3>
                 <div className="flex h-64 items-end justify-between gap-10 px-2">
                   {' '}
@@ -269,7 +269,7 @@ export function ProgressContentHeadless({ reports }: ProgressContentProps) {
                 </div>
               </div>
 
-              <div className="bg-card rounded-2xl border border-gray-100 p-8 shadow-sm">
+              <div className="bg-card rounded-[20px] border border-gray-100 p-8 shadow-sm">
                 <h3 className="text-foreground mb-6 text-xl font-bold">Focus Areas</h3>
                 <div className="space-y-6">
                   {[

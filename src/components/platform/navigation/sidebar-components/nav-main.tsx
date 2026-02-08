@@ -56,7 +56,7 @@ export function NavMain({
                   <SidebarMenuButton
                     tooltip={item.title}
                     className={cn(
-                      'h-11 rounded-2xl font-semibold transition-all',
+                      'h-11 rounded-[20px] font-semibold transition-all',
                       item.isActive ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-secondary'
                     )}
                   >
@@ -100,7 +100,7 @@ export function NavMain({
                 tooltip={item.title}
                 isActive={item.isActive}
                 className={cn(
-                  'h-11 rounded-2xl font-semibold transition-all',
+                  'h-11 rounded-[20px] font-semibold transition-all',
                   item.isActive ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-secondary'
                 )}
               >

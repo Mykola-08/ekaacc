@@ -207,7 +207,7 @@ export function ResponsiveCard({
 
   const variantClasses = {
     default: 'bg-card shadow-lg rounded-xl border border-border',
-    elevated: 'bg-card shadow-2xl rounded-2xl border border-gray-100',
+    elevated: 'bg-card shadow-2xl rounded-[20px] border border-gray-100',
     outlined: 'bg-transparent border-2 border-gray-300 rounded-xl',
     ghost: 'bg-transparent border-none rounded-xl',
   };

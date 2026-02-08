@@ -129,7 +129,7 @@ export default function CasoDetailContent() {
         </Link>
 
         <div
-          className={`mx-auto h-20 w-20 rounded-3xl ${colorClass.bg} mb-6 flex items-center justify-center shadow-inner`}
+          className={`mx-auto h-20 w-20 rounded-[20px] ${colorClass.bg} mb-6 flex items-center justify-center shadow-inner`}
         >
           <Icon className={`h-10 w-10 ${colorClass.text}`} />
         </div>

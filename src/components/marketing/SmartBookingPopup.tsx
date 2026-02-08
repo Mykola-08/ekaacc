@@ -73,7 +73,7 @@ export default function SmartBookingPopup({
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-zinc-900"
+        className="relative w-full max-w-lg overflow-hidden rounded-[20px] bg-white shadow-2xl dark:bg-zinc-900"
       >
         <button
           onClick={onClose}
@@ -102,7 +102,7 @@ export default function SmartBookingPopup({
                 <div className="grid gap-4">
                   <button
                     onClick={handleQuickWhatsApp}
-                    className="group flex items-center rounded-2xl border-2 border-green-100 bg-green-50/50 p-4 text-left transition-all hover:border-green-500 hover:bg-green-50"
+                    className="group flex items-center rounded-[20px] border-2 border-green-100 bg-green-50/50 p-4 text-left transition-all hover:border-green-500 hover:bg-green-50"
                   >
                     <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 transition-transform group-hover:scale-110">
                       <MessageCircle className="h-6 w-6 text-green-600" />
@@ -119,7 +119,7 @@ export default function SmartBookingPopup({
 
                   <button
                     onClick={() => setStep('form')}
-                    className="group flex items-center rounded-2xl border-2 border-blue-100 bg-blue-50/50 p-4 text-left transition-all hover:border-blue-500 hover:bg-blue-50"
+                    className="group flex items-center rounded-[20px] border-2 border-blue-100 bg-blue-50/50 p-4 text-left transition-all hover:border-blue-500 hover:bg-blue-50"
                   >
                     <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 transition-transform group-hover:scale-110">
                       <FileText className="h-6 w-6 text-blue-600" />

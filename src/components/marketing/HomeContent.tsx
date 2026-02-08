@@ -38,11 +38,11 @@ export default function HomeContent() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="glass-panel grid grid-cols-2 gap-12 rounded-3xl p-10 lg:grid-cols-4"
+            className="glass-panel grid grid-cols-2 gap-12 rounded-[20px] p-10 lg:grid-cols-4"
           >
             {stats.map((stat, index) => (
               <div key={index} className="group flex flex-col items-center space-y-4 text-center">
-                <div className="bg-primary-50/50 text-primary-900 border-primary-100/50 rounded-2xl border p-4 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                <div className="bg-primary-50/50 text-primary-900 border-primary-100/50 rounded-[20px] border p-4 shadow-sm transition-transform duration-300 group-hover:scale-110">
                   <stat.icon size={28} strokeWidth={1.5} />
                 </div>
                 <div>

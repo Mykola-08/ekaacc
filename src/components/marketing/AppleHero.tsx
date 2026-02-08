@@ -44,33 +44,33 @@ export default function AppleHero() {
       <div className="bg-overlay-dark" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto max-w-6xl px-6 text-center text-white">
-        {/* Badge - Glassy Style */}
+      <div className="relative z-10 mx-auto max-w-6xl px-6 py-20 text-center text-white">
+        {/* Badge - Glassy Style with Apple standard radius */}
         <AnimateIn delay={0.2} from="top">
-          <div className="animate-fade-in mb-8 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
+          <div className="animate-fade-in mb-10 inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-2 backdrop-blur-sm">
             <span className="text-sm font-medium tracking-wide text-white/90 md:text-base">
               {t('hero.badge')}
             </span>
           </div>
         </AnimateIn>
 
-        {/* Main Title */}
+        {/* Main Title - Apple-like typography with accessibility */}
         <AnimateIn delay={0.4} duration={0.8}>
-          <h1 className="mb-8 text-6xl font-bold tracking-tight text-white drop-shadow-2xl md:text-8xl lg:text-9xl">
+          <h1 className="mb-10 text-6xl font-normal tracking-tight text-white drop-shadow-2xl md:text-8xl lg:text-9xl">
             {t('hero.title')}
           </h1>
         </AnimateIn>
 
-        {/* Subtitle */}
+        {/* Subtitle - Improved spacing */}
         <AnimateIn delay={0.6}>
-          <p className="apple-subtitle mx-auto mb-12 max-w-3xl text-balance text-white/90">
+          <p className="mx-auto mb-14 max-w-3xl text-balance text-lg leading-relaxed text-white/90 md:text-xl lg:text-2xl">
             {t('hero.subtitle')}
           </p>
         </AnimateIn>
 
-        {/* CTA Buttons */}
+        {/* CTA Buttons - Consistent Apple style */}
         <AnimateIn delay={0.8}>
-          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
             <Link
               href="/first-time"
               className="group"
@@ -78,7 +78,7 @@ export default function AppleHero() {
             >
               <Button
                 size="xl"
-                className="btn btn-primary rounded-apple px-8 py-4 normal-case shadow-xl"
+                className="rounded-[20px] bg-blue-600 px-8 py-4 text-base font-semibold normal-case text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-blue-700 hover:shadow-xl active:scale-[0.98]"
               >
                 {t('hero.firstTime')}
               </Button>
@@ -91,10 +91,10 @@ export default function AppleHero() {
             >
               <Button
                 size="xl"
-                className="btn btn-accent rounded-apple px-8 py-4 font-semibold normal-case shadow-xl"
+                className="rounded-[20px] bg-[#FFB405] px-8 py-4 text-base font-semibold normal-case text-[#000035] shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-[#e8a204] hover:shadow-xl active:scale-[0.98]"
               >
                 {t('hero.discoverServices')}
-                <ArrowRight className="ease-out-quart ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
               </Button>
             </Link>
           </div>

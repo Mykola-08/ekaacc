@@ -73,7 +73,7 @@ export function BookingHistoryList({ bookings: initialBookings, userId }: Bookin
 
   if (!bookings || bookings.length === 0) {
     return (
-      <div className="bg-card/50 border-muted flex flex-col items-center justify-center rounded-[24px] border-2 border-dashed py-24 text-center">
+      <div className="bg-card/50 border-muted flex flex-col items-center justify-center rounded-[20px] border-2 border-dashed py-24 text-center">
         <div className="bg-background mb-6 rounded-full p-6 shadow-sm">
           <HugeiconsIcon
             icon={Calendar03Icon}
@@ -160,7 +160,7 @@ function BookingCard({
   return (
     <div
       className={cn(
-        'group relative overflow-hidden rounded-[24px] transition-all duration-300',
+        'group relative overflow-hidden rounded-[20px] transition-all duration-300',
         isUpcoming
           ? 'bg-card border border-transparent shadow-[0_8px_30px_rgba(0,0,0,0.04)] hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)]'
           : 'bg-card border-border border'
@@ -171,7 +171,7 @@ function BookingCard({
           {/* Enhanced Date Block */}
           <div
             className={cn(
-              'flex h-[72px] min-w-[72px] flex-col items-center justify-center rounded-2xl',
+              'flex h-[72px] min-w-[72px] flex-col items-center justify-center rounded-[20px]',
               isUpcoming ? 'bg-primary/10 text-primary' : 'bg-secondary/50 text-muted-foreground'
             )}
           >

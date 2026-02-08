@@ -100,7 +100,7 @@ const SheetContent = React.forwardRef<
           className={cn(
             sheetVariants({ side }),
             className,
-            'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-[24px]'
+            'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-[20px]'
           )}
           {...props}
         >
@@ -131,7 +131,7 @@ const SheetContent = React.forwardRef<
                 className={cn(
                   sheetVariants({ side }),
                   className,
-                  'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-[24px]'
+                  'm-0 max-h-[calc(100vh-2rem)] rounded-none md:m-4 md:rounded-[20px]'
                 )}
                 {...(props as any)}
               >

@@ -27,7 +27,7 @@ export default function LanguagePopup() {
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="relative w-full max-w-md rounded-3xl border border-gray-100 bg-white p-8 shadow-2xl"
+          className="relative w-full max-w-md rounded-[20px] border border-gray-100 bg-white p-8 shadow-2xl"
         >
           <button
             onClick={() => setShowLanguagePopup(false)}

@@ -140,7 +140,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                       key={option.value}
                       onClick={() => handleAnswer(option.value)}
                       className={cn(
-                        'group glass-card flex w-full cursor-pointer items-center justify-between rounded-2xl border p-6 text-left transition-all hover:bg-white/80',
+                        'group glass-card flex w-full cursor-pointer items-center justify-between rounded-[20px] border p-6 text-left transition-all hover:bg-white/80',
                         answers[currentQuestion.id] === option.value
                           ? 'border-primary ring-primary ring-1'
                           : 'hover:border-primary/50 border-white/40'
@@ -182,7 +182,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
                           handleAnswer(newAnswers);
                         }}
                         className={cn(
-                          'group glass-card flex w-full cursor-pointer items-center justify-between rounded-2xl border p-6 text-left transition-all hover:bg-white/80',
+                          'group glass-card flex w-full cursor-pointer items-center justify-between rounded-[20px] border p-6 text-left transition-all hover:bg-white/80',
                           isSelected
                             ? 'border-primary bg-primary/5'
                             : 'hover:border-primary/50 border-white/40'
@@ -211,7 +211,7 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
               )}
 
               {questionType === 'scale' && (
-                <div className="glass-panel flex items-center justify-between rounded-2xl p-8">
+                <div className="glass-panel flex items-center justify-between rounded-[20px] p-8">
                   {[1, 2, 3, 4, 5].map((val) => (
                     <button
                       key={val}

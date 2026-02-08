@@ -27,7 +27,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
     <div className="animate-in fade-in mx-auto grid max-w-7xl grid-cols-1 gap-4 p-4 pb-20 duration-300 md:grid-cols-3 lg:grid-cols-4">
       {/* Welcome Card - Large */}
       <div
-        className="from-card via-card to-card/95 group hover:shadow-3xl animate-in slide-in-from-bottom-4 relative col-span-1 row-span-1 flex flex-col justify-between overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm transition-all duration-500 md:col-span-2 lg:col-span-2"
+        className="from-card via-card to-card/95 group hover:shadow-3xl animate-in slide-in-from-bottom-4 relative col-span-1 row-span-1 flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm transition-all duration-500 md:col-span-2 lg:col-span-2"
         style={{ animationDelay: '0.1s' }}
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5" />
@@ -56,13 +56,13 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
       {/* Stats Card - Small */}
       <div
-        className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-2xl"
+        className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-2xl"
         style={{ animationDelay: '0.2s' }}
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5" />
         <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-blue-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
         <div className="relative z-10 flex items-start justify-between">
-          <div className="rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-100 p-3 text-blue-600 shadow-lg dark:from-blue-900/40 dark:to-indigo-900/40 dark:text-blue-400">
+          <div className="rounded-[20px] bg-gradient-to-br from-blue-100 to-indigo-100 p-3 text-blue-600 shadow-lg dark:from-blue-900/40 dark:to-indigo-900/40 dark:text-blue-400">
             <TrendingUp size={24} />
           </div>
           <span className="rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 text-xs font-bold text-blue-600 shadow-md dark:from-blue-900/50 dark:to-indigo-900/50 dark:text-blue-300">
@@ -81,13 +81,13 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
       {/* Wallet Card - Small */}
       <div
-        className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-2xl"
+        className="from-card via-card to-card/95 animate-in slide-in-from-bottom-4 group relative col-span-1 flex flex-col justify-between overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-6 shadow-xl backdrop-blur-sm transition-all duration-300 duration-500 hover:scale-105 hover:shadow-2xl"
         style={{ animationDelay: '0.3s' }}
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-teal-500/5" />
         <div className="absolute top-0 right-0 h-32 w-32 rounded-full bg-emerald-500/10 blur-2xl transition-transform duration-500 group-hover:scale-150" />
         <div className="relative z-10 flex items-start justify-between">
-          <div className="rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100 p-3 text-emerald-600 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40 dark:text-emerald-400">
+          <div className="rounded-[20px] bg-gradient-to-br from-emerald-100 to-teal-100 p-3 text-emerald-600 shadow-lg dark:from-emerald-900/40 dark:to-teal-900/40 dark:text-emerald-400">
             <CreditCard size={24} />
           </div>
         </div>
@@ -103,7 +103,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
       {/* Upcoming Session - Tall */}
       <div
-        className="from-card via-card to-card/90 text-foreground animate-in slide-in-from-bottom-4 group relative col-span-1 row-span-2 flex flex-col overflow-hidden rounded-2xl border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm duration-500 md:col-span-1"
+        className="from-card via-card to-card/90 text-foreground animate-in slide-in-from-bottom-4 group relative col-span-1 row-span-2 flex flex-col overflow-hidden rounded-[20px] border-0 bg-gradient-to-br p-8 shadow-2xl backdrop-blur-sm duration-500 md:col-span-1"
         style={{ animationDelay: '0.4s' }}
       >
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5" />
@@ -130,7 +130,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
           </div>
         </div>
 
-        <button className="text-md relative z-10 mt-8 w-full cursor-pointer rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 py-4 font-bold text-white shadow-xl shadow-indigo-500/25 transition-all hover:scale-105 hover:from-indigo-700 hover:to-purple-700 hover:shadow-2xl hover:shadow-indigo-500/30 active:scale-95">
+        <button className="text-md relative z-10 mt-8 w-full cursor-pointer rounded-[20px] bg-gradient-to-r from-indigo-600 to-purple-600 py-4 font-bold text-white shadow-xl shadow-indigo-500/25 transition-all hover:scale-105 hover:from-indigo-700 hover:to-purple-700 hover:shadow-2xl hover:shadow-indigo-500/30 active:scale-95">
           Reschedule
         </button>
       </div>
@@ -148,7 +148,7 @@ export function BentoDashboard({ user }: BentoDashboardProps) {
 
 function ActionButton({ icon: Icon, label }: { icon: any; label: string }) {
   return (
-    <button className="group flex cursor-pointer flex-col items-center justify-center rounded-2xl bg-zinc-50 p-4 transition-all duration-200 hover:bg-zinc-100 dark:bg-zinc-800/50 dark:hover:bg-zinc-800">
+    <button className="group flex cursor-pointer flex-col items-center justify-center rounded-[20px] bg-zinc-50 p-4 transition-all duration-200 hover:bg-zinc-100 dark:bg-zinc-800/50 dark:hover:bg-zinc-800">
       <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-sm transition-transform group-hover:scale-110 dark:bg-zinc-700">
         <Icon size={20} className="text-zinc-700 dark:text-zinc-300" />
       </div>

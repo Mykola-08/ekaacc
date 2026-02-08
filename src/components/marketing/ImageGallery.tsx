@@ -150,7 +150,7 @@ export default function ImageGallery({ images, className = '' }: ImageGalleryPro
             key={image.url}
             type="button"
             aria-label={`Open image: ${image.alt}`}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
+            className="group relative cursor-pointer overflow-hidden rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
             onClick={() => openLightbox(index)}
           >
             <img

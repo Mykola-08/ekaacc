@@ -75,7 +75,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
             Manage your account preferences and settings.
           </p>
         </div>
-        <button className="flex items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-200 transition-colors hover:bg-blue-700">
+        <button className="flex items-center gap-2 rounded-[20px] bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg shadow-blue-200 transition-colors hover:bg-blue-700">
           <Save className="h-5 w-5" />
           <span>Save Changes</span>
         </button>
@@ -91,7 +91,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                   key={name}
                   className={({ selected }) =>
                     cn(
-                      'flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
+                      'flex w-full items-center gap-3 rounded-[20px] px-4 py-3 text-sm font-medium transition-all duration-200 outline-none',
                       selected
                         ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
                         : 'text-muted-foreground hover:bg-card hover:text-foreground'
@@ -109,7 +109,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
           <div className="col-span-12 md:col-span-9">
             <TabPanels>
               {/* Profile Panel */}
-              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-foreground text-xl font-bold">Personal Information</h2>
@@ -182,7 +182,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Notifications Panel */}
-              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-foreground text-xl font-bold">Notifications</h2>
@@ -277,7 +277,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Security Panel */}
-              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-foreground text-xl font-bold">Security</h2>
@@ -322,7 +322,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
               </TabPanel>
 
               {/* Preferences Panel */}
-              <TabPanel className="bg-card rounded-2xl p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
+              <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
                 <div className="space-y-8">
                   <div>
                     <h2 className="text-foreground text-xl font-bold">Preferences</h2>

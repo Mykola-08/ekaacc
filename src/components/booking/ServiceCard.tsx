@@ -29,9 +29,10 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
       <Card
         className={cn(
           'flex h-full flex-col overflow-hidden transition-all duration-300',
-          'bg-card border-border shadow-none', // Porcelain Surface
-          isCompact ? 'rounded-[20px]' : 'rounded-[24px]'
+          'bg-card border-border', // Porcelain Surface
+          'rounded-[20px]' // Apple standard 20px radius for all variants
         )}
+        style={{ boxShadow: 'var(--shadow-base)' }} // Use CSS variable
       >
         {/* Image Placeholder or Header Gradient */}
         <div
@@ -46,7 +47,11 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
           <div className="absolute bottom-4 left-6">
             <Badge
               variant="secondary"
-              className="bg-card/80 border-border text-foreground rounded-xl border px-3 py-1.5 text-xs font-semibold tracking-wide shadow-none backdrop-blur-md"
+              className="bg-card/80 border-border text-foreground border px-3 py-1.5 text-xs font-semibold tracking-wide backdrop-blur-md"
+              style={{
+                borderRadius: 'var(--radius)', // Apple standard
+                boxShadow: 'var(--shadow-sm)',
+              }}
             >
               {service.category || 'Therapy'}
             </Badge>
@@ -95,7 +100,17 @@ export function ServiceCard({ service, variant = 'default' }: ServiceCardProps) 
         >
           <Button
             asChild
-            className="group bg-primary hover:bg-primary/90 text-primary-foreground hover:shadow-primary/20 h-12 w-full gap-2 rounded-full text-[15px] font-semibold shadow-none transition-all hover:shadow-lg active:scale-95"
+            className="group bg-primary hover:bg-primary/90 text-primary-foreground h-12 w-full gap-2 text-[15px] font-semibold transition-all active:scale-95"
+            style={{
+              borderRadius: 'var(--radius)', // Apple standard
+              boxShadow: 'var(--shadow-base)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = 'var(--shadow-base)';
+            }}
             size={isCompact ? 'sm' : 'lg'}
           >
             <Link href={`/book/${service.id}`}>

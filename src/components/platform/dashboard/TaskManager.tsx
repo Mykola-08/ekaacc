@@ -40,7 +40,7 @@ export function TaskManager() {
   };
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="flex h-full flex-col rounded-[20px] border border-zinc-100 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <h3 className="mb-6 flex items-center gap-2 text-xl font-bold">
         <span className="bg-primary/10 text-primary rounded-xl p-2">
           <CheckCircle2 size={20} />
@@ -55,7 +55,7 @@ export function TaskManager() {
           value={newTaskTitle}
           onChange={(e) => setNewTaskTitle(e.target.value)}
           placeholder="Add a new task..."
-          className="bg-secondary/50 focus:ring-primary/20 flex-1 rounded-2xl px-4 py-3 text-sm transition-all focus:ring-2 focus:outline-none"
+          className="bg-secondary/50 focus:ring-primary/20 flex-1 rounded-[20px] px-4 py-3 text-sm transition-all focus:ring-2 focus:outline-none"
         />
         <div className="shrink-0">
           <MorphingActionButton status={buttonStatus} onClick={handleAddTask} idleLabel="Add" />
@@ -83,7 +83,7 @@ export function TaskManager() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
               className={cn(
-                'group flex cursor-pointer items-center justify-between rounded-2xl border p-4 transition-all',
+                'group flex cursor-pointer items-center justify-between rounded-[20px] border p-4 transition-all',
                 task.status === 'done'
                   ? 'border-transparent bg-zinc-50 opacity-60 dark:bg-zinc-800/50'
                   : 'bg-card border-border hover:border-primary/30 hover:shadow-sm'

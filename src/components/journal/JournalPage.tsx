@@ -72,7 +72,7 @@ export function JournalPage() {
                 New Entry
               </Button>
             </DialogTrigger>
-            <DialogContent className="bg-card rounded-2xl border-0 p-8 shadow-[0_40px_80px_rgba(0,0,0,0.12)] sm:max-w-[525px]">
+            <DialogContent className="bg-card rounded-[20px] border-0 p-8 shadow-[0_40px_80px_rgba(0,0,0,0.12)] sm:max-w-[525px]">
               <DialogHeader>
                 <DialogTitle className="text-foreground text-2xl font-black tracking-tight">
                   New Reflection
@@ -135,7 +135,7 @@ export function JournalPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 key={entry.id}
-                className="bg-card group hover:border-border rounded-2xl border border-transparent p-8 shadow-[0_2px_20px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]"
+                className="bg-card group hover:border-border rounded-[20px] border border-transparent p-8 shadow-[0_2px_20px_rgba(0,0,0,0.02)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]"
               >
                 <div className="mb-6 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-5">

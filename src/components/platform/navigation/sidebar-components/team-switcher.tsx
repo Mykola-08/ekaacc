@@ -36,7 +36,7 @@ export function TeamSwitcher() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-14 rounded-2xl transition-all duration-200"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground h-14 rounded-[20px] transition-all duration-200"
             >
               <div className="bg-primary text-primary-foreground flex aspect-square size-9 items-center justify-center rounded-xl shadow-md">
                 <HugeiconsIcon icon={activeTeam.logo} className="size-5" strokeWidth={2.5} />
@@ -53,7 +53,7 @@ export function TeamSwitcher() {
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="border-border/50 w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-3xl p-2 shadow-xl backdrop-blur-md"
+            className="border-border/50 w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-[20px] p-2 shadow-xl backdrop-blur-md"
             align="start"
             side={isMobile ? 'bottom' : 'right'}
             sideOffset={12}

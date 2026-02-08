@@ -220,7 +220,7 @@ export function WalletContentHeadless({
             className="animate-slide-up space-y-6"
             style={{ animationDelay: '100ms' }}
           >
-            <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-2xl p-1.5">
+            <TabList className="bg-muted/80 flex w-fit space-x-2 rounded-[20px] p-1.5">
               <Tab
                 className={({ selected }) =>
                   cn(
@@ -266,7 +266,7 @@ export function WalletContentHeadless({
                     {initialTransactions.slice(0, 10).map((tx) => (
                       <div
                         key={tx.id}
-                        className="hover:bg-muted/30 group flex items-center justify-between rounded-2xl border border-transparent p-4 transition-colors hover:border-gray-100"
+                        className="hover:bg-muted/30 group flex items-center justify-between rounded-[20px] border border-transparent p-4 transition-colors hover:border-gray-100"
                       >
                         <div className="flex items-center gap-4">
                           <div
@@ -307,7 +307,7 @@ export function WalletContentHeadless({
                 )}
               </TabPanel>
 
-              <TabPanel className="bg-card min-h-[400px] rounded-2xl border border-gray-100 p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card min-h-[400px] rounded-[20px] border border-gray-100 p-8 shadow-sm focus:outline-none">
                 {initialPlans.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
@@ -355,7 +355,7 @@ export function WalletContentHeadless({
         >
           <div className="bg-card rounded-[24px] border border-gray-100 p-8 shadow-sm">
             <h3 className="text-foreground mb-4 text-xl font-bold">Payment Methods</h3>
-            <div className="bg-muted/30 mb-4 flex items-center gap-3 rounded-2xl border border-gray-100 p-4">
+            <div className="bg-muted/30 mb-4 flex items-center gap-3 rounded-[20px] border border-gray-100 p-4">
               <div className="text-muted-foreground flex h-6 w-10 items-center justify-center rounded bg-gray-200 text-xs font-bold">
                 VISA
               </div>

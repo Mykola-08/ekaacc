@@ -97,7 +97,7 @@ export function AvailabilityManager() {
         />
       </div>
 
-      <div className="bg-card border-border overflow-hidden rounded-2xl border p-6 shadow-sm md:p-8">
+      <div className="bg-card border-border overflow-hidden rounded-[20px] border p-6 shadow-sm md:p-8">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>

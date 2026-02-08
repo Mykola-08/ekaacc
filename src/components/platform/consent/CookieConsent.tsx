@@ -68,13 +68,13 @@ export default function CookieConsent() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-card/95 border-border animate-in slide-in-from-bottom-8 fixed right-6 bottom-6 left-6 z-50 rounded-[32px] border p-6 shadow-2xl backdrop-blur-md duration-700 ease-out md:p-8">
+    <div className="bg-card/95 border-border animate-in slide-in-from-bottom-8 fixed right-6 bottom-6 left-6 z-50 rounded-[20px] border p-6 shadow-2xl backdrop-blur-md duration-700 ease-out md:p-8">
       <div className="mx-auto max-w-7xl">
         {!showDetails ? (
           <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
             <div className="flex-1">
               <div className="mb-3 flex items-center gap-3">
-                <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-2xl">
+                <div className="bg-primary/10 flex h-10 w-10 items-center justify-center rounded-[20px]">
                   <HugeiconsIcon icon={CookieIcon} className="text-primary h-5 w-5" />
                 </div>
                 <h3 className="text-foreground text-xl font-bold tracking-tight">
@@ -143,7 +143,7 @@ export default function CookieConsent() {
                         icon={Information}
                         className="text-muted-foreground/80 h-4 w-4 cursor-help"
                       />
-                      <div className="bg-foreground text-background absolute bottom-full left-1/2 z-20 mb-3 hidden w-64 -translate-x-1/2 rounded-2xl p-3 text-xs shadow-xl group-hover:block">
+                      <div className="bg-foreground text-background absolute bottom-full left-1/2 z-20 mb-3 hidden w-64 -translate-x-1/2 rounded-[20px] p-3 text-xs shadow-xl group-hover:block">
                         {t('cookie.type.essentialDesc')}
                       </div>
                     </div>

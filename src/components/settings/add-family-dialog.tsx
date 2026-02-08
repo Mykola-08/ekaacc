@@ -58,7 +58,7 @@ export function AddFamilyDialog() {
           Add Member
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-card overflow-hidden rounded-[24px] border-none p-0 shadow-2xl sm:max-w-106.25">
+      <DialogContent className="bg-card overflow-hidden rounded-[20px] border-none p-0 shadow-2xl sm:max-w-106.25">
         <div className="bg-muted/40 border-border/60 border-b p-6 pb-4">
           <DialogHeader className="space-y-1 text-left">
             <DialogTitle className="text-foreground font-serif text-xl">

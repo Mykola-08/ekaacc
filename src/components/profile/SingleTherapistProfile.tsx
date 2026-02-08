@@ -9,7 +9,7 @@ export function SingleTherapistProfile({ therapist }: { therapist: any }) {
   if (!therapist) return null;
 
   return (
-    <div className="glass-card animate-in fade-in slide-in-from-top-5 mb-8 flex flex-col items-center gap-6 rounded-2xl p-8 duration-700 md:flex-row md:items-start">
+    <div className="glass-card animate-in fade-in slide-in-from-top-5 mb-8 flex flex-col items-center gap-6 rounded-[20px] p-8 duration-700 md:flex-row md:items-start">
       <div className="bg-primary/10 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full text-4xl">
         {therapist.photo_url ? (
           <Image

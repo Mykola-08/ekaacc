@@ -18,7 +18,6 @@ import { twMerge } from 'tailwind-merge';
 import { useAuth } from '@/context/platform/auth-context';
 import { AdminBookingTableHeadless as AdminBookingTable } from '@/components/platform/admin/admin-booking-table-headless';
 import { RoleManagementPanelHeadless as RoleManagementPanel } from '@/components/platform/admin/role-management-panel-headless';
-import { ProductManagementPanelHeadless as ProductManagementPanel } from '@/components/platform/admin/product-management-panel-headless';
 import { AdminKPI } from '@/app/actions/admin';
 
 function cn(...inputs: (string | undefined | null | false)[]) {
@@ -56,8 +55,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
   const tabs = [
     { name: 'Overview', icon: BarChart3 },
     { name: 'Bookings', icon: Calendar },
-    { name: 'Users & Roles', icon: Users },
-    { name: 'Products', icon: Package },
+    { name: 'Role Management', icon: Users },
     { name: 'Audit', icon: Shield },
   ];
 
@@ -147,7 +145,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
       </div>
 
       <TabGroup>
-        <TabList className="bg-card/50 flex w-fit space-x-2 rounded-[20px] border border-gray-100 p-1 backdrop-blur-sm">
+        <TabList className="bg-card/50 flex w-fit space-x-2 rounded-[20px] border border-border p-1 backdrop-blur-sm">
           {tabs.map(({ name, icon: Icon }) => (
             <Tab
               key={name}
@@ -155,7 +153,7 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
                 cn(
                   'flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-medium transition-all duration-200 outline-none',
                   selected
-                    ? 'bg-gray-900 text-white shadow-lg shadow-gray-200'
+                    ? 'bg-foreground text-background shadow-lg shadow-sm'
                     : 'text-muted-foreground hover:text-foreground hover:bg-card'
                 )
               }
@@ -180,10 +178,6 @@ export function AdminDashboardHeadless({ kpiStats }: DashboardProps) {
 
           <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
             <RoleManagementPanel />
-          </TabPanel>
-
-          <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">
-            <ProductManagementPanel />
           </TabPanel>
 
           <TabPanel className="bg-card rounded-[20px] p-8 shadow-xl ring-1 shadow-slate-200/50 ring-slate-100 outline-none">

@@ -70,15 +70,16 @@ export function DashboardLayout({
   const role = profile?.role || 'client';
   const isAdmin = role === 'admin' || role === 'super_admin';
 
-  // Admin Navigation - Matching Screenshot
+  // Admin Navigation - Points to Console pages
   const adminNavItems = [
     { label: 'Overview', href: '/dashboard', icon: Home, isLucide: true },
-    { label: 'Projects', href: '/admin/projects', icon: Folder, isLucide: true },
-    { label: 'Inquiries', href: '/admin/inquiries', icon: MessageSquare, isLucide: true },
-    { label: 'Finance', href: '/admin/finance', icon: DollarSign, isLucide: true },
-    { label: 'Users', href: '/admin/users', icon: Users, isLucide: true },
-    { label: 'Organizations', href: '/admin/organizations', icon: Building, isLucide: true },
-    { label: 'Settings', href: '/settings', icon: Settings, isLucide: true },
+    { label: 'Users', href: '/console/users', icon: Users, isLucide: true },
+    { label: 'Services', href: '/console/services', icon: Folder, isLucide: true },
+    { label: 'Payments', href: '/console/payments', icon: DollarSign, isLucide: true },
+    { label: 'Subscriptions', href: '/console/subscriptions', icon: Building, isLucide: true },
+    { label: 'CMS', href: '/console/cms', icon: MessageSquare, isLucide: true },
+    { label: 'Analytics', href: '/console/analytics', icon: Settings, isLucide: true },
+    { label: 'Settings', href: '/console/settings', icon: Settings, isLucide: true },
   ];
 
   // Regular Client/Therapist Navigation
@@ -90,8 +91,10 @@ export function DashboardLayout({
           { label: t('nav.bookings') || 'Bookings', href: '/bookings', icon: Calendar03Icon },
           { label: 'Book Now', href: '/book', icon: Calendar03Icon },
           { label: 'Materials', href: '/resources', icon: GridIcon },
-          { label: 'All Features', href: '/features', icon: Layout01Icon },
+          { label: 'Subscriptions', href: '/subscriptions', icon: Shield01Icon },
           { label: t('nav.wallet') || 'Wallet', href: '/wallet', icon: Wallet01Icon },
+          { label: 'Notifications', href: '/notifications', icon: Layout01Icon },
+          { label: 'All Features', href: '/features', icon: Layout01Icon },
         ]
       : []),
     ...(role === 'therapist'
@@ -103,6 +106,10 @@ export function DashboardLayout({
           },
           { label: t('nav.bookings') || 'My Sessions', href: '/bookings', icon: Calendar03Icon },
           { label: 'Clinical Notes', href: '/therapist/session-notes', icon: BookOpen01Icon },
+          { label: 'My Clients', href: '/therapist/clients', icon: Layout01Icon },
+          { label: 'Templates', href: '/therapist/templates', icon: GridIcon },
+          { label: 'Billing', href: '/therapist/billing', icon: Wallet01Icon },
+          { label: 'Progress Reports', href: '/progress-reports', icon: Shield01Icon },
         ]
       : []),
     { label: t('nav.account') || 'My Profile', href: '/profile', icon: UserCircleIcon },
@@ -112,26 +119,17 @@ export function DashboardLayout({
   const navItems = isAdmin ? adminNavItems : regularNavItems;
 
   return (
-    <SidebarProvider
-      style={
-        {
-          '--sidebar-width': '16rem', // Narrower sidebar like screenshot
-          '--sidebar-width-mobile': '20rem',
-          '--sidebar-bg': '#f9fafb',
-          '--sidebar-border': 'transparent',
-        } as React.CSSProperties
-      }
-    >
+    <SidebarProvider className="dashboard-sidebar">
       <Sidebar
         variant="sidebar"
         collapsible="offcanvas"
-        className="border-r border-dashed border-gray-100 bg-[#f9fafb]"
+        className="dashboard-sidebar-panel"
       >
         <SidebarHeader className="p-6 pb-2">
           <SidebarMenu>
             <SidebarMenuItem>
               <Link href="/dashboard" className="flex items-center gap-2 px-2">
-                <span className="text-xl font-bold tracking-tight text-gray-900">
+                <span className="dashboard-sidebar-brand">
                   {isAdmin ? 'EKA ADMIN' : 'EKA BALANCE'}
                 </span>
               </Link>
@@ -152,20 +150,20 @@ export function DashboardLayout({
                       }
                       tooltip={item.label}
                       className={cn(
-                        'h-10 px-4 py-2 transition-all duration-200 hover:bg-gray-50',
+                        'dashboard-nav-item',
                         pathname === item.href
-                          ? 'bg-blue-50 font-semibold text-blue-600'
-                          : 'font-medium text-gray-500'
+                          ? 'dashboard-nav-item-active'
+                          : 'dashboard-nav-item-inactive'
                       )}
                     >
                       <Link href={item.href} className="flex items-center gap-3">
                         {/* @ts-ignore */}
                         {item.isLucide ? (
-                          <item.icon className="h-[18px] w-[18px]" strokeWidth={2} />
+                          <item.icon className="dashboard-icon" strokeWidth={2} />
                         ) : (
-                          <HugeiconsIcon icon={item.icon} className="h-[18px] w-[18px]" />
+                          <HugeiconsIcon icon={item.icon} className="dashboard-icon" />
                         )}
-                        <span className="text-[13px] tracking-wide uppercase">{item.label}</span>
+                        <span className="dashboard-nav-label">{item.label}</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -176,7 +174,7 @@ export function DashboardLayout({
 
           {!isAdmin && role === 'client' && (
             <div className="mt-auto p-4">
-              <div className="bg-destructive/10 text-destructive rounded-xl border p-4">
+              <div className="crisis-support-card">
                 <div className="flex items-center gap-2 font-medium">
                   <HugeiconsIcon icon={AlertCircleIcon} className="size-4" />
                   <span className="text-sm">Crisis Support</span>
@@ -196,8 +194,8 @@ export function DashboardLayout({
         <SidebarFooter className="p-6 pt-2">
           <SidebarMenu>
             <SidebarMenuItem>
-              <div className="flex cursor-pointer items-center gap-3 rounded-xl border border-transparent px-2 py-2 transition-colors hover:border-gray-100 hover:bg-gray-50">
-                <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-amber-100 shadow-sm">
+              <div className="dashboard-user-block">
+                <div className="dashboard-avatar">
                   {/* Placeholder avatar */}
                   <img
                     src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.first_name || 'User'}`}
@@ -206,12 +204,12 @@ export function DashboardLayout({
                   />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <div className="truncate text-sm font-bold text-gray-900">
+                  <div className="text-foreground truncate text-sm font-bold">
                     {profile?.first_name
                       ? `${profile.first_name} ${profile.last_name || ''}`
                       : 'Mykola Voronin'}
                   </div>
-                  <div className="truncate text-xs font-medium text-gray-400">Admin</div>
+                  <div className="text-muted-foreground truncate text-xs font-medium">{isAdmin ? 'Admin' : role}</div>
                 </div>
               </div>
             </SidebarMenuItem>
@@ -220,35 +218,25 @@ export function DashboardLayout({
         <SidebarRail />
       </Sidebar>
 
-      <SidebarInset className="flex min-h-screen flex-col bg-[#f9fafb]">
-        {/* Top Header - Matching Screenshot */}
-        <header className="flex h-20 shrink-0 items-center justify-between gap-2 px-8 py-6">
+      <SidebarInset className="dashboard-inset">
+        <header className="dashboard-header">
           <div className="flex items-center gap-3">
-            {/* Breadcrumb-like title */}
-            <div className="h-8 w-1 rounded-full bg-gray-900"></div>
-            <h1 className="text-xl font-bold tracking-tight text-gray-900">Overview</h1>
+            <div className="dashboard-header-accent"></div>
+            <h1 className="dashboard-header-title">Overview</h1>
           </div>
 
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-            >
+            <Button variant="ghost" size="icon" className="header-icon-btn">
               <Sun className="h-6 w-6" />
             </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="relative rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-600"
-            >
+            <Button variant="ghost" size="icon" className="header-icon-btn relative">
               <Bell className="h-6 w-6" />
-              <span className="absolute top-2 right-2 h-2 w-2 rounded-full border border-white bg-red-500"></span>
+              <span className="notification-dot"></span>
             </Button>
           </div>
         </header>
 
-        <main className="flex flex-1 flex-col overflow-y-auto p-8 pt-0">{children}</main>
+        <main className="dashboard-main">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -13,7 +13,7 @@ export default function CMSPage() {
           <p className="text-muted-foreground mt-2 text-lg">Manage website content and pages.</p>
         </div>
 
-        <button className="inline-flex items-center justify-center rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-gray-200 transition-all hover:scale-105 hover:bg-gray-800 active:scale-95">
+        <button className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-border transition-all hover:scale-105 hover:bg-foreground/90 active:scale-95">
           Create Entry
         </button>
       </div>

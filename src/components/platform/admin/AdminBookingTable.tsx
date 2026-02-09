@@ -10,9 +10,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table';
-import { Button } from '@/components/platform/ui/button';
-import { Input } from '@/components/platform/ui/input';
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Pagination,
   PaginationContent,
@@ -20,15 +20,15 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/platform/ui/pagination';
+} from '@/components/ui/pagination';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Badge } from '@/components/platform/ui/badge';
+} from '@/components/ui/select';
+import { StatusBadge } from '@/components/ui/status-badge';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { Loader2, Search, XCircle } from 'lucide-react';
 import { format } from 'date-fns';
@@ -75,18 +75,7 @@ export function AdminBookingTable() {
     }
   };
 
-  const statusColor = (status: string) => {
-    switch (status) {
-      case 'scheduled':
-        return 'default'; // primary/black
-      case 'completed':
-        return 'success'; // green-ish usually, but we'll use outline or similar if not defined
-      case 'canceled':
-        return 'destructive';
-      default:
-        return 'secondary';
-    }
-  };
+
 
   return (
     <div className="space-y-4">
@@ -167,7 +156,7 @@ export function AdminBookingTable() {
                   </TableCell>
                   <TableCell>{booking.service_name}</TableCell>
                   <TableCell>
-                    <Badge variant={statusColor(booking.status) as any}>{booking.status}</Badge>
+                    <StatusBadge status={booking.status} />
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col">

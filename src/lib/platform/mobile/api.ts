@@ -1,5 +1,6 @@
 const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!;
-const publicAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const publicAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY! ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 import { getAccessToken } from './auth';
 
 const API_BASE = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -129,7 +130,9 @@ export const api = {
     // For now, let's assume we can use fetch directly or adjust fetchAPI slightly?
     // Let's create a custom call here for simplicity.
     const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!;
-    const publicAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+    const publicAnonKey =
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY! ??
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
     const API_BASE = process.env.NEXT_PUBLIC_SUPABASE_URL
       ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/make-server-1ccf6811`
       : `https://${projectId}.supabase.co/functions/v1/make-server-1ccf6811`;

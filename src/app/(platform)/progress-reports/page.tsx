@@ -1,16 +1,16 @@
 'use client';
 
-import { Badge } from '@/components/platform/ui/badge';
-import { Button } from '@/components/platform/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 import { Skeleton } from '@/components/ui';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState, useMemo, useEffect } from 'react';
 import {
   TrendingUp,
@@ -195,7 +195,7 @@ export default function ProgressReportsPage() {
                   From level {progressData.painReduction.baseline} to{' '}
                   {progressData.painReduction.current}
                 </p>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted dark:bg-foreground/80">
                   <div
                     className="h-full bg-blue-600 transition-all duration-300"
                     style={{ width: `${painReduction}%` }}
@@ -213,7 +213,7 @@ export default function ProgressReportsPage() {
                 <p className="text-muted-foreground text-xs">
                   Target: {progressData.mobility.target}%
                 </p>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted dark:bg-foreground/80">
                   <div
                     className="h-full bg-blue-600 transition-all duration-300"
                     style={{ width: `${mobilityImprovement}%` }}
@@ -234,7 +234,7 @@ export default function ProgressReportsPage() {
                   {((progressData.sessionsCompleted / progressData.sessionGoal) * 100).toFixed(0)}%
                   Complete
                 </p>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted dark:bg-foreground/80">
                   <div
                     className="h-full bg-blue-600 transition-all duration-300"
                     style={{
@@ -279,7 +279,7 @@ export default function ProgressReportsPage() {
                           })}
                         </div>
                         <div className="flex-1">
-                          <div className="h-8 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                          <div className="h-8 w-full overflow-hidden rounded-full bg-muted dark:bg-foreground/80">
                             <div
                               className="h-full bg-blue-600 transition-all duration-300"
                               style={{ width: `${(10 - entry.level) * 10}%` }}
@@ -310,7 +310,7 @@ export default function ProgressReportsPage() {
                           })}
                         </div>
                         <div className="flex-1">
-                          <div className="h-8 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                          <div className="h-8 w-full overflow-hidden rounded-full bg-muted dark:bg-foreground/80">
                             <div
                               className="h-full bg-blue-600 transition-all duration-300"
                               style={{

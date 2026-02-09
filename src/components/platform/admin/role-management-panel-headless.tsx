@@ -4,6 +4,7 @@ import React, { useState, Fragment } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';
 import { useToast } from '@/hooks/platform/ui/use-toast';
+import { StatusBadge } from '@/components/ui/status-badge';
 import {
   UserPlus,
   Edit,
@@ -121,18 +122,7 @@ export function RoleManagementPanelHeadless() {
     setIsAssignDialogOpen(false);
   };
 
-  const statusColor = (status: string) => {
-    switch (status) {
-      case 'active':
-        return 'text-green-600 bg-green-50 ring-green-600/20';
-      case 'suspended':
-        return 'text-red-600 bg-red-50 ring-red-600/20';
-      case 'pending':
-        return 'text-yellow-600 bg-yellow-50 ring-yellow-600/20';
-      default:
-        return 'text-muted-foreground bg-muted/30 ring-gray-600/20';
-    }
-  };
+
 
   return (
     <div className="space-y-6">
@@ -143,7 +133,7 @@ export function RoleManagementPanelHeadless() {
         </div>
         <button
           onClick={() => setIsAssignDialogOpen(true)}
-          className="flex items-center gap-2 rounded-xl bg-gray-900 px-4 py-2.5 text-white shadow-lg shadow-gray-200 transition-colors hover:bg-gray-800"
+          className="flex items-center gap-2 rounded-xl bg-foreground px-4 py-2.5 text-white shadow-lg shadow-sm transition-colors hover:bg-foreground/90"
         >
           <UserPlus className="h-4 w-4" />
           <span>Assign Role</span>
@@ -161,7 +151,7 @@ export function RoleManagementPanelHeadless() {
         />
       </div>
 
-      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-gray-200">
+      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-border">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/30/50">
@@ -207,14 +197,7 @@ export function RoleManagementPanelHeadless() {
                     </span>
                   </td>
                   <td className="px-3 py-4 whitespace-nowrap">
-                    <span
-                      className={cn(
-                        'inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize ring-1 ring-inset',
-                        statusColor(user.accountStatus)
-                      )}
-                    >
-                      {user.accountStatus}
-                    </span>
+                    <StatusBadge status={user.accountStatus} />
                   </td>
                   <td className="text-muted-foreground px-3 py-4 text-sm whitespace-nowrap">
                     {new Date(user.lastLoginAt).toLocaleDateString()}
@@ -324,7 +307,7 @@ export function RoleManagementPanelHeadless() {
                       </button>
                       <button
                         type="submit"
-                        className="inline-flex justify-center rounded-xl bg-gray-900 px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-gray-200/50 transition-colors hover:bg-gray-800"
+                        className="inline-flex justify-center rounded-xl bg-foreground px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-sm transition-colors hover:bg-foreground/90"
                       >
                         Assign Role
                       </button>

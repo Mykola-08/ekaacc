@@ -13,7 +13,7 @@ export default function NotFound() {
             href="/"
             style={{
               padding: '0.75rem 1.5rem',
-              backgroundColor: '#0070f3',
+              backgroundColor: 'hsl(var(--primary))',
               color: 'white',
               textDecoration: 'none',
               borderRadius: '0.5rem',

@@ -8,7 +8,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/platform/ui/collapsible';
+} from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -18,7 +18,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from '@/components/platform/ui/sidebar';
+} from '@/components/ui/sidebar';
 
 type HugeiconGlyph = any;
 

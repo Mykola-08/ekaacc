@@ -1,10 +1,10 @@
 'use client';
 
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { ServiceItem } from '@/shared/marketing/types';
-import LazyImage from '@/components/marketing/LazyImage';
+import { LazyImage } from '@/components/ui/lazy-image';
 
 interface ServiceCardProps {
   service: ServiceItem;
@@ -68,7 +68,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
             </Button>
           </Link>
           <Link href="/book" className="flex-1">
-            <Button className="w-full rounded-[20px] border-none bg-[#FFB405] p-3 text-sm font-semibold normal-case text-[#000035] transition-all duration-300 hover:bg-[#e8a204]">
+            <Button className="w-full rounded-[20px] border-none bg-accent p-3 text-sm font-semibold normal-case text-eka-dark transition-all duration-300 hover:bg-accent/90">
               {t('nav.bookNow')}
             </Button>
           </Link>

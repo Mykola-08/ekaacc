@@ -735,7 +735,7 @@ export const EXTENDED_VIP_TIERS: Omit<VIPTierDetails, 'id' | 'createdAt' | 'upda
     },
     badge: {
       text: 'VIP SILVER',
-      bgColor: 'bg-linear-to-r from-gray-400 to-gray-600',
+      bgColor: 'bg-linear-to-r from-muted-foreground/70 to-muted-foreground',
       textColor: 'text-white',
       icon: 'star',
       gradient: true,

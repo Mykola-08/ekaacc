@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Search, Shield, AlertTriangle, Eye, LogOut } from 'lucide-react';
-import { Input } from '@/components/platform/ui/input';
-import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent } from '@/components/platform/ui/card';
-import { Badge } from '@/components/platform/ui/badge';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
-import { ScrollArea } from '@/components/platform/ui/scroll-area';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Dialog,
   DialogContent,
@@ -16,9 +16,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/platform/ui/dialog';
-import { Label } from '@/components/platform/ui/label';
-import { Textarea } from '@/components/platform/ui/textarea';
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { supabase } from '@/lib/platform/supabase';
 

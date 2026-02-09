@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { Button } from 'keep-react';
+import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { PersonalizedServiceItem } from '@/shared/marketing/types';
-import LazyImage from '@/components/marketing/LazyImage';
+import { LazyImage } from '@/components/ui/lazy-image';
 import { Clock } from 'lucide-react';
 
 interface PersonalizedServiceCardProps {

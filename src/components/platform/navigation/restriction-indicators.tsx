@@ -11,14 +11,14 @@ import {
   Info,
   AlertCircle,
 } from 'lucide-react';
-import { cn } from '@/lib/platform/utils/css-utils';
-import { Badge } from '@/components/platform/ui/badge';
+import { cn } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/platform/ui/tooltip';
+} from '@/components/ui/tooltip';
 
 export type RestrictionType = 'permission' | 'role' | 'subscription' | 'beta' | 'time' | 'location';
 export type RestrictionSeverity = 'info' | 'warning' | 'error' | 'critical';

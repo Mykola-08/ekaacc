@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import React, { useState } from 'react';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import fxService from '@/lib/platform/services/platform-service';

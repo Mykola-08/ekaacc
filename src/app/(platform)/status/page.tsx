@@ -17,7 +17,7 @@ import {
   Users,
   Loader2,
 } from 'lucide-react';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 
 // Types for our status data
 type Status = 'operational' | 'maintenance' | 'building' | 'coming-soon' | 'degraded';

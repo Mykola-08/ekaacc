@@ -41,7 +41,7 @@ export default async function WalletPage() {
         >
           <Button
             variant="outline"
-            className="h-10 rounded-[12px] border border-[#F5F5F5] px-4 font-semibold text-[#222222] shadow-none hover:bg-[#F9F9F8]"
+            className="h-10 rounded-[12px] border border-border px-4 font-semibold text-foreground shadow-none hover:bg-card"
           >
             Export History
           </Button>
@@ -51,12 +51,12 @@ export default async function WalletPage() {
 
         <div className="space-y-6 pt-2">
           <div className="flex items-center justify-between px-2">
-            <h2 className="text-[20px] font-semibold tracking-tight text-[#222222]">
+            <h2 className="text-[20px] font-semibold tracking-tight text-foreground">
               Transaction History
             </h2>
           </div>
 
-          <div className="overflow-hidden rounded-[20px] border border-[#F5F5F5] bg-[#FEFFFE] p-1 shadow-sm">
+          <div className="overflow-hidden rounded-[20px] border border-border bg-background p-1 shadow-sm">
             <TransactionHistory transactions={transactions} />
           </div>
         </div>

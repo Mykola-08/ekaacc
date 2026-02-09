@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { motion } from 'motion/react';
+import { Loader2 } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { SPRING_SNAPPY } from '@/lib/motion';
@@ -17,6 +18,10 @@ const buttonVariants = cva(
         outline:
           'border border-border bg-card shadow-xs hover:bg-accent hover:text-accent-foreground text-foreground',
         secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        success:
+          'bg-emerald-600 text-white hover:bg-emerald-700 dark:bg-emerald-700 dark:hover:bg-emerald-600',
+        warning:
+          'bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-500',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
       },
@@ -44,23 +49,36 @@ export interface ButtonProps
     >,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  loading?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, loading = false, children, disabled, ...props }, ref) => {
+    const isDisabled = disabled || loading;
+    const content = loading ? (
+      <>
+        <Loader2 className="animate-spin" />
+        {typeof children === 'string' ? children : null}
+      </>
+    ) : children;
+
     if (asChild) {
       return (
         <Slot
           className={cn(buttonVariants({ variant, size, className }))}
           ref={ref as React.ForwardedRef<HTMLElement>}
           {...props}
-        />
+        >
+          {content}
+        </Slot>
       );
     }
 
     if (typeof window === 'undefined') {
       return (
-        <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
+        <button className={cn(buttonVariants({ variant, size, className }))} ref={ref} disabled={isDisabled} {...props}>
+          {content}
+        </button>
       );
     }
 
@@ -70,8 +88,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         whileTap={{ scale: 0.95 }}
         transition={SPRING_SNAPPY}
+        disabled={isDisabled}
         {...props}
-      />
+      >
+        {content}
+      </motion.button>
     );
   }
 );

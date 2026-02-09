@@ -4,17 +4,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import { supabase } from '@/lib/platform/supabase';
-import { Button } from '@/components/platform/ui/button';
-import { Textarea } from '@/components/platform/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Checkbox } from '@/components/platform/ui/checkbox';
-import { Label } from '@/components/platform/ui/label';
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 
 export default function OnboardingForm() {
   const { user } = useAuth();

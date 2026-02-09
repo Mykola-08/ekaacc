@@ -23,9 +23,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { motion } from 'framer-motion';
 
 export default function PatientDashboardPage() {

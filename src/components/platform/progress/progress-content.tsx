@@ -3,9 +3,9 @@
 import { useMemo } from 'react';
 import { format } from 'date-fns';
 import type { Report } from '@/lib/platform/types/types';
-import { Card } from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { TrendingUp, TrendingDown, HeartPulse, Award, Activity, Target } from 'lucide-react';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { PageHeader } from '@/components/platform/eka/page-header';
@@ -68,7 +68,7 @@ function MinimalProgressChart({ data }: { data: any[] }) {
                 {point.trend === 'up' && <TrendingUp className="h-4 w-4 text-green-600" />}
                 {point.trend === 'down' && <TrendingDown className="h-4 w-4 text-red-600" />}
                 {point.trend === 'stable' && (
-                  <div className="h-4 w-4 rounded-full bg-gray-400"></div>
+                  <div className="h-4 w-4 rounded-full bg-muted-foreground"></div>
                 )}
                 <span className="text-muted-foreground text-sm">{point.trend || 'stable'}</span>
               </div>

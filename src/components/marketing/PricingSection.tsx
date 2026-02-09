@@ -282,7 +282,7 @@ export default function PricingSection() {
               teves necessitats
             </p>
             <Link
-              to="/services"
+              href="/services"
               className="group inline-flex items-center font-medium text-yellow-600 transition-colors hover:text-yellow-700"
             >
               Descobrir els nostres serveis

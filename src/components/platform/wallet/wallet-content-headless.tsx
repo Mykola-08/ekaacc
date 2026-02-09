@@ -82,7 +82,7 @@ function TopUpFormHeadless({ amount, onSuccess }: { amount: number; onSuccess: (
       <button
         type="submit"
         disabled={!stripe || loading}
-        className="inline-flex w-full items-center justify-center rounded-xl border border-transparent bg-black px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-gray-800 focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+        className="inline-flex w-full items-center justify-center rounded-xl border border-transparent bg-foreground px-6 py-3 text-base font-semibold text-white shadow-lg transition-all hover:bg-foreground/90 focus:ring-2 focus:ring-foreground focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
       >
         {loading ? (
           <>
@@ -172,8 +172,8 @@ export function WalletContentHeadless({
         {/* Left Column: Balance & TopUp */}
         <div className="space-y-8 lg:col-span-2">
           {/* Balance Card */}
-          <div className="animate-slide-up relative overflow-hidden rounded-[24px] bg-gray-900 p-8 text-white shadow-xl">
-            <div className="pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br from-gray-800 to-black blur-3xl" />
+          <div className="animate-slide-up relative overflow-hidden rounded-[24px] bg-foreground p-8 text-white shadow-xl">
+            <div className="pointer-events-none absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-linear-to-br from-foreground/80 to-foreground blur-3xl" />
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
               <div>
@@ -187,7 +187,7 @@ export function WalletContentHeadless({
                 <label className="text-muted-foreground/80 text-sm font-medium">
                   Quick Top-up Amount
                 </label>
-                <div className="flex rounded-xl bg-gray-800/50 p-1">
+                <div className="flex rounded-xl bg-muted p-1">
                   {amounts.map((amt) => (
                     <button
                       key={amt}
@@ -196,7 +196,7 @@ export function WalletContentHeadless({
                         'flex-1 rounded-lg px-4 py-2 text-sm font-semibold transition-all',
                         topUpAmount === amt
                           ? 'bg-card text-foreground shadow-md'
-                          : 'text-muted-foreground/80 hover:bg-gray-700 hover:text-white'
+                          : 'text-muted-foreground/80 hover:bg-muted/80 hover:text-white'
                       )}
                     >
                       €{amt}
@@ -250,11 +250,11 @@ export function WalletContentHeadless({
             </TabList>
 
             <TabPanels>
-              <TabPanel className="bg-card min-h-100 rounded-[24px] border border-gray-100 p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card min-h-100 rounded-[24px] border border-border p-8 shadow-sm focus:outline-none">
                 {initialTransactions.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <History className="h-8 w-8 text-gray-300" />
+                      <History className="h-8 w-8 text-muted-foreground/60" />
                     </div>
                     <p className="font-medium">No transactions yet</p>
                     <p className="text-sm">
@@ -266,7 +266,7 @@ export function WalletContentHeadless({
                     {initialTransactions.slice(0, 10).map((tx) => (
                       <div
                         key={tx.id}
-                        className="hover:bg-muted/30 group flex items-center justify-between rounded-[20px] border border-transparent p-4 transition-colors hover:border-gray-100"
+                        className="hover:bg-muted/30 group flex items-center justify-between rounded-[20px] border border-transparent p-4 transition-colors hover:border-border"
                       >
                         <div className="flex items-center gap-4">
                           <div
@@ -307,11 +307,11 @@ export function WalletContentHeadless({
                 )}
               </TabPanel>
 
-              <TabPanel className="bg-card min-h-[400px] rounded-[20px] border border-gray-100 p-8 shadow-sm focus:outline-none">
+              <TabPanel className="bg-card min-h-[400px] rounded-[20px] border border-border p-8 shadow-sm focus:outline-none">
                 {initialPlans.length === 0 ? (
                   <div className="text-muted-foreground flex h-full flex-col items-center justify-center py-12 text-center">
                     <div className="bg-muted/30 mb-4 flex h-16 w-16 items-center justify-center rounded-full">
-                      <Wallet className="h-8 w-8 text-gray-300" />
+                      <Wallet className="h-8 w-8 text-muted-foreground/60" />
                     </div>
                     <p className="font-medium">No active plans</p>
                     <p className="text-sm">Purchase a bundle or subscription to see it here.</p>
@@ -321,7 +321,7 @@ export function WalletContentHeadless({
                     {initialPlans.map((plan) => (
                       <div
                         key={plan.id}
-                        className="bg-muted/30 relative overflow-hidden rounded-[20px] border border-gray-100 p-6"
+                        className="bg-muted/30 relative overflow-hidden rounded-[20px] border border-border p-6"
                       >
                         <div className="relative z-10">
                           <h3 className="text-foreground mb-1 text-lg font-bold">
@@ -330,9 +330,9 @@ export function WalletContentHeadless({
                           <p className="text-muted-foreground mb-4 text-sm">
                             {plan.credits_remaining} / {plan.credits_total} credits remaining
                           </p>
-                          <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                          <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
                             <div
-                              className="h-full rounded-full bg-black"
+                              className="h-full rounded-full bg-foreground"
                               style={{
                                 width: `${(plan.credits_remaining / plan.credits_total) * 100}%`,
                               }}
@@ -353,10 +353,10 @@ export function WalletContentHeadless({
           className="animate-slide-up space-y-6 lg:col-span-1"
           style={{ animationDelay: '200ms' }}
         >
-          <div className="bg-card rounded-[24px] border border-gray-100 p-8 shadow-sm">
+          <div className="bg-card rounded-[24px] border border-border p-8 shadow-sm">
             <h3 className="text-foreground mb-4 text-xl font-bold">Payment Methods</h3>
-            <div className="bg-muted/30 mb-4 flex items-center gap-3 rounded-[20px] border border-gray-100 p-4">
-              <div className="text-muted-foreground flex h-6 w-10 items-center justify-center rounded bg-gray-200 text-xs font-bold">
+            <div className="bg-muted/30 mb-4 flex items-center gap-3 rounded-[20px] border border-border p-4">
+              <div className="text-muted-foreground flex h-6 w-10 items-center justify-center rounded bg-muted text-xs font-bold">
                 VISA
               </div>
               <div>
@@ -401,7 +401,7 @@ export function WalletContentHeadless({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/25 backdrop-blur-sm" />
+            <div className="fixed inset-0 bg-foreground/25 backdrop-blur-sm" />
           </TransitionChild>
 
           <div className="fixed inset-0 overflow-y-auto">

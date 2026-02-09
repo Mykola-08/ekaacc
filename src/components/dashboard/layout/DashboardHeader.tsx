@@ -31,8 +31,8 @@ export function DashboardHeader({
     >
       <div className="space-y-1">
         {/* Clean, high-availability header style */}
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">{title}</h2>
-        {subtitle && <p className="text-sm font-medium text-gray-500">{subtitle}</p>}
+        <h2 className="text-2xl font-bold tracking-tight text-foreground">{title}</h2>
+        {subtitle && <p className="text-sm font-medium text-muted-foreground">{subtitle}</p>}
       </div>
 
       <div className="flex w-full items-center gap-4 md:w-auto">{children}</div>

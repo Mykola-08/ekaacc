@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -9,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 import { AlertTriangle, Home, RefreshCw } from 'lucide-react';
 import { sendClientErrorReport } from '@/lib/observability/client-error-reporting';
 // import { PageContainer } from '@/components/platform/eka/page-container';

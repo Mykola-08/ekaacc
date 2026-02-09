@@ -8,9 +8,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table';
-import { Badge } from '@/components/platform/ui/badge';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/platform/ui/card';
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { format } from 'date-fns';
 import { ArrowDownLeft, ArrowUpRight, Clock, CreditCard } from 'lucide-react';
 import { Transaction } from '@/app/actions/wallet'; // Ensure this type is exported

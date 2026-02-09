@@ -4,16 +4,16 @@ export const dynamic = 'force-dynamic';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Label } from '@/components/platform/ui/label';
-import { Input } from '@/components/platform/ui/input';
+} from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/context/LanguageContext';
 
 export default function OnboardingPage() {

@@ -109,7 +109,7 @@ export default function SuccessStories() {
             Torna a sentir-te bé amb tu mateixa
           </p>
           <Link
-            to="/contact"
+            href="/contact"
             className="inline-flex transform items-center rounded-[20px] bg-linear-to-r from-yellow-400 to-yellow-500 px-8 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:from-yellow-500 hover:to-yellow-600 hover:shadow-2xl"
           >
             Reserva la teva sessió avui mateix

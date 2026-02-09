@@ -6,6 +6,7 @@ import { getDataService } from '@/lib/platform/services/data-service';
 import type { User, Session } from '@/lib/platform/types/types';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import { AdminDashboardHeadless } from '@/components/platform/admin/admin-dashboard-headless';
+import { LoadingSpinner } from '@/components/ui/loading-states';
 
 export default function AdminDashboard() {
   const { toast } = useToast();
@@ -80,13 +81,7 @@ export default function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="flex min-h-[600px] items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50/30 dark:from-slate-950 dark:to-blue-950/30">
-        <div className="space-y-4 text-center">
-          <div className="relative">
-            <div className="absolute inset-0 animate-pulse rounded-full bg-blue-500/20 blur-xl" />
-            <div className="relative mx-auto h-16 w-16 animate-spin rounded-full border-4 border-blue-600 border-t-transparent shadow-lg" />
-          </div>
-          <p className="text-muted-foreground text-lg font-semibold">Loading dashboard...</p>
-        </div>
+        <LoadingSpinner size="lg" message="Loading dashboard..." />
       </div>
     );
   }

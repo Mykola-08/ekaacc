@@ -32,7 +32,10 @@ function getForwardedIp(forwardedFor: string | null): string | null {
 }
 
 export async function reportErrorToSupabase(input: ErrorReportInput, requestHeaders?: Headers) {
-  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  if (
+    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
+    (!process.env.SUPABASE_SECRET_KEY && !process.env.SUPABASE_SERVICE_ROLE_KEY)
+  ) {
     return;
   }
 

@@ -84,8 +84,8 @@ export function DashboardCard({
               variant === 'default'
                 ? 'from-secondary to-secondary/80 text-foreground hover:from-secondary/90 hover:to-secondary/70 bg-gradient-to-r'
                 : variant === 'primary'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700'
-                  : 'bg-gradient-to-r from-red-50 to-rose-50 text-red-700 hover:from-red-100 hover:to-rose-100 dark:from-red-900/40 dark:to-rose-900/40 dark:text-red-400 dark:hover:from-red-900/60 dark:hover:to-rose-900/60'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg'
+                  : 'bg-gradient-to-r from-red-50 to-rose-50 text-destructive hover:from-red-100 hover:to-rose-100 dark:from-red-900/40 dark:to-rose-900/40 dark:text-destructive dark:hover:from-red-900/60 dark:hover:to-rose-900/60'
             )}
             style={{
               boxShadow: variant === 'primary' ? 'var(--shadow-lg)' : 'var(--shadow-md)',

@@ -9,8 +9,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -18,20 +18,20 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/platform/ui/dialog';
-import { Input } from '@/components/platform/ui/input';
-import { Label } from '@/components/platform/ui/label';
-import { Switch } from '@/components/platform/ui/switch';
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Badge } from '@/components/platform/ui/badge';
-import { Separator } from '@/components/platform/ui/separator';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
+} from '@/components/ui/select';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { toast } from 'sonner';
 import {
   Shield,
@@ -53,7 +53,7 @@ import {
   Smartphone,
   Mail,
 } from 'lucide-react';
-import { AIPersonalizationService } from '@/ai/ai-personalization-service';
+
 // Polyfill EKA components locally
 const PageContainer = ({ children, className }: any) => (
   <div className={`container mx-auto p-6 ${className || ''}`}>{children}</div>
@@ -186,21 +186,21 @@ export default function PrivacyControlsPage() {
       loadAccessLogs();
 
       // Track page visit
-      const aiPersonalization = new AIPersonalizationService();
-      aiPersonalization.trackUserInteraction({
-        id: `interaction_${Date.now()}`,
-        userId: user.id,
-        type: 'page_view',
-        timestamp: new Date(),
-        metadata: {
-          action: 'privacy_settings_accessed',
-          section: 'privacy_controls',
-        },
-        context: {
-          page: 'privacy-controls',
-          section: 'privacy_controls',
-        },
-      });
+      // const aiPersonalization = new AIPersonalizationService();
+      // aiPersonalization.trackUserInteraction({
+      //   id: `interaction_${Date.now()}`,
+      //   userId: user.id,
+      //   type: 'page_view',
+      //   timestamp: new Date(),
+      //   metadata: {
+      //     action: 'privacy_settings_accessed',
+      //     section: 'privacy_controls',
+      //   },
+      //   context: {
+      //     page: 'privacy-controls',
+      //     section: 'privacy_controls',
+      //   },
+      // });
     }
   }, [user?.id]);
 
@@ -294,25 +294,25 @@ export default function PrivacyControlsPage() {
       }
 
       // Track privacy setting changes
-      if (user?.id) {
-        const aiPersonalization = new AIPersonalizationService();
-        aiPersonalization.trackUserInteraction({
-          id: `interaction_${Date.now()}`,
-          userId: user.id,
-          type: 'form_submit',
-          timestamp: new Date(),
-          metadata: {
-            section: 'privacy_controls',
-            ai_training: privacySettings.dataSharing.aiTraining,
-            profile_visibility: privacySettings.visibility.profileVisibility,
-            data_retention: privacySettings.dataRetention,
-          },
-          context: {
-            page: 'privacy-controls',
-            section: 'privacy_controls',
-          },
-        });
-      }
+      // if (user?.id) {
+      //   const aiPersonalization = new AIPersonalizationService();
+      //   aiPersonalization.trackUserInteraction({
+      //     id: `interaction_${Date.now()}`,
+      //     userId: user.id,
+      //     type: 'form_submit',
+      //     timestamp: new Date(),
+      //     metadata: {
+      //       section: 'privacy_controls',
+      //       ai_training: privacySettings.dataSharing.aiTraining,
+      //       profile_visibility: privacySettings.visibility.profileVisibility,
+      //       data_retention: privacySettings.dataRetention,
+      //     },
+      //     context: {
+      //       page: 'privacy-controls',
+      //       section: 'privacy_controls',
+      //     },
+      //   });
+      // }
 
       toast.success('Privacy settings updated successfully');
     } catch (error) {
@@ -329,24 +329,24 @@ export default function PrivacyControlsPage() {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Track data export
-      if (user?.id) {
-        const aiPersonalization = new AIPersonalizationService();
-        aiPersonalization.trackUserInteraction({
-          id: `interaction_${Date.now()}`,
-          userId: user.id,
-          type: 'form_submit',
-          timestamp: new Date(),
-          metadata: {
-            section: 'privacy_controls',
-            action: 'data_export',
-            ...dataExportRequest,
-          },
-          context: {
-            page: 'privacy-controls',
-            section: 'privacy_controls',
-          },
-        });
-      }
+      // if (user?.id) {
+      //   const aiPersonalization = new AIPersonalizationService();
+      //   aiPersonalization.trackUserInteraction({
+      //     id: `interaction_${Date.now()}`,
+      //     userId: user.id,
+      //     type: 'form_submit',
+      //     timestamp: new Date(),
+      //     metadata: {
+      //       section: 'privacy_controls',
+      //       action: 'data_export',
+      //       ...dataExportRequest,
+      //     },
+      //     context: {
+      //       page: 'privacy-controls',
+      //       section: 'privacy_controls',
+      //     },
+      //   });
+      // }
 
       toast.success('Data export initiated. You will receive an email with download instructions.');
       setShowDataExport(false);

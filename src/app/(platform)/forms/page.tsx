@@ -1,13 +1,13 @@
 'use client';
 
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 import { useState, useEffect } from 'react';
 import {
   WelcomePersonalizationForm,

@@ -5,9 +5,9 @@ import { useCallback, useMemo, useState } from 'react';
 import { createEditor, Descendant, Editor, Transforms, Element as SlateElement } from 'slate';
 import { Slate, Editable, withReact, RenderElementProps, RenderLeafProps } from 'slate-react';
 import { withHistory } from 'slate-history';
-import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent } from '@/components/platform/ui/card';
-import { Separator } from '@/components/platform/ui/separator';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
 import {
   Bold,
   Italic,
@@ -23,7 +23,7 @@ import {
   Save,
   Sparkles,
 } from 'lucide-react';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 
 const HOTKEYS: Record<string, string> = {
   'mod+b': 'bold',

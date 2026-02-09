@@ -150,25 +150,25 @@ export default function RefundPolicyPage() {
       <div className="mb-4 flex justify-end space-x-2">
         <button
           onClick={() => setLanguage('en')}
-          className={`rounded px-3 py-1 text-sm ${language === 'en' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
+          className={`rounded px-3 py-1 text-sm ${language === 'en' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted'}`}
         >
           EN
         </button>
         <button
           onClick={() => setLanguage('es')}
-          className={`rounded px-3 py-1 text-sm ${language === 'es' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
+          className={`rounded px-3 py-1 text-sm ${language === 'es' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted'}`}
         >
           ES
         </button>
         <button
           onClick={() => setLanguage('ca')}
-          className={`rounded px-3 py-1 text-sm ${language === 'ca' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
+          className={`rounded px-3 py-1 text-sm ${language === 'ca' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted'}`}
         >
           CA
         </button>
         <button
           onClick={() => setLanguage('ru')}
-          className={`rounded px-3 py-1 text-sm ${language === 'ru' ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-gray-200'}`}
+          className={`rounded px-3 py-1 text-sm ${language === 'ru' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground hover:bg-muted'}`}
         >
           RU
         </button>

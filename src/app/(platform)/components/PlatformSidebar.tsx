@@ -84,9 +84,9 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
 
   return (
     <Sidebar collapsible="offcanvas" variant="floating" className="border-none" {...props}>
-      <SidebarHeader className="border-border/20 h-16 border-b px-6">
+      <SidebarHeader className="platform-sidebar-header">
         <div className="flex h-full items-center gap-3">
-          <div className="bg-primary text-primary-foreground flex size-9 items-center justify-center rounded-xl shadow-sm">
+          <div className="platform-sidebar-brand-icon">
             <HugeiconsIcon icon={ActivityIcon} className="size-5" strokeWidth={2.5} />
           </div>
           <div className="grid text-left text-sm leading-tight group-data-[collapsible=icon]:hidden">
@@ -99,7 +99,7 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
       <SidebarContent className="px-2 pt-4">
         {navGroups.map((group) => (
           <SidebarGroup key={group.label}>
-            <SidebarGroupLabel className="text-muted-foreground/70 mb-2 px-4 text-[10px] font-bold tracking-widest uppercase">
+            <SidebarGroupLabel className="platform-sidebar-group-label">
               {group.label}
             </SidebarGroupLabel>
             <SidebarGroupContent>
@@ -113,8 +113,8 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
                         tooltip={item.title}
                         isActive={active}
                         className={cn(
-                          'h-10 rounded-xl font-medium transition-all',
-                          active ? 'bg-primary/10 text-primary shadow-sm' : 'hover:bg-secondary/70'
+                          'platform-nav-item',
+                          active ? 'platform-nav-item-active' : 'platform-nav-item-inactive'
                         )}
                       >
                         <Link href={item.url}>
@@ -136,7 +136,7 @@ export function PlatformSidebar({ ...props }: React.ComponentProps<typeof Sideba
           <SidebarMenuItem>
             <SidebarMenuButton
               asChild
-              className="hover:bg-destructive/10 hover:text-destructive h-11 rounded-xl transition-all"
+              className="platform-signout-btn"
             >
               <Link href="/logout">
                 <HugeiconsIcon icon={Logout01Icon} className="size-5" strokeWidth={2.4} />

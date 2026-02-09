@@ -1,11 +1,22 @@
 import { type Transition, type Variants } from 'motion/react';
 
 /**
- * Universal Spring Motion Configuration
+ * Universal Motion Configuration
  * Based on the "Apple-like / Pre-Liquid-Glass" design prompt.
  *
  * Feel: Snappy, controlled, premium. No wobble.
  */
+
+/* ----------------------------------------------------------------
+   EASING CURVES
+   ---------------------------------------------------------------- */
+
+/** Apple HIG Quint-out — primary entrance ease */
+export const appleEase = [0.16, 1, 0.3, 1] as const;
+
+/* ----------------------------------------------------------------
+   SPRING PRESETS
+   ---------------------------------------------------------------- */
 
 export const SPRING_DEFAULT: Transition = {
   type: 'spring',
@@ -29,7 +40,99 @@ export const SPRING_SLOW: Transition = {
   mass: 1,
 };
 
-// Interaction Variants
+/* ----------------------------------------------------------------
+   TWEEN TRANSITIONS
+   ---------------------------------------------------------------- */
+
+export const quickTransition: Transition = {
+  duration: 0.3,
+  ease: appleEase as unknown as number[],
+};
+
+export const standardTransition: Transition = {
+  duration: 0.5,
+  ease: appleEase as unknown as number[],
+};
+
+export const slowTransition: Transition = {
+  duration: 0.6,
+  ease: appleEase as unknown as number[],
+};
+
+/* ----------------------------------------------------------------
+   ENTRANCE VARIANTS
+   Usage:
+     <motion.div variants={fadeInUp} initial="hidden" animate="visible" />
+   ---------------------------------------------------------------- */
+
+/** Fade + slide up 20px — THE default entrance */
+export const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: standardTransition },
+};
+
+/** Larger slide up (30px) — heroes, modals, auth forms */
+export const fadeInUpLarge: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: slowTransition },
+};
+
+/** Small slide up (10px) — buttons, subtle elements */
+export const fadeInUpSmall: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: standardTransition },
+};
+
+/** Slide in from left — form fields, sequential items */
+export const fadeInLeft: Variants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: { opacity: 1, x: 0, transition: standardTransition },
+};
+
+/** Slide in from right */
+export const fadeInRight: Variants = {
+  hidden: { opacity: 0, x: 10 },
+  visible: { opacity: 1, x: 0, transition: standardTransition },
+};
+
+/** Scale-in + fade — logos, avatars, card bodies */
+export const scaleIn: Variants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { opacity: 1, scale: 1, transition: standardTransition },
+};
+
+/** Simple fade — overlays, background elements */
+export const fadeIn: Variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: quickTransition },
+};
+
+/* ----------------------------------------------------------------
+   STAGGER CONTAINERS
+   Wrap children — child variants animate automatically.
+   ---------------------------------------------------------------- */
+
+/** Standard stagger — 0.1s gap */
+export const staggerContainer: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+/** Fast stagger — 0.05s gap (lists, table rows, grids) */
+export const staggerFast: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.05 } },
+};
+
+/** Slow stagger — 0.15s gap (feature sections, hero cards) */
+export const staggerSlow: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+/* ----------------------------------------------------------------
+   INTERACTION VARIANTS — hover / tap
+   ---------------------------------------------------------------- */
 
 export const hoverScale: Variants = {
   initial: { scale: 1 },
@@ -43,6 +146,21 @@ export const hoverScale: Variants = {
     transition: SPRING_SNAPPY,
   },
 };
+
+export const pressScale = {
+  whileTap: { scale: 0.97 },
+  transition: SPRING_DEFAULT,
+};
+
+export const hoverLift = {
+  whileHover: { y: -2 },
+  whileTap: { scale: 0.98 },
+  transition: SPRING_DEFAULT,
+};
+
+/* ----------------------------------------------------------------
+   LIST / GRID ITEMS — custom-delay stagger for index-based usage
+   ---------------------------------------------------------------- */
 
 export const itemsFadeIn: Variants = {
   hidden: { opacity: 0, y: 10, scale: 0.98 },
@@ -153,3 +271,25 @@ export const sheetVariants = {
     }
   },
 };
+
+/* ----------------------------------------------------------------
+   HELPERS
+   ---------------------------------------------------------------- */
+
+/** Create a delayed version of any variant set */
+export function withDelay(variants: Variants, delay: number): Variants {
+  return {
+    ...variants,
+    visible: {
+      ...(typeof variants.visible === 'object' ? variants.visible : {}),
+      transition: {
+        ...(typeof variants.visible === 'object' &&
+        variants.visible !== null &&
+        'transition' in variants.visible
+          ? (variants.visible.transition as object)
+          : {}),
+        delay,
+      },
+    },
+  };
+}

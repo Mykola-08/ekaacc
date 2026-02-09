@@ -127,7 +127,7 @@ export default function AboutElenaContent() {
         <section className="bg-white py-20">
           <div className="mx-auto max-w-6xl px-4 text-center sm:px-8">
             <div className="mb-16">
-              <h2 className="mb-6 text-3xl font-light text-[#000035] sm:text-4xl">
+              <h2 className="mb-6 text-3xl font-light text-eka-dark sm:text-4xl">
                 {t('elena.approach.title')}
               </h2>
               <p className="mx-auto max-w-3xl text-xl leading-relaxed font-light text-gray-600">
@@ -165,12 +165,12 @@ export default function AboutElenaContent() {
         {/* Contact CTA */}
         <section className="bg-gray-50 py-20">
           <div className="mx-auto max-w-4xl px-4 text-center">
-            <h2 className="mb-8 text-3xl font-light text-[#000035]">{t('footer.readyToBegin')}</h2>
+            <h2 className="mb-8 text-3xl font-light text-eka-dark">{t('footer.readyToBegin')}</h2>
             <div className="flex flex-col justify-center gap-4 sm:flex-row">
               <Link href="/book">
                 <Button
                   size="xl"
-                  className="rounded-[20px] border-none bg-[#FFB405] px-10 py-4 font-medium text-[#000035] normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-[#e8a204]"
+                  className="rounded-[20px] border-none bg-accent px-10 py-4 font-medium text-eka-dark normal-case shadow-lg transition-all hover:translate-y-[-2px] hover:bg-accent/90"
                 >
                   {t('common.bookNow')}
                 </Button>

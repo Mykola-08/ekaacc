@@ -55,7 +55,7 @@ export default function MassageContent() {
           <div className="flex flex-wrap gap-4">
             <Button
               onClick={() => navigateToBooking()}
-              className="h-14 rounded-[20px] border-none bg-[#FFB405] px-8 text-lg font-semibold text-[#000035] shadow-lg shadow-amber-200/50 hover:bg-[#e8a204]"
+              className="h-14 rounded-[20px] border-none bg-accent px-8 text-lg font-semibold text-eka-dark shadow-lg shadow-amber-200/50 hover:bg-accent/90"
             >
               {t('common.bookNow')}
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -209,7 +209,7 @@ export default function MassageContent() {
           </p>
           <Button
             onClick={() => navigateToBooking()}
-            className="h-14 rounded-[20px] border-none bg-[#FFB405] px-10 text-lg font-bold text-[#000035] hover:bg-[#e8a204]"
+            className="h-14 rounded-[20px] border-none bg-accent px-10 text-lg font-bold text-eka-dark hover:bg-accent/90"
           >
             {t('common.bookNow')}
           </Button>

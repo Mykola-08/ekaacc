@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/platform/supabase';
-import { Button } from '@/components/platform/ui/button';
-import { Input } from '@/components/platform/ui/input';
-import { Card, CardContent } from '@/components/platform/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -223,7 +223,7 @@ export default function ResetPasswordPage() {
               >
                 <Button
                   type="submit"
-                  className="h-12 w-full rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 font-semibold text-white shadow-lg shadow-teal-500/25 transition-all hover:scale-105 hover:from-teal-700 hover:to-cyan-700 hover:shadow-xl hover:shadow-teal-500/30 active:scale-95"
+                  className="auth-submit-btn"
                   disabled={isLoading}
                 >
                   {isLoading ? (

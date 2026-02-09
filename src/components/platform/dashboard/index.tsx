@@ -3,8 +3,7 @@
 import React from 'react';
 import { useAuth } from '@/context/platform/auth-context';
 import { useLanguage } from '@/context/LanguageContext';
-import { UserDashboard } from './UserDashboard';
-import { TherapistDashboard } from './TherapistDashboard';
+import { BentoDashboard } from './bento-dashboard';
 
 export default function Dashboard({
   upcomingSession,
@@ -20,9 +19,16 @@ export default function Dashboard({
     return <div>{t('common.loading')}</div>;
   }
 
-  if (user?.role?.name === 'therapist') {
-    return <TherapistDashboard />;
-  }
-
-  return <UserDashboard upcomingSession={upcomingSession} walletBalance={walletBalance} />;
+  return (
+    <BentoDashboard
+      user={
+        user
+          ? {
+              name: user.email?.split('@')[0] || 'User', // Fallback name logic if name missing
+              email: user.email || '',
+            }
+          : undefined
+      }
+    />
+  );
 }

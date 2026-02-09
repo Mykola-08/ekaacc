@@ -1,16 +1,18 @@
 'use client';
 
 import { UserProfile } from '@/server/admin/user-actions';
-import { format } from 'date-fns';
-import { Search, Plus, MoreHorizontal, User, Shield, Phone, Mail, Building } from 'lucide-react';
+import { Plus, MoreHorizontal, User, Shield, Phone, Mail, Building } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { FilterBar } from '@/components/ui/filter-bar';
+import { PageSection } from '@/components/ui/page-section';
+import { EmptyState } from '@/components/ui/empty-state';
+import { StatusBadge } from '@/components/ui/status-badge';
 
 interface UsersListProps {
   users: UserProfile[];
@@ -18,7 +20,7 @@ interface UsersListProps {
 
 export function UsersList({ users }: UsersListProps) {
   const [search, setSearch] = useState('');
-  const [roleFilter, setRoleFilter] = useState<'all' | 'admin' | 'therapist' | 'client'>('all');
+  const [roleFilter, setRoleFilter] = useState('all');
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
@@ -33,61 +35,31 @@ export function UsersList({ users }: UsersListProps) {
 
   return (
     <div className="animate-fade-in h-full w-full space-y-8 p-6 md:p-12">
-      {/* Header */}
-      <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-        <div>
-          <h1 className="text-foreground text-3xl font-bold tracking-tight">User Directory</h1>
-          <p className="text-muted-foreground mt-1 text-lg">
-            Manage platform access and permissions.
-          </p>
-        </div>
-        <Link href="/admin/users/invite">
-          <Button className="apple-button h-11 px-8">
-            <Plus className="mr-2 h-4 w-4" />
-            Add New User
-          </Button>
-        </Link>
-      </div>
-
-      {/* Filters */}
-      <Card className="flex flex-col items-center gap-4 p-4 md:flex-row">
-        <div className="relative w-full flex-1 md:w-auto">
-          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
-          <Input
-            type="text"
-            placeholder="Search by name, email or company..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="bg-secondary border-border focus:bg-background h-11 rounded-xl pl-10 transition-all"
-          />
-        </div>
-        <div className="no-scrollbar flex w-full items-center gap-2 overflow-x-auto pb-2 md:w-auto md:pb-0">
-          {['all', 'admin', 'therapist', 'client'].map((role) => (
-            <Button
-              key={role}
-              variant={roleFilter === role ? 'default' : 'outline'}
-              size="sm"
-              onClick={() => setRoleFilter(role as any)}
-              className={cn(
-                'h-9 rounded-full px-5 capitalize',
-                roleFilter === role ? 'bg-primary' : 'text-muted-foreground border-border'
-              )}
-            >
-              {role}
+      <PageSection
+        title="User Directory"
+        description="Manage platform access and permissions."
+        actions={
+          <Link href="/admin/users/invite">
+            <Button className="apple-button h-11 px-8">
+              <Plus className="mr-2 h-4 w-4" />
+              Add New User
             </Button>
-          ))}
-        </div>
-      </Card>
+          </Link>
+        }
+      />
 
-      {/* List */}
+      <FilterBar
+        search={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search by name, email or company..."
+        filters={['all', 'admin', 'therapist', 'client']}
+        activeFilter={roleFilter}
+        onFilterChange={setRoleFilter}
+      />
+
       <div className="space-y-4">
         {filteredUsers.length === 0 ? (
-          <Card className="bg-muted/50 flex flex-col items-center justify-center border-dashed py-20">
-            <div className="bg-muted mb-4 flex h-12 w-12 items-center justify-center rounded-full">
-              <User className="text-muted-foreground h-6 w-6" />
-            </div>
-            <p className="text-muted-foreground font-medium">No users found</p>
-          </Card>
+          <EmptyState icon={User} title="No users found" />
         ) : (
           <div className="grid grid-cols-1 gap-4">
             {filteredUsers.map((user, idx) => (
@@ -155,17 +127,7 @@ function UserRow({ user, index }: { user: UserProfile; index: number }) {
             {user.company}
           </Badge>
         )}
-        <Badge
-          variant={
-            user.status === 'active'
-              ? 'default'
-              : user.status === 'suspended'
-                ? 'destructive'
-                : 'secondary'
-          }
-        >
-          {user.status}
-        </Badge>
+        <StatusBadge status={user.status} />
         <Badge variant="secondary" className="tracking-wider uppercase">
           {user.role}
         </Badge>

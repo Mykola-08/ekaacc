@@ -2,8 +2,8 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/platform/ui/button';
-import { Card } from '@/components/platform/ui/card';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { useAuth } from '@/context/platform/auth-context';
 import { ArrowRight } from 'lucide-react';
 
@@ -41,7 +41,7 @@ export default function MinimalHomePage() {
   ];
 
   return (
-    <div className="bg-muted/30 min-h-screen dark:bg-gray-900">
+    <div className="bg-muted/30 min-h-screen dark:bg-foreground">
       {/* Hero Section */}
       <div className="mb-16 space-y-8 text-center">
         <h1 className="text-foreground text-4xl font-bold md:text-5xl">

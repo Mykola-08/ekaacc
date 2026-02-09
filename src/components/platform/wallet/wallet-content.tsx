@@ -10,8 +10,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { WalletHistory } from '@/components/platform/wallet/WalletHistory';
 import { PlanUsageStats } from '@/components/platform/wallet/PlanUsageStats';
 import { useToast } from '@/hooks/platform/ui/use-toast';

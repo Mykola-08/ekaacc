@@ -1,8 +1,8 @@
 'use client';
 
-import { Badge } from '@/components/platform/ui/badge';
-import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Check, Crown, Sparkles } from 'lucide-react';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { PageHeader } from '@/components/platform/eka/page-header';
@@ -37,7 +37,7 @@ const plans = [
     price: 29.99,
     description: 'All Bronze benefits plus exclusive events and 2 free sessions/month.',
     features: ['All VIP Bronze Benefits', 'Exclusive Events', '2 Free Sessions/Month'],
-    badge: <Badge className="bg-gray-400">VIP</Badge>,
+    badge: <Badge className="bg-muted-foreground">VIP</Badge>,
   },
   {
     id: 'vip3',

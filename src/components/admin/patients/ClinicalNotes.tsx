@@ -77,7 +77,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <Card className="rounded-xl border border-zinc-200 bg-zinc-50/50 shadow-sm">
+            <Card className="rounded-xl border border-border bg-zinc-50/50 shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-base">
                   <Lock className="h-4 w-4 text-indigo-500" />
@@ -92,7 +92,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                     </label>
                     <Textarea
                       placeholder="Client's reported symptoms, history, statement..."
-                      className="min-h-[100px] resize-none rounded-xl border-zinc-200 bg-white"
+                      className="min-h-[100px] resize-none rounded-xl border-border bg-background"
                       onChange={(e) => setNewNote({ ...newNote, subjective: e.target.value })}
                     />
                   </div>
@@ -102,7 +102,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                     </label>
                     <Textarea
                       placeholder="Vital signs, physical exam results, observations..."
-                      className="min-h-[100px] resize-none rounded-xl border-zinc-200 bg-white"
+                      className="min-h-[100px] resize-none rounded-xl border-border bg-background"
                       onChange={(e) => setNewNote({ ...newNote, objective: e.target.value })}
                     />
                   </div>
@@ -114,7 +114,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                     </label>
                     <Textarea
                       placeholder="Diagnosis, progress update..."
-                      className="min-h-[100px] resize-none rounded-xl border-zinc-200 bg-white"
+                      className="min-h-[100px] resize-none rounded-xl border-border bg-background"
                       onChange={(e) => setNewNote({ ...newNote, assessment: e.target.value })}
                     />
                   </div>
@@ -124,7 +124,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
                     </label>
                     <Textarea
                       placeholder="Next steps, prescriptions, homework..."
-                      className="min-h-[100px] resize-none rounded-xl border-zinc-200 bg-white"
+                      className="min-h-[100px] resize-none rounded-xl border-border bg-background"
                       onChange={(e) => setNewNote({ ...newNote, plan: e.target.value })}
                     />
                   </div>
@@ -149,7 +149,7 @@ export function ClinicalNotes({ userId }: { userId: string }) {
       <div className="space-y-4">
         {notes.map((note) => (
           <motion.div layout key={note.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <Card className="rounded-xl border-0 bg-white shadow-sm transition-shadow hover:shadow-md">
+            <Card className="rounded-xl border-0 bg-background shadow-sm transition-shadow hover:shadow-md">
               <CardContent className="p-6">
                 <div className="mb-4 flex items-start justify-between">
                   <div className="flex items-center gap-3">

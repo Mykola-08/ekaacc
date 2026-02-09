@@ -7,13 +7,12 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { RoleManagementPanel } from '@/components/platform/admin/role-management-panel';
-import { ProductManagementPanel } from '@/components/platform/admin/product-management-panel';
 import { AdminBookingTable } from '@/components/platform/admin/AdminBookingTable';
 import { UnifiedRoleGuard } from '@/components/platform/auth/unified-role-guard';
 import { useAuth } from '@/context/platform/auth-context';
@@ -133,7 +132,6 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="bookings">Bookings</TabsTrigger>
             <TabsTrigger value="users">Users & Roles</TabsTrigger>
-            <TabsTrigger value="products">Products & Services</TabsTrigger>
             <TabsTrigger value="audit">Audit Log</TabsTrigger>
           </TabsList>
 
@@ -178,10 +176,6 @@ export function AdminDashboard({ kpiStats }: DashboardProps) {
 
           <TabsContent value="users" className="space-y-4">
             <RoleManagementPanel />
-          </TabsContent>
-
-          <TabsContent value="products" className="space-y-4">
-            <ProductManagementPanel />
           </TabsContent>
 
           <TabsContent value="audit" className="space-y-4">

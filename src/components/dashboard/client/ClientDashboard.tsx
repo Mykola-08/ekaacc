@@ -116,17 +116,17 @@ export function ClientDashboard({
         {/* Welcome & Main Action */}
         <div className="space-y-8 lg:col-span-2">
           {/* Hero Section - Clean White */}
-          <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[20px] border border-gray-100 bg-white p-8 shadow-sm">
+          <section className="relative flex min-h-[300px] flex-col justify-between overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm">
             <div className="relative z-10">
               <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-blue-600">
                 <HugeiconsIcon icon={GreetingIcon} className="size-4" strokeWidth={2.5} />
                 <span className="text-[11px] font-bold tracking-wider uppercase">Daily Update</span>
               </div>
-              <h1 className="mb-4 text-4xl font-bold tracking-tight text-gray-900">
+              <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground">
                 Good {greeting},{' '}
                 <span className="text-blue-600">{profile.first_name || 'Member'}</span>.
               </h1>
-              <p className="mb-8 max-w-lg text-lg leading-relaxed text-gray-500">
+              <p className="mb-8 max-w-lg text-lg leading-relaxed text-muted-foreground">
                 Your wellness journey is moving forward. You have{' '}
                 {wallet?.balance_cents ? 'funds available' : 'no active balance'} and{' '}
                 {nextBooking ? 'an upcoming session.' : 'no sessions scheduled today.'}
@@ -145,7 +145,7 @@ export function ClientDashboard({
                   <Button
                     variant="outline"
                     size="lg"
-                    className="h-12 rounded-[20px] border-gray-200 px-6 text-base font-bold text-gray-700 hover:bg-gray-50"
+                    className="h-12 rounded-[20px] border-border px-6 text-base font-bold text-foreground hover:bg-muted"
                   >
                     Manage Wallet
                   </Button>
@@ -156,22 +156,22 @@ export function ClientDashboard({
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {/* Next Session */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-blue-100">
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-blue-100">
               <div className="mb-4 flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
                   NEXT UP
                 </span>
-                <div className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-colors group-hover:bg-blue-50 group-hover:text-blue-500">
+                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-blue-50 group-hover:text-blue-500">
                   <HugeiconsIcon icon={Calendar01Icon} className="size-5" strokeWidth={2.5} />
                 </div>
               </div>
               {nextBooking ? (
                 <div className="space-y-4">
                   <div>
-                    <div className="text-xl font-bold tracking-tight text-gray-900">
+                    <div className="text-xl font-bold tracking-tight text-foreground">
                       {nextBooking.service?.name}
                     </div>
-                    <div className="mt-1 flex items-center gap-2 text-sm font-medium text-gray-500">
+                    <div className="mt-1 flex items-center gap-2 text-sm font-medium text-muted-foreground">
                       <HugeiconsIcon icon={Clock01Icon} className="size-4" strokeWidth={2.5} />
                       <span>
                         {format(new Date(nextBooking.start_time), 'EEEE, MMM d @ h:mm a')}
@@ -181,14 +181,14 @@ export function ClientDashboard({
                   <Button
                     asChild
                     variant="secondary"
-                    className="h-10 w-full rounded-xl bg-gray-50 font-bold text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+                    className="h-10 w-full rounded-xl bg-muted font-bold text-foreground hover:bg-blue-50 hover:text-blue-600"
                   >
                     <Link href={`/bookings/${nextBooking.id}`}>View Details</Link>
                   </Button>
                 </div>
               ) : (
                 <div className="flex h-full flex-col justify-end">
-                  <p className="mb-4 font-medium text-gray-400">No confirmed sessions.</p>
+                  <p className="mb-4 font-medium text-muted-foreground">No confirmed sessions.</p>
                   <Link
                     href="/book"
                     className="group/link flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline"
@@ -201,22 +201,22 @@ export function ClientDashboard({
             </Card>
 
             {/* Wallet Balance */}
-            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-emerald-100">
+            <Card className="group flex min-h-[200px] flex-col justify-between rounded-[20px] border border-border bg-card p-6 shadow-sm transition-all hover:border-emerald-100">
               <div className="mb-4 flex items-center justify-between">
-                <span className="text-[10px] font-bold tracking-widest text-gray-400 uppercase">
+                <span className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">
                   BALANCE
                 </span>
-                <div className="rounded-xl bg-gray-50 p-2 text-gray-400 transition-colors group-hover:bg-emerald-50 group-hover:text-emerald-500">
+                <div className="rounded-xl bg-muted p-2 text-muted-foreground transition-colors group-hover:bg-emerald-50 group-hover:text-emerald-500">
                   <HugeiconsIcon icon={Wallet01Icon} className="size-5" strokeWidth={2.5} />
                 </div>
               </div>
               <div>
-                <div className="text-4xl font-bold tracking-tight text-gray-900">
+                <div className="text-4xl font-bold tracking-tight text-foreground">
                   €{(wallet?.balance_cents || 0) / 100}
                 </div>
-                <p className="mt-2 text-xs font-medium text-gray-400">Available funds</p>
+                <p className="mt-2 text-xs font-medium text-muted-foreground">Available funds</p>
               </div>
-              <div className="mt-4 border-t border-gray-50 pt-4">
+              <div className="mt-4 border-t border-border pt-4">
                 <Link
                   href="/wallet"
                   className="group/link flex items-center gap-1 text-sm font-bold text-emerald-600 hover:underline"
@@ -230,26 +230,26 @@ export function ClientDashboard({
 
           {/* Goal Tracker */}
           <div className="pt-2">
-            <div className="overflow-hidden rounded-[20px] border border-gray-100 bg-white p-2 shadow-sm">
+            <div className="overflow-hidden rounded-[20px] border border-border bg-card p-2 shadow-sm">
               <GoalTracker initialGoals={goals || []} />
             </div>
           </div>
 
           <section className="pt-2">
-            <h3 className="mb-4 px-1 text-lg font-bold text-gray-900">Quick Actions</h3>
+            <h3 className="mb-4 px-1 text-lg font-bold text-foreground">Quick Actions</h3>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               {quickActions.map((action) => (
                 <Link
                   key={action.href}
                   href={action.href}
-                  className="group flex items-start gap-4 rounded-[20px] border border-gray-100 bg-white p-5 shadow-sm transition-all hover:border-blue-100 hover:shadow-md"
+                  className="group flex items-start gap-4 rounded-[20px] border border-border bg-card p-5 shadow-sm transition-all hover:border-blue-100 hover:shadow-md"
                 >
-                  <div className="rounded-xl bg-gray-50 p-3 text-gray-600 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                  <div className="rounded-xl bg-muted p-3 text-muted-foreground transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
                     <HugeiconsIcon icon={action.icon} className="size-5" strokeWidth={2.5} />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-gray-900">{action.title}</h4>
-                    <p className="mt-1 text-xs leading-relaxed text-gray-500">
+                    <h4 className="text-sm font-bold text-foreground">{action.title}</h4>
+                    <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                       {action.description}
                     </p>
                   </div>
@@ -262,8 +262,8 @@ export function ClientDashboard({
         {/* Sidebar / Secondary Actions */}
         <div className="space-y-6">
           {/* Daily Mood Check-In */}
-          <div className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm">
-            <h3 className="mb-4 text-lg font-bold text-gray-900">Daily Check-in</h3>
+          <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm">
+            <h3 className="mb-4 text-lg font-bold text-foreground">Daily Check-in</h3>
             <MoodCheckIn />
           </div>
 
@@ -293,14 +293,14 @@ export function ClientDashboard({
             )}
           </AnimatePresence>
 
-          <div className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm">
+          <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm">
             <div className="mb-4 flex items-center gap-2">
               <HugeiconsIcon
                 icon={ActivityIcon}
-                className="h-4 w-4 text-gray-400"
+                className="h-4 w-4 text-muted-foreground"
                 strokeWidth={2.5}
               />
-              <h3 className="text-lg font-bold text-gray-900">System Status</h3>
+              <h3 className="text-lg font-bold text-foreground">System Status</h3>
             </div>
             {recentErrors.length === 0 ? (
               <div className="flex items-center gap-2 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-600">
@@ -328,7 +328,7 @@ export function ClientDashboard({
       </div>
 
       {/* Marketplace / History Section */}
-      <div className="border-t border-gray-100 pt-8">
+      <div className="border-t border-border pt-8">
         {!activeUsage && plans && plans.length > 0 && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">

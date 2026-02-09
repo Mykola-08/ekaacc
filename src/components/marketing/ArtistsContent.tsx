@@ -190,7 +190,7 @@ export default function ArtistsContent() {
                 <Link href="/book">
                   <Button
                     size="xl"
-                    className="btn btn-primary w-full bg-[#FFB405] text-[#000035] hover:bg-[#e8a204] sm:w-auto"
+                    className="btn btn-primary w-full bg-accent text-eka-dark hover:bg-accent/90 sm:w-auto"
                   >
                     {t('artists.session.cta')}
                   </Button>

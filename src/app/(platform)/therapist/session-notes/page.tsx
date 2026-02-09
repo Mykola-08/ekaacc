@@ -8,18 +8,18 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Input } from '@/components/platform/ui/input';
-import { Label } from '@/components/platform/ui/label';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+} from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import {
   FileText,
@@ -31,6 +31,7 @@ import {
   CheckSquare,
   FileText as FileTextIcon,
 } from 'lucide-react';
+import { PageSection } from '@/components/ui/page-section';
 import { Descendant } from 'slate';
 
 export default function SessionNotesPage() {
@@ -55,22 +56,17 @@ export default function SessionNotesPage() {
 
   return (
     <div className="container mx-auto max-w-6xl space-y-6 py-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="flex items-center gap-2 text-3xl font-bold">
-            <FileText className="text-primary h-8 w-8" />
-            Session Notes
-          </h1>
-          <p className="text-muted-foreground mt-1">
-            Document your therapy session with comprehensive notes
-          </p>
-        </div>
-        <Button onClick={handleSave} size="lg" className="gap-2">
-          <FileTextIcon className="h-5 w-5" />
-          Save Notes
-        </Button>
-      </div>
+      <PageSection
+        title="Session Notes"
+        description="Document your therapy session with comprehensive notes"
+        icon={FileText}
+        actions={
+          <Button onClick={handleSave} size="lg" className="gap-2">
+            <FileTextIcon className="h-5 w-5" />
+            Save Notes
+          </Button>
+        }
+      />
 
       {/* Session Info Card */}
       <Card>

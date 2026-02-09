@@ -1,9 +1,9 @@
 'use client';
 
-import { Avatar } from '@/components/platform/ui/avatar';
-import { AvatarFallback } from '@/components/platform/ui/avatar';
-import { Button } from '@/components/platform/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
+import { Avatar } from '@/components/ui/avatar';
+import { AvatarFallback } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui';
 import {
   Table,
@@ -12,12 +12,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table';
-import { Badge } from '@/components/platform/ui/badge';
-import { Separator } from '@/components/platform/ui/separator';
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { RefreshCw, PlusCircle, Users, Activity, Calendar, Mail, Phone } from 'lucide-react';
+import { EmptyState } from '@/components/ui/empty-state';
+import { PageSection } from '@/components/ui/page-section';
 
 import fxService from '@/lib/platform/services/platform-service';
 import { useToast } from '@/hooks/platform/ui/use-toast';
@@ -67,15 +69,17 @@ function ClientsPageSkeleton() {
 
 function NoClientsEmptyState({ onCreate }: { onCreate: () => void }) {
   return (
-    <Card className="border-2 border-dashed py-16 text-center">
-      <Users className="text-muted-foreground/80 mx-auto h-12 w-12" />
-      <h5 className="mt-4 text-lg font-semibold">No Clients Found</h5>
-      <p className="text-muted-foreground mt-1 text-sm">Get started by adding your first client.</p>
-      <Button onClick={onCreate} className="mt-4" variant="default">
-        <PlusCircle className="mr-2 h-4 w-4" />
-        Add New Client
-      </Button>
-    </Card>
+    <EmptyState
+      icon={Users}
+      title="No Clients Found"
+      description="Get started by adding your first client."
+      action={
+        <Button onClick={onCreate} variant="default">
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Add New Client
+        </Button>
+      }
+    />
   );
 }
 
@@ -125,25 +129,23 @@ export default function TherapistClientsPage() {
   return (
     <div className="container mx-auto p-6">
       <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h3 className="text-2xl font-bold">Clients</h3>
-            <p className="text-muted-foreground text-sm">
-              Manage your client relationships and view their profiles.
-            </p>
-          </div>
-          <div className="flex gap-2">
-            <Button onClick={loadClients} variant="outline" disabled={loading}>
-              <RefreshCw className={`mr-2 h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-              Refresh
-            </Button>
-            <Button onClick={createDemoClient} disabled={loading} variant="default">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              New Client
-            </Button>
-          </div>
-        </div>
+        <PageSection
+          title="Clients"
+          description="Manage your client relationships and view their profiles."
+          level="h2"
+          actions={
+            <div className="flex gap-2">
+              <Button onClick={loadClients} variant="outline" loading={loading}>
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Refresh
+              </Button>
+              <Button onClick={createDemoClient} disabled={loading} variant="default">
+                <PlusCircle className="mr-2 h-4 w-4" />
+                New Client
+              </Button>
+            </div>
+          }
+        />
 
         {loading ? (
           <ClientsPageSkeleton />

@@ -146,7 +146,7 @@ export default function InsurancePolicy() {
   return (
     <div className="bg-muted/30 min-h-screen px-4 py-12 sm:px-6 lg:px-8">
       <div className="bg-card mx-auto max-w-4xl overflow-hidden rounded-2xl shadow-xl">
-        <div className="flex items-center justify-between bg-blue-900 px-8 py-8 text-white">
+        <div className="flex items-center justify-between bg-blue-900 px-8 py-8 text-primary-foreground">
           <div>
             <h1 className="text-3xl font-bold">{content[language].title}</h1>
             <p className="mt-2 text-blue-100">{content[language].lastUpdated}</p>

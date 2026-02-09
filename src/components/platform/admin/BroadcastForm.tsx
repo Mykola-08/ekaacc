@@ -1,17 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/platform/ui/button';
-import { Input } from '@/components/platform/ui/input';
-import { Textarea } from '@/components/platform/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/platform/ui/card';
+} from '@/components/ui/select';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 
 // This would typically fetch from your API

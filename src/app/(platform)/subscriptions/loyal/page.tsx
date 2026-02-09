@@ -1,8 +1,9 @@
 'use client';
 
-import { Badge } from '@/components/platform/ui/badge';
-import { Button } from '@/components/platform/ui/button';
-import { Switch } from '@/components/platform/ui/switch';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { LoadingSpinner } from '@/components/ui/loading-states';
+import { Switch } from '@/components/ui/switch';
 import {
   Card,
   CardContent,
@@ -10,8 +11,8 @@ import {
   CardHeader,
   CardTitle,
   CardFooter,
-} from '@/components/platform/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Table,
   TableBody,
@@ -20,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table';
+} from '@/components/ui/table';
 import { useState, useEffect } from 'react';
 import { Check, Star, Sparkles, TrendingUp, Zap, ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -124,7 +125,7 @@ export default function LoyalSubscriptionPage() {
     return (
       <div className="container mx-auto p-6">
         <div className="flex min-h-[400px] items-center justify-center">
-          <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-amber-600"></div>
+          <LoadingSpinner size="lg" />
         </div>
       </div>
     );

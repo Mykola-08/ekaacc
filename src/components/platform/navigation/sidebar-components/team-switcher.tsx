@@ -12,13 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from '@/components/platform/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/platform/ui/sidebar';
+} from '@/components/ui/sidebar';
 
 export function TeamSwitcher() {
   const { isMobile } = useSidebar();

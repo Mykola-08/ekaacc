@@ -2,13 +2,14 @@
 
 import React, { ReactNode, useMemo } from 'react';
 import { useAuth } from '@/context/platform/auth-context';
+import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
   SystemRole,
   PermissionGroup,
   PermissionAction,
 } from '@/lib/platform/config/role-permissions';
-import { Alert, AlertDescription, AlertTitle } from '@/components/platform/ui/alert';
-import { Button } from '@/components/platform/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 import { Shield, AlertTriangle } from 'lucide-react';
 
@@ -87,7 +88,7 @@ export function UnifiedRoleGuard({
       <>{loadingFallback}</>
     ) : (
       <div className="flex min-h-[400px] items-center justify-center">
-        <div className="border-primary h-8 w-8 animate-spin rounded-full border-b-2"></div>
+        <LoadingSpinner />
       </div>
     );
   }

@@ -7,9 +7,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table';
+} from '@/components/ui/table';
 import {
   Dialog,
   DialogContent,
@@ -25,14 +25,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/platform/ui/dialog';
+} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
+} from '@/components/ui/select';
 import {
   Form,
   FormControl,
@@ -41,11 +41,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/platform/ui/form';
-import { Input } from '@/components/platform/ui/input';
-import { Textarea } from '@/components/platform/ui/textarea';
-import { Checkbox } from '@/components/platform/ui/checkbox';
-import { Label } from '@/components/platform/ui/label';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Label } from '@/components/ui/label';
 import { RoleBadge } from '@/components/platform/role-guard';
 import { useAuth } from '@/context/platform/auth-context';
 import { supabase } from '@/lib/platform/supabase';

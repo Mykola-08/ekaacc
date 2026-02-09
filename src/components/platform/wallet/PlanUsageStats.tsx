@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/platform/ui/card';
-import { Progress } from '@/components/platform/ui/progress';
-import { Badge } from '@/components/platform/ui/badge';
-import { Button } from '@/components/platform/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { PlanUsage } from '@/app/actions/plans'; // Ensure exported
 import { formatDistanceToNow } from 'date-fns';
 import { Package, AlertCircle } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface PlanUsageStatsProps {
   plans: PlanUsage[];

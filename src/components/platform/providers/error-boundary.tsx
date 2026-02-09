@@ -3,7 +3,7 @@
 import { Component, ReactNode } from 'react';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { SurfacePanel } from '@/components/platform/eka/surface-panel';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -11,7 +11,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 import { sendClientErrorReport } from '@/lib/observability/client-error-reporting';
 

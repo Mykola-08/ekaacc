@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 import { ArrowUp, CheckCircle, Circle, Lock } from 'lucide-react';
 
 export interface TierProgressProps {
@@ -38,7 +38,7 @@ export function TierProgressIndicator({
         </div>
 
         <div
-          className="relative h-3 w-full overflow-hidden rounded-full bg-gray-200"
+          className="relative h-3 w-full overflow-hidden rounded-full bg-muted"
           role="progressbar"
           aria-valuenow={currentProgress}
           aria-valuemin={0}

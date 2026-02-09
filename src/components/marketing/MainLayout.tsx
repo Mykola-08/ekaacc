@@ -333,7 +333,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                             item.isGold
                               ? 'border border-amber-100 bg-amber-50 font-bold text-amber-600'
                               : isActivePath(item.href)
-                                ? 'bg-[#FFB405]/10 text-[#FFB405]'
+                                ? 'bg-accent/10 text-accent'
                                 : 'text-gray-700 hover:bg-gray-50'
                           }`}
                         >
@@ -392,7 +392,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </nav>
 
       {/* Main Content */}
-      <main id="main-content" className="ux-flow-container flex-1" tabIndex={-1}>
+      <main id="main-content" className="flex-1 w-full" tabIndex={-1}>
         {children}
       </main>
 

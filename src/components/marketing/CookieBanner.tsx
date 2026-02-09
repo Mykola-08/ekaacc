@@ -70,7 +70,7 @@ export default function CookieBanner() {
                 <div className="flex gap-3">
                   <button
                     onClick={acceptCookies}
-                    className="rounded-full bg-[#FFB405] px-6 py-2 text-sm font-semibold text-[#000035] transition-colors duration-200 hover:bg-[#e8a204]"
+                    className="rounded-full bg-accent px-6 py-2 text-sm font-semibold text-eka-dark transition-colors duration-200 hover:bg-accent/90"
                   >
                     {t('cookies.accept')}
                   </button>
@@ -84,7 +84,7 @@ export default function CookieBanner() {
 
                 <Link
                   href="/cookie-policy"
-                  className="text-sm font-medium text-[#FFB405] transition-colors duration-200 hover:text-[#e8a204]"
+                  className="text-sm font-medium text-accent transition-colors duration-200 hover:text-accent/90"
                 >
                   {t('cookies.learnMore')}
                 </Link>

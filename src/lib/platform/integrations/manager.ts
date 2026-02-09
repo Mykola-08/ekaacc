@@ -1,7 +1,7 @@
 import { StripeIntegration } from './stripe';
 import { ResendIntegration } from './resend';
 import { SupabaseIntegration } from './supabase';
-import { ZoomIntegration } from './zoom';
+// import { ZoomIntegration } from './zoom';
 import { GoogleCalendarIntegration } from './google-calendar';
 import { BaseIntegration } from './base';
 
@@ -38,20 +38,20 @@ export class IntegrationManager {
       new SupabaseIntegration({
         enabled: true,
         url: process.env.NEXT_PUBLIC_SUPABASE_URL,
-        serviceKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+        serviceKey: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY,
       })
     );
 
     // Zoom
-    this.integrations.set(
-      'zoom',
-      new ZoomIntegration({
-        enabled: true,
-        apiKey: process.env.ZOOM_CLIENT_ID,
-        apiSecret: process.env.ZOOM_CLIENT_SECRET,
-        accountId: process.env.ZOOM_ACCOUNT_ID,
-      })
-    );
+    // this.integrations.set(
+    //   'zoom',
+    //   new ZoomIntegration({
+    //     enabled: true,
+    //     apiKey: process.env.ZOOM_CLIENT_ID,
+    //     apiSecret: process.env.ZOOM_CLIENT_SECRET,
+    //     accountId: process.env.ZOOM_ACCOUNT_ID,
+    //   })
+    // );
 
     // Google Calendar
     this.integrations.set(

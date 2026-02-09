@@ -8,10 +8,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Table,
   TableBody,
@@ -19,15 +19,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/platform/ui/table';
+} from '@/components/ui/table';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Switch } from '@/components/platform/ui/switch';
+} from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 import { User as UserIcon, Shield, Mail, Calendar } from 'lucide-react';
 
 interface User {

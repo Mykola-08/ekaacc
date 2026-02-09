@@ -27,7 +27,7 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from '@/components/platform/ui/sidebar';
+} from '@/components/ui/sidebar';
 import { useAuth } from '@/context/platform/auth-context';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/context/LanguageContext';

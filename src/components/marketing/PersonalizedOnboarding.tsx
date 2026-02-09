@@ -332,7 +332,7 @@ export default function PersonalizedOnboarding() {
       >
         {/* Decorative elements */}
         <div className="pointer-events-none absolute top-0 left-0 h-full w-full overflow-hidden">
-          <div className="absolute top-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-[#FFB405]/10 blur-[100px]" />
+          <div className="absolute top-[-10%] right-[-10%] h-[500px] w-[500px] rounded-full bg-accent/10 blur-[100px]" />
           <div className="absolute bottom-[-10%] left-[-10%] h-[500px] w-[500px] rounded-full bg-blue-200/20 blur-[100px]" />
         </div>
 
@@ -343,7 +343,7 @@ export default function PersonalizedOnboarding() {
             transition={{ delay: 0.2 }}
             className="mb-8 inline-flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-xl ring-4 shadow-blue-900/5 ring-white"
           >
-            <Heart className="h-12 w-12 text-[#FFB405]" />
+            <Heart className="h-12 w-12 text-accent" />
           </motion.div>
           <motion.h1
             initial={{ y: 20, opacity: 0 }}
@@ -366,7 +366,7 @@ export default function PersonalizedOnboarding() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.5 }}
             onClick={startOnboarding}
-            className="inline-flex items-center rounded-full bg-[#FFB405] px-10 py-4 text-lg font-semibold text-[#000035] shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-[#e8a204] hover:shadow-[#FFB405]/20"
+            className="inline-flex items-center rounded-full bg-accent px-10 py-4 text-lg font-semibold text-eka-dark shadow-lg transition-all duration-300 hover:-translate-y-1 hover:bg-accent/90 hover:shadow-accent/20"
           >
             {t('common.getStarted')}
             <ChevronRight className="ml-3 h-6 w-6" />
@@ -451,7 +451,7 @@ export default function PersonalizedOnboarding() {
                   </Link>
                   <Link
                     href="/book"
-                    className="flex flex-1 transform items-center justify-center rounded-full bg-[#FFB405] px-4 py-2 text-sm font-semibold text-[#000035] shadow-md transition-colors duration-200 hover:-translate-y-0.5 hover:bg-[#e8a204] hover:shadow-lg"
+                    className="flex flex-1 transform items-center justify-center rounded-full bg-accent px-4 py-2 text-sm font-semibold text-eka-dark shadow-md transition-colors duration-200 hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-lg"
                   >
                     {t('common.bookNow')}
                   </Link>
@@ -463,7 +463,7 @@ export default function PersonalizedOnboarding() {
           <div className="text-center">
             <Link
               href="/book"
-              className="inline-flex transform items-center rounded-full bg-[#FFB405] px-8 py-4 font-semibold text-[#000035] shadow-lg transition-colors duration-200 hover:-translate-y-1 hover:bg-[#e8a204] hover:shadow-xl"
+              className="inline-flex transform items-center rounded-full bg-accent px-8 py-4 font-semibold text-eka-dark shadow-lg transition-colors duration-200 hover:-translate-y-1 hover:bg-accent/90 hover:shadow-xl"
             >
               {t('common.bookNow')}
               <ChevronRight className="ml-2 h-5 w-5" />
@@ -480,7 +480,7 @@ export default function PersonalizedOnboarding() {
       <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
         <div className="text-center">
           <div className="mb-8 inline-flex h-20 w-20 items-center justify-center rounded-full bg-white shadow-lg">
-            <Brain className="h-10 w-10 animate-pulse text-[#FFB405]" />
+            <Brain className="h-10 w-10 animate-pulse text-accent" />
           </div>
           <h2 className="mb-4 text-2xl font-light text-gray-900">
             {t('onboarding.processing.title')}
@@ -489,7 +489,7 @@ export default function PersonalizedOnboarding() {
           <div className="mt-8">
             <div className="mx-auto h-1.5 w-64 overflow-hidden rounded-full bg-gray-200">
               <motion.div
-                className="h-full rounded-full bg-[#FFB405]"
+                className="h-full rounded-full bg-accent"
                 initial={{ width: '0%' }}
                 animate={{ width: '100%' }}
                 transition={{ duration: 2, ease: 'easeInOut' }}
@@ -505,7 +505,7 @@ export default function PersonalizedOnboarding() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-slate-50">
       {/* Background Decor */}
-      <div className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-[#FFB405]/5 blur-[100px]" />
+      <div className="pointer-events-none absolute top-0 right-0 h-[500px] w-[500px] rounded-full bg-accent/5 blur-[100px]" />
       <div className="pointer-events-none absolute bottom-0 left-0 h-[500px] w-[500px] rounded-full bg-blue-500/5 blur-[100px]" />
 
       <div className="relative z-10 mx-auto mb-24 flex w-full max-w-5xl flex-1 flex-col px-4 py-6">
@@ -522,7 +522,7 @@ export default function PersonalizedOnboarding() {
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-200">
             <motion.div
-              className="h-full rounded-full bg-[#FFB405] shadow-[0_0_10px_rgba(255,180,5,0.5)]"
+              className="h-full rounded-full bg-accent shadow-[0_0_10px_rgba(255,180,5,0.5)]"
               initial={{ width: 0 }}
               animate={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
               transition={{ duration: 0.5 }}
@@ -557,8 +557,8 @@ export default function PersonalizedOnboarding() {
                     onClick={() => handleSelection(currentQuestion.id, option.id)}
                     className={`group relative flex min-h-[100px] items-center rounded-[20px] border p-6 text-left shadow-sm transition-all duration-300 ${
                       isSelected
-                        ? 'border-[#FFB405] bg-[#FFB405]/5 shadow-md ring-1 ring-[#FFB405]'
-                        : 'border-white bg-white hover:-translate-y-1 hover:border-[#FFB405]/50 hover:shadow-lg'
+                        ? 'border-accent bg-accent/5 shadow-md ring-1 ring-accent'
+                        : 'border-white bg-white hover:-translate-y-1 hover:border-accent/50 hover:shadow-lg'
                     } `}
                   >
                     <div className="relative z-10 flex w-full items-center space-x-4">
@@ -566,15 +566,15 @@ export default function PersonalizedOnboarding() {
                         <div
                           className={`flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
                             isSelected
-                              ? 'scale-110 transform bg-[#FFB405] text-[#000035] shadow-md'
-                              : 'bg-gray-50 text-gray-400 group-hover:bg-[#FFB405]/10 group-hover:text-[#FFB405]'
+                              ? 'scale-110 transform bg-accent text-eka-dark shadow-md'
+                              : 'bg-gray-50 text-gray-400 group-hover:bg-accent/10 group-hover:text-accent'
                           } `}
                         >
                           <option.icon className="h-6 w-6" />
                         </div>
                       )}
                       <span
-                        className={`text-lg leading-tight font-medium transition-colors ${isSelected ? 'text-[#000035]' : 'text-gray-600 group-hover:text-gray-900'}`}
+                        className={`text-lg leading-tight font-medium transition-colors ${isSelected ? 'text-eka-dark' : 'text-gray-600 group-hover:text-gray-900'}`}
                       >
                         {option.label}
                       </span>
@@ -585,7 +585,7 @@ export default function PersonalizedOnboarding() {
                       <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className="absolute top-4 right-4 text-[#FFB405]"
+                        className="absolute top-4 right-4 text-accent"
                       >
                         <CheckCircle className="h-5 w-5 fill-current" />
                       </motion.div>
@@ -620,7 +620,7 @@ export default function PersonalizedOnboarding() {
             disabled={!canProceed()}
             className={`flex items-center rounded-full px-8 py-3 font-semibold transition-all duration-200 ${
               canProceed()
-                ? 'transform bg-[#FFB405] text-[#000035] shadow-lg hover:-translate-y-0.5 hover:bg-[#e8a204] hover:shadow-xl'
+                ? 'transform bg-accent text-eka-dark shadow-lg hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-xl'
                 : 'cursor-not-allowed bg-gray-200 text-gray-400'
             } `}
           >

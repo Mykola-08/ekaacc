@@ -1,17 +1,17 @@
 'use client';
 
-import { Badge } from '@/components/platform/ui/badge';
-import { Button } from '@/components/platform/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Separator } from '@/components/platform/ui/separator';
-import { Input } from '@/components/platform/ui/input';
-import { Label } from '@/components/platform/ui/label';
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Dialog,
   DialogContent,
@@ -19,17 +19,17 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/platform/ui/dialog';
+} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
+} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui';
-import { Textarea } from '@/components/platform/ui/textarea';
-import { ScrollArea } from '@/components/platform/ui/scroll-area';
+import { Textarea } from '@/components/ui/textarea';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import React, { useEffect, useState, useMemo } from 'react';
 import {
   FileText,
@@ -53,7 +53,7 @@ import {
   DEFAULT_TEMPLATES,
 } from '@/lib/platform/types/template-types';
 import type { User as UserType, Session } from '@/lib/platform/types/types';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 
 export default function TherapistTemplatesPage() {
   const { user: currentUser } = useAuth();

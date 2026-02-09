@@ -118,7 +118,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-6 border-b border-gray-100 pb-6">
+                  <div className="flex items-center gap-6 border-b border-border pb-6">
                     <div className="flex h-20 w-20 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-blue-600">
                       {currentUser.initials || 'U'}
                     </div>
@@ -205,7 +205,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         checked={formData.marketingEmails}
                         onChange={() => handleToggle('marketingEmails')}
                         className={cn(
-                          formData.marketingEmails ? 'bg-blue-600' : 'bg-gray-200',
+                          formData.marketingEmails ? 'bg-blue-600' : 'bg-muted',
                           'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
                         )}
                       >
@@ -218,7 +218,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         />
                       </Switch>
                     </Field>
-                    <div className="border-t border-gray-100" />
+                    <div className="border-t border-border" />
                     <Field className="flex items-center justify-between">
                       <span className="flex flex-col">
                         <Label className="text-foreground text-sm font-medium">
@@ -232,7 +232,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         checked={formData.securityEmails}
                         onChange={() => handleToggle('securityEmails')}
                         className={cn(
-                          formData.securityEmails ? 'bg-blue-600' : 'bg-gray-200',
+                          formData.securityEmails ? 'bg-blue-600' : 'bg-muted',
                           'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
                         )}
                       >
@@ -245,7 +245,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         />
                       </Switch>
                     </Field>
-                    <div className="border-t border-gray-100" />
+                    <div className="border-t border-border" />
                     <Field className="flex items-center justify-between">
                       <span className="flex flex-col">
                         <Label className="text-foreground text-sm font-medium">
@@ -259,7 +259,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         checked={formData.activityEmails}
                         onChange={() => handleToggle('activityEmails')}
                         className={cn(
-                          formData.activityEmails ? 'bg-blue-600' : 'bg-gray-200',
+                          formData.activityEmails ? 'bg-blue-600' : 'bg-muted',
                           'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
                         )}
                       >
@@ -314,7 +314,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         className="border-border bg-muted/30 block w-full rounded-xl p-3"
                       />
                     </div>
-                    <button className="rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800">
+                    <button className="rounded-xl bg-foreground px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-foreground/90">
                       Update Password
                     </button>
                   </div>
@@ -368,7 +368,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                         <option value="PST">Pacific Time</option>
                       </select>
                     </div>
-                    <div className="col-span-full border-t border-gray-100 pt-4">
+                    <div className="col-span-full border-t border-border pt-4">
                       <Field className="flex items-center justify-between">
                         <span className="flex flex-col">
                           <Label className="text-foreground text-sm font-medium">Dark Mode</Label>
@@ -380,7 +380,7 @@ export function SettingsContentHeadless({ currentUser }: SettingsContentProps) {
                           checked={formData.darkMode}
                           onChange={() => handleToggle('darkMode')}
                           className={cn(
-                            formData.darkMode ? 'bg-blue-600' : 'bg-gray-200',
+                            formData.darkMode ? 'bg-blue-600' : 'bg-muted',
                             'relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:outline-none'
                           )}
                         >

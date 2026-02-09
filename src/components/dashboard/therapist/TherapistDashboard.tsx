@@ -47,7 +47,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
     <DashboardLayout profile={profile}>
       <div className="animate-in fade-in space-y-8 font-sans duration-500">
         {/* Hero / Welcome */}
-        <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-[20px] border border-gray-100/80 bg-white p-8 shadow-sm md:flex-row md:items-center">
+        <div className="relative flex flex-col justify-between gap-6 overflow-hidden rounded-[20px] border border-border bg-card p-8 shadow-sm md:flex-row md:items-center">
           <div className="relative z-10">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-amber-100 bg-amber-50 px-3 py-1 text-amber-600">
               <Star className="h-3.5 w-3.5 fill-amber-600" />
@@ -55,11 +55,11 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                 Professional Portal
               </span>
             </div>
-            <h1 className="mb-2 text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="mb-2 text-3xl font-bold tracking-tight text-foreground">
               Welcome back, <span className="text-indigo-600">{profile.first_name || 'Dr.'}</span>
             </h1>
-            <p className="max-w-lg font-medium text-gray-500">
-              You have <span className="font-bold text-gray-900">{bookings.length}</span> sessions
+            <p className="max-w-lg font-medium text-muted-foreground">
+              You have <span className="font-bold text-foreground">{bookings.length}</span> sessions
               scheduled for today.
             </p>
           </div>
@@ -103,23 +103,23 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
           {/* Main Schedule Column */}
           <div className="space-y-6 lg:col-span-2">
             <div className="flex items-baseline justify-between px-2">
-              <h3 className="text-xl font-bold tracking-tight text-gray-900">Upcoming Sessions</h3>
+              <h3 className="text-xl font-bold tracking-tight text-foreground">Upcoming Sessions</h3>
               <Button
                 variant="ghost"
                 size="sm"
-                className="rounded-full px-4 text-xs font-bold text-gray-500 hover:bg-indigo-50 hover:text-indigo-600"
+                className="rounded-full px-4 text-xs font-bold text-muted-foreground hover:bg-indigo-50 hover:text-indigo-600"
               >
                 View Calendar
               </Button>
             </div>
 
             {loading ? (
-              <div className="rounded-[20px] border border-dashed border-gray-200 bg-gray-50/50 p-12 text-center text-gray-400">
+              <div className="rounded-[20px] border border-dashed border-border bg-muted/50 p-12 text-center text-muted-foreground">
                 Loading schedule...
               </div>
             ) : bookings.length === 0 ? (
-              <div className="rounded-[20px] border border-dashed border-gray-200 bg-gray-50/50 p-12 text-center">
-                <p className="font-medium text-gray-500">No sessions scheduled for today.</p>
+              <div className="rounded-[20px] border border-dashed border-border bg-muted/50 p-12 text-center">
+                <p className="font-medium text-muted-foreground">No sessions scheduled for today.</p>
                 <Button variant="link" className="mt-2 font-bold text-indigo-600" asChild>
                   <Link href="/availability">Update your hours</Link>
                 </Button>
@@ -133,10 +133,10 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
                   >
-                    <Card className="group rounded-[28px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-indigo-100 hover:shadow-md">
+                    <Card className="group rounded-[28px] border border-border bg-card p-6 shadow-sm transition-all hover:border-indigo-100 hover:shadow-md">
                       <div className="flex flex-col gap-6 sm:flex-row sm:items-center">
                         <div className="flex flex-1 items-center gap-5">
-                          <div className="flex h-16 w-16 flex-col items-center justify-center rounded-[20px] border border-gray-100 bg-gray-50 transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600">
+                          <div className="flex h-16 w-16 flex-col items-center justify-center rounded-[20px] border border-border bg-muted transition-colors group-hover:bg-indigo-50 group-hover:text-indigo-600">
                             <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">
                               {format(new Date(booking.start_time), 'MMM')}
                             </span>
@@ -145,16 +145,16 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                             </span>
                           </div>
                           <div>
-                            <h4 className="text-lg font-bold tracking-tight text-gray-900 transition-colors group-hover:text-indigo-600">
+                            <h4 className="text-lg font-bold tracking-tight text-foreground transition-colors group-hover:text-indigo-600">
                               {booking.services?.title || 'Session'}
                             </h4>
-                            <div className="mt-1 flex items-center gap-3 text-sm text-gray-500">
+                            <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
                               <span className="flex items-center gap-1 font-semibold tabular-nums">
                                 <Clock className="h-3.5 w-3.5" />{' '}
                                 {format(new Date(booking.start_time), 'h:mm a')}
                               </span>
                               <span className="opacity-20">|</span>
-                              <span className="font-medium text-gray-700">
+                              <span className="font-medium text-foreground">
                                 {booking.profiles?.first_name}{' '}
                                 {booking.profiles?.last_name || 'Guest'}
                               </span>
@@ -171,7 +171,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
                               setIsLogModalOpen(true);
                             }}
                             variant="outline"
-                            className="h-10 rounded-xl border-gray-200 px-5 font-bold text-gray-600 transition-all hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
+                            className="h-10 rounded-xl border-border px-5 font-bold text-muted-foreground transition-all hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
                           >
                             Review
                           </Button>
@@ -186,7 +186,7 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
 
           {/* Patient Context Sidebar */}
           <div className="space-y-6">
-            <div className="rounded-[20px] border border-gray-100 bg-white p-6 shadow-sm">
+            <div className="rounded-[20px] border border-border bg-card p-6 shadow-sm">
               <PatientActivitySummary userId={userId} />
             </div>
             <div className="overflow-hidden rounded-[20px]">
@@ -210,15 +210,15 @@ export function TherapistDashboard({ profile, userId }: { profile: any; userId: 
 
 function MetricCard({ icon: Icon, label, value, bg }: any) {
   return (
-    <div className="flex cursor-default items-center gap-5 rounded-[28px] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:border-gray-200">
+    <div className="flex cursor-default items-center gap-5 rounded-[28px] border border-border bg-card p-6 shadow-sm transition-all hover:border-border">
       <div className={`flex h-12 w-12 items-center justify-center rounded-[20px] ${bg}`}>
         <Icon className="h-6 w-6" strokeWidth={2.5} />
       </div>
       <div>
-        <div className="mb-1 text-[10px] font-bold tracking-wider text-gray-400 uppercase">
+        <div className="mb-1 text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
           {label}
         </div>
-        <div className="text-2xl font-bold tracking-tight text-gray-900">{value}</div>
+        <div className="text-2xl font-bold tracking-tight text-foreground">{value}</div>
       </div>
     </div>
   );

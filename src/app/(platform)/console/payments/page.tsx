@@ -20,7 +20,7 @@ export default function PaymentsPage() {
             <Filter className="mr-2 h-4 w-4" />
             Filter
           </button>
-          <button className="inline-flex items-center justify-center rounded-full bg-gray-900 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-gray-800">
+          <button className="inline-flex items-center justify-center rounded-full bg-foreground px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-foreground/90">
             Export Data
           </button>
         </div>
@@ -50,7 +50,7 @@ export default function PaymentsPage() {
               <Wallet className="h-4 w-4" />
               Stripe Integrated
             </span>
-            <span className="h-4 w-px bg-gray-200" />
+            <span className="h-4 w-px bg-border" />
             <span className="flex items-center gap-1.5">
               <CreditCard className="h-4 w-4" />
               Secure Processing

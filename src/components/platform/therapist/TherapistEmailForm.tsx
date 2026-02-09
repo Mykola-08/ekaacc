@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useTransition } from 'react';
-import { Button } from '@/components/platform/ui/button';
-import { Input } from '@/components/platform/ui/input';
-import { Textarea } from '@/components/platform/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Label } from '@/components/platform/ui/label';
+} from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
 import {
   Card,
   CardContent,
@@ -19,15 +19,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+} from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/platform/ui/dialog';
+} from '@/components/ui/dialog';
 import { sendTherapistEmail, previewTherapistEmail } from '@/app/actions/therapist-email';
 import { TransactionalEmailType } from '@/lib/platform/services/transactional-email-service';
 import { toast } from 'sonner'; // Assuming sonner or use-toast

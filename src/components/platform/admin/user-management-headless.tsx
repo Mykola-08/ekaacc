@@ -105,7 +105,7 @@ export function UserManagementHeadless() {
         />
       </div>
 
-      <div className="bg-card overflow-hidden rounded-[20px] shadow-xl ring-1 shadow-slate-200/50 ring-gray-200">
+      <div className="bg-card overflow-hidden rounded-[20px] shadow-xl ring-1 shadow-slate-200/50 ring-border">
         <div className="overflow-x-auto">
           <table className="divide-border min-w-full divide-y">
             <thead className="bg-muted/30/50">
@@ -164,7 +164,7 @@ export function UserManagementHeadless() {
                         onChange={(val) => handleRoleChange(user.id, val)}
                       >
                         <div className="relative">
-                          <ListboxButton className="bg-card/50 hover:bg-card relative w-full cursor-default rounded-xl py-2 pr-10 pl-3 text-left shadow-sm ring-1 ring-gray-200 transition-colors ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
+                          <ListboxButton className="bg-card/50 hover:bg-card relative w-full cursor-default rounded-xl py-2 pr-10 pl-3 text-left shadow-sm ring-1 ring-border transition-colors ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
                             <span className="text-foreground/90 block truncate font-medium">
                               {user.user_metadata?.role || 'User'}
                             </span>

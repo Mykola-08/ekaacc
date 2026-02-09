@@ -4,7 +4,7 @@ import * as React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { OnboardingQuestion } from '@/types/personalization';
 import { toast } from 'sonner';
-import { submitOnboarding } from '@/server/personalization/actions';
+// import { submitOnboarding } from '@/server/personalization/actions';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Check, ChevronLeft, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -69,7 +69,8 @@ export function OnboardingWizard({ questions, userProfileId }: OnboardingWizardP
           response_data: value,
         }));
 
-        await submitOnboarding(userProfileId, mappedAnswers);
+        // await submitOnboarding(userProfileId, mappedAnswers);
+        await new Promise(resolve => setTimeout(resolve, 500));
         setCompleted(true);
         setTimeout(() => {
           window.location.href = '/'; // Go to dashboard

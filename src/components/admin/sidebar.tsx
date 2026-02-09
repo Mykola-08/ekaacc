@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
   Users,
-  Calendar,
   CreditCard,
   MessageSquare,
   Settings,
@@ -17,42 +16,37 @@ import {
 const sidebarItems = [
   {
     title: 'Overview',
-    href: '/admin',
+    href: '/console',
     icon: LayoutDashboard,
   },
   {
     title: 'Users',
-    href: '/admin/users',
+    href: '/console/users',
     icon: Users,
   },
   {
-    title: 'Bookings',
-    href: '/admin/bookings',
-    icon: Calendar,
-  },
-  {
     title: 'Services',
-    href: '/admin/services',
+    href: '/console/services',
     icon: Package,
   },
   {
-    title: 'Finance',
-    href: '/admin/finance',
+    title: 'Payments',
+    href: '/console/payments',
     icon: CreditCard,
   },
   {
     title: 'Community',
-    href: '/admin/community', // Assuming we want to moderate the forum
+    href: '/console/community',
     icon: MessageSquare,
   },
   {
     title: 'Error Logs',
-    href: '/admin/errors',
+    href: '/console/errors',
     icon: AlertTriangle,
   },
   {
     title: 'Settings',
-    href: '/admin/settings',
+    href: '/console/settings',
     icon: Settings,
   },
 ];
@@ -68,7 +62,7 @@ export function AdminSidebarContent({ onClick }: { onClick?: () => void }) {
       <div className="scrollbar-none flex-1 space-y-1 overflow-x-hidden overflow-y-auto px-4">
         {sidebarItems.map((item) => {
           const isActive =
-            pathname === item.href || (item.href !== '/admin' && pathname?.startsWith(item.href));
+            pathname === item.href || (item.href !== '/console' && pathname?.startsWith(item.href));
 
           return (
             <Link

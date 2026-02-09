@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { CatalogService } from '@/server/catalog/service';
 import { LoyaltyService } from '@/server/loyalty/service';
 
 export async function GET(req: Request) {
@@ -7,8 +6,7 @@ export async function GET(req: Request) {
   const userId = searchParams.get('userId');
 
   try {
-    const catalog = new CatalogService();
-    const rewards = await catalog.getRewards();
+    const rewards: any[] = [];
 
     let balance = { current_points: 0 };
     if (userId) {

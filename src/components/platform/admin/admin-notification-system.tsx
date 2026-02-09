@@ -7,13 +7,15 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Switch } from '@/components/platform/ui/switch';
-import { Input } from '@/components/platform/ui/input';
-import { Label } from '@/components/platform/ui/label';
-import { Textarea } from '@/components/platform/ui/textarea';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { StatusBadge, getStatusVariant } from '@/components/ui/status-badge';
+import { LoadingSpinner } from '@/components/ui/loading-states';
+import { Switch } from '@/components/ui/switch';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Bell,
   AlertTriangle,
@@ -219,33 +221,7 @@ export function AdminNotificationSystem() {
     }
   };
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case 'info':
-        return 'bg-blue-100 text-blue-800';
-      case 'warning':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'error':
-        return 'bg-red-100 text-red-800';
-      case 'success':
-        return 'bg-green-100 text-green-800';
-      default:
-        return 'bg-muted text-foreground';
-    }
-  };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return 'bg-red-100 text-red-800';
-      case 'medium':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'low':
-        return 'bg-blue-100 text-blue-800';
-      default:
-        return 'bg-muted text-foreground';
-    }
-  };
 
   const filteredNotifications = notifications.filter((notification) => {
     const matchesSearch =
@@ -262,7 +238,7 @@ export function AdminNotificationSystem() {
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -314,7 +290,7 @@ export function AdminNotificationSystem() {
               <select
                 value={typeFilter}
                 onChange={(e) => setTypeFilter(e.target.value)}
-                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="rounded-md border border-border px-3 py-2 text-sm"
               >
                 <option value="all">All Types</option>
                 <option value="info">Info</option>
@@ -325,7 +301,7 @@ export function AdminNotificationSystem() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="rounded-md border border-border px-3 py-2 text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="active">Active</option>
@@ -350,8 +326,8 @@ export function AdminNotificationSystem() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge className={getTypeColor(notification.type)}>{notification.type}</Badge>
-                  <Badge className={getPriorityColor(notification.priority)}>
+                  <StatusBadge status={notification.type} />
+                  <Badge variant={getStatusVariant(notification.priority === 'high' ? 'critical' : notification.priority === 'medium' ? 'warning' : 'info')} className="capitalize">
                     {notification.priority}
                   </Badge>
                   <Switch
@@ -460,7 +436,7 @@ export function AdminNotificationSystem() {
                     onChange={(e) =>
                       setNewNotification({ ...newNotification, type: e.target.value as any })
                     }
-                    className="w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="w-full rounded-md border border-border px-3 py-2"
                   >
                     <option value="info">Info</option>
                     <option value="warning">Warning</option>
@@ -476,7 +452,7 @@ export function AdminNotificationSystem() {
                     onChange={(e) =>
                       setNewNotification({ ...newNotification, priority: e.target.value as any })
                     }
-                    className="w-full rounded-md border border-gray-300 px-3 py-2"
+                    className="w-full rounded-md border border-border px-3 py-2"
                   >
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
@@ -492,7 +468,7 @@ export function AdminNotificationSystem() {
                   onChange={(e) =>
                     setNewNotification({ ...newNotification, recipients: e.target.value as any })
                   }
-                  className="w-full rounded-md border border-gray-300 px-3 py-2"
+                  className="w-full rounded-md border border-border px-3 py-2"
                 >
                   <option value="all">All Users</option>
                   <option value="admins">Admins Only</option>
@@ -570,7 +546,7 @@ export function AdminNotificationSystem() {
                       onChange={(e) =>
                         setNewTemplate({ ...newTemplate, type: e.target.value as any })
                       }
-                      className="w-full rounded-md border border-gray-300 px-3 py-2"
+                      className="w-full rounded-md border border-border px-3 py-2"
                     >
                       <option value="info">Info</option>
                       <option value="warning">Warning</option>

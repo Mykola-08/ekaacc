@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar, MessageCircle, X } from 'lucide-react';
 import { useLanguage } from '@/context/marketing/LanguageContext';
 import { useAnalytics } from '@/hooks/marketing/useAnalytics';
@@ -30,7 +30,7 @@ export default function BookingContent() {
     timeSlot: '',
   });
 
-  const services = [
+  const [services, setServices] = useState<string[]>([
     t('booking.options.service.massage'),
     t('booking.options.service.kinesiology'),
     t('booking.options.service.osteobalance'),
@@ -38,7 +38,7 @@ export default function BookingContent() {
     t('booking.options.service.feldenkrais'),
     t('booking.options.service.online'),
     t('booking.options.service.other'),
-  ];
+  ]);
 
   const locations = [
     t('booking.options.location.barcelona'),
@@ -91,17 +91,26 @@ ${t('booking.whatsapp.time', { time: formData.timeSlot })}`;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
   };
 
+  const Hero = (
+    <div className="relative overflow-hidden px-6 pt-32 pb-20">
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-white/80 px-3 py-1 text-sm text-blue-600 shadow-sm backdrop-blur-sm">
+          <Calendar className="h-4 w-4" />
+          <span className="font-medium">{t('booking.badge') || 'Reserves'}</span>
+        </div>
+        <h1 className="mb-6 text-5xl leading-tight font-light tracking-tight text-gray-900 md:text-7xl">
+          {t('booking.hero.title') || 'Reserva la teva cita'}
+        </h1>
+        <p className="mb-8 text-xl leading-relaxed font-light text-gray-600 md:text-2xl">
+          {t('booking.hero.subtitle') ||
+            "Tria l'opció que et sigui més còmoda per començar el teu camí cap al benestar."}
+        </p>
+      </div>
+    </div>
+  );
+
   return (
-    <PageLayout
-      hero={{
-        title: t('booking.hero.title') || 'Reserva la teva cita',
-        subtitle:
-          t('booking.hero.subtitle') ||
-          "Tria l'opció que et sigui més còmoda per començar el teu camí cap al benestar.",
-        badge: t('booking.badge') || 'Reserves',
-        icon: <Calendar className="h-4 w-4" />,
-      }}
-    >
+    <PageLayout hero={Hero}>
       {/* Booking Options Section */}
       <section className="relative py-12">
         <div className="section-container">

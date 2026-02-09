@@ -66,7 +66,7 @@ export default function DataRequestPage() {
             setDetails('');
             setRequestType('access');
           }}
-          className="bg-primary hover:bg-primary/90 inline-flex items-center justify-center rounded-xl border border-transparent px-6 py-3 text-base font-medium text-white transition-colors"
+          className="bg-primary hover:bg-primary/90 inline-flex items-center justify-center rounded-xl border border-transparent px-6 py-3 text-base font-medium text-primary-foreground transition-colors"
         >
           Submit Another Request
         </button>
@@ -152,7 +152,7 @@ export default function DataRequestPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="bg-primary hover:bg-primary/90 focus:ring-primary flex w-full items-center justify-center gap-2 rounded-xl border border-transparent px-6 py-3 text-base font-medium text-white transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              className="bg-primary hover:bg-primary/90 focus:ring-primary flex w-full items-center justify-center gap-2 rounded-xl border border-transparent px-6 py-3 text-base font-medium text-primary-foreground transition-all focus:ring-2 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             >
               {isSubmitting ? (
                 <>

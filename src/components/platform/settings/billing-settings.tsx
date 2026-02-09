@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -9,8 +9,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Badge } from '@/components/platform/ui/badge';
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
 import { Loader2, Check, AlertTriangle } from 'lucide-react';
 import { createClient } from '@/lib/platform/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -106,9 +107,7 @@ export function BillingSettings() {
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-lg font-semibold">{subscription.tier.name}</h3>
-                  <Badge variant={subscription.status === 'active' ? 'default' : 'secondary'}>
-                    {subscription.status}
-                  </Badge>
+                  <StatusBadge status={subscription.status} showIcon={false} />
                 </div>
                 <p className="text-muted-foreground mt-1 text-sm">
                   {subscription.cancel_at_period_end

@@ -3,8 +3,8 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { cn } from '@/lib/platform/utils/css-utils';
-import { Button } from '@/components/platform/ui/button';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 
 import {
   Sidebar,
@@ -14,20 +14,20 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/platform/ui/sidebar';
+} from '@/components/ui/sidebar';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/platform/ui/dropdown-menu';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from '@/components/platform/ui/collapsible';
+} from '@/components/ui/collapsible';
 import { useAuth } from '@/lib/platform/supabase/auth';
 import {
   LayoutDashboard,

@@ -91,10 +91,10 @@ export function PatientActivitySummary({ userId }: { userId: string }) {
                     className={cn(
                       'flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-bold tracking-tight uppercase',
                       activity.mood >= 7
-                        ? 'bg-[#EEFBF3] text-[#148046]'
+                        ? 'bg-emerald-50 text-emerald-700'
                         : activity.mood >= 4
-                          ? 'bg-[#FFF8EB] text-[#B95000]'
-                          : 'bg-[#FEF2F2] text-[#D92D20]'
+                          ? 'bg-amber-50 text-amber-700'
+                          : 'bg-red-50 text-destructive'
                     )}
                   >
                     Mood: {activity.mood}/10

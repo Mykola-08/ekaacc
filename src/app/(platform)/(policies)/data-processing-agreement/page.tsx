@@ -311,7 +311,7 @@ export default function DataProcessingAgreement() {
 
             <div className="space-y-8">
               {content[language].sections.map((section, index) => (
-                <div key={index} className="border-b border-gray-100 pb-8 last:border-0">
+                <div key={index} className="border-b border-border pb-8 last:border-0">
                   <h2 className="text-foreground mb-4 text-xl font-bold">{section.title}</h2>
                   <p className="leading-relaxed whitespace-pre-line">{section.content}</p>
                 </div>

@@ -17,6 +17,8 @@ import {
   PieChart as PieChartIcon,
   List,
 } from 'lucide-react';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
   LineChart,
   Line,
@@ -158,36 +160,12 @@ export function AnalyticsDashboardHeadless() {
     // Mock export
   };
 
-  const getHealthStatusColor = (status: string) => {
-    switch (status) {
-      case 'healthy':
-        return 'text-green-700 bg-green-50 ring-green-600/20';
-      case 'warning':
-        return 'text-yellow-700 bg-yellow-50 ring-yellow-600/20';
-      case 'critical':
-        return 'text-red-700 bg-red-50 ring-red-600/20';
-      default:
-        return 'text-foreground/90 bg-muted/30 ring-gray-600/20';
-    }
-  };
 
-  const getHealthIcon = (status: string) => {
-    switch (status) {
-      case 'healthy':
-        return <CheckCircle className="h-4 w-4" />;
-      case 'warning':
-        return <AlertTriangle className="h-4 w-4" />;
-      case 'critical':
-        return <AlertTriangle className="h-4 w-4" />;
-      default:
-        return <Clock className="h-4 w-4" />;
-    }
-  };
 
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-slate-900"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -330,15 +308,7 @@ export function AnalyticsDashboardHeadless() {
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-sm">
-            <span
-              className={classNames(
-                'flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-inset',
-                getHealthStatusColor(analytics.systemHealth.status)
-              )}
-            >
-              {getHealthIcon(analytics.systemHealth.status)}
-              <span className="capitalize">{analytics.systemHealth.status}</span>
-            </span>
+            <StatusBadge status={analytics.systemHealth.status} />
 
             <div className="hidden h-4 w-px bg-slate-200 md:block" />
 
@@ -562,7 +532,7 @@ export function AnalyticsDashboardHeadless() {
                 <h3 className="text-foreground text-lg font-bold">Most Visited Pages</h3>
                 <p className="text-muted-foreground text-sm">Top performing content</p>
               </div>
-              <div className="divide-y divide-gray-100">
+              <div className="divide-y divide-border">
                 {analytics.topPages.map((page, index) => (
                   <div
                     key={page.path}

@@ -2,6 +2,7 @@
 
 import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { HugeiconsIcon } from '@hugeicons/react';
@@ -133,17 +134,6 @@ function BookingCard({
   isUpcoming?: boolean;
   userId?: string;
 }) {
-  const statusStyles = {
-    confirmed: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100/50',
-    pending: 'bg-amber-50 text-amber-700 ring-1 ring-amber-100/50',
-    cancelled: 'bg-rose-50 text-rose-700 ring-1 ring-rose-100/50',
-    completed: 'bg-secondary text-muted-foreground ring-1 ring-border',
-  };
-
-  // Default to pending if unknown
-  const badgeClass =
-    statusStyles[booking.status.toLowerCase() as keyof typeof statusStyles] || statusStyles.pending;
-
   const handleCancel = async () => {
     if (!confirm('Are you sure you want to cancel this session?')) return;
 
@@ -185,14 +175,7 @@ function BookingCard({
 
           <div className="flex-1 space-y-3 md:space-y-2">
             <div className="flex items-center justify-between md:justify-start md:gap-4">
-              <span
-                className={cn(
-                  'rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase',
-                  badgeClass
-                )}
-              >
-                {booking.status}
-              </span>
+              <StatusBadge status={booking.status} />
               {isUpcoming && (
                 <span className="text-muted-foreground flex items-center gap-1 text-xs font-bold">
                   <HugeiconsIcon

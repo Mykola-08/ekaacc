@@ -59,7 +59,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-50 p-3 text-blue-600 transition-colors group-hover:bg-blue-100">
               <FileText className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Terms of Service
@@ -79,7 +79,7 @@ export default function Home() {
             <div className="rounded-xl bg-green-50 p-3 text-green-600 transition-colors group-hover:bg-green-100">
               <Shield className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Privacy Policy
@@ -98,7 +98,7 @@ export default function Home() {
             <div className="rounded-xl bg-orange-50 p-3 text-orange-600 transition-colors group-hover:bg-orange-100">
               <Cookie className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Cookie Policy
@@ -118,7 +118,7 @@ export default function Home() {
             <div className="rounded-xl bg-red-50 p-3 text-red-600 transition-colors group-hover:bg-red-100">
               <AlertCircle className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Disclaimer
@@ -138,7 +138,7 @@ export default function Home() {
             <div className="rounded-xl bg-purple-50 p-3 text-purple-600 transition-colors group-hover:bg-purple-100">
               <Building2 className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Legal Notice (Imprint)
@@ -158,7 +158,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-50 p-3 text-blue-600 transition-colors group-hover:bg-blue-100">
               <RefreshCcw className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Refund Policy
@@ -177,7 +177,7 @@ export default function Home() {
             <div className="rounded-xl bg-indigo-50 p-3 text-indigo-600 transition-colors group-hover:bg-indigo-100">
               <CheckCircle className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Acceptable Use Policy
@@ -196,7 +196,7 @@ export default function Home() {
             <div className="rounded-xl bg-pink-50 p-3 text-pink-600 transition-colors group-hover:bg-pink-100">
               <Accessibility className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Accessibility Statement
@@ -215,7 +215,7 @@ export default function Home() {
             <div className="rounded-xl bg-amber-50 p-3 text-amber-600 transition-colors group-hover:bg-amber-100">
               <Copyright className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Intellectual Property Policy
@@ -234,7 +234,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <Database className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Data Processing Agreement
@@ -253,7 +253,7 @@ export default function Home() {
             <div className="rounded-xl bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
               <Bug className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Vulnerability Disclosure
@@ -272,7 +272,7 @@ export default function Home() {
             <div className="rounded-xl bg-green-100 p-3 text-green-700 transition-colors group-hover:bg-green-200">
               <HeartHandshake className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Community Guidelines
@@ -291,7 +291,7 @@ export default function Home() {
             <div className="rounded-xl bg-indigo-100 p-3 text-indigo-700 transition-colors group-hover:bg-indigo-200">
               <Scale className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Modern Slavery Statement
@@ -310,7 +310,7 @@ export default function Home() {
             <div className="rounded-xl bg-green-100 p-3 text-green-700 transition-colors group-hover:bg-green-200">
               <Leaf className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Environmental Policy
@@ -329,7 +329,7 @@ export default function Home() {
             <div className="rounded-xl bg-orange-100 p-3 text-orange-700 transition-colors group-hover:bg-orange-200">
               <Truck className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Supplier Code of Conduct
@@ -349,7 +349,7 @@ export default function Home() {
             <div className="rounded-xl bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
               <Ban className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Anti-Bribery Policy
@@ -368,7 +368,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <Megaphone className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Whistleblower Policy
@@ -387,7 +387,7 @@ export default function Home() {
             <div className="rounded-xl bg-cyan-100 p-3 text-cyan-700 transition-colors group-hover:bg-cyan-200">
               <Landmark className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             KYC & AML Policy
@@ -406,7 +406,7 @@ export default function Home() {
             <div className="rounded-xl bg-pink-100 p-3 text-pink-700 transition-colors group-hover:bg-pink-200">
               <Users className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Diversity, Equity & Inclusion
@@ -425,7 +425,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <Share2 className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Social Media Policy
@@ -444,7 +444,7 @@ export default function Home() {
             <div className="rounded-xl bg-indigo-100 p-3 text-indigo-700 transition-colors group-hover:bg-indigo-200">
               <Activity className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Business Continuity Plan
@@ -463,7 +463,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <Laptop className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Remote Work Policy
@@ -482,7 +482,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <BarChart className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Service Level Agreement
@@ -498,10 +498,10 @@ export default function Home() {
           className="group hover:border-primary/50 bg-card block rounded-2xl border-none p-8 transition-all hover:shadow-md"
         >
           <div className="mb-4 flex items-start justify-between">
-            <div className="bg-muted text-foreground/90 rounded-xl p-3 transition-colors group-hover:bg-gray-200">
+            <div className="bg-muted text-foreground/90 rounded-xl p-3 transition-colors group-hover:bg-muted/80">
               <Code className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             API Terms of Use
@@ -520,7 +520,7 @@ export default function Home() {
             <div className="rounded-xl bg-orange-100 p-3 text-orange-700 transition-colors group-hover:bg-orange-200">
               <TrendingUp className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Affiliate Program Terms
@@ -539,7 +539,7 @@ export default function Home() {
             <div className="rounded-xl bg-indigo-100 p-3 text-indigo-700 transition-colors group-hover:bg-indigo-200">
               <Globe className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             GDPR Compliance
@@ -558,7 +558,7 @@ export default function Home() {
             <div className="bg-muted text-foreground/90 rounded-xl p-3 transition-colors group-hover:bg-slate-200">
               <FileText className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Record of Processing Activities
@@ -577,7 +577,7 @@ export default function Home() {
             <div className="rounded-xl bg-pink-100 p-3 text-pink-700 transition-colors group-hover:bg-pink-200">
               <Heart className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Children&apos;s Privacy Policy
@@ -596,7 +596,7 @@ export default function Home() {
             <div className="rounded-xl bg-purple-100 p-3 text-purple-700 transition-colors group-hover:bg-purple-200">
               <Video className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Telehealth Consent
@@ -615,7 +615,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <Scale className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Patient Rights
@@ -634,7 +634,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <FileSignature className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Informed Consent
@@ -653,7 +653,7 @@ export default function Home() {
             <div className="rounded-xl bg-amber-100 p-3 text-amber-700 transition-colors group-hover:bg-amber-200">
               <BookOpen className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Code of Ethics
@@ -672,7 +672,7 @@ export default function Home() {
             <div className="rounded-xl bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
               <Ban className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Workplace Harassment Policy
@@ -691,7 +691,7 @@ export default function Home() {
             <div className="bg-muted text-foreground/90 rounded-xl p-3 transition-colors group-hover:bg-slate-200">
               <UserCog className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Employee Privacy Notice
@@ -710,7 +710,7 @@ export default function Home() {
             <div className="rounded-xl bg-green-100 p-3 text-green-700 transition-colors group-hover:bg-green-200">
               <CreditCard className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Payment Terms
@@ -729,7 +729,7 @@ export default function Home() {
             <div className="rounded-xl bg-red-100 p-3 text-red-700 transition-colors group-hover:bg-red-200">
               <XCircle className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Cancellation Policy
@@ -748,7 +748,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-100 p-3 text-blue-700 transition-colors group-hover:bg-blue-200">
               <Umbrella className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Insurance Policy
@@ -767,7 +767,7 @@ export default function Home() {
             <div className="rounded-xl bg-blue-50 p-3 text-blue-600 transition-colors group-hover:bg-blue-100">
               <Database className="h-6 w-6" />
             </div>
-            <ArrowRight className="group-hover:text-primary h-5 w-5 text-gray-300 transition-colors" />
+            <ArrowRight className="group-hover:text-primary h-5 w-5 text-muted-foreground/50 transition-colors" />
           </div>
           <h3 className="group-hover:text-primary mb-2 text-xl font-semibold transition-colors">
             Data Rights Request

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   Crown,
   Star,
@@ -29,7 +30,7 @@ import {
   CircularTierProgress,
   TierBenefitsList,
 } from '@/components/platform/tiers/tier-progress';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 import { useTiers } from '@/hooks/platform/use-tiers';
 import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 
@@ -236,10 +237,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
         </div>
         <Card>
           <CardContent className="flex h-64 items-center justify-center">
-            <div className="text-center">
-              <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
-              <p className="text-muted-foreground">Loading tier data...</p>
-            </div>
+            <LoadingSpinner size="lg" message="Loading tier data..." />
           </CardContent>
         </Card>
       </div>
@@ -286,7 +284,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* VIP Status */}
         <Card className="relative overflow-hidden">
-          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-32 w-32 rounded-full bg-linear-to-br from-gray-400 to-gray-600 opacity-10" />
+          <div className="absolute top-0 right-0 -mt-16 -mr-16 h-32 w-32 rounded-full bg-linear-to-br from-muted-foreground/70 to-muted-foreground opacity-10" />
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
@@ -340,9 +338,9 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                         size="sm"
                       />
                     </div>
-                    <div className="h-2 w-full rounded-full bg-gray-200">
+                    <div className="h-2 w-full rounded-full bg-muted">
                       <div
-                        className="h-2 rounded-full bg-linear-to-r from-gray-400 to-gray-600 transition-all duration-300"
+                        className="h-2 rounded-full bg-linear-to-r from-muted-foreground/70 to-muted-foreground transition-all duration-300"
                         style={{ width: `${tierData.nextTierProgress.vip.progress}%` }}
                       />
                     </div>
@@ -416,7 +414,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                         size="sm"
                       />
                     </div>
-                    <div className="h-2 w-full rounded-full bg-gray-200">
+                    <div className="h-2 w-full rounded-full bg-muted">
                       <div
                         className="h-2 rounded-full bg-linear-to-r from-blue-400 to-blue-600 transition-all duration-300"
                         style={{ width: `${tierData.nextTierProgress.loyalty.progress}%` }}
@@ -449,7 +447,7 @@ export function UserTierDashboard({ userId, className }: UserTierDashboardProps)
                 'group inline-flex h-auto items-center rounded-none border-b-2 px-1 py-2 text-sm font-medium transition-colors duration-200 hover:bg-transparent',
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600'
-                  : 'text-muted-foreground hover:text-foreground/90 border-transparent hover:border-gray-300'
+                  : 'text-muted-foreground hover:text-foreground/90 border-transparent hover:border-border'
               )}
             >
               <span

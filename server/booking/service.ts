@@ -5,7 +5,6 @@ import { emitEvent } from '@/lib/events';
 import { LoyaltyService } from '@/server/loyalty/service';
 import { ReputationService, BookingPolicy } from '@/server/reputation/service';
 import { createClient } from '@/lib/supabase/server';
-import { ZoomService } from '@/server/zoom/service';
 
 // Simple in-memory cache for frequently accessed data
 const serviceCache = new Map<string, { data: unknown; expiry: number }>();
@@ -149,50 +148,51 @@ export async function listServices() {
   if (cached) return cached;
 
   try {
-    const { rows } = await db.query(
-      `SELECT 
-        s.id, 
-        s.name, 
-        s.slug,
-        s.description, 
-        s.active, 
-        s.created_at, 
-        s.stripe_product_id, 
-        s.metadata, 
-        s.location, 
-        s.image_url,
-        COALESCE(MIN(sv.price_amount), 0) / 100 as price,
-        COALESCE((ARRAY_AGG(sv.duration_min ORDER BY sv.price_amount ASC))[1], 0) as duration
-       FROM service s
-       LEFT JOIN service_variant sv ON s.id = sv.service_id AND sv.active = true
-       WHERE s.active = true 
-       GROUP BY s.id
-       ORDER BY s.name`
-    );
+    const supabase = await createClient();
 
-    interface ServiceRow {
-      id: string;
-      name: string;
-      slug?: string | null;
-      description: string | null;
+    const { data: services, error } = await supabase
+      .from('service')
+      .select(
+        `id, name, slug, description, active, created_at,
+         stripe_product_id, metadata, location, image_url,
+         service_variant(duration_min, price_amount, active)`
+      )
+      .eq('active', true)
+      .order('name');
+
+    if (error) throw error;
+
+    interface VariantRow {
+      duration_min: number | null;
+      price_amount: number | null;
       active: boolean;
-      created_at: string;
-      stripe_product_id: string | null;
-      metadata: Record<string, unknown> | null;
-      location: string | null;
-      image_url: string | null;
-      price: number;
-      duration: number;
-      version?: string | null;
     }
 
-    const mappedData = (rows as unknown as ServiceRow[]).map((s) => ({
-      ...s,
-      is_active: s.active,
-      location: s.location || null,
-      image_url: s.image_url || null,
-      version: s.version || null,
-    }));
+    const mappedData = (services || []).map((s) => {
+      const activeVariants = ((s.service_variant as VariantRow[]) || [])
+        .filter((v) => v.active)
+        .sort((a, b) => (a.price_amount || 0) - (b.price_amount || 0));
+
+      const minPrice = activeVariants.length > 0 ? (activeVariants[0].price_amount || 0) / 100 : 0;
+      const duration = activeVariants.length > 0 ? (activeVariants[0].duration_min || 0) : 0;
+
+      return {
+        id: s.id,
+        name: s.name,
+        slug: s.slug,
+        description: s.description,
+        active: s.active,
+        created_at: s.created_at,
+        stripe_product_id: s.stripe_product_id,
+        metadata: s.metadata,
+        location: s.location || null,
+        image_url: s.image_url || null,
+        is_active: s.active,
+        version: null as string | null,
+        price: minPrice,
+        duration,
+      };
+    });
 
     const result = { data: mappedData, error: null as string | null };
     setCache(cacheKey, result);
@@ -589,20 +589,8 @@ export async function createBooking(params: CreateBookingParams) {
     };
 
     // --- ZOOM INTEGRATION ---
-    let zoomJoinUrl: string | null = null;
-    let zoomMeetingId: string | null = null;
-
-    if (service.location === 'video' || service.location === 'online') {
-      const meeting = await ZoomService.createMeeting(
-        `${service.name} with ${displayName || email}`,
-        start.toISOString(),
-        finalDuration
-      );
-      if (meeting) {
-        zoomJoinUrl = meeting.join_url;
-        zoomMeetingId = meeting.id;
-      }
-    }
+    const zoomJoinUrl: string | null = null;
+    const zoomMeetingId: string | null = null;
     // ------------------------
 
     // 5. Insert booking

@@ -2,16 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import { getWalletBalanceAction, createWalletTopUpIntentAction } from '@/app/actions/wallet';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/platform/ui/label';
+import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { StripeWrapper } from '@/components/platform/payment/StripeWrapper';
 import { StripePaymentForm } from '@/components/platform/payment/StripePaymentForm';

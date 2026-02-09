@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
-import { Button } from '@/components/platform/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/platform/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import {
   Sheet,
   SheetContent,
@@ -21,9 +21,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/platform/ui/sheet';
+} from '@/components/ui/sheet';
 import { Menu, User, Settings, Shield, LogOut, Home, BarChart3, Users } from 'lucide-react';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 
 interface NavigationProps {
   className?: string;

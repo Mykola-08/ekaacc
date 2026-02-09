@@ -87,6 +87,9 @@ export async function getStripeWebhookSecret(): Promise<string> {
 }
 
 export async function getSupabaseServiceRoleKey(): Promise<string> {
+  const secretKey = (await getConfig('SUPABASE_SECRET_KEY')) || process.env.SUPABASE_SECRET_KEY;
+  if (secretKey) return secretKey;
+
   return getRequiredConfigOrEnv('SUPABASE_SERVICE_ROLE_KEY', 'SUPABASE_SERVICE_ROLE_KEY');
 }
 

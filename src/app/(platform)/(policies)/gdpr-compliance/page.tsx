@@ -161,7 +161,7 @@ export default function GdprCompliance() {
               onClick={() => setLanguage(lang)}
               className={`border px-4 py-2 text-sm font-medium first:rounded-l-lg last:rounded-r-lg ${
                 language === lang
-                  ? 'bg-primary border-primary text-white'
+                  ? 'bg-primary border-primary text-primary-foreground'
                   : 'bg-card text-foreground/90 border-border hover:bg-muted/30'
               }`}
             >
@@ -172,7 +172,7 @@ export default function GdprCompliance() {
       </div>
 
       <div className="bg-card overflow-hidden rounded-2xl shadow-xl">
-        <div className="bg-linear-to-r from-blue-600 to-cyan-500 px-8 py-12 text-white">
+        <div className="bg-linear-to-r from-blue-600 to-cyan-500 px-8 py-12 text-primary-foreground">
           <div className="mb-4 flex items-center gap-4">
             <Globe className="h-12 w-12 opacity-90" />
             <h1 className="text-3xl font-bold">{t.title}</h1>
@@ -197,7 +197,7 @@ export default function GdprCompliance() {
           ))}
         </div>
 
-        <div className="bg-muted/30 border-t border-gray-100 px-8 py-6">
+        <div className="bg-muted/30 border-t border-border px-8 py-6">
           <p className="text-muted-foreground text-center text-sm">
             © {new Date().getFullYear()} EKA Balance. All rights reserved.
           </p>

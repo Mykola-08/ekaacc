@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from 'next';
-import '@/styles/globals.css';
-import './marketing.css';
 import MainLayout from '@/components/marketing/MainLayout';
 import { LanguageProvider } from '@/context/marketing/LanguageContext';
 import { DiscountProvider } from '@/context/marketing/DiscountContext';
@@ -73,15 +71,17 @@ export default function MarketingLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SmoothScrolling>
-      <LanguageProvider>
-        <DiscountProvider>
-          <BookingProvider>
-            <GlobalErrorReporter />
-            <MainLayout>{children}</MainLayout>
-          </BookingProvider>
-        </DiscountProvider>
-      </LanguageProvider>
-    </SmoothScrolling>
+    <div className="marketing marketing-bg">
+      <SmoothScrolling>
+        <LanguageProvider>
+          <DiscountProvider>
+            <BookingProvider>
+              <GlobalErrorReporter />
+              <MainLayout>{children}</MainLayout>
+            </BookingProvider>
+          </DiscountProvider>
+        </LanguageProvider>
+      </SmoothScrolling>
+    </div>
   );
 }

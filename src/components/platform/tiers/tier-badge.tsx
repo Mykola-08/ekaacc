@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 import { Crown, Star, Award } from 'lucide-react';
 import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 
@@ -222,7 +222,7 @@ export function TierBadgeWithProgress({
       </div>
 
       {/* Progress indicator */}
-      <div className="absolute right-0 -bottom-1 left-0 h-1 overflow-hidden rounded-full bg-gray-200">
+      <div className="absolute right-0 -bottom-1 left-0 h-1 overflow-hidden rounded-full bg-muted">
         <div
           className={cn('h-full transition-all duration-300', 'bg-linear-to-r', config.gradient)}
           style={{ width: `${Math.min(Math.max(progress, 0), 100)}%` }}

@@ -4,15 +4,15 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSimpleAuth } from '@/hooks/platform/auth/use-simple-auth';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/platform/ui/sheet';
-import { cn } from '@/lib/platform/utils/css-utils';
+} from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
 import {
   Menu,
   Home,

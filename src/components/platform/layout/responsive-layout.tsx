@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 import { MobileNavigation } from '@/components/platform/navigation/mobile-navigation';
 
 interface ResponsiveLayoutProps {
@@ -207,8 +207,8 @@ export function ResponsiveCard({
 
   const variantClasses = {
     default: 'bg-card shadow-lg rounded-xl border border-border',
-    elevated: 'bg-card shadow-2xl rounded-[20px] border border-gray-100',
-    outlined: 'bg-transparent border-2 border-gray-300 rounded-xl',
+    elevated: 'bg-card shadow-2xl rounded-[20px] border border-border',
+    outlined: 'bg-transparent border-2 border-border rounded-xl',
     ghost: 'bg-transparent border-none rounded-xl',
   };
 

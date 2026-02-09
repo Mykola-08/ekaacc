@@ -397,7 +397,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     className={cn(
                       'flex-1 rounded-full py-1.5 text-xs font-semibold transition-all',
                       bookingFor === 'self'
-                        ? 'text-foreground bg-white shadow-sm'
+                        ? 'text-foreground bg-background shadow-sm'
                         : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
@@ -408,7 +408,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     className={cn(
                       'flex-1 rounded-full py-1.5 text-xs font-semibold transition-all',
                       bookingFor === 'dependent'
-                        ? 'text-foreground bg-white shadow-sm'
+                        ? 'text-foreground bg-background shadow-sm'
                         : 'text-muted-foreground hover:text-foreground'
                     )}
                   >
@@ -445,7 +445,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your Name"
-                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-11 w-full rounded-xl border border-black/5 bg-white/50 px-4 text-sm transition-all outline-none focus:bg-white focus:ring-2"
+                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-11 w-full rounded-xl border border-black/5 bg-white/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
                   />
                 </div>
                 <div>
@@ -457,7 +457,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
-                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-11 w-full rounded-xl border border-black/5 bg-white/50 px-4 text-sm transition-all outline-none focus:bg-white focus:ring-2"
+                    className="focus:border-primary/50 focus:ring-primary/10 placeholder:text-muted-foreground/40 text-foreground h-11 w-full rounded-xl border border-black/5 bg-white/50 px-4 text-sm transition-all outline-none focus:bg-background focus:ring-2"
                   />
                 </div>
               </div>
@@ -508,7 +508,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                               'rounded-xl border px-3 py-2.5 text-center text-sm transition-all',
                               selectedSlot === slot
                                 ? 'bg-primary text-primary-foreground border-primary font-semibold shadow-md'
-                                : 'text-foreground type-tabular border-transparent bg-white/50 font-light hover:bg-white hover:shadow-sm'
+                                : 'text-foreground type-tabular border-transparent bg-white/50 font-light hover:bg-background hover:shadow-sm'
                             )}
                           >
                             {format(new Date(slot.startTime), 'h:mm a')}
@@ -536,7 +536,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         className={cn(
                           'flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                           paymentMethod === 'stripe'
-                            ? 'text-foreground bg-white shadow-sm'
+                            ? 'text-foreground bg-background shadow-sm'
                             : 'text-muted-foreground hover:text-foreground'
                         )}
                       >
@@ -548,7 +548,7 @@ export function BookingDetails({ service, activeVariant }: BookingDetailsProps) 
                         className={cn(
                           'flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all',
                           paymentMethod === 'wallet'
-                            ? 'text-foreground bg-white shadow-sm'
+                            ? 'text-foreground bg-background shadow-sm'
                             : 'text-muted-foreground hover:text-foreground'
                         )}
                       >

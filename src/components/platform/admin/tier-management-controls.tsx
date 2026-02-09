@@ -1,27 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
+import { LoadingSpinner } from '@/components/ui/loading-states';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Alert, AlertDescription } from '@/components/platform/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
-import { Textarea } from '@/components/platform/ui/textarea';
-import { Label } from '@/components/platform/ui/label';
-import { Input } from '@/components/platform/ui/input';
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { useAdminTiers } from '@/hooks/platform/use-tiers';
 import type { VIPTier, LoyaltyTier } from '@/lib/platform/types/subscription-types';
 import {
@@ -99,10 +100,7 @@ export function TierManagementControls({ userId, onTierUpdate }: TierManagementC
     return (
       <Card>
         <CardContent className="flex h-64 items-center justify-center">
-          <div className="text-center">
-            <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-blue-600"></div>
-            <p className="text-muted-foreground">Loading...</p>
-          </div>
+          <LoadingSpinner size="lg" message="Loading..." />
         </CardContent>
       </Card>
     );

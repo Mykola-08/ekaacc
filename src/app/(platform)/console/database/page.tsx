@@ -35,15 +35,15 @@ export default function DatabasePage() {
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+            <div className="flex items-center justify-between border-b border-border py-3">
               <span className="text-muted-foreground text-sm">Connection Pool</span>
               <span className="text-foreground font-mono text-sm font-medium">45/100</span>
             </div>
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+            <div className="flex items-center justify-between border-b border-border py-3">
               <span className="text-muted-foreground text-sm">Cache Hit Rate</span>
               <span className="text-foreground font-mono text-sm font-medium">99.4%</span>
             </div>
-            <div className="flex items-center justify-between border-b border-gray-100 py-3">
+            <div className="flex items-center justify-between border-b border-border py-3">
               <span className="text-muted-foreground text-sm">Storage Used</span>
               <span className="text-foreground font-mono text-sm font-medium">12.4 GB</span>
             </div>

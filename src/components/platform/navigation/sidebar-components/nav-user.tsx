@@ -10,7 +10,7 @@ import {
   SharingIcon,
 } from '@hugeicons/core-free-icons';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,13 +19,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/platform/ui/dropdown-menu';
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/platform/ui/sidebar';
+} from '@/components/ui/sidebar';
 import { useAuth } from '@/context/platform/auth-context';
 import { useRouter } from 'next/navigation';
 

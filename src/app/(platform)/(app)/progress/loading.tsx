@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/components/platform/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui';
 export default function ProgressLoading() {
   return (

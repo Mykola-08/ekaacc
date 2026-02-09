@@ -1,11 +1,11 @@
 'use client';
 
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import { PageContainer } from '@/components/platform/eka/page-container';
 import { PageHeader } from '@/components/platform/eka/page-header';
 import { Skeleton } from '@/components/ui';
-import { Label } from '@/components/platform/ui/label';
-import { Input } from '@/components/platform/ui/input';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { useState, useMemo } from 'react';
 import {
   Dialog,
@@ -14,7 +14,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/platform/ui/dialog';
+} from '@/components/ui/dialog';
 import { useAppStore } from '@/store/platform/app-store';
 import { useToast } from '@/hooks/platform/ui/use-toast';
 import {

@@ -7,13 +7,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Input } from '@/components/platform/ui/input';
-import { Label } from '@/components/platform/ui/label';
-import { Textarea } from '@/components/platform/ui/textarea';
-import { Badge } from '@/components/platform/ui/badge';
-import { Switch } from '@/components/platform/ui/switch';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
+import { LoadingSpinner } from '@/components/ui/loading-states';
+import { Switch } from '@/components/ui/switch';
 import { Settings, RefreshCw, Plus, Edit, Trash2, Search } from 'lucide-react';
 import { format } from 'date-fns';
 
@@ -220,7 +221,7 @@ export function SystemConfiguration() {
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -268,7 +269,7 @@ export function SystemConfiguration() {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="rounded-md border border-border px-3 py-2 text-sm"
               >
                 <option value="all">All Categories</option>
                 {categories.map((category) => (
@@ -392,7 +393,7 @@ export function SystemConfiguration() {
                   id="category"
                   value={newConfig.category}
                   onChange={(e) => setNewConfig({ ...newConfig, category: e.target.value })}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2"
+                  className="w-full rounded-md border border-border px-3 py-2"
                 >
                   <option value="general">General</option>
                   <option value="security">Security</option>

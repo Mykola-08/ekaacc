@@ -16,13 +16,13 @@ import {
   Sparkles,
   Archive,
 } from 'lucide-react';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/platform/ui/tooltip';
+} from '@/components/ui/tooltip';
 import {
   Dialog,
   DialogContent,
@@ -30,10 +30,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/platform/ui/dialog';
-import { Textarea } from '@/components/platform/ui/textarea';
-import { Label } from '@/components/platform/ui/label';
-import { Input } from '@/components/platform/ui/input';
+} from '@/components/ui/dialog';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 
 interface QuickActionsToolbarProps {

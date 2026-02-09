@@ -42,7 +42,7 @@ export function SystemStatus() {
         {statuses.map((s, idx) => (
           <div
             key={idx}
-            className="bg-secondary border-border flex items-center gap-3 rounded-xl border p-4 transition-colors hover:border-gray-200"
+            className="bg-secondary border-border flex items-center gap-3 rounded-xl border p-4 transition-colors hover:border-border"
           >
             <div className={`rounded-lg p-2.5 ${s.bg} flex-shrink-0`}>
               <s.icon className={`${s.color} h-4 w-4`} strokeWidth={2.5} />

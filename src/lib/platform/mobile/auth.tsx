@@ -1,5 +1,6 @@
 const projectId = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID!;
-const publicAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const publicAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY! ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 const API_URL = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/make-server-1ccf6811` // Adjust if needed

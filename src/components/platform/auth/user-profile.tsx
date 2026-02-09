@@ -4,8 +4,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useSimpleAuth, useUserPreferences } from '@/hooks/platform/auth/use-simple-auth';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Form,
   FormControl,
@@ -14,27 +14,27 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/platform/ui/form';
-import { Input } from '@/components/platform/ui/input';
-import { Textarea } from '@/components/platform/ui/textarea';
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/platform/ui/avatar';
-import { Switch } from '@/components/platform/ui/switch';
+} from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/platform/ui/select';
+} from '@/components/ui/select';
 import { User, Mail, UserCircle, Settings, Bell, Palette, Globe } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/platform/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const profileSchema = z.object({
   fullName: z.string().min(2, 'Full name must be at least 2 characters').optional(),

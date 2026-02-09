@@ -1,9 +1,9 @@
 'use client';
 import { useAuth } from '@/lib/platform/supabase/auth';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 import { AppSidebar } from '@/components/platform/navigation/app-sidebar';
-import { SidebarProvider, SidebarInset } from '@/components/platform/ui/sidebar';
+import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar';
 // import { AppHeader } from '@/components/platform/eka/app-header';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Loader2 } from 'lucide-react';

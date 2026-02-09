@@ -216,7 +216,7 @@ export default function CasoDetailContent() {
             <Link href={config.href}>
               <Button
                 size="xl"
-                className="btn btn-primary bg-[#FFB405] text-[#000035] hover:bg-[#e8a204]"
+                className="btn btn-primary bg-accent text-eka-dark hover:bg-accent/90"
               >
                 {t('common.bookNow')}
                 <ArrowRight className="ml-2 h-5 w-5" />

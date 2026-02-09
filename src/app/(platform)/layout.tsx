@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
 
-import { Toaster } from '@/components/platform/ui/sonner';
-import { cn } from '@/lib/platform/utils/css-utils';
+import { Toaster } from '@/components/ui/sonner';
 import { ThemeProvider } from '@/components/platform/providers/theme-provider';
-import { TooltipProvider } from '@/components/platform/ui/tooltip';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import { ProgressProvider } from '@/context/platform/progress-context';
 import { ImpersonationWrapper } from '@/components/platform/admin/impersonation-wrapper';
 import { Analytics } from '@vercel/analytics/next';
@@ -21,8 +20,7 @@ export default function PlatformLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={cn('font-sans antialiased')}>
-      {/* <UserProvider> */}
+    <div className="platform-shell">
       <LanguageProvider>
         <ThemeProvider
           attribute="class"
@@ -39,7 +37,7 @@ export default function PlatformLayout({
                     <div className="app-shell-card">
                       <header className="app-shell-header">
                         <div className="flex items-center gap-4">
-                          <SidebarTrigger className="text-muted-foreground hover:text-foreground -ml-1 transition-colors" />
+                          <SidebarTrigger className="header-icon-btn -ml-1" />
                           <Separator orientation="vertical" className="h-4" />
                           <span className="text-foreground text-sm font-semibold tracking-tight">
                             Console
@@ -65,7 +63,6 @@ export default function PlatformLayout({
           </ProgressProvider>
         </ThemeProvider>
       </LanguageProvider>
-      {/* </UserProvider> */}
     </div>
   );
 }

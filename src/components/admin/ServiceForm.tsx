@@ -139,7 +139,7 @@ export function ServiceForm({ initialData, serviceId }: ServiceFormProps) {
               <FormControl>
                 <Input
                   placeholder="https://..."
-                  className="h-11 rounded-xl border-gray-200 bg-gray-50 focus:bg-white"
+                  className="h-11 rounded-xl border-border bg-muted/50 focus:bg-background"
                   {...field}
                 />
               </FormControl>

@@ -7,11 +7,13 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Input } from '@/components/platform/ui/input';
-import { Label } from '@/components/platform/ui/label';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
+import { LoadingSpinner } from '@/components/ui/loading-states';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Users,
   Search,
@@ -142,34 +144,7 @@ export function EnhancedUserManagement() {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'active':
-        return <Badge className="bg-green-100 text-green-800">Active</Badge>;
-      case 'suspended':
-        return <Badge className="bg-red-100 text-red-800">Suspended</Badge>;
-      case 'pending':
-        return <Badge className="bg-yellow-100 text-yellow-800">Pending</Badge>;
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
-    }
-  };
 
-  const getRoleBadge = (role: string) => {
-    switch (role) {
-      case 'admin':
-        return (
-          <Badge className="bg-purple-100 text-purple-800">
-            <Shield className="mr-1 h-3 w-3" />
-            Admin
-          </Badge>
-        );
-      case 'user':
-        return <Badge className="bg-blue-100 text-blue-800">User</Badge>;
-      default:
-        return <Badge variant="outline">{role}</Badge>;
-    }
-  };
 
   const handleSelectAll = () => {
     if (selectedUsers.length === users.length) {
@@ -190,7 +165,7 @@ export function EnhancedUserManagement() {
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -248,7 +223,7 @@ export function EnhancedUserManagement() {
                   id="role-filter"
                   value={roleFilter}
                   onChange={(e) => setRoleFilter(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2"
+                  className="w-full rounded-md border border-border px-3 py-2"
                 >
                   <option value="all">All Roles</option>
                   <option value="admin">Admin</option>
@@ -261,7 +236,7 @@ export function EnhancedUserManagement() {
                   id="status-filter"
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full rounded-md border border-gray-300 px-3 py-2"
+                  className="w-full rounded-md border border-border px-3 py-2"
                 >
                   <option value="all">All Status</option>
                   <option value="active">Active</option>
@@ -337,7 +312,7 @@ export function EnhancedUserManagement() {
                       type="checkbox"
                       checked={selectedUsers.length === users.length && users.length > 0}
                       onChange={handleSelectAll}
-                      className="rounded border-gray-300"
+                      className="rounded border-border"
                     />
                   </th>
                   <th className="text-foreground px-4 py-3 text-left font-medium">User</th>
@@ -350,13 +325,13 @@ export function EnhancedUserManagement() {
               </thead>
               <tbody>
                 {users.map((user) => (
-                  <tr key={user.id} className="hover:bg-muted/30 border-b border-gray-100">
+                  <tr key={user.id} className="hover:bg-muted/30 border-b border-border">
                     <td className="px-4 py-3">
                       <input
                         type="checkbox"
                         checked={selectedUsers.includes(user.id)}
                         onChange={() => handleSelectUser(user.id)}
-                        className="rounded border-gray-300"
+                        className="rounded border-border"
                       />
                     </td>
                     <td className="px-4 py-3">
@@ -368,8 +343,8 @@ export function EnhancedUserManagement() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3">{getRoleBadge(user.role)}</td>
-                    <td className="px-4 py-3">{getStatusBadge(user.status)}</td>
+                    <td className="px-4 py-3"><Badge variant="outline" className="capitalize">{user.role}</Badge></td>
+                    <td className="px-4 py-3"><StatusBadge status={user.status} /></td>
                     <td className="px-4 py-3">
                       <div className="text-foreground">
                         {format(new Date(user.createdAt), 'MMM dd, yyyy')}

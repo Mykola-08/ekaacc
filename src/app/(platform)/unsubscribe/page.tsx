@@ -2,14 +2,14 @@
 
 import { useSearchParams } from 'next/navigation';
 import { useState, useEffect, Suspense } from 'react';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 
 function UnsubscribeContent() {
   const searchParams = useSearchParams();

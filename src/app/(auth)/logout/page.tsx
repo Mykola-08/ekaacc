@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Button } from '@/components/platform/ui/button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -7,12 +7,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
+} from '@/components/ui/card';
 import { CheckCircle2 } from 'lucide-react';
 
 export default function LogoutPage() {
   return (
-    <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4 dark:bg-gray-900">
+    <div className="bg-muted/30 flex min-h-screen items-center justify-center p-4 dark:bg-background">
       <Card className="w-full max-w-md text-center shadow-lg">
         <CardHeader className="flex flex-col items-center space-y-4 pb-2">
           <div className="rounded-full bg-green-100 p-3 dark:bg-green-900/20">

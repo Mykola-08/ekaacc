@@ -22,12 +22,8 @@ import {
   ListboxOptions,
   Transition,
 } from '@headlessui/react';
-import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-function cn(...inputs: (string | undefined | null | false)[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@/lib/utils';
+import { StatusBadge } from '@/components/ui/status-badge';
 
 export function AdminBookingTableHeadless() {
   const [bookings, setBookings] = useState<AdminBooking[]>([]);
@@ -71,18 +67,7 @@ export function AdminBookingTableHeadless() {
     }
   };
 
-  const statusColor = (status: string) => {
-    switch (status) {
-      case 'scheduled':
-        return 'bg-blue-50 text-blue-700 ring-blue-600/20';
-      case 'completed':
-        return 'bg-green-50 text-green-700 ring-green-600/20';
-      case 'canceled':
-        return 'bg-red-50 text-red-700 ring-red-600/20';
-      default:
-        return 'bg-muted/30 text-foreground/90 ring-gray-600/20';
-    }
-  };
+
 
   const statusOptions = [
     { id: 'all', name: 'All Statuses' },
@@ -108,7 +93,7 @@ export function AdminBookingTableHeadless() {
 
         <Listbox value={filterStatus} onChange={setFilterStatus}>
           <div className="relative z-20 mt-1 w-full sm:w-48">
-            <ListboxButton className="bg-card relative w-full cursor-pointer rounded-[20px] py-3 pr-10 pl-4 text-left shadow-sm ring-1 ring-gray-200 ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
+            <ListboxButton className="bg-card relative w-full cursor-pointer rounded-[20px] py-3 pr-10 pl-4 text-left shadow-sm ring-1 ring-border ring-inset focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm sm:leading-6">
               <span className="block truncate capitalize">
                 {statusOptions.find((o) => o.id === filterStatus)?.name || 'Filter'}
               </span>
@@ -157,7 +142,7 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Table */}
-      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-gray-200">
+      <div className="bg-card overflow-hidden rounded-[20px] ring-1 ring-border">
         {loading ? (
           <div className="flex items-center justify-center p-20">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
@@ -230,14 +215,7 @@ export function AdminBookingTableHeadless() {
                       </span>
                     </td>
                     <td className="px-3 py-4 text-sm whitespace-nowrap">
-                      <span
-                        className={cn(
-                          'inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium capitalize ring-1 ring-inset',
-                          statusColor(booking.status)
-                        )}
-                      >
-                        {booking.status}
-                      </span>
+                      <StatusBadge status={booking.status} />
                     </td>
                     <td className="relative py-4 pr-6 pl-3 text-right text-sm font-medium whitespace-nowrap">
                       {booking.status === 'scheduled' && (
@@ -259,19 +237,19 @@ export function AdminBookingTableHeadless() {
       </div>
 
       {/* Pagination */}
-      <div className="border-border bg-card flex items-center justify-between rounded-[20px] border-t px-4 py-3 ring-1 ring-gray-100 sm:px-6">
+      <div className="border-border bg-card flex items-center justify-between rounded-[20px] border-t px-4 py-3 ring-1 ring-border sm:px-6">
         <div className="flex flex-1 justify-between sm:hidden">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="bg-card text-foreground/90 hover:bg-muted/30 relative inline-flex items-center rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium disabled:opacity-50"
+            className="bg-card text-foreground/90 hover:bg-muted/30 relative inline-flex items-center rounded-xl border border-border px-4 py-2 text-sm font-medium disabled:opacity-50"
           >
             Previous
           </button>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="bg-card text-foreground/90 hover:bg-muted/30 relative ml-3 inline-flex items-center rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium disabled:opacity-50"
+            className="bg-card text-foreground/90 hover:bg-muted/30 relative ml-3 inline-flex items-center rounded-xl border border-border px-4 py-2 text-sm font-medium disabled:opacity-50"
           >
             Next
           </button>
@@ -291,7 +269,7 @@ export function AdminBookingTableHeadless() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="text-muted-foreground/80 hover:bg-muted/30 relative inline-flex items-center rounded-l-xl px-3 py-2 ring-1 ring-gray-300 ring-inset focus:z-20 focus:outline-offset-0 disabled:opacity-50"
+                className="text-muted-foreground/80 hover:bg-muted/30 relative inline-flex items-center rounded-l-xl px-3 py-2 ring-1 ring-border ring-inset focus:z-20 focus:outline-offset-0 disabled:opacity-50"
               >
                 <span className="sr-only">Previous</span>
                 <ChevronLeft className="h-5 w-5" aria-hidden="true" />
@@ -311,7 +289,7 @@ export function AdminBookingTableHeadless() {
                     className={cn(
                       pNum === page
                         ? 'z-10 bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600'
-                        : 'text-foreground hover:bg-muted/30 ring-1 ring-gray-300 ring-inset focus:outline-offset-0',
+                        : 'text-foreground hover:bg-muted/30 ring-1 ring-border ring-inset focus:outline-offset-0',
                       'relative inline-flex items-center px-4 py-2 text-sm font-semibold'
                     )}
                   >
@@ -322,7 +300,7 @@ export function AdminBookingTableHeadless() {
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="text-muted-foreground/80 hover:bg-muted/30 relative inline-flex items-center rounded-r-xl px-3 py-2 ring-1 ring-gray-300 ring-inset focus:z-20 focus:outline-offset-0 disabled:opacity-50"
+                className="text-muted-foreground/80 hover:bg-muted/30 relative inline-flex items-center rounded-r-xl px-3 py-2 ring-1 ring-border ring-inset focus:z-20 focus:outline-offset-0 disabled:opacity-50"
               >
                 <span className="sr-only">Next</span>
                 <ChevronRight className="h-5 w-5" aria-hidden="true" />

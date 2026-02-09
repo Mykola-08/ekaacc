@@ -250,7 +250,7 @@ export default function CasosContent() {
       </div>
 
       {/* CTA Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#000035] to-[#000060] px-6 py-24">
+      <div className="relative overflow-hidden bg-gradient-to-br from-eka-dark to-eka-dark/80 px-6 py-24">
         {/* Abstract Background Shapes */}
         <div className="absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/20 blur-3xl" />
         <div className="absolute bottom-0 left-0 h-64 w-64 -translate-x-1/2 translate-y-1/2 rounded-full bg-purple-500/20 blur-3xl" />
@@ -266,7 +266,7 @@ export default function CasosContent() {
             <Link href="/book">
               <Button
                 size="xl"
-                className="btn btn-primary bg-[#FFB405] text-[#000035] hover:bg-[#e8a204]"
+                className="btn btn-primary bg-accent text-eka-dark hover:bg-accent/90"
               >
                 {t('casos.bookSession')}
               </Button>

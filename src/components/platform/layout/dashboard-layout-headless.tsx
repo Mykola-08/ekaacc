@@ -7,15 +7,11 @@ import {
   Home,
   Wallet,
   Brain,
-  Heart,
-  Users,
-  Calendar,
   Settings,
   Menu,
   X,
   Bell,
   Search,
-  GraduationCap,
   LogOut,
   ChevronDown,
 } from 'lucide-react';
@@ -41,8 +37,6 @@ const navigation = [
   { name: 'Dashboard', href: '/home', icon: Home },
   { name: 'Progress', href: '/progress', icon: Brain },
   { name: 'Wallet', href: '/wallet', icon: Wallet },
-  { name: 'Academy', href: '/academy', icon: GraduationCap },
-  { name: 'Community', href: '/community', icon: Heart },
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
@@ -214,7 +208,7 @@ export function DashboardLayoutHeadless({ children }: { children: React.ReactNod
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-gray-900/20 backdrop-blur-sm" />
+            <div className="fixed inset-0 bg-black/20 backdrop-blur-sm" />
           </TransitionChild>
 
           <div className="fixed inset-0 flex">

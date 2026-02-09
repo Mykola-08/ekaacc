@@ -7,10 +7,12 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/platform/ui/card';
-import { Button } from '@/components/platform/ui/button';
-import { Badge } from '@/components/platform/ui/badge';
-import { Input } from '@/components/platform/ui/input';
+} from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { StatusBadge, getStatusVariant } from '@/components/ui/status-badge';
+import { LoadingSpinner } from '@/components/ui/loading-states';
+import { Input } from '@/components/ui/input';
 import {
   Search,
   Download,
@@ -121,51 +123,12 @@ export function AuditLogViewer() {
     }
   };
 
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case 'success':
-        return (
-          <Badge className="bg-green-100 text-green-800">
-            <CheckCircle className="mr-1 h-3 w-3" />
-            Success
-          </Badge>
-        );
-      case 'failed':
-        return (
-          <Badge className="bg-red-100 text-red-800">
-            <XCircle className="mr-1 h-3 w-3" />
-            Failed
-          </Badge>
-        );
-      case 'warning':
-        return (
-          <Badge className="bg-yellow-100 text-yellow-800">
-            <AlertTriangle className="mr-1 h-3 w-3" />
-            Warning
-          </Badge>
-        );
-      default:
-        return <Badge variant="secondary">{status}</Badge>;
-    }
-  };
 
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case 'high':
-        return 'text-red-600 bg-red-100';
-      case 'medium':
-        return 'text-yellow-600 bg-yellow-100';
-      case 'low':
-        return 'text-blue-600 bg-blue-100';
-      default:
-        return 'text-muted-foreground bg-muted';
-    }
-  };
 
   if (loading) {
     return (
       <div className="flex h-96 items-center justify-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -182,7 +145,7 @@ export function AuditLogViewer() {
           <select
             value={timeFilter}
             onChange={(e) => setTimeFilter(e.target.value)}
-            className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+            className="rounded-md border border-border px-3 py-2 text-sm"
           >
             <option value="24h">Last 24 hours</option>
             <option value="7d">Last 7 days</option>
@@ -250,7 +213,7 @@ export function AuditLogViewer() {
               <div className="text-muted-foreground text-sm">Security alerts detected</div>
               {securityAnalysis.suspiciousActivities.slice(0, 2).map((activity, index) => (
                 <div key={index} className="text-muted-foreground mt-1 text-xs">
-                  <Badge className={getSeverityColor(activity.severity)}>
+                  <Badge variant={getStatusVariant(activity.severity === 'high' ? 'critical' : activity.severity === 'medium' ? 'warning' : 'info')}>
                     {activity.type} ({activity.count})
                   </Badge>
                 </div>
@@ -283,7 +246,7 @@ export function AuditLogViewer() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="rounded-md border border-border px-3 py-2 text-sm"
               >
                 <option value="all">All Status</option>
                 <option value="success">Success</option>
@@ -293,7 +256,7 @@ export function AuditLogViewer() {
               <select
                 value={actionFilter}
                 onChange={(e) => setActionFilter(e.target.value)}
-                className="rounded-md border border-gray-300 px-3 py-2 text-sm"
+                className="rounded-md border border-border px-3 py-2 text-sm"
               >
                 <option value="all">All Actions</option>
                 <option value="login">Login</option>
@@ -330,7 +293,7 @@ export function AuditLogViewer() {
               </thead>
               <tbody>
                 {logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-muted/30 border-b border-gray-100">
+                  <tr key={log.id} className="hover:bg-muted/30 border-b border-border">
                     <td className="px-4 py-3">
                       <div className="text-foreground text-sm">
                         {format(new Date(log.createdAt), 'MMM dd, yyyy')}
@@ -354,7 +317,7 @@ export function AuditLogViewer() {
                     <td className="px-4 py-3">
                       <div className="text-foreground text-sm">{log.resource}</div>
                     </td>
-                    <td className="px-4 py-3">{getStatusBadge(log.status)}</td>
+                    <td className="px-4 py-3"><StatusBadge status={log.status} /></td>
                     <td className="px-4 py-3">
                       <div className="text-foreground text-sm">{log.ipAddress}</div>
                     </td>

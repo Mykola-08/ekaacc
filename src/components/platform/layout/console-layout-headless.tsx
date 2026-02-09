@@ -70,7 +70,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-gray-900/80" />
+              <div className="fixed inset-0 bg-black/80" />
             </TransitionChild>
 
             <div className="fixed inset-0 flex">
@@ -213,7 +213,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
 
         <div className="lg:pl-72">
           {/* Top Header */}
-          <div className="bg-card/80 sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-x-4 border-b border-gray-100 px-4 shadow-sm backdrop-blur-md sm:gap-x-6 sm:px-6 lg:px-8">
+          <div className="bg-card/80 sticky top-0 z-40 flex h-16 shrink-0 items-center justify-between gap-x-4 border-b border-border px-4 shadow-sm backdrop-blur-md sm:gap-x-6 sm:px-6 lg:px-8">
             <button
               type="button"
               className="text-foreground/90 -m-2.5 p-2.5 lg:hidden"
@@ -243,7 +243,7 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                   <span className="sr-only">View notifications</span>
                   <Bell className="h-6 w-6" aria-hidden="true" />
                 </button>
-                <div className="h-6 w-px bg-gray-200" aria-hidden="true" />
+                <div className="h-6 w-px bg-muted" aria-hidden="true" />
 
                 <HeadlessMenu as="div" className="relative">
                   <MenuButton className="-m-1.5 flex items-center p-1.5">
@@ -275,8 +275,8 @@ export function ConsoleLayoutHeadless({ children }: { children: React.ReactNode 
                     leaveFrom="transform opacity-100 scale-100"
                     leaveTo="transform opacity-0 scale-95"
                   >
-                    <MenuItems className="bg-card. absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-[20px] p-1 py-2 shadow-2xl ring-1 shadow-slate-200 ring-gray-900/5 focus:outline-none">
-                      <div className="mb-1 border-b border-gray-100 px-3 py-2">
+                    <MenuItems className="bg-card. absolute right-0 z-10 mt-2.5 w-48 origin-top-right rounded-[20px] p-1 py-2 shadow-2xl ring-1 shadow-sm ring-border/20 focus:outline-none">
+                      <div className="mb-1 border-b border-border px-3 py-2">
                         <p className="text-muted-foreground text-xs font-medium">Signed in as</p>
                         <p className="text-foreground truncate text-sm font-bold">
                           {user?.email || 'admin@example.com'}

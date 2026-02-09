@@ -91,7 +91,7 @@ export default function AppleHero() {
             >
               <Button
                 size="xl"
-                className="rounded-[20px] bg-[#FFB405] px-8 py-4 text-base font-semibold normal-case text-[#000035] shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-[#e8a204] hover:shadow-xl active:scale-[0.98]"
+                className="rounded-[20px] bg-accent px-8 py-4 text-base font-semibold normal-case text-eka-dark shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-accent/90 hover:shadow-xl active:scale-[0.98]"
               >
                 {t('hero.discoverServices')}
                 <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-200 group-hover:translate-x-1" />
